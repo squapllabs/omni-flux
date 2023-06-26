@@ -11,14 +11,12 @@ const app = express();
 /* Parse JSON bodies */
 app.use(bodyParser.json());
 
-app.use('/api', routes);
-
 var cors = require('cors');
 
 const corsOptions = {
   origin: 'http://localhost:4200',
   credentials: true,
-  optionsSuccessStatus: 200 
+  optionsSuccessStatus: 200,
 };
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -30,7 +28,7 @@ app.use(function (req, res, next) {
   next();
 });
 
- 
+app.use('/api', routes);
 
 app.use(cors(corsOptions));
 
