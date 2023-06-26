@@ -7,7 +7,9 @@ import { Route, Routes, Link } from 'react-router-dom';
 import { useGetAllUsers } from '../hooks/user-hooks';
 
 export function App() {
-  // const { data: getAllUsers } = useGetAllUsers();
+  const { data: getAllUsers } = useGetAllUsers();
+  console.log("data",getAllUsers);
+  
   return (
     <div>
       <NxWelcome title="web" />
