@@ -4,8 +4,10 @@ import styles from './app.module.scss';
 import NxWelcome from './nx-welcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
+import { useGetAllUsers } from '../hooks/user-hooks';
 
 export function App() {
+  // const { data: getAllUsers } = useGetAllUsers();
   return (
     <div>
       <NxWelcome title="web" />
