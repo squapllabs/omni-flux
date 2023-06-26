@@ -5,18 +5,10 @@ const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const app = express();
+import routes from './routes/v1';
 
-app.get('/', async (req, res) => {
-  const data = await getDetails()
-  console.log("check data ---->", data)
-  res.send({ message: 'Hello API data', data });
-});
+app.use('/api',routes);
 
-
-const getDetails = async () => {
-  const details = await db.query("select * from sale_return")
-  return details.rows
-}
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
 });
