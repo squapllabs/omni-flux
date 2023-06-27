@@ -1,0 +1,126 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.contantdiv {
+    width: 40%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    // justify-content: space-between;
+}
+
+.titlediv {
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.main_title {
+    height: 20%;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+}
+
+.main_tile_words {
+    font-weight: bold;
+    font-size: larger;
+    
+}
+.sub_tile_words {
+    font-weight: bold;
+    font-size: larger;
+    opacity: 0.7;
+}
+
+.imagediv {
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(120deg,#ddd6f3,#faaca8) ;
+    font-size: larger;
+}
+
+.logoCotainer {
+    height: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filedContainer {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.buttonField {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.forgetPassword {
+    font-size: smaller;
+}
+
+.divider {
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    color: #3f3f3f;
+}
+
+.divider::before,
+.divider::after {
+    flex: 10;
+    content: '__________________';
+    padding: 1px;
+    padding-bottom: 8px;
+    color: #3f3f3f;
+    // background-color: rgb(84, 83, 83);
+}
+
+.loginButton {
+    text-align: center;
+}
+
+.ssoButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.iconColor {
+    border-color: linear-gradient(-120deg, #4285F4, #34A853, #FBBC05, #EA4335);
+}
+
+.footers {
+    height: 20%;
+}
+.errormessage{
+    color: red;
+    font-size: small;
+}
