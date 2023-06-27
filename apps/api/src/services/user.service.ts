@@ -1,6 +1,10 @@
-import * as userDao from '../dao/user.dao';
-import jwt from 'jsonwebtoken';
-import md5 from 'md5';
+import db from '../utils/db';
+
+/* eslint-disable @typescript-eslint/no-var-requires */
+const userDao = require('../dao/user.dao');
+const userRoleDao = require('../dao/user-role.dao');
+const jwt = require('jsonwebtoken');
+const md5 = require('md5');
 
 /**
  * Method to Create a New User
@@ -22,6 +26,7 @@ const createUser = async (body: {
   address: string;
   createdby: BigInteger;
   updatedby: BigInteger;
+  role_id: BigInteger;
 }) => {
   let result = null;
   try {
@@ -40,35 +45,62 @@ const createUser = async (body: {
       address,
       createdby,
       updatedby,
+      role_id,
     } = body;
-    result = await userDao.add(
-      center_id,
-      username,
-      md5(userpass),
-      mobilenumber,
-      email,
-      firstname,
-      lastname,
-      profileimgurl,
-      gender,
-      dob,
-      status,
-      address,
-      createdby,
-      updatedby
-    );
 
-    console.log('result', result);
+    const userEmailExist = await userDao.getByEmailId(email);
+
+    if (userEmailExist) {
+      return (result = { success: false, message: 'email id already exists' });
+    }
+
+    const userNameExist = await userDao.getByUserName(username);
+
+    if (userNameExist) {
+      return (result = { success: false, message: 'username already exists' });
+    }
+
+    result = await db
+      .tx(async (transaction) => {
+        const userDetails = await userDao.add(
+          center_id,
+          username,
+          md5(userpass),
+          mobilenumber,
+          email,
+          firstname,
+          lastname,
+          profileimgurl,
+          gender,
+          dob,
+          status,
+          address,
+          createdby,
+          updatedby,
+          transaction
+        );
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const userRoleData = await userRoleDao.add(
+          role_id,
+          userDetails?.id,
+          transaction
+        );
+
+        return userDetails;
+      })
+      .then((data: { id: bigint }) => {
+        console.log('successfully data returned', data.id);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('failure, ROLLBACK was executed', error);
+        throw error;
+      });
 
     return result;
   } catch (error) {
     console.log('Error occurred in user service Add: ', error);
-    if (
-      // eslint-disable-next-line no-ex-assign, no-constant-condition
-      (error = `duplicate key value violates unique constraint "users_username_unique"`)
-    ) {
-      return (result = { message: 'username already exists' });
-    }
     throw error;
   }
 };
@@ -81,14 +113,13 @@ const createUser = async (body: {
 const getById = async (userId: bigint) => {
   try {
     let result = null;
-    result = await userDao.getById(userId);
-    return result;
-
-    /*  if (result === '[]') {
-      return (result = { message: 'User Id Not Found' });
+    const userData = await userDao.getById(userId);
+    if (userData) {
+      return (result = { success: true, data: userData });
     } else {
-      return result;
-    } */
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      return (result = { success: false, message: 'user id not exist' });
+    }
   } catch (error) {
     console.log('Error occurred in getById user service : ', error);
     throw error;
@@ -103,8 +134,13 @@ const getById = async (userId: bigint) => {
 const getByEmailId = async (emailId: string) => {
   try {
     let result = null;
-    result = await userDao.getByEmailId(emailId);
-    return result;
+    const userData = await userDao.getByEmailId(emailId);
+    if (userData) {
+      return (result = { success: true, data: userData });
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      return (result = { success: false, message: 'user email not exist' });
+    }
   } catch (error) {
     console.log('Error occurred in getByEmailId user service : ', error);
     throw error;
@@ -119,30 +155,37 @@ const userLogin = async (body: { email: string; userpass: string }) => {
     const { email, userpass } = body;
     const existingUser = await userDao.getByEmailId(email);
 
-    if (!existingUser || existingUser[0]?.userpass != md5(userpass)) {
-      return (result = { message: 'Email Id and Password Not Matching' });
+    if (!existingUser) {
+      return (result = {
+        success: false,
+        message: 'Email Id Not Found',
+      });
+    }
+
+    if (existingUser?.userpass != md5(userpass)) {
+      return (result = {
+        success: false,
+        message: 'Wrong Password',
+      });
     }
 
     try {
       token = jwt.sign(
-        { userId: existingUser[0].id, email: existingUser[0].email },
+        { userId: existingUser.id, email: existingUser.email },
         'secretkeyappearshere',
         { expiresIn: '2h' }
       );
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      return (result = { message: 'Error! Something went wrong' });
+      return (result = {
+        success: false,
+        message: 'Error! Something went wrong',
+      });
     }
 
     const loginCredentials = {
       success: true,
-      data: {
-        userId: existingUser[0].id,
-        email: existingUser[0].email,
-        password: existingUser[0].userpass,
-        username: existingUser[0].username,
-        token: token,
-      },
+      token: token,
     };
 
     /* result = userDao.userLogin(email, userpass); */

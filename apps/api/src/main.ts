@@ -1,4 +1,5 @@
 import express from 'express';
+import morgan from 'morgan';
 /* import db from './utils/connection'; */
 import bodyParser from 'body-parser';
 import routes from './routes/v1';
@@ -7,10 +8,10 @@ const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const app = express();
+app.use(morgan('dev'));
 
 /* Parse JSON bodies */
 app.use(bodyParser.json());
-
 
 const corsOptions = {
   origin: 'http://localhost:4200',

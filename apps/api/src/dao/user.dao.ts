@@ -1,4 +1,4 @@
-import db from './../utils/connection';
+import db from '../utils/db';
 
 const add = async (
   center_id: BigInteger,
@@ -24,7 +24,7 @@ const add = async (
         email,firstname,lastname,profileimgurl,gender,dob,status,address,createdby,
         createddatetime,updatedby,updateddatetime) 
           values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) RETURNING *`;
-    const result = await transaction.query(query, [
+    const result = await transaction.one(query, [
       center_id,
       username,
       userpass,
@@ -42,7 +42,7 @@ const add = async (
       updatedby,
       currentDate,
     ]);
-    return result.rows;
+    return result;
   } catch (error) {
     console.log('Error occurred in userDao add', error);
     throw error;
@@ -53,8 +53,8 @@ const getById = async (userId: bigint) => {
   try {
     let result = null;
     const query = `select * from users where id=$1`;
-    result = await db.query(query, [userId]);
-    return result.rows;
+    result = await db.oneOrNone(query, [userId]);
+    return result;
   } catch (error) {
     console.log('Error occurred in getById', error);
     throw error;
@@ -65,10 +65,22 @@ const getByEmailId = async (emailId: string) => {
   try {
     let result = null;
     const query = `select * from users where email=$1`;
-    result = await db.query(query, [emailId]);
-    return result.rows;
+    result = await db.oneOrNone(query, [emailId]);
+    return result;
   } catch (error) {
     console.log('Error occurred in getById', error);
+    throw error;
+  }
+};
+
+const getByUserName = async (username: string) => {
+  try {
+    let result = null;
+    const query = `select * from users where username=$1`;
+    result = await db.oneOrNone(query, [username]);
+    return result;
+  } catch (error) {
+    console.log('Error occurred in getByUserName', error);
     throw error;
   }
 };
@@ -77,8 +89,8 @@ const userLogin = async (email: string, userpass: string) => {
   try {
     let result = null;
     const query = `select * from users where email=$1 and userpass=$2`;
-    result = await db.query(query, [email, userpass]);
-    return result.rows;
+    result = await db.oneOrNone(query, [email, userpass]);
+    return result;
   } catch (error) {
     console.log('Error occurred in getById', error);
     throw error;
@@ -88,12 +100,12 @@ const userLogin = async (email: string, userpass: string) => {
 const getAllUserData = async () => {
   try {
     const query = `select * from users`;
-    const result = await db.query(query, []);
-    return result.rows;
+    const result = await db.manyOrNone(query, []);
+    return result;
   } catch (error) {
     console.log('Error occurred in getAllUserData', error);
     throw error;
   }
 };
 
-export { add, getById, getByEmailId, userLogin, getAllUserData };
+export { add, getById, getByEmailId, userLogin, getByUserName, getAllUserData };
