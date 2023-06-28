@@ -1,8 +1,7 @@
 import db from '../utils/db';
-
 /* eslint-disable @typescript-eslint/no-var-requires */
-const userDao = require('../dao/user.dao');
-const userRoleDao = require('../dao/user-role.dao');
+import userDao from '../dao/user.dao';
+import userRoleDao from '../dao/user-role.dao';
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
 
@@ -13,48 +12,48 @@ const md5 = require('md5');
  */
 const createUser = async (body: {
   center_id: BigInteger;
-  username: string;
-  userpass: string;
-  mobilenumber: string;
-  email: string;
-  firstname: string;
-  lastname: string;
-  profileimgurl: string;
+  user_name: string;
+  user_password: string;
+  mobile_number: string;
+  email_id: string;
+  first_name: string;
+  last_name: string;
+  profile_img_url: string;
   gender: string;
   dob: Date;
   status: string;
   address: string;
-  createdby: BigInteger;
-  updatedby: BigInteger;
+  created_by: BigInteger;
+  updated_by: BigInteger;
   role_id: BigInteger;
 }) => {
   let result = null;
   try {
     const {
       center_id,
-      username,
-      userpass,
-      mobilenumber,
-      email,
-      firstname,
-      lastname,
-      profileimgurl,
+      user_name,
+      user_password,
+      mobile_number,
+      email_id,
+      first_name,
+      last_name,
+      profile_img_url,
       gender,
       dob,
       status,
       address,
-      createdby,
-      updatedby,
+      created_by,
+      updated_by,
       role_id,
     } = body;
 
-    const userEmailExist = await userDao.getByEmailId(email);
+    const userEmailExist = await userDao.getByEmailId(email_id);
 
     if (userEmailExist) {
       return (result = { success: false, message: 'email id already exists' });
     }
 
-    const userNameExist = await userDao.getByUserName(username);
+    const userNameExist = await userDao.getByUserName(user_name);
 
     if (userNameExist) {
       return (result = { success: false, message: 'username already exists' });
@@ -64,33 +63,35 @@ const createUser = async (body: {
       .tx(async (transaction) => {
         const userDetails = await userDao.add(
           center_id,
-          username,
-          md5(userpass),
-          mobilenumber,
-          email,
-          firstname,
-          lastname,
-          profileimgurl,
+          user_name,
+          md5(user_password),
+          mobile_number,
+          email_id,
+          first_name,
+          last_name,
+          profile_img_url,
           gender,
           dob,
           status,
           address,
-          createdby,
-          updatedby,
+          created_by,
+          updated_by,
           transaction
         );
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const userRoleData = await userRoleDao.add(
-          role_id,
-          userDetails?.id,
-          transaction
-        );
+        if (userDetails) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const userRoleData = await userRoleDao.add(
+            role_id,
+            userDetails?.user_id,
+            transaction
+          );
+        }
 
         return userDetails;
       })
-      .then((data: { id: bigint }) => {
-        console.log('successfully data returned', data.id);
+      .then((data: { user_id: bigint }) => {
+        console.log('successfully data returned', data.user_id);
         return data;
       })
       .catch((error: string) => {
@@ -147,13 +148,13 @@ const getByEmailId = async (emailId: string) => {
   }
 };
 
-const userLogin = async (body: { email: string; userpass: string }) => {
+const userLogin = async (body: { email_id: string; user_password: string }) => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let token: any;
     let result = null;
-    const { email, userpass } = body;
-    const existingUser = await userDao.getByEmailId(email);
+    const { email_id, user_password } = body;
+    const existingUser = await userDao.getByEmailId(email_id);
 
     if (!existingUser) {
       return (result = {
@@ -162,7 +163,7 @@ const userLogin = async (body: { email: string; userpass: string }) => {
       });
     }
 
-    if (existingUser?.userpass != md5(userpass)) {
+    if (existingUser?.user_password != md5(user_password)) {
       return (result = {
         success: false,
         message: 'Wrong Password',
@@ -171,8 +172,8 @@ const userLogin = async (body: { email: string; userpass: string }) => {
 
     try {
       token = jwt.sign(
-        { userId: existingUser.id, email: existingUser.email },
-        'secretkeyappearshere',
+        { userId: existingUser.user_id, email: existingUser.email_id },
+        process.env.API_ACCESS_TOKEN_SECRET_KEY,
         { expiresIn: '2h' }
       );
     } catch (err) {

@@ -17,4 +17,4 @@ const add = async (
   }
 };
 
-export { add };
+export default { add };

@@ -10,9 +10,9 @@ const router = express.Router();
 
 router.post('/', createUser);
 
-router.get('/getById/:id', getByUserId);
+router.get('/getById/:user_id', getByUserId);
 
-router.get('/getByEmailId/:email', getByEmailId);
+router.get('/getByEmailId/:email_id', getByEmailId);
 
 router.post('/login', userLogin);
 
