@@ -11,6 +11,8 @@ import { getLoginYupSchema } from '../helper/constants/user-constants';
 import { loginAuth } from '../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
+import { setCookie } from '../helper/session';
+import { encryptPassword } from '../helper/password-handler';
 const Login = () => {
   const navigate = useNavigate();
   const errorObject: any = {}
@@ -31,6 +33,8 @@ const Login = () => {
       .validate(values, { abortEarly: false })
       .then(async () => {
         setErrors({})
+        const encryptPass = await encryptPassword(values?.password);
+        console.log("encryptPass", encryptPass);
         const data: any = {
           email: values?.email,
           userpass: values?.password
@@ -39,6 +43,7 @@ const Login = () => {
           onSuccess: (data, variables, context) => {
             if (data?.success === true) {
               navigate('/home');
+              setCookie("logintoken", data?.data?.token, 2);
             }
             else
               setMessage("Username & Password incorrect")
