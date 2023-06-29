@@ -15,7 +15,8 @@
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"
-      ]
+      ],
+      "restart": true
     }
   ]
 }

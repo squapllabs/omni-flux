@@ -11,8 +11,8 @@ datasource db {
 }
 
 model users {
-  user_id           BigInt      @id@default(autoincrement())
-  center_id         Int?      
+  	user_id           BigInt      @id@default(autoincrement())
+  	center_id         Int?      
 	first_name        String?     @db.VarChar(45)
 	last_name         String?     @db.VarChar(45)
 	user_name         String?     @db.VarChar(45)
@@ -31,4 +31,10 @@ model users {
   @@unique([email_id], name: "unique_email_id")
   @@unique([user_name], name: "users_username_unique")
   @@unique([user_id], name:"users_id_unique")
+}
+
+model user_role {
+  	user_role_id      BigInt      @id@default(autoincrement())
+  	role_id           Int?      
+	user_id        	  Int?     
 }
