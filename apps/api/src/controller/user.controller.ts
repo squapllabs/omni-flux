@@ -47,8 +47,8 @@ const userLogin = catchAsync(async (req, res) => {
 const getAllUser = catchAsync(async (req, res) => {
   const methodName = '/getAll';
   try {
-    const result = await userService.getAllUser();
-    res.send(result);
+    const users = await userService.getAllUser();
+    res.send(users);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }

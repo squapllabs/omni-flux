@@ -30,20 +30,20 @@ const createUser = async (body: {
   let result = null;
   try {
     const {
-      center_id,
-      user_name,
-      user_password,
-      mobile_number,
+      center_id = null,
+      user_name = null,
+      user_password = null,
+      mobile_number = null,
       email_id,
-      first_name,
-      last_name,
-      profile_img_url,
-      gender,
-      dob,
-      status,
-      address,
-      created_by,
-      updated_by,
+      first_name = null,
+      last_name = null,
+      profile_img_url = null,
+      gender = null,
+      dob = null,
+      status = null,
+      address = null,
+      created_by = null,
+      updated_by = null,
       role_id,
     } = body;
 
@@ -92,7 +92,11 @@ const createUser = async (body: {
       })
       .then((data: { user_id: bigint }) => {
         console.log('successfully data returned', data.user_id);
-        return data;
+        const newUserData = {
+          success: true,
+          data: data,
+        };
+        return newUserData;
       })
       .catch((error: string) => {
         console.log('failure, ROLLBACK was executed', error);
@@ -136,6 +140,7 @@ const getByEmailId = async (emailId: string) => {
   try {
     let result = null;
     const userData = await userDao.getByEmailId(emailId);
+
     if (userData) {
       return (result = { success: true, data: userData });
     } else {
@@ -177,6 +182,8 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
         { expiresIn: '2h' }
       );
     } catch (err) {
+      console.log(' error: err', err);
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return (result = {
         success: false,
@@ -203,7 +210,8 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
 const getAllUser = async () => {
   try {
     const result = await userDao.getAllUserData();
-    return result;
+    const userData = { success: true, data: result };
+    return userData;
   } catch (error) {
     console.log('Error occurred in getAll user service : ', error);
     throw error;
