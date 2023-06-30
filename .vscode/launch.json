@@ -12,6 +12,10 @@
       "program": "${workspaceFolder}\\apps\\api\\src\\main.ts",
       "outFiles": ["${workspaceFolder}/**/*.js"],
       "envFile": "${workspaceFolder}/.env",
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ],
       "restart": true
     }
   ]

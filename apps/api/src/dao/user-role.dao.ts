@@ -1,4 +1,4 @@
-import db from '../utils/db';
+import prisma from '../utils/prisma';
 
 const add = async (
   role_id: BigInteger,
@@ -6,13 +6,21 @@ const add = async (
   connectionObj = null
 ) => {
   try {
-    const transaction = connectionObj !== null ? connectionObj : db;
-    const query = `INSERT INTO user_role(role_id,user_id) 
-          values ($1,$2) RETURNING *`;
-    const result = await transaction.query(query, [role_id, user_id]);
-    return result.rows;
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const userRole = await transaction.user_role.create({
+      data: {
+        role_id,
+        user_id,
+      },
+    });
+
+    const modifiedUserRole = {
+      ...userRole,
+      user_role_id: Number(userRole.user_role_id),
+    };
+    return modifiedUserRole;
   } catch (error) {
-    console.log('Error occurred in userDao add', error);
+    console.log('Error occurred in userRoleDao add', error);
     throw error;
   }
 };

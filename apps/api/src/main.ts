@@ -39,7 +39,6 @@ app.use(function (req, res, next) {
   const loginCheck = req.rawHeaders
     .map((header) => header.toLowerCase())
     .indexOf('token');
-  console.log('apiCheck', apiCheck);
 
   const authHeader = req.rawHeaders[apiCheck + 1];
   const str = '/api/user/login';

@@ -1,9 +1,9 @@
-import db from '../utils/db';
 /* eslint-disable @typescript-eslint/no-var-requires */
 import userDao from '../dao/user.dao';
 import userRoleDao from '../dao/user-role.dao';
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New User
@@ -30,37 +30,40 @@ const createUser = async (body: {
   let result = null;
   try {
     const {
-      center_id,
-      user_name,
-      user_password,
-      mobile_number,
+      center_id = null,
+      user_name = null,
+      user_password = null,
+      mobile_number = null,
       email_id,
-      first_name,
-      last_name,
-      profile_img_url,
-      gender,
-      dob,
-      status,
-      address,
-      created_by,
-      updated_by,
+      first_name = null,
+      last_name = null,
+      profile_img_url = null,
+      gender = null,
+      dob = null,
+      status = null,
+      address = null,
+      created_by = null,
+      updated_by = null,
       role_id,
     } = body;
 
     const userEmailExist = await userDao.getByEmailId(email_id);
-
     if (userEmailExist) {
       return (result = { success: false, message: 'email id already exists' });
     }
 
-    const userNameExist = await userDao.getByUserName(user_name);
-
-    if (userNameExist) {
-      return (result = { success: false, message: 'username already exists' });
+    if (user_name) {
+      const userNameExist = await userDao.getByUserName(user_name);
+      if (userNameExist) {
+        return (result = {
+          success: false,
+          message: 'username already exists',
+        });
+      }
     }
-
-    result = await db
-      .tx(async (transaction) => {
+    let userDataWithRole = [];
+    result = await prisma
+      .$transaction(async (prisma) => {
         const userDetails = await userDao.add(
           center_id,
           user_name,
@@ -76,29 +79,32 @@ const createUser = async (body: {
           address,
           created_by,
           updated_by,
-          transaction
+          prisma
         );
+        userDataWithRole.push({ userData: userDetails });
 
         if (userDetails) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const userRoleData = await userRoleDao.add(
             role_id,
             userDetails?.user_id,
-            transaction
+            prisma
           );
+          userDataWithRole.push({ userRoleData: userRoleData });
         }
-
-        return userDetails;
+        return userDataWithRole;
       })
-      .then((data: { user_id: bigint }) => {
-        console.log('successfully data returned', data.user_id);
-        return data;
+      .then((data) => {
+        console.log('Successfully User Data Returned ', data);
+        const newUserData = {
+          success: true,
+          data: data,
+        };
+        return newUserData;
       })
       .catch((error: string) => {
-        console.log('failure, ROLLBACK was executed', error);
+        console.log('Failure, ROLLBACK was executed', error);
         throw error;
       });
-
     return result;
   } catch (error) {
     console.log('Error occurred in user service Add: ', error);
@@ -118,7 +124,6 @@ const getById = async (userId: bigint) => {
     if (userData) {
       return (result = { success: true, data: userData });
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return (result = { success: false, message: 'user id not exist' });
     }
   } catch (error) {
@@ -136,10 +141,10 @@ const getByEmailId = async (emailId: string) => {
   try {
     let result = null;
     const userData = await userDao.getByEmailId(emailId);
+
     if (userData) {
       return (result = { success: true, data: userData });
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return (result = { success: false, message: 'user email not exist' });
     }
   } catch (error) {
@@ -148,9 +153,13 @@ const getByEmailId = async (emailId: string) => {
   }
 };
 
+/**
+ * Method for User Login
+ * @param body
+ * @returns
+ */
 const userLogin = async (body: { email_id: string; user_password: string }) => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let token: any;
     let result = null;
     const { email_id, user_password } = body;
@@ -177,7 +186,7 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
         { expiresIn: '2h' }
       );
     } catch (err) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      console.log(' error occurren', err);
       return (result = {
         success: false,
         message: 'Error! Something went wrong',
@@ -188,8 +197,6 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
       success: true,
       token: token,
     };
-
-    /* result = userDao.userLogin(email, userpass); */
     return loginCredentials;
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
@@ -198,12 +205,14 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
 };
 
 /**
- * Method to get all User
+ * Method to Get All Users
+ * @returns
  */
 const getAllUser = async () => {
   try {
     const result = await userDao.getAllUserData();
-    return result;
+    const userData = { success: true, data: result };
+    return userData;
   } catch (error) {
     console.log('Error occurred in getAll user service : ', error);
     throw error;

@@ -1,4 +1,4 @@
-import db from '../utils/db';
+import prisma from '../utils/prisma';
 
 const add = async (
   center_id: BigInteger,
@@ -18,92 +18,121 @@ const add = async (
   connectionObj = null
 ) => {
   try {
-    const transaction = connectionObj !== null ? connectionObj : db;
     const currentDate = new Date();
-    const query = `INSERT INTO users(center_id,user_name,user_password,mobile_number,
-        email_id,first_name,last_name,profile_img_url,gender,dob,status,address,created_by,
-        created_date,updated_by,updated_date) 
-          values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) RETURNING *`;
-    const result = await transaction.one(query, [
-      center_id,
-      user_name,
-      user_password,
-      mobile_number,
-      email_id,
-      first_name,
-      last_name,
-      profile_img_url,
-      gender,
-      dob,
-      status,
-      address,
-      created_by,
-      currentDate,
-      updated_by,
-      currentDate,
-    ]);
-    return result;
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const user = await transaction.users.create({
+      data: {
+        center_id: Number(center_id),
+        user_name,
+        user_password,
+        mobile_number,
+        email_id,
+        first_name,
+        last_name,
+        profile_img_url,
+        gender,
+        dob,
+        status,
+        address,
+        created_by: created_by ? Number(created_by) : null,
+        created_date: currentDate,
+        updated_by: updated_by ? Number(updated_by) : null,
+        updated_date: currentDate,
+      },
+    });
+
+    const modifiedUser = {
+      ...user,
+      user_id: Number(user.user_id),
+    };
+    return modifiedUser;
   } catch (error) {
-    console.log('Error occurred in userDao add', error);
+    console.log('Error occurred in userDao add dao', error);
     throw error;
   }
 };
 
 const getById = async (userId: bigint) => {
   try {
-    let result = null;
-    const query = `select * from users where user_id=$1`;
-    result = await db.oneOrNone(query, [userId]);
-    return result;
+    const users = await prisma.users.findUnique({
+      where: {
+        user_id: Number(userId),
+      },
+    });
+
+    if (users) {
+      const modifiedUsers = {
+        ...users,
+        user_id: Number(users.user_id),
+      };
+      return modifiedUsers;
+    } else {
+      return users;
+    }
   } catch (error) {
-    console.log('Error occurred in getById', error);
+    console.log('Error occurred in user getById dao', error);
     throw error;
   }
 };
 
 const getByEmailId = async (emailId: string) => {
   try {
-    let result = null;
-    const query = `select * from users where email_id=$1`;
-    result = await db.oneOrNone(query, [emailId]);
-    return result;
+    const users = await prisma.users.findFirst({
+      where: {
+        email_id: emailId,
+      },
+    });
+
+    if (users) {
+      const modifiedUsers = {
+        ...users,
+        user_id: Number(users.user_id),
+      };
+      return modifiedUsers;
+    } else {
+      return users;
+    }
   } catch (error) {
-    console.log('Error occurred in getById', error);
+    console.log('Error occurred in user getByEmailId dao', error);
     throw error;
   }
 };
 
-const getByUserName = async (user_name: string) => {
+const getByUserName = async (userName: string) => {
   try {
-    let result = null;
-    const query = `select * from users where user_name=$1`;
-    result = await db.oneOrNone(query, [user_name]);
-    return result;
-  } catch (error) {
-    console.log('Error occurred in getByUserName', error);
-    throw error;
-  }
-};
+    const users = await prisma.users.findUnique({
+      where: {
+        user_name: userName,
+      },
+    });
 
-const userLogin = async (email: string, userpass: string) => {
-  try {
-    let result = null;
-    const query = `select * from users where email=$1 and userpass=$2`;
-    result = await db.oneOrNone(query, [email, userpass]);
-    return result;
+    if (users) {
+      const modifiedUsers = {
+        ...users,
+        user_id: Number(users.user_id),
+      };
+      return modifiedUsers;
+    } else {
+      return users;
+    }
   } catch (error) {
-    console.log('Error occurred in getById', error);
+    console.log('Error occurred in user getByUserName dao', error);
     throw error;
   }
 };
 
 const getAllUserData = async () => {
   try {
-    const query = `select * from users`;
-    const result = await db.manyOrNone(query, []);
-    return result;
+    const users = await prisma.users.findMany({});
+    const modifiedUsers = users.map((user) => ({
+      ...user,
+      user_id: Number(user.user_id),
+    }));
+
+    return modifiedUsers;
   } catch (error) {
-    console.log('Error occurred in getAllUserData', error);
+    console.log('Error occurred in user getAllUserData dao', error);
     throw error;
   }
 };
@@ -112,7 +141,6 @@ export default {
   add,
   getById,
   getByEmailId,
-  userLogin,
   getByUserName,
   getAllUserData,
 };
