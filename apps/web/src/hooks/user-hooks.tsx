@@ -17,18 +17,6 @@ const getByloginID = (id: any) => {
 
  const loginAuth = () => {
   const queryClient = useQueryClient();
-  // return useMutation(
-  //   (data) => {
-  //     return userService.loginAuth(data);
-  //   },
-  //   onSuccess: async () => {
-  //     console.log("I'm first!")
-  //   },
-  //   onSettled: async () => {
-  //     console.log("I'm second!")
-  //   },
-    
-  // )
 
   return useMutation({
     mutationFn: userService.loginAuth

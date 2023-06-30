@@ -4,6 +4,7 @@ import userRoleDao from '../dao/user-role.dao';
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
 import prisma from '../utils/prisma';
+import { AES, enc } from 'crypto-js';
 
 /**
  * Method to Create a New User
@@ -167,18 +168,11 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
     let result = null;
     const { email_id, user_password } = body;
     const existingUser = await userDao.getByEmailId(email_id);
-
-    if (!existingUser) {
+    const decryptedPassword = AES.decrypt(user_password, process.env.AUTH_SECRET_KEY).toString(enc.Utf8);
+    if (!existingUser && existingUser?.user_password != md5(decryptedPassword)) {
       return (result = {
         success: false,
-        message: 'Email Id Not Found',
-      });
-    }
-
-    if (existingUser?.user_password != md5(user_password)) {
-      return (result = {
-        success: false,
-        message: 'Wrong Password',
+        message: 'Email id and password Wrong',
       });
     }
 
@@ -201,6 +195,8 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
       success: true,
       token: token,
     };
+    console.log("loginCredentials",loginCredentials);
+    
     return loginCredentials;
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);

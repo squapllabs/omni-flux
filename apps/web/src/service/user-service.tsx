@@ -1,8 +1,8 @@
 import axios from 'axios';
-
+import axiosinterceptor from '../helper/custom_axios';
 const getAllUsers = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/user/getAll');
+    const response = await axiosinterceptor.get('http://localhost:8080/api/user/getAll');
     return response;
   } catch (error) {
     console.log('Error in getting all users:', error);
@@ -11,7 +11,14 @@ const getAllUsers = async () => {
 };
 const loginAuth = async (values: any) => {
   try {
-    const response = await axios.post('http://localhost:8080/api/user/login', values);
+    console.log("values", values);
+    const response = await axiosinterceptor.post('http://localhost:8080/api/user/login',values,
+      {
+        headers: {
+          "token": 'success'
+        }
+      }
+    );
     console.log('response.data', response.data);
 
     return response.data;
@@ -23,7 +30,7 @@ const loginAuth = async (values: any) => {
 
 const getOneUser = async (values: any) => {
   try {
-    const response = await axios.post(`http://localhost:8080/api/user/getByEmailId/${values}`);
+    const response = await axiosinterceptor.post(`http://localhost:8080/api/user/getByEmailId/${values}`);
     console.log('response.data', response.data);
 
     return response.data;
