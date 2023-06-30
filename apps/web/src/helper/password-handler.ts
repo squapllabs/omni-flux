@@ -1,7 +1,8 @@
 import { AES, enc } from 'crypto-js';
 
 
-let secretKey = "lksikejdlkjoijl"
+let secretKey = "lksikejdlkjoijlajljljoiojlsmsmn"
+
 // Function to encrypt a password using AES
 export const encryptPassword = (password: string): string => {
   const encryptedPassword = AES.encrypt(password, secretKey).toString();

@@ -34,16 +34,17 @@ const Login = () => {
       .then(async () => {
         setErrors({})
         const encryptPass = await encryptPassword(values?.password);
-        console.log("encryptPass", encryptPass);
+        console.log("encryptPass",encryptPass);
+        
         const data: any = {
-          email: values?.email,
-          userpass: values?.password
+          email_id: values?.email,
+          user_password: encryptPass
         }
         loginData(data, {
           onSuccess: (data, variables, context) => {
             if (data?.success === true) {
               navigate('/home');
-              setCookie("logintoken", data?.data?.token, 2);
+              setCookie("logintoken", data?.token, 2);
             }
             else
               setMessage("Username & Password incorrect")
