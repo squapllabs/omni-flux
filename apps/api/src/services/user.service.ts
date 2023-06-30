@@ -61,7 +61,7 @@ const createUser = async (body: {
         });
       }
     }
-    let userDataWithRole = [];
+    const userDataWithRole = [];
     result = await prisma
       .$transaction(async (prisma) => {
         const userDetails = await userDao.add(
@@ -124,6 +124,7 @@ const getById = async (userId: bigint) => {
     if (userData) {
       return (result = { success: true, data: userData });
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return (result = { success: false, message: 'user id not exist' });
     }
   } catch (error) {
@@ -145,6 +146,7 @@ const getByEmailId = async (emailId: string) => {
     if (userData) {
       return (result = { success: true, data: userData });
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return (result = { success: false, message: 'user email not exist' });
     }
   } catch (error) {
@@ -160,6 +162,7 @@ const getByEmailId = async (emailId: string) => {
  */
 const userLogin = async (body: { email_id: string; user_password: string }) => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let token: any;
     let result = null;
     const { email_id, user_password } = body;
@@ -186,7 +189,8 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
         { expiresIn: '2h' }
       );
     } catch (err) {
-      console.log(' error occurren', err);
+      console.log(' error occurred', err);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return (result = {
         success: false,
         message: 'Error! Something went wrong',
