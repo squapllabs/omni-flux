@@ -12,7 +12,7 @@ const getAllUsers = async () => {
 const loginAuth = async (values: any) => {
   try {
     console.log("values", values);
-    const response = await axiosinterceptor.post('http://localhost:8080/api/user/login',values,
+    const response = await axios.post('http://localhost:8080/api/user/login',values,
       {
         headers: {
           "token": 'success'

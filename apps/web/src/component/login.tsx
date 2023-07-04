@@ -82,6 +82,7 @@ const Login = () => {
                   size='small'
                   name='email'
                   label='Username'
+                  sx={{width:'320px'}}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -98,6 +99,7 @@ const Login = () => {
                   name='password'
                   label='Password'
                   type='password'
+                  sx={{width:'320px'}}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -118,7 +120,7 @@ const Login = () => {
                   <Checkbox defaultChecked size="small" />  <span>Remember me</span>
                 </div>
                 <div className={Styles.forgetPassword}>
-                  <a href='#'><span>Forget Password ?</span></a>
+                  <a href='/forget-password'><span>Forget Password ?</span></a>
                 </div>
               </div>
               <div>
