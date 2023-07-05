@@ -133,7 +133,7 @@ const Login = () => {
                 </div>
                 <div className={Styles.forgetPassword}>
                   <a href="/forget-password">
-                    <span>Forget Password ?</span>
+                    <span>Forgot Password ?</span>
                   </a>
                 </div>
               </div>

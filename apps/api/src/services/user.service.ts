@@ -1,10 +1,10 @@
 import userDao from '../dao/user.dao';
-import userRoleDao from '../dao/user-role.dao';
+import userRoleDao from '../dao/userRole.dao';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { AES, enc } from 'crypto-js';
-import { CreateUserBody } from '../interfaces/user-interface';
+import { CreateUserBody } from '../interfaces/userInterface';
 
 /**
  * Method to Create a New User
@@ -229,4 +229,22 @@ const getAllUser = async () => {
   }
 };
 
-export { createUser, getById, getByEmailId, userLogin, getAllUser };
+/**
+ * Method for User Logout
+ * @param req
+ * @param res
+ */
+const userLogOut = (req, res) => {
+  try {
+    res.clearCookie('Token');
+    res.clearCookie('Name');
+    res.json({ success: true, message: 'LogOut successful' });
+  } catch (error) {
+    console.log('Error occurred in userLogout: ', error);
+    res
+      .status(500)
+      .json({ success: false, message: 'Error occurred during logOut' });
+  }
+};
+
+export { createUser, getById, getByEmailId, userLogin, getAllUser, userLogOut };

@@ -54,4 +54,21 @@ const getAllUser = catchAsync(async (req, res) => {
   }
 });
 
-export { createUser, getByUserId, getByEmailId, userLogin, getAllUser };
+const userLogOut = catchAsync(async (req, res) => {
+  const methodName = '/userLogOut';
+  try {
+    const result = await userService.userLogOut(req, res);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+export {
+  createUser,
+  getByUserId,
+  getByEmailId,
+  userLogin,
+  getAllUser,
+  userLogOut,
+};

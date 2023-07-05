@@ -4,6 +4,7 @@ import {
   getAllUser,
   getByEmailId,
   getByUserId,
+  userLogOut,
   userLogin,
 } from '../../controller/user.controller';
 import authMiddleware from '../../middleware/auth';
@@ -29,5 +30,7 @@ router.get('/getByEmailId/:email_id', authMiddleware, getByEmailId);
 router.post('/login', userLoginValidator, runValidation, userLogin);
 
 router.get('/getAll', authMiddleware, getAllUser);
+
+router.get('/logout', userLogOut);
 
 export default router;
