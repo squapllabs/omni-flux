@@ -1,7 +1,7 @@
 import { AES, enc } from 'crypto-js';
+import { environment } from '../environment/environment';
 
-
-let secretKey = "lksikejdlkjoijlajljljoiojlsmsmn"
+let secretKey = environment.auth_secretKey;
 
 // Function to encrypt a password using AES
 export const encryptPassword = (password: string): string => {

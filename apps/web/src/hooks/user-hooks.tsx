@@ -1,25 +1,17 @@
-import { useQuery, useQueryClient, useMutation } from "react-query";
-import userService from "../service/user-service";
+import { useQuery } from 'react-query';
+import userService from '../service/user-service';
 
 const useGetAllUsers = () => {
-  return useQuery(["useGetAllUsers"], () => userService.getAllUsers(),
-    {
-      select: (data) => data.data,
-    }
-  );
+  return useQuery(['useGetAllUsers'], () => userService.getAllUsers(), {
+    select: (data) => data.data,
+  });
 };
 
+const getByloginID = (id: string) => {
+  return useQuery(['getByLoginID', id], () => userService.getOneUser(id));
+};
+const getByuserID = (id: number) => {
+  return useQuery(['getByuserID', id], () => userService.getOneUserbyID(id));
+};
 
-const getByloginID = (id: any) => {
-  return useQuery(["getByLoginID", id], () => userService.getOneUser(id)
-  )
-}
-
- const loginAuth = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: userService.loginAuth
-  })
-}
-export { useGetAllUsers, loginAuth, getByloginID };
+export { useGetAllUsers, getByloginID, getByuserID };

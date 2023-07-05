@@ -33,52 +33,52 @@ app.use(function (req, res, next) {
 });
 app.use(cors(corsOptions));
 /* Token Security Authorization */
-app.use(function (req, res, next) {
-  const apiCheck = req.rawHeaders
-    .map((header) => header.toLowerCase())
-    .indexOf('authorization');
-  const loginCheck = req.rawHeaders
-    .map((header) => header.toLowerCase())
-    .indexOf('token');
-  const authHeader = req.rawHeaders[apiCheck + 1];
-  const str = '/api/user/login';
-  const strData = req.url;
-  if (strData.includes(str)) {
-    if (loginCheck != -1) {
-      next();
-    } else {
-      const result = {
-        status: 401,
-        message: 'Token is required',
-        authendication: 'Unauthorized',
-      };
-      return res.status(result.status).json(result);
-      // return res.sendStatus(401);
-    }
-  } else if (apiCheck === -1) {
-    const result = {
-      status: 401,
-      message: 'Token is required',
-      authendication: 'Unauthorized',
-    };
-    return res.status(result.status).json(result);
-  } else if (authHeader) {
-    jwt.verify(authHeader, process.env.API_ACCESS_TOKEN_SECRET_KEY, (err) => {
-      if (err) {
-        console.log('Secret Token Invalid', err);
-        // return res.sendStatus(401);
-        const result = {
-          status: 401,
-          message: 'Secret Token Invalid',
-          authendication: 'Unauthorized',
-        };
-        return res.status(result.status).json(result);
-      } else {
-        next();
-      }
-    });
-  }
-});
+// app.use(function (req, res, next) {
+//   const apiCheck = req.rawHeaders
+//     .map((header) => header.toLowerCase())
+//     .indexOf('authorization');
+//   const loginCheck = req.rawHeaders
+//     .map((header) => header.toLowerCase())
+//     .indexOf('token');
+//   const authHeader = req.rawHeaders[apiCheck + 1];
+//   const str = '/api/user/login';
+//   const strData = req.url;
+//   if (strData.includes(str)) {
+//     if (loginCheck != -1) {
+//       next();
+//     } else {
+//       const result = {
+//         status: 401,
+//         message: 'Token is required',
+//         authendication: 'Unauthorized',
+//       };
+//       return res.status(result.status).json(result);
+//       // return res.sendStatus(401);
+//     }
+//   } else if (apiCheck === -1) {
+//     const result = {
+//       status: 401,
+//       message: 'Token is required',
+//       authendication: 'Unauthorized',
+//     };
+//     return res.status(result.status).json(result);
+//   } else if (authHeader) {
+//     jwt.verify(authHeader, process.env.API_ACCESS_TOKEN_SECRET_KEY, (err) => {
+//       if (err) {
+//         console.log('Secret Token Invalid', err);
+//         // return res.sendStatus(401);
+//         const result = {
+//           status: 401,
+//           message: 'Secret Token Invalid',
+//           authendication: 'Unauthorized',
+//         };
+//         return res.status(result.status).json(result);
+//       } else {
+//         next();
+//       }
+//     });
+//   }
+// });
 
 
 
