@@ -37,7 +37,7 @@ const getByEmailId = catchAsync(async (req, res) => {
 const userLogin = catchAsync(async (req, res) => {
   const methodName = '/userLogin';
   try {
-    const result = await userService.userLogin(req.body);
+    const result = await userService.userLogin(req.body, res);
     res.send(result);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);

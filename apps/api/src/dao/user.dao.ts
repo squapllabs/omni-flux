@@ -12,13 +12,14 @@ const add = async (
   gender: string,
   dob: Date,
   status: string,
-  address: string,
+  address: JSON,
   created_by: BigInteger,
   updated_by: BigInteger,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
+    const dateOfBirth = dob ? new Date(dob) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
 
     const user = await transaction.users.create({
@@ -32,9 +33,9 @@ const add = async (
         last_name,
         profile_img_url,
         gender,
-        dob,
+        dob: dateOfBirth,
         status,
-        address,
+        address: address ? JSON.stringify(address) : null,
         created_by: created_by ? Number(created_by) : null,
         created_date: currentDate,
         updated_by: updated_by ? Number(updated_by) : null,

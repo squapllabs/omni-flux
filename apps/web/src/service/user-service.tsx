@@ -1,26 +1,30 @@
 import axios from 'axios';
 import axiosinterceptor from '../helper/custom_axios';
+import { setItem } from '../helper/local-storage';
+
 const getAllUsers = async () => {
   try {
-    const response = await axiosinterceptor.get('http://localhost:8080/api/user/getAll');
+    const response = await axiosinterceptor.get(
+      'http://localhost:8080/api/user/getAll'
+    );
     return response;
   } catch (error) {
     console.log('Error in getting all users:', error);
     throw error;
   }
 };
+
 const loginAuth = async (values: any) => {
   try {
-    console.log("values", values);
-    const response = await axiosinterceptor.post('http://localhost:8080/api/user/login',values,
-      {
-        headers: {
-          "token": 'success'
-        }
-      }
+    const response = await axiosinterceptor.post(
+      'http://localhost:8080/api/user/login',
+      values
     );
-    console.log('response.data', response.data);
 
+    if (response?.data?.success === true) {
+      setItem('Token', response?.data?.token);
+      setItem('Name', response?.data?.fullName);
+    }
     return response.data;
   } catch (error) {
     console.log('Error in loginAuth :', error);
@@ -30,9 +34,9 @@ const loginAuth = async (values: any) => {
 
 const getOneUser = async (values: any) => {
   try {
-    const response = await axiosinterceptor.post(`http://localhost:8080/api/user/getByEmailId/${values}`);
-    console.log('response.data', response.data);
-
+    const response = await axiosinterceptor.post(
+      `http://localhost:8080/api/user/getByEmailId/${values}`
+    );
     return response.data;
   } catch (error) {
     console.log('Error in getOneUser :', error);
@@ -43,5 +47,5 @@ const getOneUser = async (values: any) => {
 export default {
   getAllUsers,
   getOneUser,
-  loginAuth
+  loginAuth,
 };
