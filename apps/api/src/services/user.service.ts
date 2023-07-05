@@ -1,33 +1,17 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import userDao from '../dao/user.dao';
-import userRoleDao from '../dao/user-role.dao';
-const jwt = require('jsonwebtoken');
-const md5 = require('md5');
+import userRoleDao from '../dao/userRole.dao';
+import jwt from 'jsonwebtoken';
+import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { AES, enc } from 'crypto-js';
+import { CreateUserBody } from '../interfaces/userInterface';
 
 /**
  * Method to Create a New User
  * @param body
  * @returns
  */
-const createUser = async (body: {
-  center_id: BigInteger;
-  user_name: string;
-  user_password: string;
-  mobile_number: string;
-  email_id: string;
-  first_name: string;
-  last_name: string;
-  profile_img_url: string;
-  gender: string;
-  dob: Date;
-  status: string;
-  address: string;
-  created_by: BigInteger;
-  updated_by: BigInteger;
-  role_id: BigInteger;
-}) => {
+const createUser = async (body: CreateUserBody) => {
   let result = null;
   try {
     const {
@@ -123,10 +107,11 @@ const getById = async (userId: bigint) => {
     let result = null;
     const userData = await userDao.getById(userId);
     if (userData) {
-      return (result = { success: true, data: userData });
+      result = { success: true, data: userData };
+      return result;
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      return (result = { success: false, message: 'user id not exist' });
+      result = { success: false, message: 'user id not exist' };
+      return result;
     }
   } catch (error) {
     console.log('Error occurred in getById user service : ', error);
@@ -145,10 +130,11 @@ const getByEmailId = async (emailId: string) => {
     const userData = await userDao.getByEmailId(emailId);
 
     if (userData) {
-      return (result = { success: true, data: userData });
+      result = { success: true, data: userData };
+      return result;
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      return (result = { success: false, message: 'user email not exist' });
+      result = { success: false, message: 'user email not exist' };
+      return result;
     }
   } catch (error) {
     console.log('Error occurred in getByEmailId user service : ', error);
@@ -161,19 +147,29 @@ const getByEmailId = async (emailId: string) => {
  * @param body
  * @returns
  */
-const userLogin = async (body: { email_id: string; user_password: string }) => {
+const userLogin = async (
+  body: { email_id: string; user_password: string; is_remember_me: boolean },
+  res
+) => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let token: any;
+    let token: string;
     let result = null;
-    const { email_id, user_password } = body;
+    const { email_id, user_password, is_remember_me } = body;
     const existingUser = await userDao.getByEmailId(email_id);
-    const decryptedPassword = AES.decrypt(user_password, process.env.AUTH_SECRET_KEY).toString(enc.Utf8);
-    if (!existingUser && existingUser?.user_password != md5(decryptedPassword)) {
-      return (result = {
+    const decryptedPassword = AES.decrypt(
+      user_password,
+      process.env.AUTH_SECRET_KEY
+    ).toString(enc.Utf8);
+
+    if (
+      !existingUser ||
+      existingUser?.user_password !== md5(decryptedPassword)
+    ) {
+      result = {
         success: false,
         message: 'Email id and password Wrong',
-      });
+      };
+      return result;
     }
 
     try {
@@ -184,20 +180,34 @@ const userLogin = async (body: { email_id: string; user_password: string }) => {
       );
     } catch (err) {
       console.log(' error occurred', err);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return (result = {
         success: false,
         message: 'Error! Something went wrong',
       });
     }
-
+    const fullName = existingUser?.first_name + ' ' + existingUser?.last_name;
     const loginCredentials = {
       success: true,
       token: token,
+      fullName: fullName,
     };
-    console.log("loginCredentials",loginCredentials);
-    
-    return loginCredentials;
+
+    /* Here the expiration period is set for 1 Day */
+
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 1);
+
+    const cookieOptions = {
+      expires: is_remember_me === true ? expirationDate : null,
+      secure: true,
+      httpOnly: false,
+      sameSite: 'None',
+    };
+
+    res
+      .cookie('Token', token, cookieOptions)
+      .cookie('Name', fullName, cookieOptions)
+      .send(loginCredentials);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
     throw error;
@@ -219,4 +229,22 @@ const getAllUser = async () => {
   }
 };
 
-export { createUser, getById, getByEmailId, userLogin, getAllUser };
+/**
+ * Method for User Logout
+ * @param req
+ * @param res
+ */
+const userLogOut = (req, res) => {
+  try {
+    res.clearCookie('Token');
+    res.clearCookie('Name');
+    res.json({ success: true, message: 'LogOut successful' });
+  } catch (error) {
+    console.log('Error occurred in userLogout: ', error);
+    res
+      .status(500)
+      .json({ success: false, message: 'Error occurred during logOut' });
+  }
+};
+
+export { createUser, getById, getByEmailId, userLogin, getAllUser, userLogOut };

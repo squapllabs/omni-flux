@@ -18,7 +18,6 @@ const forgetPassword = catchAsync(async (req, res) => {
     const methodName = '/edit';
     try {
       const result = await forgetpasswordService.updatePassword(req.body);
-      console.log("result editPassword",result);
       res.send(result);
     } catch (err) {
       handleError(new ErrorHandler(errorText, methodName, err), res);

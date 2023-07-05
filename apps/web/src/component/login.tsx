@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import Styles from '../styles/login.module.scss';
 import { TextField, InputAdornment, Button, Checkbox } from '@mui/material';
 import Person2Icon from '@mui/icons-material/Person2';
@@ -9,7 +9,6 @@ import { getLoginYupSchema } from '../helper/constants/user-constants';
 import { loginAuth } from '../hooks/auth-hooks';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
-import { setCookie } from '../helper/session';
 import { encryptPassword } from '../helper/password-handler';
 
 const Login = () => {
@@ -18,15 +17,29 @@ const Login = () => {
   const valueObject: any = {
     email: '',
     password: '',
+    is_remember_me: false,
   };
-  const { mutate: loginData, data: getToken, isLoading } = loginAuth();
+  const { mutate: loginData, isLoading } = loginAuth();
   const [values, setValues] = React.useState(valueObject);
   const [errors, setErrors] = React.useState(errorObject);
   const [message, setMessage] = React.useState('');
-  const handleChange = (event: any) => {
+  const [rememberMe, setRememberMe] = useState(valueObject?.is_remember_me);
+  interface CustomError extends Error {
+    inner?: { path: string; message: string }[];
+  }
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
-  const handleSubmit = async (event: any) => {
+
+  const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked);
+    const CheckboxValue = event.target.checked;
+    setValues({ ...values, [event.target.name]: CheckboxValue });
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
     const schema = getLoginYupSchema(yup);
     await schema
       .validate(values, { abortEarly: false })
@@ -36,21 +49,23 @@ const Login = () => {
         const data: any = {
           email_id: values?.email,
           user_password: encryptPass,
+          is_remember_me: rememberMe,
         };
         loginData(data, {
           onSuccess: (data, variables, context) => {
             if (data?.success === true) {
               navigate('/home');
-              setCookie('logintoken', data?.token, 2);
             } else setMessage('Username & Password incorrect');
           },
         });
       })
-      .catch((e: any) => {
-        const errorObj: any = {};
-        e.inner?.map((error: any) => {
-          return (errorObj[error.path] = error.message);
-        });
+      .catch((e: CustomError) => {
+        const errorObj: { [key: string]: string } = {};
+        if (e.inner) {
+          e.inner.map((error) => {
+            return (errorObj[error.path] = error.message);
+          });
+        }
         setErrors({
           ...errorObj,
         });
@@ -112,12 +127,16 @@ const Login = () => {
               </div>
               <div className={Styles.buttonField}>
                 <div className={Styles.forgetPassword}>
-                  <Checkbox defaultChecked size="small" />{' '}
-                  <span>Remember me</span>
+                  <Checkbox
+                    value={rememberMe}
+                    onChange={(e) => handleCheckbox(e)}
+                    size="small"
+                  />{' '}
+                  <span>Remember Me</span>
                 </div>
                 <div className={Styles.forgetPassword}>
                   <a href="/forget-password">
-                    <span>Forget Password ?</span>
+                    <span>Forgot Password ?</span>
                   </a>
                 </div>
               </div>

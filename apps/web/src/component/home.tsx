@@ -1,8 +1,10 @@
-import React from 'react'
+import React from 'react';
+import { useGetAllUsers } from '../hooks/user-hooks';
 const Home = () => {
-    return (
-        <div>home</div>
-    )
-}
+  const { data: getAllUsers } = useGetAllUsers();
+  console.log('getAllUsers', getAllUsers);
 
-export default Home
+  return <div>home</div>;
+};
+
+export default Home;

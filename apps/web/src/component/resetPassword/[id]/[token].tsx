@@ -9,12 +9,12 @@ import { resetPassword } from 'apps/web/src/hooks/auth-hooks';
 import { encryptPassword } from 'apps/web/src/helper/password-handler';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router';
 const ResetPassword = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  const userId = routeParams?.id;
+  const userId = Number(routeParams?.id);
   const { data: getuserData } = getByuserID(userId);
   const { mutate: restPassword, isLoading } = resetPassword();
   const errorObject: any = {};
@@ -43,6 +43,9 @@ const ResetPassword = () => {
   const handleChange = (event: any) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
+  interface CustomError extends Error {
+    inner?: { path: string; message: string }[];
+  }
   const handleSubmit = async () => {
     const schema = getForgetPasswordYupSchema(yup);
     await schema
@@ -62,16 +65,20 @@ const ResetPassword = () => {
               setInterval(() => {
                 navigate('/');
               }, 3000);
-            } else setwaring(true);
-            setMessage('Try again');
+            } else {
+              setwaring(true);
+              setMessage('Try again');
+            }
           },
         });
       })
-      .catch((e: any) => {
-        let errorObj: any = {};
-        e.inner?.map((error: any) => {
-          return (errorObj[error.path] = error.message);
-        });
+      .catch((e: CustomError) => {
+        const errorObj: { [key: string]: string } = {};
+        if (e.inner) {
+          e.inner.map((error) => {
+            return (errorObj[error.path] = error.message);
+          });
+        }
         setErrors({
           ...errorObj,
         });

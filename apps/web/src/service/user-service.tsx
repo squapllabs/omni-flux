@@ -1,5 +1,5 @@
-import axios from 'axios';
 import axiosinterceptor from '../helper/custom_axios';
+import axios from 'axios';
 import { environment } from '../environment/environment';
 const getAllUsers = async () => {
   try {
