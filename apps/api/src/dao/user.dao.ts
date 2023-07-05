@@ -79,20 +79,22 @@ const getById = async (userId: bigint) => {
 
 const getByEmailId = async (emailId: string) => {
   try {
-    const users = await prisma.users.findFirst({
-      where: {
-        email_id: emailId,
-      },
-    });
+    if (emailId) {
+      const users = await prisma.users.findFirst({
+        where: {
+          email_id: emailId,
+        },
+      });
 
-    if (users) {
-      const modifiedUsers = {
-        ...users,
-        user_id: Number(users.user_id),
-      };
-      return modifiedUsers;
-    } else {
-      return users;
+      if (users) {
+        const modifiedUsers = {
+          ...users,
+          user_id: Number(users.user_id),
+        };
+        return modifiedUsers;
+      } else {
+        return users;
+      }
     }
   } catch (error) {
     console.log('Error occurred in user getByEmailId dao', error);
