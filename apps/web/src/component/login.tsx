@@ -89,6 +89,7 @@ const Login = () => {
                   size="small"
                   name="email"
                   label="Username"
+                  sx={{ width: '320px' }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -105,6 +106,7 @@ const Login = () => {
                   name="password"
                   label="Password"
                   type="password"
+                  sx={{ width: '320px' }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -130,7 +132,7 @@ const Login = () => {
                   <span>Remember Me</span>
                 </div>
                 <div className={Styles.forgetPassword}>
-                  <a href="#">
+                  <a href="/forget-password">
                     <span>Forget Password ?</span>
                   </a>
                 </div>

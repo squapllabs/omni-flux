@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosinterceptor from '../helper/custom_axios';
 import { setItem } from '../helper/local-storage';
 
@@ -14,7 +13,7 @@ const getAllUsers = async () => {
   }
 };
 
-const loginAuth = async (values: any) => {
+const loginAuth = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
       'http://localhost:8080/api/user/login',
@@ -32,7 +31,7 @@ const loginAuth = async (values: any) => {
   }
 };
 
-const getOneUser = async (values: any) => {
+const getOneUser = async (values: string) => {
   try {
     const response = await axiosinterceptor.post(
       `http://localhost:8080/api/user/getByEmailId/${values}`
