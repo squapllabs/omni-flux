@@ -26,7 +26,6 @@ const loginAuth = async (values: JSON) => {
     );
     if (response?.data?.success === true) {
       const bearerToken = response?.data?.token;
-      // const token = bearerToken.replace('Bearer ', '');
       setItem('Token', bearerToken);
       setItem('Name', response?.data?.fullName);
     }
