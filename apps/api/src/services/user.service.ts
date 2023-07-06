@@ -188,7 +188,7 @@ const userLogin = async (
     const fullName = existingUser?.first_name + ' ' + existingUser?.last_name;
     const loginCredentials = {
       success: true,
-      token: token,
+      token: `Bearer ${token}`,
       fullName: fullName,
     };
 
@@ -205,7 +205,7 @@ const userLogin = async (
     };
 
     res
-      .cookie('Token', token, cookieOptions)
+      .cookie('Token', `Bearer ${token}`, cookieOptions)
       .cookie('Name', fullName, cookieOptions)
       .send(loginCredentials);
   } catch (error) {

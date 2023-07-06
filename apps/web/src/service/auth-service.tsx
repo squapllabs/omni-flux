@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { environment } from '../environment/environment';
 import { setItem } from '../helper/local-storage';
-const forgetPassword = async (values: any) => {
+const forgetPassword = async (values: string) => {
   try {
     const response = await axios.post(
       `${environment.apiUrl}/auth/forgetPassword`,
@@ -25,7 +25,9 @@ const loginAuth = async (values: JSON) => {
       values
     );
     if (response?.data?.success === true) {
-      setItem('Token', response?.data?.token);
+      const bearerToken = response?.data?.token;
+      // const token = bearerToken.replace('Bearer ', '');
+      setItem('Token', bearerToken);
       setItem('Name', response?.data?.fullName);
     }
     return response.data;
@@ -35,7 +37,7 @@ const loginAuth = async (values: JSON) => {
   }
 };
 
-const restePassword = async (values: any) => {
+const restePassword = async (values: string) => {
   try {
     const response = await axios.put(
       `${environment.apiUrl}/auth/edit/`,

@@ -15,21 +15,28 @@ const authMiddleware = async (req, res, next) => {
     };
     return res.status(result.status).json(result);
   } else if (token) {
-    jwt.verify(token, process.env.API_ACCESS_TOKEN_SECRET_KEY, (err) => {
-      if (err) {
-        console.log('Secret Token Invalid', err);
+    const bearerToken = token;
+    const originalToken = bearerToken.replace('Bearer ', '');
 
-        const result = {
-          status: 401,
-          message: 'Secret Token Invalid',
-          authendication: 'Unauthorized',
-        };
+    jwt.verify(
+      originalToken,
+      process.env.API_ACCESS_TOKEN_SECRET_KEY,
+      (err) => {
+        if (err) {
+          console.log('Secret Token Invalid', err);
 
-        return res.status(result.status).json(result);
-      } else {
-        next();
+          const result = {
+            status: 401,
+            message: 'Secret Token Invalid',
+            authendication: 'Unauthorized',
+          };
+
+          return res.status(result.status).json(result);
+        } else {
+          next();
+        }
       }
-    });
+    );
   }
 };
 
