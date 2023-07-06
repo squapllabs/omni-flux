@@ -1,9 +1,30 @@
-import axios, { AxiosError } from 'axios';
-import { getItem } from './local-storage';
+import axios, { AxiosError, AxiosHeaders } from 'axios';
+// import GetToken from '../redux/tokenUtils';
+import store, { RootState } from '../redux/store';
+import { getToken } from '../redux/reducer';
+
+// const encryptedData = GetToken(store.getState() as RootState);
+let encryptedData: string | null;
+// store.subscribe(() => {
+//   const state: RootState = store.getState();
+//   encryptedData = getToken(state, 'Token');
+//   console.log('Updated token:', encryptedData);
+// });
+
+const updateToken = () => {
+  const state: RootState = store.getState();
+  encryptedData = getToken(state, 'Token');
+  console.log('Updated token:', encryptedData);
+
+  axios.defaults.headers.common['Authorization'] = encryptedData;
+};
+
+updateToken();
+
+store.subscribe(updateToken);
 
 axios.interceptors.request.use(
   function (config) {
-    const encryptedData = getItem('Token');
     config.headers = config.headers || {};
     config.headers['Authorization'] = encryptedData;
     return config;

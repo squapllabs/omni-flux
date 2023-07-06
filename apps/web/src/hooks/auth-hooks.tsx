@@ -6,11 +6,13 @@ const forgetPassword = () => {
     mutationFn: authService.forgetPassword,
   });
 };
+
 const loginAuth = () => {
   return useMutation({
     mutationFn: authService.loginAuth,
   });
 };
+
 const resetPassword = () => {
   return useMutation({
     mutationFn: authService.restePassword,

@@ -10,9 +10,12 @@ import { loginAuth } from '../hooks/auth-hooks';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
 import { encryptPassword } from '../helper/password-handler';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../redux/reducer';
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const errorObject: any = {};
   const valueObject: any = {
     email: '',
@@ -24,9 +27,11 @@ const Login = () => {
   const [errors, setErrors] = React.useState(errorObject);
   const [message, setMessage] = React.useState('');
   const [rememberMe, setRememberMe] = useState(valueObject?.is_remember_me);
+
   interface CustomError extends Error {
     inner?: { path: string; message: string }[];
   }
+
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -54,8 +59,11 @@ const Login = () => {
         loginData(data, {
           onSuccess: (data, variables, context) => {
             if (data?.success === true) {
+              const { token, fullName } = data;
+              dispatch(setToken({ key: 'Token', value: token }));
+              dispatch(setToken({ key: 'Name', value: fullName }));
               navigate('/home');
-            } else setMessage('Username & Password incorrect');
+            } else setMessage('Username & Password is Incorrect');
           },
         });
       })

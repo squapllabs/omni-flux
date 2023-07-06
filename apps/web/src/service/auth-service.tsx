@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { environment } from '../environment/environment';
-import { setItem } from '../helper/local-storage';
+
 const forgetPassword = async (values: string) => {
   try {
     const response = await axios.post(
@@ -18,17 +18,15 @@ const forgetPassword = async (values: string) => {
     throw error;
   }
 };
+
 const loginAuth = async (values: JSON) => {
   try {
     const response = await axios.post(
       `${environment.apiUrl}/user/login`,
       values
     );
-    if (response?.data?.success === true) {
-      const bearerToken = response?.data?.token;
-      setItem('Token', bearerToken);
-      setItem('Name', response?.data?.fullName);
-    }
+    console.log('response', response);
+
     return response.data;
   } catch (error) {
     console.log('Error in loginAuth :', error);

@@ -1,6 +1,7 @@
 import axiosinterceptor from '../helper/custom_axios';
 import axios from 'axios';
 import { environment } from '../environment/environment';
+
 const getAllUsers = async () => {
   try {
     const response = await axiosinterceptor.get(
@@ -12,6 +13,7 @@ const getAllUsers = async () => {
     throw error;
   }
 };
+
 const getOneUser = async (values: any) => {
   try {
     const response = await axiosinterceptor.post(
@@ -23,6 +25,7 @@ const getOneUser = async (values: any) => {
     throw error;
   }
 };
+
 const getOneUserbyID = async (values: any) => {
   try {
     const response = await axios.get(
