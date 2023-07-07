@@ -59,9 +59,7 @@ const Login = () => {
         loginData(data, {
           onSuccess: (data, variables, context) => {
             if (data?.success === true) {
-              const { token, fullName } = data;
-              dispatch(setToken({ key: 'Token', value: token }));
-              dispatch(setToken({ key: 'Name', value: fullName }));
+              dispatch(setToken({ key: 'Data', value: data}));
               navigate('/home');
             } else setMessage('Username & Password is Incorrect');
           },

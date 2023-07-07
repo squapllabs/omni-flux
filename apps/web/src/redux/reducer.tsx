@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -11,20 +12,14 @@ export const authSlice = createSlice({
       const { key, value } = action.payload;
       state.key = key;
       state.value = value;
-      console.log('Value updated:', value);
     },
   },
 });
 
 export const { setToken } = authSlice.actions;
 
-export const getToken = (
-  state: { auth: { key: string | null; value: string | null } },
-  key: string
-) => {
+export const getToken = (state: RootState, key: string) => {
   const { value } = state.auth;
-  console.log('value in reducer', value);
-
   if (state.auth.key !== null && state.auth.key === key) {
     return value;
   }

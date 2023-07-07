@@ -1,22 +1,15 @@
-import axios, { AxiosError, AxiosHeaders } from 'axios';
-// import GetToken from '../redux/tokenUtils';
-import store, { RootState } from '../redux/store';
+import axios, { AxiosError } from 'axios';
+import { store, RootState } from '../redux/store';
 import { getToken } from '../redux/reducer';
 
-// const encryptedData = GetToken(store.getState() as RootState);
-let encryptedData: string | null;
-// store.subscribe(() => {
-//   const state: RootState = store.getState();
-//   encryptedData = getToken(state, 'Token');
-//   console.log('Updated token:', encryptedData);
-// });
+let encryptedData: { token: string } | null = null;
+let loginToken: string | null;
 
 const updateToken = () => {
   const state: RootState = store.getState();
-  encryptedData = getToken(state, 'Token');
-  console.log('Updated token:', encryptedData);
-
-  axios.defaults.headers.common['Authorization'] = encryptedData;
+  encryptedData = getToken(state, 'Data');
+  loginToken =  encryptedData !== null ? encryptedData['token'] : null;
+  axios.defaults.headers.common['Authorization'] = loginToken;
 };
 
 updateToken();
@@ -26,7 +19,7 @@ store.subscribe(updateToken);
 axios.interceptors.request.use(
   function (config) {
     config.headers = config.headers || {};
-    config.headers['Authorization'] = encryptedData;
+    config.headers['Authorization'] = loginToken;
     return config;
   },
   function (error: AxiosError) {

@@ -2,7 +2,6 @@ import { setToken } from '../redux/reducer';
 import { useDispatch } from 'react-redux';
 
 const useSetToken = () => {
-  console.log('vvvvvvvvvvvvvvvvvvv');
 
   const dispatch = useDispatch();
 
