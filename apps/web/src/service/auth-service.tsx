@@ -25,8 +25,6 @@ const loginAuth = async (values: JSON) => {
       `${environment.apiUrl}/user/login`,
       values
     );
-    console.log('response', response);
-
     return response.data;
   } catch (error) {
     console.log('Error in loginAuth :', error);

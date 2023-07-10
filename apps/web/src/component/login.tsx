@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent } from 'react';
 import Styles from '../styles/login.module.scss';
-import { TextField, InputAdornment, Button, Checkbox } from '@mui/material';
+import { IconButton, InputAdornment, Button, Checkbox } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Person2Icon from '@mui/icons-material/Person2';
 import LockIcon from '@mui/icons-material/Lock';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -28,6 +30,7 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
   const { mutate: loginData, isLoading } = loginAuth();
   const [values, setValues] = React.useState(valueObject);
   const [errors, setErrors] = React.useState(errorObject);
+  const [passwordShown, setPasswordShown] = useState(false);
   const [message, setMessage] = React.useState('');
   const [rememberMe, setRememberMe] = useState(valueObject?.is_remember_me);
 
@@ -46,8 +49,16 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
     const CheckboxValue = event.target.checked;
     setValues({ ...values, [event.target.name]: CheckboxValue });
   };
-
+  const handleMouseDownnewPassword = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault();
+  };
+  const togglenewPassword = () => {
+    setPasswordShown(!passwordShown);
+  };
   const handleSubmit = async (event: React.FormEvent) => {
+    setMessage('');
     const schema = getLoginYupSchema(yup);
     await schema
       .validate(values, { abortEarly: false })
@@ -59,6 +70,7 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
           user_password: encryptPass,
           is_remember_me: rememberMe,
         };
+
         loginData(data, {
           onSuccess: (data, variables, context) => {
             if (data?.success === true) {
@@ -118,13 +130,29 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                   size="small"
                   name="password"
                   label="Password"
-                  type="password"
+                  type={passwordShown ? 'text' : 'password'}
                   variant="outlined"
                   fullWidth
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
                         <LockIcon />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onMouseDown={(e) => handleMouseDownnewPassword(e)}
+                        >
+                          {passwordShown ? (
+                            <VisibilityOff onClick={togglenewPassword} />
+                          ) : (
+                            <VisibilityIcon
+                              onClick={togglenewPassword}
+                              style={{ color: '#BEBFC5' }}
+                            />
+                          )}
+                        </IconButton>
                       </InputAdornment>
                     ),
                   }}
@@ -135,20 +163,20 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                 <div>
                   <span className={Styles.errormessage}>{message}</span>
                 </div>
-              </div>
-              <div className={Styles.buttonField}>
-                <div className={Styles.forgetPassword}>
-                  <Checkbox
-                    value={rememberMe}
-                    onChange={(e) => handleCheckbox(e)}
-                    size="small"
-                  />{' '}
-                  <span>Remember Me</span>
-                </div>
-                <div className={Styles.forgetPassword}>
-                  <a href="/forget-password">
-                    <span>Forgot Password ?</span>
-                  </a>
+                <div className={Styles.buttonField}>
+                  <div className={Styles.forgetPassword}>
+                    <Checkbox
+                      value={rememberMe}
+                      onChange={(e) => handleCheckbox(e)}
+                      size="small"
+                    />{' '}
+                    <span>Remember Me</span>
+                  </div>
+                  <div className={Styles.forgetPassword}>
+                    <a href="/forget-password">
+                      <span>Forgot Password ?</span>
+                    </a>
+                  </div>
                 </div>
               </div>
               <div>
