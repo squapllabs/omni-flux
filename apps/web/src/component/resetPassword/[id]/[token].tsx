@@ -8,9 +8,8 @@ import { getByuserID } from 'apps/web/src/hooks/user-hooks';
 import { resetPassword } from 'apps/web/src/hooks/auth-hooks';
 import { encryptPassword } from 'apps/web/src/helper/password-handler';
 import CircularProgress from '@mui/material/CircularProgress';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router';
+import MySnackbar from '../../ui/MySnackbar';
 const ResetPassword = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -102,7 +101,7 @@ const ResetPassword = () => {
                 size="small"
                 type="password"
                 value={values?.new_password}
-                sx={{ width: '320px' }}
+                fullWidth
                 onChange={handleChange}
                 error={errors.new_password}
                 helperText={errors.new_password}
@@ -113,7 +112,7 @@ const ResetPassword = () => {
                 label="Confirm Password"
                 size="small"
                 value={values?.confirm_password}
-                sx={{ width: '320px' }}
+                fullWidth
                 onChange={handleChange}
                 error={errors.confirm_password}
                 helperText={errors.confirm_password}
@@ -136,15 +135,13 @@ const ResetPassword = () => {
         </div>
         <div className={Styles.footer}></div>
       </div>
-      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <MuiAlert
-          onClose={handleClose}
-          severity={waring === false ? 'success' : 'warning'}
-          sx={{ width: '100%' }}
-        >
-          {message}
-        </MuiAlert>
-      </Snackbar>
+      <MySnackbar
+        open={open}
+        message={message}
+        onClose={handleClose}
+        severity={waring === false ? 'success' : 'warning'}
+        autoHideDuration={3000}
+      />
     </div>
   );
 };

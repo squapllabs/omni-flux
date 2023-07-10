@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import authService from '../service/auth-service';
 
 const forgetPassword = () => {
@@ -18,4 +18,7 @@ const resetPassword = () => {
     mutationFn: authService.restePassword,
   });
 };
-export { forgetPassword, loginAuth, resetPassword };
+const userlogout = () => {
+  return useQuery([], () => authService.logout());
+};
+export { forgetPassword, loginAuth, resetPassword, userlogout };

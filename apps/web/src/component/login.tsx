@@ -12,8 +12,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { encryptPassword } from '../helper/password-handler';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/reducer';
-
-const Login = () => {
+import Customs from './ui/custom';
+interface Props {
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const Login: React.FC<Props> = ({ setIsAuth }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const errorObject: any = {};
@@ -59,7 +62,7 @@ const Login = () => {
         loginData(data, {
           onSuccess: (data, variables, context) => {
             if (data?.success === true) {
-              dispatch(setToken({ key: 'Data', value: data}));
+              dispatch(setToken({ key: 'Data', value: data }));
               navigate('/home');
             } else setMessage('Username & Password is Incorrect');
           },
@@ -94,11 +97,12 @@ const Login = () => {
             </div>
             <div className={Styles.filedContainer}>
               <div className={Styles.fields}>
-                <TextField
+                <Customs.CustomTextField
                   size="small"
                   name="email"
                   label="Username"
-                  sx={{ width: '320px' }}
+                  variant="outlined"
+                  fullWidth
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -110,12 +114,13 @@ const Login = () => {
                   error={errors.email}
                   helperText={errors.email}
                 />
-                <TextField
+                <Customs.CustomTextField
                   size="small"
                   name="password"
                   label="Password"
                   type="password"
-                  sx={{ width: '320px' }}
+                  variant="outlined"
+                  fullWidth
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">

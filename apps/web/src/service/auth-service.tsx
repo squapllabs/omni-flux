@@ -52,8 +52,23 @@ const restePassword = async (values: string) => {
   }
 };
 
+const logout = async () => {
+  try {
+    const response = await axios.get(`${environment.apiUrl}/user/logout`, {
+      headers: {
+        token: 'success',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log('Error in loginAuth :', error);
+    throw error;
+  }
+};
+
 export default {
   forgetPassword,
   loginAuth,
   restePassword,
+  logout,
 };
