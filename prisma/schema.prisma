@@ -21,7 +21,7 @@ model users {
 	gender            String?     @db.VarChar(10)
 	dob               DateTime?
 	status            String?     @db.VarChar(20)
-	address           JSON?
+	address           Json?
 	created_by        Int?        
 	created_date      DateTime   
 	updated_by        Int?
