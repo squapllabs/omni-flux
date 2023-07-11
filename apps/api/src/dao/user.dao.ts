@@ -1,44 +1,35 @@
 import prisma from '../utils/prisma';
 
 const add = async (
-  center_id: BigInteger,
-  user_name: string,
   user_password: string,
-  mobile_number: string,
+  contact_no: string,
   email_id: string,
   first_name: string,
   last_name: string,
-  profile_img_url: string,
-  gender: string,
-  dob: Date,
-  status: string,
-  address: JSON,
+  user_status: string,
+  address: string,
   created_by: BigInteger,
   updated_by: BigInteger,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
-    const dateOfBirth = dob ? new Date(dob) : null;
+    const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
 
     const user = await transaction.users.create({
       data: {
-        center_id: Number(center_id),
-        user_name,
         user_password,
-        mobile_number,
+        contact_no,
         email_id,
         first_name,
         last_name,
-        profile_img_url,
-        gender,
-        dob: dateOfBirth,
-        status,
-        address: address ? JSON.stringify(address) : null,
-        created_by: created_by ? Number(created_by) : null,
+        user_status,
+        address,
+        created_by,
+        updated_by,
+        is_delete,
         created_date: currentDate,
-        updated_by: updated_by ? Number(updated_by) : null,
         updated_date: currentDate,
       },
     });
@@ -102,29 +93,6 @@ const getByEmailId = async (emailId: string) => {
   }
 };
 
-const getByUserName = async (userName: string) => {
-  try {
-    const users = await prisma.users.findUnique({
-      where: {
-        user_name: userName,
-      },
-    });
-
-    if (users) {
-      const modifiedUsers = {
-        ...users,
-        user_id: Number(users.user_id),
-      };
-      return modifiedUsers;
-    } else {
-      return users;
-    }
-  } catch (error) {
-    console.log('Error occurred in user getByUserName dao', error);
-    throw error;
-  }
-};
-
 const getAllUserData = async () => {
   try {
     const users = await prisma.users.findMany({});
@@ -144,6 +112,5 @@ export default {
   add,
   getById,
   getByEmailId,
-  getByUserName,
   getAllUserData,
 };

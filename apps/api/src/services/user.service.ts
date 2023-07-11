@@ -15,19 +15,14 @@ const createUser = async (body: CreateUserBody) => {
   let result = null;
   try {
     const {
-      center_id = null,
-      user_name = null,
-      user_password = null,
-      mobile_number = null,
+      user_password,
+      contact_no,
       email_id,
-      first_name = null,
-      last_name = null,
-      profile_img_url = null,
-      gender = null,
-      dob = null,
-      status = null,
+      first_name,
+      last_name,
+      user_status,
       address = null,
-      created_by = null,
+      created_by,
       updated_by = null,
       role_id,
     } = body;
@@ -37,30 +32,16 @@ const createUser = async (body: CreateUserBody) => {
       return (result = { success: false, message: 'email id already exists' });
     }
 
-    if (user_name) {
-      const userNameExist = await userDao.getByUserName(user_name);
-      if (userNameExist) {
-        return (result = {
-          success: false,
-          message: 'username already exists',
-        });
-      }
-    }
     const userDataWithRole = [];
     result = await prisma
       .$transaction(async (prisma) => {
         const userDetails = await userDao.add(
-          center_id,
-          user_name,
           md5(user_password),
-          mobile_number,
+          contact_no,
           email_id,
           first_name,
           last_name,
-          profile_img_url,
-          gender,
-          dob,
-          status,
+          user_status,
           address,
           created_by,
           updated_by,
@@ -72,6 +53,8 @@ const createUser = async (body: CreateUserBody) => {
           const userRoleData = await userRoleDao.add(
             role_id,
             userDetails?.user_id,
+            created_by,
+            updated_by,
             prisma
           );
           userDataWithRole.push({ userRoleData: userRoleData });

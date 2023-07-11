@@ -10,29 +10,29 @@ datasource db {
 
 model users {
   	user_id           BigInt      @id@default(autoincrement())
-  	center_id         Int?      
-	first_name        String?     @db.VarChar(45)
-	last_name         String?     @db.VarChar(45)
-	user_name         String?     @db.VarChar(45)
+	first_name        String?     @db.VarChar(100)
+	last_name         String?     @db.VarChar(100)
 	user_password     String?     @db.VarChar(255)
-	mobile_number     String?     @db.VarChar(20)
-	email_id          String      @db.VarChar(150)
-	profile_img_url   String?     @db.VarChar(150)
-	gender            String?     @db.VarChar(10)
-	dob               DateTime?
-	status            String?     @db.VarChar(20)
-	address           Json?
+	contact_no	      String?     @db.VarChar(20)
+	email_id          String      @db.VarChar(100)
+	user_status       String?     @db.VarChar(5)
+	address           String?	  @db.VarChar(250)
 	created_by        Int?        
 	created_date      DateTime   
 	updated_by        Int?
 	updated_date      DateTime   
-  @@unique([email_id], name: "unique_email_id")
-  @@unique([user_name], name: "users_username_unique")
-  @@unique([user_id], name:"users_id_unique")
+  	is_delete         Boolean      @default(false) @db.Boolean 
+  @@unique([email_id], name: "uk_users_email_id")
 }
 
-model user_role {
-  	user_role_id      BigInt      @id@default(autoincrement())
-  	role_id           Int?      
-	user_id        	  Int?     
+
+model user_roles {
+  user_role_id   BigInt      @id@default(autoincrement())
+  user_id   	 Int?      
+  role_id   	 Int?       
+  created_date	 DateTime   
+  updated_date 	 DateTime   
+  created_by  	 Int?      
+  updated_by 	 Int?      
+ @@unique([user_id, role_id], name: "uk_user_roles_user_id_role_id") 
 }
