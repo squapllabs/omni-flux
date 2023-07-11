@@ -4,14 +4,14 @@ import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { AES, enc } from 'crypto-js';
-import { CreateUserBody } from '../interfaces/userInterface';
+import { createUserBody, updateUserBody } from '../interfaces/userInterface';
 
 /**
  * Method to Create a New User
  * @param body
  * @returns
  */
-const createUser = async (body: CreateUserBody) => {
+const createUser = async (body: createUserBody) => {
   let result = null;
   try {
     const {
@@ -76,6 +76,86 @@ const createUser = async (body: CreateUserBody) => {
     return result;
   } catch (error) {
     console.log('Error occurred in user service Add: ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to Update an Existing User
+ * @param body
+ * @returns
+ */
+const updateUser = async (body: updateUserBody) => {
+  let result = null;
+  try {
+    const {
+      user_password,
+      contact_no,
+      email_id,
+      first_name,
+      last_name,
+      user_status,
+      address = null,
+      created_by,
+      updated_by = null,
+      role_id,
+      user_id,
+    } = body;
+
+    const userExist: { email_id: string } = await userDao.getById(user_id);
+    if (!userExist) {
+      return (result = { success: false, message: 'user does not exists' });
+    }
+    const userEmailExist = await userDao.getByEmailId(email_id);
+    if (userEmailExist && !(email_id === userExist?.email_id)) {
+      return (result = { success: false, message: 'email id already exists' });
+    }
+
+    const userDataWithRole = [];
+    result = await prisma
+      .$transaction(async (prisma) => {
+        const userDetails = await userDao.edit(
+          md5(user_password),
+          contact_no,
+          email_id,
+          first_name,
+          last_name,
+          user_status,
+          address,
+          created_by,
+          updated_by,
+          user_id,
+          prisma
+        );
+        userDataWithRole.push({ userData: userDetails });
+
+        if (userDetails) {
+          const userRoleData = await userRoleDao.edit(
+            role_id,
+            userDetails?.user_id,
+            created_by,
+            updated_by,
+            prisma
+          );
+          userDataWithRole.push({ userRoleData: userRoleData });
+        }
+        return userDataWithRole;
+      })
+      .then((data) => {
+        console.log('Successfully User Data Returned ', data);
+        const newUserData = {
+          success: true,
+          data: data,
+        };
+        return newUserData;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return result;
+  } catch (error) {
+    console.log('Error occurred in user service Edit: ', error);
     throw error;
   }
 };
@@ -201,9 +281,9 @@ const userLogin = async (
  * Method to Get All Users
  * @returns
  */
-const getAllUser = async () => {
+const getAllUser = async (user_status = 'AC') => {
   try {
-    const result = await userDao.getAllUserData();
+    const result = await userDao.getAll(user_status);
     const userData = { success: true, data: result };
     return userData;
   } catch (error) {
@@ -230,4 +310,39 @@ const userLogOut = (req, res) => {
   }
 };
 
-export { createUser, getById, getByEmailId, userLogin, getAllUser, userLogOut };
+/**
+ * Method to delete user
+ * @param userId
+ */
+const deleteUser = async (userId) => {
+  try {
+    const userExist = await userDao.getById(userId);
+
+    if (!userExist) {
+      const result = { success: false, message: 'User Id Not Exist' };
+      return result;
+    }
+    const data = await userDao.deleteUser(userId);
+    if (data?.is_delete === true) {
+      const result = { success: true, message: 'Data Deleted Successfully' };
+      return result;
+    } else {
+      const result = { success: false, message: 'Failed to delete this user' };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in deleteUser user service : ', error);
+    throw error;
+  }
+};
+
+export {
+  createUser,
+  updateUser,
+  getById,
+  getByEmailId,
+  userLogin,
+  getAllUser,
+  userLogOut,
+  deleteUser,
+};
