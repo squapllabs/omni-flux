@@ -43,6 +43,7 @@ const updatePassword = async (body: {
     let result = null;
     const { email_id, user_password } = body;
     const userCheckExist = await userDao.getByEmailId(email_id);
+
     if (userCheckExist) {
       const decryptedPassword = AES.decrypt(
         user_password,
