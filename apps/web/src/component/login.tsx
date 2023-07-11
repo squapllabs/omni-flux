@@ -11,7 +11,6 @@ import { getLoginYupSchema } from '../helper/constants/user-constants';
 import { loginAuth } from '../hooks/auth-hooks';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
-import { encryptPassword } from '../helper/password-handler';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/reducer';
 import Customs from './ui/custom';
@@ -54,7 +53,7 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
   ) => {
     e.preventDefault();
   };
-  const togglenewPassword = () => {
+  const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
   const handleSubmit = async (event: React.FormEvent) => {
@@ -64,10 +63,9 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
       .validate(values, { abortEarly: false })
       .then(async () => {
         setErrors({});
-        const encryptPass = await encryptPassword(values?.password);
         const data: any = {
           email_id: values?.email,
-          user_password: encryptPass,
+          user_password: values?.password,
           is_remember_me: rememberMe,
         };
 
@@ -145,10 +143,10 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                           onMouseDown={(e) => handleMouseDownnewPassword(e)}
                         >
                           {passwordShown ? (
-                            <VisibilityOff onClick={togglenewPassword} />
+                            <VisibilityIcon onClick={togglePassword} />
                           ) : (
-                            <VisibilityIcon
-                              onClick={togglenewPassword}
+                            <VisibilityOff
+                              onClick={togglePassword}
                               style={{ color: '#BEBFC5' }}
                             />
                           )}
@@ -160,8 +158,8 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                   error={errors.password}
                   helperText={errors.password}
                 />
-                <div>
-                  <span className={Styles.errormessage}>{message}</span>
+                <div className={Styles.errormessage}>
+                  <span>{message}</span>
                 </div>
                 <div className={Styles.buttonField}>
                   <div className={Styles.forgetPassword}>

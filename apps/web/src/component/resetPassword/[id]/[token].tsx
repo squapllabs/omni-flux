@@ -10,6 +10,9 @@ import { encryptPassword } from 'apps/web/src/helper/password-handler';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../../ui/MySnackbar';
+import { IconButton, InputAdornment } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const ResetPassword = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -26,6 +29,8 @@ const ResetPassword = () => {
   const [message, setMessage] = React.useState('');
   const [waring, setwaring] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [newPasswordShown, setNewPasswordShown] = React.useState(false);
+  const [confirmPasswordShown, setConfirmPasswordShown] = React.useState(false);
   const handleClick = () => {
     setOpen(true);
   };
@@ -38,6 +43,22 @@ const ResetPassword = () => {
     }
 
     setOpen(false);
+  };
+  const handleMouseDownnewPassword = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault();
+  };
+  const handleMouseDownconfirmPassword = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault();
+  };
+  const togglePassword = () => {
+    setNewPasswordShown(!newPasswordShown);
+  };
+  const toggleconfirmPassword = () => {
+    setConfirmPasswordShown(!confirmPasswordShown);
   };
   const handleChange = (event: any) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -99,16 +120,34 @@ const ResetPassword = () => {
                 name="new_password"
                 label="New Password"
                 size="small"
-                type="password"
+                type={newPasswordShown ? 'text' : 'password'}
                 value={values?.new_password}
                 fullWidth
                 onChange={handleChange}
                 error={errors.new_password}
                 helperText={errors.new_password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onMouseDown={(e) => handleMouseDownnewPassword(e)}
+                      >
+                        {newPasswordShown ? (
+                          <VisibilityIcon onClick={togglePassword} />
+                        ) : (
+                          <VisibilityOff
+                            onClick={togglePassword}
+                            style={{ color: '#BEBFC5' }}
+                          />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
                 name="confirm_password"
-                type="password"
+                type={confirmPasswordShown ? 'text' : 'password'}
                 label="Confirm Password"
                 size="small"
                 value={values?.confirm_password}
@@ -116,6 +155,24 @@ const ResetPassword = () => {
                 onChange={handleChange}
                 error={errors.confirm_password}
                 helperText={errors.confirm_password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onMouseDown={(e) => handleMouseDownconfirmPassword(e)}
+                      >
+                        {confirmPasswordShown ? (
+                          <VisibilityIcon onClick={toggleconfirmPassword} />
+                        ) : (
+                          <VisibilityOff
+                            onClick={toggleconfirmPassword}
+                            style={{ color: '#BEBFC5' }}
+                          />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </div>
             <div>
