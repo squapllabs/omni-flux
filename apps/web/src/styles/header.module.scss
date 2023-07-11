@@ -1,0 +1,65 @@
+.container {
+  height: 8vh;
+  background-color: #0079ff;
+  display: flex;
+  width: 100%;
+}
+.app_name {
+  width: 20%;
+  padding-left: 10px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  color: #fff;
+}
+.mainContent {
+  width: 70%;
+}
+.loginprofile {
+  width: 10%;
+  display: flex;
+  padding-right: 30px;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.title {
+  font-size: medium;
+  font-weight: bolder;
+}
+.navLinks {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  justify-content: flex-start;
+  gap: 5%;
+  color: #fff;
+}
+
+.navLinks li a {
+  text-decoration: underline;
+  font-weight: 500;
+}
+.logOutIcon {
+  color: #fff;
+}
+
+.navLinks li:hover a {
+  color: #000000;
+}
+
+.subMenu {
+  position: absolute;
+  top: 100%; // Position the submenu below the main menu
+  left: 0;
+  MenuItem {
+    padding: 8px 16px;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      // Submenu item hover styles
+      background-color: #b21313;
+      color: #b21313;
+    }
+  }
+}
