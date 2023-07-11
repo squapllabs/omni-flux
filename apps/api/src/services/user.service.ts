@@ -156,15 +156,7 @@ const userLogin = async (
     let result = null;
     const { email_id, user_password, is_remember_me } = body;
     const existingUser = await userDao.getByEmailId(email_id);
-    const decryptedPassword = AES.decrypt(
-      user_password,
-      process.env.AUTH_SECRET_KEY
-    ).toString(enc.Utf8);
-
-    if (
-      !existingUser ||
-      existingUser?.user_password !== md5(decryptedPassword)
-    ) {
+    if (!existingUser || existingUser?.user_password !== md5(user_password)) {
       result = {
         success: false,
         message: 'Email id and password Wrong',

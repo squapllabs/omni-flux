@@ -1,12 +1,15 @@
 export const userErrorMessages = {
-  ENTER_EMAIL: "Please enter your email",
-  ENTER_PASSWORD: "Please enter your password",
-  ENTER_VALID_EMAIL: "Please enter a valid email",
-  MIN_PASSWORD_LENGTH: "Password should be at least 6 characters",
-  INVALID_LOGIN: "Invalid username or password",
+  ENTER_EMAIL: 'Please enter your email',
+  ENTER_PASSWORD: 'Please enter your password',
+  ENTER_VALID_EMAIL: 'Please enter a valid email',
+  MIN_PASSWORD_LENGTH: 'Password should be at least 8 characters',
+  INVALID_LOGIN: 'Invalid username or password',
   EMAIL_NOT_FOUND: "This email doesn't exist. Please register to continue",
-  PASSWORD_MATCH: "Please enter the same passwords",
-  PASSWORD_MUST_CONTAIN: "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+  PASSWORD_MATCH: 'Please enter the same passwords',
+  PASSWORD_MUST_CONTAIN_ONEUPPERCASER: 'Must Contain  One Uppercase',
+  PASSWORD_MUST_CONTAIN_ONELOWERCASER: 'Must Contain  One Lowercase',
+  PASSWORD_MUST_CONTAIN_ONESPECIAL: 'Must Contain One Special Case Character',
+  PASSWORD_MUST_CONTAIN_ONENUMBER: 'Must Contain one Number',
 };
 
 export const getLoginYupSchema = (yup: any) => {
@@ -19,26 +22,51 @@ export const getLoginYupSchema = (yup: any) => {
       .email(userErrorMessages.ENTER_VALID_EMAIL),
     password: yup
       .string()
-      .typeError(userErrorMessages.ENTER_PASSWORD)
-      .required(userErrorMessages.ENTER_PASSWORD)
-      .min(6, userErrorMessages.MIN_PASSWORD_LENGTH)
+      .min(8, userErrorMessages.MIN_PASSWORD_LENGTH)
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN
+        /^(?=.*[a-z])/,
+        userErrorMessages.PASSWORD_MUST_CONTAIN_ONELOWERCASER
       )
+      .matches(
+        /^(?=.*[A-Z])/,
+        userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
+      )
+      .matches(
+        /^(?=.*[!@#\$%\^&\*])/,
+        userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
+      )
+      .matches(
+        /^(?=.*[0-9])/,
+        userErrorMessages.PASSWORD_MUST_CONTAIN_ONENUMBER
+      )
+      .typeError(userErrorMessages.ENTER_PASSWORD)
+      .required(userErrorMessages.ENTER_PASSWORD),
   });
 };
-
 
 export const getForgetPasswordYupSchema = (yup: any) => {
   return yup.object().shape({
     new_password: yup
       .string()
-      .min(6, userErrorMessages.MIN_PASSWORD_LENGTH)
+      .min(8, userErrorMessages.MIN_PASSWORD_LENGTH)
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN
-      ),
+        /^(?=.*[a-z])/,
+        userErrorMessages.PASSWORD_MUST_CONTAIN_ONELOWERCASER
+      )
+      .matches(
+        /^(?=.*[A-Z])/,
+        userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
+      )
+      .matches(
+        /^(?=.*[!@#\$%\^&\*])/,
+        userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
+      )
+      .matches(
+        /^(?=.*[0-9])/,
+        userErrorMessages.PASSWORD_MUST_CONTAIN_ONENUMBER
+      )
+      .typeError(userErrorMessages.ENTER_PASSWORD)
+      .required(userErrorMessages.ENTER_PASSWORD),
     confirm_password: yup
       .string()
       .oneOf([yup.ref('new_password'), null], userErrorMessages.PASSWORD_MATCH),
