@@ -5,6 +5,8 @@ import {
   getAllUser,
   getByEmailId,
   getByUserId,
+  searchUser,
+  updateStatus,
   updateUser,
   userLogOut,
   userLogin,
@@ -14,6 +16,7 @@ import {
   userLoginValidator,
   userCreateValidator,
   userUpdateValidator,
+  userUpdateStatusValidator,
 } from '../../validations/users';
 import { runValidation } from '../../validations/index';
 const router = express.Router();
@@ -39,5 +42,15 @@ router.get('/getAll/:user_status?', authMiddleware, getAllUser);
 router.get('/logout', userLogOut);
 
 router.delete('/delete/:user_id', deleteUser);
+
+router.put(
+  '/updateStatus',
+  authMiddleware,
+  userUpdateStatusValidator,
+  runValidation,
+  updateStatus
+);
+
+router.post('/searchUser', authMiddleware, searchUser);
 
 export default router;
