@@ -1,0 +1,32 @@
+.title{
+    padding-left: 15px;
+}
+.mainContent{
+    display: flex;
+    flex-direction: 'row';
+    width: 100%;
+}
+.leftContent{
+    display: 'flex';
+    flex-direction: 'column';
+    padding: 30px;
+    width:20%
+}
+.rightContent{
+    display: 'flex';
+    flex-direction: 'column';
+    padding: 30px;
+    width:20%
+}
+.leftData{
+    font-weight: bold;
+    padding: 3%;
+}
+.rightData{
+    font-weight: normal;
+    padding: 3%;
+    width: 120%;
+}
+.buttonContainer{
+    margin-left: 3%;
+}

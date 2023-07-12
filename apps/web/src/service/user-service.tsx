@@ -7,7 +7,7 @@ const getAllUsers = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/user/getAll`
     );
-    return response;
+    return response.data;
   } catch (error) {
     console.log('Error in getting all users:', error);
     throw error;

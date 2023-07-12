@@ -11,7 +11,9 @@ const getByloginID = (id: string) => {
   return useQuery(['getByLoginID', id], () => userService.getOneUser(id));
 };
 const getByuserID = (id: number) => {
-  return useQuery(['getByuserID', id], () => userService.getOneUserbyID(id));
+  return useQuery(['getByuserID', id], () => userService.getOneUserbyID(id),{
+    select: (data) => data.data,
+  });
 };
 
 export { useGetAllUsers, getByloginID, getByuserID };
