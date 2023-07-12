@@ -8,31 +8,36 @@ import { getUsercreationYupschema } from '../../helper/constants/user-constants'
 import { Grid } from '@mui/material';
 import { getByuserID, updateUser } from '../../hooks/user-hooks';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+import MySnackbar from '../ui/MySnackbar';
 const validationSchema = getUsercreationYupschema(Yup);
 const UserEdit = () => {
+  const navigate = useNavigate();
   const routeParams = useParams();
   const { data: getOneuserData, isLoading } = getByuserID(
     Number(routeParams?.id)
   );
   const { mutate: updateUserData } = updateUser();
-  console.log('getOneuserData', getOneuserData?.data);
+  const [OpenSnackbar, setOpenSnakBar] = useState(false);
+  const [message, setMessage] = useState('');
+  const handleSnackBarClose = () => {
+    setOpenSnakBar(false);
+  };
   const [initialValues, setInitialValues] = useState({
     first_name: '',
     last_name: '',
-    user_password: '',
     email_id: '',
     contact_no: '',
     user_status: '',
   });
   useEffect(() => {
-    if (getOneuserData?.data) {
+    if (getOneuserData) {
       setInitialValues({
-        first_name: getOneuserData.data.first_name || '',
-        last_name: getOneuserData.data.last_name || '',
-        user_password: getOneuserData.data.user_password || '',
-        email_id: getOneuserData.data.email_id || '',
-        contact_no: getOneuserData.data.contact_no || '',
-        user_status: getOneuserData.data.user_status || '',
+        first_name: getOneuserData?.first_name || '',
+        last_name: getOneuserData?.last_name || '',
+        email_id: getOneuserData?.email_id || '',
+        contact_no: getOneuserData?.contact_no || '',
+        user_status: getOneuserData?.user_status || '',
       });
     }
   }, [getOneuserData]);
@@ -42,16 +47,16 @@ const UserEdit = () => {
   ];
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    // validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values);
       const Object: any = {
         first_name: values.first_name,
         last_name: values.last_name,
-        user_password: values.user_password,
         email_id: values.email_id,
-        user_status: 'AC',
+        user_password: getOneuserData?.user_password,
+        user_status: values.user_status,
         contact_no: values.contact_no,
         role_id: 1,
         user_id: Number(routeParams?.id),
@@ -59,6 +64,13 @@ const UserEdit = () => {
       updateUserData(Object, {
         onSuccess: (data, variables, context) => {
           console.log('data', data);
+          if (data?.success === true) {
+            setOpenSnakBar(true);
+            setMessage('User Data Has updated Successfully');
+            setInterval(() => {
+              navigate('/userList');
+            }, 3000);
+          }
         },
       });
     },
@@ -136,10 +148,11 @@ const UserEdit = () => {
                 </Grid>
                 <Grid item xs={2} sm={4} md={4}>
                   <Customs.CustomTextField
-                    name="email"
+                    name="email_id"
                     label="Email"
                     variant="outlined"
                     size="small"
+                    disabled
                     value={formik.values.email_id}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -181,6 +194,13 @@ const UserEdit = () => {
             </div>
           </div>
         </form>
+        <MySnackbar
+          open={OpenSnackbar}
+          message={message}
+          onClose={handleSnackBarClose}
+          severity={'success'}
+          autoHideDuration={1000}
+        />
       </div>
     </>
   );

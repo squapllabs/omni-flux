@@ -28,7 +28,7 @@ const getOneUser = async (values: any) => {
 
 const getOneUserbyID = async (values: any) => {
   try {
-    const response = await axios.get(
+    const response = await axiosinterceptor.get(
       `${environment.apiUrl}/user/getById/${values}`
     );
     return response.data;

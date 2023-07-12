@@ -6,8 +6,16 @@ import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
 import { Grid } from '@mui/material';
 import { createUser } from '../../hooks/user-hooks';
+import { useNavigate } from 'react-router';
+import MySnackbar from '../ui/MySnackbar';
 const validationSchema = getUsercreationYupschema(Yup);
 const UserCreate = () => {
+  const navigate = useNavigate();
+  const [OpenSnackbar, setOpenSnakBar] = useState(false);
+  const [message, setMessage] = useState('');
+  const handleSnackBarClose = () => {
+    setOpenSnakBar(false);
+  };
   const [initialValues, setInitialValues] = useState({
     first_name: '',
     last_name: '',
@@ -30,7 +38,7 @@ const UserCreate = () => {
       const Object: any = {
         first_name: values.first_name,
         last_name: values.last_name,
-        user_password: values.first_name,
+        user_password: values.user_password,
         email_id: values.email_id,
         user_status: 'AC',
         contact_no: values.contact_no,
@@ -39,6 +47,14 @@ const UserCreate = () => {
       createNewusers(Object, {
         onSuccess: (data, variables, context) => {
           console.log('data', data);
+          if (data?.success) {
+            setMessage('User created successfully');
+            setOpenSnakBar(true);
+            setInterval(() => {
+              navigate('/userList');
+            }, 3000);
+          } else {
+          }
         },
       });
     },
@@ -178,6 +194,13 @@ const UserCreate = () => {
             </div>
           </div>
         </form>
+        <MySnackbar
+          open={OpenSnackbar}
+          message={message}
+          onClose={handleSnackBarClose}
+          severity={'success'}
+          autoHideDuration={1000}
+        />
       </div>
     </>
   );

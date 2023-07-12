@@ -3,11 +3,12 @@ import Layout from '../../layout/layout';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import { useGetAllUsers,useDeleteUsers } from '../../hooks/user-hooks';
+import { useGetAllUsers, useDeleteUsers } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import CustomDialog from '../ui/customDialog';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MySnackbar from '../ui/MySnackbar';
@@ -16,13 +17,13 @@ const UserList = () => {
   const { data: getAllUsers } = useGetAllUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
   const [open, setOpen] = useState(false);
-  const [openDeleteSnack,setOpenDeleteSnack] = useState(false)
+  const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const deleteUserHandler = (id : any) => {
-    setValue(id)
+  const deleteUserHandler = (id: any) => {
+    setValue(id);
     setOpen(true);
   };
   const handleClose = () => {
@@ -33,10 +34,10 @@ const UserList = () => {
   };
 
   const deleteUser = () => {
-    getDeleteUserByID(value)
+    getDeleteUserByID(value);
     handleClose();
-    setMessage('Successfully deleted')
-    setOpenDeleteSnack(true)
+    setMessage('Successfully deleted');
+    setOpenDeleteSnack(true);
   };
 
   const columns = [
@@ -47,7 +48,7 @@ const UserList = () => {
         display: false,
         filter: false,
         sort: false,
-      }
+      },
     },
     {
       name: 'first_name',
@@ -56,7 +57,7 @@ const UserList = () => {
         display: true,
         filter: false,
         sort: false,
-      }
+      },
     },
     {
       name: 'last_name',
@@ -65,7 +66,7 @@ const UserList = () => {
         display: true,
         filter: false,
         sort: false,
-      }
+      },
     },
     {
       name: 'email_id',
@@ -74,7 +75,7 @@ const UserList = () => {
         display: true,
         filter: false,
         sort: false,
-      }
+      },
     },
     {
       name: 'contact_no',
@@ -83,7 +84,7 @@ const UserList = () => {
         display: true,
         filter: false,
         sort: false,
-      }
+      },
     },
     {
       name: '',
@@ -113,6 +114,15 @@ const UserList = () => {
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
+              <Tooltip title="Edit">
+                <IconButton
+                  aria-label="Edit"
+                  size="small"
+                  onClick={() => navigate(`/user-edit/${tableMeta.rowData[0]}`)}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
             </div>
           );
         },
@@ -135,14 +145,13 @@ const UserList = () => {
     },
   };
   return (
-    <div className = {Styles.container}>
-      <Layout />
+    <div className={Styles.container}>
       <div className={Styles.buttonContainer}>
         <Button
           variant="contained"
           color="primary"
           startIcon={<AddCircleOutlinedIcon />}
-          onClick={() => navigate('/home')}
+          onClick={() => navigate('/user-create')}
         >
           Add
         </Button>

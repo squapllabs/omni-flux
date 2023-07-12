@@ -13,7 +13,6 @@ const UserInformation = () => {
   const { data: getOneUser } = getByuserID(userId);
   return (
     <div>
-      <Layout />
       <div className={Styles.mainContainer}>
         <div className={Styles.title}>
           <h2>User Information</h2>
@@ -28,9 +27,11 @@ const UserInformation = () => {
             </div>
             <div className={Styles.rightContent}>
               <div className={Styles.rightData}>
-                : {getOneUser?.first_name
+                :{' '}
+                {getOneUser?.first_name
                   ? `${getOneUser.first_name} ${
-                      getOneUser.last_name ? getOneUser.last_name : ''}`
+                      getOneUser.last_name ? getOneUser.last_name : ''
+                    }`
                   : 'Not Provided'}
               </div>
               <div className={Styles.rightData}>
