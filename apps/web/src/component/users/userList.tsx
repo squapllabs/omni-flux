@@ -127,7 +127,7 @@ const UserList = () => {
     print: false,
     download: false,
     viewColumns: false,
-    selectableRows: 'none',
+    selectableRows: 'none' as const,
     setTableProps: () => {
       return {
         size: 'small',
