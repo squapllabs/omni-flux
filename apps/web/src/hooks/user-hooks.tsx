@@ -1,4 +1,4 @@
-import { useQuery,useMutation,useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import userService from '../service/user-service';
 
 const useGetAllUsers = () => {
@@ -11,23 +11,39 @@ const getByloginID = (id: string) => {
   return useQuery(['getByLoginID', id], () => userService.getOneUser(id));
 };
 const getByuserID = (id: number) => {
-  return useQuery(['getByuserID', id], () => userService.getOneUserbyID(id),{
+  return useQuery(['getByuserID', id], () => userService.getOneUserbyID(id), {
     select: (data) => data.data,
+  });
+};
+const createUser = () => {
+  return useMutation({
+    mutationFn: userService.createuser,
+  });
+};
+const updateUser = () => {
+  return useMutation({
+    mutationFn: userService.updateUser,
   });
 };
 
 const useDeleteUsers = () => {
   const queryClient = useQueryClient();
   return useMutation(
-      (data : any) => {
-          return userService.deleteUser(data) ;
+    (data: any) => {
+      return userService.deleteUser(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllUsers']);
       },
-      {
-          onSuccess: () => {
-              queryClient.invalidateQueries(["useGetAllUsers"]);
-          },
-      }
+    }
   );
 };
-
-export { useGetAllUsers, getByloginID, getByuserID,useDeleteUsers };
+export {
+  useGetAllUsers,
+  getByloginID,
+  getByuserID,
+  createUser,
+  updateUser,
+  useDeleteUsers,
+};

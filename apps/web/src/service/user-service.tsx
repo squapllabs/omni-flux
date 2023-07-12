@@ -36,9 +36,32 @@ const getOneUserbyID = async (values: any) => {
     console.log('Error in getOneUser :', error);
     throw error;
   }
-}; 
+};
 
-const deleteUser = async (id : number) => {
+const createuser = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/user/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in loginAuth :', error);
+    throw error;
+  }
+};
+const updateUser = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/user/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in loginAuth :', error);
+  }
+};
+const deleteUser = async (id: number) => {
   try {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/user/delete/${id}`
@@ -53,5 +76,7 @@ export default {
   getAllUsers,
   getOneUser,
   getOneUserbyID,
-  deleteUser
+  createuser,
+  updateUser,
+  deleteUser,
 };
