@@ -67,7 +67,13 @@ const getById = async (roleId: number, connectionObj = null) => {
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const role = await transaction.role.findMany({});
+    const role = await transaction.role.findMany({
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
+    });
     return role;
   } catch (error) {
     console.log('Error occurred in role getAll dao', error);

@@ -85,7 +85,13 @@ const getByUserId = async (userId: number) => {
 
 const getAll = async () => {
   try {
-    const userRole = await prisma.user_roles.findMany({});
+    const userRole = await prisma.user_roles.findMany({
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
+    });
     return userRole;
   } catch (error) {
     console.log('Error occurred in userRole getAll dao', error);
