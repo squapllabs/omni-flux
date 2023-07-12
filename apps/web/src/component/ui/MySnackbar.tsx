@@ -22,7 +22,7 @@ const MySnackbar: React.FC<MySnackbarProps> = ({
       open={open}
       autoHideDuration={autoHideDuration}
       onClose={onClose}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
       <MuiAlert onClose={onClose} severity={severity} sx={{ width: '100%' }}>
         {message}

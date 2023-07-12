@@ -110,6 +110,11 @@ const getByEmailId = async (emailId: string) => {
 const getAll = async (user_status) => {
   try {
     const users = await prisma.users.findMany({
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
       where: {
         user_status: user_status,
       },

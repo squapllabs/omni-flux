@@ -352,7 +352,7 @@ const searchUser = async (body) => {
       size = 10,
       page = 0,
     } = body;
-    /* executeUserQuery is function which contains filter logic */
+    /* executeUserQuery is the function which contains the filter logic */
     const users = await executeUserQuery(
       name,
       status,

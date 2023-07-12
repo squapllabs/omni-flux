@@ -7,7 +7,7 @@ const getAllUsers = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/user/getAll`
     );
-    return response;
+    return response.data;
   } catch (error) {
     console.log('Error in getting all users:', error);
     throw error;
@@ -28,7 +28,7 @@ const getOneUser = async (values: any) => {
 
 const getOneUserbyID = async (values: any) => {
   try {
-    const response = await axios.get(
+    const response = await axiosinterceptor.get(
       `${environment.apiUrl}/user/getById/${values}`
     );
     return response.data;
@@ -38,8 +38,45 @@ const getOneUserbyID = async (values: any) => {
   }
 };
 
+const createuser = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/user/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in loginAuth :', error);
+    throw error;
+  }
+};
+const updateUser = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/user/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in loginAuth :', error);
+  }
+};
+const deleteUser = async (id: number) => {
+  try {
+    const response = await axiosinterceptor.delete(
+      `${environment.apiUrl}/user/delete/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in delete user list :', error);
+    throw error;
+  }
+};
 export default {
   getAllUsers,
   getOneUser,
   getOneUserbyID,
+  createuser,
+  updateUser,
+  deleteUser,
 };

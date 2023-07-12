@@ -2,17 +2,23 @@ import React, { useState, useEffect } from 'react';
 import Customs from '../ui/custom';
 import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { getUsercreationYupschema } from '../../helper/constants/user-constants';
+import { getUsereditYupschema } from '../../helper/constants/user-constants';
 import { Grid } from '@mui/material';
-import { createUser } from '../../hooks/user-hooks';
+import { getByuserID, updateUser } from '../../hooks/user-hooks';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
-const validationSchema = getUsercreationYupschema(Yup);
-const UserCreate = () => {
+const validationSchema = getUsereditYupschema(Yup);
+const UserEdit = () => {
   const navigate = useNavigate();
+  const routeParams = useParams();
+  const { data: getOneuserData, isLoading } = getByuserID(
+    Number(routeParams?.id)
+  );
+  const { mutate: updateUserData } = updateUser();
   const [OpenSnackbar, setOpenSnakBar] = useState(false);
-  const [isWarning, setIsWarning] = useState(false);
   const [message, setMessage] = useState('');
   const handleSnackBarClose = () => {
     setOpenSnakBar(false);
@@ -20,49 +26,58 @@ const UserCreate = () => {
   const [initialValues, setInitialValues] = useState({
     first_name: '',
     last_name: '',
-    username: '',
-    user_password: '',
     email_id: '',
     contact_no: '',
     user_status: '',
   });
+  useEffect(() => {
+    if (getOneuserData) {
+      setInitialValues({
+        first_name: getOneuserData?.first_name || '',
+        last_name: getOneuserData?.last_name || '',
+        email_id: getOneuserData?.email_id || '',
+        contact_no: getOneuserData?.contact_no || '',
+        user_status: getOneuserData?.user_status || '',
+      });
+    }
+  }, [getOneuserData]);
   const options = [
     { value: 'AC', label: 'Active' },
-    { value: 'IC', label: 'In-Active' },
+    { value: 'IN', label: 'In-Active' },
   ];
-  const { mutate: createNewusers, isLoading } = createUser();
   const formik = useFormik({
     initialValues,
     validationSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values);
       const Object: any = {
         first_name: values.first_name,
         last_name: values.last_name,
-        user_password: values.user_password,
         email_id: values.email_id,
-        user_status: 'AC',
+        user_password: getOneuserData?.user_password,
+        user_status: values.user_status,
         contact_no: values.contact_no,
         role_id: 1,
+        user_id: Number(routeParams?.id),
       };
-      createNewusers(Object, {
+      updateUserData(Object, {
         onSuccess: (data, variables, context) => {
           console.log('data', data);
-          if (data?.success) {
-            setMessage('User created successfully');
+          if (data?.success === true) {
             setOpenSnakBar(true);
+            setMessage('User Data Has updated Successfully');
             setInterval(() => {
               navigate('/userList');
             }, 3000);
-          } else {
-            setIsWarning(true);
-            setMessage(data?.message);
-            setOpenSnakBar(true);
           }
         },
       });
     },
   });
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <div className={Styles.container}>
@@ -75,7 +90,7 @@ const UserCreate = () => {
                 columns={{ xs: 4, sm: 8, md: 12 }}
               >
                 <Grid item xs={2} sm={4} md={12}>
-                  <h2>USER CREATION</h2>
+                  <h2>USER EDIT</h2>
                 </Grid>
                 <Grid item xs={2} sm={4} md={4}>
                   <Customs.CustomTextField
@@ -137,6 +152,7 @@ const UserCreate = () => {
                     label="Email"
                     variant="outlined"
                     size="small"
+                    disabled
                     value={formik.values.email_id}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -149,29 +165,9 @@ const UserCreate = () => {
                   />
                 </Grid>
                 <Grid item xs={2} sm={4} md={4}>
-                  <Customs.CustomTextField
-                    name="user_password"
-                    label="Password"
-                    variant="outlined"
-                    type="password"
-                    size="small"
-                    value={formik.values.user_password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.user_password &&
-                      Boolean(formik.errors.user_password)
-                    }
-                    helperText={
-                      formik.touched.user_password &&
-                      formik.errors.user_password
-                    }
-                  />
-                </Grid>
-                <Grid item xs={2} sm={4} md={12}>
                   {/* <h3>Status</h3> */}
                   <Customs.CustomSelect
-                    // label="Status"
+                    label="Status"
                     name="user_status"
                     size="small"
                     sx={{ width: '300px' }}
@@ -202,7 +198,7 @@ const UserCreate = () => {
           open={OpenSnackbar}
           message={message}
           onClose={handleSnackBarClose}
-          severity={isWarning ? 'warning' : 'success'}
+          severity={'success'}
           autoHideDuration={1000}
         />
       </div>
@@ -210,4 +206,4 @@ const UserCreate = () => {
   );
 };
 
-export default UserCreate;
+export default UserEdit;
