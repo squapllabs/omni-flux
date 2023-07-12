@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery,useMutation,useQueryClient } from 'react-query';
 import userService from '../service/user-service';
 
 const useGetAllUsers = () => {
@@ -16,4 +16,18 @@ const getByuserID = (id: number) => {
   });
 };
 
-export { useGetAllUsers, getByloginID, getByuserID };
+const useDeleteUsers = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+      (data : any) => {
+          return userService.deleteUser(data) ;
+      },
+      {
+          onSuccess: () => {
+              queryClient.invalidateQueries(["useGetAllUsers"]);
+          },
+      }
+  );
+};
+
+export { useGetAllUsers, getByloginID, getByuserID,useDeleteUsers };

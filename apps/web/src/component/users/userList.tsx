@@ -3,29 +3,40 @@ import Layout from '../../layout/layout';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import { useGetAllUsers } from '../../hooks/user-hooks';
+import { useGetAllUsers,useDeleteUsers } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CustomDialog from '../ui/customDialog';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import MySnackbar from '../ui/MySnackbar';
 
 const UserList = () => {
   const { data: getAllUsers } = useGetAllUsers();
+  const { mutate: getDeleteUserByID } = useDeleteUsers();
   const [open, setOpen] = useState(false);
+  const [openDeleteSnack,setOpenDeleteSnack] = useState(false)
+  const [value, setValue] = useState();
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const deleteUserHandler = (id: number) => {
+  const deleteUserHandler = (id : any) => {
+    setValue(id)
     setOpen(true);
-    console.log('delete id', id);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const handleSnackBarClose = () => {
+    setOpenDeleteSnack(false);
+  };
 
   const deleteUser = () => {
-    console.log('sample');
+    getDeleteUserByID(value)
+    handleClose();
+    setMessage('Successfully deleted')
+    setOpenDeleteSnack(true)
   };
 
   const columns = [
@@ -150,6 +161,13 @@ const UserList = () => {
         title="Delete User"
         content="Are you want to delete this User?"
         handleConfirm={deleteUser}
+      />
+      <MySnackbar
+        open={openDeleteSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        severity={'success'}
+        autoHideDuration={1000}
       />
     </div>
   );

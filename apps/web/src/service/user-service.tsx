@@ -36,10 +36,22 @@ const getOneUserbyID = async (values: any) => {
     console.log('Error in getOneUser :', error);
     throw error;
   }
-};
+}; 
 
+const deleteUser = async (id : number) => {
+  try {
+    const response = await axiosinterceptor.delete(
+      `${environment.apiUrl}/user/delete/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in delete user list :', error);
+    throw error;
+  }
+};
 export default {
   getAllUsers,
   getOneUser,
   getOneUserbyID,
+  deleteUser
 };
