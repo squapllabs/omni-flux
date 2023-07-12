@@ -1,4 +1,3 @@
-import Layout from '../../layout/layout';
 import { getByuserID } from '../../hooks/user-hooks';
 import Styles from '../../styles/userInfo.module.scss';
 import { useParams } from 'react-router-dom';

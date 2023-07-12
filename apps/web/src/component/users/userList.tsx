@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from '../../layout/layout';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
