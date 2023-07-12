@@ -5,12 +5,7 @@ const Home = () => {
   const { data: getAllUsers } = useGetAllUsers();
   console.log('getAllUsers', getAllUsers);
 
-  return (
-    <div>
-      <Layout />
-      home
-    </div>
-  );
+  return <div>home</div>;
 };
 
 export default Home;

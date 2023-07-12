@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import userService from '../service/user-service';
 
 const useGetAllUsers = () => {
@@ -13,5 +13,15 @@ const getByloginID = (id: string) => {
 const getByuserID = (id: number) => {
   return useQuery(['getByuserID', id], () => userService.getOneUserbyID(id));
 };
+const createUser = () => {
+  return useMutation({
+    mutationFn: userService.createuser,
+  });
+};
+const updateUser = () => {
+  return useMutation({
+    mutationFn: userService.updateUser,
+  });
+};
 
-export { useGetAllUsers, getByloginID, getByuserID };
+export { useGetAllUsers, getByloginID, getByuserID, createUser, updateUser };

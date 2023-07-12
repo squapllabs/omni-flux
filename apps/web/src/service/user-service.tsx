@@ -38,8 +38,34 @@ const getOneUserbyID = async (values: any) => {
   }
 };
 
+const createuser = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/user/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in loginAuth :', error);
+    throw error;
+  }
+};
+const updateUser = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/user/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in loginAuth :', error);
+    throw error;
+  }
+};
 export default {
   getAllUsers,
   getOneUser,
   getOneUserbyID,
+  createuser,
+  updateUser,
 };

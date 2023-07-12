@@ -2,47 +2,70 @@ import React, { useState, useEffect } from 'react';
 import Customs from '../ui/custom';
 import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
 import { Grid } from '@mui/material';
-import { createUser } from '../../hooks/user-hooks';
+import { getByuserID, updateUser } from '../../hooks/user-hooks';
+import { useParams } from 'react-router-dom';
 const validationSchema = getUsercreationYupschema(Yup);
-const UserCreate = () => {
+const UserEdit = () => {
+  const routeParams = useParams();
+  const { data: getOneuserData, isLoading } = getByuserID(
+    Number(routeParams?.id)
+  );
+  const { mutate: updateUserData } = updateUser();
+  console.log('getOneuserData', getOneuserData?.data);
   const [initialValues, setInitialValues] = useState({
     first_name: '',
     last_name: '',
-    username: '',
     user_password: '',
     email_id: '',
     contact_no: '',
     user_status: '',
   });
+  useEffect(() => {
+    if (getOneuserData?.data) {
+      setInitialValues({
+        first_name: getOneuserData.data.first_name || '',
+        last_name: getOneuserData.data.last_name || '',
+        user_password: getOneuserData.data.user_password || '',
+        email_id: getOneuserData.data.email_id || '',
+        contact_no: getOneuserData.data.contact_no || '',
+        user_status: getOneuserData.data.user_status || '',
+      });
+    }
+  }, [getOneuserData]);
   const options = [
     { value: 'AC', label: 'Active' },
     { value: 'IC', label: 'In-Active' },
   ];
-  const { mutate: createNewusers, isLoading } = createUser();
   const formik = useFormik({
     initialValues,
     validationSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values);
       const Object: any = {
         first_name: values.first_name,
         last_name: values.last_name,
-        user_password: values.first_name,
+        user_password: values.user_password,
         email_id: values.email_id,
         user_status: 'AC',
         contact_no: values.contact_no,
         role_id: 1,
+        user_id: Number(routeParams?.id),
       };
-      createNewusers(Object, {
+      updateUserData(Object, {
         onSuccess: (data, variables, context) => {
           console.log('data', data);
         },
       });
     },
   });
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <div className={Styles.container}>
@@ -55,7 +78,7 @@ const UserCreate = () => {
                 columns={{ xs: 4, sm: 8, md: 12 }}
               >
                 <Grid item xs={2} sm={4} md={12}>
-                  <h2>USER CREATION</h2>
+                  <h2>USER EDIT</h2>
                 </Grid>
                 <Grid item xs={2} sm={4} md={4}>
                   <Customs.CustomTextField
@@ -113,7 +136,7 @@ const UserCreate = () => {
                 </Grid>
                 <Grid item xs={2} sm={4} md={4}>
                   <Customs.CustomTextField
-                    name="email_id"
+                    name="email"
                     label="Email"
                     variant="outlined"
                     size="small"
@@ -129,29 +152,9 @@ const UserCreate = () => {
                   />
                 </Grid>
                 <Grid item xs={2} sm={4} md={4}>
-                  <Customs.CustomTextField
-                    name="user_password"
-                    label="Password"
-                    variant="outlined"
-                    type="password"
-                    size="small"
-                    value={formik.values.user_password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.user_password &&
-                      Boolean(formik.errors.user_password)
-                    }
-                    helperText={
-                      formik.touched.user_password &&
-                      formik.errors.user_password
-                    }
-                  />
-                </Grid>
-                <Grid item xs={2} sm={4} md={12}>
                   {/* <h3>Status</h3> */}
                   <Customs.CustomSelect
-                    // label="Status"
+                    label="Status"
                     name="user_status"
                     size="small"
                     sx={{ width: '300px' }}
@@ -183,4 +186,4 @@ const UserCreate = () => {
   );
 };
 
-export default UserCreate;
+export default UserEdit;
