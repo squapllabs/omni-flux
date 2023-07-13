@@ -39,12 +39,12 @@ const UserEdit = () => {
   useEffect(() => {
     if (getOneuserData) {
       setInitialValues({
-        first_name: getOneuserData?.first_name || '',
-        last_name: getOneuserData?.last_name || '',
-        email_id: getOneuserData?.email_id || '',
-        contact_no: getOneuserData?.contact_no || '',
-        user_status: getOneuserData?.user_status || '',
-        role_id: '',
+        first_name: getOneuserData?.userData?.first_name || '',
+        last_name: getOneuserData?.userData?.last_name || '',
+        email_id: getOneuserData?.userData?.email_id || '',
+        contact_no: getOneuserData?.userData?.contact_no || '',
+        user_status: getOneuserData?.userData?.user_status || '',
+        role_id: getOneuserData?.roleId || '',
       });
     }
   }, [getOneuserData]);
@@ -65,7 +65,7 @@ const UserEdit = () => {
         user_password: getOneuserData?.user_password,
         user_status: values.user_status,
         contact_no: values.contact_no,
-        role_id: 1,
+        role_id: values.role_id,
         user_id: Number(routeParams?.id),
       };
       updateUserData(Object, {

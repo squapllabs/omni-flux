@@ -72,9 +72,8 @@ const ResetPassword = () => {
       .validate(values, { abortEarly: false })
       .then(async () => {
         setErrors({});
-        // const encryptPass = await encryptPassword(values?.confirm_password);
         const data: any = {
-          email_id: getuserData?.email_id,
+          email_id: getuserData?.userData?.email_id,
           user_password: values?.confirm_password,
         };
         restPassword(data, {
