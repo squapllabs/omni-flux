@@ -4,27 +4,20 @@ const add = async (
   role_id: bigint,
   user_id: bigint,
   created_by: bigint,
-  updated_by: bigint,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const dbUserRole = await transaction.user_roles.create({
+    const userRole = await transaction.user_roles.create({
       data: {
         role_id,
         user_id,
         created_by,
-        updated_by,
         created_date: currentDate,
         updated_date: currentDate,
       },
     });
-
-    const userRole = {
-      ...dbUserRole,
-      user_role_id: Number(dbUserRole.user_role_id),
-    };
     return userRole;
   } catch (error) {
     console.log('Error occurred in userRoleDao add', error);
@@ -35,30 +28,24 @@ const add = async (
 const edit = async (
   role_id: bigint,
   user_id: bigint,
-  created_by: bigint,
   updated_by: bigint,
+  user_role_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const dbUserRole = await transaction.user_roles.update({
+    const userRole = await transaction.user_roles.update({
       where: {
-        uk_user_roles_user_id_role_id: { role_id: role_id, user_id: user_id },
+        user_role_id: user_role_id,
       },
       data: {
         role_id,
         user_id,
-        created_by,
         updated_by,
         updated_date: currentDate,
       },
     });
-
-    const userRole = {
-      ...dbUserRole,
-      user_role_id: Number(dbUserRole.user_role_id),
-    };
     return userRole;
   } catch (error) {
     console.log('Error occurred in userRoleDao edit', error);
@@ -66,4 +53,64 @@ const edit = async (
   }
 };
 
-export default { add, edit };
+const getById = async (userRoleId: number) => {
+  try {
+    const userRole = await prisma.user_roles.findUnique({
+      where: {
+        user_role_id: Number(userRoleId),
+      },
+    });
+    return userRole;
+  } catch (error) {
+    console.log('Error occurred in userRole getById dao', error);
+    throw error;
+  }
+};
+
+const getByUserId = async (userId: number) => {
+  try {
+    if (userId) {
+      const userRole = await prisma.user_roles.findFirst({
+        where: {
+          user_id: Number(userId),
+        },
+      });
+      return userRole;
+    }
+  } catch (error) {
+    console.log('Error occurred in userRole getByEmailId dao', error);
+    throw error;
+  }
+};
+
+const getAll = async () => {
+  try {
+    const userRole = await prisma.user_roles.findMany({
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
+    });
+    return userRole;
+  } catch (error) {
+    console.log('Error occurred in userRole getAll dao', error);
+    throw error;
+  }
+};
+
+const deleteUserRole = async (userRoleId: number) => {
+  try {
+    const userRole = await prisma.user_roles.delete({
+      where: {
+        user_role_id: Number(userRoleId),
+      },
+    });
+    return userRole;
+  } catch (error) {
+    console.log('Error occurred in userRole deleteUserRole dao', error);
+    throw error;
+  }
+};
+
+export default { add, edit, getById, getByUserId, getAll, deleteUserRole };
