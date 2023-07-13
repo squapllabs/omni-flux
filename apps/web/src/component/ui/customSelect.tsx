@@ -19,8 +19,8 @@ const CustomSelect: React.FC<SelectFieldProps> = ({
 }) => {
   return (
     <FormControl>
-      <InputLabel id={`${props.name}-label`}>{label}</InputLabel>
-      <Select labelId={`${props.name}-label`} id={props.name} {...props}>
+      <InputLabel id="select-label">{label}</InputLabel>
+      <Select labelId="select-label" id={props.name} {...props}>
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}

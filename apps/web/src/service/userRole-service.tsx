@@ -3,7 +3,7 @@ import { environment } from '../environment/environment';
 const getAllRoles = async () => {
   try {
     const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/user/getAll`
+      `${environment.apiUrl}/role/getAll`
     );
     return response.data;
   } catch (error) {

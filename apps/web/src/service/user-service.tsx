@@ -16,7 +16,7 @@ const getAllUsers = async () => {
 
 const getOneUser = async (values: any) => {
   try {
-    const response = await axiosinterceptor.post(
+    const response = await axiosinterceptor.get(
       `${environment.apiUrl}/user/getByEmailId/${values}`
     );
     return response.data;
