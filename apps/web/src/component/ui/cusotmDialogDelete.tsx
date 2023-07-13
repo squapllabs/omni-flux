@@ -19,7 +19,7 @@ interface DialogProps {
   handleConfirm: () => void;
 }
 
-const CustomDialog: FC<DialogProps> = ({
+const CustomDialogBox: FC<DialogProps> = ({
   open,
   title,
   content,
@@ -40,14 +40,9 @@ const CustomDialog: FC<DialogProps> = ({
         </div>
       </DialogTitle>
       <DialogContent dividers>{content}</DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button color="primary" variant="contained" onClick={handleConfirm}>
-          Delete
-        </Button>
-      </DialogActions>
+      <DialogActions></DialogActions>
     </Dialog>
   );
 };
 
-export default CustomDialog;
+export default CustomDialogBox;

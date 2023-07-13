@@ -7,6 +7,12 @@ const useGetAllGst = () => {
   });
 };
 
+const useGetOneGst = (id : number) => {
+  return useQuery(['useGetOneGst'], () => gstService.getOneGst(id), {
+    select: (data) => data.data,
+  });
+};
+
 const useDeleteGst = () => {
     const queryClient = useQueryClient();
     return useMutation(
@@ -22,21 +28,37 @@ const useDeleteGst = () => {
   };
 
   const createGst = () => {
-    return useMutation({
-      mutationFn: gstService.createGst,
-    });
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: any) => {
+        return gstService.createGst(data);
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['useGetAllGst']);
+        },
+      }
+    );
   };
 
   const updateGst = () => {
-    return useMutation({
-      mutationFn: gstService.updateGst,
-    });
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: any) => {
+        return gstService.updateGst(data);
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['useGetAllGst']);
+        },
+      }
+    );
   };
-
 export {
     useGetAllGst,
     useDeleteGst,
     createGst,
-    updateGst
+    updateGst,
+    useGetOneGst
   };
   

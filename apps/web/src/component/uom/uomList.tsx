@@ -1,65 +1,67 @@
 import React, { useState } from 'react';
-import Styles from '../../styles/gstList.module.scss';
+import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import { useGetAllGst, useDeleteGst } from '../../hooks/gst-hooks';
+import { useNavigate } from 'react-router';
 import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
-import CustomDialog from '../ui/customDialog';
-import MySnackbar from '../ui/MySnackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import MySnackbar from '../ui/MySnackbar';
+import { useGetAlluom, useDeleteUom } from '../../hooks/uom-hooks';
+import UomForm from './uomForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
-import GstForm from './gstCreate';
+import CustomDialog from '../ui/customDialog';
 
-const GstList = () => {
-  const { data: getAllGstData, isLoading: loader } = useGetAllGst();
+const UomList = () => {
+  const { data: getAlluom } = useGetAlluom();
+  console.log('getAlluom', getAlluom);
 
-  const { mutate: getDeleteGstByID } = useDeleteGst();
+  const { mutate: getDeleteuomByID } = useDeleteUom();
   const [open, setOpen] = useState(false);
-  const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
-  const [value, setValue] = useState(0);
-  const [message, setMessage] = useState('');
-  const [mode, setMode] = useState('');
+  const [openDelete, setOpenDelete] = useState(false);
+  const [uomId, setUomID] = useState();
   const [reload, setReload] = useState(false);
-  const [openPopup, setOpenPopup] = useState(false);
-  const [gstId,setGstId] = useState();
+  const [mode, setMode] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [value, setValue] = useState();
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
-  const deleteGstHandler = (id: number) => {
+  const deleteUserHandler = (id: any) => {
     setValue(id);
-    setOpen(true);
+    setOpenDelete(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSnackBarClose = () => {
-    setOpenDeleteSnack(false);
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
   };
-
-  const deleteUser = () => {
-    getDeleteGstByID(value);
-    handleClose();
-    setMessage('Successfully deleted');
-    setOpenDeleteSnack(true);
-  };
-
   const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMode('ADD');
-    setOpenPopup(true);
+    setOpen(true);
   };
-  const handleClosePopup = () => {
-    setOpenPopup(false);
+  const handleEdit = (event: React.FormEvent, value: any) => {
+    console.log('id', value);
+    setMode('EDIT');
+    setUomID(value);
+    setOpen(true);
+  };
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+  const deleteUom = () => {
+    getDeleteuomByID(value);
+    handleCloseDelete();
+    setMessage('Successfully deleted');
+    setOpenSnack(true);
   };
 
-  const editGstHandler = (value: any) => {
-    setMode('EDIT');
-    setGstId(value);
-    setOpenPopup(true);
-  };
   const columns = [
     {
-      name: 'gst_id',
-      label: 'gst',
+      name: 'uom_id',
+      label: 'Uom',
       options: {
         display: false,
         filter: false,
@@ -67,21 +69,8 @@ const GstList = () => {
       },
     },
     {
-      name: 'S No',
-      label: 'S No',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return tableMeta.rowIndex + 1;
-        },
-      },
-    },
-
-    {
-      name: 'rate',
-      label: 'Rate',
+      name: 'name',
+      label: 'Name',
       options: {
         display: true,
         filter: false,
@@ -89,17 +78,8 @@ const GstList = () => {
       },
     },
     {
-      name: 'cgst_rate',
-      label: 'Cgst Rate',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'igst_rate',
-      label: 'Igst Rate',
+      name: 'description',
+      label: 'Description',
       options: {
         display: true,
         filter: false,
@@ -120,7 +100,7 @@ const GstList = () => {
                 <IconButton
                   aria-label="Edit"
                   size="small"
-                  onClick={() => editGstHandler(tableMeta.rowData[0])}
+                  onClick={(e) => handleEdit(e, tableMeta.rowData[0])}
                 >
                   <EditIcon />
                 </IconButton>
@@ -129,7 +109,7 @@ const GstList = () => {
                 <IconButton
                   aria-label="Delete"
                   size="small"
-                  onClick={() => deleteGstHandler(tableMeta.rowData[0])}
+                  onClick={() => deleteUserHandler(tableMeta.rowData[0])}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -149,18 +129,12 @@ const GstList = () => {
     download: false,
     viewColumns: false,
     selectableRows: 'none' as const,
-    textLabels: {
-      body: {
-        noMatch: loader ? 'Loading...' : 'Sorry , No Records found',
-      },
-    },
     setTableProps: () => {
       return {
         size: 'small',
       };
     },
   };
-
   return (
     <div className={Styles.container}>
       <div className={Styles.buttonContainer}>
@@ -175,39 +149,37 @@ const GstList = () => {
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable
-          title={`Gst List (${
-            getAllGstData?.length ? getAllGstData?.length : 0
-          })`}
-          data={getAllGstData}
+          title={'User List'}
           columns={columns}
           options={options}
+          data={getAlluom}
         />
       </div>
-      <CustomDialog
+      <CustomDialogBox
         open={open}
         handleClose={handleClose}
-        title="Delete Gst"
-        content="Are you want to delete this gst?"
-        handleConfirm={deleteUser}
-      />
-      <CustomDialogBox
-        open={openPopup}
-        handleClose={handleClosePopup}
-        title="Gst Creation"
+        title="Uom Form"
         content={
-          <GstForm
-            setOpenPopup={setOpenPopup}
-            open={openPopup}
+          <UomForm
+            setOpen={setOpen}
+            open={open}
             setReload={setReload}
             mode={mode}
-            gstId={gstId}
-            setOpenDeleteSnack={setOpenDeleteSnack}
+            uomId={uomId}
+            setOpenSnack={setOpenSnack}
             setMessage={setMessage}
           />
         }
       />
+      <CustomDialog
+        open={openDelete}
+        handleClose={handleCloseDelete}
+        title="Delete User"
+        content="Are you want to delete this User?"
+        handleConfirm={deleteUom}
+      />
       <MySnackbar
-        open={openDeleteSnack}
+        open={openSnack}
         message={message}
         onClose={handleSnackBarClose}
         severity={'success'}
@@ -217,4 +189,4 @@ const GstList = () => {
   );
 };
 
-export default GstList;
+export default UomList;

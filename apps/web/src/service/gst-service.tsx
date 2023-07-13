@@ -14,6 +14,18 @@ const getAllGst = async () => {
     }
   };
 
+  const getOneGst = async (id : number) => {
+    try {
+      const response = await axiosinterceptor.get(
+        `${environment.apiUrl}/gst/get/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in get by id gst data:', error);
+      throw error;
+    }
+  };
+
   const deleteGst = async (id: number) => {
     try {
       const response = await axiosinterceptor.delete(
@@ -55,6 +67,7 @@ const getAllGst = async () => {
     getAllGst,
     deleteGst,
     createGst,
-    updateGst
+    updateGst,
+    getOneGst
   };
   

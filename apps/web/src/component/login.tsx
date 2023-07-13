@@ -74,14 +74,13 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
           onSuccess: async (data, variables, context) => {
             if (data?.success === true) {
               dispatch(setToken({ key: 'Data', value: data }));
-              // navigate('/home');
-              // console.log('data', data);
+              navigate('/home');
               const userData = await userService.getOneUser(values?.email);
-              if (userData?.data?.is_initial_login) {
+              console.log('userData', userData);
+              if (userData?.data?.userData?.is_initial_login) {
                 const object: any = {
                   email_id: values?.email,
                 };
-                console.log('object', object);
                 passwordInstance(object, {
                   onSuccess: (data, variables, context) => {
                     if (data?.success === true) {
@@ -90,7 +89,7 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                   },
                 });
               } else {
-                navigate('/home');
+                // navigate('/home');
               }
             } else setMessage('Username & Password is Incorrect');
           },

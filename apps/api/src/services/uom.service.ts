@@ -26,9 +26,21 @@ const createUom = async (body: createUomBody) => {
 const updateUom = async (body: updateUomBody) => {
   try {
     const { name, description, updated_by, uom_id } = body;
-    const uomDetails = await uomDao.edit(name, description, updated_by, uom_id);
-    const result = { success: true, data: uomDetails };
-    return result;
+    let result = null;
+    const uomExist = await uomDao.getById(uom_id);
+    if (uomExist) {
+      const uomDetails = await uomDao.edit(
+        name,
+        description,
+        updated_by,
+        uom_id
+      );
+      result = { success: true, data: uomDetails };
+      return result;
+    } else {
+      result = { success: false, message: 'uom_id not exist' };
+      return result;
+    }
   } catch (error) {
     console.log('Error occurred in uom service Edit: ', error);
     throw error;
