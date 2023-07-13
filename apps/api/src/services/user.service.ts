@@ -158,7 +158,9 @@ const getById = async (userId: number) => {
     let result = null;
     const userData = await userDao.getById(userId);
     if (userData) {
-      result = { success: true, data: userData };
+      const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
+      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
+      result = { success: true, data: dataToApi };
       return result;
     } else {
       result = { success: false, message: 'user id not exist' };
@@ -181,7 +183,9 @@ const getByEmailId = async (emailId: string) => {
     const userData = await userDao.getByEmailId(emailId);
 
     if (userData) {
-      result = { success: true, data: userData };
+      const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
+      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
+      result = { success: true, data: dataToApi };
       return result;
     } else {
       result = { success: false, message: 'user email not exist' };
@@ -304,7 +308,10 @@ const deleteUser = async (userId) => {
     }
     const data = await userDao.deleteUser(userId);
     if (data?.is_delete === true) {
-      const result = { success: true, message: 'Data Deleted Successfully' };
+      const result = {
+        success: true,
+        message: 'User Data Deleted Successfully',
+      };
       return result;
     } else {
       const result = { success: false, message: 'Failed to delete this user' };

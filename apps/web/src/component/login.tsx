@@ -8,7 +8,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import GoogleIcon from '@mui/icons-material/Google';
 import * as yup from 'yup';
 import { getLoginYupSchema } from '../helper/constants/user-constants';
-import { loginAuth } from '../hooks/auth-hooks';
+import { loginAuth, forgetPassword } from '../hooks/auth-hooks';
+import userService from '../service/user-service';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch } from 'react-redux';
@@ -32,7 +33,7 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [message, setMessage] = React.useState('');
   const [rememberMe, setRememberMe] = useState(valueObject?.is_remember_me);
-
+  const { mutate: passwordInstance } = forgetPassword();
   interface CustomError extends Error {
     inner?: { path: string; message: string }[];
   }
@@ -70,10 +71,27 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
         };
 
         loginData(data, {
-          onSuccess: (data, variables, context) => {
+          onSuccess: async (data, variables, context) => {
             if (data?.success === true) {
               dispatch(setToken({ key: 'Data', value: data }));
-              navigate('/home');
+              // navigate('/home');
+              // console.log('data', data);
+              const userData = await userService.getOneUser(values?.email);
+              if (userData?.data?.is_initial_login) {
+                const object: any = {
+                  email_id: values?.email,
+                };
+                console.log('object', object);
+                passwordInstance(object, {
+                  onSuccess: (data, variables, context) => {
+                    if (data?.success === true) {
+                      window.location.href = data?.link;
+                    }
+                  },
+                });
+              } else {
+                navigate('/home');
+              }
             } else setMessage('Username & Password is Incorrect');
           },
         });

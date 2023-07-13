@@ -16,7 +16,7 @@ export const userErrorMessages = {
   ENTER_MOBILENUMBER: 'Mobile number is required',
   ENTER_VALID_MOBILENUMBER: 'Invalid mobile number',
   ENTER_GENDER: 'Gender is required',
-  SELECT_USERSTATUS: 'User status is required',
+  SELECT_USERROLE: 'User Role is required',
 };
 
 export const getLoginYupSchema = (yup: any) => {
@@ -109,7 +109,7 @@ export const getUsercreationYupschema = (yup: any) => {
       )
       .typeError(userErrorMessages.ENTER_PASSWORD)
       .required(userErrorMessages.ENTER_PASSWORD),
-    user_status: yup.string().required(userErrorMessages.SELECT_USERSTATUS),
+    role_id: yup.string().required(userErrorMessages.SELECT_USERROLE),
     // address: yup.object().shape({
     //   state: yup.string().required('State is required'),
     //   area: yup.string().required('Area is required'),
@@ -125,7 +125,7 @@ export const getUsereditYupschema = (yup: any) => {
       .string()
       .required(userErrorMessages.ENTER_EMAIL)
       .email(userErrorMessages.ENTER_VALID_EMAIL),
-    user_status: yup.string().required(userErrorMessages.SELECT_USERSTATUS),
+    role_id: yup.string().required(userErrorMessages.SELECT_USERROLE),
     // address: yup.object().shape({
     //   state: yup.string().required('State is required'),
     //   area: yup.string().required('Area is required'),

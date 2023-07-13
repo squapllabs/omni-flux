@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { environment } from '../environment/environment';
 
-const forgetPassword = async (values: string) => {
+const forgetPassword = async (values: any) => {
+  console.log('values', values);
+
   try {
     const response = await axios.post(
-      `${environment.apiUrl}/auth/forgetPassword`,
+      `${environment.apiUrl}/auth/forgotPassword/`,
       values,
       {
         headers: {

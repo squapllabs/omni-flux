@@ -5,8 +5,9 @@ import { useFormik } from 'formik';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { getUsereditYupschema } from '../../helper/constants/user-constants';
-import { Grid } from '@mui/material';
+import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { getByuserID, updateUser } from '../../hooks/user-hooks';
+import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
@@ -17,7 +18,11 @@ const UserEdit = () => {
   const { data: getOneuserData, isLoading } = getByuserID(
     Number(routeParams?.id)
   );
+  console.log('getOneuserData', getOneuserData);
+
   const { mutate: updateUserData } = updateUser();
+  const { data: getAllRoles } = useGetAllRoles();
+  console.log('getAllRoles', getAllRoles);
   const [OpenSnackbar, setOpenSnakBar] = useState(false);
   const [message, setMessage] = useState('');
   const handleSnackBarClose = () => {
@@ -29,6 +34,7 @@ const UserEdit = () => {
     email_id: '',
     contact_no: '',
     user_status: '',
+    role_id: '',
   });
   useEffect(() => {
     if (getOneuserData) {
@@ -38,6 +44,7 @@ const UserEdit = () => {
         email_id: getOneuserData?.email_id || '',
         contact_no: getOneuserData?.contact_no || '',
         user_status: getOneuserData?.user_status || '',
+        role_id: '',
       });
     }
   }, [getOneuserData]);
@@ -164,10 +171,11 @@ const UserEdit = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={2} sm={4} md={4}>
-                  {/* <h3>Status</h3> */}
+                <Grid item xs={2} sm={4} md={6}></Grid>
+                <Grid item xs={2} sm={4} md={6}>
+                  <InputLabel id="status_id-label">Status</InputLabel>
                   <Customs.CustomSelect
-                    label="Status"
+                    labelID="status_id-label"
                     name="user_status"
                     size="small"
                     sx={{ width: '300px' }}
@@ -179,6 +187,27 @@ const UserEdit = () => {
                     <div style={{ color: 'red' }}>
                       {formik.errors.user_status}
                     </div>
+                  )}
+                </Grid>
+                <Grid item xs={2} sm={4} md={6}>
+                  <InputLabel id="role_id-label">Role</InputLabel>
+                  <Select
+                    labelId="role_id-label"
+                    name="role_id"
+                    size="small"
+                    sx={{ width: '300px' }}
+                    value={formik.values.role_id}
+                    onChange={formik.handleChange}
+                  >
+                    {getAllRoles &&
+                      getAllRoles.map((option: any) => (
+                        <MenuItem key={option.role_id} value={option.role_id}>
+                          {option.role_name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                  {formik.errors.role_id && formik.touched.role_id && (
+                    <div style={{ color: 'red' }}>{formik.errors.role_id}</div>
                   )}
                 </Grid>
                 <Grid item xs={2} sm={4} md={12}>

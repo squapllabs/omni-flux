@@ -4,17 +4,27 @@ import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
-import { Grid } from '@mui/material';
+import {
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import { createUser } from '../../hooks/user-hooks';
 import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const validationSchema = getUsercreationYupschema(Yup);
 const UserCreate = () => {
   const navigate = useNavigate();
   const [OpenSnackbar, setOpenSnakBar] = useState(false);
   const [isWarning, setIsWarning] = useState(false);
   const [message, setMessage] = useState('');
+  const [passwordShown, setPasswordShown] = useState(false);
   const handleSnackBarClose = () => {
     setOpenSnakBar(false);
   };
@@ -26,14 +36,17 @@ const UserCreate = () => {
     email_id: '',
     contact_no: '',
     user_status: '',
+    role_id: '',
   });
-  const options = [
-    { value: 'AC', label: 'Active' },
-    { value: 'IN', label: 'In-Active' },
-  ];
+
+  const handleMouseDownPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+  };
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
   const { mutate: createNewusers, isLoading } = createUser();
   const { data: getAllRoles } = useGetAllRoles();
-  console.log('getAllRoles', getAllRoles);
 
   const formik = useFormik({
     initialValues,
@@ -47,7 +60,7 @@ const UserCreate = () => {
         email_id: values.email_id,
         user_status: 'AC',
         contact_no: values.contact_no,
-        role_id: 1,
+        role_id: values.role_id,
       };
       createNewusers(Object, {
         onSuccess: (data, variables, context) => {
@@ -157,7 +170,7 @@ const UserCreate = () => {
                     name="user_password"
                     label="Password"
                     variant="outlined"
-                    type="password"
+                    type={passwordShown ? 'text' : 'password'}
                     size="small"
                     value={formik.values.user_password}
                     onChange={formik.handleChange}
@@ -170,23 +183,45 @@ const UserCreate = () => {
                       formik.touched.user_password &&
                       formik.errors.user_password
                     }
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onMouseDown={(e) => handleMouseDownPassword(e)}
+                          >
+                            {passwordShown ? (
+                              <VisibilityIcon onClick={togglePassword} />
+                            ) : (
+                              <VisibilityOff
+                                onClick={togglePassword}
+                                style={{ color: '#BEBFC5' }}
+                              />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
-                <Grid item xs={2} sm={4} md={12}>
-                  {/* <h3>Status</h3> */}
-                  <Customs.CustomSelect
-                    // label="Status"
-                    name="user_status"
+                <Grid item xs={2} sm={4} md={6}>
+                  <InputLabel id="role_id-label">Role</InputLabel>
+                  <Select
+                    labelId="role_id-label"
+                    name="role_id"
                     size="small"
                     sx={{ width: '300px' }}
-                    options={options}
-                    value={formik.values.user_status}
+                    value={formik.values.role_id}
                     onChange={formik.handleChange}
-                  />
-                  {formik.errors.user_status && formik.touched.user_status && (
-                    <div style={{ color: 'red' }}>
-                      {formik.errors.user_status}
-                    </div>
+                  >
+                    {getAllRoles &&
+                      getAllRoles.map((option: any) => (
+                        <MenuItem key={option.role_id} value={option.role_id}>
+                          {option.role_name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                  {formik.errors.role_id && formik.touched.role_id && (
+                    <div style={{ color: 'red' }}>{formik.errors.role_id}</div>
                   )}
                 </Grid>
                 <Grid item xs={2} sm={4} md={12}>
