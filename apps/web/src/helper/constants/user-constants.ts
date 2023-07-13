@@ -116,3 +116,19 @@ export const getUsercreationYupschema = (yup: any) => {
     // }),
   });
 };
+export const getUsereditYupschema = (yup: any) => {
+  return yup.object().shape({
+    first_name: yup.string().required(userErrorMessages.ENTER_FIRSTNAME),
+    last_name: yup.string().required(userErrorMessages.ENTER_LASTNAME),
+    contact_no: yup.string().required(userErrorMessages.ENTER_MOBILENUMBER),
+    email_id: yup
+      .string()
+      .required(userErrorMessages.ENTER_EMAIL)
+      .email(userErrorMessages.ENTER_VALID_EMAIL),
+    user_status: yup.string().required(userErrorMessages.SELECT_USERSTATUS),
+    // address: yup.object().shape({
+    //   state: yup.string().required('State is required'),
+    //   area: yup.string().required('Area is required'),
+    // }),
+  });
+};

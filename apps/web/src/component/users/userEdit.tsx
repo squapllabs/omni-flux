@@ -4,13 +4,13 @@ import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { getUsercreationYupschema } from '../../helper/constants/user-constants';
+import { getUsereditYupschema } from '../../helper/constants/user-constants';
 import { Grid } from '@mui/material';
 import { getByuserID, updateUser } from '../../hooks/user-hooks';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
-const validationSchema = getUsercreationYupschema(Yup);
+const validationSchema = getUsereditYupschema(Yup);
 const UserEdit = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
@@ -43,11 +43,11 @@ const UserEdit = () => {
   }, [getOneuserData]);
   const options = [
     { value: 'AC', label: 'Active' },
-    { value: 'IC', label: 'In-Active' },
+    { value: 'IN', label: 'In-Active' },
   ];
   const formik = useFormik({
     initialValues,
-    // validationSchema,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values);

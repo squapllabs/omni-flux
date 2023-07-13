@@ -12,6 +12,7 @@ const validationSchema = getUsercreationYupschema(Yup);
 const UserCreate = () => {
   const navigate = useNavigate();
   const [OpenSnackbar, setOpenSnakBar] = useState(false);
+  const [isWarning, setIsWarning] = useState(false);
   const [message, setMessage] = useState('');
   const handleSnackBarClose = () => {
     setOpenSnakBar(false);
@@ -54,6 +55,9 @@ const UserCreate = () => {
               navigate('/userList');
             }, 3000);
           } else {
+            setIsWarning(true);
+            setMessage(data?.message);
+            setOpenSnakBar(true);
           }
         },
       });
@@ -198,7 +202,7 @@ const UserCreate = () => {
           open={OpenSnackbar}
           message={message}
           onClose={handleSnackBarClose}
-          severity={'success'}
+          severity={isWarning ? 'warning' : 'success'}
           autoHideDuration={1000}
         />
       </div>
