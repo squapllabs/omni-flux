@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
 import { Grid } from '@mui/material';
 import { createUser } from '../../hooks/user-hooks';
+import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
 const validationSchema = getUsercreationYupschema(Yup);
@@ -28,9 +29,12 @@ const UserCreate = () => {
   });
   const options = [
     { value: 'AC', label: 'Active' },
-    { value: 'IC', label: 'In-Active' },
+    { value: 'IN', label: 'In-Active' },
   ];
   const { mutate: createNewusers, isLoading } = createUser();
+  const { data: getAllRoles } = useGetAllRoles();
+  console.log('getAllRoles', getAllRoles);
+
   const formik = useFormik({
     initialValues,
     validationSchema,
