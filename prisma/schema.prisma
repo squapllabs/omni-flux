@@ -48,3 +48,27 @@ model role {
   updated_by 	 Int?      
   @@map("role")
 }
+
+
+model gst  {
+  gst_id        Int       @id @default(autoincrement()) 
+  rate          Float?   
+  cgst_rate     Float?    
+  igst_rate     Float?    
+  created_date  DateTime  @default(now()) 
+  updated_date  DateTime      
+  created_by    Int?     
+  updated_by    Int?    
+}
+
+model uom {
+  uom_id       Int      @id @default(autoincrement())
+  name         String
+  description  String?
+  created_date DateTime @default(now())
+  updated_date DateTime @default(now())
+  created_by   Int?
+  updated_by   Int?
+
+  @@map(name: "uom")
+}

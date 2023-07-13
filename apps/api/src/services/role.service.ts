@@ -9,10 +9,9 @@ import { createRoleBody, updateRoleBody } from '../interfaces/roleInterface';
 const createRole = async (body: createRoleBody) => {
   try {
     const { role_name, created_by } = body;
-
     const roleDetails = await roleDao.add(role_name, created_by);
-
-    return roleDetails;
+    const result = { success: true, data: roleDetails };
+    return result;
   } catch (error) {
     console.log('Error occurred in role service Add: ', error);
     throw error;
@@ -24,16 +23,13 @@ const createRole = async (body: createRoleBody) => {
  * @param body
  * @returns
  */
-/**
- * Method to Create a New User
- * @param body
- * @returns
- */
+
 const updateRole = async (body: updateRoleBody) => {
   try {
     const { role_name, updated_by, role_id } = body;
     const roleDetails = await roleDao.edit(role_name, updated_by, role_id);
-    return roleDetails;
+    const result = { success: true, data: roleDetails };
+    return result;
   } catch (error) {
     console.log('Error occurred in role service Edit: ', error);
     throw error;
@@ -78,7 +74,7 @@ const getAllRoles = async () => {
 };
 
 /**
- * Method to delete user
+ * Method to delete role
  * @param roleId
  */
 const deleteRole = async (roleId) => {
@@ -91,7 +87,10 @@ const deleteRole = async (roleId) => {
     }
     const data = await roleDao.deleteRole(roleId);
     if (data) {
-      const result = { success: true, message: 'Data Deleted Successfully' };
+      const result = {
+        success: true,
+        message: 'Role Data Deleted Successfully',
+      };
       return result;
     } else {
       const result = { success: false, message: 'Failed to delete this role' };
