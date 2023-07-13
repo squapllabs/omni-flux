@@ -9,20 +9,21 @@ datasource db {
 }
 
 model users {
-  	user_id           Int      @id@default(autoincrement())
+  user_id           Int       @id@default(autoincrement())
 	first_name        String?     @db.VarChar(100)
 	last_name         String?     @db.VarChar(100)
 	user_password     String?     @db.VarChar(255)
 	contact_no	      String?     @db.VarChar(20)
 	email_id          String      @db.VarChar(100)
 	user_status       String?     @db.VarChar(5)
-	address           String?	  @db.VarChar(250)
+	address           String?	    @db.VarChar(250)
 	created_by        Int?        
 	created_date      DateTime   
 	updated_by        Int?
 	updated_date      DateTime   
-  	is_delete         Boolean      @default(false) @db.Boolean 
-	department        String?	   @db.VarChar(100)
+  is_delete         Boolean      @default(false) @db.Boolean 
+  is_initial_login  Boolean      @default(true) @db.Boolean
+	department        String?	     @db.VarChar(100)
   @@unique([email_id], name: "uk_users_email_id")
 }
 

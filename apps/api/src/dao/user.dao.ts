@@ -15,13 +15,15 @@ const add = async (
   try {
     const currentDate = new Date();
     const is_delete = false;
+    const isInitialLogin = true;
+    const lowercasedEmailId = email_id.toLowerCase();
     const transaction = connectionObj !== null ? connectionObj : prisma;
 
     const user = await transaction.users.create({
       data: {
         user_password,
         contact_no,
-        email_id,
+        email_id: lowercasedEmailId,
         first_name,
         last_name,
         user_status,
@@ -31,6 +33,7 @@ const add = async (
         created_date: currentDate,
         updated_date: currentDate,
         department,
+        is_initial_login: isInitialLogin,
       },
     });
     return user;
@@ -92,9 +95,10 @@ const getById = async (userId: number) => {
 const getByEmailId = async (emailId: string) => {
   try {
     if (emailId) {
+      const lowercasedEmailId = emailId.toLowerCase();
       const user = await prisma.users.findFirst({
         where: {
-          email_id: emailId,
+          email_id: lowercasedEmailId,
           user_status: 'AC',
           is_delete: false,
         },
@@ -119,7 +123,16 @@ const getAll = async (user_status) => {
         user_status: user_status,
       },
     });
-    return users;
+    const usersCount = await prisma.users.count({
+      where: {
+        user_status: user_status,
+      },
+    });
+    const userData = {
+      count: usersCount,
+      data: users,
+    };
+    return userData;
   } catch (error) {
     console.log('Error occurred in user getAll dao', error);
     throw error;
@@ -183,6 +196,34 @@ const updateStatus = async (
   }
 };
 
+const getDeletedUsers = async () => {
+  try {
+    const users = await prisma.users.findMany({
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
+      where: {
+        is_delete: true,
+      },
+    });
+    const usersCount = await prisma.users.count({
+      where: {
+        is_delete: true,
+      },
+    });
+    const userData = {
+      count: usersCount,
+      data: users,
+    };
+    return userData;
+  } catch (error) {
+    console.log('Error occurred in user getAll dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -192,4 +233,5 @@ export default {
   deleteUser,
   getUserDataWithRoleId,
   updateStatus,
+  getDeletedUsers,
 };

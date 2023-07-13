@@ -446,6 +446,21 @@ const executeUserQuery = async (
   }
 };
 
+/**
+ * Method for updating user_status by user_id
+ * @param body
+ * @returns
+ */
+const getDeletedUsers = async () => {
+  try {
+    const result = await userDao.getDeletedUsers();
+    const userData = { success: true, data: result };
+    return userData;
+  } catch (err) {
+    console.log('Error occurred in User Service : getDeletedUsers Method');
+  }
+};
+
 export {
   createUser,
   updateUser,
@@ -457,4 +472,5 @@ export {
   deleteUser,
   updateStatus,
   searchUser,
+  getDeletedUsers,
 };

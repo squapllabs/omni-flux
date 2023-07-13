@@ -5,6 +5,7 @@ import {
   getAllUser,
   getByEmailId,
   getByUserId,
+  getDeletedUsers,
   searchUser,
   updateStatus,
   updateUser,
@@ -52,5 +53,7 @@ router.put(
 );
 
 router.post('/searchUser', authMiddleware, searchUser);
+
+router.get('/getDeletedUsers', authMiddleware, getDeletedUsers);
 
 export default router;

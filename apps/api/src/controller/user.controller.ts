@@ -103,6 +103,16 @@ const searchUser = catchAsync(async (req, res) => {
   }
 });
 
+const getDeletedUsers = catchAsync(async (req, res) => {
+  const methodName = '/getDeletedUsers';
+  try {
+    const result = await userService.getDeletedUsers();
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createUser,
   updateUser,
@@ -114,4 +124,5 @@ export {
   deleteUser,
   updateStatus,
   searchUser,
+  getDeletedUsers,
 };
