@@ -4,6 +4,7 @@ import auth from './auth.route';
 import role from './role.route';
 import gst from './gst.route';
 import uom from './uom.route';
+import client from './client.route';
 
 const router = express.Router();
 const defaultRoutes = [
@@ -26,6 +27,10 @@ const defaultRoutes = [
   {
     path: '/uom',
     route: uom,
+  },
+  {
+    path: '/client',
+    route: client,
   },
 ];
 
