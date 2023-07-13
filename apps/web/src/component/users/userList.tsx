@@ -5,7 +5,7 @@ import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import {useGetAllUsers,useDeleteUsers,useGetAllInactiveUsers} from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import { Button } from '@mui/material';
-import { Tooltip, IconButton, Menu, MenuItem } from '@mui/material';
+import { Tooltip, IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
 // import MoreVertIcon from '@mui/icons-material/MoreHoriz';
@@ -60,7 +60,6 @@ const UserList = () => {
   const deleteUser = () => {
     getDeleteUserByID(value);
     handleClose();
-    setAnchorEl(null);
     setMessage('Successfully deleted');
     setOpenDeleteSnack(true);
   };

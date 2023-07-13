@@ -11,6 +11,8 @@ import UserEdit from '../component/users/userEdit';
 import UserList from '../component/users/userList';
 import UserInformation from '../component/users/userInformation';
 import GstList from '../component/gst/gstList';
+import GstEdit from '../component/gst/gstEdit';
+import GstCreate from '../component/gst/gstCreate';
 const route = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   return (
@@ -70,6 +72,24 @@ const route = () => {
             <ProtectedRoute>
               <Layout />
               <GstList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/gst-edit/:id"
+          element={
+            <ProtectedRoute>
+              <Layout />
+              <GstEdit />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/gst-create"
+          element={
+            <ProtectedRoute>
+              <Layout />
+              <GstCreate />
             </ProtectedRoute>
           }
         />

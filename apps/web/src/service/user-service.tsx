@@ -74,8 +74,6 @@ const updateUser = async (values: JSON) => {
   }
 };
 const deleteUser = async (id: number) => {
-  console.log("delete api called",id);
-  
   try {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/user/delete/${id}`

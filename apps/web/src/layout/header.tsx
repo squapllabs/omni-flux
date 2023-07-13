@@ -50,6 +50,9 @@ const Header = () => {
               <Link href="/userList" color="inherit">Users</Link>
             </li>
             <li>
+              <Link href="/gst-list" color="inherit">Gst</Link>
+            </li>
+            <li>
               <Link color="inherit" onClick={handleClick}>
                 Product & Solution
               </Link>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-// import { } from '../../hooks/gst-hooks';
+import {useGetAllGst, useDeleteGst } from '../../hooks/gst-hooks';
 import { useNavigate } from 'react-router';
 import { Button } from '@mui/material';
 import { Tooltip, IconButton} from '@mui/material';
@@ -10,11 +10,10 @@ import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 
-const UserList = () => {
-  // const { data: getAllUsers, isLoading: loader } = useGetAllUsers();
-  // const { mutate: getDeleteUserByID } = useDeleteUsers();
+const GstList = () => {
+  const { data: getAllGstData, isLoading: loader } = useGetAllGst();
+  const { mutate: getDeleteGstByID } = useDeleteGst();
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
@@ -33,7 +32,7 @@ const UserList = () => {
   };
 
   const deleteUser = () => {
-    // getDeleteUserByID(value);
+    getDeleteGstByID(value);
     handleClose();
     setMessage('Successfully deleted');
     setOpenDeleteSnack(true);
@@ -43,8 +42,8 @@ const UserList = () => {
 
   const columns = [
     {
-      name: 'user_id',
-      label: 'User',
+      name: 'gst_id',
+      label: 'gst',
       options: {
         display: false,
         filter: false,
@@ -65,8 +64,8 @@ const UserList = () => {
     },
 
     {
-      name: 'first_name',
-      label: 'First Name',
+      name: 'rate',
+      label: 'Rate',
       options: {
         display: true,
         filter: false,
@@ -74,8 +73,8 @@ const UserList = () => {
       },
     },
     {
-      name: 'last_name',
-      label: 'Last Name',
+      name: 'cgst_rate',
+      label: 'Cgst Rate',
       options: {
         display: true,
         filter: false,
@@ -83,17 +82,8 @@ const UserList = () => {
       },
     },
     {
-      name: 'email_id',
-      label: 'Email',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'contact_no',
-      label: 'Contact Number',
+      name: 'igst_rte',
+      label: 'Igst Rate',
       options: {
         display: true,
         filter: false,
@@ -110,13 +100,13 @@ const UserList = () => {
         customBodyRender: (value: any, tableMeta: any) => {
           return (
             <div>
-              <Tooltip title="View">
+              <Tooltip title="Edit">
                 <IconButton
-                  aria-label="View"
+                  aria-label="Edit"
                   size="small"
-                  onClick={() => navigate(`/userInfo/${tableMeta.rowData[0]}`)}
+                  onClick={() => navigate(`/gst-edit/${tableMeta.rowData[0]}`)}
                 >
-                  <VisibilityIcon />
+                  <EditIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete">
@@ -126,15 +116,6 @@ const UserList = () => {
                   onClick={() => deleteUserHandler(tableMeta.rowData[0])}
                 >
                   <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Edit">
-                <IconButton
-                  aria-label="Edit"
-                  size="small"
-                  onClick={() => navigate(`/user-edit/${tableMeta.rowData[0]}`)}
-                >
-                  <EditIcon />
                 </IconButton>
               </Tooltip>
             </div>
@@ -172,24 +153,23 @@ const UserList = () => {
           variant="contained"
           color="primary"
           startIcon={<AddCircleOutlinedIcon />}
-          onClick={() => navigate('/user-create')}
+          onClick={() => navigate('/gst-create')}
         >
           Add
         </Button>
       </div>
       <div className={Styles.tableContainer}>
-        <div>klkl</div>
-            {/* <MUIDataTable
-              title={`Users List (${getAllUsers?.count})`}
-              data={getAllUsers?.data}
+            <MUIDataTable
+              title={`Gst List (${getAllGstData?.count})`}
+              data={getAllGstData?.data}
               columns={columns}
               options={options}
-            /> */}
+            />
       </div>
       <CustomDialog
         open={open}
         handleClose={handleClose}
-        title="Delete User"
+        title="Delete Gst"
         content="Are you want to delete this gst?"
         handleConfirm={deleteUser}
       />
@@ -204,4 +184,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default GstList;
