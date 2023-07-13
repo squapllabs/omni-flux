@@ -22,7 +22,7 @@ const forgetPassword = async (body: { email_id: string }) => {
       );
       const link = `${process.env.REACT_APP_URL}/reset-password/${userId}/${token}/`;
       console.log('link ==>', link);
-      result = { success: true, data: userCheckExist };
+      result = { success: true, link: link };
       return result;
     } else {
       result = { success: false, message: 'user email not exist' };
