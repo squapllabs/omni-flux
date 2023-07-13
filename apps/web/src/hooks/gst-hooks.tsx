@@ -21,8 +21,22 @@ const useDeleteGst = () => {
     );
   };
 
+  const createGst = () => {
+    return useMutation({
+      mutationFn: gstService.createGst,
+    });
+  };
+
+  const updateGst = () => {
+    return useMutation({
+      mutationFn: gstService.updateGst,
+    });
+  };
+
 export {
     useGetAllGst,
-    useDeleteGst
+    useDeleteGst,
+    createGst,
+    updateGst
   };
   

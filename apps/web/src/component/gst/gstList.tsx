@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Styles from '../../styles/userList.module.scss';
+import Styles from '../../styles/gstList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import {useGetAllGst, useDeleteGst } from '../../hooks/gst-hooks';
@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const GstList = () => {
   const { data: getAllGstData, isLoading: loader } = useGetAllGst();
+  
   const { mutate: getDeleteGstByID } = useDeleteGst();
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
@@ -82,7 +83,7 @@ const GstList = () => {
       },
     },
     {
-      name: 'igst_rte',
+      name: 'igst_rate',
       label: 'Igst Rate',
       options: {
         display: true,
@@ -160,8 +161,10 @@ const GstList = () => {
       </div>
       <div className={Styles.tableContainer}>
             <MUIDataTable
-              title={`Gst List (${getAllGstData?.count})`}
-              data={getAllGstData?.data}
+              title={`Gst List (${
+                getAllGstData?.length ? getAllGstData?.length : 0
+              })`}
+              data={getAllGstData}
               columns={columns}
               options={options}
             />

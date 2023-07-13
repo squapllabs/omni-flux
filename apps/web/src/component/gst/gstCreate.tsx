@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getGstcreationYupschema } from '../../helper/constants/gst-constants';
 import { Grid } from '@mui/material';
-import { createUser } from '../../hooks/user-hooks';
+import { createGst } from '../../hooks/gst-hooks';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
 const validationSchema = getGstcreationYupschema(Yup);
@@ -23,30 +23,28 @@ const UserCreate = () => {
     igst_rate: '',
   });
 
-  const { mutate: createNewusers, isLoading } = createUser();
+  const { mutate: createNewGst, isLoading } = createGst();
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       const Object: any = {
-        rate: values.rate,
-        cgst_rate: values.cgst_rate,
-        igst_rate: values.igst_rate,
+        rate: parseFloat(values.rate),
+        cgst_rate: parseFloat(values.cgst_rate),
+        igst_rate: parseFloat(values.igst_rate),
       };
-      createNewusers(Object, {
+      createNewGst(Object, {
         onSuccess: (data, variables, context) => {
-          console.log('data', data);
           if (data?.success) {
-            setMessage('User created successfully');
+            setMessage('Gst created successfully');
             setOpenSnakBar(true);
             setInterval(() => {
                 navigate('/gst-list');
             }, 3000);
           } else {
             setIsWarning(true);
-            setMessage(data?.message);
+            setMessage('Err in post');
             setOpenSnakBar(true);
           }
         },
@@ -59,7 +57,7 @@ const UserCreate = () => {
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.fields}>
                 <div>
-                  <h2>Gst CREATION</h2>
+                  <h2>Gst Creation</h2>
                 </div>
                 <Grid item xs={2} sm={4} md={4}>
                   <Customs.CustomTextField

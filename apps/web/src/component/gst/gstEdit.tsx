@@ -4,7 +4,7 @@ const Home = () => {
 
   return (
     <div>
-      edit UNDER CONSTRUCTION
+      edit page
     </div>
 
   );

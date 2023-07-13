@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import {useGetAllUsers,useDeleteUsers,useGetAllInactiveUsers} from '../../hooks/user-hooks';
+import {
+  useGetAllUsers,
+  useDeleteUsers,
+  useGetAllInactiveUsers,
+} from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
-// import MoreVertIcon from '@mui/icons-material/MoreHoriz';
 import Card from '@mui/material/Card';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
@@ -17,33 +20,40 @@ import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import axiosinterceptor from '../../helper/custom_axios';
+import { environment } from '../../environment/environment';
+import userService from '../../service/user-service';
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
+
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={2}>{children}</Box>}
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Box>{children}</Box>
+        </Box>
+      )}
     </div>
   );
 }
 
 const UserList = () => {
   const { data: getAllUsers, isLoading: loader } = useGetAllUsers();
-  const { data: getAllInactiveUsers, isLoading: loaderOne } = useGetAllInactiveUsers();
+  const { data: getAllInactiveUsers } = useGetAllInactiveUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
   const [tabvalue, setTabValue] = useState(0);
-  const [reloadActive, setReloadActive] = useState(false);
-  const [reloadInactive, setReloadInactive] = useState(false);
+  const [tableData,setTableData] = useState();
   const navigate = useNavigate();
 
   const deleteUserHandler = (id: any) => {
@@ -64,27 +74,23 @@ const UserList = () => {
     setOpenDeleteSnack(true);
   };
 
-
   const handleChangeTab = (event: any, newValue: any) => {
     setTabValue(newValue);
   };
 
   function a11yProps(index: any) {
     return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
+      id: `full-width-tab-${index}`,
+      'aria-controls': `full-width-tabpanel-${index}`,
     };
   }
 
-  const handleTab = (index_value: any) => {
-    if (index_value === 0) {
-      console.log("gggg");
-      setReloadActive(!reloadActive);
-    } else if (index_value === 1) {
-      setReloadInactive(!reloadInactive);
+  const handleTab = async (index_value: number) => {
+    if (index_value === 1) {
+      const getData = await userService.getAllInactiveUsers();
+      setTableData(getData?.data)
     }
   };
-
   const columns = [
     {
       name: 'user_id',
@@ -144,6 +150,7 @@ const UserList = () => {
         sort: false,
       },
     },
+    // { visible === false ?   
     {
       name: '',
       label: 'Options',
@@ -185,28 +192,10 @@ const UserList = () => {
           );
         },
       },
-    },
+    }
+  //   : ""
+  // }
   ];
-
-  const options = {
-    filter: false,
-    search: true,
-    caseSensitive: false,
-    print: false,
-    download: false,
-    viewColumns: false,
-    selectableRows: 'none' as const,
-    textLabels: {
-      body: {
-        noMatch: loader ? 'Loading...' : 'Sorry , No Records found',
-      },
-    },
-    setTableProps: () => {
-      return {
-        size: 'small',
-      };
-    },
-  };
 
   const columnsOne = [
     {
@@ -269,7 +258,7 @@ const UserList = () => {
     },
   ];
 
-  const optionsOne = {
+  const options = {
     filter: false,
     search: true,
     caseSensitive: false,
@@ -279,7 +268,7 @@ const UserList = () => {
     selectableRows: 'none' as const,
     textLabels: {
       body: {
-        noMatch: loaderOne ? 'Loading...' : 'Sorry , No Records found',
+        noMatch: loader ? 'Loading...' : 'Sorry , No Records found',
       },
     },
     setTableProps: () => {
@@ -305,7 +294,7 @@ const UserList = () => {
         <Card>
           <AppBar position="static">
             <Tabs
-              value={value}
+              value={tabvalue}
               onChange={handleChangeTab}
               variant="fullWidth"
               indicatorColor="primary"
@@ -333,21 +322,22 @@ const UserList = () => {
           </AppBar>
           <TabPanel value={tabvalue} index={0}>
             <MUIDataTable
-              key={`active-${reloadActive}`}
-              title={`Users List (${getAllUsers?.count})`}
+              title={`Users List (${
+                getAllUsers?.count ? getAllUsers?.count : 0
+              })`}
               data={getAllUsers?.data}
               columns={columns}
               options={options}
             />
           </TabPanel>
-
           <TabPanel value={tabvalue} index={1}>
             <MUIDataTable
-              key={`inactive-${reloadInactive}`}
-              title={`Inactive User List (${getAllInactiveUsers?.count})`}
-              data={getAllInactiveUsers?.data}
+              title={`Users List (${
+                tableData?.count ? tableData?.count : 0
+              })`}
+              data={tableData?.data}
               columns={columnsOne}
-              options={optionsOne}
+              options={options}
             />
           </TabPanel>
         </Card>

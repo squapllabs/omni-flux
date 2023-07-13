@@ -10,6 +10,7 @@ const UserInformation = () => {
   const navigate = useNavigate();
   const userId = Number(routeParams?.id);
   const { data: getOneUser } = getByuserID(userId);
+  
   return (
     <div>
       <div className={Styles.mainContainer}>
@@ -27,23 +28,23 @@ const UserInformation = () => {
             <div className={Styles.rightContent}>
               <div className={Styles.rightData}>
                 :{' '}
-                {getOneUser?.first_name
-                  ? `${getOneUser.first_name} ${
-                      getOneUser.last_name ? getOneUser.last_name : ''
+                {getOneUser?.userData?.first_name
+                  ? `${getOneUser?.userData?.first_name} ${
+                      getOneUser?.userData?.last_name ? getOneUser?.userData?.last_name : ''
                     }`
                   : 'Not Provided'}
               </div>
               <div className={Styles.rightData}>
-                : {getOneUser?.email_id ? getOneUser?.email_id : 'Not Provided'}
+                : {getOneUser?.userData?.email_id ? getOneUser?.userData?.email_id : 'Not Provided'}
               </div>
               <div className={Styles.rightData}>
                 :{' '}
-                {getOneUser?.contact_no
-                  ? getOneUser?.contact_no
+                {getOneUser?.userData?.contact_no
+                  ? getOneUser?.userData?.contact_no
                   : 'Not Provided'}
               </div>
               <div className={Styles.rightData}>
-                : {getOneUser?.address ? getOneUser?.address : 'Not Provided'}
+                : {getOneUser?.userData?.address ? getOneUser?.userData?.address : 'Not Provided'}
               </div>
             </div>
           </div>

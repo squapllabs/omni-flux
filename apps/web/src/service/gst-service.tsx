@@ -6,6 +6,7 @@ const getAllGst = async () => {
       const response = await axiosinterceptor.get(
         `${environment.apiUrl}/gst/getAll`
       );
+      console.log("response===>",response)
       return response.data;
     } catch (error) {
       console.log('Error in getting all gst data:', error);
@@ -25,8 +26,35 @@ const getAllGst = async () => {
     }
   };
 
+  const createGst = async (values: JSON) => {
+    try {
+      const response = await axiosinterceptor.post(
+        `${environment.apiUrl}/gst/`,
+        values
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in post gst api :', error);
+      throw error;
+    }
+  };
+
+  const updateGst = async (values: JSON) => {
+    try {
+      const response = await axiosinterceptor.put(
+        `${environment.apiUrl}/gst/`,
+        values
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in update gst api :', error);
+    }
+  };
+
   export default {
     getAllGst,
-    deleteGst
+    deleteGst,
+    createGst,
+    updateGst
   };
   
