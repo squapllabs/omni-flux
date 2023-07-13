@@ -10,6 +10,7 @@ import UserCreate from '../component/users/userCreate';
 import UserEdit from '../component/users/userEdit';
 import UserList from '../component/users/userList';
 import UserInformation from '../component/users/userInformation';
+import GstList from '../component/gst/gstList';
 const route = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   return (
@@ -60,6 +61,15 @@ const route = () => {
             <ProtectedRoute>
               <Layout />
               <UserEdit />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/gst-list"
+          element={
+            <ProtectedRoute>
+              <Layout />
+              <GstList />
             </ProtectedRoute>
           }
         />

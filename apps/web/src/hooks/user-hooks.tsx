@@ -7,6 +7,12 @@ const useGetAllUsers = () => {
   });
 };
 
+const useGetAllInactiveUsers = () => {
+  return useQuery(['useGetAllInactiveUsers'], () => userService.getAllInactiveUsers(), {
+    select: (data) => data.data,
+  });
+};
+
 const getByloginID = (id: string) => {
   return useQuery(['getByLoginID', id], () => userService.getOneUser(id));
 };
@@ -46,4 +52,5 @@ export {
   createUser,
   updateUser,
   useDeleteUsers,
+  useGetAllInactiveUsers
 };

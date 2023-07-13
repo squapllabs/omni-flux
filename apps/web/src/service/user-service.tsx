@@ -14,6 +14,18 @@ const getAllUsers = async () => {
   }
 };
 
+const getAllInactiveUsers = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/user/getAll/IN`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all inactive users:', error);
+    throw error;
+  }
+};
+
 const getOneUser = async (values: any) => {
   try {
     const response = await axiosinterceptor.post(
@@ -62,6 +74,8 @@ const updateUser = async (values: JSON) => {
   }
 };
 const deleteUser = async (id: number) => {
+  console.log("delete api called",id);
+  
   try {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/user/delete/${id}`
@@ -79,4 +93,5 @@ export default {
   createuser,
   updateUser,
   deleteUser,
+  getAllInactiveUsers
 };
