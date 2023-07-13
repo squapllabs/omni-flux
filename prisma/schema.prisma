@@ -72,3 +72,14 @@ model uom {
 
   @@map(name: "uom")
 }
+
+model client {
+  client_id       Int       @id @default(autoincrement()) 
+  name            String
+  contact_details String
+  created_date    DateTime
+  updated_date    DateTime
+  created_by      Int?      
+  updated_by      Int?     
+}
+

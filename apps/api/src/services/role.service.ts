@@ -27,9 +27,16 @@ const createRole = async (body: createRoleBody) => {
 const updateRole = async (body: updateRoleBody) => {
   try {
     const { role_name, updated_by, role_id } = body;
-    const roleDetails = await roleDao.edit(role_name, updated_by, role_id);
-    const result = { success: true, data: roleDetails };
-    return result;
+    let result = null;
+    const roleExist = await roleDao.getById(role_id);
+    if (roleExist) {
+      const roleDetails = await roleDao.edit(role_name, updated_by, role_id);
+      result = { success: true, data: roleDetails };
+      return result;
+    } else {
+      result = { success: false, message: 'role_id not exist' };
+      return result;
+    }
   } catch (error) {
     console.log('Error occurred in role service Edit: ', error);
     throw error;
@@ -77,7 +84,7 @@ const getAllRoles = async () => {
  * Method to delete role
  * @param roleId
  */
-const deleteRole = async (roleId) => {
+const deleteRole = async (roleId: number) => {
   try {
     const roleExist = await roleDao.getById(roleId);
 

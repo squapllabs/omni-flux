@@ -26,15 +26,22 @@ const createGst = async (body: createGstBody) => {
 const updateGst = async (body: updateGstBody) => {
   try {
     const { rate, cgst_rate, igst_rate, updated_by, gst_id } = body;
-    const gstDetails = await gstDao.edit(
-      rate,
-      cgst_rate,
-      igst_rate,
-      updated_by,
-      gst_id
-    );
-    const result = { success: true, data: gstDetails };
-    return result;
+    let result = null;
+    const gstExist = await gstDao.getById(gst_id);
+    if (gstExist) {
+      const gstDetails = await gstDao.edit(
+        rate,
+        cgst_rate,
+        igst_rate,
+        updated_by,
+        gst_id
+      );
+      result = { success: true, data: gstDetails };
+      return result;
+    } else {
+      result = { success: false, message: 'gst_id not exist' };
+      return result;
+    }
   } catch (error) {
     console.log('Error occurred in gst service Edit: ', error);
     throw error;
