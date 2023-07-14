@@ -9,6 +9,7 @@ import hsnCode from './hsnCode.route';
 import category from './category.route';
 import subCategory from './subCategory.route';
 import subSubCategory from './subSubCategory.route';
+import project from './project.route';
 
 const router = express.Router();
 const defaultRoutes = [
@@ -51,6 +52,10 @@ const defaultRoutes = [
   {
     path: '/sub-sub-category',
     route: subSubCategory,
+  },
+  {
+    path: '/project',
+    route: project,
   },
 ];
 
