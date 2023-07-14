@@ -13,6 +13,8 @@ import UserInformation from '../component/users/userInformation';
 import GstList from '../component/gst/gstList';
 import GstCreate from '../component/gst/gstCreate';
 import UomList from '../component/uom/uomList';
+import HsnCodeList from '../component/hsnCode/hsnCodeList'
+
 const route = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   return (
@@ -90,6 +92,15 @@ const route = () => {
             <ProtectedRoute>
               <Layout />
               <UomList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/hsncode-list"
+          element={
+            <ProtectedRoute>
+              <Layout />
+              <HsnCodeList />
             </ProtectedRoute>
           }
         />

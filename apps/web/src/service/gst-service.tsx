@@ -6,7 +6,6 @@ const getAllGst = async () => {
       const response = await axiosinterceptor.get(
         `${environment.apiUrl}/gst/getAll`
       );
-      console.log("response===>",response)
       return response.data;
     } catch (error) {
       console.log('Error in getting all gst data:', error);
