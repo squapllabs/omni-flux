@@ -12,15 +12,33 @@ const getByuserID = (id: number) => {
     select: (data) => data.data,
   });
 };
+
 const createuom = () => {
-  return useMutation({
-    mutationFn: uomService.createUom,
-  });
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return uomService.createUom(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAlluom']);
+      },
+    }
+  );
 };
+
 const updateUom = () => {
-  return useMutation({
-    mutationFn: uomService.updateUom,
-  });
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return uomService.updateUom(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAlluom']);
+      },
+    }
+  );
 };
 
 const useDeleteUom = () => {

@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import Customs from '../ui/custom';
-import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
-import { createuom, updateUom } from '../../hooks/uom-hooks';
-import { getuomValidateyup } from '../../helper/constants/uom-constants';
-import uomService from '../../service/uom-service';
+import { Grid, InputLabel } from '@mui/material';
+import { createClient, updateClient } from '../../hooks/client-hooks';
+import { getClientValidateyup } from '../../helper/constants/client-constants';
+import clientService from '../../service/client-service';
 import * as Yup from 'yup';
-const validationSchema = getuomValidateyup(Yup);
-const uomForm: React.FC = (props: any) => {
+const validationSchema = getClientValidateyup(Yup);
+const ClientForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
-    uom_id: '',
     name: '',
-    description: '',
+    contact_details: '',
+    client_id: '',
   });
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await uomService.getOneUomByID(props.uomId);
+        const data = await clientService.getOneClientByID(props.uomId);
         setInitialValues({
-          uom_id: data?.data?.uom_id,
+          client_id: data?.data?.client_id,
           name: data?.data?.name,
-          description: data?.data?.description,
+          contact_details: data?.data?.contact_details,
         });
       };
 
       fetchOne();
     }
   }, []);
-  const { mutate: createNewuom, isLoading } = createuom();
-  const { mutate: updateuom } = updateUom();
+  const { mutate: createNewClient, isLoading } = createClient();
+  const { mutate: updateClientDetails } = updateClient();
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -37,14 +37,14 @@ const uomForm: React.FC = (props: any) => {
       if (props.mode === 'ADD') {
         const Object: any = {
           name: values.name,
-          description: values.description,
+          contact_details: values.contact_details,
         };
-        createNewuom(Object, {
+        createNewClient(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
               props.setOpen(false);
               props.setReload(true);
-              props.setMessage('UOM created');
+              props.setMessage('Client created');
               props.setOpenSnack(true);
             } else {
             }
@@ -52,16 +52,16 @@ const uomForm: React.FC = (props: any) => {
         });
       } else {
         const Object: any = {
-          uom_id: values.uom_id,
+          client_id: values.client_id,
           name: values.name,
-          description: values.description,
+          contact_details: values.contact_details,
         };
-        updateuom(Object, {
+        updateClientDetails(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
               props.setOpen(false);
               props.setReload(true);
-              props.setMessage('UOM edited');
+              props.setMessage('Client edited');
               props.setOpenSnack(true);
             } else {
             }
@@ -93,21 +93,22 @@ const uomForm: React.FC = (props: any) => {
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <InputLabel id="description_id">Description</InputLabel>
-            <TextareaAutosize
-              name="description"
-              labelId="description_id"
+            <Customs.CustomTextField
+              name="contact_details"
+              label="Contact Detail"
               variant="outlined"
-              minRows={4}
-              style={{ width: '548px' }}
               fullWidth
-              value={formik.values.description}
+              value={formik.values.contact_details}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              error={
+                formik.touched.contact_details &&
+                Boolean(formik.errors.contact_details)
+              }
+              helperText={
+                formik.touched.contact_details && formik.errors.contact_details
+              }
             />
-            {formik.errors.description && formik.touched.description && (
-              <div style={{ color: 'red' }}>{formik.errors.description}</div>
-            )}
           </Grid>
           <Grid item xs={2} sm={4} md={6}>
             <Customs.CustomButton
@@ -123,4 +124,4 @@ const uomForm: React.FC = (props: any) => {
   );
 };
 
-export default uomForm;
+export default ClientForm;
