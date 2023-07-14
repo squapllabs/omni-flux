@@ -43,7 +43,7 @@ const GstList = () => {
     setOpenDeleteSnack(true);
   };
 
-  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAdd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setMode('ADD');
     setOpenPopup(true);
   };

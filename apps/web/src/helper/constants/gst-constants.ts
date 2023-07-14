@@ -1,7 +1,7 @@
 export const gstErrorMessages = {
     ENTER_RATE: 'Required Field',
     TYPE_ERROR: 'Value cannot be a alphabet',
-    ENTER_VALID_RATE:'Upto two decimal only allow'
+    ENTER_VALID_RATE:'check your value',
   };
 
 export const getGstcreationYupschema = (yup: any) => {
@@ -10,31 +10,37 @@ export const getGstcreationYupschema = (yup: any) => {
       .number()
       .typeError(gstErrorMessages.TYPE_ERROR)
       .required(gstErrorMessages.ENTER_RATE)
-    //   .positive(gstErrorMessages.ENTER_VALID_RATE)
       .test(
         "decimal-validation",
         gstErrorMessages.ENTER_VALID_RATE,
-        (value: number) => !isNaN(value) && value.toString().match(/^\d+(\.\d{1,2})?$/)
+        (value: number) => {
+          const decimalPattern = /^\d{1,2}(\.\d{1,2})?$/;
+          return !isNaN(value) && decimalPattern.test(value.toString());
+        }
       ),
       cgst_rate: yup
       .number()
       .typeError(gstErrorMessages.TYPE_ERROR)
       .required(gstErrorMessages.ENTER_RATE)
-    //   .positive(gstErrorMessages.ENTER_VALID_RATE)
       .test(
         "decimal-validation",
         gstErrorMessages.ENTER_VALID_RATE,
-        (value: number) => !isNaN(value) && value.toString().match(/^\d+(\.\d{1,2})?$/)
+        (value: number) => {
+          const decimalPattern = /^\d{1,2}(\.\d{1,2})?$/;
+          return !isNaN(value) && decimalPattern.test(value.toString());
+        }
       ),
       igst_rate: yup
       .number()
       .typeError(gstErrorMessages.TYPE_ERROR)
       .required(gstErrorMessages.ENTER_RATE)
-    //   .positive(gstErrorMessages.ENTER_VALID_RATE)
       .test(
         "decimal-validation",
         gstErrorMessages.ENTER_VALID_RATE,
-        (value: number) => !isNaN(value) && value.toString().match(/^\d+(\.\d{1,2})?$/)
+        (value: number) => {
+          const decimalPattern = /^\d{1,2}(\.\d{1,2})?$/;
+          return !isNaN(value) && decimalPattern.test(value.toString());
+        }
       ),
     });
   };

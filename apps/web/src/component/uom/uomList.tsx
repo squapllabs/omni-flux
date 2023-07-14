@@ -149,7 +149,7 @@ const UomList = () => {
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable
-          title={'User List'}
+          title={'Uom List'}
           columns={columns}
           options={options}
           data={getAlluom}

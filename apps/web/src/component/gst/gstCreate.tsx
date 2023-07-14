@@ -6,10 +6,10 @@ import { getGstcreationYupschema } from '../../helper/constants/gst-constants';
 import { Grid } from '@mui/material';
 import { createGst,updateGst } from '../../hooks/gst-hooks';
 import gstService from '../../service/gst-service';
+
 const validationSchema = getGstcreationYupschema(Yup);
 
-
-const gstCreate: React.FC = (props: any) => {
+const GstCreate: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
     gst_id:'',
     rate: '',
@@ -54,7 +54,7 @@ const gstCreate: React.FC = (props: any) => {
             props.setMessage('Gst created successfully');
             props.setOpenDeleteSnack(true);
           }
-        },
+        }
       });
     }
     else {
@@ -145,4 +145,4 @@ const gstCreate: React.FC = (props: any) => {
   );
 };
 
-export default gstCreate;
+export default GstCreate;

@@ -53,26 +53,10 @@ const Header = () => {
               <Link href="/gst-list" color="inherit">Gst</Link>
             </li>
             <li>
-              <Link color="inherit" onClick={handleClick}>
-                Product & Solution
-              </Link>
-              <Menu
-                id="sub-menu"
-                className={Styles.subMenu}
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'sub-menu',
-                }}
-              >
-                <MenuItem onClick={handleClose}>Cloud Computing</MenuItem>
-                <MenuItem onClick={handleClose}>Security</MenuItem>
-                <MenuItem onClick={handleClose}>Content Delivery</MenuItem>
-              </Menu>
+              <Link href="/uom-list" color="inherit">Uom</Link>
             </li>
             <li>
-              <Link color="inherit">Resources</Link>
+            <Link href="/hsncode-list" color="inherit">Hsn Code</Link>
             </li>
             <li>
               <Link color="inherit">All Product</Link>
