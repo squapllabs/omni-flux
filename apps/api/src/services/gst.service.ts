@@ -89,7 +89,7 @@ const getAllGst = async () => {
  * Method to delete gst
  * @param gstId
  */
-const deleteGst = async (gstId) => {
+const deleteGst = async (gstId: number) => {
   try {
     const gstExist = await gstDao.getById(gstId);
     if (!gstExist) {

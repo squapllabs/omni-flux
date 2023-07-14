@@ -13,8 +13,9 @@ import UserInformation from '../component/users/userInformation';
 import GstList from '../component/gst/gstList';
 import GstCreate from '../component/gst/gstCreate';
 import UomList from '../component/uom/uomList';
-import HsnCodeList from '../component/hsnCode/hsnCodeList'
+import HsnCodeList from '../component/hsnCode/hsnCodeList';
 
+import ClientList from '../component/client/clientList';
 const route = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   return (
@@ -101,6 +102,15 @@ const route = () => {
             <ProtectedRoute>
               <Layout />
               <HsnCodeList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/client-list"
+          element={
+            <ProtectedRoute>
+              <Layout />
+              <ClientList />
             </ProtectedRoute>
           }
         />

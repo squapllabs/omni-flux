@@ -7,14 +7,14 @@ import { Tooltip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
-import { useGetAlluom, useDeleteUom } from '../../hooks/uom-hooks';
-import UomForm from './uomForm';
+import { useGetAllClient, useDeleteClient } from '../../hooks/client-hooks';
+import ClientForm from './clientForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
 
-const UomList = () => {
-  const { data: getAlluom } = useGetAlluom();
-  const { mutate: getDeleteuomByID } = useDeleteUom();
+const ClientList = () => {
+  const { data: getAllClient } = useGetAllClient();
+  const { mutate: getDeleteClientByID } = useDeleteClient();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [uomId, setUomID] = useState();
@@ -23,7 +23,7 @@ const UomList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
-  const deleteUserHandler = (id: any) => {
+  const deleteClientHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
   };
@@ -45,8 +45,8 @@ const UomList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const deleteUom = () => {
-    getDeleteuomByID(value);
+  const deleteClient = () => {
+    getDeleteClientByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
@@ -54,7 +54,7 @@ const UomList = () => {
 
   const columns = [
     {
-      name: 'uom_id',
+      name: 'client_id',
       label: 'Uom',
       options: {
         display: false,
@@ -72,8 +72,8 @@ const UomList = () => {
       },
     },
     {
-      name: 'description',
-      label: 'Description',
+      name: 'contact_details',
+      label: 'Contact',
       options: {
         display: true,
         filter: false,
@@ -103,7 +103,7 @@ const UomList = () => {
                 <IconButton
                   aria-label="Delete"
                   size="small"
-                  onClick={() => deleteUserHandler(tableMeta.rowData[0])}
+                  onClick={() => deleteClientHandler(tableMeta.rowData[0])}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -143,18 +143,18 @@ const UomList = () => {
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable
-          title={'UOM List'}
+          title={'Client List'}
           columns={columns}
           options={options}
-          data={getAlluom}
+          data={getAllClient}
         />
       </div>
       <CustomDialogBox
         open={open}
         handleClose={handleClose}
-        title="Uom Form"
+        title="Client Form"
         content={
-          <UomForm
+          <ClientForm
             setOpen={setOpen}
             open={open}
             setReload={setReload}
@@ -168,9 +168,9 @@ const UomList = () => {
       <CustomDialog
         open={openDelete}
         handleClose={handleCloseDelete}
-        title="Delete User"
-        content="Are you want to delete this User?"
-        handleConfirm={deleteUom}
+        title="Delete Client"
+        content="Are you want to delete this Client?"
+        handleConfirm={deleteClient}
       />
       <MySnackbar
         open={openSnack}
@@ -183,4 +183,4 @@ const UomList = () => {
   );
 };
 
-export default UomList;
+export default ClientList;

@@ -94,3 +94,36 @@ model hsn_code {
 
   @@map(name: "hsn_code")
 }
+
+model category {
+  category_id    Int      @id @default(autoincrement())
+  name           String
+  project_id     Int?
+  budget         Float?
+  created_date   DateTime
+  updated_date   DateTime
+  created_by     Int?
+  updated_by     Int?
+}
+
+model sub_category {
+  sub_category_id    Int      @id @default(autoincrement())
+  name               String
+  category_id        Int?
+  budget             Float?
+  created_date       DateTime
+  updated_date       DateTime
+  created_by         Int?
+  updated_by         Int?
+}
+
+model sub_sub_category {
+  sub_sub_category_id    Int      @id @default(autoincrement())
+  name                   String
+  sub_category_id        Int?
+  budget                 Float?
+  created_date           DateTime
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+}
