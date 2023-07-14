@@ -83,3 +83,14 @@ model client {
   updated_by      Int?     
 }
 
+model hsn_code {
+  hsn_code_id   Int      @id @default(autoincrement())
+  code          String
+  description   String?
+  created_date  DateTime
+  updated_date  DateTime
+  created_by    Int?
+  updated_by    Int?
+
+  @@map(name: "hsn_code")
+}

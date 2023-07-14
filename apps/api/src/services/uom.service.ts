@@ -1,5 +1,5 @@
 import uomDao from '../dao/uom.dao';
-import { createUomBody, updateUomBody } from '../interfaces/uomInterface';
+import { createUomBody, updateUomBody } from '../interfaces/uom.Interface';
 
 /**
  * Method to Create a New Uom
@@ -95,7 +95,7 @@ const deleteUom = async (uomId: number) => {
       const result = { success: false, message: 'Uom Id Not Exist' };
       return result;
     }
-    const data = await uomDao.deleteuom(uomId);
+    const data = await uomDao.deleteUom(uomId);
     if (data) {
       const result = {
         success: true,

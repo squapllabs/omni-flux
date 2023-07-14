@@ -3,7 +3,7 @@ import userRoleDao from '../dao/userRole.dao';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
-import { createUserBody, updateUserBody } from '../interfaces/userInterface';
+import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
 
 /**
  * Method to Create a New User
