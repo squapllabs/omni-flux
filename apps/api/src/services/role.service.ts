@@ -1,5 +1,5 @@
 import roleDao from '../dao/role.dao';
-import { createRoleBody, updateRoleBody } from '../interfaces/roleInterface';
+import { createRoleBody, updateRoleBody } from '../interfaces/role.Interface';
 
 /**
  * Method to Create a New Role

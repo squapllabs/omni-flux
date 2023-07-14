@@ -1,5 +1,5 @@
 import gstDao from '../dao/gst.dao';
-import { createGstBody, updateGstBody } from '../interfaces/gstInterface';
+import { createGstBody, updateGstBody } from '../interfaces/gst.Interface';
 
 /**
  * Method to Create a New Gst

@@ -2,7 +2,7 @@ import clientDao from '../dao/client.dao';
 import {
   createClientBody,
   updateClientBody,
-} from '../interfaces/clientInterface';
+} from '../interfaces/client.Interface';
 
 /**
  * Method to Create a New Client

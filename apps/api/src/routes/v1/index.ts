@@ -5,6 +5,7 @@ import role from './role.route';
 import gst from './gst.route';
 import uom from './uom.route';
 import client from './client.route';
+import hsnCode from './hsnCode.route';
 
 const router = express.Router();
 const defaultRoutes = [
@@ -31,6 +32,10 @@ const defaultRoutes = [
   {
     path: '/client',
     route: client,
+  },
+  {
+    path: '/hsn-code',
+    route: hsnCode,
   },
 ];
 
