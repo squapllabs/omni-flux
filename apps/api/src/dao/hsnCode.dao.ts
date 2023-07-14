@@ -1,7 +1,7 @@
 import prisma from '../utils/prisma';
 
 const add = async (
-  name: string,
+  code: string,
   description: string,
   created_by: bigint,
   connectionObj = null
@@ -9,61 +9,61 @@ const add = async (
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const uom = await transaction.uom.create({
+    const hsnCode = await transaction.hsn_code.create({
       data: {
-        name,
+        code,
         description,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
       },
     });
-    return uom;
+    return hsnCode;
   } catch (error) {
-    console.log('Error occurred in uomDao add', error);
+    console.log('Error occurred in hsnDao add', error);
     throw error;
   }
 };
 
 const edit = async (
-  name: string,
+  code: string,
   description: string,
   updated_by: bigint,
-  uom_id: number,
+  hsn_code_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const uom = await transaction.uom.update({
+    const hsnCode = await transaction.hsn_code.update({
       where: {
-        uom_id: uom_id,
+        hsn_code_id: hsn_code_id,
       },
       data: {
-        name,
+        code,
         description,
         updated_by,
         updated_date: currentDate,
       },
     });
-    return uom;
+    return hsnCode;
   } catch (error) {
-    console.log('Error occurred in uomDao edit', error);
+    console.log('Error occurred in hsnDao edit', error);
     throw error;
   }
 };
 
-const getById = async (uomId: number, connectionObj = null) => {
+const getById = async (hsnCodeId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const uom = await transaction.uom.findUnique({
+    const hsnCode = await transaction.hsn_code.findUnique({
       where: {
-        uom_id: Number(uomId),
+        hsn_code_id: Number(hsnCodeId),
       },
     });
-    return uom;
+    return hsnCode;
   } catch (error) {
-    console.log('Error occurred in uom getById dao', error);
+    console.log('Error occurred in hsnCode getById dao', error);
     throw error;
   }
 };
@@ -71,31 +71,31 @@ const getById = async (uomId: number, connectionObj = null) => {
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const uom = await transaction.uom.findMany({
+    const hsnCode = await transaction.hsn_code.findMany({
       orderBy: [
         {
           updated_date: 'desc',
         },
       ],
     });
-    return uom;
+    return hsnCode;
   } catch (error) {
-    console.log('Error occurred in uom getAll dao', error);
+    console.log('Error occurred in hsnCode getAll dao', error);
     throw error;
   }
 };
 
-const deleteUom = async (uomId: number, connectionObj = null) => {
+const deleteHsnCode = async (hsnCodeId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const uom = await transaction.uom.delete({
+    const hsnCode = await transaction.hsn_code.delete({
       where: {
-        uom_id: Number(uomId),
+        hsn_code_id: Number(hsnCodeId),
       },
     });
-    return uom;
+    return hsnCode;
   } catch (error) {
-    console.log('Error occurred in uom deleteUom dao', error);
+    console.log('Error occurred in hsnCode deleteHsnCode dao', error);
     throw error;
   }
 };
@@ -105,5 +105,5 @@ export default {
   edit,
   getById,
   getAll,
-  deleteUom,
+  deleteHsnCode,
 };

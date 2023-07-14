@@ -5,6 +5,10 @@ import role from './role.route';
 import gst from './gst.route';
 import uom from './uom.route';
 import client from './client.route';
+import hsnCode from './hsnCode.route';
+import category from './category.route';
+import subCategory from './subCategory.route';
+import subSubCategory from './subSubCategory.route';
 
 const router = express.Router();
 const defaultRoutes = [
@@ -31,6 +35,22 @@ const defaultRoutes = [
   {
     path: '/client',
     route: client,
+  },
+  {
+    path: '/hsn-code',
+    route: hsnCode,
+  },
+  {
+    path: '/category',
+    route: category,
+  },
+  {
+    path: '/sub-category',
+    route: subCategory,
+  },
+  {
+    path: '/sub-sub-category',
+    route: subSubCategory,
   },
 ];
 
