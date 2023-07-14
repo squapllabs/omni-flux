@@ -2,27 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import Customs from '../ui/custom';
 import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
-import { createuom, updateUom } from '../../hooks/uom-hooks';
-import { getuomValidateyup } from '../../helper/constants/uom-constants';
-import uomService from '../../service/uom-service';
+import { createHsnCode, updateHsnCode } from '../../hooks/hsnCode-hooks';
+import { gethsnValidateyup } from '../../helper/constants/hst-constants';
+import hsnCodeService from '../../service/hsnCode-service';
 import * as Yup from 'yup';
+const validationSchema = gethsnValidateyup(Yup);
 
-const validationSchema = getuomValidateyup(Yup);
-const UomForm: React.FC = (props: any) => {
+const HsnCodeForm: React.FC = (props: any) => {
   console.log('props', props);
 
   const [initialValues, setInitialValues] = useState({
-    uom_id: '',
-    name: '',
+    hsn_code_id: '',
+    code: '',
     description: '',
   });
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await uomService.getOneUomByID(props.uomId);
+        const data = await hsnCodeService.getOneHsnCode(props.hsnCodeId);
+        console.log('data', data);
         setInitialValues({
-          uom_id: data?.data?.uom_id,
-          name: data?.data?.name,
+          hsn_code_id: data?.data?.hsn_code_id,
+          code: data?.data?.code,
           description: data?.data?.description,
         });
       };
@@ -30,44 +31,47 @@ const UomForm: React.FC = (props: any) => {
       fetchOne();
     }
   }, []);
-  const { mutate: createNewuom, isLoading } = createuom();
-  const { mutate: updateuom } = updateUom();
+  const { mutate: createNewHsnCode } = createHsnCode();
+  const { mutate: updateHsnById } = updateHsnCode();
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
+      console.log(values);
       if (props.mode === 'ADD') {
         const Object: any = {
-          name: values.name,
+          code: values.code,
           description: values.description,
         };
-        createNewuom(Object, {
+        createNewHsnCode(Object, {
           onSuccess: (data, variables, context) => {
+            console.log('data', data);
             if (data?.success) {
-              props.setOpen(false);
+              props.setOpenPopup(false);
               props.setReload(true);
-              props.setMessage('UOM created');
+              props.setMessage('Hsc Code created');
               props.setOpenSnack(true);
-            } else {
             }
           },
         });
       } else {
         const Object: any = {
-          uom_id: values.uom_id,
-          name: values.name,
+          hsn_code_id: values.hsn_code_id,
+          code: values.code,
           description: values.description,
         };
-        updateuom(Object, {
+        console.log('Objectdataedit', Object);
+
+        updateHsnById(Object, {
           onSuccess: (data, variables, context) => {
+            console.log('dataEdit', data);
             if (data?.success) {
-              props.setOpen(false);
+              props.setOpenPopup(false);
               props.setReload(true);
-              props.setMessage('UOM edited');
+              props.setMessage('Hsn Code edited');
               props.setOpenSnack(true);
-            } else {
-            }
+            } 
           },
         });
       }
@@ -84,15 +88,15 @@ const UomForm: React.FC = (props: any) => {
         >
           <Grid item xs={2} sm={4} md={12}>
             <Customs.CustomTextField
-              name="name"
-              label="Name"
+              name="code"
+              label="Code"
               variant="outlined"
               size="small"
-              value={formik.values.name}
+              value={formik.values.code}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.code && Boolean(formik.errors.code)}
+              helperText={formik.touched.code && formik.errors.code}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
@@ -126,4 +130,4 @@ const UomForm: React.FC = (props: any) => {
   );
 };
 
-export default UomForm;
+export default HsnCodeForm;

@@ -13,6 +13,8 @@ import UserInformation from '../component/users/userInformation';
 import GstList from '../component/gst/gstList';
 import GstCreate from '../component/gst/gstCreate';
 import UomList from '../component/uom/uomList';
+import HsnCodeList from '../component/hsnCode/hsnCodeList';
+
 import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
 const route = () => {
@@ -92,6 +94,15 @@ const route = () => {
             <ProtectedRoute>
               <Layout />
               <UomList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/hsncode-list"
+          element={
+            <ProtectedRoute>
+              <Layout />
+              <HsnCodeList />
             </ProtectedRoute>
           }
         />
