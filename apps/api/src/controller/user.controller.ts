@@ -83,6 +83,36 @@ const deleteUser = catchAsync(async (req, res) => {
   }
 });
 
+const updateStatus = catchAsync(async (req, res) => {
+  const methodName = '/updateStatus';
+  try {
+    const result = await userService.updateStatus(req.body);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const searchUser = catchAsync(async (req, res) => {
+  const methodName = '/searchUser';
+  try {
+    const result = await userService.searchUser(req.body);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getDeletedUsers = catchAsync(async (req, res) => {
+  const methodName = '/getDeletedUsers';
+  try {
+    const result = await userService.getDeletedUsers();
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createUser,
   updateUser,
@@ -92,4 +122,7 @@ export {
   getAllUser,
   userLogOut,
   deleteUser,
+  updateStatus,
+  searchUser,
+  getDeletedUsers,
 };

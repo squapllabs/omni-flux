@@ -3,8 +3,7 @@ import userRoleDao from '../dao/userRole.dao';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
-import { AES, enc } from 'crypto-js';
-import { createUserBody, updateUserBody } from '../interfaces/userInterface';
+import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
 
 /**
  * Method to Create a New User
@@ -20,11 +19,11 @@ const createUser = async (body: createUserBody) => {
       email_id,
       first_name,
       last_name,
-      user_status,
+      user_status = 'AC',
       address = null,
       created_by,
-      updated_by = null,
       role_id,
+      department,
     } = body;
 
     const userEmailExist = await userDao.getByEmailId(email_id);
@@ -44,7 +43,7 @@ const createUser = async (body: createUserBody) => {
           user_status,
           address,
           created_by,
-          updated_by,
+          department,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });
@@ -54,7 +53,6 @@ const createUser = async (body: createUserBody) => {
             role_id,
             userDetails?.user_id,
             created_by,
-            updated_by,
             prisma
           );
           userDataWithRole.push({ userRoleData: userRoleData });
@@ -89,42 +87,32 @@ const updateUser = async (body: updateUserBody) => {
   let result = null;
   try {
     const {
-      user_password,
-      contact_no,
-      email_id,
       first_name,
       last_name,
-      user_status,
-      address = null,
-      created_by,
-      updated_by = null,
+      address,
+      updated_by,
       role_id,
+      department,
       user_id,
     } = body;
 
-    const userExist: { email_id: string } = await userDao.getById(user_id);
+    const userExist = await userDao.getById(user_id);
     if (!userExist) {
-      return (result = { success: false, message: 'user does not exists' });
+      return (result = { success: false, message: 'user id does not exists' });
     }
-    const userEmailExist = await userDao.getByEmailId(email_id);
-    if (userEmailExist && !(email_id === userExist?.email_id)) {
-      return (result = { success: false, message: 'email id already exists' });
-    }
+
+    const existingUserRoleData = await userRoleDao.getByUserId(user_id);
 
     const userDataWithRole = [];
     result = await prisma
       .$transaction(async (prisma) => {
         const userDetails = await userDao.edit(
-          md5(user_password),
-          contact_no,
-          email_id,
           first_name,
           last_name,
-          user_status,
           address,
-          created_by,
           updated_by,
           user_id,
+          department,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });
@@ -133,8 +121,8 @@ const updateUser = async (body: updateUserBody) => {
           const userRoleData = await userRoleDao.edit(
             role_id,
             userDetails?.user_id,
-            created_by,
             updated_by,
+            Number(existingUserRoleData?.user_role_id),
             prisma
           );
           userDataWithRole.push({ userRoleData: userRoleData });
@@ -165,12 +153,14 @@ const updateUser = async (body: updateUserBody) => {
  * @param userId
  * @returns
  */
-const getById = async (userId: bigint) => {
+const getById = async (userId: number) => {
   try {
     let result = null;
     const userData = await userDao.getById(userId);
     if (userData) {
-      result = { success: true, data: userData };
+      const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
+      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
+      result = { success: true, data: dataToApi };
       return result;
     } else {
       result = { success: false, message: 'user id not exist' };
@@ -193,7 +183,9 @@ const getByEmailId = async (emailId: string) => {
     const userData = await userDao.getByEmailId(emailId);
 
     if (userData) {
-      result = { success: true, data: userData };
+      const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
+      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
+      result = { success: true, data: dataToApi };
       return result;
     } else {
       result = { success: false, message: 'user email not exist' };
@@ -316,7 +308,10 @@ const deleteUser = async (userId) => {
     }
     const data = await userDao.deleteUser(userId);
     if (data?.is_delete === true) {
-      const result = { success: true, message: 'Data Deleted Successfully' };
+      const result = {
+        success: true,
+        message: 'User Data Deleted Successfully',
+      };
       return result;
     } else {
       const result = { success: false, message: 'Failed to delete this user' };
@@ -325,6 +320,151 @@ const deleteUser = async (userId) => {
   } catch (error) {
     console.log('Error occurred in deleteUser user service : ', error);
     throw error;
+  }
+};
+
+/**
+ * Method for updating user_status by user_id
+ * @param body
+ * @returns
+ */
+const updateStatus = async (body) => {
+  try {
+    const { user_id, user_status } = body;
+    const userExist = await userDao.getById(user_id);
+    if (!userExist) {
+      const result = { success: false, message: 'User not exist' };
+      return result;
+    }
+    const result = await userDao.updateStatus(user_id, user_status);
+    const userData = { success: true, data: result };
+    return userData;
+  } catch (err) {
+    console.log('Error occurred in User Service : Update Status Method');
+  }
+};
+
+/**
+ * Method for custom filter API
+ * @param body
+ * @returns
+ */
+const searchUser = async (body) => {
+  try {
+    const {
+      name,
+      status = 'AC',
+      contact_no,
+      email_id,
+      size = 10,
+      page = 0,
+    } = body;
+    /* executeUserQuery is the function which contains the filter logic */
+    const users = await executeUserQuery(
+      name,
+      status,
+      contact_no,
+      email_id,
+      size,
+      page
+    );
+    const result = { success: true, data: users };
+    return result;
+  } catch (error) {
+    console.log('Error occurred in searchUser user service : ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method for Custom Query Execution
+ * @param name
+ * @param status
+ * @param contact_no
+ * @param email_id
+ * @param size
+ * @returns
+ */
+const executeUserQuery = async (
+  name: string,
+  status: string,
+  contact_no: string,
+  email_id: string,
+  size: number,
+  page: number
+) => {
+  try {
+    const offset = page > 0 ? page * size : 0;
+
+    const users = await prisma.users.findMany({
+      where: {
+        AND: [
+          {
+            OR: [
+              name
+                ? { first_name: { contains: name, mode: 'insensitive' } }
+                : {},
+              name
+                ? { last_name: { contains: name, mode: 'insensitive' } }
+                : {},
+            ],
+          },
+          { user_status: status },
+          contact_no ? { contact_no } : {},
+          email_id ? { email_id } : {},
+        ],
+      },
+      take: size,
+      skip: offset,
+    });
+
+    const count = await prisma.users.count({
+      where: {
+        AND: [
+          {
+            OR: [
+              name
+                ? { first_name: { contains: name, mode: 'insensitive' } }
+                : {},
+              name
+                ? { last_name: { contains: name, mode: 'insensitive' } }
+                : {},
+            ],
+          },
+          { user_status: status },
+          contact_no ? { contact_no } : {},
+          email_id ? { email_id } : {},
+        ],
+      },
+    });
+    const totalPages = count < size ? 1 : Math.ceil(count / size);
+
+    const userData = {
+      totalCount: count,
+      totalPage: totalPages,
+      size: size,
+      content: users,
+    };
+
+    return userData;
+  } catch (error) {
+    console.error('Error executing user query:', error);
+    throw error;
+  }
+};
+
+/**
+ * Method for updating user_status by user_id
+ * @param body
+ * @returns
+ */
+const getDeletedUsers = async () => {
+  try {
+    const result = await userDao.getDeletedUsers();
+    const userData = { success: true, data: result };
+    return userData;
+  } catch (err) {
+    console.log('Error occurred in User Service : getDeletedUsers Method');
   }
 };
 
@@ -337,4 +477,7 @@ export {
   getAllUser,
   userLogOut,
   deleteUser,
+  updateStatus,
+  searchUser,
+  getDeletedUsers,
 };

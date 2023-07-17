@@ -8,30 +8,44 @@ import {
   IconButton,
 } from '@mui/material';
 import CustomButton from './customButton';
+import { Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 interface DialogProps {
   open: boolean;
   title: string;
   content: ReactNode;
-  onClose: () => void;
+  // onClose: () => void;
+  handleClose: () => void;
+  handleConfirm: () => void;
 }
 
-const CustomDialog: FC<DialogProps> = ({ open, title, content, onClose }) => {
+const CustomDialog: FC<DialogProps> = ({
+  open,
+  title,
+  content,
+  handleClose,
+  handleConfirm,
+}) => {
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>
         {' '}
         <div style={{ display: 'flex' }}>
           <Typography variant="h6" component="div" style={{ flexGrow: '5' }}>
             {title}
           </Typography>
-          <IconButton color="default" onClick={onClose}>
+          <IconButton color="default" onClick={handleClose}>
             <CloseIcon />
           </IconButton>
         </div>
       </DialogTitle>
       <DialogContent dividers>{content}</DialogContent>
-      <DialogActions></DialogActions>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button color="primary" variant="contained" onClick={handleConfirm}>
+          Delete
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

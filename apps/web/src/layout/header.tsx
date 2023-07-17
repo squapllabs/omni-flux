@@ -47,8 +47,16 @@ const Header = () => {
               </Link>
             </li>
             <li>
+              {' '}
+              <Link color="inherit">All Product</Link>
+            </li>
+            <li>
+              {' '}
+              <Link color="inherit">Contact Us</Link>
+            </li>
+            <li>
               <Link color="inherit" onClick={handleClick}>
-                Product & Solution
+                Settings
               </Link>
               <Menu
                 id="sub-menu"
@@ -60,19 +68,43 @@ const Header = () => {
                   'aria-labelledby': 'sub-menu',
                 }}
               >
-                <MenuItem onClick={handleClose}>Cloud Computing</MenuItem>
-                <MenuItem onClick={handleClose}>Security</MenuItem>
-                <MenuItem onClick={handleClose}>Content Delivery</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  {' '}
+                  <Link href="/userList" color="inherit">
+                    Users
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  {' '}
+                  <Link href="/gst-list" color="inherit">
+                    Gst
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  {' '}
+                  <Link href="/uom-list" color="inherit">
+                    Uom
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  {' '}
+                  <Link href="/hsncode-list" color="inherit">
+                    Hsn Code
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  {' '}
+                  <Link href="/client-list" color="inherit">
+                    Client
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  {' '}
+                  <Link href="/category-list" color="inherit">
+                    Category
+                  </Link>
+                </MenuItem>
               </Menu>
-            </li>
-            <li>
-              <Link color="inherit">Resources</Link>
-            </li>
-            <li>
-              <Link color="inherit">All Product</Link>
-            </li>
-            <li>
-              <Link color="inherit">Contact Us</Link>
             </li>
           </ul>
         </div>

@@ -9,35 +9,33 @@ const add = async (
   user_status: string,
   address: string,
   created_by: bigint,
-  updated_by: bigint,
+  department: string,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const is_delete = false;
+    const isInitialLogin = true;
+    const lowercasedEmailId = email_id.toLowerCase();
     const transaction = connectionObj !== null ? connectionObj : prisma;
 
-    const dbUser = await transaction.users.create({
+    const user = await transaction.users.create({
       data: {
         user_password,
         contact_no,
-        email_id,
+        email_id: lowercasedEmailId,
         first_name,
         last_name,
         user_status,
         address,
         created_by,
-        updated_by,
         is_delete,
         created_date: currentDate,
         updated_date: currentDate,
+        department,
+        is_initial_login: isInitialLogin,
       },
     });
-
-    const user = {
-      ...dbUser,
-      user_id: Number(dbUser.user_id),
-    };
     return user;
   } catch (error) {
     console.log('Error occurred in userDao add dao', error);
@@ -46,44 +44,29 @@ const add = async (
 };
 
 const edit = async (
-  user_password: string,
-  contact_no: string,
-  email_id: string,
   first_name: string,
   last_name: string,
-  user_status: string,
   address: string,
-  created_by: bigint,
   updated_by: bigint,
-  user_id: bigint,
+  user_id: number,
+  department: string,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
-    const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
 
-    const dbUser = await transaction.users.update({
+    const user = await transaction.users.update({
       where: { user_id },
       data: {
-        user_password,
-        contact_no,
-        email_id,
         first_name,
         last_name,
-        user_status,
         address,
-        created_by,
         updated_by,
-        is_delete,
         updated_date: currentDate,
+        department,
       },
     });
-
-    const user = {
-      ...dbUser,
-      user_id: Number(dbUser.user_id),
-    };
     return user;
   } catch (error) {
     console.log('Error occurred in userDao edit dao', error);
@@ -91,22 +74,17 @@ const edit = async (
   }
 };
 
-const getById = async (userId: bigint) => {
+const getById = async (userId: number) => {
   try {
-    const dbUser = await prisma.users.findUnique({
+    const user = await prisma.users.findUnique({
       where: {
         user_id: Number(userId),
       },
     });
-
-    if (dbUser) {
-      const user = {
-        ...dbUser,
-        user_id: Number(dbUser.user_id),
-      };
-      return user;
+    if (user && user?.is_delete === true) {
+      return null;
     } else {
-      return dbUser;
+      return user;
     }
   } catch (error) {
     console.log('Error occurred in user getById dao', error);
@@ -117,23 +95,15 @@ const getById = async (userId: bigint) => {
 const getByEmailId = async (emailId: string) => {
   try {
     if (emailId) {
-      const dbUser = await prisma.users.findFirst({
+      const lowercasedEmailId = emailId.toLowerCase();
+      const user = await prisma.users.findFirst({
         where: {
-          email_id: emailId,
+          email_id: lowercasedEmailId,
           user_status: 'AC',
           is_delete: false,
         },
       });
-
-      if (dbUser) {
-        const user = {
-          ...dbUser,
-          user_id: Number(dbUser.user_id),
-        };
-        return user;
-      } else {
-        return dbUser;
-      }
+      return user;
     }
   } catch (error) {
     console.log('Error occurred in user getByEmailId dao', error);
@@ -143,17 +113,26 @@ const getByEmailId = async (emailId: string) => {
 
 const getAll = async (user_status) => {
   try {
-    const dbUser = await prisma.users.findMany({
+    const users = await prisma.users.findMany({
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
       where: {
         user_status: user_status,
       },
     });
-    const users = dbUser.map((user) => ({
-      ...user,
-      user_id: Number(user.user_id),
-    }));
-
-    return users;
+    const usersCount = await prisma.users.count({
+      where: {
+        user_status: user_status,
+      },
+    });
+    const userData = {
+      count: usersCount,
+      data: users,
+    };
+    return userData;
   } catch (error) {
     console.log('Error occurred in user getAll dao', error);
     throw error;
@@ -179,17 +158,68 @@ const deleteUser = async (userId: bigint) => {
   }
 };
 
-const getUserDataWithRoleId = async (userId: bigint) => {
+const getUserDataWithRoleId = async (userId: number) => {
   try {
     const user = await prisma.$queryRaw`
       SELECT *
       FROM users u
       LEFT JOIN user_roles ur ON u.user_id = ur.user_id
-      WHERE u.user_id = ${Number(userId)}`;
+      WHERE u.user_id = ${userId}`;
 
     return user;
   } catch (error) {
     console.log('Error occurred in user getUserDataWithRoleId dao', error);
+    throw error;
+  }
+};
+
+const updateStatus = async (
+  user_id: number,
+  user_status: string,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const user = await transaction.users.update({
+      where: { user_id },
+      data: {
+        user_status,
+        updated_date: currentDate,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log('Error occurred in userDao updateStatus dao', error);
+    throw error;
+  }
+};
+
+const getDeletedUsers = async () => {
+  try {
+    const users = await prisma.users.findMany({
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
+      where: {
+        is_delete: true,
+      },
+    });
+    const usersCount = await prisma.users.count({
+      where: {
+        is_delete: true,
+      },
+    });
+    const userData = {
+      count: usersCount,
+      data: users,
+    };
+    return userData;
+  } catch (error) {
+    console.log('Error occurred in user getAll dao', error);
     throw error;
   }
 };
@@ -202,4 +232,6 @@ export default {
   getAll,
   deleteUser,
   getUserDataWithRoleId,
+  updateStatus,
+  getDeletedUsers,
 };
