@@ -1,0 +1,167 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #f0f0f0;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 20px;
+  padding: 0 24px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin-right: auto;
+}
+.navIcon {
+  padding: 0 4px;
+}
+.icon {
+  vertical-align: middle;
+  color: grey;
+  padding: 5px;
+}
+
+.rightIcons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+}
+.dropdown {
+  position: relative;
+}
+
+.dropdownButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: inherit;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 190%;
+  left: 0;
+  display: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown.open .dropdownMenu {
+  display: flex;
+  z-index: 1;
+  width: 500px;
+  padding: 0.5rem 2rem;
+}
+
+.sequencesRow {
+  display: flex;
+  align-items: center;
+}
+.sequencesRow h2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: gray;
+  padding: 0 10px;
+}
+.sequenceNames {
+  padding: 0 10px;
+  font-size: 15px;
+}
+.Secondarynavbar {
+  display: flex;
+  align-items: center;
+  // padding:  0 24px;
+}
+.SecondaryNaVlinks {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 15px;
+}
+.SecondaryNaVlinks div {
+  padding: 0 10px;
+}
+.activeLink {
+  color: #1b92eb;
+}
+.toggleButton {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+.toggleText {
+  font-size: 18px;
+  font-weight: 500;
+  padding: 0 10px;
+}
+.actionDiv {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(227, 225, 225);
+  padding: 5px;
+  background-color: #f0f0f0;
+  width: 100%;
+  justify-content: space-around;
+}
+.Ctabuttons {
+  display: flex;
+}
+.container {
+  display: flex;
+}
+
+.dropdownContainer {
+  display: flex;
+  gap: 1rem;
+}
+.dropdowntitle {
+  display: flex;
+  flex-direction: row;
+}
+
+.searchInputContainer {
+  position: relative; // Add this
+  transition: width 0.5s;
+  overflow: hidden;
+  width: 150px;
+}
+
+.expanded {
+  width: 100%;
+}
+
+.searchInput {
+  position: absolute; // Add this
+  width: 100%; // Add this
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 3px;
+}
+
+.searchIconContainer {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.searchIcon {
+  width: 20px;
+  height: 20px;
+  fill: #333;
+}
