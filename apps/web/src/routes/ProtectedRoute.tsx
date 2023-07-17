@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { store, RootState } from '../redux/store';
 import { getToken } from '../redux/reducer';
-const ProtectedRoute: React.FC = (props) => {
+const ProtectedRoute: React.FC = (props: any) => {
   let encryptedData: { token: string } | null = null;
   let loginToken: string | null;
   const navigate = useNavigate();

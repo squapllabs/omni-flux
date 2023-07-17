@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Header from './header';
 import Navbar from '../component/menu/navbar';
 
-const Layout: React.FC = (props: any) => {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = (props: any) => {
   return (
-    <header>
+    <div>
+
       <Navbar />
-    </header>
+      <main>
+        {props.children}
+      </main>
+    </div>
   );
 };
 
