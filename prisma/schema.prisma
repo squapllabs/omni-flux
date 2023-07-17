@@ -63,7 +63,7 @@ model gst  {
 
 model uom {
   uom_id       Int      @id @default(autoincrement())
-  name         String
+  name         String   @db.VarChar(50)
   description  String?
   created_date DateTime @default(now())
   updated_date DateTime @default(now())
@@ -75,7 +75,7 @@ model uom {
 
 model client {
   client_id       Int       @id @default(autoincrement()) 
-  name            String
+  name            String    @db.VarChar(100)
   contact_details String
   created_date    DateTime
   updated_date    DateTime
@@ -85,7 +85,7 @@ model client {
 
 model hsn_code {
   hsn_code_id   Int      @id @default(autoincrement())
-  code          String
+  code          String   @db.VarChar(100)
   description   String?
   created_date  DateTime
   updated_date  DateTime
@@ -97,7 +97,7 @@ model hsn_code {
 
 model category {
   category_id    Int      @id @default(autoincrement())
-  name           String
+  name           String   @db.VarChar(100)
   project_id     Int?
   budget         Float?
   created_date   DateTime
@@ -108,7 +108,7 @@ model category {
 
 model sub_category {
   sub_category_id    Int      @id @default(autoincrement())
-  name               String
+  name               String   @db.VarChar(100)
   category_id        Int?
   budget             Float?
   created_date       DateTime
@@ -119,11 +119,29 @@ model sub_category {
 
 model sub_sub_category {
   sub_sub_category_id    Int      @id @default(autoincrement())
-  name                   String
+  name                   String   @db.VarChar(100)
   sub_category_id        Int?
   budget                 Float?
   created_date           DateTime
   updated_date           DateTime
   created_by             Int?
   updated_by             Int?
+}
+
+model project {
+  project_id     Int      @id @default(autoincrement())
+  project_name   String   @db.VarChar(100)
+  description    String?
+  user_id        Int?
+  date_started   DateTime?
+  date_ended     DateTime?
+  status         String?   @db.VarChar(50)
+  budget         Float?
+  client_id      Int?
+  document_url   String?
+  created_date   DateTime @default(now())
+  updated_date   DateTime @updatedAt
+  created_by     Int?
+  updated_by     Int?
+  is_delete      Boolean  @default(false)
 }

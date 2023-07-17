@@ -47,7 +47,7 @@ const updateCategory = async (body: updateCategoryBody) => {
       result = { success: true, data: categoryDetails };
       return result;
     } else {
-      result = { success: false, message: 'category_id not exist' };
+      result = { success: false, message: 'category_id does not exist' };
       return result;
     }
   } catch (error) {
