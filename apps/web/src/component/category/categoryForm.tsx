@@ -2,33 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import Customs from '../ui/custom';
 import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
-import { createuom, updateUom } from '../../hooks/uom-hooks';
-import { getuomValidateyup } from '../../helper/constants/uom-constants';
-import uomService from '../../service/uom-service';
+import { createCategory, updateCategory } from '../../hooks/category-hooks';
+import { getClientValidateyup } from '../../helper/constants/category/category-constants';
+import CategoryService from '../../service/category-service';
 import * as Yup from 'yup';
-const validationSchema = getuomValidateyup(Yup);
+const validationSchema = getClientValidateyup(Yup);
 const uomForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
-    uom_id: '',
+    category_id: '',
     name: '',
-    description: '',
+    budget: '',
+    project_id: '',
   });
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await uomService.getOneUomByID(props.uomId);
+        const data = await CategoryService.getOneCategoryByID(props.uomId);
         setInitialValues({
-          uom_id: data?.data?.uom_id,
+          category_id: data?.data?.category_id,
           name: data?.data?.name,
-          description: data?.data?.description,
+          budget: data?.data?.budget,
+          project_id: data?.data?.project_id,
         });
       };
 
       fetchOne();
     }
   }, []);
-  const { mutate: createNewuom, isLoading } = createuom();
-  const { mutate: updateuom } = updateUom();
+  const { mutate: createNewCategory, isLoading } = createCategory();
+  const { mutate: updateCategoryData } = updateCategory();
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -37,14 +39,15 @@ const uomForm: React.FC = (props: any) => {
       if (props.mode === 'ADD') {
         const Object: any = {
           name: values.name,
-          description: values.description,
+          budget: Number(values.budget),
+          project_id: 1,
         };
-        createNewuom(Object, {
+        createNewCategory(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
               props.setOpen(false);
               props.setReload(true);
-              props.setMessage('UOM created');
+              props.setMessage('Category created');
               props.setOpenSnack(true);
             } else {
             }
@@ -52,16 +55,16 @@ const uomForm: React.FC = (props: any) => {
         });
       } else {
         const Object: any = {
-          uom_id: values.uom_id,
+          category_id: values.category_id,
           name: values.name,
-          description: values.description,
+          budget: values.budget,
         };
-        updateuom(Object, {
+        updateCategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
               props.setOpen(false);
               props.setReload(true);
-              props.setMessage('UOM edited');
+              props.setMessage('Category edited');
               props.setOpenSnack(true);
             } else {
             }
@@ -93,21 +96,17 @@ const uomForm: React.FC = (props: any) => {
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <InputLabel id="description_id">Description</InputLabel>
-            <TextareaAutosize
-              name="description"
-              labelId="description_id"
+            <Customs.CustomTextField
+              name="budget"
+              label="Budget"
               variant="outlined"
-              minRows={4}
-              style={{ width: '548px' }}
               fullWidth
-              value={formik.values.description}
+              value={formik.values.budget}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              error={formik.touched.budget && Boolean(formik.errors.budget)}
+              helperText={formik.touched.budget && formik.errors.budget}
             />
-            {formik.errors.description && formik.touched.description && (
-              <div style={{ color: 'red' }}>{formik.errors.description}</div>
-            )}
           </Grid>
           <Grid item xs={2} sm={4} md={6}>
             <Customs.CustomButton

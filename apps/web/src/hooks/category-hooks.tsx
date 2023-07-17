@@ -29,7 +29,7 @@ const createCategory = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllClient']);
+        queryClient.invalidateQueries(['useGetAllCategory']);
       },
     }
   );
@@ -43,7 +43,7 @@ const updateCategory = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllClient']);
+        queryClient.invalidateQueries(['useGetAllCategory']);
       },
     }
   );
