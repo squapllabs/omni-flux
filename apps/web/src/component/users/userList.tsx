@@ -4,8 +4,7 @@ import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import {
   useGetAllUsers,
-  useDeleteUsers,
-  useGetAllInactiveUsers,
+  useDeleteUsers
 } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import { Button } from '@mui/material';
@@ -20,8 +19,6 @@ import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import axiosinterceptor from '../../helper/custom_axios';
-import { environment } from '../../environment/environment';
 import userService from '../../service/user-service';
 
 function TabPanel(props: any) {
@@ -46,7 +43,6 @@ function TabPanel(props: any) {
 
 const UserList = () => {
   const { data: getAllUsers, isLoading: loader } = useGetAllUsers();
-  const { data: getAllInactiveUsers } = useGetAllInactiveUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
@@ -149,8 +145,7 @@ const UserList = () => {
         filter: false,
         sort: false,
       },
-    },
-    // { visible === false ?   
+    }, 
     {
       name: '',
       label: 'Options',
@@ -193,8 +188,6 @@ const UserList = () => {
         },
       },
     }
-  //   : ""
-  // }
   ];
 
   const columnsOne = [

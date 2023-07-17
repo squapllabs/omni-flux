@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 
 const validationSchema = getuomValidateyup(Yup);
 const UomForm: React.FC = (props: any) => {
-  console.log('props', props);
 
   const [initialValues, setInitialValues] = useState({
     uom_id: '',
@@ -30,7 +29,7 @@ const UomForm: React.FC = (props: any) => {
       fetchOne();
     }
   }, []);
-  const { mutate: createNewuom, isLoading } = createuom();
+  const { mutate: createNewuom } = createuom();
   const { mutate: updateuom } = updateUom();
   const formik = useFormik({
     initialValues,
@@ -49,7 +48,6 @@ const UomForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('UOM created');
               props.setOpenSnack(true);
-            } else {
             }
           },
         });
@@ -66,7 +64,6 @@ const UomForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('UOM edited');
               props.setOpenSnack(true);
-            } else {
             }
           },
         });

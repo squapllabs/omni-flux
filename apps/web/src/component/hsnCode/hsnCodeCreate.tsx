@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 const validationSchema = gethsnValidateyup(Yup);
 
 const HsnCodeForm: React.FC = (props: any) => {
-  console.log('props', props);
 
   const [initialValues, setInitialValues] = useState({
     hsn_code_id: '',
@@ -20,7 +19,6 @@ const HsnCodeForm: React.FC = (props: any) => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
         const data = await hsnCodeService.getOneHsnCode(props.hsnCodeId);
-        console.log('data', data);
         setInitialValues({
           hsn_code_id: data?.data?.hsn_code_id,
           code: data?.data?.code,
@@ -38,7 +36,6 @@ const HsnCodeForm: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(values);
       if (props.mode === 'ADD') {
         const Object: any = {
           code: values.code,
@@ -46,7 +43,6 @@ const HsnCodeForm: React.FC = (props: any) => {
         };
         createNewHsnCode(Object, {
           onSuccess: (data, variables, context) => {
-            console.log('data', data);
             if (data?.success) {
               props.setOpenPopup(false);
               props.setReload(true);
@@ -61,11 +57,9 @@ const HsnCodeForm: React.FC = (props: any) => {
           code: values.code,
           description: values.description,
         };
-        console.log('Objectdataedit', Object);
 
         updateHsnById(Object, {
           onSuccess: (data, variables, context) => {
-            console.log('dataEdit', data);
             if (data?.success) {
               props.setOpenPopup(false);
               props.setReload(true);

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Customs from '../ui/custom';
 import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { getUsereditYupschema } from '../../helper/constants/user-constants';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
@@ -18,11 +17,9 @@ const UserEdit = () => {
   const { data: getOneuserData, isLoading } = getByuserID(
     Number(routeParams?.id)
   );
-  console.log('getOneuserData', getOneuserData);
 
   const { mutate: updateUserData } = updateUser();
   const { data: getAllRoles } = useGetAllRoles();
-  console.log('getAllRoles', getAllRoles);
   const [OpenSnackbar, setOpenSnakBar] = useState(false);
   const [message, setMessage] = useState('');
   const handleSnackBarClose = () => {
@@ -57,7 +54,6 @@ const UserEdit = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(values);
       const Object: any = {
         first_name: values.first_name,
         last_name: values.last_name,
@@ -70,7 +66,6 @@ const UserEdit = () => {
       };
       updateUserData(Object, {
         onSuccess: (data, variables, context) => {
-          console.log('data', data);
           if (data?.success === true) {
             setOpenSnakBar(true);
             setMessage('User Data Has updated Successfully');
@@ -86,7 +81,6 @@ const UserEdit = () => {
     return <div>Loading...</div>;
   }
   return (
-    <>
       <div className={Styles.container}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.fields}>
@@ -231,7 +225,6 @@ const UserEdit = () => {
           autoHideDuration={1000}
         />
       </div>
-    </>
   );
 };
 

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import Customs from '../ui/custom';
-import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
+import { Grid } from '@mui/material';
 import { createCategory, updateCategory } from '../../hooks/category-hooks';
 import { getClientValidateyup } from '../../helper/constants/category/category-constants';
 import CategoryService from '../../service/category-service';
 import * as Yup from 'yup';
+
+
 const validationSchema = getClientValidateyup(Yup);
-const uomForm: React.FC = (props: any) => {
+const UomForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
     category_id: '',
     name: '',
@@ -29,7 +31,7 @@ const uomForm: React.FC = (props: any) => {
       fetchOne();
     }
   }, []);
-  const { mutate: createNewCategory, isLoading } = createCategory();
+  const { mutate: createNewCategory } = createCategory();
   const { mutate: updateCategoryData } = updateCategory();
   const formik = useFormik({
     initialValues,
@@ -49,7 +51,6 @@ const uomForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('Category created');
               props.setOpenSnack(true);
-            } else {
             }
           },
         });
@@ -66,7 +67,6 @@ const uomForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('Category edited');
               props.setOpenSnack(true);
-            } else {
             }
           },
         });
@@ -122,4 +122,4 @@ const uomForm: React.FC = (props: any) => {
   );
 };
 
-export default uomForm;
+export default UomForm;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Customs from '../ui/custom';
 import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
@@ -45,14 +45,13 @@ const UserCreate = () => {
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
-  const { mutate: createNewusers, isLoading } = createUser();
+  const { mutate: createNewusers } = createUser();
   const { data: getAllRoles } = useGetAllRoles();
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       const Object: any = {
         first_name: values.first_name,
         last_name: values.last_name,
@@ -64,7 +63,6 @@ const UserCreate = () => {
       };
       createNewusers(Object, {
         onSuccess: (data, variables, context) => {
-          console.log('data', data);
           if (data?.success) {
             setMessage('User created successfully');
             setOpenSnakBar(true);
@@ -81,7 +79,6 @@ const UserCreate = () => {
     },
   });
   return (
-    <>
       <div className={Styles.container}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.fields}>
@@ -245,7 +242,6 @@ const UserCreate = () => {
           autoHideDuration={1000}
         />
       </div>
-    </>
   );
 };
 

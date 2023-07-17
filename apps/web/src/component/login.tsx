@@ -76,7 +76,6 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
               dispatch(setToken({ key: 'Data', value: data }));
               navigate('/home');
               const userData = await userService.getOneUser(values?.email);
-              console.log('userData', userData);
               if (userData?.data?.userData?.is_initial_login) {
                 const object: any = {
                   email_id: values?.email,
@@ -88,8 +87,6 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                     }
                   },
                 });
-              } else {
-                // navigate('/home');
               }
             } else setMessage('Username & Password is Incorrect');
           },

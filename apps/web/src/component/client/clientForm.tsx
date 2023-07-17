@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import Customs from '../ui/custom';
-import { Grid, InputLabel } from '@mui/material';
+import { Grid } from '@mui/material';
 import { createClient, updateClient } from '../../hooks/client-hooks';
 import { getClientValidateyup } from '../../helper/constants/client-constants';
 import clientService from '../../service/client-service';
@@ -27,7 +27,7 @@ const ClientForm: React.FC = (props: any) => {
       fetchOne();
     }
   }, []);
-  const { mutate: createNewClient, isLoading } = createClient();
+  const { mutate: createNewClient } = createClient();
   const { mutate: updateClientDetails } = updateClient();
   const formik = useFormik({
     initialValues,
@@ -46,7 +46,6 @@ const ClientForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('Client created');
               props.setOpenSnack(true);
-            } else {
             }
           },
         });
@@ -63,7 +62,6 @@ const ClientForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('Client edited');
               props.setOpenSnack(true);
-            } else {
             }
           },
         });
