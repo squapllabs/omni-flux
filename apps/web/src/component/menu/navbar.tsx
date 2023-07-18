@@ -8,14 +8,19 @@ import PlayIcon from './icons/playIcon';
 import EnrichIcon from './icons/enrichIcon';
 import SearchBar from './searchBar';
 import Dropdown from './dropDown';
-
+import Button from './button';
 import CallIcon from './icons/callIcon';
 import HelpIcon from './icons/help';
 import AccountIcon from './icons/account';
 import SecondaryNavbar from './secondaryNavbar';
 import BellIcon from './icons/bellIcon';
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  function handleClickToAddAccount() {
+    navigate('/add-products');
+  }
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -282,8 +287,6 @@ const Navbar = () => {
             </div>
           </Dropdown>
 
-
-
           <Dropdown
             label={
               <div>
@@ -294,6 +297,7 @@ const Navbar = () => {
             <li>Submenu Item 1</li>
             <li>Submenu Item 2</li>
             <li>Submenu Item 3</li>
+            <Button text="Add product" onClick={handleClickToAddAccount} />
           </Dropdown>
           <Dropdown
             label={
@@ -318,8 +322,6 @@ const Navbar = () => {
             <li>Submenu Item 2</li>
             <li>Submenu Item 3</li>
           </Dropdown>
-
-
         </div>
         <div className={Styles.rightIcons}>
           <SearchBar onSearch={handleSearch} />
