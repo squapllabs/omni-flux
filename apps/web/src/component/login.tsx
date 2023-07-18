@@ -195,11 +195,10 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                   <div className={Styles.loginButton}>
                     <Button
                       variant="contained"
-                      // color="primary"
                       sx={{ backgroundColor: '#7f56d9' }}
                       onClick={(e) => handleSubmit(e)}
                       fullWidth
-                      className={Styles.submitButton}
+                      // className={classes.button}
                       endIcon={
                         isLoading && (
                           <CircularProgress size={20} sx={{ color: 'white' }} />

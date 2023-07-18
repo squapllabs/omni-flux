@@ -1,3 +1,5 @@
+import hsnCodeService from '../../service/hsnCode-service';
+
 export const userErrorMessages = {
   ENTER_CODE: 'Code is required',
   ENTER_DESCRIPTION: 'Description is required',
@@ -14,7 +16,31 @@ export const gethisnValidateyup = (yup: any) => {
       .required(userErrorMessages.ENTER_CODE)
       .matches(/^[0-9]+$/, userErrorMessages.ENTER_NUMBERONLY)
       .min(4, userErrorMessages.MIN_CODE)
-      .max(8, userErrorMessages.MAX_CODE),
+      .max(8, userErrorMessages.MAX_CODE)
+      .test(
+        'code-availability',
+        'Code is already present',
+        async (value: any) => {
+          if (value) {
+            console.log('check value inside condition-->', value);
+            const response = await hsnCodeService.getOneHsnCode(1);
+            return response?.success;
+          }
+          return true;
+        }
+      ),
+    // .test(
+    //   'code-availability',
+    //   'Code is already present',
+    //   async (value: any) => {
+    //     console.log('value', value);
+    //     let response = await hsnCodeService.getOneHsnCode(10);
+    //     if (response) {
+    //       return response?.success;
+    //     }
+    //     console.log(response);
+    //   }
+    // ),
     description: yup
       .string()
       .typeError(userErrorMessages.ENTER_DESCRIPTION)
