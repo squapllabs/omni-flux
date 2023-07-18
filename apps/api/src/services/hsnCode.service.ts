@@ -128,7 +128,7 @@ const getByCode = async (code: string) => {
     let result = null;
     const hsnCodeData = await hsnCodeDao.getByCode(code);
     if (hsnCodeData) {
-      result = { success: true, is_exist: true };
+      result = { success: true, is_exist: true, data: hsnCodeData };
       return result;
     } else {
       result = { success: false, is_exist: false };
