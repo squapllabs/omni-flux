@@ -3,8 +3,6 @@ import {
   IconButton,
   Tooltip,
   Link,
-  Menu,
-  MenuItem,
   Avatar,
 } from '@mui/material';
 import authService from '../service/auth-service';
@@ -24,15 +22,7 @@ const Header = () => {
       navigate('/');
     }
   };
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  
   return (
     <div>
       <div className={Styles.container}>
@@ -54,58 +44,9 @@ const Header = () => {
               {' '}
               <Link color="inherit">Contact Us</Link>
             </li>
-            <li>
-              <Link color="inherit" onClick={handleClick}>
+            <Link href="/setting" color="inherit">
                 Settings
               </Link>
-              <Menu
-                id="sub-menu"
-                className={Styles.subMenu}
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'sub-menu',
-                }}
-              >
-                <MenuItem onClick={handleClose}>
-                  {' '}
-                  <Link href="/userList" color="inherit">
-                    Users
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  {' '}
-                  <Link href="/gst-list" color="inherit">
-                    Gst
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  {' '}
-                  <Link href="/uom-list" color="inherit">
-                    Uom
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  {' '}
-                  <Link href="/hsncode-list" color="inherit">
-                    Hsn Code
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  {' '}
-                  <Link href="/client-list" color="inherit">
-                    Client
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  {' '}
-                  <Link href="/category-list" color="inherit">
-                    Category
-                  </Link>
-                </MenuItem>
-              </Menu>
-            </li>
           </ul>
         </div>
         <div className={Styles.loginprofile}>

@@ -180,14 +180,14 @@ const HscCodeList = () => {
     <CustomDialog
       open={open}
       handleClose={handleClose}
-      title="Delete Hsc Code"
-      content="Are you want to delete this Hsc Code?"
+      title="Delete Hsn Code"
+      content="Are you want to delete this Hsn Code?"
       handleConfirm={deleteHscCode}
     />
     <CustomDialogBox
         open={openPopup}
         handleClose={handleClosePopup}
-        title="Gst Creation"
+        title="Hsn Code Creation"
         content={
           <HsnForm
             setOpenPopup={setOpenPopup}

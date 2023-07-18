@@ -23,7 +23,7 @@ const GstList = () => {
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [gstId,setGstId] = useState();
+  const [gstId, setGstId] = useState();
 
   const deleteGstHandler = (id: number) => {
     setValue(id);
@@ -89,12 +89,27 @@ const GstList = () => {
       },
     },
     {
+      name: 'sgst_rate',
+      label: 'Sgst Rate',
+      options: {
+        display: true,
+        filter: false,
+        sort: false,
+        customBodyRender: (value: any, tableMeta: any) => {
+          return value ? value : '-';
+        },
+      },
+    },
+    {
       name: 'cgst_rate',
       label: 'Cgst Rate',
       options: {
         display: true,
         filter: false,
         sort: false,
+        customBodyRender: (value: any, tableMeta: any) => {
+          return value ? value : '-';
+        },
       },
     },
     {
@@ -104,6 +119,9 @@ const GstList = () => {
         display: true,
         filter: false,
         sort: false,
+        customBodyRender: (value: any, tableMeta: any) => {
+          return value ? value : '-';
+        },
       },
     },
     {
