@@ -64,7 +64,6 @@ const createProduct = async (body: createProductBody) => {
 const createProductBulk = async (products: createProductBody[]) => {
   try {
     const newProducts: any[] = [];
-
     for (const product of products) {
       const {
         product_name,

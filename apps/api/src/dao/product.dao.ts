@@ -39,7 +39,7 @@ const addBulk = async (products: any[], connectionObj = null) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-
+    
     const createdProducts = await transaction.product.createMany({
       data: products.map((product) => ({
         ...product,

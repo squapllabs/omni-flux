@@ -14,7 +14,6 @@ const createProduct = catchAsync(async (req, res) => {
   });
   const addBulkProduct = catchAsync(async (req, res) => {
     const methodName = '/addBulkProduct';
-    console.log(req.body)
     try {
       const result = await productService.createProductBulk(req.body);
       res.send(result);
