@@ -145,3 +145,16 @@ model project {
   updated_by     Int?
   is_delete      Boolean  @default(false)
 }
+model product {
+  product_id Int @id @default(autoincrement())
+  product_name String @db.VarChar(100)
+  sub_sub_category_id Int?
+  description String?
+  hsn_code_id Int?
+  gst_id Int?
+  uom_id Int?
+  created_date   DateTime
+  updated_date   DateTime 
+  created_by     Int?
+  updated_by     Int?
+}

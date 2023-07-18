@@ -31,7 +31,7 @@ router.put(
   updateHsnCode
 );
 
-router.get('/getAll', authMiddleware, getAllHsnCode);
+router.get('/getAll',  getAllHsnCode);
 
 router.get('/get/:hsn_code_id', authMiddleware, getByHsnCodeId);
 
