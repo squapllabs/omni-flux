@@ -121,7 +121,7 @@ const getByName = async (name: string) => {
   try {
     let result = null;
     const uomData = await uomDao.getByName(name);
-    if (uomData) {
+    if (uomData.length > 0) {
       result = { success: true, is_exist: true };
       return result;
     } else {
