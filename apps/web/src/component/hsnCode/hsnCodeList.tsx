@@ -22,7 +22,7 @@ const HscCodeList = () => {
   const [openPopup, setOpenPopup] = useState(false);
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
-  const [hsnCodeId,setHsnCodeId] = useState();
+  const [hsnCodeId, setHsnCodeId] = useState();
 
   const deleteHsnCodeHandler = (id: number) => {
     setValue(id);
@@ -56,7 +56,6 @@ const HscCodeList = () => {
     setHsnCodeId(value);
     setOpenPopup(true);
   };
-
 
   const columns = [
     {
@@ -99,7 +98,7 @@ const HscCodeList = () => {
         sort: false,
       },
     },
-   
+
     {
       name: '',
       label: 'Options',
@@ -157,37 +156,37 @@ const HscCodeList = () => {
 
   return (
     <div className={Styles.container}>
-    <div className={Styles.buttonContainer}>
-      <Button
-        variant="contained"
-        color="primary"
-        startIcon={<AddCircleOutlinedIcon />}
-        onClick={(e) => handleAdd(e)}
-      >
-        Add
-      </Button>
-    </div>
-    <div className={Styles.tableContainer}>
-      <MUIDataTable
-        title={`Hsn Code List (${
-          getAllHsnData?.length ? getAllHsnData?.length : 0
-        })`}
-        data={getAllHsnData}
-        columns={columns}
-        options={options}
+      <div className={Styles.buttonContainer}>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddCircleOutlinedIcon />}
+          onClick={(e) => handleAdd(e)}
+        >
+          Add
+        </Button>
+      </div>
+      <div className={Styles.tableContainer}>
+        <MUIDataTable
+          title={`HSN Code List (${
+            getAllHsnData?.length ? getAllHsnData?.length : 0
+          })`}
+          data={getAllHsnData}
+          columns={columns}
+          options={options}
+        />
+      </div>
+      <CustomDialog
+        open={open}
+        handleClose={handleClose}
+        title="Delete HSN Code"
+        content="Are you want to delete this Hsc Code?"
+        handleConfirm={deleteHscCode}
       />
-    </div>
-    <CustomDialog
-      open={open}
-      handleClose={handleClose}
-      title="Delete Hsc Code"
-      content="Are you want to delete this Hsc Code?"
-      handleConfirm={deleteHscCode}
-    />
-    <CustomDialogBox
+      <CustomDialogBox
         open={openPopup}
         handleClose={handleClosePopup}
-        title="Gst Creation"
+        title="HSN Creation"
         content={
           <HsnForm
             setOpenPopup={setOpenPopup}
@@ -200,14 +199,14 @@ const HscCodeList = () => {
           />
         }
       />
-    <MySnackbar
-      open={openSnack}
-      message={message}
-      onClose={handleSnackBarClose}
-      severity={'success'}
-      autoHideDuration={1000}
-    />
-  </div>
+      <MySnackbar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        severity={'success'}
+        autoHideDuration={1000}
+      />
+    </div>
   );
 };
 

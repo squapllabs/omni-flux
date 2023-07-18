@@ -3,7 +3,7 @@ import { Route, Routes, RouteProps } from 'react-router-dom';
 import Login from '../component/login';
 import Home from '../component/home';
 import ForgetPassword from '../component/forgetPassword';
-import ResetPassword from '../component/resetPassword/[id]/[token]';
+import ResetPassword from '../component/resetPassword/token';
 import ProtectedRoute from '../auth/ProtectedRoute';
 import Layout from './layout';
 import UserCreate from '../component/users/userCreate';

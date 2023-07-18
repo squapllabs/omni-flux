@@ -17,7 +17,7 @@ const ClientList = () => {
   const { mutate: getDeleteClientByID } = useDeleteClient();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [uomId, setUomID] = useState();
+  const [clientId, setClientID] = useState();
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -39,7 +39,7 @@ const ClientList = () => {
   };
   const handleEdit = (event: React.FormEvent, value: any) => {
     setMode('EDIT');
-    setUomID(value);
+    setClientID(value);
     setOpen(true);
   };
   const handleSnackBarClose = () => {
@@ -159,7 +159,7 @@ const ClientList = () => {
             open={open}
             setReload={setReload}
             mode={mode}
-            uomId={uomId}
+            clientId={clientId}
             setOpenSnack={setOpenSnack}
             setMessage={setMessage}
           />

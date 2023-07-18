@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 
 const validationSchema = getuomValidateyup(Yup);
 const UomForm: React.FC = (props: any) => {
-
   const [initialValues, setInitialValues] = useState({
     uom_id: '',
     name: '',
@@ -82,7 +81,7 @@ const UomForm: React.FC = (props: any) => {
           <Grid item xs={2} sm={4} md={12}>
             <Customs.CustomTextField
               name="name"
-              label="Name"
+              label="Unit Of Measurement"
               variant="outlined"
               size="small"
               value={formik.values.name}

@@ -7,7 +7,6 @@ import { getClientValidateyup } from '../../helper/constants/category/category-c
 import CategoryService from '../../service/category-service';
 import * as Yup from 'yup';
 
-
 const validationSchema = getClientValidateyup(Yup);
 const UomForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
@@ -19,7 +18,7 @@ const UomForm: React.FC = (props: any) => {
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await CategoryService.getOneCategoryByID(props.uomId);
+        const data = await CategoryService.getOneCategoryByID(props.categoryId);
         setInitialValues({
           category_id: data?.data?.category_id,
           name: data?.data?.name,

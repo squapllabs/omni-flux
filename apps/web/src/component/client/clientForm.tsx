@@ -16,7 +16,7 @@ const ClientForm: React.FC = (props: any) => {
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await clientService.getOneClientByID(props.uomId);
+        const data = await clientService.getOneClientByID(props.clientId);
         setInitialValues({
           client_id: data?.data?.client_id,
           name: data?.data?.name,
