@@ -3,12 +3,18 @@ import { useFormik } from 'formik';
 import Customs from '../ui/custom';
 import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
 import { createuom, updateUom } from '../../hooks/uom-hooks';
-import { getuomValidateyup } from '../../helper/constants/uom-constants';
+import {
+  getuomCreateValidateyup,
+  getuomUpdateValidateyup,
+} from '../../helper/constants/uom-constants';
 import uomService from '../../service/uom-service';
 import * as Yup from 'yup';
 
-const validationSchema = getuomValidateyup(Yup);
 const UomForm: React.FC = (props: any) => {
+  const validationSchema =
+    props.mode === 'ADD'
+      ? getuomCreateValidateyup(Yup)
+      : getuomUpdateValidateyup(Yup);
   const [initialValues, setInitialValues] = useState({
     uom_id: '',
     name: '',

@@ -8,7 +8,7 @@ export const userErrorMessages = {
   MAX_CODE: 'Maximum 8 digit needed',
 };
 
-export const gethisnValidateyup = (yup: any) => {
+export const gethsnCreateValidateyup = (yup: any) => {
   return yup.object().shape({
     code: yup
       .string()
@@ -22,25 +22,51 @@ export const gethisnValidateyup = (yup: any) => {
         'Code is already present',
         async (value: any) => {
           if (value) {
-            console.log('check value inside condition-->', value);
-            const response = await hsnCodeService.getOneHsnCode(1);
-            return response?.success;
+            const response = await hsnCodeService.getByHsnCode(value);
+            if (response?.success === true) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+      ),
+    description: yup
+      .string()
+      .typeError(userErrorMessages.ENTER_DESCRIPTION)
+      .required(userErrorMessages.ENTER_DESCRIPTION),
+  });
+};
+export const gethsnUpdateValidateyup = (yup: any) => {
+  return yup.object().shape({
+    hsn_code_id: yup.number().required(),
+    code: yup
+      .string()
+      .typeError(userErrorMessages.ENTER_CODE)
+      .required(userErrorMessages.ENTER_CODE)
+      .matches(/^[0-9]+$/, userErrorMessages.ENTER_NUMBERONLY)
+      .min(4, userErrorMessages.MIN_CODE)
+      .max(8, userErrorMessages.MAX_CODE)
+      .test(
+        'code-availability',
+        'Code is already present',
+        async (value: any, { parent }: yup.TestContext) => {
+          const hsnCode = parent.hsn_code_id;
+          console.log('hsnCode', hsnCode);
+          if (!hsnCode) {
+            if (value) {
+              const response = await hsnCodeService.getByHsnCode(value);
+              if (response?.success === true) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+            return false;
           }
           return true;
         }
       ),
-    // .test(
-    //   'code-availability',
-    //   'Code is already present',
-    //   async (value: any) => {
-    //     console.log('value', value);
-    //     let response = await hsnCodeService.getOneHsnCode(10);
-    //     if (response) {
-    //       return response?.success;
-    //     }
-    //     console.log(response);
-    //   }
-    // ),
     description: yup
       .string()
       .typeError(userErrorMessages.ENTER_DESCRIPTION)

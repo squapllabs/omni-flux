@@ -62,10 +62,23 @@ const deleteUom = async (id: number) => {
     throw error;
   }
 };
+
+const getOneUomByName = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/uom/getByName/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne uom :', error);
+    throw error;
+  }
+};
 export default {
   getAlluom,
   getOneUomByID,
   createUom,
   updateUom,
   deleteUom,
+  getOneUomByName,
 };
