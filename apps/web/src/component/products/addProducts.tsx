@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import './addProduct.css'; // Import CSS file for styling
 import hsnCode from '../../service/hsnCode-service';
 import umoCode from '../../service/uom-service';
+import gstRateCode from '../../service/gst-service';
 const AddProducts = () => {
   const initialValues = {
     itemCode: '',
@@ -33,10 +34,12 @@ const AddProducts = () => {
 
   const [hsnValues, setHSNValues] = useState([]);
   const [uomValues, setUOMValues] = useState([]);
+  const [gstRate, setGstRate] = useState([]);
 
   useEffect(() => {
     fetchData();
     fetchumoData();
+    fetchGstRate();
   }, []);
 
   const fetchData = async () => {
@@ -52,6 +55,15 @@ const AddProducts = () => {
     try {
       const data = await umoCode.getAlluom();
       setUOMValues(data.data);
+    } catch (error) {
+      // Handle error
+      console.log('Error in fetching HSN code data:', error);
+    }
+  };
+  const fetchGstRate = async () => {
+    try {
+      const data = await gstRateCode.getAllGst();
+      setGstRate(data.data);
     } catch (error) {
       // Handle error
       console.log('Error in fetching HSN code data:', error);
@@ -148,11 +160,19 @@ const AddProducts = () => {
           <div className="form-group">
             <label htmlFor="taxRate">Tax Rate</label>
             <Field
-              type="number"
+              as="select"
               id="taxRate"
               name="taxRate"
               className="form-input"
-            />
+            >
+              <option value="">Select GST</option>
+              {gstRate.map((gst) => (
+                <option key={gst.rate} value={gst.rate}>
+                  {gst.rate}
+                </option>
+              ))}
+            </Field>
+
             <ErrorMessage name="taxRate" component="div" className="error" />
           </div>
 

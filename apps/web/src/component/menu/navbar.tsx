@@ -54,7 +54,7 @@ const Navbar = () => {
           <Dropdown
             label={
               <div>
-                <HomeIcon color="gray" className={Styles.navIcon} /> Dashboard
+                <HomeIcon color="gray" className={Styles.navIcon} /> Home
               </div>
             }
           >

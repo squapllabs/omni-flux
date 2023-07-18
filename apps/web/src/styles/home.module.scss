@@ -1,7 +1,49 @@
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 40px;
+  margin:6%;
+
+}
+.homeContainer{
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+.homeLeftContent{
+display: flex;
+flex-direction:column;
+justify-content: center;
+min-width: max-content;
+
+}
+.homeLeftContent h2{
+  font-size: 24px;
+  font-weight: 500;
+}
+.homeLeftContent h1{
+  font-size: 24px;
+  font-weight:500;
+  padding: 0 10px;
+}
+.homeLeftContent p{
+  font-size: 14px;
+}
+.homeRightContent{
+display: flex;
+flex-direction: column;
+padding: 2%;
+justify-content: center;
+}
+.homeRightContent p{
+  font-size: 18px;
+  font-weight: 500;
+}
+.homeRightContent h1{
+  font-size: 36px;
+  font-weight: 600;
+}
+.homeRightContent h2{
+  font-size: 16px;
+  font-weight: 700;
+
 }
