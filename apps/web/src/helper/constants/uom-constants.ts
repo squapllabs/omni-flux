@@ -4,6 +4,7 @@ export const userErrorMessages = {
   ENTER_NAME: 'Unit Of Measurement is required',
   ENTER_DESCRIPTION: 'Description is required',
   ENTER_SPECIAL_CHARACTER: 'Special Characters are not allowed',
+  NAME_EXIST: 'Unit of Measurement is already present',
 };
 
 export const getuomCreateValidateyup = (yup: any) => {
@@ -16,7 +17,7 @@ export const getuomCreateValidateyup = (yup: any) => {
       .matches(/^[a-zA-Z0-9]+$/, userErrorMessages.ENTER_SPECIAL_CHARACTER)
       .test(
         'uom-availability',
-        'Unit of Measurement is already present',
+        userErrorMessages.NAME_EXIST,
         async (value: any) => {
           if (value) {
             const response = await uomService.getOneUomByName(value);
@@ -47,22 +48,20 @@ export const getuomUpdateValidateyup = (yup: any) => {
       .matches(/^[a-zA-Z0-9]+$/, userErrorMessages.ENTER_SPECIAL_CHARACTER)
       .test(
         'uom-availability',
-        'Unit of Measurement is already present',
+        userErrorMessages.NAME_EXIST,
         async (value: any, { parent }: yup.TestContext) => {
           const uomCode = parent.uom_id;
-          console.log('hsnCode', uomCode);
-          if (!uomCode) {
-            if (value) {
-              const response = await uomService.getOneUomByName(value);
-              if (response?.success === true) {
-                return false;
-              } else {
-                return true;
-              }
+          if (value) {
+            const response = await uomService.getOneUomByName(value);
+            if (
+              response?.success === true &&
+              response.data[0].uom_id === uomCode
+            ) {
+              return true;
+            } else {
+              return false;
             }
-            return false;
           }
-          return true;
         }
       ),
     description: yup

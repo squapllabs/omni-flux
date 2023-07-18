@@ -6,6 +6,7 @@ export const userErrorMessages = {
   ENTER_NUMBERONLY: 'Number only allowed',
   MIN_CODE: 'Minimum 4 digit needed',
   MAX_CODE: 'Maximum 8 digit needed',
+  CODE_EXIST: 'Code is already present',
 };
 
 export const gethsnCreateValidateyup = (yup: any) => {
@@ -19,7 +20,7 @@ export const gethsnCreateValidateyup = (yup: any) => {
       .max(8, userErrorMessages.MAX_CODE)
       .test(
         'code-availability',
-        'Code is already present',
+        userErrorMessages.CODE_EXIST,
         async (value: any) => {
           if (value) {
             const response = await hsnCodeService.getByHsnCode(value);
@@ -49,22 +50,20 @@ export const gethsnUpdateValidateyup = (yup: any) => {
       .max(8, userErrorMessages.MAX_CODE)
       .test(
         'code-availability',
-        'Code is already present',
+        userErrorMessages.CODE_EXIST,
         async (value: any, { parent }: yup.TestContext) => {
           const hsnCode = parent.hsn_code_id;
-          console.log('hsnCode', hsnCode);
-          if (!hsnCode) {
-            if (value) {
-              const response = await hsnCodeService.getByHsnCode(value);
-              if (response?.success === true) {
-                return false;
-              } else {
-                return true;
-              }
+          if (value) {
+            const response = await hsnCodeService.getByHsnCode(value);
+            if (
+              response?.success === true &&
+              response.data.hsn_code_id === hsnCode
+            ) {
+              return true;
+            } else {
+              return false;
             }
-            return false;
           }
-          return true;
         }
       ),
     description: yup
