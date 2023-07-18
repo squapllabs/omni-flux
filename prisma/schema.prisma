@@ -58,12 +58,13 @@ model gst  {
   created_date  DateTime  @default(now()) 
   updated_date  DateTime      
   created_by    Int?     
-  updated_by    Int?    
+  updated_by    Int? 
+  sgst_rate     Float?
 }
 
 model uom {
   uom_id       Int      @id @default(autoincrement())
-  name         String   @db.VarChar(50)
+  name         String   @unique
   description  String?
   created_date DateTime @default(now())
   updated_date DateTime @default(now())
@@ -85,7 +86,7 @@ model client {
 
 model hsn_code {
   hsn_code_id   Int      @id @default(autoincrement())
-  code          String   @db.VarChar(100)
+  code          String   @unique
   description   String?
   created_date  DateTime
   updated_date  DateTime
@@ -184,3 +185,15 @@ model site {
   created_by      Int?
   updated_by      Int?
 }
+
+model warehouse {
+  warehouse_id     Int      @id @default(autoincrement())
+  warehouse_name   String   @db.VarChar(100)
+  location         String?
+  created_date     DateTime
+  updated_date     DateTime
+  created_by       Int?
+  updated_by       Int?
+  @@map(name: "warehouse")
+}
+

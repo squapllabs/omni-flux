@@ -53,4 +53,21 @@ const deleteByUomId = catchAsync(async (req, res) => {
   }
 });
 
-export { createUom, updateUom, getAllUom, getByUomId, deleteByUomId };
+const getByUomName = catchAsync(async (req, res) => {
+  const methodName = '/getByUomName';
+  try {
+    const uom = await uomService.getByName(req.params.name);
+    res.send(uom);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+export {
+  createUom,
+  updateUom,
+  getAllUom,
+  getByUomId,
+  deleteByUomId,
+  getByUomName,
+};

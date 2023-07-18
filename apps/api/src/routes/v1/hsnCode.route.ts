@@ -9,6 +9,7 @@ import {
   createHsnCode,
   deleteByHsnCodeId,
   getAllHsnCode,
+  getByHsnCode,
   getByHsnCodeId,
   updateHsnCode,
 } from '../../controller/hsnCode.controller';
@@ -36,5 +37,7 @@ router.get('/getAll', authMiddleware, getAllHsnCode);
 router.get('/get/:hsn_code_id', authMiddleware, getByHsnCodeId);
 
 router.delete('/delete/:hsn_code_id', authMiddleware, deleteByHsnCodeId);
+
+router.get('/getByCode/:code', authMiddleware, getByHsnCode);
 
 export default router;

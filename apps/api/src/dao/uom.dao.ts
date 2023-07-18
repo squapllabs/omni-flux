@@ -100,10 +100,32 @@ const deleteUom = async (uomId: number, connectionObj = null) => {
   }
 };
 
+const getByName = async (name: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const uom = await transaction.uom.findUnique({
+      where: {
+        name: name,
+      },
+    });
+    // const formattedName = name.toLowerCase();
+    // const query = `select * from uom u where lower(u."name") = lower('${name}')`;
+    // console.log(query);
+    // const uom =
+    //   await transaction.$queryRaw`select * from uom u where u."name" ilike '${name}'`;
+    // console.log('uom', uom);
+    return uom;
+  } catch (error) {
+    console.log('Error occurred in uom getByName dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getById,
   getAll,
   deleteUom,
+  getByName,
 };

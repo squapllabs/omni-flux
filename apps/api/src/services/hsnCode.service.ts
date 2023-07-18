@@ -118,4 +118,33 @@ const deleteHsnCode = async (hsnCodeId: number) => {
   }
 };
 
-export { createHsnCode, updateHsnCode, getAllHsnCode, getById, deleteHsnCode };
+/**
+ * Method to get HsnCode By code
+ * @param code
+ * @returns
+ */
+const getByCode = async (code: string) => {
+  try {
+    let result = null;
+    const hsnCodeData = await hsnCodeDao.getByCode(code);
+    if (hsnCodeData) {
+      result = { success: true, is_exist: true };
+      return result;
+    } else {
+      result = { success: false, is_exist: false };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByCode hsnCode service : ', error);
+    throw error;
+  }
+};
+
+export {
+  createHsnCode,
+  updateHsnCode,
+  getAllHsnCode,
+  getById,
+  deleteHsnCode,
+  getByCode,
+};

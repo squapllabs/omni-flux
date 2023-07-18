@@ -1,77 +1,69 @@
 import prisma from '../utils/prisma';
 
 const add = async (
-  rate: number,
-  cgst_rate: number,
-  igst_rate: number,
-  sgst_rate: number,
+  warehouse_name: string,
+  location: string,
   created_by: bigint,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.create({
+    const warehouse = await transaction.warehouse.create({
       data: {
-        rate,
-        cgst_rate,
-        igst_rate,
-        sgst_rate,
+        warehouse_name,
+        location,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
       },
     });
-    return gst;
+    return warehouse;
   } catch (error) {
-    console.log('Error occurred in gstDao add', error);
+    console.log('Error occurred in warehouseDao add', error);
     throw error;
   }
 };
 
 const edit = async (
-  rate: number,
-  cgst_rate: number,
-  igst_rate: number,
-  sgst_rate: number,
+  warehouse_name: string,
+  location: string,
   updated_by: bigint,
-  gst_id: number,
+  warehouse_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.update({
+    const warehouse = await transaction.warehouse.update({
       where: {
-        gst_id: gst_id,
+        warehouse_id: warehouse_id,
       },
       data: {
-        rate,
-        cgst_rate,
-        igst_rate,
-        sgst_rate,
+        warehouse_name,
+        location,
         updated_by,
         updated_date: currentDate,
       },
     });
-    return gst;
+    return warehouse;
   } catch (error) {
-    console.log('Error occurred in gstDao edit', error);
+    console.log('Error occurred in warehouseDao edit', error);
     throw error;
   }
 };
 
-const getById = async (gstId: number, connectionObj = null) => {
+const getById = async (warehouseId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.findUnique({
+    const warehouse = await transaction.warehouse.findUnique({
       where: {
-        gst_id: Number(gstId),
+        warehouse_id: Number(warehouseId),
       },
     });
-    return gst;
+    return warehouse;
   } catch (error) {
-    console.log('Error occurred in gst getById dao', error);
+    console.log('Error occurred in warehouse getById dao', error);
     throw error;
   }
 };
@@ -79,31 +71,31 @@ const getById = async (gstId: number, connectionObj = null) => {
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.findMany({
+    const warehouse = await transaction.warehouse.findMany({
       orderBy: [
         {
           updated_date: 'desc',
         },
       ],
     });
-    return gst;
+    return warehouse;
   } catch (error) {
-    console.log('Error occurred in gst getAll dao', error);
+    console.log('Error occurred in warehouse getAll dao', error);
     throw error;
   }
 };
 
-const deleteGst = async (gstId: number, connectionObj = null) => {
+const deleteWarehouse = async (warehouseId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.delete({
+    const warehouse = await transaction.warehouse.delete({
       where: {
-        gst_id: Number(gstId),
+        warehouse_id: Number(warehouseId),
       },
     });
-    return gst;
+    return warehouse;
   } catch (error) {
-    console.log('Error occurred in gst deleteGst dao', error);
+    console.log('Error occurred in warehouse deleteWarehouse dao', error);
     throw error;
   }
 };
@@ -113,5 +105,5 @@ export default {
   edit,
   getById,
   getAll,
-  deleteGst,
+  deleteWarehouse,
 };
