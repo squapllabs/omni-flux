@@ -13,6 +13,7 @@ import project from './project.route';
 import projectExpense from './projectExpense.route';
 import site from './site.route';
 import siteExpense from './siteExpense.route';
+import warehouse from './warehouse.route';
 
 const router = express.Router();
 const defaultRoutes = [
@@ -71,6 +72,10 @@ const defaultRoutes = [
   {
     path: '/site-expense',
     route: siteExpense,
+  },
+  {
+    path: '/warehouse',
+    route: warehouse,
   },
 ];
 

@@ -8,8 +8,14 @@ import { createGstBody, updateGstBody } from '../interfaces/gst.Interface';
  */
 const createGst = async (body: createGstBody) => {
   try {
-    const { rate, cgst_rate, igst_rate, created_by = null } = body;
-    const gstDetails = await gstDao.add(rate, cgst_rate, igst_rate, created_by);
+    const { rate, cgst_rate, igst_rate, sgst_rate, created_by = null } = body;
+    const gstDetails = await gstDao.add(
+      rate,
+      cgst_rate,
+      igst_rate,
+      sgst_rate,
+      created_by
+    );
     const result = { success: true, data: gstDetails };
     return result;
   } catch (error) {
@@ -25,7 +31,7 @@ const createGst = async (body: createGstBody) => {
  */
 const updateGst = async (body: updateGstBody) => {
   try {
-    const { rate, cgst_rate, igst_rate, updated_by, gst_id } = body;
+    const { rate, cgst_rate, igst_rate, sgst_rate, updated_by, gst_id } = body;
     let result = null;
     const gstExist = await gstDao.getById(gst_id);
     if (gstExist) {
@@ -33,6 +39,7 @@ const updateGst = async (body: updateGstBody) => {
         rate,
         cgst_rate,
         igst_rate,
+        sgst_rate,
         updated_by,
         gst_id
       );
