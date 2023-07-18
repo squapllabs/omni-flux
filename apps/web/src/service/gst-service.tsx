@@ -30,6 +30,7 @@ const getAllGst = async () => {
       const response = await axiosinterceptor.delete(
         `${environment.apiUrl}/gst/delete/${id}`
       );
+      console.log("response delete==>",response)
       return response.data;
     } catch (error) {
       console.log('Error in occur in delete gst list :', error);

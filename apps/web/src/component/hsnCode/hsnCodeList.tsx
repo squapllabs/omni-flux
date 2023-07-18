@@ -180,7 +180,7 @@ const HscCodeList = () => {
         open={open}
         handleClose={handleClose}
         title="Delete HSN Code"
-        content="Are you want to delete this Hsc Code?"
+        content="Are you want to delete this Hsn Code?"
         handleConfirm={deleteHscCode}
       />
       <CustomDialogBox

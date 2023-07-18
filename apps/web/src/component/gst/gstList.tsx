@@ -23,7 +23,7 @@ const GstList = () => {
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [gstId,setGstId] = useState();
+  const [gstId, setGstId] = useState();
 
   const deleteGstHandler = (id: number) => {
     setValue(id);
@@ -82,6 +82,15 @@ const GstList = () => {
     {
       name: 'rate',
       label: 'Rate',
+      options: {
+        display: true,
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: 'sgst_rate',
+      label: 'Sgst Rate',
       options: {
         display: true,
         filter: false,
