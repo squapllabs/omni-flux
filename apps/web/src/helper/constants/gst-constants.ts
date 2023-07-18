@@ -1,7 +1,11 @@
 export const gstErrorMessages = {
-  ENTER_RATE: 'Required Field',
-  TYPE_ERROR: 'Value cannot be a string',
+  ENTER_RATE: 'Gst Rate is required',
+  TYPE_ERROR: 'Characters not allowed',
+  DECIMAL_CHECK: 'Decimal not allowed',
+  MAXIMUM_CHECK: 'Value should be 0 to 99',
   ENTER_VALID_RATE: 'check your value',
+  MISMATCH_ERROR : 'Please ensure Sgst + Cgst equals GST',
+  IGST_ERROR : 'Please ensure Sgst + Cgst equals Igst'
 };
 
 export const getGstcreationYupschema = (yup: any) => {
@@ -10,9 +14,9 @@ export const getGstcreationYupschema = (yup: any) => {
       .number()
       .typeError(gstErrorMessages.TYPE_ERROR)
       .required(gstErrorMessages.ENTER_RATE)
-      .integer(gstErrorMessages.ENTER_VALID_RATE)
-      .min(0, gstErrorMessages.ENTER_VALID_RATE)
-      .max(99, gstErrorMessages.ENTER_VALID_RATE),
+      .integer(gstErrorMessages.DECIMAL_CHECK)
+      .min(0, gstErrorMessages.MAXIMUM_CHECK)
+      .max(99, gstErrorMessages.MAXIMUM_CHECK),
 
 
       sgst_rate: yup
@@ -26,7 +30,6 @@ export const getGstcreationYupschema = (yup: any) => {
             return true;
           }
           const decimalPattern = /^\d{1,2}(\.\d{1,2})?$/;
-          console.log("sgst value ====>",value)
           return (
             !isNaN(value) && decimalPattern.test(value.toString())
           );
@@ -37,15 +40,12 @@ export const getGstcreationYupschema = (yup: any) => {
       .typeError(gstErrorMessages.TYPE_ERROR)
       .test(
         'decimal-validation',
-        gstErrorMessages.ENTER_VALID_RATE,
+        gstErrorMessages.MISMATCH_ERROR,
         function (value: number, { parent }: yup.TestContext) {
           if (value === undefined || value === null) {
             return true;
           }
           const decimalPattern = /^\d{1,2}(\.\d{1,2})?$/;
-          console.log("cgst_====>",value)
-          console.log("inside value sgst_rate===>",parent?.sgst_rate)
-          console.log("rate=>",parent?.rate)
           return (
             !isNaN(value) &&
             decimalPattern.test(value.toString()) &&
@@ -58,16 +58,16 @@ export const getGstcreationYupschema = (yup: any) => {
       .typeError(gstErrorMessages.TYPE_ERROR)
       .test(
         'decimal-validation',
-        gstErrorMessages.ENTER_VALID_RATE,
+        gstErrorMessages.IGST_ERROR,
         (value: number, { parent } :  yup.TestContext) => {
           if (value === undefined || value === null) {
-            return true; // Allow empty values
+            return true;
           }
           const decimalPattern = /^\d{1,2}(\.\d{1,2})?$/;
           return (
             !isNaN(value) &&
             decimalPattern.test(value.toString()) &&
-            (value  === parent?.rate)
+            (value  === parent?.rate || value === 0)
           );
         }
       ),

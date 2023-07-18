@@ -3,13 +3,12 @@ import { useFormik } from 'formik';
 import Customs from '../ui/custom';
 import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
 import { createHsnCode, updateHsnCode } from '../../hooks/hsnCode-hooks';
-import { gethsnValidateyup } from '../../helper/constants/hst-constants';
+import { gethisnValidateyup } from '../../helper/constants/hsn-constants';
 import hsnCodeService from '../../service/hsnCode-service';
 import * as Yup from 'yup';
-const validationSchema = gethsnValidateyup(Yup);
+const validationSchema = gethisnValidateyup(Yup);
 
 const HsnCodeForm: React.FC = (props: any) => {
-
   const [initialValues, setInitialValues] = useState({
     hsn_code_id: '',
     code: '',
@@ -65,7 +64,7 @@ const HsnCodeForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('Hsn Code edited');
               props.setOpenSnack(true);
-            } 
+            }
           },
         });
       }

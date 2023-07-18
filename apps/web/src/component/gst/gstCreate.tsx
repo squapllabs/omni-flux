@@ -41,14 +41,13 @@ const GstCreate: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log("add values===>",values)
       if (props.mode === 'ADD') {
         const Object: any = {
           gst_id: values.gst_id,
           rate: parseFloat(values.rate),
-          cgst_rate: parseFloat(values.cgst_rate),
-          igst_rate: parseFloat(values.igst_rate),
-          sgst_rate:parseFloat(values.sgst_rate)
+          cgst_rate: parseFloat(values.cgst_rate) ? parseFloat(values.cgst_rate) : 0,
+          igst_rate: parseFloat(values.igst_rate) ? parseFloat(values.igst_rate) : 0,
+          sgst_rate: parseFloat(values.sgst_rate) ? parseFloat(values.sgst_rate) : 0
         };
         createNewGst(Object, {
           onSuccess: (data, variables, context) => {

@@ -13,7 +13,7 @@ const useGetAllCategory = () => {
 
 const getByCategoryID = (id: number) => {
   return useQuery(
-    ['getOneClientyID', id],
+    ['getOnecategoryID', id],
     () => CategoryService.getOneCategoryByID(id),
     {
       select: (data) => data.data,

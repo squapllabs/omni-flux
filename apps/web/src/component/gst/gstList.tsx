@@ -95,9 +95,6 @@ const GstList = () => {
         display: true,
         filter: false,
         sort: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return value ? value : '-';
-        },
       },
     },
     {
@@ -107,9 +104,6 @@ const GstList = () => {
         display: true,
         filter: false,
         sort: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return value ? value : '-';
-        },
       },
     },
     {
@@ -119,9 +113,6 @@ const GstList = () => {
         display: true,
         filter: false,
         sort: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return value ? value : '-';
-        },
       },
     },
     {

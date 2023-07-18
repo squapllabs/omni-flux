@@ -1,77 +1,83 @@
 import prisma from '../utils/prisma';
 
 const add = async (
-  rate: number,
-  cgst_rate: number,
-  igst_rate: number,
-  sgst_rate: number,
+  site_name: string,
+  location: string,
+  user_id: number,
   created_by: bigint,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.create({
+    const site = await transaction.site.create({
       data: {
-        rate,
-        cgst_rate,
-        igst_rate,
-        sgst_rate,
+        site_name,
+        location,
+        user_id,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
       },
     });
-    return gst;
+    return site;
   } catch (error) {
-    console.log('Error occurred in gstDao add', error);
+    console.log('Error occurred in siteDao add', error);
     throw error;
   }
 };
 
 const edit = async (
-  rate: number,
-  cgst_rate: number,
-  igst_rate: number,
-  sgst_rate: number,
+  site_name: string,
+  location: string,
+  user_id: number,
   updated_by: bigint,
-  gst_id: number,
+  site_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.update({
+    const site = await transaction.site.update({
       where: {
-        gst_id: gst_id,
+        site_id: site_id,
       },
       data: {
-        rate,
-        cgst_rate,
-        igst_rate,
-        sgst_rate,
+        site_name,
+        location,
+        user_id,
         updated_by,
         updated_date: currentDate,
       },
     });
-    return gst;
+    return site;
   } catch (error) {
-    console.log('Error occurred in gstDao edit', error);
+    console.log('Error occurred in siteDao edit', error);
     throw error;
   }
 };
 
-const getById = async (gstId: number, connectionObj = null) => {
+const getById = async (siteId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.findUnique({
+    const site = await transaction.site.findUnique({
       where: {
-        gst_id: Number(gstId),
+        site_id: Number(siteId),
       },
     });
-    return gst;
+
+    if (site && site.user_id) {
+      const user = await transaction.users.findUnique({
+        where: {
+          user_id: site.user_id,
+        },
+      });
+      site.user = user;
+    }
+
+    return site;
   } catch (error) {
-    console.log('Error occurred in gst getById dao', error);
+    console.log('Error occurred in site getById dao', error);
     throw error;
   }
 };
@@ -79,31 +85,31 @@ const getById = async (gstId: number, connectionObj = null) => {
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.findMany({
+    const site = await transaction.site.findMany({
       orderBy: [
         {
           updated_date: 'desc',
         },
       ],
     });
-    return gst;
+    return site;
   } catch (error) {
-    console.log('Error occurred in gst getAll dao', error);
+    console.log('Error occurred in site getAll dao', error);
     throw error;
   }
 };
 
-const deleteGst = async (gstId: number, connectionObj = null) => {
+const deleteSite = async (siteId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.delete({
+    const site = await transaction.site.delete({
       where: {
-        gst_id: Number(gstId),
+        site_id: Number(siteId),
       },
     });
-    return gst;
+    return site;
   } catch (error) {
-    console.log('Error occurred in gst deleteGst dao', error);
+    console.log('Error occurred in site deleteSite dao', error);
     throw error;
   }
 };
@@ -113,5 +119,5 @@ export default {
   edit,
   getById,
   getAll,
-  deleteGst,
+  deleteSite,
 };

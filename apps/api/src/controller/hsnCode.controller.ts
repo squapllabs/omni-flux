@@ -53,10 +53,21 @@ const deleteByHsnCodeId = catchAsync(async (req, res) => {
   }
 });
 
+const getByHsnCode = catchAsync(async (req, res) => {
+  const methodName = '/getByHsnCode';
+  try {
+    const hsnCode = await hsnCodeService.getByCode(req.params.code);
+    res.send(hsnCode);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createHsnCode,
   updateHsnCode,
   getAllHsnCode,
   getByHsnCodeId,
   deleteByHsnCodeId,
+  getByHsnCode,
 };

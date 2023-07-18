@@ -1,15 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Card, TextField } from '@mui/material';
-import Styles from '../../../styles/fortgetPassword.module.scss';
+import Styles from '../../styles/fortgetPassword.module.scss';
 import * as yup from 'yup';
-import { getForgetPasswordYupSchema } from '../../../helper/constants/user-constants';
+import { getForgetPasswordYupSchema } from '../../helper/constants/user-constants';
 import { getByuserID } from 'apps/web/src/hooks/user-hooks';
 import { resetPassword } from 'apps/web/src/hooks/auth-hooks';
-import { encryptPassword } from 'apps/web/src/helper/password-handler';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router';
-import MySnackbar from '../../ui/MySnackbar';
+import MySnackbar from '../ui/MySnackbar';
 import { IconButton, InputAdornment } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';

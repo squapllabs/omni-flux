@@ -68,6 +68,21 @@ const getById = async (hsnCodeId: number, connectionObj = null) => {
   }
 };
 
+const getByCode = async (code: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const hsnCode = await transaction.hsn_code.findUnique({
+      where: {
+        code: code,
+      },
+    });
+    return hsnCode;
+  } catch (error) {
+    console.log('Error occurred in hsnCode getByCode dao', error);
+    throw error;
+  }
+};
+
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
@@ -104,6 +119,7 @@ export default {
   add,
   edit,
   getById,
+  getByCode,
   getAll,
   deleteHsnCode,
 };

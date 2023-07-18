@@ -64,7 +64,7 @@ const UomList = () => {
     },
     {
       name: 'name',
-      label: 'Name',
+      label: 'Unit Of Measurement',
       options: {
         display: true,
         filter: false,
@@ -152,7 +152,7 @@ const UomList = () => {
       <CustomDialogBox
         open={open}
         handleClose={handleClose}
-        title="Uom Form"
+        title="UOM Form"
         content={
           <UomForm
             setOpen={setOpen}
@@ -168,8 +168,8 @@ const UomList = () => {
       <CustomDialog
         open={openDelete}
         handleClose={handleCloseDelete}
-        title="Delete User"
-        content="Are you want to delete this User?"
+        title="Delete UOM"
+        content="Are you want to delete this UOM?"
         handleConfirm={deleteUom}
       />
       <MySnackbar

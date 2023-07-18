@@ -112,4 +112,26 @@ const deleteUom = async (uomId: number) => {
   }
 };
 
-export { createUom, updateUom, getAllUom, getById, deleteUom };
+/**
+ * Method to get Uom By Name
+ * @param name
+ * @returns
+ */
+const getByName = async (name: string) => {
+  try {
+    let result = null;
+    const uomData = await uomDao.getByName(name);
+    if (uomData.length > 0) {
+      result = { success: true, is_exist: true };
+      return result;
+    } else {
+      result = { success: false, is_exist: false };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByName uom service : ', error);
+    throw error;
+  }
+};
+
+export { createUom, updateUom, getAllUom, getById, deleteUom, getByName };
