@@ -145,3 +145,42 @@ model project {
   updated_by     Int?
   is_delete      Boolean  @default(false)
 }
+
+model project_expense {
+  project_expense_id  Int      @id @default(autoincrement())
+  project_id          Int?
+  description         String?
+  amount              Float?
+  date                DateTime?
+  document_url        String?
+  created_date        DateTime @default(now())
+  updated_date        DateTime @default(now())
+  created_by          Int?
+  updated_by          Int?
+  @@map("project_expense")
+}
+
+model site {
+  site_id     Int       @id @default(autoincrement())
+  site_name   String    @db.VarChar(100)
+  location    String?  
+  user_id     Int?      
+  created_date DateTime  
+  updated_date DateTime  
+  created_by  Int?   
+  updated_by  Int?   
+  @@map("site")
+}
+
+  model site_expense {
+  site_expense_id             Int       @id @default(autoincrement())
+  site_id         Int?
+  description    String?
+  amount         Float?
+  date           DateTime?
+  document_url    String?
+  created_date    DateTime  
+  updated_date    DateTime  
+  created_by      Int?
+  updated_by      Int?
+}
