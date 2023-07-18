@@ -1,0 +1,35 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f5f5f5;
+}
+
+.menu {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.icon {
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.search-input {
+  transition: width 0.3s ease;
+  width: 100px;
+}
+
+.search-input.expand {
+  width: 200px;
+}
+
+.product-submenu,
+.profile-submenu {
+  position: absolute;
+  background: white;
+  padding: 1rem;
+  margin-top: 1rem;
+}

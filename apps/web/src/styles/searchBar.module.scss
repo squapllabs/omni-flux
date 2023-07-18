@@ -1,0 +1,37 @@
+.searchIcon {
+  padding: 0 0 0 10px;
+}
+
+.searchInputContainer {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  padding: 2px;
+  transition: all 0.3s;
+  background-color: white;
+  position: absolute; // changed to absolute
+  right: 120px; // added right
+  top: 0.5rem; // adjust this to match your layout
+}
+
+.searchInputContainer.expanded {
+  width: 600px;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  padding: 8px;
+  font-size: 16px;
+  background-color: transparent;
+  outline: none;
+}
+
+.searchIconContainer {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+  color: gray;
+  order: -1;
+}
