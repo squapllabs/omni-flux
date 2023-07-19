@@ -4,8 +4,8 @@
 }
 .homeContainer{
   display: flex;
-  align-items: center;
-  padding: 10px 30px;
+  align-items: flex-start;
+  padding: 20px ;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
@@ -13,7 +13,9 @@
 display: flex;
 flex-direction:column;
 justify-content: center;
+align-items: flex-start;
 min-width: max-content;
+padding: 0 30px;
 
 }
 .homeLeftContent h2{
@@ -33,10 +35,14 @@ display: flex;
 flex-direction: column;
 padding: 2%;
 justify-content: center;
+padding: 0 50px;
+
+
 }
 .homeRightContent p{
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
+
 }
 .homeRightContent h1{
   font-size: 36px;
@@ -46,4 +52,55 @@ justify-content: center;
   font-size: 16px;
   font-weight: 700;
 
+}
+.shortcutsContainer{
+  margin-top: 2%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+}
+.shortcuts{
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 60px;
+
+}
+
+.reportContainer{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 60px;
+}
+.importContainer p{
+  padding: 10px 60px;
+}
+.reportItemsStart{
+  padding: 0 80px 0 0;
+  border-right: 1px solid black;
+}
+.reportItems{
+   padding: 0 40px 0 60px;
+   border-right: 1px solid black;
+
+}
+.reportItemsEnd{
+  padding: 0 40px 0 60px;
+}
+
+
+ .reportHeading{
+  font-size: 24px;
+  font-weight:400 ;
+}
+.title{
+  font-size: 32px;
+  padding: 10px 30px;
+  font-weight: bold;
+}
+.selectionList{
+cursor: pointer;
+}
+.active{
+  background-color: rgb(241, 240, 240);
+  border-radius: 6px;
 }
