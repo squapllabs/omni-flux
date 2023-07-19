@@ -1,6 +1,6 @@
 import prisma from '../utils/prisma';
 const add = async (
-    product_id: number,
+    item_id: number,
     transaction_type: string,
     quantity: number,
     transaction_date:string,
@@ -15,7 +15,7 @@ const add = async (
       const transaction = connectionObj !== null ? connectionObj : prisma;
       const stock = await transaction.stock.create({
         data: {
-          product_id,
+            item_id,
           transaction_type,
           quantity,
           transaction_date,

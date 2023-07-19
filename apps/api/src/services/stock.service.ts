@@ -11,7 +11,7 @@ const createStock = async (body: createStockBody) => {
     let result = null;
     try {
       const {
-        product_id,
+        item_id,
         transaction_type,
         quantity,
         transaction_date,
@@ -20,11 +20,11 @@ const createStock = async (body: createStockBody) => {
         created_by,
         updated_by,
       } = body;
-  
+      console.log(body);
       result = await prisma
         .$transaction(async (prisma) => {
           const CreateStock = await stockDao.add(
-        product_id,
+        item_id,
         transaction_type,
         quantity,
         transaction_date,
@@ -126,7 +126,7 @@ const updateStock = async (body: updateStockBody) => {
   try {
     const {
         stock_id,
-        product_id,
+        item_id,
         transaction_type,
         quantity,
         transaction_date,
@@ -139,7 +139,7 @@ const updateStock = async (body: updateStockBody) => {
     if (stockExist) {
       const stockDetails = await stockDao.edit(
         stock_id,
-        product_id,
+        item_id,
         transaction_type,
         quantity,
         transaction_date,

@@ -145,9 +145,9 @@ model project {
   updated_by     Int?
   is_delete      Boolean  @default(false)
 }
-model product {
-  product_id Int @id @default(autoincrement())
-  product_name String @db.VarChar(100)
+model item {
+  item_id Int @id @default(autoincrement())
+  item_name String @db.VarChar(100)
   sub_sub_category_id Int?
   description String?
   hsn_code_id Int?
@@ -160,7 +160,7 @@ model product {
 }
 model stock {
     stock_id Int @id @default(autoincrement())
-    product_id Int?
+    item_id Int?
     transaction_type String?
     quantity Int?
     transaction_date DateTime

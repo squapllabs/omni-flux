@@ -1,5 +1,5 @@
 interface createStockBody{
-    product_id: number;
+    item_id: number;
     transaction_type: string;
     quantity: number;
     transaction_date:string;
@@ -10,7 +10,7 @@ interface createStockBody{
   }
 interface updateStockBody{
     stock_id:number;
-    product_id: number;
+    item_id: number;
     transaction_type: string;
     quantity: number;
     transaction_date:string;
