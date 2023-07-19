@@ -15,6 +15,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/reducer';
 import Customs from './ui/custom';
+import Input from './ui/Input'
+import { FiSearch } from 'react-icons/fi';
+import { AiOutlineClose } from 'react-icons/ai';
 interface Props {
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -105,6 +108,18 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
       });
   };
 
+
+  const [inputValue, setInputValue] = useState("");
+  const [error, setError] = useState("");
+
+  const validateInput = (value) => {
+    if (value.length < 5) {
+      setError("Input should be at least 5 characters long");
+    } else {
+      setError("");
+    }
+  };
+
   return (
     <div>
       <div>
@@ -176,6 +191,18 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                 <div className={Styles.errormessage}>
                   <span>{message}</span>
                 </div>
+
+                <Input
+        label="Sample Input"
+        placeholder="Enter text"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onBlur={() => validateInput(inputValue)}
+        error={error}
+        prefixIcon={<FiSearch />}
+        suffixIcon={<AiOutlineClose />}
+        width="50%"
+      />
                 <div className={Styles.buttonField}>
                   <div className={Styles.forgetPassword}>
                     <Checkbox
