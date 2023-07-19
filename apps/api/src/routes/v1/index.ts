@@ -10,7 +10,11 @@ import category from './category.route';
 import subCategory from './subCategory.route';
 import subSubCategory from './subSubCategory.route';
 import project from './project.route';
-import product from './product.route';
+import projectExpense from './projectExpense.route';
+import site from './site.route';
+import siteExpense from './siteExpense.route';
+import warehouse from './warehouse.route';
+
 const router = express.Router();
 const defaultRoutes = [
   {
@@ -58,8 +62,20 @@ const defaultRoutes = [
     route: project,
   },
   {
-    path: '/product',
-    route: product,
+    path: '/project-expense',
+    route: projectExpense,
+  },
+  {
+    path: '/site',
+    route: site,
+  },
+  {
+    path: '/site-expense',
+    route: siteExpense,
+  },
+  {
+    path: '/warehouse',
+    route: warehouse,
   },
 ];
 
