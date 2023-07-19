@@ -4,6 +4,7 @@ const add = async (
   rate: number,
   cgst_rate: number,
   igst_rate: number,
+  sgst_rate: number,
   created_by: bigint,
   connectionObj = null
 ) => {
@@ -15,6 +16,7 @@ const add = async (
         rate,
         cgst_rate,
         igst_rate,
+        sgst_rate,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -31,6 +33,7 @@ const edit = async (
   rate: number,
   cgst_rate: number,
   igst_rate: number,
+  sgst_rate: number,
   updated_by: bigint,
   gst_id: number,
   connectionObj = null
@@ -46,6 +49,7 @@ const edit = async (
         rate,
         cgst_rate,
         igst_rate,
+        sgst_rate,
         updated_by,
         updated_date: currentDate,
       },

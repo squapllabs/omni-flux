@@ -53,7 +53,7 @@ const UserInformation = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate('/userList')}
+            onClick={() => navigate('/setting')}
           >
             Back
           </Button>

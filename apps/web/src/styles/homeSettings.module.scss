@@ -1,0 +1,39 @@
+.container{
+    // background-color:aqua;
+    padding: 10px 20px 15px 20px;
+}
+
+// .containerOne{
+//     // background-color: lightblue;
+// }
+
+.demo{
+    padding: 1px 1px 1px 10px;
+}
+
+.activeButton{
+    background-color:lightblue;
+}
+
+.buttongroup {
+    display: flex;
+    // flex-wrap: wrap;
+    width:40%
+  }
+  
+  .buttongroup button {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 2px;
+    cursor: pointer;
+    white-space: normal;
+  }
+  
+  .buttongroup button:not(:last-child) {
+    border-right: 1px solid #ccc;
+  }
+  
+  .buttongroup button:hover {
+    background-color: #f0f0f0;
+  }

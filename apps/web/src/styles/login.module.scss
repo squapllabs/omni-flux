@@ -41,13 +41,20 @@
 .sub_tile_words {
   font-weight: bold;
   font-size: larger;
-  opacity: 0.7;
+}
+.sub_title_sub {
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  color: #667085;
 }
 
 .imagediv {
   width: 60%;
   height: 100%;
-  background: linear-gradient(120deg, #ddd6f3, #faaca8);
+  background-image: url(../../public/Section.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
   font-size: larger;
 }
 
@@ -72,13 +79,16 @@
   width: 70%;
   gap: 12px;
 }
-
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .buttonField {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
 }
 
 .forgetPassword {
@@ -122,4 +132,15 @@
   color: red;
   font-size: small;
   text-align: center;
+}
+.newAccounts {
+  text-align: center;
+  font-size: 14px;
+}
+
+.newAccounts_msg {
+  color: #475467;
+}
+.submitButton {
+  background-color: #7f56d9;
 }

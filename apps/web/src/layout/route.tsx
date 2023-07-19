@@ -3,7 +3,7 @@ import { Route, Routes, RouteProps } from 'react-router-dom';
 import Login from '../component/login';
 import Home from '../component/home';
 import ForgetPassword from '../component/forgetPassword';
-import ResetPassword from '../component/resetPassword/[id]/[token]';
+import ResetPassword from '../component/resetPassword/token';
 import ProtectedRoute from '../auth/ProtectedRoute';
 import Layout from './layout';
 import UserCreate from '../component/users/userCreate';
@@ -14,9 +14,9 @@ import GstList from '../component/gst/gstList';
 import GstCreate from '../component/gst/gstCreate';
 import UomList from '../component/uom/uomList';
 import HsnCodeList from '../component/hsnCode/hsnCodeList';
-
 import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
+import SettingHome from '../component/settings/homeSetting'
 const route = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   return (
@@ -121,6 +121,15 @@ const route = () => {
             <ProtectedRoute>
               <Layout />
               <CategoryList />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/setting"
+          element={
+            <ProtectedRoute>
+              <Layout />
+              <SettingHome />
             </ProtectedRoute>
           }
         />

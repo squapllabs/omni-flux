@@ -34,7 +34,7 @@ const updateRole = async (body: updateRoleBody) => {
       result = { success: true, data: roleDetails };
       return result;
     } else {
-      result = { success: false, message: 'role_id not exist' };
+      result = { success: false, message: 'role_id does not exist' };
       return result;
     }
   } catch (error) {
@@ -56,7 +56,7 @@ const getById = async (roleId: number) => {
       result = { success: true, data: roleData };
       return result;
     } else {
-      result = { success: false, message: 'role id not exist' };
+      result = { success: false, message: 'role_id does not exist' };
       return result;
     }
   } catch (error) {
@@ -89,7 +89,7 @@ const deleteRole = async (roleId: number) => {
     const roleExist = await roleDao.getById(roleId);
 
     if (!roleExist) {
-      const result = { success: false, message: 'Role Id Not Exist' };
+      const result = { success: false, message: 'role_id does not exist' };
       return result;
     }
     const data = await roleDao.deleteRole(roleId);

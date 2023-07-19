@@ -20,7 +20,7 @@ const CategoryList = () => {
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [uomId, setUomID] = useState();
+  const [categoryId, setCategoryID] = useState();
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -42,13 +42,13 @@ const CategoryList = () => {
   };
   const handleEdit = (event: React.FormEvent, value: any) => {
     setMode('EDIT');
-    setUomID(value);
+    setCategoryID(value);
     setOpen(true);
   };
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const deleteUom = () => {
+  const deleteCategory = () => {
     getDeleteCategoryByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
@@ -162,7 +162,7 @@ const CategoryList = () => {
             open={open}
             setReload={setReload}
             mode={mode}
-            uomId={uomId}
+            categoryId={categoryId}
             setOpenSnack={setOpenSnack}
             setMessage={setMessage}
           />
@@ -171,9 +171,9 @@ const CategoryList = () => {
       <CustomDialog
         open={openDelete}
         handleClose={handleCloseDelete}
-        title="Delete User"
-        content="Are you want to delete this User?"
-        handleConfirm={deleteUom}
+        title="Delete Category"
+        content="Are you want to delete this Category?"
+        handleConfirm={deleteCategory}
       />
       <MySnackbar
         open={openSnack}
