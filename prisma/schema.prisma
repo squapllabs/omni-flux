@@ -17,11 +17,11 @@ model users {
 	email_id          String      @db.VarChar(100)
 	user_status       String?     @db.VarChar(5)
 	address           String?	    @db.VarChar(250)
-	created_by        Int?        
-	created_date      DateTime   
+	created_by        Int?
+	created_date      DateTime
 	updated_by        Int?
-	updated_date      DateTime   
-  is_delete         Boolean      @default(false) @db.Boolean 
+	updated_date      DateTime
+  is_delete         Boolean      @default(false) @db.Boolean
   is_initial_login  Boolean      @default(true) @db.Boolean
 	department        String?	     @db.VarChar(100)
   @@unique([email_id], name: "uk_users_email_id")
@@ -30,40 +30,41 @@ model users {
 
 model user_roles {
   user_role_id   Int      @id@default(autoincrement())
-  user_id   	 Int?      
-  role_id   	 Int?       
-  created_date	 DateTime   
-  updated_date 	 DateTime   
-  created_by  	 Int?      
-  updated_by 	 Int?      
- @@unique([user_id, role_id], name: "uk_user_roles_user_id_role_id") 
+  user_id   	 Int?
+  role_id   	 Int?
+  created_date	 DateTime
+  updated_date 	 DateTime
+  created_by  	 Int?
+  updated_by 	 Int?
+ @@unique([user_id, role_id], name: "uk_user_roles_user_id_role_id")
 }
 
 model role {
   role_id	     Int       		@id@default(autoincrement())
-  role_name   	 String     	@db.VarChar(100)  
-  created_date	 DateTime   
-  updated_date 	 DateTime   
-  created_by  	 Int?      
-  updated_by 	 Int?      
+  role_name   	 String     	@db.VarChar(100)
+  created_date	 DateTime
+  updated_date 	 DateTime
+  created_by  	 Int?
+  updated_by 	 Int?
   @@map("role")
 }
 
 
 model gst  {
-  gst_id        Int       @id @default(autoincrement()) 
-  rate          Float?   
-  cgst_rate     Float?    
-  igst_rate     Float?    
-  created_date  DateTime  @default(now()) 
-  updated_date  DateTime      
-  created_by    Int?     
-  updated_by    Int?    
+  gst_id        Int       @id @default(autoincrement())
+  rate          Float?
+  cgst_rate     Float?
+  igst_rate     Float?
+  created_date  DateTime  @default(now())
+  updated_date  DateTime
+  created_by    Int?
+  updated_by    Int?
+  sgst_rate     Float?
 }
 
 model uom {
   uom_id       Int      @id @default(autoincrement())
-  name         String   @db.VarChar(50)
+  name         String   @unique
   description  String?
   created_date DateTime @default(now())
   updated_date DateTime @default(now())
@@ -74,18 +75,18 @@ model uom {
 }
 
 model client {
-  client_id       Int       @id @default(autoincrement()) 
+  client_id       Int       @id @default(autoincrement())
   name            String    @db.VarChar(100)
   contact_details String
   created_date    DateTime
   updated_date    DateTime
-  created_by      Int?      
-  updated_by      Int?     
+  created_by      Int?
+  updated_by      Int?
 }
 
 model hsn_code {
   hsn_code_id   Int      @id @default(autoincrement())
-  code          String   @db.VarChar(100)
+  code          String   @unique
   description   String?
   created_date  DateTime
   updated_date  DateTime
@@ -145,16 +146,53 @@ model project {
   updated_by     Int?
   is_delete      Boolean  @default(false)
 }
-model product {
-  product_id Int @id @default(autoincrement())
-  product_name String @db.VarChar(100)
-  sub_sub_category_id Int?
-  description String?
-  hsn_code_id Int?
-  gst_id Int?
-  uom_id Int?
-  created_date   DateTime
-  updated_date   DateTime 
-  created_by     Int?
-  updated_by     Int?
+
+model project_expense {
+  project_expense_id  Int      @id @default(autoincrement())
+  project_id          Int?
+  description         String?
+  amount              Float?
+  date                DateTime?
+  document_url        String?
+  created_date        DateTime @default(now())
+  updated_date        DateTime @default(now())
+  created_by          Int?
+  updated_by          Int?
+  @@map("project_expense")
+}
+
+model site {
+  site_id     Int       @id @default(autoincrement())
+  site_name   String    @db.VarChar(100)
+  location    String?
+  user_id     Int?
+  created_date DateTime
+  updated_date DateTime
+  created_by  Int?
+  updated_by  Int?
+  @@map("site")
+}
+
+  model site_expense {
+  site_expense_id             Int       @id @default(autoincrement())
+  site_id         Int?
+  description    String?
+  amount         Float?
+  date           DateTime?
+  document_url    String?
+  created_date    DateTime
+  updated_date    DateTime
+  created_by      Int?
+  updated_by      Int?
+}
+
+model warehouse {
+  warehouse_id     Int      @id @default(autoincrement())
+  warehouse_name   String   @db.VarChar(100)
+  location         String?
+  created_date     DateTime
+  updated_date     DateTime
+  created_by       Int?
+  updated_by       Int?
+  @@map(name: "warehouse")
 }
