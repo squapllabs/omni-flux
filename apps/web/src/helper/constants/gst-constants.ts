@@ -1,11 +1,11 @@
 export const gstErrorMessages = {
-  ENTER_RATE: 'Gst Rate is required',
-  TYPE_ERROR: 'Characters not allowed',
-  DECIMAL_CHECK: 'Decimal not allowed',
-  MAXIMUM_CHECK: 'Value should be 0 to 99',
-  ENTER_VALID_RATE: 'check your value',
-  MISMATCH_ERROR : 'Please ensure Sgst + Cgst equals GST',
-  IGST_ERROR : 'Please ensure Sgst + Cgst equals Igst'
+  ENTER_RATE: 'GST Rate is mandatory',
+  TYPE_ERROR: 'Only Number are allowed',
+  DECIMAL_CHECK: 'Decimal values are not allowed',
+  MAXIMUM_CHECK: 'Number should be between 0 to 99',
+  MISMATCH_ERROR: 'SGST Rate + CGST Rate should be equal to GST Rate',
+  IGST_ERROR: 'IGST should be equal to GST Rate',
+  ENTER_VALID_RATE: 'Check your values',
 };
 
 export const getGstcreationYupschema = (yup: any) => {
@@ -18,8 +18,7 @@ export const getGstcreationYupschema = (yup: any) => {
       .min(0, gstErrorMessages.MAXIMUM_CHECK)
       .max(99, gstErrorMessages.MAXIMUM_CHECK),
 
-
-      sgst_rate: yup
+    sgst_rate: yup
       .number()
       .typeError(gstErrorMessages.TYPE_ERROR)
       .test(
@@ -30,9 +29,7 @@ export const getGstcreationYupschema = (yup: any) => {
             return true;
           }
           const decimalPattern = /^\d{1,2}(\.\d{1,2})?$/;
-          return (
-            !isNaN(value) && decimalPattern.test(value.toString())
-          );
+          return !isNaN(value) && decimalPattern.test(value.toString());
         }
       ),
     cgst_rate: yup
@@ -49,7 +46,7 @@ export const getGstcreationYupschema = (yup: any) => {
           return (
             !isNaN(value) &&
             decimalPattern.test(value.toString()) &&
-            (value + parent.sgst_rate === parent.rate)
+            value + parent.sgst_rate === parent.rate
           );
         }
       ),
@@ -59,7 +56,7 @@ export const getGstcreationYupschema = (yup: any) => {
       .test(
         'decimal-validation',
         gstErrorMessages.IGST_ERROR,
-        (value: number, { parent } :  yup.TestContext) => {
+        (value: number, { parent }: yup.TestContext) => {
           if (value === undefined || value === null) {
             return true;
           }
@@ -67,7 +64,7 @@ export const getGstcreationYupschema = (yup: any) => {
           return (
             !isNaN(value) &&
             decimalPattern.test(value.toString()) &&
-            (value  === parent?.rate || value === 0)
+            (value === parent?.rate || value === 0)
           );
         }
       ),

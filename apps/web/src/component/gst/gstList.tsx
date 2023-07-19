@@ -81,7 +81,7 @@ const GstList = () => {
 
     {
       name: 'rate',
-      label: 'Rate',
+      label: 'Gst Rate',
       options: {
         display: true,
         filter: false,

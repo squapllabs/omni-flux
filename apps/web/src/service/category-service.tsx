@@ -28,11 +28,9 @@ const getOneCategoryByID = async (values: any) => {
 };
 
 const createCategory = async (values: JSON) => {
-  console.log('values', values);
-
   try {
     const response = await axiosinterceptor.post(
-      `http://localhost:8080/api/category/`,
+      `${environment.apiUrl}/category/`,
       values
     );
     return response.data;

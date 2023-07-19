@@ -26,8 +26,6 @@ const getOneSubcategoryByID = async (values: any) => {
 };
 
 const createSubcategory = async (values: JSON) => {
-  console.log('values', values);
-
   try {
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/sub-category/`,
