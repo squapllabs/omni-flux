@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import Styles from '../styles/login.module.scss';
-import { IconButton, InputAdornment, Button, Checkbox } from '@mui/material';
+import { IconButton, InputAdornment, Checkbox } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Person2Icon from '@mui/icons-material/Person2';
@@ -15,6 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/reducer';
 import Customs from './ui/custom';
+import Button from './menu/button';
 interface Props {
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -195,29 +196,30 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                   <div className={Styles.loginButton}>
                     <Button
                       variant="contained"
-                      sx={{ backgroundColor: '#7f56d9' }}
+                      text="Login"
+                      width={'100%'}
+                      style={{ backgroundColor: '#7f56d9' }}
                       onClick={(e) => handleSubmit(e)}
-                      fullWidth
-                      // className={classes.button}
                       endIcon={
                         isLoading && (
                           <CircularProgress size={20} sx={{ color: 'white' }} />
                         )
                       }
-                    >
-                      Login
-                    </Button>
+                    />
                   </div>
 
                   <div className={Styles.ssoButtons}>
                     <Button
-                      variant="outlined"
-                      sx={{ border: ' 1px solid #D0D5DD', color: '#344054' }}
+                      text={'Sign in with Google'}
+                      width={'100%'}
+                      style={{
+                        border: ' 1px solid #D0D5DD',
+                        color: '#344054',
+                        backgroundColor: '#fff',
+                      }}
                       className={Styles.iconColor}
                       startIcon={<img src="/Social_icon.png" />}
-                    >
-                      Sign in with Google
-                    </Button>
+                    ></Button>
                   </div>
                   <div className={Styles.newAccounts}>
                     <p className={Styles.newAccounts_msg}>
