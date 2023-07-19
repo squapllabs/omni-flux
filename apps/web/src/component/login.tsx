@@ -111,12 +111,13 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
         <div className={Styles.container}>
           <div className={Styles.contantdiv}>
             <div className={Styles.titlediv}>
-              <div className={Styles.main_title}>
-                {/* <span className={Styles.main_tile_words}>ENTERPRISE APPLICATION</span> */}
-              </div>
+              <div className={Styles.main_title}></div>
               <div className={Styles.logoCotainer}>
-                <img src="/loginImage.png" alt="aa" width="100" height="100" />
-                <p className={Styles.sub_tile_words}>Enterprise Application</p>
+                <img src="/Logomark.png" alt="aa" width="48px" height="48px" />
+                <p className={Styles.sub_tile_words}>Welcome back</p>
+                <p className={Styles.sub_title_sub}>
+                  Welcome back! Please enter your details.
+                </p>
               </div>
             </div>
             <div className={Styles.filedContainer}>
@@ -182,40 +183,47 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                       onChange={(e) => handleCheckbox(e)}
                       size="small"
                     />{' '}
-                    <span>Remember Me</span>
+                    <span>Remember me for 30 days</span>
                   </div>
                   <div className={Styles.forgetPassword}>
                     <a href="/forget-password">
-                      <span>Forgot Password ?</span>
+                      <span>Forgot Password</span>
                     </a>
                   </div>
                 </div>
-              </div>
-              <div>
-                <div className={Styles.loginButton}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={(e) => handleSubmit(e)}
-                    endIcon={
-                      isLoading && (
-                        <CircularProgress size={20} sx={{ color: 'white' }} />
-                      )
-                    }
-                  >
-                    Login
-                  </Button>
-                </div>
-                <div className={Styles.divider}>OR</div>
-                <div className={Styles.ssoButtons}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    className={Styles.iconColor}
-                    startIcon={<GoogleIcon />}
-                  >
-                    Gmail
-                  </Button>
+                <div className={Styles.buttons}>
+                  <div className={Styles.loginButton}>
+                    <Button
+                      variant="contained"
+                      sx={{ backgroundColor: '#7f56d9' }}
+                      onClick={(e) => handleSubmit(e)}
+                      fullWidth
+                      // className={classes.button}
+                      endIcon={
+                        isLoading && (
+                          <CircularProgress size={20} sx={{ color: 'white' }} />
+                        )
+                      }
+                    >
+                      Login
+                    </Button>
+                  </div>
+
+                  <div className={Styles.ssoButtons}>
+                    <Button
+                      variant="outlined"
+                      sx={{ border: ' 1px solid #D0D5DD', color: '#344054' }}
+                      className={Styles.iconColor}
+                      startIcon={<img src="/Social_icon.png" />}
+                    >
+                      Sign in with Google
+                    </Button>
+                  </div>
+                  <div className={Styles.newAccounts}>
+                    <p className={Styles.newAccounts_msg}>
+                      don't have any account? <a href="#">Sign in</a>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

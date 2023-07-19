@@ -4,13 +4,18 @@ import userService from '../service/user-service';
 const useGetAllUsers = () => {
   return useQuery(['useGetAllUsers'], () => userService.getAllUsers(), {
     select: (data) => data.data,
+    staleTime: Infinity,
   });
 };
 
 const useGetAllInactiveUsers = () => {
-  return useQuery(['useGetAllInactiveUsers'], () => userService.getAllInactiveUsers(), {
-    select: (data) => data.data,
-  });
+  return useQuery(
+    ['useGetAllInactiveUsers'],
+    () => userService.getAllInactiveUsers(),
+    {
+      select: (data) => data.data,
+    }
+  );
 };
 
 const getByloginID = (id: string) => {
@@ -52,5 +57,5 @@ export {
   createUser,
   updateUser,
   useDeleteUsers,
-  useGetAllInactiveUsers
+  useGetAllInactiveUsers,
 };

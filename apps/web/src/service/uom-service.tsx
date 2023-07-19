@@ -5,10 +5,8 @@ import { environment } from '../environment/environment';
 const getAlluom = async () => {
   try {
     const response = await axiosinterceptor.get(
-      `http://localhost:8080/api/uom/getAll`
+      `${environment.apiUrl}/uom/getAll`
     );
-    console.log('response', response);
-
     return response.data;
   } catch (error) {
     console.log('Error in getting all uom:', error);
@@ -62,10 +60,23 @@ const deleteUom = async (id: number) => {
     throw error;
   }
 };
+
+const getOneUomByName = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/uom/getByName/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne uom :', error);
+    throw error;
+  }
+};
 export default {
   getAlluom,
   getOneUomByID,
   createUom,
   updateUom,
   deleteUom,
+  getOneUomByName,
 };
