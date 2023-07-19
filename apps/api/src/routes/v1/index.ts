@@ -10,7 +10,7 @@ import category from './category.route';
 import subCategory from './subCategory.route';
 import subSubCategory from './subSubCategory.route';
 import project from './project.route';
-
+import product from './product.route';
 const router = express.Router();
 const defaultRoutes = [
   {
@@ -56,6 +56,10 @@ const defaultRoutes = [
   {
     path: '/project',
     route: project,
+  },
+  {
+    path: '/product',
+    route: product,
   },
 ];
 

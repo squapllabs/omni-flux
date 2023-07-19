@@ -132,7 +132,6 @@
 
 // export default AppRoutes;
 
-
 // import React, { useState } from 'react';
 // import { Route, Routes } from 'react-router-dom';
 // import Login from '../component/login';
@@ -161,7 +160,6 @@
 //       <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
 //       <Route path="/forget-password" element={<ForgetPassword />} />
 
-
 //       <ProtectedRoute>
 //         <Layout>
 //           <Routes>
@@ -185,7 +183,6 @@
 
 // export default AppRoutes;
 
-
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from '../component/login';
@@ -202,7 +199,7 @@ import GstList from '../component/gst/gstList';
 import GstCreate from '../component/gst/gstCreate';
 import UomList from '../component/uom/uomList';
 import HsnCodeList from '../component/hsnCode/hsnCodeList';
-
+import AddProducts from '../component/products/addProducts';
 import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
 
@@ -226,6 +223,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/add-products" element={<AddProducts />} />
 
         <Route path="/home" element={<ProtectedHome />} />
         <Route path="/userList" element={<ProtectedUserList />} />
