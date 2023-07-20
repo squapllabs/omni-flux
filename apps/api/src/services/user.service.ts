@@ -260,13 +260,15 @@ const userLogin = async (
 };
 
 
-const refreshAccessToken = (body) => {
+const refreshAccessToken = (refreshToken) => {
   try {
-    console.log("check body data -->", body);
-    const { refreshToken } = body
     const decodedPayload = verifyToken(refreshToken);
-    console.log("check payload data-->", decodedPayload)
-    return "test refresh token";
+    const token = jwt.sign(
+      { userId: decodedPayload["userId"], email: decodedPayload["email"] },
+      process.env.API_ACCESS_TOKEN_SECRET_KEY,
+      { expiresIn: '2m' }
+    );
+    return token;
   } catch (error) {
     console.log('Error occurred in refreshAccessToken: ', error);
     throw error;
