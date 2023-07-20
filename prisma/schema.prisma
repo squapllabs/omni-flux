@@ -59,6 +59,8 @@ model gst  {
   updated_date  DateTime      
   created_by    Int?     
   updated_by    Int?    
+
+  item          item[]
 }
 
 model uom {
@@ -69,7 +71,7 @@ model uom {
   updated_date DateTime @default(now())
   created_by   Int?
   updated_by   Int?
-
+  item          item[] 
   @@map(name: "uom")
 }
 
@@ -80,7 +82,7 @@ model client {
   created_date    DateTime
   updated_date    DateTime
   created_by      Int?      
-  updated_by      Int?     
+  updated_by      Int[]     
 }
 
 model hsn_code {
@@ -91,7 +93,7 @@ model hsn_code {
   updated_date  DateTime
   created_by    Int?
   updated_by    Int?
-
+  item          item[] 
   @@map(name: "hsn_code")
 }
 
@@ -125,7 +127,8 @@ model sub_sub_category {
   created_date           DateTime
   updated_date           DateTime
   created_by             Int?
-  updated_by             Int?
+  updated_by             Int[]
+  item          item[]
 }
 
 model project {
@@ -146,18 +149,30 @@ model project {
   is_delete      Boolean  @default(false)
 }
 model item {
-  item_id Int @id @default(autoincrement())
-  item_name String @db.VarChar(100)
-  sub_sub_category_id Int?
-  description String?
-  hsn_code_id Int?
-  gst_id Int?
-  uom_id Int?
+  item_id        Int      @id @default(autoincrement())
+  item_name      String   @db.VarChar(100)
+  sub_sub_category_id Int?  
+  description    String?
+  hsn_code_id    Int?  
+  gst_id         Int?  
+  uom_id         Int?  
   created_date   DateTime
-  updated_date   DateTime 
+  updated_date   DateTime
   created_by     Int?
   updated_by     Int?
+  item_type_id   Int?  
+  brand_id       Int?
+  // Relation to fetch hsn_code_name from hsn_code model
+  hsn_code       hsn_code? @relation(fields: [hsn_code_id], references: [hsn_code_id])
+  gst            gst?      @relation(fields: [gst_id], references: [gst_id])
+  uom            uom?      @relation(fields: [uom_id], references: [uom_id])
+  item_type      item_type? @relation(fields: [item_type_id], references: [item_type_id])
+  sub_sub_category      sub_sub_category? @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
+  brand            brand?      @relation(fields: [brand_id], references: [brand_id])
+
+  @@map(name: "item")
 }
+
 model stock {
     stock_id Int @id @default(autoincrement())
     item_id Int?
@@ -170,4 +185,27 @@ model stock {
     updated_date   DateTime 
     created_by     Int?
     updated_by     Int?
+}
+
+model item_type{
+  item_type_id Int @id @default(autoincrement())
+  item_type_item_code String?
+  item_type_item_name String?
+  created_date   DateTime
+  updated_date   DateTime 
+  created_by     Int?
+  updated_by     Int?
+
+  item          item[]
+}
+
+model brand{
+  brand_id Int @id @default(autoincrement())
+  brand_name String?
+  created_by     Int?
+  updated_by     Int?
+  created_date   DateTime
+  updated_date   DateTime 
+
+  item          item[]
 }

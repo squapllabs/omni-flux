@@ -10,8 +10,8 @@ import category from './category.route';
 import subCategory from './subCategory.route';
 import subSubCategory from './subSubCategory.route';
 import project from './project.route';
-import product from './product.route';
-import stock from './stock.routes';
+import item from './item.route';
+import stock from './stock.route';
 const router = express.Router();
 const defaultRoutes = [
   {
@@ -59,8 +59,8 @@ const defaultRoutes = [
     route: project,
   },
   {
-    path: '/product',
-    route: product,
+    path: '/item',
+    route: item,
   },
   {
     path: '/stock',
