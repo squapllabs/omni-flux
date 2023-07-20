@@ -75,14 +75,33 @@ const getById = async (subCategoryId: number, connectionObj = null) => {
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subCategory = await transaction.sub_category.findMany({
+    const subCategories = await transaction.sub_category.findMany({
       orderBy: [
         {
           updated_date: 'desc',
         },
       ],
     });
-    return subCategory;
+
+    const categoryIds = subCategories.map(
+      (subCategory) => subCategory.category_id
+    );
+    const categories = await transaction.category.findMany({
+      where: {
+        category_id: {
+          in: categoryIds,
+        },
+      },
+    });
+
+    const subCategoriesWithCategory = subCategories.map((subCategory) => {
+      const category = categories.find(
+        (category) => category.category_id === subCategory.category_id
+      );
+      return { ...subCategory, category };
+    });
+
+    return subCategoriesWithCategory;
   } catch (error) {
     console.log('Error occurred in subCategory getAll dao', error);
     throw error;
