@@ -1,9 +1,10 @@
 import userDao from '../dao/user.dao';
 import userRoleDao from '../dao/userRole.dao';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
+import { setCookie } from './../utils/helper'
 
 /**
  * Method to Create a New User
@@ -208,10 +209,11 @@ const userLogin = async (
 ) => {
   try {
     let token: string;
+    let refreshToken: string;
     let result = null;
     const { email_id, user_password, is_remember_me } = body;
-    const existingUser = await userDao.getByEmailId(email_id);
-    if (!existingUser || existingUser?.user_password !== md5(user_password)) {
+    const dbUser = await userDao.getByEmailId(email_id);
+    if (!dbUser || dbUser?.user_password !== md5(user_password)) {
       result = {
         success: false,
         message: 'Email id and password Wrong',
@@ -221,9 +223,14 @@ const userLogin = async (
 
     try {
       token = jwt.sign(
-        { userId: existingUser.user_id, email: existingUser.email_id },
+        { userId: dbUser.user_id, email: dbUser.email_id },
         process.env.API_ACCESS_TOKEN_SECRET_KEY,
-        { expiresIn: '2h' }
+        { expiresIn: '2m' }
+      );
+      refreshToken = jwt.sign(
+        { userId: dbUser.user_id, email: dbUser.email_id },
+        process.env.API_ACCESS_TOKEN_SECRET_KEY,
+        { expiresIn: '365d' }
       );
     } catch (err) {
       console.log(' error occurred', err);
@@ -232,32 +239,47 @@ const userLogin = async (
         message: 'Error! Something went wrong',
       });
     }
-    const fullName = existingUser?.first_name + ' ' + existingUser?.last_name;
-    const loginCredentials = {
-      success: true,
+    const fullName = dbUser?.first_name + ' ' + dbUser?.last_name;
+    const loginResposne = {
+      status: true,
+      message: "Success",
       token: `Bearer ${token}`,
+      accessToken: token,
+      refreshToken: refreshToken,
       fullName: fullName,
     };
 
-    /* Here the expiration period is set for 1 Day */
-
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 1);
-
-    const cookieOptions = {
-      expires: is_remember_me === true ? expirationDate : null,
-      secure: true,
-      httpOnly: false,
-      sameSite: 'None',
-    };
-
-    res
-      .cookie('Token', `Bearer ${token}`, cookieOptions)
-      .cookie('Name', fullName, cookieOptions)
-      .send(loginCredentials);
+    res.send(loginResposne);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
+    const loginResposne = {
+      status: false,
+      message: "something went wrong"
+    };
+  }
+};
+
+
+const refreshAccessToken = (body) => {
+  try {
+    console.log("check body data -->", body);
+    const { refreshToken } = body
+    const decodedPayload = verifyToken(refreshToken);
+    console.log("check payload data-->", decodedPayload)
+    return "test refresh token";
+  } catch (error) {
+    console.log('Error occurred in refreshAccessToken: ', error);
     throw error;
+  }
+}
+
+const verifyToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.API_ACCESS_TOKEN_SECRET_KEY);
+    return decoded; // Contains the original payload
+  } catch (err) {
+    console.error('Invalid token:', err.message);
+    return null;
   }
 };
 
@@ -480,4 +502,5 @@ export {
   updateStatus,
   searchUser,
   getDeletedUsers,
+  refreshAccessToken
 };

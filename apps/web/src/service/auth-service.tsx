@@ -21,12 +21,29 @@ const forgetPassword = async (values: any) => {
   }
 };
 
-const loginAuth = async (values: JSON) => {
+const loginAuth = async (values: any) => {
   try {
     const response = await axios.post(
       `${environment.apiUrl}/user/login`,
       values
     );
+    console.log("check request data-->",values);  
+    console.log("check login response data$$$$->",response.data)
+
+    const loginValidateRequest={
+      accessToken:response.data["accessToken"],
+      email_id:values["email_id"],
+      refreshToken:response.data["refreshToken"],
+      isRememberMe:values["is_remember_me"]
+    }
+
+    console.log("login validate request -->",loginValidateRequest)
+
+    await axios.post(
+      `${environment.apiUrl}/user/loginValidate`,
+      loginValidateRequest
+    );
+
     return response.data;
   } catch (error) {
     console.log('Error in loginAuth :', error);

@@ -75,7 +75,7 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
 
         loginData(data, {
           onSuccess: async (data, variables, context) => {
-            if (data?.success === true) {
+            if (data?.status === true) {
               dispatch(setToken({ key: 'Data', value: data }));
               navigate('/home');
               const userData = await userService.getOneUser(values?.email);
