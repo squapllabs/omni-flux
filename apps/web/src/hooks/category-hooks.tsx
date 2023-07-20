@@ -7,6 +7,7 @@ const useGetAllCategory = () => {
     () => CategoryService.getAllCategory(),
     {
       select: (data) => data.data,
+      staleTime: Infinity,
     }
   );
 };
