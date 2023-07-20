@@ -130,7 +130,7 @@ const Home = () => {
               style={{ padding: '0 12px 0 0' }}
             />
             <span className={Styles.reportHeading}>Stock</span>
-            <div>
+            <div className={Styles.items}>
               <p>Item</p>
               <p>Warehouse</p>
               <p>Brand</p>
@@ -145,7 +145,7 @@ const Home = () => {
               style={{ padding: '0 12px 0 0' }}
             />
             <span className={Styles.reportHeading}>Sales</span>
-            <div>
+            <div className={Styles.items}>
               <p>Item</p>
               <p>Warehouse</p>
               <p>Brand</p>
@@ -160,7 +160,7 @@ const Home = () => {
               style={{ padding: '0 12px 0 0' }}
             />
             <span className={Styles.reportHeading}>Expense</span>
-            <div>
+            <div className={Styles.items}>
               <p>Item</p>
               <p>Warehouse</p>
               <p>Brand</p>

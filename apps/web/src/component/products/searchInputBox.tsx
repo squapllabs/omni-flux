@@ -1,21 +1,32 @@
-import React, { ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 
 interface SearchInputProps {
   placeholder?: string;
   onSearch: (searchTerm: string) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
-  placeholder = 'Search',
-  onSearch,
-}) => {
+const SearchInput: React.FC<SearchInputProps> = ({ placeholder, onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value;
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     onSearch(searchTerm);
   };
 
   return (
-    <input type="text" placeholder={placeholder} onChange={handleChange} />
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder={placeholder}
+        value={searchTerm}
+        onChange={handleChange}
+        style={{ outline: 'none' }}
+      />
+    </form>
   );
 };
 

@@ -9,6 +9,9 @@ import Dropdown from '../menu/dropDown';
 import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
 import FilterIcon from '../menu/icons/filterIcon';
 import DescendingIcon from '../menu/icons/descendingIcon';
+import SearchInput from './searchInputBox';
+import SearchIcon from '../menu/icons/search';
+
 const ProductPage = () => {
   const navigate = useNavigate();
   const handleAddProduct = () => {
@@ -29,7 +32,10 @@ const ProductPage = () => {
     link.click();
     URL.revokeObjectURL(url);
   };
-
+  const handleReset = () => {
+    console.log('reset');
+  };
+  const handleSearch = () => {};
   return (
     <div className={Styles.container}>
       <div className={Styles.topContent}>
@@ -71,78 +77,116 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
-      <div className={Styles.dropdownButton}>
-        <div className={Styles.button}>
-          <Dropdown
-            label={
-              <Button
-                text={
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <FilterIcon style={{ padding: '0 10px' }} />
-                    <p style={{ padding: '0 10px', fontSize: '16px' }}>
-                      Filter
-                    </p>
-                    <CancelFilterIcon
-                      style={{
-                        padding: '8px 10px',
-                        borderLeft: '1px solid #D0D5DD',
-                      }}
-                    />
-                  </div>
-                }
-                onClick={() => {}}
-                width={150}
-                textColor="black"
-                backgroundColor="white"
-                border="1px solid #D0D5DD"
-                borderRadius={8}
-              />
-            }
+
+      <div className={Styles.middleContent}>
+        <div className={Styles.middleRightContent}>
+          <div
+            style={{
+              border: '1px solid gray',
+              padding: '8px',
+              borderRadius: '8px',
+              width: '300px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
           >
-            <div>filter item</div>
-          </Dropdown>
+            <SearchIcon style={{ padding: '0 5px' }} />
+            <SearchInput
+              placeholder="Search by Item Name"
+              onSearch={handleSearch}
+            />
+          </div>
+          <div>
+            <Button
+              text="Search"
+              onClick={() => {}}
+              border="1px solid #E9D7FE"
+              backgroundColor="#F9F5FF"
+              textColor="#6941C6"
+              fontWeight={600}
+              borderRadius={8}
+            />
+          </div>
+
+          <div className={Styles.resetButton} onClick={handleReset}>
+            <h2> Reset</h2>
+          </div>
         </div>
-        <div className="button">
-          <Dropdown
-            label={
-              <Button
-                text={
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <DescendingIcon style={{ padding: '0 10px' }} />
-                    <p
+
+        <div className={Styles.middleRightContent}>
+          <div className={Styles.button}>
+            <Dropdown
+              label={
+                <Button
+                  text={
+                    <div
                       style={{
-                        padding: '8px 10px',
-                        fontSize: '16px',
-                        borderLeft: '1px solid #D0D5DD',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                     >
-                      Last Updated On
-                    </p>
-                  </div>
-                }
-                onClick={() => {}}
-                width={190}
-                textColor="black"
-                backgroundColor="white"
-                border="1px solid #D0D5DD"
-                borderRadius={8}
-              />
-            }
-          >
-            <div></div>
-          </Dropdown>
+                      <FilterIcon style={{ padding: '0 10px' }} />
+                      <p style={{ padding: '0 10px', fontSize: '16px' }}>
+                        Filter
+                      </p>
+                      <CancelFilterIcon
+                        style={{
+                          padding: '8px 10px',
+                          borderLeft: '1px solid #D0D5DD',
+                        }}
+                      />
+                    </div>
+                  }
+                  onClick={() => {}}
+                  width={150}
+                  textColor="black"
+                  backgroundColor="white"
+                  border="1px solid #D0D5DD"
+                  borderRadius={8}
+                />
+              }
+            >
+              <div>filter item</div>
+            </Dropdown>
+          </div>
+
+          <div className={Styles.button}>
+            <Dropdown
+              label={
+                <Button
+                  text={
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <DescendingIcon style={{ padding: '0 10px' }} />
+                      <p
+                        style={{
+                          padding: '8px 10px',
+                          fontSize: '16px',
+                          borderLeft: '1px solid #D0D5DD',
+                        }}
+                      >
+                        Last Updated On
+                      </p>
+                    </div>
+                  }
+                  onClick={() => {}}
+                  width={190}
+                  textColor="black"
+                  backgroundColor="white"
+                  border="1px solid #D0D5DD"
+                  borderRadius={8}
+                />
+              }
+            >
+              <div></div>
+            </Dropdown>
+          </div>
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  function handleClickToAddAccount() {
+  function handleListItems() {
     navigate('/products');
   }
 
@@ -71,11 +71,11 @@ const Navbar = () => {
                         conditions and specifications of the project.
                       </p>
                     </div>
-                    <div>
+                    <div onClick={handleListItems}>
                       <div className={Styles.dropDownItems}>
                         <div className={Styles.itemsTitle}>
                           <CheckIcon />
-                          <h2>Raw Material</h2>
+                          <h2>Items</h2>
                         </div>
                         <p>
                           This would likely refer to the direct materials or
@@ -110,7 +110,6 @@ const Navbar = () => {
                         <CheckIcon />
                         <h2>Blog</h2>
                       </div>
-
                       <p>The latest industry news, updates and info.</p>
                     </div>
                     <div>
