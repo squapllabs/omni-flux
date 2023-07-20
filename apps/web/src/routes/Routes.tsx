@@ -202,6 +202,7 @@ import HsnCodeList from '../component/hsnCode/hsnCodeList';
 import AddProducts from '../component/products/addProducts';
 import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
+import SubSubCategoryList from '../component/subSubCategory/subSubList';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -217,6 +218,7 @@ const AppRoutes = () => {
   const ProtectedHsnCodeList = withLayoutAndProtection(HsnCodeList);
   const ProtectedClientList = withLayoutAndProtection(ClientList);
   const ProtectedCategoryList = withLayoutAndProtection(CategoryList);
+  const ProtectedSubSubCategoryList = withLayoutAndProtection(SubSubCategoryList);
 
   return (
     <div>
@@ -236,6 +238,7 @@ const AppRoutes = () => {
         <Route path="/hsncode-list" element={<ProtectedHsnCodeList />} />
         <Route path="/client-list" element={<ProtectedClientList />} />
         <Route path="/category-list" element={<ProtectedCategoryList />} />
+        <Route path="/sub-sub-category-list" element={<ProtectedSubSubCategoryList />} />
       </Routes>
     </div>
   );
