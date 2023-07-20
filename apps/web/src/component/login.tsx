@@ -199,9 +199,8 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
         onChange={(e) => setInputValue(e.target.value)}
         onBlur={() => validateInput(inputValue)}
         error={error}
-        prefixIcon={<FiSearch />}
-        suffixIcon={<AiOutlineClose />}
-        width="50%"
+
+        width="100%"
       />
                 <div className={Styles.buttonField}>
                   <div className={Styles.forgetPassword}>
