@@ -4,13 +4,16 @@ interface BellIconProps {
   width?: number;
   height?: number;
   color?: string;
+  onClick: () => void;
+  className?: string;
 }
 
 const BellIcon: React.FC<BellIconProps> = ({
   width = 30,
   height = 30,
   color = '#667085',
-  ...props
+  className,
+  onClick,
 }) => {
   return (
     <svg
@@ -19,7 +22,8 @@ const BellIcon: React.FC<BellIconProps> = ({
       height={height}
       fill="none"
       viewBox="0 0 30 30"
-      {...props}
+      className={className}
+      onClick={onClick}
     >
       <path
         stroke={color}

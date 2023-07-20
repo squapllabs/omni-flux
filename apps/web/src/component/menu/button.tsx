@@ -7,6 +7,7 @@ interface ButtonProps {
   backgroundColor?: string;
   textColor?: string;
   borderRadius?: string | number;
+  border?: string;
 
   fontSize?: string | number;
   fontWeight?: string | number;
@@ -22,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   backgroundColor = '#1B92EB',
   textColor = 'white',
   borderRadius = '4px',
+  border = 'none',
 
   fontSize = '14px',
   fontWeight = 'normal',
@@ -35,10 +37,10 @@ const Button: React.FC<ButtonProps> = ({
     backgroundColor,
     color: textColor,
     borderRadius,
+    border,
 
     fontSize,
     fontWeight,
-    border: 'none',
     cursor: 'pointer',
     ...style,
   };
