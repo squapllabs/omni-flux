@@ -32,7 +32,17 @@ const StyledLabel = styled.label`
 `;
 
 const StyledInput = styled.input<StyledInputProps>`
-  height: 24px;
+  height: calc(1.5em + 0.75rem + 2px);
+
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: #F4F5F6;
+  background-clip: padding-box;
+  border: 1px solid #C0C6CC;
+  border-radius: var(--border-radius);
+  box-shadow: none;
+  transition: none;
   padding-left: ${(props) => (props.hasPrefixIcon ? '32px' : '8px')};
   padding-right: ${(props) => (props.hasSuffixIcon ? '32px' : '8px')};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
@@ -42,8 +52,18 @@ const StyledInput = styled.input<StyledInputProps>`
   &:focus {
     outline: none;
     border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(104, 113, 120, 0.25);
+    background-color: #F4F5F6;
+    color: #1F272E;
+    border-color: #98A1A9;
   }
 `;
+
+
+
+
+
+
 
 const IconWrapper = styled.div`
   position: absolute;
@@ -63,26 +83,26 @@ const InputError = styled.span`
   margin-top: 4px;
 `;
 
-const Input: React.FC<InputProps> = ({ 
-  label, 
-  placeholder, 
-  error, 
-  width, 
-  prefixIcon, 
-  suffixIcon, 
-  ...props 
+const Input: React.FC<InputProps> = ({
+  label,
+  placeholder,
+  error,
+  width,
+  prefixIcon,
+  suffixIcon,
+  ...props
 }) => {
   return (
     <InputWrapper width={width}>
       {label && <StyledLabel>{label}</StyledLabel>}
       <div style={{ position: 'relative' }}>
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
-        <StyledInput 
-          placeholder={placeholder} 
-          error={!!error} 
+        <StyledInput
+          placeholder={placeholder}
+          error={!!error}
           hasPrefixIcon={!!prefixIcon}
-          hasSuffixIcon={!!suffixIcon} 
-          {...props} 
+          hasSuffixIcon={!!suffixIcon}
+          {...props}
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </div>
