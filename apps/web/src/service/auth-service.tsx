@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { environment } from '../environment/environment';
+import axiosinterceptor from '../helper/custom_axios';
 
 const forgetPassword = async (values: any) => {
   console.log('values', values);
@@ -83,9 +84,23 @@ const logout = async () => {
   }
 };
 
+const refreshTokenCall = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/user/refreshToken`,
+      values
+    );
+    console.log("refresh token call----->",response.data)
+    return response.data;
+  } catch (error) {
+    console.log('Error in refreshTokenCall :', error);
+    throw error;
+  }
+};
 export default {
   forgetPassword,
   loginAuth,
   restePassword,
   logout,
+  refreshTokenCall
 };
