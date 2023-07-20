@@ -90,9 +90,9 @@ const UomForm: React.FC = (props: any) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={6}>
-            <InputLabel id="role_id-label">Role</InputLabel>
+            <InputLabel id="category_id-label">Category</InputLabel>
             <Select
-              labelId="role_id-label"
+              labelId="category_id-label"
               name="category_id"
               size="small"
               sx={{ width: '300px' }}
