@@ -5,6 +5,19 @@ import './addProduct.css'; // Import CSS file for styling
 import hsnCode from '../../service/hsnCode-service';
 import umoCode from '../../service/uom-service';
 import gstRateCode from '../../service/gst-service';
+
+interface HSNCode {
+  code: string;
+}
+
+interface UOM {
+  name: string;
+}
+
+interface GSTRate {
+  rate: string;
+}
+
 const AddProducts = () => {
   const initialValues = {
     itemCode: '',
@@ -32,13 +45,13 @@ const AddProducts = () => {
     minimumStock: Yup.number().required('Minimum Stock is required'),
   });
 
-  const [hsnValues, setHSNValues] = useState([]);
-  const [uomValues, setUOMValues] = useState([]);
-  const [gstRate, setGstRate] = useState([]);
+  const [hsnValues, setHSNValues] = useState<HSNCode[]>([]);
+  const [uomValues, setUOMValues] = useState<UOM[]>([]);
+  const [gstRate, setGstRate] = useState<GSTRate[]>([]);
 
   useEffect(() => {
     fetchData();
-    fetchumoData();
+    fetchUOMData();
     fetchGstRate();
   }, []);
 
@@ -47,30 +60,29 @@ const AddProducts = () => {
       const data = await hsnCode.getAllHsnCode();
       setHSNValues(data.data);
     } catch (error) {
-      // Handle error
       console.log('Error in fetching HSN code data:', error);
     }
   };
-  const fetchumoData = async () => {
+
+  const fetchUOMData = async () => {
     try {
       const data = await umoCode.getAlluom();
       setUOMValues(data.data);
     } catch (error) {
-      // Handle error
-      console.log('Error in fetching HSN code data:', error);
+      console.log('Error in fetching UOM data:', error);
     }
   };
+
   const fetchGstRate = async () => {
     try {
       const data = await gstRateCode.getAllGst();
       setGstRate(data.data);
     } catch (error) {
-      // Handle error
-      console.log('Error in fetching HSN code data:', error);
+      console.log('Error in fetching GST rate data:', error);
     }
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: typeof initialValues) => {
     console.log(values);
     // Handle form submission logic here
   };
@@ -172,7 +184,6 @@ const AddProducts = () => {
                 </option>
               ))}
             </Field>
-
             <ErrorMessage name="taxRate" component="div" className="error" />
           </div>
 

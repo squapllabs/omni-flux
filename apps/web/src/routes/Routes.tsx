@@ -202,6 +202,7 @@ import HsnCodeList from '../component/hsnCode/hsnCodeList';
 import AddProducts from '../component/products/addProducts';
 import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
+import ProductPage from '../component/products/productPage';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -217,14 +218,16 @@ const AppRoutes = () => {
   const ProtectedHsnCodeList = withLayoutAndProtection(HsnCodeList);
   const ProtectedClientList = withLayoutAndProtection(ClientList);
   const ProtectedCategoryList = withLayoutAndProtection(CategoryList);
+  const ProtectedAddProductPage = withLayoutAndProtection(AddProducts);
+  const ProtectedProductPage = withLayoutAndProtection(ProductPage);
 
   return (
     <div>
       <Routes>
         <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
-        <Route path="/add-products" element={<AddProducts />} />
-
+        <Route path="/add-products" element={<ProtectedAddProductPage />} />
+        <Route path="/products" element={<ProtectedProductPage />} />
         <Route path="/home" element={<ProtectedHome />} />
         <Route path="/userList" element={<ProtectedUserList />} />
         <Route path="/userInfo/:id" element={<ProtectedUserInformation />} />

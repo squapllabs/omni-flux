@@ -5,7 +5,7 @@ import Button from './menu/button';
 import Vector from './menu/icons/vector';
 import FolderIcon from './menu/icons/folderIcon';
 const Home = () => {
-  const { data: getAllUsers } = useGetAllUsers();
+  // const { data: getAllUsers } = useGetAllUsers();
   // console.log('getAllUsers', getAllUsers);
   const [createItem, setCreateItem] = useState(true);
   const [createCustomer, setCreateCustomer] = useState(false);
@@ -90,7 +90,8 @@ const Home = () => {
                 console.log('getting started');
               }}
               backgroundColor="#7F56D9"
-              width="20%"
+              width="24%"
+              borderRadius={8}
             />
           </div>
         )}
