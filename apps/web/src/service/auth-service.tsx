@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { environment } from '../environment/environment';
+import axiosinterceptor from '../helper/custom_axios';
 
 const forgetPassword = async (values: any) => {
   console.log('values', values);
@@ -21,12 +22,29 @@ const forgetPassword = async (values: any) => {
   }
 };
 
-const loginAuth = async (values: JSON) => {
+const loginAuth = async (values: any) => {
   try {
     const response = await axios.post(
       `${environment.apiUrl}/user/login`,
       values
     );
+    console.log("check request data-->",values);  
+    console.log("check login response data$$$$->",response.data)
+
+    const loginValidateRequest={
+      accessToken:response.data["accessToken"],
+      email_id:values["email_id"],
+      refreshToken:response.data["refreshToken"],
+      isRememberMe:values["is_remember_me"]
+    }
+
+    console.log("login validate request -->",loginValidateRequest)
+
+    await axios.post(
+      `${environment.apiUrl}/user/loginValidate`,
+      loginValidateRequest
+    );
+
     return response.data;
   } catch (error) {
     console.log('Error in loginAuth :', error);
@@ -66,9 +84,23 @@ const logout = async () => {
   }
 };
 
+const refreshTokenCall = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/user/refreshToken`,
+      values
+    );
+    console.log("refresh token call----->",response.data)
+    return response.data;
+  } catch (error) {
+    console.log('Error in refreshTokenCall :', error);
+    throw error;
+  }
+};
 export default {
   forgetPassword,
   loginAuth,
   restePassword,
   logout,
+  refreshTokenCall
 };
