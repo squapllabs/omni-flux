@@ -3,18 +3,20 @@ import { useFormik } from 'formik';
 import Customs from '../ui/custom';
 import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
 import { createHsnCode, updateHsnCode } from '../../hooks/hsnCode-hooks';
-import { gethsnValidateyup } from '../../helper/constants/hst-constants';
+import {
+  gethsnCreateValidateyup,
+  gethsnUpdateValidateyup,
+} from '../../helper/constants/hsn-constants';
 import hsnCodeService from '../../service/hsnCode-service';
 import * as Yup from 'yup';
-const validationSchema = gethsnValidateyup(Yup);
 
-const HsnCodeForm: React.FC = (props: any) => {
-
+const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
   const [initialValues, setInitialValues] = useState({
     hsn_code_id: '',
     code: '',
     description: '',
   });
+
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
@@ -29,6 +31,10 @@ const HsnCodeForm: React.FC = (props: any) => {
       fetchOne();
     }
   }, []);
+  const validationSchema =
+    props.mode === 'ADD'
+      ? gethsnCreateValidateyup(Yup)
+      : gethsnUpdateValidateyup(Yup);
   const { mutate: createNewHsnCode } = createHsnCode();
   const { mutate: updateHsnById } = updateHsnCode();
   const formik = useFormik({
@@ -65,7 +71,7 @@ const HsnCodeForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('Hsn Code edited');
               props.setOpenSnack(true);
-            } 
+            }
           },
         });
       }

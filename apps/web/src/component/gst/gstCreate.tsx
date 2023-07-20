@@ -1,30 +1,32 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Customs from '../ui/custom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getGstcreationYupschema } from '../../helper/constants/gst-constants';
 import { Grid } from '@mui/material';
-import { createGst,updateGst } from '../../hooks/gst-hooks';
+import { createGst, updateGst } from '../../hooks/gst-hooks';
 import gstService from '../../service/gst-service';
 
 const validationSchema = getGstcreationYupschema(Yup);
 
 const GstCreate: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
-    gst_id:'',
+    gst_id: '',
     rate: '',
     cgst_rate: '',
     igst_rate: '',
+    sgst_rate:''
   });
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
         const data = await gstService.getOneGst(props.gstId);
         setInitialValues({
-          gst_id:data?.data?.gst_id,
+          gst_id: data?.data?.gst_id,
           rate: data?.data?.rate,
           cgst_rate: data?.data?.cgst_rate,
           igst_rate: data?.data?.igst_rate,
+          sgst_rate:data?.data?.sgst_rate
         });
       };
       fetchOne();
@@ -40,41 +42,42 @@ const GstCreate: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       if (props.mode === 'ADD') {
-      const Object: any = {
-        gst_id:values.gst_id,
-        rate: parseFloat(values.rate),
-        cgst_rate: parseFloat(values.cgst_rate),
-        igst_rate: parseFloat(values.igst_rate),
-      };
-      createNewGst(Object, {
-        onSuccess: (data, variables, context) => {
-          if (data?.success) {
-            props.setOpenPopup(false);
-            props.setReload(true);
-            props.setMessage('Gst created successfully');
-            props.setOpenDeleteSnack(true);
-          }
-        }
-      });
-    }
-    else {
-      const Object: any = {
-        gst_id:values.gst_id,
-        rate: parseFloat(values.rate),
-        cgst_rate: parseFloat(values.cgst_rate),
-        igst_rate: parseFloat(values.igst_rate),
-      };
-      updateGstById(Object, {
-        onSuccess: (data, variables, context) => {
-          if (data?.success) {
-            props.setOpenPopup(false);
-            props.setReload(true);
-            props.setMessage('Gst edited successfully');
-            props.setOpenDeleteSnack(true);
-          }
-        },
-      });
-    }
+        const Object: any = {
+          gst_id: values.gst_id,
+          rate: parseFloat(values.rate),
+          cgst_rate: parseFloat(values.cgst_rate) ? parseFloat(values.cgst_rate) : 0,
+          igst_rate: parseFloat(values.igst_rate) ? parseFloat(values.igst_rate) : 0,
+          sgst_rate: parseFloat(values.sgst_rate) ? parseFloat(values.sgst_rate) : 0
+        };
+        createNewGst(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.success) {
+              props.setOpenPopup(false);
+              props.setReload(true);
+              props.setMessage('Gst created successfully');
+              props.setOpenDeleteSnack(true);
+            }
+          },
+        });
+      } else {
+        const Object: any = {
+          gst_id: values.gst_id,
+          rate: parseFloat(values.rate),
+          cgst_rate: parseFloat(values.cgst_rate),
+          igst_rate: parseFloat(values.igst_rate),
+          sgst_rate: parseFloat(values.sgst_rate),
+        };
+        updateGstById(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.success) {
+              props.setOpenPopup(false);
+              props.setReload(true);
+              props.setMessage('Gst edited successfully');
+              props.setOpenDeleteSnack(true);
+            }
+          },
+        });
+      }
     },
   });
   return (
@@ -96,6 +99,22 @@ const GstCreate: React.FC = (props: any) => {
               onBlur={formik.handleBlur}
               error={formik.touched.rate && Boolean(formik.errors.rate)}
               helperText={formik.touched.rate && formik.errors.rate}
+            />
+          </Grid>
+
+          <Grid item xs={2} sm={4} md={4}>
+            <Customs.CustomTextField
+              name="sgst_rate"
+              label="Sgst Rate"
+              variant="outlined"
+              size="small"
+              value={formik.values.sgst_rate}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.sgst_rate && Boolean(formik.errors.sgst_rate)
+              }
+              helperText={formik.touched.sgst_rate && formik.errors.sgst_rate}
             />
           </Grid>
 

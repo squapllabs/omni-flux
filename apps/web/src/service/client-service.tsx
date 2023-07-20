@@ -6,8 +6,6 @@ const getAllClient = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/client/getAll`
     );
-    console.log('response', response);
-
     return response.data;
   } catch (error) {
     console.log('Error in getting all client:', error);
@@ -28,11 +26,9 @@ const getOneClientByID = async (values: any) => {
 };
 
 const createClient = async (values: JSON) => {
-  console.log('values', values);
-
   try {
     const response = await axiosinterceptor.post(
-      `http://localhost:8080/api/client/`,
+      `${environment.apiUrl}/client/`,
       values
     );
     return response.data;

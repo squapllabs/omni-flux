@@ -61,6 +61,17 @@ const updateHsnCode = async (values: JSON) => {
     console.log('Error in update hsc-code api :', error);
   }
 };
+const getByHsnCode = async (code: string) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/hsn-code/getByCode/${code}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in get by id hsn code data:', error);
+    throw error;
+  }
+};
 
 export default {
   getAllHsnCode,
@@ -68,4 +79,5 @@ export default {
   createHsnCode,
   getOneHsnCode,
   updateHsnCode,
+  getByHsnCode,
 };

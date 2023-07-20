@@ -1,0 +1,2 @@
+alter table warehouse_inventory 
+add constraint fk_warehouse_inventory_warehouse_id_item_id unique(warehouse_id,item_id);
