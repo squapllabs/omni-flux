@@ -23,13 +23,16 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const InputWrapper = styled.div<InputWrapperProps>`
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+
   width: ${(props) => props.width || '100%'};
 `;
 
 const StyledLabel = styled.label`
-  margin-bottom: 8px;
-  font-size: 0.875rem;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  color: #333C44;
+  font-weight: 400;
+
 `;
 
 const InputContainer = styled.div<StyledInputProps>`
@@ -44,7 +47,9 @@ const InputContainer = styled.div<StyledInputProps>`
     border-color: #888;
   }
   &:focus-within {
-    border-color: #007bff;
+    outline: 0;
+    box-shadow: 0 0 0 2px #68717840;
+
   }
 `;
 
@@ -76,8 +81,14 @@ const SuffixIconWrapper = styled(IconWrapper)`
 
 const InputError = styled.span`
   color: red;
-  margin-top: 4px;
+  margin-top: 2px;
+font-size: 0.75rem;
 `;
+
+const ErrorMessageWrapper = styled.div`
+  min-height: 20px; // Change to the height of your error message
+`;
+
 
 const Input: React.FC<InputProps> = ({
   label,
@@ -96,9 +107,16 @@ const Input: React.FC<InputProps> = ({
         <StyledInput hasSuffixIcon={!!suffixIcon} placeholder={placeholder} {...props} />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
-      {error && <InputError>{error}</InputError>}
+      <ErrorMessageWrapper>
+        {error && <InputError>{error}</InputError>}
+      </ErrorMessageWrapper>
+
+
     </InputWrapper>
   );
 };
 
 export default Input;
+
+
+
