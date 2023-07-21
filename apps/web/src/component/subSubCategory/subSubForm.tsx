@@ -2,14 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import Customs from '../ui/custom';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
-import {createSubSubcategory,updateSubSubcategory} from '../../hooks/subSubCategory-hooks';
-import { getSubSubCategoryValidateyup } from '../../helper/constants/category/subsubcategory-constants';
+import {
+  createSubSubcategory,
+  updateSubSubcategory,
+} from '../../hooks/subSubCategory-hooks';
+import {
+  getUpdateValidateyup,
+  getCreateValidateyup,
+} from '../../helper/constants/category/subsubcategory-constants';
 import SubSubCategoryService from '../../service/subSubCategory-service';
 import { useGetAllSubcategory } from '../../hooks/subCategory-hooks';
 import * as Yup from 'yup';
-
-const validationSchema = getSubSubCategoryValidateyup(Yup);
 const SubSubCategoryForm: React.FC = (props: any) => {
+  const validationSchema =
+    props.mode === 'ADD'
+      ? getCreateValidateyup(Yup)
+      : getUpdateValidateyup(Yup);
   const { data: getAllSubCategory } = useGetAllSubcategory();
   const [initialValues, setInitialValues] = useState({
     sub_sub_category_id: '',
@@ -95,6 +103,7 @@ const SubSubCategoryForm: React.FC = (props: any) => {
               sx={{ width: '300px' }}
               value={formik.values.sub_category_id}
               onChange={formik.handleChange}
+              disabled={props.mode === 'EDIT' ? true : false}
             >
               {getAllSubCategory &&
                 getAllSubCategory.map((option: any) => (

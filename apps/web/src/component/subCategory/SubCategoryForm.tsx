@@ -6,13 +6,19 @@ import {
   createSubcategory,
   updateSubcategory,
 } from '../../hooks/subCategory-hooks';
-import { getSubcategoryValidateyup } from '../../helper/constants/category/subcategory-constants';
+import {
+  getUpdateValidateyup,
+  getCreateValidateyup,
+} from '../../helper/constants/category/subcategory-constants';
 import SubcategoryService from '../../service/subCategory-service';
 import { useGetAllCategory } from '../../hooks/category-hooks';
 import * as Yup from 'yup';
 
-const validationSchema = getSubcategoryValidateyup(Yup);
 const SubCategoryForm: React.FC = (props: any) => {
+  const validationSchema =
+    props.mode === 'ADD'
+      ? getCreateValidateyup(Yup)
+      : getUpdateValidateyup(Yup);
   const { data: getAllCategory } = useGetAllCategory();
   const [initialValues, setInitialValues] = useState({
     sub_category_id: '',
@@ -96,6 +102,7 @@ const SubCategoryForm: React.FC = (props: any) => {
               name="category_id"
               size="small"
               sx={{ width: '300px' }}
+              disabled={props.mode === 'EDIT' ? true : false}
               value={formik.values.category_id}
               onChange={formik.handleChange}
             >

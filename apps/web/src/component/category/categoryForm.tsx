@@ -3,13 +3,19 @@ import { useFormik } from 'formik';
 import Customs from '../ui/custom';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { createCategory, updateCategory } from '../../hooks/category-hooks';
-import { getClientValidateyup } from '../../helper/constants/category/category-constants';
+import {
+  getCreateValidateyup,
+  getUpdateValidateyup,
+} from '../../helper/constants/category/category-constants';
 import CategoryService from '../../service/category-service';
 import * as Yup from 'yup';
 import { useGetAllProject } from '../../hooks/project-hooks';
 
-const validationSchema = getClientValidateyup(Yup);
 const UomForm: React.FC = (props: any) => {
+  const validationSchema =
+    props.mode === 'ADD'
+      ? getCreateValidateyup(Yup)
+      : getUpdateValidateyup(Yup);
   const [initialValues, setInitialValues] = useState({
     category_id: '',
     name: '',
@@ -61,7 +67,8 @@ const UomForm: React.FC = (props: any) => {
         const Object: any = {
           category_id: values.category_id,
           name: values.name,
-          budget: values.budget,
+          budget: Number(values.budget),
+          project: values.project_id,
         };
         updateCategoryData(Object, {
           onSuccess: (data, variables, context) => {
@@ -94,6 +101,7 @@ const UomForm: React.FC = (props: any) => {
               sx={{ width: '300px' }}
               value={formik.values.project_id}
               onChange={formik.handleChange}
+              disabled={props.mode === 'EDIT' ? true : false}
             >
               {getAllProjectList &&
                 getAllProjectList.map((option: any) => (

@@ -59,10 +59,23 @@ const deleteSubcategory = async (id: number) => {
     throw error;
   }
 };
+
+const checkDublicateSubCategory = async (value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/sub-category/checkDuplicateName/${value.name}/${value.id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in checkDublicateSubCategory   :', error);
+    throw error;
+  }
+};
 export default {
   getAllSubcategory,
   getOneSubcategoryByID,
   createSubcategory,
   updateSubcategory,
   deleteSubcategory,
+  checkDublicateSubCategory,
 };
