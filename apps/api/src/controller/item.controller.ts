@@ -33,7 +33,7 @@ const createItem = catchAsync(async (req, res) => {
   const getAllItemBySearch = catchAsync(async (req, res) => {
     const methodName = '/getAllItemBySearch';
     try {
-      const result = await itemService.getAllItemBySearch();
+      const result = await itemService.getAllItemBySearch(req.body);
       res.send(result);
     } catch (err) {
       handleError(new ErrorHandler(errorText, methodName, err), res);

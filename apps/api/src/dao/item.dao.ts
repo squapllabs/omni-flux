@@ -65,9 +65,9 @@ const getAll = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter=filters.filterItem;
+    const filter = filters.filterItem;
     const items = await transaction.item.findMany({
-     where: filter,
+      where: filter,
       orderBy: [
         {
           [orderByColumn]: orderByDirection,
@@ -78,36 +78,36 @@ const getAll = async (
       include: {
         gst: {
           select: {
-            rate: true, 
-            gst_id:true
+            rate: true,
+            gst_id: true,
           },
         },
         hsn_code: {
           select: {
-            code: true, 
-            hsn_code_id: true
+            code: true,
+            hsn_code_id: true,
           },
         },
         uom: {
           select: {
-            name: true, 
-            uom_id:true
+            name: true,
+            uom_id: true,
           },
         },
         sub_sub_category: {
           select: {
-            name: true, 
-            sub_sub_category_id:true
+            name: true,
+            sub_sub_category_id: true,
           },
         },
         item_type: {
           select: {
-            item_type_item_name: true, 
+            item_type_item_name: true,
           },
         },
         brand: {
           select: {
-            brand_name: true, 
+            brand_name: true,
           },
         },
       },
@@ -119,27 +119,35 @@ const getAll = async (
   }
 };
 
-const getAllBySearch = async(
-  connectionObj = null
-  )=>{
+const getAllBySearch = async (keyword, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
 
     const items = await transaction.item.findMany({
       where: {
-        item_name: {
-          equals: 'test_product'
-        },
+        OR: [
+          {
+            description: {
+              contains: keyword,
+              mode: 'insensitive',
+            },
+          },
+          {
+            item_name: {
+              contains: keyword,
+              mode: 'insensitive',
+            },
+          },
+        ],
       },
     });
 
-   return items;
+    return items;
   } catch (error) {
     console.log('Error occurred in item getAll dao', error);
     throw error;
   }
-}
-
+};
 
 const getById = async (itemId: number, connectionObj = null) => {
   try {
@@ -211,5 +219,5 @@ export default {
   deleteItem,
   edit,
   addBulk,
-  getAllBySearch
+  getAllBySearch,
 };
