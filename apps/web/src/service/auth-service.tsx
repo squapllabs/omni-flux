@@ -25,23 +25,19 @@ const forgetPassword = async (values: any) => {
 const loginAuth = async (values: any) => {
   try {
     const response = await axios.post(
-      `${environment.apiUrl}/user/login`,
+      `${environment.apiUrl}/auth/login`,
       values
     );
-    console.log("check request data-->",values);  
-    console.log("check login response data$$$$->",response.data)
-
-    const loginValidateRequest={
-      accessToken:response.data["accessToken"],
-      email_id:values["email_id"],
-      refreshToken:response.data["refreshToken"],
-      isRememberMe:values["is_remember_me"]
+    console.log("check login response data$$$$->", response.data)
+    const loginValidateRequest = {
+      accessToken: response.data["token"],
+      email_id: values["email_id"],
+      refreshToken: response.data["refreshToken"],
+      isRememberMe: values["is_remember_me"]
     }
 
-    console.log("login validate request -->",loginValidateRequest)
-
     await axios.post(
-      `${environment.apiUrl}/user/loginValidate`,
+      `${environment.apiUrl}/auth/loginValidate`,
       loginValidateRequest
     );
 
@@ -72,7 +68,7 @@ const restePassword = async (values: string) => {
 
 const logout = async () => {
   try {
-    const response = await axios.get(`${environment.apiUrl}/user/logout`, {
+    const response = await axios.get(`${environment.apiUrl}/auth/logout`, {
       headers: {
         token: 'success',
       },
@@ -87,10 +83,10 @@ const logout = async () => {
 const refreshTokenCall = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/user/refreshToken`,
+      `${environment.apiUrl}/auth/refreshToken`,
       values
     );
-    console.log("refresh token call----->",response.data)
+    console.log("refresh token call----->", response.data)
     return response.data;
   } catch (error) {
     console.log('Error in refreshTokenCall :', error);

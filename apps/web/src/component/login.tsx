@@ -35,6 +35,7 @@ const Login = () => {
   const [checked, setChecked] = React.useState(false);
 
   const { mutate: passwordInstance } = forgetPassword();
+
   interface CustomError extends Error {
     inner?: { path: string; message: string }[];
   }
@@ -69,8 +70,9 @@ const Login = () => {
         };
 
         loginData(data, {
-          onSuccess: async (data, variables, context) => {
+          onSuccess: async (data) => {
             if (data?.status === true) {
+              console.log("check data login response data-->", data)
               dispatch(setToken({ key: 'Data', value: data }));
               navigate('/home');
               const userData = await userService.getOneUser(values?.email);
