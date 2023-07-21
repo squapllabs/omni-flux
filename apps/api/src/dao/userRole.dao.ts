@@ -113,4 +113,11 @@ const deleteUserRole = async (userRoleId: number) => {
   }
 };
 
-export default { add, edit, getById, getByUserId, getAll, deleteUserRole };
+export default {
+  add,
+  edit,
+  getById,
+  getByUserId,
+  getAll,
+  deleteUserRole,
+};

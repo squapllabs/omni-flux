@@ -25,6 +25,7 @@ model users {
   is_initial_login  Boolean      @default(true) @db.Boolean
 	department        String?	     @db.VarChar(100)
   @@unique([email_id], name: "uk_users_email_id")
+  projects          project[]
 }
 
 
@@ -80,7 +81,8 @@ model client {
   created_date    DateTime
   updated_date    DateTime
   created_by      Int?      
-  updated_by      Int?     
+  updated_by      Int?
+  projects        project[]     
 }
 
 model hsn_code {
@@ -144,6 +146,8 @@ model project {
   created_by     Int?
   updated_by     Int?
   is_delete      Boolean  @default(false)
+  user           users?     @relation(fields: [user_id], references: [user_id])
+  client         client?   @relation(fields: [client_id], references: [client_id])
 }
 
 model project_expense {

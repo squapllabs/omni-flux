@@ -5,6 +5,7 @@ import {
   subCategoryUpdateValidator,
 } from '../../validations/subCategory';
 import {
+  checkDuplicateSubCategoryName,
   createSubCategory,
   deleteBySubCategoryId,
   getAllSubCategory,
@@ -39,6 +40,12 @@ router.delete(
   '/delete/:sub_category_id',
   authMiddleware,
   deleteBySubCategoryId
+);
+
+router.get(
+  '/checkDuplicateName/:sub_category_name/:category_id',
+  authMiddleware,
+  checkDuplicateSubCategoryName
 );
 
 export default router;

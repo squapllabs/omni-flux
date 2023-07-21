@@ -5,6 +5,8 @@ import {
   createProjectBody,
   updateProjectBody,
 } from '../interfaces/project.Interface';
+// import customQueryExecutor from '../dao/common/utils.dao';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New Project
@@ -192,4 +194,89 @@ const deleteProject = async (projectId: number) => {
   }
 };
 
-export { createProject, updateProject, getAllProject, getById, deleteProject };
+/**
+ * Method for custom filter API
+ * @param body
+ * @returns
+ */
+const customFilterProject = async (body) => {
+  try {
+    const {
+      size = 10,
+      page = 0,
+      sort = 'desc',
+      project_name,
+      user_name,
+      client_name,
+    } = body;
+
+    const skip = page > 0 ? page * size : 0;
+
+    const projects = await prisma.project.findMany({
+      where: {
+        is_delete: false,
+        project_name: { contains: project_name || '' },
+        user: {
+          AND: [
+            { first_name: { contains: user_name || '' } },
+            { last_name: { contains: user_name || '' } },
+          ],
+        },
+        client: { name: { contains: client_name || '' } },
+      },
+      include: {
+        user: { select: { first_name: true, last_name: true } },
+        client: { select: { name: true } },
+      },
+      orderBy: { updated_date: sort },
+      take: size,
+      skip: skip,
+    });
+
+    const totalCount = await prisma.project.count({
+      where: {
+        is_delete: false,
+        project_name: { contains: project_name || '' },
+        user: {
+          AND: [
+            { first_name: { contains: user_name || '' } },
+            { last_name: { contains: user_name || '' } },
+          ],
+        },
+        client: { name: { contains: client_name || '' } },
+      },
+    });
+
+    const totalPages = Math.ceil(totalCount / size);
+
+    const projectData = {
+      total_count: totalCount,
+      total_page: totalPages,
+      size: size,
+      content: projects,
+    };
+
+    const result = {
+      message: 'success',
+      status: true,
+      data: projectData,
+    };
+
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in customFilterProject project service:',
+      error
+    );
+    throw error;
+  }
+};
+
+export {
+  createProject,
+  updateProject,
+  getAllProject,
+  getById,
+  deleteProject,
+  customFilterProject,
+};

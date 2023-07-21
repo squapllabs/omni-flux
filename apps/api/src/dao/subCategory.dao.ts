@@ -126,10 +126,30 @@ const deleteSubCategory = async (
   }
 };
 
+const getBySubCategoryNameAndCategoryId = async (
+  subCategoryName: string,
+  categoryId: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory =
+      await transaction.$queryRaw`select * from sub_category sc where lower(sc."name") = lower(${subCategoryName}) and sc.category_id =${categoryId}`;
+    return subCategory[0];
+  } catch (error) {
+    console.log(
+      'Error occurred in subCategory getBySubCategoryNameAndCategoryId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getById,
   getAll,
   deleteSubCategory,
+  getBySubCategoryNameAndCategoryId,
 };
