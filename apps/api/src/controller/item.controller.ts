@@ -30,7 +30,15 @@ const createItem = catchAsync(async (req, res) => {
       handleError(new ErrorHandler(errorText, methodName, err), res);
     }
   });
-  
+  const getAllItemBySearch = catchAsync(async (req, res) => {
+    const methodName = '/getAllItemBySearch';
+    try {
+      const result = await itemService.getAllItemBySearch(req.body);
+      res.send(result);
+    } catch (err) {
+      handleError(new ErrorHandler(errorText, methodName, err), res);
+    }
+  });
   const getByItemId = catchAsync(async (req, res) => {
     const methodName = '/getByItemId';
     try {
@@ -64,5 +72,6 @@ const createItem = catchAsync(async (req, res) => {
    getAllItem,
    getByItemId,
    updateItem,
-   addBulkItem
+   addBulkItem,
+   getAllItemBySearch
   }
