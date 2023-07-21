@@ -66,6 +66,22 @@ const SubCategoryList = () => {
       },
     },
     {
+      name: 'category',
+      label: 'Category',
+      options: {
+        display: true,
+        filter: false,
+        sort: false,
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <div>
+              <span>{value.name}</span>
+            </div>
+          );
+        },
+      },
+    },
+    {
       name: 'name',
       label: 'Name',
       options: {
