@@ -2,40 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import Customs from '../ui/custom';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
-import {createSubSubcategory,updateSubSubcategory} from '../../hooks/subSubCategory-hooks';
-import { getSubSubCategoryValidateyup } from '../../helper/constants/category/subsubcategory-constants';
-import SubSubCategoryService from '../../service/subSubCategory-service';
-import { useGetAllSubcategory } from '../../hooks/subCategory-hooks';
+import {
+  createSubcategory,
+  updateSubcategory,
+} from '../../hooks/subCategory-hooks';
+import { getSubcategoryValidateyup } from '../../helper/constants/category/subcategory-constants';
+import SubcategoryService from '../../service/subCategory-service';
+import { useGetAllCategory } from '../../hooks/category-hooks';
 import * as Yup from 'yup';
 
-const validationSchema = getSubSubCategoryValidateyup(Yup);
-const SubSubCategoryForm: React.FC = (props: any) => {
-  const { data: getAllSubCategory } = useGetAllSubcategory();
+const validationSchema = getSubcategoryValidateyup(Yup);
+const SubCategoryForm: React.FC = (props: any) => {
+  const { data: getAllCategory } = useGetAllCategory();
   const [initialValues, setInitialValues] = useState({
-    sub_sub_category_id: '',
+    sub_category_id: '',
     name: '',
     budget: '',
-    sub_category_id: '',
+    category_id: '',
   });
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await SubSubCategoryService.getOneSubSubcategoryByID(
-          props.subSubCategoryId
+        const data = await SubcategoryService.getOneSubcategoryByID(
+          props.subCategoryId
         );
         setInitialValues({
-          sub_sub_category_id: data?.data?.sub_sub_category_id,
+          sub_category_id: data?.data?.sub_category_id,
           name: data?.data?.name,
           budget: data?.data?.budget,
-          sub_category_id: data?.data?.sub_category_id,
+          category_id: data?.data?.category_id,
         });
       };
 
       fetchOne();
     }
   }, []);
-  const { mutate: createNewSubSubCategory } = createSubSubcategory();
-  const { mutate: updateSubSubCategoryData } = updateSubSubcategory();
+  const { mutate: createNewSubcategory } = createSubcategory();
+  const { mutate: updateSubcategoryData } = updateSubcategory();
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -45,31 +48,31 @@ const SubSubCategoryForm: React.FC = (props: any) => {
         const Object: any = {
           name: values.name,
           budget: Number(values.budget),
-          sub_category_id: values.sub_category_id,
+          category_id: values.category_id,
         };
-        createNewSubSubCategory(Object, {
+        createNewSubcategory(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
-              props.setOpenPopup(false);
+              props.setOpen(false);
               props.setReload(true);
-              props.setMessage('Sub Sub Category created');
+              props.setMessage('Category created');
               props.setOpenSnack(true);
             }
           },
         });
       } else {
         const Object: any = {
-          sub_sub_category_id: values.sub_sub_category_id,
-          name: values.name,
-          budget: parseFloat(values.budget),
           sub_category_id: values.sub_category_id,
+          name: values.name,
+          budget: values.budget,
+          category_id: values.category_id,
         };
-        updateSubSubCategoryData(Object, {
+        updateSubcategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
-              props.setOpenPopup(false);
+              props.setOpen(false);
               props.setReload(true);
-              props.setMessage('Sub Sub Category edited');
+              props.setMessage('Category edited');
               props.setOpenSnack(true);
             }
           },
@@ -87,31 +90,25 @@ const SubSubCategoryForm: React.FC = (props: any) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={6}>
-            <InputLabel id="role_id-label">Sub Category</InputLabel>
+            <InputLabel id="role_id-label">Role</InputLabel>
             <Select
               labelId="role_id-label"
-              name="sub_category_id"
+              name="category_id"
               size="small"
               sx={{ width: '300px' }}
-              value={formik.values.sub_category_id}
+              value={formik.values.category_id}
               onChange={formik.handleChange}
             >
-              {getAllSubCategory &&
-                getAllSubCategory.map((option: any) => (
-                  <MenuItem
-                    key={option.sub_category_id}
-                    value={option.sub_category_id}
-                  >
+              {getAllCategory &&
+                getAllCategory.map((option: any) => (
+                  <MenuItem key={option.category_id} value={option.category_id}>
                     {option.name}
                   </MenuItem>
                 ))}
             </Select>
-            {formik.errors.sub_category_id &&
-              formik.touched.sub_category_id && (
-                <div style={{ color: 'red' }}>
-                  {formik.errors.sub_category_id}
-                </div>
-              )}
+            {formik.errors.category_id && formik.touched.category_id && (
+              <div style={{ color: 'red' }}>{formik.errors.category_id}</div>
+            )}
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
             <Customs.CustomTextField
@@ -152,4 +149,4 @@ const SubSubCategoryForm: React.FC = (props: any) => {
   );
 };
 
-export default SubSubCategoryForm;
+export default SubCategoryForm;

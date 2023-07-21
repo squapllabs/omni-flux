@@ -8,63 +8,57 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
 import {
-  useGetAllSubSubcategory,
-  useDeleteSubSubcategory,
-} from '../../hooks/subSubCategory-hooks';
-import CustomDialog from '../ui/customDialog';
-import SubSubForm from './subSubForm';
+  useGetAllSubcategory,
+  useDeleteSubcategory,
+} from '../../hooks/subCategory-hooks';
+import CategoryForm from './SubCategoryForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
+import CustomDialog from '../ui/customDialog';
 
-const SubSubCategoryList = () => {
-  const { data: getAllSubSubCategory } = useGetAllSubSubcategory();
-  const { mutate: getDeleteSubSubCategoryByID } = useDeleteSubSubcategory();
-  const [value, setValue] = useState(0);
+const SubCategoryList = () => {
+  const { data: getAllSubcategory } = useGetAllSubcategory();
+  const { mutate: getDeleteSubcategoryByID } = useDeleteSubcategory();
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const [openSnack, setOpenSnack] = useState(false);
-  const [openPopup, setOpenPopup] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [subCategoryId, setSubcategoryID] = useState();
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
-  const [subSubCategoryId, setSubSubCategoryId] = useState();
-
-  const deleteSubSubCategoryHandler = (id: number) => {
+  const [openSnack, setOpenSnack] = useState(false);
+  const [value, setValue] = useState();
+  const [message, setMessage] = useState('');
+  const deleteCategoryHandler = (id: any) => {
     setValue(id);
-    setOpen(true);
+    setOpenDelete(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
-  const deleteSubSubCategory = () => {
-    getDeleteSubSubCategoryByID(value);
-    handleClose();
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMode('ADD');
+    setOpen(true);
+  };
+  const handleEdit = (event: React.FormEvent, value: any) => {
+    setMode('EDIT');
+    setSubcategoryID(value);
+    setOpen(true);
+  };
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+  const deleteSubcategory = () => {
+    getDeleteSubcategoryByID(value);
+    handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
 
-  const handleSnackBarClose = () => {
-    setOpenSnack(false);
-  };
-
-  const handleAdd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setMode('ADD');
-    setOpenPopup(true);
-  };
-
-  const handleEdit = (event: React.FormEvent, value: any) => {
-    setMode('EDIT');
-    setSubSubCategoryId(value);
-    setOpenPopup(true);
-  };
-
-  const handleClosePopup = () => {
-    setOpenPopup(false);
-  };
   const columns = [
     {
-      name: 'sub_sub_category_id',
-      label: 'sub_sub_category',
+      name: 'sub_category_id',
+      label: 'category',
       options: {
         display: false,
         filter: false,
@@ -78,22 +72,6 @@ const SubSubCategoryList = () => {
         display: true,
         filter: false,
         sort: false,
-      },
-    },
-    {
-      name: 'subCategory',
-      label: 'Sub Category',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <div>
-              <span>{value.name}</span>
-            </div>
-          );
-        },
       },
     },
     {
@@ -128,9 +106,7 @@ const SubSubCategoryList = () => {
                 <IconButton
                   aria-label="Delete"
                   size="small"
-                  onClick={() =>
-                    deleteSubSubCategoryHandler(tableMeta.rowData[0])
-                  }
+                  onClick={() => deleteCategoryHandler(tableMeta.rowData[0])}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -170,18 +146,34 @@ const SubSubCategoryList = () => {
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable
-          title={'Sub Sub Categories List'}
+          title={'Sub Category List'}
           columns={columns}
           options={options}
-          data={getAllSubSubCategory}
+          data={getAllSubcategory}
         />
       </div>
-      <CustomDialog
+      <CustomDialogBox
         open={open}
         handleClose={handleClose}
-        title="Delete Sub Sub Category"
-        content="Are you want to delete this category?"
-        handleConfirm={deleteSubSubCategory}
+        title="Sub Category Form"
+        content={
+          <CategoryForm
+            setOpen={setOpen}
+            open={open}
+            setReload={setReload}
+            mode={mode}
+            subCategoryId={subCategoryId}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+          />
+        }
+      />
+      <CustomDialog
+        open={openDelete}
+        handleClose={handleCloseDelete}
+        title="Delete Sub Category"
+        content="Are you want to delete this Sub Category?"
+        handleConfirm={deleteSubcategory}
       />
       <MySnackbar
         open={openSnack}
@@ -190,24 +182,8 @@ const SubSubCategoryList = () => {
         severity={'success'}
         autoHideDuration={1000}
       />
-      <CustomDialogBox
-        open={openPopup}
-        handleClose={handleClosePopup}
-        title="Sub Sub Category Creation"
-        content={
-          <SubSubForm
-            setOpenPopup={setOpenPopup}
-            open={openPopup}
-            setReload={setReload}
-            mode={mode}
-            subSubCategoryId={subSubCategoryId}
-            setOpenSnack={setOpenSnack}
-            setMessage={setMessage}
-          />
-        }
-      />
     </div>
   );
 };
 
-export default SubSubCategoryList;
+export default SubCategoryList;

@@ -203,6 +203,7 @@ import AddProducts from '../component/products/addProducts';
 import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
 import SubSubCategoryList from '../component/subSubCategory/subSubList';
+import SubCategoryList from '../component/subCategory/subCategoryList';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -219,6 +220,7 @@ const AppRoutes = () => {
   const ProtectedClientList = withLayoutAndProtection(ClientList);
   const ProtectedCategoryList = withLayoutAndProtection(CategoryList);
   const ProtectedSubSubCategoryList = withLayoutAndProtection(SubSubCategoryList);
+  const ProtectedSubcategoryList = withLayoutAndProtection(SubCategoryList);
 
   return (
     <div>
@@ -239,6 +241,10 @@ const AppRoutes = () => {
         <Route path="/client-list" element={<ProtectedClientList />} />
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/sub-sub-category-list" element={<ProtectedSubSubCategoryList />} />
+        <Route
+          path="/sub-category-list"
+          element={<ProtectedSubcategoryList />}
+        />
       </Routes>
     </div>
   );

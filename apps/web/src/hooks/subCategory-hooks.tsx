@@ -7,6 +7,7 @@ const useGetAllSubcategory = () => {
     () => SubcategoryService.getAllSubcategory(),
     {
       select: (data) => data.data,
+      staleTime: Infinity,
     }
   );
 };
