@@ -81,6 +81,9 @@ const getAll = async (connectionObj = null) => {
           updated_date: 'desc',
         },
       ],
+      include: {
+        project: true,
+      },
     });
     return category;
   } catch (error) {
