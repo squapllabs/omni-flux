@@ -73,7 +73,7 @@ const getByUserId = async (userId: number) => {
       const userRole = await prisma.user_roles.findFirst({
         where: {
           user_id: Number(userId),
-        },
+        }
       });
       return userRole;
     }

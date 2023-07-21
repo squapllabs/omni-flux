@@ -18,7 +18,7 @@ const router = express.Router();
 
 router.post(
   '/',
-  authMiddleware,
+  // authMiddleware,
   projectCreateValidator,
   runValidation,
   createProject
@@ -32,9 +32,13 @@ router.put(
   updateProject
 );
 
-router.get('/getAll', authMiddleware, getAllProject);
+router.get('/getAll',
+  // authMiddleware,
+  getAllProject);
 
-router.get('/get/:project_id', authMiddleware, getByProjectId);
+router.get('/get/:project_id',
+  // authMiddleware,
+  getByProjectId);
 
 router.delete('/delete/:project_id', authMiddleware, deleteByPojectId);
 

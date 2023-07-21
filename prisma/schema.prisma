@@ -23,7 +23,6 @@ model users {
   is_delete        Boolean  @default(false) @db.Boolean
   is_initial_login Boolean  @default(true) @db.Boolean
   department       String?  @db.VarChar(100)
-
   @@unique([email_id], name: "uk_users_email_id")
   projects          project[]
 }
@@ -46,8 +45,7 @@ model role {
   created_date DateTime
   updated_date DateTime
   created_by   Int?
-  updated_by   Int?
-
+  updated_by   Int? 
   @@map("role")
 }
 

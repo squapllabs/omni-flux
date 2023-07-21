@@ -91,14 +91,15 @@ const edit = async (
 const getById = async (projectId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const project = await transaction.project.findUnique({
+    const project = await transaction.project.findMany({
       where: {
         project_id: Number(projectId),
+        is_delete: false
       },
+      include: {
+        user: true
+      }
     });
-    if (project && project?.is_delete === true) {
-      return null;
-    }
     return project;
   } catch (error) {
     console.log('Error occurred in project getById dao', error);
