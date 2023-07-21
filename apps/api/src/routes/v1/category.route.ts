@@ -5,6 +5,7 @@ import {
   categoryUpdateValidator,
 } from '../../validations/category';
 import {
+  checkDuplicateProjectCategoryName,
   createCategory,
   deleteByCategoryId,
   getAllCategory,
@@ -36,5 +37,11 @@ router.get('/getAll', authMiddleware, getAllCategory);
 router.get('/get/:category_id', authMiddleware, getByCategoryId);
 
 router.delete('/delete/:category_id', authMiddleware, deleteByCategoryId);
+
+router.get(
+  '/checkDuplicateName/:category_name/:project_id',
+  authMiddleware,
+  checkDuplicateProjectCategoryName
+);
 
 export default router;

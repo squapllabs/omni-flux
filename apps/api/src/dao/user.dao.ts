@@ -224,6 +224,73 @@ const getDeletedUsers = async () => {
   }
 };
 
+const customFilterUser = async (
+  offset,
+  limit,
+  orderByColumn,
+  orderByDirection,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.where;
+    const users = await transaction.item.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+      // include: {
+      //   gst: {
+      //     select: {
+      //       rate: true,
+      //       gst_id: true,
+      //     },
+      //   },
+      //   hsn_code: {
+      //     select: {
+      //       code: true,
+      //       hsn_code_id: true,
+      //     },
+      //   },
+      //   uom: {
+      //     select: {
+      //       name: true,
+      //       uom_id: true,
+      //     },
+      //   },
+
+      //   sub_sub_category: {
+      //     select: {
+      //       name: true,
+      //       sub_sub_category_id: true,
+      //     },
+      //   },
+
+      //   item_type: {
+      //     select: {
+      //       item_type_item_name: true,
+      //     },
+      //   },
+
+      //   brand: {
+      //     select: {
+      //       brand_name: true,
+      //     },
+      //   },
+      // },
+    });
+    return users;
+  } catch (error) {
+    console.log('Error occurred in user dao : customFilterUser ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -234,4 +301,5 @@ export default {
   getUserDataWithRoleId,
   updateStatus,
   getDeletedUsers,
+  customFilterUser,
 };

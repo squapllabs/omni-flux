@@ -156,10 +156,54 @@ const deleteSubSubCategory = async (subSubCategoryId: number) => {
   }
 };
 
+/**
+ * Method to check Duplicate Sub Sub Category Name by sub_sub_category_name and sub_category_id
+ * @param subSubCategoryName
+ * @param subCategoryId
+ * @returns
+ */
+const checkDuplicateSubSubCategoryName = async (
+  subSubCategoryName: string,
+  subCategoryId: number
+) => {
+  try {
+    let result = null;
+    const subSubCategoryData =
+      await subSubCategoryDao.getBySubSubCategoryNameAndSubCategoryId(
+        subSubCategoryName,
+        Number(subCategoryId)
+      );
+    if (subSubCategoryData) {
+      result = {
+        message: 'success',
+        status: true,
+        is_exist: true,
+        data: subSubCategoryData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'failed',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in checkDuplicateSubSubCategoryName subSubCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSubSubCategory,
   updateSubSubCategory,
   getAllSubSubCategory,
   getById,
   deleteSubSubCategory,
+  checkDuplicateSubSubCategoryName,
 };

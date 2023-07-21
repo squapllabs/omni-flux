@@ -25,6 +25,7 @@ model users {
   department       String?  @db.VarChar(100)
 
   @@unique([email_id], name: "uk_users_email_id")
+  projects          project[]
 }
 
 model user_roles {
@@ -82,8 +83,9 @@ model client {
   contact_details String
   created_date    DateTime
   updated_date    DateTime
-  created_by      Int?
-  updated_by      Int[]
+  created_by      Int?      
+  updated_by      Int?
+  projects        project[]     
 }
 
 model hsn_code {
@@ -134,21 +136,87 @@ model sub_sub_category {
 }
 
 model project {
-  project_id   Int       @id @default(autoincrement())
-  project_name String    @db.VarChar(100)
-  description  String?
-  user_id      Int?
-  date_started DateTime?
-  date_ended   DateTime?
-  status       String?   @db.VarChar(50)
-  budget       Float?
-  client_id    Int?
-  document_url String?
-  created_date DateTime  @default(now())
-  updated_date DateTime  @updatedAt
-  created_by   Int?
-  updated_by   Int?
-  is_delete    Boolean   @default(false)
+  project_id     Int      @id @default(autoincrement())
+  project_name   String   @db.VarChar(100)
+  description    String?
+  user_id        Int?
+  date_started   DateTime?
+  date_ended     DateTime?
+  status         String?   @db.VarChar(50)
+  budget         Float?
+  client_id      Int?
+  document_url   String?
+  created_date   DateTime @default(now())
+  updated_date   DateTime @updatedAt
+  created_by     Int?
+  updated_by     Int?
+  is_delete      Boolean  @default(false)
+  user           users?     @relation(fields: [user_id], references: [user_id])
+  client         client?   @relation(fields: [client_id], references: [client_id])
+}
+
+model project_expense {
+  project_expense_id   Int       @id @default(autoincrement())
+  project_id           Int?
+  description          String?
+  amount               Float?
+  date                 DateTime?
+  document_url         String?
+  created_date         DateTime 
+  updated_date         DateTime  
+  created_by           Int?
+  updated_by           Int?
+  @@map("project_expense")
+}
+
+model site {
+  site_id        Int       @id @default(autoincrement())
+  site_name      String    @db.VarChar(100)
+  location       String?
+  user_id        Int?
+  created_date   DateTime  
+  updated_date   DateTime 
+  created_by     Int?
+  updated_by     Int?  
+  @@map("site")
+}
+
+model site_expense {
+  site_expense_id   Int       @id @default(autoincrement())
+  site_id           Int?
+  description       String?
+  amount            Float?
+  date              DateTime?
+  document_url      String?
+  created_date      DateTime  
+  updated_date      DateTime  
+  created_by        Int?
+  updated_by        Int?
+  @@map("site_expense")
+}
+
+model warehouse {
+  warehouse_id     Int       @id @default(autoincrement())
+  warehouse_name   String    @db.VarChar(100)
+  location         String?
+  created_date     DateTime  
+  updated_date     DateTime  
+  created_by       Int?
+  updated_by       Int?  
+  @@map("warehouse")
+}
+
+model warehouse_inventory {
+  warehouse_inventory_id  Int     @id @default(autoincrement())
+  warehouse_id            Int?
+  item_id                 Int?
+  quantity                Int?
+  created_date            DateTime 
+  updated_date            DateTime 
+  created_by              Int?
+  updated_by              Int?
+  @@unique([warehouse_id, item_id], name: "fk_warehouse_inventory_warehouse_id_item_id")
+  @@map("warehouse_inventory")
 }
 
 model item {

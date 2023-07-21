@@ -53,10 +53,21 @@ const deleteByPojectId = catchAsync(async (req, res) => {
   }
 });
 
+const customFilterProject = catchAsync(async (req, res) => {
+  const methodName = '/customFilterProject';
+  try {
+    const project = await projectService.customFilterProject(req.body);
+    res.send(project);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createProject,
   updateProject,
   getAllProject,
   getByProjectId,
   deleteByPojectId,
+  customFilterProject,
 };
