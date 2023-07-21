@@ -60,7 +60,7 @@ model gst {
   updated_date DateTime
   created_by   Int?
   updated_by   Int?
-
+  sgst_rate    Float?
   item item[]
 }
 

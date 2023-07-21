@@ -6,6 +6,8 @@ import { createClient, updateClient } from '../../hooks/client-hooks';
 import { getClientValidateyup } from '../../helper/constants/client-constants';
 import clientService from '../../service/client-service';
 import * as Yup from 'yup';
+import Input from '../ui/Input';
+import Button from '../menu/button';
 const validationSchema = getClientValidateyup(Yup);
 const ClientForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
@@ -78,42 +80,36 @@ const ClientForm: React.FC = (props: any) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
-              name="name"
+            <Input
               label="Name"
-              variant="outlined"
-              size="small"
+              placeholder="Enter client name"
+              name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.name && formik.errors.name}
+              width="100%"
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
-              name="contact_details"
+            <Input
               label="Contact Detail"
-              variant="outlined"
-              fullWidth
+              placeholder="Enter client contact detail"
+              name="contact_details"
               value={formik.values.contact_details}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
               error={
-                formik.touched.contact_details &&
-                Boolean(formik.errors.contact_details)
-              }
-              helperText={
                 formik.touched.contact_details && formik.errors.contact_details
               }
+              width="100%"
             />
           </Grid>
           <Grid item xs={2} sm={4} md={6}>
-            <Customs.CustomButton
-              type="submit"
-              label="Submit"
-              variant="contained"
-              color="primary"
+            <Button
+              text="Submit"
+              backgroundColor="#7F56D9"
+              fontSize={14}
+              fontWeight={500}
+              width={125}
             />
           </Grid>
         </Grid>
