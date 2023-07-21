@@ -110,6 +110,7 @@ model category {
   updated_date DateTime
   created_by   Int?
   updated_by   Int?
+  project      project?    @relation(fields: [project_id], references: [project_id])
 }
 
 model sub_category {
@@ -152,7 +153,8 @@ model project {
   updated_by     Int?
   is_delete      Boolean  @default(false)
   user           users?     @relation(fields: [user_id], references: [user_id])
-  client         client?   @relation(fields: [client_id], references: [client_id])
+  client         client?    @relation(fields: [client_id], references: [client_id])
+  category       category[]
 }
 
 model project_expense {
