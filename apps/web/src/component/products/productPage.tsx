@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../menu/button';
 import { useNavigate } from 'react-router-dom';
-import Styles from '..//../styles/addProduct.module.scss';
+import Styles from '..//../styles/listItem.module.scss';
 // import './productPage.css';
 import AddIcon from '../menu/icons/addIcon';
 import DownloadIcon from '../menu/icons/download';
