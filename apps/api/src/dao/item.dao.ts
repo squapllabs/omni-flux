@@ -1,4 +1,6 @@
 import prisma from '../utils/prisma';
+import { createItemBody } from '../interfaces/item.interface';
+
 const add = async (
   item_name: string,
   sub_sub_category_id: number,
@@ -9,6 +11,7 @@ const add = async (
   created_by: bigint,
   updated_by: bigint,
   item_type_id: number,
+  brand_id:number,
   connectionObj = null
 ) => {
   try {
@@ -27,6 +30,7 @@ const add = async (
         item_type_id,
         created_date: currentDate,
         updated_date: currentDate,
+        brand_id
       },
     });
     return item;
@@ -37,16 +41,11 @@ const add = async (
 };
 // item.dao.ts
 
-const addBulk = async (items: any[], connectionObj = null) => {
+const addBulk = async (items: createItemBody[], connectionObj = null) => {
   try {
-    const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const createdItems = await transaction.item.createMany({
-      data: items.map((item) => ({
-        ...item,
-        created_date: currentDate,
-        updated_date: currentDate,
-      })),
+      data: items
     });
 
     return createdItems;
@@ -149,12 +148,12 @@ const getAllBySearch = async (keyword, connectionObj = null) => {
   }
 };
 
-const getById = async (itemId: number, connectionObj = null) => {
+const getById = async (item_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const item = await transaction.item.findUnique({
       where: {
-        item_id: Number(itemId),
+        item_id: Number(item_id),
       },
     });
     return item;
@@ -163,12 +162,12 @@ const getById = async (itemId: number, connectionObj = null) => {
     throw error;
   }
 };
-const deleteItem = async (itemId: number, connectionObj = null) => {
+const deleteItem = async (item_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const item = await transaction.item.delete({
       where: {
-        item_id: Number(itemId),
+        item_id: Number(item_id),
       },
     });
     return item;
@@ -186,6 +185,8 @@ const edit = async (
   gst_id: number,
   uom_id: number,
   updated_by: bigint,
+  item_type_id:number,
+  brand_id:number,
   connectionObj = null
 ) => {
   try {
@@ -204,6 +205,8 @@ const edit = async (
         uom_id,
         updated_by,
         updated_date: currentDate,
+        item_type_id,
+        brand_id
       },
     });
     return item;

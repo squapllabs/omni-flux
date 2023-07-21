@@ -3,19 +3,19 @@ import * as itemService from '../services/item.service';
 import { handleError, ErrorHandler } from '../config/error';
 
 const errorText = 'Error';
-const createItem = catchAsync(async (req, res) => {
-    const methodName = '/createItem';
+const addItem = catchAsync(async (req, res) => {
+    const methodName = '/addItem';
     try {
-      const result = await itemService.createItem(req.body);
+      const result = await itemService.addItem(req.body);
       res.send(result);
     } catch (err) {
       handleError(new ErrorHandler(errorText, methodName, err), res);
     }
   });
-  const addBulkItem = catchAsync(async (req, res) => {
-    const methodName = '/addBulkItem';
+  const addBulkItems = catchAsync(async (req, res) => {
+    const methodName = '/addBulkItems';
     try {
-      const result = await itemService.createItemBulk(req.body);
+      const result = await itemService.addBulkItems(req);
       res.send(result);
     } catch (err) {
       handleError(new ErrorHandler(errorText, methodName, err), res);
@@ -67,11 +67,11 @@ const createItem = catchAsync(async (req, res) => {
     }
   });
   export {
-   createItem,
+   addItem,
    deleteByItemId,
    getAllItem,
    getByItemId,
    updateItem,
-   addBulkItem,
+   addBulkItems,
    getAllItemBySearch
   }
