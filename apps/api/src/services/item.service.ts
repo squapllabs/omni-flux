@@ -168,11 +168,12 @@ const createItemBulk = async (items: createItemBody[]) => {
  * Method to Get All Item By search
  * @returns
  */  
-const getAllItemBySearch = async()=>{
+const getAllItemBySearch = async(data)=>{
      try{
-      // const SearchItem=data.search;
+      const keyword=data.keyword;
       let result = null;
-      const itemData = await itemDao.getAllBySearch();
+      console.log(keyword);
+      const itemData = await itemDao.getAllBySearch(keyword);
       if (itemData) {
         result = { success: true, data: itemData };
         return result;
