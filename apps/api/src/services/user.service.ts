@@ -224,12 +224,12 @@ const userLogin = async (
       token = jwt.sign(
         { userId: dbUser.user_id, email: dbUser.email_id },
         process.env.API_ACCESS_TOKEN_SECRET_KEY,
-        { expiresIn: '1m' }
+        { expiresIn: '1d' }
       );
       refreshToken = jwt.sign(
         { userId: dbUser.user_id, email: dbUser.email_id },
         process.env.API_ACCESS_TOKEN_SECRET_KEY,
-        { expiresIn: '10m' }
+        { expiresIn: '100d' }
       );
     } catch (err) {
       console.log(' error occurred', err);
@@ -264,7 +264,7 @@ const refreshAccessToken = (refreshToken) => {
     const token = jwt.sign(
       { userId: decodedPayload['userId'], email: decodedPayload['email'] },
       process.env.API_ACCESS_TOKEN_SECRET_KEY,
-      { expiresIn: '2m' }
+      { expiresIn: '1d' }
     );
     return token;
   } catch (error) {
