@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Customs from '../ui/custom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getGstcreationYupschema } from '../../helper/constants/gst-constants';
 import { Grid } from '@mui/material';
 import { createGst, updateGst } from '../../hooks/gst-hooks';
 import gstService from '../../service/gst-service';
+import Input from '../ui/Input';
+import Button from '../menu/button';
 
 const validationSchema = getGstcreationYupschema(Yup);
 
@@ -15,7 +16,7 @@ const GstCreate: React.FC = (props: any) => {
     rate: '',
     cgst_rate: '',
     igst_rate: '',
-    sgst_rate:''
+    sgst_rate: '',
   });
   useEffect(() => {
     if (props.mode === 'EDIT') {
@@ -26,7 +27,7 @@ const GstCreate: React.FC = (props: any) => {
           rate: data?.data?.rate,
           cgst_rate: data?.data?.cgst_rate,
           igst_rate: data?.data?.igst_rate,
-          sgst_rate:data?.data?.sgst_rate
+          sgst_rate: data?.data?.sgst_rate,
         });
       };
       fetchOne();
@@ -45,9 +46,15 @@ const GstCreate: React.FC = (props: any) => {
         const Object: any = {
           gst_id: values.gst_id,
           rate: parseFloat(values.rate),
-          cgst_rate: parseFloat(values.cgst_rate) ? parseFloat(values.cgst_rate) : 0,
-          igst_rate: parseFloat(values.igst_rate) ? parseFloat(values.igst_rate) : 0,
-          sgst_rate: parseFloat(values.sgst_rate) ? parseFloat(values.sgst_rate) : 0
+          cgst_rate: parseFloat(values.cgst_rate)
+            ? parseFloat(values.cgst_rate)
+            : 0,
+          igst_rate: parseFloat(values.igst_rate)
+            ? parseFloat(values.igst_rate)
+            : 0,
+          sgst_rate: parseFloat(values.sgst_rate)
+            ? parseFloat(values.sgst_rate)
+            : 0,
         };
         createNewGst(Object, {
           onSuccess: (data, variables, context) => {
@@ -89,73 +96,60 @@ const GstCreate: React.FC = (props: any) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={4}>
-            <Customs.CustomTextField
-              name="rate"
+            <Input
               label="Gst Rate"
-              variant="outlined"
-              size="small"
+              placeholder="Enter gst rate"
+              name="rate"
               value={formik.values.rate}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.rate && Boolean(formik.errors.rate)}
-              helperText={formik.touched.rate && formik.errors.rate}
+              error={formik.touched.rate && formik.errors.rate}
+              width="100%"
             />
           </Grid>
 
           <Grid item xs={2} sm={4} md={4}>
-            <Customs.CustomTextField
-              name="sgst_rate"
+            <Input
               label="Sgst Rate"
-              variant="outlined"
-              size="small"
+              placeholder="Enter sgst rate"
+              name="sgst_rate"
               value={formik.values.sgst_rate}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.sgst_rate && Boolean(formik.errors.sgst_rate)
-              }
-              helperText={formik.touched.sgst_rate && formik.errors.sgst_rate}
+              error={formik.touched.sgst_rate && formik.errors.sgst_rate}
+              width="100%"
             />
           </Grid>
 
           <Grid item xs={2} sm={4} md={4}>
-            <Customs.CustomTextField
-              name="cgst_rate"
+            <Input
               label="Cgst Rate"
-              variant="outlined"
-              size="small"
+              placeholder="Enter cgst rate"
+              name="cgst_rate"
               value={formik.values.cgst_rate}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.cgst_rate && Boolean(formik.errors.cgst_rate)
-              }
-              helperText={formik.touched.cgst_rate && formik.errors.cgst_rate}
+              error={formik.touched.cgst_rate && formik.errors.cgst_rate}
+              width="100%"
             />
           </Grid>
 
           <Grid item xs={2} sm={4} md={4}>
-            <Customs.CustomTextField
-              name="igst_rate"
+            <Input
               label="Igst Rate"
-              variant="outlined"
-              size="small"
+              placeholder="Enter igst rate"
+              name="igst_rate"
               value={formik.values.igst_rate}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.igst_rate && Boolean(formik.errors.igst_rate)
-              }
-              helperText={formik.touched.igst_rate && formik.errors.igst_rate}
+              error={formik.touched.igst_rate && formik.errors.igst_rate}
+              width="100%"
             />
           </Grid>
 
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomButton
-              type="submit"
-              label="Submit"
-              variant="outlined"
-              color="primary"
+            <Button
+              text="Submit"
+              backgroundColor="#7F56D9"
+              fontSize={14}
+              fontWeight={500}
+              width={125}
             />
           </Grid>
         </Grid>
