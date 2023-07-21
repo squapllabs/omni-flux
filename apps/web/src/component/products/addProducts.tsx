@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import './addProduct.css'; // Import CSS file for styling
 import hsnCode from '../../service/hsnCode-service';
 import umoCode from '../../service/uom-service';
 import gstRateCode from '../../service/gst-service';
+import Styles from '../../styles/addItem.module.scss';
 
 interface HSNCode {
   code: string;
@@ -88,144 +88,11 @@ const AddProducts = () => {
   };
 
   return (
-    <div className="form-container">
-      <h1>Add Product</h1>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        <Form>
-          <div className="form-group">
-            <label htmlFor="itemCode">Item Code</label>
-            <Field
-              type="text"
-              id="itemCode"
-              name="itemCode"
-              className="form-input"
-            />
-            <ErrorMessage name="itemCode" component="div" className="error" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="description">Product Description</label>
-            <Field
-              type="text"
-              id="description"
-              name="description"
-              className="form-input"
-            />
-            <ErrorMessage
-              name="description"
-              component="div"
-              className="error"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="brand">Product Brand</label>
-            <Field type="text" id="brand" name="brand" className="form-input" />
-            <ErrorMessage name="brand" component="div" className="error" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="uom">UOM</label>
-            <Field as="select" id="uom" name="uom" className="form-input">
-              <option value="">Select UOM</option>
-              {uomValues.map((umo) => (
-                <option key={umo.name} value={umo.name}>
-                  {umo.name}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage name="uom" component="div" className="error" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="packSize">Pack Size</label>
-            <Field
-              type="text"
-              id="packSize"
-              name="packSize"
-              className="form-input"
-            />
-            <ErrorMessage name="packSize" component="div" className="error" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="hsnCode">HSN Code</label>
-            <Field
-              as="select"
-              id="hsnCode"
-              name="hsnCode"
-              className="form-input"
-            >
-              {hsnValues.map((hsn) => (
-                <option key={hsn.code} value={hsn.code}>
-                  {hsn.code}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage name="hsnCode" component="div" className="error" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="taxRate">Tax Rate</label>
-            <Field
-              as="select"
-              id="taxRate"
-              name="taxRate"
-              className="form-input"
-            >
-              <option value="">Select GST</option>
-              {gstRate.map((gst) => (
-                <option key={gst.rate} value={gst.rate}>
-                  {gst.rate}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage name="taxRate" component="div" className="error" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="mrp">MRP</label>
-            <Field type="number" id="mrp" name="mrp" className="form-input" />
-            <ErrorMessage name="mrp" component="div" className="error" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="currentStock">Current Stock</label>
-            <Field
-              type="number"
-              id="currentStock"
-              name="currentStock"
-              className="form-input"
-            />
-            <ErrorMessage
-              name="currentStock"
-              component="div"
-              className="error"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="minimumStock">Minimum Stock</label>
-            <Field
-              type="number"
-              id="minimumStock"
-              name="minimumStock"
-              className="form-input"
-            />
-            <ErrorMessage
-              name="minimumStock"
-              component="div"
-              className="error"
-            />
-          </div>
-
-          <button type="submit">Add Product</button>
-        </Form>
-      </Formik>
+    <div className={Styles.co}>
+      <div className={Styles.headingContainer}>
+        <h2>Add Item</h2>
+        <p>Add your raw materials ( Raw, Semi Finished & Finished).</p>
+      </div>
     </div>
   );
 };
