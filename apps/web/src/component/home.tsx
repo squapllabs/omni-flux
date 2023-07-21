@@ -5,7 +5,7 @@ import Button from './menu/button';
 import Vector from './menu/icons/vector';
 import FolderIcon from './menu/icons/folderIcon';
 const Home = () => {
-  const { data: getAllUsers } = useGetAllUsers();
+  // const { data: getAllUsers } = useGetAllUsers();
   // console.log('getAllUsers', getAllUsers);
   const [createItem, setCreateItem] = useState(true);
   const [createCustomer, setCreateCustomer] = useState(false);
@@ -90,7 +90,8 @@ const Home = () => {
                 console.log('getting started');
               }}
               backgroundColor="#7F56D9"
-              width="20%"
+              width="24%"
+              borderRadius={8}
             />
           </div>
         )}
@@ -129,7 +130,7 @@ const Home = () => {
               style={{ padding: '0 12px 0 0' }}
             />
             <span className={Styles.reportHeading}>Stock</span>
-            <div>
+            <div className={Styles.items}>
               <p>Item</p>
               <p>Warehouse</p>
               <p>Brand</p>
@@ -144,7 +145,7 @@ const Home = () => {
               style={{ padding: '0 12px 0 0' }}
             />
             <span className={Styles.reportHeading}>Sales</span>
-            <div>
+            <div className={Styles.items}>
               <p>Item</p>
               <p>Warehouse</p>
               <p>Brand</p>
@@ -159,7 +160,7 @@ const Home = () => {
               style={{ padding: '0 12px 0 0' }}
             />
             <span className={Styles.reportHeading}>Expense</span>
-            <div>
+            <div className={Styles.items}>
               <p>Item</p>
               <p>Warehouse</p>
               <p>Brand</p>

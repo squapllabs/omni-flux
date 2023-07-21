@@ -13,5 +13,19 @@ const addProduct = async (values: JSON) => {
     throw error;
   }
 };
+const getAllItems = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/api/item/getAllItem`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all items', error);
+    throw error;
+  }
+};
 
-export default addProduct;
+export default {
+  addProduct,
+  getAllItems,
+};
