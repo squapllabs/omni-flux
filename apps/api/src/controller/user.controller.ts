@@ -1,6 +1,7 @@
 import catchAsync from '../utils/catchAsync';
 import * as userService from '../services/user.service';
 import { handleError, ErrorHandler } from '../config/error';
+
 const errorText = 'Error';
 
 const createUser = catchAsync(async (req, res) => {
@@ -43,31 +44,11 @@ const getByEmailId = catchAsync(async (req, res) => {
   }
 });
 
-const userLogin = catchAsync(async (req, res) => {
-  const methodName = '/userLogin';
-  try {
-    const result = await userService.userLogin(req.body, res);
-    res.send(result);
-  } catch (err) {
-    handleError(new ErrorHandler(errorText, methodName, err), res);
-  }
-});
-
 const getAllUser = catchAsync(async (req, res) => {
   const methodName = '/getAll';
   try {
     const users = await userService.getAllUser(req.params.user_status);
     res.send(users);
-  } catch (err) {
-    handleError(new ErrorHandler(errorText, methodName, err), res);
-  }
-});
-
-const userLogOut = catchAsync(async (req, res) => {
-  const methodName = '/userLogOut';
-  try {
-    const result = await userService.userLogOut(req, res);
-    res.send(result);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
@@ -113,16 +94,25 @@ const getDeletedUsers = catchAsync(async (req, res) => {
   }
 });
 
+const customFilterUser = catchAsync(async (req, res) => {
+  const methodName = '/customFilterUser';
+  try {
+    const result = await userService.customFilterUser(req.body);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createUser,
   updateUser,
   getByUserId,
   getByEmailId,
-  userLogin,
   getAllUser,
-  userLogOut,
   deleteUser,
   updateStatus,
   searchUser,
   getDeletedUsers,
+  customFilterUser,
 };

@@ -1,0 +1,45 @@
+
+.container{
+  margin: 2%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.topContent{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rightContainer{
+display: flex;
+}
+
+.leftContainer h1 {
+  font-size: 30px;
+}
+.button{
+  display: flex;
+  padding: 2px;
+  gap: 20px;
+}
+.middleContent{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+
+}
+.middleRightContent{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.resetButton h2{
+  font-size: 14px;
+  font-weight: 'bolder';
+  color: #585454;
+}
+.resetButton{
+  cursor: pointer;
+}

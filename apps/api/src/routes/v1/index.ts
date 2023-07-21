@@ -59,8 +59,33 @@ const defaultRoutes = [
     route: project,
   },
   {
+<<<<<<< HEAD
     path: '/item',
     route: item,
+=======
+    path: '/project-expense',
+    route: projectExpense,
+  },
+  {
+    path: '/site',
+    route: site,
+  },
+  {
+    path: '/site-expense',
+    route: siteExpense,
+  },
+  {
+    path: '/warehouse',
+    route: warehouse,
+  },
+  {
+    path: '/warehouse-inventory',
+    route: warehouseInventory,
+  },
+  {
+    path: '/product',
+    route: product,
+>>>>>>> 9fc8de531c6bc113c3994f837fdb8f54633098f9
   },
   {
     path: '/stock',
