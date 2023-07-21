@@ -241,29 +241,28 @@ const userLogin = async (
     const fullName = dbUser?.first_name + ' ' + dbUser?.last_name;
     const loginResposne = {
       status: true,
-      message: "Success",
+      message: 'Success',
       token: `Bearer ${token}`,
       refreshToken: refreshToken,
       fullName: fullName,
-      email: email_id
+      email: email_id,
     };
     res.send(loginResposne);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
     const loginResposne = {
       status: false,
-      message: "something went wrong"
+      message: 'something went wrong',
     };
   }
 };
-
 
 const refreshAccessToken = (refreshToken) => {
   try {
     const decodedPayload = verifyToken(refreshToken);
 
     const token = jwt.sign(
-      { userId: decodedPayload["userId"], email: decodedPayload["email"] },
+      { userId: decodedPayload['userId'], email: decodedPayload['email'] },
       process.env.API_ACCESS_TOKEN_SECRET_KEY,
       { expiresIn: '2m' }
     );
@@ -272,7 +271,7 @@ const refreshAccessToken = (refreshToken) => {
     console.log('Error occurred in refreshAccessToken: ', error);
     throw error;
   }
-}
+};
 
 const verifyToken = (token) => {
   try {
@@ -511,4 +510,5 @@ export {
   searchUser,
   getDeletedUsers,
   customFilterUser,
+  refreshAccessToken,
 };

@@ -44,7 +44,6 @@ const getByEmailId = catchAsync(async (req, res) => {
   }
 });
 
-
 const getAllUser = catchAsync(async (req, res) => {
   const methodName = '/getAll';
   try {
@@ -114,10 +113,6 @@ export {
   deleteUser,
   updateStatus,
   searchUser,
-<<<<<<< HEAD
   getDeletedUsers,
   customFilterUser,
-=======
-  getDeletedUsers
->>>>>>> 510565ae7e568e0cf7a291edaa86a90dc534d03c
 };
