@@ -1,6 +1,6 @@
 import userDao from '../dao/user.dao';
 import userRoleDao from '../dao/userRole.dao';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
@@ -209,22 +209,27 @@ const userLogin = async (
 ) => {
   try {
     let token: string;
+    let refreshToken: string;
     let result = null;
-    const { email_id, user_password, is_remember_me } = body;
-    const existingUser = await userDao.getByEmailId(email_id);
-    if (!existingUser || existingUser?.user_password !== md5(user_password)) {
+    const { email_id, user_password } = body;
+    const dbUser = await userDao.getByEmailId(email_id);
+    if (!dbUser || dbUser?.user_password !== md5(user_password)) {
       result = {
         success: false,
         message: 'Email id and password Wrong',
       };
       return result;
     }
-
     try {
       token = jwt.sign(
-        { userId: existingUser.user_id, email: existingUser.email_id },
+        { userId: dbUser.user_id, email: dbUser.email_id },
         process.env.API_ACCESS_TOKEN_SECRET_KEY,
-        { expiresIn: '2h' }
+        { expiresIn: '1m' }
+      );
+      refreshToken = jwt.sign(
+        { userId: dbUser.user_id, email: dbUser.email_id },
+        process.env.API_ACCESS_TOKEN_SECRET_KEY,
+        { expiresIn: '10m' }
       );
     } catch (err) {
       console.log(' error occurred', err);
@@ -233,32 +238,48 @@ const userLogin = async (
         message: 'Error! Something went wrong',
       });
     }
-    const fullName = existingUser?.first_name + ' ' + existingUser?.last_name;
-    const loginCredentials = {
-      success: true,
+    const fullName = dbUser?.first_name + ' ' + dbUser?.last_name;
+    const loginResposne = {
+      status: true,
+      message: 'Success',
       token: `Bearer ${token}`,
+      refreshToken: refreshToken,
       fullName: fullName,
+      email: email_id,
     };
-
-    /* Here the expiration period is set for 1 Day */
-
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 1);
-
-    const cookieOptions = {
-      expires: is_remember_me === true ? expirationDate : null,
-      secure: true,
-      httpOnly: false,
-      sameSite: 'None',
-    };
-
-    res
-      .cookie('Token', `Bearer ${token}`, cookieOptions)
-      .cookie('Name', fullName, cookieOptions)
-      .send(loginCredentials);
+    res.send(loginResposne);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
+    const loginResposne = {
+      status: false,
+      message: 'something went wrong',
+    };
+  }
+};
+
+const refreshAccessToken = (refreshToken) => {
+  try {
+    const decodedPayload = verifyToken(refreshToken);
+
+    const token = jwt.sign(
+      { userId: decodedPayload['userId'], email: decodedPayload['email'] },
+      process.env.API_ACCESS_TOKEN_SECRET_KEY,
+      { expiresIn: '2m' }
+    );
+    return token;
+  } catch (error) {
+    console.log('Error occurred in refreshAccessToken: ', error);
     throw error;
+  }
+};
+
+const verifyToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.API_ACCESS_TOKEN_SECRET_KEY);
+    return decoded; // Contains the original payload
+  } catch (err) {
+    console.error('Invalid token:', err.message);
+    return null;
   }
 };
 
@@ -274,24 +295,6 @@ const getAllUser = async (user_status = 'AC') => {
   } catch (error) {
     console.log('Error occurred in getAll user service : ', error);
     throw error;
-  }
-};
-
-/**
- * Method for User Logout
- * @param req
- * @param res
- */
-const userLogOut = (req, res) => {
-  try {
-    res.clearCookie('Token');
-    res.clearCookie('Name');
-    res.json({ success: true, message: 'LogOut successful' });
-  } catch (error) {
-    console.log('Error occurred in userLogout: ', error);
-    res
-      .status(500)
-      .json({ success: false, message: 'Error occurred during logOut' });
   }
 };
 
@@ -503,10 +506,10 @@ export {
   getByEmailId,
   userLogin,
   getAllUser,
-  userLogOut,
   deleteUser,
   updateStatus,
   searchUser,
   getDeletedUsers,
   customFilterUser,
+  refreshAccessToken,
 };

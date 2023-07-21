@@ -35,6 +35,7 @@
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.2",
     "redux-persist": "^6.0.0",
+    "styled-components": "^6.0.4",
     "tslib": "^2.3.0",
     "typescript-logging": "^2.1.0",
     "winston": "^3.9.0",
