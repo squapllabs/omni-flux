@@ -65,8 +65,7 @@ const getAll = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter=filters.where;
-    console.log(filter)
+    const filter=filters.filterItem;
     const items = await transaction.item.findMany({
      where: filter,
       orderBy: [
@@ -119,6 +118,28 @@ const getAll = async (
     throw error;
   }
 };
+
+const getAllBySearch = async(
+  connectionObj = null
+  )=>{
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const items = await transaction.item.findMany({
+      where: {
+        item_name: {
+          equals: 'test_product'
+        },
+      },
+    });
+
+   return items;
+  } catch (error) {
+    console.log('Error occurred in item getAll dao', error);
+    throw error;
+  }
+}
+
 
 const getById = async (itemId: number, connectionObj = null) => {
   try {
@@ -190,4 +211,5 @@ export default {
   deleteItem,
   edit,
   addBulk,
+  getAllBySearch
 };

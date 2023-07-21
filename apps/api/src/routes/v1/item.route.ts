@@ -3,6 +3,7 @@ import authMiddleware from '../../middleware/auth';
 import {createItem,updateItem,deleteByItemId,getAllItem,getByItemId,addBulkItem} from '../../controller/item.controller';
 import { itemUpdateValidator } from '../../validations/item';
 import { runValidation } from '../../validations/index';
+import { getAllItemBySearch } from '../../services/item.service';
 const router = express.Router();
 
 
@@ -12,4 +13,6 @@ router.post('/get-all-items',authMiddleware, getAllItem);
 router.get('/get/:item_id',authMiddleware, getByItemId);
 router.delete('/delete/:item_id',authMiddleware,deleteByItemId);
 router.put('/updateItem', authMiddleware, itemUpdateValidator, runValidation,updateItem );
+router.post('/get-all-items-by-search', authMiddleware,getAllItemBySearch);
+
 export default router;

@@ -134,9 +134,8 @@ const createItemBulk = async (items: createItemBody[]) => {
         const operator = filter.operator;
         const field_value = filter.field_value;
   
-        applyFilter(filterObj, field_name, operator, field_value);
+       await applyFilter(filterObj, field_name, operator, field_value);
       }
-  
       const result = await itemDao.getAll(offsetValue, limitValue, order_by_column, order_by_direction, filterObj);
       const itemData = { success: true, data: result };
       return itemData;
@@ -145,7 +144,7 @@ const createItemBulk = async (items: createItemBody[]) => {
       throw error;
     }
   };
-  const applyFilter = (filterObj, field_name, operator, field_value) => {
+  const applyFilter = async (filterObj, field_name, operator, field_value) => {
     if (operator === 'Equal') {
       filterObj.filterItem[field_name] = field_value;
     } else if (operator === 'Not Equal') {
@@ -164,7 +163,33 @@ const createItemBulk = async (items: createItemBody[]) => {
       throw new Error(`Unsupported operator: ${operator}`);
     }
   };
-  
+
+ /**
+ * Method to Get All Item By search
+ * @returns
+ */  
+const getAllItemBySearch = async()=>{
+     try{
+      // const SearchItem=data.search;
+      let result = null;
+      const itemData = await itemDao.getAllBySearch();
+      if (itemData) {
+        result = { success: true, data: itemData };
+        return result;
+     }
+    }
+     catch(error){
+      console.log('Error occurred in getAll item service: ', error);
+      throw error;
+     } 
+};
+
+
+
+
+
+
+
 /**
  * Method to get item By itemId
  * @param ItemId
@@ -252,5 +277,6 @@ export {
     getById,
     deleteItem,
     updateItem,
-    createItemBulk
+    createItemBulk,
+    getAllItemBySearch
 }
