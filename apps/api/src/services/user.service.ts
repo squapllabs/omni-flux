@@ -211,7 +211,7 @@ const userLogin = async (
     let token: string;
     let refreshToken: string;
     let result = null;
-    const { email_id, user_password, is_remember_me } = body;
+    const { email_id, user_password } = body;
     const dbUser = await userDao.getByEmailId(email_id);
     if (!dbUser || dbUser?.user_password !== md5(user_password)) {
       result = {
@@ -220,17 +220,16 @@ const userLogin = async (
       };
       return result;
     }
-
     try {
       token = jwt.sign(
         { userId: dbUser.user_id, email: dbUser.email_id },
         process.env.API_ACCESS_TOKEN_SECRET_KEY,
-        { expiresIn: '2m' }
+        { expiresIn: '1m' }
       );
       refreshToken = jwt.sign(
         { userId: dbUser.user_id, email: dbUser.email_id },
         process.env.API_ACCESS_TOKEN_SECRET_KEY,
-        { expiresIn: '365d' }
+        { expiresIn: '10m' }
       );
     } catch (err) {
       console.log(' error occurred', err);
@@ -244,11 +243,10 @@ const userLogin = async (
       status: true,
       message: "Success",
       token: `Bearer ${token}`,
-      accessToken: token,
       refreshToken: refreshToken,
       fullName: fullName,
+      email: email_id
     };
-
     res.send(loginResposne);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
@@ -263,6 +261,7 @@ const userLogin = async (
 const refreshAccessToken = (refreshToken) => {
   try {
     const decodedPayload = verifyToken(refreshToken);
+
     const token = jwt.sign(
       { userId: decodedPayload["userId"], email: decodedPayload["email"] },
       process.env.API_ACCESS_TOKEN_SECRET_KEY,
@@ -297,24 +296,6 @@ const getAllUser = async (user_status = 'AC') => {
   } catch (error) {
     console.log('Error occurred in getAll user service : ', error);
     throw error;
-  }
-};
-
-/**
- * Method for User Logout
- * @param req
- * @param res
- */
-const userLogOut = (req, res) => {
-  try {
-    res.clearCookie('Token');
-    res.clearCookie('Name');
-    res.json({ success: true, message: 'LogOut successful' });
-  } catch (error) {
-    console.log('Error occurred in userLogout: ', error);
-    res
-      .status(500)
-      .json({ success: false, message: 'Error occurred during logOut' });
   }
 };
 
@@ -499,7 +480,6 @@ export {
   getByEmailId,
   userLogin,
   getAllUser,
-  userLogOut,
   deleteUser,
   updateStatus,
   searchUser,

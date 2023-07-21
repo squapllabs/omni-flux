@@ -15,8 +15,13 @@ import AccountIcon from './icons/account';
 import SecondaryNavbar from './secondaryNavbar';
 import BellIcon from './icons/bellIcon';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { resetAuth } from '../../redux/reducer';
+import authService from '../../service/auth-service';
+
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
   function handleClickToAddAccount() {
     navigate('/add-products');
@@ -41,6 +46,14 @@ const Navbar = () => {
 
   const handleAccountIconClick = () => {
     console.log('Account icon clicked');
+  };
+
+  const handleLogout = async () => {
+    dispatch(resetAuth());
+    const data = await authService.logout();
+    if (data?.status === true) {
+      navigate('/');
+    }
   };
 
   return (
@@ -338,7 +351,7 @@ const Navbar = () => {
             color="gray"
             height={24}
             width={24}
-            onClick={handleAccountIconClick}
+            onClick={() => handleLogout()}
           />
         </div>
       </nav>

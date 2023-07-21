@@ -18,6 +18,7 @@ import Customs from './ui/custom';
 import Input from './ui/Input'
 import { FiSearch } from 'react-icons/fi';
 import { AiOutlineClose } from 'react-icons/ai';
+
 interface Props {
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -37,6 +38,7 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
   const [message, setMessage] = React.useState('');
   const [rememberMe, setRememberMe] = useState(valueObject?.is_remember_me);
   const { mutate: passwordInstance } = forgetPassword();
+
   interface CustomError extends Error {
     inner?: { path: string; message: string }[];
   }
@@ -74,8 +76,9 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
         };
 
         loginData(data, {
-          onSuccess: async (data, variables, context) => {
+          onSuccess: async (data) => {
             if (data?.status === true) {
+              console.log("check data login response data-->", data)
               dispatch(setToken({ key: 'Data', value: data }));
               navigate('/home');
               const userData = await userService.getOneUser(values?.email);
@@ -193,16 +196,16 @@ const Login: React.FC<Props> = ({ setIsAuth }) => {
                 </div>
 
                 <Input
-        label="Sample Input"
-        placeholder="Enter text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onBlur={() => validateInput(inputValue)}
-        error={error}
-        prefixIcon={<FiSearch />}
-        suffixIcon={<AiOutlineClose />}
-        width="50%"
-      />
+                  label="Sample Input"
+                  placeholder="Enter text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onBlur={() => validateInput(inputValue)}
+                  error={error}
+                  prefixIcon={<FiSearch />}
+                  suffixIcon={<AiOutlineClose />}
+                  width="50%"
+                />
                 <div className={Styles.buttonField}>
                   <div className={Styles.forgetPassword}>
                     <Checkbox
