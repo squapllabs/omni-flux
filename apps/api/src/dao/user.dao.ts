@@ -225,18 +225,31 @@ const getDeletedUsers = async () => {
 };
 
 const customFilterUser = async (
-  offset,
-  limit,
-  orderByColumn,
-  orderByDirection,
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
   filters,
   connectionObj = null
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter = filters.where;
-    const users = await transaction.item.findMany({
+    const filter = filters.filterUser;
+    const users = await transaction.users.findMany({
       where: filter,
+      select: {
+        user_id: true,
+        first_name: true,
+        last_name: true,
+        email_id: true,
+        contact_no: true,
+        address: true,
+        created_date: true,
+        updated_date: true,
+        created_by: true,
+        updated_by: true,
+        department: true,
+      },
       orderBy: [
         {
           [orderByColumn]: orderByDirection,
@@ -244,47 +257,15 @@ const customFilterUser = async (
       ],
       skip: offset,
       take: limit,
-      // include: {
-      //   gst: {
-      //     select: {
-      //       rate: true,
-      //       gst_id: true,
-      //     },
-      //   },
-      //   hsn_code: {
-      //     select: {
-      //       code: true,
-      //       hsn_code_id: true,
-      //     },
-      //   },
-      //   uom: {
-      //     select: {
-      //       name: true,
-      //       uom_id: true,
-      //     },
-      //   },
-
-      //   sub_sub_category: {
-      //     select: {
-      //       name: true,
-      //       sub_sub_category_id: true,
-      //     },
-      //   },
-
-      //   item_type: {
-      //     select: {
-      //       item_type_item_name: true,
-      //     },
-      //   },
-
-      //   brand: {
-      //     select: {
-      //       brand_name: true,
-      //     },
-      //   },
-      // },
     });
-    return users;
+    const usersCount = await transaction.users.count({
+      where: filter,
+    });
+    const userData = {
+      count: usersCount,
+      data: users,
+    };
+    return userData;
   } catch (error) {
     console.log('Error occurred in user dao : customFilterUser ', error);
     throw error;

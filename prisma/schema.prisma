@@ -97,7 +97,7 @@ model hsn_code {
   created_by   Int?
   updated_by   Int?
   item         item[]
-
+  @@unique([code], name: "uk_hsn_code_code")
   @@map(name: "hsn_code")
 }
 
