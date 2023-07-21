@@ -4,7 +4,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
-import customQueryExecutor from '../dao/common/utils.dao';
+// import customQueryExecutor from '../dao/common/utils.dao';
 
 /**
  * Method to Create a New User
@@ -349,7 +349,7 @@ const updateStatus = async (body) => {
 };
 
 /**
- * Method for custom Search API
+ * Method for Global Search API
  * @param body
  * @returns
  */
@@ -361,38 +361,43 @@ const searchUser = async (body) => {
     let countQuery = null;
 
     if (global_filter) {
-      query = `select
-          *
-        from
-          users u
-        where
-          concat(u.first_name, ' ', u.last_name) ilike '%${global_filter}%'
-          or u.email_id ilike '%${global_filter}%'
-          or u.contact_no ilike '%${global_filter}%'
-          or u.address ilike '%${global_filter}%'
-          or u.department ilike '%${global_filter}%' `;
-      countQuery = `select
-            count(*)
-          from
-            users u
-          where
-            concat(u.first_name, ' ', u.last_name) ilike '%${global_filter}%'
-            or u.email_id ilike '%${global_filter}%'
-            or u.contact_no ilike '%${global_filter}%'
-            or u.address ilike '%${global_filter}%'
-            or u.department ilike '%${global_filter}%' `;
+      query = prisma.users.findMany({
+        where: {
+          OR: [
+            { first_name: { contains: global_filter, mode: 'insensitive' } },
+            { last_name: { contains: global_filter, mode: 'insensitive' } },
+            { email_id: { contains: global_filter, mode: 'insensitive' } },
+            { contact_no: { contains: global_filter, mode: 'insensitive' } },
+            { address: { contains: global_filter, mode: 'insensitive' } },
+            { department: { contains: global_filter, mode: 'insensitive' } },
+          ],
+          is_delete: false,
+        },
+        orderBy: {
+          updated_date: sort,
+        },
+        take: size,
+        skip: page * size,
+      });
+
+      countQuery = prisma.users.count({
+        where: {
+          OR: [
+            { first_name: { contains: global_filter, mode: 'insensitive' } },
+            { last_name: { contains: global_filter, mode: 'insensitive' } },
+            { email_id: { contains: global_filter, mode: 'insensitive' } },
+            { contact_no: { contains: global_filter, mode: 'insensitive' } },
+            { address: { contains: global_filter, mode: 'insensitive' } },
+            { department: { contains: global_filter, mode: 'insensitive' } },
+          ],
+          is_delete: false,
+        },
+      });
     }
 
-    const offset = page > 0 ? page * size : 0;
+    const [data, count] = await Promise.all([query, countQuery]);
 
-    query =
-      query + `order by u.updated_date ${sort} limit ${size} offset ${offset}`;
-
-    const data = await customQueryExecutor.customQueryExecutor(query);
-    const count = await customQueryExecutor.customQueryExecutor(countQuery);
-
-    const total_count = Number(count[0].count);
-
+    const total_count = count;
     const total_pages = total_count < size ? 1 : Math.ceil(total_count / size);
 
     const userData = {
@@ -409,7 +414,7 @@ const searchUser = async (body) => {
     };
     return result;
   } catch (error) {
-    console.log('Error occurred in searchUser user service : ', error);
+    console.log('Error occurred in searchUser user service:', error);
     throw error;
   }
 };
@@ -436,65 +441,61 @@ const getDeletedUsers = async () => {
  */
 const customFilterUser = async (body) => {
   try {
-    const {
-      size = 10,
-      page = 0,
-      sort = 'desc',
-      email_id = [],
-      status = 'AC',
-      name,
-      contact_no,
-    } = body;
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column;
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const offsetValue = parseInt(offset, 10) || 0;
+    const limitValue = parseInt(limit, 10) || 50;
+    const filters = body.filters;
 
-    let query = `select * from users u where 1=1 and u.user_status='${status}' `;
-    let countQuery = `select count(*) from users u where 1=1 and u.user_status='${status}' `;
-
-    if (email_id.length > 0) {
-      const emailList = email_id.map((email) => `'${email}'`).join(',');
-      query = query + ` and u.email_id in (${emailList}) `;
-      countQuery = countQuery + ` and u.email_id in (${emailList}) `;
-    }
-
-    if (name) {
-      query =
-        query + ` and concat(u.first_name,' ',u.last_name) ilike '%${name}%' `;
-      countQuery =
-        countQuery +
-        ` and concat(u.first_name,' ',u.last_name) ilike '%${name}%' `;
-    }
-
-    if (contact_no) {
-      query = query + ` and u.contact_no ilike '%${contact_no}%' `;
-      countQuery = countQuery + ` and u.contact_no ilike '%${contact_no}%' `;
-    }
-    const offset = page > 0 ? page * size : 0;
-
-    query =
-      query + `order by u.updated_date ${sort} limit ${size} offset ${offset}`;
-
-    const data = await customQueryExecutor.customQueryExecutor(query);
-    const count = await customQueryExecutor.customQueryExecutor(countQuery);
-
-    const total_count = Number(count[0].count);
-
-    const total_pages = total_count < size ? 1 : Math.ceil(total_count / size);
-
-    const userData = {
-      total_count: total_count,
-      total_page: total_pages,
-      size: size,
-      content: data,
+    const filterObj = {
+      filterItem: {
+        AND: [],
+      },
     };
 
-    const result = {
-      message: 'success',
-      status: true,
-      data: userData,
-    };
-    return result;
+    for (const filter of filters) {
+      const field_name = filter.field_name;
+      const operator = filter.operator;
+      const field_value = filter.field_value;
+      applyFilter(filterObj, field_name, operator, field_value);
+    }
+
+    const result = await userDao.customFilterUser(
+      offsetValue,
+      limitValue,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+    const userData = { success: true, data: result };
+    return userData;
   } catch (error) {
-    console.log('Error occurred in searchUser user service : ', error);
+    console.log('Error occurred in customFilterUser user service: ', error);
+
     throw error;
+  }
+};
+
+const applyFilter = (filterObj, field_name, operator, field_value) => {
+  if (operator === 'Equal') {
+    filterObj.filterItem[field_name] = field_value;
+  } else if (operator === 'Not Equal') {
+    filterObj.filterItem[field_name] = { NOT: { equals: field_value } };
+  } else if (operator === 'Like') {
+    filterObj.filterItem[field_name] = { contains: field_value };
+  } else if (operator === 'Not Like') {
+    filterObj.filterItem[field_name] = { NOT: { contains: field_value } };
+  } else if (operator === 'In') {
+    filterObj.filterItem[field_name] = { in: field_value };
+  } else if (operator === 'Not In') {
+    filterObj.filterItem[field_name] = { NOT: { in: field_value } };
+  } else if (operator === 'Is') {
+    filterObj.filterItem[field_name] = null;
+  } else {
+    throw new Error(`Unsupported operator: ${operator}`);
   }
 };
 

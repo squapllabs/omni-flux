@@ -104,10 +104,30 @@ const deleteCategory = async (categoryId: number, connectionObj = null) => {
   }
 };
 
+const getByCategoryNameAndProjectId = async (
+  categoryName: string,
+  projectId: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const category =
+      await transaction.$queryRaw`select * from category c where lower(c."name") = lower(${categoryName}) and c.project_id =${projectId}`;
+    return category[0];
+  } catch (error) {
+    console.log(
+      'Error occurred in category getByCategoryNameAndProjectId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getById,
   getAll,
   deleteCategory,
+  getByCategoryNameAndProjectId,
 };

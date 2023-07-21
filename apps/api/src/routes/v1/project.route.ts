@@ -6,6 +6,7 @@ import {
 } from '../../validations/project';
 import {
   createProject,
+  customFilterProject,
   deleteByPojectId,
   getAllProject,
   getByProjectId,
@@ -36,5 +37,7 @@ router.get('/getAll', authMiddleware, getAllProject);
 router.get('/get/:project_id', authMiddleware, getByProjectId);
 
 router.delete('/delete/:project_id', authMiddleware, deleteByPojectId);
+
+router.post('/customFilter', authMiddleware, customFilterProject);
 
 export default router;

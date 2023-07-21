@@ -12,6 +12,16 @@ import subSubCategory from './subSubCategory.route';
 import project from './project.route';
 import item from './item.route';
 import stock from './stock.route';
+import projectExpense from './projectExpense.route';
+
+import site from './site.route';
+
+import siteExpense from './siteExpense.route';
+
+import warehouse from './warehouse.route';
+
+import warehouseInventory from './warehouseInventory.route';
+
 const router = express.Router();
 const defaultRoutes = [
   {
@@ -59,10 +69,10 @@ const defaultRoutes = [
     route: project,
   },
   {
-<<<<<<< HEAD
     path: '/item',
     route: item,
-=======
+  },
+  {
     path: '/project-expense',
     route: projectExpense,
   },
@@ -82,11 +92,7 @@ const defaultRoutes = [
     path: '/warehouse-inventory',
     route: warehouseInventory,
   },
-  {
-    path: '/product',
-    route: product,
->>>>>>> 9fc8de531c6bc113c3994f837fdb8f54633098f9
-  },
+
   {
     path: '/stock',
     route: stock,
