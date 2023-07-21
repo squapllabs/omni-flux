@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   createUser,
+  customFilterUser,
   deleteUser,
   getAllUser,
   getByEmailId,
@@ -56,5 +57,7 @@ router.put(
 router.post('/searchUser', authMiddleware, searchUser);
 
 router.get('/getDeletedUsers', authMiddleware, getDeletedUsers);
+
+router.post('/customFilter', authMiddleware, customFilterUser);
 
 export default router;

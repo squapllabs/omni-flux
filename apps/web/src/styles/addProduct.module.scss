@@ -1,53 +1,45 @@
-.form-container {
+
+.container{
+  margin: 2%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 30px;
+}
+.topContent{
+  display: flex;
   align-items: center;
-  height: 100vh;
-  font-family: Arial, sans-serif;
+  justify-content: space-between;
 }
 
-h1 {
-  margin-bottom: 1rem;
+.rightContainer{
+display: flex;
 }
 
-.form-group {
-  margin-bottom: 1.5rem;
-  text-align: left;
-  width: 100%;
-  max-width: 400px;
+.leftContainer h1 {
+  font-size: 30px;
 }
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+.button{
+  display: flex;
+  padding: 2px;
+  gap: 20px;
 }
+.middleContent{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
 
-.form-input {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
-
-.error {
-  color: red;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+.middleRightContent{
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
-
-button[type='submit'] {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+.resetButton h2{
+  font-size: 14px;
+  font-weight: 'bolder';
+  color: #585454;
+}
+.resetButton{
   cursor: pointer;
-}
-
-button[type='submit']:hover {
-  background-color: #0069d9;
 }

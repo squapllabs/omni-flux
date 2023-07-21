@@ -4,7 +4,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
-import { setCookie } from './../utils/helper'
+import customQueryExecutor from '../dao/common/utils.dao';
 
 /**
  * Method to Create a New User
@@ -369,110 +369,67 @@ const updateStatus = async (body) => {
 };
 
 /**
- * Method for custom filter API
+ * Method for custom Search API
  * @param body
  * @returns
  */
 const searchUser = async (body) => {
   try {
-    const {
-      name,
-      status = 'AC',
-      contact_no,
-      email_id,
-      size = 10,
-      page = 0,
-    } = body;
-    /* executeUserQuery is the function which contains the filter logic */
-    const users = await executeUserQuery(
-      name,
-      status,
-      contact_no,
-      email_id,
-      size,
-      page
-    );
-    const result = { success: true, data: users };
+    const { size = 10, page = 0, sort = 'desc', global_filter } = body;
+
+    let query = null;
+    let countQuery = null;
+
+    if (global_filter) {
+      query = `select
+          *
+        from
+          users u
+        where
+          concat(u.first_name, ' ', u.last_name) ilike '%${global_filter}%'
+          or u.email_id ilike '%${global_filter}%'
+          or u.contact_no ilike '%${global_filter}%'
+          or u.address ilike '%${global_filter}%'
+          or u.department ilike '%${global_filter}%' `;
+      countQuery = `select
+            count(*)
+          from
+            users u
+          where
+            concat(u.first_name, ' ', u.last_name) ilike '%${global_filter}%'
+            or u.email_id ilike '%${global_filter}%'
+            or u.contact_no ilike '%${global_filter}%'
+            or u.address ilike '%${global_filter}%'
+            or u.department ilike '%${global_filter}%' `;
+    }
+
+    const offset = page > 0 ? page * size : 0;
+
+    query =
+      query + `order by u.updated_date ${sort} limit ${size} offset ${offset}`;
+
+    const data = await customQueryExecutor.customQueryExecutor(query);
+    const count = await customQueryExecutor.customQueryExecutor(countQuery);
+
+    const total_count = Number(count[0].count);
+
+    const total_pages = total_count < size ? 1 : Math.ceil(total_count / size);
+
+    const userData = {
+      total_count: total_count,
+      total_page: total_pages,
+      size: size,
+      content: data,
+    };
+
+    const result = {
+      message: 'success',
+      status: true,
+      data: userData,
+    };
     return result;
   } catch (error) {
     console.log('Error occurred in searchUser user service : ', error);
-    throw error;
-  }
-};
-
-/**
- * Method for Custom Query Execution
- * @param name
- * @param status
- * @param contact_no
- * @param email_id
- * @param size
- * @returns
- */
-const executeUserQuery = async (
-  name: string,
-  status: string,
-  contact_no: string,
-  email_id: string,
-  size: number,
-  page: number
-) => {
-  try {
-    const offset = page > 0 ? page * size : 0;
-
-    const users = await prisma.users.findMany({
-      where: {
-        AND: [
-          {
-            OR: [
-              name
-                ? { first_name: { contains: name, mode: 'insensitive' } }
-                : {},
-              name
-                ? { last_name: { contains: name, mode: 'insensitive' } }
-                : {},
-            ],
-          },
-          { user_status: status },
-          contact_no ? { contact_no } : {},
-          email_id ? { email_id } : {},
-        ],
-      },
-      take: size,
-      skip: offset,
-    });
-
-    const count = await prisma.users.count({
-      where: {
-        AND: [
-          {
-            OR: [
-              name
-                ? { first_name: { contains: name, mode: 'insensitive' } }
-                : {},
-              name
-                ? { last_name: { contains: name, mode: 'insensitive' } }
-                : {},
-            ],
-          },
-          { user_status: status },
-          contact_no ? { contact_no } : {},
-          email_id ? { email_id } : {},
-        ],
-      },
-    });
-    const totalPages = count < size ? 1 : Math.ceil(count / size);
-
-    const userData = {
-      totalCount: count,
-      totalPage: totalPages,
-      size: size,
-      content: users,
-    };
-
-    return userData;
-  } catch (error) {
-    console.error('Error executing user query:', error);
     throw error;
   }
 };
@@ -492,6 +449,75 @@ const getDeletedUsers = async () => {
   }
 };
 
+/**
+ * Method for custom filter API
+ * @param body
+ * @returns
+ */
+const customFilterUser = async (body) => {
+  try {
+    const {
+      size = 10,
+      page = 0,
+      sort = 'desc',
+      email_id = [],
+      status = 'AC',
+      name,
+      contact_no,
+    } = body;
+
+    let query = `select * from users u where 1=1 and u.user_status='${status}' `;
+    let countQuery = `select count(*) from users u where 1=1 and u.user_status='${status}' `;
+
+    if (email_id.length > 0) {
+      const emailList = email_id.map((email) => `'${email}'`).join(',');
+      query = query + ` and u.email_id in (${emailList}) `;
+      countQuery = countQuery + ` and u.email_id in (${emailList}) `;
+    }
+
+    if (name) {
+      query =
+        query + ` and concat(u.first_name,' ',u.last_name) ilike '%${name}%' `;
+      countQuery =
+        countQuery +
+        ` and concat(u.first_name,' ',u.last_name) ilike '%${name}%' `;
+    }
+
+    if (contact_no) {
+      query = query + ` and u.contact_no ilike '%${contact_no}%' `;
+      countQuery = countQuery + ` and u.contact_no ilike '%${contact_no}%' `;
+    }
+    const offset = page > 0 ? page * size : 0;
+
+    query =
+      query + `order by u.updated_date ${sort} limit ${size} offset ${offset}`;
+
+    const data = await customQueryExecutor.customQueryExecutor(query);
+    const count = await customQueryExecutor.customQueryExecutor(countQuery);
+
+    const total_count = Number(count[0].count);
+
+    const total_pages = total_count < size ? 1 : Math.ceil(total_count / size);
+
+    const userData = {
+      total_count: total_count,
+      total_page: total_pages,
+      size: size,
+      content: data,
+    };
+
+    const result = {
+      message: 'success',
+      status: true,
+      data: userData,
+    };
+    return result;
+  } catch (error) {
+    console.log('Error occurred in searchUser user service : ', error);
+    throw error;
+  }
+};
+
 export {
   createUser,
   updateUser,
@@ -504,5 +530,5 @@ export {
   updateStatus,
   searchUser,
   getDeletedUsers,
-  refreshAccessToken
+  customFilterUser,
 };

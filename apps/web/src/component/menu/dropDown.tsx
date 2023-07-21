@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Styles from '../../styles/navbar.module.scss';
+import Styles from '../../styles/dropdown.module.scss';
 
 interface DropdownProps {
   label: React.ReactNode | string;
@@ -8,24 +8,15 @@ interface DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({ label, children }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLLIElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleDropdownClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
+    // event.stopPropagation();
     toggleDropdown();
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false);
-    }
   };
 
   useEffect(() => {
@@ -36,8 +27,17 @@ const Dropdown: React.FC<DropdownProps> = ({ label, children }) => {
     };
   }, []);
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <li
+    <div
       className={`${Styles.dropdown} ${isOpen ? Styles.open : ''}`}
       onClick={toggleDropdown}
       ref={dropdownRef}
@@ -46,7 +46,7 @@ const Dropdown: React.FC<DropdownProps> = ({ label, children }) => {
         {label}
       </button>
       {isOpen && <ul className={Styles.dropdownMenu}>{children}</ul>}
-    </li>
+    </div>
   );
 };
 

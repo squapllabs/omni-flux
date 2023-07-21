@@ -195,6 +195,16 @@ const getDeletedUsers = catchAsync(async (req, res) => {
   }
 });
 
+const customFilterUser = catchAsync(async (req, res) => {
+  const methodName = '/customFilterUser';
+  try {
+    const result = await userService.customFilterUser(req.body);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createUser,
   updateUser,
@@ -207,7 +217,5 @@ export {
   updateStatus,
   searchUser,
   getDeletedUsers,
-  isLoggedIn,
-  loginValidate,
-  refreshToken
+  customFilterUser,
 };
