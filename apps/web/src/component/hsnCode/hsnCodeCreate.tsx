@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import Customs from '../ui/custom';
-import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
+import { Grid } from '@mui/material';
 import { createHsnCode, updateHsnCode } from '../../hooks/hsnCode-hooks';
 import {
   gethsnCreateValidateyup,
@@ -9,6 +8,8 @@ import {
 } from '../../helper/constants/hsn-constants';
 import hsnCodeService from '../../service/hsnCode-service';
 import * as Yup from 'yup';
+import Input from '../ui/Input';
+import Button from '../menu/button';
 
 const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
   const [initialValues, setInitialValues] = useState({
@@ -87,41 +88,34 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
-              name="code"
+            <Input
               label="Code"
-              variant="outlined"
-              size="small"
+              placeholder="Enter product code"
+              name="code"
               value={formik.values.code}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.code && Boolean(formik.errors.code)}
-              helperText={formik.touched.code && formik.errors.code}
+              error={formik.touched.code && formik.errors.code}
+              width="100%"
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <InputLabel id="description_id">Description</InputLabel>
-            <TextareaAutosize
+            <Input
+              label="Description"
+              placeholder="Enter product description"
               name="description"
-              labelId="description_id"
-              variant="outlined"
-              minRows={4}
-              style={{ width: '548px' }}
-              fullWidth
               value={formik.values.description}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              error={formik.touched.description && formik.errors.description}
+              width="100%"
             />
-            {formik.errors.description && formik.touched.description && (
-              <div style={{ color: 'red' }}>{formik.errors.description}</div>
-            )}
           </Grid>
           <Grid item xs={2} sm={4} md={6}>
-            <Customs.CustomButton
-              type="submit"
-              label="Submit"
-              variant="contained"
-              color="primary"
+            <Button
+              text="Submit"
+              backgroundColor="#7F56D9"
+              fontSize={14}
+              fontWeight={500}
+              width={125}
             />
           </Grid>
         </Grid>
