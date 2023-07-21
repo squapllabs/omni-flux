@@ -1,4 +1,6 @@
 import prisma from '../utils/prisma';
+import { createItemBody } from '../interfaces/item.interface';
+
 const add = async (
   item_name: string,
   sub_sub_category_id: number,
@@ -39,16 +41,11 @@ const add = async (
 };
 // item.dao.ts
 
-const addBulk = async (items: any[], connectionObj = null) => {
+const addBulk = async (items: createItemBody[], connectionObj = null) => {
   try {
-    const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const createdItems = await transaction.item.createMany({
-      data: items.map((item) => ({
-        ...item,
-        created_date: currentDate,
-        updated_date: currentDate,
-      })),
+      data: items
     });
 
     return createdItems;

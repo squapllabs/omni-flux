@@ -1,7 +1,7 @@
 import itemDao from '../dao/item.dao';
 import { createItemBody, updateItemBody } from '../interfaces/item.interface';
 import prisma from '../utils/prisma';
-
+import xlsx from 'xlsx';
 /**
  * Method to Add a new item
  * @param body
@@ -63,40 +63,15 @@ const addItem = async (body: createItemBody) => {
  * @returns
  */
 
-const createItemBulk = async (items: createItemBody[]) => {
+const addBulkItems = async (req) => {
   try {
-    const newItems: any[] = [];
-    for (const item of items) {
-      const {
-        item_name,
-        sub_sub_category_id,
-        description,
-        hsn_code_id,
-        gst_id,
-        uom_id,
-        created_by,
-        updated_by,
-        item_type_id,
-      } = item;
+    const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const data:createItemBody[] = xlsx.utils.sheet_to_json(sheet);
+    const transformedData = transformExcelData(data);
+    const result = await itemDao.addBulk(transformedData);
 
-      newItems.push({
-        item_name,
-        sub_sub_category_id,
-        description,
-        hsn_code_id,
-        gst_id,
-        uom_id,
-        created_by,
-        updated_by,
-        created_date: new Date(),
-        updated_date: new Date(),
-        item_type_id,
-      });
-    }
-
-    const result = await itemDao.addBulk(newItems);
-
-    console.log('Successfully inserted bulk item', result);
+    console.log('Successfully/ inserted bulk item', result);
 
     return {
       success: true,
@@ -107,7 +82,29 @@ const createItemBulk = async (items: createItemBody[]) => {
     throw error;
   }
 };
+const transformExcelData = (data: any[]): createItemBody[] => {
+  const parsedData: createItemBody[] = data.map((item) => {
+    const created_by = item.created_by === 'null' ? null : BigInt(item.created_by);
+    const updated_by = item.updated_by === 'null' ? null : BigInt(item.updated_by);
+    const currentDate = new Date();
+    return {
+      item_name: item.item_name,
+      sub_sub_category_id: Number(item.sub_sub_category_id),
+      description: item.description,
+      hsn_code_id: Number(item.hsn_code_id),
+      gst_id: Number(item.gst_id),
+      uom_id: Number(item.uom_id),
+      created_by,
+      updated_by,
+      created_date: currentDate,
+      updated_date: currentDate,
+      item_type_id: Number(item.item_type_id),
+      brand_id: Number(item.brand_id),
+    };
+  });
 
+  return parsedData;
+};
 /**
  * Method to Get All item
  * @returns
@@ -287,6 +284,6 @@ export {
   getById,
   deleteItem,
   updateItem,
-  createItemBulk,
+  addBulkItems,
   getAllItemBySearch,
 };
