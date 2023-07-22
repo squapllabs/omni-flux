@@ -10,6 +10,7 @@ const add = async (
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const is_delete = false;
     const category = await transaction.category.create({
       data: {
         name,
@@ -18,6 +19,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        is_delete: is_delete,
       },
     });
     return category;
@@ -60,9 +62,13 @@ const edit = async (
 const getById = async (categoryId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const category = await transaction.category.findUnique({
+    const category = await transaction.category.findFirst({
       where: {
         category_id: Number(categoryId),
+        is_delete: false,
+      },
+      include: {
+        project: true,
       },
     });
     return category;
@@ -76,6 +82,9 @@ const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const category = await transaction.category.findMany({
+      where: {
+        is_delete: false,
+      },
       orderBy: [
         {
           updated_date: 'desc',
@@ -95,9 +104,12 @@ const getAll = async (connectionObj = null) => {
 const deleteCategory = async (categoryId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const category = await transaction.category.delete({
+    const category = await transaction.category.update({
       where: {
         category_id: Number(categoryId),
+      },
+      data: {
+        is_delete: true,
       },
     });
     return category;
@@ -115,11 +127,29 @@ const getByCategoryNameAndProjectId = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const category =
-      await transaction.$queryRaw`select * from category c where lower(c."name") = lower(${categoryName}) and c.project_id =${projectId}`;
+      await transaction.$queryRaw`select * from category c where lower(c."name") = lower(${categoryName}) and c.project_id =${projectId} and c.is_delete =false`;
     return category[0];
   } catch (error) {
     console.log(
       'Error occurred in category getByCategoryNameAndProjectId dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const getAllInActiveCategories = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const category = await transaction.category.findMany({
+      where: {
+        is_delete: true,
+      },
+    });
+    return category;
+  } catch (error) {
+    console.log(
+      'Error occurred in category getAllInActiveCategories dao',
       error
     );
     throw error;
@@ -133,4 +163,5 @@ export default {
   getAll,
   deleteCategory,
   getByCategoryNameAndProjectId,
+  getAllInActiveCategories,
 };
