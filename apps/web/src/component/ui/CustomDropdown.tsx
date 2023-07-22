@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FaChevronDown } from "react-icons/fa";
 
@@ -14,6 +14,7 @@ interface CustomDropdownProps {
   defaultLabel?: string;
   width?: string;
   maxHeight?: string;
+  required?: boolean;
 }
 
 const DropdownContainer = styled.div<{ width: string | undefined }>`
@@ -32,27 +33,32 @@ const DropdownHeader = styled.div`
   align-items: center;
 `;
 
-const DropdownListContainer = styled.div<{ maxHeight: string | undefined }>`
+interface DropdownListContainerProps {
+  maxHeight: string | undefined;
+  dropdownDirection: string;
+}
+
+const DropdownListContainer = styled.div<DropdownListContainerProps>`
   position: absolute;
   width: 100%;
-  z-index: 2000; // Increased z-index
+  z-index: 2000;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #fff;
-  max-height: ${(props) => props.maxHeight || "auto"};
+  max-height: ${(props) => props.maxHeight || '200px'};
   overflow: auto;
+  top: ${(props) => (props.dropdownDirection === 'down' ? '100%' : 'unset')};
+  bottom: ${(props) => (props.dropdownDirection === 'up' ? '100%' : 'unset')};
 `;
 
 const DropdownList = styled.ul`
   padding: 0;
   margin: 0;
-  padding-left: 1em;
-  list-style: none;
 `;
 
 const ListItem = styled.li<{ isSelected: boolean }>`
   list-style: none;
-  padding: 20px 10px; // Increased padding
+  padding: 10px;
   background: ${(props) => (props.isSelected ? '#f4f5f6' : '#fff')};
   &:hover {
     cursor: pointer;
@@ -64,26 +70,65 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   options,
   value,
   onChange,
-  defaultLabel = "Select from options",
+  defaultLabel = "Select an option",
   width,
-  maxHeight
+  maxHeight,
+  required = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownDirection, setDropdownDirection] = useState('down');
+  const ref = useRef<HTMLDivElement>(null);
+
   const toggling = () => setIsOpen(!isOpen);
+
   const onOptionClicked = (value: string) => () => {
     onChange(value);
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const onDocumentClick = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("click", onDocumentClick);
+    }
+
+    return () => {
+      document.removeEventListener("click", onDocumentClick);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const spaceUp = rect.top;
+    const spaceDown = window.innerHeight - rect.bottom;
+
+    setDropdownDirection(spaceDown > spaceUp ? 'down' : 'up');
+  }, []);
+
+  const headerText = value || defaultLabel;
+
   return (
-    <DropdownContainer width={width}>
+    <DropdownContainer ref={ref} width={width}>
       <DropdownHeader onClick={toggling}>
-        <span>{value || defaultLabel}</span>
-        <FaChevronDown size={20}/>  // You can adjust the size of the down arrow here
+        <span>{headerText}</span>
+        <FaChevronDown size={20}/>
       </DropdownHeader>
       {isOpen && (
-        <DropdownListContainer maxHeight={maxHeight}>
+        <DropdownListContainer dropdownDirection={dropdownDirection} maxHeight={maxHeight}>
           <DropdownList>
+            <ListItem
+              key="default"
+              onClick={onOptionClicked('')}
+              isSelected={!value}
+            >
+              {defaultLabel}
+            </ListItem>
             {options.map(option => (
               <ListItem
                 key={option.value}

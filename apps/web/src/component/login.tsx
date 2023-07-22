@@ -16,6 +16,9 @@ import { FaUser, FaLock } from 'react-icons/fa6';
 import { BsFillEyeSlashFill, BsFillEyeFill } from 'react-icons/bs';
 import Button from './ui/Button';
 import Checkbox from './ui/Checkbox';
+import Select from './ui/Select ';
+import CustomDropdown from './ui/CustomDropdown';
+import CustomAutoDropdown from './ui/CustomAutoDropdown';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -34,11 +37,54 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(valueObject?.is_remember_me);
   const [checked, setChecked] = React.useState(false);
 
+  const [selectedValue, setSelectedValue] = useState('');
+
+  const options = [
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+  ];
+
+  const handleDropdownChange = (value: string) => {
+    setSelectedValue(value);
+  };
+
   const { mutate: passwordInstance } = forgetPassword();
 
   interface CustomError extends Error {
     inner?: { path: string; message: string }[];
   }
+
+  const [value, setValue] = useState('');
+
+  // const handleChange1 = (value: string) => {
+  //   setValue(value);
+  // };
+
+  const handleChange1 = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue(event.target.value);
+  };
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -72,7 +118,7 @@ const Login = () => {
         loginData(data, {
           onSuccess: async (data) => {
             if (data?.status === true) {
-              console.log("check data login response data-->", data)
+              console.log('check data login response data-->', data);
               dispatch(setToken({ key: 'Data', value: data }));
               navigate('/home');
               const userData = await userService.getOneUser(values?.email);
@@ -103,6 +149,19 @@ const Login = () => {
           ...errorObj,
         });
       });
+  };
+
+  // Mock function to get options from API
+  const getOptionsFromAPI = async (input: string) => {
+    // Replace this with your actual API call
+    const mockData: any[] = [
+      { value: 'option1', label: 'Option 1' },
+      { value: 'option2', label: 'Option 2' },
+      { value: 'option3', label: 'Option 3' },
+    ];
+
+    // Filter the mock data to simulate an API search
+    return mockData.filter((option) => option.label.includes(input));
   };
 
   return (
@@ -162,55 +221,87 @@ const Login = () => {
                   <span>{message}</span>
                 </div>
 
-                <div className={Styles.buttonField}>
-                  <div className={Styles.forgetPassword}>
-                    <Checkbox
-                      name="is_remember_me"
-                      checked={checked}
-                      onChange={() => setChecked(!checked)}
-                      label="Remember me"
-                    />
+                <div>
+                  <Select
+                    options={options}
+                    onChange={handleChange1}
+                    value={value}
+                    defaultLabel="Select from options"
+                    width="100%"
+                  />
+                </div>
+                <div>
+                  <br />
+                  <div>My Custom Dropdown</div>
+                  <CustomDropdown
+                    options={options}
+                    value={selectedValue}
+                    onChange={handleDropdownChange}
+                  />
+                </div>
 
-                    {/* <Checkbox
+                <div>My Auto Custom Dropdown</div>
+                <div>
+                  <CustomAutoDropdown
+                    value={selectedValue}
+                    onChange={setSelectedValue}
+                    getOptionsFromAPI={getOptionsFromAPI}
+                    defaultLabel="Select an option"
+                    width="200px"
+                    maxHeight="200px"
+                  />
+                </div>
+              </div>
+
+              <br />
+              <div className={Styles.buttonField}>
+                <div className={Styles.forgetPassword}>
+                  <Checkbox
+                    name="is_remember_me"
+                    checked={checked}
+                    onChange={() => setChecked(!checked)}
+                    label="Remember me"
+                  />
+
+                  {/* <Checkbox
         name="is_remember_me"
         checked={checked}
         onChange={(e) => handleCheckbox(e)}
         label="Remember me"
         disabled={false}
       /> */}
-                  </div>
-                  <div className={Styles.forgetPassword}>
-                    <a href="/forget-password">
-                      <span>Forgot Password</span>
-                    </a>
-                  </div>
                 </div>
-                <div className={Styles.buttons}>
-                  <div className={Styles.loginButton}>
-                    <Button
-                      color="primary"
-                      shape="rectangle"
-                      fullWidth
-                      justify="center"
-                      size="small"
-                      onClick={(e) => handleSubmit(e)}
-                    >
-                      Sign in
-                    </Button>
-                  </div>
+                <div className={Styles.forgetPassword}>
+                  <a href="/forget-password">
+                    <span>Forgot Password</span>
+                  </a>
+                </div>
+              </div>
+              <div className={Styles.buttons}>
+                <div className={Styles.loginButton}>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    fullWidth
+                    justify="center"
+                    size="small"
+                    onClick={(e) => handleSubmit(e)}
+                  >
+                    Sign in
+                  </Button>
+                </div>
 
-                  <div className={Styles.newAccounts}>
-                    <p className={Styles.newAccounts_msg}>
-                      don't have any account? <a href="#">Sign in</a>
-                    </p>
-                  </div>
+                <div className={Styles.newAccounts}>
+                  <p className={Styles.newAccounts_msg}>
+                    don't have any account? <a href="#">Sign in</a>
+                  </p>
                 </div>
               </div>
             </div>
-            <div className={Styles.footer}></div>
           </div>
-          <div className={Styles.imagediv}></div>
+          <div className={Styles.footer}></div>
         </div>
+        <div className={Styles.imagediv}></div>
       </div>
     </div>
   );
