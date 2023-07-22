@@ -12,13 +12,32 @@ import {
 const createCategory = async (body: createCategoryBody) => {
   try {
     const { name, project_id, budget, created_by = null } = body;
+    let result = null;
+    if (project_id) {
+      const categoryData = await categoryDao.getByCategoryNameAndProjectId(
+        name,
+        Number(project_id)
+      );
+      if (categoryData) {
+        result = {
+          message: 'category_name already exist for this project',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
     const categoryDetails = await categoryDao.add(
       name,
       project_id,
       budget,
       created_by
     );
-    const result = { success: true, data: categoryDetails };
+    result = {
+      message: 'success',
+      status: true,
+      data: categoryDetails,
+    };
     return result;
   } catch (error) {
     console.log('Error occurred in category service Add: ', error);
@@ -35,21 +54,45 @@ const updateCategory = async (body: updateCategoryBody) => {
   try {
     const { name, project_id, budget, updated_by, category_id } = body;
     let result = null;
+
     const categoryExist = await categoryDao.getById(category_id);
-    if (categoryExist) {
-      const categoryDetails = await categoryDao.edit(
-        name,
-        project_id,
-        budget,
-        updated_by,
-        category_id
-      );
-      result = { success: true, data: categoryDetails };
-      return result;
-    } else {
-      result = { success: false, message: 'category_id does not exist' };
+    if (!categoryExist) {
+      result = {
+        message: 'category_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
+
+    if (project_id) {
+      const categoryData = await categoryDao.getByCategoryNameAndProjectId(
+        name,
+        Number(project_id)
+      );
+      if (categoryData && categoryData?.category_id !== category_id) {
+        result = {
+          message: 'category_name already exist for this project',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    const categoryDetails = await categoryDao.edit(
+      name,
+      project_id,
+      budget,
+      updated_by,
+      category_id
+    );
+    result = {
+      message: 'success',
+      status: true,
+      data: categoryDetails,
+    };
+    return result;
   } catch (error) {
     console.log('Error occurred in category service Edit: ', error);
     throw error;
@@ -66,10 +109,14 @@ const getById = async (categoryId: number) => {
     let result = null;
     const categoryData = await categoryDao.getById(categoryId);
     if (categoryData) {
-      result = { success: true, data: categoryData };
+      result = { message: 'success', status: true, data: categoryData };
       return result;
     } else {
-      result = { success: false, message: 'category id not exist' };
+      result = {
+        status: false,
+        message: 'category_id does not exist',
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -85,7 +132,7 @@ const getById = async (categoryId: number) => {
 const getAllCategory = async () => {
   try {
     const result = await categoryDao.getAll();
-    const categoryData = { success: true, data: result };
+    const categoryData = { message: 'success', status: true, data: result };
     return categoryData;
   } catch (error) {
     console.log('Error occurred in getAllCategory category service : ', error);
@@ -101,20 +148,26 @@ const deleteCategory = async (categoryId: number) => {
   try {
     const categoryExist = await categoryDao.getById(categoryId);
     if (!categoryExist) {
-      const result = { success: false, message: 'Category Id Not Exist' };
+      const result = {
+        status: false,
+        message: 'category_id does not exist',
+        data: null,
+      };
       return result;
     }
     const data = await categoryDao.deleteCategory(categoryId);
     if (data) {
       const result = {
-        success: true,
+        status: true,
         message: 'Category Data Deleted Successfully',
+        data: null,
       };
       return result;
     } else {
       const result = {
-        success: false,
+        status: false,
         message: 'Failed to delete this category',
+        data: null,
       };
       return result;
     }
@@ -166,6 +219,24 @@ const checkDuplicateProjectCategoryName = async (
   }
 };
 
+/**
+ * Method to Get All InActive Category's
+ * @returns
+ */
+const getAllInActiveCategories = async () => {
+  try {
+    const result = await categoryDao.getAllInActiveCategories();
+    const categoryData = { message: 'success', status: true, data: result };
+    return categoryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllInActiveCategories category service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createCategory,
   updateCategory,
@@ -173,4 +244,5 @@ export {
   getById,
   deleteCategory,
   checkDuplicateProjectCategoryName,
+  getAllInActiveCategories,
 };

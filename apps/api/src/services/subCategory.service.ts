@@ -19,6 +19,19 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       result = { success: false, message: 'category_id does not exist' };
       return result;
     }
+    const checkDuplicate =
+      await subCategoryDao.getBySubCategoryNameAndCategoryId(
+        name,
+        Number(category_id)
+      );
+    if (checkDuplicate) {
+      result = {
+        message: 'sub_category_name already exist for this category',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
     const subCategoryDetails = await subCategoryDao.add(
       name,
       category_id,
@@ -42,26 +55,38 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
   try {
     const { name, category_id, budget, updated_by, sub_category_id } = body;
     let result = null;
+    const subCategoryExist = await subCategoryDao.getById(sub_category_id);
+    if (!subCategoryExist) {
+      result = { success: false, message: 'sub_category_id does not exist' };
+      return result;
+    }
     const categoryExist = await categoryDao.getById(category_id);
     if (!categoryExist) {
       result = { success: false, message: 'category_id does not exist' };
       return result;
     }
-    const subCategoryExist = await subCategoryDao.getById(sub_category_id);
-    if (subCategoryExist) {
-      const subCategoryDetails = await subCategoryDao.edit(
+    const checkDuplicate =
+      await subCategoryDao.getBySubCategoryNameAndCategoryId(
         name,
-        category_id,
-        budget,
-        updated_by,
-        sub_category_id
+        Number(category_id)
       );
-      result = { success: true, data: subCategoryDetails };
-      return result;
-    } else {
-      result = { success: false, message: 'sub_category_id does not exist' };
+    if (checkDuplicate && checkDuplicate?.sub_category_id !== sub_category_id) {
+      result = {
+        message: 'sub_category_name already exist for this category',
+        status: false,
+        data: null,
+      };
       return result;
     }
+    const subCategoryDetails = await subCategoryDao.edit(
+      name,
+      category_id,
+      budget,
+      updated_by,
+      sub_category_id
+    );
+    result = { success: true, data: subCategoryDetails };
+    return result;
   } catch (error) {
     console.log('Error occurred in subCategory service Edit: ', error);
     throw error;
@@ -78,7 +103,7 @@ const getById = async (subCategoryId: number) => {
     let result = null;
     const subCategoryData = await subCategoryDao.getById(subCategoryId);
     if (subCategoryData) {
-      result = { success: true, data: subCategoryData };
+      result = { message: 'success', status: true, data: subCategoryData };
       return result;
     } else {
       result = { success: false, message: 'sub_category_id does not exist' };
@@ -97,7 +122,7 @@ const getById = async (subCategoryId: number) => {
 const getAllSubCategory = async () => {
   try {
     const result = await subCategoryDao.getAll();
-    const subCategoryData = { success: true, data: result };
+    const subCategoryData = { message: 'success', status: true, data: result };
     return subCategoryData;
   } catch (error) {
     console.log(
@@ -117,22 +142,25 @@ const deleteSubCategory = async (subCategoryId: number) => {
     const subCategoryExist = await subCategoryDao.getById(subCategoryId);
     if (!subCategoryExist) {
       const result = {
-        success: false,
+        status: false,
         message: 'sub_category_id does Not Exist',
+        data: null,
       };
       return result;
     }
     const data = await subCategoryDao.deleteSubCategory(subCategoryId);
     if (data) {
       const result = {
-        success: true,
+        status: true,
         message: 'SubCategory Data Deleted Successfully',
+        data: null,
       };
       return result;
     } else {
       const result = {
-        success: false,
+        status: false,
         message: 'Failed to delete this subCategory',
+        data: null,
       };
       return result;
     }
@@ -188,6 +216,28 @@ const checkDuplicateSubCategoryName = async (
   }
 };
 
+/**
+ * Method to Get All In Active SubCategory's
+ * @returns
+ */
+const getAllInActiveSubCategories = async () => {
+  try {
+    const result = await subCategoryDao.getAllInActiveSubCategories();
+    const subCategoryData = {
+      message: 'success',
+      status: true,
+      data: result,
+    };
+    return subCategoryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllInActiveSubCategories subCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSubCategory,
   updateSubCategory,
@@ -195,4 +245,5 @@ export {
   getById,
   deleteSubCategory,
   checkDuplicateSubCategoryName,
+  getAllInActiveSubCategories,
 };

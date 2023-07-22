@@ -10,6 +10,7 @@ const add = async (
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const is_delete = false;
     const subCategory = await transaction.sub_category.create({
       data: {
         name,
@@ -18,6 +19,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        is_delete: is_delete,
       },
     });
     return subCategory;
@@ -60,9 +62,13 @@ const edit = async (
 const getById = async (subCategoryId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subCategory = await transaction.sub_category.findUnique({
+    const subCategory = await transaction.sub_category.findFirst({
       where: {
         sub_category_id: Number(subCategoryId),
+        is_delete: false,
+      },
+      include: {
+        category: true,
       },
     });
     return subCategory;
@@ -76,32 +82,19 @@ const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const subCategories = await transaction.sub_category.findMany({
+      where: {
+        is_delete: false,
+      },
       orderBy: [
         {
           updated_date: 'desc',
         },
       ],
-    });
-
-    const categoryIds = subCategories.map(
-      (subCategory) => subCategory.category_id
-    );
-    const categories = await transaction.category.findMany({
-      where: {
-        category_id: {
-          in: categoryIds,
-        },
+      include: {
+        category: true,
       },
     });
-
-    const subCategoriesWithCategory = subCategories.map((subCategory) => {
-      const category = categories.find(
-        (category) => category.category_id === subCategory.category_id
-      );
-      return { ...subCategory, category };
-    });
-
-    return subCategoriesWithCategory;
+    return subCategories;
   } catch (error) {
     console.log('Error occurred in subCategory getAll dao', error);
     throw error;
@@ -114,9 +107,12 @@ const deleteSubCategory = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subCategory = await transaction.sub_category.delete({
+    const subCategory = await transaction.sub_category.update({
       where: {
         sub_category_id: Number(subCategoryId),
+      },
+      data: {
+        is_delete: true,
       },
     });
     return subCategory;
@@ -134,11 +130,29 @@ const getBySubCategoryNameAndCategoryId = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const subCategory =
-      await transaction.$queryRaw`select * from sub_category sc where lower(sc."name") = lower(${subCategoryName}) and sc.category_id =${categoryId}`;
+      await transaction.$queryRaw`select * from sub_category sc where lower(sc."name") = lower(${subCategoryName}) and sc.category_id =${categoryId} and sc.is_delete=false`;
     return subCategory[0];
   } catch (error) {
     console.log(
       'Error occurred in subCategory getBySubCategoryNameAndCategoryId dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const getAllInActiveSubCategories = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const SubCategory = await transaction.sub_category.findMany({
+      where: {
+        is_delete: true,
+      },
+    });
+    return SubCategory;
+  } catch (error) {
+    console.log(
+      'Error occurred in subCategory getAllInActiveSubCategories dao',
       error
     );
     throw error;
@@ -152,4 +166,5 @@ export default {
   getAll,
   deleteSubCategory,
   getBySubCategoryNameAndCategoryId,
+  getAllInActiveSubCategories,
 };
