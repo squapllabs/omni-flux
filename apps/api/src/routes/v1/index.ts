@@ -13,14 +13,11 @@ import project from './project.route';
 import item from './item.route';
 import stock from './stock.route';
 import projectExpense from './projectExpense.route';
-
 import site from './site.route';
-
 import siteExpense from './siteExpense.route';
-
 import warehouse from './warehouse.route';
-
 import warehouseInventory from './warehouseInventory.route';
+import upload from './upload.route';
 
 const router = express.Router();
 const defaultRoutes = [
@@ -92,10 +89,13 @@ const defaultRoutes = [
     path: '/warehouse-inventory',
     route: warehouseInventory,
   },
-
   {
     path: '/stock',
     route: stock,
+  },
+  {
+    path: '/upload',
+    route: upload,
   },
 ];
 
