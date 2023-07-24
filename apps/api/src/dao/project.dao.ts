@@ -126,12 +126,14 @@ const getAll = async (connectionObj = null) => {
 const deleteProject = async (projectId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const currentDate = new Date();
     const project = await transaction.project.update({
       where: {
         project_id: Number(projectId),
       },
       data: {
         is_delete: true,
+        updated_date: currentDate,
       },
     });
     return project;

@@ -130,12 +130,14 @@ const deleteSubSubCategory = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const currentDate = new Date();
     const subSubCategory = await transaction.sub_sub_category.update({
       where: {
         sub_sub_category_id: Number(subSubCategoryId),
       },
       data: {
         is_delete: true,
+        updated_date: currentDate,
       },
     });
     return subSubCategory;
@@ -185,6 +187,70 @@ const getAllInActiveSubSubCategories = async (connectionObj = null) => {
   }
 };
 
+const searchSubSubCategory = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterSubSubCategory;
+    const subSubCategory = await transaction.sub_sub_category.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      include: {
+        sub_category: {
+          include: {
+            category: true,
+          },
+        },
+      },
+      skip: offset,
+      take: limit,
+    });
+    const subSubCategoryCount = await transaction.sub_sub_category.count({
+      where: filter,
+    });
+    const subSubCategoryData = {
+      count: subSubCategoryCount,
+      data: subSubCategory,
+    };
+    return subSubCategoryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in subSubCategory dao : searchSubSubCategory ',
+      error
+    );
+    throw error;
+  }
+};
+
+const getBySubCategoryId = async (
+  subCategoryId: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_sub_category.findFirst({
+      where: {
+        sub_category_id: Number(subCategoryId),
+        is_delete: false,
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log('Error occurred in subCategory getBySubCategoryId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -193,4 +259,6 @@ export default {
   deleteSubSubCategory,
   getBySubSubCategoryNameAndSubCategoryId,
   getAllInActiveSubSubCategories,
+  searchSubSubCategory,
+  getBySubCategoryId,
 };
