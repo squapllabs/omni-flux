@@ -107,12 +107,14 @@ const deleteSubCategory = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const currentDate = new Date();
     const subCategory = await transaction.sub_category.update({
       where: {
         sub_category_id: Number(subCategoryId),
       },
       data: {
         is_delete: true,
+        updated_date: currentDate,
       },
     });
     return subCategory;
@@ -159,6 +161,63 @@ const getAllInActiveSubCategories = async (connectionObj = null) => {
   }
 };
 
+const searchSubCategory = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterSubCategory;
+    const subCategory = await transaction.sub_category.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      include: {
+        category: true,
+      },
+      skip: offset,
+      take: limit,
+    });
+    const subCategoryCount = await transaction.sub_category.count({
+      where: filter,
+    });
+    const subCategoryData = {
+      count: subCategoryCount,
+      data: subCategory,
+    };
+    return subCategoryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in subCategory dao : searchSubCategory ',
+      error
+    );
+    throw error;
+  }
+};
+
+const getByCategoryId = async (categoryId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.findFirst({
+      where: {
+        category_id: Number(categoryId),
+        is_delete: false,
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log('Error occurred in subCategory getByCategoryId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -167,4 +226,6 @@ export default {
   deleteSubCategory,
   getBySubCategoryNameAndCategoryId,
   getAllInActiveSubCategories,
+  searchSubCategory,
+  getByCategoryId,
 };

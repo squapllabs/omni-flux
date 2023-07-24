@@ -80,6 +80,16 @@ const getAllInActiveSubCategories = catchAsync(async (req, res) => {
   }
 });
 
+const searchSubCategory = catchAsync(async (req, res) => {
+  const methodName = '/searchSubCategory';
+  try {
+    const subCategory = await subCategoryService.searchSubCategory(req.body);
+    res.send(subCategory);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createSubCategory,
   updateSubCategory,
@@ -88,4 +98,5 @@ export {
   deleteBySubCategoryId,
   checkDuplicateSubCategoryName,
   getAllInActiveSubCategories,
+  searchSubCategory,
 };

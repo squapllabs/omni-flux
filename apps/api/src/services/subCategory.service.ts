@@ -4,6 +4,7 @@ import {
   createSubCategoryBody,
   updateSubCategoryBody,
 } from '../interfaces/subCategory.Interface';
+import subSubCategoryDao from '../dao/subSubCategory.dao';
 
 /**
  * Method to Create a New SubCategory
@@ -140,6 +141,9 @@ const getAllSubCategory = async () => {
 const deleteSubCategory = async (subCategoryId: number) => {
   try {
     const subCategoryExist = await subCategoryDao.getById(subCategoryId);
+    const subSubCategoryExistForThisSubCategory =
+      await subSubCategoryDao.getBySubCategoryId(subCategoryId);
+
     if (!subCategoryExist) {
       const result = {
         status: false,
@@ -148,6 +152,17 @@ const deleteSubCategory = async (subCategoryId: number) => {
       };
       return result;
     }
+
+    if (subSubCategoryExistForThisSubCategory) {
+      const result = {
+        status: false,
+        message:
+          'unable to delete this sub_category.please delete the associated sub_sub_category to delete this record',
+        data: null,
+      };
+      return result;
+    }
+
     const data = await subCategoryDao.deleteSubCategory(subCategoryId);
     if (data) {
       const result = {
@@ -238,6 +253,74 @@ const getAllInActiveSubCategories = async () => {
   }
 };
 
+/**
+ * Method to search Sub Category - Pagination API
+ * @returns
+ */
+const searchSubCategory = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const name = body.search_by_name;
+
+    const status = body.status;
+    const filterObj = {
+      filterSubCategory: {
+        AND: [],
+        OR: [
+          {
+            name: {
+              contains: name,
+              mode: 'insensitive',
+            },
+          },
+          {
+            category: {
+              name: {
+                contains: name,
+                mode: 'insensitive',
+              },
+            },
+          },
+        ],
+        is_delete: status === 'IN' ? true : false,
+      },
+    };
+
+    const result = await subCategoryDao.searchSubCategory(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempSubCategoryData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      limit: limit,
+      content: data,
+    };
+    return tempSubCategoryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchSubCategory sub category service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSubCategory,
   updateSubCategory,
@@ -246,4 +329,5 @@ export {
   deleteSubCategory,
   checkDuplicateSubCategoryName,
   getAllInActiveSubCategories,
+  searchSubCategory,
 };

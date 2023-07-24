@@ -173,6 +173,7 @@ const deleteSubSubCategory = async (subSubCategoryId: number) => {
     const subSubCategoryExist = await subSubCategoryDao.getById(
       subSubCategoryId
     );
+
     if (!subSubCategoryExist) {
       const result = {
         status: false,
@@ -181,6 +182,7 @@ const deleteSubSubCategory = async (subSubCategoryId: number) => {
       };
       return result;
     }
+
     const data = await subSubCategoryDao.deleteSubSubCategory(subSubCategoryId);
     if (data) {
       const result = {
@@ -271,6 +273,84 @@ const getAllInActiveSubSubCategories = async () => {
   }
 };
 
+/**
+ * Method to search Sub Sub Category - Pagination API
+ * @returns
+ */
+const searchSubSubCategory = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const name = body.search_by_name;
+
+    const status = body.status;
+    const filterObj = {
+      filterSubSubCategory: {
+        AND: [],
+        OR: [
+          {
+            name: {
+              contains: name,
+              mode: 'insensitive',
+            },
+          },
+          {
+            sub_category: {
+              name: {
+                contains: name,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            sub_category: {
+              category: {
+                name: {
+                  contains: name,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+        ],
+        is_delete: status === 'IN' ? true : false,
+      },
+    };
+
+    const result = await subSubCategoryDao.searchSubSubCategory(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempSubCategoryData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      limit: limit,
+      content: data,
+    };
+    return tempSubCategoryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchSubSubCategory sub sub category service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSubSubCategory,
   updateSubSubCategory,
@@ -279,4 +359,5 @@ export {
   deleteSubSubCategory,
   checkDuplicateSubSubCategoryName,
   getAllInActiveSubSubCategories,
+  searchSubSubCategory,
 };
