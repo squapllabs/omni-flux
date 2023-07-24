@@ -18,7 +18,8 @@ import siteExpense from './siteExpense.route';
 import warehouse from './warehouse.route';
 import warehouseInventory from './warehouseInventory.route';
 import upload from './upload.route';
-
+import brand from './brand.route';
+import itemType from './itemType.routes';
 const router = express.Router();
 const defaultRoutes = [
   {
@@ -97,6 +98,14 @@ const defaultRoutes = [
     path: '/upload',
     route: upload,
   },
+  {
+    path: '/brand',
+    route: brand,
+  },
+  {
+    path: '/itemType',
+    route: itemType,
+  }, 
 ];
 
 defaultRoutes.forEach((r) => {
