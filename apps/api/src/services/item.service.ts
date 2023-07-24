@@ -114,9 +114,9 @@ const getAllItem = async (data) => {
   try {
     const offset = data.offset;
     const limit = data.limit;
-    const order_by_column = data.order_by_column;
-    const order_by_direction =
-      data.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const default_column = 'item_name';
+    const order_by_column = data.order_by_column || default_column;
+    const order_by_direction = data.order_by_direction === 'asc' ? 'asc' : 'desc';
     const offsetValue = parseInt(offset, 10) || 0;
     const limitValue = parseInt(limit, 10) || 50;
     const filters = data.filters;
@@ -126,12 +126,14 @@ const getAllItem = async (data) => {
       },
     };
  
-    for (const filter of filters) {
-      const field_name = filter.field_name;
-      const operator = filter.operator;
-      const field_value = filter.field_value;
-
-      await applyFilter(filterObj, field_name, operator, field_value);
+    if (filters) {
+      for (const filter of filters) {
+        const field_name = filter.field_name;
+        const operator = filter.operator;
+        const field_value = filter.field_value;
+    
+        await applyFilter(filterObj, field_name, operator, field_value);
+      }
     }
     const result = await itemDao.getAll(
       offsetValue,
