@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   createUser,
-  // customFilterUser,
+  customFilterUser,
   deleteUser,
   getAllUser,
   getByEmailId,
@@ -9,7 +9,7 @@ import {
   getDeletedUsers,
   searchUser,
   updateStatus,
-  updateUser
+  updateUser,
 } from '../../controller/user.controller';
 import authMiddleware from '../../middleware/auth';
 import {
@@ -46,6 +46,6 @@ router.post('/searchUser', authMiddleware, searchUser);
 
 router.get('/getDeletedUsers', authMiddleware, getDeletedUsers);
 
-// router.post('/customFilter', authMiddleware, customFilterUser);
+router.post('/custom-filter', authMiddleware, customFilterUser);
 
 export default router;

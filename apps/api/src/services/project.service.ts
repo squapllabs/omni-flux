@@ -5,7 +5,6 @@ import {
   createProjectBody,
   updateProjectBody,
 } from '../interfaces/project.Interface';
-// import customQueryExecutor from '../dao/common/utils.dao';
 import prisma from '../utils/prisma';
 
 /**

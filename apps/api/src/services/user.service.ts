@@ -1,10 +1,9 @@
 import userDao from '../dao/user.dao';
 import userRoleDao from '../dao/userRole.dao';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
-// import customQueryExecutor from '../dao/common/utils.dao';
 
 /**
  * Method to Create a New User
@@ -254,6 +253,7 @@ const userLogin = async (
       status: false,
       message: 'something went wrong',
     };
+    return loginResposne;
   }
 };
 
@@ -264,7 +264,7 @@ const refreshAccessToken = (refreshToken) => {
     const token = jwt.sign(
       { userId: decodedPayload['userId'], email: decodedPayload['email'] },
       process.env.API_ACCESS_TOKEN_SECRET_KEY,
-      { expiresIn: '2m' }
+      { expiresIn: '1d' }
     );
     return token;
   } catch (error) {
@@ -429,8 +429,9 @@ const getDeletedUsers = async () => {
     const result = await userDao.getDeletedUsers();
     const userData = { success: true, data: result };
     return userData;
-  } catch (err) {
+  } catch (error) {
     console.log('Error occurred in User Service : getDeletedUsers Method');
+    throw error;
   }
 };
 
@@ -441,18 +442,17 @@ const getDeletedUsers = async () => {
  */
 const customFilterUser = async (body) => {
   try {
-    const offset = body.offset;
+    const offsetValue = body.offset;
     const limit = body.limit;
     const order_by_column = body.order_by_column;
     const order_by_direction =
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
-    const offsetValue = parseInt(offset, 10) || 0;
-    const limitValue = parseInt(limit, 10) || 50;
     const filters = body.filters;
-
     const filterObj = {
-      filterItem: {
+      filterUser: {
         AND: [],
+        is_delete: false,
+        user_status: 'AC',
       },
     };
 
@@ -460,40 +460,64 @@ const customFilterUser = async (body) => {
       const field_name = filter.field_name;
       const operator = filter.operator;
       const field_value = filter.field_value;
-      applyFilter(filterObj, field_name, operator, field_value);
+
+      await applyFilter(filterObj, field_name, operator, field_value);
     }
 
     const result = await userDao.customFilterUser(
       offsetValue,
-      limitValue,
+      limit,
       order_by_column,
       order_by_direction,
       filterObj
     );
-    const userData = { success: true, data: result };
-    return userData;
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempUserData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      size: limit,
+      content: data,
+    };
+    return tempUserData;
   } catch (error) {
     console.log('Error occurred in customFilterUser user service: ', error);
-
     throw error;
   }
 };
 
-const applyFilter = (filterObj, field_name, operator, field_value) => {
+/**
+ * Method for Applying the Dynamic Filter Conditions
+ */
+const applyFilter = async (filterObj, field_name, operator, field_value) => {
   if (operator === 'Equal') {
-    filterObj.filterItem[field_name] = field_value;
+    filterObj.filterUser[field_name] = field_value;
   } else if (operator === 'Not Equal') {
-    filterObj.filterItem[field_name] = { NOT: { equals: field_value } };
+    filterObj.filterUser = { NOT: { [field_name]: field_value } };
   } else if (operator === 'Like') {
-    filterObj.filterItem[field_name] = { contains: field_value };
+    filterObj.filterUser[field_name] = {
+      contains: field_value,
+      mode: 'insensitive',
+    };
   } else if (operator === 'Not Like') {
-    filterObj.filterItem[field_name] = { NOT: { contains: field_value } };
+    filterObj.filterUser = {
+      NOT: {
+        [field_name]: {
+          contains: field_value,
+          mode: 'insensitive',
+        },
+      },
+    };
   } else if (operator === 'In') {
-    filterObj.filterItem[field_name] = { in: field_value };
+    filterObj.filterUser[field_name] = { in: field_value };
   } else if (operator === 'Not In') {
-    filterObj.filterItem[field_name] = { NOT: { in: field_value } };
+    filterObj.filterUser[field_name] = { notIn: field_value };
   } else if (operator === 'Is') {
-    filterObj.filterItem[field_name] = null;
+    filterObj.filterUser[field_name] = null;
   } else {
     throw new Error(`Unsupported operator: ${operator}`);
   }

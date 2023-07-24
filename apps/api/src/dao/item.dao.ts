@@ -1,4 +1,6 @@
 import prisma from '../utils/prisma';
+import { createItemBody } from '../interfaces/item.interface';
+
 const add = async (
   item_name: string,
   sub_sub_category_id: number,
@@ -9,6 +11,7 @@ const add = async (
   created_by: bigint,
   updated_by: bigint,
   item_type_id: number,
+  brand_id:number,
   connectionObj = null
 ) => {
   try {
@@ -27,6 +30,7 @@ const add = async (
         item_type_id,
         created_date: currentDate,
         updated_date: currentDate,
+        brand_id
       },
     });
     return item;
@@ -37,16 +41,11 @@ const add = async (
 };
 // item.dao.ts
 
-const addBulk = async (items: any[], connectionObj = null) => {
+const addBulk = async (items: createItemBody[], connectionObj = null) => {
   try {
-    const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const createdItems = await transaction.item.createMany({
-      data: items.map((item) => ({
-        ...item,
-        created_date: currentDate,
-        updated_date: currentDate,
-      })),
+      data: items
     });
 
     return createdItems;
@@ -65,10 +64,9 @@ const getAll = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter=filters.where;
-    console.log(filter)
+    const filter = filters.filterItem;
     const items = await transaction.item.findMany({
-     where: filter,
+      where: filter,
       orderBy: [
         {
           [orderByColumn]: orderByDirection,
@@ -79,36 +77,36 @@ const getAll = async (
       include: {
         gst: {
           select: {
-            rate: true, 
-            gst_id:true
+            rate: true,
+            gst_id: true,
           },
         },
         hsn_code: {
           select: {
-            code: true, 
-            hsn_code_id: true
+            code: true,
+            hsn_code_id: true,
           },
         },
         uom: {
           select: {
-            name: true, 
-            uom_id:true
+            name: true,
+            uom_id: true,
           },
         },
         sub_sub_category: {
           select: {
-            name: true, 
-            sub_sub_category_id:true
+            name: true,
+            sub_sub_category_id: true,
           },
         },
         item_type: {
           select: {
-            item_type_item_name: true, 
+            item_type_item_name: true,
           },
         },
         brand: {
           select: {
-            brand_name: true, 
+            brand_name: true,
           },
         },
       },
@@ -120,12 +118,42 @@ const getAll = async (
   }
 };
 
-const getById = async (itemId: number, connectionObj = null) => {
+const getAllBySearch = async (keyword, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const items = await transaction.item.findMany({
+      where: {
+        OR: [
+          {
+            description: {
+              contains: keyword,
+              mode: 'insensitive',
+            },
+          },
+          {
+            item_name: {
+              contains: keyword,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+    });
+
+    return items;
+  } catch (error) {
+    console.log('Error occurred in item getAll dao', error);
+    throw error;
+  }
+};
+
+const getById = async (item_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const item = await transaction.item.findUnique({
       where: {
-        item_id: Number(itemId),
+        item_id: Number(item_id),
       },
     });
     return item;
@@ -134,12 +162,12 @@ const getById = async (itemId: number, connectionObj = null) => {
     throw error;
   }
 };
-const deleteItem = async (itemId: number, connectionObj = null) => {
+const deleteItem = async (item_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const item = await transaction.item.delete({
       where: {
-        item_id: Number(itemId),
+        item_id: Number(item_id),
       },
     });
     return item;
@@ -157,6 +185,8 @@ const edit = async (
   gst_id: number,
   uom_id: number,
   updated_by: bigint,
+  item_type_id:number,
+  brand_id:number,
   connectionObj = null
 ) => {
   try {
@@ -175,6 +205,8 @@ const edit = async (
         uom_id,
         updated_by,
         updated_date: currentDate,
+        item_type_id,
+        brand_id
       },
     });
     return item;
@@ -190,4 +222,5 @@ export default {
   deleteItem,
   edit,
   addBulk,
+  getAllBySearch,
 };

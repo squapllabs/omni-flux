@@ -68,6 +68,16 @@ const checkDuplicateProjectCategoryName = catchAsync(async (req, res) => {
   }
 });
 
+const getAllInActiveCategories = catchAsync(async (req, res) => {
+  const methodName = '/getAllInActiveCategories';
+  try {
+    const category = await categoryService.getAllInActiveCategories();
+    res.send(category);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createCategory,
   updateCategory,
@@ -75,4 +85,5 @@ export {
   getByCategoryId,
   deleteByCategoryId,
   checkDuplicateProjectCategoryName,
+  getAllInActiveCategories,
 };

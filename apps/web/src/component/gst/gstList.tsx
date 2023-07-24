@@ -14,7 +14,7 @@ import GstForm from './gstCreate';
 
 const GstList = () => {
   const { data: getAllGstData, isLoading: loader } = useGetAllGst();
-
+  
   const { mutate: getDeleteGstByID } = useDeleteGst();
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);

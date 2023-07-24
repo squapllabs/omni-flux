@@ -9,6 +9,7 @@ import {
   createCategory,
   deleteByCategoryId,
   getAllCategory,
+  getAllInActiveCategories,
   getByCategoryId,
   updateCategory,
 } from '../../controller/category.controller';
@@ -43,5 +44,7 @@ router.get(
   authMiddleware,
   checkDuplicateProjectCategoryName
 );
+
+router.get('/get-all-inactive', authMiddleware, getAllInActiveCategories);
 
 export default router;

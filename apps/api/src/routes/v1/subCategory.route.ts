@@ -8,6 +8,7 @@ import {
   checkDuplicateSubCategoryName,
   createSubCategory,
   deleteBySubCategoryId,
+  getAllInActiveSubCategories,
   getAllSubCategory,
   getBySubCategoryId,
   updateSubCategory,
@@ -47,5 +48,7 @@ router.get(
   authMiddleware,
   checkDuplicateSubCategoryName
 );
+
+router.get('/get-all-inactive', authMiddleware, getAllInActiveSubCategories);
 
 export default router;

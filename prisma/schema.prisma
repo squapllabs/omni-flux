@@ -8,24 +8,24 @@ datasource db {
 }
 
 model users {
-  user_id          Int      @id @default(autoincrement())
-  first_name       String?  @db.VarChar(100)
-  last_name        String?  @db.VarChar(100)
-  user_password    String?  @db.VarChar(255)
-  contact_no       String?  @db.VarChar(20)
-  email_id         String   @db.VarChar(100)
-  user_status      String?  @db.VarChar(5)
-  address          String?  @db.VarChar(250)
+  user_id          Int       @id @default(autoincrement())
+  first_name       String?   @db.VarChar(100)
+  last_name        String?   @db.VarChar(100)
+  user_password    String?   @db.VarChar(255)
+  contact_no       String?   @db.VarChar(20)
+  email_id         String    @db.VarChar(100)
+  user_status      String?   @db.VarChar(5)
+  address          String?   @db.VarChar(250)
   created_by       Int?
   created_date     DateTime
   updated_by       Int?
   updated_date     DateTime
-  is_delete        Boolean  @default(false) @db.Boolean
-  is_initial_login Boolean  @default(true) @db.Boolean
-  department       String?  @db.VarChar(100)
+  is_delete        Boolean   @default(false) @db.Boolean
+  is_initial_login Boolean   @default(true) @db.Boolean
+  department       String?   @db.VarChar(100)
+  projects         project[]
 
   @@unique([email_id], name: "uk_users_email_id")
-  projects          project[]
 }
 
 model user_roles {
@@ -60,8 +60,8 @@ model gst {
   updated_date DateTime
   created_by   Int?
   updated_by   Int?
-
-  item item[]
+  sgst_rate    Float?
+  item         item[]
 }
 
 model uom {
@@ -78,14 +78,14 @@ model uom {
 }
 
 model client {
-  client_id       Int      @id @default(autoincrement())
-  name            String   @db.VarChar(100)
+  client_id       Int       @id @default(autoincrement())
+  name            String    @db.VarChar(100)
   contact_details String
   created_date    DateTime
   updated_date    DateTime
-  created_by      Int?      
+  created_by      Int?
   updated_by      Int?
-  projects        project[]     
+  projects        project[]
 }
 
 model hsn_code {
@@ -98,123 +98,138 @@ model hsn_code {
   updated_by   Int?
   item         item[]
 
+  @@unique([code], name: "uk_hsn_code_code")
   @@map(name: "hsn_code")
 }
 
 model category {
-  category_id  Int      @id @default(autoincrement())
-  name         String   @db.VarChar(100)
+  category_id  Int            @id @default(autoincrement())
+  name         String         @db.VarChar(100)
   project_id   Int?
   budget       Float?
   created_date DateTime
   updated_date DateTime
   created_by   Int?
   updated_by   Int?
+  project      project?       @relation(fields: [project_id], references: [project_id])
+  is_delete    Boolean        @default(false) @db.Boolean
+  sub_category sub_category[]
 }
 
 model sub_category {
-  sub_category_id Int      @id @default(autoincrement())
-  name            String   @db.VarChar(100)
-  category_id     Int?
-  budget          Float?
-  created_date    DateTime
-  updated_date    DateTime
-  created_by      Int?
-  updated_by      Int?
+  sub_category_id  Int                @id @default(autoincrement())
+  name             String             @db.VarChar(100)
+  category_id      Int?
+  budget           Float?
+  created_date     DateTime
+  updated_date     DateTime
+  created_by       Int?
+  updated_by       Int?
+  is_delete        Boolean            @default(false) @db.Boolean
+  category         category?          @relation(fields: [category_id], references: [category_id])
+  sub_sub_category sub_sub_category[]
 }
 
 model sub_sub_category {
-  sub_sub_category_id Int      @id @default(autoincrement())
-  name                String   @db.VarChar(100)
+  sub_sub_category_id Int           @id @default(autoincrement())
+  name                String        @db.VarChar(100)
   sub_category_id     Int?
   budget              Float?
   created_date        DateTime
   updated_date        DateTime
   created_by          Int?
-  updated_by          Int[]
+  updated_by          Int?
   item                item[]
+  is_delete           Boolean       @default(false) @db.Boolean
+  sub_category        sub_category? @relation(fields: [sub_category_id], references: [sub_category_id])
 }
 
 model project {
-  project_id     Int      @id @default(autoincrement())
-  project_name   String   @db.VarChar(100)
-  description    String?
-  user_id        Int?
-  date_started   DateTime?
-  date_ended     DateTime?
-  status         String?   @db.VarChar(50)
-  budget         Float?
-  client_id      Int?
-  document_url   String?
-  created_date   DateTime @default(now())
-  updated_date   DateTime @updatedAt
-  created_by     Int?
-  updated_by     Int?
-  is_delete      Boolean  @default(false)
-  user           users?     @relation(fields: [user_id], references: [user_id])
-  client         client?   @relation(fields: [client_id], references: [client_id])
+  project_id   Int        @id @default(autoincrement())
+  project_name String     @db.VarChar(100)
+  description  String?
+  user_id      Int?
+  date_started DateTime?
+  date_ended   DateTime?
+  status       String?    @db.VarChar(50)
+  budget       Float?
+  client_id    Int?
+  document_url String?
+  created_date DateTime   @default(now())
+  updated_date DateTime   @updatedAt
+  created_by   Int?
+  updated_by   Int?
+  is_delete    Boolean    @default(false)
+  user         users?     @relation(fields: [user_id], references: [user_id])
+  client       client?    @relation(fields: [client_id], references: [client_id])
+  category     category[]
 }
 
 model project_expense {
-  project_expense_id   Int       @id @default(autoincrement())
-  project_id           Int?
-  description          String?
-  amount               Float?
-  date                 DateTime?
-  document_url         String?
-  created_date         DateTime 
-  updated_date         DateTime  
-  created_by           Int?
-  updated_by           Int?
+  project_expense_id Int       @id @default(autoincrement())
+  project_id         Int?
+  description        String?
+  amount             Float?
+  date               DateTime?
+  document_url       String?
+  created_date       DateTime
+  updated_date       DateTime
+  created_by         Int?
+  updated_by         Int?
+
   @@map("project_expense")
 }
 
 model site {
-  site_id        Int       @id @default(autoincrement())
-  site_name      String    @db.VarChar(100)
-  location       String?
-  user_id        Int?
-  created_date   DateTime  
-  updated_date   DateTime 
-  created_by     Int?
-  updated_by     Int?  
+  site_id      Int      @id @default(autoincrement())
+  site_name    String   @db.VarChar(100)
+  location     String?
+  user_id      Int?
+  created_date DateTime
+  updated_date DateTime
+  created_by   Int?
+  updated_by   Int?
+
   @@map("site")
 }
 
 model site_expense {
-  site_expense_id   Int       @id @default(autoincrement())
-  site_id           Int?
-  description       String?
-  amount            Float?
-  date              DateTime?
-  document_url      String?
-  created_date      DateTime  
-  updated_date      DateTime  
-  created_by        Int?
-  updated_by        Int?
+  site_expense_id Int       @id @default(autoincrement())
+  site_id         Int?
+  description     String?
+  amount          Float?
+  date            DateTime?
+  document_url    String?
+  created_date    DateTime
+  updated_date    DateTime
+  created_by      Int?
+  updated_by      Int?
+
   @@map("site_expense")
 }
 
 model warehouse {
-  warehouse_id     Int       @id @default(autoincrement())
-  warehouse_name   String    @db.VarChar(100)
-  location         String?
-  created_date     DateTime  
-  updated_date     DateTime  
-  created_by       Int?
-  updated_by       Int?  
+  warehouse_id   Int      @id @default(autoincrement())
+  warehouse_name String   @db.VarChar(100)
+  location       String?
+  created_date   DateTime
+  updated_date   DateTime
+  created_by     Int?
+  updated_by     Int?
+
   @@map("warehouse")
 }
 
 model warehouse_inventory {
-  warehouse_inventory_id  Int     @id @default(autoincrement())
-  warehouse_id            Int?
-  item_id                 Int?
-  quantity                Int?
-  created_date            DateTime 
-  updated_date            DateTime 
-  created_by              Int?
-  updated_by              Int?
+  warehouse_inventory_id Int      @id @default(autoincrement())
+  warehouse_id           Int?
+  item_id                Int?
+  quantity               Int?
+  created_date           DateTime
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+
   @@unique([warehouse_id, item_id], name: "fk_warehouse_inventory_warehouse_id_item_id")
   @@map("warehouse_inventory")
 }

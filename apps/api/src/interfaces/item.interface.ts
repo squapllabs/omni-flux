@@ -19,7 +19,7 @@ interface updateItemBody{
   gst_id:number;
   uom_id:number;
   updated_by:bigint;
-  item_type_id:string;
+  item_type_id:number;
   brand_id:number;
 }
 
