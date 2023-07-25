@@ -157,7 +157,7 @@ const deleteSubCategory = async (subCategoryId: number) => {
       const result = {
         status: false,
         message:
-          'unable to delete this sub_category.please delete the associated sub_sub_category to delete this record',
+          'Unable to delete this sub category.Please delete the associated child category.',
         data: null,
       };
       return result;
