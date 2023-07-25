@@ -22,7 +22,7 @@ const SideNav: React.FC<SideNavProps> = ({
     handleMenuItemClick(id); // Call the parent function to handle the click action if needed.
   };
   return (
-    <>
+    <div className={Styles.sideContainer}>
       <div className={Styles.side_menu}>
         <ul>
           {menuItems.map((item) => (
@@ -36,7 +36,7 @@ const SideNav: React.FC<SideNavProps> = ({
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

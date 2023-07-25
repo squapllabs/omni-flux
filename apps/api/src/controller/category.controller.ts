@@ -78,6 +78,16 @@ const getAllInActiveCategories = catchAsync(async (req, res) => {
   }
 });
 
+const searchCategory = catchAsync(async (req, res) => {
+  const methodName = '/searchCategory';
+  try {
+    const category = await categoryService.searchCategory(req.body);
+    res.send(category);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createCategory,
   updateCategory,
@@ -86,4 +96,5 @@ export {
   deleteByCategoryId,
   checkDuplicateProjectCategoryName,
   getAllInActiveCategories,
+  searchCategory,
 };

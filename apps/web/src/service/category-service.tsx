@@ -6,8 +6,6 @@ const getAllCategory = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/category/getAll`
     );
-    console.log('response', response);
-
     return response.data;
   } catch (error) {
     console.log('Error in getting all category:', error);

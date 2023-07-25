@@ -71,6 +71,19 @@ const checkDublicateSubCategory = async (value: any) => {
     throw error;
   }
 };
+const filterSubCategory = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/sub-category/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in sub-category create :', error);
+    throw error;
+  }
+};
+
 export default {
   getAllSubcategory,
   getOneSubcategoryByID,
@@ -78,4 +91,5 @@ export default {
   updateSubcategory,
   deleteSubcategory,
   checkDublicateSubCategory,
+  filterSubCategory,
 };

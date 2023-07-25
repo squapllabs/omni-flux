@@ -21,6 +21,9 @@ import * as Yup from 'yup';
 import Select from '../ui/Select';
 import { useGetAllProject } from '../../hooks/project-hooks';
 
+/**
+ * Function for  CategoryList
+ */
 const CategoryList = () => {
   const { data: getAllCategory } = useGetAllCategory();
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
@@ -53,10 +56,9 @@ const CategoryList = () => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMode('ADD');
-    setOpen(true);
-  };
+  /**
+   * Function for editing the Category
+   */
   const handleEdit = (event: React.FormEvent, value: any) => {
     setMode('EDIT');
     setCategoryID(value);
@@ -93,7 +95,6 @@ const CategoryList = () => {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
               resetForm();
-              console.log('success');
               setMessage('Category created');
               setOpenSnack(true);
             }

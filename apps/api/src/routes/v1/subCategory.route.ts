@@ -11,6 +11,7 @@ import {
   getAllInActiveSubCategories,
   getAllSubCategory,
   getBySubCategoryId,
+  searchSubCategory,
   updateSubCategory,
 } from '../../controller/subCategory.controller';
 import { runValidation } from '../../validations/index';
@@ -50,5 +51,7 @@ router.get(
 );
 
 router.get('/get-all-inactive', authMiddleware, getAllInActiveSubCategories);
+
+router.post('/search', authMiddleware, searchSubCategory);
 
 export default router;

@@ -12,6 +12,7 @@ import {
   getAllInActiveSubSubCategories,
   getAllSubSubCategory,
   getBySubSubCategoryId,
+  searchSubSubCategory,
   updateSubSubCategory,
 } from '../../controller/subSubCategory.controller';
 
@@ -50,5 +51,7 @@ router.get(
 );
 
 router.get('/get-all-inactive', authMiddleware, getAllInActiveSubSubCategories);
+
+router.post('/search', authMiddleware, searchSubSubCategory);
 
 export default router;

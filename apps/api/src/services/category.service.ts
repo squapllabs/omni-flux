@@ -1,4 +1,5 @@
 import categoryDao from '../dao/category.dao';
+import subCategoryDao from '../dao/subCategory.dao';
 import {
   createCategoryBody,
   updateCategoryBody,
@@ -147,10 +148,22 @@ const getAllCategory = async () => {
 const deleteCategory = async (categoryId: number) => {
   try {
     const categoryExist = await categoryDao.getById(categoryId);
+    const subCategoryExistForThisCategory =
+      await subCategoryDao.getByCategoryId(categoryId);
     if (!categoryExist) {
       const result = {
         status: false,
         message: 'category_id does not exist',
+        data: null,
+      };
+      return result;
+    }
+
+    if (subCategoryExistForThisCategory) {
+      const result = {
+        status: false,
+        message:
+          'Unable to delete this category.Please delete the associated child category.',
         data: null,
       };
       return result;
@@ -237,6 +250,58 @@ const getAllInActiveCategories = async () => {
   }
 };
 
+/**
+ * Method to search Category - Pagination API
+ * @returns
+ */
+const searchCategory = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const name = body.search_by_name;
+    const status = body.status;
+    const filterObj = {
+      filterCategory: {
+        AND: [],
+        name: {
+          contains: name,
+          mode: 'insensitive',
+        },
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await categoryDao.searchCategory(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempCategoryData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      limit: limit,
+      content: data,
+    };
+    return tempCategoryData;
+  } catch (error) {
+    console.log('Error occurred in searchCategory category service : ', error);
+    throw error;
+  }
+};
+
 export {
   createCategory,
   updateCategory,
@@ -245,4 +310,5 @@ export {
   deleteCategory,
   checkDuplicateProjectCategoryName,
   getAllInActiveCategories,
+  searchCategory,
 };
