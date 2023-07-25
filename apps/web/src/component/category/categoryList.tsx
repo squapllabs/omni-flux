@@ -20,6 +20,7 @@ import { createCategory } from '../../hooks/category-hooks';
 import * as Yup from 'yup';
 import Select from '../ui/Select';
 import { useGetAllProject } from '../../hooks/project-hooks';
+import SearchIcon from '../menu/icons/search';
 
 /**
  * Function for  CategoryList
@@ -244,7 +245,7 @@ const CategoryList = () => {
       </div>
       <div className={Styles.searchField}>
         <div>
-          <Input name="budget" placeholder="Search by item name" width="160%" />
+          <Input name="budget" placeholder="Search by item name" width="160%"  prefixIcon={<SearchIcon />}/>
         </div>
         <div className={Styles.searchButton}>
           <Button
