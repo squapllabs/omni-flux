@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Styles from '../../styles/userList.module.scss';
+import Styles from '../../styles/categoryList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import { Tooltip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,6 +13,7 @@ import CategoryForm from './categoryForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
 import Button from '../menu/button';
+import Input from '../../component/ui/Input';
 
 const CategoryList = () => {
   const { data: getAllCategory } = useGetAllCategory();
@@ -133,15 +134,37 @@ const CategoryList = () => {
   };
   return (
     <div className={Styles.container}>
-      <div className={Styles.buttonContainer}>
-        <Button
-          text="Add"
-          backgroundColor="#7F56D9"
-          fontSize={14}
-          fontWeight={500}
-          width={100}
-          onClick={(e) => handleAdd(e)}
-        />
+      <div className={Styles.textContent}>
+        <h3>Add New Categories</h3>
+        <span className={Styles.content}>
+          Manage your raw materials (Raw, Semi Furnished & Finished)
+        </span>
+      </div>
+      <div className={Styles.fields}>
+        <div>
+          <Input
+            name="name"
+            label="Category Name"
+            placeholder="Enter category name"
+          />
+        </div>
+        <div>
+        <Input
+              name="budget"
+              label="Budget"
+              placeholder="Enter budget"
+            />
+        </div>
+        <div>
+          <Button
+            text="Add New Category"
+            backgroundColor="#7F56D9"
+            fontSize={14}
+            fontWeight={500}
+            width={135}
+            onClick={(e) => handleAdd(e)}
+          />
+        </div>
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable

@@ -1,0 +1,27 @@
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+  }
+  .tableContainer {
+    padding: 10px;
+    height: 100vh;
+  }
+  
+  .container{
+      width: 100%;
+      height: 100vh;
+  }
+  .textContent{
+    padding: 10px;
+  }
+  .content{
+    font-size: 0.70rem;
+  }
+
+  .fields{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
