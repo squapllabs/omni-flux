@@ -63,6 +63,26 @@ const getByHsnCode = catchAsync(async (req, res) => {
   }
 });
 
+const addBulkHSNCodeByImport = catchAsync(async (req, res) => {
+  const methodName = '/addBulkHSNCodeByImport';
+  try {
+    const hsnCode = await hsnCodeService.addBulkHSNCodeByImport(req.file);
+    res.send(hsnCode);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const addBulkHSNCode = catchAsync(async (req, res) => {
+  const methodName = '/addBulkHSNCode';
+  try {
+    const hsnCode = await hsnCodeService.addBulkHSNCode(req.body);
+    res.send(hsnCode);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createHsnCode,
   updateHsnCode,
@@ -70,4 +90,6 @@ export {
   getByHsnCodeId,
   deleteByHsnCodeId,
   getByHsnCode,
+  addBulkHSNCodeByImport,
+  addBulkHSNCode,
 };

@@ -115,6 +115,45 @@ const deleteHsnCode = async (hsnCodeId: number, connectionObj = null) => {
   }
 };
 
+const addBulk = async (hsnCodes, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    let successCount = 0;
+    const createdData = await Promise.all(
+      hsnCodes.map(async (codeData) => {
+        const { code, ...rest } = codeData;
+        try {
+          const createdRecord = await transaction.hsn_code.create({
+            data: {
+              code,
+              ...rest,
+            },
+          });
+          successCount++;
+          return createdRecord;
+        } catch (error) {
+          if (error.code === 'P2002') {
+            const uniqueValidation = {
+              unique: `This code ${code} already exist`,
+            };
+            return uniqueValidation;
+          }
+          console.error('Error occurred for data:', codeData, error);
+          throw error;
+        }
+      })
+    );
+
+    return {
+      createdData,
+      successCount,
+    };
+  } catch (error) {
+    console.error('Error occurred in hsnCode addBulk dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -122,4 +161,5 @@ export default {
   getByCode,
   getAll,
   deleteHsnCode,
+  addBulk,
 };

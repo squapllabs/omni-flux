@@ -480,7 +480,7 @@ const customFilterUser = async (body) => {
       status: true,
       total_count: count,
       total_page: total_pages,
-      size: limit,
+      limit: limit,
       content: data,
     };
     return tempUserData;

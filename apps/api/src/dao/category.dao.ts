@@ -104,12 +104,14 @@ const getAll = async (connectionObj = null) => {
 const deleteCategory = async (categoryId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const currentDate = new Date();
     const category = await transaction.category.update({
       where: {
         category_id: Number(categoryId),
       },
       data: {
         is_delete: true,
+        updated_date: currentDate,
       },
     });
     return category;
@@ -156,6 +158,44 @@ const getAllInActiveCategories = async (connectionObj = null) => {
   }
 };
 
+const searchCategory = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterCategory;
+    const category = await transaction.category.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      include: {
+        project: true,
+      },
+      skip: offset,
+      take: limit,
+    });
+    const categoryCount = await transaction.category.count({
+      where: filter,
+    });
+    const categoryData = {
+      count: categoryCount,
+      data: category,
+    };
+    return categoryData;
+  } catch (error) {
+    console.log('Error occurred in category dao : searchCategory ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -164,4 +204,5 @@ export default {
   deleteCategory,
   getByCategoryNameAndProjectId,
   getAllInActiveCategories,
+  searchCategory,
 };

@@ -11,6 +11,7 @@ import {
   getAllCategory,
   getAllInActiveCategories,
   getByCategoryId,
+  searchCategory,
   updateCategory,
 } from '../../controller/category.controller';
 import { runValidation } from '../../validations/index';
@@ -46,5 +47,7 @@ router.get(
 );
 
 router.get('/get-all-inactive', authMiddleware, getAllInActiveCategories);
+
+router.post('/search', authMiddleware, searchCategory);
 
 export default router;

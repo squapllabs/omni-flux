@@ -141,6 +141,7 @@ const getAll = async (user_status) => {
 
 const deleteUser = async (userId: bigint) => {
   try {
+    const currentDate = new Date();
     const user = await prisma.users.update({
       where: {
         user_id: Number(userId),
@@ -148,6 +149,7 @@ const deleteUser = async (userId: bigint) => {
       data: {
         is_delete: true,
         user_status: 'IN',
+        updated_date: currentDate,
       },
     });
 

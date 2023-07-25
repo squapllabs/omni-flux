@@ -1,0 +1,2782 @@
+{
+	"info": {
+		"_postman_id": "5b618924-6f36-48de-9be6-32b59474a1b6",
+		"name": "Omni-Flux-ERP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15696669"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Step 1 : Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const context = pm.environment.name ? pm.environment : pm.collectionVariables;\r",
+									"console.log(\"check environemnt name-->\",pm.environment.name)\r",
+									"console.log(\"check environemnt-->\",pm.environment)\r",
+									"console.log(\"check collectionVariables-->\",pm.collectionVariables)\r",
+									"\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"if (data.token) {\r",
+									"  tests[\"Body has accessToken\"] = true; \r",
+									"  var tokenWithOutKeyWord=data.token.replace('Bearer ', '')\r",
+									"  console.log(\"check token data-->\",tokenWithOutKeyWord)\r",
+									"  context.set(\"omni_access_token\", tokenWithOutKeyWord);\r",
+									"}\r",
+									"else {\r",
+									"  tests[\"Body has access_token\"] = false;\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email_id\": \"{{login_email}}\",\r\n    \"user_password\": \"{{login_password}}\",\r\n    \"is_remember_me\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/auth/login",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Step 1 : Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email_id\": \"vijay.perumalsamy@aalamsoft.com\",\r\n    \"user_password\": \"Aalam@123\",\r\n    \"is_remember_me\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/auth/login",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create new User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/user/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/user/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/user/getById/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"getById",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users By email Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/user/getByEmailId/vijay.perumalsamy@aalamsoft.com",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"getByEmailId",
+								"vijay.perumalsamy@aalamsoft.com"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "Create new Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/role/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"role",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/role/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"role",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/role/get/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"role",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/role/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"role",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete role by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/role/delete/3",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"role",
+								"delete",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GST",
+			"item": [
+				{
+					"name": "Create new GST data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/gst/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"gst",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all GST Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/gst/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"gst",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GST data by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/gst/get/36",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"gst",
+								"get",
+								"36"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing GST Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/gst/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"gst",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete GST Data by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/gst/delete/36",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"gst",
+								"delete",
+								"36"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Unit of Measurement",
+			"item": [
+				{
+					"name": "Create new UOM data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/uom/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"uom",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all UOM Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/uom/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"uom",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get UOM data by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/uom/get/6",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"uom",
+								"get",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing UOM Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/uom/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"uom",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete UOM Data by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/uom/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"uom",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client Data",
+			"item": [
+				{
+					"name": "Create new Client data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/client/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"client",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Client Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/client/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"client",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Client  data by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/client/get/6",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"client",
+								"get",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Client Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/client/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"client",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Client Data by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/client/delete/11",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"client",
+								"delete",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "HSN Code",
+			"item": [
+				{
+					"name": "Create new HSN data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/hsn-code/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"hsn-code",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all HSN Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/hsn-code/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"hsn-code",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get HSN  data by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/hsn-code/get/46",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"hsn-code",
+								"get",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get HSN Details of products by HSN Code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/hsn-code/getByCode/0165",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"hsn-code",
+								"getByCode",
+								"0165"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing HSN Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/hsn-code/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"hsn-code",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete HSN Data by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/hsn-code/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"hsn-code",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "To upload excel for add bulk hsn code API",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "excelFile",
+									"type": "file",
+									"src": "/D:/Vijay/OmniFluxERP/Omni-Flux-Docs/HsnCodeExcel.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/hsn-code/add-bulk-hsn-code",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"hsn-code",
+								"add-bulk-hsn-code"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Create new Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/category/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/category/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/category/get/18",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"get",
+								"18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check for Duplicate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/category/checkDuplicateName/cHemIcAL/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"checkDuplicateName",
+								"cHemIcAL",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/category/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/category/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "custom search for category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"limit\":5,\r\n    \"offset\":0,\r\n    \"order_by_column\":\"updated_date\",\r\n    \"order_by_direction\":\"desc\",\r\n    \"search_by_name\":\"mech\",\r\n    \"status\":\"AC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/category/search",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sub Category",
+			"item": [
+				{
+					"name": "Create new Sub Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-category/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Sub Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-category/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-category",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sub Category by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-category/get/46",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-category",
+								"get",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check for Duplicate in Sub Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-category/checkDuplicateName/Pump/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-category",
+								"checkDuplicateName",
+								"Pump",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Sub Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-category/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Sub Category by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-category/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-category",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sub Sub Category",
+			"item": [
+				{
+					"name": "Create new Sub Sub Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-sub-category/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-sub-category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Sub Sub Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-sub-category/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-sub-category",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sub Sub Category by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-sub-category/get/46",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-sub-category",
+								"get",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check for Duplicate in Sub Sub Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-sub-category/checkDuplicateName/Pump stAnd/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-sub-category",
+								"checkDuplicateName",
+								"Pump stAnd",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Sub Sub Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-sub-category/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-sub-category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Sub Sub Category by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/sub-sub-category/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"sub-sub-category",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "Create new Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project/get/46",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"get",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Custom filter for project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project/customFilter",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"customFilter"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Expense",
+			"item": [
+				{
+					"name": "Create new Project Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project-expense/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project-expense",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Project Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project-expense/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project-expense",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project Expense by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project-expense/get/46",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project-expense",
+								"get",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Project Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project-expense/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project-expense",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project Expense by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/project-expense/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"project-expense",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Site",
+			"item": [
+				{
+					"name": "Create new Site",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Site",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Site by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site/get/46",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site",
+								"get",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Site",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Site by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Site Expense",
+			"item": [
+				{
+					"name": "Create new Site Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site-expense/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site-expense",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Site Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site-expense/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site-expense",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Site by ID  Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site-expense/get/4",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site-expense",
+								"get",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Site  Expense",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site-expense/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site-expense",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Site Expense by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/site-expense/delete/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"site-expense",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Warehouse",
+			"item": [
+				{
+					"name": "Create new Warehouse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Warehouse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Warehouse by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse/get/46",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse",
+								"get",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Warehouse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Warehouse by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse/delete/18",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse",
+								"delete",
+								"18"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Warehouse Inventory",
+			"item": [
+				{
+					"name": "Create new Warehouse Inventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse-inventory/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse-inventory",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Warehouse Inventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse-inventory/getAll/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse-inventory",
+								"getAll",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Warehouse Inventory by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse-inventory/get/46",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse-inventory",
+								"get",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Warehouse Inventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse-inventory/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse-inventory",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Warehouse Inventory by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/warehouse-inventory/delete/18",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"warehouse-inventory",
+								"delete",
+								"18"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "Create new Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/product/createProduct",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"createProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/item/get-all-item",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"item",
+								"get-all-item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Items by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/product/get/6",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"get",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/product/updateProduct",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"updateProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  Items by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/product/delete/6",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"delete",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add bulk Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/product/addBulkProduct",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"addBulkProduct"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
