@@ -45,7 +45,6 @@ const CategoryForm: React.FC = (props: any) => {
           budget: data?.data?.budget,
           project_id: data?.data?.project_id,
         });
-        // setSelectedValue(data?.data?.project_id);
       };
 
       fetchOne();
@@ -58,7 +57,6 @@ const CategoryForm: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      // console.log('values', values);
       if (props.mode === 'ADD') {
         const Object: any = {
           name: values.name,

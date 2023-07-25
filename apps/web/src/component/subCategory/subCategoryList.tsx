@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/subCategoryList.module.scss';
 import MUIDataTable from 'mui-datatables';
-import {
-  Tooltip,
-  IconButton,
-  MenuItem,
-  InputLabel,
-  Select,
-} from '@mui/material';
+import { Tooltip, IconButton, InputLabel } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
@@ -23,28 +17,25 @@ import Input from '../../component/ui/Input';
 import { useFormik } from 'formik';
 import { getCreateValidateyup } from '../../helper/constants/category/subcategory-constants';
 import * as Yup from 'yup';
-import {
-  createSubcategory,
-  updateSubcategory,
-} from '../../hooks/subCategory-hooks';
-import {
-  useGetAllCategory,
-  useGetAllCategoryForDrop,
-} from '../../hooks/category-hooks';
+import { createSubcategory } from '../../hooks/subCategory-hooks';
+import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import SearchIcon from '../menu/icons/search';
 import SubCategoryService from '../../service/subCategory-service';
-// import Select from '../ui/Select';
+import SelectDrop from '../ui/Select';
+
+/**
+ * Function for SubCategoryList
+ */
 const SubCategoryList = () => {
   const validationSchema = getCreateValidateyup(Yup);
   const { data: getAllSubCategory } = useGetAllSubcategory();
-  const { data: getAllCategory } = useGetAllCategory();
+  const { data: getAllCategoryDrop = [] } = useGetAllCategoryForDrop();
   const { mutate: getDeleteSubcategoryByID } = useDeleteSubcategory();
   const { mutate: createNewSubcategory } = createSubcategory();
   const [initialValues, setInitialValues] = useState({
     sub_category_id: '',
     name: '',
     budget: '',
-    category_id: '',
   });
   const [filterValues, setFilterValues] = useState({});
   const formik = useFormik({
@@ -55,7 +46,7 @@ const SubCategoryList = () => {
       const Object: any = {
         name: values.name,
         budget: Number(values.budget),
-        category_id: values.category_id,
+        category_id: Number(selectedValue),
       };
       createNewSubcategory(Object, {
         onSuccess: (data, variables, context) => {
@@ -88,10 +79,6 @@ const SubCategoryList = () => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMode('ADD');
-    setOpen(true);
-  };
   const handleEdit = (event: React.FormEvent, value: any) => {
     setMode('EDIT');
     setSubcategoryID(value);
@@ -109,8 +96,8 @@ const SubCategoryList = () => {
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const selectedRoleId = event.target.value;
-    setSelectedValue(selectedRoleId);
+    const selectedCategoryId = event.target.value;
+    setSelectedValue(selectedCategoryId);
   };
   const handleSearch = async () => {
     let demo: any = {
@@ -121,12 +108,9 @@ const SubCategoryList = () => {
       status: 'IN',
       ...filterValues,
     };
-    console.log('data', demo);
-
     const data = await SubCategoryService.filterSubCategory(demo);
-    console.log('data', data);
   };
-  const handleFilterChange = (event) => {
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
       [event.target.name]: event.target.value,
@@ -246,40 +230,18 @@ const SubCategoryList = () => {
                     fontWeight: '400',
                     color: '#333C44',
                     marginBottom: '4px',
-                    marginTop: '-15px',
+                    marginTop: '-20px',
                   }}
                 >
                   Category
                 </InputLabel>
-                {/* <Select
-                  options={getAllCategory}
+                <SelectDrop
+                  options={getAllCategoryDrop}
                   onChange={handleDropdownChange}
                   value={selectedValue}
                   defaultLabel="Select from options"
                   width="100%"
-                /> */}
-                <Select
-                  name="category_id"
-                  size="small"
-                  placeholder="Select the category"
-                  sx={{
-                    width: '200px',
-                    padding: '0 12px 0 12px',
-                    backgroundColor: '#f4f5f6',
-                  }}
-                  value={formik.values.category_id}
-                  onChange={formik.handleChange}
-                >
-                  {getAllCategory &&
-                    getAllCategory.map((option: any) => (
-                      <MenuItem
-                        key={option.category_id}
-                        value={option.category_id}
-                      >
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                </Select>
+                />
                 {
                   <div
                     style={{

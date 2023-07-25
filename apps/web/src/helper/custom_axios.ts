@@ -13,8 +13,6 @@ const updateToken = () => {
   encryptedData = getToken(state, 'Data');
   loginToken = encryptedData !== null ? encryptedData['token'] : null;
   refreshToken = encryptedData !== null ? encryptedData['refreshToken'] : null;
-  console.log('refresh token', refreshToken);
-
   axios.defaults.headers.common['Authorization'] = loginToken;
 };
 
@@ -50,17 +48,27 @@ axios.interceptors.response.use(
 
       const data = await authService.refreshTokenCall(Object);
       console.log('data in refresh call file====>', data);
-      console.log("check encrypt data-->", encryptedData)
+      console.log('check encrypt data-->', encryptedData);
       await store.dispatch(
-        setToken({ key: 'Data', value: { ...encryptedData, token: data?.accessToken, refreshToken: data?.refreshToken } })
+        setToken({
+          key: 'Data',
+          value: {
+            ...encryptedData,
+            token: data?.accessToken,
+            refreshToken: data?.refreshToken,
+          },
+        })
       );
-      window.location.reload()
+      window.location.reload();
       // window.location.href = 'http://localhost:4200/uom-list'
       console.log('Unauthorized access!', error);
     } else {
       console.log('Error:', error);
       await store.dispatch(
-        setToken({ key: 'Data', value: { ...encryptedData, token: null, refreshToken: null, } })
+        setToken({
+          key: 'Data',
+          value: { ...encryptedData, token: null, refreshToken: null },
+        })
       );
     }
     return Promise.reject(error);

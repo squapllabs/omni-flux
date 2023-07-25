@@ -4,12 +4,12 @@ import SideNav from '../ui/sideNav';
 import CategoryList from './categoryList';
 import SubCategoryList from '../subCategory/subCategoryList';
 import SubSubCategoryList from '../subSubCategory/subSubList';
-import zIndex from '@mui/material/styles/zIndex';
-interface MainContentProps {
-  id: number;
-}
+
+/**
+ * Category component
+ */
 const Category = () => {
-  const [selectedItem, setSelectedItem] = useState<number>(2);
+  const [selectedItem, setSelectedItem] = useState<number>(1);
   const menuItems = [
     {
       id: 1,

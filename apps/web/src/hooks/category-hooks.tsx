@@ -17,11 +17,10 @@ const useGetAllCategoryForDrop = () => {
     () => CategoryService.getAllCategory(),
     {
       select: (data) =>
-        data?.data?.map((project: any) => ({
-          value: project.category_id,
-          label: project.name,
+        data?.data?.map((category: any) => ({
+          value: category.category_id,
+          label: category.name,
         })),
-      staleTime: Infinity,
     }
   );
 };

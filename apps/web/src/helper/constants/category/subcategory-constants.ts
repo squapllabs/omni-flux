@@ -10,11 +10,11 @@ export const subCategoryErrorMessages = {
 
 export const getCreateValidateyup = (yup: any) => {
   return yup.object().shape({
-    category_id: yup
-      .string()
-      .trim()
-      .typeError(subCategoryErrorMessages.SELECT_CATEGORY)
-      .required(subCategoryErrorMessages.SELECT_CATEGORY),
+    // category_id: yup
+    //   .string()
+    //   .trim()
+    //   .typeError(subCategoryErrorMessages.SELECT_CATEGORY)
+    //   .required(subCategoryErrorMessages.SELECT_CATEGORY),
     name: yup
       .string()
       .trim()
