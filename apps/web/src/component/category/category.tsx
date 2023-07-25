@@ -4,23 +4,24 @@ import SideNav from '../ui/sideNav';
 import CategoryList from './categoryList';
 import SubCategoryList from '../subCategory/subCategoryList';
 import SubSubCategoryList from '../subSubCategory/subSubList';
+import zIndex from '@mui/material/styles/zIndex';
 interface MainContentProps {
   id: number;
 }
 const Category = () => {
-  const [selectedItem, setSelectedItem] = useState<number>(1);
+  const [selectedItem, setSelectedItem] = useState<number>(2);
   const menuItems = [
     {
       id: 1,
-      name: 'Catgeory',
+      name: 'Category',
     },
     {
       id: 2,
-      name: 'Sub Catgeory',
+      name: 'Sub Category',
     },
     {
       id: 3,
-      name: 'Sub Sub Catgeory',
+      name: 'Sub Sub Category',
     },
     {
       id: 4,
@@ -39,27 +40,21 @@ const Category = () => {
     2: <SubCategoryList />,
     3: <SubSubCategoryList />,
     4: <div>Under construction</div>,
+    5: <div>Under construction</div>,
   };
-  console.log(
-    'mainContentComponents[selectedItem]',
-    mainContentComponents[selectedItem]
-  );
-
   return (
-    <>
-      <div className={Styles.container}>
-        <div className={Styles.sideContainer}>
-          <SideNav
-            menuItems={menuItems}
-            selectedItem={selectedItem}
-            handleMenuItemClick={handleMenuItemClick}
-          />
-        </div>
-        <div className={Styles.mainContainer}>
-          {mainContentComponents[selectedItem]}
-        </div>
+    <div className={Styles.container}>
+      <div className={Styles.sideContainer}>
+        <SideNav
+          menuItems={menuItems}
+          selectedItem={selectedItem}
+          handleMenuItemClick={handleMenuItemClick}
+        />
       </div>
-    </>
+      <div className={Styles.mainContainer}>
+        {mainContentComponents[selectedItem]}
+      </div>
+    </div>
   );
 };
 
