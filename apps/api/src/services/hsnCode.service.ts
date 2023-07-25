@@ -3,6 +3,7 @@ import {
   createHsnCodeBody,
   updateHsnCodeBody,
 } from '../interfaces/hsnCode.Interface';
+import xlsx from 'xlsx';
 
 /**
  * Method to Create a New HsnCode
@@ -140,6 +141,79 @@ const getByCode = async (code: string) => {
   }
 };
 
+/**
+ * Method to Add a bulk HSN Code By Excel Import
+ * @param body
+ * @returns
+ */
+const addBulkHSNCodeByImport = async (excelFile) => {
+  try {
+    const workbook = xlsx.read(excelFile.buffer, { type: 'buffer' });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const data: createHsnCodeBody[] = xlsx.utils.sheet_to_json(sheet);
+    const transformedData = transformExcelData(data);
+    const hsnCode = await hsnCodeDao.addBulk(transformedData);
+
+    const result = {
+      status: true,
+      message: 'Success',
+      data: hsnCode,
+    };
+    return result;
+  } catch (error) {
+    console.log('Error occurred in hsnCode service addBulkHSNCode: ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to convert the excel data into Array Of Object
+ * @param data
+ * @returns
+ */
+const transformExcelData = (data): createHsnCodeBody[] => {
+  const parsedData: createHsnCodeBody[] = data.map((hsnCode) => {
+    const created_by =
+      hsnCode.created_by === 'null' ||
+      hsnCode.created_by === undefined ||
+      hsnCode.created_by === null
+        ? null
+        : Number(hsnCode.created_by);
+    const currentDate = new Date();
+    const code = String(hsnCode.code);
+    return {
+      code: code,
+      description: hsnCode.description,
+      created_by,
+      created_date: currentDate,
+      updated_date: currentDate,
+    };
+  });
+
+  return parsedData;
+};
+
+/**
+ * Method to Add a bulk HSN Code
+ * @param body
+ * @returns
+ */
+const addBulkHSNCode = async (body) => {
+  try {
+    const convertedData = transformExcelData(body);
+    const hsnCode = await hsnCodeDao.addBulk(convertedData);
+    const result = {
+      status: true,
+      message: 'Success',
+      data: hsnCode,
+    };
+    return result;
+  } catch (error) {
+    console.log('Error occurred in hsnCode service addBulkHSNCode: ', error);
+    throw error;
+  }
+};
+
 export {
   createHsnCode,
   updateHsnCode,
@@ -147,4 +221,6 @@ export {
   getById,
   deleteHsnCode,
   getByCode,
+  addBulkHSNCodeByImport,
+  addBulkHSNCode,
 };
