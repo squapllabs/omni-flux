@@ -23,5 +23,29 @@
   padding: 10px;
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.searchField {
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 9rem;
+}
+.searchButton {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: initial;
+}
+.error {
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+.projectHeading {
+  font-size: 0.8rem;
+}
+.projectField {
+  margin-bottom: 20px;
 }

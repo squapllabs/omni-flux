@@ -27,9 +27,13 @@ import {
   createSubcategory,
   updateSubcategory,
 } from '../../hooks/subCategory-hooks';
-import { useGetAllCategory } from '../../hooks/category-hooks';
+import {
+  useGetAllCategory,
+  useGetAllCategoryForDrop,
+} from '../../hooks/category-hooks';
 import SearchIcon from '../menu/icons/search';
 import SubCategoryService from '../../service/subCategory-service';
+// import Select from '../ui/Select';
 const SubCategoryList = () => {
   const validationSchema = getCreateValidateyup(Yup);
   const { data: getAllSubCategory } = useGetAllSubcategory();
@@ -73,6 +77,7 @@ const SubCategoryList = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const [open, setOpen] = useState(false);
   const [subCategoryId, setSubcategoryID] = useState();
+  const [selectedValue, setSelectedValue] = useState('');
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
@@ -100,6 +105,12 @@ const SubCategoryList = () => {
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
+  };
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedRoleId = event.target.value;
+    setSelectedValue(selectedRoleId);
   };
   const handleSearch = async () => {
     let demo: any = {
@@ -240,6 +251,13 @@ const SubCategoryList = () => {
                 >
                   Category
                 </InputLabel>
+                {/* <Select
+                  options={getAllCategory}
+                  onChange={handleDropdownChange}
+                  value={selectedValue}
+                  defaultLabel="Select from options"
+                  width="100%"
+                /> */}
                 <Select
                   name="category_id"
                   size="small"

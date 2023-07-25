@@ -11,6 +11,20 @@ const useGetAllCategory = () => {
     }
   );
 };
+const useGetAllCategoryForDrop = () => {
+  return useQuery(
+    ['useGetAllCategoryDrop'],
+    () => CategoryService.getAllCategory(),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project.category_id,
+          label: project.name,
+        })),
+      staleTime: Infinity,
+    }
+  );
+};
 
 const getByCategoryID = (id: number) => {
   return useQuery(
@@ -70,4 +84,5 @@ export {
   createCategory,
   updateCategory,
   useDeleteCategory,
+  useGetAllCategoryForDrop,
 };
