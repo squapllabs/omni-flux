@@ -18,6 +18,9 @@ import { useFormik, useFormikContext } from 'formik';
 import { getCreateValidateyup } from '../../helper/constants/category/category-constants';
 import { createCategory } from '../../hooks/category-hooks';
 import * as Yup from 'yup';
+import Select from '../ui/Select';
+import SearchIcon from '../menu/icons/search';
+import { useGetAllProject } from '../../hooks/project-hooks';
 
 const CategoryList = () => {
   const { data: getAllCategory } = useGetAllCategory();
@@ -38,6 +41,8 @@ const CategoryList = () => {
     project_id: '',
   });
   const { mutate: createNewCategory } = createCategory();
+  const { data: getAllProjectList = [] } = useGetAllProject();
+  const [selectedValue, setSelectedValue] = useState('');
 
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
@@ -67,6 +72,12 @@ const CategoryList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedRoleId = event.target.value;
+    setSelectedValue(selectedRoleId);
+  };
 
   const formik = useFormik({
     initialValues,
@@ -77,7 +88,7 @@ const CategoryList = () => {
         const Object: any = {
           name: values.name,
           budget: Number(values.budget),
-          project_id: 1,
+          project_id: Number(selectedValue),
         };
         createNewCategory(Object, {
           onSuccess: (data, variables, context) => {
@@ -181,6 +192,19 @@ const CategoryList = () => {
 
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.fields}>
+          <div className={Styles.projectField}>
+            <span className={Styles.projectHeading}>Project</span>
+            <Select
+              options={getAllProjectList}
+              onChange={handleDropdownChange}
+              value={selectedValue}
+              defaultLabel="Select from options"
+              width="100%"
+            />
+            {formik.touched.project_id && formik.errors.project_id && (
+              <div className={Styles.error}>{formik.errors.project_id}</div>
+            )}
+          </div>
           <div>
             <Input
               name="name"
@@ -223,8 +247,22 @@ const CategoryList = () => {
           <Input name="budget" placeholder="Search by item name" width="160%" />
         </div>
         <div className={Styles.searchButton}>
-          <Button text="Search" fontSize={14} fontWeight={500} width={120} backgroundColor="#F6F4EB" textColor="#7F56D9"/>
-          <Button text="Reset" fontSize={14} fontWeight={500} width={120} backgroundColor="white" textColor="#B2B2B2"/>
+          <Button
+            text="Search"
+            fontSize={14}
+            fontWeight={500}
+            width={120}
+            backgroundColor="#F6F4EB"
+            textColor="#7F56D9"
+          />
+          <Button
+            text="Reset"
+            fontSize={14}
+            fontWeight={500}
+            width={120}
+            backgroundColor="white"
+            textColor="#B2B2B2"
+          />
         </div>
       </div>
 
