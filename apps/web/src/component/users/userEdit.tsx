@@ -59,15 +59,12 @@ const UserEdit = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedRoleId = event.target.value;
-    console.log('selectedValue', selectedRoleId);
     formik.setFieldValue('role_id', selectedRoleId);
-    // setSelectedValue(selectedRoleId);
   };
   const handleDropdownChangeStatus = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectStatus = event.target.value;
-    console.log('selectStatus', selectStatus);
     formik.handleChange(event);
     formik.setFieldValue('user_status', selectStatus);
   };
@@ -77,7 +74,6 @@ const UserEdit = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log('edit ==>', values);
       const Object: any = {
         first_name: values.first_name,
         last_name: values.last_name,

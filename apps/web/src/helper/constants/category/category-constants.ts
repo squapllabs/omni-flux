@@ -61,8 +61,8 @@ export const getUpdateValidateyup = (yup: any) => {
     project_id: yup
       .string()
       .trim()
-      .typeError(userErrorMessages.SELECT_PROJECT_ID)
-      .required(userErrorMessages.SELECT_PROJECT_ID),
+      .typeError(userErrorMessages.SELECT_PROJECT_ID),
+      // .required(userErrorMessages.SELECT_PROJECT_ID),
     name: yup
       .string()
       .trim()
@@ -98,10 +98,12 @@ export const getUpdateValidateyup = (yup: any) => {
     budget: yup
       .number()
       .required(userErrorMessages.ENTER_BUDGET)
-      .test(
-        'Is positive?',
-        'Budget must be greater than 0!',
-        (value: number) => value > 0
-      ),
+      .min(1, userErrorMessages.MAXIMUM_CHECK)
+      .typeError(userErrorMessages.TYPE_ERROR)
+      // .test(
+      //   'Is positive?',
+      //   'Budget must be greater than 0!',
+      //   (value: number) => value > 0
+      // ),
   });
 };

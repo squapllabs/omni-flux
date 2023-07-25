@@ -1,12 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import ProjectService from '../service/project-service';
 
-// const useGetAllProject = () => {
-//   return useQuery(['useGetAllProject'], () => ProjectService.getAllProject(), {
-//     select: (data) => data.data,
-//     staleTime: Infinity,
-//   });
-// };
+const useGetAllProjectOne = () => {
+  return useQuery(['useGetAllProject'], () => ProjectService.getAllProject(), {
+    select: (data) => data.data,
+    staleTime: Infinity,
+  });
+};
 const useGetAllProject = () => {
   return useQuery(['useGetAllProject'], () => ProjectService.getAllProject(), {
     select: (data) =>
@@ -17,4 +17,4 @@ const useGetAllProject = () => {
   });
 };
 
-export { useGetAllProject };
+export { useGetAllProject,useGetAllProjectOne };

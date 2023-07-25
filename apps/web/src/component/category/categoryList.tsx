@@ -14,12 +14,11 @@ import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
 import Button from '../menu/button';
 import Input from '../../component/ui/Input';
-import { useFormik, useFormikContext } from 'formik';
+import { useFormik} from 'formik';
 import { getCreateValidateyup } from '../../helper/constants/category/category-constants';
 import { createCategory } from '../../hooks/category-hooks';
 import * as Yup from 'yup';
 import Select from '../ui/Select';
-import SearchIcon from '../menu/icons/search';
 import { useGetAllProject } from '../../hooks/project-hooks';
 
 const CategoryList = () => {

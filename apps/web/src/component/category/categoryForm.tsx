@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { Grid, InputLabel, MenuItem ,Select} from '@mui/material';
 import { createCategory, updateCategory } from '../../hooks/category-hooks';
 import {
   getCreateValidateyup,
@@ -8,10 +8,10 @@ import {
 } from '../../helper/constants/category/category-constants';
 import CategoryService from '../../service/category-service';
 import * as Yup from 'yup';
-import { useGetAllProject } from '../../hooks/project-hooks';
+import { useGetAllProjectOne } from '../../hooks/project-hooks';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
-import CustomAutoDropdown from '../ui/CustomAutoDropdown';
+
 
 const CategoryForm: React.FC = (props: any) => {
   const validationSchema =
@@ -24,16 +24,7 @@ const CategoryForm: React.FC = (props: any) => {
     budget: '',
     project_id: '',
   });
-  const { data: getAllProjectList = [] } = useGetAllProject();
-
-  const getFilteredProjectList = (input: string) => {
-    return getAllProjectList.filter((project: any) =>
-      project.label.toLowerCase().includes(input.toLowerCase())
-    );
-  };
-  const [selectedValue, setSelectedValue] = useState('');
-  // console.log('selectedValue***', selectedValue);
-  // console.log('selectedValue===>', typeof selectedValue);
+  const { data: getAllProjectList = [] } = useGetAllProjectOne();
 
   useEffect(() => {
     if (props.mode === 'EDIT') {
@@ -45,7 +36,6 @@ const CategoryForm: React.FC = (props: any) => {
           budget: data?.data?.budget,
           project_id: data?.data?.project_id,
         });
-        // setSelectedValue(data?.data?.project_id);
       };
 
       fetchOne();
@@ -53,12 +43,20 @@ const CategoryForm: React.FC = (props: any) => {
   }, []);
   const { mutate: createNewCategory } = createCategory();
   const { mutate: updateCategoryData } = updateCategory();
+
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedProjectId = event.target.value;
+    console.log("selectedRoleId",selectedProjectId)
+    formik.setFieldValue('project_id', selectedProjectId);
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      // console.log('values', values);
       if (props.mode === 'ADD') {
         const Object: any = {
           name: values.name,
@@ -80,8 +78,9 @@ const CategoryForm: React.FC = (props: any) => {
           category_id: values.category_id,
           name: values.name,
           budget: Number(values.budget),
-          project: values.project_id,
+          project: Number(values.project_id),
         };
+        console.log("Object edit ==>",Object);
         updateCategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
@@ -104,17 +103,6 @@ const CategoryForm: React.FC = (props: any) => {
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
-          {/* <Grid item xs={2} sm={4} md={6}> */}
-          {/* <InputLabel id="project_id-label">Project</InputLabel> */}
-          {/* <CustomAutoDropdown
-              value={selectedValue}
-              onChange={setSelectedValue}
-              getOptionsFromAPI={getFilteredProjectList}
-              defaultLabel="Select an option"
-              width="300px"
-              maxHeight="300px"
-            /> */}
-          {/* </Grid> */}
           <Grid item xs={2} sm={4} md={6}>
             <InputLabel id="project_id-label">Project</InputLabel>
             <Select
