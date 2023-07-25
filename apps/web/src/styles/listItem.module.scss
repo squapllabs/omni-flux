@@ -43,3 +43,34 @@ display: flex;
 .resetButton{
   cursor: pointer;
 }
+
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+
+th {
+  background-color: #f2f2f2;
+  padding: 8px;
+  text-align: left;
+}
+
+tr {
+  border-bottom: 1px solid #ccc;
+}
+
+td {
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+
+tr:hover {
+  background-color: #e0e0e0;
+}
