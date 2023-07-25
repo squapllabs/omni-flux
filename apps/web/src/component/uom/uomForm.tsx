@@ -86,59 +86,23 @@ const UomForm: React.FC = (props: any) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={12}>
-            {/* <Customs.CustomTextField
-              name="name"
-              label="Unit Of Measurement"
-              variant="outlined"
-              size="small"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-            /> */}
             <Input
               name="name"
               label="Unit Of Measurement"
-              variant="outlined"
+              placeholder="Enter unit of measurement"
               value={formik.values.name}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.errors.name}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.name && formik.errors.name}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            {/* <InputLabel id="description_id">Description</InputLabel>
-            <TextareaAutosize
+             <Input
               name="description"
-              labelId="description_id"
-              variant="outlined"
-              minRows={4}
-              style={{ width: '548px' }}
-              fullWidth
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.description && formik.touched.description && (
-              <div style={{ color: 'red' }}>{formik.errors.description}</div>
-            )} */}
-
-            <Input
-              name="description"
-              labelId="description_id"
               label="Description"
-              variant="outlined"
-              fullWidth
-              height={20}
+              placeholder="Enter description"
               value={formik.values.description}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.errors.description}
-              helperText={
-                formik.touched.description && formik.errors.description
-              }
+              error={formik.touched.description && formik.errors.description}
             />
           </Grid>
 

@@ -1,16 +1,16 @@
 import { getByuserID } from '../../hooks/user-hooks';
 import Styles from '../../styles/userInfo.module.scss';
 import { useParams } from 'react-router-dom';
-import { Button } from '@mui/material';
 import { useNavigate } from 'react-router';
 import Card from '@mui/material/Card';
+import Button from '../menu/button';
 
 const UserInformation = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const userId = Number(routeParams?.id);
   const { data: getOneUser } = getByuserID(userId);
-  
+
   return (
     <div>
       <div className={Styles.mainContainer}>
@@ -30,12 +30,17 @@ const UserInformation = () => {
                 :{' '}
                 {getOneUser?.userData?.first_name
                   ? `${getOneUser?.userData?.first_name} ${
-                      getOneUser?.userData?.last_name ? getOneUser?.userData?.last_name : ''
+                      getOneUser?.userData?.last_name
+                        ? getOneUser?.userData?.last_name
+                        : ''
                     }`
                   : 'Not Provided'}
               </div>
               <div className={Styles.rightData}>
-                : {getOneUser?.userData?.email_id ? getOneUser?.userData?.email_id : 'Not Provided'}
+                :{' '}
+                {getOneUser?.userData?.email_id
+                  ? getOneUser?.userData?.email_id
+                  : 'Not Provided'}
               </div>
               <div className={Styles.rightData}>
                 :{' '}
@@ -44,19 +49,23 @@ const UserInformation = () => {
                   : 'Not Provided'}
               </div>
               <div className={Styles.rightData}>
-                : {getOneUser?.userData?.address ? getOneUser?.userData?.address : 'Not Provided'}
+                :{' '}
+                {getOneUser?.userData?.address
+                  ? getOneUser?.userData?.address
+                  : 'Not Provided'}
               </div>
             </div>
           </div>
         </Card>
         <div className={Styles.buttonContainer}>
           <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate('/setting')}
-          >
-            Back
-          </Button>
+            text="Back"
+            backgroundColor="#7F56D9"
+            fontSize={14}
+            fontWeight={500}
+            width={100}
+            onClick={() => navigate('/userList')}
+          />
         </div>
       </div>
     </div>

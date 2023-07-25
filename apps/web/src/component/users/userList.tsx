@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import {
-  useGetAllUsers,
-  useDeleteUsers
-} from '../../hooks/user-hooks';
+import { useGetAllUsers, useDeleteUsers } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
-import { Button } from '@mui/material';
+// import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
@@ -20,6 +17,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import userService from '../../service/user-service';
+// import Button from '../../component/ui/Button';
+import Button from '../menu/button';
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
@@ -49,7 +48,7 @@ const UserList = () => {
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
   const [tabvalue, setTabValue] = useState(0);
-  const [tableData,setTableData] = useState();
+  const [tableData, setTableData] = useState();
   const navigate = useNavigate();
 
   const deleteUserHandler = (id: any) => {
@@ -84,7 +83,7 @@ const UserList = () => {
   const handleTab = async (index_value: number) => {
     if (index_value === 1) {
       const getData = await userService.getAllInactiveUsers();
-      setTableData(getData?.data)
+      setTableData(getData?.data);
     }
   };
   const columns = [
@@ -145,7 +144,7 @@ const UserList = () => {
         filter: false,
         sort: false,
       },
-    }, 
+    },
     {
       name: '',
       label: 'Options',
@@ -187,7 +186,7 @@ const UserList = () => {
           );
         },
       },
-    }
+    },
   ];
 
   const columnsOne = [
@@ -275,13 +274,13 @@ const UserList = () => {
     <div className={Styles.container}>
       <div className={Styles.buttonContainer}>
         <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddCircleOutlinedIcon />}
+          text="Add"
+          backgroundColor="#7F56D9"
+          fontSize={14}
+          fontWeight={500}
+          width={100}
           onClick={() => navigate('/user-create')}
-        >
-          Add
-        </Button>
+        />
       </div>
       <div className={Styles.tableContainer}>
         <Card>
@@ -325,9 +324,7 @@ const UserList = () => {
           </TabPanel>
           <TabPanel value={tabvalue} index={1}>
             <MUIDataTable
-              title={`Users List (${
-                tableData?.count ? tableData?.count : 0
-              })`}
+              title={`Users List (${tableData?.count ? tableData?.count : 0})`}
               data={tableData?.data}
               columns={columnsOne}
               options={options}

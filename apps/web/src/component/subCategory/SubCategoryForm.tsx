@@ -13,6 +13,8 @@ import {
 import SubcategoryService from '../../service/subCategory-service';
 import { useGetAllCategory } from '../../hooks/category-hooks';
 import * as Yup from 'yup';
+import Input from '../../component/ui/Input';
+import Button from '../ui/Button';
 
 const SubCategoryForm: React.FC = (props: any) => {
   const validationSchema =
@@ -118,37 +120,29 @@ const SubCategoryForm: React.FC = (props: any) => {
             )}
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
+            <Input
               name="name"
-              label="Name"
-              variant="outlined"
-              size="small"
+              label="Sub Category Name"
+              placeholder="Enter sub category name"
               value={formik.values.name}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.name && formik.errors.name}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
+            <Input
               name="budget"
               label="Budget"
-              variant="outlined"
+              placeholder="Enter budget"
               value={formik.values.budget}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.budget && Boolean(formik.errors.budget)}
-              helperText={formik.touched.budget && formik.errors.budget}
+              error={formik.touched.budget && formik.errors.budget}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={6}>
-            <Customs.CustomButton
-              type="submit"
-              label="Submit"
-              variant="contained"
-              color="primary"
-            />
+            <Button color="primary" shape="rectangle" justify="center">
+              Submit
+            </Button>
           </Grid>
         </Grid>
       </form>

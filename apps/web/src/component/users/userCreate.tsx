@@ -3,20 +3,16 @@ import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
-import {
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material';
+import { Grid, InputLabel, MenuItem } from '@mui/material';
 import { createUser } from '../../hooks/user-hooks';
 import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
 import Input from '../ui/Input';
-import Button from '../menu/button';
+import Button from '../ui/Button';
 import { BsFillEyeSlashFill, BsFillEyeFill } from 'react-icons/bs';
 import { FaLock } from 'react-icons/fa6';
+import Select from '../ui/Select';
 
 const validationSchema = getUsercreationYupschema(Yup);
 const UserCreate = () => {
@@ -25,6 +21,7 @@ const UserCreate = () => {
   const [isWarning, setIsWarning] = useState(false);
   const [message, setMessage] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
   const handleSnackBarClose = () => {
     setOpenSnakBar(false);
   };
@@ -37,16 +34,22 @@ const UserCreate = () => {
     contact_no: '',
     user_status: '',
     role_id: '',
-    department:''
+    department: '',
   });
 
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedRoleId = event.target.value;
+    setSelectedValue(selectedRoleId);
+  };
 
   const { mutate: createNewusers } = createUser();
-  const { data: getAllRoles } = useGetAllRoles();
-  
+  const { data: getAllRoles = [] } = useGetAllRoles();
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -58,11 +61,10 @@ const UserCreate = () => {
         email_id: values.email_id,
         user_status: 'AC',
         contact_no: values.contact_no,
-        role_id: values.role_id,
-        department:values.department
+        role_id: Number(selectedValue),
+        department: values.department,
       };
-      console.log("user add==>",Object)
-      alert(Object)
+      console.log('Add==>', Object);
       createNewusers(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.success) {
@@ -100,9 +102,7 @@ const UserCreate = () => {
                   name="first_name"
                   value={formik.values.first_name}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.first_name && formik.errors.first_name
-                  }
+                  error={formik.touched.first_name && formik.errors.first_name}
                   width="80%"
                 />
               </Grid>
@@ -113,9 +113,7 @@ const UserCreate = () => {
                   name="last_name"
                   value={formik.values.last_name}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.last_name && formik.errors.last_name
-                  }
+                  error={formik.touched.last_name && formik.errors.last_name}
                   width="80%"
                 />
               </Grid>
@@ -126,10 +124,7 @@ const UserCreate = () => {
                   name="contact_no"
                   value={formik.values.contact_no}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.contact_no &&
-                    formik.errors.contact_no
-                  }
+                  error={formik.touched.contact_no && formik.errors.contact_no}
                   width="80%"
                 />
               </Grid>
@@ -140,9 +135,7 @@ const UserCreate = () => {
                   name="email_id"
                   value={formik.values.email_id}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.email_id && formik.errors.email_id
-                  }
+                  error={formik.touched.email_id && formik.errors.email_id}
                   width="80%"
                 />
               </Grid>
@@ -155,8 +148,7 @@ const UserCreate = () => {
                   value={formik.values.user_password}
                   onChange={formik.handleChange}
                   error={
-                    formik.touched.user_password &&
-                    formik.errors.user_password
+                    formik.touched.user_password && formik.errors.user_password
                   }
                   prefixIcon={<FaLock />}
                   suffixIcon={
@@ -182,41 +174,32 @@ const UserCreate = () => {
                   name="department"
                   value={formik.values.department}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.department && formik.errors.department
-                  }
+                  error={formik.touched.department && formik.errors.department}
                   width="80%"
                 />
               </Grid>
               <Grid item xs={2} sm={4} md={6}>
-                <InputLabel id="role_id-label">Role</InputLabel>
                 <Select
-                  labelId="role_id-label"
-                  name="role_id"
-                  size="small"
-                  sx={{ width: '300px' }}
-                  value={formik.values.role_id}
-                  onChange={formik.handleChange}
-                >
-                  {getAllRoles &&
-                    getAllRoles.map((option: any) => (
-                      <MenuItem key={option.role_id} value={option.role_id}>
-                        {option.role_name}
-                      </MenuItem>
-                    ))}
-                </Select>
-                {formik.errors.role_id && formik.touched.role_id && (
-                  <div style={{ color: 'red' }}>{formik.errors.role_id}</div>
+                  // name="role_id"
+                  options={getAllRoles}
+                  onChange={handleDropdownChange}
+                  value={selectedValue}
+                  defaultLabel="Select from options"
+                  width="52%"
+                />
+                {formik.touched.role_id && formik.errors.role_id && (
+                  <div className={Styles.error}>{formik.errors.role_id}</div>
                 )}
               </Grid>
               <Grid item xs={2} sm={4} md={12}>
                 <Button
-                  text="Submit"
-                  backgroundColor="#7F56D9"
-                  fontSize={14}
-                  fontWeight={500}
-                  width={125}
-                />
+                  type="submit"
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                >
+                  Submit
+                </Button>
               </Grid>
               <Grid item xs={2} sm={4} md={4}></Grid>
             </Grid>

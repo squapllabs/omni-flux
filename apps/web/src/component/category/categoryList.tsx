@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -14,6 +12,7 @@ import {
 import CategoryForm from './categoryForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
+import Button from '../menu/button';
 
 const CategoryList = () => {
   const { data: getAllCategory } = useGetAllCategory();
@@ -136,13 +135,13 @@ const CategoryList = () => {
     <div className={Styles.container}>
       <div className={Styles.buttonContainer}>
         <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddCircleOutlinedIcon />}
+          text="Add"
+          backgroundColor="#7F56D9"
+          fontSize={14}
+          fontWeight={500}
+          width={100}
           onClick={(e) => handleAdd(e)}
-        >
-          Add
-        </Button>
+        />
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable

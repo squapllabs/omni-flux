@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import Customs from '../ui/custom';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import {
   createSubSubcategory,
@@ -13,6 +12,9 @@ import {
 import SubSubCategoryService from '../../service/subSubCategory-service';
 import { useGetAllSubcategory } from '../../hooks/subCategory-hooks';
 import * as Yup from 'yup';
+import Input from '../../component/ui/Input';
+import Button from '../ui/Button';
+
 const SubSubCategoryForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
@@ -123,37 +125,29 @@ const SubSubCategoryForm: React.FC = (props: any) => {
               )}
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
+            <Input
               name="name"
-              label="Name"
-              variant="outlined"
-              size="small"
+              label="Sub sub Category Name"
+              placeholder="Enter sub sub category name"
               value={formik.values.name}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.name && formik.errors.name}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
+            <Input
               name="budget"
               label="Budget"
-              variant="outlined"
+              placeholder="Enter budget"
               value={formik.values.budget}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.budget && Boolean(formik.errors.budget)}
-              helperText={formik.touched.budget && formik.errors.budget}
+              error={formik.touched.budget && formik.errors.budget}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={6}>
-            <Customs.CustomButton
-              type="submit"
-              label="Submit"
-              variant="contained"
-              color="primary"
-            />
+            <Button color="primary" shape="rectangle" justify="center">
+              Submit
+            </Button>
           </Grid>
         </Grid>
       </form>

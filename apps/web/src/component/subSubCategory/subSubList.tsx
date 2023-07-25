@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -14,10 +12,11 @@ import {
 import CustomDialog from '../ui/customDialog';
 import SubSubForm from './subSubForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
+import Button from '../menu/button';
 
 const SubSubCategoryList = () => {
-  const { data: getAllSubSubCategory } = useGetAllSubSubcategory();
-  const { mutate: getDeleteSubSubCategoryByID } = useDeleteSubSubcategory();
+  const { data: getAllSubSubCategory ,isLoading: loader } = useGetAllSubSubcategory();
+  const { mutate: getDeleteSubSubCategoryByID, } = useDeleteSubSubcategory();
   const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -63,25 +62,39 @@ const SubSubCategoryList = () => {
   };
   const columns = [
     {
-      name: 'sub_sub_category_id',
+      name: 'sub_sub_category_details',
       label: 'sub_sub_category',
       options: {
         display: false,
         filter: false,
         sort: false,
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <div>
+              <span>{value.sub_sub_category_id}</span>
+            </div>
+          );
+        },
       },
     },
     {
-      name: 'name',
+      name: 'sub_sub_category_details',
       label: 'Name',
       options: {
         display: true,
         filter: false,
         sort: false,
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <div>
+              <span>{value.sub_sub_category_name}</span>
+            </div>
+          );
+        },
       },
     },
     {
-      name: 'subCategory',
+      name: 'sub_category_details',
       label: 'Sub Category',
       options: {
         display: true,
@@ -90,19 +103,26 @@ const SubSubCategoryList = () => {
         customBodyRender: (value: any, tableMeta: any) => {
           return (
             <div>
-              <span>{value.name}</span>
+              <span>{value.sub_category_name}</span>
             </div>
           );
         },
       },
     },
     {
-      name: 'budget',
+      name: 'sub_sub_category_details',
       label: 'Budget',
       options: {
         display: true,
         filter: false,
         sort: false,
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <div>
+              <span>{value.budget}</span>
+            </div>
+          );
+        },
       },
     },
     {
@@ -150,6 +170,11 @@ const SubSubCategoryList = () => {
     download: false,
     viewColumns: false,
     selectableRows: 'none' as const,
+    textLabels: {
+      body: {
+        noMatch: loader ? 'Loading...' : 'Sorry , No Records found',
+      },
+    },
     setTableProps: () => {
       return {
         size: 'small',
@@ -159,14 +184,14 @@ const SubSubCategoryList = () => {
   return (
     <div className={Styles.container}>
       <div className={Styles.buttonContainer}>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddCircleOutlinedIcon />}
+      <Button
+          text="Add"
+          backgroundColor="#7F56D9"
+          fontSize={14}
+          fontWeight={500}
+          width={100}
           onClick={(e) => handleAdd(e)}
-        >
-          Add
-        </Button>
+        />
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable

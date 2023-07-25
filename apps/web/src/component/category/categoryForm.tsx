@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import Customs from '../ui/custom';
 import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { createCategory, updateCategory } from '../../hooks/category-hooks';
 import {
@@ -10,8 +9,11 @@ import {
 import CategoryService from '../../service/category-service';
 import * as Yup from 'yup';
 import { useGetAllProject } from '../../hooks/project-hooks';
+import Input from '../../component/ui/Input';
+import Button from '../ui/Button';
+import CustomAutoDropdown from '../ui/CustomAutoDropdown';
 
-const UomForm: React.FC = (props: any) => {
+const CategoryForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
       ? getCreateValidateyup(Yup)
@@ -22,8 +24,16 @@ const UomForm: React.FC = (props: any) => {
     budget: '',
     project_id: '',
   });
-  const { data: getAllProjectList } = useGetAllProject();
-  console.log('getAllProjectList', getAllProjectList);
+  const { data: getAllProjectList = [] } = useGetAllProject();
+
+  const getFilteredProjectList = (input: string) => {
+    return getAllProjectList.filter((project: any) =>
+      project.label.toLowerCase().includes(input.toLowerCase())
+    );
+  };
+  const [selectedValue, setSelectedValue] = useState('');
+  // console.log('selectedValue***', selectedValue);
+  // console.log('selectedValue===>', typeof selectedValue);
 
   useEffect(() => {
     if (props.mode === 'EDIT') {
@@ -35,6 +45,7 @@ const UomForm: React.FC = (props: any) => {
           budget: data?.data?.budget,
           project_id: data?.data?.project_id,
         });
+        // setSelectedValue(data?.data?.project_id);
       };
 
       fetchOne();
@@ -47,6 +58,7 @@ const UomForm: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
+      // console.log('values', values);
       if (props.mode === 'ADD') {
         const Object: any = {
           name: values.name,
@@ -92,6 +104,17 @@ const UomForm: React.FC = (props: any) => {
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
+          {/* <Grid item xs={2} sm={4} md={6}> */}
+          {/* <InputLabel id="project_id-label">Project</InputLabel> */}
+          {/* <CustomAutoDropdown
+              value={selectedValue}
+              onChange={setSelectedValue}
+              getOptionsFromAPI={getFilteredProjectList}
+              defaultLabel="Select an option"
+              width="300px"
+              maxHeight="300px"
+            /> */}
+          {/* </Grid> */}
           <Grid item xs={2} sm={4} md={6}>
             <InputLabel id="project_id-label">Project</InputLabel>
             <Select
@@ -115,38 +138,29 @@ const UomForm: React.FC = (props: any) => {
             )}
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
+            <Input
               name="name"
-              label="Name"
-              variant="outlined"
-              size="small"
+              label="Category Name"
+              placeholder="Enter category name"
               value={formik.values.name}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.name && formik.errors.name}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
+            <Input
               name="budget"
               label="Budget"
-              variant="outlined"
-              fullWidth
+              placeholder="Enter budget"
               value={formik.values.budget}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.budget && Boolean(formik.errors.budget)}
-              helperText={formik.touched.budget && formik.errors.budget}
+              error={formik.touched.budget && formik.errors.budget}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={6}>
-            <Customs.CustomButton
-              type="submit"
-              label="Submit"
-              variant="contained"
-              color="primary"
-            />
+            <Button color="primary" shape="rectangle" justify="center">
+              Submit
+            </Button>
           </Grid>
         </Grid>
       </form>
@@ -154,4 +168,4 @@ const UomForm: React.FC = (props: any) => {
   );
 };
 
-export default UomForm;
+export default CategoryForm;

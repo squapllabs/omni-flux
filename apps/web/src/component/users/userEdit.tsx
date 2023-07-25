@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Customs from '../ui/custom';
 import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getUsereditYupschema } from '../../helper/constants/user-constants';
-import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { Grid } from '@mui/material';
 import { getByuserID, updateUser } from '../../hooks/user-hooks';
 import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useParams } from 'react-router-dom';
@@ -12,6 +11,7 @@ import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
 import Input from '../ui/Input';
 import Button from '../menu/button';
+import Select from '../ui/Select';
 
 const validationSchema = getUsereditYupschema(Yup);
 const UserEdit = () => {
@@ -22,7 +22,7 @@ const UserEdit = () => {
   );
 
   const { mutate: updateUserData } = updateUser();
-  const { data: getAllRoles } = useGetAllRoles();
+  const { data: getAllRoles = [] } = useGetAllRoles();
   const [OpenSnackbar, setOpenSnakBar] = useState(false);
   const [message, setMessage] = useState('');
   const handleSnackBarClose = () => {
@@ -35,7 +35,7 @@ const UserEdit = () => {
     contact_no: '',
     user_status: '',
     role_id: '',
-    department:''
+    department: '',
   });
   useEffect(() => {
     if (getOneuserData) {
@@ -54,11 +54,30 @@ const UserEdit = () => {
     { value: 'AC', label: 'Active' },
     { value: 'IN', label: 'In-Active' },
   ];
+
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedRoleId = event.target.value;
+    console.log('selectedValue', selectedRoleId);
+    formik.setFieldValue('role_id', selectedRoleId);
+    // setSelectedValue(selectedRoleId);
+  };
+  const handleDropdownChangeStatus = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectStatus = event.target.value;
+    console.log('selectStatus', selectStatus);
+    formik.handleChange(event);
+    formik.setFieldValue('user_status', selectStatus);
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
+      console.log('edit ==>', values);
       const Object: any = {
         first_name: values.first_name,
         last_name: values.last_name,
@@ -68,7 +87,7 @@ const UserEdit = () => {
         contact_no: values.contact_no,
         role_id: values.role_id,
         user_id: Number(routeParams?.id),
-        department:values.department
+        department: values.department,
       };
       updateUserData(Object, {
         onSuccess: (data, variables, context) => {
@@ -87,123 +106,97 @@ const UserEdit = () => {
     return <div>Loading...</div>;
   }
   return (
-      <div className={Styles.container}>
-        <form onSubmit={formik.handleSubmit}>
-          <div className={Styles.fields}>
-            <div className={Styles.fieldDiv1}>
-              <Grid
-                container
-                spacing={{ xs: 2, md: 3 }}
-                columns={{ xs: 4, sm: 8, md: 12 }}
-              >
-                <Grid item xs={2} sm={4} md={12}>
-                  <h2>USER EDIT</h2>
-                </Grid>
-                <Grid item xs={2} sm={4} md={4}>
+    <div className={Styles.container}>
+      <form onSubmit={formik.handleSubmit}>
+        <div className={Styles.fields}>
+          <div className={Styles.fieldDiv1}>
+            <Grid
+              container
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+            >
+              <Grid item xs={2} sm={4} md={12}>
+                <h2>USER EDIT</h2>
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
                 <Input
                   label="First Name"
                   placeholder="Enter your First name"
                   name="first_name"
                   value={formik.values.first_name}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.first_name && formik.errors.first_name
-                  }
+                  error={formik.touched.first_name && formik.errors.first_name}
                   width="80%"
                 />
-                </Grid>
-                <Grid item xs={2} sm={4} md={4}>
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
                 <Input
                   label="Last Name"
                   placeholder="Enter your Last name"
                   name="last_name"
                   value={formik.values.last_name}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.last_name && formik.errors.last_name
-                  }
+                  error={formik.touched.last_name && formik.errors.last_name}
                   width="80%"
                 />
-                </Grid>
-                <Grid item xs={2} sm={4} md={4}>
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
                 <Input
                   label="Mobile Number"
                   placeholder="Enter your Mobile Number"
                   name="contact_no"
                   value={formik.values.contact_no}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.contact_no &&
-                    formik.errors.contact_no
-                  }
+                  error={formik.touched.contact_no && formik.errors.contact_no}
                   width="80%"
                 />
-                </Grid>
-                <Grid item xs={2} sm={4} md={4}>
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
                 <Input
                   label="Email"
                   placeholder="Enter your Email"
                   name="email_id"
                   value={formik.values.email_id}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.email_id && formik.errors.email_id
-                  }
+                  error={formik.touched.email_id && formik.errors.email_id}
                   width="80%"
                 />
-                </Grid>
-                <Grid item xs={2} sm={4} md={4}>
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
                 <Input
                   label="Department"
                   placeholder="Enter Department"
                   name="department"
                   value={formik.values.department}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.department && formik.errors.department
-                  }
+                  error={formik.touched.department && formik.errors.department}
                   width="80%"
                 />
-                </Grid>
-                <Grid item xs={2} sm={4} md={4}>
-                  <InputLabel id="status_id-label">Status</InputLabel>
-                  <Customs.CustomSelect
-                    labelID="status_id-label"
-                    name="user_status"
-                    size="small"
-                    sx={{ width: '325px' }}
-                    options={options}
-                    value={formik.values.user_status}
-                    onChange={formik.handleChange}
-                  />
-                  {formik.errors.user_status && formik.touched.user_status && (
-                    <div style={{ color: 'red' }}>
-                      {formik.errors.user_status}
-                    </div>
-                  )}
-                </Grid>
-                <Grid item xs={2} sm={4} md={4}>
-                  <InputLabel id="role_id-label">Role</InputLabel>
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
+                <div className={Styles.statusField}>
                   <Select
-                    labelId="role_id-label"
-                    name="role_id"
-                    size="small"
-                    sx={{ width: '320px' }}
-                    value={formik.values.role_id}
-                    onChange={formik.handleChange}
-                  >
-                    {getAllRoles &&
-                      getAllRoles.map((option: any) => (
-                        <MenuItem key={option.role_id} value={option.role_id}>
-                          {option.role_name}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                  {formik.errors.role_id && formik.touched.role_id && (
-                    <div style={{ color: 'red' }}>{formik.errors.role_id}</div>
-                  )}
-                </Grid>
-                <Grid item xs={2} sm={4} md={12}>
+                    // name="user_status"
+                    options={options}
+                    onChange={handleDropdownChangeStatus}
+                    value={formik.values.user_status}
+                    defaultLabel="Select from options"
+                    width="80%"
+                    // disabled = {true}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
+                <Select
+                  // name="role_id"
+                  options={getAllRoles}
+                  onChange={handleDropdownChange}
+                  value={formik.values.role_id}
+                  defaultLabel="Select from options"
+                  width="80%"
+                />
+              </Grid>
+              <Grid item xs={2} sm={4} md={12}>
                 <Button
                   text="Submit"
                   backgroundColor="#7F56D9"
@@ -211,20 +204,20 @@ const UserEdit = () => {
                   fontWeight={500}
                   width={125}
                 />
-                </Grid>
-                <Grid item xs={2} sm={4} md={4}></Grid>
               </Grid>
-            </div>
+              <Grid item xs={2} sm={4} md={4}></Grid>
+            </Grid>
           </div>
-        </form>
-        <MySnackbar
-          open={OpenSnackbar}
-          message={message}
-          onClose={handleSnackBarClose}
-          severity={'success'}
-          autoHideDuration={1000}
-        />
-      </div>
+        </div>
+      </form>
+      <MySnackbar
+        open={OpenSnackbar}
+        message={message}
+        onClose={handleSnackBarClose}
+        severity={'success'}
+        autoHideDuration={1000}
+      />
+    </div>
   );
 };
 
