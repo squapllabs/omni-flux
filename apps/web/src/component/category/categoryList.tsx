@@ -14,6 +14,10 @@ import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
 import Button from '../menu/button';
 import Input from '../../component/ui/Input';
+import { useFormik, useFormikContext } from 'formik';
+import { getCreateValidateyup } from '../../helper/constants/category/category-constants';
+import { createCategory } from '../../hooks/category-hooks';
+import * as Yup from 'yup';
 
 const CategoryList = () => {
   const { data: getAllCategory } = useGetAllCategory();
@@ -26,6 +30,15 @@ const CategoryList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
+  const validationSchema = getCreateValidateyup(Yup);
+  const [initialValues, setInitialValues] = useState({
+    category_id: '',
+    name: '',
+    budget: '',
+    project_id: '',
+  });
+  const { mutate: createNewCategory } = createCategory();
+
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
@@ -54,6 +67,31 @@ const CategoryList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
+      if (values) {
+        const Object: any = {
+          name: values.name,
+          budget: Number(values.budget),
+          project_id: 1,
+        };
+        createNewCategory(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.success) {
+              resetForm();
+              console.log('success');
+              setMessage('Category created');
+              setOpenSnack(true);
+            }
+          },
+        });
+      }
+    },
+  });
 
   const columns = [
     {
@@ -137,35 +175,59 @@ const CategoryList = () => {
       <div className={Styles.textContent}>
         <h3>Add New Categories</h3>
         <span className={Styles.content}>
-          Manage your raw materials (Raw, Semi Furnished & Finished)
+          Manage your raw materials (Raw, Semi Furnished & Finished).
         </span>
       </div>
-      <div className={Styles.fields}>
-        <div>
-          <Input
-            name="name"
-            label="Category Name"
-            placeholder="Enter category name"
-          />
-        </div>
-        <div>
-        <Input
+
+      <form onSubmit={formik.handleSubmit}>
+        <div className={Styles.fields}>
+          <div>
+            <Input
+              name="name"
+              label="Category Name"
+              placeholder="Enter category name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && formik.errors.name}
+            />
+          </div>
+          <div>
+            <Input
               name="budget"
               label="Budget"
               placeholder="Enter budget"
+              value={formik.values.budget}
+              onChange={formik.handleChange}
+              error={formik.touched.budget && formik.errors.budget}
             />
+          </div>
+          <div>
+            <Button
+              text="Add New Category"
+              backgroundColor="#7F56D9"
+              fontSize={14}
+              fontWeight={500}
+              width={135}
+            />
+          </div>
         </div>
+      </form>
+      <div className={Styles.textContent}>
+        <h3>List of Categories</h3>
+        <span className={Styles.content}>
+          Manage your raw materials (Raw, Semi Furnished & Finished).
+        </span>
+      </div>
+      <div className={Styles.searchField}>
         <div>
-          <Button
-            text="Add New Category"
-            backgroundColor="#7F56D9"
-            fontSize={14}
-            fontWeight={500}
-            width={135}
-            onClick={(e) => handleAdd(e)}
-          />
+          <Input name="budget" placeholder="Search by item name" width="160%" />
+        </div>
+        <div className={Styles.searchButton}>
+          <Button text="Search" fontSize={14} fontWeight={500} width={120} backgroundColor="#F6F4EB" textColor="#7F56D9"/>
+          <Button text="Reset" fontSize={14} fontWeight={500} width={120} backgroundColor="white" textColor="#B2B2B2"/>
         </div>
       </div>
+
       <div className={Styles.tableContainer}>
         <MUIDataTable
           title={'Category List'}

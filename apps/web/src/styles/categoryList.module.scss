@@ -23,5 +23,20 @@
     padding: 10px;
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
+  .searchField{
+    padding: 10px 10px 0px 10px;
+    display: flex;
+    flex-direction: row;
+    gap:9rem;
+  }
+  .searchButton{
+    display: flex;
+    flex-direction: row;
+    flex-shrink:initial
+  }
+  
+  
