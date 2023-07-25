@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import Customs from '../ui/custom';
-import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { Grid, InputLabel } from '@mui/material';
 import {
   createSubcategory,
   updateSubcategory,
@@ -11,17 +10,18 @@ import {
   getCreateValidateyup,
 } from '../../helper/constants/category/subcategory-constants';
 import SubcategoryService from '../../service/subCategory-service';
-import { useGetAllCategory } from '../../hooks/category-hooks';
+import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import * as Yup from 'yup';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
+import SelectDrop from '../ui/Select';
 
 const SubCategoryForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
       ? getCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
-  const { data: getAllCategory } = useGetAllCategory();
+  const { data: getAllCategory } = useGetAllCategoryForDrop();
   const [initialValues, setInitialValues] = useState({
     sub_category_id: '',
     name: '',
@@ -47,6 +47,14 @@ const SubCategoryForm: React.FC = (props: any) => {
   }, []);
   const { mutate: createNewSubcategory } = createSubcategory();
   const { mutate: updateSubcategoryData } = updateSubcategory();
+
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedCategoryId = event.target.value;
+    formik.setFieldValue('category_id', Number(selectedCategoryId));
+  }
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -72,7 +80,7 @@ const SubCategoryForm: React.FC = (props: any) => {
         const Object: any = {
           sub_category_id: values.sub_category_id,
           name: values.name,
-          budget: values.budget,
+          budget: Number(values.budget),
           category_id: values.category_id,
         };
         updateSubcategoryData(Object, {
@@ -99,25 +107,13 @@ const SubCategoryForm: React.FC = (props: any) => {
         >
           <Grid item xs={2} sm={4} md={6}>
             <InputLabel id="category_id-label">Category</InputLabel>
-            <Select
-              labelId="category_id-label"
-              name="category_id"
-              size="small"
-              sx={{ width: '300px' }}
-              disabled={props.mode === 'EDIT' ? true : false}
-              value={formik.values.category_id}
-              onChange={formik.handleChange}
-            >
-              {getAllCategory &&
-                getAllCategory.map((option: any) => (
-                  <MenuItem key={option.category_id} value={option.category_id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-            </Select>
-            {formik.errors.category_id && formik.touched.category_id && (
-              <div style={{ color: 'red' }}>{formik.errors.category_id}</div>
-            )}
+            <SelectDrop
+                  options={getAllCategory}
+                  onChange={handleDropdownChange}
+                  value={formik.values.category_id}
+                  defaultLabel="Select from options"
+                  width="100%"
+                />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
             <Input

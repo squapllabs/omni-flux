@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid, InputLabel, MenuItem ,Select} from '@mui/material';
+import { Grid, InputLabel} from '@mui/material';
 import { createCategory, updateCategory } from '../../hooks/category-hooks';
 import {
   getCreateValidateyup,
@@ -8,9 +8,10 @@ import {
 } from '../../helper/constants/category/category-constants';
 import CategoryService from '../../service/category-service';
 import * as Yup from 'yup';
-import { useGetAllProjectOne } from '../../hooks/project-hooks';
+import { useGetAllProject } from '../../hooks/project-hooks';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
+import Select from '../ui/Select';
 
 
 const CategoryForm: React.FC = (props: any) => {
@@ -24,12 +25,15 @@ const CategoryForm: React.FC = (props: any) => {
     budget: '',
     project_id: '',
   });
-  const { data: getAllProjectList = [] } = useGetAllProjectOne();
+  const { data: getAllProjectList = [] } = useGetAllProject();
+  const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
         const data = await CategoryService.getOneCategoryByID(props.categoryId);
+        console.log("p Data==.",data.data);
+        
         setInitialValues({
           category_id: data?.data?.category_id,
           name: data?.data?.name,
@@ -48,8 +52,7 @@ const CategoryForm: React.FC = (props: any) => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedProjectId = event.target.value;
-    console.log("selectedRoleId",selectedProjectId)
-    formik.setFieldValue('project_id', selectedProjectId);
+    formik.setFieldValue('project_id', Number(selectedProjectId));
   };
 
   const formik = useFormik({
@@ -78,12 +81,11 @@ const CategoryForm: React.FC = (props: any) => {
           category_id: values.category_id,
           name: values.name,
           budget: Number(values.budget),
-          project: Number(values.project_id),
+          project_id: values.project_id,
         };
-        console.log("Object edit ==>",Object);
         updateCategoryData(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === "success") {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Category edited');
@@ -106,24 +108,12 @@ const CategoryForm: React.FC = (props: any) => {
           <Grid item xs={2} sm={4} md={6}>
             <InputLabel id="project_id-label">Project</InputLabel>
             <Select
-              labelId="project_id-label"
-              name="project_id"
-              size="small"
-              sx={{ width: '300px' }}
+              options={getAllProjectList}
+              onChange={handleDropdownChange}
               value={formik.values.project_id}
-              onChange={formik.handleChange}
-              disabled={props.mode === 'EDIT' ? true : false}
-            >
-              {getAllProjectList &&
-                getAllProjectList.map((option: any) => (
-                  <MenuItem key={option.project_id} value={option.project_id}>
-                    {option.project_name}
-                  </MenuItem>
-                ))}
-            </Select>
-            {formik.errors.project_id && formik.touched.project_id && (
-              <div style={{ color: 'red' }}>{formik.errors.project_id}</div>
-            )}
+              defaultLabel="Select from options"
+              width="100%"
+            />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
             <Input

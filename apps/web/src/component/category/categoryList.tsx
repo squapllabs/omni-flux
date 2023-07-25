@@ -93,10 +93,10 @@ const CategoryList = () => {
         };
         createNewCategory(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
-              resetForm();
+            if (data?.message === "success") {
               setMessage('Category created');
               setOpenSnack(true);
+              resetForm();
             }
           },
         });
