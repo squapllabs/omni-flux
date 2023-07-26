@@ -44,7 +44,7 @@ export const getLoginYupSchema = (yup: any) => {
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
       )
       .matches(
-        /^(?=.*[!@#\$%\^&\*])/,
+        /^(?=.*[!@#$%^&*])/,
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
       )
       .matches(
@@ -70,7 +70,7 @@ export const getForgetPasswordYupSchema = (yup: any) => {
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
       )
       .matches(
-        /^(?=.*[!@#\$%\^&\*])/,
+        /^(?=.*[!@#$%^&*])/,
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
       )
       .matches(
@@ -114,7 +114,7 @@ export const getUsercreationYupschema = (yup: any) => {
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
       )
       .matches(
-        /^(?=.*[!@#\$%\^&\*])/,
+        /^(?=.*[!@#$%^&*])/,
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
       )
       .matches(

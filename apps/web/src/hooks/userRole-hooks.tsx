@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import userRoleService from '../service/userRole-service';
 
 const useGetAllRoles = () => {

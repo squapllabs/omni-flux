@@ -49,6 +49,8 @@ const updateSubSubcategory = async (values: JSON) => {
   }
 };
 const deleteSubSubcategory = async (id: number) => {
+  console.log("id in delete service",id);
+  
   try {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/sub-sub-category/delete/${id}`

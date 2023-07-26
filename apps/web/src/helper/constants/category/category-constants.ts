@@ -1,4 +1,4 @@
-import categoryService from 'apps/web/src/service/category-service';
+import categoryService from '../../../service/category-service';
 
 export const userErrorMessages = {
   ENTER_NAME: 'Name is required',

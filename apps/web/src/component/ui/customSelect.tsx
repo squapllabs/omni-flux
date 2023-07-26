@@ -1,5 +1,5 @@
 import React from 'react';
-import { useField, FieldAttributes } from 'formik';
+import { FieldAttributes } from 'formik';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 interface Option {
