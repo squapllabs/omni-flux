@@ -16,13 +16,16 @@ import items from '../../service/add-product';
 
 const ProductPage = () => {
   const navigate = useNavigate();
+
   const [itemValue, setItemValues] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const rowsPerPage = 5;
+  const [totalPages, setTotalPages] = useState(5); // Set initial value to 1
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   useEffect(() => {
     fetchData();
-  }, [[currentPage]]);
+  }, [rowsPerPage, currentPage]);
+
   const handleAddProduct = () => {
     navigate('/add-products');
   };
@@ -32,31 +35,28 @@ const ProductPage = () => {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
     };
+    // console.log(currentPage);
+    console.log(requestData.offset);
     try {
       const data = await items.getAllItems(requestData);
-      console.log(data);
-      setItemValues(data.data);
-      console.log('item data', data.data);
 
-      setTotalPages(data.totalPages);
+      setItemValues(data.data);
+      setTotalPages(data.total_page);
+
+      // console.log(data.total_page);
     } catch (error) {
-      console.log('Error in fetching HSN code data:', error);
+      console.log('Error in fetching data:', error);
     }
   };
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  // const handleDelete = async (item: any) => {
-  //   console.log(item);
-  //   try {
-  //     const data = await DeletItem.deleteItem(item.item_id);
-  //     await fetchData();
-  //     console.log('Item deleted successfully:', data);
-  //   } catch (error) {
-  //     console.log('Error while deleting an item:', error);
-  //   }
-  // };
+
+  const handleRowsPerPageChange = (newRowsPerPage) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
 
   const convertToCSV = (data: any[]) => {
     const header = [
@@ -244,9 +244,7 @@ const ProductPage = () => {
                   borderRadius={8}
                 />
               }
-            >
-              <div></div>
-            </Dropdown>
+            ></Dropdown>
           </div>
         </div>
       </div>
@@ -272,25 +270,18 @@ const ProductPage = () => {
                 <td>{item.gst.rate}</td>
                 <td>{item.hsn_code.code}</td>
                 <td>{item.uom.name}</td>
-                {/* <td>
-                  <Button
-                    text={<DeleteIcon />}
-                    onClick={() => {
-                      handleDelete(item);
-                    }}
-                  />
-                </td> */}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         rowsPerPage={rowsPerPage}
         onPageChange={handlePageChange}
-        onRowsPerPageChange={() => {}}
+        onRowsPerPageChange={handleRowsPerPageChange}
       />
     </div>
   );
