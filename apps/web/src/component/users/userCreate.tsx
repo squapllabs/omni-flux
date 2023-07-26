@@ -22,6 +22,7 @@ const UserCreate = () => {
   const [message, setMessage] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
+  const [selectedGenderValue, setSelectedGenderValue] = useState('');
   const handleSnackBarClose = () => {
     setOpenSnakBar(false);
   };
@@ -35,6 +36,9 @@ const UserCreate = () => {
     user_status: '',
     role_id: '',
     department: '',
+    gender:'',
+    additional_info:'',
+    date_of_birth:''
   });
 
   const togglePasswordVisibility = () => {
@@ -47,8 +51,20 @@ const UserCreate = () => {
     setSelectedValue(selectedRoleId);
   };
 
+  const handleDropdownGenderChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedGender = event.target.value;
+    setSelectedGenderValue(selectedGender);
+  };
+
   const { mutate: createNewusers } = createUser();
   const { data: getAllRoles = [] } = useGetAllRoles();
+
+  const options = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+  ];
 
   const formik = useFormik({
     initialValues,
@@ -63,23 +79,26 @@ const UserCreate = () => {
         contact_no: values.contact_no,
         role_id: Number(selectedValue),
         department: values.department,
+        gender:selectedGenderValue,
+        additional_info:values.additional_info,
+        date_of_birth:values.date_of_birth
       };
       console.log('Add==>', Object);
-      createNewusers(Object, {
-        onSuccess: (data, variables, context) => {
-          if (data?.success) {
-            setMessage('User created successfully');
-            setOpenSnakBar(true);
-            setInterval(() => {
-              navigate('/userList');
-            }, 3000);
-          } else {
-            setIsWarning(true);
-            setMessage(data?.message);
-            setOpenSnakBar(true);
-          }
-        },
-      });
+      // createNewusers(Object, {
+      //   onSuccess: (data, variables, context) => {
+      //     if (data?.success) {
+      //       setMessage('User created successfully');
+      //       setOpenSnakBar(true);
+      //       setInterval(() => {
+      //         navigate('/userList');
+      //       }, 3000);
+      //     } else {
+      //       setIsWarning(true);
+      //       setMessage(data?.message);
+      //       setOpenSnakBar(true);
+      //     }
+      //   },
+      // });
     },
   });
   return (
@@ -178,18 +197,51 @@ const UserCreate = () => {
                   width="80%"
                 />
               </Grid>
-              <Grid item xs={2} sm={4} md={6}>
+              <Grid item xs={2} sm={4} md={4}>
+                <span className={Styles.projectHeading}>Role</span>
                 <Select
-                  // name="role_id"
                   options={getAllRoles}
                   onChange={handleDropdownChange}
                   value={selectedValue}
                   defaultLabel="Select from options"
-                  width="52%"
+                  width="80%"
                 />
                 {formik.touched.role_id && formik.errors.role_id && (
                   <div className={Styles.error}>{formik.errors.role_id}</div>
                 )}
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
+                <span className={Styles.projectHeading}>Gender</span>
+                <Select
+                  options={options}
+                  onChange={handleDropdownGenderChange}
+                  value={selectedGenderValue}
+                  defaultLabel="Select from options"
+                  width="80%"
+                />
+                {/* {formik.touched.role_id && formik.errors.role_id && (
+                  <div className={Styles.error}>{formik.errors.role_id}</div>
+                )} */}
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
+                <Input
+                  label="Additional Info"
+                  placeholder="Enter Additional Info"
+                  name="additional_info"
+                  value={formik.values.additional_info}
+                  onChange={formik.handleChange}
+                  // error={formik.touched.additional_info && formik.errors.additional_info}
+                  width="80%"
+                />
+              </Grid>
+              <Grid item xs={2} sm={4} md={4}>
+                <input
+                  type="date"
+                  name="date_of_birth"
+                  onChange={formik.handleChange}
+                  width="150%"
+                  value={formik.values.date_of_birth}
+                />
               </Grid>
               <Grid item xs={2} sm={4} md={12}>
                 <Button
