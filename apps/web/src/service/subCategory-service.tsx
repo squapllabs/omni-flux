@@ -77,6 +77,8 @@ const filterSubCategory = async (values: JSON) => {
       `${environment.apiUrl}/sub-category/search`,
       values
     );
+    console.log('response.data', response.data);
+
     return response.data;
   } catch (error) {
     console.log('Error in sub-category create :', error);

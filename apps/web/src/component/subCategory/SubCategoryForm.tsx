@@ -53,7 +53,7 @@ const SubCategoryForm: React.FC = (props: any) => {
   ) => {
     const selectedCategoryId = event.target.value;
     formik.setFieldValue('category_id', Number(selectedCategoryId));
-  }
+  };
 
   const formik = useFormik({
     initialValues,
@@ -108,12 +108,12 @@ const SubCategoryForm: React.FC = (props: any) => {
           <Grid item xs={2} sm={4} md={6}>
             <InputLabel id="category_id-label">Category</InputLabel>
             <SelectDrop
-                  options={getAllCategory}
-                  onChange={handleDropdownChange}
-                  value={formik.values.category_id}
-                  defaultLabel="Select from options"
-                  width="100%"
-                />
+              options={getAllCategory}
+              onChange={handleDropdownChange}
+              value={formik.values.category_id}
+              defaultLabel="Select from options"
+              width="100%"
+            />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
             <Input

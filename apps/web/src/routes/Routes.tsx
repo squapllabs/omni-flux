@@ -204,6 +204,7 @@ import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
 import ProductPage from '../component/products/productPage';
 import Category from '../component/category/category';
+import ResetPassword from '../component/resetPassword/token';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -228,6 +229,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
         <Route path="/add-products" element={<ProtectedAddProductPage />} />
         <Route path="/products" element={<ProtectedProductPage />} />
         <Route path="/home" element={<ProtectedHome />} />
