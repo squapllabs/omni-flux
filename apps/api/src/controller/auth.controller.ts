@@ -3,7 +3,6 @@ import * as forgetpasswordService from '../services/auth.service';
 import * as userService from '../services/user.service';
 import { handleError, ErrorHandler } from '../config/error';
 import { setCookie } from './../utils/helper';
-import mailService from '../services/mail.service';
 
 const errorText = 'Error';
 
@@ -174,10 +173,20 @@ const loginValidate = catchAsync(async (req, res) => {
   }
 });
 
-const sendOTP = catchAsync(async (req, res) => {
-  const methodName = '/sendOTP';
+const generateOTP = catchAsync(async (req, res) => {
+  const methodName = '/generateOTP';
   try {
-    const result = await mailService.OTPEmail();
+    const result = await forgetpasswordService.generateOTP(req.body);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const verifyOTP = catchAsync(async (req, res) => {
+  const methodName = '/verifyOTP';
+  try {
+    const result = await forgetpasswordService.verifyOTP(req.body);
     res.send(result);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
@@ -192,5 +201,6 @@ export {
   refreshToken,
   isLoggedIn,
   logOut,
-  sendOTP,
+  generateOTP,
+  verifyOTP,
 };

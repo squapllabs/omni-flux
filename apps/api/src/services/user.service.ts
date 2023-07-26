@@ -523,6 +523,32 @@ const applyFilter = async (filterObj, field_name, operator, field_value) => {
   }
 };
 
+/**
+ * Method for updating is_two_factor by user_id
+ * @param body
+ * @returns
+ */
+const updateTwoFactorAuthentication = async (body) => {
+  try {
+    const { user_id, is_two_factor } = body;
+    const result = await userDao.updateTwoFactorAuthentication(
+      user_id,
+      is_two_factor
+    );
+    const userData = {
+      message: 'success',
+      status: true,
+      data: result,
+    };
+    return userData;
+  } catch (error) {
+    console.log(
+      'Error occurred in User Service : updateTwoFactorAuthentication Method'
+    );
+    throw error;
+  }
+};
+
 export {
   createUser,
   updateUser,
@@ -536,4 +562,5 @@ export {
   getDeletedUsers,
   customFilterUser,
   refreshAccessToken,
+  updateTwoFactorAuthentication,
 };

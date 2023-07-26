@@ -9,6 +9,7 @@ import {
   getDeletedUsers,
   searchUser,
   updateStatus,
+  updateTwoFactorAuthentication,
   updateUser,
 } from '../../controller/user.controller';
 import authMiddleware from '../../middleware/auth';
@@ -47,5 +48,7 @@ router.post('/searchUser', authMiddleware, searchUser);
 router.get('/getDeletedUsers', authMiddleware, getDeletedUsers);
 
 router.post('/custom-filter', authMiddleware, customFilterUser);
+
+router.put('/update-two-factor', authMiddleware, updateTwoFactorAuthentication);
 
 export default router;

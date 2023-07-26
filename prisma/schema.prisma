@@ -22,6 +22,11 @@ model users {
   updated_date     DateTime
   is_delete        Boolean   @default(false) @db.Boolean
   is_initial_login Boolean   @default(true) @db.Boolean
+  is_two_factor    Boolean   @default(false) @db.Boolean
+  otp_secret       Int?
+  otp_attempts     Int?
+  otp_expired_in   DateTime?
+  is_otp_verified  Boolean   @default(false) @db.Boolean
   department       String?   @db.VarChar(100)
   projects         project[]
 

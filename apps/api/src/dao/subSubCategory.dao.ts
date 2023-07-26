@@ -78,7 +78,7 @@ const getById = async (subSubCategoryId: number, connectionObj = null) => {
   }
 };
 
-/* const getAll = async (connectionObj = null) => {
+const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const subSubCategories = await transaction.sub_sub_category.findMany({
@@ -91,32 +91,14 @@ const getById = async (subSubCategoryId: number, connectionObj = null) => {
         },
       ],
       include: {
-        sub_category: true,
+        sub_category: {
+          include: {
+            category: true,
+          },
+        },
       },
     });
 
-    return subSubCategories;
-  } catch (error) {
-    console.log('Error occurred in subSubCategory getAll dao', error);
-    throw error;
-  }
-}; */
-
-const getAll = async (connectionObj = null) => {
-  try {
-    const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subSubCategories = await transaction.$queryRaw`select
-      jsonb_build_object('sub_sub_category_id', ssc.sub_sub_category_id , 'sub_sub_category_name', ssc."name", 'budget', ssc.budget, 'created_date', ssc.created_date, 'updated_date', ssc.updated_date)as sub_sub_category_details,
-      jsonb_build_object('sub_category_id', sc.sub_category_id, 'sub_category_name', sc."name", 'budget', sc.budget)as sub_category_details,
-      jsonb_build_object('category_id', c.category_id, 'category_name', c."name", 'budget', c.budget)as category_details
-    from
-      sub_sub_category ssc
-    left join sub_category sc on
-      sc.sub_category_id = ssc.sub_category_id
-    left join category c on
-      c.category_id = sc.category_id
-    order by
-      ssc.updated_date desc`;
     return subSubCategories;
   } catch (error) {
     console.log('Error occurred in subSubCategory getAll dao', error);
