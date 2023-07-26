@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import MUIDataTable from 'mui-datatables';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import { useGetAllUsers, useDeleteUsers } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
-// import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
@@ -17,7 +15,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import userService from '../../service/user-service';
-// import Button from '../../component/ui/Button';
 import Button from '../menu/button';
 
 function TabPanel(props: any) {

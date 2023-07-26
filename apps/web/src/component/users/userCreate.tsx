@@ -3,7 +3,7 @@ import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
-import { Grid, InputLabel, MenuItem } from '@mui/material';
+import { Grid } from '@mui/material';
 import { createUser } from '../../hooks/user-hooks';
 import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useNavigate } from 'react-router';

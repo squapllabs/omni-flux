@@ -1,15 +1,12 @@
 import React, { useState, ChangeEvent } from 'react';
 import Styles from '../styles/login.module.scss';
-
 import * as yup from 'yup';
 import { getLoginYupSchema } from '../helper/constants/user-constants';
 import { loginAuth, forgetPassword } from '../hooks/auth-hooks';
 import userService from '../service/user-service';
 import { useNavigate } from 'react-router';
-
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/reducer';
-import Customs from './ui/custom';
 import Input from './ui/Input';
 
 import { FaUser, FaLock } from 'react-icons/fa6';

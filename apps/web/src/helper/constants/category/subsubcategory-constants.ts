@@ -1,4 +1,4 @@
-import subSubCategoryService from 'apps/web/src/service/subSubCategory-service';
+import subSubCategoryService from '../../../service/subSubCategory-service';
 
 export const subSubErrorMessages = {
   ENTER_NAME: 'Name is required',
