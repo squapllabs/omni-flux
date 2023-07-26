@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../menu/button';
 import { useNavigate } from 'react-router-dom';
 import Styles from '..//../styles/listItem.module.scss';
-// import './productPage.css';
+import Pagination from './pagination';
 import AddIcon from '../menu/icons/addIcon';
 import DownloadIcon from '../menu/icons/download';
 import Dropdown from '../menu/dropDown';
@@ -12,26 +12,87 @@ import DescendingIcon from '../menu/icons/descendingIcon';
 import SearchInput from './searchInputBox';
 import SearchIcon from '../menu/icons/search';
 
+import items from '../../service/add-product';
+
 const ProductPage = () => {
   const navigate = useNavigate();
+  const [itemValue, setItemValues] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const rowsPerPage = 5;
+  useEffect(() => {
+    fetchData();
+  }, [[currentPage]]);
   const handleAddProduct = () => {
     navigate('/add-products');
   };
+
+  const fetchData = async () => {
+    const requestData = {
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
+    };
+    try {
+      const data = await items.getAllItems(requestData);
+      console.log(data);
+      setItemValues(data.data);
+      console.log('item data', data.data);
+
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      console.log('Error in fetching HSN code data:', error);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+  // const handleDelete = async (item: any) => {
+  //   console.log(item);
+  //   try {
+  //     const data = await DeletItem.deleteItem(item.item_id);
+  //     await fetchData();
+  //     console.log('Item deleted successfully:', data);
+  //   } catch (error) {
+  //     console.log('Error while deleting an item:', error);
+  //   }
+  // };
+
+  const convertToCSV = (data: any[]) => {
+    const header = [
+      'Code',
+      'Sub Category',
+      'Description',
+      'GST',
+      'HSN Code',
+      'UOM',
+    ];
+    const csvRows = [header.join(',')];
+    for (const item of data) {
+      const rowData = [
+        item.item_name,
+        item.sub_sub_category.name,
+        item.description,
+        item.gst.rate,
+        item.hsn_code.code,
+        item.uom.name,
+      ];
+      csvRows.push(rowData.join(','));
+    }
+    return csvRows.join('\n');
+  };
+
   const handleDownload = () => {
-    // Create the CSV content
-    const csvContent =
-      'Name,Email\nJohn Doe,johndoe@example.com\nJane Smith,janesmith@example.com';
-    // Create a Blob with the CSV content
+    const csvContent = convertToCSV(itemValue);
     const blob = new Blob([csvContent], { type: 'text/csv' });
-    // Create a temporary URL for the Blob
     const url = URL.createObjectURL(blob);
-    // Create an anchor element
     const link = document.createElement('a');
     link.href = url;
     link.download = 'data.csv';
     link.click();
     URL.revokeObjectURL(url);
   };
+
   const handleReset = () => {
     console.log('reset');
   };
@@ -189,6 +250,48 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Sub Category</th>
+              <th>Description</th>
+              <th>GST</th>
+              <th>HSN Code</th>
+              <th>UOM</th>
+              {/* <th>Delete</th> */}
+            </tr>
+          </thead>
+          <tbody>
+            {itemValue.map((item) => (
+              <tr>
+                <td>{item.item_name}</td>
+                <td>{item.sub_sub_category.name}</td>
+                <td>{item.description}</td>
+                <td>{item.gst.rate}</td>
+                <td>{item.hsn_code.code}</td>
+                <td>{item.uom.name}</td>
+                {/* <td>
+                  <Button
+                    text={<DeleteIcon />}
+                    onClick={() => {
+                      handleDelete(item);
+                    }}
+                  />
+                </td> */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        rowsPerPage={rowsPerPage}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={() => {}}
+      />
     </div>
   );
 };

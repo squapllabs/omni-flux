@@ -8,7 +8,7 @@ interface ButtonProps {
   textColor?: string;
   borderRadius?: string | number;
   border?: string;
-
+  type?: string;
   fontSize?: string | number;
   fontWeight?: string | number;
   onClick: () => void;
@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   textColor = 'white',
   borderRadius = '4px',
   border = 'none',
-
+  type = 'submit',
   fontSize = '14px',
   fontWeight = 'normal',
   onClick,
@@ -38,7 +38,6 @@ const Button: React.FC<ButtonProps> = ({
     color: textColor,
     borderRadius,
     border,
-
     fontSize,
     fontWeight,
     cursor: 'pointer',
