@@ -5,22 +5,30 @@ interface createUserBody {
   first_name: string;
   last_name: string;
   user_status: string;
-  address: string;
+  address: JSON;
   created_by: bigint;
   updated_by: bigint;
   role_id: bigint;
   is_delete: boolean;
   department: string;
+  profile_image_url: string;
+  date_of_birth: Date;
+  gender: string;
+  additional_info: JSON;
 }
 
 interface updateUserBody {
   first_name: string;
   last_name: string;
-  address: string;
+  address: JSON;
   updated_by: bigint;
   user_id: number;
   department: string;
   role_id: bigint;
+  profile_image_url: string;
+  date_of_birth: Date;
+  gender: string;
+  additional_info: JSON;
 }
 
 export { createUserBody, updateUserBody };
