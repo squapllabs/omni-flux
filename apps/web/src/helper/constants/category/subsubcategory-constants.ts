@@ -6,8 +6,9 @@ export const subSubErrorMessages = {
   SELECT_SUB_CATEGORY: 'Select the sub category',
   ALREADY_EXIST:
     'The Sub Sub Category already exists in the same Sub category with the same name.',
-    MAXIMUM_CHECK: 'Value must be greater than 0',
-    TYPE_ERROR: 'Only Number are allowed',
+  MINIMUM_CHECK: 'Value must be greater than 0',
+  MAXIMUM_CHECK: 'Value must be less then 100000',
+  TYPE_ERROR: 'Only Number are allowed',
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -16,7 +17,7 @@ export const getCreateValidateyup = (yup: any) => {
       .string()
       .trim()
       .typeError(subSubErrorMessages.SELECT_SUB_CATEGORY),
-      // .required(subSubErrorMessages.SELECT_SUB_CATEGORY),
+    // .required(subSubErrorMessages.SELECT_SUB_CATEGORY),
     name: yup
       .string()
       .trim()
@@ -34,12 +35,9 @@ export const getCreateValidateyup = (yup: any) => {
           if (value) {
             const response =
               await subSubCategoryService.checkDublicateSubSubCategory(object);
-            console.log('response', response);
             if (response?.status === true) {
-              console.log('false');
               return false;
             } else {
-              console.log('true');
               return true;
             }
           }
@@ -49,6 +47,7 @@ export const getCreateValidateyup = (yup: any) => {
       .number()
       .required(subSubErrorMessages.ENTER_BUDGET)
       .min(1, subSubErrorMessages.MAXIMUM_CHECK)
+      .max(100000, subSubErrorMessages.MAXIMUM_CHECK)
       .typeError(subSubErrorMessages.TYPE_ERROR),
   });
 };
@@ -92,9 +91,10 @@ export const getUpdateValidateyup = (yup: any) => {
         }
       ),
     budget: yup
-    .number()
-    .required(subSubErrorMessages.ENTER_BUDGET)
-    .min(1, subSubErrorMessages.MAXIMUM_CHECK)
-    .typeError(subSubErrorMessages.TYPE_ERROR),
+      .number()
+      .required(subSubErrorMessages.ENTER_BUDGET)
+      .min(1, subSubErrorMessages.MINIMUM_CHECK)
+      .max(100000, subSubErrorMessages.MAXIMUM_CHECK)
+      .typeError(subSubErrorMessages.TYPE_ERROR),
   });
 };

@@ -6,6 +6,8 @@ export const subCategoryErrorMessages = {
   SELECT_CATEGORY: 'Please Select the category',
   ALREADY_EXIST:
     'The Sub category already exists in the same category with the same name.',
+  MINIMUM_CHECK: 'Value must be greater than 0',
+  MAXIMUM_CHECK: 'Value must be less then 100000',
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -48,11 +50,9 @@ export const getCreateValidateyup = (yup: any) => {
     budget: yup
       .number()
       .required(subCategoryErrorMessages.ENTER_BUDGET)
-      .test(
-        'Is positive?',
-        'Budget must be greater than 0!',
-        (value: number) => value > 0
-      ),
+      .min(1, subCategoryErrorMessages.MINIMUM_CHECK)
+      .max(100000, subCategoryErrorMessages.MAXIMUM_CHECK)
+      .typeError(subCategoryErrorMessages.TYPE_ERROR),
   });
 };
 export const getUpdateValidateyup = (yup: any) => {

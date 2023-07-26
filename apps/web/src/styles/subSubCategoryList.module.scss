@@ -32,7 +32,7 @@
   padding: 10px 10px 0px 10px;
   display: flex;
   flex-direction: row;
-  gap: 9rem;
+  gap: 10px;
 }
 .searchButton {
   display: flex;
@@ -68,4 +68,19 @@
 
 .box:last-child::after {
   display: none;
+}
+
+.searchButton {
+  // padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
+}
+.resetButton {
+  // padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #848289;
 }

@@ -6,7 +6,8 @@ export const userErrorMessages = {
   ALREADY_EXIST:
     'The category already exists in the same project with the same name.',
   SELECT_PROJECT_ID: 'Project id required',
-  MAXIMUM_CHECK: 'Value must be greater than 0',
+  MINIMUM_CHECK: 'Value must be greater than 0',
+  MAXIMUM_CHECK: 'Value must be less then 100000',
   TYPE_ERROR: 'Only Number are allowed',
 };
 
@@ -16,7 +17,7 @@ export const getCreateValidateyup = (yup: any) => {
       .string()
       .trim()
       .typeError(userErrorMessages.SELECT_PROJECT_ID),
-      // .required(userErrorMessages.SELECT_PROJECT_ID),
+    // .required(userErrorMessages.SELECT_PROJECT_ID),
     name: yup
       .string()
       .trim()
@@ -46,13 +47,9 @@ export const getCreateValidateyup = (yup: any) => {
     budget: yup
       .number()
       .required(userErrorMessages.ENTER_BUDGET)
-      .min(1, userErrorMessages.MAXIMUM_CHECK)
-      .typeError(userErrorMessages.TYPE_ERROR)
-      // .test(
-      //   'Is positive?',
-      //   'Budget must be greater than 0!',
-      //   (value: number) => value > 0
-      // ),
+      .min(1, userErrorMessages.MINIMUM_CHECK)
+      .max(100000, userErrorMessages.MAXIMUM_CHECK)
+      .typeError(userErrorMessages.TYPE_ERROR),
   });
 };
 export const getUpdateValidateyup = (yup: any) => {
@@ -62,7 +59,7 @@ export const getUpdateValidateyup = (yup: any) => {
       .string()
       .trim()
       .typeError(userErrorMessages.SELECT_PROJECT_ID),
-      // .required(userErrorMessages.SELECT_PROJECT_ID),
+    // .required(userErrorMessages.SELECT_PROJECT_ID),
     name: yup
       .string()
       .trim()
@@ -99,11 +96,7 @@ export const getUpdateValidateyup = (yup: any) => {
       .number()
       .required(userErrorMessages.ENTER_BUDGET)
       .min(1, userErrorMessages.MAXIMUM_CHECK)
-      .typeError(userErrorMessages.TYPE_ERROR)
-      // .test(
-      //   'Is positive?',
-      //   'Budget must be greater than 0!',
-      //   (value: number) => value > 0
-      // ),
+      .max(100000, userErrorMessages.MAXIMUM_CHECK)
+      .typeError(userErrorMessages.TYPE_ERROR),
   });
 };

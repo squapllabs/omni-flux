@@ -13,7 +13,7 @@ import {
 import CategoryForm from './categoryForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
-import Button from '../menu/button';
+import Button from '../ui/Button';
 import Input from '../../component/ui/Input';
 import { useFormik } from 'formik';
 import { getCreateValidateyup } from '../../helper/constants/category/category-constants';
@@ -281,12 +281,13 @@ const CategoryList = () => {
                 </div>
                 <div>
                   <Button
-                    text="Add New Category"
-                    backgroundColor="#7F56D9"
-                    fontSize={14}
-                    fontWeight={500}
-                    width={135}
-                  />
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                  >
+                    Add New Category
+                  </Button>
                 </div>
               </div>
             </form>
@@ -299,37 +300,32 @@ const CategoryList = () => {
               </span>
             </div>
             <div className={Styles.searchField}>
-              <div>
-                <Input
-                  name="budget"
-                  placeholder="Search by item name"
-                  width="160%"
-                  prefixIcon={<SearchIcon />}
-                  name="search_by_name"
-                  value={filterValues.search_by_name}
-                  onChange={(e) => handleFilterChange(e)}
-                />
-              </div>
-              <div className={Styles.searchButton}>
-                <Button
-                  text="Search"
-                  fontSize={14}
-                  fontWeight={500}
-                  width={120}
-                  backgroundColor="#F6F4EB"
-                  textColor="#7F56D9"
-                  onClick={handleSearch}
-                />
-                <Button
-                  text="Reset"
-                  fontSize={14}
-                  fontWeight={500}
-                  width={120}
-                  backgroundColor="white"
-                  textColor="#B2B2B2"
-                  onClick={handleReset}
-                />
-              </div>
+              <Input
+                width="260px"
+                prefixIcon={<SearchIcon />}
+                name="search_by_name"
+                value={filterValues.search_by_name}
+                onChange={(e) => handleFilterChange(e)}
+                placeholder="Search by item name"
+              />
+              <Button
+                className={Styles.searchButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleSearch}
+              >
+                Search
+              </Button>
+              <Button
+                className={Styles.resetButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleReset}
+              >
+                Reset
+              </Button>
             </div>
             <div className={Styles.tableContainer}>
               <MUIDataTable
