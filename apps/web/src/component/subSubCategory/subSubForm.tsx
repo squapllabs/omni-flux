@@ -1,55 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Grid, InputLabel} from '@mui/material';
-import { createCategory, updateCategory } from '../../hooks/category-hooks';
 import {
-  getCreateValidateyup,
+  createSubSubcategory,
+  updateSubSubcategory,
+} from '../../hooks/subSubCategory-hooks';
+import {
   getUpdateValidateyup,
-} from '../../helper/constants/category/category-constants';
-import CategoryService from '../../service/category-service';
+  getCreateValidateyup,
+} from '../../helper/constants/category/subsubcategory-constants';
+import SubSubCategoryService from '../../service/subSubCategory-service';
+import { useGetAllSubcategoryDrop } from '../../hooks/subCategory-hooks';
 import * as Yup from 'yup';
-import { useGetAllProject } from '../../hooks/project-hooks';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
 import Select from '../ui/Select';
 
-
-const CategoryForm: React.FC = (props: any) => {
+const SubSubCategoryForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
       ? getCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
+  const { data: getAllSubCategory } = useGetAllSubcategoryDrop();
   const [initialValues, setInitialValues] = useState({
-    category_id: '',
+    sub_sub_category_id: '',
     name: '',
     budget: '',
-    project_id: '',
+    sub_category_id: '',
   });
-  const { data: getAllProjectList = [] } = useGetAllProject();
-
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await CategoryService.getOneCategoryByID(props.categoryId);
+        const data = await SubSubCategoryService.getOneSubSubcategoryByID(
+          props.subSubCategoryId
+        );
         setInitialValues({
-          category_id: data?.data?.category_id,
+          sub_sub_category_id: data?.data?.sub_sub_category_id,
           name: data?.data?.name,
           budget: data?.data?.budget,
-          project_id: data?.data?.project_id,
+          sub_category_id: data?.data?.sub_category_id,
         });
       };
 
       fetchOne();
     }
   }, []);
-  const { mutate: createNewCategory } = createCategory();
-  const { mutate: updateCategoryData } = updateCategory();
+  const { mutate: createNewSubSubCategory } = createSubSubcategory();
+  const { mutate: updateSubSubCategoryData } = updateSubSubcategory();
 
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedProjectId = event.target.value;
-    formik.setFieldValue('project_id', Number(selectedProjectId));
+    formik.setFieldValue('sub_category_id', Number(selectedProjectId));
   };
 
   const formik = useFormik({
@@ -61,31 +64,31 @@ const CategoryForm: React.FC = (props: any) => {
         const Object: any = {
           name: values.name,
           budget: Number(values.budget),
-          project_id: values.project_id,
+          sub_category_id: values.sub_category_id,
         };
-        createNewCategory(Object, {
+        createNewSubSubCategory(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
-              props.setOpen(false);
+              props.setOpenPopup(false);
               props.setReload(true);
-              props.setMessage('Category created');
+              props.setMessage('Sub Sub Category created');
               props.setOpenSnack(true);
             }
           },
         });
       } else {
         const Object: any = {
-          category_id: values.category_id,
+          sub_sub_category_id: values.sub_sub_category_id,
           name: values.name,
-          budget: Number(values.budget),
-          project_id: values.project_id,
+          budget: parseFloat(values.budget),
+          sub_category_id: values.sub_category_id,
         };
-        updateCategoryData(Object, {
+        updateSubSubCategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.message === "success") {
-              props.setOpen(false);
+              props.setOpenPopup(false);
               props.setReload(true);
-              props.setMessage('Category edited');
+              props.setMessage('Sub Sub Category edited');
               props.setOpenSnack(true);
             }
           },
@@ -103,11 +106,11 @@ const CategoryForm: React.FC = (props: any) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={6}>
-            <InputLabel id="project_id-label">Project</InputLabel>
+            <InputLabel id="category-label">Sub Category</InputLabel>
             <Select
-              options={getAllProjectList}
+              options={getAllSubCategory}
               onChange={handleDropdownChange}
-              value={formik.values.project_id}
+              value={formik.values.sub_category_id}
               defaultLabel="Select from options"
               width="100%"
             />
@@ -115,8 +118,8 @@ const CategoryForm: React.FC = (props: any) => {
           <Grid item xs={2} sm={4} md={12}>
             <Input
               name="name"
-              label="Category Name"
-              placeholder="Enter category name"
+              label="Sub sub Category Name"
+              placeholder="Enter sub sub category name"
               value={formik.values.name}
               onChange={formik.handleChange}
               error={formik.touched.name && formik.errors.name}
@@ -143,4 +146,4 @@ const CategoryForm: React.FC = (props: any) => {
   );
 };
 
-export default CategoryForm;
+export default SubSubCategoryForm;

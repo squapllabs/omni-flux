@@ -59,10 +59,39 @@ const deleteSubcategory = async (id: number) => {
     throw error;
   }
 };
+
+const checkDublicateSubCategory = async (value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/sub-category/checkDuplicateName/${value.name}/${value.id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in checkDublicateSubCategory   :', error);
+    throw error;
+  }
+};
+const filterSubCategory = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/sub-category/search`,
+      values
+    );
+    console.log('response.data', response.data);
+
+    return response.data;
+  } catch (error) {
+    console.log('Error in sub-category create :', error);
+    throw error;
+  }
+};
+
 export default {
   getAllSubcategory,
   getOneSubcategoryByID,
   createSubcategory,
   updateSubcategory,
   deleteSubcategory,
+  checkDublicateSubCategory,
+  filterSubCategory,
 };

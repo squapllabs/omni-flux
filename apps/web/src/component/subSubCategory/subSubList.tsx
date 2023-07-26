@@ -1,79 +1,84 @@
 import React, { useState } from 'react';
-import Styles from '../../styles/categoryList.module.scss';
+import Styles from '../../styles/subSubCategoryList.module.scss';
 import MUIDataTable from 'mui-datatables';
 import { Tooltip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
 import {
-  useGetAllCategory,
-  useDeleteCategory,
-} from '../../hooks/category-hooks';
-import CategoryForm from './categoryForm';
-import CustomDialogBox from '../ui/cusotmDialogDelete';
+  useGetAllSubSubcategory,
+  useDeleteSubSubcategory,
+} from '../../hooks/subSubCategory-hooks';
 import CustomDialog from '../ui/customDialog';
+import SubSubForm from './subSubForm';
+import CustomDialogBox from '../ui/cusotmDialogDelete';
 import Button from '../menu/button';
 import Input from '../../component/ui/Input';
-import { useFormik} from 'formik';
-import { getCreateValidateyup } from '../../helper/constants/category/category-constants';
-import { createCategory } from '../../hooks/category-hooks';
+import { useFormik } from 'formik';
+import { useGetAllSubcategoryDrop } from '../../hooks/subCategory-hooks';
+import { getCreateValidateyup } from '../../helper/constants/category/subsubcategory-constants';
+import { createSubSubcategory } from '../../hooks/subSubCategory-hooks';
 import * as Yup from 'yup';
 import Select from '../ui/Select';
-import { useGetAllProject } from '../../hooks/project-hooks';
 import SearchIcon from '../menu/icons/search';
 
-/**
- * Function for  CategoryList
- */
-const CategoryList = () => {
-  const { data: getAllCategory } = useGetAllCategory();
-  const { mutate: getDeleteCategoryByID } = useDeleteCategory();
+const SubSubCategoryList = () => {
+  const { data: getAllSubSubCategory, isLoading: loader } = useGetAllSubSubcategory();
+  const { data: getAllSubCategory = [] } = useGetAllSubcategoryDrop();
+  const { mutate: getDeleteSubSubCategoryByID } = useDeleteSubSubcategory();
+  const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-  const [categoryId, setCategoryID] = useState();
+  const [message, setMessage] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
-  const [openSnack, setOpenSnack] = useState(false);
-  const [value, setValue] = useState();
-  const [message, setMessage] = useState('');
+  const [subSubCategoryId, setSubSubCategoryId] = useState();
+  const { mutate: createNewSubSubCategory } = createSubSubcategory();
   const validationSchema = getCreateValidateyup(Yup);
+  const [selectedValue, setSelectedValue] = useState('');
   const [initialValues, setInitialValues] = useState({
-    category_id: '',
+    sub_sub_category_id: '',
     name: '',
     budget: '',
-    project_id: '',
+    sub_category_id: '',
   });
-  const { mutate: createNewCategory } = createCategory();
-  const { data: getAllProjectList = [] } = useGetAllProject();
-  const [selectedValue, setSelectedValue] = useState('');
 
-  const deleteCategoryHandler = (id: any) => {
+  const deleteSubSubCategoryHandler = (id: any) => {
     setValue(id);
-    setOpenDelete(true);
+    setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
-  const handleCloseDelete = () => {
-    setOpenDelete(false);
-  };
-  /**
-   * Function for editing the Category
-   */
-  const handleEdit = (event: React.FormEvent, value: any) => {
-    setMode('EDIT');
-    setCategoryID(value);
-    setOpen(true);
-  };
-  const handleSnackBarClose = () => {
-    setOpenSnack(false);
-  };
-  const deleteCategory = () => {
-    getDeleteCategoryByID(value);
-    handleCloseDelete();
+
+  const deleteSubSubCategory = () => {
+    getDeleteSubSubCategoryByID(value);
+    handleClose();
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+
+  // const handleAdd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  //   setMode('ADD');
+  //   setOpenPopup(true);
+  // };
+
+  const handleEdit = (event: React.FormEvent, value: any) => {
+    setMode('EDIT');
+    setSubSubCategoryId(value);
+    setOpenPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
+
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -81,34 +86,10 @@ const CategoryList = () => {
     setSelectedValue(selectedRoleId);
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      if (values) {
-        const Object: any = {
-          name: values.name,
-          budget: Number(values.budget),
-          project_id: Number(selectedValue),
-        };
-        createNewCategory(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.message === "success") {
-              setMessage('Category created');
-              setOpenSnack(true);
-              resetForm();
-            }
-          },
-        });
-      }
-    },
-  });
-
   const columns = [
     {
-      name: 'category_id',
-      label: 'category',
+      name: 'sub_sub_category_id',
+      label: 'sub_sub_category',
       options: {
         display: false,
         filter: false,
@@ -122,6 +103,22 @@ const CategoryList = () => {
         display: true,
         filter: false,
         sort: false,
+      },
+    },
+    {
+      name: 'sub_category',
+      label: 'Sub Category',
+      options: {
+        display: true,
+        filter: false,
+        sort: false,
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <div>
+              <span>{value.name}</span>
+            </div>
+          );
+        },
       },
     },
     {
@@ -156,7 +153,9 @@ const CategoryList = () => {
                 <IconButton
                   aria-label="Delete"
                   size="small"
-                  onClick={() => deleteCategoryHandler(tableMeta.rowData[0])}
+                  onClick={() =>
+                    deleteSubSubCategoryHandler(tableMeta.rowData[0])
+                  }
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -176,44 +175,77 @@ const CategoryList = () => {
     download: false,
     viewColumns: false,
     selectableRows: 'none' as const,
+    textLabels: {
+      body: {
+        noMatch: loader ? 'Loading...' : 'Sorry , No Records found',
+      },
+    },
     setTableProps: () => {
       return {
         size: 'small',
       };
     },
   };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
+      if (values) {
+        const Object: any = {
+          name: values.name,
+          budget: Number(values.budget),
+          sub_category_id: Number(selectedValue),
+        };
+        createNewSubSubCategory(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.success === true) {
+              setMessage('Category created');
+              setOpenSnack(true);
+              resetForm();
+            }
+          },
+        });
+      }
+    },
+  });
+
   return (
     <div className={Styles.container}>
       <div className={Styles.textContent}>
-        <h3>Add New Categories</h3>
+        <h3>Add New Sub Sub Categories</h3>
         <span className={Styles.content}>
           Manage your raw materials (Raw, Semi Furnished & Finished).
         </span>
       </div>
-
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.fields}>
           <div className={Styles.projectField}>
-            <span className={Styles.projectHeading}>Project</span>
+            <span className={Styles.projectHeading}>Sub Category</span>
             <Select
-              options={getAllProjectList}
+              options={getAllSubCategory}
               onChange={handleDropdownChange}
               value={selectedValue}
               defaultLabel="Select from options"
               width="100%"
             />
-            {formik.touched.project_id && formik.errors.project_id && (
-              <div className={Styles.error}>{formik.errors.project_id}</div>
-            )}
+            {formik.touched.sub_category_id &&
+              formik.errors.sub_category_id && (
+                <div className={Styles.error}>
+                  {formik.errors.sub_category_id}
+                </div>
+              )}
           </div>
           <div>
             <Input
               name="name"
-              label="Category Name"
-              placeholder="Enter category name"
+              label="Sub sub Category Name"
+              placeholder="Sub sub category name"
               value={formik.values.name}
               onChange={formik.handleChange}
               error={formik.touched.name && formik.errors.name}
+              width="100%"
             />
           </div>
           <div>
@@ -228,7 +260,7 @@ const CategoryList = () => {
           </div>
           <div>
             <Button
-              text="Add New Category"
+              text="Add New Sub Sub Category"
               backgroundColor="#7F56D9"
               fontSize={14}
               fontWeight={500}
@@ -238,14 +270,19 @@ const CategoryList = () => {
         </div>
       </form>
       <div className={Styles.textContent}>
-        <h3>List of Categories</h3>
+        <h3>List of Sub Sub Categories</h3>
         <span className={Styles.content}>
           Manage your raw materials (Raw, Semi Furnished & Finished).
         </span>
       </div>
       <div className={Styles.searchField}>
         <div>
-          <Input name="budget" placeholder="Search by item name" width="160%"  prefixIcon={<SearchIcon />}/>
+          <Input
+            name="budget"
+            placeholder="Search by item name"
+            width="160%"
+            prefixIcon={<SearchIcon />}
+          />
         </div>
         <div className={Styles.searchButton}>
           <Button
@@ -266,37 +303,20 @@ const CategoryList = () => {
           />
         </div>
       </div>
-
       <div className={Styles.tableContainer}>
         <MUIDataTable
-          title={'Category List'}
+          title={'Sub Sub Categories List'}
           columns={columns}
           options={options}
-          data={getAllCategory}
+          data={getAllSubSubCategory}
         />
       </div>
-      <CustomDialogBox
+      <CustomDialog
         open={open}
         handleClose={handleClose}
-        title="Category Form"
-        content={
-          <CategoryForm
-            setOpen={setOpen}
-            open={open}
-            setReload={setReload}
-            mode={mode}
-            categoryId={categoryId}
-            setOpenSnack={setOpenSnack}
-            setMessage={setMessage}
-          />
-        }
-      />
-      <CustomDialog
-        open={openDelete}
-        handleClose={handleCloseDelete}
-        title="Delete Category"
-        content="Are you want to delete this Category?"
-        handleConfirm={deleteCategory}
+        title="Delete Sub Sub Category"
+        content="Are you want to delete this category?"
+        handleConfirm={deleteSubSubCategory}
       />
       <MySnackbar
         open={openSnack}
@@ -305,8 +325,24 @@ const CategoryList = () => {
         severity={'success'}
         autoHideDuration={1000}
       />
+      <CustomDialogBox
+        open={openPopup}
+        handleClose={handleClosePopup}
+        title="Sub Sub Category Creation"
+        content={
+          <SubSubForm
+            setOpenPopup={setOpenPopup}
+            open={openPopup}
+            setReload={setReload}
+            mode={mode}
+            subSubCategoryId={subSubCategoryId}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+          />
+        }
+      />
     </div>
   );
 };
 
-export default CategoryList;
+export default SubSubCategoryList;

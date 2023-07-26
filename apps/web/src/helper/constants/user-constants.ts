@@ -44,7 +44,7 @@ export const getLoginYupSchema = (yup: any) => {
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
       )
       .matches(
-        /^(?=.*[!@#\$%\^&\*])/,
+        /^(?=.*[!@#$%^&*])/,
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
       )
       .matches(
@@ -70,7 +70,7 @@ export const getForgetPasswordYupSchema = (yup: any) => {
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
       )
       .matches(
-        /^(?=.*[!@#\$%\^&\*])/,
+        /^(?=.*[!@#$%^&*])/,
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
       )
       .matches(
@@ -114,7 +114,7 @@ export const getUsercreationYupschema = (yup: any) => {
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
       )
       .matches(
-        /^(?=.*[!@#\$%\^&\*])/,
+        /^(?=.*[!@#$%^&*])/,
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
       )
       .matches(
@@ -123,7 +123,7 @@ export const getUsercreationYupschema = (yup: any) => {
       )
       .typeError(userErrorMessages.ENTER_PASSWORD)
       .required(userErrorMessages.ENTER_PASSWORD),
-    role_id: yup.string().required(userErrorMessages.SELECT_USERROLE),
+    // role_id: yup.string().required(userErrorMessages.SELECT_USERROLE),
     department: yup.string()
     .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_DEPARTMENT)
     .max(100, userErrorMessages.ENTER_MAX_DEPARTMENT)

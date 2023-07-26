@@ -7,6 +7,20 @@ const useGetAllCategory = () => {
     () => CategoryService.getAllCategory(),
     {
       select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+const useGetAllCategoryForDrop = () => {
+  return useQuery(
+    ['useGetAllCategoryDrop'],
+    () => CategoryService.getAllCategory(),
+    {
+      select: (data) =>
+        data?.data?.map((category: any) => ({
+          value: category.category_id,
+          label: category.name,
+        })),
     }
   );
 };
@@ -69,4 +83,5 @@ export {
   createCategory,
   updateCategory,
   useDeleteCategory,
+  useGetAllCategoryForDrop,
 };
