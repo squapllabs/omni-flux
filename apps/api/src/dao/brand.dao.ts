@@ -29,8 +29,10 @@ const add = async (
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const totalCount = await transaction.item.count({
+    });
     const brands = await transaction.brand.findMany({});
-    return brands;
+    return {brands, totalCount};
   } catch (error) {
     console.log('Error occurred in brand getAll dao', error);
     throw error;

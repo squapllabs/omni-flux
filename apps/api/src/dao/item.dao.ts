@@ -65,6 +65,9 @@ const getAll = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterItem;
+    const totalCount = await transaction.item.count({
+    });
+  
     const items = await transaction.item.findMany({
       where: filter,
       orderBy: [
@@ -111,7 +114,7 @@ const getAll = async (
         },
       },
     });
-    return items;
+    return {totalCount,items};
   } catch (error) {
     console.log('Error occurred in item getAll dao', error);
     throw error;

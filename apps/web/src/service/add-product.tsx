@@ -4,7 +4,7 @@ import { environment } from '../environment/environment';
 const addProduct = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/api/product/createProduct`,
+      `${environment.apiUrl}/item/add-item`,
       values
     );
     return response.data;
@@ -13,11 +13,13 @@ const addProduct = async (values: JSON) => {
     throw error;
   }
 };
-const getAllItems = async () => {
+const getAllItems = async (values) => {
   try {
-    const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/api/item/getAllItem`
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/item/get-all-items`,
+      values
     );
+
     return response.data;
   } catch (error) {
     console.log('Error in getting all items', error);
@@ -25,7 +27,20 @@ const getAllItems = async () => {
   }
 };
 
+const deleteItem = async (id: number) => {
+  try {
+    const response = await axiosinterceptor.delete(
+      `${environment.apiUrl}/item/delete/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error while deleting an item :', error);
+    throw error;
+  }
+};
+
 export default {
   addProduct,
   getAllItems,
+  deleteItem,
 };

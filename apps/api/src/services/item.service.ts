@@ -142,7 +142,8 @@ const getAllItem = async (data) => {
       order_by_direction,
       filterObj
     );
-    const itemData = { success: true, data: result };
+    const total_page = Math.round(result.totalCount / limitValue);
+    const itemData = { success: true, total_count: result.totalCount,total_page,data: result.items};
     return itemData;
   } catch (error) {
     console.log('Error occurred in getAll item service: ', error);

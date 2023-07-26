@@ -232,6 +232,7 @@ const AppRoutes = () => {
         <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
         <Route path="/add-products" element={<ProtectedAddProductPage />} />
         <Route path="/products" element={<ProtectedProductPage />} />
+
         <Route path="/home" element={<ProtectedHome />} />
         <Route path="/userList" element={<ProtectedUserList />} />
         <Route path="/userInfo/:id" element={<ProtectedUserInformation />} />

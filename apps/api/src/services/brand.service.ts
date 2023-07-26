@@ -52,7 +52,7 @@ const getAllBrand = async () => {
     try {
       const result = await brandDao.getAll(
       );
-      const brandData = { success: true, data: result };
+      const brandData = { success: true, total_count: result.totalCount,data: result.brands};
       return brandData;
     } catch (error) {
       console.log('Error occurred in getAll brand service: ', error);
