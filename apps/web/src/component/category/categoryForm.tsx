@@ -26,14 +26,11 @@ const CategoryForm: React.FC = (props: any) => {
     project_id: '',
   });
   const { data: getAllProjectList = [] } = useGetAllProject();
-  const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
         const data = await CategoryService.getOneCategoryByID(props.categoryId);
-        console.log("p Data==.",data.data);
-        
         setInitialValues({
           category_id: data?.data?.category_id,
           name: data?.data?.name,

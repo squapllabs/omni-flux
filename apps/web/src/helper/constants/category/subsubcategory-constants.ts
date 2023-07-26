@@ -6,6 +6,8 @@ export const subSubErrorMessages = {
   SELECT_SUB_CATEGORY: 'Select the sub category',
   ALREADY_EXIST:
     'The Sub Sub Category already exists in the same Sub category with the same name.',
+    MAXIMUM_CHECK: 'Value must be greater than 0',
+    TYPE_ERROR: 'Only Number are allowed',
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -13,8 +15,8 @@ export const getCreateValidateyup = (yup: any) => {
     sub_category_id: yup
       .string()
       .trim()
-      .typeError(subSubErrorMessages.SELECT_SUB_CATEGORY)
-      .required(subSubErrorMessages.SELECT_SUB_CATEGORY),
+      .typeError(subSubErrorMessages.SELECT_SUB_CATEGORY),
+      // .required(subSubErrorMessages.SELECT_SUB_CATEGORY),
     name: yup
       .string()
       .trim()
@@ -43,7 +45,11 @@ export const getCreateValidateyup = (yup: any) => {
           }
         }
       ),
-    budget: yup.number().required(subSubErrorMessages.ENTER_BUDGET),
+    budget: yup
+      .number()
+      .required(subSubErrorMessages.ENTER_BUDGET)
+      .min(1, subSubErrorMessages.MAXIMUM_CHECK)
+      .typeError(subSubErrorMessages.TYPE_ERROR),
   });
 };
 export const getUpdateValidateyup = (yup: any) => {
@@ -85,6 +91,10 @@ export const getUpdateValidateyup = (yup: any) => {
           }
         }
       ),
-    budget: yup.number().required(subSubErrorMessages.ENTER_BUDGET),
+    budget: yup
+    .number()
+    .required(subSubErrorMessages.ENTER_BUDGET)
+    .min(1, subSubErrorMessages.MAXIMUM_CHECK)
+    .typeError(subSubErrorMessages.TYPE_ERROR),
   });
 };

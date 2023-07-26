@@ -12,6 +12,17 @@ const useGetAllSubcategory = () => {
   );
 };
 
+const useGetAllSubcategoryDrop = () => {
+  return useQuery(['useGetAllSubcategory'],() => SubcategoryService.getAllSubcategory(), {
+    select: (data) =>
+      data?.data?.map((category: any) => ({
+        value: category.sub_category_id,
+        label: category.name,
+      })),
+  }
+  );
+};
+
 const getBySubcategoryID = (id: number) => {
   return useQuery(
     ['getOneSubcategoryID', id],
@@ -70,4 +81,5 @@ export {
   createSubcategory,
   updateSubcategory,
   useDeleteSubcategory,
+  useGetAllSubcategoryDrop
 };

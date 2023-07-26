@@ -29,6 +29,8 @@ import SelectDrop from '../ui/Select';
 const SubCategoryList = () => {
   const validationSchema = getCreateValidateyup(Yup);
   const { data: getAllSubCategory } = useGetAllSubcategory();
+  console.log("get all",getAllSubCategory);
+  
   const { data: getAllCategoryDrop = [] } = useGetAllCategoryForDrop();
   const { mutate: getDeleteSubcategoryByID } = useDeleteSubcategory();
   const { mutate: createNewSubcategory } = createSubcategory();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { Grid, InputLabel} from '@mui/material';
 import {
   createSubSubcategory,
   updateSubSubcategory,
@@ -10,17 +10,18 @@ import {
   getCreateValidateyup,
 } from '../../helper/constants/category/subsubcategory-constants';
 import SubSubCategoryService from '../../service/subSubCategory-service';
-import { useGetAllSubcategory } from '../../hooks/subCategory-hooks';
+import { useGetAllSubcategoryDrop } from '../../hooks/subCategory-hooks';
 import * as Yup from 'yup';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
+import Select from '../ui/Select';
 
 const SubSubCategoryForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
       ? getCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
-  const { data: getAllSubCategory } = useGetAllSubcategory();
+  const { data: getAllSubCategory } = useGetAllSubcategoryDrop();
   const [initialValues, setInitialValues] = useState({
     sub_sub_category_id: '',
     name: '',
@@ -46,6 +47,14 @@ const SubSubCategoryForm: React.FC = (props: any) => {
   }, []);
   const { mutate: createNewSubSubCategory } = createSubSubcategory();
   const { mutate: updateSubSubCategoryData } = updateSubSubcategory();
+
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedProjectId = event.target.value;
+    formik.setFieldValue('sub_category_id', Number(selectedProjectId));
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -76,7 +85,7 @@ const SubSubCategoryForm: React.FC = (props: any) => {
         };
         updateSubSubCategoryData(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === "success") {
               props.setOpenPopup(false);
               props.setReload(true);
               props.setMessage('Sub Sub Category edited');
@@ -97,32 +106,14 @@ const SubSubCategoryForm: React.FC = (props: any) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={6}>
-            <InputLabel id="role_id-label">Sub Category</InputLabel>
+            <InputLabel id="category-label">Sub Category</InputLabel>
             <Select
-              labelId="role_id-label"
-              name="sub_category_id"
-              size="small"
-              sx={{ width: '300px' }}
+              options={getAllSubCategory}
+              onChange={handleDropdownChange}
               value={formik.values.sub_category_id}
-              onChange={formik.handleChange}
-              disabled={props.mode === 'EDIT' ? true : false}
-            >
-              {getAllSubCategory &&
-                getAllSubCategory.map((option: any) => (
-                  <MenuItem
-                    key={option.sub_category_id}
-                    value={option.sub_category_id}
-                  >
-                    {option.name}
-                  </MenuItem>
-                ))}
-            </Select>
-            {formik.errors.sub_category_id &&
-              formik.touched.sub_category_id && (
-                <div style={{ color: 'red' }}>
-                  {formik.errors.sub_category_id}
-                </div>
-              )}
+              defaultLabel="Select from options"
+              width="100%"
+            />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
             <Input
