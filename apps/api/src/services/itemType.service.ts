@@ -52,7 +52,7 @@ const getAllItemType = async () => {
     try {
       const result = await itemTypeDao.getAll(
       );
-      const itemTypeData = { success: true, data: result };
+      const itemTypeData = { success: true, total_count: result.totalCount,data: result.itemTypes};
       return itemTypeData;
     } catch (error) {
       console.log('Error occurred in getAll itemType service: ', error);
