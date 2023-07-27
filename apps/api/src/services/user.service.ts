@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
+import userProfileDao from '../dao/userProfile.dao';
 
 /**
  * Method to Create a New User
@@ -24,11 +25,15 @@ const createUser = async (body: createUserBody) => {
       created_by,
       role_id,
       department,
+      profile_image_url,
+      date_of_birth,
+      gender,
+      additional_info,
     } = body;
 
-    const userEmailExist = await userDao.getByEmailId(email_id);
+    const userEmailExist = await userDao.getByUniqueEmail(email_id);
     if (userEmailExist) {
-      return (result = { success: false, message: 'email id already exists' });
+      return (result = { success: false, message: 'email_id already exists' });
     }
 
     const userDataWithRole = [];
@@ -41,7 +46,6 @@ const createUser = async (body: createUserBody) => {
           first_name,
           last_name,
           user_status,
-          address,
           created_by,
           department,
           prisma
@@ -56,6 +60,19 @@ const createUser = async (body: createUserBody) => {
             prisma
           );
           userDataWithRole.push({ userRoleData: userRoleData });
+        }
+        if (userDetails) {
+          const userProfileData = await userProfileDao.add(
+            userDetails?.user_id,
+            profile_image_url,
+            date_of_birth,
+            gender,
+            address,
+            additional_info,
+            created_by,
+            prisma
+          );
+          userDataWithRole.push({ userProfileData: userProfileData });
         }
         return userDataWithRole;
       })
@@ -94,6 +111,10 @@ const updateUser = async (body: updateUserBody) => {
       role_id,
       department,
       user_id,
+      profile_image_url,
+      date_of_birth,
+      gender,
+      additional_info,
     } = body;
 
     const userExist = await userDao.getById(user_id);
@@ -102,6 +123,7 @@ const updateUser = async (body: updateUserBody) => {
     }
 
     const existingUserRoleData = await userRoleDao.getByUserId(user_id);
+    const existingUserProfileData = await userProfileDao.getByUserId(user_id);
 
     const userDataWithRole = [];
     result = await prisma
@@ -109,7 +131,6 @@ const updateUser = async (body: updateUserBody) => {
         const userDetails = await userDao.edit(
           first_name,
           last_name,
-          address,
           updated_by,
           user_id,
           department,
@@ -126,6 +147,20 @@ const updateUser = async (body: updateUserBody) => {
             prisma
           );
           userDataWithRole.push({ userRoleData: userRoleData });
+        }
+
+        if (userDetails) {
+          const userProfileData = await userProfileDao.edit(
+            profile_image_url,
+            date_of_birth,
+            gender,
+            address,
+            additional_info,
+            updated_by,
+            existingUserProfileData?.user_profile_id,
+            prisma
+          );
+          userDataWithRole.push({ userProfileData: userProfileData });
         }
         return userDataWithRole;
       })
@@ -159,11 +194,18 @@ const getById = async (userId: number) => {
     const userData = await userDao.getById(userId);
     if (userData) {
       const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
-      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
-      result = { success: true, data: dataToApi };
+      const userProfileData = await userProfileDao.getByUserId(
+        userData?.user_id
+      );
+      const dataToApi = {
+        userData: userData,
+        roleId: userRoleData?.role_id,
+        userProfileData: userProfileData,
+      };
+      result = { message: 'success', status: true, data: dataToApi };
       return result;
     } else {
-      result = { success: false, message: 'user id not exist' };
+      result = { message: 'user_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -368,7 +410,6 @@ const searchUser = async (body) => {
             { last_name: { contains: global_filter, mode: 'insensitive' } },
             { email_id: { contains: global_filter, mode: 'insensitive' } },
             { contact_no: { contains: global_filter, mode: 'insensitive' } },
-            { address: { contains: global_filter, mode: 'insensitive' } },
             { department: { contains: global_filter, mode: 'insensitive' } },
           ],
           is_delete: false,
@@ -387,7 +428,6 @@ const searchUser = async (body) => {
             { last_name: { contains: global_filter, mode: 'insensitive' } },
             { email_id: { contains: global_filter, mode: 'insensitive' } },
             { contact_no: { contains: global_filter, mode: 'insensitive' } },
-            { address: { contains: global_filter, mode: 'insensitive' } },
             { department: { contains: global_filter, mode: 'insensitive' } },
           ],
           is_delete: false,

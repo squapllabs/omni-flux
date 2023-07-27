@@ -8,22 +8,22 @@ datasource db {
 }
 
 model users {
-  user_id          Int       @id @default(autoincrement())
-  first_name       String?   @db.VarChar(100)
-  last_name        String?   @db.VarChar(100)
-  user_password    String?   @db.VarChar(255)
-  contact_no       String?   @db.VarChar(20)
-  email_id         String    @db.VarChar(100)
-  user_status      String?   @db.VarChar(5)
-  address          String?   @db.VarChar(250)
+  user_id          Int            @id @default(autoincrement())
+  first_name       String?        @db.VarChar(100)
+  last_name        String?        @db.VarChar(100)
+  user_password    String?        @db.VarChar(255)
+  contact_no       String?        @db.VarChar(20)
+  email_id         String         @db.VarChar(100)
+  user_status      String?        @db.VarChar(5)
   created_by       Int?
   created_date     DateTime
   updated_by       Int?
   updated_date     DateTime
-  is_delete        Boolean   @default(false) @db.Boolean
-  is_initial_login Boolean   @default(true) @db.Boolean
-  department       String?   @db.VarChar(100)
+  is_delete        Boolean        @default(false) @db.Boolean
+  is_initial_login Boolean        @default(true) @db.Boolean
+  department       String?        @db.VarChar(100)
   projects         project[]
+  user_profiles    user_profiles?
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -62,6 +62,7 @@ model gst {
   updated_by   Int?
   sgst_rate    Float?
   item         item[]
+  is_delete    Boolean  @default(false) @db.Boolean
 }
 
 model uom {
@@ -73,6 +74,7 @@ model uom {
   created_by   Int?
   updated_by   Int?
   item         item[]
+  is_delete    Boolean  @default(false) @db.Boolean
 
   @@map(name: "uom")
 }
@@ -97,6 +99,7 @@ model hsn_code {
   created_by   Int?
   updated_by   Int?
   item         item[]
+  is_delete    Boolean  @default(false) @db.Boolean
 
   @@unique([code], name: "uk_hsn_code_code")
   @@map(name: "hsn_code")
@@ -294,4 +297,22 @@ model brand {
   updated_date DateTime
 
   item item[]
+}
+
+model user_profiles {
+  user_profile_id   Int       @id @default(autoincrement())
+  user_id           Int
+  profile_image_url String?
+  date_of_birth     DateTime?
+  gender            String?
+  address           Json?
+  additional_info   Json?
+  created_date      DateTime
+  updated_date      DateTime
+  created_by        Int?
+  updated_by        Int?
+  is_delete         Boolean   @default(false)
+  user              users     @relation(fields: [user_id], references: [user_id])
+
+  @@unique([user_id])
 }

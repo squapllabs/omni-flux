@@ -7,7 +7,6 @@ const add = async (
   first_name: string,
   last_name: string,
   user_status: string,
-  address: string,
   created_by: bigint,
   department: string,
   connectionObj = null
@@ -17,6 +16,7 @@ const add = async (
     const is_delete = false;
     const isInitialLogin = true;
     const lowercasedEmailId = email_id.toLowerCase();
+
     const transaction = connectionObj !== null ? connectionObj : prisma;
 
     const user = await transaction.users.create({
@@ -27,7 +27,6 @@ const add = async (
         first_name,
         last_name,
         user_status,
-        address,
         created_by,
         is_delete,
         created_date: currentDate,
@@ -46,7 +45,6 @@ const add = async (
 const edit = async (
   first_name: string,
   last_name: string,
-  address: string,
   updated_by: bigint,
   user_id: number,
   department: string,
@@ -61,7 +59,6 @@ const edit = async (
       data: {
         first_name,
         last_name,
-        address,
         updated_by,
         updated_date: currentDate,
         department,
@@ -96,6 +93,7 @@ const getByEmailId = async (emailId: string) => {
   try {
     if (emailId) {
       const lowercasedEmailId = emailId.toLowerCase();
+
       const user = await prisma.users.findFirst({
         where: {
           email_id: lowercasedEmailId,
@@ -103,6 +101,7 @@ const getByEmailId = async (emailId: string) => {
           is_delete: false,
         },
       });
+
       return user;
     }
   } catch (error) {
@@ -274,6 +273,25 @@ const customFilterUser = async (
   }
 };
 
+const getByUniqueEmail = async (emailId: string) => {
+  try {
+    if (emailId) {
+      const lowercasedEmailId = emailId.toLowerCase();
+
+      const user = await prisma.users.findFirst({
+        where: {
+          email_id: lowercasedEmailId,
+        },
+      });
+
+      return user;
+    }
+  } catch (error) {
+    console.log('Error occurred in user getByUniqueEmail dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -285,4 +303,5 @@ export default {
   updateStatus,
   getDeletedUsers,
   customFilterUser,
+  getByUniqueEmail,
 };

@@ -11,7 +11,7 @@ const add = async (
   created_by: bigint,
   updated_by: bigint,
   item_type_id: number,
-  brand_id:number,
+  brand_id: number,
   connectionObj = null
 ) => {
   try {
@@ -30,7 +30,7 @@ const add = async (
         item_type_id,
         created_date: currentDate,
         updated_date: currentDate,
-        brand_id
+        brand_id,
       },
     });
     return item;
@@ -39,13 +39,12 @@ const add = async (
     throw error;
   }
 };
-// item.dao.ts
 
 const addBulk = async (items: createItemBody[], connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const createdItems = await transaction.item.createMany({
-      data: items
+      data: items,
     });
 
     return createdItems;
@@ -54,6 +53,7 @@ const addBulk = async (items: createItemBody[], connectionObj = null) => {
     throw error;
   }
 };
+
 const getAll = async (
   offset,
   limit,
@@ -65,9 +65,8 @@ const getAll = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterItem;
-    const totalCount = await transaction.item.count({
-    });
-  
+    const totalCount = await transaction.item.count({});
+
     const items = await transaction.item.findMany({
       where: filter,
       orderBy: [
@@ -114,7 +113,7 @@ const getAll = async (
         },
       },
     });
-    return {totalCount,items};
+    return { totalCount, items };
   } catch (error) {
     console.log('Error occurred in item getAll dao', error);
     throw error;
@@ -165,6 +164,7 @@ const getById = async (item_id: number, connectionObj = null) => {
     throw error;
   }
 };
+
 const deleteItem = async (item_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
@@ -179,6 +179,7 @@ const deleteItem = async (item_id: number, connectionObj = null) => {
     throw error;
   }
 };
+
 const edit = async (
   item_id: number,
   item_name: string,
@@ -188,8 +189,8 @@ const edit = async (
   gst_id: number,
   uom_id: number,
   updated_by: bigint,
-  item_type_id:number,
-  brand_id:number,
+  item_type_id: number,
+  brand_id: number,
   connectionObj = null
 ) => {
   try {
@@ -209,7 +210,7 @@ const edit = async (
         updated_by,
         updated_date: currentDate,
         item_type_id,
-        brand_id
+        brand_id,
       },
     });
     return item;
@@ -218,6 +219,52 @@ const edit = async (
     throw error;
   }
 };
+
+const getByHSNCodeId = async (hsn_code_id: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const item = await transaction.item.findFirst({
+      where: {
+        hsn_code_id: Number(hsn_code_id),
+      },
+    });
+    return item;
+  } catch (error) {
+    console.log('Error occurred in item getByHSNCodeId dao', error);
+    throw error;
+  }
+};
+
+const getByGSTId = async (gstId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const item = await transaction.item.findFirst({
+      where: {
+        gst_id: Number(gstId),
+      },
+    });
+    return item;
+  } catch (error) {
+    console.log('Error occurred in item getByGSTId dao', error);
+    throw error;
+  }
+};
+
+const getByUOMId = async (uomId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const item = await transaction.item.findFirst({
+      where: {
+        uom_id: Number(uomId),
+      },
+    });
+    return item;
+  } catch (error) {
+    console.log('Error occurred in item getByUOMId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getAll,
@@ -226,4 +273,7 @@ export default {
   edit,
   addBulk,
   getAllBySearch,
+  getByHSNCodeId,
+  getByGSTId,
+  getByUOMId,
 };
