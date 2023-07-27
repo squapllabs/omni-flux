@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Styles from '../../styles/categoryList.module.scss';
-import MUIDataTable from 'mui-datatables';
 import { Tooltip, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
 import {
@@ -23,6 +22,8 @@ import Select from '../ui/Select';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
+import Pagination from '../menu/pagination';
+import CustomSwitch from '../ui/customSwitch';
 
 /**
  * Function for  CategoryList
@@ -35,6 +36,8 @@ const CategoryList = () => {
     data: getFilterData,
     isLoading: FilterLoading,
   } = getBySearchCategroy();
+  console.log('getFilterData', getFilterData);
+
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -56,6 +59,9 @@ const CategoryList = () => {
     budget: '',
     project_id: '',
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
+  const [rowsPerPage, setRowsPerPage] = useState(3);
   const { mutate: createNewCategory } = createCategory();
   const { data: getAllProjectList = [] } = useGetAllProject();
   const [selectedValue, setSelectedValue] = useState('');
@@ -65,10 +71,13 @@ const CategoryList = () => {
       ['search_by_name']: event.target.value,
     });
   };
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, rowsPerPage]);
   const handleSearch = async () => {
     let demo: any = {
-      offset: 0,
-      limit: 3,
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'asc',
       status: 'AC',
@@ -79,11 +88,27 @@ const CategoryList = () => {
     setFilter(true);
   };
   const handleReset = async () => {
+    let demo: any = {
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
+    };
+    postDataForFilter(demo);
+    setIsLoading(false);
     setFilter(false);
     setFilterValues({
       search_by_name: '',
     });
     setIsLoading(false);
+  };
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
   };
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
@@ -142,89 +167,10 @@ const CategoryList = () => {
       }
     },
   });
+  const [isActive, setIsActive] = useState(false);
 
-  const columns = [
-    {
-      name: 'category_id',
-      label: 'category',
-      options: {
-        display: false,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'name',
-      label: 'Name',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'budget',
-      label: 'Budget',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: '',
-      label: 'Options',
-      options: {
-        sort: false,
-        filter: false,
-        searchable: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <div>
-              <Tooltip title="Edit">
-                <IconButton
-                  aria-label="Edit"
-                  size="small"
-                  onClick={(e) => handleEdit(e, tableMeta.rowData[0])}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete"
-                  size="small"
-                  onClick={() => deleteCategoryHandler(tableMeta.rowData[0])}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          );
-        },
-      },
-    },
-  ];
-
-  const options = {
-    filter: false,
-    search: true,
-    caseSensitive: false,
-    print: false,
-    download: false,
-    viewColumns: false,
-    search: false,
-    selectableRows: 'none' as const,
-    setTableProps: () => {
-      return {
-        size: 'small',
-      };
-    },
-    textLabels: {
-      body: {
-        noMatch: FilterLoading ? 'Loading...' : 'Sorry , No Records found',
-      },
-    },
+  const handleToggle = (newState: boolean) => {
+    setIsActive(newState);
   };
   return (
     <div>
@@ -326,14 +272,60 @@ const CategoryList = () => {
               >
                 Reset
               </Button>
+              {/* <CustomSwitch isActive={isActive} onToggle={handleToggle} /> */}
             </div>
             <div className={Styles.tableContainer}>
-              <MUIDataTable
-                title=""
-                columns={columns}
-                options={options}
-                data={filter === true ? getFilterData?.content : getAllCategory}
-              />
+              <div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Budget</th>
+                      <th>Option</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getFilterData?.total_count === 0 ? (
+                      <tr>
+                        <td></td>
+                        <td>No data found</td>
+                        <td></td>
+                      </tr>
+                    ) : (
+                      ''
+                    )}
+                    {getFilterData?.content?.map((item: any) => (
+                      <tr>
+                        <td>{item.name}</td>
+                        <td>{item.budget}</td>
+                        <td>
+                          <IconButton
+                            onClick={(e) => handleEdit(e, item.category_id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            onClick={() =>
+                              deleteCategoryHandler(item.category_id)
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className={Styles.pagination}>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  rowsPerPage={rowsPerPage}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                />
+              </div>
             </div>
           </div>
         </div>
