@@ -49,8 +49,8 @@ const updateSubSubcategory = async (values: JSON) => {
   }
 };
 const deleteSubSubcategory = async (id: number) => {
-  console.log("id in delete service",id);
-  
+  console.log('id in delete service', id);
+
   try {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/sub-sub-category/delete/${id}`
@@ -73,6 +73,20 @@ const checkDublicateSubSubCategory = async (value: any) => {
     throw error;
   }
 };
+
+const filterSubSubCategory = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/sub-sub-category/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in sub-sub-category filter :', error);
+    throw error;
+  }
+};
+
 export default {
   getAllSubSubcategory,
   getOneSubSubcategoryByID,
@@ -80,4 +94,5 @@ export default {
   updateSubSubcategory,
   deleteSubSubcategory,
   checkDublicateSubSubCategory,
+  filterSubSubCategory,
 };
