@@ -1,6 +1,4 @@
 import React from 'react';
-import CustomLoader from '../menu/icons/CustomSpinner';
-import CustomSpineer from '../menu/icons/CustomSpinner';
 
 interface PageLoaderProps {
   loading: boolean;
@@ -8,9 +6,9 @@ interface PageLoaderProps {
   color?: string;
 }
 
-const PageLoader: React.FC<PageLoaderProps> = ({
+const CustomLoader: React.FC<PageLoaderProps> = ({
   loading,
-  size = 32,
+  size = 20,
   color = '#000',
   children,
 }) => {
@@ -51,4 +49,19 @@ const PageLoader: React.FC<PageLoaderProps> = ({
   );
 };
 
-export default PageLoader;
+export default CustomLoader;
+const styles = `
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+`;
+
+// Insert the styles into the document head
+const styleElement = document.createElement('style');
+styleElement.appendChild(document.createTextNode(styles));
+document.head.appendChild(styleElement);

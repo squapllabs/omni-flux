@@ -117,7 +117,7 @@ const SubCategoryList = () => {
       limit: 3,
       order_by_column: 'updated_date',
       order_by_direction: 'asc',
-      status: 'IN',
+      status: 'AC',
       ...filterValues,
     };
     postDataForFilter(demo);
@@ -224,18 +224,25 @@ const SubCategoryList = () => {
     download: false,
     viewColumns: false,
     // rowsPerPage: 3,
+    search: false,
     selectableRows: 'none' as const,
     setTableProps: () => {
       return {
         size: 'small',
       };
     },
+    textLabels: {
+      body: {
+        noMatch: filterDataLoading ? 'Loading...' : 'Sorry , No Records found',
+      },
+    },
   };
 
   return (
     <div>
       <CustomLoader
-        loading={isLoading === true ? filterDataLoading : filterDataLoading}
+        loading={isLoading === true ? getAllDataLoading : filterDataLoading}
+        // loading={true}
         size={48}
         color="#333C44"
       >
@@ -354,7 +361,7 @@ const SubCategoryList = () => {
               <div>
                 <div>
                   <MUIDataTable
-                    title={'Sub Category List'}
+                    title=""
                     columns={columns}
                     options={options}
                     data={
