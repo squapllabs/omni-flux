@@ -10,6 +10,7 @@ const add = async (
 ) => {
   try {
     const currentDate = new Date();
+    const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const gst = await transaction.gst.create({
       data: {
@@ -20,6 +21,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        is_delete: is_delete,
       },
     });
     return gst;
@@ -64,9 +66,10 @@ const edit = async (
 const getById = async (gstId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.findUnique({
+    const gst = await transaction.gst.findFirst({
       where: {
         gst_id: Number(gstId),
+        is_delete: false,
       },
     });
     return gst;
@@ -80,6 +83,9 @@ const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const gst = await transaction.gst.findMany({
+      where: {
+        is_delete: false,
+      },
       orderBy: [
         {
           updated_date: 'desc',
@@ -96,9 +102,12 @@ const getAll = async (connectionObj = null) => {
 const deleteGst = async (gstId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.delete({
+    const gst = await transaction.gst.update({
       where: {
         gst_id: Number(gstId),
+      },
+      data: {
+        is_delete: true,
       },
     });
     return gst;
