@@ -61,7 +61,8 @@ const getByParentMasterDataType = catchAsync(async (req, res) => {
   const methodName = '/getByParentMasterDataType';
   try {
     const masterData = await masterDataService.getByParentMasterDataType(
-      req.params.master_data_type
+      req.params.master_data_type,
+      req.params.parent_master_data_id
     );
     res.send(masterData);
   } catch (err) {
