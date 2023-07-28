@@ -5,15 +5,16 @@
   border-radius: 6px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 .rowPerPage{
   display: flex;
   align-items: center;
 }
 .pagesCount{
-  font-size: 12px;
-  padding:0 10px;
+  font-size: 14px;
+  font-weight:bold
+
 }
 .title{
   font-size: 14px;
@@ -22,6 +23,8 @@
 .icons{
 display: flex;
 align-items: center;
-gap: 20px;
+gap: 40px;
+padding: 0 40px;
+
 
 }
