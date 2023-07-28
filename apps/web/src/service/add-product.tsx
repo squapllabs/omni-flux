@@ -13,7 +13,7 @@ const addProduct = async (values: JSON) => {
     throw error;
   }
 };
-const getAllItems = async (values) => {
+const getAllItems = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/item/get-all-items`,

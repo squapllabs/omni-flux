@@ -9,12 +9,13 @@ const options = [
   { value: '5', label: '5' },
   { value: '10', label: '10' },
   { value: '20', label: '20' },
+  { value: '25', label: '25' },
 ];
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
   rowsPerPage: number;
-
+  numberOfRecords: number;
   onPageChange: (page: number) => void;
   onRowsPerPageChange: (rowsPerPage: number) => void;
 }
@@ -22,8 +23,8 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
-
   rowsPerPage,
+  numberOfRecords,
   onPageChange,
   onRowsPerPageChange,
 }) => {
@@ -51,7 +52,11 @@ const Pagination: React.FC<PaginationProps> = ({
         />
       </div>
       <span className={Styles.pagesCount}>
-        {currentPage} - {rowsPerPage}of{totalPages}
+        <span style={{ paddingRight: '5px' }}>
+          {currentPage}-{(currentPage - 1) * rowsPerPage}
+        </span>
+        of
+        <span style={{ paddingLeft: '5px' }}> {numberOfRecords}</span>
       </span>
 
       <div className={Styles.icons}>
