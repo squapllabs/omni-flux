@@ -87,6 +87,7 @@ const getByParentMasterDataType = async (
       where: {
         master_data_type: masterDataType,
         parent_master_data_id: null,
+        is_delete: false,
       },
     });
     return masterData;
