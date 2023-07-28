@@ -44,7 +44,7 @@ router.get(
 router.get('/get/:master_data_id', authMiddleware, getByMasterDataId);
 
 router.get(
-  '/get-by-parent-type/:master_data_type',
+  '/get-by-parent-type/:master_data_type/:parent_master_data_id?',
   authMiddleware,
   getByParentMasterDataType
 );
