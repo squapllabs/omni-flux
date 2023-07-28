@@ -1,0 +1,46 @@
+.conatiner {
+  width: 100%;
+  //   height: 100vh;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.textContent {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+.content {
+  font-size: 0.7rem;
+}
+.box {
+  position: relative;
+}
+.projectField {
+  margin-top: -18px;
+}
+.projectHeading {
+  font-size: 0.8rem;
+}
+.fields_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+.box::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 20;
+  left: 10;
+}
+
+.box:last-child::after {
+  display: none;
+}
