@@ -20,7 +20,9 @@ import warehouseInventory from './warehouseInventory.route';
 import upload from './upload.route';
 import brand from './brand.route';
 import itemType from './itemType.routes';
+import masterData from './masterData.route';
 const router = express.Router();
+
 const defaultRoutes = [
   {
     path: '/user',
@@ -105,7 +107,11 @@ const defaultRoutes = [
   {
     path: '/itemType',
     route: itemType,
-  }, 
+  },
+  {
+    path: '/master-data',
+    route: masterData,
+  },
 ];
 
 defaultRoutes.forEach((r) => {

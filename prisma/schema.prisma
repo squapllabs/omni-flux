@@ -316,3 +316,18 @@ model user_profiles {
 
   @@unique([user_id])
 }
+
+model master_data {
+  master_data_id          Int       @id @default(autoincrement())
+  master_data_name        String    @db.VarChar(100)
+  master_data_description String?   @db.VarChar(250)
+  master_data_type        String    @db.VarChar(20)
+  parent_master_data_id   Int?      
+  is_delete               Boolean   @default(false)
+  created_date            DateTime  
+  updated_date            DateTime 
+  created_by              Int? 
+  updated_by              Int?   
+  @@map("master_data")
+  @@unique([master_data_type, parent_master_data_id])
+}
