@@ -69,6 +69,10 @@ const getById = async (masterDataId: number, connectionObj = null) => {
         master_data_id: Number(masterDataId),
         is_delete: false,
       },
+      include: {
+        parent: true,
+        children: true,
+      },
     });
     return masterData;
   } catch (error) {
@@ -88,6 +92,10 @@ const getByParentMasterDataType = async (
         master_data_type: masterDataType,
         parent_master_data_id: null,
         is_delete: false,
+      },
+      include: {
+        parent: true,
+        children: true,
       },
     });
     return masterData;
@@ -110,6 +118,10 @@ const getByParentMasterDataId = async (
       where: {
         parent_master_data_id: Number(parentMasterDataId),
       },
+      include: {
+        parent: true,
+        children: true,
+      },
     });
     return masterData;
   } catch (error) {
@@ -127,6 +139,10 @@ const getAll = async (connectionObj = null) => {
     const masterData = await transaction.master_data.findMany({
       where: {
         is_delete: false,
+      },
+      include: {
+        parent: true,
+        children: true,
       },
       orderBy: [
         {
@@ -148,6 +164,10 @@ const getAllParentMasterData = async (connectionObj = null) => {
       where: {
         parent_master_data_id: null,
         is_delete: false,
+      },
+      include: {
+        parent: true,
+        children: true,
       },
       orderBy: [
         {
@@ -201,6 +221,10 @@ const getByParentMasterDataIdAndType = async (
         master_data_type: masterDataType,
         is_delete: false,
       },
+      include: {
+        parent: true,
+        children: true,
+      },
     });
     return masterData;
   } catch (error) {
@@ -208,6 +232,45 @@ const getByParentMasterDataIdAndType = async (
       'Error occurred in masterData getByParentMasterDataIdAndType dao',
       error
     );
+    throw error;
+  }
+};
+
+const searchMasterData = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterMasterData;
+    const masterData = await transaction.master_data.findMany({
+      where: filter,
+      include: {
+        parent: true,
+        children: true,
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const masterDataCount = await transaction.master_data.count({
+      where: filter,
+    });
+    const masterDataData = {
+      count: masterDataCount,
+      data: masterData,
+    };
+    return masterDataData;
+  } catch (error) {
+    console.log('Error occurred in masterData dao : searchMasterData ', error);
     throw error;
   }
 };
@@ -222,4 +285,5 @@ export default {
   getAllParentMasterData,
   getByParentMasterDataId,
   getByParentMasterDataIdAndType,
+  searchMasterData,
 };
