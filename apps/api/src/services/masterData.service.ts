@@ -267,6 +267,70 @@ const getByParentMasterDataType = async (
   }
 };
 
+/**
+ * Method to search MasterData - Pagination API
+ * @returns
+ */
+const searchMasterData = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterMasterData: {
+        AND: [],
+        OR: [
+          {
+            master_data_name: { contains: global_search, mode: 'insensitive' },
+          },
+          {
+            master_data_description: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            master_data_type: { contains: global_search, mode: 'insensitive' },
+          },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await masterDataDao.searchMasterData(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempMasterDataData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempMasterDataData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchMasterData masterData service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createMasterData,
   updateMasterData,
@@ -275,4 +339,5 @@ export {
   getById,
   deleteMasterData,
   getByParentMasterDataType,
+  searchMasterData,
 };

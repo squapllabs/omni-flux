@@ -328,6 +328,9 @@ model master_data {
   updated_date            DateTime 
   created_by              Int? 
   updated_by              Int?   
+  parent                  master_data? @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
+  children                master_data[] @relation("ChildToParent")
+
   @@map("master_data")
   @@unique([master_data_type, parent_master_data_id])
 }
