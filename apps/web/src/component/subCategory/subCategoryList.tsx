@@ -24,6 +24,7 @@ import SearchIcon from '../menu/icons/search';
 import SelectDrop from '../ui/Select';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
+import CustomGroupButton from '../ui/CustomGroupButton';
 
 /**
  * Function for SubCategoryList
@@ -85,6 +86,14 @@ const SubCategoryList = () => {
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'active', value: 'AC' },
+    { label: 'inactive', value: 'IC' },
+  ]);
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
@@ -115,22 +124,25 @@ const SubCategoryList = () => {
     const selectedCategoryId = event.target.value;
     setSelectedValue(selectedCategoryId);
   };
-  useEffect(() => {
-    handleSearch();
-  }, [currentPage, rowsPerPage]);
   const handleSearch = async () => {
     let demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'asc',
-      status: 'AC',
+      status: activeButton,
       ...filterValues,
     };
+    console.log('demo---->', demo);
+
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(true);
   };
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, rowsPerPage, activeButton]);
+
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
@@ -253,32 +265,42 @@ const SubCategoryList = () => {
               </div>
               <div>
                 <div className={Styles.searchContainer}>
-                  <Input
-                    width="260px"
-                    prefixIcon={<SearchIcon />}
-                    name="search_by_name"
-                    value={filterValues.search_by_name}
-                    onChange={(e) => handleFilterChange(e)}
-                    placeholder="Search by item name"
-                  />
-                  <Button
-                    className={Styles.searchButton}
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </Button>
-                  <Button
-                    className={Styles.resetButton}
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    onClick={handleReset}
-                  >
-                    Reset
-                  </Button>
+                  <div className={Styles.inputFilter}>
+                    <Input
+                      width="260px"
+                      prefixIcon={<SearchIcon />}
+                      name="search_by_name"
+                      value={filterValues.search_by_name}
+                      onChange={(e) => handleFilterChange(e)}
+                      placeholder="Search by item name"
+                    />
+                    <Button
+                      className={Styles.searchButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </Button>
+                    <Button
+                      className={Styles.resetButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </Button>
+                  </div>
+
+                  <div>
+                    <CustomGroupButton
+                      labels={buttonLabels}
+                      onClick={handleGroupButtonClick}
+                      activeButton={activeButton}
+                    />
+                  </div>
                 </div>
               </div>
               <div>
@@ -311,13 +333,15 @@ const SubCategoryList = () => {
                             <td>{item.budget}</td>
                             <td>
                               <IconButton
-                                onClick={(e) => handleEdit(e, item.category_id)}
+                                onClick={(e) =>
+                                  handleEdit(e, item.sub_category_id)
+                                }
                               >
                                 <EditIcon />
                               </IconButton>
                               <IconButton
                                 onClick={() =>
-                                  deleteCategoryHandler(item.category_id)
+                                  deleteCategoryHandler(item.sub_category_id)
                                 }
                               >
                                 <DeleteIcon />

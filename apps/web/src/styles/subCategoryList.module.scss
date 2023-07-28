@@ -58,9 +58,11 @@
   color: #848289;
 }
 .searchContainer {
+  padding: 10px 10px 0px 10px;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 10px;
-  //   align-items: center;
 }
 
 table {
@@ -93,4 +95,9 @@ tr:hover {
 .pagination {
   display: flex;
   justify-content: end;
+}
+
+.inputFilter {
+  display: flex;
+  gap: 10px;
 }

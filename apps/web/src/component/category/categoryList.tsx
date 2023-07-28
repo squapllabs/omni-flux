@@ -24,6 +24,7 @@ import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import CustomSwitch from '../ui/customSwitch';
+import CustomGroupButton from '../ui/CustomGroupButton';
 
 /**
  * Function for  CategoryList
@@ -36,8 +37,6 @@ const CategoryList = () => {
     data: getFilterData,
     isLoading: FilterLoading,
   } = getBySearchCategroy();
-  console.log('getFilterData', getFilterData);
-
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -65,6 +64,11 @@ const CategoryList = () => {
   const { mutate: createNewCategory } = createCategory();
   const { data: getAllProjectList = [] } = useGetAllProject();
   const [selectedValue, setSelectedValue] = useState('');
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'active', value: 'AC' },
+    { label: 'inactive', value: 'IC' },
+  ]);
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
@@ -73,14 +77,14 @@ const CategoryList = () => {
   };
   useEffect(() => {
     handleSearch();
-  }, [currentPage, rowsPerPage]);
+  }, [currentPage, rowsPerPage, activeButton]);
   const handleSearch = async () => {
     let demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'asc',
-      status: 'AC',
+      status: activeButton,
       ...filterValues,
     };
     postDataForFilter(demo);
@@ -167,10 +171,9 @@ const CategoryList = () => {
       }
     },
   });
-  const [isActive, setIsActive] = useState(false);
 
-  const handleToggle = (newState: boolean) => {
-    setIsActive(newState);
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
   };
   return (
     <div>
@@ -246,33 +249,42 @@ const CategoryList = () => {
               </span>
             </div>
             <div className={Styles.searchField}>
-              <Input
-                width="260px"
-                prefixIcon={<SearchIcon />}
-                name="search_by_name"
-                value={filterValues.search_by_name}
-                onChange={(e) => handleFilterChange(e)}
-                placeholder="Search by item name"
-              />
-              <Button
-                className={Styles.searchButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleSearch}
-              >
-                Search
-              </Button>
-              <Button
-                className={Styles.resetButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleReset}
-              >
-                Reset
-              </Button>
-              {/* <CustomSwitch isActive={isActive} onToggle={handleToggle} /> */}
+              <div className={Styles.inputFilter}>
+                <Input
+                  width="260px"
+                  prefixIcon={<SearchIcon />}
+                  name="search_by_name"
+                  value={filterValues.search_by_name}
+                  onChange={(e) => handleFilterChange(e)}
+                  placeholder="Search by item name"
+                />
+                <Button
+                  className={Styles.searchButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+                <Button
+                  className={Styles.resetButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
+              </div>
+
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
             </div>
             <div className={Styles.tableContainer}>
               <div>

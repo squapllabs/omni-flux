@@ -24,6 +24,7 @@ import Select from '../ui/Select';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
+import CustomGroupButton from '../ui/CustomGroupButton';
 
 const SubSubCategoryList = () => {
   const { data: getAllSubSubCategory, isLoading: loader } =
@@ -62,6 +63,11 @@ const SubSubCategoryList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'active', value: 'AC' },
+    { label: 'inactive', value: 'IC' },
+  ]);
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
@@ -78,7 +84,7 @@ const SubSubCategoryList = () => {
       limit: rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'asc',
-      status: 'AC',
+      status: activeButton,
       ...filterValues,
     };
     postFilterRequest(demo);
@@ -87,7 +93,7 @@ const SubSubCategoryList = () => {
   };
   useEffect(() => {
     handleSearch();
-  }, [currentPage, rowsPerPage]);
+  }, [currentPage, rowsPerPage, activeButton]);
   const deleteSubSubCategoryHandler = (id: any) => {
     setValue(id);
     setOpen(true);
@@ -108,6 +114,7 @@ const SubSubCategoryList = () => {
     setOpenSnack(false);
   };
   const handleEdit = (event: React.FormEvent, value: any) => {
+    console.log('value', value);
     setMode('EDIT');
     setSubSubCategoryId(value);
     setOpenPopup(true);
@@ -189,6 +196,9 @@ const SubSubCategoryList = () => {
     },
   });
 
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
   return (
     <div>
       <CustomLoader
@@ -265,32 +275,42 @@ const SubSubCategoryList = () => {
               </span>
             </div>
             <div className={Styles.searchField}>
-              <Input
-                width="260px"
-                prefixIcon={<SearchIcon />}
-                name="search_by_name"
-                value={filterValues.search_by_name}
-                onChange={(e) => handleFilterChange(e)}
-                placeholder="Search by item name"
-              />
-              <Button
-                className={Styles.searchButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleSearch}
-              >
-                Search
-              </Button>
-              <Button
-                className={Styles.resetButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleReset}
-              >
-                Reset
-              </Button>
+              <div className={Styles.inputFilter}>
+                <Input
+                  width="260px"
+                  prefixIcon={<SearchIcon />}
+                  name="search_by_name"
+                  value={filterValues.search_by_name}
+                  onChange={(e) => handleFilterChange(e)}
+                  placeholder="Search by item name"
+                />
+                <Button
+                  className={Styles.searchButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+                <Button
+                  className={Styles.resetButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
+              </div>
+
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
             </div>
             <div className={Styles.tableContainer}>
               <div>
@@ -321,13 +341,17 @@ const SubSubCategoryList = () => {
                         <td>{item.budget}</td>
                         <td>
                           <IconButton
-                            onClick={(e) => handleEdit(e, item.category_id)}
+                            onClick={(e) =>
+                              handleEdit(e, item.sub_sub_category_id)
+                            }
                           >
                             <EditIcon />
                           </IconButton>
                           <IconButton
                             onClick={() =>
-                              deleteSubSubCategoryHandler(item.category_id)
+                              deleteSubSubCategoryHandler(
+                                item.sub_sub_category_id
+                              )
                             }
                           >
                             <DeleteIcon />
