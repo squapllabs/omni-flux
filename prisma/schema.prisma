@@ -80,14 +80,15 @@ model uom {
 }
 
 model client {
-  client_id       Int       @id @default(autoincrement())
-  name            String    @db.VarChar(100)
+  client_id       Int            @id @default(autoincrement())
+  name            String         @db.VarChar(100)
   contact_details String
   created_date    DateTime
   updated_date    DateTime
   created_by      Int?
   updated_by      Int?
   projects        project[]
+  lead_enquiry    lead_enquiry[]
 }
 
 model hsn_code {
@@ -318,19 +319,77 @@ model user_profiles {
 }
 
 model master_data {
-  master_data_id          Int       @id @default(autoincrement())
-  master_data_name        String    @db.VarChar(100)
-  master_data_description String?   @db.VarChar(250)
-  master_data_type        String    @db.VarChar(20)
-  parent_master_data_id   Int?      
-  is_delete               Boolean   @default(false)
-  created_date            DateTime  
-  updated_date            DateTime 
-  created_by              Int? 
-  updated_by              Int?   
-  parent                  master_data? @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
+  master_data_id          Int           @id @default(autoincrement())
+  master_data_name        String        @db.VarChar(100)
+  master_data_description String?       @db.VarChar(250)
+  master_data_type        String        @db.VarChar(20)
+  parent_master_data_id   Int?
+  is_delete               Boolean       @default(false)
+  created_date            DateTime
+  updated_date            DateTime
+  created_by              Int?
+  updated_by              Int?
+  parent                  master_data?  @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
   children                master_data[] @relation("ChildToParent")
 
-  @@map("master_data")
   @@unique([master_data_type, parent_master_data_id])
+  @@map("master_data")
+}
+
+model lead_enquiry {
+  lead_enquiry_id      Int            @id @default(autoincrement())
+  lead_type            String?
+  lead_code            String?
+  client_id            Int?
+  client_level         Int?
+  client_contact_name  String?
+  client_contact_email String?
+  client_contact_phone String?
+  doc_url              String?
+  is_delete            Boolean        @default(false)
+  created_date         DateTime
+  updated_date         DateTime
+  created_by           Int?
+  updated_by           Int?
+  client               client?        @relation(fields: [client_id], references: [client_id])
+  lead_products        lead_product[]
+  lead_tenders         lead_tender[]
+}
+
+model lead_product {
+  lead_product_id   Int           @id @default(autoincrement())
+  lead_enquiry_id   Int?
+  source_name       String
+  probability       String?
+  our_remarks       String?
+  client_remark     String?
+  approx_value      Float?
+  sales_person_name Int?
+  is_delete         Boolean       @default(false)
+  created_date      DateTime
+  updated_date      DateTime
+  created_by        Int?
+  updated_by        Int?
+  lead_enquiry      lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
+}
+
+model lead_tender {
+  lead_tender_id           Int           @id @default(autoincrement())
+  lead_enquiry_id          Int?
+  approx_value             Float?
+  sales_person_name        Int?
+  tender_reg_no            String?
+  tender_identification_no String?
+  tender_name              String?
+  tender_issue_date        DateTime?
+  tender_due_date          DateTime?
+  tender_type              String?
+  estimated_value          Float?
+  industry_sector          String?
+  is_delete                Boolean       @default(false)
+  created_date             DateTime
+  updated_date             DateTime
+  created_by               Int?
+  updated_by               Int?
+  lead_enquiry             lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
 }
