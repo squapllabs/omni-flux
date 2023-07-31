@@ -21,6 +21,10 @@ import upload from './upload.route';
 import brand from './brand.route';
 import itemType from './itemType.routes';
 import masterData from './masterData.route';
+import leadEnquiry from './leadEnquiry.route';
+import leadProduct from './leadProduct.route';
+import leadTender from './leadTender.route';
+
 const router = express.Router();
 
 const defaultRoutes = [
@@ -111,6 +115,18 @@ const defaultRoutes = [
   {
     path: '/master-data',
     route: masterData,
+  },
+  {
+    path: '/lead-enquiry',
+    route: leadEnquiry,
+  },
+  {
+    path: '/lead-product',
+    route: leadProduct,
+  },
+  {
+    path: '/lead-tender',
+    route: leadTender,
   },
 ];
 

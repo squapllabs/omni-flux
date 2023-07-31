@@ -83,6 +83,16 @@ const addBulkHSNCode = catchAsync(async (req, res) => {
   }
 });
 
+const searchHsnCode = catchAsync(async (req, res) => {
+  const methodName = '/searchHsnCode';
+  try {
+    const hsnCode = await hsnCodeService.searchHsnCode(req.body);
+    res.send(hsnCode);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createHsnCode,
   updateHsnCode,
@@ -92,4 +102,5 @@ export {
   getByHsnCode,
   addBulkHSNCodeByImport,
   addBulkHSNCode,
+  searchHsnCode,
 };
