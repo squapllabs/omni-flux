@@ -12,6 +12,8 @@ import Button from '../ui/Button';
 import Input from '../ui/Input';
 import { useFormik } from 'formik';
 import { createClient } from '../../hooks/client-hooks';
+import * as Yup from 'yup';
+import { getClientValidateyup } from '../../helper/constants/client-constants';
 
 
 const ClientList = () => {
@@ -25,6 +27,7 @@ const ClientList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
+  const validationSchema = getClientValidateyup(Yup);
   const deleteClientHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
@@ -57,6 +60,7 @@ const ClientList = () => {
   });
   const formik = useFormik({
     initialValues,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       if (values) {

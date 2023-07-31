@@ -4,7 +4,7 @@ import { useGetAllGst, useDeleteGst } from '../../hooks/gst-hooks';
 import { IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '@mui/icons-material/Edit';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import GstForm from './gstCreate';

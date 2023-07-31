@@ -71,6 +71,19 @@ const getOneUomByName = async (values: any) => {
     throw error;
   }
 };
+const filterUom = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/uom/search-uom`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in uom search :', error);
+    throw error;
+  }
+};
+
 export default {
   getAlluom,
   getOneUomByID,
@@ -78,4 +91,5 @@ export default {
   updateUom,
   deleteUom,
   getOneUomByName,
+  filterUom
 };
