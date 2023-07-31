@@ -199,7 +199,7 @@ const searchUom = async (body) => {
     };
     return tempUomData;
   } catch (error) {
-    console.log('Error occurred in searchUom Uom service : ', error);
+    console.log('Error occurred in Uom service : searchUom', error);
     throw error;
   }
 };
