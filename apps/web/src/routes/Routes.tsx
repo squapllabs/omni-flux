@@ -205,6 +205,7 @@ import CategoryList from '../component/category/categoryList';
 import ProductPage from '../component/products/productPage';
 import Category from '../component/category/category';
 import ResetPassword from '../component/resetPassword/token';
+import MasterData from '../component/masterData/masterData';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -223,6 +224,7 @@ const AppRoutes = () => {
   const ProtectedAddProductPage = withLayoutAndProtection(AddProducts);
   const ProtectedProductPage = withLayoutAndProtection(ProductPage);
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
+  const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
 
   return (
     <div>
@@ -245,6 +247,7 @@ const AppRoutes = () => {
         <Route path="/client-list" element={<ProtectedClientList />} />
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/category" element={<ProtectedCategoryPage />} />
+        <Route path="/master-data" element={<ProtectedMasterDataPage />} />
       </Routes>
     </div>
   );

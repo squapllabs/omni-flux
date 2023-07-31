@@ -1,22 +1,21 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-interface Option {
-  value: string;
-  label: string;
-}
-
 interface SelectProps {
-  options: Option[];
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   value: string;
   defaultLabel: string;
   width?: string;
+  children: React.ReactNode;
+  label?: string;
+  name?: string;
+  error?: string;
 }
 
 interface StyledSelectProps {
   value: string;
   width?: string;
+  error?: boolean;
 }
 const SelectContainer = styled.div<{ width?: string }>`
   display: flex;
@@ -36,7 +35,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   border: none;
   border-radius: 4px;
   outline: none;
-
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   option {
     color: black;
     background: white;
@@ -64,26 +63,52 @@ const DropdownArrow = styled.div`
   border-top: 6px solid gray;
 `;
 
-const SelectNew: FC<SelectProps> = ({
-  options,
+const StyledLabel = styled.label`
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  color: #333c44;
+  font-weight: 400;
+`;
+
+const ErrorMessageWrapper = styled.div`
+  min-height: 20px; // Change to the height of your error message
+`;
+
+const InputError = styled.span`
+  color: red;
+  margin-top: 2px;
+  font-size: 0.75rem;
+`;
+const Select: FC<SelectProps> = ({
   onChange,
+  label,
   value,
   defaultLabel,
   width,
+  children,
+  name,
+  error,
 }) => {
   return (
-    <SelectContainer width={width}>
-      <StyledSelect value={value} onChange={onChange}>
-        <option value="">{defaultLabel}</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </StyledSelect>
-      <DropdownArrow />
-    </SelectContainer>
+    <div>
+      {label && <StyledLabel>{label}</StyledLabel>}
+      <SelectContainer width={width}>
+        <StyledSelect
+          value={value}
+          name={name}
+          onChange={onChange}
+          error={!!error}
+        >
+          <option value="">{defaultLabel}</option>
+          {children}
+        </StyledSelect>
+        <DropdownArrow />
+      </SelectContainer>
+      <ErrorMessageWrapper>
+        {error && <InputError>{error}</InputError>}
+      </ErrorMessageWrapper>
+    </div>
   );
 };
 
-export default SelectNew;
+export default Select;
