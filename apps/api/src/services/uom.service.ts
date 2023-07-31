@@ -153,4 +153,63 @@ const getByName = async (name: string) => {
   }
 };
 
-export { createUom, updateUom, getAllUom, getById, deleteUom, getByName };
+/**
+ * Method to search Uom - Pagination API
+ * @returns
+ */
+const searchUom = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterUom: {
+        AND: [],
+        OR: [
+          { name: { contains: global_search, mode: 'insensitive' } },
+          { description: { contains: global_search, mode: 'insensitive' } },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await uomDao.searchUOM(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempUomData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempUomData;
+  } catch (error) {
+    console.log('Error occurred in searchUom Uom service : ', error);
+    throw error;
+  }
+};
+
+export {
+  createUom,
+  updateUom,
+  getAllUom,
+  getById,
+  deleteUom,
+  getByName,
+  searchUom,
+};
