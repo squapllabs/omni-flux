@@ -117,10 +117,46 @@ const deleteGst = async (gstId: number, connectionObj = null) => {
   }
 };
 
+const searchGST = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterGst;
+    const gst = await transaction.gst.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const gstCount = await transaction.gst.count({
+      where: filter,
+    });
+    const gstData = {
+      count: gstCount,
+      data: gst,
+    };
+    return gstData;
+  } catch (error) {
+    console.log('Error occurred in gst dao : searchGST ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getById,
   getAll,
   deleteGst,
+  searchGST,
 };
