@@ -48,6 +48,7 @@ const edit = async (
   updated_by: bigint,
   user_id: number,
   department: string,
+  is_two_factor: boolean,
   connectionObj = null
 ) => {
   try {
@@ -62,6 +63,7 @@ const edit = async (
         updated_by,
         updated_date: currentDate,
         department,
+        is_two_factor
       },
     });
     return user;

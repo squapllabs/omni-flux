@@ -23,6 +23,8 @@ const UserInformation = () => {
               <div className={Styles.leftData}>User Name</div>
               <div className={Styles.leftData}>Email</div>
               <div className={Styles.leftData}>Contact Number</div>
+              <div className={Styles.leftData}>Department</div>
+              <div className={Styles.leftData}>Gender</div>
               <div className={Styles.leftData}>Address</div>
             </div>
             <div className={Styles.rightContent}>
@@ -48,11 +50,40 @@ const UserInformation = () => {
                   ? getOneUser?.userData?.contact_no
                   : 'Not Provided'}
               </div>
+
               <div className={Styles.rightData}>
                 :{' '}
-                {getOneUser?.userData?.address
-                  ? getOneUser?.userData?.address
+                {getOneUser?.userData?.department
+                  ? getOneUser?.userData?.department
                   : 'Not Provided'}
+              </div>
+              <div className={Styles.rightData}>
+                :{' '}
+                {getOneUser?.userProfileData?.gender
+                  ? getOneUser?.userProfileData?.gender
+                  : 'Not Provided'}
+              </div>
+              <div className={Styles.rightData}>
+                :{' '}
+                {getOneUser?.userProfileData?.address ? (
+                  <>
+                    {getOneUser?.userProfileData?.address.street && (
+                      <>{getOneUser?.userProfileData?.address.street}, </>
+                    )}
+                    {getOneUser?.userProfileData?.address.city && (
+                      <>{getOneUser?.userProfileData?.address.city}, </>
+                    )}
+                    {getOneUser?.userProfileData?.address.state && (
+                      <>{getOneUser?.userProfileData?.address.state}, </>
+                    )}
+                    {getOneUser?.userProfileData?.address.country && (
+                      <>{getOneUser?.userProfileData?.address.country}, </>
+                    )}
+                     {getOneUser?.userProfileData?.address.pin_code}
+                  </>
+                ) : (
+                  'Address not available'
+                )}
               </div>
             </div>
           </div>
