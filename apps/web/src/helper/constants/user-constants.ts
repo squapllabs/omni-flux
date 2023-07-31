@@ -1,6 +1,6 @@
 export const userErrorMessages = {
-  ENTER_EMAIL: 'Please enter your email',
-  ENTER_PASSWORD: 'Please enter your password',
+  ENTER_EMAIL: 'Email Id is required',
+  ENTER_PASSWORD: 'Password is required',
   ENTER_VALID_EMAIL: 'Please enter a valid email',
   MIN_PASSWORD_LENGTH: 'Password should be at least 8 characters',
   INVALID_LOGIN: 'Invalid username or password',
@@ -20,8 +20,8 @@ export const userErrorMessages = {
   SELECT_DEPARTMENT: 'Department is required',
   ENTER_VALID_NAME: 'Invalid name',
   ENTER_VALID_DEPARTMENT: 'Invalid department',
-  ENTER_MAX_NAME:'Name should not exceed 100 characters',
-  ENTER_MAX_DEPARTMENT:'Department should not exceed 100 characters'
+  ENTER_MAX_NAME: 'Name should not exceed 100 characters',
+  ENTER_MAX_DEPARTMENT: 'Department should not exceed 100 characters',
 };
 
 export const getLoginYupSchema = (yup: any) => {
@@ -86,14 +86,16 @@ export const getForgetPasswordYupSchema = (yup: any) => {
 };
 export const getUsercreationYupschema = (yup: any) => {
   return yup.object().shape({
-    first_name: yup.string()
-    .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_NAME)
-    .max(100, userErrorMessages.ENTER_MAX_NAME)
-    .required(userErrorMessages.ENTER_FIRSTNAME),
-    last_name: yup.string()
-    .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_NAME)
-    .max(100, userErrorMessages.ENTER_MAX_NAME)
-    .required(userErrorMessages.ENTER_LASTNAME),
+    first_name: yup
+      .string()
+      .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_NAME)
+      .max(100, userErrorMessages.ENTER_MAX_NAME)
+      .required(userErrorMessages.ENTER_FIRSTNAME),
+    last_name: yup
+      .string()
+      .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_NAME)
+      .max(100, userErrorMessages.ENTER_MAX_NAME)
+      .required(userErrorMessages.ENTER_LASTNAME),
     contact_no: yup
       .string()
       .matches(/^\d{10}$/, userErrorMessages.ENTER_VALID_MOBILENUMBER)
@@ -124,26 +126,31 @@ export const getUsercreationYupschema = (yup: any) => {
       .typeError(userErrorMessages.ENTER_PASSWORD)
       .required(userErrorMessages.ENTER_PASSWORD),
     // role_id: yup.string().required(userErrorMessages.SELECT_USERROLE),
-    department: yup.string()
-    .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_DEPARTMENT)
-    .max(100, userErrorMessages.ENTER_MAX_DEPARTMENT)
-    .required(userErrorMessages.SELECT_DEPARTMENT),
-    // address: yup.object().shape({
-    //   state: yup.string().required('State is required'),
-    //   area: yup.string().required('Area is required'),
-    // }),
+    department: yup
+      .string()
+      .matches(/^[A-Za-z\s]+$/, userErrorMessages.ENTER_VALID_DEPARTMENT)
+      .max(100, userErrorMessages.ENTER_MAX_DEPARTMENT)
+      .required(userErrorMessages.SELECT_DEPARTMENT),
+    address: yup.object().shape({
+      city: yup.string().matches(/^[A-Za-z]+$/, 'Invalid city name'),
+      state: yup.string().matches(/^[A-Za-z\s]+$/, 'Invalid state name'),
+      country: yup.string().matches(/^[A-Za-z]+$/, 'Invalid country name'),
+      pin_code: yup.number().typeError('Only numbers are allowed'),
+    }),
   });
 };
 export const getUsereditYupschema = (yup: any) => {
   return yup.object().shape({
-    first_name: yup.string()
-    .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_NAME)
-    .max(100, userErrorMessages.ENTER_MAX_NAME)
-    .required(userErrorMessages.ENTER_FIRSTNAME),
-    last_name: yup.string()
-    .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_NAME)
-    .max(100, userErrorMessages.ENTER_MAX_NAME)
-    .required(userErrorMessages.ENTER_LASTNAME),
+    first_name: yup
+      .string()
+      .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_NAME)
+      .max(100, userErrorMessages.ENTER_MAX_NAME)
+      .required(userErrorMessages.ENTER_FIRSTNAME),
+    last_name: yup
+      .string()
+      .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_NAME)
+      .max(100, userErrorMessages.ENTER_MAX_NAME)
+      .required(userErrorMessages.ENTER_LASTNAME),
     contact_no: yup
       .string()
       .matches(/^\d{10}$/, userErrorMessages.ENTER_VALID_MOBILENUMBER)
@@ -153,13 +160,16 @@ export const getUsereditYupschema = (yup: any) => {
       .required(userErrorMessages.ENTER_EMAIL)
       .email(userErrorMessages.ENTER_VALID_EMAIL),
     role_id: yup.string().required(userErrorMessages.SELECT_USERROLE),
-    department: yup.string()
-    .matches(/^[A-Za-z]+$/, userErrorMessages.ENTER_VALID_DEPARTMENT)
-    .max(100, userErrorMessages.ENTER_MAX_DEPARTMENT)
-    .required(userErrorMessages.SELECT_DEPARTMENT),
-    // address: yup.object().shape({
-    //   state: yup.string().required('State is required'),
-    //   area: yup.string().required('Area is required'),
-    // }),
+    department: yup
+      .string()
+      .matches(/^[A-Za-z\s]+$/, userErrorMessages.ENTER_VALID_DEPARTMENT)
+      .max(100, userErrorMessages.ENTER_MAX_DEPARTMENT)
+      .required(userErrorMessages.SELECT_DEPARTMENT),
+    address: yup.object().shape({
+      city: yup.string().matches(/^[A-Za-z]+$/, 'Invalid city name'),
+      state: yup.string().matches(/^[A-Za-z\s]+$/, 'Invalid state name'),
+      country: yup.string().matches(/^[A-Za-z]+$/, 'Invalid country name'),
+      pin_code: yup.number().typeError('Only numbers are allowed'),
+    }),
   });
 };

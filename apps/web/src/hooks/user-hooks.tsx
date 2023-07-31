@@ -27,14 +27,31 @@ const getByuserID = (id: number) => {
   });
 };
 const createUser = () => {
-  return useMutation({
-    mutationFn: userService.createuser,
-  });
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return userService.createuser(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllUsers']);
+      },
+    }
+  );
 };
+
 const updateUser = () => {
-  return useMutation({
-    mutationFn: userService.updateUser,
-  });
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return userService.updateUser(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllUsers']);
+      },
+    }
+  );
 };
 
 const useDeleteUsers = () => {
