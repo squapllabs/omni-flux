@@ -44,3 +44,41 @@
 .box:last-child::after {
   display: none;
 }
+
+.tableContainer {
+  padding: 10px;
+  // height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.searchField {
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+.inputFilter {
+  display: flex;
+  gap: 10px;
+}
+.searchButton {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
+}
+.resetButton {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #848289;
+}
+
+.pagination {
+  display: flex;
+  justify-content: end;
+}

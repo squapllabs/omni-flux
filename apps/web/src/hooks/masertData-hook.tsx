@@ -25,6 +25,19 @@ const useGetAllmasertDataDrop = () => {
     }
   );
 };
+const useGetAllParentmasertDataDrop = () => {
+  return useQuery(
+    ['useGetAllParentMasterData'],
+    () => masertDataService.getAllParentMasterData(),
+    {
+      select: (data) =>
+        data?.data?.map((category: any) => ({
+          label: category.master_data_name.toUpperCase(),
+          value: category.master_data_id,
+        })),
+    }
+  );
+};
 
 const getBymasertDataID = (id: number) => {
   return useQuery(
@@ -99,4 +112,5 @@ export {
   useDeletemasertData,
   getBySearchmasterData,
   useGetAllmasertDataDrop,
+  useGetAllParentmasertDataDrop,
 };

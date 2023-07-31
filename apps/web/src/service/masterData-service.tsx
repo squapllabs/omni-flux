@@ -4,11 +4,22 @@ import { environment } from '../environment/environment';
 const getAllmasertData = async () => {
   try {
     const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/sub-category/getAll`
+      `${environment.apiUrl}/master-data/get-all`
     );
     return response.data;
   } catch (error) {
-    console.log('Error in getting all category:', error);
+    console.log('Error in getting all master-data:', error);
+    throw error;
+  }
+};
+const getAllParentMasterData = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/master-data/get-all-parent-master-data`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all master-data:', error);
     throw error;
   }
 };
@@ -16,55 +27,65 @@ const getAllmasertData = async () => {
 const getOnemasertDataByID = async (values: any) => {
   try {
     const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/sub-category/get/${values}`
+      `${environment.apiUrl}/master-data/get/${values}`
     );
     return response.data;
   } catch (error) {
-    console.log('Error in getOne category :', error);
+    console.log('Error in getOne master-data :', error);
     throw error;
   }
 };
 
 const createmasertData = async (values: JSON) => {
+  console.log('values', values);
+
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/sub-category/`,
+      `http://localhost:8080/api/master-data/`,
       values
     );
     return response.data;
   } catch (error) {
-    console.log('Error in sub-category create :', error);
+    console.log('Error in master-data create :', error);
     throw error;
   }
 };
 const updatemasertData = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
-      `${environment.apiUrl}/sub-category/`,
+      `${environment.apiUrl}/master-data/`,
       values
     );
     return response.data;
   } catch (error) {
-    console.log('Error in sub-category edit:', error);
+    console.log('Error in master-data edit:', error);
   }
 };
 const deletemasertData = async (id: number) => {
   try {
     const response = await axiosinterceptor.delete(
-      `${environment.apiUrl}/sub-category/delete/${id}`
+      `${environment.apiUrl}/master-data/delete/${id}`
     );
     return response.data;
   } catch (error) {
-    console.log('Error in occur in delete sub-category  :', error);
+    console.log('Error in occur in delete master-data  :', error);
     throw error;
   }
 };
 
 const checkDublicatemasertData = async (value: any) => {
   try {
-    const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/sub-category/checkDuplicateName/${value.name}/${value.id}`
-    );
+    let response;
+    if (value.id === null) {
+      response = await axiosinterceptor.get(
+        `${environment.apiUrl}/master-data/get-by-parent-type/${value.name}`
+      );
+    } else {
+      response = await axiosinterceptor.get(
+        `${environment.apiUrl}/master-data/get-by-parent-type/${value.name}/${value.id}`
+      );
+    }
+
     return response.data;
   } catch (error) {
     console.log('Error in occur in checkDublicatemasertData   :', error);
@@ -74,14 +95,14 @@ const checkDublicatemasertData = async (value: any) => {
 const filtermasertData = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/sub-category/search`,
+      `${environment.apiUrl}/master-data/search-master-data`,
       values
     );
     console.log('response.data', response.data);
 
     return response.data;
   } catch (error) {
-    console.log('Error in sub-category filter :', error);
+    console.log('Error in master-data filter :', error);
     throw error;
   }
 };
@@ -94,4 +115,5 @@ export default {
   deletemasertData,
   checkDublicatemasertData,
   filtermasertData,
+  getAllParentMasterData,
 };
