@@ -22,6 +22,7 @@ model users {
   is_delete        Boolean        @default(false) @db.Boolean
   is_initial_login Boolean        @default(true) @db.Boolean
   department       String?        @db.VarChar(100)
+  is_two_factor    Boolean        @default(false) @db.Boolean
   projects         project[]
   user_profiles    user_profiles?
 
