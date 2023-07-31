@@ -230,6 +230,57 @@ const addBulkHSNCode = async (body) => {
   }
 };
 
+/**
+ * Method to search HsnCode - Pagination API
+ * @returns
+ */
+const searchHsnCode = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterHSNCode: {
+        AND: [],
+        OR: [
+          { code: { contains: global_search, mode: 'insensitive' } },
+          { description: { contains: global_search, mode: 'insensitive' } },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await hsnCodeDao.searchHSNCode(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempHsnCodeData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempHsnCodeData;
+  } catch (error) {
+    console.log('Error occurred in searchHsnCode HsnCode service : ', error);
+    throw error;
+  }
+};
+
 export {
   createHsnCode,
   updateHsnCode,
@@ -239,4 +290,5 @@ export {
   getByCode,
   addBulkHSNCodeByImport,
   addBulkHSNCode,
+  searchHsnCode,
 };

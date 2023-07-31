@@ -166,6 +166,41 @@ const addBulk = async (hsnCodes, connectionObj = null) => {
   }
 };
 
+const searchHSNCode = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterHSNCode;
+    const hsnCode = await transaction.hsn_code.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const hsnCodeCount = await transaction.hsn_code.count({
+      where: filter,
+    });
+    const hsnCodeData = {
+      count: hsnCodeCount,
+      data: hsnCode,
+    };
+    return hsnCodeData;
+  } catch (error) {
+    console.log('Error occurred in hsnCode dao : searchHSNCode ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -174,4 +209,5 @@ export default {
   getAll,
   deleteHsnCode,
   addBulk,
+  searchHSNCode,
 };
