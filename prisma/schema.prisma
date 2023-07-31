@@ -89,6 +89,7 @@ model client {
   updated_by      Int?
   projects        project[]
   lead_enquiry    lead_enquiry[]
+  is_delete       Boolean        @default(false) @db.Boolean
 }
 
 model hsn_code {
