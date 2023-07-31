@@ -15,6 +15,7 @@ interface createUserBody {
   date_of_birth: Date;
   gender: string;
   additional_info: JSON;
+  is_two_factor: boolean;
 }
 
 interface updateUserBody {
@@ -29,6 +30,7 @@ interface updateUserBody {
   date_of_birth: Date;
   gender: string;
   additional_info: JSON;
+  is_two_factor: boolean;
 }
 
 export { createUserBody, updateUserBody };
