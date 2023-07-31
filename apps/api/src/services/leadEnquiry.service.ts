@@ -17,7 +17,6 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
   try {
     const {
       lead_type,
-      lead_code,
       client_id,
       client_level,
       client_contact_name,
@@ -42,6 +41,7 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
     } = body;
     let result = null;
     const leadEquiryData = [];
+    const lead_code = await generateLeadCode(lead_type);
 
     if (client_id) {
       const clientExist = await clientDao.getById(client_id);
@@ -129,6 +129,33 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
     console.log('Error occurred in leadEnquiry service Add: ', error);
     throw error;
   }
+};
+
+/**
+ * Function to generate sequential lead code
+ * @param leadType
+ * @returns
+ */
+const generateLeadCode = async (leadType) => {
+  const leadTypePrefix =
+    leadType === 'Product' ? 'LD-PR-' : leadType === 'Tender' ? 'LD-TR-' : 'LD';
+  const latestLeadEnquiry = await prisma.lead_enquiry.findFirst({
+    where: { lead_type: leadType },
+    orderBy: { lead_enquiry_id: 'desc' },
+  });
+  let sequentialNumber = 1;
+  if (latestLeadEnquiry) {
+    const latestLeadCode = latestLeadEnquiry.lead_code;
+    const latestSequentialNumber = parseInt(
+      latestLeadCode.slice(leadTypePrefix.length),
+      10
+    );
+    if (!isNaN(latestSequentialNumber)) {
+      sequentialNumber = latestSequentialNumber + 1;
+    }
+  }
+  const leadCode = leadTypePrefix + sequentialNumber;
+  return leadCode;
 };
 
 /**

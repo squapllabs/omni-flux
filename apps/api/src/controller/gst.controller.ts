@@ -53,4 +53,21 @@ const deleteByGstId = catchAsync(async (req, res) => {
   }
 });
 
-export { createGst, updateGst, getAllGst, getByGstId, deleteByGstId };
+const searchGst = catchAsync(async (req, res) => {
+  const methodName = '/searchGst';
+  try {
+    const gst = await gstService.searchGst(req.body);
+    res.send(gst);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+export {
+  createGst,
+  updateGst,
+  getAllGst,
+  getByGstId,
+  deleteByGstId,
+  searchGst,
+};
