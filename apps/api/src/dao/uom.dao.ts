@@ -121,6 +121,41 @@ const getByName = async (name: string, connectionObj = null) => {
   }
 };
 
+const searchUOM = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterUom;
+    const uom = await transaction.uom.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const uomCount = await transaction.uom.count({
+      where: filter,
+    });
+    const uomData = {
+      count: uomCount,
+      data: uom,
+    };
+    return uomData;
+  } catch (error) {
+    console.log('Error occurred in uom dao : searchUOM ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -128,4 +163,5 @@ export default {
   getAll,
   deleteUom,
   getByName,
+  searchUOM,
 };
