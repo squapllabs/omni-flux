@@ -130,6 +130,7 @@ const addBulk = async (hsnCodes, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     let successCount = 0;
+
     const createdData = await Promise.all(
       hsnCodes.map(async (codeData) => {
         const { code, ...rest } = codeData;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import MUIDataTable from 'mui-datatables';
-import { Tooltip, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
@@ -9,7 +8,11 @@ import { useGetAllClient, useDeleteClient } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
-import Button from '../menu/button';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
+import { useFormik } from 'formik';
+import { createClient } from '../../hooks/client-hooks';
+
 
 const ClientList = () => {
   const { data: getAllClient } = useGetAllClient();
@@ -32,10 +35,6 @@ const ClientList = () => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMode('ADD');
-    setOpen(true);
-  };
   const handleEdit = (event: React.FormEvent, value: any) => {
     setMode('EDIT');
     setClientID(value);
@@ -44,140 +43,164 @@ const ClientList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const deleteClient = () => {
+  const deleteClient = (event: React.FormEvent, value: any) => {
     getDeleteClientByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
+  const { mutate: createNewClient } = createClient();
+  const [initialValues, setInitialValues] = useState({
+    name: '',
+    contact_details: '',
+    client_id: '',
+  });
+  const formik = useFormik({
+    initialValues,
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
+      if (values) {
+        const Object: any = {
+          name: values.name,
+          contact_details: values.contact_details,
+        };
+        createNewClient(Object, {
+          onSuccess: (data: { success: any; }, variables: any, context: any) => {
+            if (data?.success) {
+              setMessage('Client created');
+              setOpenSnack(true);
+              resetForm();
+            }
+          },
+        });
+      }
+    },
+  });
 
-  const columns = [
-    {
-      name: 'client_id',
-      label: 'Uom',
-      options: {
-        display: false,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'name',
-      label: 'Name',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'contact_details',
-      label: 'Contact',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: '',
-      label: 'Options',
-      options: {
-        sort: false,
-        filter: false,
-        searchable: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <div>
-              <Tooltip title="Edit">
-                <IconButton
-                  aria-label="Edit"
-                  size="small"
-                  onClick={(e) => handleEdit(e, tableMeta.rowData[0])}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete"
-                  size="small"
-                  onClick={() => deleteClientHandler(tableMeta.rowData[0])}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          );
-        },
-      },
-    },
-  ];
 
-  const options = {
-    filter: false,
-    search: true,
-    caseSensitive: false,
-    print: false,
-    download: false,
-    viewColumns: false,
-    selectableRows: 'none' as const,
-    setTableProps: () => {
-      return {
-        size: 'small',
-      };
-    },
-  };
   return (
-    <div className={Styles.container}>
-      <div className={Styles.buttonContainer}>
-        <Button
-          text="Add"
-          backgroundColor="#7F56D9"
-          fontSize={14}
-          fontWeight={500}
-          width={100}
-          onClick={(e) => handleAdd(e)}
+    <div>
+      <div>
+        <div className={Styles.box}>
+          <div className={Styles.textContent}>
+            <h3>Add New Client</h3>
+            <span className={Styles.content}>
+              Manage your Client details here.
+            </span>
+          </div>
+          <form onSubmit={formik.handleSubmit}>
+            <div className={Styles.fields}>
+              <div>
+                <Input
+                  label="Name"
+                  placeholder="Enter client name"
+                  name="name"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && formik.errors.name}
+                  width="100%"
+                />
+              </div>
+              <div>
+                <Input
+                  label="Contact Detail"
+                  placeholder="Enter client contact detail"
+                  name="contact_details"
+                  value={formik.values.contact_details}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.contact_details && formik.errors.contact_details
+                  }
+                  width="100%"
+                />
+              </div>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                >
+                  Add New Client
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className={Styles.box}>
+          <div className={Styles.textContent}>
+            <h3>List of Clients</h3>
+            <span className={Styles.content}>
+              Manage your Client Details here.
+            </span>
+          </div>
+          <div className={Styles.tableContainer}>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Client Name</th>
+                    <th>Contact Details</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getAllClient?.map((data: any) => (
+                    <tr>
+                      <td>{data.name}</td>
+                      <td>{data.contact_details}</td>
+                      <td>
+                        <IconButton
+                          onClick={(e) => handleEdit(e, data.client_id)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={(e) =>
+                            deleteClient(e, data.client_id)
+                          }
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <CustomDialogBox
+          open={open}
+          handleClose={handleClose}
+          title="Client Form"
+          content={
+            <ClientForm
+              setOpen={setOpen}
+              open={open}
+              setReload={setReload}
+              mode={mode}
+              clientId={clientId}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+            />
+          }
+        />
+        <CustomDialog
+          open={openDelete}
+          handleClose={handleCloseDelete}
+          title="Delete Client"
+          content="Are you want to delete this Client?"
+          handleConfirm={deleteClient}
+        />
+        <MySnackbar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          severity={'success'}
+          autoHideDuration={1000}
         />
       </div>
-      <div className={Styles.tableContainer}>
-        <MUIDataTable
-          title={'Client List'}
-          columns={columns}
-          options={options}
-          data={getAllClient}
-        />
-      </div>
-      <CustomDialogBox
-        open={open}
-        handleClose={handleClose}
-        title="Client Form"
-        content={
-          <ClientForm
-            setOpen={setOpen}
-            open={open}
-            setReload={setReload}
-            mode={mode}
-            clientId={clientId}
-            setOpenSnack={setOpenSnack}
-            setMessage={setMessage}
-          />
-        }
-      />
-      <CustomDialog
-        open={openDelete}
-        handleClose={handleCloseDelete}
-        title="Delete Client"
-        content="Are you want to delete this Client?"
-        handleConfirm={deleteClient}
-      />
-      <MySnackbar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        severity={'success'}
-        autoHideDuration={1000}
-      />
     </div>
   );
 };

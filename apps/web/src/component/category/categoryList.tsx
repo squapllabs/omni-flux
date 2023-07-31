@@ -84,7 +84,7 @@ const CategoryList = () => {
       limit: rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'asc',
-      status: activeButton,
+      status: AC,
       ...filterValues,
     };
     postDataForFilter(demo);

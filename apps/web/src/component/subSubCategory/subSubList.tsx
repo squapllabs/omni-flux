@@ -158,7 +158,7 @@ const SubSubCategoryList = () => {
     print: false,
     download: false,
     viewColumns: false,
-    search: false,
+    // search: false,
     selectableRows: 'none' as const,
     textLabels: {
       body: {

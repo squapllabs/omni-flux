@@ -38,6 +38,19 @@ const createHsnCode = async (values: JSON) => {
   }
 };
 
+const uploadHsnCode = async(values:JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/hsn-code/add-bulk-hsn-code`,
+      values
+    );
+    return response.data;
+  }catch(error) {
+    console.log('Error in upload hsn api :', error);
+    throw error;
+  }
+}
+
 const getOneHsnCode = async (id: number) => {
   try {
     const response = await axiosinterceptor.get(
@@ -73,6 +86,19 @@ const getByHsnCode = async (code: string) => {
   }
 };
 
+const filterHsn = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/hsn-code/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in hsn filter :', error);
+    throw error;
+  }
+};
+
 export default {
   getAllHsnCode,
   deleteHsnCode,
@@ -80,4 +106,6 @@ export default {
   getOneHsnCode,
   updateHsnCode,
   getByHsnCode,
+  uploadHsnCode,
+  filterHsn
 };

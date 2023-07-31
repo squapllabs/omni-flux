@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import MUIDataTable from 'mui-datatables';
-import { Tooltip, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
@@ -9,7 +8,10 @@ import { useGetAlluom, useDeleteUom } from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
-import Button from '../menu/button';
+import Button from '../ui/Button';
+import { useFormik } from 'formik';
+import { createuom } from '../../hooks/uom-hooks';
+import Input from '../ui/Input';
 
 const UomList = () => {
   const { data: getAlluom } = useGetAlluom();
@@ -20,21 +22,13 @@ const UomList = () => {
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const [value, setValue] = useState();
   const [message, setMessage] = useState('');
-  const deleteUserHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
-  };
+
   const handleClose = () => {
     setOpen(false);
   };
   const handleCloseDelete = () => {
     setOpenDelete(false);
-  };
-  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMode('ADD');
-    setOpen(true);
   };
   const handleEdit = (event: React.FormEvent, value: any) => {
     setMode('EDIT');
@@ -44,140 +38,164 @@ const UomList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const deleteUom = () => {
+  const deleteUom = (event: React.FormEvent, value: any) => {
     getDeleteuomByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
 
-  const columns = [
-    {
-      name: 'uom_id',
-      label: 'Uom',
-      options: {
-        display: false,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'name',
-      label: 'Unit Of Measurement',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'description',
-      label: 'Description',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: '',
-      label: 'Options',
-      options: {
-        sort: false,
-        filter: false,
-        searchable: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <div>
-              <Tooltip title="Edit">
-                <IconButton
-                  aria-label="Edit"
-                  size="small"
-                  onClick={(e) => handleEdit(e, tableMeta.rowData[0])}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete"
-                  size="small"
-                  onClick={() => deleteUserHandler(tableMeta.rowData[0])}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          );
-        },
-      },
-    },
-  ];
+  const [initialValues, setInitialValues] = useState({
+    uom_id: '',
+    name: '',
+    description: '',
+  });
+  const { mutate: createNewuom } = createuom();
 
-  const options = {
-    filter: false,
-    search: true,
-    caseSensitive: false,
-    print: false,
-    download: false,
-    viewColumns: false,
-    selectableRows: 'none' as const,
-    setTableProps: () => {
-      return {
-        size: 'small',
-      };
+  const formik = useFormik({
+    initialValues,
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
+      if (values) {
+        const Object: any = {
+          uom_id:values.uom_id,
+          name: values.name,
+          description: values.description,
+        };
+        createNewuom(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.success) {
+              setMessage('UOM created');
+              setOpenSnack(true);
+              resetForm();
+            }
+          },
+        });
+      }
     },
-  };
+  });
+
   return (
-    <div className={Styles.container}>
-      <div className={Styles.buttonContainer}>
-      <Button
-          text="Add"
-          backgroundColor="#7F56D9"
-          fontSize={14}
-          fontWeight={500}
-          width={100}
-          onClick={(e) => handleAdd(e)}
-        />
-      </div>
-      <div className={Styles.tableContainer}>
-        <MUIDataTable
-          title={'UOM List'}
-          columns={columns}
-          options={options}
-          data={getAlluom}
-        />
-      </div>
-      <CustomDialogBox
-        open={open}
-        handleClose={handleClose}
-        title="UOM Form"
-        content={
-          <UomForm
-            setOpen={setOpen}
+    <div>
+      <div>
+        <div className={Styles.box}>
+          <div className={Styles.textContent}>
+            <h3>Add New UOM</h3>
+            <span className={Styles.content}>
+              Manage your UOM details here.
+            </span>
+          </div>
+          <form onSubmit={formik.handleSubmit}>
+            <div className={Styles.fields}>
+              <div>
+                <Input
+                  label="Unit Of Measurement"
+                  placeholder="Enter unit of measurement"
+                  name="name"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && formik.errors.name}
+                  width="100%"
+                />
+              </div>
+              <div>
+                <Input
+                  name="description"
+                  label="Description"
+                  placeholder="Enter description"
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  error={formik.touched.description && formik.errors.description}
+                />
+              </div>
+
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                >
+                  Add New UOM
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className={Styles.box}>
+          <div className={Styles.textContent}>
+            <h3>List of Unit of Measurements</h3>
+            <span className={Styles.content}>
+              Manage your UOM details here.
+            </span>
+          </div>
+          <div className={Styles.tableContainer}>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>UOM Name</th>
+                    <th>Description</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getAlluom?.map((data: any) => (
+                    <tr>
+                      <td>{data.name}</td>
+                      <td>{data.description}</td>
+                      <td>
+                        <IconButton
+                          onClick={(e) => handleEdit(e, data.uom_id)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={(e) =>
+                            deleteUom(e, data.uom_id)
+                          }
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <CustomDialogBox
             open={open}
-            setReload={setReload}
-            mode={mode}
-            uomId={uomId}
-            setOpenSnack={setOpenSnack}
-            setMessage={setMessage}
+            handleClose={handleClose}
+            title="UOM Form"
+            content={
+              <UomForm
+                setOpen={setOpen}
+                open={open}
+                setReload={setReload}
+                mode={mode}
+                uomId={uomId}
+                setOpenSnack={setOpenSnack}
+                setMessage={setMessage}
+              />
+            }
           />
-        }
-      />
-      <CustomDialog
-        open={openDelete}
-        handleClose={handleCloseDelete}
-        title="Delete UOM"
-        content="Are you want to delete this UOM?"
-        handleConfirm={deleteUom}
-      />
-      <MySnackbar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        severity={'success'}
-        autoHideDuration={1000}
-      />
+          <CustomDialog
+            open={openDelete}
+            handleClose={handleCloseDelete}
+            title="Delete UOM"
+            content="Are you want to delete this UOM?"
+            handleConfirm={deleteUom}
+          />
+          <MySnackbar
+            open={openSnack}
+            message={message}
+            onClose={handleSnackBarClose}
+            severity={'success'}
+            autoHideDuration={1000}
+          />
+        </div>
+      </div>
     </div>
   );
 };

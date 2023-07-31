@@ -4,6 +4,10 @@ import SideNav from '../ui/sideNav';
 import CategoryList from './categoryList';
 import SubCategoryList from '../subCategory/subCategoryList';
 import SubSubCategoryList from '../subSubCategory/subSubList';
+import GstList from '../gst/gstList';
+import UomList from '../uom/uomList';
+import ClientList from '../client/clientList';
+import HsnCodeList from '../hsnCode/hsnCodeList';
 
 /**
  * Category component
@@ -31,6 +35,22 @@ const Category = () => {
       id: 5,
       name: 'Plan',
     },
+    {
+      id: 6,
+      name: 'GST',
+    },
+    {
+      id: 7,
+      name: 'UOM',
+    },
+    {
+      id: 8,
+      name: 'Client',
+    },
+    {
+      id: 9,
+      name: 'HSN Code',
+    },
   ];
   const handleMenuItemClick = (id: number) => {
     setSelectedItem(id);
@@ -41,6 +61,10 @@ const Category = () => {
     3: <SubSubCategoryList />,
     4: <div>Under construction</div>,
     5: <div>Under construction</div>,
+    6: <GstList />,
+    7: <UomList />,
+    8: <ClientList />,
+    9: <HsnCodeList />
   };
   return (
     <div className={Styles.container}>

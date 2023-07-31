@@ -14,9 +14,9 @@ const GstCreate: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
     gst_id: '',
     rate: '',
-    cgst_rate: '',
-    igst_rate: '',
-    sgst_rate: '',
+    // cgst_rate: '',
+    // igst_rate: '',
+    // sgst_rate: '',
   });
   useEffect(() => {
     if (props.mode === 'EDIT') {
@@ -25,9 +25,9 @@ const GstCreate: React.FC = (props: any) => {
         setInitialValues({
           gst_id: data?.data?.gst_id,
           rate: data?.data?.rate,
-          cgst_rate: data?.data?.cgst_rate,
-          igst_rate: data?.data?.igst_rate,
-          sgst_rate: data?.data?.sgst_rate,
+          // cgst_rate: data?.data?.cgst_rate,
+          // igst_rate: data?.data?.igst_rate,
+          // sgst_rate: data?.data?.sgst_rate,
         });
       };
       fetchOne();
@@ -46,15 +46,15 @@ const GstCreate: React.FC = (props: any) => {
         const Object: any = {
           gst_id: values.gst_id,
           rate: parseFloat(values.rate),
-          cgst_rate: parseFloat(values.cgst_rate)
-            ? parseFloat(values.cgst_rate)
-            : 0,
-          igst_rate: parseFloat(values.igst_rate)
-            ? parseFloat(values.igst_rate)
-            : 0,
-          sgst_rate: parseFloat(values.sgst_rate)
-            ? parseFloat(values.sgst_rate)
-            : 0,
+          // cgst_rate: parseFloat(values.cgst_rate)
+          //   ? parseFloat(values.cgst_rate)
+          //   : 0,
+          // igst_rate: parseFloat(values.igst_rate)
+          //   ? parseFloat(values.igst_rate)
+          //   : 0,
+          // sgst_rate: parseFloat(values.sgst_rate)
+          //   ? parseFloat(values.sgst_rate)
+          //   : 0,
         };
         createNewGst(Object, {
           onSuccess: (data, variables, context) => {
@@ -70,9 +70,9 @@ const GstCreate: React.FC = (props: any) => {
         const Object: any = {
           gst_id: values.gst_id,
           rate: parseFloat(values.rate),
-          cgst_rate: parseFloat(values.cgst_rate),
-          igst_rate: parseFloat(values.igst_rate),
-          sgst_rate: parseFloat(values.sgst_rate),
+          // cgst_rate: parseFloat(values.cgst_rate),
+          // igst_rate: parseFloat(values.igst_rate),
+          // sgst_rate: parseFloat(values.sgst_rate),
         };
         updateGstById(Object, {
           onSuccess: (data, variables, context) => {
@@ -107,7 +107,7 @@ const GstCreate: React.FC = (props: any) => {
             />
           </Grid>
 
-          <Grid item xs={2} sm={4} md={4}>
+          {/* <Grid item xs={2} sm={4} md={4}>
             <Input
               label="Sgst Rate"
               placeholder="Enter sgst rate"
@@ -141,7 +141,7 @@ const GstCreate: React.FC = (props: any) => {
               error={formik.touched.igst_rate && formik.errors.igst_rate}
               width="100%"
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={2} sm={4} md={12}>
             <Button
