@@ -81,7 +81,7 @@ const filterSubCategory = async (values: JSON) => {
 
     return response.data;
   } catch (error) {
-    console.log('Error in sub-category create :', error);
+    console.log('Error in sub-category filter :', error);
     throw error;
   }
 };

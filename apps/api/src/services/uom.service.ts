@@ -1,5 +1,6 @@
 import uomDao from '../dao/uom.dao';
 import { createUomBody, updateUomBody } from '../interfaces/uom.Interface';
+import itemDao from '../dao/item.dao';
 
 /**
  * Method to Create a New Uom
@@ -38,7 +39,7 @@ const updateUom = async (body: updateUomBody) => {
       result = { success: true, data: uomDetails };
       return result;
     } else {
-      result = { success: false, message: 'uom_id not exist' };
+      result = { success: false, message: 'uom_id does not exist' };
       return result;
     }
   } catch (error) {
@@ -60,7 +61,7 @@ const getById = async (uomId: number) => {
       result = { success: true, data: uomData };
       return result;
     } else {
-      result = { success: false, message: 'uom id not exist' };
+      result = { success: false, message: 'uom_id does not exist' };
       return result;
     }
   } catch (error) {
@@ -92,18 +93,36 @@ const deleteUom = async (uomId: number) => {
   try {
     const uomExist = await uomDao.getById(uomId);
     if (!uomExist) {
-      const result = { success: false, message: 'Uom Id Not Exist' };
+      const result = {
+        status: false,
+        message: 'uom_id does not exist',
+        data: null,
+      };
+      return result;
+    }
+    const uomExistInItem = await itemDao.getByUOMId(uomId);
+    if (uomExistInItem) {
+      const result = {
+        status: false,
+        message: 'Unable to delete.This uom_id is mapped in Item Table',
+        data: null,
+      };
       return result;
     }
     const data = await uomDao.deleteUom(uomId);
     if (data) {
       const result = {
-        success: true,
+        status: true,
         message: 'Uom Data Deleted Successfully',
+        data: null,
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this uom' };
+      const result = {
+        status: false,
+        message: 'Failed to delete this uom',
+        data: null,
+      };
       return result;
     }
   } catch (error) {

@@ -76,7 +76,19 @@ const useDeleteCategory = () => {
     }
   );
 };
-
+const getBySearchCategroy = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return CategoryService.filterCategory(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
 export {
   useGetAllCategory,
   getByCategoryID,
@@ -84,4 +96,5 @@ export {
   updateCategory,
   useDeleteCategory,
   useGetAllCategoryForDrop,
+  getBySearchCategroy,
 };

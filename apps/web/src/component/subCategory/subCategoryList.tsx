@@ -23,6 +23,8 @@ import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import SearchIcon from '../menu/icons/search';
 import SelectDrop from '../ui/Select';
 import CustomLoader from '../ui/customLoader';
+import Pagination from '../menu/pagination';
+import CustomGroupButton from '../ui/CustomGroupButton';
 
 /**
  * Function for SubCategoryList
@@ -80,7 +82,18 @@ const SubCategoryList = () => {
   const [open, setOpen] = useState(false);
   const [subCategoryId, setSubcategoryID] = useState();
   const [selectedValue, setSelectedValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
+  const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'active', value: 'AC' },
+    { label: 'inactive', value: 'IC' },
+  ]);
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
@@ -113,18 +126,40 @@ const SubCategoryList = () => {
   };
   const handleSearch = async () => {
     let demo: any = {
-      offset: 0,
-      limit: 3,
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'asc',
-      status: 'IN',
+      status: activeButton,
       ...filterValues,
     };
+    console.log('demo---->', demo);
+
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(true);
   };
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, rowsPerPage, activeButton]);
+
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
   const handleReset = async () => {
+    let demo: any = {
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
+    };
+    postDataForFilter(demo);
+    setIsLoading(false);
     setFilter(false);
     setFilterValues({
       search_by_name: '',
@@ -137,105 +172,12 @@ const SubCategoryList = () => {
       ['search_by_name']: event.target.value,
     });
   };
-  const columns = [
-    {
-      name: 'sub_category_id',
-      label: 'category',
-      options: {
-        display: false,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'category',
-      label: 'Category',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <div>
-              <span>{value.name}</span>
-            </div>
-          );
-        },
-      },
-    },
-    {
-      name: 'name',
-      label: 'Name',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'budget',
-      label: 'Budget',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: '',
-      label: 'Options',
-      options: {
-        sort: false,
-        filter: false,
-        searchable: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <div>
-              <Tooltip title="Edit">
-                <IconButton
-                  aria-label="Edit"
-                  size="small"
-                  onClick={(e) => handleEdit(e, tableMeta.rowData[0])}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete"
-                  size="small"
-                  onClick={() => deleteCategoryHandler(tableMeta.rowData[0])}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          );
-        },
-      },
-    },
-  ];
-
-  const options = {
-    filter: false,
-    search: true,
-    caseSensitive: false,
-    print: false,
-    download: false,
-    viewColumns: false,
-    // rowsPerPage: 3,
-    selectableRows: 'none' as const,
-    setTableProps: () => {
-      return {
-        size: 'small',
-      };
-    },
-  };
 
   return (
     <div>
       <CustomLoader
-        loading={isLoading === true ? filterDataLoading : filterDataLoading}
+        loading={isLoading === true ? getAllDataLoading : filterDataLoading}
+        // loading={true}
         size={48}
         color="#333C44"
       >
@@ -323,46 +265,102 @@ const SubCategoryList = () => {
               </div>
               <div>
                 <div className={Styles.searchContainer}>
-                  <Input
-                    width="260px"
-                    prefixIcon={<SearchIcon />}
-                    name="search_by_name"
-                    value={filterValues.search_by_name}
-                    onChange={(e) => handleFilterChange(e)}
-                    placeholder="Search by item name"
-                  />
-                  <Button
-                    className={Styles.searchButton}
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </Button>
-                  <Button
-                    className={Styles.resetButton}
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    onClick={handleReset}
-                  >
-                    Reset
-                  </Button>
+                  <div className={Styles.inputFilter}>
+                    <Input
+                      width="260px"
+                      prefixIcon={<SearchIcon />}
+                      name="search_by_name"
+                      value={filterValues.search_by_name}
+                      onChange={(e) => handleFilterChange(e)}
+                      placeholder="Search by item name"
+                    />
+                    <Button
+                      className={Styles.searchButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </Button>
+                    <Button
+                      className={Styles.resetButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </Button>
+                  </div>
+
+                  <div>
+                    <CustomGroupButton
+                      labels={buttonLabels}
+                      onClick={handleGroupButtonClick}
+                      activeButton={activeButton}
+                    />
+                  </div>
                 </div>
               </div>
               <div>
-                <div>
-                  <MUIDataTable
-                    title={'Sub Category List'}
-                    columns={columns}
-                    options={options}
-                    data={
-                      filter === true
-                        ? filterBasedData?.content
-                        : getAllSubCategory
-                    }
-                  />
+                <div className={Styles.tableContainer}>
+                  <div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Name</th>
+                          <th>Budget</th>
+                          <th>Option</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filterBasedData?.total_count === 0 ? (
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td>No data found</td>
+                            <td></td>
+                          </tr>
+                        ) : (
+                          ''
+                        )}
+                        {filterBasedData?.content?.map((item: any) => (
+                          <tr>
+                            <td>{item.category.name}</td>
+                            <td>{item.name}</td>
+                            <td>{item.budget}</td>
+                            <td>
+                              <IconButton
+                                onClick={(e) =>
+                                  handleEdit(e, item.sub_category_id)
+                                }
+                              >
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton
+                                onClick={() =>
+                                  deleteCategoryHandler(item.sub_category_id)
+                                }
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className={Styles.pagination}>
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      rowsPerPage={rowsPerPage}
+                      onPageChange={handlePageChange}
+                      onRowsPerPageChange={handleRowsPerPageChange}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

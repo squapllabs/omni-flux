@@ -71,6 +71,19 @@ const checkDublicateCategory = async (value: any) => {
     throw error;
   }
 };
+
+const filterCategory = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/category/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in category filter :', error);
+    throw error;
+  }
+};
 export default {
   getAllCategory,
   getOneCategoryByID,
@@ -78,4 +91,5 @@ export default {
   updateCategory,
   deleteCategory,
   checkDublicateCategory,
+  filterCategory,
 };

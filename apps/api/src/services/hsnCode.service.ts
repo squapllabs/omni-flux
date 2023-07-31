@@ -4,6 +4,7 @@ import {
   updateHsnCodeBody,
 } from '../interfaces/hsnCode.Interface';
 import xlsx from 'xlsx';
+import itemDao from '../dao/item.dao';
 
 /**
  * Method to Create a New HsnCode
@@ -96,20 +97,35 @@ const deleteHsnCode = async (hsnCodeId: number) => {
   try {
     const hsnCodeExist = await hsnCodeDao.getById(hsnCodeId);
     if (!hsnCodeExist) {
-      const result = { success: false, message: 'HsnCode Id Not Exist' };
+      const result = {
+        message: 'HsnCode Id Not Exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const hsnCodeExistInItem = await itemDao.getByHSNCodeId(hsnCodeId);
+    if (hsnCodeExistInItem) {
+      const result = {
+        message: 'Unable to delete.The hsn_code_id is mapped in item table',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const data = await hsnCodeDao.deleteHsnCode(hsnCodeId);
     if (data) {
       const result = {
-        success: true,
         message: 'HsnCode Data Deleted Successfully',
+        status: true,
+        data: null,
       };
       return result;
     } else {
       const result = {
-        success: false,
+        status: false,
         message: 'Failed to delete this hsnCode',
+        data: null,
       };
       return result;
     }

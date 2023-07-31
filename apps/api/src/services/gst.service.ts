@@ -1,5 +1,6 @@
 import gstDao from '../dao/gst.dao';
 import { createGstBody, updateGstBody } from '../interfaces/gst.Interface';
+import itemDao from '../dao/item.dao';
 
 /**
  * Method to Create a New Gst
@@ -100,18 +101,37 @@ const deleteGst = async (gstId: number) => {
   try {
     const gstExist = await gstDao.getById(gstId);
     if (!gstExist) {
-      const result = { success: false, message: 'Gst Id Not Exist' };
+      const result = {
+        status: false,
+        message: 'gst_id does not exist',
+        data: null,
+      };
+      return result;
+    }
+
+    const gstExistInItem = await itemDao.getByGSTId(gstId);
+    if (gstExistInItem) {
+      const result = {
+        status: false,
+        message: 'unable to delete.This gst_id is mapped in item table',
+        data: null,
+      };
       return result;
     }
     const data = await gstDao.deleteGst(gstId);
     if (data) {
       const result = {
-        success: true,
+        status: true,
         message: 'Gst Data Deleted Successfully',
+        data: null,
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this gst' };
+      const result = {
+        status: false,
+        message: 'Failed to delete this gst',
+        data: null,
+      };
       return result;
     }
   } catch (error) {
