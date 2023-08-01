@@ -143,10 +143,27 @@ const deleteProject = async (projectId: number, connectionObj = null) => {
   }
 };
 
+const getByClientId = async (clientId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const project = await transaction.project.findFirst({
+      where: {
+        client_id: Number(clientId),
+        is_delete: false,
+      },
+    });
+    return project;
+  } catch (error) {
+    console.log('Error occurred in project getByClientId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getById,
   getAll,
   deleteProject,
+  getByClientId,
 };
