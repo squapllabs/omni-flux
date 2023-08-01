@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid, InputLabel} from '@mui/material';
+import { Grid, InputLabel } from '@mui/material';
 import { createCategory, updateCategory } from '../../hooks/category-hooks';
 import {
   getCreateValidateyup,
@@ -12,7 +12,6 @@ import { useGetAllProject } from '../../hooks/project-hooks';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
 import Select from '../ui/Select';
-
 
 const CategoryForm: React.FC = (props: any) => {
   const validationSchema =
@@ -82,7 +81,7 @@ const CategoryForm: React.FC = (props: any) => {
         };
         updateCategoryData(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.message === "success") {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Category edited');

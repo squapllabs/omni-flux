@@ -22,6 +22,7 @@ model users {
   is_delete        Boolean        @default(false) @db.Boolean
   is_initial_login Boolean        @default(true) @db.Boolean
   department       String?        @db.VarChar(100)
+  is_two_factor    Boolean        @default(false) @db.Boolean
   projects         project[]
   user_profiles    user_profiles?
 
@@ -89,6 +90,7 @@ model client {
   updated_by      Int?
   projects        project[]
   lead_enquiry    lead_enquiry[]
+  is_delete       Boolean        @default(false) @db.Boolean
 }
 
 model hsn_code {
