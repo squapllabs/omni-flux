@@ -4,12 +4,14 @@ interface DeleteIconProps {
   width?: number;
   height?: number;
   color?: string;
+  onClick: () => void;
 }
 
 const DeleteIcon: FC<DeleteIconProps> = ({
   width = 18,
   height = 20,
   color = '#475467',
+  onClick,
 }) => {
   return (
     <svg
@@ -18,6 +20,7 @@ const DeleteIcon: FC<DeleteIconProps> = ({
       height={height}
       fill="none"
       viewBox="0 0 18 20"
+      onClick={onClick}
     >
       <path
         stroke={color}
