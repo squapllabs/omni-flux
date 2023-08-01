@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
-import { useGetAllClient, useDeleteClient } from '../../hooks/client-hooks';
+import { useGetAllClient, useDeleteClient,getByClient } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
@@ -14,10 +14,19 @@ import { useFormik } from 'formik';
 import { createClient } from '../../hooks/client-hooks';
 import * as Yup from 'yup';
 import { getClientValidateyup } from '../../helper/constants/client-constants';
+import CustomGroupButton from '../ui/CustomGroupButton';
+import CustomLoader from '../ui/customLoader';
+import Pagination from '../menu/pagination';
+import SearchIcon from '../menu/icons/search';
 
 
 const ClientList = () => {
-  const { data: getAllClient } = useGetAllClient();
+  const { data: getAllClient, isLoading: getAllLoading } = useGetAllClient();
+  const {
+    mutate: postDataForFilter,
+    data: getFilterData,
+    isLoading: FilterLoading,
+  } = getByClient();
   const { mutate: getDeleteClientByID } = useDeleteClient();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -28,10 +37,15 @@ const ClientList = () => {
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
   const validationSchema = getClientValidateyup(Yup);
-  const deleteClientHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
-  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
+  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filter, setFilter] = useState(false);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'active', value: 'AC' },
+    { label: 'inactive', value: 'IC' },
+  ]);
   const handleClose = () => {
     setOpen(false);
   };
@@ -80,100 +94,216 @@ const ClientList = () => {
       }
     },
   });
-
+  const [filterValues, setFilterValues] = useState({
+    search_by_name: '',
+  });
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValues({
+      ...filterValues,
+      ['search_by_name']: event.target.value,
+    });
+  };
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, rowsPerPage, activeButton]);
+  const handleSearch = async () => {
+    let demo: any = {
+      limit: rowsPerPage,
+      offset:(currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      global_search: filterValues.search_by_name,
+    };
+    postDataForFilter(demo);
+    setIsLoading(false);
+    setFilter(true);
+  };
+  const handleReset = async () => {
+    let demo: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      global_search: '',
+    };
+    postDataForFilter(demo);
+    setIsLoading(false);
+    setFilter(false);
+    setFilterValues({
+      search_by_name: '',
+    });
+    setIsLoading(false);
+  };
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
 
   return (
     <div>
       <div>
-        <div className={Styles.box}>
-          <div className={Styles.textContent}>
-            <h3>Add New Client</h3>
-            <span className={Styles.content}>
-              Manage your Client details here.
-            </span>
+        <CustomLoader
+          loading={isLoading === true ? getAllLoading : FilterLoading}
+          // loading={true}
+          size={48}
+          color="#333C44"
+        >
+          <div className={Styles.box}>
+            <div className={Styles.textContent}>
+              <h3>Add New Client</h3>
+              <span className={Styles.content}>
+                Manage your Client details here.
+              </span>
+            </div>
+            <form onSubmit={formik.handleSubmit}>
+              <div className={Styles.fields}>
+                <div>
+                  <Input
+                    label="Name"
+                    placeholder="Enter client name"
+                    name="name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    error={formik.touched.name && formik.errors.name}
+                    width="100%"
+                  />
+                </div>
+                <div>
+                  <Input
+                    label="Contact Detail"
+                    placeholder="Enter client contact detail"
+                    name="contact_details"
+                    value={formik.values.contact_details}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.contact_details && formik.errors.contact_details
+                    }
+                    width="100%"
+                  />
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                  >
+                    Add New Client
+                  </Button>
+                </div>
+              </div>
+            </form>
           </div>
-          <form onSubmit={formik.handleSubmit}>
-            <div className={Styles.fields}>
-              <div>
+          <div className={Styles.box}>
+            <div className={Styles.textContent}>
+              <h3>List of Clients</h3>
+              <span className={Styles.content}>
+                Manage your Client Details here.
+              </span>
+            </div>
+            <div className={Styles.searchField}>
+              <div className={Styles.inputFilter}>
                 <Input
-                  label="Name"
-                  placeholder="Enter client name"
-                  name="name"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  error={formik.touched.name && formik.errors.name}
-                  width="100%"
+                  width="260px"
+                  prefixIcon={<SearchIcon />}
+                  name="search_by_name"
+                  value={filterValues.search_by_name}
+                  onChange={(e) => handleFilterChange(e)}
+                  placeholder="Search"
                 />
-              </div>
-              <div>
-                <Input
-                  label="Contact Detail"
-                  placeholder="Enter client contact detail"
-                  name="contact_details"
-                  value={formik.values.contact_details}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.contact_details && formik.errors.contact_details
-                  }
-                  width="100%"
-                />
-              </div>
-              <div>
                 <Button
-                  color="primary"
+                  className={Styles.searchButton}
                   shape="rectangle"
                   justify="center"
                   size="small"
+                  onClick={handleSearch}
                 >
-                  Add New Client
+                  Search
+                </Button>
+                <Button
+                  className={Styles.resetButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleReset}
+                >
+                  Reset
                 </Button>
               </div>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
             </div>
-          </form>
-        </div>
-        <div className={Styles.box}>
-          <div className={Styles.textContent}>
-            <h3>List of Clients</h3>
-            <span className={Styles.content}>
-              Manage your Client Details here.
-            </span>
-          </div>
-          <div className={Styles.tableContainer}>
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Client Name</th>
-                    <th>Contact Details</th>
-                    <th>Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {getAllClient?.map((data: any) => (
+            <div className={Styles.tableContainer}>
+              <div>
+                <table>
+                  <thead>
                     <tr>
-                      <td>{data.name}</td>
-                      <td>{data.contact_details}</td>
-                      <td>
-                        <IconButton
-                          onClick={(e) => handleEdit(e, data.client_id)}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={(e) =>
-                            deleteClient(e, data.client_id)
-                          }
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </td>
+                      <th>Client Name</th>
+                      <th>Contact Details</th>
+                      <th>Options</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                  {getFilterData?.total_count === 0 ? (
+                      <tr>
+                        <td></td>
+                        <td>No data found</td>
+                        <td></td>
+                      </tr>
+                    ) : (
+                      ''
+                    )}
+                    {getFilterData?.content?.map((data: any) => (
+                      <tr>
+                        <td>{data.name}</td>
+                        <td>{data.contact_details}</td>
+                        <td>
+                          <IconButton
+                            onClick={(e) => handleEdit(e, data.client_id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            onClick={(e) =>
+                              deleteClient(e, data.client_id)
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className={Styles.pagination}>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  rowsPerPage={rowsPerPage}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </CustomLoader>
         <CustomDialogBox
           open={open}
           handleClose={handleClose}

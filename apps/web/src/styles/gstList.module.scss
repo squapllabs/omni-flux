@@ -5,7 +5,6 @@
   }
   .tableContainer {
     padding: 10px;
-    // height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -109,4 +108,10 @@
   .pagination {
     display: flex;
     justify-content: end;
+  }
+  .uploads {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1vw;
+    padding-left: 10px;
   }

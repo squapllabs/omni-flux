@@ -151,6 +151,7 @@ const SubSubCategoryList = () => {
     });
     setIsLoading(false);
   };
+<<<<<<< HEAD
   const options = {
     filter: false,
     search: true,
@@ -171,6 +172,9 @@ const SubSubCategoryList = () => {
       };
     },
   };
+=======
+  
+>>>>>>> 35ac0a0352faace7b9d2c5861b35628871c2edf2
 
   const formik = useFormik({
     initialValues,

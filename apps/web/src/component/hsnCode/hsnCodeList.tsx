@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import Styles from '../../styles/gstList.module.scss';
 import { useGetAllHsnCode, useDeleteHsnCode, uploadHsnCode, getByCode } from '../../hooks/hsnCode-hooks';
 import { IconButton } from '@mui/material';
@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import HsnForm from './hsnCodeCreate';
 import Button from '../ui/Button';
+import Button1 from '../menu/button';
 import Input from '../ui/Input';
 import { useFormik } from 'formik';
 import { createHsnCode } from '../../hooks/hsnCode-hooks';
@@ -19,6 +20,11 @@ import Pagination from '../menu/pagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import * as Yup from 'yup';
 import { gethsnCreateValidateyup } from '../../helper/constants/hsn-constants';
+import DownloadIcon from '../menu/icons/download';
+
+const FileUploadValidationSchema = Yup.object().shape({
+  file: Yup.mixed().required('Please upload a file'),
+});
 
 const HsnCodeList = () => {
   const { data: getAllHsnData, isLoading: getAllLoading } = useGetAllHsnCode();
@@ -154,39 +160,110 @@ const HsnCodeList = () => {
       }
     },
   });
-
-  const [jsonData, setJsonData] = useState<any[]>([]);
-
+  // const [jsonData, setJsonData] = useState<any[]>([]);
+  const [jsonData, setJsonData] = useState<{ created_by: number; items: { code: string; description: string }[] } | null>(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [error, setError] = useState(null);
+  const fileInputRef = useRef(null);
   const handleFileChange = (e: any) => {
     const file = e.target.files[0];
+    setSelectedFile(file);
+    setError(null);
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
         const data = e.target?.result as ArrayBuffer;
         if (data) {
-          const workbook = XLSX.read(data, { type: 'array' });
-          const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+          // const workbook = XLSX.read(data, { type: 'array' });
+          // const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+          const workbook = XLSX.read(data, { type: 'binary' });
+          const jsonData = transformDatatoJson(workbook);
           setJsonData(jsonData);
         }
       };
       reader.readAsArrayBuffer(file);
     }
   };
+
+  const transformDatatoJson = (workbook:any) => {
+    const sheetName = workbook.SheetNames[0];
+    const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+    const created_by = 1;
+    const jsonData = {
+      created_by,
+      items: sheetData.map((item:any) => ({
+        code: item['code'], 
+        description: item['description'], 
+      })),
+    };
+    console.log(jsonData);
+    return jsonData;
+  }
+
   const { mutate: uploadJsonData } = uploadHsnCode();
   const handleUpload = () => {
-    if (jsonData.length > 0) {
-      uploadJsonData(jsonData, {
-        onSuccess: (data, variables, context) => {
-          if (data) {
-            setMessage('Data uploaded successfully!');
-            setOpenSnack(true);
-          }
-        },
+    FileUploadValidationSchema.validate({ file: selectedFile })
+      .then(() => {
+        if (jsonData) {
+          uploadJsonData(jsonData, {
+            onSuccess: (data, variables, context) => {
+              if (data) {
+                setMessage('Data uploaded successfully!');
+                setOpenSnack(true);
+                setError(null)
+                setSelectedFile(null);
+              }
+            },
+          });
+        }
+      })
+      .catch((ValidationError) => {
+        setError(ValidationError.message);
       });
-    } else {
-      setMessage('No Data to Upload!');
-      setOpenSnack(true);
+  };
+  const convertToCSV = (data: any[]) => {
+    const header = [
+      'code',
+      'description',
+      'created_by'
+    ];
+    const csvRows = [header.join(',')];
+    for (const item of staticData) {
+      const rowData = [
+        item.code,
+        item.description,
+        item.created_by
+      ];
+      csvRows.push(rowData.join(','));
     }
+    return csvRows.join('\n');
+  }
+  const staticData = [
+    {
+      code: '1023',
+      description: 'Sample Data',
+      created_by: '1'
+    },
+    {
+      code: '1022',
+      description: 'Sample Data 2',
+      created_by: '1'
+    },
+    {
+      code: '1021',
+      description: 'Sample Data 3',
+      created_by: '1'
+    },
+  ];
+  const handleDownload = () => {
+    const csvContent = convertToCSV(staticData);
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'data.csv';
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -195,7 +272,6 @@ const HsnCodeList = () => {
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}
-          // loading={true}
           size={48}
           color="#333C44"
         >
@@ -242,14 +318,18 @@ const HsnCodeList = () => {
                 </div>
               </div>
             </form>
-            <div>
-              <div className={Styles.fields}>
+            <div className={Styles.uploads}>
+
+              <div >
                 <Input
                   type="file"
                   onChange={handleFileChange}
+                  ref={fileInputRef}
+                  style={{display:"block",border:"none"}}
+                  error={error}
                 />
               </div>
-              <div className={Styles.fields}>
+              <div>
                 <Button
                   color="primary"
                   shape="rectangle"
@@ -260,6 +340,23 @@ const HsnCodeList = () => {
                   Upload
                 </Button>
               </div>
+              <div className={Styles.button}>
+                <Button1
+                  text={
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <DownloadIcon style={{ padding: '4px' }} />
+                      Download csv
+                    </div>
+                  }
+                  onClick={handleDownload}
+                  backgroundColor="white"
+                  textColor="black"
+                  width={140}
+                  border="1px solid #D0D5DD"
+                  borderRadius={8}
+                />
+              </div>
+
             </div>
           </div>
           <div className={Styles.box}>

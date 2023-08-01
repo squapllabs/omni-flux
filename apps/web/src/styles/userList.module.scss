@@ -1,17 +1,3 @@
-// .buttonContainer {
-//   display: flex;
-//   justify-content: flex-end;
-//   padding: 5px;
-// }
-// .tableContainer {
-//   padding: 10px;
-//   height: 100vh;
-// }
-
-// .container{
-//     width: 100%;
-//     height: 100vh;
-// }
 .buttonContainer {
   display: flex;
   justify-content: flex-end;
@@ -88,4 +74,39 @@ tr:nth-child(even) {
 
 tr:hover {
   background-color: #e0e0e0;
+}
+.searchField {
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+.searchButton {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: initial;
+}
+.searchButton {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
+}
+.resetButton {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #848289;
+}
+
+.inputFilter {
+  display: flex;
+  gap: 10px;
+}
+.pagination {
+  display: flex;
+  justify-content: end;
 }

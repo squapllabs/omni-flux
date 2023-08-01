@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import { createGst } from '../../hooks/gst-hooks';
 import * as Yup from 'yup';
 import { getGstcreationYupschema } from '../../helper/constants/gst-constants';
+import CustomLoader from '../ui/customLoader';
 
 const GstList = () => {
 
@@ -21,8 +22,7 @@ const GstList = () => {
     gst_id: '',
     rate: '',
   });
-  const { data: getAllGstData, isLoading: loader } = useGetAllGst();
-
+  const { data: getAllGstData, isLoading: getAllLoading } = useGetAllGst();
   const { mutate: getDeleteGstByID } = useDeleteGst();
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('');
@@ -32,7 +32,8 @@ const GstList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const validationSchema = getGstcreationYupschema(Yup);
-
+  const [isLoading,serIsLoading] = useState(true);
+  
   const handleClose = () => {
     setOpen(false);
   };
@@ -84,6 +85,12 @@ const GstList = () => {
   return (
     <div>
       <div>
+        <CustomLoader
+          loading={getAllLoading}
+          // loading={true}
+          size={48}
+          color="#333C44"
+        >
         <div className={Styles.box}>
           <div className={Styles.textContent}>
             <h3>Add New GST</h3>
@@ -159,6 +166,7 @@ const GstList = () => {
             </div>
           </div>
         </div>
+        </CustomLoader>
         <CustomDialog
           open={openDelete}
           handleClose={handleCloseDelete}

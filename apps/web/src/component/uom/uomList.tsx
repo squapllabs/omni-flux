@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '@mui/icons-material/Edit';
 import MySnackbar from '../ui/MySnackbar';
-import { useGetAlluom, useDeleteUom ,getByUom} from '../../hooks/uom-hooks';
+import { useGetAlluom, useDeleteUom, getByUom } from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
@@ -114,7 +114,7 @@ const UomList = () => {
     let demo: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
+      order_by_column: 'updated_by',
       order_by_direction: 'desc',
       status: 'AC',
       global_search: filterValues.search_by_name,
@@ -127,8 +127,8 @@ const UomList = () => {
     let demo: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'asc',
+      order_by_column: 'updated_by',
+      order_by_direction: 'desc',
       status: 'AC',
       global_search: '',
     };
@@ -262,7 +262,16 @@ const UomList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {getAlluom?.map((data: any) => (
+                    {getFilterData?.total_count === 0 ? (
+                      <tr>
+                        <td></td>
+                        <td>No data found</td>
+                        <td></td>
+                      </tr>
+                    ) : (
+                      ''
+                    )}
+                    {getFilterData?.content?.map((data: any) => (
                       <tr>
                         <td>{data.name}</td>
                         <td>{data.description}</td>

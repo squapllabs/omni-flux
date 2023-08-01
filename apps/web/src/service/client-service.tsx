@@ -59,10 +59,23 @@ const deleteClient = async (id: number) => {
     throw error;
   }
 };
+const filterClient = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/client/search-client`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in client search :', error);
+    throw error;
+  }
+};
 export default {
   getAllClient,
   getOneClientByID,
   createClient,
   updateClient,
   deleteClient,
+  filterClient,
 };
