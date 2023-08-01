@@ -9,6 +9,7 @@ import {
   deleteByClientId,
   getAllClients,
   getByClientId,
+  searchClient,
   updateClient,
 } from '../../controller/client.controller';
 import { runValidation } from '../../validations/index';
@@ -36,5 +37,7 @@ router.get('/getAll', authMiddleware, getAllClients);
 router.get('/get/:client_id', authMiddleware, getByClientId);
 
 router.delete('/delete/:client_id', authMiddleware, deleteByClientId);
+
+router.post('/search-client', authMiddleware, searchClient);
 
 export default router;

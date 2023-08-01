@@ -146,10 +146,27 @@ const deleteLeadEnquiry = async (
   }
 };
 
+const getByClientId = async (clientId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const leadEnquiry = await transaction.lead_enquiry.findFirst({
+      where: {
+        client_id: Number(clientId),
+        is_delete: false,
+      },
+    });
+    return leadEnquiry;
+  } catch (error) {
+    console.log('Error occurred in leadEnquiry getByClientId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getById,
   getAll,
   deleteLeadEnquiry,
+  getByClientId,
 };

@@ -53,10 +53,21 @@ const deleteByClientId = catchAsync(async (req, res) => {
   }
 });
 
+const searchClient = catchAsync(async (req, res) => {
+  const methodName = '/searchClient';
+  try {
+    const client = await clientService.searchClient(req.body);
+    res.send(client);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createClient,
   updateClient,
   getAllClients,
   getByClientId,
   deleteByClientId,
+  searchClient,
 };
