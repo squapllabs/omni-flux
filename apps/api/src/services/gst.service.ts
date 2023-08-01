@@ -140,4 +140,57 @@ const deleteGst = async (gstId: number) => {
   }
 };
 
-export { createGst, updateGst, getAllGst, getById, deleteGst };
+/**
+ * Method to search Gst - Pagination API
+ * @returns
+ */
+const searchGst = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterGst: {
+        AND: [],
+        OR: [
+          { rate: global_search },
+          { cgst_rate: global_search },
+          { igst_rate: global_search },
+          { sgst_rate: global_search },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await gstDao.searchGST(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempGstData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempGstData;
+  } catch (error) {
+    console.log('Error occurred in searchGst Gst service : ', error);
+    throw error;
+  }
+};
+
+export { createGst, updateGst, getAllGst, getById, deleteGst, searchGst };

@@ -63,6 +63,16 @@ const getByUomName = catchAsync(async (req, res) => {
   }
 });
 
+const searchUom = catchAsync(async (req, res) => {
+  const methodName = '/searchUom';
+  try {
+    const uom = await uomService.searchUom(req.body);
+    res.send(uom);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createUom,
   updateUom,
@@ -70,4 +80,5 @@ export {
   getByUomId,
   deleteByUomId,
   getByUomName,
+  searchUom,
 };

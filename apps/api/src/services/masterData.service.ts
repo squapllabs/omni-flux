@@ -282,9 +282,12 @@ const searchMasterData = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const parent_master_data_id = body.parent_id;
     const filterObj = {
       filterMasterData: {
-        AND: [],
+        AND: parent_master_data_id
+          ? [{ parent_master_data_id: parent_master_data_id }]
+          : [],
         OR: [
           {
             master_data_name: { contains: global_search, mode: 'insensitive' },

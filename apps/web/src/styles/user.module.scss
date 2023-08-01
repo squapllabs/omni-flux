@@ -6,12 +6,15 @@
 }
 .fields {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
 }
-.fieldDiv1 {
+
+.fieldsOne {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .error{
@@ -22,4 +25,44 @@
 
 .statusField{
   margin-top: 17px;
+}
+
+.projectHeading {
+  font-size: 0.8rem;
+}
+
+.dateField{
+  height: 35%;
+}
+
+.submitButton{
+  display: flex;
+  gap: 10px;
+}
+
+.heading{
+  padding: 10px
+}
+
+.footerButton{
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px 30px;
+}
+
+.fieldsOne > div {
+  flex: 1 0 10%;
+  min-width: 250px;
+}
+
+.inputField{
+  width:20%
+}
+
+.userImage{
+  margin-top: 20px;
+}
+
+.twoFactorCheckbox{
+  margin-top: 20px;
 }

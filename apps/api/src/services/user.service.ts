@@ -115,6 +115,7 @@ const updateUser = async (body: updateUserBody) => {
       date_of_birth,
       gender,
       additional_info,
+      is_two_factor
     } = body;
 
     const userExist = await userDao.getById(user_id);
@@ -134,7 +135,8 @@ const updateUser = async (body: updateUserBody) => {
           updated_by,
           user_id,
           department,
-          prisma
+          is_two_factor,
+          prisma,
         );
         userDataWithRole.push({ userData: userDetails });
 
