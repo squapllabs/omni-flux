@@ -187,14 +187,19 @@ const addBulkHSNCodeByImport = async (excelFile) => {
  * @param data
  * @returns
  */
-const transformExcelData = (data): createHsnCodeBody[] => {
+const transformExcelData = (
+  data,
+  created_by_from_request = null
+): createHsnCodeBody[] => {
   const parsedData: createHsnCodeBody[] = data.map((hsnCode) => {
-    const created_by =
+    let created_by =
       hsnCode.created_by === 'null' ||
       hsnCode.created_by === undefined ||
       hsnCode.created_by === null
         ? null
         : Number(hsnCode.created_by);
+
+    created_by = created_by_from_request ? created_by_from_request : created_by;
     const currentDate = new Date();
     const code = String(hsnCode.code);
     return {
@@ -216,7 +221,8 @@ const transformExcelData = (data): createHsnCodeBody[] => {
  */
 const addBulkHSNCode = async (body) => {
   try {
-    const convertedData = transformExcelData(body);
+    const { created_by, items } = body;
+    const convertedData = transformExcelData(items, created_by);
     const hsnCode = await hsnCodeDao.addBulk(convertedData);
     const result = {
       status: true,
