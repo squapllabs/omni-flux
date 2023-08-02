@@ -37,11 +37,7 @@
   justify-content: space-between;
   gap: 10px;
 }
-.searchButton {
-  display: flex;
-  flex-direction: row;
-  flex-shrink: initial;
-}
+
 .error {
   color: red;
   font-size: 0.75rem;
@@ -79,13 +75,7 @@
   gap: 8px;
   color: #6941c6;
 }
-.resetButton {
-  padding: 12px 20px 12px 20px;
-  border-radius: 8px;
-  border: 1px;
-  gap: 8px;
-  color: #848289;
-}
+
 
 table {
   border-collapse: collapse;
@@ -143,4 +133,26 @@ tr:hover {
   flex-direction: row;
   justify-content: flex-end;
   gap: 10px;
+}
+.searchButton {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
+}
+.searchButton:hover {
+  background-color: #7f56d9;
+  color: #ffffff;
+}
+.resetButton {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #848289;
+}
+.resetButton:hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
 }

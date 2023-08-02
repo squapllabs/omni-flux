@@ -45,6 +45,7 @@ const CategoryList = () => {
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
   const validationSchema = getCreateValidateyup(Yup);
+  const [disable, setDisable] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -87,6 +88,7 @@ const CategoryList = () => {
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(true);
+    setDisable(false);
   };
   const handleReset = async () => {
     const demo: any = {
@@ -100,6 +102,7 @@ const CategoryList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
+    setDisable(false);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -281,6 +284,7 @@ const CategoryList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
+                  disabled={disable}
                   onClick={handleReset}
                 >
                   Reset
