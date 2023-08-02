@@ -22,13 +22,22 @@
   font-size: 0.8rem;
 }
 .fields_container {
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.fields_container_1 {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 20px;
+}
+.fields_container_2 {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
   gap: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
 }
 .box::after {
   content: '';
@@ -70,14 +79,22 @@
   gap: 8px;
   color: #6941c6;
 }
+.searchButton:hover {
+  background-color: #7f56d9;
+  color: #ffffff;
+}
 .resetButton {
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
   border: 1px;
   gap: 8px;
   color: #848289;
+  // background-color: #e0e0e0;
 }
-
+.resetButton:hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
+}
 .pagination {
   display: flex;
   justify-content: end;

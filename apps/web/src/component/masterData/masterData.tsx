@@ -20,10 +20,11 @@ import SearchIcon from '../menu/icons/search';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import CustomDialog from '../ui/customDialog';
 import MasterDataEditForm from './masterDataEditForm';
-import CustomGroupButton from '../ui/CustomGroupButton';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
 import SelectNew from '../ui/selectNew';
+import AddIcon from '../menu/icons/addIcon';
+import TextArea from '../ui/CustomTextArea';
 const MaterData = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -40,10 +41,6 @@ const MaterData = () => {
   const [categoryId, setCategoryID] = useState();
   const [mode, setMode] = useState('');
   const [open, setOpen] = useState(false);
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
-  ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -53,6 +50,7 @@ const MaterData = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [disable, setDisable] = useState(true);
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -89,9 +87,11 @@ const MaterData = () => {
       global_search: filterValues.search_by_name,
       parent_id: Number(selectedValue),
     };
-    postDataForFilter(demo);
+    await postDataForFilter(demo);
+    setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
+    setDisable(false);
   };
   const handleReset = async () => {
     setFilterValues({
@@ -109,8 +109,8 @@ const MaterData = () => {
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(false);
-
     setIsLoading(false);
+    setDisable(true);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -185,95 +185,93 @@ const MaterData = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
-  };
-
   return (
     <div>
-      <CustomLoader
-        loading={FilterLoading}
-        // loading={true}
-        size={48}
-        color="#333C44"
-      >
+      <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.conatiner}>
           <div className={Styles.box}>
             <div className={Styles.textContent}>
               <h3>Add New Master Data</h3>
               <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
+                Manage your master data across your application
               </span>
             </div>
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields_container}>
-                <div>
-                  <Input
-                    name="master_data_name"
-                    label="Name"
-                    placeholder="Enter master name"
-                    value={formik.values.master_data_name}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.master_data_name &&
-                      formik.errors.master_data_name
-                    }
-                  />
+                <div className={Styles.fields_container_1}>
+                  <div style={{ width: '30%' }}>
+                    <Input
+                      name="master_data_name"
+                      label="Name"
+                      placeholder="Enter master name"
+                      value={formik.values.master_data_name}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.master_data_name &&
+                        formik.errors.master_data_name
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      name="master_data_type"
+                      label="Code"
+                      placeholder="Enter code"
+                      value={formik.values.master_data_type}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.master_data_type &&
+                        formik.errors.master_data_type
+                      }
+                    />
+                  </div>
+                  <div>
+                    <SelectNew
+                      label="Parent Name"
+                      name="parent_master_data_id"
+                      onChange={formik.handleChange}
+                      value={formik.values.parent_master_data_id}
+                      defaultLabel="Select from options"
+                      error={
+                        formik.touched.parent_master_data_id &&
+                        formik.errors.parent_master_data_id
+                      }
+                    >
+                      {getAllmasterDataForDrop.map((option: any) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </SelectNew>
+                  </div>
                 </div>
-                <div>
-                  <Input
-                    name="master_data_description"
-                    label="Description"
-                    placeholder="Enter description"
-                    value={formik.values.master_data_description}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.master_data_description &&
-                      formik.errors.master_data_description
-                    }
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="master_data_type"
-                    label="Code"
-                    placeholder="Enter code"
-                    value={formik.values.master_data_type}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.master_data_type &&
-                      formik.errors.master_data_type
-                    }
-                  />
-                </div>
-                <div>
-                  <SelectNew
-                    label="Master"
-                    name="parent_master_data_id"
-                    onChange={formik.handleChange}
-                    value={formik.values.parent_master_data_id}
-                    defaultLabel="Select from options"
-                    error={
-                      formik.touched.parent_master_data_id &&
-                      formik.errors.parent_master_data_id
-                    }
-                  >
-                    {getAllmasterDataForDrop.map((option: any) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </SelectNew>
-                </div>
-                <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                  >
-                    Add new Master Data
-                  </Button>
+                <div className={Styles.fields_container_2}>
+                  <div style={{ width: '30%' }}>
+                    <TextArea
+                      name="master_data_description"
+                      label="Description"
+                      placeholder="Enter description"
+                      value={formik.values.master_data_description}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.master_data_description &&
+                        formik.errors.master_data_description
+                      }
+                      rows={3}
+                    />
+                  </div>
+
+                  <div>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon />}
+                    >
+                      Add Master Data
+                    </Button>
+                  </div>
                 </div>
               </div>
             </form>
@@ -282,7 +280,7 @@ const MaterData = () => {
             <div className={Styles.textContent}>
               <h3>List of Master Data</h3>
               <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
+                Manage your master data across your application
               </span>
             </div>
             <div className={Styles.searchField}>
@@ -321,18 +319,11 @@ const MaterData = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
+                  disabled={disable}
                   onClick={handleReset}
                 >
                   Reset
                 </Button>
-              </div>
-
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
               </div>
             </div>
             <div className={Styles.tableContainer}>
@@ -340,10 +331,11 @@ const MaterData = () => {
                 <table>
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Name</th>
                       <th>Description</th>
                       <th>Code</th>
-                      <th>Master</th>
+                      <th>Parent Name</th>
                       <th>option</th>
                     </tr>
                   </thead>
@@ -359,8 +351,9 @@ const MaterData = () => {
                     ) : (
                       ''
                     )}
-                    {getFilterData?.content?.map((item: any) => (
+                    {getFilterData?.content?.map((item: any, index: number) => (
                       <tr>
+                        <td>{index + 1}</td>
                         <td>{item.master_data_name}</td>
                         <td>{item.master_data_description}</td>
                         <td>{item.master_data_type}</td>
@@ -375,13 +368,6 @@ const MaterData = () => {
                           >
                             <EditIcon />
                           </IconButton>
-                          <IconButton
-                            onClick={() =>
-                              deleteCategoryHandler(item.master_data_id)
-                            }
-                          >
-                            <DeleteIcon />
-                          </IconButton>
                         </td>
                       </tr>
                     ))}
@@ -391,7 +377,7 @@ const MaterData = () => {
               <div className={Styles.pagination}>
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={getFilterData?.total_page}
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}
