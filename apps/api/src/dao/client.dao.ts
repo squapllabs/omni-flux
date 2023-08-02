@@ -8,6 +8,7 @@ const add = async (
 ) => {
   try {
     const currentDate = new Date();
+    const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const client = await transaction.client.create({
       data: {
@@ -16,6 +17,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        is_delete: is_delete,
       },
     });
     return client;
@@ -56,9 +58,10 @@ const edit = async (
 const getById = async (clientId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const client = await transaction.client.findUnique({
+    const client = await transaction.client.findFirst({
       where: {
         client_id: Number(clientId),
+        is_delete: false,
       },
     });
     return client;
@@ -72,6 +75,9 @@ const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const client = await transaction.client.findMany({
+      where: {
+        is_delete: false,
+      },
       orderBy: [
         {
           updated_date: 'desc',
@@ -88,14 +94,52 @@ const getAll = async (connectionObj = null) => {
 const deleteClient = async (clientId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const client = await transaction.client.delete({
+    const client = await transaction.client.update({
       where: {
         client_id: Number(clientId),
+      },
+      data: {
+        is_delete: true,
       },
     });
     return client;
   } catch (error) {
     console.log('Error occurred in client deleteClient dao', error);
+    throw error;
+  }
+};
+
+const searchClient = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterClient;
+    const client = await transaction.client.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const clientCount = await transaction.client.count({
+      where: filter,
+    });
+    const clientData = {
+      count: clientCount,
+      data: client,
+    };
+    return clientData;
+  } catch (error) {
+    console.log('Error occurred in client dao : searchClient', error);
     throw error;
   }
 };
@@ -106,4 +150,5 @@ export default {
   getById,
   getAll,
   deleteClient,
+  searchClient,
 };
