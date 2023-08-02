@@ -1,7 +1,7 @@
 interface createLeadProductBody {
   lead_enquiry_id: number;
   source_name: string;
-  probability: string;
+  probability: number;
   our_remarks: string;
   client_remark: string;
   approx_value: number;
@@ -13,7 +13,7 @@ interface updateLeadProductBody {
   lead_product_id: number;
   lead_enquiry_id: number;
   source_name: string;
-  probability: string;
+  probability: number;
   our_remarks: string;
   client_remark: string;
   approx_value: number;

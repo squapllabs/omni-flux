@@ -11,31 +11,47 @@ interface SelectProps {
   name?: string;
   error?: boolean;
 }
-
+interface InputWrapperProps {
+  width?: string;
+}
 interface StyledSelectProps {
   value: string;
   width?: string;
   error?: boolean;
 }
-const SelectContainer = styled.div<{ width?: string }>`
+
+const InputWrapper = styled.div<InputWrapperProps>`
   display: flex;
   flex-direction: column;
-  position: relative;
-  width: ${(props) => props.width || '200px'};
+  width: ${(props) => props.width || '100%'};
 `;
-
+const SelectContainer = styled.div<StyledSelectProps>`
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border-radius: 4px;
+  background-color: #f4f5f6;
+  &:hover {
+    border-color: #888;
+  }
+  &:focus-within {
+    outline: 0;
+    box-shadow: 0 0 0 2px #68717840;
+  }
+`;
 const StyledSelect = styled.select<StyledSelectProps>`
   appearance: none; // this is to remove default browser dropdown icon
   width: 100%;
   height: 38px;
   background: #f4f5f6;
-  color: gray;
+  color: ${(props) => (props.value === '' ? 'gray' : 'black')};
   padding: 6px 12px;
   font-size: 14px;
   border: none;
   border-radius: 4px;
   outline: none;
-  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  // border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   option {
     color: black;
     background: white;
@@ -65,9 +81,9 @@ const DropdownArrow = styled.div`
 
 const StyledLabel = styled.label`
   margin-bottom: 4px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #333c44;
-  font-weight: 400;
+  font-weight: 600;
 `;
 
 const ErrorMessageWrapper = styled.div`
@@ -91,22 +107,24 @@ const Select: FC<SelectProps> = ({
 }) => {
   return (
     <div>
-      {label && <StyledLabel>{label}</StyledLabel>}
-      <SelectContainer width={width}>
-        <StyledSelect
-          value={value}
-          name={name}
-          onChange={onChange}
-          error={!!error}
-        >
-          <option value="">{defaultLabel}</option>
-          {children}
-        </StyledSelect>
-        <DropdownArrow />
-      </SelectContainer>
-      <ErrorMessageWrapper>
-        {error && <InputError>{error}</InputError>}
-      </ErrorMessageWrapper>
+      <InputWrapper width={width}>
+        {label && <StyledLabel>{label}</StyledLabel>}
+        <SelectContainer width={width}>
+          <StyledSelect
+            value={value}
+            name={name}
+            onChange={onChange}
+            error={!!error}
+          >
+            <option value="">{defaultLabel}</option>
+            {children}
+          </StyledSelect>
+          <DropdownArrow />
+        </SelectContainer>
+        <ErrorMessageWrapper>
+          {error && <InputError>{error}</InputError>}
+        </ErrorMessageWrapper>
+      </InputWrapper>
     </div>
   );
 };
