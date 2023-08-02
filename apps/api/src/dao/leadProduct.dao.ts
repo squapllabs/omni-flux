@@ -3,9 +3,7 @@ import prisma from '../utils/prisma';
 const add = async (
   lead_enquiry_id: number,
   source_name: string,
-  probability: string,
-  our_remarks: string,
-  client_remark: string,
+  probability: number,
   approx_value: number,
   sales_person_name: number,
   created_by: number,
@@ -20,8 +18,6 @@ const add = async (
         lead_enquiry_id,
         source_name,
         probability,
-        our_remarks,
-        client_remark,
         approx_value,
         sales_person_name,
         created_by,
@@ -40,9 +36,7 @@ const add = async (
 const edit = async (
   lead_enquiry_id: number,
   source_name: string,
-  probability: string,
-  our_remarks: string,
-  client_remark: string,
+  probability: number,
   approx_value: number,
   sales_person_name: number,
   updated_by: number,
@@ -60,8 +54,6 @@ const edit = async (
         lead_enquiry_id,
         source_name,
         probability,
-        our_remarks,
-        client_remark,
         approx_value,
         sales_person_name,
         updated_by,
@@ -78,13 +70,10 @@ const edit = async (
 const getById = async (leadProductId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const leadProduct = await transaction.lead_product.findFirst({
+    const leadProduct = await transaction.lead_enquiry_product.findFirst({
       where: {
         lead_product_id: Number(leadProductId),
         is_delete: false,
-      },
-      include: {
-        lead_enquiry: true,
       },
     });
     return leadProduct;
