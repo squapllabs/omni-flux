@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/subSubCategoryList.module.scss';
-import MUIDataTable from 'mui-datatables';
-import { Tooltip, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import MySnackbar from '../ui/MySnackbar';
 import {
-  useGetAllSubSubcategory,
   useDeleteSubSubcategory,
   getBySearchSubSubCategroy,
 } from '../../hooks/subSubCategory-hooks';
-import CustomDialog from '../ui/customDialog';
 import SubSubForm from './subSubForm';
-import CustomDialogBox from '../ui/cusotmDialogDelete';
 import Button from '../ui/Button';
 import Input from '../../component/ui/Input';
 import { useFormik } from 'formik';
@@ -20,22 +12,25 @@ import { useGetAllSubcategoryDrop } from '../../hooks/subCategory-hooks';
 import { getCreateValidateyup } from '../../helper/constants/category/subsubcategory-constants';
 import { createSubSubcategory } from '../../hooks/subSubCategory-hooks';
 import * as Yup from 'yup';
-import Select from '../ui/Select';
+import Select from '../ui/selectNew';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
+import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSnackBar from '../ui/customSnackBar';
+import CustomEditDialog from '../ui/customEditDialogBox';
+import AddIcon from '../menu/icons/addIcon';
+import { formatBudgetValue } from '../../helper/common-function';
 
 const SubSubCategoryList = () => {
-  const { data: getAllSubSubCategory, isLoading: loader } =
-    useGetAllSubSubcategory();
   const {
     mutate: postFilterRequest,
     data: getFilterData,
     isLoading: filterLoading,
   } = getBySearchSubSubCategroy();
-  console.log('getFilterData', getFilterData);
-
   const { data: getAllSubCategory = [] } = useGetAllSubcategoryDrop();
   const { mutate: getDeleteSubSubCategoryByID } = useDeleteSubSubcategory();
   const [value, setValue] = useState(0);
@@ -48,7 +43,6 @@ const SubSubCategoryList = () => {
   const [subSubCategoryId, setSubSubCategoryId] = useState();
   const { mutate: createNewSubSubCategory } = createSubSubcategory();
   const validationSchema = getCreateValidateyup(Yup);
-  const [selectedValue, setSelectedValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [filterValues, setFilterValues] = useState({
@@ -61,7 +55,6 @@ const SubSubCategoryList = () => {
     sub_category_id: '',
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'active', value: 'AC' },
@@ -79,11 +72,11 @@ const SubSubCategoryList = () => {
     setCurrentPage(1);
   };
   const handleSearch = async () => {
-    let demo: any = {
+    const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
       order_by_column: 'updated_date',
-      order_by_direction: 'asc',
+      order_by_direction: 'desc',
       status: activeButton,
       ...filterValues,
     };
@@ -113,8 +106,7 @@ const SubSubCategoryList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const handleEdit = (event: React.FormEvent, value: any) => {
-    console.log('value', value);
+  const handleEdit = (value: any) => {
     setMode('EDIT');
     setSubSubCategoryId(value);
     setOpenPopup(true);
@@ -122,13 +114,6 @@ const SubSubCategoryList = () => {
 
   const handleClosePopup = () => {
     setOpenPopup(false);
-  };
-
-  const handleDropdownChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedRoleId = event.target.value;
-    setSelectedValue(selectedRoleId);
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +124,7 @@ const SubSubCategoryList = () => {
   };
 
   const handleReset = async () => {
-    let demo: any = {
+    const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
     };
@@ -161,7 +146,7 @@ const SubSubCategoryList = () => {
         const Object: any = {
           name: values.name,
           budget: Number(values.budget),
-          sub_category_id: Number(selectedValue),
+          sub_category_id: Number(values.sub_category_id),
         };
         createNewSubSubCategory(Object, {
           onSuccess: (data, variables, context) => {
@@ -179,14 +164,10 @@ const SubSubCategoryList = () => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
+
   return (
     <div>
-      <CustomLoader
-        loading={isLoading === true ? loader : filterLoading}
-        // loading={true}
-        size={48}
-        color="#333C44"
-      >
+      <CustomLoader loading={filterLoading} size={48} color="#333C44">
         <div>
           <div className={Styles.box}>
             <div className={Styles.textContent}>
@@ -197,21 +178,24 @@ const SubSubCategoryList = () => {
             </div>
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields}>
-                <div className={Styles.projectField}>
-                  <span className={Styles.projectHeading}>Sub Category</span>
+                <div>
                   <Select
-                    options={getAllSubCategory}
-                    onChange={handleDropdownChange}
-                    value={selectedValue}
+                    label="Sub Category"
+                    name="sub_category_id"
+                    onChange={formik.handleChange}
+                    value={formik.values.sub_category_id}
                     defaultLabel="Select from options"
-                    width="100%"
-                  />
-                  {formik.touched.sub_category_id &&
-                    formik.errors.sub_category_id && (
-                      <div className={Styles.error}>
-                        {formik.errors.sub_category_id}
-                      </div>
-                    )}
+                    error={
+                      formik.touched.sub_category_id &&
+                      formik.errors.sub_category_id
+                    }
+                  >
+                    {getAllSubCategory.map((option: any) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </Select>
                 </div>
                 <div>
                   <Input
@@ -240,6 +224,7 @@ const SubSubCategoryList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
+                    icon={<AddIcon />}
                   >
                     Add New Sub Sub Category
                   </Button>
@@ -297,10 +282,11 @@ const SubSubCategoryList = () => {
                 <table>
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Sub Category</th>
                       <th>Name</th>
                       <th>Budget</th>
-                      <th>Option</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -314,28 +300,31 @@ const SubSubCategoryList = () => {
                     ) : (
                       ''
                     )}
-                    {getFilterData?.content?.map((item: any) => (
+                    {getFilterData?.content?.map((item: any,index: number) => (
                       <tr>
+                        <td>{index + 1}</td>
                         <td>{item.sub_category.name}</td>
                         <td>{item.name}</td>
-                        <td>{item.budget}</td>
+                        <td>{formatBudgetValue(item.budget)}</td>
                         <td>
-                          <IconButton
-                            onClick={(e) =>
-                              handleEdit(e, item.sub_sub_category_id)
-                            }
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            onClick={() =>
-                              deleteSubSubCategoryHandler(
-                                item.sub_sub_category_id
-                              )
-                            }
-                          >
-                            <DeleteIcon />
-                          </IconButton>
+                          <div className={Styles.tableIcon}>
+                            <div>
+                              <EditIcon
+                                onClick={() =>
+                                  handleEdit(item.sub_sub_category_id)
+                                }
+                              />
+                            </div>
+                            {/* <div>
+                              <DeleteIcon
+                                onClick={() =>
+                                  deleteSubSubCategoryHandler(
+                                    item.sub_sub_category_id
+                                  )
+                                }
+                              />
+                            </div> */}
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -345,7 +334,7 @@ const SubSubCategoryList = () => {
               <div className={Styles.pagination}>
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={getFilterData?.total_count}
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}
@@ -354,29 +343,30 @@ const SubSubCategoryList = () => {
             </div>
           </div>
         </div>
-
-        <CustomDialog
+        <CustomDelete
           open={open}
+          title="Delete"
+          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
+          contentLine2="Deleted Category will move to Inactive tab."
           handleClose={handleClose}
-          title="Delete Sub Sub Category"
-          content="Are you want to delete this category?"
           handleConfirm={deleteSubSubCategory}
         />
-        <MySnackbar
+        <CustomSnackBar
           open={openSnack}
           message={message}
           onClose={handleSnackBarClose}
-          severity={'success'}
           autoHideDuration={1000}
+          type="success"
         />
-        <CustomDialogBox
+        <CustomEditDialog
           open={openPopup}
+          title="Edit Sub Sub Category"
+          subTitle="Please edit the sub sub category name"
           handleClose={handleClosePopup}
-          title="Sub Sub Category Creation"
           content={
             <SubSubForm
               setOpenPopup={setOpenPopup}
-              open={openPopup}
+              open={open}
               setReload={setReload}
               mode={mode}
               subSubCategoryId={subSubCategoryId}

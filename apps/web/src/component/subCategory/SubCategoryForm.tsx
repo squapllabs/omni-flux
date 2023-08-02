@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid, InputLabel } from '@mui/material';
 import {
   createSubcategory,
   updateSubcategory,
@@ -14,14 +13,15 @@ import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import * as Yup from 'yup';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
-import SelectDrop from '../ui/Select';
+import Select from '../ui/selectNew';
+import Styles from '../../styles/subCategoryList.module.scss';
 
 const SubCategoryForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
       ? getCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
-  const { data: getAllCategory } = useGetAllCategoryForDrop();
+  const { data: getAllCategory = [] } = useGetAllCategoryForDrop();
   const [initialValues, setInitialValues] = useState({
     sub_category_id: '',
     name: '',
@@ -48,12 +48,6 @@ const SubCategoryForm: React.FC = (props: any) => {
   const { mutate: createNewSubcategory } = createSubcategory();
   const { mutate: updateSubcategoryData } = updateSubcategory();
 
-  const handleDropdownChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedCategoryId = event.target.value;
-    formik.setFieldValue('category_id', Number(selectedCategoryId));
-  };
 
   const formik = useFormik({
     initialValues,
@@ -81,7 +75,7 @@ const SubCategoryForm: React.FC = (props: any) => {
           sub_category_id: values.sub_category_id,
           name: values.name,
           budget: Number(values.budget),
-          category_id: values.category_id,
+          category_id: Number(values.category_id),
         };
         updateSubcategoryData(Object, {
           onSuccess: (data, variables, context) => {
@@ -97,50 +91,62 @@ const SubCategoryForm: React.FC = (props: any) => {
     },
   });
 
+  const handleBack = () => {
+    props.setOpen(false);
+  }
+
   return (
-    <div>
+    <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          <Grid item xs={2} sm={4} md={6}>
-            <InputLabel id="category_id-label">Category</InputLabel>
-            <SelectDrop
-              options={getAllCategory}
-              onChange={handleDropdownChange}
-              value={formik.values.category_id}
-              defaultLabel="Select from options"
-              width="100%"
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={12}>
-            <Input
-              name="name"
-              label="Sub Category Name"
-              placeholder="Enter sub category name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && formik.errors.name}
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={12}>
-            <Input
-              name="budget"
-              label="Budget"
-              placeholder="Enter budget"
-              value={formik.values.budget}
-              onChange={formik.handleChange}
-              error={formik.touched.budget && formik.errors.budget}
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={6}>
-            <Button color="primary" shape="rectangle" justify="center">
+        <div>
+        <Select
+            label="Category"
+            name="category_id"
+            onChange={formik.handleChange}
+            value={formik.values.category_id}
+            defaultLabel="Select from options"
+            width="100%"
+            error={formik.touched.category_id && formik.errors.category_id}
+          >
+            {getAllCategory.map((option: any) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div>
+          <Input
+            name="name"
+            label="Sub Category Name"
+            placeholder="Enter sub category name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.touched.name && formik.errors.name}
+          />
+        </div>
+        <div>
+          <Input
+            name="budget"
+            label="Budget"
+            placeholder="Enter budget"
+            value={formik.values.budget}
+            onChange={formik.handleChange}
+            error={formik.touched.budget && formik.errors.budget}
+          />
+        </div>
+        <div className={Styles.formButton}>
+          <div>
+            <Button shape="rectangle" justify="center"  size="small" onClick={handleBack}>
+              Cancel
+            </Button>
+          </div>
+          <div>
+            <Button color="primary" shape="rectangle" justify="center"  size="small">
               Submit
             </Button>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </form>
     </div>
   );

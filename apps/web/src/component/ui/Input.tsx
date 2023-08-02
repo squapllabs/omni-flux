@@ -29,18 +29,20 @@ const InputWrapper = styled.div<InputWrapperProps>`
 
 const StyledLabel = styled.label`
   margin-bottom: 4px;
-  font-size: 0.75rem;
-  color: #333C44;
-  font-weight: 400;
-
+  font-size: 0.8rem;
+  color: #333c44;
+  font-weight: 600;
 `;
 
 const InputContainer = styled.div<StyledInputProps>`
   position: relative;
   display: flex;
   align-items: center;
-  padding: ${(props) => `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${props.hasPrefixIcon ? '32px' : '12px'}`};
-  border: 1px solid ${(props) => props.error ? 'red' : '#ccc'};
+  padding: ${(props) =>
+    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
+      props.hasPrefixIcon ? '32px' : '12px'
+    }`};
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
   background-color: #f4f5f6; 
   &:hover {
@@ -49,7 +51,6 @@ const InputContainer = styled.div<StyledInputProps>`
   &:focus-within {
     outline: 0;
     box-shadow: 0 0 0 2px #68717840;
-
   }
 `;
 
@@ -82,13 +83,12 @@ const SuffixIconWrapper = styled(IconWrapper)`
 const InputError = styled.span`
   color: red;
   margin-top: 2px;
-font-size: 0.75rem;
+  font-size: 0.75rem;
 `;
 
 const ErrorMessageWrapper = styled.div`
   min-height: 20px; // Change to the height of your error message
 `;
-
 
 const Input: React.FC<InputProps> = ({
   label,
@@ -102,21 +102,24 @@ const Input: React.FC<InputProps> = ({
   return (
     <InputWrapper width={width}>
       {label && <StyledLabel>{label}</StyledLabel>}
-      <InputContainer error={!!error} hasPrefixIcon={!!prefixIcon} hasSuffixIcon={!!suffixIcon}>
+      <InputContainer
+        error={!!error}
+        hasPrefixIcon={!!prefixIcon}
+        hasSuffixIcon={!!suffixIcon}
+      >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
-        <StyledInput hasSuffixIcon={!!suffixIcon} placeholder={placeholder} {...props} />
+        <StyledInput
+          hasSuffixIcon={!!suffixIcon}
+          placeholder={placeholder}
+          {...props}
+        />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
       <ErrorMessageWrapper>
         {error && <InputError>{error}</InputError>}
       </ErrorMessageWrapper>
-
-
     </InputWrapper>
   );
 };
 
 export default Input;
-
-
-

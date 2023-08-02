@@ -125,3 +125,23 @@ tr:hover {
   display: flex;
   gap: 10px;
 }
+
+.formContainer {
+  width: 300px;
+  padding: 1px 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.tableIcon {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

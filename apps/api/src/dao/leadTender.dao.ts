@@ -98,13 +98,10 @@ const edit = async (
 const getById = async (leadTenderId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const leadTender = await transaction.lead_tender.findFirst({
+    const leadTender = await transaction.lead_enquiry_tender.findFirst({
       where: {
         lead_tender_id: Number(leadTenderId),
         is_delete: false,
-      },
-      include: {
-        lead_enquiry: true,
       },
     });
     return leadTender;
