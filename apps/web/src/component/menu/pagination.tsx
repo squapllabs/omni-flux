@@ -52,7 +52,7 @@ const Pagination: React.FC<PaginationProps> = ({
         />
       </div>
       <span className={Styles.pagesCount}>
-        {currentPage} - {rowsPerPage}of{totalPages}
+        {currentPage} - {rowsPerPage} of {totalPages}
       </span>
 
       <div className={Styles.icons}>

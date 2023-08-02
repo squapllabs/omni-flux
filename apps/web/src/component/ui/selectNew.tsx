@@ -29,7 +29,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   width: 100%;
   height: 38px;
   background: #f4f5f6;
-  color: gray;
+  color: ${(props) => (props.value === '' ? 'gray' : 'black')};
   padding: 6px 12px;
   font-size: 14px;
   border: none;
@@ -65,9 +65,9 @@ const DropdownArrow = styled.div`
 
 const StyledLabel = styled.label`
   margin-bottom: 4px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #333c44;
-  font-weight: 400;
+  font-weight: 600;
 `;
 
 const ErrorMessageWrapper = styled.div`
@@ -89,6 +89,8 @@ const Select: FC<SelectProps> = ({
   name,
   error,
 }) => {
+  console.log('props', defaultLabel);
+
   return (
     <div>
       {label && <StyledLabel>{label}</StyledLabel>}
