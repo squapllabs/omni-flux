@@ -1,7 +1,7 @@
 import SubcategoryService from '../../../service/subCategory-service';
 
 export const subCategoryErrorMessages = {
-  ENTER_NAME: 'Name is required',
+  ENTER_NAME: 'Subcategory name is required',
   ENTER_BUDGET: 'Budget is required',
   SELECT_CATEGORY: 'Please Select the category',
   ALREADY_EXIST:
@@ -12,11 +12,11 @@ export const subCategoryErrorMessages = {
 
 export const getCreateValidateyup = (yup: any) => {
   return yup.object().shape({
-    // category_id: yup
-    //   .string()
-    //   .trim()
-    //   .typeError(subCategoryErrorMessages.SELECT_CATEGORY)
-    //   .required(subCategoryErrorMessages.SELECT_CATEGORY),
+    category_id: yup
+      .string()
+      .trim()
+      .typeError(subCategoryErrorMessages.SELECT_CATEGORY)
+      .required(subCategoryErrorMessages.SELECT_CATEGORY),
     name: yup
       .string()
       .trim()

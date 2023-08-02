@@ -5,10 +5,9 @@ import FlagIcon from '../menu/icons/flagIcon';
 interface DialogBoxProps {
   title: string;
   open: boolean;
-  subTitle : string;
-  content: string;
+  subTitle: string;
+  content: React.ReactNode;
   handleClose: () => void;
-  
 }
 
 const DialogBox: React.FC<DialogBoxProps> = ({
@@ -17,7 +16,6 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   subTitle,
   content,
   handleClose,
-  
 }) => {
   if (!open) return null;
 
@@ -35,7 +33,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
 
   const boxStyle: React.CSSProperties = {
     backgroundColor: '#fff',
-    padding: '20px',
+    padding: '10px',
     borderRadius: '4px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
     maxWidth: '400px',
@@ -44,39 +42,38 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   };
 
   const titleStyle: React.CSSProperties = {
-    padding: '10px 10px 1px 10px',
+    padding: '10px 10px 1px 20px',
   };
 
   const subTitleStyle: React.CSSProperties = {
-    fontSize:'12px',
-    padding:'0px 0px 20px 12px'
+    fontSize: '12px',
+    padding: '0px 0px 20px 20px',
   };
 
   const mainContentStyle: React.CSSProperties = {
-    display: 'flex', 
-    flexDirection: 'row',
-    justifyContent:'space-between'
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: '15px',
   };
 
-  const iconContentStyle: React.CSSProperties = {
-    padding: '15px'
+  const dividerStyle: React.CSSProperties = {
+    borderBottom: '1px solid #ccc',
+    padding: '5px 1px 5px 1px',
   };
   return (
     <div style={dialogStyle}>
       <div style={boxStyle}>
-        <div style={mainContentStyle}>
-          <div style={iconContentStyle}>
-            <FlagIcon />
+        <div style={{ display: 'flex', flexDirection: 'row',justifyContent:'space-between' }}>
+          <div>
+            <h4 style={titleStyle}>{title}</h4>
+            <span style={subTitleStyle}>{subTitle}</span>
           </div>
-          <div style={iconContentStyle}>
+          <div style={mainContentStyle}>
             <CancelIcon onClick={handleClose} />
           </div>
         </div>
-        <div>
-          <h4 style={titleStyle}>{title}</h4>
-          <span style={subTitleStyle}>{subTitle}</span>
-          <div >{content}</div>
-        </div>
+        <div style={dividerStyle}></div>
+        <div>{content}</div>
       </div>
     </div>
   );

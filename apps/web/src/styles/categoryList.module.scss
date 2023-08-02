@@ -104,7 +104,8 @@ tr {
 }
 
 td {
-  padding: 8px;
+  // padding: 8px;
+  vertical-align: middle;
 }
 
 tr:nth-child(even) {
@@ -121,5 +122,25 @@ tr:hover {
 
 .inputFilter {
   display: flex;
+  gap: 10px;
+}
+
+.tableIcon {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.formContainer {
+  width: 300px;
+  padding: 1px 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   gap: 10px;
 }
