@@ -151,30 +151,6 @@ const SubSubCategoryList = () => {
     });
     setIsLoading(false);
   };
-<<<<<<< HEAD
-  const options = {
-    filter: false,
-    search: true,
-    caseSensitive: false,
-    print: false,
-    download: false,
-    viewColumns: false,
-    // search: false,
-    selectableRows: 'none' as const,
-    textLabels: {
-      body: {
-        noMatch: loader ? 'Loading...' : 'Sorry , No Records found',
-      },
-    },
-    setTableProps: () => {
-      return {
-        size: 'small',
-      };
-    },
-  };
-=======
-  
->>>>>>> 35ac0a0352faace7b9d2c5861b35628871c2edf2
 
   const formik = useFormik({
     initialValues,

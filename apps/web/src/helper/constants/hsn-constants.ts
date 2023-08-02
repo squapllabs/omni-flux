@@ -1,12 +1,12 @@
 import hsnCodeService from '../../service/hsnCode-service';
 
 export const userErrorMessages = {
-  ENTER_CODE: 'Code is required',
-  ENTER_DESCRIPTION: 'Description is required',
+  ENTER_CODE: 'HSN Code is required',
+  ENTER_DESCRIPTION: 'Description about the HSN Code is required',
   ENTER_NUMBERONLY: 'Number only allowed',
   MIN_CODE: 'Minimum 4 digit needed',
   MAX_CODE: 'Maximum 8 digit needed',
-  CODE_EXIST: 'Code is already present',
+  CODE_EXIST: 'Entered HSN Code is already present',
 };
 
 export const gethsnCreateValidateyup = (yup: any) => {

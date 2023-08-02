@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '../menu/icons/editIcon';
 import MySnackbar from '../ui/MySnackbar';
 import { useGetAllClient, useDeleteClient,getByClient } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
@@ -21,7 +21,7 @@ import SearchIcon from '../menu/icons/search';
 
 
 const ClientList = () => {
-  const { data: getAllClient, isLoading: getAllLoading } = useGetAllClient();
+  const { isLoading: getAllLoading } = useGetAllClient();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -34,7 +34,6 @@ const ClientList = () => {
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const [value, setValue] = useState();
   const [message, setMessage] = useState('');
   const validationSchema = getClientValidateyup(Yup);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,32 +45,42 @@ const ClientList = () => {
     { label: 'active', value: 'AC' },
     { label: 'inactive', value: 'IC' },
   ]);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleCloseDelete = () => {
-    setOpenDelete(false);
-  };
-  const handleEdit = (event: React.FormEvent, value: any) => {
-    setMode('EDIT');
-    setClientID(value);
-    setOpen(true);
-  };
-  const handleSnackBarClose = () => {
-    setOpenSnack(false);
-  };
-  const deleteClient = (event: React.FormEvent, value: any) => {
-    getDeleteClientByID(value);
-    handleCloseDelete();
-    setMessage('Successfully deleted');
-    setOpenSnack(true);
-  };
   const { mutate: createNewClient } = createClient();
   const [initialValues, setInitialValues] = useState({
     name: '',
     contact_details: '',
     client_id: '',
   });
+  const [filterValues, setFilterValues] = useState({
+    search_by_name: '',
+  });
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleEdit = (event: React.FormEvent, value: any) => {
+    setMode('EDIT');
+    setClientID(value);
+    setOpen(true);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+
+  const deleteClient = (event: React.FormEvent, value: any) => {
+    getDeleteClientByID(value);
+    handleCloseDelete();
+    setMessage('Successfully deleted');
+    setOpenSnack(true);
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -85,30 +94,33 @@ const ClientList = () => {
         createNewClient(Object, {
           onSuccess: (data: { success: any; }, variables: any, context: any) => {
             if (data?.success) {
-              setMessage('Client created');
+              setMessage('New Client has been successfully created');
               setOpenSnack(true);
               resetForm();
+            }
+            else {
+              setMessage('Error occured in creating a new client');
+              setOpenSnack(true);
             }
           },
         });
       }
     },
   });
-  const [filterValues, setFilterValues] = useState({
-    search_by_name: '',
-  });
-  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
   };
+
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
+
   const handleSearch = async () => {
-    let demo: any = {
+    const demo: any = {
       limit: rowsPerPage,
       offset:(currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
@@ -120,8 +132,9 @@ const ClientList = () => {
     setIsLoading(false);
     setFilter(true);
   };
+
   const handleReset = async () => {
-    let demo: any = {
+    const demo: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
@@ -137,15 +150,18 @@ const ClientList = () => {
     });
     setIsLoading(false);
   };
+
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
+
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
@@ -155,7 +171,6 @@ const ClientList = () => {
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}
-          // loading={true}
           size={48}
           color="#333C44"
         >
@@ -279,13 +294,13 @@ const ClientList = () => {
                           >
                             <EditIcon />
                           </IconButton>
-                          <IconButton
+                          {/* <IconButton
                             onClick={(e) =>
                               deleteClient(e, data.client_id)
                             }
                           >
                             <DeleteIcon />
-                          </IconButton>
+                          </IconButton> */}
                         </td>
                       </tr>
                     ))}
@@ -295,7 +310,7 @@ const ClientList = () => {
               <div className={Styles.pagination}>
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={getFilterData?.total_page}
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}

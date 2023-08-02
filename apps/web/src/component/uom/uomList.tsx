@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '../menu/icons/editIcon';
 import MySnackbar from '../ui/MySnackbar';
 import { useGetAlluom, useDeleteUom, getByUom } from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
@@ -20,13 +20,14 @@ import Pagination from '../menu/pagination';
 import SearchIcon from '../menu/icons/search';
 
 const UomList = () => {
-  const { data: getAlluom, isLoading: getAllLoading } = useGetAlluom();
+  const { isLoading: getAllLoading } = useGetAlluom();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
   } = getByUom();
   const { mutate: getDeleteuomByID } = useDeleteUom();
+  const { mutate: createNewuom } = createuom();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [uomId, setUomID] = useState();
@@ -43,13 +44,25 @@ const UomList = () => {
     { label: 'active', value: 'AC' },
     { label: 'inactive', value: 'IC' },
   ]);
+  const [initialValues, setInitialValues] = useState({
+    uom_id: '',
+    name: '',
+    description: '',
+  });
+  const [filterValues, setFilterValues] = useState({
+    search_by_name: '',
+  });
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const validationSchema = getuomCreateValidateyup(Yup);
 
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
+
   const handleEdit = (event: React.FormEvent, value: any) => {
     setMode('EDIT');
     setUomID(value);
@@ -58,20 +71,13 @@ const UomList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
   const deleteUom = (event: React.FormEvent, value: any) => {
     getDeleteuomByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-
-  const [initialValues, setInitialValues] = useState({
-    uom_id: '',
-    name: '',
-    description: '',
-  });
-  const { mutate: createNewuom } = createuom();
-  const validationSchema = getuomCreateValidateyup(Yup);
 
   const formik = useFormik({
     initialValues,
@@ -97,21 +103,19 @@ const UomList = () => {
     },
   });
 
-  const [filterValues, setFilterValues] = useState({
-    search_by_name: '',
-  });
-  const [activeButton, setActiveButton] = useState<string | null>('AC');
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
   };
+
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
+
   const handleSearch = async () => {
-    let demo: any = {
+    const demo: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_by',
@@ -123,8 +127,9 @@ const UomList = () => {
     setIsLoading(false);
     setFilter(true);
   };
+
   const handleReset = async () => {
-    let demo: any = {
+    const demo: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_by',
@@ -140,6 +145,7 @@ const UomList = () => {
     });
     setIsLoading(false);
   };
+
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
@@ -150,6 +156,7 @@ const UomList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
@@ -159,7 +166,6 @@ const UomList = () => {
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}
-          // loading={true}
           size={48}
           color="#333C44"
         >
@@ -193,7 +199,6 @@ const UomList = () => {
                     error={formik.touched.description && formik.errors.description}
                   />
                 </div>
-
                 <div>
                   <Button
                     color="primary"
@@ -281,13 +286,13 @@ const UomList = () => {
                           >
                             <EditIcon />
                           </IconButton>
-                          <IconButton
+                          {/* <IconButton
                             onClick={(e) =>
                               deleteUom(e, data.uom_id)
                             }
                           >
                             <DeleteIcon />
-                          </IconButton>
+                          </IconButton> */}
                         </td>
                       </tr>
                     ))}
@@ -297,7 +302,7 @@ const UomList = () => {
               <div className={Styles.pagination}>
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={getFilterData?.total_page}
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}

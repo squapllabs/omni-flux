@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
 import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '../menu/icons/editIcon';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import GstForm from './gstCreate';
 import Button from '../ui/Button';
@@ -24,6 +24,7 @@ const GstList = () => {
   });
   const { data: getAllGstData, isLoading: getAllLoading } = useGetAllGst();
   const { mutate: getDeleteGstByID } = useDeleteGst();
+  const { mutate: createNewGst } = createGst();
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);
@@ -32,14 +33,15 @@ const GstList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const validationSchema = getGstcreationYupschema(Yup);
-  const [isLoading,serIsLoading] = useState(true);
   
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
+
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -56,8 +58,6 @@ const GstList = () => {
     setGstId(value);
     setOpen(true);
   };
-
-  const { mutate: createNewGst } = createGst();
 
   const formik = useFormik({
     initialValues,
@@ -87,7 +87,6 @@ const GstList = () => {
       <div>
         <CustomLoader
           loading={getAllLoading}
-          // loading={true}
           size={48}
           color="#333C44"
         >
@@ -151,13 +150,13 @@ const GstList = () => {
                         >
                           <EditIcon />
                         </IconButton>
-                        <IconButton
+                        {/* <IconButton
                           onClick={(e) =>
                             deleteGst(e, data.gst_id)
                           }
                         >
                           <DeleteIcon />
-                        </IconButton>
+                        </IconButton> */}
                       </td>
                     </tr>
                   ))}

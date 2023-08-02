@@ -42,7 +42,7 @@ const InputContainer = styled.div<StyledInputProps>`
   padding: ${(props) => `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${props.hasPrefixIcon ? '32px' : '12px'}`};
   border: 1px solid ${(props) => props.error ? 'red' : '#ccc'};
   border-radius: 4px;
-  background-color: #f4f5f6;
+  background-color: #f4f5f6; 
   &:hover {
     border-color: #888;
   }

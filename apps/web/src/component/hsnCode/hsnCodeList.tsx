@@ -1,11 +1,11 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/gstList.module.scss';
 import { useGetAllHsnCode, useDeleteHsnCode, uploadHsnCode, getByCode } from '../../hooks/hsnCode-hooks';
 import { IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
 import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '../menu/icons/editIcon';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import HsnForm from './hsnCodeCreate';
 import Button from '../ui/Button';
@@ -21,20 +21,28 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import * as Yup from 'yup';
 import { gethsnCreateValidateyup } from '../../helper/constants/hsn-constants';
 import DownloadIcon from '../menu/icons/download';
+import { store, RootState } from '../../redux/store';
+import userService from '../../service/user-service';
+import CloseIcon from '../menu/icons/closeIcon';
 
 const FileUploadValidationSchema = Yup.object().shape({
   file: Yup.mixed().required('Please upload a file'),
 });
 
 const HsnCodeList = () => {
-  const { data: getAllHsnData, isLoading: getAllLoading } = useGetAllHsnCode();
+  const state: RootState = store.getState();
+  const { isLoading: getAllLoading } = useGetAllHsnCode();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
   } = getByCode();
+  console.log('getFilterData', getFilterData);
+
   const validationSchema = gethsnCreateValidateyup(Yup);
   const { mutate: getDeleteHsnCodeByID } = useDeleteHsnCode();
+  const { mutate: uploadJsonData } = uploadHsnCode();
+  const { mutate: createNewHsnCode } = createHsnCode();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [open, setOpen] = useState(false);
@@ -42,7 +50,7 @@ const HsnCodeList = () => {
   const [mode, setMode] = useState('');
   const [hsnCodeId, setHsnCodeId] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
+  const [totalPages, setTotalPages] = useState(3);
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
@@ -50,6 +58,19 @@ const HsnCodeList = () => {
     { label: 'active', value: 'AC' },
     { label: 'inactive', value: 'IC' },
   ]);
+  const [initialValues, setInitialValues] = useState({
+    hsn_code_id: '',
+    code: '',
+    description: '',
+  });
+  const [filterValues, setFilterValues] = useState({
+    search_by_name: '',
+  });
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [jsonData, setJsonData] = useState<{ created_by: number; items: { code: string; description: string }[] } | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const deleteHscCode = (event: React.FormEvent, value: any) => {
     getDeleteHsnCodeByID(value);
@@ -61,6 +82,7 @@ const HsnCodeList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -71,16 +93,6 @@ const HsnCodeList = () => {
     setOpen(true);
   };
 
-  const [initialValues, setInitialValues] = useState({
-    hsn_code_id: '',
-    code: '',
-    description: '',
-  });
-
-  const [filterValues, setFilterValues] = useState({
-    search_by_name: '',
-  });
-  const [activeButton, setActiveButton] = useState<string | null>('AC');
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
@@ -91,23 +103,23 @@ const HsnCodeList = () => {
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
+
   const handleSearch = async () => {
-    let demo: any = {
+    const demo: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
-      order_by_direction: 'asc',
+      order_by_direction: 'desc',
       status: 'AC',
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(true);
-
   };
 
   const handleReset = async () => {
-    let demo: any = {
+    const demo: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
@@ -123,6 +135,7 @@ const HsnCodeList = () => {
     });
     setIsLoading(false);
   };
+
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
@@ -133,11 +146,11 @@ const HsnCodeList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
 
-  const { mutate: createNewHsnCode } = createHsnCode();
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -151,7 +164,7 @@ const HsnCodeList = () => {
         createNewHsnCode(Object, {
           onSuccess: (data: { success: any; }, variables: any, context: any) => {
             if (data?.success) {
-              setMessage('UOM created');
+              setMessage('UOM has successfully created');
               setOpenSnack(true);
               resetForm();
             }
@@ -160,24 +173,18 @@ const HsnCodeList = () => {
       }
     },
   });
-  // const [jsonData, setJsonData] = useState<any[]>([]);
-  const [jsonData, setJsonData] = useState<{ created_by: number; items: { code: string; description: string }[] } | null>(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [error, setError] = useState(null);
-  const fileInputRef = useRef(null);
-  const handleFileChange = (e: any) => {
+
+  const handleFileChange = async (e: any) => {
     const file = e.target.files[0];
     setSelectedFile(file);
     setError(null);
     if (file) {
       const reader = new FileReader();
-      reader.onload = function (e) {
+      reader.onload = async function (e) {
         const data = e.target?.result as ArrayBuffer;
         if (data) {
-          // const workbook = XLSX.read(data, { type: 'array' });
-          // const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
           const workbook = XLSX.read(data, { type: 'binary' });
-          const jsonData = transformDatatoJson(workbook);
+          const jsonData = await transformDatatoJson(workbook);
           setJsonData(jsonData);
         }
       };
@@ -185,23 +192,27 @@ const HsnCodeList = () => {
     }
   };
 
-  const transformDatatoJson = (workbook:any) => {
+  const transformDatatoJson = async (workbook: any) => {
     const sheetName = workbook.SheetNames[0];
     const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-    const created_by = 1;
+    const userData = await userService.getOneUser(state.auth?.Data?.email)
+    const created_by = userData?.data?.userData?.user_id;
     const jsonData = {
       created_by,
-      items: sheetData.map((item:any) => ({
-        code: item['code'], 
-        description: item['description'], 
+      items: sheetData.map((item: any) => ({
+        code: item['code'],
+        description: item['description'],
       })),
     };
-    console.log(jsonData);
     return jsonData;
   }
 
-  const { mutate: uploadJsonData } = uploadHsnCode();
+
   const handleUpload = () => {
+    if (!selectedFile) {
+      setError('Please select a file before uploading.');
+      return;
+    }
     FileUploadValidationSchema.validate({ file: selectedFile })
       .then(() => {
         if (jsonData) {
@@ -216,45 +227,50 @@ const HsnCodeList = () => {
             },
           });
         }
+        else {
+          setError('No data to upload. Please select a valid file.');
+        }
       })
       .catch((ValidationError) => {
         setError(ValidationError.message);
       });
   };
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    setError(null);
+  };
+
   const convertToCSV = (data: any[]) => {
     const header = [
       'code',
-      'description',
-      'created_by'
+      'description'
     ];
     const csvRows = [header.join(',')];
     for (const item of staticData) {
       const rowData = [
         item.code,
-        item.description,
-        item.created_by
+        item.description
       ];
       csvRows.push(rowData.join(','));
     }
     return csvRows.join('\n');
   }
+
   const staticData = [
     {
       code: '1023',
-      description: 'Sample Data',
-      created_by: '1'
+      description: 'Sample Data - Details ',
     },
     {
       code: '1022',
-      description: 'Sample Data 2',
-      created_by: '1'
+      description: 'Sample Data 2 - Details',
     },
     {
       code: '1021',
-      description: 'Sample Data 3',
-      created_by: '1'
+      description: 'Sample Data 3 - Details',
     },
   ];
+
   const handleDownload = () => {
     const csvContent = convertToCSV(staticData);
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -268,7 +284,6 @@ const HsnCodeList = () => {
 
   return (
     <div>
-
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}
@@ -319,14 +334,24 @@ const HsnCodeList = () => {
               </div>
             </form>
             <div className={Styles.uploads}>
-
               <div >
-                <Input
+                {selectedFile ? (
+                  <div>
+                    <span>{selectedFile.name}</span>
+                    <button
+                      style={{ backgroundColor: 'white', marginTop: '8%', marginLeft: '5px' }}
+                      onClick={handleRemoveFile}><CloseIcon /></button>
+                  </div>
+                ) : (
+                  <button
+                    style={{ padding: '10px' }}
+                    onClick={() => fileInputRef.current.click()}>Upload File</button>
+                )}
+                <input
                   type="file"
-                  onChange={handleFileChange}
                   ref={fileInputRef}
-                  style={{display:"block",border:"none"}}
-                  error={error}
+                  style={{ display: 'none', }}
+                  onChange={handleFileChange}
                 />
               </div>
               <div>
@@ -356,8 +381,8 @@ const HsnCodeList = () => {
                   borderRadius={8}
                 />
               </div>
-
             </div>
+            {error && <div style={{ color: 'red', fontSize: 'small', padding: '5px' }}>{error}</div>}
           </div>
           <div className={Styles.box}>
             <div className={Styles.textContent}>
@@ -424,22 +449,26 @@ const HsnCodeList = () => {
                       ''
                     )}
                     {getFilterData?.content?.map((data: any) => (
-                      <tr>
+                      <tr >
                         <td>{data.code}</td>
-                        <td>{data.description}</td>
+                        <td>
+                          <span className={Styles.truncatedStyle} title={data.description}>
+                            {data.description.substring(0,20)}
+                          </span>
+                        </td>
                         <td>
                           <IconButton
                             onClick={(e) => editHscCodeHandler(e, data.hsn_code_id)}
                           >
                             <EditIcon />
                           </IconButton>
-                          <IconButton
+                          {/* <IconButton
                             onClick={(e) =>
                               deleteHscCode(e, data.hsn_code_id)
                             }
                           >
                             <DeleteIcon />
-                          </IconButton>
+                          </IconButton> */}
                         </td>
                       </tr>
                     ))}
@@ -449,7 +478,7 @@ const HsnCodeList = () => {
               <div className={Styles.pagination}>
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={getFilterData?.total_page}
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}
