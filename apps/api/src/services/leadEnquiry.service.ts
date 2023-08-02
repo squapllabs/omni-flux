@@ -3,10 +3,14 @@ import {
   createLeadEnquiryBody,
   updateLeadEnquiryBody,
 } from '../interfaces/leadEnquiry.Interface';
-import leadProductDao from '../dao/leadProduct.dao';
-import leadTenderDao from '../dao/leadTender.dao';
 import clientDao from '../dao/client.dao';
 import prisma from '../utils/prisma';
+import leadProductDao from '../dao/leadProduct.dao';
+import leadTenderDao from '../dao/leadTender.dao';
+import leadEnquiryProductItemDao from '../dao/leadEnquiryProductItem.dao';
+import itemDao from '../dao/item.dao';
+import masterDataDao from '../dao/masterData.dao';
+import userDao from '../dao/user.dao';
 
 /**
  * Method to Create a New LeadEnquiry
@@ -17,17 +21,19 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
   try {
     const {
       lead_type,
-      client_id,
+      client,
       client_level,
       client_contact_name,
       client_contact_email,
       client_contact_phone,
-      doc_url,
-      created_by,
-      source_name,
-      probability,
       our_remarks,
       client_remark,
+      doc_url,
+      created_by,
+      status_remarks,
+      source_name,
+      status,
+      probability,
       approx_value,
       sales_person_name,
       tender_reg_no,
@@ -38,16 +44,89 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
       tender_type,
       estimated_value,
       industry_sector,
+      product_id,
+      quantity,
     } = body;
     let result = null;
-    const leadEquiryData = [];
     const lead_code = await generateLeadCode(lead_type);
 
-    if (client_id) {
-      const clientExist = await clientDao.getById(client_id);
+    if (client) {
+      const clientExist = await clientDao.getById(client);
       if (!clientExist) {
         result = {
-          message: 'client_id does not exist',
+          message: 'client does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (product_id) {
+      const productExist = await itemDao.getById(product_id);
+      if (!productExist) {
+        result = {
+          message: 'product_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (industry_sector) {
+      const industrySectorExist = await masterDataDao.getById(industry_sector);
+      if (!industrySectorExist) {
+        result = {
+          message: 'industry_sector does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (probability) {
+      const probabilityExist = await masterDataDao.getById(probability);
+      if (!probabilityExist) {
+        result = {
+          message: 'probability does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (client_level) {
+      const clientLevelExist = await masterDataDao.getById(client_level);
+      if (!clientLevelExist) {
+        result = {
+          message: 'client_level does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (sales_person_name) {
+      const salesPersonNameExist = await userDao.getById(sales_person_name);
+      if (!salesPersonNameExist) {
+        result = {
+          message: 'sales_person_name does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (status) {
+      if (!allowedStatusValues.includes(status)) {
+        result = {
+          message:
+            'Invalid status value. Allowed values: AWARDED, REJECTED, CLONE, COMPLETED, INPROGRESS, ON HOLD',
           status: false,
           data: null,
         };
@@ -60,56 +139,35 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
         const leadEnquiryDetails = await leadEnquiryDao.add(
           lead_type,
           lead_code,
-          client_id,
+          client,
           client_level,
           client_contact_name,
           client_contact_email,
           client_contact_phone,
+          our_remarks,
+          client_remark,
           doc_url,
           created_by,
+          status_remarks,
+          source_name,
+          status,
+          probability,
+          approx_value,
+          sales_person_name,
+          tender_reg_no,
+          tender_identification_no,
+          tender_name,
+          tender_issue_date,
+          tender_due_date,
+          tender_type,
+          estimated_value,
+          industry_sector,
+          product_id,
+          quantity,
           prisma
         );
 
-        leadEquiryData.push({ leadEnquiryDetails: leadEnquiryDetails });
-
-        if (leadEnquiryDetails) {
-          if (lead_type === 'Product') {
-            const leadProductDetails = await leadProductDao.add(
-              leadEnquiryDetails?.lead_enquiry_id,
-              source_name,
-              probability,
-              our_remarks,
-              client_remark,
-              approx_value,
-              sales_person_name,
-              created_by,
-              prisma
-            );
-
-            leadEquiryData.push({ leadProductDetails: leadProductDetails });
-          } else if (lead_type === 'Tender') {
-            const leadTenderDetails = await leadTenderDao.add(
-              leadEnquiryDetails?.lead_enquiry_id,
-              approx_value,
-              source_name,
-              sales_person_name,
-              tender_reg_no,
-              tender_identification_no,
-              tender_name,
-              tender_issue_date,
-              tender_due_date,
-              tender_type,
-              estimated_value,
-              industry_sector,
-              created_by,
-              prisma
-            );
-
-            leadEquiryData.push({ leadTenderDetails: leadTenderDetails });
-          }
-        }
-
-        return leadEquiryData;
+        return leadEnquiryDetails;
       })
       .then((data) => {
         console.log('Successfully Lead Enquiry Data Returned ', data);
@@ -132,6 +190,18 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
 };
 
 /**
+ * Function for Status Value Control
+ */
+const allowedStatusValues = [
+  'AWARDED',
+  'REJECTED',
+  'CLONE',
+  'COMPLETED',
+  'INPROGRESS',
+  'ON HOLD',
+];
+
+/**
  * Function to generate sequential lead code
  * @param leadType
  * @returns
@@ -139,10 +209,12 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
 const generateLeadCode = async (leadType) => {
   const leadTypePrefix =
     leadType === 'Product' ? 'LD-PR-' : leadType === 'Tender' ? 'LD-TR-' : 'LD';
+
   const latestLeadEnquiry = await prisma.lead_enquiry.findFirst({
     where: { lead_type: leadType },
     orderBy: { lead_enquiry_id: 'desc' },
   });
+
   let sequentialNumber = 1;
   if (latestLeadEnquiry) {
     const latestLeadCode = latestLeadEnquiry.lead_code;
@@ -167,22 +239,22 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
   try {
     const {
       lead_type,
-      lead_code,
-      client_id,
+      client,
       client_level,
       client_contact_name,
       client_contact_email,
       client_contact_phone,
-      doc_url,
-      lead_enquiry_id,
-      source_name,
-      probability,
       our_remarks,
       client_remark,
+      doc_url,
+      updated_by,
+      source_name,
+      status,
+      status_remarks,
+      lead_enquiry_id,
+      probability,
       approx_value,
       sales_person_name,
-      updated_by,
-      lead_product_id,
       tender_reg_no,
       tender_identification_no,
       tender_name,
@@ -191,17 +263,129 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
       tender_type,
       estimated_value,
       industry_sector,
+      product_id,
+      quantity,
+      lead_product_id,
       lead_tender_id,
+      lead_enquiry_product_item_id,
     } = body;
     let result = null;
-    const leadEquiryData = [];
     const leadEnquiryExist = await leadEnquiryDao.getById(lead_enquiry_id);
 
-    if (client_id) {
-      const clientExist = await clientDao.getById(client_id);
+    if (client) {
+      const clientExist = await clientDao.getById(client);
       if (!clientExist) {
         const result = {
-          message: 'client_id does not exist',
+          message: 'client does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (product_id) {
+      const productExist = await itemDao.getById(product_id);
+      if (!productExist) {
+        result = {
+          message: 'product_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (industry_sector) {
+      const industrySectorExist = await masterDataDao.getById(industry_sector);
+      if (!industrySectorExist) {
+        result = {
+          message: 'industry_sector does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (probability) {
+      const probabilityExist = await masterDataDao.getById(probability);
+      if (!probabilityExist) {
+        result = {
+          message: 'probability does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (client_level) {
+      const clientLevelExist = await masterDataDao.getById(client_level);
+      if (!clientLevelExist) {
+        result = {
+          message: 'client_level does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (sales_person_name) {
+      const salesPersonNameExist = await userDao.getById(sales_person_name);
+      if (!salesPersonNameExist) {
+        result = {
+          message: 'sales_person_name does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (lead_product_id) {
+      const leadProductExist = await leadProductDao.getById(lead_product_id);
+      if (!leadProductExist) {
+        const result = {
+          message: 'lead_product_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (lead_tender_id) {
+      const leadTenderExist = await leadTenderDao.getById(lead_tender_id);
+      if (!leadTenderExist) {
+        const result = {
+          message: 'lead_tender_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (lead_enquiry_product_item_id) {
+      const leadEnquiryProductItemExist =
+        await leadEnquiryProductItemDao.getById(lead_enquiry_product_item_id);
+      if (!leadEnquiryProductItemExist) {
+        const result = {
+          message: 'lead_enquiry_product_item_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (status) {
+      if (!allowedStatusValues.includes(status)) {
+        result = {
+          message:
+            'Invalid status value. Allowed values: AWARDED, REJECTED, CLONE, COMPLETED, INPROGRESS, ON HOLD',
           status: false,
           data: null,
         };
@@ -214,60 +398,39 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
         .$transaction(async (prisma) => {
           const leadEnquiryDetails = await leadEnquiryDao.edit(
             lead_type,
-            lead_code,
-            client_id,
+            client,
             client_level,
             client_contact_name,
             client_contact_email,
             client_contact_phone,
+            our_remarks,
+            client_remark,
             doc_url,
             updated_by,
+            source_name,
+            status,
+            status_remarks,
             lead_enquiry_id,
+            probability,
+            approx_value,
+            sales_person_name,
+            tender_reg_no,
+            tender_identification_no,
+            tender_name,
+            tender_issue_date,
+            tender_due_date,
+            tender_type,
+            estimated_value,
+            industry_sector,
+            product_id,
+            quantity,
+            lead_product_id,
+            lead_tender_id,
+            lead_enquiry_product_item_id,
             prisma
           );
 
-          leadEquiryData.push({ leadEnquiryDetails: leadEnquiryDetails });
-
-          if (leadEnquiryDetails) {
-            if (lead_type === 'Product') {
-              const leadProductDetails = await leadProductDao.edit(
-                lead_enquiry_id,
-                source_name,
-                probability,
-                our_remarks,
-                client_remark,
-                approx_value,
-                sales_person_name,
-                updated_by,
-                lead_product_id,
-                prisma
-              );
-
-              leadEquiryData.push({ leadProductDetails: leadProductDetails });
-            } else if (lead_type === 'Tender') {
-              const leadTenderDetails = await leadTenderDao.edit(
-                lead_enquiry_id,
-                approx_value,
-                source_name,
-                sales_person_name,
-                tender_reg_no,
-                tender_identification_no,
-                tender_name,
-                tender_issue_date,
-                tender_due_date,
-                tender_type,
-                estimated_value,
-                industry_sector,
-                updated_by,
-                lead_tender_id,
-                prisma
-              );
-
-              leadEquiryData.push({ leadTenderDetails: leadTenderDetails });
-            }
-          }
-
-          return leadEquiryData;
+          return leadEnquiryDetails;
         })
         .then((data) => {
           console.log('Successfully Lead Enquiry Data Returned ', data);
@@ -356,22 +519,33 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
       };
       return result;
     }
+    console.log('leadEnquiryExist', leadEnquiryExist);
 
-    if (leadEnquiryExist.lead_products.length === 0) {
+    if (leadEnquiryExist.lead_enquiry_product.length === 0) {
       const result = {
         status: false,
         message:
-          'Unable to delete.The lead_enquiry_id is mapped in lead_product table',
+          'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_product table',
         data: null,
       };
       return result;
     }
 
-    if (leadEnquiryExist.lead_tenders.length === 0) {
+    if (leadEnquiryExist.lead_enquiry_tenders.length === 0) {
       const result = {
         status: false,
         message:
-          'Unable to delete.The lead_enquiry_id is mapped in lead_tender table',
+          'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_tender table',
+        data: null,
+      };
+      return result;
+    }
+
+    if (leadEnquiryExist.lead_enquiry_product_item.length === 0) {
+      const result = {
+        status: false,
+        message:
+          'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_product_item table',
         data: null,
       };
       return result;

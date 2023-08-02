@@ -8,23 +8,24 @@ datasource db {
 }
 
 model users {
-  user_id          Int            @id @default(autoincrement())
-  first_name       String?        @db.VarChar(100)
-  last_name        String?        @db.VarChar(100)
-  user_password    String?        @db.VarChar(255)
-  contact_no       String?        @db.VarChar(20)
-  email_id         String         @db.VarChar(100)
-  user_status      String?        @db.VarChar(5)
-  created_by       Int?
-  created_date     DateTime
-  updated_by       Int?
-  updated_date     DateTime
-  is_delete        Boolean        @default(false) @db.Boolean
-  is_initial_login Boolean        @default(true) @db.Boolean
-  department       String?        @db.VarChar(100)
-  is_two_factor    Boolean        @default(false) @db.Boolean
-  projects         project[]
-  user_profiles    user_profiles?
+  user_id           Int                    @id @default(autoincrement())
+  first_name        String?                @db.VarChar(100)
+  last_name         String?                @db.VarChar(100)
+  user_password     String?                @db.VarChar(255)
+  contact_no        String?                @db.VarChar(20)
+  email_id          String                 @db.VarChar(100)
+  user_status       String?                @db.VarChar(5)
+  created_by        Int?
+  created_date      DateTime
+  updated_by        Int?
+  updated_date      DateTime
+  is_delete         Boolean                @default(false) @db.Boolean
+  is_initial_login  Boolean                @default(true) @db.Boolean
+  department        String?                @db.VarChar(100)
+  is_two_factor     Boolean                @default(false) @db.Boolean
+  projects          project[]
+  user_profiles     user_profiles?
+  sales_person_name lead_enquiry_product[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -241,26 +242,27 @@ model warehouse_inventory {
 }
 
 model item {
-  item_id             Int               @id @default(autoincrement())
-  item_name           String            @db.VarChar(100)
-  sub_sub_category_id Int?
-  description         String?
-  hsn_code_id         Int?
-  gst_id              Int?
-  uom_id              Int?
-  created_date        DateTime
-  updated_date        DateTime
-  created_by          Int?
-  updated_by          Int?
-  item_type_id        Int?
-  brand_id            Int?
+  item_id                   Int                         @id @default(autoincrement())
+  item_name                 String                      @db.VarChar(100)
+  sub_sub_category_id       Int?
+  description               String?
+  hsn_code_id               Int?
+  gst_id                    Int?
+  uom_id                    Int?
+  created_date              DateTime
+  updated_date              DateTime
+  created_by                Int?
+  updated_by                Int?
+  item_type_id              Int?
+  brand_id                  Int?
   // Relation to fetch hsn_code_name from hsn_code model
-  hsn_code            hsn_code?         @relation(fields: [hsn_code_id], references: [hsn_code_id])
-  gst                 gst?              @relation(fields: [gst_id], references: [gst_id])
-  uom                 uom?              @relation(fields: [uom_id], references: [uom_id])
-  item_type           item_type?        @relation(fields: [item_type_id], references: [item_type_id])
-  sub_sub_category    sub_sub_category? @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
-  brand               brand?            @relation(fields: [brand_id], references: [brand_id])
+  hsn_code                  hsn_code?                   @relation(fields: [hsn_code_id], references: [hsn_code_id])
+  gst                       gst?                        @relation(fields: [gst_id], references: [gst_id])
+  uom                       uom?                        @relation(fields: [uom_id], references: [uom_id])
+  item_type                 item_type?                  @relation(fields: [item_type_id], references: [item_type_id])
+  sub_sub_category          sub_sub_category?           @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
+  brand                     brand?                      @relation(fields: [brand_id], references: [brand_id])
+  lead_enquiry_product_item lead_enquiry_product_item[]
 
   @@map(name: "item")
 }
@@ -321,65 +323,73 @@ model user_profiles {
 }
 
 model master_data {
-  master_data_id          Int           @id @default(autoincrement())
-  master_data_name        String        @db.VarChar(100)
-  master_data_description String?       @db.VarChar(250)
-  master_data_type        String        @db.VarChar(20)
+  master_data_id          Int                    @id @default(autoincrement())
+  master_data_name        String                 @db.VarChar(100)
+  master_data_description String?                @db.VarChar(250)
+  master_data_type        String                 @db.VarChar(20)
   parent_master_data_id   Int?
-  is_delete               Boolean       @default(false)
+  is_delete               Boolean                @default(false)
   created_date            DateTime
   updated_date            DateTime
   created_by              Int?
   updated_by              Int?
-  parent                  master_data?  @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
-  children                master_data[] @relation("ChildToParent")
+  parent                  master_data?           @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
+  children                master_data[]          @relation("ChildToParent")
+  leadEnquiries           lead_enquiry[]
+  lead_enquiry_product    lead_enquiry_product[]
+  lead_enquiry_tender     lead_enquiry_tender[]
 
   @@unique([master_data_type, parent_master_data_id])
   @@map("master_data")
 }
 
 model lead_enquiry {
-  lead_enquiry_id      Int            @id @default(autoincrement())
-  lead_type            String?
-  lead_code            String?
-  client_id            Int?
-  client_level         Int?
-  client_contact_name  String?
-  client_contact_email String?
-  client_contact_phone String?
-  doc_url              String?
-  is_delete            Boolean        @default(false)
+  lead_enquiry_id           Int                         @id @default(autoincrement())
+  lead_type                 String
+  lead_code                 String
+  client                    Int
+  client_level              Int
+  client_contact_name       String?
+  client_contact_email      String?
+  client_contact_phone      String?
+  our_remarks               String?
+  client_remark             String?
+  doc_url                   String?
+  status                    String
+  is_delete                 Boolean                     @default(false)
+  created_date              DateTime
+  updated_date              DateTime
+  created_by                Int?
+  updated_by                Int?
+  status_remarks            String?
+  client_info               client                      @relation(fields: [client], references: [client_id])
+  client_level_info         master_data                 @relation(fields: [client_level], references: [master_data_id])
+  lead_enquiry_product      lead_enquiry_product[]
+  lead_enquiry_tenders      lead_enquiry_tender[]
+  lead_enquiry_product_item lead_enquiry_product_item[]
+}
+
+model lead_enquiry_product {
+  lead_product_id      Int           @id @default(autoincrement())
+  lead_enquiry_id      Int?
+  source_name          String
+  probability          Int?
+  approx_value         Float?
+  sales_person_name    Int?
+  is_delete            Boolean       @default(false)
   created_date         DateTime
   updated_date         DateTime
   created_by           Int?
   updated_by           Int?
-  client               client?        @relation(fields: [client_id], references: [client_id])
-  lead_products        lead_product[]
-  lead_tenders         lead_tender[]
+  lead_enquiry         lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
+  probability_details  master_data?  @relation(fields: [probability], references: [master_data_id])
+  sales_person_details users?        @relation(fields: [sales_person_name], references: [user_id])
 }
 
-model lead_product {
-  lead_product_id   Int           @id @default(autoincrement())
-  lead_enquiry_id   Int?
-  source_name       String
-  probability       String?
-  our_remarks       String?
-  client_remark     String?
-  approx_value      Float?
-  sales_person_name Int?
-  is_delete         Boolean       @default(false)
-  created_date      DateTime
-  updated_date      DateTime
-  created_by        Int?
-  updated_by        Int?
-  lead_enquiry      lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
-}
-
-model lead_tender {
+model lead_enquiry_tender {
   lead_tender_id           Int           @id @default(autoincrement())
   lead_enquiry_id          Int?
   approx_value             Float?
-  sales_person_name        Int?
   tender_reg_no            String?
   tender_identification_no String?
   tender_name              String?
@@ -387,11 +397,25 @@ model lead_tender {
   tender_due_date          DateTime?
   tender_type              String?
   estimated_value          Float?
-  industry_sector          String?
+  industry_sector          Int?
   is_delete                Boolean       @default(false)
   created_date             DateTime
   updated_date             DateTime
   created_by               Int?
   updated_by               Int?
   lead_enquiry             lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
+  industry_sector_data     master_data?  @relation(fields: [industry_sector], references: [master_data_id])
+}
+
+model lead_enquiry_product_item {
+  lead_enquiry_product_item_id Int           @id @default(autoincrement())
+  lead_enquiry_id              Int?
+  product_id                   Int?
+  quantity                     Int?
+  created_date                 DateTime
+  updated_date                 DateTime
+  created_by                   Int?
+  updated_by                   Int?
+  lead_enquiry                 lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
+  product                      item?         @relation(fields: [product_id], references: [item_id])
 }
