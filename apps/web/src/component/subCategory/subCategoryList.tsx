@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/subCategoryList.module.scss';
-import MUIDataTable from 'mui-datatables';
-import { Tooltip, IconButton, InputLabel } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import MySnackbar from '../ui/MySnackbar';
 import {
-  useGetAllSubcategory,
   useDeleteSubcategory,
   getBySearchCategroy,
 } from '../../hooks/subCategory-hooks';
 import CategoryForm from './SubCategoryForm';
-import CustomDialogBox from '../ui/cusotmDialogDelete';
-import CustomDialog from '../ui/customDialog';
 import Button from '../ui/Button';
 import Input from '../../component/ui/Input';
 import { useFormik } from 'formik';
@@ -21,18 +13,23 @@ import * as Yup from 'yup';
 import { createSubcategory } from '../../hooks/subCategory-hooks';
 import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import SearchIcon from '../menu/icons/search';
-import SelectDrop from '../ui/Select';
+import Select from '../ui/selectNew';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
+import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSnackBar from '../ui/customSnackBar';
+import CustomEditDialog from '../ui/customEditDialogBox';
+import AddIcon from '../menu/icons/addIcon';
+import { formatBudgetValue } from '../../helper/common-function';
 
 /**
  * Function for SubCategoryList
  */
 const SubCategoryList = () => {
   const validationSchema = getCreateValidateyup(Yup);
-  const { data: getAllSubCategory, isLoading: getAllDataLoading } =
-    useGetAllSubcategory();
   const { data: getAllCategoryDrop = [] } = useGetAllCategoryForDrop();
   const { mutate: getDeleteSubcategoryByID } = useDeleteSubcategory();
   const { mutate: createNewSubcategory } = createSubcategory();
@@ -41,9 +38,8 @@ const SubCategoryList = () => {
     data: filterBasedData,
     isLoading: filterDataLoading,
   } = getBySearchCategroy();
-
   const [initialValues, setInitialValues] = useState({
-    sub_category_id: '',
+    category_id: '',
     name: '',
     budget: '',
   });
@@ -59,7 +55,7 @@ const SubCategoryList = () => {
       const Object: any = {
         name: values.name,
         budget: Number(values.budget),
-        category_id: Number(selectedValue),
+        category_id: Number(values.category_id),
       };
       createNewSubcategory(Object, {
         onSuccess: (data, variables, context) => {
@@ -81,9 +77,7 @@ const SubCategoryList = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const [open, setOpen] = useState(false);
   const [subCategoryId, setSubcategoryID] = useState();
-  const [selectedValue, setSelectedValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
@@ -104,7 +98,7 @@ const SubCategoryList = () => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  const handleEdit = (event: React.FormEvent, value: any) => {
+  const handleEdit = (value: any) => {
     setMode('EDIT');
     setSubcategoryID(value);
     setOpen(true);
@@ -118,23 +112,16 @@ const SubCategoryList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-  const handleDropdownChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedCategoryId = event.target.value;
-    setSelectedValue(selectedCategoryId);
-  };
+
   const handleSearch = async () => {
-    let demo: any = {
+    const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
       order_by_column: 'updated_date',
-      order_by_direction: 'asc',
+      order_by_direction: 'desc',
       status: activeButton,
       ...filterValues,
     };
-    console.log('demo---->', demo);
-
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(true);
@@ -154,7 +141,7 @@ const SubCategoryList = () => {
     setCurrentPage(1);
   };
   const handleReset = async () => {
-    let demo: any = {
+    const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
     };
@@ -175,12 +162,7 @@ const SubCategoryList = () => {
 
   return (
     <div>
-      <CustomLoader
-        loading={isLoading === true ? getAllDataLoading : filterDataLoading}
-        // loading={true}
-        size={48}
-        color="#333C44"
-      >
+      <CustomLoader loading={filterDataLoading} size={48} color="#333C44">
         <div>
           <div className={Styles.box}>
             <div className={Styles.textContent}>
@@ -192,36 +174,22 @@ const SubCategoryList = () => {
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields}>
                 <div>
-                  <InputLabel
-                    id="category_id-label"
-                    sx={{
-                      fontSize: '0.75rem',
-                      fontWeight: '400',
-                      color: '#333C44',
-                      marginBottom: '4px',
-                      marginTop: '-20px',
-                    }}
-                  >
-                    Category
-                  </InputLabel>
-                  <SelectDrop
-                    options={getAllCategoryDrop}
-                    onChange={handleDropdownChange}
-                    value={selectedValue}
+                  <Select
+                    label="Category"
+                    name="category_id"
+                    onChange={formik.handleChange}
+                    value={formik.values.category_id}
                     defaultLabel="Select from options"
-                    width="100%"
-                  />
-                  {
-                    <div
-                      style={{
-                        color: 'red',
-                        marginTop: '2px',
-                        fontSize: '0.75rem',
-                      }}
-                    >
-                      {/* {formik.errors.category_id} */}
-                    </div>
-                  }
+                    error={
+                      formik.touched.category_id && formik.errors.category_id
+                    }
+                  >
+                    {getAllCategoryDrop.map((option: any) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </Select>
                 </div>
                 <Input
                   name="name"
@@ -248,6 +216,7 @@ const SubCategoryList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
+                    icon={<AddIcon />}
                   >
                     Add New Sub Category
                   </Button>
@@ -309,10 +278,11 @@ const SubCategoryList = () => {
                     <table>
                       <thead>
                         <tr>
+                          <th>S No</th>
                           <th>Category</th>
-                          <th>Name</th>
+                          <th>Sub Category Name</th>
                           <th>Budget</th>
-                          <th>Option</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -326,26 +296,31 @@ const SubCategoryList = () => {
                         ) : (
                           ''
                         )}
-                        {filterBasedData?.content?.map((item: any) => (
+                        {filterBasedData?.content?.map((item: any,index: number) => (
                           <tr>
+                            <td>{index + 1}</td>
                             <td>{item.category.name}</td>
                             <td>{item.name}</td>
-                            <td>{item.budget}</td>
+                            <td>{formatBudgetValue(item.budget)}</td>
                             <td>
-                              <IconButton
-                                onClick={(e) =>
-                                  handleEdit(e, item.sub_category_id)
-                                }
-                              >
-                                <EditIcon />
-                              </IconButton>
-                              <IconButton
-                                onClick={() =>
-                                  deleteCategoryHandler(item.sub_category_id)
-                                }
-                              >
-                                <DeleteIcon />
-                              </IconButton>
+                              <div className={Styles.tableIcon}>
+                                <div>
+                                  <EditIcon
+                                    onClick={() =>
+                                      handleEdit(item.sub_category_id)
+                                    }
+                                  />
+                                </div>
+                                {/* <div>
+                                  <DeleteIcon
+                                    onClick={() =>
+                                      deleteCategoryHandler(
+                                        item.sub_category_id
+                                      )
+                                    }
+                                  />
+                                </div> */}
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -355,7 +330,7 @@ const SubCategoryList = () => {
                   <div className={Styles.pagination}>
                     <Pagination
                       currentPage={currentPage}
-                      totalPages={totalPages}
+                      totalPages={filterBasedData?.total_count}
                       rowsPerPage={rowsPerPage}
                       onPageChange={handlePageChange}
                       onRowsPerPageChange={handleRowsPerPageChange}
@@ -366,24 +341,26 @@ const SubCategoryList = () => {
             </div>
           </div>
         </div>
-        <CustomDialog
+        <CustomDelete
           open={openDelete}
+          title="Delete"
+          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
+          contentLine2="Deleted Category will move to Inactive tab."
           handleClose={handleCloseDelete}
-          title="Delete Sub Category"
-          content="Are you want to delete this Sub Category?"
           handleConfirm={deleteSubcategory}
         />
-        <MySnackbar
+        <CustomSnackBar
           open={openSnack}
           message={message}
           onClose={handleSnackBarClose}
-          severity={'success'}
           autoHideDuration={1000}
+          type="success"
         />
-        <CustomDialogBox
+        <CustomEditDialog
           open={open}
+          title="Edit Sub Category"
+          subTitle="Please edit the sub category name"
           handleClose={handleClose}
-          title="Sub Category Form"
           content={
             <CategoryForm
               setOpen={setOpen}

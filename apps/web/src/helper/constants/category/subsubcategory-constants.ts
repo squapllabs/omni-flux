@@ -1,7 +1,7 @@
 import subSubCategoryService from '../../../service/subSubCategory-service';
 
 export const subSubErrorMessages = {
-  ENTER_NAME: 'Name is required',
+  ENTER_NAME: 'Sub sub category name is required',
   ENTER_BUDGET: 'Budget is required',
   SELECT_SUB_CATEGORY: 'Select the sub category',
   ALREADY_EXIST:
@@ -16,8 +16,8 @@ export const getCreateValidateyup = (yup: any) => {
     sub_category_id: yup
       .string()
       .trim()
-      .typeError(subSubErrorMessages.SELECT_SUB_CATEGORY),
-    // .required(subSubErrorMessages.SELECT_SUB_CATEGORY),
+      .typeError(subSubErrorMessages.SELECT_SUB_CATEGORY)
+      .required(subSubErrorMessages.SELECT_SUB_CATEGORY),
     name: yup
       .string()
       .trim()

@@ -8,8 +8,8 @@ interface EditIconProps {
 }
 
 const EditIcon: FC<EditIconProps> = ({
-  width = 20,
-  height = 25,
+  width = 22,
+  height = 27,
   color = '#475467',
   onClick
 }) => {
@@ -19,7 +19,7 @@ const EditIcon: FC<EditIconProps> = ({
       width={width}
       height={height}
       fill="none"
-      viewBox="0 0 18 18"
+      viewBox="0 0 18 20"
       onClick={onClick}
     >
       <path

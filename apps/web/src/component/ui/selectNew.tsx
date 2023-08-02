@@ -9,7 +9,7 @@ interface SelectProps {
   children: React.ReactNode;
   label?: string;
   name?: string;
-  error?: string;
+  error?: boolean;
 }
 interface InputWrapperProps {
   width?: string;
