@@ -57,8 +57,8 @@ const SubSubCategoryList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IC' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -172,13 +172,13 @@ const SubSubCategoryList = () => {
           <div className={Styles.box}>
             <div className={Styles.textContent}>
               <h3>Add New Sub Sub Categories</h3>
-              <span className={Styles.content}>
+              {/* <span className={Styles.content}>
                 Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span>
+              </span> */}
             </div>
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields}>
-                <div>
+                <div style={{width:'20%'}}>
                   <Select
                     label="Sub Category"
                     name="sub_category_id"
@@ -205,7 +205,6 @@ const SubSubCategoryList = () => {
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     error={formik.touched.name && formik.errors.name}
-                    width="100%"
                   />
                 </div>
                 <div>
@@ -233,89 +232,91 @@ const SubSubCategoryList = () => {
             </form>
           </div>
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
-              <h3>List of Sub Sub Categories</h3>
-              <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span>
-            </div>
-            <div className={Styles.searchField}>
-              <div className={Styles.inputFilter}>
-                <Input
-                  width="260px"
-                  prefixIcon={<SearchIcon />}
-                  name="search_by_name"
-                  value={filterValues.search_by_name}
-                  onChange={(e) => handleFilterChange(e)}
-                  placeholder="Search by item name"
-                />
-                <Button
-                  className={Styles.searchButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleReset}
-                >
-                  Reset
-                </Button>
-              </div>
-
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div>
-            </div>
             <div className={Styles.tableContainer}>
-              <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>S No</th>
-                      <th>Sub Category</th>
-                      <th>Name</th>
-                      <th>Budget</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {getFilterData?.total_count === 0 ? (
+              <div className={Styles.textContent}>
+                <h3>List of Sub Sub Categories</h3>
+                {/* <span className={Styles.content}>
+                Manage your raw materials (Raw, Semi Furnished & Finished).
+              </span> */}
+              </div>
+              <div className={Styles.searchField}>
+                <div className={Styles.inputFilter}>
+                  <Input
+                    width="260px"
+                    prefixIcon={<SearchIcon />}
+                    name="search_by_name"
+                    value={filterValues.search_by_name}
+                    onChange={(e) => handleFilterChange(e)}
+                    placeholder="Search by item name"
+                  />
+                  <Button
+                    className={Styles.searchButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
+                  <Button
+                    className={Styles.resetButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </div>
+
+                <div>
+                  <CustomGroupButton
+                    labels={buttonLabels}
+                    onClick={handleGroupButtonClick}
+                    activeButton={activeButton}
+                  />
+                </div>
+              </div>
+              <div className={Styles.tableContainer}>
+                <div>
+                  <table>
+                    <thead>
                       <tr>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
-                        <td></td>
+                        <th>S No</th>
+                        <th>Sub Category</th>
+                        <th>Name</th>
+                        <th>Budget</th>
+                        <th></th>
                       </tr>
-                    ) : (
-                      ''
-                    )}
-                    {getFilterData?.content?.map((item: any,index: number) => (
-                      <tr>
-                        <td>{index + 1}</td>
-                        <td>{item.sub_category.name}</td>
-                        <td>{item.name}</td>
-                        <td>{formatBudgetValue(item.budget)}</td>
-                        <td>
-                          <div className={Styles.tableIcon}>
-                            <div>
-                              <EditIcon
-                                onClick={() =>
-                                  handleEdit(item.sub_sub_category_id)
-                                }
-                              />
-                            </div>
-                            {/* <div>
+                    </thead>
+                    <tbody>
+                      {getFilterData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          <td></td>
+                        </tr>
+                      ) : (
+                        ''
+                      )}
+                      {getFilterData?.content?.map(
+                        (item: any, index: number) => (
+                          <tr>
+                            <td>{index + 1}</td>
+                            <td>{item.sub_category.name}</td>
+                            <td>{item.name}</td>
+                            <td>{formatBudgetValue(item.budget)}</td>
+                            <td>
+                              <div className={Styles.tableIcon}>
+                                <div>
+                                  <EditIcon
+                                    onClick={() =>
+                                      handleEdit(item.sub_sub_category_id)
+                                    }
+                                  />
+                                </div>
+                                {/* <div>
                               <DeleteIcon
                                 onClick={() =>
                                   deleteSubSubCategoryHandler(
@@ -324,21 +325,23 @@ const SubSubCategoryList = () => {
                                 }
                               />
                             </div> */}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className={Styles.pagination}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_count}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                <div className={Styles.pagination}>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={getFilterData?.total_count}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -361,7 +364,7 @@ const SubSubCategoryList = () => {
         <CustomEditDialog
           open={openPopup}
           title="Edit Sub Sub Category"
-          subTitle="Please edit the sub sub category name"
+          subTitle="Please edit the sub sub category"
           handleClose={handleClosePopup}
           content={
             <SubSubForm
