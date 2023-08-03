@@ -8,10 +8,10 @@
   // height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
 }
 .textContent {
-  padding: 10px;
+  padding: 1px;
 }
 .content {
   font-size: 0.7rem;
@@ -21,7 +21,7 @@
   padding: 10px;
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
 }
 
 .box {
@@ -58,7 +58,7 @@
   color: #848289;
 }
 .searchContainer {
-  padding: 10px 10px 0px 10px;
+  padding: 0px 10px 0px 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

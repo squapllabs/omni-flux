@@ -81,8 +81,8 @@ const SubCategoryList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IC' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const handleGroupButtonClick = (value: string) => {
@@ -167,9 +167,9 @@ const SubCategoryList = () => {
           <div className={Styles.box}>
             <div className={Styles.textContent}>
               <h3>Add New Sub Categories</h3>
-              <span className={Styles.content}>
+              {/* <span className={Styles.content}>
                 Manage your raw materials (Raw, Semi Furnished & Finished)
-              </span>
+              </span> */}
             </div>
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields}>
@@ -228,9 +228,9 @@ const SubCategoryList = () => {
             <div className={Styles.tableContainer}>
               <div className={Styles.textContent}>
                 <h3>List of Sub Categories</h3>
-                <span className={Styles.content}>
+                {/* <span className={Styles.content}>
                   Manage your raw materials (Raw, Semi Furnished & Finished)
-                </span>
+                </span> */}
               </div>
               <div>
                 <div className={Styles.searchContainer}>
@@ -359,7 +359,7 @@ const SubCategoryList = () => {
         <CustomEditDialog
           open={open}
           title="Edit Sub Category"
-          subTitle="Please edit the sub category name"
+          subTitle="Please edit the sub category"
           handleClose={handleClose}
           content={
             <CategoryForm

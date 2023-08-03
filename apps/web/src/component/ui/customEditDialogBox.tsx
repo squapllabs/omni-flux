@@ -33,10 +33,10 @@ const DialogBox: React.FC<DialogBoxProps> = ({
 
   const boxStyle: React.CSSProperties = {
     backgroundColor: '#fff',
-    padding: '10px',
+    padding: '2px',
     borderRadius: '4px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-    maxWidth: '400px',
+    maxWidth: '600px',
     display: 'flex',
     flexDirection: 'column',
   };
@@ -59,11 +59,12 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   const dividerStyle: React.CSSProperties = {
     borderBottom: '1px solid #ccc',
     padding: '5px 1px 5px 1px',
+    // backgroundColor:'lightgreen'
   };
   return (
     <div style={dialogStyle}>
       <div style={boxStyle}>
-        <div style={{ display: 'flex', flexDirection: 'row',justifyContent:'space-between' }}>
+        <div style={{ display: 'flex', flexDirection: 'row',justifyContent:'space-between'}}>
           <div>
             <h4 style={titleStyle}>{title}</h4>
             <span style={subTitleStyle}>{subTitle}</span>
