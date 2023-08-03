@@ -22,8 +22,7 @@ import brand from './brand.route';
 import itemType from './itemType.routes';
 import masterData from './masterData.route';
 import leadEnquiry from './leadEnquiry.route';
-import leadProduct from './leadProduct.route';
-import leadTender from './leadTender.route';
+import projectWorkbreakDown from './projectWorkbreakDown.route';
 
 const router = express.Router();
 
@@ -120,13 +119,10 @@ const defaultRoutes = [
     path: '/lead-enquiry',
     route: leadEnquiry,
   },
+
   {
-    path: '/lead-product',
-    route: leadProduct,
-  },
-  {
-    path: '/lead-tender',
-    route: leadTender,
+    path: '/project-workbreak-down',
+    route: projectWorkbreakDown,
   },
 ];
 

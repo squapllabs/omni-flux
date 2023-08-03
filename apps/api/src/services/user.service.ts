@@ -115,7 +115,7 @@ const updateUser = async (body: updateUserBody) => {
       date_of_birth,
       gender,
       additional_info,
-      is_two_factor
+      is_two_factor,
     } = body;
 
     const userExist = await userDao.getById(user_id);
@@ -136,7 +136,7 @@ const updateUser = async (body: updateUserBody) => {
           user_id,
           department,
           is_two_factor,
-          prisma,
+          prisma
         );
         userDataWithRole.push({ userData: userDetails });
 
@@ -565,6 +565,24 @@ const applyFilter = async (filterObj, field_name, operator, field_value) => {
   }
 };
 
+/**
+ * Method to Get All Sales Person Users
+ * @returns
+ */
+const getAllSalesPersonUsers = async () => {
+  try {
+    const result = await userDao.getAllSalesPersonUsers();
+    const userData = { message: 'success', status: true, data: result };
+    return userData;
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllSalesPersonUsers user service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createUser,
   updateUser,
@@ -578,4 +596,5 @@ export {
   getDeletedUsers,
   customFilterUser,
   refreshAccessToken,
+  getAllSalesPersonUsers,
 };

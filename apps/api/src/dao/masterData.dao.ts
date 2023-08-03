@@ -275,6 +275,41 @@ const searchMasterData = async (
   }
 };
 
+const getByParentType = async (
+  masterDataType: string,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const masterDataId = await transaction.master_data.findFirst({
+      where: {
+        master_data_type: masterDataType,
+      },
+      select: {
+        master_data_id: true,
+      },
+    });
+
+    const masterDataIdOfType = masterDataId?.master_data_id;
+
+    if (masterDataIdOfType) {
+      const result = await transaction.master_data.findMany({
+        where: {
+          parent_master_data_id: {
+            in: masterDataIdOfType,
+          },
+        },
+      });
+      return result;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log('Error occurred in masterData getByParentType dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -286,4 +321,5 @@ export default {
   getByParentMasterDataId,
   getByParentMasterDataIdAndType,
   searchMasterData,
+  getByParentType,
 };
