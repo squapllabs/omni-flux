@@ -29,6 +29,10 @@ interface createLeadEnquiryBody {
   estimated_value: number;
   industry_sector: number;
   /* Product Item */
+  product_item: Array<Product>;
+}
+
+interface Product {
   product_id: number;
   quantity: number;
 }
@@ -68,7 +72,7 @@ interface updateLeadEnquiryBody {
   quantity: number;
   lead_product_id: number;
   lead_tender_id: number;
-  lead_enquiry_product_item_id: number;
+  product_item: Array<Product>;
 }
 
 export { createLeadEnquiryBody, updateLeadEnquiryBody };

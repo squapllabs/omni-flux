@@ -388,6 +388,110 @@ const getByProjectIdAndSiteId = async (
   }
 };
 
+const searchProjectWorkbreakDown = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterProjectWorkbreakDown;
+    const searchProjectWorkbreakDown =
+      await transaction.project_workbreak_down.findMany({
+        where: filter,
+        include: {
+          parent_project_workbreak_down: true,
+          child_project_workbreak_down: true,
+          uom_details: {
+            select: {
+              name: true,
+            },
+          },
+          project_details: {
+            select: {
+              project_name: true,
+            },
+          },
+          site_details: {
+            select: {
+              site_name: true,
+            },
+          },
+        },
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+
+    const searchProjectWorkbreakDownCount =
+      await transaction.project_workbreak_down.count({
+        where: filter,
+      });
+    const searchProjectWorkbreakDownData = {
+      count: searchProjectWorkbreakDownCount,
+      data: searchProjectWorkbreakDown,
+    };
+    return searchProjectWorkbreakDownData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchProjectWorkbreakDown dao : searchProjectWorkbreakDown ',
+      error
+    );
+    throw error;
+  }
+};
+
+const getAllParentProjectWorkbreakDownData = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const projectWorkBreakDown =
+      await transaction.project_workbreak_down.findMany({
+        where: {
+          parent_project_workbreak_down_id: null,
+          is_delete: false,
+        },
+        include: {
+          parent_project_workbreak_down: true,
+          child_project_workbreak_down: true,
+          uom_details: {
+            select: {
+              name: true,
+            },
+          },
+          project_details: {
+            select: {
+              project_name: true,
+            },
+          },
+          site_details: {
+            select: {
+              site_name: true,
+            },
+          },
+        },
+        orderBy: [
+          {
+            updated_date: 'desc',
+          },
+        ],
+      });
+    return projectWorkBreakDown;
+  } catch (error) {
+    console.log(
+      'Error occurred in projectWorkBreakDown getAllParentProjectWorkbreakDownData dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -398,4 +502,6 @@ export default {
   getByProjectId,
   getBySiteId,
   getByProjectIdAndSiteId,
+  searchProjectWorkbreakDown,
+  getAllParentProjectWorkbreakDownData,
 };

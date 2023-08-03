@@ -347,46 +347,46 @@ model master_data {
 }
 
 model lead_enquiry {
-  lead_enquiry_id           Int                         @id @default(autoincrement())
-  lead_type                 String
-  lead_code                 String
-  client                    Int
-  client_level              Int
-  client_contact_name       String?
-  client_contact_email      String?
-  client_contact_phone      String?
-  our_remarks               String?
-  client_remark             String?
-  doc_url                   String?
-  status                    String
+  lead_enquiry_id      Int                    @id @default(autoincrement())
+  lead_type            String
+  lead_code            String
+  client               Int
+  client_level         Int
+  client_contact_name  String?
+  client_contact_email String?
+  client_contact_phone String?
+  our_remarks          String?
+  client_remark        String?
+  doc_url              String?
+  status               String
+  is_delete            Boolean                @default(false)
+  created_date         DateTime
+  updated_date         DateTime
+  created_by           Int?
+  updated_by           Int?
+  status_remarks       String?
+  client_info          client                 @relation(fields: [client], references: [client_id])
+  client_level_info    master_data            @relation(fields: [client_level], references: [master_data_id])
+  lead_enquiry_product lead_enquiry_product[]
+  lead_enquiry_tenders lead_enquiry_tender[]
+}
+
+model lead_enquiry_product {
+  lead_product_id           Int                         @id @default(autoincrement())
+  lead_enquiry_id           Int?
+  source_name               String
+  probability               Int?
+  approx_value              Float?
+  sales_person_name         Int?
   is_delete                 Boolean                     @default(false)
   created_date              DateTime
   updated_date              DateTime
   created_by                Int?
   updated_by                Int?
-  status_remarks            String?
-  client_info               client                      @relation(fields: [client], references: [client_id])
-  client_level_info         master_data                 @relation(fields: [client_level], references: [master_data_id])
-  lead_enquiry_product      lead_enquiry_product[]
-  lead_enquiry_tenders      lead_enquiry_tender[]
+  lead_enquiry              lead_enquiry?               @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
+  probability_details       master_data?                @relation(fields: [probability], references: [master_data_id])
+  sales_person_details      users?                      @relation(fields: [sales_person_name], references: [user_id])
   lead_enquiry_product_item lead_enquiry_product_item[]
-}
-
-model lead_enquiry_product {
-  lead_product_id      Int           @id @default(autoincrement())
-  lead_enquiry_id      Int?
-  source_name          String
-  probability          Int?
-  approx_value         Float?
-  sales_person_name    Int?
-  is_delete            Boolean       @default(false)
-  created_date         DateTime
-  updated_date         DateTime
-  created_by           Int?
-  updated_by           Int?
-  lead_enquiry         lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
-  probability_details  master_data?  @relation(fields: [probability], references: [master_data_id])
-  sales_person_details users?        @relation(fields: [sales_person_name], references: [user_id])
 }
 
 model lead_enquiry_tender {
@@ -411,16 +411,16 @@ model lead_enquiry_tender {
 }
 
 model lead_enquiry_product_item {
-  lead_enquiry_product_item_id Int           @id @default(autoincrement())
-  lead_enquiry_id              Int?
+  lead_enquiry_product_item_id Int                   @id @default(autoincrement())
+  lead_enquiry_product_id      Int?
   product_id                   Int?
   quantity                     Int?
   created_date                 DateTime
   updated_date                 DateTime
   created_by                   Int?
   updated_by                   Int?
-  lead_enquiry                 lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
-  product                      item?         @relation(fields: [product_id], references: [item_id])
+  product                      item?                 @relation(fields: [product_id], references: [item_id])
+  lead_enquiry_product         lead_enquiry_product? @relation(fields: [lead_enquiry_product_id], references: [lead_product_id])
 }
 
 model project_workbreak_down {

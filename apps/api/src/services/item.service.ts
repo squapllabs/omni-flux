@@ -67,7 +67,7 @@ const addBulkItems = async (req) => {
   try {
     const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const data:createItemBody[] = xlsx.utils.sheet_to_json(sheet);
+    const data: createItemBody[] = xlsx.utils.sheet_to_json(sheet);
     const transformedData = transformExcelData(data);
     const result = await itemDao.addBulk(transformedData);
 
@@ -84,8 +84,10 @@ const addBulkItems = async (req) => {
 };
 const transformExcelData = (data: any[]): createItemBody[] => {
   const parsedData: createItemBody[] = data.map((item) => {
-    const created_by = item.created_by === 'null' ? null : BigInt(item.created_by);
-    const updated_by = item.updated_by === 'null' ? null : BigInt(item.updated_by);
+    const created_by =
+      item.created_by === 'null' ? null : BigInt(item.created_by);
+    const updated_by =
+      item.updated_by === 'null' ? null : BigInt(item.updated_by);
     const currentDate = new Date();
     return {
       item_name: item.item_name,
@@ -116,7 +118,8 @@ const getAllItem = async (data) => {
     const limit = data.limit;
     const default_column = 'item_name';
     const order_by_column = data.order_by_column || default_column;
-    const order_by_direction = data.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const order_by_direction =
+      data.order_by_direction === 'asc' ? 'asc' : 'desc';
     const offsetValue = parseInt(offset, 10) || 0;
     const limitValue = parseInt(limit, 10) || 50;
     const filters = data.filters;
@@ -125,13 +128,13 @@ const getAllItem = async (data) => {
         AND: [],
       },
     };
- 
+
     if (filters) {
       for (const filter of filters) {
         const field_name = filter.field_name;
         const operator = filter.operator;
         const field_value = filter.field_value;
-    
+
         await applyFilter(filterObj, field_name, operator, field_value);
       }
     }
@@ -143,7 +146,12 @@ const getAllItem = async (data) => {
       filterObj
     );
     const total_page = Math.round(result.totalCount / limitValue);
-    const itemData = { success: true, total_count: result.totalCount,total_page,data: result.items};
+    const itemData = {
+      success: true,
+      total_count: result.totalCount,
+      total_page,
+      data: result.items,
+    };
     return itemData;
   } catch (error) {
     console.log('Error occurred in getAll item service: ', error);
@@ -211,6 +219,7 @@ const getById = async (item_id: number) => {
     throw error;
   }
 };
+
 /**
  * Method to delete item
  * @param itemId
@@ -281,6 +290,25 @@ const updateItem = async (body: updateItemBody) => {
     throw error;
   }
 };
+
+/**
+ * Method to getAll Items
+ * @returns
+ */
+const getAllItemData = async () => {
+  try {
+    let result = null;
+    const itemData = await itemDao.getAllItems();
+    if (itemData) {
+      result = { message: 'success', status: true, data: itemData };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getAllItemData item service : ', error);
+    throw error;
+  }
+};
+
 export {
   addItem,
   getAllItem,
@@ -289,4 +317,5 @@ export {
   updateItem,
   addBulkItems,
   getAllItemBySearch,
+  getAllItemData,
 };

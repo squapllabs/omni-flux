@@ -26,8 +26,7 @@ const add = async (
   tender_type: string,
   estimated_value: number,
   industry_sector: number,
-  product_id: number,
-  quantity: number,
+  product_item,
   connectionObj = null
 ) => {
   try {
@@ -64,9 +63,9 @@ const add = async (
 
     const newLeadEnquiryId = leadEnquiry.lead_enquiry_id;
 
-    let leadEnquiryProduct: object,
-      leadEnquiryTender: object,
-      leadEnquiryProductItem: object;
+    let leadEnquiryProduct: { lead_product_id: number };
+    let leadEnquiryTender: object;
+    const leadEnquiryProductItem: Array<any> = [];
 
     if (lead_type === 'Product') {
       leadEnquiryProduct = await transaction.lead_enquiry_product.create({
@@ -90,25 +89,34 @@ const add = async (
           is_delete: is_delete,
         },
       });
-      leadEnquiryProductItem =
-        await transaction.lead_enquiry_product_item.create({
-          data: {
-            lead_enquiry: {
-              connect: {
-                lead_enquiry_id: newLeadEnquiryId,
+
+      const lead_product_id = leadEnquiryProduct.lead_product_id;
+
+      for (const product of product_item) {
+        const product_id = product.product_id;
+        const quantity = product_id.quantity;
+
+        const leadEnquiryProductItemResult =
+          await transaction.lead_enquiry_product_item.create({
+            data: {
+              lead_enquiry_product: {
+                connect: {
+                  lead_product_id: lead_product_id,
+                },
               },
-            },
-            product: {
-              connect: {
-                item_id: product_id,
+              product: {
+                connect: {
+                  item_id: product_id,
+                },
               },
+              quantity: quantity,
+              created_date: currentDate,
+              updated_date: currentDate,
+              created_by,
             },
-            quantity,
-            created_date: currentDate,
-            updated_date: currentDate,
-            created_by,
-          },
-        });
+          });
+        leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+      }
     } else if (lead_type === 'Tender') {
       leadEnquiryTender = await transaction.lead_enquiry_tender.create({
         data: {
@@ -173,11 +181,9 @@ const edit = async (
   tender_type: string,
   estimated_value: number,
   industry_sector: number,
-  product_id: number,
-  quantity: number,
   lead_product_id: number,
   lead_tender_id: number,
-  lead_enquiry_product_item_id: number,
+  product_item,
   connectionObj = null
 ) => {
   try {
@@ -211,9 +217,9 @@ const edit = async (
       },
     });
 
-    let leadEnquiryProduct: object,
-      leadEnquiryTender: object,
-      leadEnquiryProductItem: object;
+    let leadEnquiryProduct: object;
+    let leadEnquiryTender: object;
+    const leadEnquiryProductItem = [];
 
     if (lead_type === 'Product') {
       leadEnquiryProduct = await transaction.lead_enquiry_product.update({
@@ -236,27 +242,37 @@ const edit = async (
           updated_date: currentDate,
         },
       });
-      leadEnquiryProductItem =
-        await transaction.lead_enquiry_product_item.update({
-          where: {
-            lead_enquiry_product_item_id: Number(lead_enquiry_product_item_id),
-          },
-          data: {
-            lead_enquiry: {
-              connect: {
-                lead_enquiry_id,
-              },
+
+      for (const product of product_item) {
+        const lead_enquiry_product_item_id =
+          product.lead_enquiry_product_item_id;
+        const product_id = product.product_id;
+        const quantity = product.quantity;
+        const leadEnquiryProductItemResult =
+          await transaction.lead_enquiry_product_item.update({
+            where: {
+              lead_enquiry_product_item_id: Number(
+                lead_enquiry_product_item_id
+              ),
             },
-            product: {
-              connect: {
-                item_id: product_id,
+            data: {
+              lead_enquiry_product: {
+                connect: {
+                  lead_product_id: lead_product_id,
+                },
               },
+              product: {
+                connect: {
+                  item_id: product_id,
+                },
+              },
+              quantity: quantity,
+              updated_by,
+              updated_date: currentDate,
             },
-            quantity,
-            updated_by,
-            updated_date: currentDate,
-          },
-        });
+          });
+        leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+      }
     } else if (lead_type === 'Tender') {
       leadEnquiryTender = await transaction.lead_enquiry_tender.update({
         where: {
@@ -322,21 +338,21 @@ const getById = async (leadEnquiryId: number, connectionObj = null) => {
             probability_details: {
               select: { master_data_name: true },
             },
+            lead_enquiry_product_item: {
+              include: {
+                product: {
+                  select: {
+                    item_name: true,
+                  },
+                },
+              },
+            },
           },
         },
         lead_enquiry_tenders: {
           include: {
             industry_sector_data: {
               select: { master_data_name: true },
-            },
-          },
-        },
-        lead_enquiry_product_item: {
-          include: {
-            product: {
-              select: {
-                item_name: true,
-              },
             },
           },
         },
@@ -374,21 +390,21 @@ const getAll = async (connectionObj = null) => {
             probability_details: {
               select: { master_data_name: true },
             },
+            lead_enquiry_product_item: {
+              include: {
+                product: {
+                  select: {
+                    item_name: true,
+                  },
+                },
+              },
+            },
           },
         },
         lead_enquiry_tenders: {
           include: {
             industry_sector_data: {
               select: { master_data_name: true },
-            },
-          },
-        },
-        lead_enquiry_product_item: {
-          include: {
-            product: {
-              select: {
-                item_name: true,
-              },
             },
           },
         },
