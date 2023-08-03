@@ -7,8 +7,6 @@ import clientDao from '../dao/client.dao';
 import prisma from '../utils/prisma';
 import leadProductDao from '../dao/leadProduct.dao';
 import leadTenderDao from '../dao/leadTender.dao';
-import leadEnquiryProductItemDao from '../dao/leadEnquiryProductItem.dao';
-import itemDao from '../dao/item.dao';
 import masterDataDao from '../dao/masterData.dao';
 import userDao from '../dao/user.dao';
 
@@ -44,8 +42,7 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
       tender_type,
       estimated_value,
       industry_sector,
-      product_id,
-      quantity,
+      product_item,
     } = body;
     let result = null;
     const lead_code = await generateLeadCode(lead_type);
@@ -55,18 +52,6 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
       if (!clientExist) {
         result = {
           message: 'client does not exist',
-          status: false,
-          data: null,
-        };
-        return result;
-      }
-    }
-
-    if (product_id) {
-      const productExist = await itemDao.getById(product_id);
-      if (!productExist) {
-        result = {
-          message: 'product_id does not exist',
           status: false,
           data: null,
         };
@@ -162,8 +147,7 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
           tender_type,
           estimated_value,
           industry_sector,
-          product_id,
-          quantity,
+          product_item,
           prisma
         );
 
@@ -208,7 +192,7 @@ const allowedStatusValues = [
  */
 const generateLeadCode = async (leadType) => {
   const leadTypePrefix =
-    leadType === 'Product' ? 'LD-PR-' : leadType === 'Tender' ? 'LD-TR-' : 'LD';
+    leadType === 'Product' ? 'LD-PS-' : leadType === 'Tender' ? 'LD-TR-' : 'LD';
 
   const latestLeadEnquiry = await prisma.lead_enquiry.findFirst({
     where: { lead_type: leadType },
@@ -263,11 +247,9 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
       tender_type,
       estimated_value,
       industry_sector,
-      product_id,
-      quantity,
       lead_product_id,
       lead_tender_id,
-      lead_enquiry_product_item_id,
+      product_item,
     } = body;
     let result = null;
     const leadEnquiryExist = await leadEnquiryDao.getById(lead_enquiry_id);
@@ -277,18 +259,6 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
       if (!clientExist) {
         const result = {
           message: 'client does not exist',
-          status: false,
-          data: null,
-        };
-        return result;
-      }
-    }
-
-    if (product_id) {
-      const productExist = await itemDao.getById(product_id);
-      if (!productExist) {
-        result = {
-          message: 'product_id does not exist',
           status: false,
           data: null,
         };
@@ -368,19 +338,6 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
       }
     }
 
-    if (lead_enquiry_product_item_id) {
-      const leadEnquiryProductItemExist =
-        await leadEnquiryProductItemDao.getById(lead_enquiry_product_item_id);
-      if (!leadEnquiryProductItemExist) {
-        const result = {
-          message: 'lead_enquiry_product_item_id does not exist',
-          status: false,
-          data: null,
-        };
-        return result;
-      }
-    }
-
     if (status) {
       if (!allowedStatusValues.includes(status)) {
         result = {
@@ -422,11 +379,9 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
             tender_type,
             estimated_value,
             industry_sector,
-            product_id,
-            quantity,
             lead_product_id,
             lead_tender_id,
-            lead_enquiry_product_item_id,
+            product_item,
             prisma
           );
 
@@ -519,7 +474,6 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
       };
       return result;
     }
-    console.log('leadEnquiryExist', leadEnquiryExist);
 
     if (leadEnquiryExist.lead_enquiry_product.length === 0) {
       const result = {

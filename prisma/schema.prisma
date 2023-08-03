@@ -68,15 +68,16 @@ model gst {
 }
 
 model uom {
-  uom_id       Int      @id @default(autoincrement())
-  name         String   @db.VarChar(50)
-  description  String?
-  created_date DateTime @default(now())
-  updated_date DateTime @default(now())
-  created_by   Int?
-  updated_by   Int?
-  item         item[]
-  is_delete    Boolean  @default(false) @db.Boolean
+  uom_id                 Int                      @id @default(autoincrement())
+  name                   String                   @db.VarChar(50)
+  description            String?
+  created_date           DateTime                 @default(now())
+  updated_date           DateTime                 @default(now())
+  created_by             Int?
+  updated_by             Int?
+  item                   item[]
+  is_delete              Boolean                  @default(false) @db.Boolean
+  project_workbreak_down project_workbreak_down[]
 
   @@map(name: "uom")
 }
@@ -152,24 +153,25 @@ model sub_sub_category {
 }
 
 model project {
-  project_id   Int        @id @default(autoincrement())
-  project_name String     @db.VarChar(100)
-  description  String?
-  user_id      Int?
-  date_started DateTime?
-  date_ended   DateTime?
-  status       String?    @db.VarChar(50)
-  budget       Float?
-  client_id    Int?
-  document_url String?
-  created_date DateTime   @default(now())
-  updated_date DateTime   @updatedAt
-  created_by   Int?
-  updated_by   Int?
-  is_delete    Boolean    @default(false)
-  user         users?     @relation(fields: [user_id], references: [user_id])
-  client       client?    @relation(fields: [client_id], references: [client_id])
-  category     category[]
+  project_id             Int                      @id @default(autoincrement())
+  project_name           String                   @db.VarChar(100)
+  description            String?
+  user_id                Int?
+  date_started           DateTime?
+  date_ended             DateTime?
+  status                 String?                  @db.VarChar(50)
+  budget                 Float?
+  client_id              Int?
+  document_url           String?
+  created_date           DateTime                 @default(now())
+  updated_date           DateTime                 @updatedAt
+  created_by             Int?
+  updated_by             Int?
+  is_delete              Boolean                  @default(false)
+  user                   users?                   @relation(fields: [user_id], references: [user_id])
+  client                 client?                  @relation(fields: [client_id], references: [client_id])
+  category               category[]
+  project_workbreak_down project_workbreak_down[]
 }
 
 model project_expense {
@@ -188,14 +190,15 @@ model project_expense {
 }
 
 model site {
-  site_id      Int      @id @default(autoincrement())
-  site_name    String   @db.VarChar(100)
-  location     String?
-  user_id      Int?
-  created_date DateTime
-  updated_date DateTime
-  created_by   Int?
-  updated_by   Int?
+  site_id                Int                      @id @default(autoincrement())
+  site_name              String                   @db.VarChar(100)
+  location               String?
+  user_id                Int?
+  created_date           DateTime
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+  project_workbreak_down project_workbreak_down[]
 
   @@map("site")
 }
@@ -344,46 +347,46 @@ model master_data {
 }
 
 model lead_enquiry {
-  lead_enquiry_id           Int                         @id @default(autoincrement())
-  lead_type                 String
-  lead_code                 String
-  client                    Int
-  client_level              Int
-  client_contact_name       String?
-  client_contact_email      String?
-  client_contact_phone      String?
-  our_remarks               String?
-  client_remark             String?
-  doc_url                   String?
-  status                    String
+  lead_enquiry_id      Int                    @id @default(autoincrement())
+  lead_type            String
+  lead_code            String
+  client               Int
+  client_level         Int
+  client_contact_name  String?
+  client_contact_email String?
+  client_contact_phone String?
+  our_remarks          String?
+  client_remark        String?
+  doc_url              String?
+  status               String
+  is_delete            Boolean                @default(false)
+  created_date         DateTime
+  updated_date         DateTime
+  created_by           Int?
+  updated_by           Int?
+  status_remarks       String?
+  client_info          client                 @relation(fields: [client], references: [client_id])
+  client_level_info    master_data            @relation(fields: [client_level], references: [master_data_id])
+  lead_enquiry_product lead_enquiry_product[]
+  lead_enquiry_tenders lead_enquiry_tender[]
+}
+
+model lead_enquiry_product {
+  lead_product_id           Int                         @id @default(autoincrement())
+  lead_enquiry_id           Int?
+  source_name               String
+  probability               Int?
+  approx_value              Float?
+  sales_person_name         Int?
   is_delete                 Boolean                     @default(false)
   created_date              DateTime
   updated_date              DateTime
   created_by                Int?
   updated_by                Int?
-  status_remarks            String?
-  client_info               client                      @relation(fields: [client], references: [client_id])
-  client_level_info         master_data                 @relation(fields: [client_level], references: [master_data_id])
-  lead_enquiry_product      lead_enquiry_product[]
-  lead_enquiry_tenders      lead_enquiry_tender[]
+  lead_enquiry              lead_enquiry?               @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
+  probability_details       master_data?                @relation(fields: [probability], references: [master_data_id])
+  sales_person_details      users?                      @relation(fields: [sales_person_name], references: [user_id])
   lead_enquiry_product_item lead_enquiry_product_item[]
-}
-
-model lead_enquiry_product {
-  lead_product_id      Int           @id @default(autoincrement())
-  lead_enquiry_id      Int?
-  source_name          String
-  probability          Int?
-  approx_value         Float?
-  sales_person_name    Int?
-  is_delete            Boolean       @default(false)
-  created_date         DateTime
-  updated_date         DateTime
-  created_by           Int?
-  updated_by           Int?
-  lead_enquiry         lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
-  probability_details  master_data?  @relation(fields: [probability], references: [master_data_id])
-  sales_person_details users?        @relation(fields: [sales_person_name], references: [user_id])
 }
 
 model lead_enquiry_tender {
@@ -408,14 +411,37 @@ model lead_enquiry_tender {
 }
 
 model lead_enquiry_product_item {
-  lead_enquiry_product_item_id Int           @id @default(autoincrement())
-  lead_enquiry_id              Int?
+  lead_enquiry_product_item_id Int                   @id @default(autoincrement())
+  lead_enquiry_product_id      Int?
   product_id                   Int?
   quantity                     Int?
   created_date                 DateTime
   updated_date                 DateTime
   created_by                   Int?
   updated_by                   Int?
-  lead_enquiry                 lead_enquiry? @relation(fields: [lead_enquiry_id], references: [lead_enquiry_id])
-  product                      item?         @relation(fields: [product_id], references: [item_id])
+  product                      item?                 @relation(fields: [product_id], references: [item_id])
+  lead_enquiry_product         lead_enquiry_product? @relation(fields: [lead_enquiry_product_id], references: [lead_product_id])
+}
+
+model project_workbreak_down {
+  project_workbreak_down_id          Int                      @id @default(autoincrement())
+  project_workbreak_down_name        String
+  project_workbreak_down_description String?
+  project_workbreak_down_code        String?
+  parent_project_workbreak_down_id   Int?
+  rate                               Float?
+  uom_id                             Int?
+  project_workbreak_down_type        String
+  project_id                         Int?
+  site_id                            Int?
+  is_delete                          Boolean                  @default(false)
+  created_date                       DateTime
+  updated_date                       DateTime
+  created_by                         Int?
+  updated_by                         Int?
+  parent_project_workbreak_down      project_workbreak_down?  @relation("ChildToParent", fields: [parent_project_workbreak_down_id], references: [project_workbreak_down_id])
+  child_project_workbreak_down       project_workbreak_down[] @relation("ChildToParent")
+  uom_details                        uom?                     @relation(fields: [uom_id], references: [uom_id])
+  project_details                    project?                 @relation(fields: [project_id], references: [project_id])
+  site_details                       site?                    @relation(fields: [site_id], references: [site_id])
 }

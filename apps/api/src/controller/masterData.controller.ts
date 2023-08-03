@@ -90,6 +90,18 @@ const searchMasterData = catchAsync(async (req, res) => {
   }
 });
 
+const getByParentType = catchAsync(async (req, res) => {
+  const methodName = '/getByParentType';
+  try {
+    const masterData = await masterDataService.getByParentType(
+      req.params.master_data_type
+    );
+    res.send(masterData);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createMasterData,
   updateMasterData,
@@ -99,4 +111,5 @@ export {
   getByParentMasterDataType,
   getAllParentMasterData,
   searchMasterData,
+  getByParentType,
 };

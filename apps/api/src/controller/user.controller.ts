@@ -104,6 +104,16 @@ const customFilterUser = catchAsync(async (req, res) => {
   }
 });
 
+const getAllSalesPersonUsers = catchAsync(async (req, res) => {
+  const methodName = '/getAllSalesPersonUsers';
+  try {
+    const result = await userService.getAllSalesPersonUsers();
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createUser,
   updateUser,
@@ -115,4 +125,5 @@ export {
   searchUser,
   getDeletedUsers,
   customFilterUser,
+  getAllSalesPersonUsers,
 };
