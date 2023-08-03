@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Tender = () => {
+const ProjectWorkBreakList = () => {
   return (
     <div>
       sample
@@ -8,4 +8,4 @@ const Tender = () => {
   );
 };
 
-export default Tender;
+export default ProjectWorkBreakList;
