@@ -73,6 +73,28 @@ const getByCode = catchAsync(async (req, res) => {
   }
 });
 
+const searchProjectWorkbreakDown = catchAsync(async (req, res) => {
+  const methodName = '/searchProjectWorkbreakDown';
+  try {
+    const projectWorkbreakDown =
+      await projectWorkbreakDownService.searchProjectWorkbreakDown(req.body);
+    res.send(projectWorkbreakDown);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getAllParentProjectWorkbreakDown = catchAsync(async (req, res) => {
+  const methodName = '/getAllParentProjectWorkbreakDown';
+  try {
+    const projectWorkbreakDown =
+      await projectWorkbreakDownService.getAllParentProjectWorkbreakDown();
+    res.send(projectWorkbreakDown);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createProjectWorkbreakDown,
   updateProjectWorkbreakDown,
@@ -80,4 +102,6 @@ export {
   getByProjectWorkbreakDownId,
   deleteByprojectWorkbreakDownId,
   getByCode,
+  searchProjectWorkbreakDown,
+  getAllParentProjectWorkbreakDown,
 };
