@@ -63,7 +63,7 @@ const edit = async (
         updated_by,
         updated_date: currentDate,
         department,
-        is_two_factor
+        is_two_factor,
       },
     });
     return user;
@@ -279,17 +279,30 @@ const getByUniqueEmail = async (emailId: string) => {
   try {
     if (emailId) {
       const lowercasedEmailId = emailId.toLowerCase();
-
       const user = await prisma.users.findFirst({
         where: {
           email_id: lowercasedEmailId,
         },
       });
-
       return user;
     }
   } catch (error) {
     console.log('Error occurred in user getByUniqueEmail dao', error);
+    throw error;
+  }
+};
+
+const getAllSalesPersonUsers = async () => {
+  try {
+    const user = await prisma.users.findMany({
+      where: {
+        user_status: 'AC',
+        is_delete: false,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log('Error occurred in user getAllSalesPersonUsers dao', error);
     throw error;
   }
 };
@@ -306,4 +319,5 @@ export default {
   getDeletedUsers,
   customFilterUser,
   getByUniqueEmail,
+  getAllSalesPersonUsers,
 };
