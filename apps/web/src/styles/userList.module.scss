@@ -47,7 +47,6 @@
   font-size: 0.7rem;
 }
 
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -94,12 +93,20 @@ tr:hover {
   gap: 8px;
   color: #6941c6;
 }
+.searchButton:hover {
+  background-color: #7f56d9;
+  color: #ffffff;
+}
 .resetButton {
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
   border: 1px;
   gap: 8px;
   color: #848289;
+}
+.resetButton:hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
 }
 
 .inputFilter {
@@ -109,4 +116,16 @@ tr:hover {
 .pagination {
   display: flex;
   justify-content: end;
+}
+.formContainer {
+  width: 300px;
+  padding: 1px 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
 }

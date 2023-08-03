@@ -126,7 +126,7 @@ const GstList = () => {
         </div>
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>List of Categories</h3>
+            <h3>List of GST</h3>
             <span className={Styles.content}>
               Manage your GST details here.
             </span>
@@ -176,7 +176,7 @@ const GstList = () => {
         <CustomDialogBox
           open={open}
           handleClose={handleClose}
-          title="Gst Creation"
+          title="Edit Gst"
           content={
             <GstForm
               setOpen={setOpen}

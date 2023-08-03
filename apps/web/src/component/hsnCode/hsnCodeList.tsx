@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/gstList.module.scss';
 import { useGetAllHsnCode, useDeleteHsnCode, uploadHsnCode, getByCode } from '../../hooks/hsnCode-hooks';
-import { IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
 import DeleteIcon from '../menu/icons/deleteIcon';
@@ -36,8 +35,7 @@ const HsnCodeList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getByCode();
-  console.log('getFilterData', getFilterData);
+  } = getByCode();  
 
   const validationSchema = gethsnCreateValidateyup(Yup);
   const { mutate: getDeleteHsnCodeByID } = useDeleteHsnCode();
@@ -50,13 +48,12 @@ const HsnCodeList = () => {
   const [mode, setMode] = useState('');
   const [hsnCodeId, setHsnCodeId] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3);
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IC' },
   ]);
   const [initialValues, setInitialValues] = useState({
     hsn_code_id: '',
@@ -72,7 +69,7 @@ const HsnCodeList = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const deleteHscCode = (event: React.FormEvent, value: any) => {
+  const deleteHscCode = ( value: any) => {
     getDeleteHsnCodeByID(value);
     handleClose();
     setMessage('Successfully deleted');
@@ -87,7 +84,7 @@ const HsnCodeList = () => {
     setOpen(false);
   };
 
-  const editHscCodeHandler = (event: React.FormEvent, value: any) => {
+  const editHscCodeHandler = ( value: any) => {
     setMode('EDIT');
     setHsnCodeId(value);
     setOpen(true);
@@ -110,7 +107,7 @@ const HsnCodeList = () => {
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
-      status: 'AC',
+      status: activeButton,
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(demo);
@@ -302,7 +299,7 @@ const HsnCodeList = () => {
                 <div>
                   <Input
                     label="Code"
-                    placeholder="Enter product code"
+                    placeholder="Enter HSN code"
                     name="code"
                     value={formik.values.code}
                     onChange={formik.handleChange}
@@ -313,7 +310,7 @@ const HsnCodeList = () => {
                 <div>
                   <Input
                     label="Description"
-                    placeholder="Enter product description"
+                    placeholder="Enter HSN Code description"
                     name="description"
                     value={formik.values.description}
                     onChange={formik.handleChange}
@@ -340,12 +337,12 @@ const HsnCodeList = () => {
                     <span>{selectedFile.name}</span>
                     <button
                       style={{ backgroundColor: 'white', marginTop: '8%', marginLeft: '5px' }}
-                      onClick={handleRemoveFile}><CloseIcon /></button>
+                      ><CloseIcon onClick={handleRemoveFile}/></button>
                   </div>
                 ) : (
                   <button
                     style={{ padding: '10px' }}
-                    onClick={() => fileInputRef.current.click()}>Upload File</button>
+                    onClick={() => fileInputRef.current.click()}>Select File</button>
                 )}
                 <input
                   type="file"
@@ -368,9 +365,9 @@ const HsnCodeList = () => {
               <div className={Styles.button}>
                 <Button1
                   text={
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <DownloadIcon style={{ padding: '4px' }} />
-                      Download csv
+                    <div className={Styles.downloadButton}>
+                      <DownloadIcon style={{ padding: '4px' ,width:'50px',paddingBottom:'15px' }}/>
+                      Download sample Data
                     </div>
                   }
                   onClick={handleDownload}
@@ -457,11 +454,8 @@ const HsnCodeList = () => {
                           </span>
                         </td>
                         <td>
-                          <IconButton
-                            onClick={(e) => editHscCodeHandler(e, data.hsn_code_id)}
-                          >
-                            <EditIcon />
-                          </IconButton>
+                            
+                            <EditIcon onClick={() => editHscCodeHandler( data.hsn_code_id)}/>
                           {/* <IconButton
                             onClick={(e) =>
                               deleteHscCode(e, data.hsn_code_id)
@@ -497,7 +491,7 @@ const HsnCodeList = () => {
         <CustomDialogBox
           open={open}
           handleClose={handleClose}
-          title="HSN Creation"
+          title="Edit HSN"
           content={
             <HsnForm
               setOpen={setOpen}

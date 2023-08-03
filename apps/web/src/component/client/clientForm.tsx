@@ -6,7 +6,8 @@ import { getClientValidateyup } from '../../helper/constants/client-constants';
 import clientService from '../../service/client-service';
 import * as Yup from 'yup';
 import Input from '../ui/Input';
-import Button from '../menu/button';
+import Button from '../ui/Button';
+import Styles from '../../styles/userList.module.scss';
 const validationSchema = getClientValidateyup(Yup);
 const ClientForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
@@ -70,48 +71,47 @@ const ClientForm: React.FC = (props: any) => {
     },
   });
 
+  const handleBack = () => {
+    props.setOpen(false);
+  };
+
   return (
-    <div>
+    <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          <Grid item xs={2} sm={4} md={12}>
-            <Input
-              label="Name"
-              placeholder="Enter client name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && formik.errors.name}
-              width="100%"
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={12}>
-            <Input
-              label="Contact Detail"
-              placeholder="Enter client contact detail"
-              name="contact_details"
-              value={formik.values.contact_details}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.contact_details && formik.errors.contact_details
-              }
-              width="100%"
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={6}>
-            <Button
-              text="Submit"
-              backgroundColor="#7F56D9"
-              fontSize={14}
-              fontWeight={500}
-              width={125}
-            />
-          </Grid>
-        </Grid>
+        <div>
+          <Input
+            label="Name"
+            placeholder="Enter client name"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.touched.name && formik.errors.name}
+            width="100%"
+          />
+        </div>
+        <div>
+          <Input
+            label="Contact Detail"
+            placeholder="Enter client contact detail"
+            name="contact_details"
+            value={formik.values.contact_details}
+            onChange={formik.handleChange}
+            error={formik.touched.contact_details && formik.errors.contact_details}
+            width="100%"
+          />
+        </div>
+        <div className={Styles.formButton}>
+          <div>
+            <Button shape="rectangle" justify="center" size="small" onClick={handleBack}>
+              Cancel
+            </Button>
+          </div>
+          <div>
+            <Button color="primary" shape="rectangle" justify="center" size="small">
+              Submit
+            </Button>
+          </div>
+        </div>
       </form>
     </div>
   );

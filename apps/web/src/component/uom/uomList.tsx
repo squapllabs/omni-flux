@@ -36,13 +36,12 @@ const UomList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IC' },
   ]);
   const [initialValues, setInitialValues] = useState({
     uom_id: '',
@@ -63,7 +62,7 @@ const UomList = () => {
     setOpenDelete(false);
   };
 
-  const handleEdit = (event: React.FormEvent, value: any) => {
+  const handleEdit = (value: any) => {
     setMode('EDIT');
     setUomID(value);
     setOpen(true);
@@ -120,7 +119,7 @@ const UomList = () => {
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_by',
       order_by_direction: 'desc',
-      status: 'AC',
+      status: activeButton,
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(demo);
@@ -281,11 +280,7 @@ const UomList = () => {
                         <td>{data.name}</td>
                         <td>{data.description}</td>
                         <td>
-                          <IconButton
-                            onClick={(e) => handleEdit(e, data.uom_id)}
-                          >
-                            <EditIcon />
-                          </IconButton>
+                            <EditIcon  onClick={() => handleEdit(data.uom_id)} ></EditIcon>
                           {/* <IconButton
                             onClick={(e) =>
                               deleteUom(e, data.uom_id)
@@ -314,7 +309,7 @@ const UomList = () => {
         <CustomDialogBox
           open={open}
           handleClose={handleClose}
-          title="UOM Form"
+          title="Edit UOM"
           content={
             <UomForm
               setOpen={setOpen}

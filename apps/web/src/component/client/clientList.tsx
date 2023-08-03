@@ -1,12 +1,12 @@
 import React, { useState,useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import { IconButton } from '@mui/material';
-import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
 import MySnackbar from '../ui/MySnackbar';
 import { useGetAllClient, useDeleteClient,getByClient } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
-import CustomDialogBox from '../ui/cusotmDialogDelete';
+import CustomEditDialog from '../ui/customEditDialogBox';
 import CustomDialog from '../ui/customDialog';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
@@ -37,13 +37,12 @@ const ClientList = () => {
   const [message, setMessage] = useState('');
   const validationSchema = getClientValidateyup(Yup);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IC' },
   ]);
   const { mutate: createNewClient } = createClient();
   const [initialValues, setInitialValues] = useState({
@@ -64,7 +63,7 @@ const ClientList = () => {
     setOpenDelete(false);
   };
 
-  const handleEdit = (event: React.FormEvent, value: any) => {
+  const handleEdit = ( value: any) => {
     setMode('EDIT');
     setClientID(value);
     setOpen(true);
@@ -125,7 +124,7 @@ const ClientList = () => {
       offset:(currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
-      status: 'AC',
+      status: activeButton,
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(demo);
@@ -289,11 +288,9 @@ const ClientList = () => {
                         <td>{data.name}</td>
                         <td>{data.contact_details}</td>
                         <td>
-                          <IconButton
-                            onClick={(e) => handleEdit(e, data.client_id)}
-                          >
-                            <EditIcon />
-                          </IconButton>
+                           
+                            <EditIcon  onClick={() => handleEdit( data.client_id)}/>
+                          
                           {/* <IconButton
                             onClick={(e) =>
                               deleteClient(e, data.client_id)
@@ -319,10 +316,11 @@ const ClientList = () => {
             </div>
           </div>
         </CustomLoader>
-        <CustomDialogBox
+        <CustomEditDialog
           open={open}
           handleClose={handleClose}
-          title="Client Form"
+          title="Edit Client"
+          subTitle="Please edit the client name"
           content={
             <ClientForm
               setOpen={setOpen}
