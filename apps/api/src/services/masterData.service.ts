@@ -334,6 +334,42 @@ const searchMasterData = async (body) => {
   }
 };
 
+/**
+ * Method to get MasterData By Parent Master Data Type
+ * @param masterDataType
+ * @returns
+ */
+const getByParentType = async (masterDataType: string) => {
+  try {
+    let result = null;
+    const masterDataDetails = await masterDataDao.getByParentType(
+      masterDataType
+    );
+    if (masterDataDetails) {
+      result = {
+        message: 'success',
+        status: true,
+        data: masterDataDetails,
+      };
+      return result;
+    } else {
+      result = {
+        message:
+          'Invalid input: The specified master_data_type does not exist as a parent. Please provide a valid master_data_type.',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByParentType masterData service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createMasterData,
   updateMasterData,
@@ -343,4 +379,5 @@ export {
   deleteMasterData,
   getByParentMasterDataType,
   searchMasterData,
+  getByParentType,
 };
