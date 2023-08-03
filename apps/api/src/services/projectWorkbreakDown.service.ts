@@ -373,6 +373,155 @@ const getByCode = async (body) => {
   }
 };
 
+/**
+ * Method to search ProjectWorkbreakDown - Pagination API
+ * @returns
+ */
+const searchProjectWorkbreakDown = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const parent_project_workbreak_down_id = body.parent_id;
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterProjectWorkbreakDown = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (parent_project_workbreak_down_id) {
+      filterObj.filterProjectWorkbreakDown =
+        filterObj.filterProjectWorkbreakDown || {};
+      filterObj.filterProjectWorkbreakDown.AND =
+        filterObj.filterProjectWorkbreakDown.AND || [];
+
+      if (parent_project_workbreak_down_id) {
+        filterObj.filterProjectWorkbreakDown.AND.push({
+          parent_project_workbreak_down_id: Number(
+            parent_project_workbreak_down_id
+          ),
+        });
+      }
+    }
+
+    if (global_search) {
+      filterObj.filterProjectWorkbreakDown =
+        filterObj.filterProjectWorkbreakDown || {};
+      filterObj.filterProjectWorkbreakDown.OR =
+        filterObj.filterProjectWorkbreakDown.OR || [];
+
+      filterObj.filterProjectWorkbreakDown.OR.push(
+        {
+          project_workbreak_down_name: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          project_workbreak_down_description: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          project_workbreak_down_code: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          project_workbreak_down_type: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          site_details: {
+            site_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          uom_details: {
+            name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_details: {
+            project_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
+    }
+
+    const result = await projectWorkbreakDownDao.searchProjectWorkbreakDown(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempProjectWorkbreakDownData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempProjectWorkbreakDownData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchProjectWorkbreakDown projectWorkbreakDown service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to Get All Parent ProjectWorkbreakDown's
+ * @returns
+ */
+const getAllParentProjectWorkbreakDown = async () => {
+  try {
+    const result =
+      await projectWorkbreakDownDao.getAllParentProjectWorkbreakDownData();
+    const projectWorkbreakDownData = {
+      massage: 'success',
+      status: true,
+      data: result,
+    };
+    return projectWorkbreakDownData;
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllParentProjectWorkbreakDown projectWorkbreakDown service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProjectWorkbreakDown,
   updateProjectWorkbreakDown,
@@ -380,4 +529,6 @@ export {
   getById,
   deleteProjectWorkbreakDown,
   getByCode,
+  searchProjectWorkbreakDown,
+  getAllParentProjectWorkbreakDown,
 };

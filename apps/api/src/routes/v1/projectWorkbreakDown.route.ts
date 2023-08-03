@@ -8,9 +8,11 @@ import { runValidation } from '../../validations/index';
 import {
   createProjectWorkbreakDown,
   deleteByprojectWorkbreakDownId,
+  getAllParentProjectWorkbreakDown,
   getAllProjectWorkbreakDown,
   getByCode,
   getByProjectWorkbreakDownId,
+  searchProjectWorkbreakDown,
   updateProjectWorkbreakDown,
 } from '../../controller/projectWorkbreakDown.controller';
 
@@ -47,5 +49,13 @@ router.delete(
 );
 
 router.post('/get-by-code', authMiddleware, getByCode);
+
+router.post('/search', authMiddleware, searchProjectWorkbreakDown);
+
+router.get(
+  '/get-all-parent-data',
+  authMiddleware,
+  getAllParentProjectWorkbreakDown
+);
 
 export default router;
