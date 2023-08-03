@@ -3,6 +3,7 @@ import {
   createUser,
   customFilterUser,
   deleteUser,
+  getAllSalesPersonUsers,
   getAllUser,
   getByEmailId,
   getByUserId,
@@ -47,5 +48,7 @@ router.post('/searchUser', authMiddleware, searchUser);
 router.get('/getDeletedUsers', authMiddleware, getDeletedUsers);
 
 router.post('/custom-filter', authMiddleware, customFilterUser);
+
+router.get('/get-all-sales-persons', authMiddleware, getAllSalesPersonUsers);
 
 export default router;

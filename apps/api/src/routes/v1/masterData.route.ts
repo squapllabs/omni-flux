@@ -11,6 +11,7 @@ import {
   getAllParentMasterData,
   getByMasterDataId,
   getByParentMasterDataType,
+  getByParentType,
   searchMasterData,
   updateMasterData,
 } from '../../controller/masterData.controller';
@@ -53,5 +54,7 @@ router.get(
 router.delete('/delete/:master_data_id', authMiddleware, deleteByMasterDataId);
 
 router.post('/search-master-data', authMiddleware, searchMasterData);
+
+router.get('/get-by-type/:master_data_type', authMiddleware, getByParentType);
 
 export default router;

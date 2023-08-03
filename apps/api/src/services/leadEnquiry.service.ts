@@ -208,7 +208,7 @@ const allowedStatusValues = [
  */
 const generateLeadCode = async (leadType) => {
   const leadTypePrefix =
-    leadType === 'Product' ? 'LD-PR-' : leadType === 'Tender' ? 'LD-TR-' : 'LD';
+    leadType === 'Product' ? 'LD-PS-' : leadType === 'Tender' ? 'LD-TR-' : 'LD';
 
   const latestLeadEnquiry = await prisma.lead_enquiry.findFirst({
     where: { lead_type: leadType },
@@ -519,7 +519,6 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
       };
       return result;
     }
-    console.log('leadEnquiryExist', leadEnquiryExist);
 
     if (leadEnquiryExist.lead_enquiry_product.length === 0) {
       const result = {
