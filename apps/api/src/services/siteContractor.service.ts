@@ -266,17 +266,17 @@ const searchSiteContractor = async (body) => {
     const count = result.count;
     const data = result.data;
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempMasterDataData = {
+    const tempSiteContractorData = {
       message: 'success',
       status: true,
       total_count: count,
       total_page: total_pages,
       content: data,
     };
-    return tempMasterDataData;
+    return tempSiteContractorData;
   } catch (error) {
     console.log(
-      'Error occurred in searchSiteContractor masterData service : ',
+      'Error occurred in searchSiteContractor Site Contractor service : ',
       error
     );
     throw error;
