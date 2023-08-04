@@ -57,10 +57,21 @@ const deleteByLeadEnquiryId = catchAsync(async (req, res) => {
   }
 });
 
+const searchLeadEnquiry = catchAsync(async (req, res) => {
+  const methodName = '/searchLeadEnquiry';
+  try {
+    const leadEnquiry = await leadEnquiryService.searchLeadEnquiry(req.body);
+    res.send(leadEnquiry);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createLeadEnquiry,
   updateLeadEnquiry,
   getAllLeadEnquiry,
   getByLeadEnquiryId,
   deleteByLeadEnquiryId,
+  searchLeadEnquiry,
 };

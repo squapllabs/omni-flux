@@ -112,7 +112,7 @@ const getById = async (
           },
           site_details: {
             select: {
-              site_name: true,
+              name: true,
             },
           },
         },
@@ -149,7 +149,7 @@ const getAll = async (connectionObj = null) => {
           },
           site_details: {
             select: {
-              site_name: true,
+              name: true,
             },
           },
         },
@@ -418,7 +418,7 @@ const searchProjectWorkbreakDown = async (
           },
           site_details: {
             select: {
-              site_name: true,
+              name: true,
             },
           },
         },
@@ -473,7 +473,7 @@ const getAllParentProjectWorkbreakDownData = async (connectionObj = null) => {
           },
           site_details: {
             select: {
-              site_name: true,
+              name: true,
             },
           },
         },

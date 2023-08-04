@@ -5,7 +5,7 @@ import {
 } from '../interfaces/projectWorkbreakDown.Interface';
 import uomDao from '../dao/uom.dao';
 import projectDao from '../dao/project.dao';
-import siteDao from '../dao/site.dao';
+import siteDao from '../dao/siteContractor.dao';
 
 /**
  * Method to Create a New ProjectWorkbreakDown
@@ -447,7 +447,7 @@ const searchProjectWorkbreakDown = async (body) => {
         },
         {
           site_details: {
-            site_name: {
+            name: {
               contains: global_search,
               mode: 'insensitive',
             },
