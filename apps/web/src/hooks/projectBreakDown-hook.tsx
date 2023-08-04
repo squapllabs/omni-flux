@@ -7,9 +7,9 @@ const useGetAllParentProjectBreakDownDrop = () => {
     () => projectBreakDownService.getAllParentProjectBreakDown(),
     {
       select: (data) =>
-        data?.data?.map((category: any) => ({
-          label: category.master_data_name.toUpperCase(),
-          value: category.master_data_id,
+        data?.data?.map((parent: any) => ({
+          label: parent.project_workbreak_down_name,
+          value: parent.project_workbreak_down_id,
         })),
     }
   );
@@ -23,13 +23,49 @@ const createProjectBreakDownData = () => {
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(['useGetAllParentProjectBreakDown']);
+          queryClient.invalidateQueries([]);
         },
       }
     );
   };
 
+  const getBySearchProjectWorkBreakDownData = () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: any) => {
+        return projectBreakDownService.filterProjectWorkBreakDownData(data);
+      },
+      {
+        onSuccess: (response) => {
+          response;
+        },
+      }
+    );
+  };
+
+  const getByProjectWorkBreakDownId = (id: number) => {
+    return useQuery(['getByuserID', id], () => projectBreakDownService.getOneProjectWorkBreakDownById(id), {
+      select: (data) => data.data,
+    });
+  };
+  
+  const updateProjectBreakDown = () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: any) => {
+        return projectBreakDownService.updateProjectBreakDownData(data);
+      },
+      {
+        onSuccess: (response) => {
+          response;
+        },
+      }
+    );
+  };
 export {
     useGetAllParentProjectBreakDownDrop,
-    createProjectBreakDownData
+    createProjectBreakDownData,
+    getBySearchProjectWorkBreakDownData,
+    getByProjectWorkBreakDownId,
+    updateProjectBreakDown
 };

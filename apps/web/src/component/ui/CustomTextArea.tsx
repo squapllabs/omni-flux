@@ -19,7 +19,6 @@ const InputWrapper = styled.div<InputWrapperProps>`
   flex-direction: column;
   height: 100px;
   width: ${(props) => props.width || '100%'};
-  padding-top: 25px;
 `;
 
 const StyledLabel = styled.label`

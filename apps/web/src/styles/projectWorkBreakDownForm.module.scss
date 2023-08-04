@@ -1,11 +1,10 @@
 .container {
-  // background-color: gray;
     height: 100vh;
-    padding: 10px;
+    padding: 5px;
   }
 
   .textContent {
-    padding: 10px 10px 10px 15px;
+    padding: 15px 10px 10px 20px;
   }
   .content {
     font-size: 0.7rem;
@@ -14,7 +13,6 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    // justify-content: space-around;
     justify-content: center;
     gap: 15%;
   }
@@ -30,11 +28,17 @@
   .inputFieldMain{
     padding: 0px 30px 0px 50px;
     width: 92%;
-    // background-color: lightblue;
+    height: 50%;
   }
 
   .submitButton{
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
-    padding: 0px 25px 0px 0px;
+    padding: 0px 30px 0px 0px;
+    gap: 10px;
+  }
+
+  .inputStyles{
+    width: '40%' 
   }

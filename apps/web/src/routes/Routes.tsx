@@ -207,6 +207,8 @@ import Category from '../component/category/category';
 import ResetPassword from '../component/resetPassword/token';
 import MasterData from '../component/masterData/masterData';
 import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
+import ProjectWorkBreakDownList from '../component/projectWorkBreakDown/projectWorkBreakDownList';
+import ProjectWorkBreakDownEdit from '../component/projectWorkBreakDown/projectWorkBreakDownEdit';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -227,6 +229,8 @@ const AppRoutes = () => {
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
   const ProtectedProjectWorkBreakDownPage = withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedProjectWorkBreakDownListPage = withLayoutAndProtection(ProjectWorkBreakDownList);
+  const ProtectedProjectWorkBreakDownEditPage = withLayoutAndProtection(ProjectWorkBreakDownEdit);
 
   return (
     <div>
@@ -250,7 +254,9 @@ const AppRoutes = () => {
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/category" element={<ProtectedCategoryPage />} />
         <Route path="/master-data" element={<ProtectedMasterDataPage />} />
-        <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownPage />} />
+        <Route path="/project-workbreakdown-add" element={<ProtectedProjectWorkBreakDownPage />} />
+        <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownListPage />} />
+        <Route path="/project-workbreakdown-edit/:id" element={<ProtectedProjectWorkBreakDownEditPage />} />
       </Routes>
     </div>
   );

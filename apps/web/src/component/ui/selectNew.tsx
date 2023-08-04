@@ -10,6 +10,7 @@ interface SelectProps {
   label?: string;
   name?: string;
   error?: boolean;
+  disabled?: boolean;
 }
 interface InputWrapperProps {
   width?: string;
@@ -104,6 +105,7 @@ const Select: FC<SelectProps> = ({
   children,
   name,
   error,
+  disabled
 }) => {
   return (
     <div>
@@ -115,6 +117,7 @@ const Select: FC<SelectProps> = ({
             name={name}
             onChange={onChange}
             error={!!error}
+            disabled={disabled} 
           >
             <option value="">{defaultLabel}</option>
             {children}
