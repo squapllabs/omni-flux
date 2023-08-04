@@ -212,6 +212,77 @@ const getAllContractors = async () => {
   }
 };
 
+/**
+ * Method to search Site Contractor - Pagination API
+ * @returns
+ */
+const searchSiteContractor = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const type = body.type;
+    const filterObj = {
+      filterSiteContractor: {
+        AND: type ? [{ type: type }] : [],
+        OR: [
+          {
+            name: { contains: global_search, mode: 'insensitive' },
+          },
+          {
+            description: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+          /* {
+            address: {
+              street: { contains: global_search, mode: 'insensitive' },
+              city: { contains: global_search, mode: 'insensitive' },
+              state: { contains: global_search, mode: 'insensitive' },
+              pin_code: { contains: global_search, mode: 'insensitive' },
+              country: { contains: global_search, mode: 'insensitive' },
+            },
+          }, */
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await siteContractorDao.searchSiteContractor(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempMasterDataData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempMasterDataData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchSiteContractor masterData service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSiteContractor,
   updateSiteContractor,
@@ -220,4 +291,5 @@ export {
   deleteSiteContractor,
   getAllSites,
   getAllContractors,
+  searchSiteContractor,
 };

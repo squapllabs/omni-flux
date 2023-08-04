@@ -12,6 +12,7 @@ import {
   getAllSiteContractors,
   getAllSites,
   getBySiteContractorId,
+  searchSiteContractor,
   updateSiteContractor,
 } from '../../controller/siteContractor.controller';
 
@@ -46,5 +47,7 @@ router.delete(
 router.get('/get-all-sites', authMiddleware, getAllSites);
 
 router.get('/get-all-contractors', authMiddleware, getAllContractors);
+
+router.post('/search', authMiddleware, searchSiteContractor);
 
 export default router;
