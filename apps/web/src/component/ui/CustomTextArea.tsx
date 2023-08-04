@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface InputWrapperProps {
@@ -11,7 +11,8 @@ interface TextAreaProps
   placeholder?: string;
   error?: string;
   width?: string;
-  rows?: number; // Added rows prop for setting the number of rows
+  rows?: number;
+  maxCharacterCount?: number;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -29,14 +30,10 @@ const StyledLabel = styled.label`
 `;
 
 const StyledTextArea = styled.textarea<TextAreaProps>`
-  height: ${(props) =>
-    props.rows
-      ? `${props.rows * 15}px`
-      : '100%'}; /* Set height based on the number of rows */
-  //   padding: 10px; /* Adjust as needed */
+  height: ${(props) => (props.rows ? `${props.rows * 15}px` : '100%')};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
-  resize: vertical; /* Allows vertical resizing */
+  resize: vertical;
   background-color: #f4f5f6;
   &:hover {
     border-color: #888;
@@ -45,10 +42,6 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
     outline: none;
     box-shadow: 0 0 0 2px #68717840;
   }
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
 `;
 
 const InputError = styled.span`
@@ -61,24 +54,70 @@ const ErrorMessageWrapper = styled.div`
   min-height: 20px;
 `;
 
+const CharacterCount = styled.div`
+  font-size: 0.75rem;
+  color: #888;
+`;
+
 const TextArea: React.FC<TextAreaProps> = ({
   label,
   placeholder,
   error,
   width,
-  rows, // Add rows prop here
+  rows,
+  maxCharacterCount,
+  value,
   ...props
 }) => {
+  const [characterCount, setCharacterCount] = useState(maxCharacterCount || 40);
+  const [currentValue, setCurrentValue] = useState<string>(
+    value || '' // Initialize with the 'value' prop
+  );
+
+  useEffect(() => {
+    setCharacterCount(maxCharacterCount || 40);
+    setCurrentValue(value || '');
+  }, [maxCharacterCount, value]);
+
+  useEffect(() => {
+    const remainingCharacters = maxCharacterCount
+      ? maxCharacterCount - (currentValue || '').toString().length
+      : 40 - (currentValue || '').toString().length;
+    setCharacterCount(remainingCharacters);
+  }, [currentValue, maxCharacterCount]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = event.target.value;
+    const remainingCharacters = maxCharacterCount
+      ? maxCharacterCount - inputValue.length
+      : 40 - inputValue.length;
+
+    if (remainingCharacters >= 0) {
+      setCurrentValue(inputValue);
+      setCharacterCount(remainingCharacters);
+    } else if (maxCharacterCount) {
+      setCurrentValue(inputValue.slice(0, maxCharacterCount));
+    }
+  };
   return (
     <InputWrapper width={width}>
       {label && <StyledLabel>{label}</StyledLabel>}
-      {/* Pass rows prop to StyledTextArea */}
       <StyledTextArea
         error={!!error}
         placeholder={placeholder}
         rows={rows}
+        onChange={handleInputChange}
+        value={currentValue}
+        readOnly={characterCount === 0}
         {...props}
       />
+      {maxCharacterCount && (
+        <CharacterCount>
+          {characterCount >= 0
+            ? `${characterCount} characters left out of ${maxCharacterCount}`
+            : `Maximum characters reached`}
+        </CharacterCount>
+      )}
       <ErrorMessageWrapper>
         {error && <InputError>{error}</InputError>}
       </ErrorMessageWrapper>

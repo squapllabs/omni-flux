@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState } from 'react';
 import Styles from '../../styles/projectWorkBreakDownForm.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -6,7 +6,10 @@ import Input from '../ui/Input';
 import TextArea from '../ui/CustomTextArea';
 import Select from '../ui/selectNew';
 import Button from '../ui/Button';
-import { useGetAllParentProjectBreakDownDrop,createProjectBreakDownData } from '../../hooks/projectBreakDown-hook';
+import {
+  useGetAllParentProjectBreakDownDrop,
+  createProjectBreakDownData,
+} from '../../hooks/projectBreakDown-hook';
 import { getCreateValidateyup } from '../../helper/constants/projectBreakdown-constants';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useGetAllProject } from '../../hooks/project-hooks';
@@ -15,28 +18,27 @@ import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 
 const ProjectWorkBreakForm = () => {
-
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const { data: getAllParentDatadrop = [] } =useGetAllParentProjectBreakDownDrop();
+  const { data: getAllParentDatadrop = [] } =
+    useGetAllParentProjectBreakDownDrop();
   const { data: getAllUom = [] } = useGetAllUomDrop();
   const { data: getAllProjectList = [] } = useGetAllProject();
   const { data: getAllSiteList = [] } = useGetAllSiteDrop();
-  const { mutate: createNewProjectBreakDownData } = createProjectBreakDownData();
+  const { mutate: createNewProjectBreakDownData } =
+    createProjectBreakDownData();
   const [initialValues, setInitialValues] = useState({
-    project_workbreak_down_name:'',
-    project_workbreak_down_code:'',
-    parent_project_workbreak_down_id:'',
-    project_workbreak_down_type:'',
-    rate:'',
-    site_id:'',
-    project_id:'',
-    uom_id:'',
-    project_workbreak_down_description:'',
-  })
+    project_workbreak_down_name: '',
+    project_workbreak_down_code: '',
+    parent_project_workbreak_down_id: '',
+    project_workbreak_down_type: 'DEFAULT',
+    rate: '',
+    site_id: '',
+    project_id: '',
+    uom_id: '',
+    project_workbreak_down_description: '',
+  });
   const navigate = useNavigate();
-
-
 
   const getAllProjectTypeDataForType = [
     { label: 'Custom', value: 'CUSTOM' },
@@ -53,15 +55,20 @@ const ProjectWorkBreakForm = () => {
     validationSchema,
     onSubmit: (values) => {
       const Object: any = {
-        project_workbreak_down_name:values.project_workbreak_down_name,
-        project_workbreak_down_code:values.project_workbreak_down_code,
-        parent_project_workbreak_down_id: Number(values.parent_project_workbreak_down_id) === 0 ? null : Number(values.parent_project_workbreak_down_id) ,
-        project_workbreak_down_type:values.project_workbreak_down_type,
-        rate:Number(values.rate),
-        site_id:Number(values.site_id),
-        project_id:Number(values.project_id),
-        uom_id:Number(values.uom_id),
-        project_workbreak_down_description:values.project_workbreak_down_description,
+        project_workbreak_down_name: values.project_workbreak_down_name,
+        project_workbreak_down_code:
+          values.project_workbreak_down_code.toUpperCase(),
+        parent_project_workbreak_down_id:
+          Number(values.parent_project_workbreak_down_id) === 0
+            ? null
+            : Number(values.parent_project_workbreak_down_id),
+        project_workbreak_down_type: values.project_workbreak_down_type,
+        rate: Number(values.rate),
+        site_id: Number(values.site_id),
+        project_id: Number(values.project_id),
+        uom_id: Number(values.uom_id),
+        project_workbreak_down_description:
+          values.project_workbreak_down_description,
       };
       createNewProjectBreakDownData(Object, {
         onSuccess: (data, variables, context) => {
@@ -92,7 +99,10 @@ const ProjectWorkBreakForm = () => {
                 name="project_workbreak_down_name"
                 value={formik.values.project_workbreak_down_name}
                 onChange={formik.handleChange}
-                error={formik.touched.project_workbreak_down_name && formik.errors.project_workbreak_down_name}
+                error={
+                  formik.touched.project_workbreak_down_name &&
+                  formik.errors.project_workbreak_down_name
+                }
               />
             </div>
             <div style={{ width: '40%' }}>
@@ -102,7 +112,10 @@ const ProjectWorkBreakForm = () => {
                 name="project_workbreak_down_code"
                 value={formik.values.project_workbreak_down_code}
                 onChange={formik.handleChange}
-                error={formik.touched.project_workbreak_down_code && formik.errors.project_workbreak_down_code}
+                error={
+                  formik.touched.project_workbreak_down_code &&
+                  formik.errors.project_workbreak_down_code
+                }
               />
             </div>
           </div>
@@ -116,10 +129,10 @@ const ProjectWorkBreakForm = () => {
                 defaultLabel="Select from options"
               >
                 {getAllParentDatadrop.map((option: any) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Select>
             </div>
             <div style={{ width: '40%' }}>
@@ -162,10 +175,10 @@ const ProjectWorkBreakForm = () => {
                 defaultLabel="Select from options"
               >
                 {getAllSiteList.map((option: any) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Select>
             </div>
           </div>
@@ -179,10 +192,10 @@ const ProjectWorkBreakForm = () => {
                 defaultLabel="Select from options"
               >
                 {getAllProjectList.map((option: any) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Select>
             </div>
             <div style={{ width: '40%' }}>
@@ -194,27 +207,29 @@ const ProjectWorkBreakForm = () => {
                 defaultLabel="Select from options"
               >
                 {getAllUom.map((option: any) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Select>
             </div>
           </div>
-          <div className={Styles.inputFieldsArea}>
-            <div style={{ width: '41%' }}>
+          <div className={Styles.inputTextArea}>
+            <div className={Styles.inputFieldsArea}>
               <TextArea
                 name="project_workbreak_down_description"
                 label="Description"
                 placeholder="Enter description"
                 value={formik.values.project_workbreak_down_description}
                 onChange={formik.handleChange}
-                rows={3}
+                rows={4}
+                maxCharacterCount={120}
               />
             </div>
           </div>
           <div className={Styles.submitButton}>
-          <Button
+            <Button
+              className={Styles.resetButton}
               type="submit"
               shape="rectangle"
               justify="center"

@@ -99,7 +99,13 @@ const ProjectWorkBreakList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
+  const truncatedStyle = {
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: '100px',
+  };
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -189,18 +195,22 @@ const ProjectWorkBreakList = () => {
                       <tr>
                         <td></td>
                         <td></td>
-                        <td>No data found</td>
                         <td></td>
+                        <td>No data found</td>
                         <td></td>
                       </tr>
                     ) : (
                       ''
                     )}
                     {getFilterData?.content?.map((item: any, index: number) => (
-                      <tr>
+                      <tr key={item.project_workbreak_down_id}>
                         <td>{index + 1}</td>
                         <td>{item.project_workbreak_down_name}</td>
-                        <td>{item.project_workbreak_down_description}</td>
+                        <td>
+                          <span style={truncatedStyle}  title={item.project_workbreak_down_description}>
+                            {item.project_workbreak_down_description}
+                          </span>
+                        </td>
                         <td>{item.project_workbreak_down_code}</td>
                         <td>{formatBudgetValue(item.rate)}</td>
                         <td>
@@ -211,7 +221,13 @@ const ProjectWorkBreakList = () => {
                                 ?.project_workbreak_down_name}
                         </td>
                         <td>
-                            <EditIcon onClick={() => navigate(`/project-workbreakdown-edit/${item.project_workbreak_down_id}`)}/>
+                          <EditIcon
+                            onClick={() =>
+                              navigate(
+                                `/project-workbreakdown-edit/${item.project_workbreak_down_id}`
+                              )
+                            }
+                          />
                         </td>
                       </tr>
                     ))}

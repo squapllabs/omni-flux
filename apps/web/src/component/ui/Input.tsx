@@ -9,6 +9,7 @@ interface StyledInputProps {
   error?: boolean;
   hasPrefixIcon?: boolean;
   hasSuffixIcon?: boolean;
+  disabled?: boolean;
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -35,35 +36,40 @@ const StyledLabel = styled.label`
 `;
 
 const InputContainer = styled.div<StyledInputProps>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: ${(props) =>
-    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
-      props.hasPrefixIcon ? '32px' : '12px'
-    }`};
-  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
-  border-radius: 4px;
-  background-color: #f4f5f6;
-  &:hover {
-    border-color: #888;
-  }
-  &:focus-within {
-    outline: 0;
-    box-shadow: 0 0 0 2px #68717840;
-  }
+position: relative;
+display: flex;
+align-items: center;
+padding: ${(props) =>
+  `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
+    props.hasPrefixIcon ? '32px' : '12px'
+  }`};
+border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+border-radius: 4px;
+background-color: ${(props) => (props.disabled ? '#f9f9f9' : '#f4f5f6')};
+cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+opacity: ${(props) => (props.disabled ? 0.7 : 1)};
+&:hover {
+  border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+}
+&:focus-within {
+  outline: 0;
+  box-shadow: ${(props) => (props.disabled ? 'none' : '0 0 0 2px #68717840')};
+}
 `;
 
 const StyledInput = styled.input<StyledInputProps>`
-  height: 34px;
-  padding: ${(props) => `6px ${props.hasSuffixIcon ? '32px' : '0'} 6px 0`};
-  border: none;
-  background-color: transparent;
-  flex-grow: 1;
-  &:focus {
-    outline: none;
-  }
-  box-sizing: border-box;
+height: 34px;
+padding: ${(props) => `6px ${props.hasSuffixIcon ? '32px' : '0'} 6px 0`};
+border: none;
+background-color: ${(props) => (props.disabled ? '#f9f9f9' : 'transparent')};
+pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+color: ${(props) => (props.disabled ? '#888' : 'inherit')};
+flex-grow: 1;
+&:focus {
+  outline: none;
+}
+box-sizing: border-box;
 `;
 
 const IconWrapper = styled.div`
@@ -97,6 +103,7 @@ const Input: React.FC<InputProps> = ({
   width,
   prefixIcon,
   suffixIcon,
+  disabled,
   ...props
 }) => {
   return (
@@ -106,11 +113,13 @@ const Input: React.FC<InputProps> = ({
         error={!!error}
         hasPrefixIcon={!!prefixIcon}
         hasSuffixIcon={!!suffixIcon}
+        disabled={disabled}
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
         <StyledInput
           hasSuffixIcon={!!suffixIcon}
           placeholder={placeholder}
+          disabled={disabled}
           {...props}
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}

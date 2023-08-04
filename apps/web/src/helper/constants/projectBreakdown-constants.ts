@@ -24,8 +24,40 @@ export const getCreateValidateyup = (yup: any) => {
       .string()
       .typeError(projectBreakDownMessages.ENTER_NAME)
       .required(projectBreakDownMessages.ENTER_CODE)
-      .min(3, projectBreakDownMessages.MIN_CODE)
-      .max(15, projectBreakDownMessages.MAX_CODE),
+      .min(5, projectBreakDownMessages.MIN_CODE)
+      .max(7, projectBreakDownMessages.MAX_CODE)
+      .test(
+        'code-availability',
+        projectBreakDownMessages.CODE_EXIST,
+        async (value: any) => {
+          if (value) {
+            const response = await projectBreakDownService.checkProjectBreakDownCodeDuplicate(value);
+            if (response?.is_exist === true) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+      ),
+    project_workbreak_down_type: yup
+      .string()
+      .typeError(projectBreakDownMessages.ENTER_NAME)
+      .required(projectBreakDownMessages.ENTER_TYPE),
+    rate: yup
+      .number()
+      .min(1, projectBreakDownMessages.MINIMUM_CHECK)
+      .max(100000, projectBreakDownMessages.MAXIMUM_CHECK)
+      .typeError(projectBreakDownMessages.TYPE_ERROR),
+  });
+};
+
+export const editCreateValidateyup = (yup: any) => {
+  return yup.object().shape({
+    project_workbreak_down_name: yup
+      .string()
+      .typeError(projectBreakDownMessages.ENTER_NAME)
+      .required(projectBreakDownMessages.ENTER_NAME),
     project_workbreak_down_type: yup
       .string()
       .typeError(projectBreakDownMessages.ENTER_NAME)

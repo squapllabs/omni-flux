@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/projectWorkBreakDownForm.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -9,9 +9,9 @@ import Button from '../ui/Button';
 import {
   useGetAllParentProjectBreakDownDrop,
   getByProjectWorkBreakDownId,
-  updateProjectBreakDown
+  updateProjectBreakDown,
 } from '../../hooks/projectBreakDown-hook';
-import { getCreateValidateyup } from '../../helper/constants/projectBreakdown-constants';
+import { editCreateValidateyup } from '../../helper/constants/projectBreakdown-constants';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
@@ -19,16 +19,14 @@ import { useParams } from 'react-router-dom';
 
 const ProjectWorkBreakEdit = () => {
   const routeParams = useParams();
-  const { data: getOneProjectWorkBreakDownData,isLoading } = getByProjectWorkBreakDownId(
-    Number(routeParams?.id)
-  );
+  const { data: getOneProjectWorkBreakDownData, isLoading } =
+    getByProjectWorkBreakDownId(Number(routeParams?.id));
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllParentDatadrop = [] } =
     useGetAllParentProjectBreakDownDrop();
   const { data: getAllUom = [] } = useGetAllUomDrop();
-  const { mutate: updateNewProjectBreakDown } =
-  updateProjectBreakDown();
+  const { mutate: updateNewProjectBreakDown } = updateProjectBreakDown();
   const [initialValues, setInitialValues] = useState({
     project_workbreak_down_name: '',
     project_workbreak_down_code: '',
@@ -50,20 +48,27 @@ const ProjectWorkBreakEdit = () => {
   };
 
   useEffect(() => {
-    if (getOneProjectWorkBreakDownData) {      
+    if (getOneProjectWorkBreakDownData) {
       setInitialValues({
-        project_workbreak_down_name: getOneProjectWorkBreakDownData?.project_workbreak_down_name || '',
-        project_workbreak_down_code: getOneProjectWorkBreakDownData?.project_workbreak_down_code || '',
-        parent_project_workbreak_down_id: getOneProjectWorkBreakDownData?.parent_project_workbreak_down_id || '',
-        project_workbreak_down_type: getOneProjectWorkBreakDownData?.project_workbreak_down_type || '',
+        project_workbreak_down_name:
+          getOneProjectWorkBreakDownData?.project_workbreak_down_name || '',
+        project_workbreak_down_code:
+          getOneProjectWorkBreakDownData?.project_workbreak_down_code || '',
+        parent_project_workbreak_down_id:
+          getOneProjectWorkBreakDownData?.parent_project_workbreak_down_id ||
+          '',
+        project_workbreak_down_type:
+          getOneProjectWorkBreakDownData?.project_workbreak_down_type || '',
         rate: getOneProjectWorkBreakDownData?.rate || '',
         uom_id: getOneProjectWorkBreakDownData?.uom_id || '',
-        project_workbreak_down_description: getOneProjectWorkBreakDownData?.project_workbreak_down_description || '',
+        project_workbreak_down_description:
+          getOneProjectWorkBreakDownData?.project_workbreak_down_description ||
+          '',
       });
     }
   }, [getOneProjectWorkBreakDownData]);
 
-  const validationSchema = getCreateValidateyup(Yup);
+  const validationSchema = editCreateValidateyup(Yup);
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -79,10 +84,11 @@ const ProjectWorkBreakEdit = () => {
         project_workbreak_down_type: values.project_workbreak_down_type,
         rate: Number(values.rate),
         uom_id: Number(values.uom_id),
-        project_workbreak_down_description:values.project_workbreak_down_description,
-        project_workbreak_down_id: Number(routeParams?.id)
+        project_workbreak_down_description:
+          values.project_workbreak_down_description,
+        project_workbreak_down_id: Number(routeParams?.id),
       };
-      console.log("Object==>",Object)
+      console.log('Object==>', Object);
       updateNewProjectBreakDown(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
@@ -200,8 +206,8 @@ const ProjectWorkBreakEdit = () => {
               </Select>
             </div>
           </div>
-          <div className={Styles.inputFieldsArea}>
-            <div style={{ width: '41%' }}>
+          <div className={Styles.inputTextArea}>
+            <div className={Styles.inputFieldsArea}>
               <TextArea
                 name="project_workbreak_down_description"
                 label="Description"
@@ -209,11 +215,13 @@ const ProjectWorkBreakEdit = () => {
                 value={formik.values.project_workbreak_down_description}
                 onChange={formik.handleChange}
                 rows={3}
+                maxCharacterCount={120}
               />
             </div>
           </div>
           <div className={Styles.submitButton}>
             <Button
+              className={Styles.resetButton}
               type="submit"
               shape="rectangle"
               justify="center"

@@ -19,6 +19,7 @@ interface StyledSelectProps {
   value: string;
   width?: string;
   error?: boolean;
+  disabled?:boolean;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -27,32 +28,37 @@ const InputWrapper = styled.div<InputWrapperProps>`
   width: ${(props) => props.width || '100%'};
 `;
 const SelectContainer = styled.div<StyledSelectProps>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
-  border-radius: 4px;
-  background-color: #f4f5f6;
-  &:hover {
-    border-color: #888;
-  }
-  &:focus-within {
-    outline: 0;
-    box-shadow: 0 0 0 2px #68717840;
-  }
+position: relative;
+display: flex;
+align-items: center;
+border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+border-radius: 4px;
+background-color: ${(props) => (props.disabled ? '#f9f9f9' : '#f4f5f6')};
+pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+opacity: ${(props) => (props.disabled ? 0.7 : 1)};
+&:hover {
+  border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+}
+&:focus-within {
+  outline: 0;
+  box-shadow: ${(props) =>
+    props.disabled ? 'none' : '0 0 0 2px #68717840'};
+}
 `;
 const StyledSelect = styled.select<StyledSelectProps>`
   appearance: none; // this is to remove default browser dropdown icon
   width: 100%;
   height: 38px;
-  background: #f4f5f6;
-  color: ${(props) => (props.value === '' ? 'gray' : 'black')};
+  background-color: ${(props) => (props.disabled ? 'white' : 'transparent')};
+  color: ${(props) => (props.disabled ? '#888' : 'inherit')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   padding: 6px 12px;
   font-size: 14px;
   border: none;
   border-radius: 4px;
   outline: none;
-  // border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   option {
     color: black;
     background: white;
@@ -63,7 +69,8 @@ const StyledSelect = styled.select<StyledSelectProps>`
   }
 
   &:hover {
-    cursor: pointer;
+    border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   }
 `;
 

@@ -62,10 +62,23 @@ const updateProjectBreakDownData = async (values: JSON) => {
     console.log('Error in updateProjectBreakDownData :', error);
   }
 };
+
+const checkProjectBreakDownCodeDuplicate = async (values:any) => {
+  const data = values.toUpperCase()
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project-workbreak-down/check-duplicate-code/${data}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in check ProjectBreakDownData :', error);
+  }
+};
 export default {
   getAllParentProjectBreakDown,
   createProjectBreakDownData,
   filterProjectWorkBreakDownData,
   getOneProjectWorkBreakDownById,
   updateProjectBreakDownData,
+  checkProjectBreakDownCodeDuplicate
 };
