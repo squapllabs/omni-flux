@@ -395,6 +395,7 @@ const searchProjectWorkbreakDown = async (body) => {
     if (status) {
       filterObj.filterProjectWorkbreakDown = {
         is_delete: status === 'AC' ? false : true,
+        project_workbreak_down_type: 'DEFAULT',
       };
     }
 
@@ -522,6 +523,44 @@ const getAllParentProjectWorkbreakDown = async () => {
   }
 };
 
+/**
+ * Method to check Duplicate project_workbreak_down_code
+ * @param project_workbreak_down_code
+ * @returns
+ */
+const checkDuplicateCode = async (project_workbreak_down_code: string) => {
+  try {
+    let result = null;
+    const projectWorkbreakDownData =
+      await projectWorkbreakDownDao.checkDuplicateCode(
+        project_workbreak_down_code
+      );
+    if (projectWorkbreakDownData) {
+      result = {
+        massage: 'The project_workbreak_down_code is already exist',
+        status: true,
+        is_exist: true,
+        data: projectWorkbreakDownData,
+      };
+      return result;
+    } else {
+      result = {
+        massage: 'The project_workbreak_down_code does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getById checkDuplicateCode service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProjectWorkbreakDown,
   updateProjectWorkbreakDown,
@@ -531,4 +570,5 @@ export {
   getByCode,
   searchProjectWorkbreakDown,
   getAllParentProjectWorkbreakDown,
+  checkDuplicateCode,
 };
