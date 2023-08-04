@@ -459,6 +459,82 @@ const getByClientId = async (clientId: number, connectionObj = null) => {
   }
 };
 
+const searchLeadEnquiry = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterLeadEnquiry;
+    const leadEnquiry = await transaction.lead_enquiry.findMany({
+      where: filter,
+      include: {
+        client_info: {
+          select: {
+            name: true,
+          },
+        },
+        client_level_info: { select: { master_data_name: true } },
+        lead_enquiry_product: {
+          include: {
+            sales_person_details: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+            probability_details: {
+              select: { master_data_name: true },
+            },
+            lead_enquiry_product_item: {
+              include: {
+                product: {
+                  select: {
+                    item_name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        lead_enquiry_tenders: {
+          include: {
+            industry_sector_data: {
+              select: { master_data_name: true },
+            },
+          },
+        },
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+
+    const leadEnquiryCount = await transaction.lead_enquiry.count({
+      where: filter,
+    });
+    const leadEnquiryData = {
+      count: leadEnquiryCount,
+      data: leadEnquiry,
+    };
+    return leadEnquiryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in Lead Enquiry dao : searchLeadEnquiry ',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -466,4 +542,5 @@ export default {
   getAll,
   deleteLeadEnquiry,
   getByClientId,
+  searchLeadEnquiry,
 };
