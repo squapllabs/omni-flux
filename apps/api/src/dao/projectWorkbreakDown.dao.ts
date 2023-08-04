@@ -132,6 +132,7 @@ const getAll = async (connectionObj = null) => {
       await transaction.project_workbreak_down.findMany({
         where: {
           is_delete: false,
+          project_workbreak_down_type: 'DEFAULT',
         },
         include: {
           parent_project_workbreak_down: true,
@@ -492,6 +493,30 @@ const getAllParentProjectWorkbreakDownData = async (connectionObj = null) => {
   }
 };
 
+const checkDuplicateCode = async (
+  projectWorkbreakDownCode: string,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const projectWorkBreakDown =
+      await transaction.project_workbreak_down.findFirst({
+        where: {
+          project_workbreak_down_code: projectWorkbreakDownCode,
+          is_delete: false,
+        },
+      });
+
+    return projectWorkBreakDown;
+  } catch (error) {
+    console.log(
+      'Error occurred in projectWorkBreakDown checkDuplicateCode dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -504,4 +529,5 @@ export default {
   getByProjectIdAndSiteId,
   searchProjectWorkbreakDown,
   getAllParentProjectWorkbreakDownData,
+  checkDuplicateCode,
 };

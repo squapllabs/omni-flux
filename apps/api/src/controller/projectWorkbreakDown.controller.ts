@@ -95,6 +95,19 @@ const getAllParentProjectWorkbreakDown = catchAsync(async (req, res) => {
   }
 });
 
+const checkDuplicateCode = catchAsync(async (req, res) => {
+  const methodName = '/checkDuplicateCode';
+  try {
+    const projectWorkbreakDown =
+      await projectWorkbreakDownService.checkDuplicateCode(
+        req.params.project_workbreak_down_code
+      );
+    res.send(projectWorkbreakDown);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createProjectWorkbreakDown,
   updateProjectWorkbreakDown,
@@ -104,4 +117,5 @@ export {
   getByCode,
   searchProjectWorkbreakDown,
   getAllParentProjectWorkbreakDown,
+  checkDuplicateCode,
 };
