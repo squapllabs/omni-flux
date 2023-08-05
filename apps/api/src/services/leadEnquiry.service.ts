@@ -553,7 +553,6 @@ const searchLeadEnquiry = async (body) => {
         is_delete: status === 'AC' ? false : true,
       };
     }
-    const searchDate = new Date('2023-08-15');
     if (global_search) {
       filterObj.filterLeadEnquiry = filterObj.filterLeadEnquiry || {};
       filterObj.filterLeadEnquiry.OR = filterObj.filterLeadEnquiry.OR || [];
@@ -706,7 +705,6 @@ const searchLeadEnquiry = async (body) => {
                   contains: global_search,
                   mode: 'insensitive',
                 },
-                tender_issue_date: searchDate,
               },
             },
           },

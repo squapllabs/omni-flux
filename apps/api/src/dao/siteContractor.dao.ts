@@ -177,6 +177,44 @@ const deleteSiteContractor = async (
   }
 };
 
+const searchSiteContractor = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterSiteContractor;
+    const siteContractor = await transaction.site_contractor.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const siteContractorCount = await transaction.site_contractor.count({
+      where: filter,
+    });
+    const siteContractorData = {
+      count: siteContractorCount,
+      data: siteContractor,
+    };
+    return siteContractorData;
+  } catch (error) {
+    console.log(
+      'Error occurred in siteContractor dao : searchSiteContractor ',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -185,4 +223,5 @@ export default {
   deleteSiteContractor,
   getAllSites,
   getAllContractors,
+  searchSiteContractor,
 };

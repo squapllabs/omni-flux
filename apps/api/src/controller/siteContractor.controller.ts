@@ -77,6 +77,16 @@ const getAllContractors = catchAsync(async (req, res) => {
   }
 });
 
+const searchSiteContractor = catchAsync(async (req, res) => {
+  const methodName = '/searchSiteContractor';
+  try {
+    const site = await siteContractorService.searchSiteContractor(req.body);
+    res.send(site);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createSiteContractor,
   updateSiteContractor,
@@ -85,4 +95,5 @@ export {
   deleteSiteContractorById,
   getAllSites,
   getAllContractors,
+  searchSiteContractor,
 };
