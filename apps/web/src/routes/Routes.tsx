@@ -209,6 +209,8 @@ import MasterData from '../component/masterData/masterData';
 import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
 import ProjectWorkBreakDownList from '../component/projectWorkBreakDown/projectWorkBreakDownList';
 import ProjectWorkBreakDownEdit from '../component/projectWorkBreakDown/projectWorkBreakDownEdit';
+import siteForm from '../component/site/siteForm';
+import siteList from '../component/site/siteList';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -231,6 +233,8 @@ const AppRoutes = () => {
   const ProtectedProjectWorkBreakDownPage = withLayoutAndProtection(ProjectWorkBreakDown);
   const ProtectedProjectWorkBreakDownListPage = withLayoutAndProtection(ProjectWorkBreakDownList);
   const ProtectedProjectWorkBreakDownEditPage = withLayoutAndProtection(ProjectWorkBreakDownEdit);
+  const ProtectedSiteFormPage = withLayoutAndProtection(siteForm);
+  const ProtectedSitePage = withLayoutAndProtection(siteList);
 
   return (
     <div>
@@ -257,6 +261,8 @@ const AppRoutes = () => {
         <Route path="/project-workbreakdown-add" element={<ProtectedProjectWorkBreakDownPage />} />
         <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownListPage />} />
         <Route path="/project-workbreakdown-edit/:id" element={<ProtectedProjectWorkBreakDownEditPage />} />
+        <Route path="/site-add" element={<ProtectedSiteFormPage />} />
+        <Route path="/site" element={<ProtectedSitePage />} />
       </Routes>
     </div>
   );
