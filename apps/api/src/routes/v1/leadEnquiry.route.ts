@@ -7,6 +7,7 @@ import {
   deleteByLeadEnquiryId,
   getAllLeadEnquiry,
   getByLeadEnquiryId,
+  searchLeadEnquiry,
   updateLeadEnquiry,
 } from '../../controller/leadEnquiry.controller';
 
@@ -31,5 +32,7 @@ router.delete(
   authMiddleware,
   deleteByLeadEnquiryId
 );
+
+router.post('/search', authMiddleware, searchLeadEnquiry);
 
 export default router;

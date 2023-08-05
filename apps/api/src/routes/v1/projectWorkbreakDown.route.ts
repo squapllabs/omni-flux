@@ -6,6 +6,7 @@ import {
 } from '../../validations/projectWorkbreakDown';
 import { runValidation } from '../../validations/index';
 import {
+  checkDuplicateCode,
   createProjectWorkbreakDown,
   deleteByprojectWorkbreakDownId,
   getAllParentProjectWorkbreakDown,
@@ -56,6 +57,12 @@ router.get(
   '/get-all-parent-data',
   authMiddleware,
   getAllParentProjectWorkbreakDown
+);
+
+router.get(
+  '/check-duplicate-code/:project_workbreak_down_code',
+  authMiddleware,
+  checkDuplicateCode
 );
 
 export default router;

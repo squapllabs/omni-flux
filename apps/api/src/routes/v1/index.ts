@@ -13,7 +13,7 @@ import project from './project.route';
 import item from './item.route';
 import stock from './stock.route';
 import projectExpense from './projectExpense.route';
-import site from './site.route';
+import siteContractor from './siteContractor.route';
 import siteExpense from './siteExpense.route';
 import warehouse from './warehouse.route';
 import warehouseInventory from './warehouseInventory.route';
@@ -80,8 +80,8 @@ const defaultRoutes = [
     route: projectExpense,
   },
   {
-    path: '/site',
-    route: site,
+    path: '/site-contractor',
+    route: siteContractor,
   },
   {
     path: '/site-expense',

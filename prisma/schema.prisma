@@ -189,18 +189,22 @@ model project_expense {
   @@map("project_expense")
 }
 
-model site {
-  site_id                Int                      @id @default(autoincrement())
-  site_name              String                   @db.VarChar(100)
-  location               String?
-  user_id                Int?
+model site_contractor {
+  site_contractor_id     Int                      @id @default(autoincrement())
+  name                   String                   @db.VarChar(100)
+  type                   String?
+  mobile_number          String?
+  contact_number         String?
+  address                Json?
+  description            String?
   created_date           DateTime
   updated_date           DateTime
   created_by             Int?
   updated_by             Int?
+  is_delete              Boolean                  @default(false)
   project_workbreak_down project_workbreak_down[]
 
-  @@map("site")
+  @@map("site_contractor")
 }
 
 model site_expense {
@@ -443,5 +447,5 @@ model project_workbreak_down {
   child_project_workbreak_down       project_workbreak_down[] @relation("ChildToParent")
   uom_details                        uom?                     @relation(fields: [uom_id], references: [uom_id])
   project_details                    project?                 @relation(fields: [project_id], references: [project_id])
-  site_details                       site?                    @relation(fields: [site_id], references: [site_id])
+  site_details                       site_contractor?         @relation(fields: [site_id], references: [site_contractor_id])
 }
