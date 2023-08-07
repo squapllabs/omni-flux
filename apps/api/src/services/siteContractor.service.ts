@@ -249,7 +249,7 @@ const searchSiteContractor = async (body) => {
               mode: 'insensitive',
             },
           },
-          /* {
+          /*  {
             address: {
               street: { contains: global_search, mode: 'insensitive' },
               city: { contains: global_search, mode: 'insensitive' },

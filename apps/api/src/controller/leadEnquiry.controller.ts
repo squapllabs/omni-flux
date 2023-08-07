@@ -67,6 +67,43 @@ const searchLeadEnquiry = catchAsync(async (req, res) => {
   }
 });
 
+const checkDuplicateTenderRegNo = catchAsync(async (req, res) => {
+  const methodName = '/checkDuplicateTenderRegNo';
+  try {
+    const leadEnquiry = await leadEnquiryService.checkDuplicateTenderRegNo(
+      req.params.tender_reg_no
+    );
+    res.send(leadEnquiry);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const checkDuplicateTenderIdentificationNo = catchAsync(async (req, res) => {
+  const methodName = '/checkDuplicateTenderIdentificationNo';
+  try {
+    const leadEnquiry =
+      await leadEnquiryService.checkDuplicateTenderIdentificationNo(
+        req.params.tender_identification_no
+      );
+    res.send(leadEnquiry);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const generateLeadCode = catchAsync(async (req, res) => {
+  const methodName = '/generateLeadCode';
+  try {
+    const leadEnquiry = await leadEnquiryService.generateLeadCode(
+      req.params.lead_type
+    );
+    res.send(leadEnquiry);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createLeadEnquiry,
   updateLeadEnquiry,
@@ -74,4 +111,7 @@ export {
   getByLeadEnquiryId,
   deleteByLeadEnquiryId,
   searchLeadEnquiry,
+  checkDuplicateTenderRegNo,
+  checkDuplicateTenderIdentificationNo,
+  generateLeadCode,
 };
