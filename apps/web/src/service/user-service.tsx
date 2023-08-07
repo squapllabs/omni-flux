@@ -105,9 +105,12 @@ const user_profile_upload = async (file: any) => {
 const filterUser = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/user/searchUser`,
+      `${environment.apiUrl}/user/search`,
       values
     );
+    console.log("values",values);
+    console.log("response",response);
+    
     return response.data;
   } catch (error) {
     console.log('Error in user search :', error);

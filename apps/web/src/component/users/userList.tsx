@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import { useGetAllUsers, useDeleteUsers, getByUser } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
@@ -23,7 +23,7 @@ const UserList = () => {
     data: getFilterData,
     isLoading: FilterLoading,
   } = getByUser();
-  console.log("data>>>>>>>",);
+  console.log("data>>>>>>>",getFilterData);
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
@@ -68,18 +68,42 @@ const UserList = () => {
       ['search_by_name']: event.target.value,
     });
   };
+
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, rowsPerPage, activeButton]);
+
   const handleSearch = async () => {
     const demo: any = {
       page: 0,
       size: 5,
-      // order_by_column: 'updated_by',
       sort: 'asc',
+      global_filter: filterValues.search_by_name,
       status: activeButton,
-      global_search: filterValues.search_by_name,
     };
+    console.log('demo',demo);
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(true);
+    console.log();
+    
+  };
+
+  const handleReset = async () => {
+    const demo: any = {
+      page: 0,
+      size: 5,
+      sort: 'asc',
+      status: 'AC',
+      global_filter: '',
+    };
+    postDataForFilter(demo);
+    setIsLoading(false);
+    setFilter(false);
+    setFilterValues({
+      search_by_name: '',
+    });
+    setIsLoading(false);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -98,7 +122,7 @@ const UserList = () => {
     <div className={Styles.container}>
       <div>
         <CustomLoader
-          loading={getAllLoading}
+          loading={isLoading === true ? getAllLoading : FilterLoading}
           size={48}
           color="#333C44"
         >
@@ -142,7 +166,7 @@ const UserList = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-              // onClick={handleReset}
+              onClick={handleReset}
               >
                 Reset
               </Button>
@@ -179,7 +203,7 @@ const UserList = () => {
                   ) : (
                     ''
                   )}
-                  {getFilterData?.content?.map((data: any, index: number) => (
+                  {getFilterData?.data?.content?.map((data: any, index: number) => (
                     <tr>
                       <td>{index + 1}</td>
                       <td>{data.first_name}</td>
