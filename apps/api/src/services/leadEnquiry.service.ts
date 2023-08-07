@@ -45,7 +45,8 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
       product_item,
     } = body;
     let result = null;
-    const lead_code = await generateLeadCode(lead_type);
+    const leadCodeData = await generateLeadCode(lead_type);
+    const lead_code = leadCodeData.data;
 
     if (client) {
       const clientExist = await clientDao.getById(client);
@@ -211,7 +212,8 @@ const generateLeadCode = async (leadType) => {
     }
   }
   const leadCode = leadTypePrefix + sequentialNumber;
-  return leadCode;
+  const result = { message: 'success', status: true, data: leadCode };
+  return result;
 };
 
 /**
@@ -766,6 +768,83 @@ const searchLeadEnquiry = async (body) => {
   }
 };
 
+/**
+ * Method to Check Duplicate Tender Reg No Exist
+ * @param leadTenderRegNo
+ * @returns
+ */
+const checkDuplicateTenderRegNo = async (leadTenderRegNo: string) => {
+  try {
+    let result = null;
+    const leadEnquiryData = await leadTenderDao.checkDuplicateTenderRegNo(
+      leadTenderRegNo
+    );
+    if (leadEnquiryData) {
+      result = {
+        message: 'This tender_reg_no is already exist',
+        status: true,
+        is_exist: true,
+        data: leadEnquiryData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This tender_reg_no does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in checkDuplicateTenderRegNo leadEnquiry service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to Check Duplicate Tender Identification No
+ * @param leadTenderRegNo
+ * @returns
+ */
+const checkDuplicateTenderIdentificationNo = async (
+  leadTenderIdentificationNo: string
+) => {
+  try {
+    let result = null;
+    const leadEnquiryData =
+      await leadTenderDao.checkDuplicateTenderIdentificationNo(
+        leadTenderIdentificationNo
+      );
+    if (leadEnquiryData) {
+      result = {
+        message: 'This tender_identification_no is already exist',
+        status: true,
+        is_exist: true,
+        data: leadEnquiryData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This tender_identification_no does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in checkDuplicateTenderIdentificationNo leadEnquiry service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createLeadEnquiry,
   updateLeadEnquiry,
@@ -773,4 +852,7 @@ export {
   getById,
   deleteLeadEnquiry,
   searchLeadEnquiry,
+  checkDuplicateTenderRegNo,
+  checkDuplicateTenderIdentificationNo,
+  generateLeadCode,
 };

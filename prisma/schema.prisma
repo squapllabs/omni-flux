@@ -195,7 +195,7 @@ model site_contractor {
   type                   String?
   mobile_number          String?
   contact_number         String?
-  address                Json?
+  address                Json?                    @map("address") @db.Json
   description            String?
   created_date           DateTime
   updated_date           DateTime

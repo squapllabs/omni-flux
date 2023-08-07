@@ -152,10 +152,54 @@ const deleteLeadTender = async (leadTenderId: number, connectionObj = null) => {
   }
 };
 
+const checkDuplicateTenderRegNo = async (
+  leadTenderRegNo: string,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const leadTender = await transaction.lead_enquiry_tender.findFirst({
+      where: {
+        tender_reg_no: leadTenderRegNo,
+      },
+    });
+    return leadTender;
+  } catch (error) {
+    console.log(
+      'Error occurred in leadTender checkDuplicateTenderRegNo dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const checkDuplicateTenderIdentificationNo = async (
+  leadTenderIdentificationNo: string,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const leadTender = await transaction.lead_enquiry_tender.findFirst({
+      where: {
+        tender_identification_no: leadTenderIdentificationNo,
+      },
+    });
+    return leadTender;
+  } catch (error) {
+    console.log(
+      'Error occurred in leadTender checkDuplicateTenderIdentificationNo dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getById,
   getAll,
   deleteLeadTender,
+  checkDuplicateTenderRegNo,
+  checkDuplicateTenderIdentificationNo,
 };
