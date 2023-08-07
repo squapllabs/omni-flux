@@ -5,13 +5,12 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
-import {getBySearchSiteData
-} from '../../hooks/site-hooks';
+import {getBySearchSiteData} from '../../hooks/site-hooks';
 import AddIcon from '../menu/icons/addIcon';
 import { useNavigate } from 'react-router';
 import EditIcon from '../menu/icons/editIcon';
 
-const ProjectWorkBreakList = () => {
+const ContractorList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [disable, setDisable] = useState(true);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
@@ -36,8 +35,6 @@ const ProjectWorkBreakList = () => {
     });
   };
 
-  
-
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
@@ -50,7 +47,7 @@ const ProjectWorkBreakList = () => {
       order_by_direction: 'desc',
       status: activeButton,
       global_search: filterValues.search_by_name,
-      type:"Site"
+      type:"Contractor"
     };
     await postDataForFilter(demo);
     setTotalPages(getFilterData?.total_page);
@@ -92,9 +89,9 @@ const ProjectWorkBreakList = () => {
         <div className={Styles.container}>
           <div className={Styles.box}>
             <div className={Styles.textContent}>
-              <h3>List of Project Site</h3>
+              <h3>List of Contractor</h3>
               <span className={Styles.content}>
-                Manage your project site across your application
+                Manage your contractor across your application
               </span>
             </div>
             <div className={Styles.searchField}>
@@ -135,7 +132,7 @@ const ProjectWorkBreakList = () => {
                   justify="center"
                   size="small"
                   icon={<AddIcon />}
-                  onClick={() => navigate('/site-add')}
+                  onClick={() => navigate('/contractor-add')}
                 >
                   Add
                 </Button>
@@ -175,7 +172,7 @@ const ProjectWorkBreakList = () => {
                           <EditIcon
                             onClick={() =>
                               navigate(
-                                `/site-edit/${item.site_contractor_id}`
+                                `/contractor-edit/${item.site_contractor_id}`
                               )
                             }
                           />
@@ -202,4 +199,4 @@ const ProjectWorkBreakList = () => {
   );
 };
 
-export default ProjectWorkBreakList;
+export default ContractorList;

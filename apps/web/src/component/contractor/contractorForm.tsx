@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Styles from '../../styles/siteForm.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -8,15 +8,10 @@ import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 import { getCreateValidateyup } from '../../helper/constants/site-constants';
-import { updateSite, getBySiteId } from '../../hooks/site-hooks';
-import { useParams } from 'react-router-dom';
+import { createSite } from '../../hooks/site-hooks';
 
-const SiteForm = () => {
-  const routeParams = useParams();
-  const { data: getOneSiteData, isLoading } = getBySiteId(
-    Number(routeParams?.id)
-  );
-  const { mutate: updateNewSite } = updateSite();
+const ContractorForm = () => {
+  const { mutate: createNewSite } = createSite();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const navigate = useNavigate();
@@ -34,24 +29,6 @@ const SiteForm = () => {
       country: '',
     },
   });
-  useEffect(() => {
-    if (getOneSiteData) {
-      setInitialValues({
-        name: getOneSiteData?.name || '',
-        code: 'SA001',
-        mobile_number: getOneSiteData?.mobile_number || '',
-        description: getOneSiteData?.description || '',
-        contact_number: getOneSiteData?.contact_number || '',
-        address: {
-          street: getOneSiteData?.address?.street || '',
-          city: getOneSiteData?.address?.city || '',
-          state: getOneSiteData?.address?.state || '',
-          country: getOneSiteData?.address?.country || '',
-          pin_code: getOneSiteData?.address?.pin_code || '',
-        },
-      });
-    }
-  }, [getOneSiteData]);
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -61,7 +38,6 @@ const SiteForm = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    enableReinitialize: true,
     onSubmit: (values) => {
       const Object: any = {
         name: values.name,
@@ -69,7 +45,7 @@ const SiteForm = () => {
         mobile_number: values.mobile_number,
         description: values.description,
         contact_number: values.contact_number,
-        type: 'Site',
+        type: 'Contractor',
         address: {
           street: values.address.street,
           city: values.address.city,
@@ -77,12 +53,11 @@ const SiteForm = () => {
           pin_code: values.address.pin_code,
           country: values.address.country,
         },
-        site_contractor_id: Number(routeParams?.id),
       };
-      updateNewSite(Object, {
+      createNewSite(Object, {
         onSuccess: (data: any) => {
           if (data?.status === true) {
-            setMessage('Site edited uccessfully');
+            setMessage('Project Workbreak down created');
             setOpenSnack(true);
             setInterval(() => {
               navigate('/site');
@@ -92,23 +67,20 @@ const SiteForm = () => {
       });
     },
   });
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className={Styles.container}>
       <div className={Styles.textContent}>
-        <h3>Edit Site</h3>
-        <span className={Styles.content}>Edit your site</span>
+        <h3>Add Contractor</h3>
+        <span className={Styles.content}>Add your contractor</span>
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.inputFieldMain}>
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Input
-                label="Site Name *"
-                placeholder="Enter site name"
+                label="Contractor Name *"
+                placeholder="Enter contractor name"
                 name="name"
                 value={formik.values.name}
                 onChange={formik.handleChange}
@@ -117,7 +89,7 @@ const SiteForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Input
-                label="code *"
+                label="Code"
                 placeholder="Enter work code"
                 name="code"
                 value={formik.values.code}
@@ -251,7 +223,7 @@ const SiteForm = () => {
             type="submit"
             shape="rectangle"
             justify="center"
-            onClick={() => navigate('/site')}
+            onClick={() => navigate('/contractor')}
           >
             Back
           </Button>
@@ -276,4 +248,4 @@ const SiteForm = () => {
   );
 };
 
-export default SiteForm;
+export default ContractorForm;

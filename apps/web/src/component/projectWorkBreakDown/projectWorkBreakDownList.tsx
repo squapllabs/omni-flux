@@ -99,13 +99,7 @@ const ProjectWorkBreakList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-  const truncatedStyle = {
-    display: 'inline-block',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    maxWidth: '100px',
-  };
+
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -207,7 +201,7 @@ const ProjectWorkBreakList = () => {
                         <td>{index + 1}</td>
                         <td>{item.project_workbreak_down_name}</td>
                         <td>
-                          <span style={truncatedStyle}  title={item.project_workbreak_down_description}>
+                          <span className={Styles.truncatedStyle}  title={item.project_workbreak_down_description}>
                             {item.project_workbreak_down_description}
                           </span>
                         </td>

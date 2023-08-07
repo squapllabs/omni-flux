@@ -11,7 +11,7 @@ import { getCreateValidateyup } from '../../helper/constants/site-constants';
 import { updateSite, getBySiteId } from '../../hooks/site-hooks';
 import { useParams } from 'react-router-dom';
 
-const SiteForm = () => {
+const ContractorForm = () => {
   const routeParams = useParams();
   const { data: getOneSiteData, isLoading } = getBySiteId(
     Number(routeParams?.id)
@@ -69,7 +69,7 @@ const SiteForm = () => {
         mobile_number: values.mobile_number,
         description: values.description,
         contact_number: values.contact_number,
-        type: 'Site',
+        type: 'Contractor',
         address: {
           street: values.address.street,
           city: values.address.city,
@@ -82,10 +82,10 @@ const SiteForm = () => {
       updateNewSite(Object, {
         onSuccess: (data: any) => {
           if (data?.status === true) {
-            setMessage('Site edited uccessfully');
+            setMessage('Contractor edited uccessfully');
             setOpenSnack(true);
             setInterval(() => {
-              navigate('/site');
+              navigate('/contractor');
             }, 3000);
           }
         },
@@ -99,8 +99,8 @@ const SiteForm = () => {
   return (
     <div className={Styles.container}>
       <div className={Styles.textContent}>
-        <h3>Edit Site</h3>
-        <span className={Styles.content}>Edit your site</span>
+        <h3>Edit Contractor</h3>
+        <span className={Styles.content}>Edit your contractor</span>
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.inputFieldMain}>
@@ -117,7 +117,7 @@ const SiteForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Input
-                label="code *"
+                label="Code"
                 placeholder="Enter work code"
                 name="code"
                 value={formik.values.code}
@@ -251,7 +251,7 @@ const SiteForm = () => {
             type="submit"
             shape="rectangle"
             justify="center"
-            onClick={() => navigate('/site')}
+            onClick={() => navigate('/contractor')}
           >
             Back
           </Button>
@@ -276,4 +276,4 @@ const SiteForm = () => {
   );
 };
 
-export default SiteForm;
+export default ContractorForm;

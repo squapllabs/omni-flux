@@ -88,7 +88,6 @@ const ProjectWorkBreakEdit = () => {
           values.project_workbreak_down_description,
         project_workbreak_down_id: Number(routeParams?.id),
       };
-      console.log('Object==>', Object);
       updateNewProjectBreakDown(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {

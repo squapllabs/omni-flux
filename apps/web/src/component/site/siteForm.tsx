@@ -54,17 +54,13 @@ const SiteForm = () => {
           country: values.address.country,
         },
       };
-      console.log('0000000000', Object);
-
       createNewSite(Object, {
         onSuccess: (data: any) => {
-          alert('saved');
-          console.log('data', data);
           if (data?.status === true) {
+            setMessage('Site created');
+            setOpenSnack(true);
             setInterval(() => {
-              setMessage('Project Workbreak down created');
-              setOpenSnack(true);
-              navigate('/userList');
+              navigate('/site');
             }, 3000);
           }
         },
@@ -93,7 +89,7 @@ const SiteForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Input
-                label="code *"
+                label="Code"
                 placeholder="Enter work code"
                 name="code"
                 value={formik.values.code}
@@ -227,7 +223,7 @@ const SiteForm = () => {
             type="submit"
             shape="rectangle"
             justify="center"
-              onClick={() => navigate('/site')}
+            onClick={() => navigate('/site')}
           >
             Back
           </Button>

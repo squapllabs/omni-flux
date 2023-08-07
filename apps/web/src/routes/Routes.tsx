@@ -211,6 +211,10 @@ import ProjectWorkBreakDownList from '../component/projectWorkBreakDown/projectW
 import ProjectWorkBreakDownEdit from '../component/projectWorkBreakDown/projectWorkBreakDownEdit';
 import siteForm from '../component/site/siteForm';
 import siteList from '../component/site/siteList';
+import siteEdit from '../component/site/siteEdit';
+import contractorList from '../component/contractor/contractorList';
+import contractorForm from '../component/contractor/contractorForm';
+import contractorEdit from '../component/contractor/contractorEdit';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -235,6 +239,10 @@ const AppRoutes = () => {
   const ProtectedProjectWorkBreakDownEditPage = withLayoutAndProtection(ProjectWorkBreakDownEdit);
   const ProtectedSiteFormPage = withLayoutAndProtection(siteForm);
   const ProtectedSitePage = withLayoutAndProtection(siteList);
+  const ProtectedSiteEditPage = withLayoutAndProtection(siteEdit);
+  const ProtectedContractorListPage = withLayoutAndProtection(contractorList);
+  const ProtectedContractorFormPage = withLayoutAndProtection(contractorForm);
+  const ProtectedContractorEditFormPage = withLayoutAndProtection(contractorEdit);
 
   return (
     <div>
@@ -263,6 +271,10 @@ const AppRoutes = () => {
         <Route path="/project-workbreakdown-edit/:id" element={<ProtectedProjectWorkBreakDownEditPage />} />
         <Route path="/site-add" element={<ProtectedSiteFormPage />} />
         <Route path="/site" element={<ProtectedSitePage />} />
+        <Route path="/site-edit/:id" element={<ProtectedSiteEditPage />} />
+        <Route path="/contractor" element={<ProtectedContractorListPage />} />
+        <Route path="/contractor-add" element={<ProtectedContractorFormPage />} />
+        <Route path="/contractor-edit/:id" element={<ProtectedContractorEditFormPage />} />
       </Routes>
     </div>
   );

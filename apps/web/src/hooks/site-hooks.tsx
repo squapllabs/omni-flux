@@ -25,4 +25,38 @@ const createSite = () => {
   );
 };
 
-export { useGetAllSiteDrop,createSite };
+const getBySearchSiteData = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SiteService.filterSiteData(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
+
+const getBySiteId = (id: number) => {
+  return useQuery(['getByuserID', id], () => SiteService.getOneSiteById(id), {
+    select: (data) => data.data,
+  });
+};
+
+const updateSite = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SiteService.updateSiteData(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
+
+export { useGetAllSiteDrop,createSite,getBySearchSiteData,getBySiteId,updateSite };

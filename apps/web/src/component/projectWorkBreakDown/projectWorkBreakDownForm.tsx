@@ -23,8 +23,6 @@ const ProjectWorkBreakForm = () => {
   const { data: getAllParentDatadrop = [] } =
     useGetAllParentProjectBreakDownDrop();
   const { data: getAllUom = [] } = useGetAllUomDrop();
-  const { data: getAllProjectList = [] } = useGetAllProject();
-  const { data: getAllSiteList = [] } = useGetAllSiteDrop();
   const { mutate: createNewProjectBreakDownData } =
     createProjectBreakDownData();
   const [initialValues, setInitialValues] = useState({
@@ -33,8 +31,6 @@ const ProjectWorkBreakForm = () => {
     parent_project_workbreak_down_id: '',
     project_workbreak_down_type: 'DEFAULT',
     rate: '',
-    site_id: '',
-    project_id: '',
     uom_id: '',
     project_workbreak_down_description: '',
   });
@@ -64,8 +60,6 @@ const ProjectWorkBreakForm = () => {
             : Number(values.parent_project_workbreak_down_id),
         project_workbreak_down_type: values.project_workbreak_down_type,
         rate: Number(values.rate),
-        site_id: Number(values.site_id),
-        project_id: Number(values.project_id),
         uom_id: Number(values.uom_id),
         project_workbreak_down_description:
           values.project_workbreak_down_description,
@@ -165,38 +159,6 @@ const ProjectWorkBreakForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.rate && formik.errors.rate}
               />
-            </div>
-            <div style={{ width: '40%' }}>
-              <Select
-                label="Project site"
-                name="site_id"
-                onChange={formik.handleChange}
-                value={formik.values.site_id}
-                defaultLabel="Select from options"
-              >
-                {getAllSiteList.map((option: any) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
-            </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <Select
-                label="Project"
-                name="project_id"
-                onChange={formik.handleChange}
-                value={formik.values.project_id}
-                defaultLabel="Select from options"
-              >
-                {getAllProjectList.map((option: any) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
             </div>
             <div style={{ width: '40%' }}>
               <Select
