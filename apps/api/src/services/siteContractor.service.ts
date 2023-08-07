@@ -291,6 +291,41 @@ const searchSiteContractor = async (body) => {
   }
 };
 
+/**
+ * Method to get SiteContractor By SiteContractor Code
+ * @param code
+ * @returns
+ */
+const getByCode = async (code: string) => {
+  try {
+    let result = null;
+    const siteData = await siteContractorDao.getByCode(code);
+    if (siteData) {
+      result = {
+        message: 'This code is already exist',
+        status: true,
+        is_exist: true,
+        data: siteData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This code is not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByCode site contractor service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSiteContractor,
   updateSiteContractor,
@@ -300,4 +335,5 @@ export {
   getAllSites,
   getAllContractors,
   searchSiteContractor,
+  getByCode,
 };

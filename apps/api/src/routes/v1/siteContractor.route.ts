@@ -11,6 +11,7 @@ import {
   getAllContractors,
   getAllSiteContractors,
   getAllSites,
+  getByCode,
   getBySiteContractorId,
   searchSiteContractor,
   updateSiteContractor,
@@ -49,5 +50,7 @@ router.get('/get-all-sites', authMiddleware, getAllSites);
 router.get('/get-all-contractors', authMiddleware, getAllContractors);
 
 router.post('/search', authMiddleware, searchSiteContractor);
+
+router.get('/check-duplicate-code/:code', authMiddleware, getByCode);
 
 export default router;

@@ -219,6 +219,21 @@ const searchSiteContractor = async (
   }
 };
 
+const getByCode = async (code: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const siteContractor = await transaction.site_contractor.findFirst({
+      where: {
+        code: code,
+      },
+    });
+    return siteContractor;
+  } catch (error) {
+    console.log('Error occurred in siteContractor getByCode dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -228,4 +243,5 @@ export default {
   getAllSites,
   getAllContractors,
   searchSiteContractor,
+  getByCode,
 };
