@@ -7,8 +7,6 @@ import clientDao from '../dao/client.dao';
 import prisma from '../utils/prisma';
 import leadProductDao from '../dao/leadProduct.dao';
 import leadTenderDao from '../dao/leadTender.dao';
-import leadEnquiryProductItemDao from '../dao/leadEnquiryProductItem.dao';
-import itemDao from '../dao/item.dao';
 import masterDataDao from '../dao/masterData.dao';
 import userDao from '../dao/user.dao';
 
@@ -44,8 +42,7 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
       tender_type,
       estimated_value,
       industry_sector,
-      product_id,
-      quantity,
+      product_item,
     } = body;
     let result = null;
     const lead_code = await generateLeadCode(lead_type);
@@ -55,18 +52,6 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
       if (!clientExist) {
         result = {
           message: 'client does not exist',
-          status: false,
-          data: null,
-        };
-        return result;
-      }
-    }
-
-    if (product_id) {
-      const productExist = await itemDao.getById(product_id);
-      if (!productExist) {
-        result = {
-          message: 'product_id does not exist',
           status: false,
           data: null,
         };
@@ -162,8 +147,7 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
           tender_type,
           estimated_value,
           industry_sector,
-          product_id,
-          quantity,
+          product_item,
           prisma
         );
 
@@ -208,7 +192,7 @@ const allowedStatusValues = [
  */
 const generateLeadCode = async (leadType) => {
   const leadTypePrefix =
-    leadType === 'Product' ? 'LD-PR-' : leadType === 'Tender' ? 'LD-TR-' : 'LD';
+    leadType === 'Product' ? 'LD-PS-' : leadType === 'Tender' ? 'LD-TR-' : 'LD';
 
   const latestLeadEnquiry = await prisma.lead_enquiry.findFirst({
     where: { lead_type: leadType },
@@ -263,11 +247,9 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
       tender_type,
       estimated_value,
       industry_sector,
-      product_id,
-      quantity,
       lead_product_id,
       lead_tender_id,
-      lead_enquiry_product_item_id,
+      product_item,
     } = body;
     let result = null;
     const leadEnquiryExist = await leadEnquiryDao.getById(lead_enquiry_id);
@@ -277,18 +259,6 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
       if (!clientExist) {
         const result = {
           message: 'client does not exist',
-          status: false,
-          data: null,
-        };
-        return result;
-      }
-    }
-
-    if (product_id) {
-      const productExist = await itemDao.getById(product_id);
-      if (!productExist) {
-        result = {
-          message: 'product_id does not exist',
           status: false,
           data: null,
         };
@@ -368,19 +338,6 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
       }
     }
 
-    if (lead_enquiry_product_item_id) {
-      const leadEnquiryProductItemExist =
-        await leadEnquiryProductItemDao.getById(lead_enquiry_product_item_id);
-      if (!leadEnquiryProductItemExist) {
-        const result = {
-          message: 'lead_enquiry_product_item_id does not exist',
-          status: false,
-          data: null,
-        };
-        return result;
-      }
-    }
-
     if (status) {
       if (!allowedStatusValues.includes(status)) {
         result = {
@@ -422,11 +379,9 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
             tender_type,
             estimated_value,
             industry_sector,
-            product_id,
-            quantity,
             lead_product_id,
             lead_tender_id,
-            lead_enquiry_product_item_id,
+            product_item,
             prisma
           );
 
@@ -519,7 +474,6 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
       };
       return result;
     }
-    console.log('leadEnquiryExist', leadEnquiryExist);
 
     if (leadEnquiryExist.lead_enquiry_product.length === 0) {
       const result = {
@@ -576,10 +530,233 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
   }
 };
 
+/**
+ * Method to search LeadEnquiry - Pagination API
+ * @returns
+ */
+const searchLeadEnquiry = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterLeadEnquiry = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+    if (global_search) {
+      filterObj.filterLeadEnquiry = filterObj.filterLeadEnquiry || {};
+      filterObj.filterLeadEnquiry.OR = filterObj.filterLeadEnquiry.OR || [];
+
+      filterObj.filterLeadEnquiry.OR.push(
+        {
+          lead_type: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          lead_code: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_contact_name: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_contact_email: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_contact_phone: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          our_remarks: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_remark: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          status: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          status_remarks: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_info: {
+            name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          client_level_info: {
+            master_data_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
+
+      filterObj.filterLeadEnquiry.OR.push({
+        OR: [
+          {
+            lead_enquiry_product: {
+              some: {
+                source_name: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_product: {
+              some: {
+                probability_details: {
+                  master_data_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_product: {
+              some: {
+                sales_person_details: {
+                  first_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                  last_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_product: {
+              some: {
+                lead_enquiry_product_item: {
+                  some: {
+                    product: {
+                      item_name: {
+                        contains: global_search,
+                        mode: 'insensitive',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_tenders: {
+              some: {
+                tender_name: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+                tender_reg_no: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+                tender_identification_no: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+                tender_type: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_tenders: {
+              some: {
+                industry_sector_data: {
+                  master_data_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+        ],
+      });
+    }
+
+    const result = await leadEnquiryDao.searchLeadEnquiry(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempLeadEnquiryData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempLeadEnquiryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchLeadEnquiry leadEnquiry service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createLeadEnquiry,
   updateLeadEnquiry,
   getAllLeadEnquiry,
   getById,
   deleteLeadEnquiry,
+  searchLeadEnquiry,
 };

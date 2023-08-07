@@ -265,6 +265,17 @@ const getByUOMId = async (uomId: number, connectionObj = null) => {
   }
 };
 
+const getAllItems = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const item = await transaction.item.findMany({});
+    return item;
+  } catch (error) {
+    console.log('Error occurred in item getAllItems dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getAll,
@@ -276,4 +287,5 @@ export default {
   getByHSNCodeId,
   getByGSTId,
   getByUOMId,
+  getAllItems,
 };
