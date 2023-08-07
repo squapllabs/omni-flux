@@ -6,6 +6,7 @@ interface createSiteContractorBody {
   address: JSON;
   description: string;
   created_by: number;
+  code: string;
 }
 
 interface updateSiteContractorBody {
@@ -17,6 +18,7 @@ interface updateSiteContractorBody {
   address: JSON;
   description: string;
   updated_by: number;
+  code: string;
 }
 
 export { createSiteContractorBody, updateSiteContractorBody };

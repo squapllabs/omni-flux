@@ -202,6 +202,7 @@ model site_contractor {
   created_by             Int?
   updated_by             Int?
   is_delete              Boolean                  @default(false)
+  code                   String?
   project_workbreak_down project_workbreak_down[]
 
   @@map("site_contractor")

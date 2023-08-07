@@ -19,6 +19,7 @@ const createSiteContractor = async (body: createSiteContractorBody) => {
       address,
       description,
       created_by,
+      code,
     } = body;
     let result = null;
 
@@ -29,7 +30,8 @@ const createSiteContractor = async (body: createSiteContractorBody) => {
       contact_number,
       address,
       description,
-      created_by
+      created_by,
+      code
     );
     result = { message: 'success', status: true, data: siteContractorDetails };
 
@@ -56,6 +58,7 @@ const updateSiteContractor = async (body: updateSiteContractorBody) => {
       address,
       description,
       updated_by,
+      code,
       site_contractor_id,
     } = body;
     let result = null;
@@ -72,6 +75,7 @@ const updateSiteContractor = async (body: updateSiteContractorBody) => {
         address,
         description,
         updated_by,
+        code,
         site_contractor_id
       );
       result = {
@@ -81,7 +85,11 @@ const updateSiteContractor = async (body: updateSiteContractorBody) => {
       };
       return result;
     } else {
-      result = { success: false, message: 'site_contractor_id does not exist' };
+      result = {
+        message: 'site_contractor_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {

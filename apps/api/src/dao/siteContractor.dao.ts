@@ -8,6 +8,7 @@ const add = async (
   address: JSON,
   description: string,
   created_by: number,
+  code: string,
   connectionObj = null
 ) => {
   try {
@@ -23,6 +24,7 @@ const add = async (
         address,
         description,
         created_by,
+        code,
         is_delete: is_delete,
         created_date: currentDate,
         updated_date: currentDate,
@@ -43,6 +45,7 @@ const edit = async (
   address: JSON,
   description: string,
   updated_by: number,
+  code: string,
   site_contractor_id: number,
   connectionObj = null
 ) => {
@@ -61,6 +64,7 @@ const edit = async (
         address,
         description,
         updated_by,
+        code,
         updated_date: currentDate,
       },
     });
