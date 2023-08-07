@@ -307,6 +307,42 @@ const getAllSalesPersonUsers = async () => {
   }
 };
 
+const searchUser = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterUser;
+    const user = await transaction.users.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const userCount = await transaction.users.count({
+      where: filter,
+    });
+
+    const userData = {
+      count: userCount,
+      data: user,
+    };
+    return userData;
+  } catch (error) {
+    console.log('Error occurred in user dao : searchUser ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -320,4 +356,5 @@ export default {
   customFilterUser,
   getByUniqueEmail,
   getAllSalesPersonUsers,
+  searchUser,
 };

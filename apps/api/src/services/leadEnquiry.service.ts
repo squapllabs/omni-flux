@@ -544,6 +544,7 @@ const searchLeadEnquiry = async (body) => {
     const order_by_direction =
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
+    const type = body.type;
     const status = body.status;
 
     const filterObj: any = {};
@@ -553,6 +554,19 @@ const searchLeadEnquiry = async (body) => {
         is_delete: status === 'AC' ? false : true,
       };
     }
+
+    if (type) {
+      filterObj.filterLeadEnquiry = filterObj.filterLeadEnquiry || {};
+      filterObj.filterLeadEnquiry.AND = filterObj.filterLeadEnquiry.AND || [];
+
+      filterObj.filterLeadEnquiry.AND.push({
+        lead_type: {
+          contains: type,
+          mode: 'insensitive',
+        },
+      });
+    }
+
     if (global_search) {
       filterObj.filterLeadEnquiry = filterObj.filterLeadEnquiry || {};
       filterObj.filterLeadEnquiry.OR = filterObj.filterLeadEnquiry.OR || [];
