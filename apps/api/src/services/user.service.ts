@@ -392,74 +392,74 @@ const updateStatus = async (body) => {
   }
 };
 
-/**
- * Method for Global Search API
- * @param body
- * @returns
- */
-const searchUser = async (body) => {
-  try {
-    const { size = 10, page = 0, sort = 'desc', global_filter } = body;
+// /**
+//  * Method for Global Search API
+//  * @param body
+//  * @returns
+//  */
+// const searchUser = async (body) => {
+//   try {
+//     const { size = 10, page = 0, sort = 'desc', global_filter, status } = body;
 
-    let query = null;
-    let countQuery = null;
+//     let query = null;
+//     let countQuery = null;
 
-    if (global_filter) {
-      query = prisma.users.findMany({
-        where: {
-          OR: [
-            { first_name: { contains: global_filter, mode: 'insensitive' } },
-            { last_name: { contains: global_filter, mode: 'insensitive' } },
-            { email_id: { contains: global_filter, mode: 'insensitive' } },
-            { contact_no: { contains: global_filter, mode: 'insensitive' } },
-            { department: { contains: global_filter, mode: 'insensitive' } },
-          ],
-          is_delete: false,
-        },
-        orderBy: {
-          updated_date: sort,
-        },
-        take: size,
-        skip: page * size,
-      });
+//     if (global_filter) {
+//       query = prisma.users.findMany({
+//         where: {
+//           OR: [
+//             { first_name: { contains: global_filter, mode: 'insensitive' } },
+//             { last_name: { contains: global_filter, mode: 'insensitive' } },
+//             { email_id: { contains: global_filter, mode: 'insensitive' } },
+//             { contact_no: { contains: global_filter, mode: 'insensitive' } },
+//             { department: { contains: global_filter, mode: 'insensitive' } },
+//           ],
+//           is_delete: status === 'IN' ? true : false,
+//         },
+//         orderBy: {
+//           updated_date: sort,
+//         },
+//         take: size,
+//         skip: page * size,
+//       });
 
-      countQuery = prisma.users.count({
-        where: {
-          OR: [
-            { first_name: { contains: global_filter, mode: 'insensitive' } },
-            { last_name: { contains: global_filter, mode: 'insensitive' } },
-            { email_id: { contains: global_filter, mode: 'insensitive' } },
-            { contact_no: { contains: global_filter, mode: 'insensitive' } },
-            { department: { contains: global_filter, mode: 'insensitive' } },
-          ],
-          is_delete: false,
-        },
-      });
-    }
+//       countQuery = prisma.users.count({
+//         where: {
+//           OR: [
+//             { first_name: { contains: global_filter, mode: 'insensitive' } },
+//             { last_name: { contains: global_filter, mode: 'insensitive' } },
+//             { email_id: { contains: global_filter, mode: 'insensitive' } },
+//             { contact_no: { contains: global_filter, mode: 'insensitive' } },
+//             { department: { contains: global_filter, mode: 'insensitive' } },
+//           ],
+//           is_delete: status === 'IN' ? true : false,
+//         },
+//       });
+//     }
 
-    const [data, count] = await Promise.all([query, countQuery]);
+//     const [data, count] = await Promise.all([query, countQuery]);
 
-    const total_count = count;
-    const total_pages = total_count < size ? 1 : Math.ceil(total_count / size);
+//     const total_count = count;
+//     const total_pages = total_count < size ? 1 : Math.ceil(total_count / size);
 
-    const userData = {
-      total_count: total_count,
-      total_page: total_pages,
-      size: size,
-      content: data,
-    };
+//     const userData = {
+//       total_count: total_count,
+//       total_page: total_pages,
+//       size: size,
+//       content: data,
+//     };
 
-    const result = {
-      message: 'success',
-      status: true,
-      data: userData,
-    };
-    return result;
-  } catch (error) {
-    console.log('Error occurred in searchUser user service:', error);
-    throw error;
-  }
-};
+//     const result = {
+//       message: 'success',
+//       status: true,
+//       data: userData,
+//     };
+//     return result;
+//   } catch (error) {
+//     console.log('Error occurred in searchUser user service:', error);
+//     throw error;
+//   }
+// };
 
 /**
  * Method for updating user_status by user_id
@@ -579,6 +579,60 @@ const getAllSalesPersonUsers = async () => {
       'Error occurred in getAllSalesPersonUsers user service : ',
       error
     );
+    throw error;
+  }
+};
+
+/**
+ * Method to search User - Pagination API
+ * @returns
+ */
+const searchUser = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterUser: {
+        AND: [],
+        OR: [
+          { first_name: { contains: global_search, mode: 'insensitive' } },
+          { last_name: { contains: global_search, mode: 'insensitive' } },
+          { email_id: { contains: global_search, mode: 'insensitive' } },
+          { contact_no: { contains: global_search, mode: 'insensitive' } },
+          { department: { contains: global_search, mode: 'insensitive' } },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await userDao.searchUser(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempUserData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempUserData;
+  } catch (error) {
+    console.log('Error occurred in searchUser User service : ', error);
     throw error;
   }
 };

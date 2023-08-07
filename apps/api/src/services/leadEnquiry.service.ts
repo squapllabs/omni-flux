@@ -45,7 +45,8 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
       product_item,
     } = body;
     let result = null;
-    const lead_code = await generateLeadCode(lead_type);
+    const leadCodeData = await generateLeadCode(lead_type);
+    const lead_code = leadCodeData.data;
 
     if (client) {
       const clientExist = await clientDao.getById(client);
@@ -211,7 +212,8 @@ const generateLeadCode = async (leadType) => {
     }
   }
   const leadCode = leadTypePrefix + sequentialNumber;
-  return leadCode;
+  const result = { message: 'success', status: true, data: leadCode };
+  return result;
 };
 
 /**
@@ -530,10 +532,327 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
   }
 };
 
+/**
+ * Method to search LeadEnquiry - Pagination API
+ * @returns
+ */
+const searchLeadEnquiry = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const type = body.type;
+    const status = body.status;
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterLeadEnquiry = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (type) {
+      filterObj.filterLeadEnquiry = filterObj.filterLeadEnquiry || {};
+      filterObj.filterLeadEnquiry.AND = filterObj.filterLeadEnquiry.AND || [];
+
+      filterObj.filterLeadEnquiry.AND.push({
+        lead_type: {
+          contains: type,
+          mode: 'insensitive',
+        },
+      });
+    }
+
+    if (global_search) {
+      filterObj.filterLeadEnquiry = filterObj.filterLeadEnquiry || {};
+      filterObj.filterLeadEnquiry.OR = filterObj.filterLeadEnquiry.OR || [];
+
+      filterObj.filterLeadEnquiry.OR.push(
+        {
+          lead_type: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          lead_code: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_contact_name: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_contact_email: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_contact_phone: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          our_remarks: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_remark: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          status: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          status_remarks: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          client_info: {
+            name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          client_level_info: {
+            master_data_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
+
+      filterObj.filterLeadEnquiry.OR.push({
+        OR: [
+          {
+            lead_enquiry_product: {
+              some: {
+                source_name: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_product: {
+              some: {
+                probability_details: {
+                  master_data_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_product: {
+              some: {
+                sales_person_details: {
+                  first_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                  last_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_product: {
+              some: {
+                lead_enquiry_product_item: {
+                  some: {
+                    product: {
+                      item_name: {
+                        contains: global_search,
+                        mode: 'insensitive',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_tenders: {
+              some: {
+                tender_name: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+                tender_reg_no: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+                tender_identification_no: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+                tender_type: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+          {
+            lead_enquiry_tenders: {
+              some: {
+                industry_sector_data: {
+                  master_data_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+        ],
+      });
+    }
+
+    const result = await leadEnquiryDao.searchLeadEnquiry(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempLeadEnquiryData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempLeadEnquiryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchLeadEnquiry leadEnquiry service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to Check Duplicate Tender Reg No Exist
+ * @param leadTenderRegNo
+ * @returns
+ */
+const checkDuplicateTenderRegNo = async (leadTenderRegNo: string) => {
+  try {
+    let result = null;
+    const leadEnquiryData = await leadTenderDao.checkDuplicateTenderRegNo(
+      leadTenderRegNo
+    );
+    if (leadEnquiryData) {
+      result = {
+        message: 'This tender_reg_no is already exist',
+        status: true,
+        is_exist: true,
+        data: leadEnquiryData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This tender_reg_no does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in checkDuplicateTenderRegNo leadEnquiry service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to Check Duplicate Tender Identification No
+ * @param leadTenderRegNo
+ * @returns
+ */
+const checkDuplicateTenderIdentificationNo = async (
+  leadTenderIdentificationNo: string
+) => {
+  try {
+    let result = null;
+    const leadEnquiryData =
+      await leadTenderDao.checkDuplicateTenderIdentificationNo(
+        leadTenderIdentificationNo
+      );
+    if (leadEnquiryData) {
+      result = {
+        message: 'This tender_identification_no is already exist',
+        status: true,
+        is_exist: true,
+        data: leadEnquiryData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This tender_identification_no does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in checkDuplicateTenderIdentificationNo leadEnquiry service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createLeadEnquiry,
   updateLeadEnquiry,
   getAllLeadEnquiry,
   getById,
   deleteLeadEnquiry,
+  searchLeadEnquiry,
+  checkDuplicateTenderRegNo,
+  checkDuplicateTenderIdentificationNo,
+  generateLeadCode,
 };

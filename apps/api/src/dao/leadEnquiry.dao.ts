@@ -248,30 +248,54 @@ const edit = async (
           product.lead_enquiry_product_item_id;
         const product_id = product.product_id;
         const quantity = product.quantity;
-        const leadEnquiryProductItemResult =
-          await transaction.lead_enquiry_product_item.update({
-            where: {
-              lead_enquiry_product_item_id: Number(
-                lead_enquiry_product_item_id
-              ),
-            },
-            data: {
-              lead_enquiry_product: {
-                connect: {
-                  lead_product_id: lead_product_id,
-                },
+
+        if (lead_enquiry_product_item_id) {
+          const leadEnquiryProductItemResult =
+            await transaction.lead_enquiry_product_item.update({
+              where: {
+                lead_enquiry_product_item_id: Number(
+                  lead_enquiry_product_item_id
+                ),
               },
-              product: {
-                connect: {
-                  item_id: product_id,
+              data: {
+                lead_enquiry_product: {
+                  connect: {
+                    lead_product_id: lead_product_id,
+                  },
                 },
+                product: {
+                  connect: {
+                    item_id: product_id,
+                  },
+                },
+                quantity: quantity,
+                updated_by,
+                updated_date: currentDate,
               },
-              quantity: quantity,
-              updated_by,
-              updated_date: currentDate,
-            },
-          });
-        leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+            });
+          leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+        } else {
+          const leadEnquiryProductItemResult =
+            await transaction.lead_enquiry_product_item.create({
+              data: {
+                lead_enquiry_product: {
+                  connect: {
+                    lead_product_id: lead_product_id,
+                  },
+                },
+                product: {
+                  connect: {
+                    item_id: product_id,
+                  },
+                },
+                quantity: quantity,
+                created_by: updated_by,
+                created_date: currentDate,
+                updated_date: currentDate,
+              },
+            });
+          leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+        }
       }
     } else if (lead_type === 'Tender') {
       leadEnquiryTender = await transaction.lead_enquiry_tender.update({
@@ -459,6 +483,82 @@ const getByClientId = async (clientId: number, connectionObj = null) => {
   }
 };
 
+const searchLeadEnquiry = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterLeadEnquiry;
+    const leadEnquiry = await transaction.lead_enquiry.findMany({
+      where: filter,
+      include: {
+        client_info: {
+          select: {
+            name: true,
+          },
+        },
+        client_level_info: { select: { master_data_name: true } },
+        lead_enquiry_product: {
+          include: {
+            sales_person_details: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+            probability_details: {
+              select: { master_data_name: true },
+            },
+            lead_enquiry_product_item: {
+              include: {
+                product: {
+                  select: {
+                    item_name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        lead_enquiry_tenders: {
+          include: {
+            industry_sector_data: {
+              select: { master_data_name: true },
+            },
+          },
+        },
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+
+    const leadEnquiryCount = await transaction.lead_enquiry.count({
+      where: filter,
+    });
+    const leadEnquiryData = {
+      count: leadEnquiryCount,
+      data: leadEnquiry,
+    };
+    return leadEnquiryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in Lead Enquiry dao : searchLeadEnquiry ',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -466,4 +566,5 @@ export default {
   getAll,
   deleteLeadEnquiry,
   getByClientId,
+  searchLeadEnquiry,
 };
