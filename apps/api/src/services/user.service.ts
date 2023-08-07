@@ -399,7 +399,7 @@ const updateStatus = async (body) => {
  */
 const searchUser = async (body) => {
   try {
-    const { size = 10, page = 0, sort = 'desc', global_filter } = body;
+    const { size = 10, page = 0, sort = 'desc', global_filter, status } = body;
 
     let query = null;
     let countQuery = null;
@@ -414,7 +414,7 @@ const searchUser = async (body) => {
             { contact_no: { contains: global_filter, mode: 'insensitive' } },
             { department: { contains: global_filter, mode: 'insensitive' } },
           ],
-          is_delete: false,
+          is_delete: status === 'IN' ? true : false,
         },
         orderBy: {
           updated_date: sort,
@@ -432,7 +432,7 @@ const searchUser = async (body) => {
             { contact_no: { contains: global_filter, mode: 'insensitive' } },
             { department: { contains: global_filter, mode: 'insensitive' } },
           ],
-          is_delete: false,
+          is_delete: status === 'IN' ? true : false,
         },
       });
     }

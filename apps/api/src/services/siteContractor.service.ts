@@ -19,6 +19,7 @@ const createSiteContractor = async (body: createSiteContractorBody) => {
       address,
       description,
       created_by,
+      code,
     } = body;
     let result = null;
 
@@ -29,7 +30,8 @@ const createSiteContractor = async (body: createSiteContractorBody) => {
       contact_number,
       address,
       description,
-      created_by
+      created_by,
+      code
     );
     result = { message: 'success', status: true, data: siteContractorDetails };
 
@@ -56,6 +58,7 @@ const updateSiteContractor = async (body: updateSiteContractorBody) => {
       address,
       description,
       updated_by,
+      code,
       site_contractor_id,
     } = body;
     let result = null;
@@ -72,6 +75,7 @@ const updateSiteContractor = async (body: updateSiteContractorBody) => {
         address,
         description,
         updated_by,
+        code,
         site_contractor_id
       );
       result = {
@@ -81,7 +85,11 @@ const updateSiteContractor = async (body: updateSiteContractorBody) => {
       };
       return result;
     } else {
-      result = { success: false, message: 'site_contractor_id does not exist' };
+      result = {
+        message: 'site_contractor_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -283,6 +291,41 @@ const searchSiteContractor = async (body) => {
   }
 };
 
+/**
+ * Method to get SiteContractor By SiteContractor Code
+ * @param code
+ * @returns
+ */
+const getByCode = async (code: string) => {
+  try {
+    let result = null;
+    const siteData = await siteContractorDao.getByCode(code);
+    if (siteData) {
+      result = {
+        message: 'This code is already exist',
+        status: true,
+        is_exist: true,
+        data: siteData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This code is not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByCode site contractor service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSiteContractor,
   updateSiteContractor,
@@ -292,4 +335,5 @@ export {
   getAllSites,
   getAllContractors,
   searchSiteContractor,
+  getByCode,
 };
