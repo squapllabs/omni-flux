@@ -87,6 +87,16 @@ const searchSiteContractor = catchAsync(async (req, res) => {
   }
 });
 
+const getByCode = catchAsync(async (req, res) => {
+  const methodName = '/getByCode';
+  try {
+    const site = await siteContractorService.getByCode(req.params.code);
+    res.send(site);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createSiteContractor,
   updateSiteContractor,
@@ -96,4 +106,5 @@ export {
   getAllSites,
   getAllContractors,
   searchSiteContractor,
+  getByCode,
 };

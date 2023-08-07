@@ -43,7 +43,7 @@ router.put(
   updateStatus
 );
 
-router.post('/searchUser', authMiddleware, searchUser);
+router.post('/search', authMiddleware, searchUser);
 
 router.get('/getDeletedUsers', authMiddleware, getDeletedUsers);
 
