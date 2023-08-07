@@ -41,10 +41,27 @@
   display: none;
 }
 .textContent {
-  padding: 10px;
+  // background-color: #7f56d9;
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  gap: 81%;
+}
+.textStyle {
+  padding-left: 5px;
+  padding-top: 5px;
+}
+.buttonStyle {
+  padding-left: 15px;
 }
 .content {
   font-size: 0.7rem;
+}
+.groupButton {
+  padding-top: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }
 
 table {
@@ -118,8 +135,8 @@ tr:hover {
   justify-content: end;
 }
 .formContainer {
-  width: 300px;
-  padding: 1px 20px 10px 20px;
+  width: 350px;
+  // padding: 1px 20px 10px 20px;
   display: flex;
   flex-direction: column;
 }
@@ -128,4 +145,25 @@ tr:hover {
   flex-direction: row;
   justify-content: flex-end;
   gap: 10px;
+  padding:10px 20px 10px 0px ;
+}
+.cancelButton:hover {
+  background-color: #c4c4c6;
+  color: #070707;
+}
+.titleStyle {
+  padding: 10px 10px 1px 2op;
+}
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 1px 5px 1px;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px 5px 20px;
+}
+.field {
+  padding: 5px 20px 5px 20px;
 }

@@ -1,13 +1,10 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import { IconButton } from '@mui/material';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
-import MySnackbar from '../ui/MySnackbar';
-import { useGetAllClient, useDeleteClient,getByClient } from '../../hooks/client-hooks';
+import { useGetAllClient, useDeleteClient, getByClient } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
 import CustomEditDialog from '../ui/customEditDialogBox';
-import CustomDialog from '../ui/customDialog';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import { useFormik } from 'formik';
@@ -18,7 +15,10 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import SearchIcon from '../menu/icons/search';
-
+import CustomSnackbar from '../ui/customSnackBar';
+import AddIcon from '../menu/icons/addIcon';
+import CustomDelete from '../ui/customDeleteDialogBox'
+import { IconButton } from '@mui/material';
 
 const ClientList = () => {
   const { isLoading: getAllLoading } = useGetAllClient();
@@ -27,6 +27,8 @@ const ClientList = () => {
     data: getFilterData,
     isLoading: FilterLoading,
   } = getByClient();
+  console.log(getFilterData);
+  
   const { mutate: getDeleteClientByID } = useDeleteClient();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -40,9 +42,10 @@ const ClientList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
+  const [value,setValue] = useState();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IC' },
+    { label: 'Inactive', value: 'IN' },
   ]);
   const { mutate: createNewClient } = createClient();
   const [initialValues, setInitialValues] = useState({
@@ -63,7 +66,7 @@ const ClientList = () => {
     setOpenDelete(false);
   };
 
-  const handleEdit = ( value: any) => {
+  const handleEdit = (value: any) => {
     setMode('EDIT');
     setClientID(value);
     setOpen(true);
@@ -72,8 +75,12 @@ const ClientList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  const deleteCategoryHandler = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
 
-  const deleteClient = (event: React.FormEvent, value: any) => {
+  const deleteClient = () => {
     getDeleteClientByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
@@ -106,7 +113,7 @@ const ClientList = () => {
       }
     },
   });
-  
+
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
@@ -121,7 +128,7 @@ const ClientList = () => {
   const handleSearch = async () => {
     const demo: any = {
       limit: rowsPerPage,
-      offset:(currentPage - 1) * rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
       status: activeButton,
@@ -212,6 +219,7 @@ const ClientList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
+                    icon={<AddIcon />}
                   >
                     Add New Client
                   </Button>
@@ -268,14 +276,16 @@ const ClientList = () => {
                 <table>
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Client Name</th>
                       <th>Contact Details</th>
                       <th>Options</th>
                     </tr>
                   </thead>
                   <tbody>
-                  {getFilterData?.total_count === 0 ? (
+                    {getFilterData?.total_count === 0 ? (
                       <tr>
+                        <td></td>
                         <td></td>
                         <td>No data found</td>
                         <td></td>
@@ -283,18 +293,17 @@ const ClientList = () => {
                     ) : (
                       ''
                     )}
-                    {getFilterData?.content?.map((data: any) => (
+                    {getFilterData?.content?.map((data: any, index: number) => (
                       <tr>
+                        <td>{index + 1}</td>
                         <td>{data.name}</td>
                         <td>{data.contact_details}</td>
                         <td>
-                           
-                            <EditIcon  onClick={() => handleEdit( data.client_id)}/>
-                          
+
+                          <EditIcon onClick={() => handleEdit(data.client_id)} />
+
                           {/* <IconButton
-                            onClick={(e) =>
-                              deleteClient(e, data.client_id)
-                            }
+                            onClick={() =>deleteCategoryHandler(data.client_id)}
                           >
                             <DeleteIcon />
                           </IconButton> */}
@@ -318,9 +327,9 @@ const ClientList = () => {
         </CustomLoader>
         <CustomEditDialog
           open={open}
-          handleClose={handleClose}
-          title="Edit Client"
-          subTitle="Please edit the client name"
+          // handleClose={handleClose}
+          // title="Edit Client"
+          // subTitle="Please edit the client name"
           content={
             <ClientForm
               setOpen={setOpen}
@@ -333,19 +342,20 @@ const ClientList = () => {
             />
           }
         />
-        <CustomDialog
+        <CustomDelete
           open={openDelete}
-          handleClose={handleCloseDelete}
           title="Delete Client"
-          content="Are you want to delete this Client?"
+          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
+          contentLine2="Deleted Client will move to Inactive tab."
+          handleClose={handleCloseDelete}
           handleConfirm={deleteClient}
         />
-        <MySnackbar
+        <CustomSnackbar
           open={openSnack}
           message={message}
           onClose={handleSnackBarClose}
-          severity={'success'}
           autoHideDuration={1000}
+          type="success"
         />
       </div>
     </div>

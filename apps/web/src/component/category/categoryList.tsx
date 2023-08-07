@@ -25,17 +25,17 @@ import CustomEditDialog from '../ui/customEditDialogBox';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import { environment } from '../../environment/environment';
-/**
- * Function for  CategoryList
- */
+
+//Function for  CategoryList
 const CategoryList = () => {
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
   } = getBySearchCategroy();
-
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
+  const { mutate: createNewCategory } = createCategory();
+  const { data: getAllProjectList = [] } = useGetAllProject();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [categoryId, setCategoryID] = useState();
@@ -59,23 +59,28 @@ const CategoryList = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(3);
-  const { mutate: createNewCategory } = createCategory();
-  const { data: getAllProjectList = [] } = useGetAllProject();
   const [appendedValue, setAppendedValue] = useState('');
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IC' },
+    { label: 'Inactive', value: 'IN' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const inputLabelNameFromEnv = `Budget (${environment.INPUTBUDGET})`;
+  const outputLableNameFromEnv = `Budget (${environment.OUTPUTBUDGET})`;
+
+  //Function for Filter Change
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
   };
+
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
+
+  //Function for search
   const handleSearch = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -90,6 +95,8 @@ const CategoryList = () => {
     setFilter(true);
     setDisable(false);
   };
+
+  //Function for resting the search field and data to normal state
   const handleReset = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -104,37 +111,43 @@ const CategoryList = () => {
     setIsLoading(false);
     setDisable(false);
   };
+
+  //Function for changing the table page
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
 
+  //Function for changing no of rows in pagination
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
+  //Function for closing the delete popup 
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  /**
-   * Function for editing the Category
-   */
+  
+  //Function for editing the Category
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setCategoryID(value);
     setOpen(true);
   };
+
+  //Function for closing the snackbar
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  //Function for deleting a category
   const deleteCategory = () => {
     getDeleteCategoryByID(value);
     handleCloseDelete();
@@ -142,6 +155,7 @@ const CategoryList = () => {
     setOpenSnack(true);
   };
 
+  //Function for adding new category and submit form
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -166,6 +180,7 @@ const CategoryList = () => {
     },
   });
 
+  //Function for Duplicating the value of Budget into another field
   const handleBudgetChange = (event: any) => {
     const budgetValue = event.target.value;
     const data = formatBudgetValue(Number(budgetValue));
@@ -174,12 +189,11 @@ const CategoryList = () => {
     formik.handleChange(event);
   };
 
-  const inputLabelNameFromEnv = `Budget (${environment.INPUTBUDGET})`;
-  const outputLableNameFromEnv = `Budget (${environment.OUTPUTBUDGET})`;
-
+  //Function for group button (Active and Inactive status)
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
+
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -365,9 +379,9 @@ const CategoryList = () => {
       </CustomLoader>
       <CustomEditDialog
         open={open}
-        title="Edit Category"
-        subTitle="Please edit the category"
-        handleClose={handleClose}
+        // title="Edit Category"
+        // subTitle="Please edit the category"
+        // handleClose={handleClose}
         content={
           <CategoryForm
             setOpen={setOpen}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid } from '@mui/material';
 import { createClient, updateClient } from '../../hooks/client-hooks';
 import { getClientValidateyup } from '../../helper/constants/client-constants';
 import clientService from '../../service/client-service';
@@ -8,8 +7,13 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/userList.module.scss';
-const validationSchema = getClientValidateyup(Yup);
+import CancelIcon from '../menu/icons/closeIcon';
+
+//Function for client form
 const ClientForm: React.FC = (props: any) => {
+  const { mutate: createNewClient } = createClient();
+  const { mutate: updateClientDetails } = updateClient();
+  const validationSchema = getClientValidateyup(Yup);
   const [initialValues, setInitialValues] = useState({
     name: '',
     contact_details: '',
@@ -25,12 +29,10 @@ const ClientForm: React.FC = (props: any) => {
           contact_details: data?.data?.contact_details,
         });
       };
-
       fetchOne();
     }
   }, []);
-  const { mutate: createNewClient } = createClient();
-  const { mutate: updateClientDetails } = updateClient();
+  //Function for creating and updating client data
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -70,15 +72,20 @@ const ClientForm: React.FC = (props: any) => {
       }
     },
   });
-
-  const handleBack = () => {
+  //Function for closing
+  const handleClose = () => {
     props.setOpen(false);
   };
 
   return (
     <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-        <div>
+        <div className={Styles.header}>
+          <div><h4 className={Styles.titleStyle}>Edit Client</h4></div>
+          <div> <CancelIcon onClick={handleClose} /></div>
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.field}>
           <Input
             label="Name"
             placeholder="Enter client name"
@@ -89,7 +96,7 @@ const ClientForm: React.FC = (props: any) => {
             width="100%"
           />
         </div>
-        <div>
+        <div className={Styles.field}>
           <Input
             label="Contact Detail"
             placeholder="Enter client contact detail"
@@ -100,9 +107,10 @@ const ClientForm: React.FC = (props: any) => {
             width="100%"
           />
         </div>
+        <div className={Styles.dividerStyle}></div>
         <div className={Styles.formButton}>
           <div>
-            <Button shape="rectangle" justify="center" size="small" onClick={handleBack}>
+            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
               Cancel
             </Button>
           </div>

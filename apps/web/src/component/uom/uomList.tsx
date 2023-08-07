@@ -3,11 +3,10 @@ import Styles from '../../styles/userList.module.scss';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '../menu/icons/editIcon';
-import MySnackbar from '../ui/MySnackbar';
+import CustomSnackBar from '../ui/customSnackBar';
 import { useGetAlluom, useDeleteUom, getByUom } from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
-import CustomDialogBox from '../ui/cusotmDialogDelete';
-import CustomDialog from '../ui/customDialog';
+import CustomEditDialog from '../ui/customEditDialogBox';
 import Button from '../ui/Button';
 import { useFormik } from 'formik';
 import { createuom } from '../../hooks/uom-hooks';
@@ -18,6 +17,8 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import SearchIcon from '../menu/icons/search';
+import AddIcon from '../menu/icons/addIcon';
+import CustomDelete from '../ui/customDeleteDialogBox'
 
 const UomList = () => {
   const { isLoading: getAllLoading } = useGetAlluom();
@@ -39,9 +40,10 @@ const UomList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
+  const [value, setValue] = useState();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IC' },
+    { label: 'Inactive', value: 'IN' },
   ]);
   const [initialValues, setInitialValues] = useState({
     uom_id: '',
@@ -54,9 +56,9 @@ const UomList = () => {
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const validationSchema = getuomCreateValidateyup(Yup);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -71,7 +73,12 @@ const UomList = () => {
     setOpenSnack(false);
   };
 
-  const deleteUom = (event: React.FormEvent, value: any) => {
+  const deleteCategoryHandler = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+
+  const deleteUom = () => {
     getDeleteuomByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
@@ -204,6 +211,7 @@ const UomList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
+                    icon={<AddIcon />}
                   >
                     Add New UOM
                   </Button>
@@ -260,6 +268,7 @@ const UomList = () => {
                 <table>
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>UOM Name</th>
                       <th>Description</th>
                       <th>Options</th>
@@ -269,25 +278,23 @@ const UomList = () => {
                     {getFilterData?.total_count === 0 ? (
                       <tr>
                         <td></td>
+                        <td></td>
                         <td>No data found</td>
                         <td></td>
                       </tr>
                     ) : (
                       ''
                     )}
-                    {getFilterData?.content?.map((data: any) => (
+                    {getFilterData?.content?.map((data: any, index: number) => (
                       <tr>
+                        <td>{index + 1}</td>
                         <td>{data.name}</td>
                         <td>{data.description}</td>
                         <td>
-                            <EditIcon  onClick={() => handleEdit(data.uom_id)} ></EditIcon>
-                          {/* <IconButton
-                            onClick={(e) =>
-                              deleteUom(e, data.uom_id)
-                            }
-                          >
-                            <DeleteIcon />
-                          </IconButton> */}
+                          <EditIcon onClick={() => handleEdit(data.uom_id)} ></EditIcon>
+                          {/* <DeleteIcon onClick={() =>
+                            deleteCategoryHandler(data.uom_id)
+                          } /> */}
                         </td>
                       </tr>
                     ))}
@@ -306,10 +313,10 @@ const UomList = () => {
             </div>
           </div>
         </CustomLoader>
-        <CustomDialogBox
+        <CustomEditDialog
           open={open}
-          handleClose={handleClose}
-          title="Edit UOM"
+          // handleClose={handleClose}
+          // title="Edit UOM"
           content={
             <UomForm
               setOpen={setOpen}
@@ -322,19 +329,20 @@ const UomList = () => {
             />
           }
         />
-        <CustomDialog
+        <CustomDelete
           open={openDelete}
-          handleClose={handleCloseDelete}
           title="Delete UOM"
-          content="Are you want to delete this UOM?"
+          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
+          contentLine2="Deleted UOM will move to Inactive tab."
+          handleClose={handleCloseDelete}
           handleConfirm={deleteUom}
         />
-        <MySnackbar
+        <CustomSnackBar
           open={openSnack}
           message={message}
           onClose={handleSnackBarClose}
-          severity={'success'}
           autoHideDuration={1000}
+          type="success"
         />
       </div>
     </div>

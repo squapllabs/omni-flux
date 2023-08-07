@@ -10,6 +10,8 @@ import uomService from '../../service/uom-service';
 import * as Yup from 'yup';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
+import Styles from '../../styles/userList.module.scss';
+import CancelIcon from '../menu/icons/closeIcon'
 const UomForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
@@ -76,43 +78,53 @@ const UomForm: React.FC = (props: any) => {
     },
   });
 
-  return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
-        <Grid
-          container
-          spacing={{ xs: 1, md: 1 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          <Grid item xs={2} sm={4} md={12}>
-            <Input
-              name="name"
-              label="Unit Of Measurement"
-              placeholder="Enter unit of measurement"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && formik.errors.name}
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={12}>
-             <Input
-              name="description"
-              label="Description"
-              placeholder="Enter description"
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              error={formik.touched.description && formik.errors.description}
-            />
-          </Grid>
+  const handleClose = () => {
+    props.setOpen(false);
+  }
 
-          <Grid item xs={2} sm={4} md={6}>
-            <Button color="primary" shape="rectangle" justify="center">
+  return (
+    <div className={Styles.formContainer}>
+      <form onSubmit={formik.handleSubmit}>
+        <div className={Styles.header}>
+          <div><h4 className={Styles.titleStyle}>Edit UOM</h4></div>
+          <div> <CancelIcon onClick={handleClose} /></div>
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.field}>
+          <Input
+            name="name"
+            label="Unit Of Measurement"
+            placeholder="Enter unit of measurement"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.touched.name && formik.errors.name}
+          />
+        </div>
+        <div className={Styles.field}>
+          <Input
+            name="description"
+            label="Description"
+            placeholder="Enter description"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            error={formik.touched.description && formik.errors.description}
+          />
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.formButton}>
+          <div>
+            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
+              Cancel
+            </Button>
+          </div>
+          <div>
+            <Button color="primary" shape="rectangle" justify="center" size="small">
               Submit
             </Button>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </form>
-    </div>
+    </div >
   );
 };
 

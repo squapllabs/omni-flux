@@ -25,9 +25,7 @@ import CustomEditDialog from '../ui/customEditDialogBox';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 
-/**
- * Function for SubCategoryList
- */
+//Function for SubCategoryList
 const SubCategoryList = () => {
   const validationSchema = getCreateValidateyup(Yup);
   const { data: getAllCategoryDrop = [] } = useGetAllCategoryForDrop();
@@ -47,6 +45,24 @@ const SubCategoryList = () => {
     search_by_name: '',
   });
   const [filter, setFilter] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [mode, setMode] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [value, setValue] = useState();
+  const [message, setMessage] = useState('');
+  const [openDelete, setOpenDelete] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [subCategoryId, setSubcategoryID] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [isLoading, setIsLoading] = useState(true);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IN' },
+  ]);
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+
+  //Function for Adding new Sub Category
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -69,43 +85,34 @@ const SubCategoryList = () => {
     },
   });
 
-  const [reload, setReload] = useState(false);
-  const [mode, setMode] = useState('');
-  const [openSnack, setOpenSnack] = useState(false);
-  const [value, setValue] = useState();
-  const [message, setMessage] = useState('');
-  const [openDelete, setOpenDelete] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [subCategoryId, setSubcategoryID] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
-  const [isLoading, setIsLoading] = useState(true);
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IC' },
-  ]);
-  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  //Function for button group(Active and Inactive)
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
+  //Function for invoking delete sub category popup
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
   };
+  //Function for closing popup
   const handleClose = () => {
     setOpen(false);
   };
+  //Function for closing delete popup
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
+  //Function for editing the sub category data
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setSubcategoryID(value);
     setOpen(true);
   };
+  //Function for closing the snackbar
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  //Function for deleteing the sub category data
   const deleteSubcategory = () => {
     getDeleteSubcategoryByID(value);
     handleCloseDelete();
@@ -113,6 +120,7 @@ const SubCategoryList = () => {
     setOpenSnack(true);
   };
 
+  //Function for searching
   const handleSearch = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -126,20 +134,22 @@ const SubCategoryList = () => {
     setIsLoading(false);
     setFilter(true);
   };
+
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
-
+  //Function for changing page in table
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
+  //Function for changing no of rows in pagination
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+  //Function for resting the search and data to normal state
   const handleReset = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -153,6 +163,7 @@ const SubCategoryList = () => {
     });
     setIsLoading(false);
   };
+  //Function for changing the search values
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
@@ -296,7 +307,7 @@ const SubCategoryList = () => {
                         ) : (
                           ''
                         )}
-                        {filterBasedData?.content?.map((item: any,index: number) => (
+                        {filterBasedData?.content?.map((item: any, index: number) => (
                           <tr>
                             <td>{index + 1}</td>
                             <td>{item.category.name}</td>
@@ -358,9 +369,9 @@ const SubCategoryList = () => {
         />
         <CustomEditDialog
           open={open}
-          title="Edit Sub Category"
-          subTitle="Please edit the sub category"
-          handleClose={handleClose}
+          // title="Edit Sub Category"
+          // subTitle="Please edit the sub category"
+          // handleClose={handleClose}
           content={
             <CategoryForm
               setOpen={setOpen}

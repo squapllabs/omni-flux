@@ -48,7 +48,7 @@ const updateClient = async (values: JSON) => {
     console.log('Error in client edit:', error);
   }
 };
-const deleteClient = async (id: number) => {
+const deleteClient = async (id: any) => {
   try {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/client/delete/${id}`

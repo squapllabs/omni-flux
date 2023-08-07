@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/gstList.module.scss';
 import { useGetAllHsnCode, useDeleteHsnCode, uploadHsnCode, getByCode } from '../../hooks/hsnCode-hooks';
-import CustomDialog from '../ui/customDialog';
-import MySnackbar from '../ui/MySnackbar';
+import CustomSnackBar from '../ui/customSnackBar';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '../menu/icons/editIcon';
-import CustomDialogBox from '../ui/cusotmDialogDelete';
+import CustomEditDialog from '../ui/customEditDialogBox';
 import HsnForm from './hsnCodeCreate';
 import Button from '../ui/Button';
 import Button1 from '../menu/button';
@@ -23,6 +22,8 @@ import DownloadIcon from '../menu/icons/download';
 import { store, RootState } from '../../redux/store';
 import userService from '../../service/user-service';
 import CloseIcon from '../menu/icons/closeIcon';
+import AddIcon from '../menu/icons/addIcon';
+import CustomDelete from '../ui/customDeleteDialogBox'
 
 const FileUploadValidationSchema = Yup.object().shape({
   file: Yup.mixed().required('Please upload a file'),
@@ -35,7 +36,7 @@ const HsnCodeList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getByCode();  
+  } = getByCode();
 
   const validationSchema = gethsnCreateValidateyup(Yup);
   const { mutate: getDeleteHsnCodeByID } = useDeleteHsnCode();
@@ -53,7 +54,7 @@ const HsnCodeList = () => {
   const [filter, setFilter] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IC' },
+    { label: 'Inactive', value: 'IN' },
   ]);
   const [initialValues, setInitialValues] = useState({
     hsn_code_id: '',
@@ -68,8 +69,15 @@ const HsnCodeList = () => {
   const [jsonData, setJsonData] = useState<{ created_by: number; items: { code: string; description: string }[] } | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [value, setValue] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
 
-  const deleteHscCode = ( value: any) => {
+  const deleteCategoryHandler = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+
+  const deleteHscCode = () => {
     getDeleteHsnCodeByID(value);
     handleClose();
     setMessage('Successfully deleted');
@@ -81,10 +89,10 @@ const HsnCodeList = () => {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDelete(false);
   };
 
-  const editHscCodeHandler = ( value: any) => {
+  const editHscCodeHandler = (value: any) => {
     setMode('EDIT');
     setHsnCodeId(value);
     setOpen(true);
@@ -324,6 +332,7 @@ const HsnCodeList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
+                    icon={<AddIcon />}
                   >
                     Add New HSN Code
                   </Button>
@@ -337,7 +346,7 @@ const HsnCodeList = () => {
                     <span>{selectedFile.name}</span>
                     <button
                       style={{ backgroundColor: 'white', marginTop: '8%', marginLeft: '5px' }}
-                      ><CloseIcon onClick={handleRemoveFile}/></button>
+                    ><CloseIcon onClick={handleRemoveFile} /></button>
                   </div>
                 ) : (
                   <button
@@ -366,7 +375,7 @@ const HsnCodeList = () => {
                 <Button1
                   text={
                     <div className={Styles.downloadButton}>
-                      <DownloadIcon style={{ padding: '4px' ,width:'50px',paddingBottom:'15px' }}/>
+                      <DownloadIcon style={{ padding: '4px', width: '50px', paddingBottom: '15px' }} />
                       Download sample Data
                     </div>
                   }
@@ -430,6 +439,7 @@ const HsnCodeList = () => {
                 <table>
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>HSN Code</th>
                       <th>Description</th>
                       <th>Options</th>
@@ -439,30 +449,29 @@ const HsnCodeList = () => {
                     {getFilterData?.total_count === 0 ? (
                       <tr>
                         <td></td>
+                        <td></td>
                         <td>No data found</td>
                         <td></td>
                       </tr>
                     ) : (
                       ''
                     )}
-                    {getFilterData?.content?.map((data: any) => (
-                      <tr >
+                    {getFilterData?.content?.map((data: any, index: number) => (
+                      <tr>
+                        <td>{index + 1}</td>
                         <td>{data.code}</td>
                         <td>
                           <span className={Styles.truncatedStyle} title={data.description}>
-                            {data.description.substring(0,20)}
+                            {data.description.substring(0, 20)}
                           </span>
                         </td>
                         <td>
-                            
-                            <EditIcon onClick={() => editHscCodeHandler( data.hsn_code_id)}/>
-                          {/* <IconButton
-                            onClick={(e) =>
-                              deleteHscCode(e, data.hsn_code_id)
-                            }
-                          >
-                            <DeleteIcon />
-                          </IconButton> */}
+
+                          <EditIcon onClick={() => editHscCodeHandler(data.hsn_code_id)} />
+
+                          {/* <DeleteIcon onClick={() =>
+                            deleteCategoryHandler(data.hsn_code_id)
+                          } /> */}
                         </td>
                       </tr>
                     ))}
@@ -481,17 +490,18 @@ const HsnCodeList = () => {
             </div>
           </div>
         </CustomLoader>
-        <CustomDialog
-          open={open}
-          handleClose={handleClose}
+        <CustomDelete
+          open={openDelete}
           title="Delete HSN Code"
-          content="Are you want to delete this Hsn Code?"
+          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
+          contentLine2="Deleted HSN Code will move to Inactive tab."
+          handleClose={handleClose}
           handleConfirm={deleteHscCode}
         />
-        <CustomDialogBox
+        <CustomEditDialog
           open={open}
-          handleClose={handleClose}
-          title="Edit HSN"
+          // handleClose={handleClose}
+          // title="Edit HSN"
           content={
             <HsnForm
               setOpen={setOpen}
@@ -504,12 +514,12 @@ const HsnCodeList = () => {
             />
           }
         />
-        <MySnackbar
+        <CustomSnackBar
           open={openSnack}
           message={message}
           onClose={handleSnackBarClose}
-          severity={'success'}
           autoHideDuration={1000}
+          type="success"
         />
       </div>
     </div>
