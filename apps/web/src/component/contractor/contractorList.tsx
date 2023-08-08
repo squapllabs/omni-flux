@@ -5,14 +5,22 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
-import {getBySearchSiteData} from '../../hooks/site-hooks';
+import { getBySearchSiteData,useDeleteSite } from '../../hooks/site-hooks';
 import AddIcon from '../menu/icons/addIcon';
 import { useNavigate } from 'react-router';
 import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSnackBar from '../ui/customSnackBar';
 
 const ContractorList = () => {
+  const { mutate: getDeleteContractorById } = useDeleteSite();
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [disable, setDisable] = useState(true);
+  const [value, setValue] = useState();
+  const [message, setMessage] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
@@ -47,7 +55,7 @@ const ContractorList = () => {
       order_by_direction: 'desc',
       status: activeButton,
       global_search: filterValues.search_by_name,
-      type:"Contractor"
+      type: 'Contractor',
     };
     await postDataForFilter(demo);
     setTotalPages(getFilterData?.total_page);
@@ -82,6 +90,25 @@ const ContractorList = () => {
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
+  };
+
+  const deleteContractor = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const deleteSiteConform = () => {
+    getDeleteContractorById(value);
+    handleCloseDelete();
+    setMessage('Successfully deleted');
+    setOpenSnack(true);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
   };
   return (
     <div>
@@ -145,6 +172,7 @@ const ContractorList = () => {
                     <tr>
                       <th>S No</th>
                       <th>Name</th>
+                      <th>Code</th>
                       <th>Mobile Number</th>
                       <th>Description</th>
                       <th></th>
@@ -166,16 +194,28 @@ const ContractorList = () => {
                       <tr key={item.site_contractor_id}>
                         <td>{index + 1}</td>
                         <td>{item.name}</td>
+                        <td>{item.code}</td>
                         <td>{item.mobile_number}</td>
                         <td>{item.description}</td>
                         <td>
-                          <EditIcon
-                            onClick={() =>
-                              navigate(
-                                `/contractor-edit/${item.site_contractor_id}`
-                              )
-                            }
-                          />
+                          <div className={Styles.tableIcon}>
+                            <div>
+                              <EditIcon
+                                onClick={() =>
+                                  navigate(
+                                    `/contractor-edit/${item.site_contractor_id}`
+                                  )
+                                }
+                              />
+                            </div>
+                            <div>
+                              <DeleteIcon
+                                onClick={
+                                  () => deleteContractor(item.site_contractor_id)
+                                }
+                              />
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -193,6 +233,21 @@ const ContractorList = () => {
               </div>
             </div>
           </div>
+          <CustomDelete
+            open={openDelete}
+            title="Delete"
+            contentLine1="Are you sure you want to delete this post? This action cannot be undone."
+            // contentLine2="Deleted site will move to Inactive tab."
+            handleClose={handleCloseDelete}
+            handleConfirm={deleteSiteConform}
+          />
+          <CustomSnackBar
+            open={openSnack}
+            message={message}
+            onClose={handleSnackBarClose}
+            autoHideDuration={1000}
+            type="success"
+          />
         </div>
       </CustomLoader>
     </div>

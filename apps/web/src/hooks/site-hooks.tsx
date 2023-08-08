@@ -12,7 +12,6 @@ const useGetAllSiteDrop = () => {
 };
 
 const createSite = () => {
-  const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
       return SiteService.createNewSite(data);
@@ -26,7 +25,6 @@ const createSite = () => {
 };
 
 const getBySearchSiteData = () => {
-  const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
       return SiteService.filterSiteData(data);
@@ -59,4 +57,17 @@ const updateSite = () => {
   );
 };
 
-export { useGetAllSiteDrop,createSite,getBySearchSiteData,getBySiteId,updateSite };
+const useDeleteSite = () => {
+  return useMutation(
+    (data: any) => {
+      return SiteService.deleteSite(data);
+    },
+    {
+      onSuccess: () => {
+        getBySearchSiteData().mutate({})
+      },
+    }
+  );
+};
+
+export { useGetAllSiteDrop,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite };

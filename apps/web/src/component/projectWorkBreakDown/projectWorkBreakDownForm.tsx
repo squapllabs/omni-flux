@@ -12,13 +12,14 @@ import {
 } from '../../hooks/projectBreakDown-hook';
 import { getCreateValidateyup } from '../../helper/constants/projectBreakdown-constants';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
-import { useGetAllProject } from '../../hooks/project-hooks';
-import { useGetAllSiteDrop } from '../../hooks/site-hooks';
 import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 
+import { formatBudgetValue } from '../../helper/common-function';
+
 const ProjectWorkBreakForm = () => {
   const [message, setMessage] = useState('');
+  const [appendedValue, setAppendedValue] = useState();
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllParentDatadrop = [] } =
     useGetAllParentProjectBreakDownDrop();
@@ -44,6 +45,7 @@ const ProjectWorkBreakForm = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
 
   const validationSchema = getCreateValidateyup(Yup);
   const formik = useFormik({
@@ -155,8 +157,8 @@ const ProjectWorkBreakForm = () => {
                 label="Rate"
                 placeholder="Enter rate"
                 name="rate"
-                value={formik.values.rate}
                 onChange={formik.handleChange}
+                value={formik.values.rate}
                 error={formik.touched.rate && formik.errors.rate}
               />
             </div>

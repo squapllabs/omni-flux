@@ -38,7 +38,7 @@ const ContractorForm = () => {
     if (getOneSiteData) {
       setInitialValues({
         name: getOneSiteData?.name || '',
-        code: 'SA001',
+        code: getOneSiteData?.code || '',
         mobile_number: getOneSiteData?.mobile_number || '',
         description: getOneSiteData?.description || '',
         contact_number: getOneSiteData?.contact_number || '',
@@ -86,7 +86,7 @@ const ContractorForm = () => {
             setOpenSnack(true);
             setInterval(() => {
               navigate('/contractor');
-            }, 3000);
+            }, 1000);
           }
         },
       });
@@ -107,8 +107,8 @@ const ContractorForm = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Input
-                label="Site Name *"
-                placeholder="Enter site name"
+                label="Contractor Name *"
+                placeholder="Enter contractor name"
                 name="name"
                 value={formik.values.name}
                 onChange={formik.handleChange}
@@ -117,12 +117,13 @@ const ContractorForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Input
-                label="Code"
-                placeholder="Enter work code"
+                label="Code * "
+                placeholder="Enter code"
                 name="code"
                 value={formik.values.code}
                 onChange={formik.handleChange}
                 error={formik.touched.code && formik.errors.code}
+                disabled={true}
               />
             </div>
           </div>
@@ -163,7 +164,7 @@ const ContractorForm = () => {
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 rows={4}
-                maxCharacterCount={120}
+                maxCharacterCount={100}
               />
             </div>
           </div>
@@ -175,7 +176,7 @@ const ContractorForm = () => {
           <div className={Styles.inputFieldsTwo}>
             <div style={{ width: '40%' }}>
               <Input
-                label="Address line 1*"
+                label="Address line"
                 placeholder="Enter address 1"
                 name="address.street"
                 value={formik.values.address.street}

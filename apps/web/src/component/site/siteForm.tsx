@@ -61,7 +61,7 @@ const SiteForm = () => {
             setOpenSnack(true);
             setInterval(() => {
               navigate('/site');
-            }, 3000);
+            }, 1000);
           }
         },
       });
@@ -89,8 +89,8 @@ const SiteForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Input
-                label="Code"
-                placeholder="Enter work code"
+                label="Code *"
+                placeholder="Enter code"
                 name="code"
                 value={formik.values.code}
                 onChange={formik.handleChange}
@@ -134,8 +134,8 @@ const SiteForm = () => {
                 placeholder="Enter description"
                 value={formik.values.description}
                 onChange={formik.handleChange}
-                rows={4}
-                maxCharacterCount={120}
+                rows={5}
+                maxCharacterCount={100}
               />
             </div>
           </div>
@@ -147,7 +147,7 @@ const SiteForm = () => {
           <div className={Styles.inputFieldsTwo}>
             <div style={{ width: '40%' }}>
               <Input
-                label="Address line 1*"
+                label="Address line"
                 placeholder="Enter address 1"
                 name="address.street"
                 value={formik.values.address.street}

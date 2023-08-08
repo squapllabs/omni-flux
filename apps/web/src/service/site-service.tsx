@@ -63,10 +63,35 @@ const updateSiteData = async (values: JSON) => {
   }
 };
 
+const checkSiteCodeDuplicate = async (values:any) => {
+  const data = values.toUpperCase()
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/site-contractor/check-duplicate-code/${data}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in check checkSiteCodeDuplicate :', error);
+  }
+};
+
+const deleteSite = async (id: number) => {
+  try {
+    const response = await axiosinterceptor.delete(
+      `${environment.apiUrl}/site-contractor/delete/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in delete gst list :', error);
+    throw error;
+  }
+};
 export default {
     getAllSiteDrop,
     createNewSite,
     filterSiteData,
     getOneSiteById,
-    updateSiteData
+    updateSiteData,
+    checkSiteCodeDuplicate,
+    deleteSite
 };

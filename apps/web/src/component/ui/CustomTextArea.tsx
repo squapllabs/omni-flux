@@ -13,6 +13,7 @@ interface TextAreaProps
   width?: string;
   rows?: number;
   maxCharacterCount?: number;
+  value?:string;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -113,9 +114,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       />
       {maxCharacterCount && (
         <CharacterCount>
-          {characterCount >= 0
-            ? `${characterCount} characters left out of ${maxCharacterCount}`
-            : `Maximum characters reached`}
+          {`${characterCount} characters left out of ${maxCharacterCount}`}
         </CharacterCount>
       )}
       <ErrorMessageWrapper>
