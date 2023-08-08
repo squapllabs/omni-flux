@@ -184,7 +184,8 @@
 // export default AppRoutes;
 
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+// import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from '../component/login';
 import Home from '../component/home';
 import ForgetPassword from '../component/forgetPassword';
@@ -206,6 +207,8 @@ import ProductPage from '../component/products/productPage';
 import Category from '../component/category/category';
 import ResetPassword from '../component/resetPassword/token';
 import MasterData from '../component/masterData/masterData';
+import Lead from '../component/leadEnquires/leadList';
+import leadEnquires from '../component/leadEnquires/leadEnquires';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -225,6 +228,8 @@ const AppRoutes = () => {
   const ProtectedProductPage = withLayoutAndProtection(ProductPage);
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
+  const ProtectedLeadPage = withLayoutAndProtection(Lead);
+  const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
 
   return (
     <div>
@@ -248,6 +253,12 @@ const AppRoutes = () => {
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/category" element={<ProtectedCategoryPage />} />
         <Route path="/master-data" element={<ProtectedMasterDataPage />} />
+        <Route path="/lead-enquires" element={<ProtectedLeadPage />} />
+        <Route path="/lead-add" element={<ProtectedLeadEnquiresPage />} />
+        <Route
+          path="/lead-add/:id/:type"
+          element={<ProtectedLeadEnquiresPage />}
+        />
       </Routes>
     </div>
   );

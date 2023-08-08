@@ -35,6 +35,17 @@ const getOnemasertDataByID = async (values: any) => {
     throw error;
   }
 };
+const getOnemasertDataByType = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/master-data/get-by-type/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOnemasertDataByType master-data :', error);
+    throw error;
+  }
+};
 
 const createmasertData = async (values: JSON) => {
   console.log('values', values);
@@ -116,4 +127,5 @@ export default {
   checkDublicatemasertData,
   filtermasertData,
   getAllParentMasterData,
+  getOnemasertDataByType,
 };

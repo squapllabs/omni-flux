@@ -48,6 +48,16 @@ const getBymasertDataID = (id: number) => {
     }
   );
 };
+const getBymasertDataType = (value: String) => {
+  return useQuery(
+    ['getOnemasertDataType', value],
+    () => masertDataService.getOnemasertDataByType(value),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
 
 const createmasertData = () => {
   const queryClient = useQueryClient();
@@ -113,4 +123,5 @@ export {
   getBySearchmasterData,
   useGetAllmasertDataDrop,
   useGetAllParentmasertDataDrop,
+  getBymasertDataType,
 };
