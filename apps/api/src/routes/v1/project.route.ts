@@ -5,11 +5,12 @@ import {
   projectUpdateValidator,
 } from '../../validations/project';
 import {
+  checkDuplicateCode,
   createProject,
-  customFilterProject,
   deleteByPojectId,
   getAllProject,
   getByProjectId,
+  searchProject,
   updateProject,
 } from '../../controller/project.controller';
 import { runValidation } from '../../validations/index';
@@ -38,6 +39,8 @@ router.get('/get/:project_id', authMiddleware, getByProjectId);
 
 router.delete('/delete/:project_id', authMiddleware, deleteByPojectId);
 
-router.post('/customFilter', authMiddleware, customFilterProject);
+router.post('/search', authMiddleware, searchProject);
+
+router.get('/check-duplicate-code/:code', authMiddleware, checkDuplicateCode);
 
 export default router;

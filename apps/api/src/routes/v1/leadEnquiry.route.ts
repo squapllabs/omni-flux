@@ -3,8 +3,11 @@ import authMiddleware from '../../middleware/auth';
 import { leadEnquiryUpdateValidator } from '../../validations/leadEnquiry';
 import { runValidation } from '../../validations/index';
 import {
+  checkDuplicateTenderIdentificationNo,
+  checkDuplicateTenderRegNo,
   createLeadEnquiry,
   deleteByLeadEnquiryId,
+  generateLeadCode,
   getAllLeadEnquiry,
   getByLeadEnquiryId,
   searchLeadEnquiry,
@@ -34,5 +37,19 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchLeadEnquiry);
+
+router.get(
+  '/check-duplicate-tender-reg-no/:tender_reg_no',
+  authMiddleware,
+  checkDuplicateTenderRegNo
+);
+
+router.get(
+  '/check-duplicate-tender-identification-no/:tender_identification_no',
+  authMiddleware,
+  checkDuplicateTenderIdentificationNo
+);
+
+router.get('/generate-lead-code/:lead_type', authMiddleware, generateLeadCode);
 
 export default router;
