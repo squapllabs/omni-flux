@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import { IconButton } from '@mui/material';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '../menu/icons/editIcon';
 import CustomSnackBar from '../ui/customSnackBar';
@@ -18,8 +17,10 @@ import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import SearchIcon from '../menu/icons/search';
 import AddIcon from '../menu/icons/addIcon';
-import CustomDelete from '../ui/customDeleteDialogBox'
+import CustomDelete from '../ui/customDeleteDialogBox';
+import TextArea from '../ui/CustomTextArea';
 
+/* Function for Unit of Measurement */
 const UomList = () => {
   const { isLoading: getAllLoading } = useGetAlluom();
   const {
@@ -37,7 +38,7 @@ const UomList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [value, setValue] = useState();
@@ -63,7 +64,7 @@ const UomList = () => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
+  /* Function for editing a data in the UOM List */
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setUomID(value);
@@ -77,7 +78,7 @@ const UomList = () => {
     setValue(id);
     setOpenDelete(true);
   };
-
+  /* Function for deleting a data from the UOM List */
   const deleteUom = () => {
     getDeleteuomByID(value);
     handleCloseDelete();
@@ -119,9 +120,9 @@ const UomList = () => {
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
-
+  /* Function for searching data in the UOM Table */
   const handleSearch = async () => {
-    const demo: any = {
+    const uomData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_by',
@@ -129,13 +130,13 @@ const UomList = () => {
       status: activeButton,
       global_search: filterValues.search_by_name,
     };
-    postDataForFilter(demo);
+    postDataForFilter(uomData);
     setIsLoading(false);
     setFilter(true);
   };
-
+  /* Function for resting the table to its actual state after search */
   const handleReset = async () => {
-    const demo: any = {
+    const uomData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_by',
@@ -143,7 +144,7 @@ const UomList = () => {
       status: 'AC',
       global_search: '',
     };
-    postDataForFilter(demo);
+    postDataForFilter(uomData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
@@ -195,17 +196,21 @@ const UomList = () => {
                     width="100%"
                   />
                 </div>
-                <div>
-                  <Input
+                <div style={{ width: '30%' }}>
+                  <TextArea
                     name="description"
                     label="Description"
                     placeholder="Enter description"
                     value={formik.values.description}
                     onChange={formik.handleChange}
-                    error={formik.touched.description && formik.errors.description}
+                    error={
+                      formik.touched.description && formik.errors.description
+                    }
+                    rows={2.3}
+                    maxCharacterCount={100}
                   />
                 </div>
-                <div>
+                <div style={{ paddingTop: '20px' }}>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -271,7 +276,7 @@ const UomList = () => {
                       <th>S No</th>
                       <th>UOM Name</th>
                       <th>Description</th>
-                      <th>Options</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -286,15 +291,19 @@ const UomList = () => {
                       ''
                     )}
                     {getFilterData?.content?.map((data: any, index: number) => (
-                      <tr>
+                      <tr key={data.uom_id}>
                         <td>{index + 1}</td>
                         <td>{data.name}</td>
                         <td>{data.description}</td>
                         <td>
-                          <EditIcon onClick={() => handleEdit(data.uom_id)} ></EditIcon>
-                          {/* <DeleteIcon onClick={() =>
-                            deleteCategoryHandler(data.uom_id)
-                          } /> */}
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() => handleEdit(data.uom_id)}
+                            ></EditIcon>
+                            <DeleteIcon
+                              onClick={() => deleteCategoryHandler(data.uom_id)}
+                            />
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -315,8 +324,6 @@ const UomList = () => {
         </CustomLoader>
         <CustomEditDialog
           open={open}
-          // handleClose={handleClose}
-          // title="Edit UOM"
           content={
             <UomForm
               setOpen={setOpen}
@@ -332,8 +339,8 @@ const UomList = () => {
         <CustomDelete
           open={openDelete}
           title="Delete UOM"
-          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
-          contentLine2="Deleted UOM will move to Inactive tab."
+          contentLine1="Are you sure you want to delete this UOM Data"
+          contentLine2=""
           handleClose={handleCloseDelete}
           handleConfirm={deleteUom}
         />

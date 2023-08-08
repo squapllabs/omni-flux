@@ -1,10 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import { useGetAllUsers, useDeleteUsers, getByUser } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
-import CustomDialog from '../ui/customDialog';
-import MySnackbar from '../ui/MySnackbar';
-import Button1 from '../menu/button';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSnackBar from '../ui/customSnackBar';
 import Button from '../ui/Button';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
@@ -12,18 +11,18 @@ import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
 import Pagination from '../menu/pagination';
 import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import AddIcon from '../menu/icons/addIcon';
 
+/* Function for User List */
 const UserList = () => {
   const { isLoading: getAllLoading } = useGetAllUsers();
-
-
   const { mutate: getDeleteUserByID } = useDeleteUsers();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
   } = getByUser();
-  console.log("data>>>>>>>",getFilterData);
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
@@ -39,7 +38,7 @@ const UserList = () => {
   });
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
 
   const deleteUserHandler = (id: any) => {
@@ -52,6 +51,8 @@ const UserList = () => {
   const handleSnackBarClose = () => {
     setOpenDeleteSnack(false);
   };
+
+  /* Function for deleting a user data */
   const deleteUser = () => {
     getDeleteUserByID(value);
     handleClose();
@@ -62,6 +63,7 @@ const UserList = () => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
+
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
@@ -73,31 +75,32 @@ const UserList = () => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
 
+  /* Function for searching a user in the table */
   const handleSearch = async () => {
-    const demo: any = {
-      page: 0,
-      size: 5,
-      sort: 'asc',
-      global_filter: filterValues.search_by_name,
-      status: activeButton,
+    const userData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: "updated_date",
+      order_by_direction: "desc",
+      global_search: filterValues.search_by_name,
+      status: activeButton
     };
-    console.log('demo',demo);
-    postDataForFilter(demo);
+    postDataForFilter(userData);
     setIsLoading(false);
     setFilter(true);
-    console.log();
-    
   };
 
+  /* Function for reseting the table to its actual state after search */
   const handleReset = async () => {
-    const demo: any = {
-      page: 0,
-      size: 5,
-      sort: 'asc',
-      status: 'AC',
-      global_filter: '',
+    const userData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_by',
+      order_by_direction: 'desc',
+      global_search: '',
+      status: "AC",
     };
-    postDataForFilter(demo);
+    postDataForFilter(userData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
@@ -126,19 +129,21 @@ const UserList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.textContent}>
+          <div className={Styles.text}>
             <div className={Styles.textStyle}>
               <h3>List of Users</h3>
             </div>
             <div className={Styles.buttonStyle}>
-              <Button1
-                text="Add"
-                backgroundColor="#7F56D9"
-                fontSize={14}
-                fontWeight={500}
-                width={100}
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon />}
                 onClick={() => navigate('/user-create')}
-              />
+              >
+                Add User
+              </Button>
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>
@@ -166,7 +171,7 @@ const UserList = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-              onClick={handleReset}
+                onClick={handleReset}
               >
                 Reset
               </Button>
@@ -189,7 +194,7 @@ const UserList = () => {
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Contact Number</th>
-                    <th>Options</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -203,15 +208,18 @@ const UserList = () => {
                   ) : (
                     ''
                   )}
-                  {getFilterData?.data?.content?.map((data: any, index: number) => (
-                    <tr>
+                  {getFilterData?.content?.map((data: any, index: number) => (
+                    <tr key={data.user_id}>
                       <td>{index + 1}</td>
                       <td>{data.first_name}</td>
                       <td>{data.last_name}</td>
                       <td>{data.email_id}</td>
                       <td>{data.contact_no}</td>
                       <td>
-                        {/* <EditIcon onC */}
+                        <div className={Styles.tablerow}>
+                          <EditIcon onClick={() => navigate(`/user-edit/${data.user_id}`)} />
+                          <DeleteIcon onClick={() => deleteUserHandler(data.user_id)} />
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -229,18 +237,19 @@ const UserList = () => {
             </div>
           </div>
         </CustomLoader>
-        <CustomDialog
+        <CustomDelete
           open={open}
           handleClose={handleClose}
           title="Delete User"
-          content="Are you want to delete this User?"
+          contentLine1="Are you want to delete this User?"
+          contentLine2=""
           handleConfirm={deleteUser}
         />
-        <MySnackbar
+        <CustomSnackBar
           open={openDeleteSnack}
           message={message}
           onClose={handleSnackBarClose}
-          severity={'success'}
+          type="success"
           autoHideDuration={1000}
         />
       </div>

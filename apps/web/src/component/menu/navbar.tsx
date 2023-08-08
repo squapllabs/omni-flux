@@ -1,11 +1,9 @@
 import React, { useState,useEffect,useRef } from 'react';
 import Styles from '../../styles/navbar.module.scss';
-import { Link, NavLink } from 'react-router-dom';
 import HomeIcon from './icons/homeIcon';
 import SettingIcon from './icons/settingIcon';
 import SearchBar from './searchBar';
 import Dropdown from './dropDown';
-import Button from './button';
 import AccountIcon from './icons/account';
 import DropdownIcon from './icons/dropDownButton';
 import BellIcon from './icons/bellIcon';
@@ -14,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetAuth } from '../../redux/reducer';
 import authService from '../../service/auth-service';
-import CloseIcon from './icons/closeIcon';
+import LogoutIcon from './icons/logoutIcon'
 
 
 const Navbar = () => {
@@ -45,11 +43,6 @@ const Navbar = () => {
   };
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
-    console.log(searchTerm);
-  };
-
-  const handleNotificationsIconClick = () => {
-    console.log('Notifications icon clicked');
   };
 
   const toggleMenu = () => {
@@ -313,7 +306,6 @@ const Navbar = () => {
             color="gray"
             height={24}
             width={24}
-            onClick={handleNotificationsIconClick}
           />
           <div ref={menuRef}>
             <AccountIcon
@@ -329,8 +321,11 @@ const Navbar = () => {
                   
                   <SettingIcon />
                   <span>Settings</span>
-                  </li>
-                <li className={Styles.menuItem} onClick={() => handleLogout()}>Logout</li>
+                </li>
+                <li className={Styles.menuItem} onClick={() => handleLogout()}>
+                  <LogoutIcon style={{fontWeight:'bolder'}}/>
+                  <span>Logout</span>
+                </li>
               </ul>
             )}
           </div>

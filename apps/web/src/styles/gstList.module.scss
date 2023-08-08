@@ -13,7 +13,6 @@
   .fields {
     padding: 10px;
     display: flex;
-    align-items: center;
     gap: 10px;
     flex-direction: row;
     flex-wrap: wrap;
@@ -66,6 +65,12 @@
   
   td {
     padding: 8px;
+  }
+
+  .tablerow {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
   }
   
   tr:nth-child(even) {

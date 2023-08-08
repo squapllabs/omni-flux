@@ -2,7 +2,7 @@ import uomService from '../../service/uom-service';
 
 export const userErrorMessages = {
   ENTER_NAME: 'Unit Of Measurement is required',
-  ENTER_DESCRIPTION: 'Description for the entered UOM is required',
+  ENTER_DESCRIPTION: 'Description is required',
   ENTER_SPECIAL_CHARACTER: 'Special Characters are not allowed',
   NAME_EXIST: 'Unit of Measurement is already present',
 };
@@ -14,15 +14,13 @@ export const getuomCreateValidateyup = (yup: any) => {
       .trim()
       .typeError(userErrorMessages.ENTER_NAME)
       .required(userErrorMessages.ENTER_NAME)
-      .matches(/^[a-zA-Z0-9]+$/, userErrorMessages.ENTER_SPECIAL_CHARACTER)
+      .matches(/^[a-zA-Z0-9\s]+$/, userErrorMessages.ENTER_SPECIAL_CHARACTER)
       .test(
         'uom-availability',
         userErrorMessages.NAME_EXIST,
         async (value: any) => {
           if (value) {
             const response = await uomService.getOneUomByName(value);
-            console.log('response', response);
-
             if (response?.success === true) {
               return false;
             } else {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid } from '@mui/material';
 import { createHsnCode, updateHsnCode } from '../../hooks/hsnCode-hooks';
 import {
   gethsnCreateValidateyup,
@@ -12,6 +11,7 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import CancelIcon from '../menu/icons/closeIcon';
 import Styles from '../../styles/gstList.module.scss';
+import TextArea from '../ui/CustomTextArea';
 
 const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
   const [initialValues, setInitialValues] = useState({
@@ -89,7 +89,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
     <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.header}>
-          <div><h4 className={Styles.titleStyle}>Edit Category</h4></div>
+          <div><h4 className={Styles.titleStyle}>Edit HSN Code</h4></div>
           <div> <CancelIcon onClick={handleClose} /></div>
         </div>
         <div className={Styles.dividerStyle}></div>
@@ -105,14 +105,15 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
           />
         </div>
         <div className={Styles.field}>
-          <Input
+          <TextArea
             label="Description"
             placeholder="Enter product description"
             name="description"
             value={formik.values.description}
             onChange={formik.handleChange}
             error={formik.touched.description && formik.errors.description}
-            width="100%"
+            rows={3}
+            maxCharacterCount={100}
           />
         </div>
         <div className={Styles.dividerStyle}></div>

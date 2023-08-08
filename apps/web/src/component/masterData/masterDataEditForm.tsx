@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid, InputLabel } from '@mui/material';
 import { updatemasertData } from '../../hooks/masertData-hook';
 import { getUpdateValidateyup } from '../../helper/constants/master-constants';
 import MasterService from '../../service/masterData-service';
 import * as Yup from 'yup';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
+import CancelIcon from '../menu/icons/closeIcon';
+import TextArea from '../ui/CustomTextArea';
+import Styles from '../../styles/masterdata.module.scss';
 
 const MasterDataEditForm: React.FC = (props: any) => {
   const validationSchema = getUpdateValidateyup(Yup);
@@ -43,7 +45,7 @@ const MasterDataEditForm: React.FC = (props: any) => {
           if (data?.message === 'success') {
             props.setOpen(false);
             props.setReload(true);
-            props.setMessage('masterData edited');
+            props.setMessage('Master Data edited');
             props.setOpenSnack(true);
           }
         },
@@ -51,15 +53,19 @@ const MasterDataEditForm: React.FC = (props: any) => {
     },
   });
 
+  const handleClose = () => {
+    props.setOpen(false);
+  }
+
   return (
-    <div>
+    <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          <Grid item xs={2} sm={4} md={12}>
+      <div className={Styles.header}>
+          <div><h4 className={Styles.titleStyle}>Edit Master Data</h4></div>
+          <div> <CancelIcon onClick={handleClose} /></div>
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.field}>
             <Input
               name="master_data_name"
               label="Name"
@@ -70,10 +76,11 @@ const MasterDataEditForm: React.FC = (props: any) => {
                 formik.touched.master_data_name &&
                 formik.errors.master_data_name
               }
+              width='100%'
             />
-          </Grid>
-          <Grid item xs={2} sm={4} md={12}>
-            <Input
+          </div>
+          <div className={Styles.field}>
+            <TextArea
               name="master_data_description"
               label="Description"
               placeholder="Enter Description"
@@ -83,14 +90,23 @@ const MasterDataEditForm: React.FC = (props: any) => {
                 formik.touched.master_data_description &&
                 formik.errors.master_data_description
               }
+              rows={3}
+              maxCharacterCount={100}
             />
-          </Grid>
-          <Grid item xs={2} sm={4} md={6}>
-            <Button color="primary" shape="rectangle" justify="center">
+          </div>
+          <div className={Styles.dividerStyle}></div>
+          <div className={Styles.formButton}>
+          <div>
+            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
+              Cancel
+            </Button>
+          </div>
+          <div>
+            <Button type='submit' color="primary" shape="rectangle" justify="center" size="small">
               Submit
             </Button>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </form>
     </div>
   );

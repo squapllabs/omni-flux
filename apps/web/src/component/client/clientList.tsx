@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
-import { useGetAllClient, useDeleteClient, getByClient } from '../../hooks/client-hooks';
+import {
+  useGetAllClient,
+  useDeleteClient,
+  getByClient,
+} from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import Button from '../ui/Button';
@@ -17,9 +21,9 @@ import Pagination from '../menu/pagination';
 import SearchIcon from '../menu/icons/search';
 import CustomSnackbar from '../ui/customSnackBar';
 import AddIcon from '../menu/icons/addIcon';
-import CustomDelete from '../ui/customDeleteDialogBox'
-import { IconButton } from '@mui/material';
+import CustomDelete from '../ui/customDeleteDialogBox';
 
+/* Function for Client List */
 const ClientList = () => {
   const { isLoading: getAllLoading } = useGetAllClient();
   const {
@@ -27,8 +31,6 @@ const ClientList = () => {
     data: getFilterData,
     isLoading: FilterLoading,
   } = getByClient();
-  console.log(getFilterData);
-  
   const { mutate: getDeleteClientByID } = useDeleteClient();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -39,10 +41,10 @@ const ClientList = () => {
   const [message, setMessage] = useState('');
   const validationSchema = getClientValidateyup(Yup);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
-  const [value,setValue] = useState();
+  const [value, setValue] = useState();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -62,10 +64,11 @@ const ClientList = () => {
     setOpen(false);
   };
 
+  /* Function for Closing the delete popup */
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
+  /* Function for editing a client data in the list */
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setClientID(value);
@@ -79,7 +82,7 @@ const ClientList = () => {
     setValue(id);
     setOpenDelete(true);
   };
-
+  /* Function for deleting a Client from the list */
   const deleteClient = () => {
     getDeleteClientByID(value);
     handleCloseDelete();
@@ -98,13 +101,12 @@ const ClientList = () => {
           contact_details: values.contact_details,
         };
         createNewClient(Object, {
-          onSuccess: (data: { success: any; }, variables: any, context: any) => {
+          onSuccess: (data: { success: any }, variables: any, context: any) => {
             if (data?.success) {
               setMessage('New Client has been successfully created');
               setOpenSnack(true);
               resetForm();
-            }
-            else {
+            } else {
               setMessage('Error occured in creating a new client');
               setOpenSnack(true);
             }
@@ -125,8 +127,9 @@ const ClientList = () => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
 
+  /* Function for Searching a client data from the list */
   const handleSearch = async () => {
-    const demo: any = {
+    const clientData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
@@ -134,13 +137,13 @@ const ClientList = () => {
       status: activeButton,
       global_search: filterValues.search_by_name,
     };
-    postDataForFilter(demo);
+    postDataForFilter(clientData);
     setIsLoading(false);
     setFilter(true);
   };
-
+  /*Function for reseting the list to actual state after search*/
   const handleReset = async () => {
-    const demo: any = {
+    const clientData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
@@ -148,7 +151,7 @@ const ClientList = () => {
       status: 'AC',
       global_search: '',
     };
-    postDataForFilter(demo);
+    postDataForFilter(clientData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
@@ -191,7 +194,7 @@ const ClientList = () => {
               <div className={Styles.fields}>
                 <div>
                   <Input
-                    label="Name"
+                    label="Client Name"
                     placeholder="Enter client name"
                     name="name"
                     value={formik.values.name}
@@ -208,12 +211,13 @@ const ClientList = () => {
                     value={formik.values.contact_details}
                     onChange={formik.handleChange}
                     error={
-                      formik.touched.contact_details && formik.errors.contact_details
+                      formik.touched.contact_details &&
+                      formik.errors.contact_details
                     }
                     width="100%"
                   />
                 </div>
-                <div>
+                <div style={{ paddingTop: '20px' }}>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -279,7 +283,7 @@ const ClientList = () => {
                       <th>S No</th>
                       <th>Client Name</th>
                       <th>Contact Details</th>
-                      <th>Options</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -294,19 +298,21 @@ const ClientList = () => {
                       ''
                     )}
                     {getFilterData?.content?.map((data: any, index: number) => (
-                      <tr>
+                      <tr key={data.client_id}>
                         <td>{index + 1}</td>
                         <td>{data.name}</td>
                         <td>{data.contact_details}</td>
                         <td>
-
-                          <EditIcon onClick={() => handleEdit(data.client_id)} />
-
-                          {/* <IconButton
-                            onClick={() =>deleteCategoryHandler(data.client_id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton> */}
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() => handleEdit(data.client_id)}
+                            />
+                            <DeleteIcon
+                              onClick={() =>
+                                deleteCategoryHandler(data.client_id)
+                              }
+                            />
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -327,9 +333,6 @@ const ClientList = () => {
         </CustomLoader>
         <CustomEditDialog
           open={open}
-          // handleClose={handleClose}
-          // title="Edit Client"
-          // subTitle="Please edit the client name"
           content={
             <ClientForm
               setOpen={setOpen}
@@ -345,8 +348,8 @@ const ClientList = () => {
         <CustomDelete
           open={openDelete}
           title="Delete Client"
-          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
-          contentLine2="Deleted Client will move to Inactive tab."
+          contentLine1="Are you sure you want to delete this Client ?"
+          contentLine2=""
           handleClose={handleCloseDelete}
           handleConfirm={deleteClient}
         />

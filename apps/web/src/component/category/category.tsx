@@ -27,28 +27,21 @@ const Category = () => {
       id: 3,
       name: 'Sub Sub Category',
     },
+    
     {
       id: 4,
-      name: 'Team',
-    },
-    {
-      id: 5,
-      name: 'Plan',
-    },
-    {
-      id: 6,
       name: 'GST',
     },
     {
-      id: 7,
+      id: 5,
       name: 'UOM',
     },
     {
-      id: 8,
+      id: 6,
       name: 'Client',
     },
     {
-      id: 9,
+      id: 7,
       name: 'HSN Code',
     },
   ];
@@ -59,12 +52,10 @@ const Category = () => {
     1: <CategoryList />,
     2: <SubCategoryList />,
     3: <SubSubCategoryList />,
-    4: <div>Under construction</div>,
-    5: <div>Under construction</div>,
-    6: <GstList />,
-    7: <UomList />,
-    8: <ClientList />,
-    9: <HsnCodeList />
+    4: <GstList />,
+    5: <UomList />,
+    6: <ClientList />,
+    7: <HsnCodeList />
   };
   return (
     <div className={Styles.container}>

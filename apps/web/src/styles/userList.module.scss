@@ -13,7 +13,6 @@
 .fields {
   padding: 10px;
   display: flex;
-  align-items: center;
   gap: 10px;
   flex-direction: row;
   flex-wrap: wrap;
@@ -41,10 +40,12 @@
   display: none;
 }
 .textContent {
-  // background-color: #7f56d9;
+  padding: 10px 10px 0px 10px;
+}
+.text {
   padding: 10px 10px 0px 10px;
   display: flex;
-  gap: 81%;
+  gap: 79%;
 }
 .textStyle {
   padding-left: 5px;
@@ -82,6 +83,12 @@ tr {
 
 td {
   padding: 8px;
+}
+
+.tablerow {
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
 }
 
 tr:nth-child(even) {

@@ -2,7 +2,7 @@ import hsnCodeService from '../../service/hsnCode-service';
 
 export const userErrorMessages = {
   ENTER_CODE: 'HSN Code is required',
-  ENTER_DESCRIPTION: 'Description about the HSN Code is required',
+  ENTER_DESCRIPTION: 'Description is required',
   ENTER_NUMBERONLY: 'Number only allowed',
   MIN_CODE: 'Minimum 4 digit needed',
   MAX_CODE: 'Maximum 8 digit needed',

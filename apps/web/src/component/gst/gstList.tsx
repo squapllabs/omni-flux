@@ -16,7 +16,7 @@ import CustomLoader from '../ui/customLoader';
 import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox'
 
-//Function for GST
+/* Function for GST */
 const GstList = () => {
   const { data: getAllGstData, isLoading: getAllLoading } = useGetAllGst();
   const { mutate: getDeleteGstByID } = useDeleteGst();
@@ -35,33 +35,33 @@ const GstList = () => {
   const validationSchema = getGstcreationYupschema(Yup);
   const [value,setValue] = useState(); 
 
-  //Function for closing delete popup
+  /* Function for closing delete popup */
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  //Function for opening snackbar
+  /* Function for opening snackbar */
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  //Function for calling popup of delete
+  /* Function for calling popup of delete */
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
   };
-  //Function for deleting a gst data
+  /* Function for deleting a gst data */
   const deleteGst = () => {
     getDeleteGstByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-  //Function for editing gst
+  /* Function for editing gst */
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setGstId(value);
     setOpen(true);
   };
-  //Function for adding new gst data
+  /* Function for adding new gst data */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -114,7 +114,7 @@ const GstList = () => {
                   />
                 </div>
 
-                <div>
+                <div style={{paddingTop:'20px'}}>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -142,12 +142,12 @@ const GstList = () => {
                     <tr>
                       <th>S No</th>
                       <th>GST Rate</th>
-                      <th>Option</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {getAllGstData?.map((data: any,index:number) => (
-                      <tr>
+                      <tr key={data.gst_id}>
                         <td>{index+1}</td>
                         <td>{data.rate}</td>
                         <td>
@@ -167,15 +167,13 @@ const GstList = () => {
         <CustomDelete
           open={openDelete}
           title="Delete GST"
-          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
-          contentLine2="Deleted GST will move to Inactive tab."
+          contentLine1="Are you sure you want to delete this GST Data ?"
+          contentLine2=""
           handleClose={handleCloseDelete}
           handleConfirm={deleteGst}
         />
         <CustomEditDialog
           open={open}
-          // handleClose={handleClose}
-          // title="Edit Gst"
           content={
             <GstForm
               setOpen={setOpen}

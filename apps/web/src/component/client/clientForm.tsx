@@ -31,7 +31,7 @@ const ClientForm: React.FC = (props: any) => {
       };
       fetchOne();
     }
-  }, []);
+  }, );
   //Function for creating and updating client data
   const formik = useFormik({
     initialValues,

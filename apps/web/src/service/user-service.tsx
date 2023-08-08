@@ -108,8 +108,6 @@ const filterUser = async (values: JSON) => {
       `${environment.apiUrl}/user/search`,
       values
     );
-    console.log("values",values);
-    console.log("response",response);
     
     return response.data;
   } catch (error) {

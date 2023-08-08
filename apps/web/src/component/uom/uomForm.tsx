@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Grid } from '@mui/material';
 import { createuom, updateUom } from '../../hooks/uom-hooks';
 import {
   getuomCreateValidateyup,
@@ -12,6 +11,8 @@ import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/userList.module.scss';
 import CancelIcon from '../menu/icons/closeIcon'
+import TextArea from '../ui/CustomTextArea';
+
 const UomForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
@@ -101,13 +102,15 @@ const UomForm: React.FC = (props: any) => {
           />
         </div>
         <div className={Styles.field}>
-          <Input
+          <TextArea
             name="description"
             label="Description"
             placeholder="Enter description"
             value={formik.values.description}
             onChange={formik.handleChange}
             error={formik.touched.description && formik.errors.description}
+            rows={3}
+            maxCharacterCount={100}
           />
         </div>
         <div className={Styles.dividerStyle}></div>

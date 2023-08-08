@@ -28,7 +28,6 @@ const loginAuth = async (values: any) => {
       `${environment.apiUrl}/auth/login`,
       values
     );
-    console.log("check login response data$$$$->", response.data)
     const loginValidateRequest = {
       accessToken: response.data["token"],
       email_id: values["email_id"],

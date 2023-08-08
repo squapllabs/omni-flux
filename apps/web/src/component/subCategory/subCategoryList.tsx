@@ -54,7 +54,7 @@ const SubCategoryList = () => {
   const [open, setOpen] = useState(false);
   const [subCategoryId, setSubcategoryID] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
@@ -62,7 +62,7 @@ const SubCategoryList = () => {
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
 
-  //Function for Adding new Sub Category
+  /* Function for Adding new Sub Category */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -85,34 +85,34 @@ const SubCategoryList = () => {
     },
   });
 
-  //Function for button group(Active and Inactive)
+  /* Function for button group(Active and Inactive) */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-  //Function for invoking delete sub category popup
+  /* Function for invoking delete sub category popup */
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
   };
-  //Function for closing popup
+  /* Function for closing popup */
   const handleClose = () => {
     setOpen(false);
   };
-  //Function for closing delete popup
+  /* Function for closing delete popup */
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  //Function for editing the sub category data
+  /* Function for editing the sub category data */
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setSubcategoryID(value);
     setOpen(true);
   };
-  //Function for closing the snackbar
+  /* Function for closing the snackbar */
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  //Function for deleteing the sub category data
+  /* Function for deleteing the sub category data */
   const deleteSubcategory = () => {
     getDeleteSubcategoryByID(value);
     handleCloseDelete();
@@ -120,9 +120,9 @@ const SubCategoryList = () => {
     setOpenSnack(true);
   };
 
-  //Function for searching
+  /* Function for searching from the sub category list */
   const handleSearch = async () => {
-    const demo: any = {
+    const subcategoryData: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
       order_by_column: 'updated_date',
@@ -130,7 +130,7 @@ const SubCategoryList = () => {
       status: activeButton,
       ...filterValues,
     };
-    postDataForFilter(demo);
+    postDataForFilter(subcategoryData);
     setIsLoading(false);
     setFilter(true);
   };
@@ -138,24 +138,29 @@ const SubCategoryList = () => {
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
-  //Function for changing page in table
+
+  /* Function for changing page in table */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-  //Function for changing no of rows in pagination
+  /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-  //Function for resting the search and data to normal state
+  /* Function for resting the search and data to normal state */
   const handleReset = async () => {
-    const demo: any = {
+    const subcategoryData: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      global_search: '',
     };
-    postDataForFilter(demo);
+    postDataForFilter(subcategoryData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
@@ -163,7 +168,7 @@ const SubCategoryList = () => {
     });
     setIsLoading(false);
   };
-  //Function for changing the search values
+  
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
@@ -308,7 +313,7 @@ const SubCategoryList = () => {
                           ''
                         )}
                         {filterBasedData?.content?.map((item: any, index: number) => (
-                          <tr>
+                          <tr key={item.sub_category_id}>
                             <td>{index + 1}</td>
                             <td>{item.category.name}</td>
                             <td>{item.name}</td>
@@ -355,8 +360,8 @@ const SubCategoryList = () => {
         <CustomDelete
           open={openDelete}
           title="Delete"
-          contentLine1="Are you sure you want to delete this post? This action cannot be undone."
-          contentLine2="Deleted Category will move to Inactive tab."
+          contentLine1="Are you sure you want to delete this Sub-Category ?"
+          contentLine2=""
           handleClose={handleCloseDelete}
           handleConfirm={deleteSubcategory}
         />
