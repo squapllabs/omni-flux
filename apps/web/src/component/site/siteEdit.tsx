@@ -7,7 +7,7 @@ import Button from '../ui/Button';
 import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
-import { getCreateValidateyup } from '../../helper/constants/site-constants';
+import { editCreateValidateyup } from '../../helper/constants/site-constants';
 import { updateSite, getBySiteId } from '../../hooks/site-hooks';
 import { useParams } from 'react-router-dom';
 
@@ -57,7 +57,7 @@ const SiteForm = () => {
     setOpenSnack(false);
   };
 
-  const validationSchema = getCreateValidateyup(Yup);
+  const validationSchema = editCreateValidateyup(Yup);
   const formik = useFormik({
     initialValues,
     validationSchema,
