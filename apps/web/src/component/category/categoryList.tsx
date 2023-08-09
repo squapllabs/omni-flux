@@ -25,17 +25,17 @@ import CustomEditDialog from '../ui/customEditDialogBox';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import { environment } from '../../environment/environment';
-/**
- * Function for  CategoryList
- */
+
+/* Function for  CategoryList */
 const CategoryList = () => {
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
   } = getBySearchCategroy();
-
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
+  const { mutate: createNewCategory } = createCategory();
+  const { data: getAllProjectList = [] } = useGetAllProject();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [categoryId, setCategoryID] = useState();
@@ -58,24 +58,29 @@ const CategoryList = () => {
     project_id: '',
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
-  const { mutate: createNewCategory } = createCategory();
-  const { data: getAllProjectList = [] } = useGetAllProject();
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [appendedValue, setAppendedValue] = useState('');
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IN' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const inputLabelNameFromEnv = `Budget (${environment.INPUTBUDGET})`;
+  const outputLableNameFromEnv = `Budget (${environment.OUTPUTBUDGET})`;
+
+  /* Function for Filter Change */
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
   };
+
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
+
+  /* Function for search */
   const handleSearch = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -90,10 +95,16 @@ const CategoryList = () => {
     setFilter(true);
     setDisable(false);
   };
+
+  /* Function for resting the search field and data to normal state */
   const handleReset = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      global_search: '',
     };
     postDataForFilter(demo);
     setIsLoading(false);
@@ -104,37 +115,43 @@ const CategoryList = () => {
     setIsLoading(false);
     setDisable(false);
   };
+
+  /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
 
+  /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-  const deleteCategoryHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
+  // const deleteCategoryHandler = (id: any) => {
+  //   setValue(id);
+  //   setOpenDelete(true);
+  // };
+
+  /* Function for closing the delete popup */
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  /**
-   * Function for editing the Category
-   */
+
+  /* Function for editing the Category */
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setCategoryID(value);
     setOpen(true);
   };
+
+  /* Function for closing the snackbar */
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  /* Function for deleting a category */
   const deleteCategory = () => {
     getDeleteCategoryByID(value);
     handleCloseDelete();
@@ -142,6 +159,7 @@ const CategoryList = () => {
     setOpenSnack(true);
   };
 
+  /* Function for adding new category and submit form */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -166,6 +184,7 @@ const CategoryList = () => {
     },
   });
 
+  /* Function for Duplicating the value of Budget into another field */
   const handleBudgetChange = (event: any) => {
     const budgetValue = event.target.value;
     const data = formatBudgetValue(Number(budgetValue));
@@ -174,12 +193,11 @@ const CategoryList = () => {
     formik.handleChange(event);
   };
 
-  const inputLabelNameFromEnv = `Budget (${environment.INPUTBUDGET})`;
-  const outputLableNameFromEnv = `Budget (${environment.OUTPUTBUDGET})`;
-
+  /* Function for group button (Active and Inactive status) */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
+
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -187,9 +205,9 @@ const CategoryList = () => {
           <div className={Styles.box}>
             <div className={Styles.textContent}>
               <h3>Add New Categories</h3>
-              <span className={Styles.content}>
+              {/* <span className={Styles.content}>
                 Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span>
+              </span> */}
             </div>
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields}>
@@ -237,6 +255,7 @@ const CategoryList = () => {
                     label={outputLableNameFromEnv}
                     placeholder="Enter budget"
                     value={appendedValue}
+                    readOnly
                   />
                 </div>
                 <div>
@@ -254,106 +273,110 @@ const CategoryList = () => {
             </form>
           </div>
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
-              <h3>List of Categories</h3>
-              <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span>
-            </div>
-            <div className={Styles.searchField}>
-              <div className={Styles.inputFilter}>
-                <Input
-                  width="260px"
-                  prefixIcon={<SearchIcon />}
-                  name="search_by_name"
-                  value={filterValues.search_by_name}
-                  onChange={(e) => handleFilterChange(e)}
-                  placeholder="Search by item name"
-                />
-                <Button
-                  className={Styles.searchButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  disabled={disable}
-                  onClick={handleReset}
-                >
-                  Reset
-                </Button>
-              </div>
-
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div>
-            </div>
             <div className={Styles.tableContainer}>
-              <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>S No</th>
-                      <th>Category Name</th>
-                      <th>Budget</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {getFilterData?.total_count === 0 ? (
+              <div className={Styles.textContent}>
+                <h3>List of Categories</h3>
+                {/* <span className={Styles.content}>
+                Manage your raw materials (Raw, Semi Furnished & Finished).
+              </span> */}
+              </div>
+              <div className={Styles.searchField}>
+                <div className={Styles.inputFilter}>
+                  <Input
+                    width="260px"
+                    prefixIcon={<SearchIcon />}
+                    name="search_by_name"
+                    value={filterValues.search_by_name}
+                    onChange={(e) => handleFilterChange(e)}
+                    placeholder="Search by item name"
+                  />
+                  <Button
+                    className={Styles.searchButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
+                  <Button
+                    className={Styles.resetButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    disabled={disable}
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </div>
+
+                <div>
+                  <CustomGroupButton
+                    labels={buttonLabels}
+                    onClick={handleGroupButtonClick}
+                    activeButton={activeButton}
+                  />
+                </div>
+              </div>
+              <div className={Styles.tableContainer}>
+                <div>
+                  <table>
+                    <thead>
                       <tr>
-                        <td></td>
-                        <td>No data found</td>
-                        <td></td>
+                        <th>S No</th>
+                        <th>Category Name</th>
+                        <th>Budget</th>
+                        <th></th>
                       </tr>
-                    ) : (
-                      ''
-                    )}
-                    {getFilterData?.content?.map((item: any,index: number) => (
-                      <tr>
-                        <td>{index + 1}</td>
-                        <td>{item.name}</td>
-                        <td>{formatBudgetValue(item.budget)}</td>
-                        <td>
-                          <div className={Styles.tableIcon}>
-                            <div>
-                              <EditIcon
-                                onClick={() => handleEdit(item.category_id)}
-                              />
-                            </div>
-                            {/* <div>
+                    </thead>
+                    <tbody>
+                      {getFilterData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td>No data found</td>
+                          <td></td>
+                        </tr>
+                      ) : (
+                        ''
+                      )}
+                      {getFilterData?.content?.map(
+                        (item: any, index: number) => (
+                          <tr key={item.category_id}>
+                            <td>{index + 1}</td>
+                            <td>{item.name}</td>
+                            <td>{formatBudgetValue(item.budget)}</td>
+                            <td>
+                              <div className={Styles.tableIcon}>
+                                <div>
+                                  <EditIcon
+                                    onClick={() => handleEdit(item.category_id)}
+                                  />
+                                </div>
+                                {/* <div>
                               <DeleteIcon
                                 onClick={() =>
                                   deleteCategoryHandler(item.category_id)
                                 }
                               />
                             </div> */}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className={Styles.pagination}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_count}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                <div className={Styles.pagination}>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={getFilterData?.total_count}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -361,9 +384,6 @@ const CategoryList = () => {
       </CustomLoader>
       <CustomEditDialog
         open={open}
-        title="Edit Category"
-        subTitle="Please edit the category name"
-        handleClose={handleClose}
         content={
           <CategoryForm
             setOpen={setOpen}
@@ -378,9 +398,9 @@ const CategoryList = () => {
       />
       <CustomDelete
         open={openDelete}
-        title="Delete"
-        contentLine1="Are you sure you want to delete this post? This action cannot be undone."
-        contentLine2="Deleted Category will move to Inactive tab."
+        title="Delete Category"
+        contentLine1="Are you sure you want to delete this Category ?"
+        contentLine2=""
         handleClose={handleCloseDelete}
         handleConfirm={deleteCategory}
       />

@@ -209,6 +209,8 @@ import ResetPassword from '../component/resetPassword/token';
 import MasterData from '../component/masterData/masterData';
 import Lead from '../component/leadEnquires/leadList';
 import leadEnquires from '../component/leadEnquires/leadEnquires';
+import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
+import Settings from '../component/settings/homeSetting';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -230,6 +232,9 @@ const AppRoutes = () => {
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
   const ProtectedLeadPage = withLayoutAndProtection(Lead);
   const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
+  const ProtectedProjectWorkBreakDownPage =
+    withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedSettings = withLayoutAndProtection(Settings);
 
   return (
     <div>
@@ -259,6 +264,11 @@ const AppRoutes = () => {
           path="/lead-edit/:id/:type"
           element={<ProtectedLeadEnquiresPage />}
         />
+        <Route
+          path="/project-workbreakdown"
+          element={<ProtectedProjectWorkBreakDownPage />}
+        />
+        <Route path="/settings" element={<ProtectedSettings />} />
       </Routes>
     </div>
   );

@@ -55,5 +55,18 @@ const useDeleteUom = () => {
     }
   );
 };
+const getByUom = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return uomService.filterUom(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
 
-export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom };
+export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom ,getByUom};

@@ -1,39 +1,17 @@
 .container{
-    // background-color:aqua;
-    padding: 10px 20px 15px 20px;
+  // background-color:aqua;
+  padding: 10px 20px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: left;
 }
-
-// .containerOne{
-//     // background-color: lightblue;
-// }
-
-.demo{
-    padding: 1px 1px 1px 10px;
+.heading {
+  padding-top: 5px;
+  font-size: larger;
+  font-weight: bolder;
 }
-
-.activeButton{
-    background-color:lightblue;
+.dividerLine {
+  border-bottom: 2px solid #ccc;
+  padding: 5px 1px 5px 1px;
 }
-
-.buttongroup {
-    display: flex;
-    // flex-wrap: wrap;
-    width:40%
-  }
-  
-  .buttongroup button {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 2px;
-    cursor: pointer;
-    white-space: normal;
-  }
-  
-  .buttongroup button:not(:last-child) {
-    border-right: 1px solid #ccc;
-  }
-  
-  .buttongroup button:hover {
-    background-color: #f0f0f0;
-  }

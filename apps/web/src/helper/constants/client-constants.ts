@@ -1,5 +1,5 @@
 export const userErrorMessages = {
-  ENTER_NAME: 'Name is required',
+  ENTER_NAME: 'Client Name is required',
   ENTER_CONTACTDETAILS: 'Contact Detail is required',
   ENTER_MAX_NAME: 'Name should not exceed 100 characters'
 };

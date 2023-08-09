@@ -66,10 +66,9 @@ const Login = () => {
           is_remember_me: rememberMe,
         };
 
-        loginData(data, {
+          loginData(data, {
           onSuccess: async (data) => {
             if (data?.status === true) {
-              console.log("check data login response data-->", data)
               dispatch(setToken({ key: 'Data', value: data }));
               navigate('/home');
               const userData = await userService.getOneUser(values?.email);
@@ -187,9 +186,9 @@ const Login = () => {
                     <Button
                       color="primary"
                       shape="rectangle"
-                      fullWidth
                       justify="center"
                       size="small"
+                      fullWidth
                       onClick={(e) => handleSubmit(e)}
                     >
                       Sign in

@@ -1,42 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import MUIDataTable from 'mui-datatables';
-import { Tooltip, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import MySnackbar from '../ui/MySnackbar';
-import { useGetAlluom, useDeleteUom } from '../../hooks/uom-hooks';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import EditIcon from '../menu/icons/editIcon';
+import CustomSnackBar from '../ui/customSnackBar';
+import { useGetAlluom, useDeleteUom, getByUom } from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
-import CustomDialogBox from '../ui/cusotmDialogDelete';
-import CustomDialog from '../ui/customDialog';
-import Button from '../menu/button';
+import CustomEditDialog from '../ui/customEditDialogBox';
+import Button from '../ui/Button';
+import { useFormik } from 'formik';
+import { createuom } from '../../hooks/uom-hooks';
+import Input from '../ui/Input';
+import { getuomCreateValidateyup } from '../../helper/constants/uom-constants';
+import * as Yup from 'yup';
+import CustomGroupButton from '../ui/CustomGroupButton';
+import CustomLoader from '../ui/customLoader';
+import Pagination from '../menu/pagination';
+import SearchIcon from '../menu/icons/search';
+import AddIcon from '../menu/icons/addIcon';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import TextArea from '../ui/CustomTextArea';
 
+/* Function for Unit of Measurement */
 const UomList = () => {
-  const { data: getAlluom } = useGetAlluom();
+  const { isLoading: getAllLoading } = useGetAlluom();
+  const {
+    mutate: postDataForFilter,
+    data: getFilterData,
+    isLoading: FilterLoading,
+  } = getByUom();
   const { mutate: getDeleteuomByID } = useDeleteUom();
+  const { mutate: createNewuom } = createuom();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [uomId, setUomID] = useState();
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const [value, setValue] = useState();
   const [message, setMessage] = useState('');
-  const deleteUserHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filter, setFilter] = useState(false);
+  const [value, setValue] = useState();
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IN' },
+  ]);
+  const [initialValues, setInitialValues] = useState({
+    uom_id: '',
+    name: '',
+    description: '',
+  });
+  const [filterValues, setFilterValues] = useState({
+    search_by_name: '',
+  });
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const validationSchema = getuomCreateValidateyup(Yup);
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMode('ADD');
-    setOpen(true);
-  };
-  const handleEdit = (event: React.FormEvent, value: any) => {
+  /* Function for editing a data in the UOM List */
+  const handleEdit = (value: any) => {
     setMode('EDIT');
     setUomID(value);
     setOpen(true);
@@ -44,6 +73,12 @@ const UomList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const deleteCategoryHandler = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+  /* Function for deleting a data from the UOM List */
   const deleteUom = () => {
     getDeleteuomByID(value);
     handleCloseDelete();
@@ -51,133 +86,272 @@ const UomList = () => {
     setOpenSnack(true);
   };
 
-  const columns = [
-    {
-      name: 'uom_id',
-      label: 'Uom',
-      options: {
-        display: false,
-        filter: false,
-        sort: false,
-      },
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
+      if (values) {
+        const Object: any = {
+          uom_id: values.uom_id,
+          name: values.name,
+          description: values.description,
+        };
+        createNewuom(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.success) {
+              setMessage('UOM created');
+              setOpenSnack(true);
+              resetForm();
+            }
+          },
+        });
+      }
     },
-    {
-      name: 'name',
-      label: 'Unit Of Measurement',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'description',
-      label: 'Description',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: '',
-      label: 'Options',
-      options: {
-        sort: false,
-        filter: false,
-        searchable: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <div>
-              <Tooltip title="Edit">
-                <IconButton
-                  aria-label="Edit"
-                  size="small"
-                  onClick={(e) => handleEdit(e, tableMeta.rowData[0])}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete"
-                  size="small"
-                  onClick={() => deleteUserHandler(tableMeta.rowData[0])}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          );
-        },
-      },
-    },
-  ];
+  });
 
-  const options = {
-    filter: false,
-    search: true,
-    caseSensitive: false,
-    print: false,
-    download: false,
-    viewColumns: false,
-    selectableRows: 'none' as const,
-    setTableProps: () => {
-      return {
-        size: 'small',
-      };
-    },
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValues({
+      ...filterValues,
+      ['search_by_name']: event.target.value,
+    });
   };
+
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, rowsPerPage, activeButton]);
+  /* Function for searching data in the UOM Table */
+  const handleSearch = async () => {
+    const uomData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_by',
+      order_by_direction: 'desc',
+      status: activeButton,
+      global_search: filterValues.search_by_name,
+    };
+    postDataForFilter(uomData);
+    setIsLoading(false);
+    setFilter(true);
+  };
+  /* Function for resting the table to its actual state after search */
+  const handleReset = async () => {
+    const uomData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_by',
+      order_by_direction: 'desc',
+      status: 'AC',
+      global_search: '',
+    };
+    postDataForFilter(uomData);
+    setIsLoading(false);
+    setFilter(false);
+    setFilterValues({
+      search_by_name: '',
+    });
+    setIsLoading(false);
+  };
+
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
+
   return (
-    <div className={Styles.container}>
-      <div className={Styles.buttonContainer}>
-      <Button
-          text="Add"
-          backgroundColor="#7F56D9"
-          fontSize={14}
-          fontWeight={500}
-          width={100}
-          onClick={(e) => handleAdd(e)}
+    <div>
+      <div>
+        <CustomLoader
+          loading={isLoading === true ? getAllLoading : FilterLoading}
+          size={48}
+          color="#333C44"
+        >
+          <div className={Styles.box}>
+            <div className={Styles.textContent}>
+              <h3>Add New UOM</h3>
+              <span className={Styles.content}>
+                Manage your UOM details here.
+              </span>
+            </div>
+            <form onSubmit={formik.handleSubmit}>
+              <div className={Styles.fields}>
+                <div>
+                  <Input
+                    label="Unit Of Measurement"
+                    placeholder="Enter unit of measurement"
+                    name="name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    error={formik.touched.name && formik.errors.name}
+                    width="100%"
+                  />
+                </div>
+                <div style={{ width: '30%' }}>
+                  <TextArea
+                    name="description"
+                    label="Description"
+                    placeholder="Enter description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.description && formik.errors.description
+                    }
+                    rows={2.3}
+                    maxCharacterCount={100}
+                  />
+                </div>
+                <div style={{ paddingTop: '20px' }}>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon />}
+                  >
+                    Add New UOM
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div className={Styles.box}>
+            <div className={Styles.textContent}>
+              <h3>List of Unit of Measurements</h3>
+              <span className={Styles.content}>
+                Manage your UOM details here.
+              </span>
+            </div>
+            <div className={Styles.searchField}>
+              <div className={Styles.inputFilter}>
+                <Input
+                  width="260px"
+                  prefixIcon={<SearchIcon />}
+                  name="search_by_name"
+                  value={filterValues.search_by_name}
+                  onChange={(e) => handleFilterChange(e)}
+                  placeholder="Search"
+                />
+                <Button
+                  className={Styles.searchButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+                <Button
+                  className={Styles.resetButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
+              </div>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
+            </div>
+            <div className={Styles.tableContainer}>
+              <div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>S No</th>
+                      <th>UOM Name</th>
+                      <th>Description</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getFilterData?.total_count === 0 ? (
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>No data found</td>
+                        <td></td>
+                      </tr>
+                    ) : (
+                      ''
+                    )}
+                    {getFilterData?.content?.map((data: any, index: number) => (
+                      <tr key={data.uom_id}>
+                        <td>{index + 1}</td>
+                        <td>{data.name}</td>
+                        <td>{data.description}</td>
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() => handleEdit(data.uom_id)}
+                            ></EditIcon>
+                            <DeleteIcon
+                              onClick={() => deleteCategoryHandler(data.uom_id)}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className={Styles.pagination}>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={getFilterData?.total_page}
+                  rowsPerPage={rowsPerPage}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                />
+              </div>
+            </div>
+          </div>
+        </CustomLoader>
+        <CustomEditDialog
+          open={open}
+          content={
+            <UomForm
+              setOpen={setOpen}
+              open={open}
+              setReload={setReload}
+              mode={mode}
+              uomId={uomId}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+            />
+          }
+        />
+        <CustomDelete
+          open={openDelete}
+          title="Delete UOM"
+          contentLine1="Are you sure you want to delete this UOM Data"
+          contentLine2=""
+          handleClose={handleCloseDelete}
+          handleConfirm={deleteUom}
+        />
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
         />
       </div>
-      <div className={Styles.tableContainer}>
-        <MUIDataTable
-          title={'UOM List'}
-          columns={columns}
-          options={options}
-          data={getAlluom}
-        />
-      </div>
-      <CustomDialogBox
-        open={open}
-        handleClose={handleClose}
-        title="UOM Form"
-        content={
-          <UomForm
-            setOpen={setOpen}
-            open={open}
-            setReload={setReload}
-            mode={mode}
-            uomId={uomId}
-            setOpenSnack={setOpenSnack}
-            setMessage={setMessage}
-          />
-        }
-      />
-      <CustomDialog
-        open={openDelete}
-        handleClose={handleCloseDelete}
-        title="Delete UOM"
-        content="Are you want to delete this UOM?"
-        handleConfirm={deleteUom}
-      />
-      <MySnackbar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        severity={'success'}
-        autoHideDuration={1000}
-      />
     </div>
   );
 };

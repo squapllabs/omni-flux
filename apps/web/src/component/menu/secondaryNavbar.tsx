@@ -12,12 +12,10 @@ const SecondaryNavbar = () => {
   const [toggleActive, setToggleActive] = useState(true);
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
-    console.log(`${link} clicked`);
   };
 
   const handleToggleSwitch = (checked: boolean) => {
     setToggleActive(checked);
-    console.log(`Toggle Switch: ${checked}`);
   };
   return (
     <div className={Styles.Secondarynavbar}>
