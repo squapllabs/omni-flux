@@ -36,26 +36,23 @@ const StyledLabel = styled.label`
 `;
 
 const InputContainer = styled.div<StyledInputProps>`
-position: relative;
-display: flex;
-align-items: center;
-padding: ${(props) =>
-  `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
-    props.hasPrefixIcon ? '32px' : '12px'
-  }`};
-border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
-border-radius: 4px;
-background-color: ${(props) => (props.disabled ? '#f9f9f9' : '#f4f5f6')};
-cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-opacity: ${(props) => (props.disabled ? 0.7 : 1)};
-&:hover {
-  border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-}
-&:focus-within {
-  outline: 0;
-  box-shadow: ${(props) => (props.disabled ? 'none' : '0 0 0 2px #68717840')};
-}
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: ${(props) =>
+    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
+      props.hasPrefixIcon ? '32px' : '12px'
+    }`};
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border-radius: 4px;
+  background-color: #f4f5f6; 
+  &:hover {
+    border-color: #888;
+  }
+  &:focus-within {
+    outline: 0;
+    box-shadow: 0 0 0 2px #68717840;
+  }
 `;
 
 const StyledInput = styled.input<StyledInputProps>`

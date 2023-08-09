@@ -96,7 +96,6 @@ const filtermasertData = async (values: JSON) => {
       `${environment.apiUrl}/master-data/search-master-data`,
       values
     );
-    console.log('response.data', response.data);
 
     return response.data;
   } catch (error) {

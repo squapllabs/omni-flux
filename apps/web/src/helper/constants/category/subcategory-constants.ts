@@ -8,6 +8,8 @@ export const subCategoryErrorMessages = {
     'The Sub category already exists in the same category with the same name.',
   MINIMUM_CHECK: 'Value must be greater than 0',
   MAXIMUM_CHECK: 'Value must be less then 100000',
+  TYPE_ERROR: 'Only Number are allowed',
+  CHAR_ERROR: 'Only alphabets are allowed'
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -22,12 +24,12 @@ export const getCreateValidateyup = (yup: any) => {
       .trim()
       .typeError(subCategoryErrorMessages.ENTER_NAME)
       .required(subCategoryErrorMessages.ENTER_NAME)
+      .matches(/^[a-zA-Z\s]*$/,subCategoryErrorMessages.CHAR_ERROR)
       .test(
         'name-availability',
         subCategoryErrorMessages.ALREADY_EXIST,
         async (value: any, { parent }: yup.TestContext) => {
           const category_id = parent.category_id;
-          console.log('project_id', category_id);
           const object = {
             id: category_id,
             name: value,
@@ -36,12 +38,9 @@ export const getCreateValidateyup = (yup: any) => {
             const response = await SubcategoryService.checkDublicateSubCategory(
               object
             );
-            console.log('response', response);
             if (response?.status === true) {
-              console.log('false');
               return false;
             } else {
-              console.log('true');
               return true;
             }
           }

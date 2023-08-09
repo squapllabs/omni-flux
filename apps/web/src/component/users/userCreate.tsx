@@ -6,7 +6,6 @@ import { getUsercreationYupschema } from '../../helper/constants/user-constants'
 import { createUser } from '../../hooks/user-hooks';
 import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useNavigate } from 'react-router';
-import MySnackbar from '../ui/MySnackbar';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import { BsFillEyeSlashFill, BsFillEyeFill } from 'react-icons/bs';
@@ -14,6 +13,7 @@ import { FaLock } from 'react-icons/fa6';
 import Select from '../ui/Select';
 import userService from '../../service/user-service';
 import AddIcon from '../menu/icons/addIcon';
+import CustomSnackbar from '../ui/customSnackBar';
 
 const validationSchema = getUsercreationYupschema(Yup);
 const UserCreate = () => {
@@ -119,7 +119,7 @@ const UserCreate = () => {
             setMessage('User created successfully');
             setOpenSnakBar(true);
             setInterval(() => {
-              navigate('/userList');
+              navigate('/settings');
             }, 3000);
           } else {
             setIsWarning(true);
@@ -360,7 +360,7 @@ const UserCreate = () => {
               color="primary"
               shape="rectangle"
               justify="center"
-              onClick={() => navigate('/userList')}
+              onClick={() => navigate('/settings')}
             >
               Back
             </Button>
@@ -375,12 +375,12 @@ const UserCreate = () => {
           </div>
         </div>
       </form>
-      <MySnackbar
+      <CustomSnackbar
         open={OpenSnackbar}
         message={message}
         onClose={handleSnackBarClose}
-        severity={isWarning ? 'warning' : 'success'}
         autoHideDuration={1000}
+        type={isWarning ? 'error' : 'success'}
       />
     </div>
   );
