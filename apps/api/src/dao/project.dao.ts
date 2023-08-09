@@ -7,10 +7,16 @@ const add = async (
   date_started: Date,
   date_ended: Date,
   status: string,
-  budget: number,
+  estimated_budget: number,
+  actual_budget: number,
+  code: string,
+  priority: string,
+  currency: string,
+  project_notes: string,
   client_id: number,
   document_url: string,
   created_by: bigint,
+  site_configuration,
   connectionObj = null
 ) => {
   try {
@@ -28,7 +34,12 @@ const add = async (
         date_started: formatted_date_started,
         date_ended: formatted_date_ended,
         status,
-        budget,
+        estimated_budget,
+        actual_budget,
+        code,
+        priority,
+        currency,
+        project_notes,
         client_id,
         document_url,
         created_by,
@@ -37,7 +48,33 @@ const add = async (
         is_delete: is_delete,
       },
     });
-    return project;
+
+    const newProjectId = project.project_id;
+
+    const projectSiteDetails = [];
+
+    for (const site of site_configuration) {
+      const site_id = site.site_id;
+      const status = site.status;
+      const projectSite = await transaction.project_site.create({
+        data: {
+          project_id: newProjectId,
+          site_id,
+          status: status,
+          created_by,
+          created_date: currentDate,
+          updated_date: currentDate,
+        },
+      });
+      projectSiteDetails.push(projectSite);
+    }
+
+    const result = {
+      project: project,
+      project_site: projectSiteDetails,
+    };
+
+    return result;
   } catch (error) {
     console.log('Error occurred in projectDao add', error);
     throw error;
@@ -51,11 +88,17 @@ const edit = async (
   date_started: Date,
   date_ended: Date,
   status: string,
-  budget: number,
+  estimated_budget: number,
+  actual_budget: number,
+  code: string,
+  priority: string,
+  currency: string,
+  project_notes: string,
   client_id: number,
   document_url: string,
   updated_by: bigint,
   project_id: number,
+  site_configuration,
   connectionObj = null
 ) => {
   try {
@@ -74,13 +117,68 @@ const edit = async (
         date_started: formatted_date_started,
         date_ended: formatted_date_ended,
         status,
-        budget,
+        estimated_budget,
+        actual_budget,
+        code,
+        priority,
+        currency,
+        project_notes,
         client_id,
         document_url,
         updated_by,
         updated_date: currentDate,
       },
     });
+
+    const projectSiteDetails = [];
+
+    for (const site of site_configuration) {
+      const site_id = site.site_id;
+      const status = site.status;
+      const is_delete = site.is_delete;
+      const project_id = site.project_id;
+      const project_site_id = site.project_site_id;
+
+      if (project_site_id) {
+        if (is_delete === 'Y') {
+          await transaction.project_site.delete({
+            where: { project_site_id: project_site_id },
+          });
+        } else {
+          const projectSite = await transaction.project_site.update({
+            where: { project_site_id: project_site_id },
+            data: {
+              project_id: project_id,
+              site_id: site_id,
+              status: status,
+              updated_by,
+              updated_date: currentDate,
+            },
+          });
+          projectSiteDetails.push(projectSite);
+        }
+      } else {
+        const projectSite = await transaction.project_site.create({
+          data: {
+            project_id: project_id,
+            site_id: site_id,
+            status: status,
+            created_by: updated_by,
+            created_date: currentDate,
+            updated_date: currentDate,
+          },
+        });
+        projectSiteDetails.push(projectSite);
+      }
+    }
+
+    const result = {
+      project: project,
+      project_site: projectSiteDetails,
+    };
+
+    return result;
+
     return project;
   } catch (error) {
     console.log('Error occurred in projectDao edit', error);
@@ -91,14 +189,30 @@ const edit = async (
 const getById = async (projectId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const project = await transaction.project.findUnique({
+    const project = await transaction.project.findFirst({
       where: {
         project_id: Number(projectId),
+        is_delete: false,
+      },
+      include: {
+        project_site: {
+          include: {
+            site_details: true,
+          },
+        },
+        user: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        client: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
-    if (project && project?.is_delete === true) {
-      return null;
-    }
     return project;
   } catch (error) {
     console.log('Error occurred in project getById dao', error);
@@ -110,6 +224,27 @@ const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const project = await transaction.project.findMany({
+      where: {
+        is_delete: false,
+      },
+      include: {
+        project_site: {
+          include: {
+            site_details: true,
+          },
+        },
+        user: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        client: {
+          select: {
+            name: true,
+          },
+        },
+      },
       orderBy: [
         {
           updated_date: 'desc',
@@ -159,6 +294,76 @@ const getByClientId = async (clientId: number, connectionObj = null) => {
   }
 };
 
+const getByCode = async (code: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const project = await transaction.project.findFirst({
+      where: {
+        code: code,
+      },
+    });
+    return project;
+  } catch (error) {
+    console.log('Error occurred in project getByCode dao', error);
+    throw error;
+  }
+};
+
+const searchProject = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterProject;
+    const project = await transaction.project.findMany({
+      where: filter,
+      include: {
+        project_site: {
+          include: {
+            site_details: true,
+          },
+        },
+        user: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        client: {
+          select: {
+            name: true,
+          },
+        },
+      },
+
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const projectCount = await transaction.project.count({
+      where: filter,
+    });
+
+    const projectData = {
+      count: projectCount,
+      data: project,
+    };
+    return projectData;
+  } catch (error) {
+    console.log('Error occurred in project dao : searchProject ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -166,4 +371,6 @@ export default {
   getAll,
   deleteProject,
   getByClientId,
+  getByCode,
+  searchProject,
 };
