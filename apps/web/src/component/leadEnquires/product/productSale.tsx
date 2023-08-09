@@ -8,7 +8,6 @@ import { useFormik } from 'formik';
 import { useGetAllClient } from 'apps/web/src/hooks/client-hooks';
 import { useGetAllUsers } from 'apps/web/src/hooks/user-hooks';
 import {
-  useGetAllleadEnquiry,
   createleadEnquiry,
   updateleadEnquiry,
 } from 'apps/web/src/hooks/leadEnquires-hooks';
@@ -17,16 +16,15 @@ import { getBymasertDataType } from 'apps/web/src/hooks/masertData-hook';
 import { useGetAllItems } from 'apps/web/src/hooks/item-hooks';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import EditIcon from '../../menu/icons/editIcon';
-import {
-  getCreateValidateyup,
-  getValidateProductyup,
-} from 'apps/web/src/helper/constants/lead/leadProduct-constants';
+import { getCreateValidateyup } from 'apps/web/src/helper/constants/lead/leadProduct-constants';
 import LeadEnquiresServices from 'apps/web/src/service/leadEnquires-services';
 import * as Yup from 'yup';
 import { formatBudgetValue } from 'apps/web/src/helper/common-function';
 import { environment } from 'apps/web/src/environment/environment';
 import CustomSnackBar from '../../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
+import CustomEditDialog from '../../../component/ui/customEditDialogBox';
+import ProductItemEdit from './productItemEdit';
 
 interface Item {
   lead_enquiry_product_item_id: string;
@@ -47,11 +45,14 @@ const ProductSale: React.FC = (props: any) => {
   const [value, setValue] = useState(valueObject);
   const [errors, setErrors] = useState('');
   const [productItems, setProductItems] = useState<Item[]>([]);
+  const [editProduct, setEditProduct] = useState();
   const [appendedValue, setAppendedValue] = useState('');
   const [disable, setDisable] = useState(
     props?.leadEnquireId != undefined ? true : false
   );
+  const [open, setOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
   const [initialValues, setInitialValues] = useState({
     lead_code: '',
     lead_enquiry_id: '',
@@ -124,6 +125,7 @@ const ProductSale: React.FC = (props: any) => {
       setProductItems(product);
     };
     if (props.leadEnquireId != undefined) fetchData();
+    if (props.leadEnquireId === undefined) fetchLeadID();
   }, []);
   const { data: getAllClient = [] } = useGetAllClient();
   const { data: getAllUsers = [] } = useGetAllUsers();
@@ -133,6 +135,12 @@ const ProductSale: React.FC = (props: any) => {
   const { data: getAllItems = [] } = useGetAllItems();
   const { mutate: postleadEnquiry } = createleadEnquiry();
   const { mutate: updatelead } = updateleadEnquiry();
+  const fetchLeadID = async () => {
+    const leadID = await LeadEnquiresServices.getLeadID(props.leadType);
+    console.log('leadID', leadID);
+    initialValues.lead_code = leadID?.data;
+    setInitialValues({ ...initialValues });
+  };
   const handleChangeItems = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -199,11 +207,13 @@ const ProductSale: React.FC = (props: any) => {
     setProductItems(data);
   };
   const handleProductEdit = (e: any, value: any) => {
+    setOpen(true);
     let fileterValue = value.product_name;
     let data = productItems.filter(
       (element) => element?.product_name === fileterValue
     );
-    // setProductItems(data);
+    console.log('data', data);
+    setEditProduct(data[0]);
   };
 
   const handleValueChange = (event: any) => {
@@ -249,6 +259,7 @@ const ProductSale: React.FC = (props: any) => {
             onSuccess(data, variables, context) {
               console.log('data', data);
               resetForm;
+              setMessage('Product sale has created successfully');
               setOpenSnack(true);
               setInterval(() => {
                 navigate('/lead-enquires');
@@ -280,13 +291,20 @@ const ProductSale: React.FC = (props: any) => {
           console.log('editObject', object);
           updatelead(object, {
             onSuccess(data, variables, context) {
-              console.log('editData', data);
+              setMessage('Product sale has updated successfully');
+              setOpenSnack(true);
+              setInterval(() => {
+                navigate('/lead-enquires');
+              }, 3000);
             },
           });
         }
       }
     },
   });
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
@@ -299,7 +317,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="lead_code"
                   value={formik.values.lead_code}
                   onChange={formik.handleChange}
-                  disabled={disable}
+                  disabled
                 />
               </div>
               <div className={Styles.fieldStyle}>
@@ -562,16 +580,32 @@ const ProductSale: React.FC = (props: any) => {
                     justify="center"
                     size="small"
                     color="primary"
-                    // type="button"
-                    icon={<AddIcon />}
                   >
-                    Add Product Sale
+                    Submit
                   </Button>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <CustomEditDialog
+          open={open}
+          title="Edit Product Item"
+          subTitle="Product Item"
+          handleClose={handleClose}
+          content={
+            <ProductItemEdit
+              setOpen={setOpen}
+              open={open}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+              setProductItems={setProductItems}
+              ProductItems={productItems}
+              setEditproduct={setEditProduct}
+              editProduct={editProduct}
+            />
+          }
+        />
         <CustomSnackBar
           open={openSnack}
           message={message}

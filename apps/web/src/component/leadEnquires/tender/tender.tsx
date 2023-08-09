@@ -133,8 +133,15 @@ const Tender: React.FC = (props: any) => {
         lead_code: data?.data?.lead_code,
       });
     };
-    fetchData();
+    if (props.leadEnquireId != undefined) fetchData();
+    if (props.leadEnquireId === undefined) fetchLeadID();
   }, [props.leadEnquireId]);
+  const fetchLeadID = async () => {
+    const leadID = await LeadEnquiresServices.getLeadID(props.leadType);
+    console.log('leadID', leadID);
+    initialValues.lead_code = leadID?.data;
+    setInitialValues({ ...initialValues });
+  };
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -233,7 +240,7 @@ const Tender: React.FC = (props: any) => {
                   name="lead_code"
                   value={formik.values.lead_code}
                   onChange={formik.handleChange}
-                  disabled={disable}
+                  disabled
                 />
               </div>
               <div className={Styles.fieldStyle}>

@@ -95,6 +95,17 @@ const checkDublicateTenderIdentiNo = async (value: number) => {
     throw error;
   }
 };
+const getLeadID = async (value: string) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/lead-enquiry/generate-lead-code/${value}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in getLeadID   :', error);
+    throw error;
+  }
+};
 
 export default {
   getAllleadEnquiry,
@@ -105,4 +116,5 @@ export default {
   filterLeadEnquiry,
   checkDublicateTenderReg,
   checkDublicateTenderIdentiNo,
+  getLeadID,
 };
