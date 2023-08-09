@@ -15,19 +15,24 @@ import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
 import Select from '../ui/selectNew';
 import Styles from '../../styles/subCategoryList.module.scss';
+import CancelIcon from '../menu/icons/closeIcon'
 
+////Function for Sub Category
 const SubCategoryForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
       ? getCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
   const { data: getAllCategory = [] } = useGetAllCategoryForDrop();
+  const { mutate: createNewSubcategory } = createSubcategory();
+  const { mutate: updateSubcategoryData } = updateSubcategory();
   const [initialValues, setInitialValues] = useState({
     sub_category_id: '',
     name: '',
     budget: '',
     category_id: '',
   });
+
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
@@ -41,14 +46,11 @@ const SubCategoryForm: React.FC = (props: any) => {
           category_id: data?.data?.category_id,
         });
       };
-
       fetchOne();
     }
   }, []);
-  const { mutate: createNewSubcategory } = createSubcategory();
-  const { mutate: updateSubcategoryData } = updateSubcategory();
 
-
+  //Function for Adding and Editing Sub Category
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -91,14 +93,20 @@ const SubCategoryForm: React.FC = (props: any) => {
     },
   });
 
-  const handleBack = () => {
+  //Function for closing the popup
+  const handleClose = () => {
     props.setOpen(false);
   }
 
   return (
     <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-        <div>
+      <div className={Styles.header}>
+          <div><h4 className={Styles.titleStyle}>Edit Sub Category</h4></div>
+          <div> <CancelIcon onClick={handleClose} /></div>
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.field}>
         <Select
             label="Category"
             name="category_id"
@@ -115,7 +123,7 @@ const SubCategoryForm: React.FC = (props: any) => {
             ))}
           </Select>
         </div>
-        <div>
+        <div className={Styles.field}>
           <Input
             name="name"
             label="Sub Category Name"
@@ -125,7 +133,7 @@ const SubCategoryForm: React.FC = (props: any) => {
             error={formik.touched.name && formik.errors.name}
           />
         </div>
-        <div>
+        <div className={Styles.field}>
           <Input
             name="budget"
             label="Budget"
@@ -135,9 +143,10 @@ const SubCategoryForm: React.FC = (props: any) => {
             error={formik.touched.budget && formik.errors.budget}
           />
         </div>
+        <div className={Styles.dividerStyle} />
         <div className={Styles.formButton}>
           <div>
-            <Button shape="rectangle" justify="center"  size="small" onClick={handleBack}>
+            <Button className={Styles.cancelButton} shape="rectangle" justify="center"  size="small" onClick={handleClose}>
               Cancel
             </Button>
           </div>

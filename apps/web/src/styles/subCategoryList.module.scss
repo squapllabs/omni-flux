@@ -8,10 +8,10 @@
   // height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
 }
 .textContent {
-  padding: 10px;
+  padding: 1px;
 }
 .content {
   font-size: 0.7rem;
@@ -21,7 +21,7 @@
   padding: 10px;
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
 }
 
 .box {
@@ -50,6 +50,10 @@
   gap: 8px;
   color: #6941c6;
 }
+.searchButton:hover {
+  background-color: #7f56d9;
+  color: #ffffff;
+}
 .resetButton {
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
@@ -57,8 +61,16 @@
   gap: 8px;
   color: #848289;
 }
+.resetButton:hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
+}
+.cancelButton:hover {
+  background-color: #c4c4c6;
+  color: #070707;
+}
 .searchContainer {
-  padding: 10px 10px 0px 10px;
+  padding: 0px 10px 0px 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -103,8 +115,8 @@ tr:hover {
 }
 
 .formContainer {
-  width: 300px;
-  padding: 1px 20px 10px 20px;
+  width: 350px;
+  // padding: 1px 20px 10px 20px;
   display: flex;
   flex-direction: column;
 }
@@ -114,10 +126,27 @@ tr:hover {
   flex-direction: row;
   justify-content: flex-end;
   gap: 10px;
+  padding:10px 20px 10px 0px ;
 }
 
 .tableIcon {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px 5px 20px;
+}
+.field {
+  padding: 5px 20px 5px 20px;
+}
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 1px 5px 1px;
+}
+.titleStyle {
+  padding: 10px 10px 1px 2op;
 }
