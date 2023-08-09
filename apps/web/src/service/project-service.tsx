@@ -38,8 +38,34 @@ const checkProjectCodeDuplicate = async (values:any) => {
   }
 };
 
+const filterProject = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post (
+      `${environment.apiUrl}/project/search`,
+      values
+    );
+    console.log("daatraaaa>>>>>>>>",response.data);
+    return response.data;
+  } catch (error) {
+    console.log('Error in project search :', error);
+    throw error;
+  }
+}
+const deleteProject = async (id: number) => {
+  try {
+    const response = await axiosinterceptor.delete(
+      `${environment.apiUrl}/project/delete/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in delete project list :', error);
+    throw error;
+  }
+};
 export default {
   getAllProject,
   createProjectData,
-  checkProjectCodeDuplicate
+  checkProjectCodeDuplicate,
+  filterProject,
+  deleteProject
 };

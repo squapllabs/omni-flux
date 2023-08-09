@@ -25,4 +25,32 @@ const createProject = () => {
   );
 };
 
-export { useGetAllProject,createProject };
+const getByProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation (
+    (data:any) => {
+      return ProjectService.filterProject(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  )
+};
+
+const useDeleteProjects = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ProjectService.deleteProject(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllUsers']);
+      },
+    }
+  );
+};
+
+export { useGetAllProject,createProject,getByProject,useDeleteProjects };

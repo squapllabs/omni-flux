@@ -58,6 +58,7 @@ const ProjectForm = () => {
       is_delete: string;
     }>,
     project_documents: '',
+    status: '',
   });
   const navigate = useNavigate();
 
@@ -77,9 +78,11 @@ const ProjectForm = () => {
         return userService.user_profile_upload(file);
       });
       const uploadResponses = await Promise.all(uploadPromises);
-      const modifiedArray = uploadResponses.flatMap((response) => response.data);
-      console.log("final data",modifiedArray);
-      setDocUrl(modifiedArray)
+      const modifiedArray = uploadResponses.flatMap(
+        (response) => response.data
+      );
+      console.log('final data', modifiedArray);
+      setDocUrl(modifiedArray);
       const uploadedUrls = uploadResponses.map((response) => {
         return response.data.map((fileData: { path: string }) => {
           const pathSegments = fileData.path.split('/');
@@ -162,6 +165,7 @@ const ProjectForm = () => {
         project_notes: values.project_notes,
         site_configuration: values.site_configuration,
         project_documents: docUrl,
+        status: 'Not Started',
       };
       console.log('data===>', Object);
       createNewProjectData(Object, {
@@ -170,7 +174,7 @@ const ProjectForm = () => {
             setMessage('Project created');
             setOpenSnack(true);
             setInterval(() => {
-              navigate('/project-workbreakdown');
+              navigate('/settings');
             }, 1000);
           }
         },
@@ -450,14 +454,19 @@ const ProjectForm = () => {
                           {row.siteData?.address && (
                             <div>
                               <p>
-                                {row.siteData.address?.street}{' '}
-                                {row.siteData.address?.city},{' '}
-                                {row.siteData.address?.state},
-                              </p>
-                              <p>
-                                {row.siteData.address?.pin_code}
-                                {','}
-                                {row.siteData.address?.country}
+                                {row.siteData && row.siteData.address ? (
+                                  <div>
+                                    <p>
+                                      {row.siteData.address.street}{' '}
+                                      {row.siteData.address.city},{' '}
+                                      {row.siteData.address.state},
+                                    </p>
+                                    <p>
+                                      {row.siteData.address.pin_code},
+                                      {row.siteData.address.country}
+                                    </p>
+                                  </div>
+                                ) : null}
                               </p>
                             </div>
                           )}
