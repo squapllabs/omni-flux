@@ -28,7 +28,8 @@ const ProjectForm = () => {
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getAllCurrencyDatadrop = [] } = useGetMasterCurency();
-  const [dragActive, setDragActive] = useState(false);
+  //   const [fileSizeError, setFileSizeError] = useState(false);
+//   const [selectedFileName, setSelectedFileName] = useState('');
   const [docUrl, setDocUrl] = useState();
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -50,8 +51,12 @@ const ProjectForm = () => {
     estimated_budget: '',
     actual_budget: '',
     description: '',
-    notes: '',
-    site_configuration: [] as Array<{ site_id: number; status: string }>,
+    project_notes: '',
+    site_configuration: [] as Array<{
+      site_id: number;
+      status: string;
+      is_delete: string;
+    }>,
     document_url: '',
   });
   const navigate = useNavigate();
@@ -66,18 +71,31 @@ const ProjectForm = () => {
     setOpenSnack(false);
   };
 
-  const handleDocuments = async (e: any) => {
-    console.log('handle docs innn', e);
-
-    if (e) {
+//   const handleDocuments = async (files: File[]) => {
+//     const promises = files.map(async (file) => {
+//       try {
+//         const url = await userService.user_profile_upload(file);
+//         setDocUrl(url.data);
+//       } catch (error) {
+//         console.log('Error in occur project document upload:', error);
+//       }
+// })
+//   };
+const handleDocuments = async (files: File[]) => {
+    // const uploadedUrls = [];
+  
+    for (const file of files) {
       try {
-        const url = await userService.user_profile_upload(e);
-        console.log('document url =====>', url);
-        setDocUrl(url.data);
+        const url = await userService.user_profile_upload(file);
+        console.log("url in handle document",url);
+        
+        // uploadedUrls.push({ name: file.name, url: url.data });
       } catch (error) {
         console.log('Error in occur project document upload:', error);
       }
     }
+    // setDocUrl(uploadedUrls.map((file) => file.url));
+    // setSelectedFiles(uploadedUrls);
   };
 
   const handleSiteChange = async (event: any, rowIndex: any) => {
@@ -94,7 +112,11 @@ const ProjectForm = () => {
         return updatedRows;
       });
       const newSite = [...formik.values.site_configuration];
-      newSite[rowIndex] = { site_id: Number(siteId), status: 'Not Started' };
+      newSite[rowIndex] = {
+        site_id: Number(siteId),
+        status: 'Not Started',
+        is_delete: 'N',
+      };
       formik.setFieldValue('site_configuration', newSite);
     } else {
       setRows((prevRows) => {
@@ -138,43 +160,31 @@ const ProjectForm = () => {
         estimated_budget: Number(values.estimated_budget),
         actual_budget: Number(values.actual_budget),
         description: values.description,
-        notes: values.notes,
+        project_notes: values.project_notes,
         site_configuration: values.site_configuration,
         document_url: docUrl,
       };
       console.log('data===>', Object);
       createNewProjectData(Object, {
-        //     onSuccess: (data, variables, context) => {
-        //       if (data?.status === true) {
-        //         setMessage('Project Workbreak down created');
-        //         setOpenSnack(true);
-        //         setInterval(() => {
-        //           navigate('/project-workbreakdown');
-        //         }, 1000);
-        //       }
-        //     },
+        onSuccess: (data, variables, context) => {
+          if (data?.status === true) {
+            setMessage('Project created');
+            setOpenSnack(true);
+            setInterval(() => {
+              navigate('/project-workbreakdown');
+            }, 1000);
+          }
+        },
       });
     },
   });
 
-  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
-    } else if (e.type === 'dragleave') {
-      setDragActive(false);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, files: FileList) => {
-    console.log('files', files);
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (files && files[0]) {
-      handleDocuments(files[0]);
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      handleDocuments(Array.from(files));
     }
   };
 
@@ -186,7 +196,9 @@ const ProjectForm = () => {
   };
 
   const onButtonClick = () => {
-    fileInputRef.current?.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
   return (
@@ -200,9 +212,10 @@ const ProjectForm = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Input
-                label="Name *"
+                label="Name"
                 placeholder="Enter project name"
                 name="project_name"
+                mandatory={true}
                 value={formik.values.project_name}
                 onChange={formik.handleChange}
                 error={
@@ -212,9 +225,10 @@ const ProjectForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Input
-                label="Code *"
+                label="Code"
                 placeholder="Enter project code"
                 name="code"
+                mandatory={true}
                 value={formik.values.code}
                 onChange={formik.handleChange}
                 error={formik.touched.code && formik.errors.code}
@@ -224,8 +238,9 @@ const ProjectForm = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Select
-                label="Project Manager *"
+                label="Project Manager"
                 name="user_id"
+                mandatory={true}
                 onChange={formik.handleChange}
                 value={formik.values.user_id}
                 defaultLabel="Select from options"
@@ -240,8 +255,9 @@ const ProjectForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Select
-                label="Client / Customer *"
+                label="Client / Customer"
                 name="client_id"
+                mandatory={true}
                 onChange={formik.handleChange}
                 value={formik.values.client_id}
                 defaultLabel="Select from options"
@@ -258,8 +274,9 @@ const ProjectForm = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <DatePicker
-                label="Start Date *"
+                label="Start Date"
                 name="date_started"
+                mandatory={true}
                 value={formik.values.date_started}
                 onChange={formik.handleChange}
                 InputProps={{
@@ -275,8 +292,9 @@ const ProjectForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <DatePicker
-                label="End Date *"
+                label="End Date"
                 name="date_ended"
+                mandatory={true}
                 value={formik.values.date_ended}
                 onChange={formik.handleChange}
                 InputProps={{
@@ -292,8 +310,9 @@ const ProjectForm = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Select
-                label="Priority *"
+                label="Priority"
                 name="priority"
+                mandatory={true}
                 onChange={formik.handleChange}
                 value={formik.values.priority}
                 defaultLabel="Select from options"
@@ -326,9 +345,10 @@ const ProjectForm = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Input
-                label="Estimated Budget *"
+                label="Estimated Budget"
                 placeholder="Enter rate"
                 name="estimated_budget"
+                mandatory={true}
                 onChange={formik.handleChange}
                 value={formik.values.estimated_budget}
                 error={
@@ -339,9 +359,10 @@ const ProjectForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Input
-                label="Actual Budget *"
+                label="Actual Budget"
                 placeholder="Enter rate"
                 name="actual_budget"
+                mandatory={true}
                 onChange={formik.handleChange}
                 value={formik.values.actual_budget}
                 error={
@@ -364,10 +385,10 @@ const ProjectForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <TextArea
-                name="notes"
+                name="project_notes"
                 label="Project Notes"
                 placeholder="Enter project notes"
-                value={formik.values.notes}
+                value={formik.values.project_notes}
                 onChange={formik.handleChange}
                 rows={4}
                 maxCharacterCount={100}
@@ -397,14 +418,11 @@ const ProjectForm = () => {
                         <div
                           style={{
                             display: 'flex',
-                            // backgroundColor:'blue',
                             justifyContent: 'flex-start',
-                            // padding:"10px 0px 0px 0px"
-                            // alignContent:"center"
+                            height: '40px',
                           }}
                         >
                           <Select
-                            // width="100%"
                             name="site_configuration"
                             onChange={(event) => handleSiteChange(event, index)}
                             value={row.siteId}
@@ -505,54 +523,63 @@ const ProjectForm = () => {
           <div className={Styles.siteHeading}>
             <h4>Project Documents</h4>
           </div>
-          <div
-            style={{
-              width: '35%',
-              border: '1px dashed #475467',
-              borderRadius: '5px',
-            }}
-          >
+          <div style={{ padding: '10px 0px 0px 20px' }}>
             <div
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                padding: '20px',
+                width: '40%',
+                border: '1px dashed #475467',
+                borderRadius: '5px',
               }}
             >
-              <div>
-                <UploadIcon />
-              </div>
               <div
-                id="drop-area"
-                onDragEnter={handleDrag}
-                onDragOver={handleDrag}
-                onDragLeave={handleDrag}
-                onDrop={(e) => handleDrop(e, e.dataTransfer.files)}
-                // className={dragActive ? 'drag-active' : ''}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  padding: '20px',
+                }}
               >
-                {dragActive
-                  ? 'Drop the file here'
-                  : 'Drag and drop a file here'}
+                <div>
+                  <UploadIcon />
+                </div>
+                <div
+                  id="drop-area"
+                  onDrop={(e) => handleDrop(e)}
+                  onDragOver={(e) => e.preventDefault()}
+                >
+                  <h6>Select a file or drag and drop here</h6>
+                  <span style={{ fontSize: '0.65rem' }}>
+                    JPG,PNG or PDF, file size no more than 10MB
+                  </span>
+                </div>
+                <input
+                  ref={fileInputRef}
+                  id="upload-photo"
+                  name="upload_photo"
+                  type="file"
+                  style={{ display: 'none' }}
+                  onChange={handleFileSelect}
+                />
+                <Button
+                  onClick={onButtonClick}
+                  type="button"
+                  shape="rectangle"
+                  size="small"
+                >
+                  Add Files
+                </Button>
               </div>
-              <input
-                ref={fileInputRef}
-                id="upload-photo"
-                name="upload_photo"
-                type="file"
-                style={{ display: 'none' }}
-                onChange={handleFileSelect}
-              />
-              <Button
-                onClick={onButtonClick}
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-              >
-                Add Files
-              </Button>
             </div>
+          </div>
+          <div style={{ padding: '0px 0px 0px 25px' }}>
+            {/* <span>
+              {selectedFileName && (
+                <p style={{ fontSize: '0.65rem' }}>
+                  Selected File: {selectedFileName}
+                </p>
+              )}
+            </span> */}
+            {/* <span> {fileSizeError && <p style={{ color: 'red',fontSize:'0.75rem' }}>File size is greater than 10MB</p>}</span> */}
           </div>
           <div className={Styles.submitButton}>
             <Button

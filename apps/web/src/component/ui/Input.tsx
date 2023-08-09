@@ -92,11 +92,14 @@ const InputError = styled.span`
   font-size: 0.75rem;
 `;
 
+const RequiredField = styled.span`
+color:red;
+`;
 const ErrorMessageWrapper = styled.div`
   min-height: 20px; // Change to the height of your error message
 `;
 
-const Input: React.FC<InputProps> = ({
+const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
   label,
   placeholder,
   error,
@@ -104,11 +107,13 @@ const Input: React.FC<InputProps> = ({
   prefixIcon,
   suffixIcon,
   disabled,
+  mandatory = false,
   ...props
 }) => {
+  const shouldShowAsterisk = mandatory ;
   return (
     <InputWrapper width={width}>
-      {label && <StyledLabel>{label}</StyledLabel>}
+      {label && <StyledLabel>{label} {shouldShowAsterisk && <RequiredField>*</RequiredField>} </StyledLabel>}
       <InputContainer
         error={!!error}
         hasPrefixIcon={!!prefixIcon}

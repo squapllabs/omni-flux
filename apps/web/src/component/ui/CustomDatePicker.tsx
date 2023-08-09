@@ -79,16 +79,22 @@ const ErrorMessageWrapper = styled.div`
   min-height: 20px; // Change to the height of your error message
 `;
 
-const DatePicker: React.FC<InputProps> = ({
+const RequiredField = styled.span`
+color:red;
+`;
+
+const DatePicker: React.FC<InputProps  & { mandatory?: boolean }> = ({
   label,
   placeholder,
   error,
   width,
+  mandatory = false,
   ...props
 }) => {
+  const shouldShowAsterisk = mandatory ;
   return (
     <InputWrapper width={width}>
-      {label && <StyledLabel>{label}</StyledLabel>}
+      {label && <StyledLabel>{label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}</StyledLabel>}
       <InputContainer error={!!error}>
         <StyledInput
           type="date" // Use the inputType here

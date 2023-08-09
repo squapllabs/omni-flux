@@ -103,7 +103,11 @@ const InputError = styled.span`
   margin-top: 2px;
   font-size: 0.75rem;
 `;
-const Select: FC<SelectProps> = ({
+
+const RequiredField = styled.span`
+color:red;
+`;
+const Select: FC<SelectProps & { mandatory?: boolean }> = ({
   onChange,
   label,
   value,
@@ -112,12 +116,14 @@ const Select: FC<SelectProps> = ({
   children,
   name,
   error,
-  disabled
+  disabled,
+  mandatory = false,
 }) => {
+  const shouldShowAsterisk = mandatory ;
   return (
     <div>
       <InputWrapper width={width}>
-        {label && <StyledLabel>{label}</StyledLabel>}
+        {label && <StyledLabel>{label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}</StyledLabel>}
         <SelectContainer width={width}>
           <StyledSelect
             value={value}
