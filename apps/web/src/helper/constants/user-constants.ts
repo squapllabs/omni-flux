@@ -21,7 +21,9 @@ export const userErrorMessages = {
   ENTER_VALID_NAME: 'Invalid name',
   ENTER_VALID_DEPARTMENT: 'Invalid department',
   ENTER_MAX_NAME:'Name should not exceed 100 characters',
-  ENTER_MAX_DEPARTMENT:'Department should not exceed 100 characters'
+  ENTER_MAX_DEPARTMENT:'Department should not exceed 100 characters',
+  ENTER_OTP_VALID:'OTP should be 6 digits',
+  ENTER_OTP:'Enter OTP',
 };
 
 export const getLoginYupSchema = (yup: any) => {
@@ -84,6 +86,16 @@ export const getForgetPasswordYupSchema = (yup: any) => {
       .oneOf([yup.ref('new_password'), null], userErrorMessages.PASSWORD_MATCH),
   });
 };
+
+export const getValidateOTPYupSchema = (yup : any) => {
+  return yup.object().shape({
+    otp : yup.string()
+    .typeError(userErrorMessages.ENTER_OTP)
+    .matches(/^\d{6}$/, userErrorMessages.ENTER_OTP_VALID)
+    .required(userErrorMessages.ENTER_OTP)
+  })
+};
+
 export const getUsercreationYupschema = (yup: any) => {
   return yup.object().shape({
     first_name: yup.string()

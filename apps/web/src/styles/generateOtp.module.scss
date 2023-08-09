@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+  }
+  .header {
+    height: 30%;
+  }
+  .main {
+    height: 50%;
+    width: 30%;
+  }
+  .content {
+    opacity: 1;
+    font-size: small;
+    font-weight: bold;
+  }
+  .errormessage {
+    color: red;
+    font-size: small;
+    text-align: center;
+  }
+  .containerStyle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 20px;
+  }
+  .buttonStyle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+

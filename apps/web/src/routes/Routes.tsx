@@ -203,6 +203,8 @@ import AddProducts from '../component/products/addProducts';
 import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
 import ProductPage from '../component/products/productPage';
+import GenerateOtp from '../component/generateOtp';
+import ResetPassword from '../component/resetPassword/token';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -220,6 +222,7 @@ const AppRoutes = () => {
   const ProtectedCategoryList = withLayoutAndProtection(CategoryList);
   const ProtectedAddProductPage = withLayoutAndProtection(AddProducts);
   const ProtectedProductPage = withLayoutAndProtection(ProductPage);
+  const ProtectedResetPasswordPage = withLayoutAndProtection(ResetPassword);
 
   return (
     <div>
@@ -239,6 +242,8 @@ const AppRoutes = () => {
         <Route path="/hsncode-list" element={<ProtectedHsnCodeList />} />
         <Route path="/client-list" element={<ProtectedClientList />} />
         <Route path="/category-list" element={<ProtectedCategoryList />} />
+        <Route path = "/generate-otp" element={<GenerateOtp />} />
+        <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
       </Routes>
     </div>
   );
