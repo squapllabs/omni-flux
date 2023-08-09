@@ -28,7 +28,7 @@ const ProjectForm = () => {
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getAllCurrencyDatadrop = [] } = useGetMasterCurency();
-  //   const [fileSizeError, setFileSizeError] = useState(false);
+  const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [docUrl, setDocUrl] = useState<any[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
@@ -81,7 +81,6 @@ const ProjectForm = () => {
       const modifiedArray = uploadResponses.flatMap(
         (response) => response.data
       );
-      console.log('final data', modifiedArray);
       setDocUrl(modifiedArray);
       const uploadedUrls = uploadResponses.map((response) => {
         return response.data.map((fileData: { path: string }) => {
@@ -167,7 +166,6 @@ const ProjectForm = () => {
         project_documents: docUrl,
         status: 'Not Started',
       };
-      console.log('data===>', Object);
       createNewProjectData(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
@@ -186,8 +184,16 @@ const ProjectForm = () => {
     e.preventDefault();
     e.stopPropagation();
     const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      handleDocuments(Array.from(files));
+    const fileList = Array.from(files);
+    const oversizedFiles = fileList.filter(
+      (file) => file.size > 10 * 1024 * 1024
+    ); 
+    if (oversizedFiles.length > 0) {
+        const oversizedFileNames = oversizedFiles.map(file => file.name).join(', ');
+      const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
+      setFileSizeError(errorMessage);
+    } else {
+      handleDocuments(fileList);
     }
   };
 
@@ -195,7 +201,14 @@ const ProjectForm = () => {
     const files = e.target.files;
     if (files.length > 0) {
       const fileList: File[] = Array.from(files);
-      handleDocuments(fileList);
+      const oversizedFiles = fileList.filter(file => file.size > 10 * 1024 * 1024);
+      if (oversizedFiles.length > 0) {
+        const oversizedFileNames = oversizedFiles.map(file => file.name).join(', ');
+        const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
+        setFileSizeError(errorMessage);
+      } else {
+        handleDocuments(fileList);
+      }
     }
   };
 
@@ -589,7 +602,7 @@ const ProjectForm = () => {
                 ))}
               </ul>
             </span>
-            {/* <span> {fileSizeError && <p style={{ color: 'red',fontSize:'0.75rem' }}>File size is greater than 10MB</p>}</span> */}
+            <span> <p style={{ color: 'red',fontSize:'0.75rem' }}>{fileSizeError}</p></span>
           </div>
           <div className={Styles.submitButton}>
             <Button

@@ -226,9 +226,9 @@ const ProjectList = () => {
                         <EditIcon
                           onClick={() => navigate(`/project-edit/${data.project_id}`)}
                         />
-                        <DeleteIcon
+                        {/* <DeleteIcon
                           onClick={() => deleteProjectHandler(data.user_id)}
-                        />
+                        /> */}
                       </div>
                     </td>
                   </tr>
