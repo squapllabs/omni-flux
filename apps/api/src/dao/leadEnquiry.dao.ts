@@ -94,7 +94,7 @@ const add = async (
 
       for (const product of product_item) {
         const product_id = product.product_id;
-        const quantity = product_id.quantity;
+        const quantity = product.quantity;
 
         const leadEnquiryProductItemResult =
           await transaction.lead_enquiry_product_item.create({
@@ -248,32 +248,43 @@ const edit = async (
           product.lead_enquiry_product_item_id;
         const product_id = product.product_id;
         const quantity = product.quantity;
+        const is_delete = product.is_delete;
 
         if (lead_enquiry_product_item_id) {
-          const leadEnquiryProductItemResult =
-            await transaction.lead_enquiry_product_item.update({
+          if (is_delete === 'Y') {
+            await transaction.lead_enquiry_product_item.delete({
               where: {
                 lead_enquiry_product_item_id: Number(
                   lead_enquiry_product_item_id
                 ),
               },
-              data: {
-                lead_enquiry_product: {
-                  connect: {
-                    lead_product_id: lead_product_id,
-                  },
-                },
-                product: {
-                  connect: {
-                    item_id: product_id,
-                  },
-                },
-                quantity: quantity,
-                updated_by,
-                updated_date: currentDate,
-              },
             });
-          leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+          } else {
+            const leadEnquiryProductItemResult =
+              await transaction.lead_enquiry_product_item.update({
+                where: {
+                  lead_enquiry_product_item_id: Number(
+                    lead_enquiry_product_item_id
+                  ),
+                },
+                data: {
+                  lead_enquiry_product: {
+                    connect: {
+                      lead_product_id: lead_product_id,
+                    },
+                  },
+                  product: {
+                    connect: {
+                      item_id: product_id,
+                    },
+                  },
+                  quantity: quantity,
+                  updated_by,
+                  updated_date: currentDate,
+                },
+              });
+            leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+          }
         } else {
           const leadEnquiryProductItemResult =
             await transaction.lead_enquiry_product_item.create({
