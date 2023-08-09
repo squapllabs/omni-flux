@@ -218,6 +218,7 @@ import contractorEdit from '../component/contractor/contractorEdit';
 import projectForm from '../component/project/projectForm';
 import projectList from '../component/project/projectList';
 import Settings from '../component/settings/homeSetting';
+import projectEdit from '../component/project/projectEdit';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -248,7 +249,8 @@ const AppRoutes = () => {
   const ProtectedContractorEditFormPage = withLayoutAndProtection(contractorEdit);
   const ProtectedProjectFormPage = withLayoutAndProtection(projectForm);
   const ProtectedProjectListPage = withLayoutAndProtection(projectList);
-  const ProtectedSettings = withLayoutAndProtection(Settings)
+  const ProtectedSettings = withLayoutAndProtection(Settings);
+  const ProtectedProjectEdit = withLayoutAndProtection(projectEdit);
 
   return (
     <div>
@@ -285,6 +287,7 @@ const AppRoutes = () => {
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
         <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownPage />} />
         <Route path="/settings" element={<ProtectedSettings />} />
+        <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
       </Routes>
     </div>
   );

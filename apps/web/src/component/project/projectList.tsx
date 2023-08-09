@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/projectlist.module.scss';
-import { useGetAllProject, getByProject } from '../../hooks/project-hooks';
+import { getByProject, useDeleteProjects } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import SearchIcon from '../menu/icons/search';
 import AddIcon from '../menu/icons/addIcon';
-import CustomLoader from '../ui/customLoader';
 import CustomGroupButton from '../ui/CustomGroupButton';
+import { format } from 'date-fns';
+import Pagination from '../menu/pagination';
+import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSnackBar from '../ui/customSnackBar';
+import { useNavigate } from 'react-router-dom';
+
 const ProjectList = () => {
-//   const { isLoading: getAllLoading } = useGetAllProject;
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     // isLoading: FilterLoading,
   } = getByProject();
+  const { mutate: getDeleteProjectByID } = useDeleteProjects();
+
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -24,6 +32,13 @@ const ProjectList = () => {
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [filter, setFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [open, setOpen] = useState(false);
+  const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
+  const [value, setValue] = useState(0);
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
@@ -36,13 +51,13 @@ const ProjectList = () => {
   };
   useEffect(() => {
     handleSearch();
-  }, [activeButton]);
+  }, [currentPage, rowsPerPage, activeButton]);
 
   /* Function for searching a user in the table */
   const handleSearch = async () => {
     const userData: any = {
-      limit: 5,
-      offset: 0,
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
       global_search: filterValues.search_by_name,
@@ -56,8 +71,8 @@ const ProjectList = () => {
   /* Function for reseting the table to its actual state after search */
   const handleReset = async () => {
     const userData: any = {
-      limit: 5,
-      offset: 0,
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_by',
       order_by_direction: 'desc',
       global_search: '',
@@ -70,6 +85,37 @@ const ProjectList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
+  };
+
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+
+  const deleteProjectHandler = (id: any) => {
+    setValue(id);
+    setOpen(true);
+  };
+
+  const deleteProject = () => {
+    getDeleteProjectByID(value);
+    handleClose();
+    setMessage('Successfully deleted');
+    setOpenDeleteSnack(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenDeleteSnack(false);
   };
 
   return (
@@ -113,7 +159,7 @@ const ProjectList = () => {
               Reset
             </Button>
           </div>
-          <div>
+          <div className={Styles.button}>
             <div>
               <CustomGroupButton
                 labels={buttonLabels}
@@ -121,15 +167,18 @@ const ProjectList = () => {
                 activeButton={activeButton}
               />
             </div>
-            <Button
-              shape="rectangle"
-              justify="center"
-              size="small"
-              color="primary"
-              icon={<AddIcon />}
-            >
-              Add
-            </Button>
+            <div>
+              <Button
+                shape="rectangle"
+                justify="center"
+                size="small"
+                color="primary"
+                icon={<AddIcon />}
+                onClick={() => navigate('/project-add')}
+              >
+                Add
+              </Button>
+            </div>
           </div>
         </div>
         <div className={Styles.dividerStyle}></div>
@@ -168,20 +217,50 @@ const ProjectList = () => {
                       {data.user?.first_name} {data.user?.last_name}
                     </td>
                     <td>{data.status}</td>
-                    <td>{data.date_started}</td>
-                    <td>{data.date_ended}</td>
                     <td>
-                      {/* <div className={Styles.tablerow}>
-                          <EditIcon onClick={() => navigate(`/user-edit/${data.user_id}`)} />
-                          <DeleteIcon onClick={() => deleteUserHandler(data.user_id)} />
-                        </div> */}
+                      {format(new Date(data.date_started), 'MMM dd, yyyy')}
+                    </td>
+                    <td>{format(new Date(data.date_ended), 'MMM dd, yyyy')}</td>
+                    <td>
+                      <div className={Styles.tablerow}>
+                        <EditIcon
+                          onClick={() => navigate(`/project-edit/${data.project_id}`)}
+                        />
+                        <DeleteIcon
+                          onClick={() => deleteProjectHandler(data.user_id)}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          <div className={Styles.pagination}>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={getFilterData?.total_page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+            />
+          </div>
         </div>
+        <CustomDelete
+          open={open}
+          handleClose={handleClose}
+          title="Delete User"
+          contentLine1="Are you want to delete this User?"
+          contentLine2=""
+          handleConfirm={deleteProject}
+        />
+        <CustomSnackBar
+          open={openDeleteSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          type="success"
+          autoHideDuration={1000}
+        />
       </div>
     </div>
   );

@@ -37,6 +37,20 @@ const getByProject = () => {
       },
     }
   )
-}
+};
 
-export { useGetAllProject,createProject,getByProject };
+const useDeleteProjects = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ProjectService.deleteProject(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllUsers']);
+      },
+    }
+  );
+};
+
+export { useGetAllProject,createProject,getByProject,useDeleteProjects };
