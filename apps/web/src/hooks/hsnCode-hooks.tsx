@@ -36,6 +36,20 @@ const createHsnCode = () => {
   );
 };
 
+const uploadHsnCode = () => {
+  const queryClient = useQueryClient();
+  return useMutation (
+    (data: any) => {
+      return hsnCodeService.uploadHsnCode(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllHsnCode']);
+      },
+    }
+  );
+}
+
 const updateHsnCode = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -49,4 +63,19 @@ const updateHsnCode = () => {
     }
   );
 };
-export { useGetAllHsnCode, useDeleteHsnCode, createHsnCode, updateHsnCode };
+const getByCode = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return hsnCodeService.filterHsn(data);
+    },
+    {
+      onSuccess: (response) => {
+        
+        response;
+      },
+    }
+  );
+};
+
+export { useGetAllHsnCode, useDeleteHsnCode, createHsnCode, updateHsnCode ,uploadHsnCode, getByCode};

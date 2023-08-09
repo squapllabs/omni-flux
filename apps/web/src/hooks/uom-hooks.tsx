@@ -55,6 +55,19 @@ const useDeleteUom = () => {
     }
   );
 };
+const getByUom = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return uomService.filterUom(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
 
 const useGetAllUomDrop = () => {
   return useQuery(['useGetAlluom'], () => uomService.getAlluom(), 
@@ -67,4 +80,4 @@ const useGetAllUomDrop = () => {
   });
 };
 
-export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop };
+export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom };

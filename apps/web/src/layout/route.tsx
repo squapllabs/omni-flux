@@ -125,7 +125,7 @@ const route = () => {
           }
         />
          <Route
-          path="/setting"
+          path="/settings"
           element={
             <ProtectedRoute>
               <Layout />

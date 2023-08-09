@@ -69,6 +69,19 @@ const useDeleteClient = () => {
     }
   );
 };
+const getByClient = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ClientService.filterClient(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
 
 export {
   useGetAllClient,
@@ -76,5 +89,6 @@ export {
   createClient,
   updateClient,
   useDeleteClient,
-  useGetAllClientDrop
+  useGetAllClientDrop,
+  getByClient,
 };

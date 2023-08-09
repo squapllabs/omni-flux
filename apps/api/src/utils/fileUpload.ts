@@ -6,12 +6,17 @@ const processFileUpload = async (req, res) => {
   const files = req.files;
 
   let data = null;
-
+  const allFilePath = [];
+  let index = 0;
   if (storage === 's3') {
     for (const file of files.file) {
       data = await s3Access.uploadFileInS3(file);
       const uploadedFile = file;
       const filePath = uploadedFile.path;
+      const s3FilePath = data.path;
+
+      allFilePath.push({ index, path: s3FilePath });
+
       fs.unlink(filePath, (err) => {
         if (err) {
           console.error('Error deleting the local file:', err);
@@ -19,6 +24,8 @@ const processFileUpload = async (req, res) => {
           console.log('Local File deleted successfully.');
         }
       });
+
+      index++;
     }
   }
   res.status(200).json({
@@ -27,7 +34,7 @@ const processFileUpload = async (req, res) => {
         ? 'File upload successful in Local!'
         : 'File upload successful in S3!',
     status: true,
-    data: storage === 'local' ? files : data?.path,
+    data: storage === 'local' ? files : allFilePath,
   });
 };
 

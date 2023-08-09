@@ -29,8 +29,8 @@ const ProjectForm = () => {
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getAllCurrencyDatadrop = [] } = useGetMasterCurency();
   //   const [fileSizeError, setFileSizeError] = useState(false);
-//   const [selectedFileName, setSelectedFileName] = useState('');
-  const [docUrl, setDocUrl] = useState();
+  const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
+  const [docUrl, setDocUrl] = useState<any[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [rows, setRows] = useState([
@@ -57,7 +57,7 @@ const ProjectForm = () => {
       status: string;
       is_delete: string;
     }>,
-    document_url: '',
+    project_documents: '',
   });
   const navigate = useNavigate();
 
@@ -71,31 +71,30 @@ const ProjectForm = () => {
     setOpenSnack(false);
   };
 
-//   const handleDocuments = async (files: File[]) => {
-//     const promises = files.map(async (file) => {
-//       try {
-//         const url = await userService.user_profile_upload(file);
-//         setDocUrl(url.data);
-//       } catch (error) {
-//         console.log('Error in occur project document upload:', error);
-//       }
-// })
-//   };
-const handleDocuments = async (files: File[]) => {
-    // const uploadedUrls = [];
-  
-    for (const file of files) {
-      try {
-        const url = await userService.user_profile_upload(file);
-        console.log("url in handle document",url);
-        
-        // uploadedUrls.push({ name: file.name, url: url.data });
-      } catch (error) {
-        console.log('Error in occur project document upload:', error);
-      }
+  const handleDocuments = async (files: File[]) => {
+    try {
+      const uploadPromises = files.map(async (file) => {
+        return userService.user_profile_upload(file);
+      });
+      const uploadResponses = await Promise.all(uploadPromises);
+      const modifiedArray = uploadResponses.flatMap((response) => response.data);
+      console.log("final data",modifiedArray);
+      setDocUrl(modifiedArray)
+      const uploadedUrls = uploadResponses.map((response) => {
+        return response.data.map((fileData: { path: string }) => {
+          const pathSegments = fileData.path.split('/');
+          const fileNameWithTimestamp = pathSegments[pathSegments.length - 1];
+          const fileNameWithoutTimestamp = fileNameWithTimestamp
+            .split('-')
+            .slice(3)
+            .join('-');
+          return fileNameWithoutTimestamp;
+        });
+      });
+      setSelectedFileName(uploadedUrls);
+    } catch (error) {
+      console.log('Error in occur project document upload:', error);
     }
-    // setDocUrl(uploadedUrls.map((file) => file.url));
-    // setSelectedFiles(uploadedUrls);
   };
 
   const handleSiteChange = async (event: any, rowIndex: any) => {
@@ -162,7 +161,7 @@ const handleDocuments = async (files: File[]) => {
         description: values.description,
         project_notes: values.project_notes,
         site_configuration: values.site_configuration,
-        document_url: docUrl,
+        project_documents: docUrl,
       };
       console.log('data===>', Object);
       createNewProjectData(Object, {
@@ -189,9 +188,10 @@ const handleDocuments = async (files: File[]) => {
   };
 
   const handleFileSelect = (e: any) => {
-    const file = e.target.files[0];
-    if (file) {
-      handleDocuments(file);
+    const files = e.target.files;
+    if (files.length > 0) {
+      const fileList: File[] = Array.from(files);
+      handleDocuments(fileList);
     }
   };
 
@@ -559,6 +559,7 @@ const handleDocuments = async (files: File[]) => {
                   type="file"
                   style={{ display: 'none' }}
                   onChange={handleFileSelect}
+                  multiple
                 />
                 <Button
                   onClick={onButtonClick}
@@ -571,14 +572,14 @@ const handleDocuments = async (files: File[]) => {
               </div>
             </div>
           </div>
-          <div style={{ padding: '0px 0px 0px 25px' }}>
-            {/* <span>
-              {selectedFileName && (
-                <p style={{ fontSize: '0.65rem' }}>
-                  Selected File: {selectedFileName}
-                </p>
-              )}
-            </span> */}
+          <div style={{ padding: '0px 0px 0px 30px' }}>
+            <span>
+              <ul style={{ fontSize: '0.65rem' }}>
+                {selectedFileName.map((fileName, index) => (
+                  <li key={index}>{fileName}</li>
+                ))}
+              </ul>
+            </span>
             {/* <span> {fileSizeError && <p style={{ color: 'red',fontSize:'0.75rem' }}>File size is greater than 10MB</p>}</span> */}
           </div>
           <div className={Styles.submitButton}>
