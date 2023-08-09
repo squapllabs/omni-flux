@@ -1,51 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import MUIDataTable from 'mui-datatables';
-import { useGetAllUsers, useDeleteUsers } from '../../hooks/user-hooks';
+import { useGetAllUsers, useDeleteUsers, getByUser } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
-import { Tooltip, IconButton } from '@mui/material';
-import CustomDialog from '../ui/customDialog';
-import MySnackbar from '../ui/MySnackbar';
-import Card from '@mui/material/Card';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import userService from '../../service/user-service';
-import Button from '../menu/button';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSnackBar from '../ui/customSnackBar';
+import Button from '../ui/Button';
+import CustomGroupButton from '../ui/CustomGroupButton';
+import CustomLoader from '../ui/customLoader';
+import Input from '../ui/Input';
+import SearchIcon from '../menu/icons/search';
+import Pagination from '../menu/pagination';
+import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import AddIcon from '../menu/icons/addIcon';
 
-function TabPanel(props: any) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Box>{children}</Box>
-        </Box>
-      )}
-    </div>
-  );
-}
-
+/* Function for User List */
 const UserList = () => {
-  const { data: getAllUsers, isLoading: loader } = useGetAllUsers();
+  const { isLoading: getAllLoading } = useGetAllUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
+  const {
+    mutate: postDataForFilter,
+    data: getFilterData,
+    isLoading: FilterLoading,
+  } = getByUser();
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
-  const [tabvalue, setTabValue] = useState(0);
-  const [tableData, setTableData] = useState();
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IN' },
+  ]);
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const [isLoading, setIsLoading] = useState(true);
+  const [filterValues, setFilterValues] = useState({
+    search_by_name: '',
+  });
+  const [filter, setFilter] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
 
   const deleteUserHandler = (id: any) => {
@@ -59,6 +52,7 @@ const UserList = () => {
     setOpenDeleteSnack(false);
   };
 
+  /* Function for deleting a user data */
   const deleteUser = () => {
     getDeleteUserByID(value);
     handleClose();
@@ -66,283 +60,199 @@ const UserList = () => {
     setOpenDeleteSnack(true);
   };
 
-  const handleChangeTab = (event: any, newValue: any) => {
-    setTabValue(newValue);
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
   };
 
-  function a11yProps(index: any) {
-    return {
-      id: `full-width-tab-${index}`,
-      'aria-controls': `full-width-tabpanel-${index}`,
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValues({
+      ...filterValues,
+      ['search_by_name']: event.target.value,
+    });
+  };
+
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, rowsPerPage, activeButton]);
+
+  /* Function for searching a user in the table */
+  const handleSearch = async () => {
+    const userData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: "updated_date",
+      order_by_direction: "desc",
+      global_search: filterValues.search_by_name,
+      status: activeButton
     };
-  }
-
-  const handleTab = async (index_value: number) => {
-    if (index_value === 1) {
-      const getData = await userService.getAllInactiveUsers();
-      setTableData(getData?.data);
-    }
+    postDataForFilter(userData);
+    setIsLoading(false);
+    setFilter(true);
   };
-  const columns = [
-    {
-      name: 'user_id',
-      label: 'User',
-      options: {
-        display: false,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'S No',
-      label: 'S No',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return tableMeta.rowIndex + 1;
-        },
-      },
-    },
 
-    {
-      name: 'first_name',
-      label: 'First Name',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'last_name',
-      label: 'Last Name',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'email_id',
-      label: 'Email',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'contact_no',
-      label: 'Contact Number',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: '',
-      label: 'Options',
-      options: {
-        sort: false,
-        filter: false,
-        searchable: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <div>
-              <Tooltip title="View">
-                <IconButton
-                  aria-label="View"
-                  size="small"
-                  onClick={() => navigate(`/userInfo/${tableMeta.rowData[0]}`)}
-                >
-                  <VisibilityIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete"
-                  size="small"
-                  onClick={() => deleteUserHandler(tableMeta.rowData[0])}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Edit">
-                <IconButton
-                  aria-label="Edit"
-                  size="small"
-                  onClick={() => navigate(`/user-edit/${tableMeta.rowData[0]}`)}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          );
-        },
-      },
-    },
-  ];
-
-  const columnsOne = [
-    {
-      name: 'user_id',
-      label: 'User',
-      options: {
-        display: false,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'S No',
-      label: 'S No',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-        customBodyRender: (value: any, tableMeta: any) => {
-          return tableMeta.rowIndex + 1;
-        },
-      },
-    },
-
-    {
-      name: 'first_name',
-      label: 'First Name',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'last_name',
-      label: 'Last Name',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'email_id',
-      label: 'Email',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'contact_no',
-      label: 'Contact Number',
-      options: {
-        display: true,
-        filter: false,
-        sort: false,
-      },
-    },
-  ];
-
-  const options = {
-    filter: false,
-    search: true,
-    caseSensitive: false,
-    print: false,
-    download: false,
-    viewColumns: false,
-    selectableRows: 'none' as const,
-    textLabels: {
-      body: {
-        noMatch: loader ? 'Loading...' : 'Sorry , No Records found',
-      },
-    },
-    setTableProps: () => {
-      return {
-        size: 'small',
-      };
-    },
+  /* Function for reseting the table to its actual state after search */
+  const handleReset = async () => {
+    const userData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_by',
+      order_by_direction: 'desc',
+      global_search: '',
+      status: "AC",
+    };
+    postDataForFilter(userData);
+    setIsLoading(false);
+    setFilter(false);
+    setFilterValues({
+      search_by_name: '',
+    });
+    setIsLoading(false);
   };
+
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+
 
   return (
     <div className={Styles.container}>
-      <div className={Styles.buttonContainer}>
-        <Button
-          text="Add"
-          backgroundColor="#7F56D9"
-          fontSize={14}
-          fontWeight={500}
-          width={100}
-          onClick={() => navigate('/user-create')}
+      <div>
+        <CustomLoader
+          loading={isLoading === true ? getAllLoading : FilterLoading}
+          size={48}
+          color="#333C44"
+        >
+          <div className={Styles.text}>
+            <div className={Styles.textStyle}>
+              <h3>List of Users</h3>
+            </div>
+            <div className={Styles.buttonStyle}>
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon />}
+                onClick={() => navigate('/user-create')}
+              >
+                Add User
+              </Button>
+            </div>
+          </div>
+          <div className={Styles.dividerStyle}></div>
+          <div className={Styles.searchField}>
+            <div className={Styles.inputFilter}>
+              <Input
+                width="260px"
+                prefixIcon={<SearchIcon />}
+                name="search_by_name"
+                value={filterValues.search_by_name}
+                onChange={(e) => handleFilterChange(e)}
+                placeholder="Search"
+              />
+              <Button
+                className={Styles.searchButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleSearch}
+              >
+                Search
+              </Button>
+              <Button
+                className={Styles.resetButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleReset}
+              >
+                Reset
+              </Button>
+            </div>
+            <div>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
+          </div>
+          <div className={Styles.tableContainer}>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>S. No</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Contact Number</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getFilterData?.total_count === 0 ? (
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>No data found</td>
+                      <td></td>
+                    </tr>
+                  ) : (
+                    ''
+                  )}
+                  {getFilterData?.content?.map((data: any, index: number) => (
+                    <tr key={data.user_id}>
+                      <td>{index + 1}</td>
+                      <td>{data.first_name}</td>
+                      <td>{data.last_name}</td>
+                      <td>{data.email_id}</td>
+                      <td>{data.contact_no}</td>
+                      <td>
+                        <div className={Styles.tablerow}>
+                          <EditIcon onClick={() => navigate(`/user-edit/${data.user_id}`)} />
+                          <DeleteIcon onClick={() => deleteUserHandler(data.user_id)} />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className={Styles.pagination}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={getFilterData?.total_page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
+            </div>
+          </div>
+        </CustomLoader>
+        <CustomDelete
+          open={open}
+          handleClose={handleClose}
+          title="Delete User"
+          contentLine1="Are you want to delete this User?"
+          contentLine2=""
+          handleConfirm={deleteUser}
+        />
+        <CustomSnackBar
+          open={openDeleteSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          type="success"
+          autoHideDuration={1000}
         />
       </div>
-      <div className={Styles.tableContainer}>
-        <Card>
-          <AppBar position="static">
-            <Tabs
-              value={tabvalue}
-              onChange={handleChangeTab}
-              variant="fullWidth"
-              indicatorColor="primary"
-              style={{
-                background: 'white',
-              }}
-            >
-              <Tab
-                style={{
-                  fontWeight: 'bold',
-                }}
-                label="Active Users"
-                onClick={(e) => handleTab(0)}
-                {...a11yProps(0)}
-              />
-              <Tab
-                style={{
-                  fontWeight: 'bold',
-                }}
-                label="Inactive Users"
-                onClick={(e) => handleTab(1)}
-                {...a11yProps(1)}
-              />
-            </Tabs>
-          </AppBar>
-          <TabPanel value={tabvalue} index={0}>
-            <MUIDataTable
-              title={`Users List (${
-                getAllUsers?.count ? getAllUsers?.count : 0
-              })`}
-              data={getAllUsers?.data}
-              columns={columns}
-              options={options}
-            />
-          </TabPanel>
-          <TabPanel value={tabvalue} index={1}>
-            <MUIDataTable
-              title={`Users List (${tableData?.count ? tableData?.count : 0})`}
-              data={tableData?.data}
-              columns={columnsOne}
-              options={options}
-            />
-          </TabPanel>
-        </Card>
-      </div>
-      <CustomDialog
-        open={open}
-        handleClose={handleClose}
-        title="Delete User"
-        content="Are you want to delete this User?"
-        handleConfirm={deleteUser}
-      />
-      <MySnackbar
-        open={openDeleteSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        severity={'success'}
-        autoHideDuration={1000}
-      />
     </div>
   );
 };

@@ -7,7 +7,6 @@ import { getByuserID, updateUser } from '../../hooks/user-hooks';
 import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
-import MySnackbar from '../ui/MySnackbar';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Select from '../ui/Select';
@@ -15,6 +14,7 @@ import userService from '../../service/user-service';
 import AddIcon from '../menu/icons/addIcon';
 import { format } from 'date-fns';
 import Checkbox from '../ui/Checkbox';
+import CustomSnackbar from '../ui/customSnackBar';
 
 const validationSchema = getUsereditYupschema(Yup);
 const UserEdit = () => {
@@ -56,7 +56,6 @@ const UserEdit = () => {
 
   useEffect(() => {
     if (getOneuserData) {
-      console.log('get data ==>', getOneuserData);
       const dateOfBirth = getOneuserData?.userProfileData?.date_of_birth;
       let formattedDate = '';
       if (dateOfBirth) {
@@ -165,7 +164,7 @@ const UserEdit = () => {
             setOpenSnakBar(true);
             setMessage('User Data Has updated Successfully');
             setInterval(() => {
-              navigate('/userList');
+              navigate('/settings');
             }, 3000);
           }
         },
@@ -211,6 +210,7 @@ const UserEdit = () => {
               value={formik.values.contact_no}
               onChange={formik.handleChange}
               error={formik.touched.contact_no && formik.errors.contact_no}
+              disabled="true"
             />
           </div>
           <div className={Styles.inputField}>
@@ -221,6 +221,7 @@ const UserEdit = () => {
               value={formik.values.email_id}
               onChange={formik.handleChange}
               error={formik.touched.email_id && formik.errors.email_id}
+              disabled="true"
             />
           </div>
         </div>
@@ -391,7 +392,7 @@ const UserEdit = () => {
               color="primary"
               shape="rectangle"
               justify="center"
-              onClick={() => navigate('/userList')}
+              onClick={() => navigate('/settings')}
             >
               Back
             </Button>
@@ -406,12 +407,12 @@ const UserEdit = () => {
           </div>
         </div>
       </form>
-      <MySnackbar
+      <CustomSnackbar
         open={OpenSnackbar}
         message={message}
         onClose={handleSnackBarClose}
-        severity={'success'}
         autoHideDuration={1000}
+        type="success"
       />
     </div>
   );

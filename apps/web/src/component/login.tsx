@@ -59,7 +59,8 @@ const Login = () => {
           user_password: values?.password,
           is_remember_me: rememberMe,
         };
-        loginData(data, {
+
+          loginData(data, {
           onSuccess: async (data) => {
             if (data?.status === true) {
               dispatch(setToken({ key: 'Data', value: data }));
@@ -185,9 +186,9 @@ const Login = () => {
                     <Button
                       color="primary"
                       shape="rectangle"
-                      fullWidth
                       justify="center"
                       size="small"
+                      fullWidth
                       onClick={(e) => handleSubmit(e)}
                     >
                       Sign in

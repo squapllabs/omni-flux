@@ -207,6 +207,8 @@ import Category from '../component/category/category';
 import MasterData from '../component/masterData/masterData';
 import GenerateOtp from '../component/generateOtp';
 import ResetPassword from '../component/resetPassword/token';
+import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
+import Settings from '../component/settings/homeSetting';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -227,6 +229,8 @@ const AppRoutes = () => {
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
   const ProtectedResetPasswordPage = withLayoutAndProtection(ResetPassword);
+  const ProtectedProjectWorkBreakDownPage = withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedSettings = withLayoutAndProtection(Settings)
 
   return (
     <div>
@@ -251,7 +255,9 @@ const AppRoutes = () => {
         <Route path="/category" element={<ProtectedCategoryPage />} />
         <Route path="/master-data" element={<ProtectedMasterDataPage />} />
         <Route path="/generate-otp" element={<GenerateOtp />} />
-        <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
+        <Route path="/reset-password/:id/:token" element={<ProtectedResetPasswordPage />} />
+        <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownPage />} />
+        <Route path="/settings" element={<ProtectedSettings />} />
       </Routes>
     </div>
   );

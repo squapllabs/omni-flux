@@ -67,6 +67,19 @@ const useDeleteUsers = () => {
     }
   );
 };
+const getByUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data:any) => {
+      return userService.filterUser(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  )
+}
 export {
   useGetAllUsers,
   getByloginID,
@@ -75,4 +88,5 @@ export {
   updateUser,
   useDeleteUsers,
   useGetAllInactiveUsers,
+  getByUser,
 };
