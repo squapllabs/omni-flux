@@ -5,7 +5,6 @@ import {
   createProjectBody,
   updateProjectBody,
 } from '../interfaces/project.Interface';
-import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New Project
@@ -21,22 +20,32 @@ const createProject = async (body: createProjectBody) => {
       date_started,
       date_ended,
       status,
-      budget,
+      estimated_budget,
+      actual_budget,
+      code,
+      priority,
+      currency,
+      project_notes,
       client_id,
       document_url,
       created_by,
+      site_configuration,
     } = body;
     let result = null;
 
     const userExist = await userDao.getById(user_id);
     if (!userExist) {
-      result = { success: false, message: 'user_id does not exist' };
+      result = { message: 'user_id does not exist', status: false, data: null };
       return result;
     }
 
     const clientExist = await clientDao.getById(client_id);
     if (!clientExist) {
-      result = { success: false, message: 'client_id does not exist' };
+      result = {
+        message: 'client_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
 
@@ -47,12 +56,18 @@ const createProject = async (body: createProjectBody) => {
       date_started,
       date_ended,
       status,
-      budget,
+      estimated_budget,
+      actual_budget,
+      code,
+      priority,
+      currency,
+      project_notes,
       client_id,
       document_url,
-      created_by
+      created_by,
+      site_configuration
     );
-    result = { success: true, data: projectDetails };
+    result = { message: 'success', status: true, data: projectDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in project service Add: ', error);
@@ -74,25 +89,39 @@ const updateProject = async (body: updateProjectBody) => {
       date_started,
       date_ended,
       status,
-      budget,
+      estimated_budget,
+      actual_budget,
+      code,
+      priority,
+      currency,
+      project_notes,
       client_id,
       document_url,
       updated_by,
       project_id,
+      site_configuration,
     } = body;
     let result = null;
 
     if (user_id) {
       const userExist = await userDao.getById(user_id);
       if (!userExist) {
-        result = { success: false, message: 'user_id does not exist' };
+        result = {
+          message: 'user_id does not exist',
+          status: false,
+          data: null,
+        };
         return result;
       }
     }
     if (client_id) {
       const clientExist = await clientDao.getById(client_id);
       if (!clientExist) {
-        result = { success: false, message: 'client_id does not exist' };
+        result = {
+          message: 'client_id does not exist',
+          status: false,
+          data: null,
+        };
         return result;
       }
     }
@@ -107,16 +136,26 @@ const updateProject = async (body: updateProjectBody) => {
         date_started,
         date_ended,
         status,
-        budget,
+        estimated_budget,
+        actual_budget,
+        code,
+        priority,
+        currency,
+        project_notes,
         client_id,
         document_url,
         updated_by,
-        project_id
+        project_id,
+        site_configuration
       );
-      result = { success: true, data: projectDetails };
+      result = { message: 'success', status: true, data: projectDetails };
       return result;
     } else {
-      result = { success: false, message: 'project_id does not exist' };
+      result = {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -135,10 +174,14 @@ const getById = async (projectId: number) => {
     let result = null;
     const projectData = await projectDao.getById(projectId);
     if (projectData) {
-      result = { success: true, data: projectData };
+      result = { message: 'success', status: true, data: projectData };
       return result;
     } else {
-      result = { success: false, message: 'project_id does not exist' };
+      result = {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -154,7 +197,7 @@ const getById = async (projectId: number) => {
 const getAllProject = async () => {
   try {
     const result = await projectDao.getAll();
-    const projectData = { success: true, data: result };
+    const projectData = { message: 'success', status: true, data: result };
     return projectData;
   } catch (error) {
     console.log('Error occurred in getAllProject project service : ', error);
@@ -170,20 +213,26 @@ const deleteProject = async (projectId: number) => {
   try {
     const projectExist = await projectDao.getById(projectId);
     if (!projectExist) {
-      const result = { success: false, message: 'project_id does not exist' };
+      const result = {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const data = await projectDao.deleteProject(projectId);
     if (data.is_delete === true) {
       const result = {
-        success: true,
         message: 'Project Data Deleted Successfully',
+        status: true,
+        data: null,
       };
       return result;
     } else {
       const result = {
-        success: false,
         message: 'Failed to delete this project',
+        status: false,
+        data: null,
       };
       return result;
     }
@@ -194,79 +243,148 @@ const deleteProject = async (projectId: number) => {
 };
 
 /**
- * Method for custom filter API
- * @param body
+ * Method to search Project - Pagination API
  * @returns
  */
-const customFilterProject = async (body) => {
+const searchProject = async (body) => {
   try {
-    const {
-      size = 10,
-      page = 0,
-      sort = 'desc',
-      project_name,
-      user_name,
-      client_name,
-    } = body;
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
 
-    const skip = page > 0 ? page * size : 0;
+    const filterObj: any = {};
 
-    const projects = await prisma.project.findMany({
-      where: {
-        is_delete: false,
-        project_name: { contains: project_name || '' },
-        user: {
-          AND: [
-            { first_name: { contains: user_name || '' } },
-            { last_name: { contains: user_name || '' } },
-          ],
+    if (status) {
+      filterObj.filterProject = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (global_search) {
+      filterObj.filterProject = filterObj.filterProject || {};
+      filterObj.filterProject.OR = filterObj.filterProject.OR || [];
+
+      filterObj.filterProject.OR.push(
+        { project_name: { contains: global_search, mode: 'insensitive' } },
+        { description: { contains: global_search, mode: 'insensitive' } },
+        { status: { contains: global_search, mode: 'insensitive' } },
+        { project_notes: { contains: global_search, mode: 'insensitive' } },
+        { priority: { contains: global_search, mode: 'insensitive' } },
+        { currency: { contains: global_search, mode: 'insensitive' } },
+        { code: { contains: global_search, mode: 'insensitive' } },
+        {
+          client: {
+            name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
         },
-        client: { name: { contains: client_name || '' } },
-      },
-      include: {
-        user: { select: { first_name: true, last_name: true } },
-        client: { select: { name: true } },
-      },
-      orderBy: { updated_date: sort },
-      take: size,
-      skip: skip,
-    });
-
-    const totalCount = await prisma.project.count({
-      where: {
-        is_delete: false,
-        project_name: { contains: project_name || '' },
-        user: {
-          AND: [
-            { first_name: { contains: user_name || '' } },
-            { last_name: { contains: user_name || '' } },
-          ],
+        {
+          user: {
+            first_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
         },
-        client: { name: { contains: client_name || '' } },
-      },
-    });
+        {
+          user: {
+            last_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
 
-    const totalPages = Math.ceil(totalCount / size);
+      filterObj.filterProject.OR.push({
+        OR: [
+          {
+            project_site: {
+              some: {
+                status: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+          {
+            project_site: {
+              some: {
+                site_details: {
+                  name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+        ],
+      });
+    }
 
-    const projectData = {
-      total_count: totalCount,
-      total_page: totalPages,
-      size: size,
-      content: projects,
-    };
+    const result = await projectDao.searchProject(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
 
-    const result = {
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempProjectData = {
       message: 'success',
       status: true,
-      data: projectData,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
     };
-
-    return result;
+    return tempProjectData;
   } catch (error) {
-    console.log(
-      'Error occurred in customFilterProject project service:',
-      error
-    );
+    console.log('Error occurred in searchProject Project service : ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to get Project By code
+ * @param code
+ * @returns
+ */
+const getByCode = async (code: string) => {
+  try {
+    let result = null;
+    const projectData = await projectDao.getByCode(code);
+    if (projectData) {
+      result = {
+        message: 'This code already exist',
+        status: true,
+        is_exist: true,
+        data: projectData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This code does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByCode project service : ', error);
     throw error;
   }
 };
@@ -277,5 +395,6 @@ export {
   getAllProject,
   getById,
   deleteProject,
-  customFilterProject,
+  searchProject,
+  getByCode,
 };
