@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { useGetAllUsers } from '../hooks/user-hooks';
 import Styles from '../styles/home.module.scss';
 import Button from './menu/button';
 import Vector from './menu/icons/vector';
 import FolderIcon from './menu/icons/folderIcon';
 const Home = () => {
-  // const { data: getAllUsers } = useGetAllUsers();
-  // console.log('getAllUsers', getAllUsers);
   const [createItem, setCreateItem] = useState(true);
   const [createCustomer, setCreateCustomer] = useState(false);
   const handleCreateList = () => {

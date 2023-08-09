@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../menu/button';
 import { useNavigate } from 'react-router-dom';
 import Styles from '..//../styles/listItem.module.scss';
-// import './productPage.css';
+import Pagination from './pagination';
 import AddIcon from '../menu/icons/addIcon';
 import DownloadIcon from '../menu/icons/download';
 import Dropdown from '../menu/dropDown';
@@ -12,26 +12,87 @@ import DescendingIcon from '../menu/icons/descendingIcon';
 import SearchInput from './searchInputBox';
 import SearchIcon from '../menu/icons/search';
 
+import items from '../../service/add-product';
+
 const ProductPage = () => {
   const navigate = useNavigate();
+
+  const [itemValue, setItemValues] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(5); // Set initial value to 1
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  useEffect(() => {
+    fetchData();
+  }, [rowsPerPage, currentPage]);
+
   const handleAddProduct = () => {
     navigate('/add-products');
   };
+
+  const fetchData = async () => {
+    const requestData = {
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
+    };
+    // console.log(currentPage);
+    console.log(requestData.offset);
+    try {
+      const data = await items.getAllItems(requestData);
+
+      setItemValues(data.data);
+      setTotalPages(data.total_page);
+
+      // console.log(data.total_page);
+    } catch (error) {
+      console.log('Error in fetching data:', error);
+    }
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleRowsPerPageChange = (newRowsPerPage) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+
+  const convertToCSV = (data: any[]) => {
+    const header = [
+      'Code',
+      'Sub Category',
+      'Description',
+      'GST',
+      'HSN Code',
+      'UOM',
+    ];
+    const csvRows = [header.join(',')];
+    for (const item of data) {
+      const rowData = [
+        item.item_name,
+        item.sub_sub_category.name,
+        item.description,
+        item.gst.rate,
+        item.hsn_code.code,
+        item.uom.name,
+      ];
+      csvRows.push(rowData.join(','));
+    }
+    return csvRows.join('\n');
+  };
+
   const handleDownload = () => {
-    // Create the CSV content
-    const csvContent =
-      'Name,Email\nJohn Doe,johndoe@example.com\nJane Smith,janesmith@example.com';
-    // Create a Blob with the CSV content
+    const csvContent = convertToCSV(itemValue);
     const blob = new Blob([csvContent], { type: 'text/csv' });
-    // Create a temporary URL for the Blob
     const url = URL.createObjectURL(blob);
-    // Create an anchor element
     const link = document.createElement('a');
     link.href = url;
     link.download = 'data.csv';
     link.click();
     URL.revokeObjectURL(url);
   };
+
   const handleReset = () => {
     console.log('reset');
   };
@@ -183,12 +244,45 @@ const ProductPage = () => {
                   borderRadius={8}
                 />
               }
-            >
-              <div></div>
-            </Dropdown>
+            ></Dropdown>
           </div>
         </div>
       </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Sub Category</th>
+              <th>Description</th>
+              <th>GST</th>
+              <th>HSN Code</th>
+              <th>UOM</th>
+              {/* <th>Delete</th> */}
+            </tr>
+          </thead>
+          <tbody>
+            {itemValue.map((item) => (
+              <tr>
+                <td>{item.item_name}</td>
+                <td>{item.sub_sub_category.name}</td>
+                <td>{item.description}</td>
+                <td>{item.gst.rate}</td>
+                <td>{item.hsn_code.code}</td>
+                <td>{item.uom.name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        rowsPerPage={rowsPerPage}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleRowsPerPageChange}
+      />
     </div>
   );
 };

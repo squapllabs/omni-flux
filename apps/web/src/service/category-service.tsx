@@ -6,8 +6,6 @@ const getAllCategory = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/category/getAll`
     );
-    console.log('response', response);
-
     return response.data;
   } catch (error) {
     console.log('Error in getting all category:', error);
@@ -61,10 +59,37 @@ const deleteCategory = async (id: number) => {
     throw error;
   }
 };
+
+const checkDublicateCategory = async (value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/category/checkDuplicateName/${value.name}/${value.id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in checkDublicateCategory   :', error);
+    throw error;
+  }
+};
+
+const filterCategory = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/category/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in category filter :', error);
+    throw error;
+  }
+};
 export default {
   getAllCategory,
   getOneCategoryByID,
   createCategory,
   updateCategory,
   deleteCategory,
+  checkDublicateCategory,
+  filterCategory,
 };

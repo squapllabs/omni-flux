@@ -1,5 +1,4 @@
 import axiosinterceptor from '../helper/custom_axios';
-import axios from 'axios';
 import { environment } from '../environment/environment';
 
 const getAllUsers = async () => {
@@ -84,6 +83,25 @@ const deleteUser = async (id: number) => {
     throw error;
   }
 };
+
+const user_profile_upload = async (file : any) => {
+    const formData = new FormData();
+    formData.append("storage", "s3");
+    formData.append("file", file);
+    try {
+      const response = await axiosinterceptor.post(
+        `${environment.apiUrl}/upload/file`,formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          }
+        })
+      return response.data;
+    } catch (error) {
+      console.log('Error in occur user_profile_upload :', error);
+      throw error;
+    }
+  };
 export default {
   getAllUsers,
   getOneUser,
@@ -91,5 +109,6 @@ export default {
   createuser,
   updateUser,
   deleteUser,
-  getAllInactiveUsers
+  getAllInactiveUsers,
+  user_profile_upload
 };

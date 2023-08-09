@@ -1,0 +1,19 @@
+.container {
+  height: 100vh;
+  display: flex;
+  padding: 10px 10px 0 10px;
+}
+.sideContainer {
+  // width: 35vh;
+  // height: 100vh;
+  // max-height: 50vh;
+  background-color: #d9d9d933;
+}
+.options {
+  cursor: pointer;
+}
+
+.mainContainer {
+  width: 100%;
+  height: 100vh;
+}

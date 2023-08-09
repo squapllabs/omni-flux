@@ -4,6 +4,7 @@ import {
   updateHsnCodeBody,
 } from '../interfaces/hsnCode.Interface';
 import xlsx from 'xlsx';
+import itemDao from '../dao/item.dao';
 
 /**
  * Method to Create a New HsnCode
@@ -96,20 +97,35 @@ const deleteHsnCode = async (hsnCodeId: number) => {
   try {
     const hsnCodeExist = await hsnCodeDao.getById(hsnCodeId);
     if (!hsnCodeExist) {
-      const result = { success: false, message: 'HsnCode Id Not Exist' };
+      const result = {
+        message: 'HsnCode Id Not Exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const hsnCodeExistInItem = await itemDao.getByHSNCodeId(hsnCodeId);
+    if (hsnCodeExistInItem) {
+      const result = {
+        message: 'Unable to delete.The hsn_code_id is mapped in item table',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const data = await hsnCodeDao.deleteHsnCode(hsnCodeId);
     if (data) {
       const result = {
-        success: true,
         message: 'HsnCode Data Deleted Successfully',
+        status: true,
+        data: null,
       };
       return result;
     } else {
       const result = {
-        success: false,
+        status: false,
         message: 'Failed to delete this hsnCode',
+        data: null,
       };
       return result;
     }
@@ -171,14 +187,19 @@ const addBulkHSNCodeByImport = async (excelFile) => {
  * @param data
  * @returns
  */
-const transformExcelData = (data): createHsnCodeBody[] => {
+const transformExcelData = (
+  data,
+  created_by_from_request = null
+): createHsnCodeBody[] => {
   const parsedData: createHsnCodeBody[] = data.map((hsnCode) => {
-    const created_by =
+    let created_by =
       hsnCode.created_by === 'null' ||
       hsnCode.created_by === undefined ||
       hsnCode.created_by === null
         ? null
         : Number(hsnCode.created_by);
+
+    created_by = created_by_from_request ? created_by_from_request : created_by;
     const currentDate = new Date();
     const code = String(hsnCode.code);
     return {
@@ -200,7 +221,8 @@ const transformExcelData = (data): createHsnCodeBody[] => {
  */
 const addBulkHSNCode = async (body) => {
   try {
-    const convertedData = transformExcelData(body);
+    const { created_by, items } = body;
+    const convertedData = transformExcelData(items, created_by);
     const hsnCode = await hsnCodeDao.addBulk(convertedData);
     const result = {
       status: true,
@@ -214,6 +236,57 @@ const addBulkHSNCode = async (body) => {
   }
 };
 
+/**
+ * Method to search HsnCode - Pagination API
+ * @returns
+ */
+const searchHsnCode = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterHSNCode: {
+        AND: [],
+        OR: [
+          { code: { contains: global_search, mode: 'insensitive' } },
+          { description: { contains: global_search, mode: 'insensitive' } },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await hsnCodeDao.searchHSNCode(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempHsnCodeData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempHsnCodeData;
+  } catch (error) {
+    console.log('Error occurred in searchHsnCode HsnCode service : ', error);
+    throw error;
+  }
+};
+
 export {
   createHsnCode,
   updateHsnCode,
@@ -223,4 +296,5 @@ export {
   getByCode,
   addBulkHSNCodeByImport,
   addBulkHSNCode,
+  searchHsnCode,
 };

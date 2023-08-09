@@ -8,6 +8,7 @@ import {
   getAllUom,
   getByUomId,
   getByUomName,
+  searchUom,
   updateUom,
 } from '../../controller/uom.controller';
 
@@ -24,5 +25,7 @@ router.get('/get/:uom_id', authMiddleware, getByUomId);
 router.delete('/delete/:uom_id', authMiddleware, deleteByUomId);
 
 router.get('/getByName/:name', authMiddleware, getByUomName);
+
+router.post('/search-uom', authMiddleware, searchUom);
 
 export default router;

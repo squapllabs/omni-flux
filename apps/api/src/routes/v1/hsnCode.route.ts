@@ -13,6 +13,7 @@ import {
   getAllHsnCode,
   getByHsnCode,
   getByHsnCodeId,
+  searchHsnCode,
   updateHsnCode,
 } from '../../controller/hsnCode.controller';
 import multer from 'multer';
@@ -51,5 +52,7 @@ router.post(
 );
 
 router.post('/add-bulk-hsn-code', authMiddleware, addBulkHSNCode);
+
+router.post('/search', authMiddleware, searchHsnCode);
 
 export default router;

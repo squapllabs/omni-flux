@@ -11,19 +11,19 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const primaryStyles = css`
-  background: #7F56D9;
+  background: #7f56d9;
   color: white;
 
   &:hover {
-    background: #6941C6;
+    background: #6941c6;
   }
 
   &:active {
-    background: #7F56D9;
+    background: #7f56d9;
   }
 
   &:disabled {
-    background: #E9D7FE;
+    background: #e9d7fe;
   }
 `;
 
@@ -89,9 +89,25 @@ const IconWrapper = styled.span`
   margin-right: 0.5rem;
 `;
 
-const Button: React.FC<ButtonProps> = ({ color, size, shape, icon, children, fullWidth, justify, ...props }) => {
+const Button: React.FC<ButtonProps> = ({
+  color,
+  size,
+  shape,
+  icon,
+  children,
+  fullWidth,
+  justify,
+  ...props
+}) => {
   return (
-    <StyledButton color={color} size={size} shape={shape} fullWidth={fullWidth} justify={justify} {...props}>
+    <StyledButton
+      color={color}
+      size={size}
+      shape={shape}
+      fullWidth={fullWidth}
+      justify={justify}
+      {...props}
+    >
       {icon && <IconWrapper>{icon}</IconWrapper>}
       {children}
     </StyledButton>
@@ -99,7 +115,6 @@ const Button: React.FC<ButtonProps> = ({ color, size, shape, icon, children, ful
 };
 
 export default Button;
-
 
 // Usage <Examples>
 // <Button

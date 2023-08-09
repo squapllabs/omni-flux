@@ -6,7 +6,7 @@ import { loginAuth, forgetPassword, generateOTP } from '../hooks/auth-hooks';
 import userService from '../service/user-service';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../redux/reducer'; 
+import { setToken } from '../redux/reducer';
 import Input from './ui/Input';
 import { FaUser, FaLock } from 'react-icons/fa6';
 import { BsFillEyeSlashFill, BsFillEyeFill } from 'react-icons/bs';
@@ -75,15 +75,16 @@ const Login = () => {
                     }
                   },
                 });
-              }
-              else if (!userData?.data?.userData?.is_initial_login && userData?.data?.userData?.is_two_factor) {
+              } else if (
+                !userData?.data?.userData?.is_initial_login &&
+                userData?.data?.userData?.is_two_factor
+              ) {
                 const generateOtpObject = {
                   email_id: values?.email,
                 };
-                otpInstance(generateOtpObject)
+                otpInstance(generateOtpObject);
                 navigate('/generate-otp', { state: { email: values.email } });
-              }
-              else {
+              } else {
                 navigate('/home');
               }
             } else setMessage('Username & Password is Incorrect');
@@ -206,7 +207,6 @@ const Login = () => {
         </div>
       </div>
     </div>
-
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import Customs from '../ui/custom';
-import { Grid, InputLabel, TextareaAutosize } from '@mui/material';
+import { Grid } from '@mui/material';
 import { createuom, updateUom } from '../../hooks/uom-hooks';
 import {
   getuomCreateValidateyup,
@@ -9,7 +8,8 @@ import {
 } from '../../helper/constants/uom-constants';
 import uomService from '../../service/uom-service';
 import * as Yup from 'yup';
-
+import Input from '../../component/ui/Input';
+import Button from '../ui/Button';
 const UomForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
@@ -81,46 +81,34 @@ const UomForm: React.FC = (props: any) => {
       <form onSubmit={formik.handleSubmit}>
         <Grid
           container
-          spacing={{ xs: 2, md: 3 }}
+          spacing={{ xs: 1, md: 1 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid item xs={2} sm={4} md={12}>
-            <Customs.CustomTextField
+            <Input
               name="name"
               label="Unit Of Measurement"
-              variant="outlined"
-              size="small"
+              placeholder="Enter unit of measurement"
               value={formik.values.name}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.name && formik.errors.name}
             />
           </Grid>
           <Grid item xs={2} sm={4} md={12}>
-            <InputLabel id="description_id">Description</InputLabel>
-            <TextareaAutosize
+             <Input
               name="description"
-              labelId="description_id"
-              variant="outlined"
-              minRows={4}
-              style={{ width: '548px' }}
-              fullWidth
+              label="Description"
+              placeholder="Enter description"
               value={formik.values.description}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              error={formik.touched.description && formik.errors.description}
             />
-            {formik.errors.description && formik.touched.description && (
-              <div style={{ color: 'red' }}>{formik.errors.description}</div>
-            )}
           </Grid>
+
           <Grid item xs={2} sm={4} md={6}>
-            <Customs.CustomButton
-              type="submit"
-              label="Submit"
-              variant="contained"
-              color="primary"
-            />
+            <Button color="primary" shape="rectangle" justify="center">
+              Submit
+            </Button>
           </Grid>
         </Grid>
       </form>

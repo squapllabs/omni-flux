@@ -3,6 +3,8 @@ import {
   createClientBody,
   updateClientBody,
 } from '../interfaces/client.Interface';
+import projectDao from '../dao/project.dao';
+import leadEnquiryDao from '../dao/leadEnquiry.dao';
 
 /**
  * Method to Create a New Client
@@ -37,7 +39,7 @@ const updateClient = async (body: updateClientBody) => {
     let result = null;
     const clientExist = await clientDao.getById(client_id);
     if (!clientExist) {
-      result = { success: false, message: 'client_id not found' };
+      result = { success: false, message: 'client_id does not exist' };
       return result;
     } else {
       const clientDetails = await clientDao.edit(
@@ -68,7 +70,7 @@ const getById = async (clientId: number) => {
       result = { success: true, data: clientData };
       return result;
     } else {
-      result = { success: false, message: 'client id not exist' };
+      result = { success: false, message: 'client_id does not exist' };
       return result;
     }
   } catch (error) {
@@ -99,22 +101,52 @@ const getAllClients = async () => {
 const deleteClient = async (clientId: number) => {
   try {
     const clientExist = await clientDao.getById(clientId);
+    const clientExistInProject = await projectDao.getByClientId(clientId);
+    const clientExistInLeadEnquiry = await leadEnquiryDao.getByClientId(
+      clientId
+    );
 
     if (!clientExist) {
-      const result = { success: false, message: 'Client Id Not Exist' };
+      const result = {
+        message: 'client_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
+
+    if (clientExistInProject) {
+      const result = {
+        message: 'Unable to delete.This client_id is mapped in project table',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+
+    if (clientExistInLeadEnquiry) {
+      const result = {
+        message:
+          'Unable to delete.This client_id is mapped in lead_enquiry table',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+
     const data = await clientDao.deleteClient(clientId);
     if (data) {
       const result = {
-        success: true,
         message: 'Client Data Deleted Successfully',
+        status: true,
+        data: null,
       };
       return result;
     } else {
       const result = {
-        success: false,
         message: 'Failed to delete this client',
+        status: false,
+        data: null,
       };
       return result;
     }
@@ -124,4 +156,62 @@ const deleteClient = async (clientId: number) => {
   }
 };
 
-export { createClient, updateClient, getAllClients, getById, deleteClient };
+/**
+ * Method to search Client - Pagination API
+ * @returns
+ */
+const searchClient = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterClient: {
+        AND: [],
+        OR: [
+          { name: { contains: global_search, mode: 'insensitive' } },
+          { contact_details: { contains: global_search, mode: 'insensitive' } },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await clientDao.searchClient(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempClientData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempClientData;
+  } catch (error) {
+    console.log('Error occurred in searchClient Client service : ', error);
+    throw error;
+  }
+};
+
+export {
+  createClient,
+  updateClient,
+  getAllClients,
+  getById,
+  deleteClient,
+  searchClient,
+};

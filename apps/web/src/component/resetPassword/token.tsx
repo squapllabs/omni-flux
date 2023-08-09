@@ -4,8 +4,8 @@ import { Button, Card, TextField } from '@mui/material';
 import Styles from '../../styles/fortgetPassword.module.scss';
 import * as yup from 'yup';
 import { getForgetPasswordYupSchema } from '../../helper/constants/user-constants';
-import { getByuserID } from 'apps/web/src/hooks/user-hooks';
-import { resetPassword , setTwoFA} from 'apps/web/src/hooks/auth-hooks';
+import { getByuserID } from '../../hooks/user-hooks';
+import { resetPassword, setTwoFA } from '../../hooks/auth-hooks';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router';
 import MySnackbar from '../ui/MySnackbar';
@@ -100,15 +100,15 @@ const ResetPassword = () => {
               handleClick();
               const data: any = {
                 user_id: getuserData?.userData?.user_id,
-                is_two_factor: enableTwoFA
+                is_two_factor: enableTwoFA,
               };
               setTwofa(data, {
                 onSuccess: (data, variables, context) => {
                   if (data?.is_two_factor === true) {
                     setMessage('Two factor Authentication enabled');
                   }
-                }
-              })
+                },
+              });
               setInterval(() => {
                 navigate('/');
               }, 3000);
@@ -205,7 +205,11 @@ const ResetPassword = () => {
             <div>
               <span>Enable 2-factor authentication</span>
               <label className="switch">
-                <input type="checkbox" checked={enableTwoFA} onChange={handleTwoFAToggle} />
+                <input
+                  type="checkbox"
+                  checked={enableTwoFA}
+                  onChange={handleTwoFAToggle}
+                />
               </label>
             </div>
             <div>

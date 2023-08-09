@@ -7,7 +7,6 @@ import {
   Typography,
   IconButton,
 } from '@mui/material';
-import CustomButton from './customButton';
 import { Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 interface DialogProps {

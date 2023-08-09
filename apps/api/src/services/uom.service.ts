@@ -1,5 +1,6 @@
 import uomDao from '../dao/uom.dao';
 import { createUomBody, updateUomBody } from '../interfaces/uom.Interface';
+import itemDao from '../dao/item.dao';
 
 /**
  * Method to Create a New Uom
@@ -38,7 +39,7 @@ const updateUom = async (body: updateUomBody) => {
       result = { success: true, data: uomDetails };
       return result;
     } else {
-      result = { success: false, message: 'uom_id not exist' };
+      result = { success: false, message: 'uom_id does not exist' };
       return result;
     }
   } catch (error) {
@@ -60,7 +61,7 @@ const getById = async (uomId: number) => {
       result = { success: true, data: uomData };
       return result;
     } else {
-      result = { success: false, message: 'uom id not exist' };
+      result = { success: false, message: 'uom_id does not exist' };
       return result;
     }
   } catch (error) {
@@ -92,18 +93,36 @@ const deleteUom = async (uomId: number) => {
   try {
     const uomExist = await uomDao.getById(uomId);
     if (!uomExist) {
-      const result = { success: false, message: 'Uom Id Not Exist' };
+      const result = {
+        status: false,
+        message: 'uom_id does not exist',
+        data: null,
+      };
+      return result;
+    }
+    const uomExistInItem = await itemDao.getByUOMId(uomId);
+    if (uomExistInItem) {
+      const result = {
+        status: false,
+        message: 'Unable to delete.This uom_id is mapped in Item Table',
+        data: null,
+      };
       return result;
     }
     const data = await uomDao.deleteUom(uomId);
     if (data) {
       const result = {
-        success: true,
+        status: true,
         message: 'Uom Data Deleted Successfully',
+        data: null,
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this uom' };
+      const result = {
+        status: false,
+        message: 'Failed to delete this uom',
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -134,4 +153,63 @@ const getByName = async (name: string) => {
   }
 };
 
-export { createUom, updateUom, getAllUom, getById, deleteUom, getByName };
+/**
+ * Method to search Uom - Pagination API
+ * @returns
+ */
+const searchUom = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterUom: {
+        AND: [],
+        OR: [
+          { name: { contains: global_search, mode: 'insensitive' } },
+          { description: { contains: global_search, mode: 'insensitive' } },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await uomDao.searchUOM(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempUomData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempUomData;
+  } catch (error) {
+    console.log('Error occurred in Uom service : searchUom', error);
+    throw error;
+  }
+};
+
+export {
+  createUom,
+  updateUom,
+  getAllUom,
+  getById,
+  deleteUom,
+  getByName,
+  searchUom,
+};

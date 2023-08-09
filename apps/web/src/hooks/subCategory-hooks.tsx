@@ -7,6 +7,21 @@ const useGetAllSubcategory = () => {
     () => SubcategoryService.getAllSubcategory(),
     {
       select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+const useGetAllSubcategoryDrop = () => {
+  return useQuery(
+    ['useGetAllSubcategory'],
+    () => SubcategoryService.getAllSubcategory(),
+    {
+      select: (data) =>
+        data?.data?.map((category: any) => ({
+          value: category.sub_category_id,
+          label: category.name,
+        })),
     }
   );
 };
@@ -63,10 +78,25 @@ const useDeleteSubcategory = () => {
   );
 };
 
+const getBySearchCategroy = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SubcategoryService.filterSubCategory(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
 export {
   useGetAllSubcategory,
   getBySubcategoryID,
   createSubcategory,
   updateSubcategory,
   useDeleteSubcategory,
+  getBySearchCategroy,
+  useGetAllSubcategoryDrop,
 };

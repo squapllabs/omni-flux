@@ -10,6 +10,7 @@ const add = async (
 ) => {
   try {
     const currentDate = new Date();
+    const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const gst = await transaction.gst.create({
       data: {
@@ -20,6 +21,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        is_delete: is_delete,
       },
     });
     return gst;
@@ -64,9 +66,10 @@ const edit = async (
 const getById = async (gstId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.findUnique({
+    const gst = await transaction.gst.findFirst({
       where: {
         gst_id: Number(gstId),
+        is_delete: false,
       },
     });
     return gst;
@@ -80,6 +83,9 @@ const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const gst = await transaction.gst.findMany({
+      where: {
+        is_delete: false,
+      },
       orderBy: [
         {
           updated_date: 'desc',
@@ -96,14 +102,52 @@ const getAll = async (connectionObj = null) => {
 const deleteGst = async (gstId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const gst = await transaction.gst.delete({
+    const gst = await transaction.gst.update({
       where: {
         gst_id: Number(gstId),
+      },
+      data: {
+        is_delete: true,
       },
     });
     return gst;
   } catch (error) {
     console.log('Error occurred in gst deleteGst dao', error);
+    throw error;
+  }
+};
+
+const searchGST = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterGst;
+    const gst = await transaction.gst.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const gstCount = await transaction.gst.count({
+      where: filter,
+    });
+    const gstData = {
+      count: gstCount,
+      data: gst,
+    };
+    return gstData;
+  } catch (error) {
+    console.log('Error occurred in gst dao : searchGST ', error);
     throw error;
   }
 };
@@ -114,4 +158,5 @@ export default {
   getById,
   getAll,
   deleteGst,
+  searchGST,
 };
