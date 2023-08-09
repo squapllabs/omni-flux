@@ -1,4 +1,3 @@
-import hsnCodeService from '../../service/hsnCode-service';
 import masterDataService from '../../service/masterData-service';
 
 export const masterErrorMessages = {
@@ -26,21 +25,17 @@ export const getCreateValidateyup = (yup: any) => {
       .test(
         'code-availability',
         masterErrorMessages.CODE_EXIST,
-        async (value: any, { parent }: yup.TestContext) => {
+        async (value: any,  { parent } : yup.TestContext) => {
           const id = parent.parent_master_data_id;
-          console.log('id', id);
-          let object: any = {
+          const object: any = {
             name: value,
             id: id === undefined ? null : Number(id),
           };
-
-          console.log('object', object);
 
           if (value) {
             const response = await masterDataService.checkDublicatemasertData(
               object
             );
-            console.log('response', response);
             if (response?.status === true) {
               return false;
             } else {

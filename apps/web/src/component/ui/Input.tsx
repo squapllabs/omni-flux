@@ -44,7 +44,7 @@ const InputContainer = styled.div<StyledInputProps>`
     }`};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
-  background-color: #f4f5f6;
+  background-color: #f4f5f6; 
   &:hover {
     border-color: #888;
   }

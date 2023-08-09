@@ -13,9 +13,14 @@ import Button from '../ui/Button';
 import Select from '../ui/selectNew';
 import { formatBudgetValue } from '../../helper/common-function';
 import Styles from '../../styles/categoryList.module.scss';
-import { environment } from '../../environment/environment'; 
+import { environment } from '../../environment/environment';
+import CancelIcon from '../menu/icons/closeIcon';
 
+//Function for Category Form
 const CategoryForm: React.FC = (props: any) => {
+  const { data: getAllProjectList = [] } = useGetAllProject();
+  const { mutate: createNewCategory } = createCategory();
+  const { mutate: updateCategoryData } = updateCategory();
   const validationSchema =
     props.mode === 'ADD'
       ? getCreateValidateyup(Yup)
@@ -26,11 +31,12 @@ const CategoryForm: React.FC = (props: any) => {
     budget: '',
     project_id: '',
   });
-  const { data: getAllProjectList = [] } = useGetAllProject();
   const [appendedValue, setAppendedValue] = useState();
+  const inputLabelNameFromEnv = `Budget (${environment.INPUTBUDGET})`
+  const outputLableNameFromEnv = `Budget (${environment.OUTPUTBUDGET})`
 
   useEffect(() => {
-    if (props.mode === 'EDIT') { 
+    if (props.mode === 'EDIT') {
       const fetchOne = async () => {
         const data = await CategoryService.getOneCategoryByID(props.categoryId);
         setInitialValues({
@@ -42,13 +48,11 @@ const CategoryForm: React.FC = (props: any) => {
         const budgetData = formatBudgetValue(Number(data?.data?.budget))
         setAppendedValue(budgetData)
       };
-
       fetchOne();
     }
   }, [props.mode, props.categoryId]);
-  const { mutate: createNewCategory } = createCategory();
-  const { mutate: updateCategoryData } = updateCategory();
-
+  
+  //Function for Adding and Updating the Category from
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -91,11 +95,13 @@ const CategoryForm: React.FC = (props: any) => {
     },
   });
 
-  const handleBack = () => {
+  //Function for closing the popup
+  const handleClose = () => {
     props.setOpen(false);
   };
 
-  const handleBudgetChange = (event : any) => {
+  //Function for Duplicating the value of Budget into another field
+  const handleBudgetChange = (event: any) => {
     const budgetValue = event.target.value;
     const data = formatBudgetValue(Number(budgetValue))
     setAppendedValue(data);
@@ -103,13 +109,15 @@ const CategoryForm: React.FC = (props: any) => {
     formik.handleChange(event);
   };
 
-  const inputLabelNameFromEnv = `Budget (${environment.INPUTBUDGET})`
-  const outputLableNameFromEnv = `Budget (${environment.OUTPUTBUDGET})`
-
   return (
     <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-        <div>
+        <div className={Styles.header}>
+          <div><h4 className={Styles.titleStyle}>Edit Category</h4></div>
+          <div> <CancelIcon onClick={handleClose} /></div>
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.field}>
           <Select
             label="Project"
             name="project_id"
@@ -126,7 +134,7 @@ const CategoryForm: React.FC = (props: any) => {
             ))}
           </Select>
         </div>
-        <div>
+        <div className={Styles.field}>
           <Input
             name="name"
             label="Category Name"
@@ -137,7 +145,7 @@ const CategoryForm: React.FC = (props: any) => {
             width="100%"
           />
         </div>
-        <div>
+        <div className={Styles.field}>
           <Input
             name="budget"
             label={inputLabelNameFromEnv}
@@ -149,7 +157,7 @@ const CategoryForm: React.FC = (props: any) => {
             width="100%"
           />
         </div>
-        <div>
+        <div className={Styles.field}>
           <Input
             name="label_field"
             label={outputLableNameFromEnv}
@@ -157,9 +165,10 @@ const CategoryForm: React.FC = (props: any) => {
             value={appendedValue}
           />
         </div>
+        <div className={Styles.dividerStyle}></div>
         <div className={Styles.formButton}>
           <div>
-            <Button shape="rectangle" justify="center" size="small" onClick={handleBack}>
+            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
               Cancel
             </Button>
           </div>

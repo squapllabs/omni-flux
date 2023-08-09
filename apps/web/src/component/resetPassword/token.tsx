@@ -8,10 +8,10 @@ import {getByuserID} from '../../hooks/user-hooks'
 import {resetPassword} from '../../hooks/auth-hooks'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router';
-import MySnackbar from '../ui/MySnackbar';
 import { IconButton, InputAdornment } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CustomSnackbar from '../ui/customSnackBar';
 const ResetPassword = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -191,12 +191,12 @@ const ResetPassword = () => {
         </div>
         <div className={Styles.footer}></div>
       </div>
-      <MySnackbar
+      <CustomSnackbar
         open={open}
         message={message}
         onClose={handleClose}
-        severity={waring === false ? 'success' : 'warning'}
         autoHideDuration={3000}
+        type={waring === false ? 'success' : 'error'}
       />
     </div>
   );
