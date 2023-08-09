@@ -1,7 +1,7 @@
 import {
-  S3Client,
-  PutObjectCommand,
   DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
 } from '@aws-sdk/client-s3';
 import { createReadStream } from 'fs';
 
@@ -23,17 +23,21 @@ const s3 = new S3Client({
  * @param file - The file to be uploaded
  * @returns - A promise that resolves to the S3 response
  */
-const uploadFileInS3 = async (file: { path: string; filename: string }) => {
+const uploadFileInS3 = async (
+  file: { path: string; filename: string },
+  user_id: number
+) => {
   const fileStream = createReadStream(file.path);
+  const filePath = `projects/${user_id}/${file.filename}`;
   const uploadParams = {
     Bucket: bucketName,
     Body: fileStream,
-    Key: file.filename,
+    Key: filePath,
   };
 
   try {
     const response = await s3.send(new PutObjectCommand(uploadParams));
-    const objectURL = `https://${bucketName}.s3.${region}.amazonaws.com/${file.filename}`;
+    const objectURL = `https://${bucketName}.s3.${region}.amazonaws.com/${filePath}`;
     const result = { response: response, path: objectURL };
     return result;
   } catch (err) {

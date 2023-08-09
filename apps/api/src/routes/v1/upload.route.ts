@@ -1,6 +1,5 @@
 import express from 'express';
 import multer from 'multer';
-import authMiddleware from '../../middleware/auth';
 import processFileUpload from '../../utils/fileUpload';
 
 const router = express.Router();
@@ -18,10 +17,10 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-
+// authMiddleware,
 router.post(
   '/file',
-  authMiddleware,
+
   upload.fields([
     {
       name: 'file',
