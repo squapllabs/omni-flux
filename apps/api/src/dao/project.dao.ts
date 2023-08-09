@@ -14,7 +14,7 @@ const add = async (
   currency: string,
   project_notes: string,
   client_id: number,
-  document_url: string,
+  project_documents: JSON,
   created_by: bigint,
   site_configuration,
   connectionObj = null
@@ -41,7 +41,7 @@ const add = async (
         currency,
         project_notes,
         client_id,
-        document_url,
+        project_documents,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -56,17 +56,20 @@ const add = async (
     for (const site of site_configuration) {
       const site_id = site.site_id;
       const status = site.status;
-      const projectSite = await transaction.project_site.create({
-        data: {
-          project_id: newProjectId,
-          site_id,
-          status: status,
-          created_by,
-          created_date: currentDate,
-          updated_date: currentDate,
-        },
-      });
-      projectSiteDetails.push(projectSite);
+      const is_delete = site.is_delete;
+      if (is_delete === 'N') {
+        const projectSite = await transaction.project_site.create({
+          data: {
+            project_id: newProjectId,
+            site_id,
+            status: status,
+            created_by,
+            created_date: currentDate,
+            updated_date: currentDate,
+          },
+        });
+        projectSiteDetails.push(projectSite);
+      }
     }
 
     const result = {
@@ -95,7 +98,7 @@ const edit = async (
   currency: string,
   project_notes: string,
   client_id: number,
-  document_url: string,
+  project_documents: JSON,
   updated_by: bigint,
   project_id: number,
   site_configuration,
@@ -124,7 +127,7 @@ const edit = async (
         currency,
         project_notes,
         client_id,
-        document_url,
+        project_documents,
         updated_by,
         updated_date: currentDate,
       },
@@ -158,17 +161,19 @@ const edit = async (
           projectSiteDetails.push(projectSite);
         }
       } else {
-        const projectSite = await transaction.project_site.create({
-          data: {
-            project_id: project_id,
-            site_id: site_id,
-            status: status,
-            created_by: updated_by,
-            created_date: currentDate,
-            updated_date: currentDate,
-          },
-        });
-        projectSiteDetails.push(projectSite);
+        if (is_delete === 'N') {
+          const projectSite = await transaction.project_site.create({
+            data: {
+              project_id: project_id,
+              site_id: site_id,
+              status: status,
+              created_by: updated_by,
+              created_date: currentDate,
+              updated_date: currentDate,
+            },
+          });
+          projectSiteDetails.push(projectSite);
+        }
       }
     }
 

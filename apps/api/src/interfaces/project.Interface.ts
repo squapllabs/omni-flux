@@ -6,7 +6,7 @@ interface createProjectBody {
   date_ended: Date;
   status: string;
   client_id: number;
-  document_url: string;
+  project_documents: JSON;
   created_by: bigint;
   estimated_budget: number;
   actual_budget: number;
@@ -37,7 +37,7 @@ interface updateProjectBody {
   currency: string;
   project_notes: string;
   client_id: number;
-  document_url: string;
+  project_documents: JSON;
   updated_by: bigint;
   site_configuration: Array<SiteConfiguration>;
 }
