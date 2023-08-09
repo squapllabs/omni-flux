@@ -31,6 +31,7 @@ interface Item {
   product_id: number;
   product_name: String;
   quantity: number;
+  is_delete: string;
 }
 
 const ProductSale: React.FC = (props: any) => {
@@ -40,6 +41,7 @@ const ProductSale: React.FC = (props: any) => {
     lead_enquiry_product_item_id: '',
     product_id: '',
     quantity: '',
+    is_delete: 'N',
   };
 
   const [value, setValue] = useState(valueObject);
@@ -110,6 +112,7 @@ const ProductSale: React.FC = (props: any) => {
         product_id: any;
         quantity: any;
         lead_enquiry_product_item_id: any;
+        is_delete: any;
       }[] = [];
       data.data.lead_enquiry_product[0]?.lead_enquiry_product_item.map(
         (item: any) => {
@@ -118,6 +121,7 @@ const ProductSale: React.FC = (props: any) => {
             product_name: item?.product?.item_name,
             product_id: item?.product_id,
             quantity: item?.quantity,
+            is_delete: 'N',
           };
           product.push(Obj);
         }
@@ -151,18 +155,22 @@ const ProductSale: React.FC = (props: any) => {
   const handleAddItems = async () => {
     setErrors({});
     const schema = Yup.object().shape({
+      is_delete: Yup.string().required(),
       product_id: Yup.string()
         .typeError('Product is required')
         .required('Product is required')
         .test(
           'product-availability',
           'Selected product is already present',
-          async function (value) {
+          async function (value, { parent }: Yup.TestContext) {
+            let isDelete = parent.is_delete;
             let product = value.split('+');
             let productName = product[1];
             try {
               const isValuePresent = productItems.some((obj) => {
-                return obj.product_name === productName;
+                return (
+                  obj.product_name === productName && obj.is_delete === isDelete
+                );
               });
               if (isValuePresent === true) {
                 return false;
@@ -185,6 +193,7 @@ const ProductSale: React.FC = (props: any) => {
         value.product_id = Number(productName[0]);
         value.product_name = productName[1];
         value.quantity = Number(value.quantity);
+        value.is_delete = 'N';
         setProductItems([...productItems, value]);
         setValue(valueObject);
       })
@@ -199,11 +208,16 @@ const ProductSale: React.FC = (props: any) => {
       });
   };
   const handleProductDelete = (e: any, value: any) => {
-    let fileterValue = value.product_name;
-    let data = productItems.filter(
-      (element) => element?.product_name != fileterValue
+    const itemIndex = productItems.findIndex(
+      (item: any) =>
+        item.product_name === value.product_name &&
+        item.is_delete === value.is_delete
     );
-    setProductItems(data);
+    productItems[itemIndex] = {
+      ...productItems[itemIndex],
+      is_delete: 'Y',
+    };
+    setProductItems([...productItems]);
   };
   const handleProductEdit = (e: any, value: any) => {
     setOpen(true);
@@ -479,21 +493,33 @@ const ProductSale: React.FC = (props: any) => {
                   ) : (
                     ''
                   )}
-                  {productItems.map((item: any, index: number) => (
-                    <tr>
-                      <td>{index + 1}</td>
-                      <td>{item.product_name}</td>
-                      <td>{item.quantity}</td>
-                      <td style={{ display: 'flex', gap: '10px' }}>
-                        <DeleteIcon
-                          onClick={(e: any) => handleProductDelete(e, item)}
-                        />
-                        <EditIcon
-                          onClick={(e: any) => handleProductEdit(e, item)}
-                        />
-                      </td>
-                    </tr>
-                  ))}
+                  {productItems.map((item: any, index: number) => {
+                    if (item?.is_delete === 'N') {
+                      return (
+                        <>
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item.product_name}</td>
+                            <td>{item.quantity}</td>
+                            <td style={{ display: 'flex', gap: '10px' }}>
+                              <DeleteIcon
+                                onClick={(e: any) =>
+                                  handleProductDelete(e, item)
+                                }
+                              />
+                              <EditIcon
+                                onClick={(e: any) => handleProductEdit(e, item)}
+                              />
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    }
+                  })}
+                  {/* {productItems.map((item: any, index: number) => (
+                  return<>
+                  </>
+                  ))} */}
                 </tbody>
               </table>
             </div>
@@ -547,6 +573,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="client_remark"
                   value={formik.values.client_remark}
                   onChange={formik.handleChange}
+                  maxCharacterCount={200}
                   error={
                     formik.touched.client_remark && formik.errors.client_remark
                   }
@@ -558,6 +585,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="our_remarks"
                   value={formik.values.our_remarks}
                   onChange={formik.handleChange}
+                  maxCharacterCount={200}
                   error={
                     formik.touched.our_remarks && formik.errors.our_remarks
                   }
