@@ -203,14 +203,10 @@ import AddProducts from '../component/products/addProducts';
 import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
 import ProductPage from '../component/products/productPage';
-<<<<<<< HEAD
+import Category from '../component/category/category';
+import MasterData from '../component/masterData/masterData';
 import GenerateOtp from '../component/generateOtp';
 import ResetPassword from '../component/resetPassword/token';
-=======
-import Category from '../component/category/category';
-import ResetPassword from '../component/resetPassword/token';
-import MasterData from '../component/masterData/masterData';
->>>>>>> c7a4c6147d26d768fbe3908b5948d5c06c4bfdba
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -231,7 +227,6 @@ const AppRoutes = () => {
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
   const ProtectedResetPasswordPage = withLayoutAndProtection(ResetPassword);
-
 
   return (
     <div>
@@ -255,7 +250,7 @@ const AppRoutes = () => {
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/category" element={<ProtectedCategoryPage />} />
         <Route path="/master-data" element={<ProtectedMasterDataPage />} />
-        <Route path = "/generate-otp" element={<GenerateOtp />} />
+        <Route path="/generate-otp" element={<GenerateOtp />} />
         <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
       </Routes>
     </div>
