@@ -47,7 +47,7 @@ const MaterData = () => {
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [disable, setDisable] = useState(true);
   const [reload, setReload] = useState(false);
   const {
