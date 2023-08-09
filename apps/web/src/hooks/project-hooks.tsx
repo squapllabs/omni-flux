@@ -25,4 +25,18 @@ const createProject = () => {
   );
 };
 
-export { useGetAllProject,createProject };
+const getByProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation (
+    (data:any) => {
+      return ProjectService.filterProject(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  )
+}
+
+export { useGetAllProject,createProject,getByProject };

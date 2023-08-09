@@ -38,8 +38,22 @@ const checkProjectCodeDuplicate = async (values:any) => {
   }
 };
 
+const filterProject = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post (
+      `${environment.apiUrl}/project/search`,
+      values
+    );
+    console.log("daatraaaa>>>>>>>>",response.data);
+    return response.data;
+  } catch (error) {
+    console.log('Error in project search :', error);
+    throw error;
+  }
+}
 export default {
   getAllProject,
   createProjectData,
-  checkProjectCodeDuplicate
+  checkProjectCodeDuplicate,
+  filterProject
 };
