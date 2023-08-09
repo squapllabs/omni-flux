@@ -105,6 +105,17 @@ const filtermasertData = async (values: JSON) => {
   }
 };
 
+const getAllCurrencyData = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/master-data/get-by-type/CRTYP`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting getAllCurrencyData:', error);
+    throw error;
+  }
+};
 export default {
   getAllmasertData,
   getOnemasertDataByID,
@@ -114,4 +125,5 @@ export default {
   checkDublicatemasertData,
   filtermasertData,
   getAllParentMasterData,
+  getAllCurrencyData
 };

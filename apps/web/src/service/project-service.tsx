@@ -13,6 +13,33 @@ const getAllProject = async () => {
   }
 };
 
+const createProjectData = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/project/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in project  create  :', error);
+    throw error;
+  }
+};
+
+const checkProjectCodeDuplicate = async (values:any) => {
+  const data = values.toUpperCase()
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project/check-duplicate-code/${data}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in check checkSiteCodeDuplicate :', error);
+  }
+};
+
 export default {
   getAllProject,
+  createProjectData,
+  checkProjectCodeDuplicate
 };

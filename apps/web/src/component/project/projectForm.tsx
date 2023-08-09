@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Styles from '../../styles/projectForm.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -16,21 +16,28 @@ import { useGetAllSiteDrop } from '../../hooks/site-hooks';
 import siteService from '../../service/site-service';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import AddIcon from '../menu/icons/addIcon';
+import UploadIcon from '../menu/icons/cloudUpload';
+import { createProject } from '../../hooks/project-hooks';
+import { useGetMasterCurency } from '../../hooks/masertData-hook';
+import userService from '../../service/user-service';
 
-const ProjectWorkBreakForm = () => {
+const ProjectForm = () => {
   const [message, setMessage] = useState('');
+  const { mutate: createNewProjectData } = createProject();
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
+  const { data: getAllCurrencyDatadrop = [] } = useGetMasterCurency();
+  const [dragActive, setDragActive] = useState(false);
+  const [docUrl, setDocUrl] = useState();
   const { data: getAllSite = [] } = useGetAllSiteDrop();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [rows, setRows] = useState([
     {
       siteId: '',
       siteData: null,
     },
   ]);
-  console.log('rows data===>', rows);
-  //   const { mutate: createNewProjectBreakDownData } = createProjectBreakDownData();
   const [initialValues, setInitialValues] = useState({
     project_name: '',
     code: '',
@@ -42,9 +49,10 @@ const ProjectWorkBreakForm = () => {
     currency: '',
     estimated_budget: '',
     actual_budget: '',
-    project_description: '',
-    project_notes: '',
-    site: [] as Array<{ site_id: string }>,
+    description: '',
+    notes: '',
+    site_configuration: [] as Array<{ site_id: number; status: string }>,
+    document_url: '',
   });
   const navigate = useNavigate();
 
@@ -54,13 +62,22 @@ const ProjectWorkBreakForm = () => {
     { label: 'Low', value: 'Low' },
   ];
 
-  const getAllProjectCurrencyType = [
-    { label: 'Rupees', value: 'India' },
-    { label: 'Dollar', value: 'US' },
-  ];
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
+  };
+
+  const handleDocuments = async (e: any) => {
+    console.log('handle docs innn', e);
+
+    if (e) {
+      try {
+        const url = await userService.user_profile_upload(e);
+        console.log('document url =====>', url);
+        setDocUrl(url.data);
+      } catch (error) {
+        console.log('Error in occur project document upload:', error);
+      }
+    }
   };
 
   const handleSiteChange = async (event: any, rowIndex: any) => {
@@ -76,18 +93,18 @@ const ProjectWorkBreakForm = () => {
         updatedRows[rowIndex].siteData = siteData?.data;
         return updatedRows;
       });
-      const newSite = [...formik.values.site];
-      newSite[rowIndex] = { site_id: siteId };
-      formik.setFieldValue('site', newSite);
+      const newSite = [...formik.values.site_configuration];
+      newSite[rowIndex] = { site_id: Number(siteId), status: 'Not Started' };
+      formik.setFieldValue('site_configuration', newSite);
     } else {
       setRows((prevRows) => {
         const updatedRows = [...prevRows];
         updatedRows[rowIndex].siteData = null;
         return updatedRows;
       });
-      const newSite = [...formik.values.site];
+      const newSite = [...formik.values.site_configuration];
       newSite.splice(rowIndex, 1);
-      formik.setFieldValue('site', newSite);
+      formik.setFieldValue('site_configuration', newSite);
     }
   };
 
@@ -99,9 +116,9 @@ const ProjectWorkBreakForm = () => {
     const updatedRows = rows.filter((_, rowIndex) => rowIndex !== index);
     setRows(updatedRows);
 
-    const newSite = [...formik.values.site];
+    const newSite = [...formik.values.site_configuration];
     newSite.splice(index, 1);
-    formik.setFieldValue('site', newSite);
+    formik.setFieldValue('site_configuration', newSite);
   };
 
   const validationSchema = getCreateValidateyup(Yup);
@@ -118,27 +135,60 @@ const ProjectWorkBreakForm = () => {
         date_ended: values.date_ended,
         priority: values.priority,
         currency: values.currency,
-        estimated_budget: values.estimated_budget,
-        actual_budget: values.actual_budget,
-        project_description: values.project_description,
-        project_notes: values.project_notes,
-        site: values.site,
+        estimated_budget: Number(values.estimated_budget),
+        actual_budget: Number(values.actual_budget),
+        description: values.description,
+        notes: values.notes,
+        site_configuration: values.site_configuration,
+        document_url: docUrl,
       };
       console.log('data===>', Object);
-
-      //   createNewProjectBreakDownData(Object, {
-      //     onSuccess: (data, variables, context) => {
-      //       if (data?.status === true) {
-      //         setMessage('Project Workbreak down created');
-      //         setOpenSnack(true);
-      //         setInterval(() => {
-      //           navigate('/project-workbreakdown');
-      //         }, 1000);
-      //       }
-      //     },
-      //   });
+      createNewProjectData(Object, {
+        //     onSuccess: (data, variables, context) => {
+        //       if (data?.status === true) {
+        //         setMessage('Project Workbreak down created');
+        //         setOpenSnack(true);
+        //         setInterval(() => {
+        //           navigate('/project-workbreakdown');
+        //         }, 1000);
+        //       }
+        //     },
+      });
     },
   });
+
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, files: FileList) => {
+    console.log('files', files);
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (files && files[0]) {
+      handleDocuments(files[0]);
+    }
+  };
+
+  const handleFileSelect = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      handleDocuments(file);
+    }
+  };
+
+  const onButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <div className={Styles.container}>
       <div className={Styles.textContent}>
@@ -155,7 +205,9 @@ const ProjectWorkBreakForm = () => {
                 name="project_name"
                 value={formik.values.project_name}
                 onChange={formik.handleChange}
-                error={formik.touched.project_name && formik.errors.project_name}
+                error={
+                  formik.touched.project_name && formik.errors.project_name
+                }
               />
             </div>
             <div style={{ width: '40%' }}>
@@ -208,7 +260,7 @@ const ProjectWorkBreakForm = () => {
               <DatePicker
                 label="Start Date *"
                 name="date_started"
-                value={formik.values.start_date}
+                value={formik.values.date_started}
                 onChange={formik.handleChange}
                 InputProps={{
                   inputProps: {
@@ -216,13 +268,15 @@ const ProjectWorkBreakForm = () => {
                     max: `${new Date().toISOString().slice(0, 10)}`,
                   },
                 }}
-                error={formik.touched.date_started && formik.errors.date_started}
+                error={
+                  formik.touched.date_started && formik.errors.date_started
+                }
               />
             </div>
             <div style={{ width: '40%' }}>
               <DatePicker
                 label="End Date *"
-                name="end_date"
+                name="date_ended"
                 value={formik.values.date_ended}
                 onChange={formik.handleChange}
                 InputProps={{
@@ -243,6 +297,7 @@ const ProjectWorkBreakForm = () => {
                 onChange={formik.handleChange}
                 value={formik.values.priority}
                 defaultLabel="Select from options"
+                error={formik.touched.priority && formik.errors.priority}
               >
                 {getAllProjectPriorityType.map((option: any) => (
                   <option key={option.value} value={option.value}>
@@ -260,7 +315,7 @@ const ProjectWorkBreakForm = () => {
                 defaultLabel="Select from options"
                 error={formik.touched.currency && formik.errors.currency}
               >
-                {getAllProjectCurrencyType.map((option: any) => (
+                {getAllCurrencyDatadrop.map((option: any) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -298,10 +353,10 @@ const ProjectWorkBreakForm = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <TextArea
-                name="project_description"
-                label="project Description"
-                placeholder="Enter description"
-                value={formik.values.project_description}
+                name="description"
+                label="Project Description"
+                placeholder="Enter project description"
+                value={formik.values.description}
                 onChange={formik.handleChange}
                 rows={4}
                 maxCharacterCount={100}
@@ -309,10 +364,10 @@ const ProjectWorkBreakForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <TextArea
-                name="project_notes"
+                name="notes"
                 label="Project Notes"
-                placeholder="Enter description"
-                value={formik.values.project_notes}
+                placeholder="Enter project notes"
+                value={formik.values.notes}
                 onChange={formik.handleChange}
                 rows={4}
                 maxCharacterCount={100}
@@ -327,10 +382,10 @@ const ProjectWorkBreakForm = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>S no</th>
+                    <th>S No</th>
                     <th>Site</th>
                     <th>Site Address</th>
-                    {/* <th>Status</th> */}
+                    <th>Status</th>
                     <th>Delete</th>
                   </tr>
                 </thead>
@@ -339,13 +394,25 @@ const ProjectWorkBreakForm = () => {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>
-                        <div style={{ display: 'flex' }}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            // backgroundColor:'blue',
+                            justifyContent: 'flex-start',
+                            // padding:"10px 0px 0px 0px"
+                            // alignContent:"center"
+                          }}
+                        >
                           <Select
-                            name="site"
+                            // width="100%"
+                            name="site_configuration"
                             onChange={(event) => handleSiteChange(event, index)}
                             value={row.siteId}
                             defaultLabel="Select from options"
-                            error={formik.touched.site && formik.errors.site}
+                            error={
+                              formik.touched.site_configuration &&
+                              formik.errors.site_configuration
+                            }
                           >
                             {getAllSite.map((option: any) => (
                               <option key={option.value} value={option.value}>
@@ -356,25 +423,49 @@ const ProjectWorkBreakForm = () => {
                         </div>
                       </td>
                       <td>
-                        {row.siteData?.address && (
-                          <div>
-                            <p>{row.siteData.address?.street}</p>
-                            <p>
-                              {' '}
-                              {row.siteData.address?.city},{' '}
-                              {row.siteData.address?.state}
-                            </p>
-                            <p>
-                              {row.siteData.address?.pin_code}
-                              {','}
-                              {row.siteData.address?.country}
-                            </p>
-                          </div>
-                        )}
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          {row.siteData?.address && (
+                            <div>
+                              <p>
+                                {row.siteData.address?.street}{' '}
+                                {row.siteData.address?.city},{' '}
+                                {row.siteData.address?.state},
+                              </p>
+                              <p>
+                                {row.siteData.address?.pin_code}
+                                {','}
+                                {row.siteData.address?.country}
+                              </p>
+                            </div>
+                          )}
+                        </div>
                       </td>
-                      {/* <td>{row.siteData?.name}</td> */}
                       <td>
                         <div>
+                          {row.siteId && (
+                            <span
+                              style={{
+                                backgroundColor: 'lightgray',
+                                width: '70%',
+                              }}
+                            >
+                              NOT STARTED
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }}
+                        >
                           {index === 0 ? (
                             row.siteId ? (
                               <DeleteIcon onClick={() => deleteRow(index)} />
@@ -398,7 +489,7 @@ const ProjectWorkBreakForm = () => {
                 }}
               >
                 <Button
-                  type="submit"
+                  type="button"
                   color="primary"
                   shape="rectangle"
                   size="small"
@@ -409,6 +500,58 @@ const ProjectWorkBreakForm = () => {
                   Add
                 </Button>
               </div>
+            </div>
+          </div>
+          <div className={Styles.siteHeading}>
+            <h4>Project Documents</h4>
+          </div>
+          <div
+            style={{
+              width: '35%',
+              border: '1px dashed #475467',
+              borderRadius: '5px',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                padding: '20px',
+              }}
+            >
+              <div>
+                <UploadIcon />
+              </div>
+              <div
+                id="drop-area"
+                onDragEnter={handleDrag}
+                onDragOver={handleDrag}
+                onDragLeave={handleDrag}
+                onDrop={(e) => handleDrop(e, e.dataTransfer.files)}
+                // className={dragActive ? 'drag-active' : ''}
+              >
+                {dragActive
+                  ? 'Drop the file here'
+                  : 'Drag and drop a file here'}
+              </div>
+              <input
+                ref={fileInputRef}
+                id="upload-photo"
+                name="upload_photo"
+                type="file"
+                style={{ display: 'none' }}
+                onChange={handleFileSelect}
+              />
+              <Button
+                onClick={onButtonClick}
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+              >
+                Add Files
+              </Button>
             </div>
           </div>
           <div className={Styles.submitButton}>
@@ -427,7 +570,7 @@ const ProjectWorkBreakForm = () => {
               shape="rectangle"
               justify="center"
             >
-              Submit
+              Save
             </Button>
           </div>
         </div>
@@ -443,4 +586,4 @@ const ProjectWorkBreakForm = () => {
   );
 };
 
-export default ProjectWorkBreakForm;
+export default ProjectForm;

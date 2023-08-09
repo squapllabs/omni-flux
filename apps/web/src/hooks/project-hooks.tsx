@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import ProjectService from '../service/project-service';
 
 const useGetAllProject = () => {
@@ -11,4 +11,18 @@ const useGetAllProject = () => {
   });
 };
 
-export { useGetAllProject };
+const createProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ProjectService.createProjectData(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([]);
+      },
+    }
+  );
+};
+
+export { useGetAllProject,createProject };
