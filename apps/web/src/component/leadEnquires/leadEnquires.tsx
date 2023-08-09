@@ -6,8 +6,6 @@ import Tender from './tender/tender';
 import { useParams } from 'react-router-dom';
 const leadEnquires = () => {
   const routeprops = useParams();
-  console.log('routeprops', routeprops);
-
   const [selectedValue, setSelectedValue] = useState(
     routeprops.type != undefined ? routeprops.type : 'Product'
   );

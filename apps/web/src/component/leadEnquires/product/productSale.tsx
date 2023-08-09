@@ -137,7 +137,6 @@ const ProductSale: React.FC = (props: any) => {
   const { mutate: updatelead } = updateleadEnquiry();
   const fetchLeadID = async () => {
     const leadID = await LeadEnquiresServices.getLeadID(props.leadType);
-    console.log('leadID', leadID);
     initialValues.lead_code = leadID?.data;
     setInitialValues({ ...initialValues });
   };
@@ -212,7 +211,6 @@ const ProductSale: React.FC = (props: any) => {
     let data = productItems.filter(
       (element) => element?.product_name === fileterValue
     );
-    console.log('data', data);
     setEditProduct(data[0]);
   };
 
@@ -231,9 +229,7 @@ const ProductSale: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      console.log('values', values);
       if (values) {
-        console.log('values', values);
         if (props?.leadEnquireId === undefined) {
           let object: any = {
             lead_type: props.leadType,
@@ -254,10 +250,8 @@ const ProductSale: React.FC = (props: any) => {
             created_by: 56,
             product_item: productItems,
           };
-          console.log('object', object);
           postleadEnquiry(object, {
             onSuccess(data, variables, context) {
-              console.log('data', data);
               resetForm;
               setMessage('Product sale has created successfully');
               setOpenSnack(true);
@@ -288,7 +282,6 @@ const ProductSale: React.FC = (props: any) => {
             created_by: 56,
             product_item: productItems,
           };
-          console.log('editObject', object);
           updatelead(object, {
             onSuccess(data, variables, context) {
               setMessage('Product sale has updated successfully');
@@ -591,7 +584,6 @@ const ProductSale: React.FC = (props: any) => {
         <CustomEditDialog
           open={open}
           title="Edit Product Item"
-          subTitle="Product Item"
           handleClose={handleClose}
           content={
             <ProductItemEdit

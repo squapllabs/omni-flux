@@ -1,5 +1,5 @@
 import { useGetAllItems } from 'apps/web/src/hooks/item-hooks';
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import Select from '../../ui/selectNew';
 import Input from '../../ui/Input';
@@ -8,16 +8,7 @@ import Button from '../../ui/Button';
 import { getValidateProductyup } from 'apps/web/src/helper/constants/lead/leadProduct-constants';
 
 const ProductItemEdit: React.FC = (props: any) => {
-  console.log('props', props);
   const validationSchema = getValidateProductyup(Yup);
-  const valueObject: any = {
-    lead_enquiry_product_item_id: '',
-    product_id: '',
-    quantity: '',
-  };
-  const [value, setValue] = useState(valueObject);
-  const [errors, setErrors] = useState('');
-  const [productItems, setProductItems] = useState([]);
   const [initialValues, setInitialValues] = useState({
     lead_enquiry_product_item_id:
       props.editProduct.lead_enquiry_product_item_id,
@@ -39,12 +30,9 @@ const ProductItemEdit: React.FC = (props: any) => {
           product_id: Number(productName[0]),
           quantity: Number(values.quantity),
         };
-        console.log('obj', obj);
-        console.log('productItems', props.ProductItems);
         const itemIndex = props.ProductItems.findIndex(
           (item: any) => item.product_name === obj.product_name
         );
-        console.log('itemIndex', itemIndex);
         props.ProductItems[itemIndex] = {
           ...props.ProductItems[itemIndex],
           lead_enquiry_product_item_id: values.lead_enquiry_product_item_id,
@@ -52,7 +40,6 @@ const ProductItemEdit: React.FC = (props: any) => {
           product_id: Number(productName[0]),
           quantity: Number(values.quantity),
         };
-        console.log(props.ProductItems);
         props.setProductItems(props.ProductItems);
         props.setOpen(false);
         props.setOpenSnack(true);
@@ -91,8 +78,10 @@ const ProductItemEdit: React.FC = (props: any) => {
           onChange={formik.handleChange}
           error={formik.errors.quantity}
         />
-
-        {/* <div>
+        <div
+          style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}
+        >
+          <div>
             <Button
               shape="rectangle"
               justify="center"
@@ -101,18 +90,19 @@ const ProductItemEdit: React.FC = (props: any) => {
             >
               Cancel
             </Button>
-          </div> */}
-        <div>
-          <Button
-            color="primary"
-            shape="rectangle"
-            justify="center"
-            size="small"
-            type="button"
-            onClick={formik.handleSubmit}
-          >
-            Submit
-          </Button>
+          </div>
+          <div>
+            <Button
+              color="primary"
+              shape="rectangle"
+              justify="center"
+              size="small"
+              type="button"
+              onClick={formik.handleSubmit}
+            >
+              Submit
+            </Button>
+          </div>
         </div>
       </form>
     </div>

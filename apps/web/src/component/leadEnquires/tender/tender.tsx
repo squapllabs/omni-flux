@@ -4,10 +4,8 @@ import Input from '../../ui/Input';
 import Select from '../../ui/selectNew';
 import DatePicker from '../../ui/CustomDatePicker';
 import Button from '../../ui/Button';
-import AddIcon from '../../menu/icons/addIcon';
 import { useFormik } from 'formik';
 import {
-  useGetAllleadEnquiry,
   createleadEnquiry,
   updateleadEnquiry,
 } from 'apps/web/src/hooks/leadEnquires-hooks';
@@ -63,7 +61,6 @@ const Tender: React.FC = (props: any) => {
   const [disable, setDisable] = useState(
     props?.leadEnquireId != undefined ? true : false
   );
-  const [selectedValue, setSelectedValue] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [appendedValue, setAppendedValue] = useState('');
@@ -90,14 +87,13 @@ const Tender: React.FC = (props: any) => {
     formik.handleChange(event);
   };
 
-  const inputLabelNameFromEnv = `Estimate Value (${environment.INPUTBUDGET})`;
   const outputLableNameFromEnv = `Estimate Value (${environment.OUTPUTBUDGET})`;
   useEffect(() => {
     const fetchData = async () => {
       let data = await LeadEnquiresServices.getOneleadEnquiryByID(
         props.leadEnquireId
       );
-      console.log('datagetOne', data);
+
       setInitialValues({
         lead_enquiry_id: props.leadEnquireId,
         lead_type: props.leadType,
@@ -138,7 +134,6 @@ const Tender: React.FC = (props: any) => {
   }, [props.leadEnquireId]);
   const fetchLeadID = async () => {
     const leadID = await LeadEnquiresServices.getLeadID(props.leadType);
-    console.log('leadID', leadID);
     initialValues.lead_code = leadID?.data;
     setInitialValues({ ...initialValues });
   };
@@ -216,7 +211,6 @@ const Tender: React.FC = (props: any) => {
           };
           updatelead(object, {
             onSuccess(data, variables, context) {
-              console.log(data);
               setMessage('lead Tender has updated successfully');
               setOpenSnack(true);
               setInterval(() => {

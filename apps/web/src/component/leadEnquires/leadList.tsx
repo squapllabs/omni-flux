@@ -10,6 +10,7 @@ import SearchIcon from '../menu/icons/search';
 import Input from '../ui/Input';
 import CustomLoader from '../ui/customLoader';
 import { useNavigate } from 'react-router-dom';
+
 const LeadList = () => {
   const navigate = useNavigate();
   const {
@@ -76,8 +77,7 @@ const LeadList = () => {
     navigate('/lead-add');
   };
   const handleEdit = (id: any, name: any) => {
-    console.log('name', name);
-    navigate(`/lead-add/${id}/${name}`);
+    navigate(`/lead-edit/${id}/${name}`);
   };
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({

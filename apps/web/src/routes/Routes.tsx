@@ -256,7 +256,7 @@ const AppRoutes = () => {
         <Route path="/lead-enquires" element={<ProtectedLeadPage />} />
         <Route path="/lead-add" element={<ProtectedLeadEnquiresPage />} />
         <Route
-          path="/lead-add/:id/:type"
+          path="/lead-edit/:id/:type"
           element={<ProtectedLeadEnquiresPage />}
         />
       </Routes>
