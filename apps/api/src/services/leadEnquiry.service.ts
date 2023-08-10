@@ -34,8 +34,8 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
       probability,
       approx_value,
       sales_person_name,
-      tender_reg_no,
-      tender_identification_no,
+      /* tender_reg_no,
+      tender_identification_no, */
       tender_name,
       tender_issue_date,
       tender_due_date,
@@ -118,6 +118,14 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
         };
         return result;
       }
+    }
+    let tender_reg_no = null;
+    let tender_identification_no = null;
+    if (lead_type === 'Tender') {
+      const tenderIdAndRegNo = await generateTenderIdAndRegNo();
+      tender_reg_no = tenderIdAndRegNo?.data?.tender_reg_no;
+      tender_identification_no =
+        tenderIdAndRegNo?.data?.tender_identification_no;
     }
 
     result = await prisma
@@ -213,6 +221,37 @@ const generateLeadCode = async (leadType) => {
   }
   const leadCode = leadTypePrefix + sequentialNumber;
   const result = { message: 'success', status: true, data: leadCode };
+  return result;
+};
+
+/**
+ * Function to generate Tender Identification No and Tender Reg No
+ * @returns
+ */
+const generateTenderIdAndRegNo = async () => {
+  const latestLeadEnquiry = await prisma.lead_enquiry.findFirst({
+    where: { lead_type: 'Tender' },
+    orderBy: { lead_enquiry_id: 'desc' },
+  });
+
+  let sequentialNumber = 1;
+  if (latestLeadEnquiry) {
+    const latestLeadCode = latestLeadEnquiry.lead_code;
+    const latestSequentialNumber = parseInt(
+      latestLeadCode.slice('Tender'.length),
+      10
+    );
+    if (!isNaN(latestSequentialNumber)) {
+      sequentialNumber = latestSequentialNumber + 1;
+    }
+  }
+
+  const data = {
+    tender_reg_no: `TN-HD/TR/REGN/${sequentialNumber}`,
+    tender_identification_no: `TENDER-ID-${sequentialNumber}`,
+  };
+
+  const result = { message: 'success', status: true, data: data };
   return result;
 };
 
@@ -855,4 +894,5 @@ export {
   checkDuplicateTenderRegNo,
   checkDuplicateTenderIdentificationNo,
   generateLeadCode,
+  generateTenderIdAndRegNo,
 };

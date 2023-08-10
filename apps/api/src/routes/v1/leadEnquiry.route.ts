@@ -8,6 +8,7 @@ import {
   createLeadEnquiry,
   deleteByLeadEnquiryId,
   generateLeadCode,
+  generateTenderIdAndRegNo,
   getAllLeadEnquiry,
   getByLeadEnquiryId,
   searchLeadEnquiry,
@@ -51,5 +52,11 @@ router.get(
 );
 
 router.get('/generate-lead-code/:lead_type', authMiddleware, generateLeadCode);
+
+router.get(
+  '/generate-tender-reg-no-and-id',
+  authMiddleware,
+  generateTenderIdAndRegNo
+);
 
 export default router;

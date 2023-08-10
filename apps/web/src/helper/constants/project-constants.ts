@@ -78,3 +78,49 @@ export const getCreateValidateyup = (yup: any) => {
       ),
   });
 };
+
+
+export const getEditValidateyup = (yup: any) => {
+  return yup.object().shape({
+    project_name: yup.string().required(ProjectMessages.ENTER_NAME),
+    user_id: yup.string().trim().required(ProjectMessages.ENTER_USER),
+    client_id: yup.string().trim().required(ProjectMessages.ENTER_CLIENT),
+    estimated_budget: yup
+      .number()
+      .min(1, ProjectMessages.MINIMUM_CHECK)
+      .max(100000, ProjectMessages.MAXIMUM_CHECK)
+      .typeError(ProjectMessages.TYPE_ERROR)
+      .required(ProjectMessages.TYPE_ESTIMATE),
+    actual_budget: yup
+      .number()
+      .min(1, ProjectMessages.MINIMUM_CHECK)
+      .max(100000, ProjectMessages.MAXIMUM_CHECK)
+      .typeError(ProjectMessages.TYPE_ERROR)
+      .required(ProjectMessages.TYPE_ACTUAL),
+    priority: yup.string().trim().required(ProjectMessages.ENTER_PRIORITY),
+    date_started: yup.date().required(ProjectMessages.SELECT_START_DATE),
+    date_ended: yup
+      .date()
+      .required(ProjectMessages.SELECT_END_DATE)
+      .min(
+        yup.ref('date_started'),
+        'Project end date cannot be earlier than start date'
+      ),
+    site_configuration: yup
+      .array()
+      .test(
+        'unique-site-ids',
+        'Site name repeated are not allowed',
+        function (sites : any) {
+          const siteIds = new Set();
+          for (const site of sites) {
+            if (siteIds.has(site.site_id)) {
+              return false; // Duplicate site_id found
+            }
+            siteIds.add(site.site_id);
+          }
+          return true; // No duplicate site_id found
+        }
+      ),
+  });
+};

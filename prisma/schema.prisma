@@ -169,7 +169,6 @@ model project {
   is_delete              Boolean                  @default(false)
   project_notes          String?
   priority               String?
-  currency               String?
   code                   String?
   estimated_budget       Float?
   actual_budget          Float?
@@ -178,6 +177,7 @@ model project {
   category               category[]
   project_workbreak_down project_workbreak_down[]
   project_site           project_site[]
+  site_expense           site_expense[]
 }
 
 model project_expense {
@@ -211,23 +211,53 @@ model site_contractor {
   code                   String?
   project_workbreak_down project_workbreak_down[]
   project_site           project_site[]
+  site_expense           site_expense[]
 
   @@map("site_contractor")
 }
 
 model site_expense {
-  site_expense_id Int       @id @default(autoincrement())
-  site_id         Int?
-  description     String?
-  amount          Float?
-  date            DateTime?
-  document_url    String?
-  created_date    DateTime
-  updated_date    DateTime
-  created_by      Int?
-  updated_by      Int?
+  site_expense_id      Int                    @id @default(autoincrement())
+  site_id              Int?
+  project_id           Int?
+  employee_name        String?
+  employee_id          String?
+  employee_phone       String?
+  purpose              String?
+  department           String?
+  designation          String?
+  start_date           DateTime?
+  end_date             DateTime?
+  is_delete            Boolean                @default(false)
+  created_date         DateTime
+  updated_date         DateTime
+  created_by           Int?
+  updated_by           Int?
+  site_data            site_contractor?       @relation(fields: [site_id], references: [site_contractor_id])
+  project_data         project?               @relation(fields: [project_id], references: [project_id])
+  site_expense_details site_expense_details[]
 
   @@map("site_expense")
+}
+
+model site_expense_details {
+  site_expense_details_id Int           @id @default(autoincrement())
+  site_expense_id         Int
+  description             String?
+  air_transport           Float?
+  fuel                    Float?
+  labour_advance          Float?
+  phone_stationary        Float?
+  food_snacks             Float?
+  purchase_service        Float?
+  others                  Float?
+  total                   Float?
+  bill_details            Json?
+  created_date            DateTime
+  updated_date            DateTime
+  created_by              Int?
+  updated_by              Int?
+  site_expense_data       site_expense? @relation(fields: [site_expense_id], references: [site_expense_id])
 }
 
 model warehouse {

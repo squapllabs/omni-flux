@@ -1,4 +1,4 @@
-.container{
+.container {
   border: 1px solid var(--secondary-color);
   width: fit-content;
   padding: 8px;
@@ -6,25 +6,25 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  height: 40px;
 }
-.rowPerPage{
+.rowPerPage {
   display: flex;
   align-items: center;
 }
-.pagesCount{
+.pagesCount {
   font-size: 14px;
-  font-weight:bold
-
+  font-weight: bold;
 }
-.title{
+.title {
   font-size: 14px;
   padding: 0 8px;
 }
-.icons{
-display: flex;
-align-items: center;
-gap: 40px;
-padding: 0 40px;
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 0 40px;
 }
 .rowsNo {
   padding-top: 20px;

@@ -10,6 +10,7 @@ interface SelectProps {
   label?: string;
   name?: string;
   error?: boolean;
+  helperText?: string;
   disabled?: boolean;
 }
 interface InputWrapperProps {
@@ -107,7 +108,13 @@ const InputError = styled.span`
 const RequiredField = styled.span`
 color:red;
 `;
+const HelperText = styled.span`
+  color: gray;
+  margin-top: 2px;
+  font-size: 0.75rem;
+`;
 const Select: FC<SelectProps & { mandatory?: boolean }> = ({
+
   onChange,
   label,
   value,
@@ -118,6 +125,7 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
   error,
   disabled,
   mandatory = false,
+  helperText = null,
 }) => {
   const shouldShowAsterisk = mandatory ;
   return (
@@ -137,6 +145,7 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
           </StyledSelect>
           <DropdownArrow />
         </SelectContainer>
+        <span>{helperText && <HelperText>Note:{helperText}</HelperText>}</span>
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}
         </ErrorMessageWrapper>

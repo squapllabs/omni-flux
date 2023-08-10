@@ -104,6 +104,16 @@ const generateLeadCode = catchAsync(async (req, res) => {
   }
 });
 
+const generateTenderIdAndRegNo = catchAsync(async (req, res) => {
+  const methodName = '/generateTenderIdAndRegNo';
+  try {
+    const leadEnquiry = await leadEnquiryService.generateTenderIdAndRegNo();
+    res.send(leadEnquiry);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createLeadEnquiry,
   updateLeadEnquiry,
@@ -114,4 +124,5 @@ export {
   checkDuplicateTenderRegNo,
   checkDuplicateTenderIdentificationNo,
   generateLeadCode,
+  generateTenderIdAndRegNo,
 };

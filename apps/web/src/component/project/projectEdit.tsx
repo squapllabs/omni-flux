@@ -7,7 +7,7 @@ import TextArea from '../ui/CustomTextArea';
 import Select from '../ui/selectNew';
 import DatePicker from '../ui/CustomDatePicker';
 import Button from '../ui/Button';
-import { getCreateValidateyup } from '../../helper/constants/project-constants';
+import { getEditValidateyup } from '../../helper/constants/project-constants';
 import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useGetAllClientDrop } from '../../hooks/client-hooks';
@@ -28,7 +28,6 @@ const ProjectEdit = () => {
   const { data: getOneProjectData, isLoading } = getByProjectId(
     Number(routeParams?.id)
   );
-  console.log('project one', getOneProjectData);
   const [message, setMessage] = useState('');
   const { mutate: updateProjectData } = updateProject();
   const [openSnack, setOpenSnack] = useState(false);
@@ -37,9 +36,8 @@ const ProjectEdit = () => {
   const { data: getAllCurrencyDatadrop = [] } = useGetMasterCurency();
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
-  const [existingFileName, setExistingFileName] = useState();
-  const [existingFileUrl, setExistingFileUrl] = useState();
-  console.log("existingFileUrl",existingFileUrl);
+  const [existingFileName, setExistingFileName] =  useState<string[]>([]);
+  const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -83,7 +81,6 @@ const ProjectEdit = () => {
   };
 
   const handleDocuments = async (files: File[]) => {
-    console.log('handle document add');
     try {
       const uploadPromises = files.map(async (file) => {
         const response = await userService.user_profile_upload(file);
@@ -152,6 +149,7 @@ const ProjectEdit = () => {
         site_id: site.site_id,
         status: site.status,
         is_delete: 'N',
+        project_site_id:site.project_site_id
       }));
       setInitialValues({
         project_name: getOneProjectData?.project_name || '',
@@ -177,7 +175,6 @@ const ProjectEdit = () => {
       );
       setRows(siteConfigurationRows);
       const existingDocumentsS3Url = getOneProjectData.project_documents;
-      console.log('url name', existingDocumentsS3Url);
       setExistingFileUrl(existingDocumentsS3Url);
       const existingFileNames = existingDocumentsS3Url.map((document : any) => {
         const pathParts = document.path.split('/');
@@ -188,22 +185,18 @@ const ProjectEdit = () => {
         }
         return fileName;
       });
-      console.log('e name', existingFileNames);
       setExistingFileName(existingFileNames);
     }
   }, [getOneProjectData]);
 
-  const validationSchema = getCreateValidateyup(Yup);
+  const validationSchema = getEditValidateyup(Yup);
   const formik = useFormik({
     initialValues,
-    // validationSchema,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      // const s3UploadUrl = await handleDocuments(selectedFiles);
-      // console.log('edit form inn',s3UploadUrl);
       if (selectedFiles.length > 0) {
         const s3UploadUrl = await handleDocuments(selectedFiles);
-        console.log('edit form inn', s3UploadUrl);
         const newExistingFileUrl = [...existingFileUrl, ...s3UploadUrl];
         setExistingFileUrl(newExistingFileUrl);
       }
@@ -223,19 +216,19 @@ const ProjectEdit = () => {
         site_configuration: values.site_configuration,
         project_documents: existingFileUrl,
         status: 'Not Started',
+        project_id : Number(routeParams?.id)
       };
-      console.log('Edit form response ==>', Object);
-      //   updateProjectData(Object, {
-      //     onSuccess: (data, variables, context) => {
-      //       if (data?.status === true) {
-      //         setMessage('Project created');
-      //         setOpenSnack(true);
-      //         setInterval(() => {
-      //           navigate('/settings');
-      //         }, 1000);
-      //       }
-      //     },
-      //   });
+        updateProjectData(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.status === true) {
+              setMessage('Project edited');
+              setOpenSnack(true);
+              setInterval(() => {
+                navigate('/settings');
+              }, 1000);
+            }
+          },
+        });
     },
   });
 
@@ -355,6 +348,7 @@ const ProjectEdit = () => {
                 value={formik.values.code}
                 onChange={formik.handleChange}
                 error={formik.touched.code && formik.errors.code}
+                disabled
               />
             </div>
           </div>
@@ -687,7 +681,7 @@ const ProjectEdit = () => {
               <ol style={{ fontSize: '0.85rem' }}>
                 {existingFileName?.map((a : any, index : number) => (
                   <li key={index}>
-                   {a}
+                   {a}{" "}
                     <CloseIcon
                       width={5}
                       height={10}
@@ -721,7 +715,7 @@ const ProjectEdit = () => {
               type="submit"
               shape="rectangle"
               justify="center"
-              onClick={() => navigate('/project-workbreakdown')}
+              onClick={() => navigate('/settings')}
             >
               Back
             </Button>

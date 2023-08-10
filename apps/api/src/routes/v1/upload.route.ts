@@ -1,7 +1,12 @@
 import express from 'express';
 import multer from 'multer';
 import authMiddleware from '../../middleware/auth';
-import processFileUpload from '../../utils/fileUpload';
+import {
+  processFileDelete,
+  processFileUpload,
+} from '../../controller/upload.controller';
+import { processFileDeleteValidator } from '../../validations/upload';
+import { runValidation } from '../../validations';
 
 const router = express.Router();
 
@@ -28,6 +33,14 @@ router.post(
     },
   ]),
   processFileUpload
+);
+
+router.post(
+  '/file/delete',
+  authMiddleware,
+  processFileDeleteValidator,
+  runValidation,
+  processFileDelete
 );
 
 export default router;

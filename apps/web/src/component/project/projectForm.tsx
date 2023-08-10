@@ -654,7 +654,7 @@ const ProjectForm = () => {
               type="submit"
               shape="rectangle"
               justify="center"
-              onClick={() => navigate('/project-workbreakdown')}
+              onClick={() => navigate('/settings')}
             >
               Back
             </Button>
