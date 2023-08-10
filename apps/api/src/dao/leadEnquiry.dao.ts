@@ -95,27 +95,30 @@ const add = async (
       for (const product of product_item) {
         const product_id = product.product_id;
         const quantity = product.quantity;
+        const is_delete = product.is_delete;
 
-        const leadEnquiryProductItemResult =
-          await transaction.lead_enquiry_product_item.create({
-            data: {
-              lead_enquiry_product: {
-                connect: {
-                  lead_product_id: lead_product_id,
+        if (is_delete === 'N') {
+          const leadEnquiryProductItemResult =
+            await transaction.lead_enquiry_product_item.create({
+              data: {
+                lead_enquiry_product: {
+                  connect: {
+                    lead_product_id: lead_product_id,
+                  },
                 },
-              },
-              product: {
-                connect: {
-                  item_id: product_id,
+                product: {
+                  connect: {
+                    item_id: product_id,
+                  },
                 },
+                quantity: quantity,
+                created_date: currentDate,
+                updated_date: currentDate,
+                created_by,
               },
-              quantity: quantity,
-              created_date: currentDate,
-              updated_date: currentDate,
-              created_by,
-            },
-          });
-        leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+            });
+          leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+        }
       }
     } else if (lead_type === 'Tender') {
       leadEnquiryTender = await transaction.lead_enquiry_tender.create({
@@ -286,26 +289,28 @@ const edit = async (
             leadEnquiryProductItem.push(leadEnquiryProductItemResult);
           }
         } else {
-          const leadEnquiryProductItemResult =
-            await transaction.lead_enquiry_product_item.create({
-              data: {
-                lead_enquiry_product: {
-                  connect: {
-                    lead_product_id: lead_product_id,
+          if (is_delete === 'N') {
+            const leadEnquiryProductItemResult =
+              await transaction.lead_enquiry_product_item.create({
+                data: {
+                  lead_enquiry_product: {
+                    connect: {
+                      lead_product_id: lead_product_id,
+                    },
                   },
-                },
-                product: {
-                  connect: {
-                    item_id: product_id,
+                  product: {
+                    connect: {
+                      item_id: product_id,
+                    },
                   },
+                  quantity: quantity,
+                  created_by: updated_by,
+                  created_date: currentDate,
+                  updated_date: currentDate,
                 },
-                quantity: quantity,
-                created_by: updated_by,
-                created_date: currentDate,
-                updated_date: currentDate,
-              },
-            });
-          leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+              });
+            leadEnquiryProductItem.push(leadEnquiryProductItemResult);
+          }
         }
       }
     } else if (lead_type === 'Tender') {
