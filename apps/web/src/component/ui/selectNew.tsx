@@ -10,6 +10,8 @@ interface SelectProps {
   label?: string;
   name?: string;
   error?: boolean;
+  helperText?: string;
+  disabled?: boolean;
 }
 interface InputWrapperProps {
   width?: string;
@@ -51,7 +53,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   border: none;
   border-radius: 4px;
   outline: none;
-  // border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   option {
     color: black;
     background: white;
@@ -95,6 +97,11 @@ const InputError = styled.span`
   margin-top: 2px;
   font-size: 0.75rem;
 `;
+const HelperText = styled.span`
+  color: gray;
+  margin-top: 2px;
+  font-size: 0.75rem;
+`;
 const Select: FC<SelectProps> = ({
   onChange,
   label,
@@ -104,6 +111,8 @@ const Select: FC<SelectProps> = ({
   children,
   name,
   error,
+  helperText = null,
+  disabled,
 }) => {
   return (
     <div>
@@ -115,12 +124,14 @@ const Select: FC<SelectProps> = ({
             name={name}
             onChange={onChange}
             error={!!error}
+            disabled={disabled}
           >
             <option value="">{defaultLabel}</option>
             {children}
           </StyledSelect>
           <DropdownArrow />
         </SelectContainer>
+        <span>{helperText && <HelperText>Note:{helperText}</HelperText>}</span>
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}
         </ErrorMessageWrapper>

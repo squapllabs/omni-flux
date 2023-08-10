@@ -184,7 +184,8 @@
 // export default AppRoutes;
 
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+// import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from '../component/login';
 import Home from '../component/home';
 import ForgetPassword from '../component/forgetPassword';
@@ -206,6 +207,8 @@ import ProductPage from '../component/products/productPage';
 import Category from '../component/category/category';
 import ResetPassword from '../component/resetPassword/token';
 import MasterData from '../component/masterData/masterData';
+import Lead from '../component/leadEnquires/leadList';
+import leadEnquires from '../component/leadEnquires/leadEnquires';
 import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
 import Settings from '../component/settings/homeSetting';
 
@@ -227,8 +230,11 @@ const AppRoutes = () => {
   const ProtectedProductPage = withLayoutAndProtection(ProductPage);
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
-  const ProtectedProjectWorkBreakDownPage = withLayoutAndProtection(ProjectWorkBreakDown);
-  const ProtectedSettings = withLayoutAndProtection(Settings)
+  const ProtectedLeadPage = withLayoutAndProtection(Lead);
+  const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
+  const ProtectedProjectWorkBreakDownPage =
+    withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedSettings = withLayoutAndProtection(Settings);
 
   return (
     <div>
@@ -252,7 +258,16 @@ const AppRoutes = () => {
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/category" element={<ProtectedCategoryPage />} />
         <Route path="/master-data" element={<ProtectedMasterDataPage />} />
-        <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownPage />} />
+        <Route path="/lead-enquires" element={<ProtectedLeadPage />} />
+        <Route path="/lead-add" element={<ProtectedLeadEnquiresPage />} />
+        <Route
+          path="/lead-edit/:id/:type"
+          element={<ProtectedLeadEnquiresPage />}
+        />
+        <Route
+          path="/project-workbreakdown"
+          element={<ProtectedProjectWorkBreakDownPage />}
+        />
         <Route path="/settings" element={<ProtectedSettings />} />
       </Routes>
     </div>

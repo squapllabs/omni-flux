@@ -27,7 +27,7 @@ const createProject = async (body: createProjectBody) => {
       currency,
       project_notes,
       client_id,
-      document_url,
+      project_documents,
       created_by,
       site_configuration,
     } = body;
@@ -63,7 +63,7 @@ const createProject = async (body: createProjectBody) => {
       currency,
       project_notes,
       client_id,
-      document_url,
+      project_documents,
       created_by,
       site_configuration
     );
@@ -96,7 +96,7 @@ const updateProject = async (body: updateProjectBody) => {
       currency,
       project_notes,
       client_id,
-      document_url,
+      project_documents,
       updated_by,
       project_id,
       site_configuration,
@@ -143,7 +143,7 @@ const updateProject = async (body: updateProjectBody) => {
         currency,
         project_notes,
         client_id,
-        document_url,
+        project_documents,
         updated_by,
         project_id,
         site_configuration

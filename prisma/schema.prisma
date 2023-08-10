@@ -161,7 +161,7 @@ model project {
   date_ended             DateTime?
   status                 String?                  @db.VarChar(50)
   client_id              Int?
-  document_url           String?
+  project_documents      Json?
   created_date           DateTime                 @default(now())
   updated_date           DateTime                 @updatedAt
   created_by             Int?
