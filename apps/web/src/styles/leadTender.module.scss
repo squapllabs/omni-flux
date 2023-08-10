@@ -162,3 +162,40 @@ tr:hover {
   background-color: #c4c4c6;
   color: #ffffff;
 }
+
+.formContainer {
+  width: 350px;
+  // padding: 5px 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px 20px 10px 0px;
+}
+
+.field {
+  padding: 5px 20px 5px 20px;
+}
+
+.titleStyle {
+  padding: 10px 10px 1px 2op;
+}
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 1px 5px 1px;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px 5px 20px;
+}
+.cancelButton:hover {
+  background-color: #c4c4c6;
+  color: #070707;
+}

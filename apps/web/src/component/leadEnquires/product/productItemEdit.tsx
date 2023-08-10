@@ -6,6 +6,8 @@ import Input from '../../ui/Input';
 import { useFormik } from 'formik';
 import Button from '../../ui/Button';
 import { getValidateProductyup } from 'apps/web/src/helper/constants/lead/leadProduct-constants';
+import Styles from '../../../styles/leadTender.module.scss';
+import CancelIcon from '../../menu/icons/closeIcon';
 
 const ProductItemEdit: React.FC = (props: any) => {
   const validationSchema = getValidateProductyup(Yup);
@@ -50,39 +52,54 @@ const ProductItemEdit: React.FC = (props: any) => {
   const handleBack = () => {
     props.setOpen(false);
   };
+
   return (
-    <div>
+    <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-        <Select
-          name="product_id"
-          label="Product"
-          defaultLabel="select a Product"
-          value={formik.values.product_id}
-          onChange={formik.handleChange}
-          error={formik.errors.product_id}
-          disabled
-        >
-          {getAllItems?.map((option: any) => (
-            <option
-              key={option.item_id}
-              value={`${option.item_id}+${option.item_name}`}
-            >
-              {option.item_name}
-            </option>
-          ))}
-        </Select>
-        <Input
-          label="Quantity"
-          name="quantity"
-          value={formik.values.quantity}
-          onChange={formik.handleChange}
-          error={formik.errors.quantity}
-        />
-        <div
-          style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}
-        >
+        <div className={Styles.header}>
+          <div>
+            <h4 className={Styles.titleStyle}>Edit Category</h4>
+          </div>
+          <div>
+            {' '}
+            <CancelIcon onClick={handleBack} />
+          </div>
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.field}>
+          <Select
+            name="product_id"
+            label="Product"
+            defaultLabel="select a Product"
+            value={formik.values.product_id}
+            onChange={formik.handleChange}
+            error={formik.errors.product_id}
+            disabled
+          >
+            {getAllItems?.map((option: any) => (
+              <option
+                key={option.item_id}
+                value={`${option.item_id}+${option.item_name}`}
+              >
+                {option.item_name}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div className={Styles.field}>
+          <Input
+            label="Quantity"
+            name="quantity"
+            value={formik.values.quantity}
+            onChange={formik.handleChange}
+            error={formik.errors.quantity}
+          />
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.formButton}>
           <div>
             <Button
+              className={Styles.cancelButton}
               shape="rectangle"
               justify="center"
               size="small"

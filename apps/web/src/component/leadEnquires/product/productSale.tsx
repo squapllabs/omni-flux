@@ -25,6 +25,7 @@ import CustomSnackBar from '../../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomEditDialog from '../../../component/ui/customEditDialogBox';
 import ProductItemEdit from './productItemEdit';
+import CustomDelete from '../../ui/customDeleteDialogBox';
 
 interface Item {
   lead_enquiry_product_item_id: string;
@@ -43,6 +44,7 @@ const ProductSale: React.FC = (props: any) => {
     quantity: '',
     is_delete: 'N',
   };
+  let rowIndex = 0;
 
   const [value, setValue] = useState(valueObject);
   const [errors, setErrors] = useState('');
@@ -52,9 +54,11 @@ const ProductSale: React.FC = (props: any) => {
   const [disable, setDisable] = useState(
     props?.leadEnquireId != undefined ? true : false
   );
+  const [openDelete, setOpenDelete] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [count, setCount] = useState(0);
   const [initialValues, setInitialValues] = useState({
     lead_code: '',
     lead_enquiry_id: '',
@@ -76,6 +80,25 @@ const ProductSale: React.FC = (props: any) => {
     created_by: '',
     lead_product_id: '',
   });
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+  const deleteProductItem = () => {
+    const itemIndex = productItems.findIndex(
+      (item: any) =>
+        item.product_name === editProduct?.product_name &&
+        item.is_delete === editProduct?.is_delete
+    );
+    productItems[itemIndex] = {
+      ...productItems[itemIndex],
+      is_delete: 'Y',
+    };
+    setProductItems([...productItems]);
+    rowIndex = rowIndex - 1;
+    handleCloseDelete();
+    setMessage('Product item Successfully deleted');
+    setOpenSnack(true);
+  };
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -208,16 +231,8 @@ const ProductSale: React.FC = (props: any) => {
       });
   };
   const handleProductDelete = (e: any, value: any) => {
-    const itemIndex = productItems.findIndex(
-      (item: any) =>
-        item.product_name === value.product_name &&
-        item.is_delete === value.is_delete
-    );
-    productItems[itemIndex] = {
-      ...productItems[itemIndex],
-      is_delete: 'Y',
-    };
-    setProductItems([...productItems]);
+    setEditProduct(value);
+    setOpenDelete(true);
   };
   const handleProductEdit = (e: any, value: any) => {
     setOpen(true);
@@ -495,10 +510,11 @@ const ProductSale: React.FC = (props: any) => {
                   )}
                   {productItems.map((item: any, index: number) => {
                     if (item?.is_delete === 'N') {
+                      rowIndex = rowIndex + 1;
                       return (
                         <>
                           <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td>{rowIndex}</td>
                             <td>{item.product_name}</td>
                             <td>{item.quantity}</td>
                             <td style={{ display: 'flex', gap: '10px' }}>
@@ -632,6 +648,14 @@ const ProductSale: React.FC = (props: any) => {
           onClose={handleSnackBarClose}
           autoHideDuration={1000}
           type="success"
+        />
+        <CustomDelete
+          open={openDelete}
+          title="Delete Product Item"
+          contentLine1="Are you sure you want to delete this Product ?"
+          contentLine2=""
+          handleClose={handleCloseDelete}
+          handleConfirm={deleteProductItem}
         />
       </form>
     </div>
