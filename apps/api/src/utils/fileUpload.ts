@@ -1,7 +1,7 @@
 import s3Access from './s3';
 import fs from 'fs';
 
-const processFileUpload = async (req, res) => {
+const processFileUpload = async (req) => {
   const storage = req.body.storage;
   const files = req.files;
 
@@ -28,14 +28,27 @@ const processFileUpload = async (req, res) => {
       index++;
     }
   }
-  res.status(200).json({
+
+  const result = {
     message:
       storage === 'local'
         ? 'File upload successful in Local!'
         : 'File upload successful in S3!',
     status: true,
     data: storage === 'local' ? files : allFilePath,
-  });
+  };
+  return result;
 };
 
-export default processFileUpload;
+const processFileDeleteInS3 = async (body) => {
+  const { path } = body;
+  await s3Access.deleteFileFromS3UsingPath(path);
+  const result = {
+    message: 'File Deleted Successfully in S3!',
+    status: true,
+    data: null,
+  };
+  return result;
+};
+
+export { processFileUpload, processFileDeleteInS3 };

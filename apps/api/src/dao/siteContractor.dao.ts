@@ -234,6 +234,24 @@ const getByCode = async (code: string, connectionObj = null) => {
   }
 };
 
+const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const siteContractor = await transaction.site_contractor.findFirst({
+      where: {
+        site_contractor_id: Number(getBySiteId),
+        type: 'Site',
+        is_delete: false,
+      },
+    });
+
+    return siteContractor;
+  } catch (error) {
+    console.log('Error occurred in siteContractor getBySiteId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -244,4 +262,5 @@ export default {
   getAllContractors,
   searchSiteContractor,
   getByCode,
+  getBySiteId,
 };
