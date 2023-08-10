@@ -53,4 +53,23 @@ const useDeleteProjects = () => {
   );
 };
 
-export { useGetAllProject,createProject,getByProject,useDeleteProjects };
+const getByProjectId = (id: number) => {
+  return useQuery(['getByuserID', id], () => ProjectService.getOneProjectById(id), {
+    select: (data) => data.data,
+  });
+};
+
+const updateProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ProjectService.updateProjectData(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
+export { useGetAllProject,createProject,getByProject,useDeleteProjects,getByProjectId,updateProject };

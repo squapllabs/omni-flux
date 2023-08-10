@@ -17,6 +17,7 @@ import siteService from '../../service/site-service';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import AddIcon from '../menu/icons/addIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
+import CloseIcon from '../menu/icons/closeIcon';
 import { createProject } from '../../hooks/project-hooks';
 import { useGetMasterCurency } from '../../hooks/masertData-hook';
 import userService from '../../service/user-service';
@@ -30,7 +31,8 @@ const ProjectForm = () => {
   const { data: getAllCurrencyDatadrop = [] } = useGetMasterCurency();
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
-  const [docUrl, setDocUrl] = useState<any[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+//   const [docUrl, setDocUrl] = useState<any[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [rows, setRows] = useState([
@@ -39,13 +41,16 @@ const ProjectForm = () => {
       siteData: null,
     },
   ]);
+  const currentDate = new Date();
+  const defaultEndDate = new Date();
+  defaultEndDate.setDate(currentDate.getDate() + 90);
   const [initialValues, setInitialValues] = useState({
     project_name: '',
     code: '',
     user_id: '',
     client_id: '',
-    date_started: '',
-    date_ended: '',
+    date_started: currentDate.toISOString().slice(0, 10),
+    date_ended: defaultEndDate.toISOString().slice(0, 10),
     priority: '',
     currency: '',
     estimated_budget: '',
@@ -73,27 +78,15 @@ const ProjectForm = () => {
   };
 
   const handleDocuments = async (files: File[]) => {
+    console.log('handle document add');
     try {
       const uploadPromises = files.map(async (file) => {
-        return userService.user_profile_upload(file);
+        const response = await userService.user_profile_upload(file);
+        return response.data;
       });
       const uploadResponses = await Promise.all(uploadPromises);
-      const modifiedArray = uploadResponses.flatMap(
-        (response) => response.data
-      );
-      setDocUrl(modifiedArray);
-      const uploadedUrls = uploadResponses.map((response) => {
-        return response.data.map((fileData: { path: string }) => {
-          const pathSegments = fileData.path.split('/');
-          const fileNameWithTimestamp = pathSegments[pathSegments.length - 1];
-          const fileNameWithoutTimestamp = fileNameWithTimestamp
-            .split('-')
-            .slice(3)
-            .join('-');
-          return fileNameWithoutTimestamp;
-        });
-      });
-      setSelectedFileName(uploadedUrls);
+      const modifiedArray = uploadResponses.flatMap((response) => response);
+      return modifiedArray;
     } catch (error) {
       console.log('Error in occur project document upload:', error);
     }
@@ -148,7 +141,9 @@ const ProjectForm = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      const s3UploadUrl = await handleDocuments(selectedFiles);
+      console.log('s3Upload', s3UploadUrl);
       const Object: any = {
         project_name: values.project_name,
         code: values.code.toUpperCase(),
@@ -163,9 +158,10 @@ const ProjectForm = () => {
         description: values.description,
         project_notes: values.project_notes,
         site_configuration: values.site_configuration,
-        project_documents: docUrl,
+        project_documents: s3UploadUrl,
         status: 'Not Started',
       };
+      console.log('data ===>', Object);
       createNewProjectData(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
@@ -187,13 +183,28 @@ const ProjectForm = () => {
     const fileList = Array.from(files);
     const oversizedFiles = fileList.filter(
       (file) => file.size > 10 * 1024 * 1024
-    ); 
+    );
     if (oversizedFiles.length > 0) {
-        const oversizedFileNames = oversizedFiles.map(file => file.name).join(', ');
+      const oversizedFileNames = oversizedFiles
+        .map((file) => file.name)
+        .join(', ');
       const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
       setFileSizeError(errorMessage);
     } else {
-      handleDocuments(fileList);
+      const selectedFilesArray: File[] = [];
+      const selectedFileNamesArray: string[] = [];
+
+      fileList.forEach((file) => {
+        selectedFilesArray.push(file);
+        const originalFileNameMatch = file.name.match(/-(\d+-\d+-.*)$/);
+        const originalFileName = originalFileNameMatch
+          ? originalFileNameMatch[1]
+          : file.name;
+        selectedFileNamesArray.push(originalFileName);
+      });
+      setSelectedFiles(selectedFilesArray);
+      setSelectedFileName(selectedFileNamesArray);
+      setFileSizeError('');
     }
   };
 
@@ -201,17 +212,38 @@ const ProjectForm = () => {
     const files = e.target.files;
     if (files.length > 0) {
       const fileList: File[] = Array.from(files);
-      const oversizedFiles = fileList.filter(file => file.size > 10 * 1024 * 1024);
+      const oversizedFiles = fileList.filter(
+        (file) => file.size > 10 * 1024 * 1024
+      );
       if (oversizedFiles.length > 0) {
-        const oversizedFileNames = oversizedFiles.map(file => file.name).join(', ');
+        const oversizedFileNames = oversizedFiles
+          .map((file) => file.name)
+          .join(', ');
         const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
         setFileSizeError(errorMessage);
       } else {
-        handleDocuments(fileList);
+        const selectedFilesArray: File[] = [];
+        const selectedFileNamesArray: string[] = [];
+        fileList.forEach((file) => {
+        console.log("data",file);
+          selectedFilesArray.push(file);
+          selectedFileNamesArray.push(file.name);
+        });
+        setSelectedFiles(selectedFilesArray);
+        setSelectedFileName(selectedFileNamesArray);
+        setFileSizeError('');
       }
     }
   };
 
+  const deleteFile = (index: number) => {
+    const newFiles = [...selectedFiles];
+    const newFileNames = [...selectedFileName];
+    newFiles.splice(index, 1);
+    newFileNames.splice(index, 1);
+    setSelectedFiles(newFiles);
+    setSelectedFileName(newFileNames);
+  };
   const onButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -420,11 +452,11 @@ const ProjectForm = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>S No</th>
-                    <th>Site</th>
-                    <th>Site Address</th>
-                    <th>Status</th>
-                    <th>Delete</th>
+                    <th className={Styles.tableHeading}>S No</th>
+                    <th className={Styles.tableHeading}>Site</th>
+                    <th className={Styles.tableHeading}>Site Address</th>
+                    <th className={Styles.tableHeading}>Status</th>
+                    <th className={Styles.tableHeading}>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -436,7 +468,7 @@ const ProjectForm = () => {
                           style={{
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            height: '40px',
+                            height: '50px',
                           }}
                         >
                           <Select
@@ -594,15 +626,27 @@ const ProjectForm = () => {
               </div>
             </div>
           </div>
-          <div style={{ padding: '0px 0px 0px 30px' }}>
+          <div style={{ padding: '0px 0px 0px 50px' }}>
             <span>
-              <ul style={{ fontSize: '0.65rem' }}>
+              <ol style={{ fontSize: '0.85rem' }}>
                 {selectedFileName.map((fileName, index) => (
-                  <li key={index}>{fileName}</li>
+                  <li key={index}>
+                    {fileName} {'    '}
+                    <CloseIcon
+                      width={5}
+                      height={10}
+                      onClick={() => deleteFile(index)}
+                    />
+                  </li>
                 ))}
-              </ul>
+              </ol>
             </span>
-            <span> <p style={{ color: 'red',fontSize:'0.75rem' }}>{fileSizeError}</p></span>
+            <span>
+              {' '}
+              <p style={{ color: 'red', fontSize: '0.75rem' }}>
+                {fileSizeError}
+              </p>
+            </span>
           </div>
           <div className={Styles.submitButton}>
             <Button
