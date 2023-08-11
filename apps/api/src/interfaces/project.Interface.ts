@@ -12,7 +12,6 @@ interface createProjectBody {
   actual_budget: number;
   code: string;
   priority: string;
-  currency: string;
   project_notes: string;
   site_configuration: Array<SiteConfiguration>;
 }
@@ -34,7 +33,6 @@ interface updateProjectBody {
   actual_budget: number;
   code: string;
   priority: string;
-  currency: string;
   project_notes: string;
   client_id: number;
   project_documents: JSON;

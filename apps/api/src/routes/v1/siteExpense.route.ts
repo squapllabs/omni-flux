@@ -6,6 +6,7 @@ import {
   deleteBySiteExpenseId,
   getAllSiteExpense,
   getBySiteExpenseId,
+  searchSiteExpense,
   updateSiteExpense,
 } from '../../controller/siteExpense.controller';
 import { runValidation } from '../../validations/index';
@@ -31,5 +32,7 @@ router.delete(
   authMiddleware,
   deleteBySiteExpenseId
 );
+
+router.post('/search', authMiddleware, searchSiteExpense);
 
 export default router;

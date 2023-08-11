@@ -57,10 +57,21 @@ const deleteBySiteExpenseId = catchAsync(async (req, res) => {
   }
 });
 
+const searchSiteExpense = catchAsync(async (req, res) => {
+  const methodName = '/searchSiteExpense';
+  try {
+    const siteExpense = await siteExpenseService.searchSiteExpense(req.body);
+    res.send(siteExpense);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createSiteExpense,
   updateSiteExpense,
   getAllSiteExpense,
   getBySiteExpenseId,
   deleteBySiteExpenseId,
+  searchSiteExpense,
 };
