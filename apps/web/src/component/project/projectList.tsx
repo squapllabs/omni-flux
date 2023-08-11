@@ -9,7 +9,6 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import { format } from 'date-fns';
 import Pagination from '../menu/pagination';
 import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
@@ -224,7 +223,9 @@ const ProjectList = () => {
                     <td>
                       <div className={Styles.tablerow}>
                         <EditIcon
-                          onClick={() => navigate(`/project-edit/${data.project_id}`)}
+                          onClick={() =>
+                            navigate(`/project-edit/${data.project_id}`)
+                          }
                         />
                         {/* <DeleteIcon
                           onClick={() => deleteProjectHandler(data.user_id)}

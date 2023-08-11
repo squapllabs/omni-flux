@@ -36,7 +36,7 @@ const ProjectEdit = () => {
   const { data: getAllCurrencyDatadrop = [] } = useGetMasterCurency();
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
-  const [existingFileName, setExistingFileName] =  useState<string[]>([]);
+  const [existingFileName, setExistingFileName] = useState<string[]>([]);
   const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
@@ -149,7 +149,7 @@ const ProjectEdit = () => {
         site_id: site.site_id,
         status: site.status,
         is_delete: 'N',
-        project_site_id:site.project_site_id
+        project_site_id: site.project_site_id,
       }));
       setInitialValues({
         project_name: getOneProjectData?.project_name || '',
@@ -176,7 +176,7 @@ const ProjectEdit = () => {
       setRows(siteConfigurationRows);
       const existingDocumentsS3Url = getOneProjectData.project_documents;
       setExistingFileUrl(existingDocumentsS3Url);
-      const existingFileNames = existingDocumentsS3Url.map((document : any) => {
+      const existingFileNames = existingDocumentsS3Url.map((document: any) => {
         const pathParts = document.path.split('/');
         const fileName = pathParts[pathParts.length - 1];
         const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
@@ -216,19 +216,19 @@ const ProjectEdit = () => {
         site_configuration: values.site_configuration,
         project_documents: existingFileUrl,
         status: 'Not Started',
-        project_id : Number(routeParams?.id)
+        project_id: Number(routeParams?.id),
       };
-        updateProjectData(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.status === true) {
-              setMessage('Project edited');
-              setOpenSnack(true);
-              setInterval(() => {
-                navigate('/settings');
-              }, 1000);
-            }
-          },
-        });
+      updateProjectData(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.status === true) {
+            setMessage('Project edited');
+            setOpenSnack(true);
+            setInterval(() => {
+              navigate('/settings');
+            }, 1000);
+          }
+        },
+      });
     },
   });
 
@@ -624,10 +624,10 @@ const ProjectEdit = () => {
               </div>
             </div>
           </div>
-          <div className={Styles.siteHeading}>
+          <div className={Styles.siteHeading} style={{ display: 'none' }}>
             <h4>Project Documents</h4>
           </div>
-          <div style={{ padding: '10px 0px 0px 20px' }}>
+          <div style={{ padding: '10px 0px 0px 20px', display: 'none' }}>
             <div
               style={{
                 width: '40%',
@@ -676,12 +676,12 @@ const ProjectEdit = () => {
               </div>
             </div>
           </div>
-          <div style={{ padding: '0px 0px 0px 50px' }}>
+          <div style={{ padding: '0px 0px 0px 50px', display: 'none' }}>
             <span>
               <ol style={{ fontSize: '0.85rem' }}>
-                {existingFileName?.map((a : any, index : number) => (
+                {existingFileName?.map((a: any, index: number) => (
                   <li key={index}>
-                   {a}{" "}
+                    {a}{' '}
                     <CloseIcon
                       width={5}
                       height={10}
