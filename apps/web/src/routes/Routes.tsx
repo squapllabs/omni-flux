@@ -211,6 +211,8 @@ import Lead from '../component/leadEnquires/leadList';
 import leadEnquires from '../component/leadEnquires/leadEnquires';
 import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
 import Settings from '../component/settings/homeSetting';
+import ExpansesForm from '../component/expanses/expansesForm';
+import PopupExpanse from '../component/expanses/popupExpanse';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -235,6 +237,8 @@ const AppRoutes = () => {
   const ProtectedProjectWorkBreakDownPage =
     withLayoutAndProtection(ProjectWorkBreakDown);
   const ProtectedSettings = withLayoutAndProtection(Settings);
+  const ProtectedExpanses = withLayoutAndProtection(ExpansesForm);
+  const ProtectedPopupExpanse = withLayoutAndProtection(PopupExpanse);
 
   return (
     <div>
@@ -269,6 +273,8 @@ const AppRoutes = () => {
           element={<ProtectedProjectWorkBreakDownPage />}
         />
         <Route path="/settings" element={<ProtectedSettings />} />
+        <Route path="/expanses" element={<ProtectedExpanses />} />
+        <Route path="/expanses-popup" element={<ProtectedPopupExpanse />} />
       </Routes>
     </div>
   );
