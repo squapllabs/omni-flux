@@ -42,6 +42,20 @@ const createClient = () => {
   );
 };
 
+const instantcreateClient = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ClientService.createClient(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllClientDrop']);
+      },
+    }
+  );
+};
+
 const updateClient = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -91,4 +105,5 @@ export {
   useDeleteClient,
   useGetAllClientDrop,
   getByClient,
+  instantcreateClient
 };

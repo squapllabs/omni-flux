@@ -24,6 +24,21 @@ const createSite = () => {
   );
 };
 
+const instantCreateSite = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SiteService.createNewSite(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllSiteDrop']);
+
+      },
+    }
+  );
+};
+
 const getBySearchSiteData = () => {
   return useMutation(
     (data: any) => {
@@ -70,4 +85,4 @@ const useDeleteSite = () => {
   );
 };
 
-export { useGetAllSiteDrop,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite };
+export { useGetAllSiteDrop,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite,instantCreateSite };

@@ -10,6 +10,7 @@ interface SelectProps {
   label?: string;
   name?: string;
   error?: boolean;
+  helperText?: string;
   disabled?: boolean;
 }
 interface InputWrapperProps {
@@ -19,7 +20,7 @@ interface StyledSelectProps {
   value: string;
   width?: string;
   error?: boolean;
-  disabled?:boolean;
+  disabled?: boolean;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -28,23 +29,22 @@ const InputWrapper = styled.div<InputWrapperProps>`
   width: ${(props) => props.width || '100%'};
 `;
 const SelectContainer = styled.div<StyledSelectProps>`
-position: relative;
-display: flex;
-align-items: center;
-border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
-border-radius: 4px;
-background-color: ${(props) => (props.disabled ? '#f9f9f9' : '#f4f5f6')};
-pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
-opacity: ${(props) => (props.disabled ? 0.7 : 1)};
-&:hover {
-  border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-}
-&:focus-within {
-  outline: 0;
-  box-shadow: ${(props) =>
-    props.disabled ? 'none' : '0 0 0 2px #68717840'};
-}
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border-radius: 4px;
+  background-color: ${(props) => (props.disabled ? '#f9f9f9' : '#f4f5f6')};
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+  opacity: ${(props) => (props.disabled ? 0.7 : 1)};
+  &:hover {
+    border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  }
+  &:focus-within {
+    outline: 0;
+    box-shadow: ${(props) => (props.disabled ? 'none' : '0 0 0 2px #68717840')};
+  }
 `;
 const StyledSelect = styled.select<StyledSelectProps>`
   appearance: none; // this is to remove default browser dropdown icon
@@ -105,7 +105,13 @@ const InputError = styled.span`
 `;
 
 const RequiredField = styled.span`
-color:red;
+  color: red;
+`;
+
+const HelperText = styled.span`
+  color: gray;
+  margin-top: 2px;
+  font-size: 0.75rem;
 `;
 const Select: FC<SelectProps & { mandatory?: boolean }> = ({
   onChange,
@@ -118,25 +124,31 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
   error,
   disabled,
   mandatory = false,
+  helperText = null,
 }) => {
-  const shouldShowAsterisk = mandatory ;
+  const shouldShowAsterisk = mandatory;
   return (
     <div>
       <InputWrapper width={width}>
-        {label && <StyledLabel>{label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}</StyledLabel>}
+        {label && (
+          <StyledLabel>
+            {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
+          </StyledLabel>
+        )}
         <SelectContainer width={width}>
           <StyledSelect
             value={value}
             name={name}
             onChange={onChange}
             error={!!error}
-            disabled={disabled} 
+            disabled={disabled}
           >
             <option value="">{defaultLabel}</option>
             {children}
           </StyledSelect>
           <DropdownArrow />
         </SelectContainer>
+        <span>{helperText && <HelperText>Note:{helperText}</HelperText>}</span>
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}
         </ErrorMessageWrapper>

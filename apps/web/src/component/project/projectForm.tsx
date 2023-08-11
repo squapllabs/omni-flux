@@ -20,12 +20,8 @@ import UploadIcon from '../menu/icons/cloudUpload';
 import { createProject } from '../../hooks/project-hooks';
 import { useGetMasterCurency } from '../../hooks/masertData-hook';
 import userService from '../../service/user-service';
-import CloseIcon from '../menu/icons/closeIcon';
-import Styles1 from '../../styles/userList.module.scss';
-import { getClientValidateyup } from '../../helper/constants/client-constants';
-import { createClient } from '../../hooks/client-hooks';
-// import CustomEditDialog from '../ui/customEditDialogBox';
-// import ClientForm from '../client/clientForm';
+import CustomClientAdd from '../ui/CustomClientAdd';
+import CustomSiteAdd from '../ui/CustomSiteAdd';
 
 const ProjectForm = () => {
   const [message, setMessage] = useState('');
@@ -37,6 +33,8 @@ const ProjectForm = () => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [docUrl, setDocUrl] = useState<any[]>([]);
+  const [showClientForm, setShowClientForm] = useState(false);
+  const [showSiteForm, setShowSiteForm] = useState(false);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [rows, setRows] = useState([
@@ -45,10 +43,6 @@ const ProjectForm = () => {
       siteData: null,
     },
   ]);
-  const { mutate: createNewClient } = createClient();
-  // const [clientValues,setclientValues] = useState({
-
-  // });
 
   const [initialValues, setInitialValues] = useState({
     project_name: '',
@@ -70,30 +64,8 @@ const ProjectForm = () => {
     }>,
     project_documents: '',
     status: '',
-    name: '',
-    contact_details: '',
   });
-  const formikOne = useFormik({
-    initialValues,
-    enableReinitialize: true,
-    onSubmit: (values) => {
-      const Object: any = {
-        name: values.name,
-        contact_details: values.contact_details,
-      };
-      createNewClient(Object, {
-        onSuccess: (data, variables, context) => {
-          if (data?.success) {
-            setMessage('Client created');
-            setOpenSnack(true);
-          }
-        },
-      });
-    },
-  });
-  // const [open, setOpen] = useState(false);
-  // const [reload, setReload] = useState(false);
-  // const [mode, setMode] = useState('');
+
   const navigate = useNavigate();
 
   const getAllProjectPriorityType = [
@@ -258,10 +230,13 @@ const ProjectForm = () => {
     }
   };
 
-  // const handleOpenClient = () => {
-  //   setMode('ADD');
-  //   setOpen(true);
-  // };
+  const handleOpenClientForm = () => {
+    setShowClientForm(true);
+  };
+
+  const handelOpenSiteForm = () => {
+    setShowSiteForm(true);
+  };
 
   return (
     <div className={Styles.container}>
@@ -331,7 +306,7 @@ const ProjectForm = () => {
                   </option>
                 ))}
               </Select>
-              <div className={Styles.clientadd}>
+              <div className={Styles.clientadd} onClick={handleOpenClientForm}>
                 <AddIcon />
                 <h4 className={Styles.addtext}>Add client</h4>
               </div>
@@ -573,10 +548,14 @@ const ProjectForm = () => {
               <div
                 style={{
                   display: 'flex',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'space-between',
                   padding: '10px',
                 }}
               >
+                <div className={Styles.clientadd} onClick={handelOpenSiteForm}>
+                  <AddIcon />
+                  <h4 className={Styles.addtext}>Add Site</h4>
+                </div>
                 <Button
                   type="button"
                   color="primary"
@@ -680,63 +659,8 @@ const ProjectForm = () => {
         </div>
       </form>
       <div>
-        <form onSubmit={formikOne.handleSubmit}>
-          <div className={Styles1.header}>
-            <div>
-              <h4 className={Styles1.titleStyle}>Create Client</h4>
-            </div>
-          </div>
-          <div className={Styles1.dividerStyle}></div>
-          <div className={Styles.field}>
-            <Input
-              label="Name"
-              placeholder="Enter client name"
-              name="name"
-              value={formikOne.values.name}
-              onChange={formikOne.handleChange}
-              error={formikOne.touched.name && formikOne.errors.name}
-              width="100%"
-            />
-          </div>
-          <div className={Styles.field}>
-            <Input
-              label="Contact Detail"
-              placeholder="Enter client contact detail"
-              name="contact_details"
-              value={formikOne.values.contact_details}
-              onChange={formikOne.handleChange}
-              error={
-                formikOne.touched.contact_details && formikOne.errors.contact_details
-              }
-              width="100%"
-            />
-          </div>
-          <div className={Styles.dividerStyle}></div>
-          <div className={Styles.formButton}>
-            <div>
-              <Button
-                className={Styles.cancelButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                // onClick={handleClose}
-              >
-                Cancel
-              </Button>
-            </div>
-            <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                type="button"
-              >
-                Submit
-              </Button>
-            </div>
-          </div>
-        </form>
+        <CustomClientAdd isVissible={showClientForm} onAction={setShowClientForm} />
+        <CustomSiteAdd isVissiblesite={showSiteForm} onActionsite={setShowSiteForm} />
       </div>
       <CustomSnackBar
         open={openSnack}

@@ -184,7 +184,8 @@
 // export default AppRoutes;
 
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+// import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from '../component/login';
 import Home from '../component/home';
 import ForgetPassword from '../component/forgetPassword';
@@ -216,6 +217,8 @@ import contractorList from '../component/contractor/contractorList';
 import contractorForm from '../component/contractor/contractorForm';
 import contractorEdit from '../component/contractor/contractorEdit';
 import projectForm from '../component/project/projectForm';
+import Lead from '../component/leadEnquires/leadList';
+import leadEnquires from '../component/leadEnquires/leadEnquires';
 import Settings from '../component/settings/homeSetting';
 import projectList from '../component/project/projectList';
 import projectEdit from '../component/project/projectEdit';
@@ -251,6 +254,10 @@ const AppRoutes = () => {
   const ProtectedSettings = withLayoutAndProtection(Settings)
   const ProtectedProjectListPage = withLayoutAndProtection(projectList);
   const ProtectedProjectEdit = withLayoutAndProtection(projectEdit);
+  const ProtectedLeadPage = withLayoutAndProtection(Lead);
+  const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
+  const ProtectedProjectWorkBreakDownPage =
+    withLayoutAndProtection(ProjectWorkBreakDown);
 
   return (
     <div>
@@ -284,6 +291,16 @@ const AppRoutes = () => {
         <Route path="/contractor-add" element={<ProtectedContractorFormPage />} />
         <Route path="/contractor-edit/:id" element={<ProtectedContractorEditFormPage />} />
         <Route path="/project-add" element={<ProtectedProjectFormPage />} />
+        <Route path="/lead-enquires" element={<ProtectedLeadPage />} />
+        <Route path="/lead-add" element={<ProtectedLeadEnquiresPage />} />
+        <Route
+          path="/lead-edit/:id/:type"
+          element={<ProtectedLeadEnquiresPage />}
+        />
+        <Route
+          path="/project-workbreakdown"
+          element={<ProtectedProjectWorkBreakDownPage />}
+        />
         <Route path="/settings" element={<ProtectedSettings />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
         <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />

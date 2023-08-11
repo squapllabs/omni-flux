@@ -13,7 +13,7 @@ interface TextAreaProps
   width?: string;
   rows?: number;
   maxCharacterCount?: number;
-  value?:string;
+  value?: string;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`

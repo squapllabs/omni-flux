@@ -41,7 +41,7 @@
 }
 
 .addtext {
-  padding-top: 3px;
+  padding-top: 4px;
 }
 
 .siteHeading {
@@ -99,3 +99,57 @@ td {
   // background-color: red;
 }
 
+.popupContent {
+  background-color: white;
+  border-radius: 8px;
+  height: 500px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 700px;
+  overflow-y: auto;
+
+}
+
+
+.site {
+  padding: 10px 70px 0px 70px;
+}
+
+.siteRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.siteDes {
+  padding: 10px 70px 0px 70px;
+}
+
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 1px 0px 1px;
+}
+
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+  padding:10px 20px 10px 0px ;
+}
