@@ -44,7 +44,6 @@ const filterProject = async (values: JSON) => {
       `${environment.apiUrl}/project/search`,
       values
     );
-    console.log("daatraaaa>>>>>>>>",response.data);
     return response.data;
   } catch (error) {
     console.log('Error in project search :', error);
@@ -62,10 +61,36 @@ const deleteProject = async (id: number) => {
     throw error;
   }
 };
+
+const getOneProjectById = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project/get/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne project workbreak down :', error);
+    throw error;
+  }
+};
+
+const updateProjectData = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/project`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in updateProjectData :', error);
+  }
+};
 export default {
   getAllProject,
   createProjectData,
   checkProjectCodeDuplicate,
   filterProject,
-  deleteProject
+  deleteProject,
+  getOneProjectById,
+  updateProjectData
 };
