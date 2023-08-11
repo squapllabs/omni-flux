@@ -20,6 +20,12 @@ import UploadIcon from '../menu/icons/cloudUpload';
 import { createProject } from '../../hooks/project-hooks';
 import { useGetMasterCurency } from '../../hooks/masertData-hook';
 import userService from '../../service/user-service';
+import CloseIcon from '../menu/icons/closeIcon';
+import Styles1 from '../../styles/userList.module.scss';
+import { getClientValidateyup } from '../../helper/constants/client-constants';
+import { createClient } from '../../hooks/client-hooks';
+// import CustomEditDialog from '../ui/customEditDialogBox';
+// import ClientForm from '../client/clientForm';
 
 const ProjectForm = () => {
   const [message, setMessage] = useState('');
@@ -39,6 +45,11 @@ const ProjectForm = () => {
       siteData: null,
     },
   ]);
+  const { mutate: createNewClient } = createClient();
+  // const [clientValues,setclientValues] = useState({
+
+  // });
+
   const [initialValues, setInitialValues] = useState({
     project_name: '',
     code: '',
@@ -59,7 +70,30 @@ const ProjectForm = () => {
     }>,
     project_documents: '',
     status: '',
+    name: '',
+    contact_details: '',
   });
+  const formikOne = useFormik({
+    initialValues,
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      const Object: any = {
+        name: values.name,
+        contact_details: values.contact_details,
+      };
+      createNewClient(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.success) {
+            setMessage('Client created');
+            setOpenSnack(true);
+          }
+        },
+      });
+    },
+  });
+  // const [open, setOpen] = useState(false);
+  // const [reload, setReload] = useState(false);
+  // const [mode, setMode] = useState('');
   const navigate = useNavigate();
 
   const getAllProjectPriorityType = [
@@ -187,9 +221,11 @@ const ProjectForm = () => {
     const fileList = Array.from(files);
     const oversizedFiles = fileList.filter(
       (file) => file.size > 10 * 1024 * 1024
-    ); 
+    );
     if (oversizedFiles.length > 0) {
-        const oversizedFileNames = oversizedFiles.map(file => file.name).join(', ');
+      const oversizedFileNames = oversizedFiles
+        .map((file) => file.name)
+        .join(', ');
       const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
       setFileSizeError(errorMessage);
     } else {
@@ -201,9 +237,13 @@ const ProjectForm = () => {
     const files = e.target.files;
     if (files.length > 0) {
       const fileList: File[] = Array.from(files);
-      const oversizedFiles = fileList.filter(file => file.size > 10 * 1024 * 1024);
+      const oversizedFiles = fileList.filter(
+        (file) => file.size > 10 * 1024 * 1024
+      );
       if (oversizedFiles.length > 0) {
-        const oversizedFileNames = oversizedFiles.map(file => file.name).join(', ');
+        const oversizedFileNames = oversizedFiles
+          .map((file) => file.name)
+          .join(', ');
         const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
         setFileSizeError(errorMessage);
       } else {
@@ -217,6 +257,11 @@ const ProjectForm = () => {
       fileInputRef.current.click();
     }
   };
+
+  // const handleOpenClient = () => {
+  //   setMode('ADD');
+  //   setOpen(true);
+  // };
 
   return (
     <div className={Styles.container}>
@@ -270,7 +315,7 @@ const ProjectForm = () => {
                 ))}
               </Select>
             </div>
-            <div style={{ width: '40%' }}>
+            <div style={{ width: '40%' }} className={Styles.client}>
               <Select
                 label="Client / Customer"
                 name="client_id"
@@ -286,6 +331,10 @@ const ProjectForm = () => {
                   </option>
                 ))}
               </Select>
+              <div className={Styles.clientadd}>
+                <AddIcon />
+                <h4 className={Styles.addtext}>Add client</h4>
+              </div>
             </div>
           </div>
           <div className={Styles.inputFields}>
@@ -602,7 +651,12 @@ const ProjectForm = () => {
                 ))}
               </ul>
             </span>
-            <span> <p style={{ color: 'red',fontSize:'0.75rem' }}>{fileSizeError}</p></span>
+            <span>
+              {' '}
+              <p style={{ color: 'red', fontSize: '0.75rem' }}>
+                {fileSizeError}
+              </p>
+            </span>
           </div>
           <div className={Styles.submitButton}>
             <Button
@@ -625,6 +679,65 @@ const ProjectForm = () => {
           </div>
         </div>
       </form>
+      <div>
+        <form onSubmit={formikOne.handleSubmit}>
+          <div className={Styles1.header}>
+            <div>
+              <h4 className={Styles1.titleStyle}>Create Client</h4>
+            </div>
+          </div>
+          <div className={Styles1.dividerStyle}></div>
+          <div className={Styles.field}>
+            <Input
+              label="Name"
+              placeholder="Enter client name"
+              name="name"
+              value={formikOne.values.name}
+              onChange={formikOne.handleChange}
+              error={formikOne.touched.name && formikOne.errors.name}
+              width="100%"
+            />
+          </div>
+          <div className={Styles.field}>
+            <Input
+              label="Contact Detail"
+              placeholder="Enter client contact detail"
+              name="contact_details"
+              value={formikOne.values.contact_details}
+              onChange={formikOne.handleChange}
+              error={
+                formikOne.touched.contact_details && formikOne.errors.contact_details
+              }
+              width="100%"
+            />
+          </div>
+          <div className={Styles.dividerStyle}></div>
+          <div className={Styles.formButton}>
+            <div>
+              <Button
+                className={Styles.cancelButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                // onClick={handleClose}
+              >
+                Cancel
+              </Button>
+            </div>
+            <div>
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                type="button"
+              >
+                Submit
+              </Button>
+            </div>
+          </div>
+        </form>
+      </div>
       <CustomSnackBar
         open={openSnack}
         message={message}
