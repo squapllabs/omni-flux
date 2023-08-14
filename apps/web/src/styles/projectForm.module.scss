@@ -77,3 +77,13 @@
   .tableHeading{
     text-align: center;
   }
+
+  .inputFieldsTextArea{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0px 0px 0px 30px;
+    // justify-content: center;
+    // gap: 15%;
+  }

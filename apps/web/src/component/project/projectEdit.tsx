@@ -38,6 +38,10 @@ const ProjectEdit = () => {
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
   const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
+  // const [newAddUrl, setNewAddUrl] = useState<string[]>([]);
+  console.log("existingFileUrl ==>",existingFileUrl);
+  // console.log("newAddUrl top ==>",newAddUrl);
+  
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -190,15 +194,20 @@ const ProjectEdit = () => {
   }, [getOneProjectData]);
 
   const validationSchema = getEditValidateyup(Yup);
-  const formik = useFormik({
+  const formik = useFormik({  
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
+      let newExistingFileUrl = [...existingFileUrl];
       if (selectedFiles.length > 0) {
         const s3UploadUrl = await handleDocuments(selectedFiles);
-        const newExistingFileUrl = [...existingFileUrl, ...s3UploadUrl];
-        setExistingFileUrl(newExistingFileUrl);
+        console.log("s3UploadUrl ===>",s3UploadUrl)
+        // const newExistingFileUrl = [...existingFileUrl, ...s3UploadUrl];
+        newExistingFileUrl = newExistingFileUrl.concat(s3UploadUrl);
+        console.log("s3 collide",newExistingFileUrl)
+        // setExistingFileUrl(newExistingFileUrl);
+        // console.log("after set ==>",existingFileUrl)
       }
       const Object: any = {
         project_name: values.project_name,
@@ -214,10 +223,11 @@ const ProjectEdit = () => {
         description: values.description,
         project_notes: values.project_notes,
         site_configuration: values.site_configuration,
-        project_documents: existingFileUrl,
+        project_documents: newExistingFileUrl,
         status: 'Not Started',
         project_id: Number(routeParams?.id),
       };
+      console.log("finalObject===>",Object);
       updateProjectData(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
@@ -442,7 +452,7 @@ const ProjectEdit = () => {
                 ))}
               </Select>
             </div>
-            <div style={{ width: '40%' }}>
+            {/* <div style={{ width: '40%' }}>
               <Select
                 label="Currency"
                 name="currency"
@@ -457,9 +467,7 @@ const ProjectEdit = () => {
                   </option>
                 ))}
               </Select>
-            </div>
-          </div>
-          <div className={Styles.inputFields}>
+            </div> */}
             <div style={{ width: '40%' }}>
               <Input
                 label="Estimated Budget"
@@ -474,6 +482,8 @@ const ProjectEdit = () => {
                 }
               />
             </div>
+          </div>
+          <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Input
                 label="Actual Budget"
@@ -487,8 +497,6 @@ const ProjectEdit = () => {
                 }
               />
             </div>
-          </div>
-          <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <TextArea
                 name="description"
@@ -500,6 +508,8 @@ const ProjectEdit = () => {
                 maxCharacterCount={100}
               />
             </div>
+          </div>
+          <div className={Styles.inputFieldsTextArea}>
             <div style={{ width: '40%' }}>
               <TextArea
                 name="project_notes"
@@ -624,10 +634,10 @@ const ProjectEdit = () => {
               </div>
             </div>
           </div>
-          <div className={Styles.siteHeading} style={{ display: 'none' }}>
+          <div className={Styles.siteHeading} >
             <h4>Project Documents</h4>
           </div>
-          <div style={{ padding: '10px 0px 0px 20px', display: 'none' }}>
+          <div style={{ padding: '10px 0px 0px 20px'}}>
             <div
               style={{
                 width: '40%',
@@ -676,7 +686,7 @@ const ProjectEdit = () => {
               </div>
             </div>
           </div>
-          <div style={{ padding: '0px 0px 0px 50px', display: 'none' }}>
+          <div style={{ padding: '0px 0px 0px 50px'}}>
             <span>
               <ol style={{ fontSize: '0.85rem' }}>
                 {existingFileName?.map((a: any, index: number) => (
