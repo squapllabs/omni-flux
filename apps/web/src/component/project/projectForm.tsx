@@ -32,14 +32,14 @@ const ProjectForm = () => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  //   const [docUrl, setDocUrl] = useState<any[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [rows, setRows] = useState([
     {
       siteId: '',
       siteData: null,
-      estimation: ''
+      estimation: '',
+      approver_id:''
     },
   ]);
   const currentDate = new Date();
@@ -53,7 +53,6 @@ const ProjectForm = () => {
     date_started: currentDate.toISOString().slice(0, 10),
     date_ended: defaultEndDate.toISOString().slice(0, 10),
     priority: '',
-    currency: '',
     estimated_budget: '',
     actual_budget: '',
     description: '',
@@ -63,6 +62,7 @@ const ProjectForm = () => {
       status: string;
       is_delete: string;
       estimation: number;
+      approver_id:number;
     }>,
     project_documents: '',
     status: '',
@@ -79,15 +79,19 @@ const ProjectForm = () => {
     setOpenSnack(false);
   };
 
-  const handleDocuments = async (files: File[]) => {
+  const handleDocuments = async (files: File[],code : string) => {
     try {
       const uploadPromises = files.map(async (file) => {
-        const response = await userService.user_profile_upload(file);
+        const response = await userService.documentUpload(file,code);
         return response.data;
       });
       const uploadResponses = await Promise.all(uploadPromises);
       const modifiedArray = uploadResponses.flatMap((response) => response);
-      return modifiedArray;
+      const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
+        ...obj,
+        is_delete: "N"
+      }));
+      return modifiedArrayWithDeleteFlag;
     } catch (error) {
       console.log('Error in occur project document upload:', error);
     }
@@ -107,11 +111,13 @@ const ProjectForm = () => {
         return updatedRows;
       });
       const newSite = [...formik.values.site_configuration];
+      const estimationValue = newSite[rowIndex]?.estimation || 0;
       newSite[rowIndex] = {
         site_id: Number(siteId),
         status: 'Not Started',
         is_delete: 'N',
-        estimation:0,
+        estimation: Number(estimationValue),
+        approver_id:0
       };
       formik.setFieldValue('site_configuration', newSite);
     } else {
@@ -127,7 +133,7 @@ const ProjectForm = () => {
   };
 
   const addRow = () => {
-    setRows([...rows, { siteId: '', siteData: null,estimation:'' }]);
+    setRows([...rows, { siteId: '', siteData: null, estimation: '',approver_id:'' }]);
   };
 
   const deleteRow = (index: any) => {
@@ -137,15 +143,14 @@ const ProjectForm = () => {
     const newSite = [...formik.values.site_configuration];
     newSite.splice(index, 1);
     formik.setFieldValue('site_configuration', newSite);
-  };    
+  };
 
   const validationSchema = getCreateValidateyup(Yup);
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      const s3UploadUrl = await handleDocuments(selectedFiles);
-      console.log('s3Upload', s3UploadUrl);
+      const s3UploadUrl = await handleDocuments(selectedFiles,values.code.toUpperCase());
       const Object: any = {
         project_name: values.project_name,
         code: values.code.toUpperCase(),
@@ -154,7 +159,6 @@ const ProjectForm = () => {
         date_started: values.date_started,
         date_ended: values.date_ended,
         priority: values.priority,
-        currency: values.currency,
         estimated_budget: Number(values.estimated_budget),
         actual_budget: Number(values.actual_budget),
         description: values.description,
@@ -163,18 +167,17 @@ const ProjectForm = () => {
         project_documents: s3UploadUrl,
         status: 'Not Started',
       };
-      console.log('data ===>', Object);
-    //   createNewProjectData(Object, {
-    //     onSuccess: (data, variables, context) => {
-    //       if (data?.status === true) {
-    //         setMessage('Project created');
-    //         setOpenSnack(true);
-    //         setInterval(() => {
-    //           navigate('/settings');
-    //         }, 1000);
-    //       }
-    //     },
-    //   });
+      createNewProjectData(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.status === true) {
+            setMessage('Project created');
+            setOpenSnack(true);
+            setInterval(() => {
+              navigate('/settings');
+            }, 1000);
+          }
+        },
+      });
     },
   });
 
@@ -376,14 +379,15 @@ const ProjectForm = () => {
                 ))}
               </Select>
             </div>
-            {/* <div style={{ width: '40%' }}>
+            <div style={{ width: '40%' }}>
               <Select
-                label="Currency"
-                name="currency"
+                label="Approver"
+                name="approver_id"
                 onChange={formik.handleChange}
-                value={formik.values.currency}
+                mandatory={true}
+                // value={formik.values.approver_id}
                 defaultLabel="Select from options"
-                error={formik.touched.currency && formik.errors.currency}
+                // error={formik.touched.approver_id && formik.errors.approver_id}
               >
                 {getAllCurrencyDatadrop.map((option: any) => (
                   <option key={option.value} value={option.value}>
@@ -391,7 +395,9 @@ const ProjectForm = () => {
                   </option>
                 ))}
               </Select>
-            </div> */}
+            </div>
+          </div>
+          <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Input
                 label="Estimated Budget"
@@ -406,8 +412,6 @@ const ProjectForm = () => {
                 }
               />
             </div>
-          </div>
-          <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Input
                 label="Actual Budget"
@@ -421,6 +425,8 @@ const ProjectForm = () => {
                 }
               />
             </div>
+          </div>
+          <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <TextArea
                 name="description"
@@ -432,9 +438,7 @@ const ProjectForm = () => {
                 maxCharacterCount={100}
               />
             </div>
-          </div>
-          <div className={Styles.inputFieldsTextArea}>
-            <div style={{ width: '41%' }}>
+            <div style={{ width: '40%' }}>
               <TextArea
                 name="project_notes"
                 label="Project Notes"
@@ -445,7 +449,6 @@ const ProjectForm = () => {
                 maxCharacterCount={100}
               />
             </div>
-            <div></div>
           </div>
           <div className={Styles.siteHeading}>
             <h4>Site Configuration</h4>
@@ -460,7 +463,8 @@ const ProjectForm = () => {
                     <th className={Styles.tableHeading}>Site Address</th>
                     <th className={Styles.tableHeading}>Status</th>
                     <th className={Styles.tableHeading}>Estimation</th>
-                    <th className={Styles.tableHeading}>Delete</th>
+                    {/* <th className={Styles.tableHeading}>Approver</th> */}
+                    <th className={Styles.tableHeading}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -527,7 +531,7 @@ const ProjectForm = () => {
                             <span
                               style={{
                                 backgroundColor: 'lightgray',
-                                width: '70%',
+                                // width: '70%',
                               }}
                             >
                               Not Started
@@ -537,22 +541,56 @@ const ProjectForm = () => {
                       </td>
                       <td>
                         <div>
-                            {row.siteId ?  
-                          <Input
-                            label="Estimation"
-                            placeholder="Enter estimation"
-                            // mandatory={true}
-                            name={`site_configuration[${index}].estimation`}
-                            onChange={formik.handleChange}
-                            value={formik.values.site_configuration[index]?.estimation || ''}
-                            // error={
-                            //   formik.touched.actual_budget &&
-                            //   formik.errors.actual_budget
-                            // }
-                          />
-                          : "" }
+                          {row.siteId ? (
+                            <Input
+                              placeholder="Enter estimation"
+                              name={`site_configuration[${index}].estimation`}
+                              onChange={(event) => {
+                                const newValue = parseFloat(event.target.value);
+                                formik.setFieldValue(
+                                  `site_configuration[${index}].estimation`,
+                                  newValue
+                                );
+                              }}
+                              value={
+                                formik.values.site_configuration[index]
+                                  ?.estimation || ''
+                              }
+                              // error={
+                              //   formik.touched.actual_budget &&
+                              //   formik.errors.actual_budget
+                              // }
+                            />
+                          ) : (
+                            ''
+                          )}
                         </div>
                       </td>
+                      {/* <td>
+                        <div>
+                        {row.siteId ? (
+                          <Select
+                          name={`site_configuration[${index}].approver_id`}
+                            onChange={formik.handleChange}
+                            value={formik.values.client_id}
+                            defaultLabel="Select from options"
+                            error={
+                              formik.touched.client_id &&
+                              formik.errors.client_id
+                            }
+                          >
+                            {getAllClientDatadrop.map((option: any) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </Select>
+                            ) : 
+                                ''
+                              }
+                        </div>
+                      </td> */}
+
                       <td>
                         <div
                           style={{

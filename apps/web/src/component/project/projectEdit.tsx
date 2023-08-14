@@ -38,10 +38,7 @@ const ProjectEdit = () => {
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
   const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
-  // const [newAddUrl, setNewAddUrl] = useState<string[]>([]);
-  console.log("existingFileUrl ==>",existingFileUrl);
-  // console.log("newAddUrl top ==>",newAddUrl);
-  
+   
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -49,6 +46,7 @@ const ProjectEdit = () => {
     {
       siteId: '',
       siteData: null,
+      estimation: '',
     },
   ]);
   const [initialValues, setInitialValues] = useState({
@@ -68,6 +66,7 @@ const ProjectEdit = () => {
       site_id: number;
       status: string;
       is_delete: string;
+      estimation: number;
     }>,
     project_documents: '',
     status: '',
@@ -92,7 +91,11 @@ const ProjectEdit = () => {
       });
       const uploadResponses = await Promise.all(uploadPromises);
       const modifiedArray = uploadResponses.flatMap((response) => response);
-      return modifiedArray;
+      const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
+        ...obj,
+        is_delete: "N"
+      }));
+      return modifiedArrayWithDeleteFlag;
     } catch (error) {
       console.log('Error in occur project document upload:', error);
     }
@@ -112,10 +115,12 @@ const ProjectEdit = () => {
         return updatedRows;
       });
       const newSite = [...formik.values.site_configuration];
+      const estimationValue = newSite[rowIndex]?.estimation || 0;
       newSite[rowIndex] = {
         site_id: Number(siteId),
         status: 'Not Started',
         is_delete: 'N',
+        estimation: Number(estimationValue),
       };
       formik.setFieldValue('site_configuration', newSite);
     } else {
@@ -131,7 +136,7 @@ const ProjectEdit = () => {
   };
 
   const addRow = () => {
-    setRows([...rows, { siteId: '', siteData: null }]);
+    setRows([...rows, { siteId: '', siteData: null, estimation: '' }]);
   };
 
   useEffect(() => {
@@ -154,6 +159,7 @@ const ProjectEdit = () => {
         status: site.status,
         is_delete: 'N',
         project_site_id: site.project_site_id,
+        estimation:site.estimation
       }));
       setInitialValues({
         project_name: getOneProjectData?.project_name || '',
@@ -175,6 +181,7 @@ const ProjectEdit = () => {
         (config: any) => ({
           siteId: config.site_id.toString(),
           siteData: config.site_details,
+          estimation:config.estimation
         })
       );
       setRows(siteConfigurationRows);
@@ -202,12 +209,7 @@ const ProjectEdit = () => {
       let newExistingFileUrl = [...existingFileUrl];
       if (selectedFiles.length > 0) {
         const s3UploadUrl = await handleDocuments(selectedFiles);
-        console.log("s3UploadUrl ===>",s3UploadUrl)
-        // const newExistingFileUrl = [...existingFileUrl, ...s3UploadUrl];
         newExistingFileUrl = newExistingFileUrl.concat(s3UploadUrl);
-        console.log("s3 collide",newExistingFileUrl)
-        // setExistingFileUrl(newExistingFileUrl);
-        // console.log("after set ==>",existingFileUrl)
       }
       const Object: any = {
         project_name: values.project_name,
@@ -311,8 +313,9 @@ const ProjectEdit = () => {
 
   const deleteExistFile = (index: number) => {
     const newFiles = [...existingFileUrl];
+    newFiles[index] = { ...newFiles[index], is_delete: "Y" };
     const newFileNames = [...existingFileName];
-    newFiles.splice(index, 1);
+    // newFiles.splice(index, 1);
     newFileNames.splice(index, 1);
     setExistingFileUrl(newFiles);
     setExistingFileName(newFileNames);
@@ -452,14 +455,14 @@ const ProjectEdit = () => {
                 ))}
               </Select>
             </div>
-            {/* <div style={{ width: '40%' }}>
+            <div style={{ width: '40%' }}>
               <Select
-                label="Currency"
+                label="Approver"
                 name="currency"
                 onChange={formik.handleChange}
-                value={formik.values.currency}
+                // value={formik.values.currency}
                 defaultLabel="Select from options"
-                error={formik.touched.currency && formik.errors.currency}
+                // error={formik.touched.currency && formik.errors.currency}
               >
                 {getAllCurrencyDatadrop.map((option: any) => (
                   <option key={option.value} value={option.value}>
@@ -467,8 +470,10 @@ const ProjectEdit = () => {
                   </option>
                 ))}
               </Select>
-            </div> */}
-            <div style={{ width: '40%' }}>
+            </div>
+          </div>
+          <div className={Styles.inputFields}>
+          <div style={{ width: '40%' }}>
               <Input
                 label="Estimated Budget"
                 placeholder="Enter rate"
@@ -482,8 +487,6 @@ const ProjectEdit = () => {
                 }
               />
             </div>
-          </div>
-          <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Input
                 label="Actual Budget"
@@ -497,7 +500,9 @@ const ProjectEdit = () => {
                 }
               />
             </div>
-            <div style={{ width: '40%' }}>
+          </div>
+          <div className={Styles.inputFields}>
+          <div style={{ width: '40%' }}>
               <TextArea
                 name="description"
                 label="Project Description"
@@ -508,8 +513,6 @@ const ProjectEdit = () => {
                 maxCharacterCount={100}
               />
             </div>
-          </div>
-          <div className={Styles.inputFieldsTextArea}>
             <div style={{ width: '40%' }}>
               <TextArea
                 name="project_notes"
@@ -534,7 +537,7 @@ const ProjectEdit = () => {
                     <th>Site</th>
                     <th>Site Address</th>
                     <th>Status</th>
-                    {/* <th>Delete</th> */}
+                    <th>Estimation</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -606,6 +609,33 @@ const ProjectEdit = () => {
                             >
                               NOT STARTED
                             </span>
+                          )}
+                        </div>
+                      </td>
+                       <td>
+                        <div>
+                          {row.siteId ? (
+                            <Input
+                              placeholder="Enter estimation"
+                              name={`site_configuration[${index}].estimation`}
+                              onChange={(event) => {
+                                const newValue = parseFloat(event.target.value);
+                                formik.setFieldValue(
+                                  `site_configuration[${index}].estimation`,
+                                  newValue
+                                );
+                              }}
+                              value={
+                                formik.values.site_configuration[index]
+                                  ?.estimation || ''
+                              }
+                              // error={
+                              //   formik.touched.actual_budget &&
+                              //   formik.errors.actual_budget
+                              // }
+                            />
+                          ) : (
+                            ''
                           )}
                         </div>
                       </td>
