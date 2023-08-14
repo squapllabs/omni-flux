@@ -55,12 +55,14 @@ const add = async (
       const site_id = site.site_id;
       const status = site.status;
       const is_delete = site.is_delete;
+      const estimation = site.estimation;
       if (is_delete === 'N') {
         const projectSite = await transaction.project_site.create({
           data: {
             project_id: newProjectId,
-            site_id,
+            site_id: site_id,
             status: status,
+            estimation: estimation,
             created_by,
             created_date: currentDate,
             updated_date: currentDate,
@@ -135,8 +137,8 @@ const edit = async (
       const site_id = site.site_id;
       const status = site.status;
       const is_delete = site.is_delete;
-      const project_id = site.project_id;
       const project_site_id = site.project_site_id;
+      const estimation = site.estimation;
 
       if (project_site_id) {
         if (is_delete === 'Y') {
@@ -150,6 +152,7 @@ const edit = async (
               project_id: project_id,
               site_id: site_id,
               status: status,
+              estimation: estimation,
               updated_by,
               updated_date: currentDate,
             },
@@ -163,6 +166,7 @@ const edit = async (
               project_id: project_id,
               site_id: site_id,
               status: status,
+              estimation: estimation,
               created_by: updated_by,
               created_date: currentDate,
               updated_date: currentDate,

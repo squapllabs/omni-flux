@@ -5,6 +5,7 @@ import {
   createProjectBody,
   updateProjectBody,
 } from '../interfaces/project.Interface';
+import projectSiteDao from '../dao/projectSite.dao';
 
 /**
  * Method to Create a New Project
@@ -384,6 +385,37 @@ const getByCode = async (code: string) => {
   }
 };
 
+/**
+ * Method to Get Project Site Estimation
+ * @returns
+ */
+const getProjectSiteEstimation = async (body) => {
+  try {
+    const { project_id, site_id } = body;
+    const result = await projectSiteDao.getProjectSiteEstimation(
+      project_id,
+      site_id
+    );
+    if (result) {
+      const projectData = { message: 'success', status: true, data: result };
+      return projectData;
+    } else {
+      const projectData = {
+        message: 'project_id and site_id combination does not exist',
+        status: false,
+        data: result,
+      };
+      return projectData;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getProjectSiteEstimation project service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProject,
   updateProject,
@@ -392,4 +424,5 @@ export {
   deleteProject,
   searchProject,
   getByCode,
+  getProjectSiteEstimation,
 };
