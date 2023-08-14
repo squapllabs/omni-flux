@@ -20,6 +20,7 @@ interface SiteConfiguration {
   site_id: number;
   status: string;
   is_delete: string;
+  estimation: number;
 }
 interface updateProjectBody {
   project_id: number;
