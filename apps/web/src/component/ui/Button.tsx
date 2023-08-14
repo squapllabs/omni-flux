@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: 'primary' | 'secondary';
+  color?: 'primary' | 'secondary' | 'transparent' | 'outlined';
   size?: 'small' | 'medium' | 'large';
   shape?: 'rectangle' | 'rounded' | 'outlined';
   icon?: React.ReactNode;
@@ -24,6 +24,25 @@ const primaryStyles = css`
 
   &:disabled {
     background: #e9d7fe;
+  }
+`;
+
+const outlinedColorStyles = css`
+  background: transparent;
+  color: #7f56d9;
+  border: 1px solid #7f56d9;
+`
+
+const transparentStyles = css`
+  background: transparent;
+  &:hover {
+    background: transparent;
+  }
+  &:active {
+    background: transparent;
+  }
+  &:disabled {
+    background: transparent;
   }
 `;
 
@@ -75,6 +94,8 @@ const StyledButton = styled.button<ButtonProps>`
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
 
   ${({ color }) => color === 'primary' && primaryStyles}
+  ${({ color }) => color === 'transparent' && transparentStyles}
+  ${({ color }) => color === 'outlined' && outlinedColorStyles}
 
   ${({ size }) => sizes[size || 'medium']}
 
