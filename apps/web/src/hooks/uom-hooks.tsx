@@ -69,4 +69,16 @@ const getByUom = () => {
   );
 };
 
-export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom ,getByUom};
+const useGetAllUomDrop = () => {
+  return useQuery(['useGetAlluom'], () => uomService.getAlluom(), 
+  {
+    select: (data) =>
+      data?.data?.map((uom: any) => ({
+        value: uom.uom_id,
+        label: uom.name,
+      })),
+  });
+};
+
+export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom };
+

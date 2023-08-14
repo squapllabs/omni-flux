@@ -31,7 +31,6 @@ export const getCreateValidateyup = (yup: any) => {
             name: value,
             id: id === undefined ? null : Number(id),
           };
-
           if (value) {
             const response = await masterDataService.checkDublicatemasertData(
               object

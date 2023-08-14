@@ -207,10 +207,21 @@ import ProductPage from '../component/products/productPage';
 import Category from '../component/category/category';
 import ResetPassword from '../component/resetPassword/token';
 import MasterData from '../component/masterData/masterData';
+import ProjectWorkBreakDownForm from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
+import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownList';
+import ProjectWorkBreakDownEdit from '../component/projectWorkBreakDown/projectWorkBreakDownEdit';
+import siteForm from '../component/site/siteForm';
+import siteList from '../component/site/siteList';
+import siteEdit from '../component/site/siteEdit';
+import contractorList from '../component/contractor/contractorList';
+import contractorForm from '../component/contractor/contractorForm';
+import contractorEdit from '../component/contractor/contractorEdit';
+import projectForm from '../component/project/projectForm';
 import Lead from '../component/leadEnquires/leadList';
 import leadEnquires from '../component/leadEnquires/leadEnquires';
-import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
 import Settings from '../component/settings/homeSetting';
+import projectList from '../component/project/projectList';
+import projectEdit from '../component/project/projectEdit';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -230,11 +241,23 @@ const AppRoutes = () => {
   const ProtectedProductPage = withLayoutAndProtection(ProductPage);
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
+  const ProtectedProjectWorkBreakDownFormPage = withLayoutAndProtection(ProjectWorkBreakDownForm);
+  const ProtectedProjectWorkBreakDownListPage = withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedProjectWorkBreakDownEditPage = withLayoutAndProtection(ProjectWorkBreakDownEdit);
+  const ProtectedSiteFormPage = withLayoutAndProtection(siteForm);
+  const ProtectedSitePage = withLayoutAndProtection(siteList);
+  const ProtectedSiteEditPage = withLayoutAndProtection(siteEdit);
+  const ProtectedContractorListPage = withLayoutAndProtection(contractorList);
+  const ProtectedContractorFormPage = withLayoutAndProtection(contractorForm);
+  const ProtectedContractorEditFormPage = withLayoutAndProtection(contractorEdit);
+  const ProtectedProjectFormPage = withLayoutAndProtection(projectForm);
+  const ProtectedSettings = withLayoutAndProtection(Settings)
+  const ProtectedProjectListPage = withLayoutAndProtection(projectList);
+  const ProtectedProjectEdit = withLayoutAndProtection(projectEdit);
   const ProtectedLeadPage = withLayoutAndProtection(Lead);
   const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
   const ProtectedProjectWorkBreakDownPage =
     withLayoutAndProtection(ProjectWorkBreakDown);
-  const ProtectedSettings = withLayoutAndProtection(Settings);
 
   return (
     <div>
@@ -258,17 +281,23 @@ const AppRoutes = () => {
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/category" element={<ProtectedCategoryPage />} />
         <Route path="/master-data" element={<ProtectedMasterDataPage />} />
+        <Route path="/project-workbreakdown-add" element={<ProtectedProjectWorkBreakDownFormPage />} />
+        <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownListPage />} />
+        <Route path="/project-workbreakdown-edit/:id" element={<ProtectedProjectWorkBreakDownEditPage />} />
+        <Route path="/site-add" element={<ProtectedSiteFormPage />} />
+        <Route path="/site" element={<ProtectedSitePage />} />
+        <Route path="/site-edit/:id" element={<ProtectedSiteEditPage />} />
+        <Route path="/contractor" element={<ProtectedContractorListPage />} />
+        <Route path="/contractor-add" element={<ProtectedContractorFormPage />} />
+        <Route path="/contractor-edit/:id" element={<ProtectedContractorEditFormPage />} />
+        <Route path="/project-add" element={<ProtectedProjectFormPage />} />
         <Route path="/lead-enquires" element={<ProtectedLeadPage />} />
         <Route path="/lead-add" element={<ProtectedLeadEnquiresPage />} />
-        <Route
-          path="/lead-edit/:id/:type"
-          element={<ProtectedLeadEnquiresPage />}
-        />
-        <Route
-          path="/project-workbreakdown"
-          element={<ProtectedProjectWorkBreakDownPage />}
+        <Route path="/lead-edit/:id/:type" element={<ProtectedLeadEnquiresPage />}
         />
         <Route path="/settings" element={<ProtectedSettings />} />
+        <Route path="/project-list" element={<ProtectedProjectListPage />} />
+        <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
       </Routes>
     </div>
   );

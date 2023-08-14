@@ -1,0 +1,77 @@
+.container {
+    height: 100vh;
+    padding: 5px;
+    // background-color: blueviolet;
+  }
+
+  .textContent {
+    padding: 15px 10px 10px 40px;
+  }
+  .content {
+    font-size: 0.7rem;
+  }
+  .inputFieldMain{
+    padding: 10px 70px 0px 70px;
+    // background-color: #848289;
+  }
+  .inputFields{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15%;
+  }
+
+  .inputFieldMainOne{
+    padding: 10px 70px 0px 100px;
+    // background-color:orange;
+  }
+
+  .inputFieldMainTwo{
+    padding: 10px 90px 0px 90px;
+    // background-color:lightseagreen;
+  }
+
+  .inputFieldsTwo{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15.44%;
+  }
+
+  .inputFieldMainThree{
+    padding: 0px 90px 0px 113px;
+    // background-color:lightgreen
+  }
+  .inputFieldsThree{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .inputFieldMainFour{
+    padding: 0px 70px 0px 100px;
+    // background-color: limegreen;
+
+  }
+ 
+  .submitButton{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0px 115px 20px 0px;
+    gap: 10px;
+  }
+
+  .inputStyles{
+    width: '40%' 
+  }
+  .resetButton {
+    color: #848289;
+  }
+.resetButton:hover {
+    background-color: #c4c4c6;
+    color: #ffffff;
+  } 

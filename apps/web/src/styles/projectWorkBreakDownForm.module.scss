@@ -1,11 +1,54 @@
 .container {
     height: 100vh;
-    padding: 10px;
+    padding: 5px;
   }
 
   .textContent {
-    padding: 10px;
+    padding: 15px 10px 10px 20px;
   }
   .content {
     font-size: 0.7rem;
   }
+  .inputFields{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15%;
+  }
+
+  .inputFieldsArea{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 41%;
+  }
+
+  .inputTextArea{
+    padding: 0px 0px 0px 30px;
+  }
+  .inputFieldMain{
+    padding: 0px 30px 0px 50px;
+    width: 92%;
+    height: 50%;
+  }
+
+  .submitButton{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0px 30px 0px 0px;
+    gap: 10px;
+  }
+
+  .inputStyles{
+    width: '40%' 
+  }
+  .resetButton {
+    color: #848289;
+  }
+.resetButton:hover {
+    background-color: #c4c4c6;
+    color: #ffffff;
+  } 
