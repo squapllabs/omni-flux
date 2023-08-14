@@ -9,3 +9,160 @@
   gap: 20px;
   padding: 10px;
 }
+
+.modalContainer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color: rgba(0,0,0,0.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index: 1000;
+}
+
+.modal{
+  background-color: #fff;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  overflow: hidden;
+}
+
+.inputFileWrapper{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.fileInput{
+  display: none;
+}
+
+.fileNameWrapper{
+  display: flex;
+  align-items: center;
+  margin: 0 5%;
+  text-align: left;
+}
+
+.modalHead{
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0;
+  margin: auto;
+  width: 93%;
+}
+
+.row{
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  padding: 30px 0;
+  margin: auto;
+}
+
+.col{
+  flex:1;
+  max-width: 100%;
+}
+
+.col2{
+  justify-content: flex-end;
+  display: flex;
+  max-width: 200px;
+  flex: 1;
+}
+
+.maxWidth200{
+  max-width: 200px;
+}
+
+.closeModalButton{
+  background: transparent;
+  border: 1px solid #E70C0C;
+  border-radius: 50%;
+  padding: 5px 9px;
+  color: #E70C0C;
+  cursor: pointer;
+  outline: none;
+  &:active{
+    background-color: #E70C0C;
+    color: white;
+  }
+  &:hover{
+    background-color: #eee;
+    color: #E70C0C;
+    
+  }
+}
+
+.removeFileButton {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0 10px;
+  opacity: 0.6;
+  border-radius: 50%;
+  padding: 0 5px;
+  &:hover {
+    opacity: 1;
+    background-color: #ddd;
+  }
+}
+
+.tableContainer {
+  width: 90%;
+  margin: auto;
+  height: 40vh;
+  overflow-x:scroll;
+  overflow-y:scroll;
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
+
+.table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeading {
+  width: 100%;
+}
+
+.tableRow{
+  border: 1px solid black;
+  background-color: transparent !important;
+}
+
+.tableHead {
+  padding: 10px;
+  text-transform: uppercase;
+  background-color: transparent !important;
+}
+
+.tableData {
+  padding: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 40px;
+}
+
+.buttonCancel{
+  margin-right: 5px;
+  width: 150px;
+}
+
+.buttonSave{
+  width: 150px;
+  margin-right: 5%;
+}
