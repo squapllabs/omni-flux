@@ -6,6 +6,7 @@ import {
   updateProjectBody,
 } from '../interfaces/project.Interface';
 import projectSiteDao from '../dao/projectSite.dao';
+import { processFileDeleteInS3 } from '../utils/fileUpload';
 
 /**
  * Method to Create a New Project
@@ -124,6 +125,22 @@ const updateProject = async (body: updateProjectBody) => {
       }
     }
 
+    const updatedProjectDocuments = [] as any;
+    if (project_documents) {
+      for (const doc of project_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === 'Y') {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedProjectDocuments.push(doc);
+        }
+      }
+    }
+
     const projectExist = await projectDao.getById(project_id);
 
     if (projectExist) {
@@ -140,7 +157,7 @@ const updateProject = async (body: updateProjectBody) => {
         priority,
         project_notes,
         client_id,
-        project_documents,
+        updatedProjectDocuments,
         updated_by,
         project_id,
         site_configuration
