@@ -20,6 +20,13 @@ interface SiteConfiguration {
   site_id: number;
   status: string;
   is_delete: string;
+  estimation: number;
+}
+
+interface ProjectDocuments {
+  index: number;
+  path: string;
+  is_delete: string;
 }
 interface updateProjectBody {
   project_id: number;
@@ -35,9 +42,9 @@ interface updateProjectBody {
   priority: string;
   project_notes: string;
   client_id: number;
-  project_documents: JSON;
+  project_documents: Array<ProjectDocuments>;
   updated_by: bigint;
   site_configuration: Array<SiteConfiguration>;
 }
 
-export { createProjectBody, updateProjectBody };
+export { createProjectBody, updateProjectBody, ProjectDocuments };
