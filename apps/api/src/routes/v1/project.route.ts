@@ -10,7 +10,7 @@ import {
   deleteByProjectId,
   getAllProject,
   getByProjectId,
-  getProjectSiteEstimation,
+  getByProjectIdAndSiteId,
   searchProject,
   updateProject,
 } from '../../controller/project.controller';
@@ -44,10 +44,6 @@ router.post('/search', authMiddleware, searchProject);
 
 router.get('/check-duplicate-code/:code', authMiddleware, checkDuplicateCode);
 
-router.post(
-  '/get-project-site-estimation',
-  authMiddleware,
-  getProjectSiteEstimation
-);
+router.post('/get-project-site', authMiddleware, getByProjectIdAndSiteId);
 
 export default router;
