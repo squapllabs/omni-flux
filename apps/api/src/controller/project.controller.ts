@@ -43,8 +43,8 @@ const getByProjectId = catchAsync(async (req, res) => {
   }
 });
 
-const deleteByPojectId = catchAsync(async (req, res) => {
-  const methodName = '/deleteByPojectId';
+const deleteByProjectId = catchAsync(async (req, res) => {
+  const methodName = '/deleteByProjectId';
   try {
     const project = await projectService.deleteProject(req.params.project_id);
     res.send(project);
@@ -73,12 +73,23 @@ const checkDuplicateCode = catchAsync(async (req, res) => {
   }
 });
 
+const getProjectSiteEstimation = catchAsync(async (req, res) => {
+  const methodName = '/getProjectSiteEstimation';
+  try {
+    const project = await projectService.getProjectSiteEstimation(req.body);
+    res.send(project);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createProject,
   updateProject,
   getAllProject,
   getByProjectId,
-  deleteByPojectId,
+  deleteByProjectId,
   searchProject,
   checkDuplicateCode,
+  getProjectSiteEstimation,
 };

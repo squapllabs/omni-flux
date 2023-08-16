@@ -5,6 +5,8 @@ import {
   createProjectBody,
   updateProjectBody,
 } from '../interfaces/project.Interface';
+import projectSiteDao from '../dao/projectSite.dao';
+import { processFileDeleteInS3 } from '../utils/fileUpload';
 
 /**
  * Method to Create a New Project
@@ -123,6 +125,22 @@ const updateProject = async (body: updateProjectBody) => {
       }
     }
 
+    const updatedProjectDocuments = [] as any;
+    if (project_documents) {
+      for (const doc of project_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === 'Y') {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedProjectDocuments.push(doc);
+        }
+      }
+    }
+
     const projectExist = await projectDao.getById(project_id);
 
     if (projectExist) {
@@ -139,7 +157,7 @@ const updateProject = async (body: updateProjectBody) => {
         priority,
         project_notes,
         client_id,
-        project_documents,
+        updatedProjectDocuments,
         updated_by,
         project_id,
         site_configuration
@@ -384,6 +402,37 @@ const getByCode = async (code: string) => {
   }
 };
 
+/**
+ * Method to Get Project Site Estimation
+ * @returns
+ */
+const getProjectSiteEstimation = async (body) => {
+  try {
+    const { project_id, site_id } = body;
+    const result = await projectSiteDao.getProjectSiteEstimation(
+      project_id,
+      site_id
+    );
+    if (result) {
+      const projectData = { message: 'success', status: true, data: result };
+      return projectData;
+    } else {
+      const projectData = {
+        message: 'project_id and site_id combination does not exist',
+        status: false,
+        data: result,
+      };
+      return projectData;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getProjectSiteEstimation project service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProject,
   updateProject,
@@ -392,4 +441,5 @@ export {
   deleteProject,
   searchProject,
   getByCode,
+  getProjectSiteEstimation,
 };
