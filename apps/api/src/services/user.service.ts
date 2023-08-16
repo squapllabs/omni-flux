@@ -282,22 +282,24 @@ const userLogin = async (
       });
     }
     const fullName = dbUser?.first_name + ' ' + dbUser?.last_name;
-    const loginResposne = {
+    const userId = dbUser?.user_id;
+    const loginResponse = {
       status: true,
       message: 'Success',
       token: `Bearer ${token}`,
       refreshToken: refreshToken,
       fullName: fullName,
       email: email_id,
+      userId: userId,
     };
-    res.send(loginResposne);
+    res.send(loginResponse);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
-    const loginResposne = {
+    const loginResponse = {
       status: false,
       message: 'something went wrong',
     };
-    return loginResposne;
+    return loginResponse;
   }
 };
 

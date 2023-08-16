@@ -101,6 +101,20 @@ const useDeletemasertData = () => {
   );
 };
 
+const useGetMasterCurency = () => {
+  return useQuery(
+    ['useGetAllmasertData'],
+    () => masertDataService.getAllCurrencyData(),
+    {
+      select: (data) =>
+        data?.data?.map((currency: any) => ({
+          value: currency.master_data_name,
+          label: currency.master_data_name,
+        })),
+    }
+  );
+};
+
 const getBySearchmasterData = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -123,5 +137,6 @@ export {
   getBySearchmasterData,
   useGetAllmasertDataDrop,
   useGetAllParentmasertDataDrop,
+  useGetMasterCurency,
   getBymasertDataType,
 };

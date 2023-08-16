@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/projectWorkBreakDownForm.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -8,29 +8,30 @@ import Select from '../ui/selectNew';
 import Button from '../ui/Button';
 import {
   useGetAllParentProjectBreakDownDrop,
-  createProjectBreakDownData,
+  getByProjectWorkBreakDownId,
+  updateProjectBreakDown,
 } from '../../hooks/projectBreakDown-hook';
-import { getCreateValidateyup } from '../../helper/constants/projectBreakdown-constants';
+import { editCreateValidateyup } from '../../helper/constants/projectBreakdown-constants';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
+import { useParams } from 'react-router-dom';
 
-import { formatBudgetValue } from '../../helper/common-function';
-
-const ProjectWorkBreakForm = () => {
+const ProjectWorkBreakEdit = () => {
+  const routeParams = useParams();
+  const { data: getOneProjectWorkBreakDownData, isLoading } =
+    getByProjectWorkBreakDownId(Number(routeParams?.id));
   const [message, setMessage] = useState('');
-  const [appendedValue, setAppendedValue] = useState();
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllParentDatadrop = [] } =
     useGetAllParentProjectBreakDownDrop();
   const { data: getAllUom = [] } = useGetAllUomDrop();
-  const { mutate: createNewProjectBreakDownData } =
-    createProjectBreakDownData();
+  const { mutate: updateNewProjectBreakDown } = updateProjectBreakDown();
   const [initialValues, setInitialValues] = useState({
     project_workbreak_down_name: '',
     project_workbreak_down_code: '',
     parent_project_workbreak_down_id: '',
-    project_workbreak_down_type: 'DEFAULT',
+    project_workbreak_down_type: '',
     rate: '',
     uom_id: '',
     project_workbreak_down_description: '',
@@ -46,16 +47,36 @@ const ProjectWorkBreakForm = () => {
     setOpenSnack(false);
   };
 
+  useEffect(() => {
+    if (getOneProjectWorkBreakDownData) {
+      setInitialValues({
+        project_workbreak_down_name:
+          getOneProjectWorkBreakDownData?.project_workbreak_down_name || '',
+        project_workbreak_down_code:
+          getOneProjectWorkBreakDownData?.project_workbreak_down_code || '',
+        parent_project_workbreak_down_id:
+          getOneProjectWorkBreakDownData?.parent_project_workbreak_down_id ||
+          '',
+        project_workbreak_down_type:
+          getOneProjectWorkBreakDownData?.project_workbreak_down_type || '',
+        rate: getOneProjectWorkBreakDownData?.rate || '',
+        uom_id: getOneProjectWorkBreakDownData?.uom_id || '',
+        project_workbreak_down_description:
+          getOneProjectWorkBreakDownData?.project_workbreak_down_description ||
+          '',
+      });
+    }
+  }, [getOneProjectWorkBreakDownData]);
 
-  const validationSchema = getCreateValidateyup(Yup);
+  const validationSchema = editCreateValidateyup(Yup);
   const formik = useFormik({
     initialValues,
     validationSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       const Object: any = {
         project_workbreak_down_name: values.project_workbreak_down_name,
-        project_workbreak_down_code:
-          values.project_workbreak_down_code.toUpperCase(),
+        project_workbreak_down_code: values.project_workbreak_down_code,
         parent_project_workbreak_down_id:
           Number(values.parent_project_workbreak_down_id) === 0
             ? null
@@ -65,11 +86,12 @@ const ProjectWorkBreakForm = () => {
         uom_id: Number(values.uom_id),
         project_workbreak_down_description:
           values.project_workbreak_down_description,
+        project_workbreak_down_id: Number(routeParams?.id),
       };
-      createNewProjectBreakDownData(Object, {
+      updateNewProjectBreakDown(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
-            setMessage('Project Workbreak down created');
+            setMessage('Project Workbreak down edited');
             setOpenSnack(true);
             setInterval(() => {
               navigate('/project-workbreakdown');
@@ -79,11 +101,14 @@ const ProjectWorkBreakForm = () => {
       });
     },
   });
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className={Styles.container}>
       <div className={Styles.textContent}>
-        <h3>Add - Work Break Down</h3>
-        <span className={Styles.content}>Add your work break down</span>
+        <h3>Edit - Work Break Down</h3>
+        <span className={Styles.content}>Edit your work break down</span>
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.inputFieldMain}>
@@ -103,7 +128,7 @@ const ProjectWorkBreakForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Input
-                label="Work breakdown code *"
+                label="Work breakdown code (Read Only)"
                 placeholder="Enter work breakdown code"
                 name="project_workbreak_down_code"
                 value={formik.values.project_workbreak_down_code}
@@ -112,6 +137,7 @@ const ProjectWorkBreakForm = () => {
                   formik.touched.project_workbreak_down_code &&
                   formik.errors.project_workbreak_down_code
                 }
+                disabled={true}
               />
             </div>
           </div>
@@ -133,7 +159,7 @@ const ProjectWorkBreakForm = () => {
             </div>
             <div style={{ width: '40%' }}>
               <Select
-                label="Work breakdown type *"
+                label="Work breakdown type (Read Only)"
                 name="project_workbreak_down_type"
                 onChange={formik.handleChange}
                 value={formik.values.project_workbreak_down_type}
@@ -142,6 +168,7 @@ const ProjectWorkBreakForm = () => {
                   formik.touched.project_workbreak_down_type &&
                   formik.errors.project_workbreak_down_type
                 }
+                disabled={true}
               >
                 {getAllProjectTypeDataForType.map((option: any) => (
                   <option key={option.value} value={option.value}>
@@ -157,8 +184,8 @@ const ProjectWorkBreakForm = () => {
                 label="Rate"
                 placeholder="Enter rate"
                 name="rate"
-                onChange={formik.handleChange}
                 value={formik.values.rate}
+                onChange={formik.handleChange}
                 error={formik.touched.rate && formik.errors.rate}
               />
             </div>
@@ -186,7 +213,7 @@ const ProjectWorkBreakForm = () => {
                 placeholder="Enter description"
                 value={formik.values.project_workbreak_down_description}
                 onChange={formik.handleChange}
-                rows={4}
+                rows={3}
                 maxCharacterCount={120}
               />
             </div>
@@ -223,4 +250,4 @@ const ProjectWorkBreakForm = () => {
   );
 };
 
-export default ProjectWorkBreakForm;
+export default ProjectWorkBreakEdit;

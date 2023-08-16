@@ -4,11 +4,13 @@ import CustomGroupButton from "../ui/CustomGroupButton";
 import Category from "../category/category";
 import UserList from "../users/userList";
 import MasterData from "../masterData/masterData";
+import ProjectList from "../project/projectList";
 const Settings = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Category', value: 'C' },
     { label: 'Master Data', value: 'M' },
-    { label: 'User List', value: 'U' }
+    { label: 'User List', value: 'U' },
+    { label: 'Project List', value: 'PL' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('C');
   const handleGroupButtonClick = (value: string) => {
@@ -31,6 +33,7 @@ const Settings = () => {
         {activeButton === 'C' && <Category />}
         {activeButton === 'M' && <MasterData />}
         {activeButton === 'U' && <UserList />}
+        {activeButton === 'PL' && <ProjectList />}
       </div>
     </div>
   )

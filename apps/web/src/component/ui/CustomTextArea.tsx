@@ -59,8 +59,11 @@ const CharacterCount = styled.div`
   font-size: 0.75rem;
   color: #888;
 `;
+const RequiredField = styled.span`
+color:red;
+`;
 
-const TextArea: React.FC<TextAreaProps> = ({
+const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
   label,
   placeholder,
   error,
@@ -68,6 +71,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   rows,
   maxCharacterCount,
   value,
+  mandatory = false,
   ...props
 }) => {
   const [characterCount, setCharacterCount] = useState(maxCharacterCount || 40);
@@ -100,9 +104,10 @@ const TextArea: React.FC<TextAreaProps> = ({
       setCurrentValue(inputValue.slice(0, maxCharacterCount));
     }
   };
+  const shouldShowAsterisk = mandatory ;
   return (
     <InputWrapper width={width}>
-      {label && <StyledLabel>{label}</StyledLabel>}
+      {label && <StyledLabel>{label}  {shouldShowAsterisk && <RequiredField>*</RequiredField>}</StyledLabel>}
       <StyledTextArea
         error={!!error}
         placeholder={placeholder}

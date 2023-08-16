@@ -3,24 +3,24 @@ import Styles from '../../styles/projectWorkBreakDownList.module.scss';
 import SearchIcon from '../menu/icons/search';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import Select from '../ui/selectNew';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
-import {
-  useGetAllParentProjectBreakDownDrop,
-  getBySearchProjectWorkBreakDownData,
-} from '../../hooks/projectBreakDown-hook';
-import { formatBudgetValue } from '../../helper/common-function';
+import { getBySearchSiteData,useDeleteSite } from '../../hooks/site-hooks';
 import AddIcon from '../menu/icons/addIcon';
 import { useNavigate } from 'react-router';
 import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSnackBar from '../ui/customSnackBar';
 
-const ProjectWorkBreakList = () => {
-  const { data: getAllParentDatadrop = [] } =
-    useGetAllParentProjectBreakDownDrop();
-  const [selectedValue, setSelectedValue] = useState('');
+const ContractorList = () => {
+  const { mutate: getDeleteContractorById } = useDeleteSite();
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [disable, setDisable] = useState(true);
+  const [value, setValue] = useState();
+  const [message, setMessage] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
@@ -33,7 +33,7 @@ const ProjectWorkBreakList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getBySearchProjectWorkBreakDownData();
+  } = getBySearchSiteData();
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,13 +41,6 @@ const ProjectWorkBreakList = () => {
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
-  };
-
-  const handleDropdownChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedRoleId = event.target.value;
-    setSelectedValue(selectedRoleId);
   };
 
   useEffect(() => {
@@ -62,7 +55,7 @@ const ProjectWorkBreakList = () => {
       order_by_direction: 'desc',
       status: activeButton,
       global_search: filterValues.search_by_name,
-      parent_id: Number(selectedValue),
+      type: 'Contractor',
     };
     await postDataForFilter(demo);
     setTotalPages(getFilterData?.total_page);
@@ -74,7 +67,6 @@ const ProjectWorkBreakList = () => {
     setFilterValues({
       search_by_name: '',
     });
-    setSelectedValue('');
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
@@ -100,15 +92,33 @@ const ProjectWorkBreakList = () => {
     setCurrentPage(1);
   };
 
+  const deleteContractor = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const deleteSiteConform = () => {
+    getDeleteContractorById(value);
+    handleCloseDelete();
+    setMessage('Successfully deleted');
+    setOpenSnack(true);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.container}>
           <div className={Styles.box}>
             <div className={Styles.textContent}>
-              <h3>List of Project Work Break Down</h3>
+              <h3>List of Contractor</h3>
               <span className={Styles.content}>
-                Manage your project work break down across your application
+                Manage your contractor across your application
               </span>
             </div>
             <div className={Styles.searchField}>
@@ -121,21 +131,6 @@ const ProjectWorkBreakList = () => {
                   onChange={(e) => handleFilterChange(e)}
                   placeholder="Search by name"
                 />
-                <div style={{ width: '30%' }}>
-                  <Select
-                    name="parent_project_workbreak_down_id"
-                    onChange={handleDropdownChange}
-                    value={selectedValue}
-                    defaultLabel="Select from options"
-                    width="100%"
-                  >
-                    {getAllParentDatadrop.map((option: any) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
                 <Button
                   className={Styles.searchButton}
                   shape="rectangle"
@@ -164,7 +159,7 @@ const ProjectWorkBreakList = () => {
                   justify="center"
                   size="small"
                   icon={<AddIcon />}
-                  onClick={() => navigate('/project-workbreakdown-add')}
+                  onClick={() => navigate('/contractor-add')}
                 >
                   Add
                 </Button>
@@ -177,10 +172,9 @@ const ProjectWorkBreakList = () => {
                     <tr>
                       <th>S No</th>
                       <th>Name</th>
-                      <th>Description</th>
                       <th>Code</th>
-                      <th>Rate</th>
-                      <th>Parent Name</th>
+                      <th>Mobile Number</th>
+                      <th>Description</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -197,31 +191,31 @@ const ProjectWorkBreakList = () => {
                       ''
                     )}
                     {getFilterData?.content?.map((item: any, index: number) => (
-                      <tr key={item.project_workbreak_down_id}>
+                      <tr key={item.site_contractor_id}>
                         <td>{index + 1}</td>
-                        <td>{item.project_workbreak_down_name}</td>
+                        <td>{item.name}</td>
+                        <td>{item.code}</td>
+                        <td>{item.mobile_number}</td>
+                        <td>{item.description}</td>
                         <td>
-                          <span className={Styles.truncatedStyle}  title={item.project_workbreak_down_description}>
-                            {item.project_workbreak_down_description}
-                          </span>
-                        </td>
-                        <td>{item.project_workbreak_down_code}</td>
-                        <td>{formatBudgetValue(item.rate)}</td>
-                        <td>
-                          {item?.parent_project_workbreak_down
-                            ?.project_workbreak_down_name === undefined
-                            ? '-'
-                            : item?.parent_project_workbreak_down
-                                ?.project_workbreak_down_name}
-                        </td>
-                        <td>
-                          <EditIcon
-                            onClick={() =>
-                              navigate(
-                                `/project-workbreakdown-edit/${item.project_workbreak_down_id}`
-                              )
-                            }
-                          />
+                          <div className={Styles.tableIcon}>
+                            <div>
+                              <EditIcon
+                                onClick={() =>
+                                  navigate(
+                                    `/contractor-edit/${item.site_contractor_id}`
+                                  )
+                                }
+                              />
+                            </div>
+                            <div>
+                              <DeleteIcon
+                                onClick={
+                                  () => deleteContractor(item.site_contractor_id)
+                                }
+                              />
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -239,10 +233,25 @@ const ProjectWorkBreakList = () => {
               </div>
             </div>
           </div>
+          <CustomDelete
+            open={openDelete}
+            title="Delete"
+            contentLine1="Are you sure you want to delete this post? This action cannot be undone."
+            // contentLine2="Deleted site will move to Inactive tab."
+            handleClose={handleCloseDelete}
+            handleConfirm={deleteSiteConform}
+          />
+          <CustomSnackBar
+            open={openSnack}
+            message={message}
+            onClose={handleSnackBarClose}
+            autoHideDuration={1000}
+            type="success"
+          />
         </div>
       </CustomLoader>
     </div>
   );
 };
 
-export default ProjectWorkBreakList;
+export default ContractorList;

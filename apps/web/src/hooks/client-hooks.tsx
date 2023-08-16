@@ -8,6 +8,16 @@ const useGetAllClient = () => {
   });
 };
 
+const useGetAllClientDrop = () => {
+  return useQuery(['useGetAllClientDrop'], () => ClientService.getAllClient(), {
+    select: (data) =>
+      data?.data?.map((client: any) => ({
+        value: client.client_id,
+        label: client.name,
+      })),
+  });
+};
+
 const getByuserID = (id: number) => {
   return useQuery(
     ['getOneClientyID', id],
@@ -79,5 +89,6 @@ export {
   createClient,
   updateClient,
   useDeleteClient,
+  useGetAllClientDrop,
   getByClient,
 };

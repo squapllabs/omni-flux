@@ -8,6 +8,16 @@ const useGetAllUsers = () => {
   });
 };
 
+const useGetAllUsersDrop = () => {
+  return useQuery(['useGetAllUsersDrop'], () => userService.getAllUsers(), {
+    select: (data) =>
+      data?.data?.data?.map((user: any) => ({
+        value: user.user_id,
+        label: user.first_name +' '+ user.last_name,
+      })),
+  });
+};
+
 const useGetAllInactiveUsers = () => {
   return useQuery(
     ['useGetAllInactiveUsers'],
@@ -88,5 +98,6 @@ export {
   updateUser,
   useDeleteUsers,
   useGetAllInactiveUsers,
+  useGetAllUsersDrop,
   getByUser,
 };
