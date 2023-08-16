@@ -22,6 +22,8 @@ import userService from '../../service/user-service';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import CloseIcon from '../menu/icons/closeIcon';
+import MenuIcon from '../menu/icons/moreHorizontalIcon';
+import CustomConfirm from '../ui/CustomConfirmDialogBox';
 
 const ProjectEdit = () => {
   const routeParams = useParams();
@@ -38,10 +40,11 @@ const ProjectEdit = () => {
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
   const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
-   
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  // const menuRef = useRef<HTMLDivElement | null>(null);
   const [rows, setRows] = useState([
     {
       siteId: '',
@@ -49,6 +52,11 @@ const ProjectEdit = () => {
       estimation: '',
     },
   ]);
+  const componentRef = useRef<HTMLDivElement | null>(null);
+  const menuRef = useRef<Array<HTMLDivElement | null>>(
+    new Array(rows.length).fill(null)
+  );
+  const [openDropdowns, setOpenDropdowns] = useState<number | null>(null);
   const [initialValues, setInitialValues] = useState({
     project_name: '',
     code: '',
@@ -57,7 +65,7 @@ const ProjectEdit = () => {
     date_started: '',
     date_ended: '',
     priority: '',
-    currency: '',
+    approvar_id: '',
     estimated_budget: '',
     actual_budget: '',
     description: '',
@@ -67,9 +75,11 @@ const ProjectEdit = () => {
       status: string;
       is_delete: string;
       estimation: number;
+      approvar_id: number;
     }>,
     project_documents: '',
     status: '',
+    submitType: '',
   });
   const navigate = useNavigate();
 
@@ -78,6 +88,15 @@ const ProjectEdit = () => {
     { label: 'Medium', value: 'Medium' },
     { label: 'Low', value: 'Low' },
   ];
+
+  const toggleDropdown = (rowIndex: number) => {
+    console.log('clicked', rowIndex);
+    if (openDropdowns === rowIndex) {
+      setOpenDropdowns(-1);
+    } else {
+      setOpenDropdowns(rowIndex);
+    }
+  };
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -93,7 +112,7 @@ const ProjectEdit = () => {
       const modifiedArray = uploadResponses.flatMap((response) => response);
       const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
         ...obj,
-        is_delete: "N"
+        is_delete: 'N',
       }));
       return modifiedArrayWithDeleteFlag;
     } catch (error) {
@@ -121,6 +140,7 @@ const ProjectEdit = () => {
         status: 'Not Started',
         is_delete: 'N',
         estimation: Number(estimationValue),
+        approvar_id: 0,
       };
       formik.setFieldValue('site_configuration', newSite);
     } else {
@@ -136,8 +156,27 @@ const ProjectEdit = () => {
   };
 
   const addRow = () => {
-    setRows([...rows, { siteId: '', siteData: null, estimation: '' }]);
+    setRows([
+      ...rows,
+      { siteId: '', siteData: null, estimation: '', approvar_id: '' },
+    ]);
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        openDropdowns !== -1 &&
+        componentRef.current &&
+        !componentRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdowns(-1);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [openDropdowns]);
 
   useEffect(() => {
     if (getOneProjectData) {
@@ -159,7 +198,7 @@ const ProjectEdit = () => {
         status: site.status,
         is_delete: 'N',
         project_site_id: site.project_site_id,
-        estimation:site.estimation
+        estimation: site.estimation,
       }));
       setInitialValues({
         project_name: getOneProjectData?.project_name || '',
@@ -181,7 +220,7 @@ const ProjectEdit = () => {
         (config: any) => ({
           siteId: config.site_id.toString(),
           siteData: config.site_details,
-          estimation:config.estimation
+          estimation: config.estimation,
         })
       );
       setRows(siteConfigurationRows);
@@ -201,7 +240,7 @@ const ProjectEdit = () => {
   }, [getOneProjectData]);
 
   const validationSchema = getEditValidateyup(Yup);
-  const formik = useFormik({  
+  const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
@@ -211,6 +250,7 @@ const ProjectEdit = () => {
         const s3UploadUrl = await handleDocuments(selectedFiles);
         newExistingFileUrl = newExistingFileUrl.concat(s3UploadUrl);
       }
+      const statusData = values.submitType === 'Draft' ? 'Draft' : 'Inprogress';
       const Object: any = {
         project_name: values.project_name,
         code: values.code.toUpperCase(),
@@ -219,17 +259,17 @@ const ProjectEdit = () => {
         date_started: values.date_started,
         date_ended: values.date_ended,
         priority: values.priority,
-        currency: values.currency,
+        approvar_id: Number(values.approvar_id),
         estimated_budget: Number(values.estimated_budget),
         actual_budget: Number(values.actual_budget),
         description: values.description,
         project_notes: values.project_notes,
         site_configuration: values.site_configuration,
         project_documents: newExistingFileUrl,
-        status: 'Not Started',
+        status: statusData,
         project_id: Number(routeParams?.id),
       };
-      console.log("finalObject===>",Object);
+      console.log('finalObject===>', Object);
       updateProjectData(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
@@ -313,7 +353,7 @@ const ProjectEdit = () => {
 
   const deleteExistFile = (index: number) => {
     const newFiles = [...existingFileUrl];
-    newFiles[index] = { ...newFiles[index], is_delete: "Y" };
+    newFiles[index] = { ...newFiles[index], is_delete: 'Y' };
     const newFileNames = [...existingFileName];
     // newFiles.splice(index, 1);
     newFileNames.splice(index, 1);
@@ -327,11 +367,33 @@ const ProjectEdit = () => {
     }
   };
 
+  const handleSampleClick = () => {
+    console.log('sample demo click ');
+  };
+
+  const drafthandler = () => {
+    formik.setFieldValue('submitType', 'Draft');
+    formik.submitForm();
+  };
+
+  const submitHandler = () => {
+    setOpenConfirm(true);
+  };
+
+  const handleCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
+  const handleConfirmForm = () => {
+    formik.setFieldValue('submitType', 'Inprogress');
+    formik.submitForm();
+    setOpenConfirm(false);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
   return (
-    <div className={Styles.container}>
+    <div ref={componentRef} className={Styles.container}>
       <div className={Styles.textContent}>
         <h3>Edit - Project</h3>
         <span className={Styles.content}>Edit your project</span>
@@ -458,13 +520,14 @@ const ProjectEdit = () => {
             <div style={{ width: '40%' }}>
               <Select
                 label="Approver"
-                name="currency"
+                name="approvar_id"
                 onChange={formik.handleChange}
-                // value={formik.values.currency}
+                mandatory={true}
+                value={formik.values.approvar_id}
                 defaultLabel="Select from options"
-                // error={formik.touched.currency && formik.errors.currency}
+                error={formik.touched.approvar_id && formik.errors.approvar_id}
               >
-                {getAllCurrencyDatadrop.map((option: any) => (
+                {getAllUsersDatadrop.map((option: any) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -473,7 +536,7 @@ const ProjectEdit = () => {
             </div>
           </div>
           <div className={Styles.inputFields}>
-          <div style={{ width: '40%' }}>
+            <div style={{ width: '40%' }}>
               <Input
                 label="Estimated Budget"
                 placeholder="Enter rate"
@@ -502,7 +565,7 @@ const ProjectEdit = () => {
             </div>
           </div>
           <div className={Styles.inputFields}>
-          <div style={{ width: '40%' }}>
+            <div style={{ width: '40%' }}>
               <TextArea
                 name="description"
                 label="Project Description"
@@ -533,11 +596,13 @@ const ProjectEdit = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>S No</th>
-                    <th>Site</th>
-                    <th>Site Address</th>
-                    <th>Status</th>
-                    <th>Estimation</th>
+                    <th className={Styles.tableHeading}>S No</th>
+                    <th className={Styles.tableHeading}>Site</th>
+                    <th className={Styles.tableHeading}>Site Address</th>
+                    <th className={Styles.tableHeading}>Status</th>
+                    <th className={Styles.tableHeading}>Estimation</th>
+                    <th className={Styles.tableHeading}>Approver</th>
+                    <th className={Styles.tableHeading}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -548,26 +613,49 @@ const ProjectEdit = () => {
                         <div
                           style={{
                             display: 'flex',
-                            justifyContent: 'flex-start',
-                            height: '40px',
+                            justifyContent: 'center',
+                            alignContent: 'center',
                           }}
                         >
-                          <Select
-                            name="site_configuration"
-                            onChange={(event) => handleSiteChange(event, index)}
-                            value={row.siteId}
-                            defaultLabel="Select from options"
-                            error={
-                              formik.touched.site_configuration &&
-                              formik.errors.site_configuration
-                            }
-                          >
-                            {getAllSite.map((option: any) => (
-                              <option key={option.value} value={option.value}>
-                                {option.label}
-                              </option>
-                            ))}
-                          </Select>
+                          {row.siteData &&
+                          row.siteData.name &&
+                          row.siteData.code ? (
+                            <div>
+                              <p>{row.siteData.name}</p>
+                              <p>{row.siteData.code}</p>
+                            </div>
+                          ) : (
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '20px 0px 0px 0px',
+                                height: '35px',
+                              }}
+                            >
+                              <Select
+                                name="site_configuration"
+                                onChange={(event) =>
+                                  handleSiteChange(event, index)
+                                }
+                                value={row.siteId}
+                                defaultLabel="Select from options"
+                                error={
+                                  formik.touched.site_configuration &&
+                                  formik.errors.site_configuration
+                                }
+                              >
+                                {getAllSite.map((option: any) => (
+                                  <option
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </option>
+                                ))}
+                              </Select>
+                            </div>
+                          )}
                         </div>
                       </td>
                       <td>
@@ -612,8 +700,15 @@ const ProjectEdit = () => {
                           )}
                         </div>
                       </td>
-                       <td>
-                        <div>
+                      <td>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '20px 0px 0px 0px',
+                            height: '25px',
+                          }}
+                        >
                           {row.siteId ? (
                             <Input
                               placeholder="Enter estimation"
@@ -636,6 +731,58 @@ const ProjectEdit = () => {
                             />
                           ) : (
                             ''
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        {row.siteId ? (
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '20px 0px 0px 0px',
+                              height: '35px',
+                            }}
+                          >
+                            <Select
+                              width="170px"
+                              name={`site_configuration[${index}].approvar_id`}
+                              onChange={formik.handleChange}
+                              value={
+                                formik.values.site_configuration[index]
+                                  ?.approvar_id || ''
+                              }
+                              defaultLabel="Select from options"
+                            >
+                              {getAllUsersDatadrop.map((option: any) => (
+                                <option key={option.value} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </Select>
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td>
+                        <div ref={menuRef.current[index]}>
+                          <MenuIcon onClick={() => toggleDropdown(index)} />
+                          {openDropdowns === index && (
+                            <ul className={Styles.menu}>
+                              <li
+                                className={Styles.menuItem}
+                                onClick={() => handleSampleClick()}
+                              >
+                                <span>Add Bom</span>
+                              </li>
+                              <li
+                                className={Styles.menuItem}
+                                onClick={() => handleSampleClick()}
+                              >
+                                <span>Add Expenses</span>
+                              </li>
+                            </ul>
                           )}
                         </div>
                       </td>
@@ -664,10 +811,10 @@ const ProjectEdit = () => {
               </div>
             </div>
           </div>
-          <div className={Styles.siteHeading} >
+          <div className={Styles.siteHeading}>
             <h4>Project Documents</h4>
           </div>
-          <div style={{ padding: '10px 0px 0px 20px'}}>
+          <div style={{ padding: '10px 0px 0px 20px' }}>
             <div
               style={{
                 width: '40%',
@@ -716,7 +863,7 @@ const ProjectEdit = () => {
               </div>
             </div>
           </div>
-          <div style={{ padding: '0px 0px 0px 50px'}}>
+          <div style={{ padding: '0px 0px 0px 50px' }}>
             <span>
               <ol style={{ fontSize: '0.85rem' }}>
                 {existingFileName?.map((a: any, index: number) => (
@@ -752,18 +899,19 @@ const ProjectEdit = () => {
           <div className={Styles.submitButton}>
             <Button
               className={Styles.resetButton}
-              type="submit"
+              type="button"
               shape="rectangle"
               justify="center"
-              onClick={() => navigate('/settings')}
+              onClick={() => drafthandler()}
             >
-              Back
+              Draft
             </Button>
             <Button
-              type="submit"
+              type="button"
               color="primary"
               shape="rectangle"
               justify="center"
+              onClick={() => submitHandler()}
             >
               Save
             </Button>
@@ -776,6 +924,13 @@ const ProjectEdit = () => {
         onClose={handleSnackBarClose}
         autoHideDuration={1000}
         type="success"
+      />
+      <CustomConfirm
+        open={openConfirm}
+        title="Confirm Submit"
+        contentLine1="If you confirmed this project it will move to the review process"
+        handleClose={handleCloseConfirm}
+        handleConfirm={handleConfirmForm}
       />
     </div>
   );

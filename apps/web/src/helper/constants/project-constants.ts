@@ -13,6 +13,7 @@ export const ProjectMessages = {
   ENTER_PRIORITY: 'Priority is required',
   SELECT_START_DATE: 'Project start date is required',
   SELECT_END_DATE: 'Project end date is required',
+  SELECT_SITE:'Site is required'
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -75,10 +76,29 @@ export const getCreateValidateyup = (yup: any) => {
           }
           return true; // No duplicate site_id found
         }
-      ),
+      )
+      .test(
+        'non-empty-array',
+        ProjectMessages.SELECT_SITE,
+        function (sites: any) {
+          return sites.length > 0; // Check if array is not empty
+        }
+      )
+      // .test(
+      //   'total-estimated-budget',
+      //   'Total estimated budget exceeds project budget',
+      //   function (sites: any,{ parent }: yup.TestContext) {
+      //     const totalEstimatedBudget = sites.reduce(
+      //       (total : any, site : any) => total + (site.estimation || 0),
+      //       0
+      //     );
+      //     console.log("totalEstimatedBudget",totalEstimatedBudget)
+      //     console.log("parent.estimated_budget",parent.estimated_budget)
+      //     return totalEstimatedBudget <= parent.estimated_budget;
+      //   }
+      // ),
   });
 };
-
 
 export const getEditValidateyup = (yup: any) => {
   return yup.object().shape({

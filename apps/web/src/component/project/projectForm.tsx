@@ -21,6 +21,7 @@ import CloseIcon from '../menu/icons/closeIcon';
 import { createProject } from '../../hooks/project-hooks';
 import { useGetMasterCurency } from '../../hooks/masertData-hook';
 import userService from '../../service/user-service';
+import CustomConfirm from '../ui/CustomConfirmDialogBox';
 
 const ProjectForm = () => {
   const [message, setMessage] = useState('');
@@ -34,12 +35,13 @@ const ProjectForm = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [openConfirm, setOpenConfirm] = useState(false);
   const [rows, setRows] = useState([
     {
       siteId: '',
       siteData: null,
       estimation: '',
-      approver_id:''
+      approvar_id: '',
     },
   ]);
   const currentDate = new Date();
@@ -53,6 +55,7 @@ const ProjectForm = () => {
     date_started: currentDate.toISOString().slice(0, 10),
     date_ended: defaultEndDate.toISOString().slice(0, 10),
     priority: '',
+    approvar_id: '',
     estimated_budget: '',
     actual_budget: '',
     description: '',
@@ -62,10 +65,11 @@ const ProjectForm = () => {
       status: string;
       is_delete: string;
       estimation: number;
-      approver_id:number;
+      approvar_id: number;
     }>,
     project_documents: '',
     status: '',
+    submitType: '',
   });
   const navigate = useNavigate();
 
@@ -79,17 +83,17 @@ const ProjectForm = () => {
     setOpenSnack(false);
   };
 
-  const handleDocuments = async (files: File[],code : string) => {
+  const handleDocuments = async (files: File[], code: string) => {
     try {
       const uploadPromises = files.map(async (file) => {
-        const response = await userService.documentUpload(file,code);
+        const response = await userService.documentUpload(file, code);
         return response.data;
       });
       const uploadResponses = await Promise.all(uploadPromises);
       const modifiedArray = uploadResponses.flatMap((response) => response);
       const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
         ...obj,
-        is_delete: "N"
+        is_delete: 'N',
       }));
       return modifiedArrayWithDeleteFlag;
     } catch (error) {
@@ -117,7 +121,7 @@ const ProjectForm = () => {
         status: 'Not Started',
         is_delete: 'N',
         estimation: Number(estimationValue),
-        approver_id:0
+        approvar_id: 0,
       };
       formik.setFieldValue('site_configuration', newSite);
     } else {
@@ -133,7 +137,10 @@ const ProjectForm = () => {
   };
 
   const addRow = () => {
-    setRows([...rows, { siteId: '', siteData: null, estimation: '',approver_id:'' }]);
+    setRows([
+      ...rows,
+      { siteId: '', siteData: null, estimation: '', approvar_id: '' },
+    ]);
   };
 
   const deleteRow = (index: any) => {
@@ -148,9 +155,13 @@ const ProjectForm = () => {
   const validationSchema = getCreateValidateyup(Yup);
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    // validationSchema,
     onSubmit: async (values) => {
-      const s3UploadUrl = await handleDocuments(selectedFiles,values.code.toUpperCase());
+      const s3UploadUrl = await handleDocuments(
+        selectedFiles,
+        values.code.toUpperCase()
+      );
+      const statusData = values.submitType === 'Draft' ? 'Draft' : 'Inprogress';
       const Object: any = {
         project_name: values.project_name,
         code: values.code.toUpperCase(),
@@ -159,25 +170,27 @@ const ProjectForm = () => {
         date_started: values.date_started,
         date_ended: values.date_ended,
         priority: values.priority,
+        approvar_id: Number(values.approvar_id),
         estimated_budget: Number(values.estimated_budget),
         actual_budget: Number(values.actual_budget),
         description: values.description,
         project_notes: values.project_notes,
         site_configuration: values.site_configuration,
         project_documents: s3UploadUrl,
-        status: 'Not Started',
+        status: statusData,
       };
-      createNewProjectData(Object, {
-        onSuccess: (data, variables, context) => {
-          if (data?.status === true) {
-            setMessage('Project created');
-            setOpenSnack(true);
-            setInterval(() => {
-              navigate('/settings');
-            }, 1000);
-          }
-        },
-      });
+      console.log('project data form', Object);
+      // createNewProjectData(Object, {
+      //   onSuccess: (data, variables, context) => {
+      //     if (data?.status === true) {
+      //       setMessage('Project created');
+      //       setOpenSnack(true);
+      //       setInterval(() => {
+      //         navigate('/settings');
+      //       }, 1000);
+      //     }
+      //   },
+      // });
     },
   });
 
@@ -230,7 +243,6 @@ const ProjectForm = () => {
         const selectedFilesArray: File[] = [];
         const selectedFileNamesArray: string[] = [];
         fileList.forEach((file) => {
-          console.log('data', file);
           selectedFilesArray.push(file);
           selectedFileNamesArray.push(file.name);
         });
@@ -255,6 +267,22 @@ const ProjectForm = () => {
     }
   };
 
+  const submitHandler = () => {
+    setOpenConfirm(true);
+  };
+
+  const drafthandler = () => {
+    formik.setFieldValue('submitType', 'Draft');
+    formik.submitForm();
+  };
+  const handleCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
+  const handleConfirmForm = () => {
+    formik.setFieldValue('submitType', 'Inprogress');
+    formik.submitForm();
+    setOpenConfirm(false);
+  };
   return (
     <div className={Styles.container}>
       <div className={Styles.textContent}>
@@ -382,14 +410,14 @@ const ProjectForm = () => {
             <div style={{ width: '40%' }}>
               <Select
                 label="Approver"
-                name="approver_id"
+                name="approvar_id"
                 onChange={formik.handleChange}
                 mandatory={true}
-                // value={formik.values.approver_id}
+                value={formik.values.approvar_id}
                 defaultLabel="Select from options"
-                // error={formik.touched.approver_id && formik.errors.approver_id}
+                error={formik.touched.approvar_id && formik.errors.approvar_id}
               >
-                {getAllCurrencyDatadrop.map((option: any) => (
+                {getAllUsersDatadrop.map((option: any) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -463,7 +491,7 @@ const ProjectForm = () => {
                     <th className={Styles.tableHeading}>Site Address</th>
                     <th className={Styles.tableHeading}>Status</th>
                     <th className={Styles.tableHeading}>Estimation</th>
-                    {/* <th className={Styles.tableHeading}>Approver</th> */}
+                    <th className={Styles.tableHeading}>Approver</th>
                     <th className={Styles.tableHeading}>Action</th>
                   </tr>
                 </thead>
@@ -475,26 +503,58 @@ const ProjectForm = () => {
                         <div
                           style={{
                             display: 'flex',
-                            justifyContent: 'flex-start',
-                            height: '50px',
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignContent: 'center',
                           }}
                         >
-                          <Select
-                            name="site_configuration"
-                            onChange={(event) => handleSiteChange(event, index)}
-                            value={row.siteId}
-                            defaultLabel="Select from options"
-                            error={
-                              formik.touched.site_configuration &&
-                              formik.errors.site_configuration
-                            }
-                          >
-                            {getAllSite.map((option: any) => (
-                              <option key={option.value} value={option.value}>
-                                {option.label}
-                              </option>
-                            ))}
-                          </Select>
+                          {row.siteData &&
+                          row.siteData.name &&
+                          row.siteData.code ? (
+                            <div>
+                              <p>{row.siteData.name}</p>
+                              <span
+                                style={{
+                                  fontSize: 'smaller',
+                                  color: '#1D5D9B',
+                                }}
+                              >
+                                {row.siteData.code}
+                              </span>
+                            </div>
+                          ) : (
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '20px 0px 0px 0px',
+                                height: '35px',
+                                width: '150%',
+                              }}
+                            >
+                              <Select
+                                name="site_configuration"
+                                onChange={(event) =>
+                                  handleSiteChange(event, index)
+                                }
+                                value={row.siteId}
+                                defaultLabel="Select from options"
+                                error={
+                                  formik.touched.site_configuration &&
+                                  formik.errors.site_configuration
+                                }
+                              >
+                                {getAllSite.map((option: any) => (
+                                  <option
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </option>
+                                ))}
+                              </Select>
+                            </div>
+                          )}
                         </div>
                       </td>
                       <td>
@@ -506,43 +566,40 @@ const ProjectForm = () => {
                         >
                           {row.siteData?.address && (
                             <div>
-                              <p>
-                                {row.siteData && row.siteData.address ? (
-                                  <div>
-                                    <p>
-                                      {row.siteData.address.street}{' '}
-                                      {row.siteData.address.city},{' '}
-                                      {row.siteData.address.state},
-                                    </p>
-                                    <p>
-                                      {row.siteData.address.pin_code},
-                                      {row.siteData.address.country}
-                                    </p>
-                                  </div>
-                                ) : null}
-                              </p>
+                              {row.siteData && row.siteData?.address ? (
+                                <div>
+                                  <span>
+                                    {row.siteData.address?.street}{' '}
+                                    {row.siteData.address?.city},{' '}
+                                    {row.siteData.address?.state},
+                                  </span>
+                                  <span>
+                                    {row.siteData.address?.pin_code},
+                                    {row.siteData.address?.country}
+                                  </span>
+                                </div>
+                              ) : null}
                             </div>
                           )}
                         </div>
                       </td>
                       <td>
-                        <div>
-                          {row.siteId && (
-                            <span
-                              style={{
-                                backgroundColor: 'lightgray',
-                                // width: '70%',
-                              }}
-                            >
-                              Not Started
-                            </span>
-                          )}
+                        <div style={{ width: '100px' }}>
+                          {row.siteId && <span>Not Started</span>}
                         </div>
                       </td>
                       <td>
-                        <div>
-                          {row.siteId ? (
+                        {row.siteId ? (
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '20px 0px 0px 0px',
+                              height: '35px',
+                            }}
+                          >
                             <Input
+                              width="170px"
                               placeholder="Enter estimation"
                               name={`site_configuration[${index}].estimation`}
                               onChange={(event) => {
@@ -557,40 +614,46 @@ const ProjectForm = () => {
                                   ?.estimation || ''
                               }
                               // error={
-                              //   formik.touched.actual_budget &&
-                              //   formik.errors.actual_budget
+                              //   formik.touched.site_configuration &&
+                              //   formik.errors.site_configuration
                               // }
                             />
-                          ) : (
-                            ''
-                          )}
-                        </div>
+                          </div>
+                        ) : (
+                          ''
+                        )}
                       </td>
-                      {/* <td>
-                        <div>
+                      <td>
                         {row.siteId ? (
-                          <Select
-                          name={`site_configuration[${index}].approver_id`}
-                            onChange={formik.handleChange}
-                            value={formik.values.client_id}
-                            defaultLabel="Select from options"
-                            error={
-                              formik.touched.client_id &&
-                              formik.errors.client_id
-                            }
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '20px 0px 0px 0px',
+                              height: '35px',
+                            }}
                           >
-                            {getAllClientDatadrop.map((option: any) => (
-                              <option key={option.value} value={option.value}>
-                                {option.label}
-                              </option>
-                            ))}
-                          </Select>
-                            ) : 
-                                ''
+                            <Select
+                              width="170px"
+                              name={`site_configuration[${index}].approvar_id`}
+                              onChange={formik.handleChange}
+                              value={
+                                formik.values.site_configuration[index]
+                                  ?.approvar_id || ''
                               }
-                        </div>
-                      </td> */}
-
+                              defaultLabel="Select from options"
+                            >
+                              {getAllUsersDatadrop.map((option: any) => (
+                                <option key={option.value} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </Select>
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                      </td>
                       <td>
                         <div
                           style={{
@@ -711,18 +774,19 @@ const ProjectForm = () => {
           <div className={Styles.submitButton}>
             <Button
               className={Styles.resetButton}
-              type="submit"
+              type="button"
               shape="rectangle"
               justify="center"
-              onClick={() => navigate('/settings')}
+              onClick={() => drafthandler()}
             >
-              Back
+              Draft
             </Button>
             <Button
-              type="submit"
+              type="button"
               color="primary"
               shape="rectangle"
               justify="center"
+              onClick={() => submitHandler()}
             >
               Save
             </Button>
@@ -735,6 +799,13 @@ const ProjectForm = () => {
         onClose={handleSnackBarClose}
         autoHideDuration={1000}
         type="success"
+      />
+      <CustomConfirm
+        open={openConfirm}
+        title="Confirm Submit"
+        contentLine1="If you confirmed this project it will move to the review process"
+        handleClose={handleCloseConfirm}
+        handleConfirm={handleConfirmForm}
       />
     </div>
   );
