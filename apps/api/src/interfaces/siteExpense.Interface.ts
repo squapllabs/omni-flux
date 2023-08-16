@@ -27,6 +27,9 @@ interface siteExpenseDetails {
   bill_details: JSON;
   site_expense_details_id: number;
   is_delete: string;
+  status: string;
+  comments: string;
+  progressed_by: number;
 }
 
 interface updateSiteExpenseBody {

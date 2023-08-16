@@ -73,10 +73,10 @@ const checkDuplicateCode = catchAsync(async (req, res) => {
   }
 });
 
-const getProjectSiteEstimation = catchAsync(async (req, res) => {
-  const methodName = '/getProjectSiteEstimation';
+const getByProjectIdAndSiteId = catchAsync(async (req, res) => {
+  const methodName = '/getByProjectIdAndSiteId';
   try {
-    const project = await projectService.getProjectSiteEstimation(req.body);
+    const project = await projectService.getByProjectIdAndSiteId(req.body);
     res.send(project);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
@@ -91,5 +91,5 @@ export {
   deleteByProjectId,
   searchProject,
   checkDuplicateCode,
-  getProjectSiteEstimation,
+  getByProjectIdAndSiteId,
 };

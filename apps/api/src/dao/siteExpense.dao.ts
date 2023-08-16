@@ -56,6 +56,9 @@ const add = async (
       const others = siteExpenseDetail.others;
       const total = siteExpenseDetail.total;
       const bill_details = siteExpenseDetail.bill_details;
+      const status = siteExpenseDetail.status;
+      const comments = siteExpenseDetail.comments;
+      const progressed_by = siteExpenseDetail.progressed_by;
 
       const newSiteExpenseDetail =
         await transaction.site_expense_details.create({
@@ -74,6 +77,11 @@ const add = async (
             created_by,
             created_date: currentDate,
             updated_date: currentDate,
+            status,
+            comments,
+            progressed_date:
+              progressed_by || status || comments ? currentDate : null,
+            progressed_by,
           },
         });
 
@@ -147,6 +155,9 @@ const edit = async (
       const bill_details = siteExpenseDetail.bill_details;
       const site_expense_details_id = siteExpenseDetail.site_expense_details_id;
       const is_delete = siteExpenseDetail.is_delete;
+      const status = siteExpenseDetail.status;
+      const comments = siteExpenseDetail.comments;
+      const progressed_by = siteExpenseDetail.progressed_by;
 
       if (site_expense_details_id) {
         if (is_delete === 'Y') {
@@ -174,6 +185,11 @@ const edit = async (
                 bill_details,
                 updated_by,
                 updated_date: currentDate,
+                status,
+                comments,
+                progressed_date:
+                  progressed_by || status || comments ? currentDate : null,
+                progressed_by,
               },
             });
 
@@ -197,6 +213,11 @@ const edit = async (
               created_by: updated_by,
               created_date: currentDate,
               updated_date: currentDate,
+              status,
+              comments,
+              progressed_date:
+                progressed_by || status || comments ? currentDate : null,
+              progressed_by,
             },
           });
 
@@ -226,7 +247,16 @@ const getById = async (siteExpenseId: number, connectionObj = null) => {
         is_delete: false,
       },
       include: {
-        site_expense_details: true,
+        site_expense_details: {
+          include: {
+            progressed_by_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+          },
+        },
         site_data: {
           select: {
             name: true,
@@ -259,7 +289,16 @@ const getAll = async (connectionObj = null) => {
         is_delete: false,
       },
       include: {
-        site_expense_details: true,
+        site_expense_details: {
+          include: {
+            progressed_by_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+          },
+        },
         site_data: {
           select: {
             name: true,
@@ -319,7 +358,16 @@ const searchSiteExpense = async (
     const siteExpense = await transaction.site_expense.findMany({
       where: filter,
       include: {
-        site_expense_details: true,
+        site_expense_details: {
+          include: {
+            progressed_by_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+          },
+        },
         site_data: {
           select: {
             name: true,
@@ -357,6 +405,31 @@ const searchSiteExpense = async (
   }
 };
 
+const getByProjectIdAndSiteId = async (
+  projectId: number,
+  siteId: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const siteExpense = await transaction.site_expense.findFirst({
+      where: {
+        project_id: Number(projectId),
+        site_id: Number(siteId),
+        is_delete: false,
+      },
+    });
+
+    return siteExpense;
+  } catch (error) {
+    console.log(
+      'Error occurred in siteExpense getByProjectIdAndSiteId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -364,4 +437,5 @@ export default {
   getAll,
   deleteSiteExpense,
   searchSiteExpense,
+  getByProjectIdAndSiteId,
 };
