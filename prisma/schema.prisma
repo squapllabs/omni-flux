@@ -269,6 +269,7 @@ model site_expense_details {
   comments                String?
   progressed_date         DateTime?
   progressed_by           Int?
+  is_delete               Boolean       @default(false)
   site_expense_data       site_expense? @relation(fields: [site_expense_id], references: [site_expense_id])
   progressed_by_data      users?        @relation(fields: [progressed_by], references: [user_id])
 }

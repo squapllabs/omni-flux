@@ -21,6 +21,7 @@ const add = async (
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const is_delete = false;
     const siteExpenseDetail = await transaction.site_expense_details.create({
       data: {
         description,
@@ -42,6 +43,7 @@ const add = async (
         progressed_date:
           progressed_by || status || comments ? currentDate : null,
         progressed_by,
+        is_delete: is_delete,
       },
     });
 

@@ -82,6 +82,7 @@ const add = async (
             progressed_date:
               progressed_by || status || comments ? currentDate : null,
             progressed_by,
+            is_delete: is_delete,
           },
         });
 
@@ -161,9 +162,12 @@ const edit = async (
 
       if (site_expense_details_id) {
         if (is_delete === 'Y') {
-          await transaction.site_expense_details.delete({
+          await transaction.site_expense_details.update({
             where: {
               site_expense_details_id: site_expense_details_id,
+            },
+            data: {
+              is_delete: true,
             },
           });
         } else {
@@ -218,6 +222,7 @@ const edit = async (
               progressed_date:
                 progressed_by || status || comments ? currentDate : null,
               progressed_by,
+              is_delete: false,
             },
           });
 
@@ -417,6 +422,28 @@ const getByProjectIdAndSiteId = async (
         project_id: Number(projectId),
         site_id: Number(siteId),
         is_delete: false,
+      },
+      include: {
+        site_expense_details: {
+          include: {
+            progressed_by_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+          },
+        },
+        site_data: {
+          select: {
+            name: true,
+          },
+        },
+        project_data: {
+          select: {
+            project_name: true,
+          },
+        },
       },
     });
 
