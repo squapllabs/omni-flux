@@ -33,3 +33,6 @@ add constraint fk_site_expense_details_progressed_by foreign key (progressed_by)
 
 alter table site_expense_details 
 alter column progressed_date type timestamptz;
+
+alter table site_expense_details 
+add column is_delete boolean not null default false;

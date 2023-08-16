@@ -395,6 +395,40 @@ const searchSiteExpense = async (body) => {
   }
 };
 
+/**
+ * Method to get siteExpense By Project Id and Site Id
+ * @param project_id
+ * @param site_id
+ * @returns
+ */
+const getByProjectIdAndSiteId = async (project_id: number, site_id: number) => {
+  try {
+    let result = null;
+    const siteExpenseData = await siteExpenseDao.getByProjectIdAndSiteId(
+      project_id,
+      site_id
+    );
+    if (siteExpenseData) {
+      result = { message: 'success', status: true, data: siteExpenseData };
+      return result;
+    } else {
+      result = {
+        message:
+          'site_expense does not exist for this project_id and site_id combination',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectIdAndSiteId siteExpense service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSiteExpense,
   updateSiteExpense,
@@ -402,4 +436,5 @@ export {
   getById,
   deleteSiteExpense,
   searchSiteExpense,
+  getByProjectIdAndSiteId,
 };
