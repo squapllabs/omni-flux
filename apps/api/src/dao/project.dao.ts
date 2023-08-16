@@ -16,6 +16,7 @@ const add = async (
   project_documents: JSON,
   created_by: bigint,
   site_configuration,
+  approvar_id: number,
   connectionObj = null
 ) => {
   try {
@@ -44,6 +45,7 @@ const add = async (
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
+        approvar_id,
       },
     });
 
@@ -56,6 +58,8 @@ const add = async (
       const status = site.status;
       const is_delete = site.is_delete;
       const estimation = site.estimation;
+      const approvar_id = site.approvar_id;
+
       if (is_delete === 'N') {
         const projectSite = await transaction.project_site.create({
           data: {
@@ -66,6 +70,7 @@ const add = async (
             created_by,
             created_date: currentDate,
             updated_date: currentDate,
+            approvar_id: approvar_id,
           },
         });
         projectSiteDetails.push(projectSite);
@@ -101,6 +106,7 @@ const edit = async (
   updated_by: bigint,
   project_id: number,
   site_configuration,
+  approvar_id: number,
   connectionObj = null
 ) => {
   try {
@@ -128,6 +134,7 @@ const edit = async (
         project_documents,
         updated_by,
         updated_date: currentDate,
+        approvar_id,
       },
     });
 
@@ -139,6 +146,7 @@ const edit = async (
       const is_delete = site.is_delete;
       const project_site_id = site.project_site_id;
       const estimation = site.estimation;
+      const approvar_id = site.approvar_id;
 
       if (project_site_id) {
         if (is_delete === 'Y') {
@@ -155,6 +163,7 @@ const edit = async (
               estimation: estimation,
               updated_by,
               updated_date: currentDate,
+              approvar_id: approvar_id,
             },
           });
           projectSiteDetails.push(projectSite);
@@ -170,6 +179,7 @@ const edit = async (
               created_by: updated_by,
               created_date: currentDate,
               updated_date: currentDate,
+              approvar_id: approvar_id,
             },
           });
           projectSiteDetails.push(projectSite);
@@ -216,6 +226,12 @@ const getById = async (projectId: number, connectionObj = null) => {
             name: true,
           },
         },
+        approvar_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
       },
     });
     return project;
@@ -247,6 +263,12 @@ const getAll = async (connectionObj = null) => {
         client: {
           select: {
             name: true,
+          },
+        },
+        approvar_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },
@@ -342,6 +364,12 @@ const searchProject = async (
         client: {
           select: {
             name: true,
+          },
+        },
+        approvar_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },

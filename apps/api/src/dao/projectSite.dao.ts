@@ -44,7 +44,7 @@ const edit = async (
   }
 };
 
-const getProjectSiteEstimation = async (
+const getByProjectIdAndSiteId = async (
   project_id: number,
   site_id: number,
   connectionObj = null
@@ -56,14 +56,11 @@ const getProjectSiteEstimation = async (
         project_id: project_id,
         site_id: site_id,
       },
-      select: {
-        estimation: true,
-      },
     });
     return projectSite;
   } catch (error) {
     console.log(
-      'Error occurred in projectSiteDao getProjectSiteEstimation',
+      'Error occurred in projectSiteDao getByProjectIdAndSiteId',
       error
     );
     throw error;
@@ -73,5 +70,5 @@ const getProjectSiteEstimation = async (
 export default {
   add,
   edit,
-  getProjectSiteEstimation,
+  getByProjectIdAndSiteId,
 };

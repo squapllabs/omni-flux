@@ -14,6 +14,7 @@ interface createProjectBody {
   priority: string;
   project_notes: string;
   site_configuration: Array<SiteConfiguration>;
+  approvar_id: number;
 }
 
 interface SiteConfiguration {
@@ -21,6 +22,8 @@ interface SiteConfiguration {
   status: string;
   is_delete: string;
   estimation: number;
+  approvar_id: number;
+  project_site_id: number;
 }
 
 interface ProjectDocuments {
@@ -45,6 +48,7 @@ interface updateProjectBody {
   project_documents: Array<ProjectDocuments>;
   updated_by: bigint;
   site_configuration: Array<SiteConfiguration>;
+  approvar_id: number;
 }
 
 export { createProjectBody, updateProjectBody, ProjectDocuments };
