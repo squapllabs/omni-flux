@@ -5,6 +5,7 @@ import Input from '../ui/Input';
 import Styles from '../../styles/popupexpanses.module.scss';
 import trashIcon from './icons/trashIcon.svg';
 import exportIcon from './icons/exportIcon.svg'
+import { he } from 'date-fns/locale';
 
 interface FileUploaderProps {
   handleFile: (file: File) => void;
@@ -127,10 +128,16 @@ const ModalPopup = (props:ModalPopupProps) => {
       const wb = read(event.target?.result as ArrayBuffer);
       const sheets = wb.SheetNames;
       if (sheets.length) {
+        const headerSheet = utils.sheet_to_json(wb.Sheets[sheets[0]],{header:1});
+        const header:string[] = headerSheet.shift();
         const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-        setData(rows);
-        if (rows.length) setHeadings(Object.keys(rows[0]));
+        console.log(rows);
+        if (rows.length) setHeadings(["description","air_transport","fuel","labour_advance","phone_stationary","food_snacks","purchase_service","others","total"]);
         else setHeadings([]);
+        if(header.length !==9) alert("Please upload the correct template");
+        else setData(rows);
+        
+        
       }
       setLoading(false);
     };
@@ -144,13 +151,24 @@ const ModalPopup = (props:ModalPopupProps) => {
       index: number,
       key: string
     ) => {
-      setData((prevData) => {
-        const newData = [...prevData];
-        newData[index][key] = e.target.value;
-        return newData;
-      });
+      if(typeof data[index][key] === 'number') {
+        setData((prevData) => {
+          const newData = [...prevData];
+          if(e.target.value === '') newData[index][key] = 0;
+          else newData[index][key] = parseInt(e.target.value);
+          return newData;
+        });
+      }
+      else{
+        setData((prevData) => {
+          const newData = [...prevData];
+          newData[index][key] = e.target.value;
+          return newData;
+        });
+      }
+      
     },
-    []
+    [data]
   );
   // const handleTitleChange = useCallback((e,index) => {
   //     const newKey = e.target.value;
@@ -181,16 +199,7 @@ const ModalPopup = (props:ModalPopupProps) => {
     });
   };
 
-  const handleUpload = () => {
-    console.log(data);
-    // const headingsList = [headings]
-    // const wb = utils.book_new()
-    // const ws = utils.json_to_sheet([])
-    // utils.sheet_add_aoa(ws,headingsList)
-    // utils.sheet_add_json(ws,data,{origin: 'A2', skipHeader: true});
-    // utils.book_append_sheet(wb,ws,"Report");
-    // writeFile(wb,"NewReport.xlsx")
-  };
+  
 
   return (
     <div className={Styles.modal}>
@@ -212,7 +221,6 @@ const ModalPopup = (props:ModalPopupProps) => {
                 shape="rectangle"
                 color="primary"
                 size="small"
-                onClick={handleUpload}
                 fullWidth
                 className={Styles.maxWidth200}
                 disabled={loading}
@@ -224,6 +232,7 @@ const ModalPopup = (props:ModalPopupProps) => {
                     justifyContent: "space-between",
                     width: "100%",
                   }}
+                  
                 >
                   <span>Export</span> 
                   <img src={exportIcon} alt=''></img>
@@ -241,7 +250,7 @@ const ModalPopup = (props:ModalPopupProps) => {
             <table className={Styles.table} ref={tableRef}>
               <thead className={Styles.tableHeading}>
                 <tr className={Styles.tableRow}>
-                  <th className={Styles.tableHead}>#</th>
+                  <th className={Styles.tableHead}>S.no</th>
                   {headings.map((ele, ind) => (
                     <th className={Styles.tableHead} scope="col" key={ele}>
                       {ele}
@@ -253,7 +262,7 @@ const ModalPopup = (props:ModalPopupProps) => {
               <tbody>
                   {data.map((elem, index) => (
                     <tr className={Styles.tableRow} key={index}>
-                      <th className={Styles.tableHead}>{}</th>
+                      <th className={Styles.tableHead}>{index+1}</th>
                       {headings.map((key) => (
                         <td className={Styles.tableData} key={key}>
                           <Input
@@ -302,6 +311,10 @@ const ModalPopup = (props:ModalPopupProps) => {
                 size="small"
                 shape="rectangle"
                 style={{ marginRight: "5%", width: "150px" }}
+                onClick={()=> {
+                  console.log(data)
+                  props.closeModal()
+                }}
               >
                 Save
               </Button>
@@ -318,10 +331,18 @@ const ModalPopup = (props:ModalPopupProps) => {
 
 const PopupExpanse = () => {
   const [modalOpen,setModalOpen] = useState<boolean>(false)
+  const handleDownloadTemplate = () => {
+    const headingsList = [["description","air_transport","fuel","labour_advance","phone_stationary","food_snacks","purchase_service","others","total"]]
+    const wb = utils.book_new()
+    const ws = utils.json_to_sheet([])
+    utils.sheet_add_aoa(ws,headingsList)
+    utils.book_append_sheet(wb,ws,"Template");
+    writeFile(wb,"Template.xlsx")
+  };
   return (
     <div className={Styles.container}>
       <div className={Styles.button}>
-        <Button color="primary" shape="rectangle" justify="center" size="small">
+        <Button color="primary" shape="rectangle" justify="center" size="small" onClick={()=>handleDownloadTemplate()}>
           Download
         </Button>
         <Button onClick={()=>setModalOpen(true)} color="primary" shape="rectangle" justify="center" size="small">
