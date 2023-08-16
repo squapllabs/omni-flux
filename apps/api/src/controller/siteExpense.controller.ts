@@ -67,6 +67,19 @@ const searchSiteExpense = catchAsync(async (req, res) => {
   }
 });
 
+const getByProjectIdAndSiteId = catchAsync(async (req, res) => {
+  const methodName = '/getByProjectIdAndSiteId';
+  try {
+    const siteExpense = await siteExpenseService.getByProjectIdAndSiteId(
+      req.params.project_id,
+      req.params.site_id
+    );
+    res.send(siteExpense);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createSiteExpense,
   updateSiteExpense,
@@ -74,4 +87,5 @@ export {
   getBySiteExpenseId,
   deleteBySiteExpenseId,
   searchSiteExpense,
+  getByProjectIdAndSiteId,
 };

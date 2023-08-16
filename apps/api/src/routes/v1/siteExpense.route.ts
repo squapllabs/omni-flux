@@ -5,6 +5,7 @@ import {
   createSiteExpense,
   deleteBySiteExpenseId,
   getAllSiteExpense,
+  getByProjectIdAndSiteId,
   getBySiteExpenseId,
   searchSiteExpense,
   updateSiteExpense,
@@ -34,5 +35,11 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchSiteExpense);
+
+router.get(
+  '/get-by-project-id-and-site-id/:project_id/:site_id',
+  authMiddleware,
+  getByProjectIdAndSiteId
+);
 
 export default router;
