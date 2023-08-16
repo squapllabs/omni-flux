@@ -9,6 +9,7 @@ const add = async (
   user_status: string,
   created_by: bigint,
   department: string,
+  parent_user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -33,6 +34,7 @@ const add = async (
         updated_date: currentDate,
         department,
         is_initial_login: isInitialLogin,
+        parent_user_id,
       },
     });
     return user;
@@ -49,6 +51,7 @@ const edit = async (
   user_id: number,
   department: string,
   is_two_factor: boolean,
+  parent_user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -64,6 +67,7 @@ const edit = async (
         updated_date: currentDate,
         department,
         is_two_factor,
+        parent_user_id,
       },
     });
     return user;
@@ -75,16 +79,17 @@ const edit = async (
 
 const getById = async (userId: number) => {
   try {
-    const user = await prisma.users.findUnique({
+    const user = await prisma.users.findFirst({
       where: {
         user_id: Number(userId),
+        is_delete: false,
+      },
+      include: {
+        parent_data: true,
       },
     });
-    if (user && user?.is_delete === true) {
-      return null;
-    } else {
-      return user;
-    }
+
+    return user;
   } catch (error) {
     console.log('Error occurred in user getById dao', error);
     throw error;
@@ -122,6 +127,9 @@ const getAll = async (user_status) => {
       ],
       where: {
         user_status: user_status,
+      },
+      include: {
+        parent_data: true,
       },
     });
     const usersCount = await prisma.users.count({
@@ -327,6 +335,9 @@ const searchUser = async (
       ],
       skip: offset,
       take: limit,
+      include: {
+        parent_data: true,
+      },
     });
     const userCount = await transaction.users.count({
       where: filter,

@@ -347,6 +347,22 @@ const searchSiteExpense = async (body) => {
               },
             },
           },
+          {
+            site_expense_details: {
+              some: {
+                progressed_by_data: {
+                  first_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                  last_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
         ],
       });
     }

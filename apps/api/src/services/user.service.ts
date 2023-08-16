@@ -29,11 +29,27 @@ const createUser = async (body: createUserBody) => {
       date_of_birth,
       gender,
       additional_info,
+      parent_user_id,
     } = body;
 
     const userEmailExist = await userDao.getByUniqueEmail(email_id);
     if (userEmailExist) {
-      return (result = { success: false, message: 'email_id already exists' });
+      return (result = {
+        message: 'email_id already exists',
+        status: false,
+        data: null,
+      });
+    }
+
+    if (parent_user_id) {
+      const parentUserExist = await userDao.getById(parent_user_id);
+      if (!parentUserExist) {
+        return (result = {
+          message: 'parent_user_id does not exists',
+          status: false,
+          data: null,
+        });
+      }
     }
 
     const userDataWithRole = [];
@@ -48,6 +64,7 @@ const createUser = async (body: createUserBody) => {
           user_status,
           created_by,
           department,
+          parent_user_id,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });
@@ -116,11 +133,23 @@ const updateUser = async (body: updateUserBody) => {
       gender,
       additional_info,
       is_two_factor,
+      parent_user_id,
     } = body;
 
     const userExist = await userDao.getById(user_id);
     if (!userExist) {
       return (result = { success: false, message: 'user id does not exists' });
+    }
+
+    if (parent_user_id) {
+      const parentUserExist = await userDao.getById(parent_user_id);
+      if (!parentUserExist) {
+        return (result = {
+          message: 'parent_user_id does not exists',
+          status: false,
+          data: null,
+        });
+      }
     }
 
     const existingUserRoleData = await userRoleDao.getByUserId(user_id);
@@ -136,6 +165,7 @@ const updateUser = async (body: updateUserBody) => {
           user_id,
           department,
           is_two_factor,
+          parent_user_id,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });

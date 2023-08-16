@@ -74,9 +74,9 @@ const deleteS3File = async (doc: { key: string }) => {
  * @param filePath - The URL/path of the file to be deleted
  * @returns - A promise that resolves to the S3 response
  */
-const deleteFileFromS3UsingPath = async (filePath) => {
+const deleteFileFromS3UsingPath = async (filePath: string) => {
   const urlParts = filePath.split('/');
-  const objectKey = urlParts[urlParts.length - 1];
+  const objectKey = urlParts.slice(3).join('/');
 
   const deleteParams = {
     Bucket: bucketName,
