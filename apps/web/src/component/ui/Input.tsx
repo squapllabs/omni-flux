@@ -9,6 +9,7 @@ interface StyledInputProps {
   error?: boolean;
   hasPrefixIcon?: boolean;
   hasSuffixIcon?: boolean;
+  transparent?: boolean;
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -18,6 +19,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   width?: string;
   prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
+  transparent?: boolean;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -44,7 +46,7 @@ const InputContainer = styled.div<StyledInputProps>`
     }`};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
-  background-color: #f4f5f6; 
+  background-color: ${(props) => (props.transparent? 'transaparent':'#f4f5f6')}; 
   &:hover {
     border-color: #888;
   }
@@ -97,6 +99,7 @@ const Input: React.FC<InputProps> = ({
   width,
   prefixIcon,
   suffixIcon,
+  transparent,
   ...props
 }) => {
   return (
@@ -106,6 +109,7 @@ const Input: React.FC<InputProps> = ({
         error={!!error}
         hasPrefixIcon={!!prefixIcon}
         hasSuffixIcon={!!suffixIcon}
+        transparent={transparent}
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
         <StyledInput
@@ -115,9 +119,11 @@ const Input: React.FC<InputProps> = ({
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
+      {props.errorFree?<></>:
       <ErrorMessageWrapper>
         {error && <InputError>{error}</InputError>}
-      </ErrorMessageWrapper>
+      </ErrorMessageWrapper>}
+      
     </InputWrapper>
   );
 };
