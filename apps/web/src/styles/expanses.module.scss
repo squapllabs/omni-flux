@@ -57,20 +57,37 @@
 
   th,
   td {
-    border: 1px solid #ccc;
-    // padding: 8px;
+    border: 1px solid #000000;
+    padding: 12px, 0px, 12px, 0px;
     text-align: left;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 11px;
   }
 
   th {
     background-color: #f2f2f2;
   }
-
-  //   tbody {
-  //     td {
-  //       &:nth-child(even) {
-  //         background-color: #f2f2f2;
-  //       }
-  //     }
-  //   }
+  td {
+    padding: 12px, 0px, 12px, 0px;
+    height: 50px;
+    align-items: center;
+    text-align: center;
+  }
+  tr,
+  td:hover {
+    background-color: white;
+  }
+}
+.expanseAddButton {
+  padding: 10px;
+  padding-right: 25px;
+  display: flex;
+  justify-content: flex-end;
+}
+.submitButton {
+  padding: 10px;
+  padding-right: 25px;
+  display: flex;
+  justify-content: flex-end;
 }
