@@ -53,20 +53,46 @@ const createSiteExpense = async (body: createSiteExpenseBody) => {
       }
     }
 
-    const siteExpenseDetails = await siteExpenseDao.add(
-      site_id,
-      project_id,
-      employee_name,
-      employee_id,
-      employee_phone,
-      purpose,
-      department,
-      designation,
-      start_date,
-      end_date,
-      created_by,
-      site_expense_details
-    );
+    let siteExpenseExist = null;
+    let siteExpenseDetails = null;
+    if (project_id && site_id) {
+      siteExpenseExist = await siteExpenseDao.getByProjectIdAndSiteId(
+        project_id,
+        site_id
+      );
+    }
+    if (!siteExpenseExist) {
+      siteExpenseDetails = await siteExpenseDao.add(
+        site_id,
+        project_id,
+        employee_name,
+        employee_id,
+        employee_phone,
+        purpose,
+        department,
+        designation,
+        start_date,
+        end_date,
+        created_by,
+        site_expense_details
+      );
+    } else {
+      siteExpenseDetails = await siteExpenseDao.edit(
+        site_id,
+        project_id,
+        employee_name,
+        employee_id,
+        employee_phone,
+        purpose,
+        department,
+        designation,
+        start_date,
+        end_date,
+        created_by,
+        siteExpenseExist?.site_expense_id,
+        site_expense_details
+      );
+    }
     result = { message: 'success', status: true, data: siteExpenseDetails };
     return result;
   } catch (error) {
