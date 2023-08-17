@@ -53,20 +53,46 @@ const createSiteExpense = async (body: createSiteExpenseBody) => {
       }
     }
 
-    const siteExpenseDetails = await siteExpenseDao.add(
-      site_id,
-      project_id,
-      employee_name,
-      employee_id,
-      employee_phone,
-      purpose,
-      department,
-      designation,
-      start_date,
-      end_date,
-      created_by,
-      site_expense_details
-    );
+    let siteExpenseExist = null;
+    let siteExpenseDetails = null;
+    if (project_id && site_id) {
+      siteExpenseExist = await siteExpenseDao.getByProjectIdAndSiteId(
+        project_id,
+        site_id
+      );
+    }
+    if (!siteExpenseExist) {
+      siteExpenseDetails = await siteExpenseDao.add(
+        site_id,
+        project_id,
+        employee_name,
+        employee_id,
+        employee_phone,
+        purpose,
+        department,
+        designation,
+        start_date,
+        end_date,
+        created_by,
+        site_expense_details
+      );
+    } else {
+      siteExpenseDetails = await siteExpenseDao.edit(
+        site_id,
+        project_id,
+        employee_name,
+        employee_id,
+        employee_phone,
+        purpose,
+        department,
+        designation,
+        start_date,
+        end_date,
+        created_by,
+        siteExpenseExist?.site_expense_id,
+        site_expense_details
+      );
+    }
     result = { message: 'success', status: true, data: siteExpenseDetails };
     return result;
   } catch (error) {
@@ -347,6 +373,22 @@ const searchSiteExpense = async (body) => {
               },
             },
           },
+          {
+            site_expense_details: {
+              some: {
+                progressed_by_data: {
+                  first_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                  last_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
         ],
       });
     }
@@ -379,6 +421,40 @@ const searchSiteExpense = async (body) => {
   }
 };
 
+/**
+ * Method to get siteExpense By Project Id and Site Id
+ * @param project_id
+ * @param site_id
+ * @returns
+ */
+const getByProjectIdAndSiteId = async (project_id: number, site_id: number) => {
+  try {
+    let result = null;
+    const siteExpenseData = await siteExpenseDao.getByProjectIdAndSiteId(
+      project_id,
+      site_id
+    );
+    if (siteExpenseData) {
+      result = { message: 'success', status: true, data: siteExpenseData };
+      return result;
+    } else {
+      result = {
+        message:
+          'site_expense does not exist for this project_id and site_id combination',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectIdAndSiteId siteExpense service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSiteExpense,
   updateSiteExpense,
@@ -386,4 +462,5 @@ export {
   getById,
   deleteSiteExpense,
   searchSiteExpense,
+  getByProjectIdAndSiteId,
 };

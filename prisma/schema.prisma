@@ -8,24 +8,30 @@ datasource db {
 }
 
 model users {
-  user_id           Int                    @id @default(autoincrement())
-  first_name        String?                @db.VarChar(100)
-  last_name         String?                @db.VarChar(100)
-  user_password     String?                @db.VarChar(255)
-  contact_no        String?                @db.VarChar(20)
-  email_id          String                 @db.VarChar(100)
-  user_status       String?                @db.VarChar(5)
-  created_by        Int?
-  created_date      DateTime
-  updated_by        Int?
-  updated_date      DateTime
-  is_delete         Boolean                @default(false) @db.Boolean
-  is_initial_login  Boolean                @default(true) @db.Boolean
-  department        String?                @db.VarChar(100)
-  is_two_factor     Boolean                @default(false) @db.Boolean
-  projects          project[]
-  user_profiles     user_profiles?
-  sales_person_name lead_enquiry_product[]
+  user_id              Int                    @id @default(autoincrement())
+  first_name           String?                @db.VarChar(100)
+  last_name            String?                @db.VarChar(100)
+  user_password        String?                @db.VarChar(255)
+  contact_no           String?                @db.VarChar(20)
+  email_id             String                 @db.VarChar(100)
+  user_status          String?                @db.VarChar(5)
+  created_by           Int?
+  created_date         DateTime
+  updated_by           Int?
+  updated_date         DateTime
+  is_delete            Boolean                @default(false) @db.Boolean
+  is_initial_login     Boolean                @default(true) @db.Boolean
+  department           String?                @db.VarChar(100)
+  is_two_factor        Boolean                @default(false) @db.Boolean
+  parent_user_id       Int?
+  parent_data          users?                 @relation("childToParent", fields: [parent_user_id], references: [user_id])
+  child_data           users[]                @relation("childToParent")
+  projects             project[]              @relation("approvar_relation")
+  user_profiles        user_profiles?
+  sales_person_name    lead_enquiry_product[]
+  project              project[]
+  site_expense_details site_expense_details[]
+  project_site         project_site[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -172,8 +178,10 @@ model project {
   code                   String?
   estimated_budget       Float?
   actual_budget          Float?
+  approvar_id            Int?
   user                   users?                   @relation(fields: [user_id], references: [user_id])
   client                 client?                  @relation(fields: [client_id], references: [client_id])
+  approvar_data          users?                   @relation("approvar_relation", fields: [approvar_id], references: [user_id])
   category               category[]
   project_workbreak_down project_workbreak_down[]
   project_site           project_site[]
@@ -257,7 +265,13 @@ model site_expense_details {
   updated_date            DateTime
   created_by              Int?
   updated_by              Int?
+  status                  String?
+  comments                String?
+  progressed_date         DateTime?
+  progressed_by           Int?
+  is_delete               Boolean       @default(false)
   site_expense_data       site_expense? @relation(fields: [site_expense_id], references: [site_expense_id])
+  progressed_by_data      users?        @relation(fields: [progressed_by], references: [user_id])
 }
 
 model warehouse {
@@ -493,10 +507,13 @@ model project_site {
   project_id      Int
   site_id         Int
   status          String
+  estimation      Float?
   created_date    DateTime
   updated_date    DateTime
   created_by      Int?
   updated_by      Int?
+  approvar_id     Int?
+  approvar_data   users?           @relation(fields: [approvar_id], references: [user_id])
   project_details project?         @relation(fields: [project_id], references: [project_id])
   site_details    site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
 }

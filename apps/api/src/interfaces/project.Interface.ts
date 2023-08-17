@@ -14,11 +14,21 @@ interface createProjectBody {
   priority: string;
   project_notes: string;
   site_configuration: Array<SiteConfiguration>;
+  approvar_id: number;
 }
 
 interface SiteConfiguration {
   site_id: number;
   status: string;
+  is_delete: string;
+  estimation: number;
+  approvar_id: number;
+  project_site_id: number;
+}
+
+interface ProjectDocuments {
+  index: number;
+  path: string;
   is_delete: string;
 }
 interface updateProjectBody {
@@ -35,9 +45,10 @@ interface updateProjectBody {
   priority: string;
   project_notes: string;
   client_id: number;
-  project_documents: JSON;
+  project_documents: Array<ProjectDocuments>;
   updated_by: bigint;
   site_configuration: Array<SiteConfiguration>;
+  approvar_id: number;
 }
 
-export { createProjectBody, updateProjectBody };
+export { createProjectBody, updateProjectBody, ProjectDocuments };

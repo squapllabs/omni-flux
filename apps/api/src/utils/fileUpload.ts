@@ -3,6 +3,8 @@ import fs from 'fs';
 
 const processFileUpload = async (req) => {
   const storage = req.body.storage;
+  const code = req.body.code;
+  const folder = req.body.folder;
   const files = req.files;
 
   let data = null;
@@ -10,7 +12,7 @@ const processFileUpload = async (req) => {
   let index = 0;
   if (storage === 's3') {
     for (const file of files.file) {
-      data = await s3Access.uploadFileInS3(file);
+      data = await s3Access.uploadFileInS3(file, code, folder);
       const uploadedFile = file;
       const filePath = uploadedFile.path;
       const s3FilePath = data.path;
