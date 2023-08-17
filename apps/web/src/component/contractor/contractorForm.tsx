@@ -7,7 +7,7 @@ import Button from '../ui/Button';
 import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
-import { getCreateValidateyup } from '../../helper/constants/site-constants';
+import { getCreateValidateyup } from '../../helper/constants/contractor-constants';
 import { createSite } from '../../hooks/site-hooks';
 
 const ContractorForm = () => {
@@ -77,21 +77,23 @@ const ContractorForm = () => {
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.inputFieldMain}>
           <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
-                label="Contractor Name *"
+                label="Contractor Name"
                 placeholder="Enter contractor name"
                 name="name"
+                mandatory={true}
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.touched.name && formik.errors.name}
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
-                label="Code *"
+                label="Code"
                 placeholder="Enter code"
                 name="code"
+                mandatory={true}
                 value={formik.values.code}
                 onChange={formik.handleChange}
                 error={formik.touched.code && formik.errors.code}
@@ -99,7 +101,7 @@ const ContractorForm = () => {
             </div>
           </div>
           <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Mobile Number"
                 placeholder="Enter mobile number"
@@ -111,7 +113,7 @@ const ContractorForm = () => {
                 }
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Contact Number"
                 placeholder="Enter contact number"
@@ -127,7 +129,7 @@ const ContractorForm = () => {
         </div>
         <div className={Styles.inputFieldMainFour}>
           <div className={Styles.inputFieldsFour}>
-            <div style={{ width: '41%' }}>
+            <div className={Styles.input}>
               <TextArea
                 name="description"
                 label="Description"
@@ -145,7 +147,7 @@ const ContractorForm = () => {
         </div>
         <div className={Styles.inputFieldMainTwo}>
           <div className={Styles.inputFieldsTwo}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Address line"
                 placeholder="Enter address 1"
@@ -158,7 +160,7 @@ const ContractorForm = () => {
                 }
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="City"
                 placeholder="Enter address"
@@ -172,7 +174,7 @@ const ContractorForm = () => {
             </div>
           </div>
           <div className={Styles.inputFieldsTwo}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="State"
                 placeholder="Enter city"
@@ -184,7 +186,7 @@ const ContractorForm = () => {
                 }
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Pincode "
                 placeholder="Enter pincode"
@@ -201,7 +203,7 @@ const ContractorForm = () => {
         </div>
         <div className={Styles.inputFieldMainThree}>
           <div className={Styles.inputFieldsThree}>
-            <div style={{ width: '41%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Country"
                 placeholder="Enter country name"

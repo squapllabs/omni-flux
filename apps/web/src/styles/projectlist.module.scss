@@ -3,7 +3,7 @@
     height: 100vh;
 }
 .text {
-    padding: 10px 10px 0px 30px;
+    padding: 10px 10px 0px 5px;
     display: flex;
     flex-direction: column;
   }
@@ -16,7 +16,7 @@
     padding: 5px 1px 5px 1px;
   }
   .searchField {
-    padding: 20px 10px 0px 30px;
+    padding: 20px 10px 0px 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -38,14 +38,15 @@
     background-color: #7f56d9;
     color: #ffffff;
   }
-  .resetButton {
+  .resetButton [disabled]{
     padding: 12px 20px 12px 20px;
     border-radius: 8px;
     border: 1px;
     gap: 8px;
     color: #848289;
+    background-color: #ccc;
   }
-  .resetButton:hover {
+  .resetButton:not([disabled]):hover {
     background-color: #c4c4c6;
     color: #ffffff;
   }
@@ -57,8 +58,7 @@
     display: flex;
     gap: 20px;
   }
-  .pagination {
-    padding-top: 10px;
+  .pagination { 
     display: flex;
     justify-content: end;
   }
@@ -90,9 +90,8 @@
     background-color: #e0e0e0;
   }
   .tableContainer {
-    padding: 10px 10px 0px 30px;
-    // height: 100vh;
+    padding: 10px 10px 0px 10px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
   }

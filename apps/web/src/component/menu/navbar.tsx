@@ -318,7 +318,6 @@ const Navbar = () => {
             {isMenuOpen && (
               <ul className={Styles.menu}>
                 <li className={Styles.menuItem} onClick={() => handleNavigate()}>
-                  
                   <SettingIcon />
                   <span>Settings</span>
                 </li>

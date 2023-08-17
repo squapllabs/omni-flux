@@ -45,6 +45,7 @@ const ClientList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [value, setValue] = useState();
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -117,10 +118,12 @@ const ClientList = () => {
   });
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
@@ -158,6 +161,7 @@ const ClientList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -197,6 +201,7 @@ const ClientList = () => {
                     label="Client Name"
                     placeholder="Enter client name"
                     name="name"
+                    mandatory={true}
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     error={formik.touched.name && formik.errors.name}
@@ -208,6 +213,7 @@ const ClientList = () => {
                     label="Contact Detail"
                     placeholder="Enter client contact detail"
                     name="contact_details"
+                    mandatory={true}
                     value={formik.values.contact_details}
                     onChange={formik.handleChange}
                     error={
@@ -217,7 +223,7 @@ const ClientList = () => {
                     width="100%"
                   />
                 </div>
-                <div style={{ paddingTop: '20px' }}>
+                <div className={Styles.addButton}>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -225,7 +231,7 @@ const ClientList = () => {
                     size="small"
                     icon={<AddIcon />}
                   >
-                    Add New Client
+                    Add
                   </Button>
                 </div>
               </div>
@@ -263,6 +269,7 @@ const ClientList = () => {
                   justify="center"
                   size="small"
                   onClick={handleReset}
+                  disabled={isResetDisabled}
                 >
                   Reset
                 </Button>
@@ -283,7 +290,7 @@ const ClientList = () => {
                       <th>S No</th>
                       <th>Client Name</th>
                       <th>Contact Details</th>
-                      <th></th>
+                      {activeButton === 'AC' && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -292,7 +299,7 @@ const ClientList = () => {
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        <td></td>
+                        {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
                       ''
@@ -302,32 +309,34 @@ const ClientList = () => {
                         <td>{index + 1}</td>
                         <td>{data.name}</td>
                         <td>{data.contact_details}</td>
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() => handleEdit(data.client_id)}
-                            />
-                            <DeleteIcon
-                              onClick={() =>
-                                deleteCategoryHandler(data.client_id)
-                              }
-                            />
-                          </div>
-                        </td>
+                        {activeButton === 'AC' && (
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() => handleEdit(data.client_id)}
+                              />
+                              <DeleteIcon
+                                onClick={() =>
+                                  deleteCategoryHandler(data.client_id)
+                                }
+                              />
+                            </div>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className={Styles.pagination}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_page}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
+            </div>
+            <div className={Styles.pagination1}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={getFilterData?.total_page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
             </div>
           </div>
         </CustomLoader>

@@ -50,7 +50,7 @@ const leadEnquires = () => {
               </div>
             </div>
           </div>
-          <div style={{ paddingTop: '20px' }}>
+          <div className={Styles.itemAdd}>
             {selectedValue === 'Product' ? (
               <ProductSale
                 leadType={selectedValue}

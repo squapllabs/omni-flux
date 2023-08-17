@@ -79,6 +79,7 @@ const HsnCodeList = () => {
   const [error, setError] = useState<string | null>(null);
   const [value, setValue] = useState();
   const [openDelete, setOpenDelete] = useState(false);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
 
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
@@ -107,10 +108,12 @@ const HsnCodeList = () => {
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
@@ -147,6 +150,7 @@ const HsnCodeList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -310,27 +314,29 @@ const HsnCodeList = () => {
                     label="HSN Code"
                     placeholder="Enter HSN code"
                     name="code"
+                    mandatory={true}
                     value={formik.values.code}
                     onChange={formik.handleChange}
                     error={formik.touched.code && formik.errors.code}
                     width="100%"
                   />
                 </div>
-                <div style={{ width: '30%' }}>
+                <div className={Styles.textarea}>
                   <TextArea
                     name="description"
                     label="Description"
+                    mandatory={true}
                     placeholder="Enter HSN Code description"
                     value={formik.values.description}
                     onChange={formik.handleChange}
                     error={
                       formik.touched.description && formik.errors.description
                     }
-                    rows={2.3}
+                    rows={3}
                     maxCharacterCount={100}
                   />
                 </div>
-                <div style={{ paddingTop: '20px' }}>
+                <div className={Styles.addButton}>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -338,7 +344,7 @@ const HsnCodeList = () => {
                     size="small"
                     icon={<AddIcon />}
                   >
-                    Add New HSN Code
+                    Add
                   </Button>
                 </div>
               </div>
@@ -348,19 +354,13 @@ const HsnCodeList = () => {
                 {selectedFile ? (
                   <div>
                     <span>{selectedFile.name}</span>
-                    <button
-                      style={{
-                        backgroundColor: 'white',
-                        marginTop: '8%',
-                        marginLeft: '5px',
-                      }}
-                    >
+                    <button className={Styles.closeButton}>
                       <CloseIcon onClick={handleRemoveFile} />
                     </button>
                   </div>
                 ) : (
                   <button
-                    style={{ padding: '10px' }}
+                    className={Styles.fileSelect}
                     onClick={() => fileInputRef.current.click()}
                   >
                     Select File
@@ -369,7 +369,7 @@ const HsnCodeList = () => {
                 <input
                   type="file"
                   ref={fileInputRef}
-                  style={{ display: 'none' }}
+                  className={Styles.input}
                   onChange={handleFileChange}
                 />
               </div>
@@ -388,13 +388,7 @@ const HsnCodeList = () => {
                 <Button1
                   text={
                     <div className={Styles.downloadButton}>
-                      <DownloadIcon
-                        style={{
-                          padding: '4px',
-                          width: '50px',
-                          paddingBottom: '15px',
-                        }}
-                      />
+                      <DownloadIcon />
                       Download sample Data
                     </div>
                   }
@@ -408,7 +402,7 @@ const HsnCodeList = () => {
               </div>
             </div>
             {error && (
-              <div style={{ color: 'red', fontSize: 'small', padding: '5px' }}>
+              <div className={Styles.error}>
                 {error}
               </div>
             )}
@@ -445,6 +439,7 @@ const HsnCodeList = () => {
                   justify="center"
                   size="small"
                   onClick={handleReset}
+                  disabled={isResetDisabled}
                 >
                   Reset
                 </Button>
@@ -465,7 +460,7 @@ const HsnCodeList = () => {
                       <th>S No</th>
                       <th>HSN Code</th>
                       <th>Description</th>
-                      <th></th>
+                      {activeButton === 'AC' && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -474,7 +469,7 @@ const HsnCodeList = () => {
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        <td></td>
+                        {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
                       ''
@@ -491,34 +486,36 @@ const HsnCodeList = () => {
                             {data.description.substring(0, 20)}
                           </span>
                         </td>
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() =>
-                                editHscCodeHandler(data.hsn_code_id)
-                              }
-                            />
-                            <DeleteIcon
-                              onClick={() =>
-                                deleteCategoryHandler(data.hsn_code_id)
-                              }
-                            />
-                          </div>
-                        </td>
+                        {activeButton === 'AC' && (
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() =>
+                                  editHscCodeHandler(data.hsn_code_id)
+                                }
+                              />
+                              <DeleteIcon
+                                onClick={() =>
+                                  deleteCategoryHandler(data.hsn_code_id)
+                                }
+                              />
+                            </div>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className={Styles.pagination}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_page}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
+            </div>
+            <div className={Styles.pagination}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={getFilterData?.total_page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
             </div>
           </div>
         </CustomLoader>

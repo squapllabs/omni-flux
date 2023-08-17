@@ -56,6 +56,7 @@ const SubCategoryList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -167,13 +168,16 @@ const SubCategoryList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
+    setIsResetDisabled(true);
   };
-  
+
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   return (
@@ -183,9 +187,6 @@ const SubCategoryList = () => {
           <div className={Styles.box}>
             <div className={Styles.textContent}>
               <h3>Add New Sub Categories</h3>
-              {/* <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished)
-              </span> */}
             </div>
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields}>
@@ -194,6 +195,7 @@ const SubCategoryList = () => {
                     label="Category"
                     name="category_id"
                     onChange={formik.handleChange}
+                    mandatory={true}
                     value={formik.values.category_id}
                     defaultLabel="Select from options"
                     error={
@@ -212,6 +214,7 @@ const SubCategoryList = () => {
                   label="Sub Category Name"
                   placeholder="Enter sub category name"
                   value={formik.values.name}
+                  mandatory={true}
                   onChange={formik.handleChange}
                   error={formik.touched.name && formik.errors.name}
                   width="260px"
@@ -222,6 +225,7 @@ const SubCategoryList = () => {
                     label="Budget"
                     placeholder="Enter budget"
                     value={formik.values.budget}
+                    mandatory={true}
                     onChange={formik.handleChange}
                     error={formik.touched.budget && formik.errors.budget}
                   />
@@ -234,7 +238,7 @@ const SubCategoryList = () => {
                     size="small"
                     icon={<AddIcon />}
                   >
-                    Add New Sub Category
+                    Add
                   </Button>
                 </div>
               </div>
@@ -242,11 +246,8 @@ const SubCategoryList = () => {
           </div>
           <div className={Styles.box}>
             <div className={Styles.tableContainer}>
-              <div className={Styles.textContent}>
+              <div className={Styles.textContent1}>
                 <h3>List of Sub Categories</h3>
-                {/* <span className={Styles.content}>
-                  Manage your raw materials (Raw, Semi Furnished & Finished)
-                </span> */}
               </div>
               <div>
                 <div className={Styles.searchContainer}>
@@ -274,6 +275,7 @@ const SubCategoryList = () => {
                       justify="center"
                       size="small"
                       onClick={handleReset}
+                      disabled={isResetDisabled}
                     >
                       Reset
                     </Button>
@@ -298,7 +300,7 @@ const SubCategoryList = () => {
                           <th>Category</th>
                           <th>Sub Category Name</th>
                           <th>Budget</th>
-                          <th></th>
+                          {activeButton === 'AC' && <th></th>}
                         </tr>
                       </thead>
                       <tbody>
@@ -307,46 +309,50 @@ const SubCategoryList = () => {
                             <td></td>
                             <td></td>
                             <td>No data found</td>
-                            <td></td>
+                            {activeButton === 'AC' && <td></td>}
                           </tr>
                         ) : (
                           ''
                         )}
-                        {filterBasedData?.content?.map((item: any, index: number) => (
-                          <tr key={item.sub_category_id}>
-                            <td>{index + 1}</td>
-                            <td>{item.category.name}</td>
-                            <td>{item.name}</td>
-                            <td>{formatBudgetValue(item.budget)}</td>
-                            <td>
-                              <div className={Styles.tableIcon}>
-                                <div>
-                                  <EditIcon
-                                    onClick={() =>
-                                      handleEdit(item.sub_category_id)
-                                    }
-                                  />
-                                </div>
-                                {/* <div>
-                                  <DeleteIcon
-                                    onClick={() =>
-                                      deleteCategoryHandler(
-                                        item.sub_category_id
-                                      )
-                                    }
-                                  />
-                                </div> */}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                        {filterBasedData?.content?.map(
+                          (item: any, index: number) => (
+                            <tr key={item.sub_category_id}>
+                              <td>{index + 1}</td>
+                              <td>{item.category.name}</td>
+                              <td>{item.name}</td>
+                              <td>{formatBudgetValue(item.budget)}</td>
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <div className={Styles.tableIcon}>
+                                    <div>
+                                      <EditIcon
+                                        onClick={() =>
+                                          handleEdit(item.sub_category_id)
+                                        }
+                                      />
+                                    </div>
+                                    {/* <div>
+                                              <DeleteIcon
+                                                onClick={() =>
+                                                  deleteCategoryHandler(
+                                                    item.sub_category_id
+                                                  )
+                                                }
+                                              />
+                                            </div> */}
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )}
                       </tbody>
                     </table>
                   </div>
                   <div className={Styles.pagination}>
                     <Pagination
                       currentPage={currentPage}
-                      totalPages={filterBasedData?.total_count}
+                      totalPages={filterBasedData?.total_page}
                       rowsPerPage={rowsPerPage}
                       onPageChange={handlePageChange}
                       onRowsPerPageChange={handleRowsPerPageChange}
@@ -374,9 +380,6 @@ const SubCategoryList = () => {
         />
         <CustomEditDialog
           open={open}
-          // title="Edit Sub Category"
-          // subTitle="Please edit the sub category"
-          // handleClose={handleClose}
           content={
             <CategoryForm
               setOpen={setOpen}

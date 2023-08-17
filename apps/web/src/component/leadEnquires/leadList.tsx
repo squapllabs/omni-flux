@@ -19,17 +19,17 @@ const LeadList = () => {
     isLoading: getFilterLoading,
   } = getBySearchLeadEnquiry();
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
-  const [disable, setDisable] = useState(true);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IC' },
   ]);
   useEffect(() => {
     handleSearch();
@@ -60,7 +60,7 @@ const LeadList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
-    setDisable(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -80,10 +80,12 @@ const LeadList = () => {
     navigate(`/lead-edit/${id}/${name}`);
   };
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -109,7 +111,7 @@ const LeadList = () => {
                   icon={<AddIcon />}
                   onClick={handleAdd}
                 >
-                  Lead
+                  Add
                 </Button>
               </div>
             </div>
@@ -145,7 +147,7 @@ const LeadList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  disabled={disable}
+                  disabled={isResetDisabled}
                   onClick={handleReset}
                 >
                   Reset
@@ -160,6 +162,7 @@ const LeadList = () => {
                 />
               </div>
             </div>
+            <div className={Styles.dividerStyle}></div>
             <div className={Styles.tableContainer}>
               <table>
                 <thead>
@@ -169,7 +172,7 @@ const LeadList = () => {
                     <th>Lead Code</th>
                     <th>Client Name</th>
                     <th>Client Level</th>
-                    <th>Option</th>
+                    {activeButton === 'AC' && <th></th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -177,7 +180,7 @@ const LeadList = () => {
                     <tr>
                       <td></td>
                       <td>No data found</td>
-                      <td></td>
+                      {activeButton === 'AC' && <td></td>}
                     </tr>
                   ) : (
                     ''
@@ -189,17 +192,17 @@ const LeadList = () => {
                       <td>{item.lead_code}</td>
                       <td>{item.client_contact_name}</td>
                       <td>{item.client_level_info?.master_data_name}</td>
-                      <td>
-                        <div className={Styles.tableIcon}>
-                          <div>
+                      {activeButton === 'AC' && (
+                        <td>
+                          <div className={Styles.tableIcon}>
                             <EditIcon
                               onClick={() =>
                                 handleEdit(item.lead_enquiry_id, item.lead_type)
                               }
                             />
                           </div>
-                        </div>
-                      </td>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
