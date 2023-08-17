@@ -56,9 +56,7 @@ const add = async (
       const others = siteExpenseDetail.others;
       const total = siteExpenseDetail.total;
       const bill_details = siteExpenseDetail.bill_details;
-      const status = siteExpenseDetail.status;
-      const comments = siteExpenseDetail.comments;
-      const progressed_by = siteExpenseDetail.progressed_by;
+      const status = 'Open';
 
       const newSiteExpenseDetail =
         await transaction.site_expense_details.create({
@@ -78,10 +76,6 @@ const add = async (
             created_date: currentDate,
             updated_date: currentDate,
             status,
-            comments,
-            progressed_date:
-              progressed_by || status || comments ? currentDate : null,
-            progressed_by,
             is_delete: is_delete,
           },
         });
@@ -156,9 +150,7 @@ const edit = async (
       const bill_details = siteExpenseDetail.bill_details;
       const site_expense_details_id = siteExpenseDetail.site_expense_details_id;
       const is_delete = siteExpenseDetail.is_delete;
-      const status = siteExpenseDetail.status;
-      const comments = siteExpenseDetail.comments;
-      const progressed_by = siteExpenseDetail.progressed_by;
+      const status = 'Open';
 
       if (site_expense_details_id) {
         if (is_delete === 'Y') {
@@ -190,10 +182,6 @@ const edit = async (
                 updated_by,
                 updated_date: currentDate,
                 status,
-                comments,
-                progressed_date:
-                  progressed_by || status || comments ? currentDate : null,
-                progressed_by,
               },
             });
 
@@ -218,10 +206,6 @@ const edit = async (
               created_date: currentDate,
               updated_date: currentDate,
               status,
-              comments,
-              progressed_date:
-                progressed_by || status || comments ? currentDate : null,
-              progressed_by,
               is_delete: false,
             },
           });
