@@ -14,4 +14,15 @@ const createSiteExpenseDetails = catchAsync(async (req, res) => {
   }
 });
 
-export { createSiteExpenseDetails };
+const addBulkSiteExpenseDetails = catchAsync(async (req, res) => {
+  const methodName = '/addBulkSiteExpenseDetails';
+  try {
+    const siteExpenseDetails =
+      await siteExpenseDetailsService.addBulkSiteExpenseDetails(req.body);
+    res.send(siteExpenseDetails);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+export { createSiteExpenseDetails, addBulkSiteExpenseDetails };

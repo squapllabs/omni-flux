@@ -40,8 +40,6 @@ const add = async (
         created_by,
         status,
         comments,
-        progressed_date:
-          progressed_by || status || comments ? currentDate : null,
         progressed_by,
         is_delete: is_delete,
       },
@@ -54,6 +52,23 @@ const add = async (
   }
 };
 
+const addBulk = async (site_expense_details, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const siteExpenseDetail = await transaction.site_expense_details.createMany(
+      {
+        data: site_expense_details,
+      }
+    );
+
+    return siteExpenseDetail;
+  } catch (error) {
+    console.log('Error occurred in siteExpensDetailsDao addBulk', error);
+    throw error;
+  }
+};
+
 export default {
   add,
+  addBulk,
 };
