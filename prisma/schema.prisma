@@ -32,6 +32,7 @@ model users {
   project              project[]
   site_expense_details site_expense_details[]
   project_site         project_site[]
+  user_roles           user_roles[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -44,17 +45,21 @@ model user_roles {
   updated_date DateTime
   created_by   Int?
   updated_by   Int?
+  user_data    users?   @relation(fields: [user_id], references: [user_id])
+  role_data    role?    @relation(fields: [role_id], references: [role_id])
 
   @@unique([user_id, role_id], name: "uk_user_roles_user_id_role_id")
 }
 
 model role {
-  role_id      Int      @id @default(autoincrement())
-  role_name    String   @db.VarChar(100)
+  role_id      Int          @id @default(autoincrement())
+  role_name    String       @db.VarChar(100)
   created_date DateTime
   updated_date DateTime
   created_by   Int?
   updated_by   Int?
+  description  String?
+  user_roles   user_roles[]
 
   @@map("role")
 }

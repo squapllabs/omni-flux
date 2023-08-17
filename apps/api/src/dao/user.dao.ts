@@ -354,6 +354,72 @@ const searchUser = async (
   }
 };
 
+const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const users = await transaction.users.findMany({
+      where: {
+        user_status: 'AC',
+        is_delete: false,
+        user_roles: {
+          some: {
+            role_data: {
+              role_name: role_name,
+            },
+          },
+        },
+      },
+      include: {
+        user_roles: {
+          include: {
+            role_data: {
+              select: { role_name: true },
+            },
+          },
+        },
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return users;
+  } catch (error) {
+    console.log('Error occurred in user getUserByRoleName dao', error);
+    throw error;
+  }
+};
+
+const getChildUsersByParentUserId = async (
+  parent_user_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const users = await transaction.users.findMany({
+      where: {
+        user_status: 'AC',
+        is_delete: false,
+        parent_user_id: parent_user_id,
+      },
+      include: {
+        user_roles: {
+          include: {
+            role_data: {
+              select: { role_name: true },
+            },
+          },
+        },
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return users;
+  } catch (error) {
+    console.log(
+      'Error occurred in user getChildUsersByParentUserId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -368,4 +434,6 @@ export default {
   getByUniqueEmail,
   getAllSalesPersonUsers,
   searchUser,
+  getUserByRoleName,
+  getChildUsersByParentUserId,
 };
