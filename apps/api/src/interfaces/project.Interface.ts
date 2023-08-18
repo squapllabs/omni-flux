@@ -21,7 +21,8 @@ interface SiteConfiguration {
   site_id: number;
   status: string;
   is_delete: string;
-  estimation: number;
+  estimated_budget: number;
+  actual_budget: number;
   approvar_id: number;
   project_site_id: number;
 }
