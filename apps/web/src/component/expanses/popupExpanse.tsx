@@ -6,6 +6,7 @@ import Styles from '../../styles/popupexpanses.module.scss';
 import trashIcon from './icons/trashIcon.svg';
 import exportIcon from './icons/exportIcon.svg';
 import { useBulkuploadSiteExpanse } from '../../hooks/siteExpanse-hooks';
+import { el } from 'date-fns/locale';
 interface FileUploaderProps {
   handleFile: (file: File) => void;
   removeData: () => void;
@@ -158,7 +159,13 @@ const ModalPopup = (props: ModalPopupProps) => {
           ]);
         else setHeadings([]);
         if (header.length !== 9) alert('Please upload the correct template');
-        else setData(rows);
+        else {
+          let newData:any[] = [...rows];
+          newData.forEach((ele:any) => {
+            ele['total'] = ele['air_transport'] + ele['fuel'] + ele['labour_advance'] + ele['phone_stationary'] + ele['food_snacks'] + ele['purchase_service'] + ele['others'];
+          });
+          setData(newData)
+        }
       }
       setLoading(false);
     };
@@ -177,6 +184,7 @@ const ModalPopup = (props: ModalPopupProps) => {
           const newData = [...prevData];
           if (e.target.value === '') newData[index][key] = 0;
           else newData[index][key] = parseInt(e.target.value);
+          newData[index]['total'] = newData[index]['air_transport'] + newData[index]['fuel'] + newData[index]['labour_advance'] + newData[index]['phone_stationary'] + newData[index]['food_snacks'] + newData[index]['purchase_service'] + newData[index]['others'];
           return newData;
         });
       } else {
@@ -276,34 +284,58 @@ const ModalPopup = (props: ModalPopupProps) => {
           {loading ? (
             <div>Loading...</div>
           ) : data.length ? (
-            <table className={Styles.table} ref={tableRef}>
-              <thead className={Styles.tableHeading}>
-                <tr className={Styles.tableRow}>
-                  <th className={Styles.tableHead}>S.no</th>
+            <table className={Styles.scrollableTable} ref={tableRef}>
+              <thead>
+                <tr>
+                  <th>S.no</th>
                   {headings.map((ele, ind) => (
-                    <th className={Styles.tableHead} scope="col" key={ele}>
+                    <th scope="col" key={ele}>
                       {ele}
                     </th>
                   ))}
-                  <th className={Styles.tableHead}></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 {data.map((elem, index) => (
-                  <tr className={Styles.tableRow} key={index}>
-                    <th className={Styles.tableHead}>{index + 1}</th>
-                    {headings.map((key) => (
-                      <td className={Styles.tableData} key={key}>
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    {headings.map((key) => ((key === 'description') ? (
+                      <td key={key}>
+                        <div
+                              style={{
+                                paddingBottom: '20px',
+                                fontSize: '15px',
+                                // fontWeight: 'bold',
+                              }}
+                            >
+                              <span>{elem[key]}</span>
+                            </div>
+                      </td>
+                    ) : ((key === 'total') ? (
+                      <td key={key}>
+                        <div
+                              style={{
+                                paddingBottom: '20px',
+                                fontSize: '15px',
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              <span>{elem[key]}</span>
+                            </div>
+                      </td>
+                    ):(
+                      <td key={key}>
                         <Input
-                          transparent={true}
                           type="text"
                           onChange={(e) => handleValueChange(e, index, key)}
                           value={elem[key]}
-                          errorFree={true}
                         />
                       </td>
+                    )
+                    )
                     ))}
-                    <td className={Styles.tableData}>
+                    <td>
                       <Button
                         size="small"
                         shape="rectangle"
