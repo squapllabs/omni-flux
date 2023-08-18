@@ -42,6 +42,7 @@ const UomList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [value, setValue] = useState();
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -56,10 +57,6 @@ const UomList = () => {
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const validationSchema = getuomCreateValidateyup(Yup);
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -111,10 +108,12 @@ const UomList = () => {
   });
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
@@ -151,6 +150,7 @@ const UomList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -190,17 +190,19 @@ const UomList = () => {
                     label="Unit Of Measurement"
                     placeholder="Enter unit of measurement"
                     name="name"
+                    mandatory={true}
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     error={formik.touched.name && formik.errors.name}
                     width="100%"
                   />
                 </div>
-                <div style={{ width: '30%' }}>
+                <div className={Styles.textBox}>
                   <TextArea
                     name="description"
                     label="Description"
                     placeholder="Enter description"
+                    mandatory={true}
                     value={formik.values.description}
                     onChange={formik.handleChange}
                     error={
@@ -210,7 +212,7 @@ const UomList = () => {
                     maxCharacterCount={100}
                   />
                 </div>
-                <div style={{ paddingTop: '20px' }}>
+                <div className={Styles.addButton}>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -218,7 +220,7 @@ const UomList = () => {
                     size="small"
                     icon={<AddIcon />}
                   >
-                    Add New UOM
+                    Add
                   </Button>
                 </div>
               </div>
@@ -256,6 +258,7 @@ const UomList = () => {
                   justify="center"
                   size="small"
                   onClick={handleReset}
+                  disabled={isResetDisabled}
                 >
                   Reset
                 </Button>
@@ -276,7 +279,7 @@ const UomList = () => {
                       <th>S No</th>
                       <th>UOM Name</th>
                       <th>Description</th>
-                      <th></th>
+                      {activeButton === 'AC' && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -285,7 +288,7 @@ const UomList = () => {
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        <td></td>
+                        {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
                       ''
@@ -295,30 +298,34 @@ const UomList = () => {
                         <td>{index + 1}</td>
                         <td>{data.name}</td>
                         <td>{data.description}</td>
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() => handleEdit(data.uom_id)}
-                            ></EditIcon>
-                            <DeleteIcon
-                              onClick={() => deleteCategoryHandler(data.uom_id)}
-                            />
-                          </div>
-                        </td>
+                        {activeButton === 'AC' && (
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() => handleEdit(data.uom_id)}
+                              />
+                              <DeleteIcon
+                                onClick={() =>
+                                  deleteCategoryHandler(data.uom_id)
+                                }
+                              />
+                            </div>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className={Styles.pagination}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_page}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
+            </div>
+            <div className={Styles.pagination1}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={getFilterData?.total_page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
             </div>
           </div>
         </CustomLoader>

@@ -241,6 +241,7 @@ const Tender: React.FC = (props: any) => {
                 <Input
                   label="Tender Registration No"
                   name="tender_reg_no"
+                  mandatory={true}
                   value={formik.values.tender_reg_no}
                   onChange={formik.handleChange}
                   error={
@@ -255,6 +256,7 @@ const Tender: React.FC = (props: any) => {
                 <Input
                   label="Tender Identification #"
                   name="tender_identification_no"
+                  mandatory={true}
                   value={formik.values.tender_identification_no}
                   onChange={formik.handleChange}
                   error={
@@ -268,6 +270,7 @@ const Tender: React.FC = (props: any) => {
                 <DatePicker
                   label="Target Issued Date"
                   name="tender_issue_date"
+                  mandatory={true}
                   value={formik.values.tender_issue_date}
                   onChange={formik.handleChange}
                   InputProps={{
@@ -288,6 +291,7 @@ const Tender: React.FC = (props: any) => {
                 <Input
                   label="Tender Name"
                   name="tender_name"
+                  mandatory={true}
                   value={formik.values.tender_name}
                   onChange={formik.handleChange}
                   error={
@@ -299,6 +303,7 @@ const Tender: React.FC = (props: any) => {
                 <DatePicker
                   label="Target Due Date"
                   name="tender_due_date"
+                  mandatory={true}
                   value={formik.values.tender_due_date}
                   onChange={formik.handleChange}
                   error={
@@ -313,6 +318,7 @@ const Tender: React.FC = (props: any) => {
                 <Select
                   name="tender_type"
                   label="Tender Type"
+                  mandatory={true}
                   defaultLabel="Select a Tender"
                   value={formik.values.tender_type}
                   onChange={formik.handleChange}
@@ -331,10 +337,11 @@ const Tender: React.FC = (props: any) => {
                 </Select>
               </div>
               <div className={Styles.fieldStyle}>
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div className={Styles.tableData}>
                   <Input
                     label="Estimate Value"
                     name="estimated_value"
+                    mandatory={true}
                     value={formik.values.estimated_value}
                     onChange={handleValueChange}
                     error={
@@ -355,6 +362,7 @@ const Tender: React.FC = (props: any) => {
                 <Select
                   name="industry_sector"
                   label="Industry/Sector"
+                  mandatory={true}
                   defaultLabel="select a Industry sector"
                   value={formik.values.industry_sector}
                   onChange={formik.handleChange}
@@ -381,6 +389,7 @@ const Tender: React.FC = (props: any) => {
                   name="client"
                   label="Client"
                   defaultLabel="select Client"
+                  mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
                   error={formik.touched.client && formik.errors.client}
@@ -397,6 +406,7 @@ const Tender: React.FC = (props: any) => {
                   name="client_level"
                   label="Client Level"
                   defaultLabel="select Client"
+                  mandatory={true}
                   value={formik.values.client_level}
                   onChange={formik.handleChange}
                   error={
@@ -419,6 +429,7 @@ const Tender: React.FC = (props: any) => {
                 <Input
                   label="Client Contact Name"
                   name="client_contact_name"
+                  mandatory={true}
                   value={formik.values.client_contact_name}
                   onChange={formik.handleChange}
                   error={
@@ -431,6 +442,7 @@ const Tender: React.FC = (props: any) => {
                 <Input
                   label="Client Contact Email"
                   name="client_contact_email"
+                  mandatory={true}
                   value={formik.values.client_contact_email}
                   onChange={formik.handleChange}
                   error={
@@ -445,6 +457,7 @@ const Tender: React.FC = (props: any) => {
                 <Input
                   label="Client Contact Phone"
                   name="client_contact_phone"
+                  mandatory={true}
                   value={formik.values.client_contact_phone}
                   onChange={formik.handleChange}
                   error={

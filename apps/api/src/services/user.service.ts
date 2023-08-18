@@ -669,6 +669,72 @@ const searchUser = async (body) => {
   }
 };
 
+/**
+ * Method to get User By Role Name
+ * @param role_name
+ * @returns
+ */
+const getByRoleName = async (role_name: string) => {
+  try {
+    let result = null;
+    const userData = await userDao.getUserByRoleName(role_name);
+    if (userData.length === 0) {
+      result = {
+        message: 'User data does not exist for this role',
+        status: false,
+        data: null,
+      };
+      return result;
+    } else {
+      result = { message: 'success', status: true, data: userData };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByRoleName user service : ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to get User By Parent User Id
+ * @param parent_user_id
+ * @returns
+ */
+const getChildUsersByParentUserId = async (parent_user_id: number) => {
+  try {
+    let result = null;
+    const parentUserExist = await userDao.getById(parent_user_id);
+    if (!parentUserExist) {
+      result = {
+        message: 'parent_user_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const userData = await userDao.getChildUsersByParentUserId(
+      Number(parent_user_id)
+    );
+    if (userData.length === 0) {
+      result = {
+        message: 'No child users exist for this parent_user_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    } else {
+      result = { message: 'success', status: true, data: userData };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getChildUsersByParentUserId user service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createUser,
   updateUser,
@@ -683,4 +749,6 @@ export {
   customFilterUser,
   refreshAccessToken,
   getAllSalesPersonUsers,
+  getByRoleName,
+  getChildUsersByParentUserId,
 };

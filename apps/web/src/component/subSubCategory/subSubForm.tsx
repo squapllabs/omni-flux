@@ -109,6 +109,7 @@ const SubSubCategoryForm: React.FC = (props: any) => {
             label="Sub Category"
             name="sub_category_id"
             onChange={formik.handleChange}
+            mandatory={true}
             value={formik.values.sub_category_id}
             defaultLabel="Select from options"
             error={
@@ -129,6 +130,7 @@ const SubSubCategoryForm: React.FC = (props: any) => {
             label="Sub sub Category Name"
             placeholder="Enter sub sub category name"
             value={formik.values.name}
+            mandatory={true}
             onChange={formik.handleChange}
             error={formik.touched.name && formik.errors.name}
           />
@@ -138,6 +140,7 @@ const SubSubCategoryForm: React.FC = (props: any) => {
             name="budget"
             label="Budget"
             placeholder="Enter budget"
+            mandatory={true}
             value={formik.values.budget}
             onChange={formik.handleChange}
             error={formik.touched.budget && formik.errors.budget}

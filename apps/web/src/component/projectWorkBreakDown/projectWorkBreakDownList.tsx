@@ -20,7 +20,7 @@ const ProjectWorkBreakList = () => {
     useGetAllParentProjectBreakDownDrop();
   const [selectedValue, setSelectedValue] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [disable, setDisable] = useState(true);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
@@ -37,17 +37,21 @@ const ProjectWorkBreakList = () => {
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    const searchValue = event.target.value;
     const selectedRoleId = event.target.value;
     setSelectedValue(selectedRoleId);
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
@@ -68,7 +72,6 @@ const ProjectWorkBreakList = () => {
     setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
-    setDisable(false);
   };
   const handleReset = async () => {
     setFilterValues({
@@ -87,7 +90,7 @@ const ProjectWorkBreakList = () => {
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
-    setDisable(true);
+    setIsResetDisabled(true);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -121,7 +124,7 @@ const ProjectWorkBreakList = () => {
                   onChange={(e) => handleFilterChange(e)}
                   placeholder="Search by name"
                 />
-                <div style={{ width: '30%' }}>
+                <div className={Styles.input}>
                   <Select
                     name="parent_project_workbreak_down_id"
                     onChange={handleDropdownChange}
@@ -150,7 +153,7 @@ const ProjectWorkBreakList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  disabled={disable}
+                  disabled={isResetDisabled}
                   onClick={handleReset}
                 >
                   Reset
@@ -181,7 +184,7 @@ const ProjectWorkBreakList = () => {
                       <th>Code</th>
                       <th>Rate</th>
                       <th>Parent Name</th>
-                      <th></th>
+                      {activeButton === 'AC' && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -191,7 +194,7 @@ const ProjectWorkBreakList = () => {
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        <td></td>
+                        {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
                       ''
@@ -201,7 +204,10 @@ const ProjectWorkBreakList = () => {
                         <td>{index + 1}</td>
                         <td>{item.project_workbreak_down_name}</td>
                         <td>
-                          <span className={Styles.truncatedStyle}  title={item.project_workbreak_down_description}>
+                          <span
+                            className={Styles.truncatedStyle}
+                            title={item.project_workbreak_down_description}
+                          >
                             {item.project_workbreak_down_description}
                           </span>
                         </td>
@@ -214,15 +220,17 @@ const ProjectWorkBreakList = () => {
                             : item?.parent_project_workbreak_down
                                 ?.project_workbreak_down_name}
                         </td>
-                        <td>
-                          <EditIcon
-                            onClick={() =>
-                              navigate(
-                                `/project-workbreakdown-edit/${item.project_workbreak_down_id}`
-                              )
-                            }
-                          />
-                        </td>
+                        {activeButton === 'AC' && (
+                          <td>
+                            <EditIcon
+                              onClick={() =>
+                                navigate(
+                                  `/project-workbreakdown-edit/${item.project_workbreak_down_id}`
+                                )
+                              }
+                            />
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>

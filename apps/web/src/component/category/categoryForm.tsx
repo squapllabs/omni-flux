@@ -122,6 +122,7 @@ const CategoryForm: React.FC = (props: any) => {
             label="Project"
             name="project_id"
             onChange={formik.handleChange}
+            mandatory={true}
             value={formik.values.project_id}
             defaultLabel="Select from options"
             width="100%"
@@ -139,6 +140,7 @@ const CategoryForm: React.FC = (props: any) => {
             name="name"
             label="Category Name"
             placeholder="Enter category name"
+            mandatory={true}
             value={formik.values.name}
             onChange={formik.handleChange}
             error={formik.touched.name && formik.errors.name}
@@ -150,6 +152,7 @@ const CategoryForm: React.FC = (props: any) => {
             name="budget"
             label={inputLabelNameFromEnv}
             placeholder="Enter budget"
+            mandatory={true}
             value={formik.values.budget}
             // onChange={formik.handleChange}
             onChange={handleBudgetChange}

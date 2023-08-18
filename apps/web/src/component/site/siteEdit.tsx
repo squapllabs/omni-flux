@@ -105,21 +105,23 @@ const SiteForm = () => {
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.inputFieldMain}>
           <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
-                label="Site Name *"
+                label="Site Name"
                 placeholder="Enter site name"
                 name="name"
+                mandatory={true}
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.touched.name && formik.errors.name}
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
-                label="Code *"
+                label="Code"
                 placeholder="Enter code"
                 name="code"
+                mandatory={true}
                 value={formik.values.code}
                 onChange={formik.handleChange}
                 error={formik.touched.code && formik.errors.code}
@@ -128,7 +130,7 @@ const SiteForm = () => {
             </div>
           </div>
           <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Mobile Number"
                 placeholder="Enter mobile number"
@@ -140,7 +142,7 @@ const SiteForm = () => {
                 }
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Contact Number"
                 placeholder="Enter contact number"
@@ -156,7 +158,7 @@ const SiteForm = () => {
         </div>
         <div className={Styles.inputFieldMainFour}>
           <div className={Styles.inputFieldsFour}>
-            <div style={{ width: '41%' }}>
+            <div className={Styles.input}>
               <TextArea
                 name="description"
                 label="Description"
@@ -174,7 +176,7 @@ const SiteForm = () => {
         </div>
         <div className={Styles.inputFieldMainTwo}>
           <div className={Styles.inputFieldsTwo}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Address line"
                 placeholder="Enter address 1"
@@ -187,7 +189,7 @@ const SiteForm = () => {
                 }
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="City"
                 placeholder="Enter address"
@@ -201,7 +203,7 @@ const SiteForm = () => {
             </div>
           </div>
           <div className={Styles.inputFieldsTwo}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="State"
                 placeholder="Enter city"
@@ -213,7 +215,7 @@ const SiteForm = () => {
                 }
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Pincode "
                 placeholder="Enter pincode"
@@ -230,7 +232,7 @@ const SiteForm = () => {
         </div>
         <div className={Styles.inputFieldMainThree}>
           <div className={Styles.inputFieldsThree}>
-            <div style={{ width: '41%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Country"
                 placeholder="Enter country name"

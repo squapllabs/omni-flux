@@ -276,13 +276,7 @@ const UserEdit = () => {
                 name="date_of_birth"
                 onChange={formik.handleChange}
                 value={formik.values.date_of_birth}
-                style={{
-                  border: '1px solid #ccc',
-                  borderRadius: '5px',
-                  padding: '5px',
-                  width: '78%',
-                  height: '90%',
-                }}
+                className={Styles.datePicker}
               />
             </div>
           </div>
@@ -356,11 +350,7 @@ const UserEdit = () => {
                 imageUrl || formik.values.profile_image_url || '/loginImage.png'
               }
               alt="Uploaded preview"
-              style={{
-                width: '50px',
-                height: '50px',
-                objectFit: 'cover',
-              }}
+              className={Styles.imageset}
             />
             <label htmlFor="upload-photo" className="custom-file-upload">
               <AddIcon />

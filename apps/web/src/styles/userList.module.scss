@@ -4,11 +4,10 @@
   padding: 5px;
 }
 .tableContainer {
-  padding: 10px;
-  // height: 100vh;
+  padding: 10px 10px 0px 10px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
 }
 .fields {
   padding: 10px;
@@ -43,7 +42,7 @@
   padding: 10px 10px 0px 10px;
 }
 .text {
-  padding: 10px 10px 0px 10px;
+  padding: 10px 0px 0px 5px;
   display: flex;
   gap: 79%;
 }
@@ -52,7 +51,10 @@
   padding-top: 5px;
 }
 .buttonStyle {
-  padding-left: 15px;
+  // padding-left: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }
 .content {
   font-size: 0.7rem;
@@ -98,8 +100,9 @@ tr:nth-child(even) {
 tr:hover {
   background-color: #e0e0e0;
 }
+
 .searchField {
-  padding: 10px 10px 0px 10px;
+  padding: 25px 10px 0px 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -121,14 +124,15 @@ tr:hover {
   background-color: #7f56d9;
   color: #ffffff;
 }
-.resetButton {
+.resetButton [disabled]{
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
   border: 1px;
   gap: 8px;
   color: #848289;
+  background-color: #ccc;
 }
-.resetButton:hover {
+.resetButton:not([disabled]):hover {
   background-color: #c4c4c6;
   color: #ffffff;
 }
@@ -140,10 +144,15 @@ tr:hover {
 .pagination {
   display: flex;
   justify-content: end;
+  padding: 0px 0px 20px 0px;
+}
+.pagination1 {
+  display: flex;
+  justify-content: end;
+  padding: 5px 10px 20px 0px;
 }
 .formContainer {
   width: 350px;
-  // padding: 1px 20px 10px 20px;
   display: flex;
   flex-direction: column;
 }
@@ -173,4 +182,14 @@ tr:hover {
 }
 .field {
   padding: 5px 20px 5px 20px;
+}
+.button {
+  display: flex;
+  gap: 20px;
+}
+.addButton {
+  padding-top: 20px;
+}
+.textBox {
+  width: 30%;
 }
