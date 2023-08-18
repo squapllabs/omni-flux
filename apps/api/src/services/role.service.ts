@@ -8,8 +8,8 @@ import { createRoleBody, updateRoleBody } from '../interfaces/role.Interface';
  */
 const createRole = async (body: createRoleBody) => {
   try {
-    const { role_name, created_by } = body;
-    const roleDetails = await roleDao.add(role_name, created_by);
+    const { role_name, description, created_by } = body;
+    const roleDetails = await roleDao.add(role_name, created_by, description);
     const result = { success: true, data: roleDetails };
     return result;
   } catch (error) {
@@ -26,11 +26,16 @@ const createRole = async (body: createRoleBody) => {
 
 const updateRole = async (body: updateRoleBody) => {
   try {
-    const { role_name, updated_by, role_id } = body;
+    const { role_name, description, updated_by, role_id } = body;
     let result = null;
     const roleExist = await roleDao.getById(role_id);
     if (roleExist) {
-      const roleDetails = await roleDao.edit(role_name, updated_by, role_id);
+      const roleDetails = await roleDao.edit(
+        role_name,
+        description,
+        updated_by,
+        role_id
+      );
       result = { success: true, data: roleDetails };
       return result;
     } else {

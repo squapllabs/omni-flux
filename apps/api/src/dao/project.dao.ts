@@ -57,7 +57,8 @@ const add = async (
       const site_id = site.site_id;
       const status = site.status;
       const is_delete = site.is_delete;
-      const estimation = site.estimation;
+      const estimated_budget = site.estimated_budget;
+      const actual_budget = site.actual_budget;
       const approvar_id = site.approvar_id;
 
       if (is_delete === 'N') {
@@ -66,7 +67,8 @@ const add = async (
             project_id: newProjectId,
             site_id: site_id,
             status: status,
-            estimation: estimation,
+            estimated_budget: estimated_budget,
+            actual_budget: actual_budget,
             created_by,
             created_date: currentDate,
             updated_date: currentDate,
@@ -145,7 +147,8 @@ const edit = async (
       const status = site.status;
       const is_delete = site.is_delete;
       const project_site_id = site.project_site_id;
-      const estimation = site.estimation;
+      const estimated_budget = site.estimated_budget;
+      const actual_budget = site.actual_budget;
       const approvar_id = site.approvar_id;
 
       if (project_site_id) {
@@ -160,7 +163,8 @@ const edit = async (
               project_id: project_id,
               site_id: site_id,
               status: status,
-              estimation: estimation,
+              estimated_budget: estimated_budget,
+              actual_budget: actual_budget,
               updated_by,
               updated_date: currentDate,
               approvar_id: approvar_id,
@@ -175,7 +179,8 @@ const edit = async (
               project_id: project_id,
               site_id: site_id,
               status: status,
-              estimation: estimation,
+              estimated_budget: estimated_budget,
+              actual_budget: actual_budget,
               created_by: updated_by,
               created_date: currentDate,
               updated_date: currentDate,
