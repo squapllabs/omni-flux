@@ -409,6 +409,9 @@ const getByProjectIdAndSiteId = async (
       },
       include: {
         site_expense_details: {
+          where: {
+            is_delete: false,
+          },
           include: {
             progressed_by_data: {
               select: {
