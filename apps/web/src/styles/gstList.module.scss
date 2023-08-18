@@ -4,14 +4,14 @@
     padding: 5px;
   }
   .tableContainer {
-    padding: 10px;
+    padding: 10px 10px 5px 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     // overflow: hidden;
   }
   .fields {
-    padding: 10px;
+    padding: 5px 0px 5px 10px;  
     display: flex;
     gap: 10px;
     flex-direction: row;
@@ -103,14 +103,15 @@
     background-color: #7f56d9;
     color: #ffffff;
   }
-  .resetButton {
+  .resetButton [disabled]{
     padding: 12px 20px 12px 20px;
     border-radius: 8px;
     border: 1px;
     gap: 8px;
     color: #848289;
+    background-color: #ccc;
   }
-  .resetButton:hover {
+  .resetButton:not([disabled]):hover {
     background-color: #c4c4c6;
     color: #ffffff;
   }
@@ -121,12 +122,13 @@
   .pagination {
     display: flex;
     justify-content: end;
+    padding: 0px 10px 20px 0px;
   }
   .uploads {
     display: flex;
     justify-content: flex-start;
     gap: 1vw;
-    padding-left: 10px;
+    padding: 0px 0px 5px 10px;
   }
 
   .truncatedStyle {
@@ -138,7 +140,9 @@
   }
   .downloadButton {
     display: flex;
-    align-items: center;
+    align-items: center;  
+    padding: 5px;
+    margin-right: 5px;
   }
   .formContainer {
     width: 350px;
@@ -171,4 +175,26 @@
   }
   .field {
     padding: 5px 20px 5px 20px;
+  }
+  .addButton {
+    padding-top: 20px;
+  }
+  .textarea {
+    width: 30%;
+  }
+  .closeButton {
+    background-color: white;
+    margin-top: 8%;
+    margin-left: 5px;
+  }
+  .fileSelect {
+    padding: 10px;
+  }
+  .input {
+    display: none;
+  }
+  .error {
+    color: red;
+    font-size: small;
+    padding: 5px;
   }

@@ -142,6 +142,7 @@ const UserCreate = () => {
               label="First Name"
               placeholder="Enter first name"
               name="first_name"
+              mandatory={true}
               value={formik.values.first_name}
               onChange={formik.handleChange}
               error={formik.touched.first_name && formik.errors.first_name}
@@ -152,6 +153,7 @@ const UserCreate = () => {
               label="Last Name"
               placeholder="Enter last name"
               name="last_name"
+              mandatory={true}
               value={formik.values.last_name}
               onChange={formik.handleChange}
               error={formik.touched.last_name && formik.errors.last_name}
@@ -163,6 +165,7 @@ const UserCreate = () => {
               label="Email"
               placeholder="Enter email"
               name="email_id"
+              mandatory={true}
               value={formik.values.email_id}
               onChange={formik.handleChange}
               error={formik.touched.email_id && formik.errors.email_id}
@@ -173,6 +176,7 @@ const UserCreate = () => {
               label="Password"
               placeholder="Enter password"
               name="user_password"
+              mandatory={true}
               type={passwordShown ? 'text' : 'password'}
               value={formik.values.user_password}
               onChange={formik.handleChange}
@@ -184,7 +188,7 @@ const UserCreate = () => {
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  style={{ background: 'none', border: 'none' }}
+                  className={Styles.passToggle}
                 >
                   {passwordShown ? (
                     <BsFillEyeFill size={20} />
@@ -202,6 +206,7 @@ const UserCreate = () => {
               label="Mobile Number"
               placeholder="Enter mobile number"
               name="contact_no"
+              mandatory={true}
               value={formik.values.contact_no}
               onChange={formik.handleChange}
               error={formik.touched.contact_no && formik.errors.contact_no}
@@ -212,6 +217,7 @@ const UserCreate = () => {
               label="Department"
               placeholder="Enter Department"
               name="department"
+              mandatory={true}
               value={formik.values.department}
               onChange={formik.handleChange}
               error={formik.touched.department && formik.errors.department}
@@ -242,7 +248,7 @@ const UserCreate = () => {
           </div>
         </div>
         <div className={Styles.fieldsOne}>
-          <div style={{ width: '20%' }}>
+          <div className={Styles.dateArea}>
             <span className={Styles.projectHeading}>Date of Birth</span>
             <div className={Styles.dateField}>
               <input
@@ -251,13 +257,7 @@ const UserCreate = () => {
                 name="date_of_birth"
                 onChange={formik.handleChange}
                 value={formik.values.date_of_birth}
-                style={{
-                  border: '1px solid #ccc',
-                  borderRadius: '5px',
-                  padding: '5px',
-                  width: '95%',
-                  height: '90%',
-                }}
+                className={Styles.datePicker}
               />
             </div>
           </div>
@@ -331,11 +331,7 @@ const UserCreate = () => {
                 <img
                   src={URL.createObjectURL(userImage)}
                   alt="Uploaded preview"
-                  style={{
-                    width: '50px',
-                    height: '50px',
-                    objectFit: 'cover',
-                  }}
+                  className={Styles.imageset}
                 />
               )}
               <label>

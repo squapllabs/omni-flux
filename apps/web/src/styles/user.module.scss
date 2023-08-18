@@ -66,3 +66,22 @@
 .twoFactorCheckbox{
   margin-top: 20px;
 }
+.dateArea {
+  width: 20%;
+}
+.datePicker {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  width: 95%;
+  height: 90%;
+}
+.imageset {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+.passToggle {
+  background: none;
+  border: none;
+}
