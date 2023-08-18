@@ -239,7 +239,7 @@ const searchSiteContractor = async (body) => {
     const filterObj = {
       filterSiteContractor: {
         AND: type ? [{ type: type }] : [],
-        OR: [
+        /* OR: [
           {
             name: { contains: global_search, mode: 'insensitive' },
           },
@@ -249,7 +249,13 @@ const searchSiteContractor = async (body) => {
               mode: 'insensitive',
             },
           },
-          /*  {
+          {
+            address: {
+              path: ['street'],
+              string_contains: global_search,
+            },
+          }, */
+        /*  {
             address: {
               street: { contains: global_search, mode: 'insensitive' },
               city: { contains: global_search, mode: 'insensitive' },
@@ -258,7 +264,7 @@ const searchSiteContractor = async (body) => {
               country: { contains: global_search, mode: 'insensitive' },
             },
           }, */
-        ],
+        /* ], */
         is_delete: status === 'AC' ? false : true,
       },
     };
@@ -268,7 +274,8 @@ const searchSiteContractor = async (body) => {
       limit,
       order_by_column,
       order_by_direction,
-      filterObj
+      filterObj,
+      global_search
     );
 
     const count = result.count;
