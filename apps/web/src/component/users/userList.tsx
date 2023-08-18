@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import { useGetAllUsers, useDeleteUsers, getByUser } from '../../hooks/user-hooks';
+import {
+  useGetAllUsers,
+  useDeleteUsers,
+  getByUser,
+} from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
@@ -39,6 +43,7 @@ const UserList = () => {
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const navigate = useNavigate();
 
   const deleteUserHandler = (id: any) => {
@@ -65,10 +70,12 @@ const UserList = () => {
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
@@ -80,10 +87,10 @@ const UserList = () => {
     const userData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: "updated_date",
-      order_by_direction: "desc",
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
       global_search: filterValues.search_by_name,
-      status: activeButton
+      status: activeButton,
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -98,7 +105,7 @@ const UserList = () => {
       order_by_column: 'updated_by',
       order_by_direction: 'desc',
       global_search: '',
-      status: "AC",
+      status: 'AC',
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -107,6 +114,7 @@ const UserList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -120,7 +128,6 @@ const UserList = () => {
     setCurrentPage(1);
   };
 
-
   return (
     <div className={Styles.container}>
       <div>
@@ -132,18 +139,6 @@ const UserList = () => {
           <div className={Styles.text}>
             <div className={Styles.textStyle}>
               <h3>List of Users</h3>
-            </div>
-            <div className={Styles.buttonStyle}>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon />}
-                onClick={() => navigate('/user-create')}
-              >
-                Add User
-              </Button>
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>
@@ -172,18 +167,34 @@ const UserList = () => {
                 justify="center"
                 size="small"
                 onClick={handleReset}
+                disabled={isResetDisabled}
               >
                 Reset
               </Button>
             </div>
-            <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
+            <div className={Styles.button}>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon />}
+                  onClick={() => navigate('/user-create')}
+                >
+                  Add
+                </Button>
+              </div>
             </div>
           </div>
+          <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>
               <table>
@@ -194,7 +205,7 @@ const UserList = () => {
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Contact Number</th>
-                    <th></th>
+                    {activeButton === 'AC' && <th></th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -203,7 +214,7 @@ const UserList = () => {
                       <td></td>
                       <td></td>
                       <td>No data found</td>
-                      <td></td>
+                      {activeButton === 'AC' && <td></td>}
                     </tr>
                   ) : (
                     ''
@@ -215,12 +226,20 @@ const UserList = () => {
                       <td>{data.last_name}</td>
                       <td>{data.email_id}</td>
                       <td>{data.contact_no}</td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon onClick={() => navigate(`/user-edit/${data.user_id}`)} />
-                          <DeleteIcon onClick={() => deleteUserHandler(data.user_id)} />
-                        </div>
-                      </td>
+                      {activeButton === 'AC' && (
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                navigate(`/user-edit/${data.user_id}`)
+                              }
+                            />
+                            <DeleteIcon
+                              onClick={() => deleteUserHandler(data.user_id)}
+                            />
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

@@ -16,7 +16,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 const ProjectWorkBreakList = () => {
   const { mutate: getDeleteSiteById } = useDeleteSite();
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [disable, setDisable] = useState(true);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -37,10 +37,12 @@ const ProjectWorkBreakList = () => {
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
@@ -61,7 +63,6 @@ const ProjectWorkBreakList = () => {
     setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
-    setDisable(false);
   };
   const handleReset = async () => {
     setFilterValues({
@@ -79,7 +80,7 @@ const ProjectWorkBreakList = () => {
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
-    setDisable(true);
+    setIsResetDisabled(true);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -145,7 +146,7 @@ const ProjectWorkBreakList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  disabled={disable}
+                  disabled={isResetDisabled}
                   onClick={handleReset}
                 >
                   Reset
@@ -165,6 +166,7 @@ const ProjectWorkBreakList = () => {
                 </Button>
               </div>
             </div>
+            <div className={Styles.dividerStyle}></div>
             <div className={Styles.tableContainer}>
               <div>
                 <table>
@@ -175,7 +177,7 @@ const ProjectWorkBreakList = () => {
                       <th>Code</th>
                       <th>Mobile Number</th>
                       <th>Description</th>
-                      <th></th>
+                      {activeButton === 'AC' && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -185,7 +187,7 @@ const ProjectWorkBreakList = () => {
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        <td></td>
+                        {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
                       ''
@@ -197,26 +199,28 @@ const ProjectWorkBreakList = () => {
                         <td>{item.code}</td>
                         <td>{item.mobile_number}</td>
                         <td>{item.description}</td>
-                        <td>
-                          <div className={Styles.tableIcon}>
-                            <div>
-                              <EditIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/site-edit/${item.site_contractor_id}`
-                                  )
-                                }
-                              />
+                        {activeButton === 'AC' && (
+                          <td>
+                            <div className={Styles.tableIcon}>
+                              <div>
+                                <EditIcon
+                                  onClick={() =>
+                                    navigate(
+                                      `/site-edit/${item.site_contractor_id}`
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div>
+                                <DeleteIcon
+                                  onClick={() =>
+                                    deleteSite(item.site_contractor_id)
+                                  }
+                                />
+                              </div>
                             </div>
-                            <div>
-                              <DeleteIcon
-                                onClick={
-                                  () => deleteSite(item.site_contractor_id)
-                                }
-                              />
-                            </div>
-                          </div>
-                        </td>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>

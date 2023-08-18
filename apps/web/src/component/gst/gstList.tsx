@@ -107,6 +107,7 @@ const GstList = () => {
                     label="Gst Rate"
                     placeholder="Enter gst rate"
                     name="rate"
+                    mandatory={true}
                     value={formik.values.rate}
                     onChange={formik.handleChange}
                     error={formik.touched.rate && formik.errors.rate}
@@ -114,7 +115,7 @@ const GstList = () => {
                   />
                 </div>
 
-                <div style={{paddingTop:'20px'}}>
+                <div className={Styles.addButton}>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -122,7 +123,7 @@ const GstList = () => {
                     size="small"
                     icon={<AddIcon />}
                   >
-                    Add New GST
+                    Add
                   </Button>
                 </div>
               </div>

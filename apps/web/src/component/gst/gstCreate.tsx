@@ -90,6 +90,7 @@ const GstCreate: React.FC = (props: any) => {
             label="Gst Rate"
             placeholder="Enter gst rate"
             name="rate"
+            mandatory={true}
             value={formik.values.rate}
             onChange={formik.handleChange}
             error={formik.touched.rate && formik.errors.rate}

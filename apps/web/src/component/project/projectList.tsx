@@ -12,6 +12,7 @@ import EditIcon from '../menu/icons/editIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
+import CustomLoader from '../ui/customLoader';
 
 const ProjectList = () => {
   const {
@@ -19,6 +20,7 @@ const ProjectList = () => {
     data: getFilterData,
     // isLoading: FilterLoading,
   } = getByProject();
+
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
 
   const [filterValues, setFilterValues] = useState({
@@ -37,13 +39,16 @@ const ProjectList = () => {
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -84,6 +89,7 @@ const ProjectList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -120,133 +126,140 @@ const ProjectList = () => {
   return (
     <div className={Styles.container}>
       <div>
-        <div className={Styles.text}>
-          <div className={Styles.textStyle}>
-            <h3>List of Projects</h3>
-          </div>
-          <div className={Styles.textStyle}>
-            <h6>Project List</h6>
-          </div>
-        </div>
-        <div className={Styles.dividerStyle}></div>
-        <div className={Styles.searchField}>
-          <div className={Styles.inputFilter}>
-            <Input
-              width="260px"
-              prefixIcon={<SearchIcon />}
-              name="search_by_name"
-              value={filterValues.search_by_name}
-              onChange={(e) => handleFilterChange(e)}
-              placeholder="Search"
-            />
-            <Button
-              className={Styles.searchButton}
-              shape="rectangle"
-              justify="center"
-              size="small"
-              onClick={handleSearch}
-            >
-              Search
-            </Button>
-            <Button
-              className={Styles.resetButton}
-              shape="rectangle"
-              justify="center"
-              size="small"
-              onClick={handleReset}
-            >
-              Reset
-            </Button>
-          </div>
-          <div className={Styles.button}>
-            <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
+        <CustomLoader loading={isLoading === true} size={48} color="#333C44">
+          <div className={Styles.text}>
+            <div className={Styles.textStyle}>
+              <h3>List of Projects</h3>
             </div>
-            <div>
+            <div className={Styles.textStyle}>
+              <h6>Project List</h6>
+            </div>
+          </div>
+          <div className={Styles.dividerStyle}></div>
+          <div className={Styles.searchField}>
+            <div className={Styles.inputFilter}>
+              <Input
+                width="260px"
+                prefixIcon={<SearchIcon />}
+                name="search_by_name"
+                value={filterValues.search_by_name}
+                onChange={(e) => handleFilterChange(e)}
+                placeholder="Search"
+              />
               <Button
+                className={Styles.searchButton}
                 shape="rectangle"
                 justify="center"
                 size="small"
-                color="primary"
-                icon={<AddIcon />}
-                onClick={() => navigate('/project-add')}
+                onClick={handleSearch}
               >
-                Add
+                Search
+              </Button>
+              <Button
+                className={Styles.resetButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleReset}
+                disabled={isResetDisabled}
+              >
+                Reset
               </Button>
             </div>
+            <div className={Styles.button}>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
+              <div>
+                <Button
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  color="primary"
+                  icon={<AddIcon />}
+                  onClick={() => navigate('/project-add')}
+                >
+                  Add
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className={Styles.dividerStyle}></div>
-        <div className={Styles.tableContainer}>
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>S. No</th>
-                  <th>Name</th>
-                  <th>Code</th>
-                  <th>Manager</th>
-                  <th>Status</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {getFilterData?.total_count === 0 ? (
+          <div className={Styles.dividerStyle}></div>
+          <div className={Styles.tableContainer}>
+            <div>
+              <table>
+                <thead>
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
-                    <td></td>
+                    <th>S. No</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Manager</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    {activeButton === 'AC' && <th></th>}
                   </tr>
-                ) : (
-                  ''
-                )}
-                {getFilterData?.content?.map((data: any, index: number) => (
-                  <tr key={data.user_id}>
-                    <td>{index + 1}</td>
-                    <td>{data.project_name}</td>
-                    <td>{data.code}</td>
-                    <td>
-                      {data.user?.first_name} {data.user?.last_name}
-                    </td>
-                    <td>{data.status}</td>
-                    <td>
-                      {format(new Date(data.date_started), 'MMM dd, yyyy')}
-                    </td>
-                    <td>{format(new Date(data.date_ended), 'MMM dd, yyyy')}</td>
-                    <td>
-                      <div className={Styles.tablerow}>
-                        <EditIcon
-                          onClick={() =>
-                            navigate(`/project-edit/${data.project_id}`)
-                          }
-                        />
-                        {/* <DeleteIcon
+                </thead>
+                <tbody>
+                  {getFilterData?.total_count === 0 ? (
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>No data found</td>
+                      {activeButton === 'AC' && <td></td>}
+                    </tr>
+                  ) : (
+                    ''
+                  )}
+                  {getFilterData?.content?.map((data: any, index: number) => (
+                    <tr key={data.user_id}>
+                      <td>{index + 1}</td>
+                      <td>{data.project_name}</td>
+                      <td>{data.code}</td>
+                      <td>
+                        {data.user?.first_name} {data.user?.last_name}
+                      </td>
+                      <td>{data.status}</td>
+                      <td>
+                        {format(new Date(data.date_started), 'MMM dd, yyyy')}
+                      </td>
+                      <td>
+                        {format(new Date(data.date_ended), 'MMM dd, yyyy')}
+                      </td>
+                      {activeButton === 'AC' && (
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                navigate(`/project-edit/${data.project_id}`)
+                              }
+                            />
+                            {/* <DeleteIcon
                           onClick={() => deleteProjectHandler(data.user_id)}
                         /> */}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                          </div>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className={Styles.pagination}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={getFilterData?.total_page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
+            </div>
           </div>
-          <div className={Styles.pagination}>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={getFilterData?.total_page}
-              rowsPerPage={rowsPerPage}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-            />
-          </div>
-        </div>
+        </CustomLoader>
         <CustomDelete
           open={open}
           handleClose={handleClose}

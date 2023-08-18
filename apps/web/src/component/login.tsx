@@ -142,7 +142,7 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={togglePasswordVisibility}
-                      style={{ background: 'none', border: 'none' }}
+                      className={Styles.passToggle}
                     >
                       {passwordShown ? (
                         <BsFillEyeFill size={20} />

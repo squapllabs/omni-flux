@@ -113,11 +113,12 @@ const ProjectWorkBreakEdit = () => {
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.inputFieldMain}>
           <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
-                label="Work breakdown name *"
+                label="Work breakdown name"
                 placeholder="Enter work breakdown name"
                 name="project_workbreak_down_name"
+                mandatory={true}
                 value={formik.values.project_workbreak_down_name}
                 onChange={formik.handleChange}
                 error={
@@ -126,11 +127,12 @@ const ProjectWorkBreakEdit = () => {
                 }
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Work breakdown code (Read Only)"
                 placeholder="Enter work breakdown code"
                 name="project_workbreak_down_code"
+                mandatory={true}
                 value={formik.values.project_workbreak_down_code}
                 onChange={formik.handleChange}
                 error={
@@ -142,7 +144,7 @@ const ProjectWorkBreakEdit = () => {
             </div>
           </div>
           <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Select
                 label="Parent work breakdown"
                 name="parent_project_workbreak_down_id"
@@ -157,10 +159,11 @@ const ProjectWorkBreakEdit = () => {
                 ))}
               </Select>
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Select
                 label="Work breakdown type (Read Only)"
                 name="project_workbreak_down_type"
+                mandatory={true}
                 onChange={formik.handleChange}
                 value={formik.values.project_workbreak_down_type}
                 defaultLabel="Select from options"
@@ -179,7 +182,7 @@ const ProjectWorkBreakEdit = () => {
             </div>
           </div>
           <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Input
                 label="Rate"
                 placeholder="Enter rate"
@@ -189,7 +192,7 @@ const ProjectWorkBreakEdit = () => {
                 error={formik.touched.rate && formik.errors.rate}
               />
             </div>
-            <div style={{ width: '40%' }}>
+            <div className={Styles.input}>
               <Select
                 label="UOM"
                 name="uom_id"

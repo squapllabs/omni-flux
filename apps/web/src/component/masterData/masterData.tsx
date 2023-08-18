@@ -48,7 +48,7 @@ const MaterData = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [disable, setDisable] = useState(true);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [reload, setReload] = useState(false);
   const {
     mutate: postDataForFilter,
@@ -62,16 +62,20 @@ const MaterData = () => {
   const { mutate: postMasterData } = createmasertData();
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    const searchValue = event.target.value;
     const selectedRoleId = event.target.value;
     setSelectedValue(selectedRoleId);
+    setIsResetDisabled(searchValue === '');
   };
   useEffect(() => {
     handleSearch();
@@ -90,7 +94,6 @@ const MaterData = () => {
     setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
-    setDisable(false);
   };
   const handleReset = async () => {
     setFilterValues({
@@ -109,7 +112,7 @@ const MaterData = () => {
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
-    setDisable(true);
+    setIsResetDisabled(true);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -195,7 +198,7 @@ const MaterData = () => {
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields_container}>
                 <div className={Styles.fields_container_1}>
-                  <div style={{ width: '30%' }}>
+                  <div className={Styles.inputField}>
                     <Input
                       name="master_data_name"
                       label="Name"
@@ -228,7 +231,7 @@ const MaterData = () => {
                       onChange={formik.handleChange}
                       value={formik.values.parent_master_data_id}
                       defaultLabel="Select from options"
-                      width='200px'
+                      width="200px"
                       error={
                         formik.touched.parent_master_data_id &&
                         formik.errors.parent_master_data_id
@@ -243,7 +246,7 @@ const MaterData = () => {
                   </div>
                 </div>
                 <div className={Styles.fields_container_2}>
-                  <div style={{ width: '30%' }}>
+                  <div className={Styles.inputField}>
                     <TextArea
                       name="master_data_description"
                       label="Description"
@@ -267,7 +270,7 @@ const MaterData = () => {
                       size="small"
                       icon={<AddIcon />}
                     >
-                      Add Master Data
+                      Add
                     </Button>
                   </div>
                 </div>
@@ -296,7 +299,7 @@ const MaterData = () => {
                   onChange={handleDropdownChange}
                   value={selectedValue}
                   defaultLabel="Select from options"
-                  width='200px'
+                  width="300px"
                 >
                   {getAllmasterDataForDrop.map((option: any) => (
                     <option key={option.value} value={option.value}>
@@ -318,7 +321,7 @@ const MaterData = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  disabled={disable}
+                  disabled={isResetDisabled}
                   onClick={handleReset}
                 >
                   Reset
@@ -335,7 +338,7 @@ const MaterData = () => {
                       <th>Description</th>
                       <th>Code</th>
                       <th>Parent Name</th>
-                      <th>option</th>
+                      {activeButton === 'AC' && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -345,7 +348,7 @@ const MaterData = () => {
                         <td></td>
                         <td>No data found</td>
                         <td></td>
-                        <td></td>
+                        {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
                       ''
@@ -361,25 +364,27 @@ const MaterData = () => {
                             ? '-'
                             : item?.parent?.master_data_name}
                         </td>
-                        <td>
-                          <EditIcon
-                            onClick={() => handleEdit(item.master_data_id)}
-                          />
-                        </td>
+                        {activeButton === 'AC' && (
+                          <td>
+                            <EditIcon
+                              onClick={() => handleEdit(item.master_data_id)}
+                            />
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className={Styles.pagination}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_page}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
+            </div>
+            <div className={Styles.pagination}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={getFilterData?.total_page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
             </div>
           </div>
         </div>

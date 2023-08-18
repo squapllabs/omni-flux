@@ -5,7 +5,7 @@ import {
   gethsnCreateValidateyup,
   gethsnUpdateValidateyup,
 } from '../../helper/constants/hsn-constants';
-import hsnCodeService from '../../service/hsnCode-service';
+import HsnCodeService from '../../service/hsnCode-service';
 import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -23,7 +23,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await hsnCodeService.getOneHsnCode(props.hsnCodeId);
+        const data = await HsnCodeService.getOneHsnCode(props.hsnCodeId);
         setInitialValues({
           hsn_code_id: data?.data?.hsn_code_id,
           code: data?.data?.code,
@@ -98,6 +98,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
             label="Code"
             placeholder="Enter product code"
             name="code"
+            mandatory={true}
             value={formik.values.code}
             onChange={formik.handleChange}
             error={formik.touched.code && formik.errors.code}
@@ -109,6 +110,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
             label="Description"
             placeholder="Enter product description"
             name="description"
+            mandatory={true}
             value={formik.values.description}
             onChange={formik.handleChange}
             error={formik.touched.description && formik.errors.description}

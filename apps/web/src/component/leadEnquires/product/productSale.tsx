@@ -347,6 +347,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="client"
                   label="Client"
                   defaultLabel="select Client"
+                  mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
                   error={formik.touched.client && formik.errors.client}
@@ -366,6 +367,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="source_name"
                   label="Lead Source"
                   defaultLabel="select a Lead Source"
+                  mandatory={true}
                   onChange={formik.handleChange}
                   value={formik.values.source_name}
                   error={
@@ -387,6 +389,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="client_level"
                   label="Client Level"
                   defaultLabel="select a Client Level"
+                  mandatory={true}
                   value={formik.values.client_level}
                   onChange={formik.handleChange}
                   error={
@@ -411,6 +414,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="probability"
                   label="Lead Probability"
                   defaultLabel="select a Lead Probability"
+                  mandatory={true}
                   value={formik.values.probability}
                   onChange={formik.handleChange}
                   error={
@@ -431,6 +435,7 @@ const ProductSale: React.FC = (props: any) => {
                 <Input
                   label="Client Contact Name"
                   name="client_contact_name"
+                  mandatory={true}
                   value={formik.values.client_contact_name}
                   onChange={formik.handleChange}
                   error={
@@ -472,7 +477,7 @@ const ProductSale: React.FC = (props: any) => {
                 error={errors?.quantity}
               />
             </div>
-            <div style={{ paddingTop: '18px' }}>
+            <div className={Styles.itemAdd}>
               <Button
                 shape="rectangle"
                 justify="center"
@@ -517,7 +522,7 @@ const ProductSale: React.FC = (props: any) => {
                             <td>{rowIndex}</td>
                             <td>{item.product_name}</td>
                             <td>{item.quantity}</td>
-                            <td style={{ display: 'flex', gap: '10px' }}>
+                            <td className={Styles.tableData}>
                               <DeleteIcon
                                 onClick={(e: any) =>
                                   handleProductDelete(e, item)
@@ -532,10 +537,6 @@ const ProductSale: React.FC = (props: any) => {
                       );
                     }
                   })}
-                  {/* {productItems.map((item: any, index: number) => (
-                  return<>
-                  </>
-                  ))} */}
                 </tbody>
               </table>
             </div>
@@ -545,10 +546,11 @@ const ProductSale: React.FC = (props: any) => {
           <div className={Styles.fields_container}>
             <div className={Styles.fields_container_1}>
               <div className={Styles.fieldStyle}>
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div className={Styles.tableData}>
                   <Input
                     label="Approx value"
                     name="approx_value"
+                    mandatory={true}
                     value={formik.values.approx_value}
                     onChange={handleValueChange}
                     error={
@@ -567,6 +569,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="sales_person_name"
                   label="Sales person Name"
                   defaultLabel="select Client"
+                  mandatory={true}
                   value={formik.values.sales_person_name}
                   onChange={formik.handleChange}
                   error={
