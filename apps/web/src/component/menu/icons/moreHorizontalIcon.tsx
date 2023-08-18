@@ -13,6 +13,9 @@ const MoreHorizIcon: FC<MoreHorizIconProps> = ({
   color = '#475467',
   onClick
 }) => {
+  const iconStyle: React.CSSProperties = {
+    cursor: 'pointer',
+  };
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -21,6 +24,7 @@ const MoreHorizIcon: FC<MoreHorizIconProps> = ({
       fill="none"
       viewBox="0 0 24 24"
       onClick={onClick}
+      style={iconStyle}
     >
       <path
         stroke={color}

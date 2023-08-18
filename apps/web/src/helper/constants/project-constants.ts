@@ -13,7 +13,8 @@ export const ProjectMessages = {
   ENTER_PRIORITY: 'Priority is required',
   SELECT_START_DATE: 'Project start date is required',
   SELECT_END_DATE: 'Project end date is required',
-  SELECT_SITE:'Site is required'
+  SELECT_SITE: 'Site is required',
+  ENTER_APPROVAR: 'Approver is required',
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -39,6 +40,7 @@ export const getCreateValidateyup = (yup: any) => {
         }
       ),
     user_id: yup.string().trim().required(ProjectMessages.ENTER_USER),
+    approvar_id: yup.string().trim().required(ProjectMessages.ENTER_APPROVAR),
     client_id: yup.string().trim().required(ProjectMessages.ENTER_CLIENT),
     estimated_budget: yup
       .number()
@@ -66,7 +68,7 @@ export const getCreateValidateyup = (yup: any) => {
       .test(
         'unique-site-ids',
         'Site name repeated are not allowed',
-        function (sites : any) {
+        function (sites: any) {
           const siteIds = new Set();
           for (const site of sites) {
             if (siteIds.has(site.site_id)) {
@@ -84,20 +86,26 @@ export const getCreateValidateyup = (yup: any) => {
           return sites.length > 0; // Check if array is not empty
         }
       )
-      // .test(
-      //   'total-estimated-budget',
-      //   'Total estimated budget exceeds project budget',
-      //   function (sites: any,{ parent }: yup.TestContext) {
-      //     const totalEstimatedBudget = sites.reduce(
-      //       (total : any, site : any) => total + (site.estimation || 0),
-      //       0
-      //     );
-      //     console.log("totalEstimatedBudget",totalEstimatedBudget)
-      //     console.log("parent.estimated_budget",parent.estimated_budget)
-      //     return totalEstimatedBudget <= parent.estimated_budget;
-      //   }
-      // ),
-  });
+      .of(
+        yup.object().shape({
+          approvar_id: yup.string().trim().required('Approver is required'), // Validate approvar_id
+          estimation: yup.number().required('Estimation is required')
+          .typeError('Only numbers are allowed') 
+          .test('site-budget', 'Site budget is greater than estimated budget', 
+          function(estimation: any,{ parent }: yup.TestContext) {
+            const estimated_budget = parent;
+            console.log("estimated_budget =>",estimated_budget);
+            console.log("estimation -->",estimation);
+            console.log("estimation type =>",typeof(estimation));
+            if (estimation > estimated_budget) {
+              return false; // Site budget is greater than estimated budget
+            }
+            return true;
+          }
+          ),
+        })
+      ),
+  }); 
 };
 
 export const getEditValidateyup = (yup: any) => {
@@ -131,7 +139,7 @@ export const getEditValidateyup = (yup: any) => {
       .test(
         'unique-site-ids',
         'Site name repeated are not allowed',
-        function (sites : any) {
+        function (sites: any) {
           const siteIds = new Set();
           for (const site of sites) {
             if (siteIds.has(site.site_id)) {

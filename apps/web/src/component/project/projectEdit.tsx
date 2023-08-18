@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Styles from '../../styles/projectForm.module.scss';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import Input from '../ui/Input';
 import TextArea from '../ui/CustomTextArea';
 import Select from '../ui/selectNew';
 import DatePicker from '../ui/CustomDatePicker';
 import Button from '../ui/Button';
-import { getEditValidateyup } from '../../helper/constants/project-constants';
+// import { getEditValidateyup } from '../../helper/constants/project-constants';
 import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useGetAllClientDrop } from '../../hooks/client-hooks';
@@ -17,13 +17,13 @@ import siteService from '../../service/site-service';
 import AddIcon from '../menu/icons/addIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import { updateProject, getByProjectId } from '../../hooks/project-hooks';
-import { useGetMasterCurency } from '../../hooks/masertData-hook';
 import userService from '../../service/user-service';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import CloseIcon from '../menu/icons/closeIcon';
 import MenuIcon from '../menu/icons/moreHorizontalIcon';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
+import BackArrow from '../menu/icons/backArrow';
 
 const ProjectEdit = () => {
   const routeParams = useParams();
@@ -35,7 +35,6 @@ const ProjectEdit = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
-  const { data: getAllCurrencyDatadrop = [] } = useGetMasterCurency();
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
@@ -44,12 +43,13 @@ const ProjectEdit = () => {
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [openConfirm, setOpenConfirm] = useState(false);
-  // const menuRef = useRef<HTMLDivElement | null>(null);
   const [rows, setRows] = useState([
     {
       siteId: '',
       siteData: null,
       estimation: '',
+      approvar_id: '',
+      status: '',
     },
   ]);
   const componentRef = useRef<HTMLDivElement | null>(null);
@@ -74,8 +74,8 @@ const ProjectEdit = () => {
       site_id: number;
       status: string;
       is_delete: string;
-      estimation: number;
-      approvar_id: number;
+      estimation: '';
+      approvar_id: '';
     }>,
     project_documents: '',
     status: '',
@@ -87,6 +87,14 @@ const ProjectEdit = () => {
     { label: 'High', value: 'High' },
     { label: 'Medium', value: 'Medium' },
     { label: 'Low', value: 'Low' },
+  ];
+
+  const getAllSiteStatus = [
+    { label: 'Not Started', value: 'Not Started' },
+    { label: 'Inprogress', value: 'Inprogress' },
+    { label: 'On Hold', value: 'On Hold' },
+    { label: 'Rejected', value: 'Rejected' },
+    { label: 'Completed', value: 'Completed' },
   ];
 
   const toggleDropdown = (rowIndex: number) => {
@@ -134,13 +142,15 @@ const ProjectEdit = () => {
         return updatedRows;
       });
       const newSite = [...formik.values.site_configuration];
-      const estimationValue = newSite[rowIndex]?.estimation || 0;
+      // const estimationValue = newSite[rowIndex]?.estimation || 0;
+      // const approvar_idValue = newSite[rowIndex]?.approvar_id || 0;
+      const statusValue = newSite[rowIndex]?.status || '';
       newSite[rowIndex] = {
         site_id: Number(siteId),
-        status: 'Not Started',
+        status: statusValue,
         is_delete: 'N',
-        estimation: Number(estimationValue),
-        approvar_id: 0,
+        estimation: '',
+        approvar_id: '',
       };
       formik.setFieldValue('site_configuration', newSite);
     } else {
@@ -158,18 +168,32 @@ const ProjectEdit = () => {
   const addRow = () => {
     setRows([
       ...rows,
-      { siteId: '', siteData: null, estimation: '', approvar_id: '' },
+      {
+        siteId: '',
+        siteData: null,
+        estimation: '',
+        approvar_id: '',
+        status: '',
+      },
     ]);
   };
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
+      console.log('Outside click triggered');
+      console.log('openDropdowns:', openDropdowns);
+      console.log('componentRef:', componentRef.current);
+      console.log('menuRef:', menuRef.current);
       if (
         openDropdowns !== -1 &&
         componentRef.current &&
-        !componentRef.current.contains(event.target as Node)
+        !componentRef.current.contains(event.target as Node) &&
+        menuRef.current.every(
+          (dropdown) => !dropdown?.contains(event.target as Node)
+        )
       ) {
-        setOpenDropdowns(-1);
+        console.log('Closing dropdown due to outside click');
+        setOpenDropdowns(null);
       }
     };
     document.addEventListener('click', handleOutsideClick);
@@ -199,6 +223,7 @@ const ProjectEdit = () => {
         is_delete: 'N',
         project_site_id: site.project_site_id,
         estimation: site.estimation,
+        approvar_id: site.approvar_id,
       }));
       setInitialValues({
         project_name: getOneProjectData?.project_name || '',
@@ -208,7 +233,7 @@ const ProjectEdit = () => {
         date_started: formattedDate || '',
         date_ended: formattedEndDate || '',
         priority: getOneProjectData?.priority || '',
-        currency: getOneProjectData?.currency || '',
+        approvar_id: getOneProjectData?.approvar_id || '',
         estimated_budget: getOneProjectData?.estimated_budget || '',
         actual_budget: getOneProjectData?.actual_budget || '',
         description: getOneProjectData?.description || '',
@@ -221,6 +246,8 @@ const ProjectEdit = () => {
           siteId: config.site_id.toString(),
           siteData: config.site_details,
           estimation: config.estimation,
+          approvar_id: config.approvar_id.toString(),
+          status: config.status,
         })
       );
       setRows(siteConfigurationRows);
@@ -239,10 +266,86 @@ const ProjectEdit = () => {
     }
   }, [getOneProjectData]);
 
-  const validationSchema = getEditValidateyup(Yup);
+  const validateSchema = yup.object().shape({
+    project_name: yup.string().required('Project name is required'),
+    user_id: yup.string().trim().required('Project manager is required'),
+    approvar_id: yup.string().trim().required('Approver is required'),
+    client_id: yup
+      .string()
+      .trim()
+      .required('Project client/customer is required'),
+    estimated_budget: yup
+      .number()
+      .min(1, 'Value must be greater than 0')
+      .max(100000, 'Value must be less then 100000')
+      .typeError('Only Number are allowed')
+      .required('Estimated budget is required'),
+    actual_budget: yup
+      .number()
+      .min(1, 'Value must be greater than 0')
+      .max(100000, 'Value must be less then 100000')
+      .typeError('Only Number are allowed'),
+    priority: yup.string().trim().required('Priority is required'),
+    date_started: yup.date().required('Project start date is required'),
+    date_ended: yup
+      .date()
+      .required('Project end date is required')
+      .min(
+        yup.ref('date_started'),
+        'Project end date cannot be earlier than start date'
+      ),
+    site_configuration: yup
+      .array()
+      .test(
+        'unique-site-ids',
+        'Site name repeated are not allowed',
+        function (sites: any) {
+          const siteIds = new Set();
+          for (const site of sites) {
+            if (siteIds.has(site.site_id)) {
+              return false; // Duplicate site_id found
+            }
+            siteIds.add(site.site_id);
+          }
+          return true; // No duplicate site_id found
+        }
+      )
+      .test('non-empty-array', 'Site is required', function (sites: any) {
+        return sites.length > 0; // Check if array is not empty
+      })
+      .of(
+        yup.object().shape({
+          approvar_id: yup.string().trim().required('Approver is required'), // Validate approvar_id
+          estimation: yup
+            .number()
+            .required('Estimation is required')
+            .typeError('Only numbers are allowed')
+            .test(
+              'site-budget',
+              'Site budget is greater than estimated budget',
+              function () {
+                const estimated_budget = Number(formik.values.estimated_budget);
+                const site_configuration = formik.values.site_configuration;
+                console.log('estimated_budget =>', estimated_budget);
+                console.log('site_configuration', site_configuration);
+                const totalEstimation = site_configuration.reduce(
+                  (total: any, site: any) => total + site.estimation,
+                  0
+                );
+                console.log('totalEstimation', totalEstimation);
+                if (totalEstimation > estimated_budget) {
+                  return false;
+                }
+                return true;
+              }
+            ),
+        })
+      ),
+  });
+  // const validationSchema = getEditValidateyup(Yup);
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    validationSchema: validateSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
       let newExistingFileUrl = [...existingFileUrl];
@@ -394,9 +497,23 @@ const ProjectEdit = () => {
   }
   return (
     <div ref={componentRef} className={Styles.container}>
-      <div className={Styles.textContent}>
-        <h3>Edit - Project</h3>
-        <span className={Styles.content}>Edit your project</span>
+      <div className={Styles.containerMain}>
+        <div className={Styles.textContent}>
+          <h3>Edit - Project</h3>
+          <span className={Styles.content}>Edit your project</span>
+        </div>
+        <div className={Styles.backButton}>
+          <Button
+            color="primary"
+            shape="rectangle"
+            justify="center"
+            size="small"
+            icon={<BackArrow />}
+            onClick={() => navigate('/settings')}
+          >
+            Back
+          </Button>
+        </div>
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.inputFieldMain}>
@@ -555,7 +672,6 @@ const ProjectEdit = () => {
                 label="Actual Budget"
                 placeholder="Enter rate"
                 name="actual_budget"
-                mandatory={true}
                 onChange={formik.handleChange}
                 value={formik.values.actual_budget}
                 error={
@@ -602,7 +718,7 @@ const ProjectEdit = () => {
                     <th className={Styles.tableHeading}>Status</th>
                     <th className={Styles.tableHeading}>Estimation</th>
                     <th className={Styles.tableHeading}>Approver</th>
-                    <th className={Styles.tableHeading}>Actions</th>
+                    {/* <th className={Styles.tableHeading}>Actions</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -610,29 +726,18 @@ const ProjectEdit = () => {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignContent: 'center',
-                          }}
-                        >
+                        <div className={Styles.selectedProjectName}>
                           {row.siteData &&
                           row.siteData.name &&
                           row.siteData.code ? (
                             <div>
                               <p>{row.siteData.name}</p>
-                              <p>{row.siteData.code}</p>
+                              <span className={Styles.projectCode}>
+                                {row.siteData.code}
+                              </span>
                             </div>
                           ) : (
-                            <div
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                padding: '20px 0px 0px 0px',
-                                height: '35px',
-                              }}
-                            >
+                            <div className={Styles.siteField}>
                               <Select
                                 name="site_configuration"
                                 onChange={(event) =>
@@ -659,12 +764,7 @@ const ProjectEdit = () => {
                         </div>
                       </td>
                       <td>
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                          }}
-                        >
+                        <div className={Styles.address}>
                           {row.siteData?.address && (
                             <div>
                               <p>
@@ -687,28 +787,31 @@ const ProjectEdit = () => {
                         </div>
                       </td>
                       <td>
-                        <div>
-                          {row.siteId && (
-                            <span
-                              style={{
-                                backgroundColor: 'lightgray',
-                                width: '70%',
-                              }}
+                        {row.siteId ? (
+                          <div className={Styles.siteEstimation}>
+                            <Select
+                              width="170px"
+                              name={`site_configuration[${index}].status`}
+                              onChange={formik.handleChange}
+                              value={
+                                formik.values.site_configuration[index]
+                                  ?.status || ''
+                              }
+                              defaultLabel="Select from options"
                             >
-                              NOT STARTED
-                            </span>
-                          )}
-                        </div>
+                              {getAllSiteStatus.map((option: any) => (
+                                <option key={option.value} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </Select>
+                          </div>
+                        ) : (
+                          ''
+                        )}
                       </td>
                       <td>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '20px 0px 0px 0px',
-                            height: '25px',
-                          }}
-                        >
+                        <div className={Styles.siteEstimation}>
                           {row.siteId ? (
                             <Input
                               placeholder="Enter estimation"
@@ -724,10 +827,12 @@ const ProjectEdit = () => {
                                 formik.values.site_configuration[index]
                                   ?.estimation || ''
                               }
-                              // error={
-                              //   formik.touched.actual_budget &&
-                              //   formik.errors.actual_budget
-                              // }
+                              error={
+                                formik.touched.site_configuration &&
+                                formik.errors.site_configuration &&
+                                formik.errors.site_configuration[index]
+                                  ?.estimation
+                              }
                             />
                           ) : (
                             ''
@@ -736,23 +841,28 @@ const ProjectEdit = () => {
                       </td>
                       <td>
                         {row.siteId ? (
-                          <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              padding: '20px 0px 0px 0px',
-                              height: '35px',
-                            }}
-                          >
+                          <div className={Styles.siteEstimation}>
                             <Select
                               width="170px"
                               name={`site_configuration[${index}].approvar_id`}
-                              onChange={formik.handleChange}
+                              onChange={(event) => {
+                                const newValue = parseFloat(event.target.value);
+                                formik.setFieldValue(
+                                  `site_configuration[${index}].approvar_id`,
+                                  newValue
+                                );
+                              }}
                               value={
                                 formik.values.site_configuration[index]
                                   ?.approvar_id || ''
                               }
                               defaultLabel="Select from options"
+                              error={
+                                formik.touched.site_configuration &&
+                                formik.errors.site_configuration &&
+                                formik.errors.site_configuration[index]
+                                  ?.approvar_id
+                              }
                             >
                               {getAllUsersDatadrop.map((option: any) => (
                                 <option key={option.value} value={option.value}>
@@ -765,7 +875,7 @@ const ProjectEdit = () => {
                           ''
                         )}
                       </td>
-                      <td>
+                      {/* <td>
                         <div ref={menuRef.current[index]}>
                           <MenuIcon onClick={() => toggleDropdown(index)} />
                           {openDropdowns === index && (
@@ -785,18 +895,12 @@ const ProjectEdit = () => {
                             </ul>
                           )}
                         </div>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  padding: '10px',
-                }}
-              >
+              <div className={Styles.buttonContent}>
                 <Button
                   type="button"
                   color="primary"
@@ -814,22 +918,9 @@ const ProjectEdit = () => {
           <div className={Styles.siteHeading}>
             <h4>Project Documents</h4>
           </div>
-          <div style={{ padding: '10px 0px 0px 20px' }}>
-            <div
-              style={{
-                width: '40%',
-                border: '1px dashed #475467',
-                borderRadius: '5px',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  padding: '20px',
-                }}
-              >
+          <div className={Styles.documentContainer}>
+            <div className={Styles.documentOuterLayer}>
+              <div className={Styles.documentContent}>
                 <div>
                   <UploadIcon />
                 </div>
@@ -839,7 +930,7 @@ const ProjectEdit = () => {
                   onDragOver={(e) => e.preventDefault()}
                 >
                   <h6>Select a file or drag and drop here</h6>
-                  <span style={{ fontSize: '0.65rem' }}>
+                  <span className={Styles.documentSpan}>
                     JPG,PNG or PDF, file size no more than 10MB
                   </span>
                 </div>
@@ -863,9 +954,9 @@ const ProjectEdit = () => {
               </div>
             </div>
           </div>
-          <div style={{ padding: '0px 0px 0px 50px' }}>
+          <div className={Styles.viewFiles}>
             <span>
-              <ol style={{ fontSize: '0.85rem' }}>
+              <ol className={Styles.listStyles}>
                 {existingFileName?.map((a: any, index: number) => (
                   <li key={index}>
                     {a}{' '}
@@ -891,9 +982,7 @@ const ProjectEdit = () => {
             </span>
             <span>
               {' '}
-              <p style={{ color: 'red', fontSize: '0.75rem' }}>
-                {fileSizeError}
-              </p>
+              <p className={Styles.errorStyles}>{fileSizeError}</p>
             </span>
           </div>
           <div className={Styles.submitButton}>
@@ -913,7 +1002,7 @@ const ProjectEdit = () => {
               justify="center"
               onClick={() => submitHandler()}
             >
-              Save
+              Submit
             </Button>
           </div>
         </div>
