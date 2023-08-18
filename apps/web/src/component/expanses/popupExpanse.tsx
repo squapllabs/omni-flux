@@ -1,28 +1,32 @@
-import React,{useState,useRef,useCallback} from 'react';
-import {read,utils,writeFile} from 'xlsx';
+import React, { useState, useRef, useCallback } from 'react';
+import { read, utils, writeFile } from 'xlsx';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import Styles from '../../styles/popupexpanses.module.scss';
 import trashIcon from './icons/trashIcon.svg';
-import exportIcon from './icons/exportIcon.svg'
-import { he } from 'date-fns/locale';
-
+import exportIcon from './icons/exportIcon.svg';
+import { useBulkuploadSiteExpanse } from '../../hooks/siteExpanse-hooks';
 interface FileUploaderProps {
   handleFile: (file: File) => void;
   removeData: () => void;
 }
 
 interface ModalPopupProps {
+  reload: any;
+  setReload(reload: any): unknown;
+  projectId: any;
+  siteId: any;
+  userId: any;
+  setExpanseList(data: any[]): unknown;
   closeModal: () => void;
 }
-
 
 const FileUploader: React.FC<FileUploaderProps> = ({
   handleFile,
   removeData,
 }) => {
   const hiddenFileInput = useRef<HTMLInputElement | null>(null);
-  const [fileName, setFileName] = useState<string>("");
+  const [fileName, setFileName] = useState<string>('');
   const handleClick = () => {
     hiddenFileInput.current?.click();
   };
@@ -32,61 +36,65 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   ) => {
     console.log(event);
     const fileUploaded = event.target.files?.[0];
-    setFileName(fileUploaded?.name || "");
+    setFileName(fileUploaded?.name || '');
     if (fileUploaded) {
       await handleFile(fileUploaded);
     }
   };
 
   const handleRemoveFile = () => {
-    setFileName("");
+    setFileName('');
     removeData();
 
     if (hiddenFileInput?.current) {
-      const newFileInput = document.createElement("input");
-      newFileInput.type = "file";
+      const newFileInput = document.createElement('input');
+      newFileInput.type = 'file';
       newFileInput.value = null;
       newFileInput.accept =
-        ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel";
-      newFileInput.style.display = "none";
-      newFileInput.addEventListener("change", handleFileChange);
+        '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
+      newFileInput.style.display = 'none';
+      newFileInput.addEventListener('change', handleFileChange);
       hiddenFileInput.current = newFileInput;
     }
   };
 
   return (
-      <div className={Styles.inputFileWrapper}>
-        <Button
-          shape="rectangle"
-          color="outlined"
-          style={{ maxWidth: "180px" }}
-          fullWidth
-          justify="left"
-          size="small"
-          onClick={handleClick}
-        >
-          Select file
-        </Button>
-        <div className={Styles.fileNameWrapper}>
-          <b>{fileName}</b>
-          {fileName ? (
-            <button className={Styles.removeFileButton} onClick={() => handleRemoveFile()}>x</button>
-          ) : (
-            null
-          )}
-        </div>
-        <input className={Styles.fileInput}
-          type="file"
-          ref={hiddenFileInput}
-          onChange={handleFileChange}
-          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-        />
+    <div className={Styles.inputFileWrapper}>
+      <Button
+        shape="rectangle"
+        color="outlined"
+        style={{ maxWidth: '180px' }}
+        fullWidth
+        justify="left"
+        size="small"
+        onClick={handleClick}
+        type="button"
+      >
+        Select file
+      </Button>
+      <div className={Styles.fileNameWrapper}>
+        <b>{fileName}</b>
+        {fileName ? (
+          <button
+            className={Styles.removeFileButton}
+            onClick={() => handleRemoveFile()}
+          >
+            x
+          </button>
+        ) : null}
       </div>
+      <input
+        className={Styles.fileInput}
+        type="file"
+        ref={hiddenFileInput}
+        onChange={handleFileChange}
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      />
+    </div>
   );
 };
 
-
-const ModalPopup = (props:ModalPopupProps) => {
+const ModalPopup = (props: ModalPopupProps) => {
   const [headings, setHeadings] = useState<string[]>([]);
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -108,6 +116,8 @@ const ModalPopup = (props:ModalPopupProps) => {
         const sheets = wb.SheetNames;
         if (sheets.length) {
           const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
+          console.log('rows--->', rows);
+
           setData(rows);
           setHeadings(Object.keys(rows[0]));
         }
@@ -128,16 +138,27 @@ const ModalPopup = (props:ModalPopupProps) => {
       const wb = read(event.target?.result as ArrayBuffer);
       const sheets = wb.SheetNames;
       if (sheets.length) {
-        const headerSheet = utils.sheet_to_json(wb.Sheets[sheets[0]],{header:1});
-        const header:string[] = headerSheet.shift();
+        const headerSheet = utils.sheet_to_json(wb.Sheets[sheets[0]], {
+          header: 1,
+        });
+        const header: string[] = headerSheet.shift();
         const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
         console.log(rows);
-        if (rows.length) setHeadings(["description","air_transport","fuel","labour_advance","phone_stationary","food_snacks","purchase_service","others","total"]);
+        if (rows.length)
+          setHeadings([
+            'description',
+            'air_transport',
+            'fuel',
+            'labour_advance',
+            'phone_stationary',
+            'food_snacks',
+            'purchase_service',
+            'others',
+            'total',
+          ]);
         else setHeadings([]);
-        if(header.length !==9) alert("Please upload the correct template");
+        if (header.length !== 9) alert('Please upload the correct template');
         else setData(rows);
-        
-        
       }
       setLoading(false);
     };
@@ -151,45 +172,25 @@ const ModalPopup = (props:ModalPopupProps) => {
       index: number,
       key: string
     ) => {
-      if(typeof data[index][key] === 'number') {
+      if (typeof data[index][key] === 'number') {
         setData((prevData) => {
           const newData = [...prevData];
-          if(e.target.value === '') newData[index][key] = 0;
+          if (e.target.value === '') newData[index][key] = 0;
           else newData[index][key] = parseInt(e.target.value);
           return newData;
         });
-      }
-      else{
+      } else {
         setData((prevData) => {
           const newData = [...prevData];
           newData[index][key] = e.target.value;
           return newData;
         });
       }
-      
     },
     [data]
   );
-  // const handleTitleChange = useCallback((e,index) => {
-  //     const newKey = e.target.value;
-  //     // setData(data => {
-  //     //     let newData = [...data]
-  //     //     newData = newData.map((obj) => {
 
-  //     //         obj[newKey] = obj[key]
-  //     //         console.log(newKey,key,obj[key],obj[newKey])
-  //     //         delete obj[key]
-  //     //         return obj;
-  //     //     })
-  //     //     return newData
-  //     // })
-  //     setHeadings(headings => {
-  //         let newHeadings = [...headings]
-  //         newHeadings[index] = newKey
-  //         return newHeadings
-  //     })
-
-  // },[headings])
+  const { mutate: postbulkData } = useBulkuploadSiteExpanse();
 
   const handleRowRemove = async (index: number) => {
     setData((data) => {
@@ -199,14 +200,42 @@ const ModalPopup = (props:ModalPopupProps) => {
     });
   };
 
-  
+  const handleSave = (e: any) => {
+    // props.setExpanseList(data);
+    let object = {
+      site_id: props.siteId,
+      project_id: props.projectId,
+      created_by: props.userId,
+      site_expense_details: data,
+    };
+    console.log('object', object);
+    props.closeModal();
+    // postbulkData(object, {
+    //   onSuccess(data, variables, context) {
+    //     console.log('bulkdata', data);
+    //     props.setReload(true);
+    //     props.closeModal();
+    //   },
+    // });
+  };
 
   return (
     <div className={Styles.modal}>
       <div>
         <div className={Styles.modalHead}>
-            <div><b>Bulk Upload</b></div>
-            <div><button className={Styles.closeModalButton} onClick={props.closeModal} shape="rounded" size="small">X</button></div>
+          <div>
+            <b>Bulk Upload</b>
+          </div>
+          <div>
+            <button
+              className={Styles.closeModalButton}
+              onClick={props.closeModal}
+              shape="rounded"
+              size="small"
+            >
+              X
+            </button>
+          </div>
         </div>
       </div>
       <div>
@@ -224,18 +253,18 @@ const ModalPopup = (props:ModalPopupProps) => {
                 fullWidth
                 className={Styles.maxWidth200}
                 disabled={loading}
+                type="button"
               >
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%',
                   }}
-                  
                 >
-                  <span>Export</span> 
-                  <img src={exportIcon} alt=''></img>
+                  <span>Export</span>
+                  <img src={exportIcon} alt=""></img>
                 </div>
               </Button>
             </div>
@@ -243,9 +272,9 @@ const ModalPopup = (props:ModalPopupProps) => {
         </div>
       </div>
       <div className="table-container">
-        <div className={Styles.tableContainer}  >
+        <div className={Styles.tableContainer}>
           {loading ? (
-              <div>Loading...</div>
+            <div>Loading...</div>
           ) : data.length ? (
             <table className={Styles.table} ref={tableRef}>
               <thead className={Styles.tableHeading}>
@@ -260,98 +289,130 @@ const ModalPopup = (props:ModalPopupProps) => {
                 </tr>
               </thead>
               <tbody>
-                  {data.map((elem, index) => (
-                    <tr className={Styles.tableRow} key={index}>
-                      <th className={Styles.tableHead}>{index+1}</th>
-                      {headings.map((key) => (
-                        <td className={Styles.tableData} key={key}>
-                          <Input
-                            transparent={true}
-                            type="text"
-                            onChange={(e) => handleValueChange(e, index, key)}
-                            value={elem[key]}
-                            errorFree={true}
-                          />
-                        </td>
-                      ))}
-                      <td className={Styles.tableData}>
-                        <Button
-                          size="small"
-                          shape="rectangle"
-                          color="transparent"
-                          onClick={() => handleRowRemove(index)}
-                        >
-                          <img src={trashIcon} alt=''></img>
-                        </Button>
+                {data.map((elem, index) => (
+                  <tr className={Styles.tableRow} key={index}>
+                    <th className={Styles.tableHead}>{index + 1}</th>
+                    {headings.map((key) => (
+                      <td className={Styles.tableData} key={key}>
+                        <Input
+                          transparent={true}
+                          type="text"
+                          onChange={(e) => handleValueChange(e, index, key)}
+                          value={elem[key]}
+                          errorFree={true}
+                        />
                       </td>
-                    </tr>
-                  ))}
+                    ))}
+                    <td className={Styles.tableData}>
+                      <Button
+                        size="small"
+                        shape="rectangle"
+                        color="transparent"
+                        onClick={() => handleRowRemove(index)}
+                      >
+                        <img src={trashIcon} alt=""></img>
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
-          ) : (
-            null
-          )}
+          ) : null}
         </div>
         {data.length ? (
-        
-        <div className={Styles.buttonContainer} style={{width:`calc(${tableRef.current?.style.width})`}}
+          <div
+            className={Styles.buttonContainer}
+            style={{ width: `calc(${tableRef.current?.style.width})` }}
+          >
+            <Button
+              color="primary"
+              justify="center"
+              size="small"
+              shape="rectangle"
+              style={{ marginRight: '5px', width: '150px' }}
+              type="button"
             >
-              <Button
-                color="primary"
-                justify="center"
-                size="small"
-                shape="rectangle"
-                style={{ marginRight: "5px", width: "150px" }}
-              >
-                Cancel
-              </Button>
-              <Button
-                color="primary"
-                justify="center"
-                size="small"
-                shape="rectangle"
-                style={{ marginRight: "5%", width: "150px" }}
-                onClick={()=> {
-                  console.log(data)
-                  props.closeModal()
-                }}
-              >
-                Save
-              </Button>
-            </div>
-        ) : (
-            null
-            )}
+              Cancel
+            </Button>
+            <Button
+              color="primary"
+              justify="center"
+              size="small"
+              shape="rectangle"
+              style={{ marginRight: '5%', width: '150px' }}
+              onClick={(e) => handleSave(e)}
+              type="button"
+            >
+              Save
+            </Button>
+          </div>
+        ) : null}
       </div>
       <div></div>
     </div>
   );
+};
 
-}
-
-const PopupExpanse = () => {
-  const [modalOpen,setModalOpen] = useState<boolean>(false)
+const PopupExpanse: React.FC = (props: any) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const handleDownloadTemplate = () => {
-    const headingsList = [["description","air_transport","fuel","labour_advance","phone_stationary","food_snacks","purchase_service","others","total"]]
-    const wb = utils.book_new()
-    const ws = utils.json_to_sheet([])
-    utils.sheet_add_aoa(ws,headingsList)
-    utils.book_append_sheet(wb,ws,"Template");
-    writeFile(wb,"Template.xlsx")
+    const headingsList = [
+      [
+        'description',
+        'air_transport',
+        'fuel',
+        'labour_advance',
+        'phone_stationary',
+        'food_snacks',
+        'purchase_service',
+        'others',
+        'total',
+      ],
+    ];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet([]);
+    utils.sheet_add_aoa(ws, headingsList);
+    utils.book_append_sheet(wb, ws, 'Template');
+    writeFile(wb, 'Template.xlsx');
   };
   return (
     <div className={Styles.container}>
       <div className={Styles.button}>
-        <Button color="primary" shape="rectangle" justify="center" size="small" onClick={()=>handleDownloadTemplate()}>
+        <Button
+          color="primary"
+          shape="rectangle"
+          justify="center"
+          size="small"
+          onClick={() => handleDownloadTemplate()}
+          type="button"
+        >
           Download
         </Button>
-        <Button onClick={()=>setModalOpen(true)} color="primary" shape="rectangle" justify="center" size="small">
+        <Button
+          onClick={() => setModalOpen(true)}
+          color="primary"
+          shape="rectangle"
+          justify="center"
+          size="small"
+          type="button"
+        >
           Bulk Upload
         </Button>
       </div>
-      {modalOpen && <div className={Styles.modalContainer}>
-        <ModalPopup closeModal={()=>setModalOpen(false)} />
-      </div>}
+
+      {modalOpen && (
+        <div className={Styles.modalContainer}>
+          <ModalPopup
+            closeModal={() => setModalOpen(false)}
+            setExpanseList={props.setExpanseList}
+            projectId={props.projectId}
+            siteId={props.siteId}
+            userId={props?.userId}
+            setReload={props.setReload}
+            reload={props.reload}
+          />
+        </div>
+      )}
     </div>
   );
 };
