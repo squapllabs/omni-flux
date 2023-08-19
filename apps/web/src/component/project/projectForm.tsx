@@ -49,7 +49,8 @@ const ProjectForm = () => {
   console.log('site datas', siteConfigData);
   const valueObject: any = {
     site_id: '',
-    estimation: '',
+    estimated_budget: '',
+    actual_budget: '',
     approvar_id: '',
     status: 'Not Started',
     is_delete: 'N',
@@ -114,13 +115,13 @@ const ProjectForm = () => {
   ) => {
     setValue({
       ...value,
-      [event.target.name]: Number(event.target.value),
+      [event.target.name]: event.target.value,
     });
     if (event.target.name === 'site_id') {
-      console.log('site_id', event.target.value);
+      // console.log('site_id', event.target.value);
       const siteId = event.target.value;
       const siteData = await siteService.getOneSiteById(siteId);
-      console.log('site address', siteData);
+      // console.log('site address', siteData);
       setViewAddress(siteData?.data);
     }
   };
@@ -129,9 +130,6 @@ const ProjectForm = () => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ) => {
-    // if (event.target.name === 'site_id') {
-    //   console.log('site_id', event.target.value);
-    // }
     setValue({
       ...value,
       [event.target.name]: Number(event.target.value),
@@ -158,27 +156,42 @@ const ProjectForm = () => {
           }
         ),
       approvar_id: yup.string().trim().required('Approver is required'),
-      estimation: yup
-        .number()
-        .required('Estimation is required')
-        .typeError('Only numbers are allowed')
+      actual_budget: yup
+        .string()
+        // .required('Actual Budget is required')
+        .matches(/^[0-9]*$/, 'Only numbers are allowed'),
+      estimated_budget: yup
+        // .number()
+        .string()
+        .matches(/^[0-9]*$/, 'Only numbers are allowed')
+        .required('Estimation Budget is required')
+        .typeError('Only numbesqswqsrs are allowed')
         .test(
           'site-budget',
           'Site budget is greater than estimated budget',
           function (budget: any) {
+            // console.log('budget==>', budget);
+            // console.log('budget= type =>', typeof budget);
             const estimated_budget = formik.values.estimated_budget;
+            // console.log('estimated_budget==>', estimated_budget);
+            // console.log('estimated_budget type ==>', typeof estimated_budget);
             const site_configuration = siteConfigData;
+            // console.log('site_configuration==>', site_configuration);
             if (site_configuration.length === 0) {
-              if (budget > estimated_budget) {
+              console.log('if condition in');
+              if (Number(budget) > Number(estimated_budget)) {
                 return false;
               }
               return true;
             } else {
               const totalEstimation = site_configuration.reduce(
-                (total: any, site: any) => total + site.estimation,
+                (total: any, site: any) =>
+                  total + Number(site.estimated_budget),
                 0
               );
-              const finalTotal = totalEstimation + budget;
+              // console.log('total==>', totalEstimation);
+
+              const finalTotal = totalEstimation + Number(budget);
               if (finalTotal > estimated_budget) {
                 return false;
               }
@@ -191,13 +204,22 @@ const ProjectForm = () => {
       .validate(value, { abortEarly: false })
       .then(async () => {
         const siteData = await siteService.getOneSiteById(value.site_id);
-        console.log('site address', siteData?.data?.address);
+        // console.log('site address', siteData?.data?.address);
         value['address'] = siteData?.data?.address;
-        setSiteConfigData([...siteConfigData, value]);
+        // console.log('value==>', value);
+        const updatedObject = {
+          ...value,
+          site_id: Number(value.site_id),
+          estimated_budget: Number(value.estimated_budget),
+          approvar_id: Number(value.approvar_id),
+          actual_budget: value.actual_budget ? Number(value.actual_budget) : 0,
+        };
 
+        setSiteConfigData([...siteConfigData, updatedObject]);
+        // console.log('siteConfigData', siteConfigData);
         setValue({
           site_id: '',
-          estimation: '',
+          estimated_budget: '',
           approvar_id: '',
           status: 'Not Started',
           is_delete: 'N',
@@ -266,53 +288,6 @@ const ProjectForm = () => {
         yup.ref('date_started'),
         'Project end date cannot be earlier than start date'
       ),
-    // site_configuration: yup
-    //   .array()
-    //   .test(
-    //     'unique-site-ids',
-    //     'Site name repeated are not allowed',
-    //     function (sites: any) {
-    //       const siteIds = new Set();
-    //       for (const site of sites) {
-    //         if (siteIds.has(site.site_id)) {
-    //           return false; // Duplicate site_id found
-    //         }
-    //         siteIds.add(site.site_id);
-    //       }
-    //       return true; // No duplicate site_id found
-    //     }
-    //   )
-    //   .test('non-empty-array', 'Site is required', function (sites: any) {
-    //     return sites.length > 0; // Check if array is not empty
-    //   })
-    //   .of(
-    //     yup.object().shape({
-    //       approvar_id: yup.string().trim().required('Approver is required'), // Validate approvar_id
-    //       estimation: yup
-    //         .number()
-    //         .required('Estimation is required')
-    //         .typeError('Only numbers are allowed')
-    //         .test(
-    //           'site-budget',
-    //           'Site budget is greater than estimated budget',
-    //           function () {
-    //             const estimated_budget = formik.values.estimated_budget;
-    //             const site_configuration = formik.values.site_configuration;
-    //             console.log('estimated_budget =>', estimated_budget);
-    //             console.log('site_configuration', site_configuration);
-    //             const totalEstimation = site_configuration.reduce(
-    //               (total: any, site: any) => total + site.estimation,
-    //               0
-    //             );
-    //             console.log('totalEstimation', totalEstimation);
-    //             if (totalEstimation > estimated_budget) {
-    //               return false;
-    //             }
-    //             return true;
-    //           }
-    //         ),
-    //     })
-    //   ),
   });
   const formik = useFormik({
     initialValues,
@@ -340,18 +315,18 @@ const ProjectForm = () => {
         project_documents: s3UploadUrl,
         status: statusData,
       };
-      console.log('project data form', Object);
-      // createNewProjectData(Object, {
-      //   onSuccess: (data, variables, context) => {
-      //     if (data?.status === true) {
-      //       setMessage('Project created');
-      //       setOpenSnack(true);
-      //       setInterval(() => {
-      //         navigate('/settings');
-      //       }, 1000);
-      //     }
-      //   },
-      // });
+      // console.log('project data form', Object);
+      createNewProjectData(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.status === true) {
+            setMessage('Project created');
+            setOpenSnack(true);
+            setInterval(() => {
+              navigate('/settings');
+            }, 1000);
+          }
+        },
+      });
     },
   });
 
@@ -510,7 +485,7 @@ const ProjectForm = () => {
                 ))}
               </Select>
             </div>
-            <div style={{ width: '40%' }}>
+            <div style={{ width: '40%' }} className={Styles.client}>
               <Select
                 label="Client / Customer"
                 name="client_id"
@@ -661,10 +636,11 @@ const ProjectForm = () => {
                 <thead>
                   <tr>
                     <th className={Styles.tableHeading}>S No</th>
-                    <th className={Styles.tableHeading}>Site</th>
+                    <th className={Styles.tableHeadingSite}>Site</th>
                     <th className={Styles.tableHeading}>Site Address</th>
                     <th className={Styles.tableHeading}>Status</th>
-                    <th className={Styles.tableHeading}>Estimation</th>
+                    <th className={Styles.tableHeading}>Estimated Budget</th>
+                    <th className={Styles.tableHeading}>Actual Budget</th>
                     <th className={Styles.tableHeading}>Approver</th>
                     <th className={Styles.tableHeading}>Action</th>
                   </tr>
@@ -681,12 +657,13 @@ const ProjectForm = () => {
                           <div className={Styles.selectedProjectName}>
                             <div className={Styles.siteField}>
                               <Select
+                                width="110%"
                                 name="site_id"
                                 onChange={(e) =>
                                   handleChangeExistItems(e, index)
                                 }
                                 value={row?.site_id}
-                                defaultLabel="Select from options"
+                                defaultLabel="Select Site"
                               >
                                 {getAllSite.map((option: any) => (
                                   <option
@@ -707,7 +684,7 @@ const ProjectForm = () => {
                               {row.address?.state},
                             </span>
                             <span>
-                              {row.address?.pin_code},{row.address?.country}
+                              {row.address?.country},{row.address?.pin_code}
                             </span>
                           </div>
                         </td>
@@ -719,22 +696,33 @@ const ProjectForm = () => {
                         <td>
                           <div className={Styles.siteEstimation}>
                             <Input
-                              width="170px"
+                              width="140px"
                               placeholder="Enter estimation"
-                              name="estimation"
+                              name="estimated_budget"
                               onChange={(e) => handleChangeExistItems(e, index)}
-                              value={row?.estimation}
+                              value={row?.estimated_budget}
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <div className={Styles.siteEstimation}>
+                            <Input
+                              width="140px"
+                              placeholder="Enter actual budget"
+                              name="actual_budget"
+                              onChange={(e) => handleChangeExistItems(e, index)}
+                              value={row.actual_budget}
                             />
                           </div>
                         </td>
                         <td>
                           <div className={Styles.siteEstimation}>
                             <Select
-                              width="170px"
+                              width="140px"
                               name="approvar_id"
                               onChange={(e) => handleChangeExistItems(e, index)}
                               value={row?.approvar_id}
-                              defaultLabel="Select from options"
+                              defaultLabel="Select Approver"
                             >
                               {getAllUsersSiteDatadrop?.data.map(
                                 (option: any) => (
@@ -764,9 +752,10 @@ const ProjectForm = () => {
                         <div className={Styles.siteField}>
                           <Select
                             name="site_id"
+                            width="110%"
                             onChange={handleChangeItems}
                             value={value.site_id}
-                            defaultLabel="Select from options"
+                            defaultLabel="Select Site"
                             error={errors?.site_id}
                           >
                             {getAllSite.map((option: any) => (
@@ -791,8 +780,8 @@ const ProjectForm = () => {
                             {viewAddress.address?.state},
                           </span>
                           <span>
-                            {viewAddress.address?.pin_code},
-                            {viewAddress.address?.country}
+                            {viewAddress.address?.country},
+                            {viewAddress.address?.pin_code}
                           </span>
                         </div>
                       )}
@@ -807,12 +796,28 @@ const ProjectForm = () => {
                       {value.site_id ? (
                         <div className={Styles.siteEstimation}>
                           <Input
-                            width="170px"
-                            placeholder="Enter estimation"
-                            name="estimation"
+                            width="140px"
+                            placeholder="Enter budget"
+                            name="estimated_budget"
                             onChange={handleChangeItems}
-                            value={value.estimation}
-                            error={errors?.estimation}
+                            value={value.estimated_budget}
+                            error={errors?.estimated_budget}
+                          />
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </td>
+                    <td>
+                      {value.site_id ? (
+                        <div className={Styles.siteEstimation}>
+                          <Input
+                            width="140px"
+                            placeholder="Enter budget"
+                            name="actual_budget"
+                            onChange={handleChangeItems}
+                            value={value.actual_budget}
+                            error={errors?.actual_budget}
                           />
                         </div>
                       ) : (
@@ -823,11 +828,11 @@ const ProjectForm = () => {
                       {value.site_id ? (
                         <div className={Styles.siteEstimation}>
                           <Select
-                            width="170px"
+                            width="140px"
                             name="approvar_id"
                             onChange={handleChangeItems}
                             value={value.approvar_id}
-                            defaultLabel="Select from options"
+                            defaultLabel="Select Approver"
                             error={errors?.approvar_id}
                           >
                             {getAllUsersSiteDatadrop?.data.map(
@@ -933,6 +938,7 @@ const ProjectForm = () => {
               className={Styles.resetButton}
               type="button"
               shape="rectangle"
+              size="small"
               justify="center"
               onClick={() => drafthandler()}
             >
@@ -942,6 +948,7 @@ const ProjectForm = () => {
               type="button"
               color="primary"
               shape="rectangle"
+              size="small"
               justify="center"
               onClick={() => submitHandler()}
             >

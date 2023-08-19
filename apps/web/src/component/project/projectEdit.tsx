@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
 import Styles from '../../styles/projectForm.module.scss';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -11,7 +11,7 @@ import Button from '../ui/Button';
 import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useGetAllClientDrop } from '../../hooks/client-hooks';
-import { useGetAllUsersDrop } from '../../hooks/user-hooks';
+import { useGetAllUsersDrop, useGetAllUsers } from '../../hooks/user-hooks';
 import { useGetAllSiteDrop } from '../../hooks/site-hooks';
 import siteService from '../../service/site-service';
 import AddIcon from '../menu/icons/addIcon';
@@ -22,6 +22,7 @@ import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import CloseIcon from '../menu/icons/closeIcon';
 import MenuIcon from '../menu/icons/moreHorizontalIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import BackArrow from '../menu/icons/backArrow';
 
@@ -35,6 +36,8 @@ const ProjectEdit = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
+
+  const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
@@ -42,6 +45,21 @@ const ProjectEdit = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrop();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
+  const [viewAddress, setViewAddress] = useState({});
+  // console.log('site datas', siteConfigData);
+  const valueObject: any = {
+    site_id: '',
+    estimated_budget: '',
+    actual_budget: '',
+    approvar_id: '',
+    status: '',
+    is_delete: 'N',
+    address: '',
+  };
+  const [value, setValue] = useState(valueObject);
+  const [errors, setErrors] = useState('');
+  let rowIndex = 0;
   const [openConfirm, setOpenConfirm] = useState(false);
   const [rows, setRows] = useState([
     {
@@ -66,22 +84,75 @@ const ProjectEdit = () => {
     date_ended: '',
     priority: '',
     approvar_id: '',
-    estimated_budget: '',
+    project_estimated_budget: '',
     actual_budget: '',
     description: '',
     project_notes: '',
-    site_configuration: [] as Array<{
-      site_id: number;
-      status: string;
-      is_delete: string;
-      estimation: '';
-      approvar_id: '';
-    }>,
+    site_configuration: '',
     project_documents: '',
     status: '',
     submitType: '',
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (getOneProjectData) {
+      // console.log('get one project', getOneProjectData);
+      const startDate = getOneProjectData?.date_started;
+      const endDate = getOneProjectData?.date_ended;
+      let formattedDate = '';
+      let formattedEndDate = '';
+      if (startDate) {
+        const currentDate = new Date(startDate);
+        formattedDate = format(currentDate, 'yyyy-MM-dd');
+      }
+      if (endDate) {
+        const currentDate = new Date(endDate);
+        formattedEndDate = format(currentDate, 'yyyy-MM-dd');
+      }
+      const siteConfigurationData = getOneProjectData.project_site;
+      setInitialValues({
+        project_name: getOneProjectData?.project_name || '',
+        code: getOneProjectData?.code || '',
+        user_id: getOneProjectData?.user_id || '',
+        client_id: getOneProjectData?.client_id || '',
+        date_started: formattedDate || '',
+        date_ended: formattedEndDate || '',
+        priority: getOneProjectData?.priority || '',
+        approvar_id: getOneProjectData?.approvar_id || '',
+        project_estimated_budget: getOneProjectData?.estimated_budget || '',
+        actual_budget: getOneProjectData?.actual_budget || '',
+        description: getOneProjectData?.description || '',
+        project_notes: getOneProjectData?.project_notes || '',
+        // site_configuration: siteConfigurationDatas,
+        project_documents: {},
+      });
+      const siteConfigurationRows = siteConfigurationData.map(
+        (config: any) => ({
+          site_id: config.site_id,
+          siteData: config.site_details,
+          estimated_budget: config.estimated_budget,
+          actual_budget: config.actual_budget,
+          approvar_id: config.approvar_id,
+          status: config.status,
+          project_site_id: config.project_site_id,
+        })
+      );
+      setSiteConfigData(siteConfigurationRows);
+      const existingDocumentsS3Url = getOneProjectData.project_documents;
+      setExistingFileUrl(existingDocumentsS3Url);
+      const existingFileNames = existingDocumentsS3Url.map((document: any) => {
+        const pathParts = document.path.split('/');
+        const fileName = pathParts[pathParts.length - 1];
+        const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
+        if (originalFileNameMatches) {
+          return originalFileNameMatches[1];
+        }
+        return fileName;
+      });
+      setExistingFileName(existingFileNames);
+    }
+  }, [getOneProjectData]);
 
   const getAllProjectPriorityType = [
     { label: 'High', value: 'High' },
@@ -90,11 +161,11 @@ const ProjectEdit = () => {
   ];
 
   const getAllSiteStatus = [
-    { label: 'Not Started', value: 'Not Started' },
-    { label: 'Inprogress', value: 'Inprogress' },
-    { label: 'On Hold', value: 'On Hold' },
-    { label: 'Rejected', value: 'Rejected' },
-    { label: 'Completed', value: 'Completed' },
+    { name: 'Not Started', value: 'Not Started' },
+    { name: 'Inprogress', value: 'Inprogress' },
+    { name: 'On Hold', value: 'On Hold' },
+    { name: 'Rejected', value: 'Rejected' },
+    { name: 'Completed', value: 'Completed' },
   ];
 
   const toggleDropdown = (rowIndex: number) => {
@@ -128,62 +199,150 @@ const ProjectEdit = () => {
     }
   };
 
-  const handleSiteChange = async (event: any, rowIndex: any) => {
-    const siteId = event.target.value;
-    const updatedRows = rows.map((row, index) =>
-      index === rowIndex ? { ...row, siteId } : row
-    );
-    setRows(updatedRows);
-    if (siteId) {
-      const siteData = await siteService.getOneSiteById(siteId);
-      setRows((prevRows) => {
-        const updatedRows = [...prevRows];
-        updatedRows[rowIndex].siteData = siteData?.data;
-        return updatedRows;
+  const handleChangeItems = async (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (event.target.name === 'status') {
+      setValue({
+        ...value,
+        [event.target.name]: event.target.value,
       });
-      const newSite = [...formik.values.site_configuration];
-      // const estimationValue = newSite[rowIndex]?.estimation || 0;
-      // const approvar_idValue = newSite[rowIndex]?.approvar_id || 0;
-      const statusValue = newSite[rowIndex]?.status || '';
-      newSite[rowIndex] = {
-        site_id: Number(siteId),
-        status: statusValue,
-        is_delete: 'N',
-        estimation: '',
-        approvar_id: '',
-      };
-      formik.setFieldValue('site_configuration', newSite);
     } else {
-      setRows((prevRows) => {
-        const updatedRows = [...prevRows];
-        updatedRows[rowIndex].siteData = null;
-        return updatedRows;
+      setValue({
+        ...value,
+        [event.target.name]: Number(event.target.value),
       });
-      const newSite = [...formik.values.site_configuration];
-      newSite.splice(rowIndex, 1);
-      formik.setFieldValue('site_configuration', newSite);
+    }
+    if (event.target.name === 'site_id') {
+      // console.log('site_id', event.target.value);
+      const siteId = event.target.value;
+      const siteData = await siteService.getOneSiteById(siteId);
+      // console.log('site address', siteData);
+      setViewAddress(siteData?.data);
     }
   };
 
-  const addRow = () => {
-    setRows([
-      ...rows,
-      {
-        siteId: '',
-        siteData: null,
-        estimation: '',
-        approvar_id: '',
-        status: '',
-      },
-    ]);
+  const handleChangeExistItems = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ) => {
+    let tempObj = {};
+    tempObj = {
+      ...siteConfigData[index],
+      [event.target.name]:
+        event.target.name === 'status'
+          ? event.target.value
+          : Number(event.target.value),
+      // [event.target.name]: event.target.value,
+    };
+    console.log('tempObj', tempObj);
+    const tempArray = [...siteConfigData];
+    tempArray[index] = tempObj;
+    setSiteConfigData(tempArray);
+  };
+
+  const addRow = async () => {
+    setErrors({});
+    const schema = yup.object().shape({
+      site_id: yup
+        .string()
+        .trim()
+        .required('Site is required')
+        .test(
+          'unique-site-ids',
+          'Site name repeated are not allowed',
+          function (sites: any) {
+            // console.log('site values==>', sites);
+            // console.log('value.site_id', siteConfigData);
+            const isSiteIdUnique = siteConfigData.every(
+              (siteData) => siteData.site_id !== parseInt(sites, 10)
+            );
+            return isSiteIdUnique;
+          }
+        ),
+      approvar_id: yup.string().trim().required('Approver is required'),
+      actual_budget: yup
+        .string()
+        .matches(/^[0-9]*$/, 'Only numbers are allowed'),
+      estimated_budget: yup
+        .string()
+        .matches(/^[0-9]*$/, 'Only numbers are allowed')
+        .required('Estimation Budget is required')
+        .typeError('Only numbesqswqsrs are allowed')
+        .test(
+          'site-budget',
+          'Site budget is greater than estimated budget',
+          function (budget: any) {
+            // console.log('budget==>', budget);
+            // console.log('budget= type =>', typeof budget);
+            const estimated_budget = formik.values.project_estimated_budget;
+            // console.log('estimated_budget==>', estimated_budget);
+            // console.log('estimated_budget type ==>', typeof estimated_budget);
+            const site_configuration = siteConfigData;
+            // console.log('site_configuration==>', site_configuration);
+            if (site_configuration.length === 0) {
+              // console.log('if condition in');
+              if (Number(budget) > Number(estimated_budget)) {
+                return false;
+              }
+              return true;
+            } else {
+              const totalEstimation = site_configuration.reduce(
+                (total: any, site: any) =>
+                  total + Number(site.estimated_budget),
+                0
+              );
+              // console.log('total==>', totalEstimation);
+              const finalTotal = totalEstimation + Number(budget);
+              if (finalTotal > estimated_budget) {
+                return false;
+              }
+              return true;
+            }
+          }
+        ),
+    });
+    await schema
+      .validate(value, { abortEarly: false })
+      .then(async () => {
+        const siteData = await siteService.getOneSiteById(value.site_id);
+        // console.log('site address', siteData?.data?.address);
+        value['address'] = siteData?.data?.address;
+        const updatedObject = {
+          ...value,
+          site_id: Number(value.site_id),
+          estimated_budget: Number(value.estimated_budget),
+          approvar_id: Number(value.approvar_id),
+          actual_budget: value.actual_budget ? Number(value.actual_budget) : 0,
+        };
+
+        setSiteConfigData([...siteConfigData, updatedObject]);
+        // setSiteConfigData([...siteConfigData, value]);
+        setValue({
+          site_id: '',
+          estimated_budget: '',
+          approvar_id: '',
+          status: 'Not Started',
+          is_delete: 'N',
+        });
+      })
+      .catch((e) => {
+        let errorObj: any = {};
+        e.inner.map((errors: any) => {
+          return (errorObj[errors.path] = errors.message);
+        });
+        setErrors({
+          ...errorObj,
+        });
+      });
   };
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      console.log('Outside click triggered');
-      console.log('openDropdowns:', openDropdowns);
-      console.log('componentRef:', componentRef.current);
-      console.log('menuRef:', menuRef.current);
+      // console.log('Outside click triggered');
+      // console.log('openDropdowns:', openDropdowns);
+      // console.log('componentRef:', componentRef.current);
+      // console.log('menuRef:', menuRef.current);
       if (
         openDropdowns !== -1 &&
         componentRef.current &&
@@ -202,70 +361,6 @@ const ProjectEdit = () => {
     };
   }, [openDropdowns]);
 
-  useEffect(() => {
-    if (getOneProjectData) {
-      const startDate = getOneProjectData?.date_started;
-      const endDate = getOneProjectData?.date_ended;
-      let formattedDate = '';
-      let formattedEndDate = '';
-      if (startDate) {
-        const currentDate = new Date(startDate);
-        formattedDate = format(currentDate, 'yyyy-MM-dd');
-      }
-      if (endDate) {
-        const currentDate = new Date(endDate);
-        formattedEndDate = format(currentDate, 'yyyy-MM-dd');
-      }
-      const siteConfigurationData = getOneProjectData.project_site;
-      const siteConfigurationDatas = siteConfigurationData.map((site: any) => ({
-        site_id: site.site_id,
-        status: site.status,
-        is_delete: 'N',
-        project_site_id: site.project_site_id,
-        estimation: site.estimation,
-        approvar_id: site.approvar_id,
-      }));
-      setInitialValues({
-        project_name: getOneProjectData?.project_name || '',
-        code: getOneProjectData?.code || '',
-        user_id: getOneProjectData?.user_id || '',
-        client_id: getOneProjectData?.client_id || '',
-        date_started: formattedDate || '',
-        date_ended: formattedEndDate || '',
-        priority: getOneProjectData?.priority || '',
-        approvar_id: getOneProjectData?.approvar_id || '',
-        estimated_budget: getOneProjectData?.estimated_budget || '',
-        actual_budget: getOneProjectData?.actual_budget || '',
-        description: getOneProjectData?.description || '',
-        project_notes: getOneProjectData?.project_notes || '',
-        site_configuration: siteConfigurationDatas,
-        project_documents: {},
-      });
-      const siteConfigurationRows = siteConfigurationData.map(
-        (config: any) => ({
-          siteId: config.site_id.toString(),
-          siteData: config.site_details,
-          estimation: config.estimation,
-          approvar_id: config.approvar_id.toString(),
-          status: config.status,
-        })
-      );
-      setRows(siteConfigurationRows);
-      const existingDocumentsS3Url = getOneProjectData.project_documents;
-      setExistingFileUrl(existingDocumentsS3Url);
-      const existingFileNames = existingDocumentsS3Url.map((document: any) => {
-        const pathParts = document.path.split('/');
-        const fileName = pathParts[pathParts.length - 1];
-        const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
-        if (originalFileNameMatches) {
-          return originalFileNameMatches[1];
-        }
-        return fileName;
-      });
-      setExistingFileName(existingFileNames);
-    }
-  }, [getOneProjectData]);
-
   const validateSchema = yup.object().shape({
     project_name: yup.string().required('Project name is required'),
     user_id: yup.string().trim().required('Project manager is required'),
@@ -274,7 +369,7 @@ const ProjectEdit = () => {
       .string()
       .trim()
       .required('Project client/customer is required'),
-    estimated_budget: yup
+    project_estimated_budget: yup
       .number()
       .min(1, 'Value must be greater than 0')
       .max(100000, 'Value must be less then 100000')
@@ -294,53 +389,42 @@ const ProjectEdit = () => {
         yup.ref('date_started'),
         'Project end date cannot be earlier than start date'
       ),
-    site_configuration: yup
-      .array()
-      .test(
-        'unique-site-ids',
-        'Site name repeated are not allowed',
-        function (sites: any) {
-          const siteIds = new Set();
-          for (const site of sites) {
-            if (siteIds.has(site.site_id)) {
-              return false; // Duplicate site_id found
-            }
-            siteIds.add(site.site_id);
-          }
-          return true; // No duplicate site_id found
-        }
-      )
-      .test('non-empty-array', 'Site is required', function (sites: any) {
-        return sites.length > 0; // Check if array is not empty
-      })
-      .of(
-        yup.object().shape({
-          approvar_id: yup.string().trim().required('Approver is required'), // Validate approvar_id
-          estimation: yup
-            .number()
-            .required('Estimation is required')
-            .typeError('Only numbers are allowed')
-            .test(
-              'site-budget',
-              'Site budget is greater than estimated budget',
-              function () {
-                const estimated_budget = Number(formik.values.estimated_budget);
-                const site_configuration = formik.values.site_configuration;
-                console.log('estimated_budget =>', estimated_budget);
-                console.log('site_configuration', site_configuration);
-                const totalEstimation = site_configuration.reduce(
-                  (total: any, site: any) => total + site.estimation,
-                  0
-                );
-                console.log('totalEstimation', totalEstimation);
-                if (totalEstimation > estimated_budget) {
-                  return false;
-                }
-                return true;
-              }
-            ),
-        })
-      ),
+    // estimated_budget: yup
+    //   .string()
+    //   .matches(/^[0-9]*$/, 'Only numbers are allowed')
+    //   .required('Estimation Budget is required')
+    //   .typeError('Only numbesqswqsrs are allowed')
+    //   .test(
+    //     'site-budget',
+    //     'Site budget is greater than estimated budget',
+    //     function (budget: any) {
+    //       console.log('budget==>', budget);
+    //       console.log('budget= type =>', typeof budget);
+    //       const estimated_budget = formik.values.project_estimated_budget;
+    //       console.log('estimated_budget==>', estimated_budget);
+    //       console.log('estimated_budget type ==>', typeof estimated_budget);
+    //       const site_configuration = siteConfigData;
+    //       console.log('site_configuration edit==>', site_configuration);
+    //       if (site_configuration.length === 0) {
+    //         console.log('if condition in');
+    //         if (Number(budget) > Number(estimated_budget)) {
+    //           return false;
+    //         }
+    //         return true;
+    //       } else {
+    //         const totalEstimation = site_configuration.reduce(
+    //           (total: any, site: any) => total + Number(site.estimated_budget),
+    //           0
+    //         );
+    //         console.log('total==>', totalEstimation);
+    //         const finalTotal = totalEstimation + Number(budget);
+    //         if (finalTotal > estimated_budget) {
+    //           return false;
+    //         }
+    //         return true;
+    //       }
+    //     }
+    //   ),
   });
   // const validationSchema = getEditValidateyup(Yup);
   const formik = useFormik({
@@ -363,16 +447,16 @@ const ProjectEdit = () => {
         date_ended: values.date_ended,
         priority: values.priority,
         approvar_id: Number(values.approvar_id),
-        estimated_budget: Number(values.estimated_budget),
+        estimated_budget: Number(values.project_estimated_budget),
         actual_budget: Number(values.actual_budget),
         description: values.description,
         project_notes: values.project_notes,
-        site_configuration: values.site_configuration,
+        site_configuration: siteConfigData,
         project_documents: newExistingFileUrl,
         status: statusData,
         project_id: Number(routeParams?.id),
       };
-      console.log('finalObject===>', Object);
+      // console.log('finalObject===>', Object);
       updateProjectData(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
@@ -386,6 +470,15 @@ const ProjectEdit = () => {
       });
     },
   });
+
+  const deleteRow = (index: any) => {
+    console.log('delete', index);
+    siteConfigData[index] = {
+      ...siteConfigData[index],
+      is_delete: 'Y',
+    };
+    setSiteConfigData([...siteConfigData]);
+  };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -657,13 +750,13 @@ const ProjectEdit = () => {
               <Input
                 label="Estimated Budget"
                 placeholder="Enter rate"
-                name="estimated_budget"
+                name="project_estimated_budget"
                 mandatory={true}
                 onChange={formik.handleChange}
-                value={formik.values.estimated_budget}
+                value={formik.values.project_estimated_budget}
                 error={
-                  formik.touched.estimated_budget &&
-                  formik.errors.estimated_budget
+                  formik.touched.project_estimated_budget &&
+                  formik.errors.project_estimated_budget
                 }
               />
             </div>
@@ -713,191 +806,282 @@ const ProjectEdit = () => {
                 <thead>
                   <tr>
                     <th className={Styles.tableHeading}>S No</th>
-                    <th className={Styles.tableHeading}>Site</th>
+                    <th className={Styles.tableHeadingSite}>Site</th>
                     <th className={Styles.tableHeading}>Site Address</th>
                     <th className={Styles.tableHeading}>Status</th>
-                    <th className={Styles.tableHeading}>Estimation</th>
+                    <th className={Styles.tableHeading}>Estimate Budget</th>
+                    <th className={Styles.tableHeading}>Actual Budget</th>
                     <th className={Styles.tableHeading}>Approver</th>
                     {/* <th className={Styles.tableHeading}>Actions</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((row, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>
-                        <div className={Styles.selectedProjectName}>
-                          {row.siteData &&
-                          row.siteData.name &&
-                          row.siteData.code ? (
-                            <div>
-                              <p>{row.siteData.name}</p>
-                              <span className={Styles.projectCode}>
-                                {row.siteData.code}
-                              </span>
-                            </div>
-                          ) : (
+                  {siteConfigData.map((row, index) => {
+                    console.log('row===>', row);
+
+                    rowIndex = rowIndex + 1;
+                    return (
+                      <tr key={index}>
+                        <td>{rowIndex}</td>
+                        <td>
+                          <div className={Styles.selectedProjectName}>
                             <div className={Styles.siteField}>
                               <Select
-                                name="site_configuration"
-                                onChange={(event) =>
-                                  handleSiteChange(event, index)
+                                name="site_id"
+                                width="110%"
+                                onChange={(e) =>
+                                  handleChangeExistItems(e, index)
                                 }
-                                value={row.siteId}
+                                value={row?.site_id}
                                 defaultLabel="Select from options"
-                                error={
-                                  formik.touched.site_configuration &&
-                                  formik.errors.site_configuration
-                                }
                               >
                                 {getAllSite.map((option: any) => (
                                   <option
                                     key={option.value}
-                                    value={option.value}
+                                    value={`${option.site_contractor_id}`}
                                   >
-                                    {option.label}
+                                    {option.name}
                                   </option>
                                 ))}
                               </Select>
                             </div>
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        <div className={Styles.address}>
-                          {row.siteData?.address && (
-                            <div>
-                              <p>
-                                {row.siteData && row.siteData.address ? (
-                                  <div>
-                                    <p>
-                                      {row.siteData.address.street}{' '}
-                                      {row.siteData.address.city},{' '}
-                                      {row.siteData.address.state},
-                                    </p>
-                                    <p>
-                                      {row.siteData.address.pin_code},
-                                      {row.siteData.address.country}
-                                    </p>
-                                  </div>
-                                ) : null}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        {row.siteId ? (
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            <span>
+                              {row.siteData ? (
+                                <>
+                                  {row.siteData.address.street}{' '}
+                                  {row.siteData.address.city},{' '}
+                                  {row.siteData.address.state},
+                                </>
+                              ) : (
+                                <>
+                                  {row.address.street} {row.address.city},{' '}
+                                  {row.address.state},
+                                </>
+                              )}
+                            </span>
+                            <span>
+                              {row.siteData ? (
+                                <>
+                                  {row.siteData.address.pin_code},{' '}
+                                  {row.siteData.address.country}
+                                </>
+                              ) : (
+                                <>
+                                  {row.address.pin_code}, {row.address.country}
+                                </>
+                              )}
+                            </span>
+                          </div>
+                        </td>
+                        <td>
                           <div className={Styles.siteEstimation}>
                             <Select
-                              width="170px"
-                              name={`site_configuration[${index}].status`}
-                              onChange={formik.handleChange}
-                              value={
-                                formik.values.site_configuration[index]
-                                  ?.status || ''
-                              }
+                              width="140px"
+                              name="status"
+                              onChange={(e) => handleChangeExistItems(e, index)}
+                              value={row.status}
                               defaultLabel="Select from options"
                             >
                               {getAllSiteStatus.map((option: any) => (
-                                <option key={option.value} value={option.value}>
-                                  {option.label}
+                                <option
+                                  key={option.value}
+                                  value={`${option.value}`}
+                                >
+                                  {option.name}
                                 </option>
                               ))}
                             </Select>
                           </div>
-                        ) : (
-                          ''
-                        )}
-                      </td>
-                      <td>
-                        <div className={Styles.siteEstimation}>
-                          {row.siteId ? (
+                        </td>
+                        <td>
+                          <div className={Styles.siteEstimation}>
                             <Input
-                              placeholder="Enter estimation"
-                              name={`site_configuration[${index}].estimation`}
-                              onChange={(event) => {
-                                const newValue = parseFloat(event.target.value);
-                                formik.setFieldValue(
-                                  `site_configuration[${index}].estimation`,
-                                  newValue
-                                );
-                              }}
-                              value={
-                                formik.values.site_configuration[index]
-                                  ?.estimation || ''
-                              }
-                              error={
-                                formik.touched.site_configuration &&
-                                formik.errors.site_configuration &&
-                                formik.errors.site_configuration[index]
-                                  ?.estimation
-                              }
+                              width="140px"
+                              placeholder="Enter budget"
+                              name="estimated_budget"
+                              onChange={(e) => handleChangeExistItems(e, index)}
+                              value={row?.estimated_budget}
+                              // error={formik.errors.estimated_budget}
                             />
-                          ) : (
-                            ''
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        {row.siteId ? (
+                          </div>
+                        </td>
+                        <td>
+                          <div className={Styles.siteEstimation}>
+                            <Input
+                              width="140px"
+                              placeholder="Enter budget"
+                              name="actual_budget"
+                              onChange={(e) => handleChangeExistItems(e, index)}
+                              value={row.actual_budget}
+                            />
+                          </div>
+                        </td>
+
+                        <td>
                           <div className={Styles.siteEstimation}>
                             <Select
-                              width="170px"
-                              name={`site_configuration[${index}].approvar_id`}
-                              onChange={(event) => {
-                                const newValue = parseFloat(event.target.value);
-                                formik.setFieldValue(
-                                  `site_configuration[${index}].approvar_id`,
-                                  newValue
-                                );
-                              }}
-                              value={
-                                formik.values.site_configuration[index]
-                                  ?.approvar_id || ''
-                              }
-                              defaultLabel="Select from options"
-                              error={
-                                formik.touched.site_configuration &&
-                                formik.errors.site_configuration &&
-                                formik.errors.site_configuration[index]
-                                  ?.approvar_id
-                              }
+                              width="140px"
+                              name="approvar_id"
+                              onChange={(e) => handleChangeExistItems(e, index)}
+                              value={row?.approvar_id}
+                              defaultLabel="Select Approver"
                             >
-                              {getAllUsersDatadrop.map((option: any) => (
-                                <option key={option.value} value={option.value}>
-                                  {option.label}
-                                </option>
-                              ))}
+                              {getAllUsersSiteDatadrop?.data.map(
+                                (option: any) => (
+                                  <option
+                                    key={option.value}
+                                    value={`${option.user_id}`}
+                                  >
+                                    {option.first_name}
+                                  </option>
+                                )
+                              )}
                             </Select>
                           </div>
-                        ) : (
-                          ''
-                        )}
-                      </td>
-                      {/* <td>
-                        <div ref={menuRef.current[index]}>
-                          <MenuIcon onClick={() => toggleDropdown(index)} />
-                          {openDropdowns === index && (
-                            <ul className={Styles.menu}>
-                              <li
-                                className={Styles.menuItem}
-                                onClick={() => handleSampleClick()}
+                        </td>
+                        {/* <td>
+                          <div className={Styles.actionIcon}>
+                            <DeleteIcon
+                             onClick={() => deleteRow(index)} />
+                          </div>
+                        </td> */}
+                      </tr>
+                    );
+                  })}
+                  <tr>
+                    <td>{rowIndex + 1}</td>
+                    <td>
+                      <div className={Styles.selectedProjectName}>
+                        <div className={Styles.siteField}>
+                          <Select
+                            name="site_id"
+                            width="110%"
+                            onChange={handleChangeItems}
+                            value={value.site_id}
+                            defaultLabel="Select from options"
+                            error={errors?.site_id}
+                          >
+                            {getAllSite.map((option: any) => (
+                              <option
+                                key={option.value}
+                                value={`${option.site_contractor_id}`}
                               >
-                                <span>Add Bom</span>
-                              </li>
-                              <li
-                                className={Styles.menuItem}
-                                onClick={() => handleSampleClick()}
-                              >
-                                <span>Add Expenses</span>
-                              </li>
-                            </ul>
-                          )}
+                                {option.name}
+                              </option>
+                            ))}
+                          </Select>
                         </div>
-                      </td> */}
-                    </tr>
-                  ))}
+                      </div>
+                    </td>
+                    <td>
+                      {' '}
+                      {value.site_id && (
+                        <div>
+                          <span>
+                            {viewAddress.address?.street}{' '}
+                            {viewAddress.address?.city},{' '}
+                            {viewAddress.address?.state},
+                          </span>
+                          <span>
+                            {viewAddress.address?.pin_code},
+                            {viewAddress.address?.country}
+                          </span>
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      {value.site_id ? (
+                        <div className={Styles.siteEstimation}>
+                          <Select
+                            width="140px"
+                            name="status"
+                            onChange={handleChangeItems}
+                            value={value.status}
+                            defaultLabel="Select from options"
+                          >
+                            {getAllSiteStatus.map((option: any) => (
+                              <option
+                                key={option.value}
+                                value={`${option.value}`}
+                              >
+                                {option.name}
+                              </option>
+                            ))}
+                          </Select>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </td>
+                    <td>
+                      {value.site_id ? (
+                        <div className={Styles.siteEstimation}>
+                          <Input
+                            width="140px"
+                            placeholder="Enter estimate budget"
+                            name="estimated_budget"
+                            onChange={handleChangeItems}
+                            value={value.estimated_budget}
+                            error={errors?.estimated_budget || formik.touched.estimated_budget && formik.errors.estimated_budget}
+                          />
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </td>
+                    <td>
+                      {value.site_id ? (
+                        <div className={Styles.siteEstimation}>
+                          <Input
+                            width="140px"
+                            placeholder="Enter actual budget"
+                            name="actual_budget"
+                            onChange={handleChangeItems}
+                            value={value.actual_budget}
+                            error={errors?.actual_budget}
+                          />
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </td>
+                    <td>
+                      {value.site_id ? (
+                        <div className={Styles.siteEstimation}>
+                          <Select
+                            width="140px"
+                            name="approvar_id"
+                            onChange={handleChangeItems}
+                            value={value.approvar_id}
+                            defaultLabel="Select from options"
+                            error={errors?.approvar_id}
+                          >
+                            {getAllUsersSiteDatadrop?.data.map(
+                              (option: any) => (
+                                <option
+                                  key={option.value}
+                                  value={`${option.user_id}`}
+                                >
+                                  {option.first_name}
+                                </option>
+                              )
+                            )}
+                          </Select>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </td>
+                    <td>
+                      {/* <div className={Styles.actionIcon}>
+                              <DeleteIcon onClick={() => deleteRow()} />
+                        </div> */}
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               <div className={Styles.buttonContent}>
