@@ -10,6 +10,7 @@ import SearchIcon from '../menu/icons/search';
 import Input from '../ui/Input';
 import CustomLoader from '../ui/customLoader';
 import { useNavigate } from 'react-router-dom';
+import ViewIcon from '../menu/icons/viewIcon';
 
 const LeadList = () => {
   const navigate = useNavigate();
@@ -78,6 +79,10 @@ const LeadList = () => {
   };
   const handleEdit = (id: any, name: any) => {
     navigate(`/lead-edit/${id}/${name}`);
+  };
+  const handleView = (id: any, name: any) => {
+    if (name === 'Tender') navigate(`/lead-info-tender/${id}`);
+    else navigate(`/lead-info-product/${id}`);
   };
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValues({
@@ -169,7 +174,7 @@ const LeadList = () => {
                     <th>Lead Code</th>
                     <th>Client Name</th>
                     <th>Client Level</th>
-                    <th>Option</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -190,14 +195,18 @@ const LeadList = () => {
                       <td>{item.client_contact_name}</td>
                       <td>{item.client_level_info?.master_data_name}</td>
                       <td>
-                        <div className={Styles.tableIcon}>
-                          <div>
-                            <EditIcon
-                              onClick={() =>
-                                handleEdit(item.lead_enquiry_id, item.lead_type)
-                              }
-                            />
-                          </div>
+                        <div className={Styles.tablerow}>
+                          <EditIcon
+                            onClick={() =>
+                              handleEdit(item.lead_enquiry_id, item.lead_type)
+                            }
+                          />
+                          <ViewIcon
+                            onClick={() =>
+                              // navigate(`/lead-info-product/${item.lead_enquiry_id}`)
+                              handleView(item.lead_enquiry_id, item.lead_type)
+                            }
+                          />
                         </div>
                       </td>
                     </tr>

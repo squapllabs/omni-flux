@@ -307,8 +307,8 @@ const ProjectForm = () => {
                   </option>
                 ))}
               </Select>
-              <div className={Styles.clientadd} onClick={handleOpenClientForm}>
-                <AddIcon />
+              <div className={Styles.instantAdd} onClick={handleOpenClientForm}>
+                <AddIcon style={{ height: '15px', width: '15px' }} />
                 <h4 className={Styles.addtext}>Add client</h4>
               </div>
             </div>
@@ -480,6 +480,19 @@ const ProjectForm = () => {
                               </option>
                             ))}
                           </Select>
+                          {rows.length - 1 === index ? (
+                            <div
+                              className={Styles.instantAdd}
+                              onClick={handelOpenSiteForm}
+                            >
+                              <AddIcon
+                                style={{ height: '15px', width: '15px' }}
+                              />
+                              <h4 className={Styles.addtext}> Add Site</h4>
+                            </div>
+                          ) : (
+                            ''
+                          )}
                         </div>
                       </td>
                       <td>
@@ -546,17 +559,14 @@ const ProjectForm = () => {
                   ))}
                 </tbody>
               </table>
+
               <div
                 style={{
                   display: 'flex',
-                  justifyContent: 'space-between',
+                  justifyContent: 'flex-end',
                   padding: '10px',
                 }}
               >
-                <div className={Styles.clientadd} onClick={handelOpenSiteForm}>
-                  <AddIcon />
-                  <h4 className={Styles.addtext}>Add Site</h4>
-                </div>
                 <Button
                   type="button"
                   color="primary"
@@ -660,8 +670,14 @@ const ProjectForm = () => {
         </div>
       </form>
       <div>
-        <CustomClientAdd isVissible={showClientForm} onAction={setShowClientForm} />
-        <CustomSiteAdd isVissiblesite={showSiteForm} onActionsite={setShowSiteForm} />
+        <CustomClientAdd
+          isVissible={showClientForm}
+          onAction={setShowClientForm}
+        />
+        <CustomSiteAdd
+          isVissiblesite={showSiteForm}
+          onActionsite={setShowSiteForm}
+        />
       </div>
       <CustomSnackBar
         open={openSnack}

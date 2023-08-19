@@ -222,6 +222,9 @@ import leadEnquires from '../component/leadEnquires/leadEnquires';
 import Settings from '../component/settings/homeSetting';
 import projectList from '../component/project/projectList';
 import projectEdit from '../component/project/projectEdit';
+import ProjectView from '../component/project/projectInfo';
+import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
+import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -258,6 +261,9 @@ const AppRoutes = () => {
   const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
   const ProtectedProjectWorkBreakDownPage =
     withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedProjectView = withLayoutAndProtection(ProjectView)
+  const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct)
+  const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender)
 
   return (
     <div>
@@ -302,6 +308,9 @@ const AppRoutes = () => {
         <Route path="/settings" element={<ProtectedSettings />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
         <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
+        <Route path="/project-info/:id" element={<ProtectedProjectView />} />
+        <Route path="/lead-info-product/:id" element={<ProtectedLeadProductView />} />
+        <Route path="/lead-info-tender/:id" element={<ProtectedLeadTenderView />} />
       </Routes>
     </div>
   );

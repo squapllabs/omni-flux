@@ -107,20 +107,13 @@ const InputError = styled.span`
 const RequiredField = styled.span`
   color: red;
 `;
-<<<<<<< HEAD
 
-=======
->>>>>>> d6fec194d3ee4620570ad5de417ca87c05f23587
 const HelperText = styled.span`
   color: gray;
   margin-top: 2px;
   font-size: 0.75rem;
 `;
 const Select: FC<SelectProps & { mandatory?: boolean }> = ({
-<<<<<<< HEAD
-=======
-
->>>>>>> d6fec194d3ee4620570ad5de417ca87c05f23587
   onChange,
   label,
   value,

@@ -17,6 +17,7 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomLoader from '../ui/customLoader';
+import ViewIcon from '../menu/icons/viewIcon';
 
 const ProjectList = () => {
   const { isLoading: getAllLoading } = useGetAllProject();
@@ -225,7 +226,7 @@ const ProjectList = () => {
                       <td>{data.code}</td>
                       <td>
                         {data.user?.first_name} {data.user?.last_name}
-                      </td>
+                      </td>   
                       <td>{data.status}</td>
                       <td>
                         {format(new Date(data.date_started), 'MMM dd, yyyy')}
@@ -240,11 +241,12 @@ const ProjectList = () => {
                               navigate(`/project-edit/${data.project_id}`)
                             }
                           />
-                          <DeleteIcon
+                          <ViewIcon onClick={() => navigate(`/project-info/${data.project_id}`)}/>
+                          {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
                             }
-                          />
+                          /> */}
                         </div>
                       </td>
                     </tr>

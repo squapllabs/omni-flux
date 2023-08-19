@@ -5,12 +5,14 @@ import Category from "../category/category";
 import UserList from "../users/userList";
 import MasterData from "../masterData/masterData";
 import ProjectList from "../project/projectList";
+import LeadList from "../leadEnquires/leadList";
 const Settings = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Category', value: 'C' },
     { label: 'Master Data', value: 'M' },
     { label: 'User List', value: 'U' },
     { label: 'Project List', value: 'PL' },
+    { label: 'Lead List', value: 'LL'},
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('C');
   const handleGroupButtonClick = (value: string) => {
@@ -34,6 +36,7 @@ const Settings = () => {
         {activeButton === 'M' && <MasterData />}
         {activeButton === 'U' && <UserList />}
         {activeButton === 'PL' && <ProjectList />}
+        {activeButton === 'LL' && <LeadList />}
       </div>
     </div>
   )

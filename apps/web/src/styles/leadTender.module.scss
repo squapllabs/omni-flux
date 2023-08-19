@@ -199,3 +199,8 @@ tr:hover {
   background-color: #c4c4c6;
   color: #070707;
 }
+.tablerow {
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
+}
