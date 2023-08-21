@@ -25,14 +25,6 @@ import projectService from '../../service/project-service';
 import CustomClientAdd from '../ui/CustomClientAdd';
 import CustomSiteAdd from '../ui/CustomSiteAdd';
 
-// interface Site {
-//   site_id: number;
-//   status: string;
-//   is_delete: string;
-//   estimation: '';
-//   approvar_id: '';
-// }
-
 const ProjectForm = () => {
   const [message, setMessage] = useState('');
   const { mutate: createNewProjectData } = createProject();
@@ -50,7 +42,6 @@ const ProjectForm = () => {
   const [viewAddress, setViewAddress] = useState({});
   const [showClientForm, setShowClientForm] = useState(false);
   const [showSiteForm, setShowSiteForm] = useState(false);
-  console.log('site datas', siteConfigData);
   const valueObject: any = {
     site_id: '',
     estimated_budget: '',
@@ -122,10 +113,8 @@ const ProjectForm = () => {
       [event.target.name]: event.target.value,
     });
     if (event.target.name === 'site_id') {
-      // console.log('site_id', event.target.value);
       const siteId = event.target.value;
       const siteData = await siteService.getOneSiteById(siteId);
-      // console.log('site address', siteData);
       setViewAddress(siteData?.data);
     }
   };
@@ -151,8 +140,6 @@ const ProjectForm = () => {
           'unique-site-ids',
           'Site name repeated are not allowed',
           function (sites: any) {
-            console.log('site values==>', sites);
-            console.log('value.site_id', siteConfigData);
             const isSiteIdUnique = siteConfigData.every(
               (siteData) => siteData.site_id !== parseInt(sites, 10)
             );
@@ -162,10 +149,8 @@ const ProjectForm = () => {
       approvar_id: yup.string().trim().required('Approver is required'),
       actual_budget: yup
         .string()
-        // .required('Actual Budget is required')
         .matches(/^[0-9]*$/, 'Only numbers are allowed'),
       estimated_budget: yup
-        // .number()
         .string()
         .matches(/^[0-9]*$/, 'Only numbers are allowed')
         .required('Estimation Budget is required')
@@ -174,15 +159,9 @@ const ProjectForm = () => {
           'site-budget',
           'Site budget is greater than estimated budget',
           function (budget: any) {
-            // console.log('budget==>', budget);
-            // console.log('budget= type =>', typeof budget);
             const estimated_budget = formik.values.estimated_budget;
-            // console.log('estimated_budget==>', estimated_budget);
-            // console.log('estimated_budget type ==>', typeof estimated_budget);
             const site_configuration = siteConfigData;
-            // console.log('site_configuration==>', site_configuration);
             if (site_configuration.length === 0) {
-              console.log('if condition in');
               if (Number(budget) > Number(estimated_budget)) {
                 return false;
               }
@@ -193,8 +172,6 @@ const ProjectForm = () => {
                   total + Number(site.estimated_budget),
                 0
               );
-              // console.log('total==>', totalEstimation);
-
               const finalTotal = totalEstimation + Number(budget);
               if (finalTotal > estimated_budget) {
                 return false;
@@ -208,9 +185,7 @@ const ProjectForm = () => {
       .validate(value, { abortEarly: false })
       .then(async () => {
         const siteData = await siteService.getOneSiteById(value.site_id);
-        // console.log('site address', siteData?.data?.address);
         value['address'] = siteData?.data?.address;
-        // console.log('value==>', value);
         const updatedObject = {
           ...value,
           site_id: Number(value.site_id),
@@ -220,7 +195,6 @@ const ProjectForm = () => {
         };
 
         setSiteConfigData([...siteConfigData, updatedObject]);
-        // console.log('siteConfigData', siteConfigData);
         setValue({
           site_id: '',
           estimated_budget: '',
@@ -319,7 +293,6 @@ const ProjectForm = () => {
         project_documents: s3UploadUrl,
         status: statusData,
       };
-      // console.log('project data form', Object);
       createNewProjectData(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
@@ -782,25 +755,14 @@ const ProjectForm = () => {
                               </option>
                             ))}
                           </Select>
-                          {/* <div
-                            className={Styles.instantAdd}
-                            onClick={handelOpenSiteForm}
-                          >
-                            <AddIcon
-                              style={{ height: '15px', width: '15px' }}
-                            />
-                            <h4 className={Styles.addtext}> Add Site</h4>
-                          </div> */}
                         </div>
                         <div
-                            className={Styles.instantAdd}
-                            onClick={handelOpenSiteForm}
-                          >
-                            <AddIcon
-                              style={{ height: '15px', width: '15px' }}
-                            />
-                            <h4 className={Styles.addtext}> Add Site</h4>
-                          </div>
+                          className={Styles.instantAdd}
+                          onClick={handelOpenSiteForm}
+                        >
+                          <AddIcon style={{ height: '15px', width: '15px' }} />
+                          <h4 className={Styles.addtext}> Add Site</h4>
+                        </div>
                       </div>
                     </td>
                     <td>
@@ -885,9 +847,6 @@ const ProjectForm = () => {
                       )}
                     </td>
                     <td>
-                      {/* <div className={Styles.actionIcon}>
-                              <DeleteIcon onClick={() => deleteRow()} />
-                        </div> */}
                     </td>
                   </tr>
                 </tbody>

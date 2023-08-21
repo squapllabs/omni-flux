@@ -29,7 +29,7 @@ const instantCreateSite = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllSiteDrop']);
+        queryClient.invalidateQueries(['useGetAllSite']);
 
       },
     }
