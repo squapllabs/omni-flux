@@ -18,7 +18,10 @@ import AddIcon from '../menu/icons/addIcon';
 import BackArrow from '../menu/icons/backArrow';
 import UploadIcon from '../menu/icons/cloudUpload';
 import CloseIcon from '../menu/icons/closeIcon';
-import { createProject,useGetMasterProjectParentType } from '../../hooks/project-hooks';
+import {
+  createProject,
+  useGetMasterProjectParentType,
+} from '../../hooks/project-hooks';
 import userService from '../../service/user-service';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import projectService from '../../service/project-service';
@@ -26,13 +29,19 @@ import CustomClientAdd from '../ui/CustomClientAdd';
 import CustomSiteAdd from '../ui/CustomSiteAdd';
 
 const ProjectForm = () => {
+  const navigate = useNavigate();
+  let rowIndex = 0;
+  const currentDate = new Date();
+  const defaultEndDate = new Date();
+  defaultEndDate.setDate(currentDate.getDate() + 90);
   const [message, setMessage] = useState('');
   const { mutate: createNewProjectData } = createProject();
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
-  const { data: getAllProjectTypeDatadrop = [] } = useGetMasterProjectParentType();
+  const { data: getAllProjectTypeDatadrop = [] } =
+    useGetMasterProjectParentType();
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -54,10 +63,7 @@ const ProjectForm = () => {
   };
   const [value, setValue] = useState(valueObject);
   const [errors, setErrors] = useState('');
-  let rowIndex = 0;
-  const currentDate = new Date();
-  const defaultEndDate = new Date();
-  defaultEndDate.setDate(currentDate.getDate() + 90);
+
   const [initialValues, setInitialValues] = useState({
     project_name: '',
     code: '',
@@ -76,7 +82,6 @@ const ProjectForm = () => {
     status: '',
     submitType: '',
   });
-  const navigate = useNavigate();
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -227,12 +232,9 @@ const ProjectForm = () => {
             const response = await projectService.checkProjectCodeDuplicate(
               value
             );
-            if (response?.is_exist === true) {
-              return false;
-            } else {
-              return true;
-            }
+            return !response?.is_exist;
           }
+          return true;
         }
       ),
     user_id: yup.string().trim().required('Project manager is required'),
@@ -252,7 +254,7 @@ const ProjectForm = () => {
       .min(1, 'Value must be greater than 0')
       .max(100000, 'Value must be less then 100000')
       .typeError('Only Number are allowed'),
-      project_type: yup.string().trim().required('Project type is required'),
+    project_type: yup.string().trim().required('Project type is required'),
     date_started: yup.date().required('Project start date is required'),
     date_ended: yup
       .date()
@@ -531,7 +533,9 @@ const ProjectForm = () => {
                 onChange={formik.handleChange}
                 value={formik.values.project_type}
                 defaultLabel="Select from options"
-                error={formik.touched.project_type && formik.errors.project_type}
+                error={
+                  formik.touched.project_type && formik.errors.project_type
+                }
               >
                 {getAllProjectTypeDatadrop.map((option: any) => (
                   <option key={option.value} value={option.value}>
@@ -630,8 +634,6 @@ const ProjectForm = () => {
                 </thead>
                 <tbody>
                   {siteConfigData.map((row, index) => {
-                    console.log('row', row);
-
                     rowIndex = rowIndex + 1;
                     return (
                       <tr key={index}>
@@ -841,8 +843,7 @@ const ProjectForm = () => {
                         ''
                       )}
                     </td>
-                    <td>
-                    </td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>

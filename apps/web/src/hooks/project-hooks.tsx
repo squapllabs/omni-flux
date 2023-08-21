@@ -86,4 +86,11 @@ const useGetMasterProjectParentType = () => {
     }
   );
 };
-export { useGetAllProject,createProject,getByProject,useDeleteProjects,getByProjectId,updateProject,useGetMasterProjectParentType };
+
+const useGetAllProjectManagers = () => {
+  return useQuery(['useGetAllProjectManager'], () => ProjectService.getAllProjectManagers(), {
+    select: (data) => data.data,
+    staleTime: Infinity,
+  });
+};
+export { useGetAllProject,createProject,getByProject,useDeleteProjects,getByProjectId,updateProject,useGetMasterProjectParentType,useGetAllProjectManagers };

@@ -97,6 +97,18 @@ const getAllProjectParentType = async () => {
     throw error;
   }
 };
+
+const getAllProjectManagers = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/user/get-users-by-role-name/Project Manager`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all users:', error);
+    throw error;
+  }
+};
 export default {
   getAllProject,
   createProjectData,
@@ -105,5 +117,6 @@ export default {
   deleteProject,
   getOneProjectById,
   updateProjectData,
-  getAllProjectParentType
+  getAllProjectParentType,
+  getAllProjectManagers
 };

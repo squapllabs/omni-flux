@@ -915,8 +915,7 @@ const ProjectEdit = () => {
                             onChange={handleChangeItems}
                             value={value.estimated_budget}
                             error={errors?.estimated_budget}
-                            // error={errors?.estimated_budget || formik.touched.estimated_budget && formik.errors.estimated_budget}
-                          />
+                           />
                         </div>
                       ) : (
                         ''
