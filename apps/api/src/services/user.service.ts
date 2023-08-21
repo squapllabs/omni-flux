@@ -29,11 +29,27 @@ const createUser = async (body: createUserBody) => {
       date_of_birth,
       gender,
       additional_info,
+      parent_user_id,
     } = body;
 
     const userEmailExist = await userDao.getByUniqueEmail(email_id);
     if (userEmailExist) {
-      return (result = { success: false, message: 'email_id already exists' });
+      return (result = {
+        message: 'email_id already exists',
+        status: false,
+        data: null,
+      });
+    }
+
+    if (parent_user_id) {
+      const parentUserExist = await userDao.getById(parent_user_id);
+      if (!parentUserExist) {
+        return (result = {
+          message: 'parent_user_id does not exists',
+          status: false,
+          data: null,
+        });
+      }
     }
 
     const userDataWithRole = [];
@@ -48,6 +64,7 @@ const createUser = async (body: createUserBody) => {
           user_status,
           created_by,
           department,
+          parent_user_id,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });
@@ -116,11 +133,23 @@ const updateUser = async (body: updateUserBody) => {
       gender,
       additional_info,
       is_two_factor,
+      parent_user_id,
     } = body;
 
     const userExist = await userDao.getById(user_id);
     if (!userExist) {
       return (result = { success: false, message: 'user id does not exists' });
+    }
+
+    if (parent_user_id) {
+      const parentUserExist = await userDao.getById(parent_user_id);
+      if (!parentUserExist) {
+        return (result = {
+          message: 'parent_user_id does not exists',
+          status: false,
+          data: null,
+        });
+      }
     }
 
     const existingUserRoleData = await userRoleDao.getByUserId(user_id);
@@ -136,6 +165,7 @@ const updateUser = async (body: updateUserBody) => {
           user_id,
           department,
           is_two_factor,
+          parent_user_id,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });
@@ -282,22 +312,24 @@ const userLogin = async (
       });
     }
     const fullName = dbUser?.first_name + ' ' + dbUser?.last_name;
-    const loginResposne = {
+    const userId = dbUser?.user_id;
+    const loginResponse = {
       status: true,
       message: 'Success',
       token: `Bearer ${token}`,
       refreshToken: refreshToken,
       fullName: fullName,
       email: email_id,
+      userId: userId,
     };
-    res.send(loginResposne);
+    res.send(loginResponse);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
-    const loginResposne = {
+    const loginResponse = {
       status: false,
       message: 'something went wrong',
     };
-    return loginResposne;
+    return loginResponse;
   }
 };
 
@@ -637,6 +669,72 @@ const searchUser = async (body) => {
   }
 };
 
+/**
+ * Method to get User By Role Name
+ * @param role_name
+ * @returns
+ */
+const getByRoleName = async (role_name: string) => {
+  try {
+    let result = null;
+    const userData = await userDao.getUserByRoleName(role_name);
+    if (userData.length === 0) {
+      result = {
+        message: 'User data does not exist for this role',
+        status: false,
+        data: null,
+      };
+      return result;
+    } else {
+      result = { message: 'success', status: true, data: userData };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByRoleName user service : ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to get User By Parent User Id
+ * @param parent_user_id
+ * @returns
+ */
+const getChildUsersByParentUserId = async (parent_user_id: number) => {
+  try {
+    let result = null;
+    const parentUserExist = await userDao.getById(parent_user_id);
+    if (!parentUserExist) {
+      result = {
+        message: 'parent_user_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const userData = await userDao.getChildUsersByParentUserId(
+      Number(parent_user_id)
+    );
+    if (userData.length === 0) {
+      result = {
+        message: 'No child users exist for this parent_user_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    } else {
+      result = { message: 'success', status: true, data: userData };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getChildUsersByParentUserId user service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createUser,
   updateUser,
@@ -651,4 +749,6 @@ export {
   customFilterUser,
   refreshAccessToken,
   getAllSalesPersonUsers,
+  getByRoleName,
+  getChildUsersByParentUserId,
 };

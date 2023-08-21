@@ -3,6 +3,7 @@ import prisma from '../utils/prisma';
 const add = async (
   role_name: string,
   created_by: bigint,
+  description: string,
   connectionObj = null
 ) => {
   try {
@@ -11,6 +12,7 @@ const add = async (
     const role = await transaction.role.create({
       data: {
         role_name,
+        description,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -25,6 +27,7 @@ const add = async (
 
 const edit = async (
   role_name: string,
+  description: string,
   updated_by: bigint,
   role_id: number,
   connectionObj = null
@@ -38,6 +41,7 @@ const edit = async (
       },
       data: {
         role_name,
+        description,
         updated_by,
         updated_date: currentDate,
       },

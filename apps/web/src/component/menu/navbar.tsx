@@ -1,4 +1,4 @@
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/navbar.module.scss';
 import HomeIcon from './icons/homeIcon';
 import SettingIcon from './icons/settingIcon';
@@ -12,8 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetAuth } from '../../redux/reducer';
 import authService from '../../service/auth-service';
-import LogoutIcon from './icons/logoutIcon'
-
+import LogoutIcon from './icons/logoutIcon';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -37,6 +36,9 @@ const Navbar = () => {
   function handleListItems() {
     navigate('/products');
   }
+  function handleLeadEnquires() {
+    navigate('/lead-enquires');
+  }
 
   const handleHomeRoute = () => {
     navigate('/home');
@@ -57,9 +59,9 @@ const Navbar = () => {
     }
   };
 
-  const  handleNavigate = () => {
+  const handleNavigate = () => {
     navigate('/settings');
-  }
+  };
 
   return (
     <div>
@@ -132,10 +134,13 @@ const Navbar = () => {
                 <p>Resources</p>
                 <div>
                   <div className={Styles.dropDwonContent}>
-                    <div className={Styles.dropDownItems}>
+                    <div
+                      className={Styles.dropDownItems}
+                      onClick={handleLeadEnquires}
+                    >
                       <div className={Styles.itemsTitle}>
                         <CheckIcon />
-                        <h2>Blog</h2>
+                        <h2>Lead-Enquires</h2>
                       </div>
                       <p>The latest industry news, updates and info.</p>
                     </div>
@@ -317,21 +322,21 @@ const Navbar = () => {
             />
             {isMenuOpen && (
               <ul className={Styles.menu}>
-                <li className={Styles.menuItem} onClick={() => handleNavigate()}>
-                  
+                <li
+                  className={Styles.menuItem}
+                  onClick={() => handleNavigate()}
+                >
                   <SettingIcon />
                   <span>Settings</span>
                 </li>
                 <li className={Styles.menuItem} onClick={() => handleLogout()}>
-                  <LogoutIcon style={{fontWeight:'bolder'}}/>
+                  <LogoutIcon style={{ fontWeight: 'bolder' }} />
                   <span>Logout</span>
                 </li>
               </ul>
             )}
           </div>
-          <div>
-            
-          </div>
+          <div></div>
         </div>
       </nav>
     </div>
