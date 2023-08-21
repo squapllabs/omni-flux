@@ -21,10 +21,13 @@ import * as Yup from 'yup';
 import { getCreateValidateyup } from '../../helper/constants/siteExpanse-constants';
 import CustomDialogBox from '../ui/CustomDialog';
 import CustomSnackBar from '../ui/customSnackBar';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ExpansesForm = () => {
-  let projectId = 39;
-  let siteId = 17;
+  const params = useParams();
+  const navigate = useNavigate();
+  let projectId = Number(params?.projectId);
+  let siteId = Number(params?.siteId);
   const validationSchema = getCreateValidateyup(Yup);
   const state: RootState = store.getState();
   let encryptedData = getToken(state, 'Data');
@@ -308,9 +311,14 @@ const ExpansesForm = () => {
           };
           postSiteExpenseData(object, {
             onSuccess(data, variables, context) {
+              console.log('data', data);
+
               if (data?.status === true) {
                 setMessage('Site Expense has been added successfully !');
                 setOpenSnack(true);
+                setInterval(() => {
+                  navigate(`/project-edit/${projectId}`);
+                }, 3000);
               }
             },
           });
@@ -336,6 +344,9 @@ const ExpansesForm = () => {
               if (data?.status === true) {
                 setMessage('Site Expense has been updated successfully !');
                 setOpenSnack(true);
+                setInterval(() => {
+                  navigate(`/project-edit/${projectId}`);
+                }, 3000);
               }
             },
           });

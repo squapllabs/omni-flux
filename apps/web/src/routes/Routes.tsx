@@ -333,7 +333,10 @@ const AppRoutes = () => {
           element={<ProtectedProjectWorkBreakDownPage />}
         />
         <Route path="/settings" element={<ProtectedSettings />} />
-        <Route path="/expenses" element={<ProtectedExpanses />} />
+        <Route
+          path="/expenses/:projectId/:siteId"
+          element={<ProtectedExpanses />}
+        />
         <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
         <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
