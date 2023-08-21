@@ -28,6 +28,7 @@ import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import BackArrow from '../menu/icons/backArrow';
 import CustomClientAdd from '../ui/CustomClientAdd';
 import CustomSiteAdd from '../ui/CustomSiteAdd';
+import MoreIcon from '../menu/icons/moreHorizontalIcon';
 
 const ProjectEdit = () => {
   const routeParams = useParams();
@@ -53,6 +54,10 @@ const ProjectEdit = () => {
   const [viewAddress, setViewAddress] = useState({});
   const [showClientForm, setShowClientForm] = useState(false);
   const [showSiteForm, setShowSiteForm] = useState(false);
+  const [openDropdowns, setOpenDropdowns] = useState<number | null>(null);
+  const menuRef = useRef<Array<React.RefObject<HTMLDivElement>>>(
+    new Array(siteConfigData.length).fill(React.createRef())
+  );
   const valueObject: any = {
     site_id: '',
     estimated_budget: '',
@@ -150,6 +155,14 @@ const ProjectEdit = () => {
     { name: 'Rejected', value: 'Rejected' },
     { name: 'Completed', value: 'Completed' },
   ];
+
+  const handleDropdown = (rowIndex: number) => {
+    if (openDropdowns === rowIndex) {
+      setOpenDropdowns(-1);
+    } else {
+      setOpenDropdowns(rowIndex);
+    }
+  };
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -472,6 +485,20 @@ const ProjectEdit = () => {
     setShowSiteForm(true);
   };
 
+  const handleExpenses = (data: any) => {
+    const siteId = data.siteData?.site_contractor_id;
+    const projectSiteId = Number(routeParams?.id);
+    navigate(`/expenses/${projectSiteId}/${siteId}`);
+  };
+
+  // const handleBom = (data:any) => {
+  //   const siteId = data.site_id
+  //   const projectSiteId = data.project_site_id
+  //   console.log("dsd",data);
+  //   console.log("dsd_1",siteId);
+  //   console.log("dsd_2",projectSiteId);
+  // }
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -701,7 +728,7 @@ const ProjectEdit = () => {
                     <th className={Styles.tableHeading}>Estimate Budget</th>
                     <th className={Styles.tableHeading}>Actual Budget</th>
                     <th className={Styles.tableHeading}>Approver</th>
-                    {/* <th className={Styles.tableHeading}>Actions</th> */}
+                    <th className={Styles.tableHeading}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -830,6 +857,27 @@ const ProjectEdit = () => {
                             </Select>
                           </div>
                         </td>
+                        <td>
+                          <div ref={menuRef.current[index]}>
+                            <MoreIcon onClick={() => handleDropdown(index)} />
+                            {openDropdowns === index && (
+                              <ul className={Styles.menu}>
+                                <li
+                                  className={Styles.menuItem}
+                                  // onClick={() => handleBom(row)}
+                                >
+                                  <span>Add Bom</span>
+                                </li>
+                                <li
+                                  className={Styles.menuItem}
+                                  onClick={() => handleExpenses(row)}
+                                >
+                                  <span>Add Expenses</span>
+                                </li>
+                              </ul>
+                            )}
+                          </div>
+                        </td>
                       </tr>
                     );
                   })}
@@ -915,7 +963,7 @@ const ProjectEdit = () => {
                             onChange={handleChangeItems}
                             value={value.estimated_budget}
                             error={errors?.estimated_budget}
-                           />
+                          />
                         </div>
                       ) : (
                         ''

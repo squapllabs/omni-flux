@@ -220,6 +220,8 @@ import projectForm from '../component/project/projectForm';
 import Lead from '../component/leadEnquires/leadList';
 import leadEnquires from '../component/leadEnquires/leadEnquires';
 import Settings from '../component/settings/homeSetting';
+import ExpansesForm from '../component/expanses/expansesForm';
+import PopupExpanse from '../component/expanses/popupExpanse';
 import projectList from '../component/project/projectList';
 import projectEdit from '../component/project/projectEdit';
 import ProjectView from '../component/project/projectInfo';
@@ -244,26 +246,34 @@ const AppRoutes = () => {
   const ProtectedProductPage = withLayoutAndProtection(ProductPage);
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
-  const ProtectedProjectWorkBreakDownFormPage = withLayoutAndProtection(ProjectWorkBreakDownForm);
-  const ProtectedProjectWorkBreakDownListPage = withLayoutAndProtection(ProjectWorkBreakDown);
-  const ProtectedProjectWorkBreakDownEditPage = withLayoutAndProtection(ProjectWorkBreakDownEdit);
+  const ProtectedProjectWorkBreakDownFormPage = withLayoutAndProtection(
+    ProjectWorkBreakDownForm
+  );
+  const ProtectedProjectWorkBreakDownListPage =
+    withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedProjectWorkBreakDownEditPage = withLayoutAndProtection(
+    ProjectWorkBreakDownEdit
+  );
   const ProtectedSiteFormPage = withLayoutAndProtection(siteForm);
   const ProtectedSitePage = withLayoutAndProtection(siteList);
   const ProtectedSiteEditPage = withLayoutAndProtection(siteEdit);
   const ProtectedContractorListPage = withLayoutAndProtection(contractorList);
   const ProtectedContractorFormPage = withLayoutAndProtection(contractorForm);
-  const ProtectedContractorEditFormPage = withLayoutAndProtection(contractorEdit);
+  const ProtectedContractorEditFormPage =
+    withLayoutAndProtection(contractorEdit);
   const ProtectedProjectFormPage = withLayoutAndProtection(projectForm);
-  const ProtectedSettings = withLayoutAndProtection(Settings)
+  const ProtectedSettings = withLayoutAndProtection(Settings);
   const ProtectedProjectListPage = withLayoutAndProtection(projectList);
   const ProtectedProjectEdit = withLayoutAndProtection(projectEdit);
   const ProtectedLeadPage = withLayoutAndProtection(Lead);
   const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
   const ProtectedProjectWorkBreakDownPage =
     withLayoutAndProtection(ProjectWorkBreakDown);
-  const ProtectedProjectView = withLayoutAndProtection(ProjectView)
-  const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct)
-  const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender)
+  const ProtectedExpanses = withLayoutAndProtection(ExpansesForm);
+  const ProtectedPopupExpanse = withLayoutAndProtection(PopupExpanse);
+  const ProtectedProjectView = withLayoutAndProtection(ProjectView);
+  const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
+  const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
 
   return (
     <div>
@@ -287,30 +297,58 @@ const AppRoutes = () => {
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/category" element={<ProtectedCategoryPage />} />
         <Route path="/master-data" element={<ProtectedMasterDataPage />} />
-        <Route path="/project-workbreakdown-add" element={<ProtectedProjectWorkBreakDownFormPage />} />
-        <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownListPage />} />
-        <Route path="/project-workbreakdown-edit/:id" element={<ProtectedProjectWorkBreakDownEditPage />} />
+        <Route
+          path="/project-workbreakdown-add"
+          element={<ProtectedProjectWorkBreakDownFormPage />}
+        />
+        <Route
+          path="/project-workbreakdown"
+          element={<ProtectedProjectWorkBreakDownListPage />}
+        />
+        <Route
+          path="/project-workbreakdown-edit/:id"
+          element={<ProtectedProjectWorkBreakDownEditPage />}
+        />
         <Route path="/site-add" element={<ProtectedSiteFormPage />} />
         <Route path="/site" element={<ProtectedSitePage />} />
         <Route path="/site-edit/:id" element={<ProtectedSiteEditPage />} />
         <Route path="/contractor" element={<ProtectedContractorListPage />} />
-        <Route path="/contractor-add" element={<ProtectedContractorFormPage />} />
-        <Route path="/contractor-edit/:id" element={<ProtectedContractorEditFormPage />} />
+        <Route
+          path="/contractor-add"
+          element={<ProtectedContractorFormPage />}
+        />
+        <Route
+          path="/contractor-edit/:id"
+          element={<ProtectedContractorEditFormPage />}
+        />
         <Route path="/project-add" element={<ProtectedProjectFormPage />} />
         <Route path="/lead-enquires" element={<ProtectedLeadPage />} />
         <Route path="/lead-add" element={<ProtectedLeadEnquiresPage />} />
-        <Route path="/lead-edit/:id/:type" element={<ProtectedLeadEnquiresPage />}
+        <Route
+          path="/lead-edit/:id/:type"
+          element={<ProtectedLeadEnquiresPage />}
         />
         <Route
           path="/project-workbreakdown"
           element={<ProtectedProjectWorkBreakDownPage />}
         />
         <Route path="/settings" element={<ProtectedSettings />} />
+        <Route
+          path="/expenses/:projectId/:siteId"
+          element={<ProtectedExpanses />}
+        />
+        <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
         <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
         <Route path="/project-info/:id" element={<ProtectedProjectView />} />
-        <Route path="/lead-info-product/:id" element={<ProtectedLeadProductView />} />
-        <Route path="/lead-info-tender/:id" element={<ProtectedLeadTenderView />} />
+        <Route
+          path="/lead-info-product/:id"
+          element={<ProtectedLeadProductView />}
+        />
+        <Route
+          path="/lead-info-tender/:id"
+          element={<ProtectedLeadTenderView />}
+        />
       </Routes>
     </div>
   );
