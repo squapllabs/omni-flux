@@ -6,10 +6,9 @@ import Styles from '../../styles/pagination.module.scss';
 import LastPageIcon from '../menu/icons/lastPageIcon';
 import Select from '../ui/selectNew';
 const options = [
-  { value: '3', label: '3 ' },
-  { value: '5', label: '5' },
-  { value: '10', label: '10' },
-  { value: '20', label: '20' },
+  { value: '5', label: 5 },
+  { value: '10', label: 10 },
+  { value: '20', label: 20 },
 ];
 interface PaginationProps {
   currentPage: number;
@@ -49,7 +48,7 @@ const Pagination: React.FC<PaginationProps> = ({
             onChange={handleRowsPerPageChange}
           >
             {options.map((option: any) => (
-              <option key={options.value} value={options.value}>
+              <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}

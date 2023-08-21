@@ -5,7 +5,7 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
-import { getBySearchSiteData,useDeleteSite } from '../../hooks/site-hooks';
+import { getBySearchSiteData, useDeleteSite } from '../../hooks/site-hooks';
 import AddIcon from '../menu/icons/addIcon';
 import { useNavigate } from 'react-router';
 import EditIcon from '../menu/icons/editIcon';
@@ -16,7 +16,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 const ContractorList = () => {
   const { mutate: getDeleteContractorById } = useDeleteSite();
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [disable, setDisable] = useState(true);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -37,10 +37,12 @@ const ContractorList = () => {
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
@@ -57,11 +59,10 @@ const ContractorList = () => {
       global_search: filterValues.search_by_name,
       type: 'Contractor',
     };
-    await postDataForFilter(demo);
+    postDataForFilter(demo);
     setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
-    setDisable(false);
   };
   const handleReset = async () => {
     setFilterValues({
@@ -74,12 +75,13 @@ const ContractorList = () => {
       order_by_direction: 'desc',
       status: 'AC',
       global_search: '',
+      type: 'Contractor',
     };
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
-    setDisable(true);
+    setIsResetDisabled(true);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -145,7 +147,7 @@ const ContractorList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  disabled={disable}
+                  disabled={isResetDisabled}
                   onClick={handleReset}
                 >
                   Reset
@@ -165,6 +167,7 @@ const ContractorList = () => {
                 </Button>
               </div>
             </div>
+            <div className={Styles.dividerStyle}></div>
             <div className={Styles.tableContainer}>
               <div>
                 <table>
@@ -175,7 +178,7 @@ const ContractorList = () => {
                       <th>Code</th>
                       <th>Mobile Number</th>
                       <th>Description</th>
-                      <th></th>
+                      {activeButton === 'AC' && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -185,7 +188,7 @@ const ContractorList = () => {
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        <td></td>
+                        {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
                       ''
@@ -197,26 +200,28 @@ const ContractorList = () => {
                         <td>{item.code}</td>
                         <td>{item.mobile_number}</td>
                         <td>{item.description}</td>
-                        <td>
-                          <div className={Styles.tableIcon}>
-                            <div>
-                              <EditIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/contractor-edit/${item.site_contractor_id}`
-                                  )
-                                }
-                              />
+                        {activeButton === 'AC' && (
+                          <td>
+                            <div className={Styles.tableIcon}>
+                              <div>
+                                <EditIcon
+                                  onClick={() =>
+                                    navigate(
+                                      `/contractor-edit/${item.site_contractor_id}`
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div>
+                                <DeleteIcon
+                                  onClick={() =>
+                                    deleteContractor(item.site_contractor_id)
+                                  }
+                                />
+                              </div>
                             </div>
-                            <div>
-                              <DeleteIcon
-                                onClick={
-                                  () => deleteContractor(item.site_contractor_id)
-                                }
-                              />
-                            </div>
-                          </div>
-                        </td>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
@@ -236,8 +241,8 @@ const ContractorList = () => {
           <CustomDelete
             open={openDelete}
             title="Delete"
-            contentLine1="Are you sure you want to delete this post? This action cannot be undone."
-            // contentLine2="Deleted site will move to Inactive tab."
+            contentLine1="Are you sure you want to delete this site? This action cannot be undone."
+            contentLine2=""
             handleClose={handleCloseDelete}
             handleConfirm={deleteSiteConform}
           />

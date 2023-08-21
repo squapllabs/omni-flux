@@ -16,7 +16,7 @@ const CustomSiteAdd = (props: { isVissiblesite: any; onActionsite: any }) => {
   const { mutate: createNewSite } = instantCreateSite();
   const validationSchemaSite = siteValidate(Yup);
   const [message, setMessage] = useState('');
-  const [openSnack,setOpenSnack] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
   const [siteinitialValues, setsiteInitialValues] = useState({
     name: '',
     code: '',
@@ -81,7 +81,7 @@ const CustomSiteAdd = (props: { isVissiblesite: any; onActionsite: any }) => {
               <form onSubmit={formikTwo.handleSubmit}>
                 <div className={Styles.header}>
                   <div className={Styles.popupHeader}>
-                    <h4>Create Client</h4>
+                    <h4>Create Site</h4>
                     <button className={Styles.closeButton}>
                       <CloseIcon onClick={handleCloseSiteForm} />
                     </button>
@@ -92,7 +92,7 @@ const CustomSiteAdd = (props: { isVissiblesite: any; onActionsite: any }) => {
                     <div className={Styles.siteRow}>
                       <div style={{ width: '40%' }}>
                         <Input
-                          label="Site Name *"
+                          label="Site Name"
                           placeholder="Enter site name"
                           name="name"
                           value={formikTwo.values.name}
@@ -100,11 +100,12 @@ const CustomSiteAdd = (props: { isVissiblesite: any; onActionsite: any }) => {
                           error={
                             formikTwo.touched.name && formikTwo.errors.name
                           }
+                          mandatory={true}
                         />
                       </div>
                       <div style={{ width: '40%' }}>
                         <Input
-                          label="Code *"
+                          label="Code"
                           placeholder="Enter code"
                           name="code"
                           value={formikTwo.values.code}
@@ -112,6 +113,7 @@ const CustomSiteAdd = (props: { isVissiblesite: any; onActionsite: any }) => {
                           error={
                             formikTwo.touched.code && formikTwo.errors.code
                           }
+                          mandatory={true}
                         />
                       </div>
                     </div>

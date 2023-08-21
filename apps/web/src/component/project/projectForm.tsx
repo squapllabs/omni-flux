@@ -18,7 +18,7 @@ import AddIcon from '../menu/icons/addIcon';
 import BackArrow from '../menu/icons/backArrow';
 import UploadIcon from '../menu/icons/cloudUpload';
 import CloseIcon from '../menu/icons/closeIcon';
-import { createProject } from '../../hooks/project-hooks';
+import { createProject,useGetMasterProjectParentType } from '../../hooks/project-hooks';
 import userService from '../../service/user-service';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import projectService from '../../service/project-service';
@@ -32,6 +32,7 @@ const ProjectForm = () => {
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
+  const { data: getAllProjectTypeDatadrop = [] } = useGetMasterProjectParentType();
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -64,7 +65,7 @@ const ProjectForm = () => {
     client_id: '',
     date_started: currentDate.toISOString().slice(0, 10),
     date_ended: defaultEndDate.toISOString().slice(0, 10),
-    priority: '',
+    project_type: '',
     approvar_id: '',
     estimated_budget: '',
     actual_budget: '',
@@ -76,12 +77,6 @@ const ProjectForm = () => {
     submitType: '',
   });
   const navigate = useNavigate();
-
-  const getAllProjectPriorityType = [
-    { label: 'High', value: 'High' },
-    { label: 'Medium', value: 'Medium' },
-    { label: 'Low', value: 'Low' },
-  ];
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -153,7 +148,7 @@ const ProjectForm = () => {
       estimated_budget: yup
         .string()
         .matches(/^[0-9]*$/, 'Only numbers are allowed')
-        .required('Estimation Budget is required')
+        .required('Budget is required')
         .typeError('Only numbesqswqsrs are allowed')
         .test(
           'site-budget',
@@ -204,7 +199,7 @@ const ProjectForm = () => {
         });
       })
       .catch((e) => {
-        let errorObj: any = {};
+        const errorObj: any = {};
         e.inner.map((errors: any) => {
           return (errorObj[errors.path] = errors.message);
         });
@@ -257,7 +252,7 @@ const ProjectForm = () => {
       .min(1, 'Value must be greater than 0')
       .max(100000, 'Value must be less then 100000')
       .typeError('Only Number are allowed'),
-    priority: yup.string().trim().required('Priority is required'),
+      project_type: yup.string().trim().required('Project type is required'),
     date_started: yup.date().required('Project start date is required'),
     date_ended: yup
       .date()
@@ -283,7 +278,7 @@ const ProjectForm = () => {
         client_id: Number(values.client_id),
         date_started: values.date_started,
         date_ended: values.date_ended,
-        priority: values.priority,
+        project_type: values.project_type,
         approvar_id: Number(values.approvar_id),
         estimated_budget: Number(values.estimated_budget),
         actual_budget: Number(values.actual_budget),
@@ -530,15 +525,15 @@ const ProjectForm = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Select
-                label="Priority"
-                name="priority"
+                label="Project Type"
+                name="project_type"
                 mandatory={true}
                 onChange={formik.handleChange}
-                value={formik.values.priority}
+                value={formik.values.project_type}
                 defaultLabel="Select from options"
-                error={formik.touched.priority && formik.errors.priority}
+                error={formik.touched.project_type && formik.errors.project_type}
               >
-                {getAllProjectPriorityType.map((option: any) => (
+                {getAllProjectTypeDatadrop.map((option: any) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>

@@ -75,6 +75,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                     label="Name"
                     placeholder="Enter client name"
                     name="name"
+                    mandatory={true}
                     value={formikOne.values.name}
                     onChange={formikOne.handleChange}
                     error={formikOne.touched.name && formikOne.errors.name}
@@ -92,6 +93,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                       formikOne.touched.contact_details &&
                       formikOne.errors.contact_details
                     }
+                    mandatory={true}
                     width="100%"
                   />
                 </div>

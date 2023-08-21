@@ -85,6 +85,18 @@ const updateProjectData = async (values: JSON) => {
     console.log('Error in updateProjectData :', error);
   }
 };
+
+const getAllProjectParentType = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/master-data/get-by-type/PJTYP`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting getAllProjectParentType:', error);
+    throw error;
+  }
+};
 export default {
   getAllProject,
   createProjectData,
@@ -92,5 +104,6 @@ export default {
   filterProject,
   deleteProject,
   getOneProjectById,
-  updateProjectData
+  updateProjectData,
+  getAllProjectParentType
 };

@@ -184,16 +184,14 @@ const SubSubCategoryList = () => {
           <div className={Styles.box}>
             <div className={Styles.textContent}>
               <h3>Add New Sub Sub Categories</h3>
-              {/* <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span> */}
             </div>
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields}>
-                <div style={{width:'20%'}}>
+                <div className={Styles.selectTab}>
                   <Select
                     label="Sub Category"
                     name="sub_category_id"
+                    mandatory={true}
                     onChange={formik.handleChange}
                     value={formik.values.sub_category_id}
                     defaultLabel="Select from options"
@@ -214,6 +212,7 @@ const SubSubCategoryList = () => {
                     name="name"
                     label="Sub Sub Category Name"
                     placeholder="Sub sub category name"
+                    mandatory={true}
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     error={formik.touched.name && formik.errors.name}
@@ -224,6 +223,7 @@ const SubSubCategoryList = () => {
                     name="budget"
                     label="Budget"
                     placeholder="Enter budget"
+                    mandatory={true}
                     value={formik.values.budget}
                     onChange={formik.handleChange}
                     error={formik.touched.budget && formik.errors.budget}
@@ -237,7 +237,7 @@ const SubSubCategoryList = () => {
                     size="small"
                     icon={<AddIcon />}
                   >
-                    Add New Sub Sub Category
+                    Add
                   </Button>
                 </div>
               </div>
@@ -245,11 +245,8 @@ const SubSubCategoryList = () => {
           </div>
           <div className={Styles.box}>
             <div className={Styles.tableContainer}>
-              <div className={Styles.textContent}>
+              <div className={Styles.textContent1}>
                 <h3>List of Sub Sub Categories</h3>
-                {/* <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span> */}
               </div>
               <div className={Styles.searchField}>
                 <div className={Styles.inputFilter}>
@@ -298,7 +295,7 @@ const SubSubCategoryList = () => {
                         <th>Sub Category</th>
                         <th>Name</th>
                         <th>Budget</th>
-                        <th></th>
+                        {activeButton === 'AC' && <th></th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -307,7 +304,7 @@ const SubSubCategoryList = () => {
                           <td></td>
                           <td></td>
                           <td>No data found</td>
-                          <td></td>
+                          {activeButton === 'AC' && <td></td>}
                         </tr>
                       ) : (
                         ''
@@ -319,16 +316,17 @@ const SubSubCategoryList = () => {
                             <td>{item.sub_category.name}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
-                            <td>
-                              <div className={Styles.tableIcon}>
-                                <div>
-                                  <EditIcon
-                                    onClick={() =>
-                                      handleEdit(item.sub_sub_category_id)
-                                    }
-                                  />
-                                </div>
-                                {/* <div>
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tableIcon}>
+                                  <div>
+                                    <EditIcon
+                                      onClick={() =>
+                                        handleEdit(item.sub_sub_category_id)
+                                      }
+                                    />
+                                  </div>
+                                  {/* <div>
                               <DeleteIcon
                                 onClick={() =>
                                   deleteSubSubCategoryHandler(
@@ -337,8 +335,9 @@ const SubSubCategoryList = () => {
                                 }
                               />
                             </div> */}
-                              </div>
-                            </td>
+                                </div>
+                              </td>
+                            )}
                           </tr>
                         )
                       )}
@@ -348,7 +347,7 @@ const SubSubCategoryList = () => {
                 <div className={Styles.pagination}>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={getFilterData?.total_count}
+                    totalPages={getFilterData?.total_page}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
@@ -375,9 +374,6 @@ const SubSubCategoryList = () => {
         />
         <CustomEditDialog
           open={openPopup}
-          // title="Edit Sub Sub Category"
-          // subTitle="Please edit the sub sub category"
-          // handleClose={handleClosePopup}
           content={
             <SubSubForm
               setOpenPopup={setOpenPopup}

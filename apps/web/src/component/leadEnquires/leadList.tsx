@@ -20,7 +20,7 @@ const LeadList = () => {
     isLoading: getFilterLoading,
   } = getBySearchLeadEnquiry();
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });

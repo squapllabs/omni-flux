@@ -64,7 +64,7 @@ const ForgetPassword = () => {
         <div className={Styles.main}>
           <CustomCard>
             <div className={Styles.content_card}>
-              <div style={{paddingTop:'4px'}}>
+              <div className={Styles.lockicon}>
                 <LockIcon />
               </div>
               <div className={Styles.content}>

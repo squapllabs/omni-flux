@@ -43,6 +43,12 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
     outline: none;
     box-shadow: 0 0 0 2px #68717840;
   }
+  position: relative;
+  padding: 10px 0px 0px 10px;
+  &::placeholder::before {
+    content: '';
+    display: block;
+  }
 `;
 
 const InputError = styled.span`

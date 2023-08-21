@@ -143,7 +143,7 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
             error={!!error}
             disabled={disabled}
           >
-            <option value="">{defaultLabel}</option>
+            {defaultLabel != null && <option value="">{defaultLabel}</option>}
             {children}
           </StyledSelect>
           <DropdownArrow />

@@ -11,7 +11,7 @@ interface createProjectBody {
   estimated_budget: number;
   actual_budget: number;
   code: string;
-  priority: string;
+  project_type: string;
   project_notes: string;
   site_configuration: Array<SiteConfiguration>;
   approvar_id: number;
@@ -43,7 +43,7 @@ interface updateProjectBody {
   estimated_budget: number;
   actual_budget: number;
   code: string;
-  priority: string;
+  project_type: string;
   project_notes: string;
   client_id: number;
   project_documents: Array<ProjectDocuments>;

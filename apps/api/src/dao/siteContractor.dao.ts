@@ -181,7 +181,7 @@ const deleteSiteContractor = async (
   }
 };
 
-const searchSiteContractor = async (
+/* const searchSiteContractor = async (
   offset: number,
   limit: number,
   orderByColumn: string,
@@ -213,6 +213,86 @@ const searchSiteContractor = async (
   } catch (error) {
     console.log(
       'Error occurred in siteContractor dao : searchSiteContractor ',
+      error
+    );
+    throw error;
+  }
+}; */
+
+const searchSiteContractor = async (
+  offset,
+  limit,
+  orderByColumn,
+  orderByDirection,
+  filters,
+  global_search,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterSiteContractor;
+    const globalSearch = global_search.toLowerCase();
+    const allSiteContractors = await transaction.site_contractor.findMany({
+      where: filter,
+      orderBy: [{ [orderByColumn]: orderByDirection }],
+    });
+
+    const filteredSiteContractors = allSiteContractors.filter(
+      (siteContractor) => {
+        const lowerName = siteContractor.name
+          ? siteContractor.name.toLowerCase()
+          : '';
+        const lowerStreet =
+          siteContractor.address && siteContractor.address.street
+            ? siteContractor.address.street.toLowerCase()
+            : '';
+        const lowerCity =
+          siteContractor.address && siteContractor.address.city
+            ? siteContractor.address.city.toLowerCase()
+            : '';
+        const lowerState =
+          siteContractor.address && siteContractor.address.state
+            ? siteContractor.address.state.toLowerCase()
+            : '';
+        const lowerCountry =
+          siteContractor.address && siteContractor.address.country
+            ? siteContractor.address.country.toLowerCase()
+            : '';
+        const lowerPinCode =
+          siteContractor.address && siteContractor.address.pin_code
+            ? siteContractor.address.pin_code.toLowerCase()
+            : '';
+        const lowerDescription = siteContractor.description
+          ? siteContractor.description.toLowerCase()
+          : '';
+
+        return (
+          lowerName.includes(globalSearch) ||
+          lowerStreet.includes(globalSearch) ||
+          lowerCity.includes(globalSearch) ||
+          lowerState.includes(globalSearch) ||
+          lowerCountry.includes(globalSearch) ||
+          lowerPinCode.includes(globalSearch) ||
+          lowerDescription.includes(globalSearch)
+        );
+      }
+    );
+
+    const siteContractorCount = filteredSiteContractors.length;
+    const pagedSiteContractors = filteredSiteContractors.slice(
+      offset,
+      offset + limit
+    );
+
+    const siteContractorData = {
+      count: siteContractorCount,
+      data: pagedSiteContractors,
+    };
+
+    return siteContractorData;
+  } catch (error) {
+    console.log(
+      'Error occurred in siteContractor dao: searchSiteContractor',
       error
     );
     throw error;

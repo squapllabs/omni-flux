@@ -15,13 +15,19 @@ import { useGetAllSiteDrop } from '../../hooks/site-hooks';
 import siteService from '../../service/site-service';
 import AddIcon from '../menu/icons/addIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
-import { updateProject, getByProjectId } from '../../hooks/project-hooks';
+import {
+  updateProject,
+  getByProjectId,
+  useGetMasterProjectParentType,
+} from '../../hooks/project-hooks';
 import userService from '../../service/user-service';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import CloseIcon from '../menu/icons/closeIcon';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import BackArrow from '../menu/icons/backArrow';
+import CustomClientAdd from '../ui/CustomClientAdd';
+import CustomSiteAdd from '../ui/CustomSiteAdd';
 
 const ProjectEdit = () => {
   const routeParams = useParams();
@@ -34,6 +40,8 @@ const ProjectEdit = () => {
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
+  const { data: getAllProjectTypeDatadrop = [] } =
+    useGetMasterProjectParentType();
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
@@ -43,6 +51,8 @@ const ProjectEdit = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
   const [viewAddress, setViewAddress] = useState({});
+  const [showClientForm, setShowClientForm] = useState(false);
+  const [showSiteForm, setShowSiteForm] = useState(false);
   const valueObject: any = {
     site_id: '',
     estimated_budget: '',
@@ -63,7 +73,7 @@ const ProjectEdit = () => {
     client_id: '',
     date_started: '',
     date_ended: '',
-    priority: '',
+    project_type: '',
     approvar_id: '',
     project_estimated_budget: '',
     actual_budget: '',
@@ -98,7 +108,7 @@ const ProjectEdit = () => {
         client_id: getOneProjectData?.client_id || '',
         date_started: formattedDate || '',
         date_ended: formattedEndDate || '',
-        priority: getOneProjectData?.priority || '',
+        project_type: getOneProjectData?.project_type || '',
         approvar_id: getOneProjectData?.approvar_id || '',
         project_estimated_budget: getOneProjectData?.estimated_budget || '',
         actual_budget: getOneProjectData?.actual_budget || '',
@@ -133,12 +143,6 @@ const ProjectEdit = () => {
     }
   }, [getOneProjectData]);
 
-  const getAllProjectPriorityType = [
-    { label: 'High', value: 'High' },
-    { label: 'Medium', value: 'Medium' },
-    { label: 'Low', value: 'Low' },
-  ];
-
   const getAllSiteStatus = [
     { name: 'Not Started', value: 'Not Started' },
     { name: 'Inprogress', value: 'Inprogress' },
@@ -146,7 +150,6 @@ const ProjectEdit = () => {
     { name: 'Rejected', value: 'Rejected' },
     { name: 'Completed', value: 'Completed' },
   ];
-
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -232,7 +235,7 @@ const ProjectEdit = () => {
       estimated_budget: yup
         .string()
         .matches(/^[0-9]*$/, 'Only numbers are allowed')
-        .required('Estimation Budget is required')
+        .required('Budget is required')
         .typeError('Only numbesqswqsrs are allowed')
         .test(
           'site-budget',
@@ -283,7 +286,7 @@ const ProjectEdit = () => {
         });
       })
       .catch((e) => {
-        let errorObj: any = {};
+        const errorObj: any = {};
         e.inner.map((errors: any) => {
           return (errorObj[errors.path] = errors.message);
         });
@@ -292,8 +295,6 @@ const ProjectEdit = () => {
         });
       });
   };
-
-  
 
   const validateSchema = yup.object().shape({
     project_name: yup.string().required('Project name is required'),
@@ -314,7 +315,7 @@ const ProjectEdit = () => {
       .min(1, 'Value must be greater than 0')
       .max(100000, 'Value must be less then 100000')
       .typeError('Only Number are allowed'),
-    priority: yup.string().trim().required('Priority is required'),
+    project_type: yup.string().trim().required('Project Type is required'),
     date_started: yup.date().required('Project start date is required'),
     date_ended: yup
       .date()
@@ -323,42 +324,6 @@ const ProjectEdit = () => {
         yup.ref('date_started'),
         'Project end date cannot be earlier than start date'
       ),
-    // estimated_budget: yup
-    //   .string()
-    //   .matches(/^[0-9]*$/, 'Only numbers are allowed')
-    //   .required('Estimation Budget is required')
-    //   .typeError('Only numbesqswqsrs are allowed')
-    //   .test(
-    //     'site-budget',
-    //     'Site budget is greater than estimated budget',
-    //     function (budget: any) {
-    //       console.log('budget==>', budget);
-    //       console.log('budget= type =>', typeof budget);
-    //       const estimated_budget = formik.values.project_estimated_budget;
-    //       console.log('estimated_budget==>', estimated_budget);
-    //       console.log('estimated_budget type ==>', typeof estimated_budget);
-    //       const site_configuration = siteConfigData;
-    //       console.log('site_configuration edit==>', site_configuration);
-    //       if (site_configuration.length === 0) {
-    //         console.log('if condition in');
-    //         if (Number(budget) > Number(estimated_budget)) {
-    //           return false;
-    //         }
-    //         return true;
-    //       } else {
-    //         const totalEstimation = site_configuration.reduce(
-    //           (total: any, site: any) => total + Number(site.estimated_budget),
-    //           0
-    //         );
-    //         console.log('total==>', totalEstimation);
-    //         const finalTotal = totalEstimation + Number(budget);
-    //         if (finalTotal > estimated_budget) {
-    //           return false;
-    //         }
-    //         return true;
-    //       }
-    //     }
-    //   ),
   });
   const formik = useFormik({
     initialValues,
@@ -378,7 +343,7 @@ const ProjectEdit = () => {
         client_id: Number(values.client_id),
         date_started: values.date_started,
         date_ended: values.date_ended,
-        priority: values.priority,
+        project_type: values.project_type,
         approvar_id: Number(values.approvar_id),
         estimated_budget: Number(values.project_estimated_budget),
         actual_budget: Number(values.actual_budget),
@@ -402,7 +367,6 @@ const ProjectEdit = () => {
       });
     },
   });
-
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -486,10 +450,6 @@ const ProjectEdit = () => {
     }
   };
 
-  const handleSampleClick = () => {
-    console.log('sample demo click ');
-  };
-
   const drafthandler = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();
@@ -506,6 +466,10 @@ const ProjectEdit = () => {
     formik.setFieldValue('submitType', 'Inprogress');
     formik.submitForm();
     setOpenConfirm(false);
+  };
+
+  const handelOpenSiteForm = () => {
+    setShowSiteForm(true);
   };
 
   if (isLoading) {
@@ -635,15 +599,17 @@ const ProjectEdit = () => {
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
               <Select
-                label="Priority"
-                name="priority"
+                label="Project Type"
+                name="project_type"
                 mandatory={true}
                 onChange={formik.handleChange}
-                value={formik.values.priority}
+                value={formik.values.project_type}
                 defaultLabel="Select from options"
-                error={formik.touched.priority && formik.errors.priority}
+                error={
+                  formik.touched.project_type && formik.errors.project_type
+                }
               >
-                {getAllProjectPriorityType.map((option: any) => (
+                {getAllProjectTypeDatadrop.map((option: any) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -826,7 +792,7 @@ const ProjectEdit = () => {
                               name="estimated_budget"
                               onChange={(e) => handleChangeExistItems(e, index)}
                               value={row?.estimated_budget}
-                              error={errors?.estimated_budget}
+                              // error={errors?.estimated_budget}
                             />
                           </div>
                         </td>
@@ -864,7 +830,6 @@ const ProjectEdit = () => {
                             </Select>
                           </div>
                         </td>
-                    
                       </tr>
                     );
                   })}
@@ -890,6 +855,13 @@ const ProjectEdit = () => {
                               </option>
                             ))}
                           </Select>
+                        </div>
+                        <div
+                          className={Styles.instantAdd}
+                          onClick={handelOpenSiteForm}
+                        >
+                          <AddIcon style={{ height: '15px', width: '15px' }} />
+                          <h4 className={Styles.addtext}> Add Site</h4>
                         </div>
                       </div>
                     </td>
@@ -992,9 +964,6 @@ const ProjectEdit = () => {
                       ) : (
                         ''
                       )}
-                    </td>
-                    <td>
-                      
                     </td>
                   </tr>
                 </tbody>
@@ -1106,6 +1075,16 @@ const ProjectEdit = () => {
           </div>
         </div>
       </form>
+      <div>
+        <CustomClientAdd
+          isVissible={showClientForm}
+          onAction={setShowClientForm}
+        />
+        <CustomSiteAdd
+          isVissiblesite={showSiteForm}
+          onActionsite={setShowSiteForm}
+        />
+      </div>
       <CustomSnackBar
         open={openSnack}
         message={message}

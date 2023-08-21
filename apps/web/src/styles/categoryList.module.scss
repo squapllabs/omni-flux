@@ -4,8 +4,7 @@
   padding: 5px;
 }
 .tableContainer {
-  padding: 10px;
-  // height: 100vh;
+  padding: 10px 5px 10px 5px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -16,7 +15,10 @@
   height: 100vh;
 }
 .textContent {
-  padding: 1px;
+  padding: 10px 0px 1px 10px;
+}
+.textContent1 {
+  padding: 10px 0px 1px 5px;
 }
 .content {
   font-size: 0.7rem;
@@ -31,7 +33,7 @@
   flex-wrap: wrap;
 }
 .searchField {
-  padding: 0px 10px 0px 10px;
+  padding: 0px 5px 0px 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -68,14 +70,6 @@
 .box:last-child::after {
   display: none;
 }
-.searchButton {
-  padding: 12px 20px 12px 20px;
-  border-radius: 8px;
-  border: 1px;
-  gap: 8px;
-  color: #6941c6;
-}
-
 
 table {
   border-collapse: collapse;
@@ -94,7 +88,6 @@ tr {
 }
 
 td {
-  // padding: 8px;
   vertical-align: middle;
 }
 
@@ -123,7 +116,6 @@ tr:hover {
 
 .formContainer {
   width: 350px;
-  // padding: 5px 20px 10px 20px;
   display: flex;
   flex-direction: column;
 }
@@ -146,14 +138,15 @@ tr:hover {
   background-color: #7f56d9;
   color: #ffffff;
 }
-.resetButton {
+.resetButton [disabled]{
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
   border: 1px;
   gap: 8px;
-  color: #848289;
+  color: black;
+  background-color: #ccc;
 }
-.resetButton:hover {
+.resetButton:not([disabled]):hover {
   background-color: #c4c4c6;
   color: #ffffff;
 }

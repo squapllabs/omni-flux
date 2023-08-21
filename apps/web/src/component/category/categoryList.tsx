@@ -45,7 +45,6 @@ const CategoryList = () => {
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
   const validationSchema = getCreateValidateyup(Yup);
-  const [disable, setDisable] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -60,6 +59,7 @@ const CategoryList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [appendedValue, setAppendedValue] = useState('');
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -70,10 +70,12 @@ const CategoryList = () => {
 
   /* Function for Filter Change */
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
@@ -93,7 +95,6 @@ const CategoryList = () => {
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(true);
-    setDisable(false);
   };
 
   /* Function for resting the search field and data to normal state */
@@ -113,7 +114,7 @@ const CategoryList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
-    setDisable(false);
+    setIsResetDisabled(true);
   };
 
   /* Function for changing the table page */
@@ -205,9 +206,6 @@ const CategoryList = () => {
           <div className={Styles.box}>
             <div className={Styles.textContent}>
               <h3>Add New Categories</h3>
-              {/* <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span> */}
             </div>
             <form onSubmit={formik.handleSubmit}>
               <div className={Styles.fields}>
@@ -216,6 +214,7 @@ const CategoryList = () => {
                     label="Project"
                     name="project_id"
                     onChange={formik.handleChange}
+                    mandatory={true}
                     value={formik.values.project_id}
                     defaultLabel="Select from options"
                     error={
@@ -234,9 +233,11 @@ const CategoryList = () => {
                     name="name"
                     label="Category Name"
                     placeholder="Enter category name"
+                    mandatory={true}
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     error={formik.touched.name && formik.errors.name}
+                    width="250px"
                   />
                 </div>
                 <div>
@@ -244,6 +245,7 @@ const CategoryList = () => {
                     name="budget"
                     label={inputLabelNameFromEnv}
                     placeholder="Enter budget"
+                    mandatory={true}
                     value={formik.values.budget}
                     onChange={handleBudgetChange}
                     error={formik.touched.budget && formik.errors.budget}
@@ -266,7 +268,7 @@ const CategoryList = () => {
                     size="small"
                     icon={<AddIcon />}
                   >
-                    Add New Category
+                    Add
                   </Button>
                 </div>
               </div>
@@ -274,11 +276,8 @@ const CategoryList = () => {
           </div>
           <div className={Styles.box}>
             <div className={Styles.tableContainer}>
-              <div className={Styles.textContent}>
+              <div className={Styles.textContent1}>
                 <h3>List of Categories</h3>
-                {/* <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span> */}
               </div>
               <div className={Styles.searchField}>
                 <div className={Styles.inputFilter}>
@@ -304,8 +303,8 @@ const CategoryList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
-                    disabled={disable}
                     onClick={handleReset}
+                    disabled={isResetDisabled}
                   >
                     Reset
                   </Button>
@@ -327,7 +326,7 @@ const CategoryList = () => {
                         <th>S No</th>
                         <th>Category Name</th>
                         <th>Budget</th>
-                        <th></th>
+                        {activeButton === 'AC' && <th></th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -335,7 +334,7 @@ const CategoryList = () => {
                         <tr>
                           <td></td>
                           <td>No data found</td>
-                          <td></td>
+                          {activeButton === 'AC' && <td></td>}
                         </tr>
                       ) : (
                         ''
@@ -346,22 +345,26 @@ const CategoryList = () => {
                             <td>{index + 1}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
-                            <td>
-                              <div className={Styles.tableIcon}>
-                                <div>
-                                  <EditIcon
-                                    onClick={() => handleEdit(item.category_id)}
-                                  />
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tableIcon}>
+                                  <div>
+                                    <EditIcon
+                                      onClick={() =>
+                                        handleEdit(item.category_id)
+                                      }
+                                    />
+                                  </div>
+                                  {/* <div>
+                                        <DeleteIcon
+                                          onClick={() =>
+                                            deleteCategoryHandler(item.category_id)
+                                          }
+                                        />
+                                      </div> */}
                                 </div>
-                                {/* <div>
-                              <DeleteIcon
-                                onClick={() =>
-                                  deleteCategoryHandler(item.category_id)
-                                }
-                              />
-                            </div> */}
-                              </div>
-                            </td>
+                              </td>
+                            )}
                           </tr>
                         )
                       )}
@@ -371,7 +374,7 @@ const CategoryList = () => {
                 <div className={Styles.pagination}>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={getFilterData?.total_count}
+                    totalPages={getFilterData?.total_page}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
