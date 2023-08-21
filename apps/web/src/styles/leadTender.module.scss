@@ -80,7 +80,7 @@
 }
 
 .tableContainer {
-  padding: 10px 0px 10px 0px;
+  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -151,15 +151,14 @@ tr:hover {
   background-color: #7f56d9;
   color: #ffffff;
 }
-.resetButton [disabled]{
+.resetButton {
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
   border: 1px;
   gap: 8px;
   color: #848289;
-  background-color: #ccc;
 }
-.resetButton:not([disabled]):hover {
+.resetButton:hover {
   background-color: #c4c4c6;
   color: #ffffff;
 }
@@ -200,10 +199,8 @@ tr:hover {
   background-color: #c4c4c6;
   color: #070707;
 }
-.tableData {
+.tablerow {
   display: flex;
-  gap: 10px;
-}
-.itemAdd {
-  padding-top: 18px;
+  flex-direction: row;
+  column-gap: 15px;
 }
