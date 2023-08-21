@@ -179,7 +179,7 @@ model project {
   updated_by             Int?
   is_delete              Boolean                  @default(false)
   project_notes          String?
-  priority               String?
+  project_type           String?
   code                   String?
   estimated_budget       Float?
   actual_budget          Float?
