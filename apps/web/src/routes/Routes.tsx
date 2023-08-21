@@ -323,8 +323,8 @@ const AppRoutes = () => {
           element={<ProtectedLeadEnquiresPage />}
         />
         <Route path="/settings" element={<ProtectedSettings />} />
-        <Route path="/expanses" element={<ProtectedExpanses />} />
-        <Route path="/expanses-popup" element={<ProtectedPopupExpanse />} />
+        <Route path="/expenses" element={<ProtectedExpanses />} />
+        <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
         <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
       </Routes>
