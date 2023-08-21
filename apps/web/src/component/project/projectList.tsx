@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/projectlist.module.scss';
-import { getByProject, useDeleteProjects } from '../../hooks/project-hooks';
+import {
+  getByProject,
+  useDeleteProjects,
+  useGetAllProject,
+} from '../../hooks/project-hooks';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import SearchIcon from '../menu/icons/search';
@@ -13,14 +17,15 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomLoader from '../ui/customLoader';
+import ViewIcon from '../menu/icons/viewIcon';
 
 const ProjectList = () => {
+  const { isLoading: getAllLoading } = useGetAllProject();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
-    // isLoading: FilterLoading,
+    isLoading: FilterLoading,
   } = getByProject();
-
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
 
   const [filterValues, setFilterValues] = useState({
@@ -39,16 +44,13 @@ const ProjectList = () => {
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
-    setIsResetDisabled(searchValue === '');
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -89,7 +91,6 @@ const ProjectList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
-    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -126,7 +127,11 @@ const ProjectList = () => {
   return (
     <div className={Styles.container}>
       <div>
-        <CustomLoader loading={isLoading === true} size={48} color="#333C44">
+        <CustomLoader
+          loading={isLoading === true ? getAllLoading : FilterLoading}
+          size={48}
+          color="#333C44"
+        >
           <div className={Styles.text}>
             <div className={Styles.textStyle}>
               <h3>List of Projects</h3>
@@ -161,7 +166,6 @@ const ProjectList = () => {
                 justify="center"
                 size="small"
                 onClick={handleReset}
-                disabled={isResetDisabled}
               >
                 Reset
               </Button>
@@ -201,7 +205,7 @@ const ProjectList = () => {
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    {activeButton === 'AC' && <th></th>}
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -210,7 +214,7 @@ const ProjectList = () => {
                       <td></td>
                       <td></td>
                       <td>No data found</td>
-                      {activeButton === 'AC' && <td></td>}
+                      <td></td>
                     </tr>
                   ) : (
                     ''
@@ -222,7 +226,7 @@ const ProjectList = () => {
                       <td>{data.code}</td>
                       <td>
                         {data.user?.first_name} {data.user?.last_name}
-                      </td>
+                      </td>   
                       <td>{data.status}</td>
                       <td>
                         {format(new Date(data.date_started), 'MMM dd, yyyy')}
@@ -230,20 +234,21 @@ const ProjectList = () => {
                       <td>
                         {format(new Date(data.date_ended), 'MMM dd, yyyy')}
                       </td>
-                      {activeButton === 'AC' && (
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() =>
-                                navigate(`/project-edit/${data.project_id}`)
-                              }
-                            />
-                            {/* <DeleteIcon
-                          onClick={() => deleteProjectHandler(data.user_id)}
-                        /> */}
-                          </div>
-                        </td>
-                      )}
+                      <td>
+                        <div className={Styles.tablerow}>
+                          <EditIcon
+                            onClick={() =>
+                              navigate(`/project-edit/${data.project_id}`)
+                            }
+                          />
+                          <ViewIcon onClick={() => navigate(`/project-info/${data.project_id}`)}/>
+                          {/* <DeleteIcon
+                            onClick={() =>
+                              deleteProjectHandler(data.project_id)
+                            }
+                          /> */}
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -263,8 +268,8 @@ const ProjectList = () => {
         <CustomDelete
           open={open}
           handleClose={handleClose}
-          title="Delete User"
-          contentLine1="Are you want to delete this User?"
+          title="Delete Project "
+          contentLine1="Are you want to delete this Project?"
           contentLine2=""
           handleConfirm={deleteProject}
         />

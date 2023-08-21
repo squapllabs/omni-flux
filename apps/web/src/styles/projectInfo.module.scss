@@ -1,0 +1,53 @@
+.title{
+    padding: 15px 15px 0px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.cardContent{
+    padding: 10px 10px 10px 10px;
+    width:65%;
+}
+
+.dataRows {
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    // justify-content: center;
+}
+
+.leftData{
+    font-weight: bold;
+    width: 250px;
+}
+.rightData{
+    margin-left: 200px;
+}
+.dividerStyle {
+    border-bottom: 1px solid black;
+    padding: 15px 15px 0px 10px;
+  }
+.siteList {
+    list-style: none;
+    display: inline;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ccc;
+  }
+  
+  th {
+    background-color: lightgray ;
+    padding: 8px;
+    text-align: left;
+    font-weight: 800;
+  }
+  
+  tr {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  td {
+    vertical-align: middle;
+  }

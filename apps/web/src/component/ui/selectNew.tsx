@@ -107,6 +107,7 @@ const InputError = styled.span`
 const RequiredField = styled.span`
   color: red;
 `;
+
 const HelperText = styled.span`
   color: gray;
   margin-top: 2px;

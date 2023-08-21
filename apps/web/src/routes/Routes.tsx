@@ -224,6 +224,9 @@ import ExpansesForm from '../component/expanses/expansesForm';
 import PopupExpanse from '../component/expanses/popupExpanse';
 import projectList from '../component/project/projectList';
 import projectEdit from '../component/project/projectEdit';
+import ProjectView from '../component/project/projectInfo';
+import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
+import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -268,6 +271,9 @@ const AppRoutes = () => {
     withLayoutAndProtection(ProjectWorkBreakDown);
   const ProtectedExpanses = withLayoutAndProtection(ExpansesForm);
   const ProtectedPopupExpanse = withLayoutAndProtection(PopupExpanse);
+  const ProtectedProjectView = withLayoutAndProtection(ProjectView);
+  const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
+  const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
 
   return (
     <div>
@@ -322,11 +328,24 @@ const AppRoutes = () => {
           path="/lead-edit/:id/:type"
           element={<ProtectedLeadEnquiresPage />}
         />
+        <Route
+          path="/project-workbreakdown"
+          element={<ProtectedProjectWorkBreakDownPage />}
+        />
         <Route path="/settings" element={<ProtectedSettings />} />
         <Route path="/expenses" element={<ProtectedExpanses />} />
         <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
         <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
+        <Route path="/project-info/:id" element={<ProtectedProjectView />} />
+        <Route
+          path="/lead-info-product/:id"
+          element={<ProtectedLeadProductView />}
+        />
+        <Route
+          path="/lead-info-tender/:id"
+          element={<ProtectedLeadTenderView />}
+        />
       </Routes>
     </div>
   );
