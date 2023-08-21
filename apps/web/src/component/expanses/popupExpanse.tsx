@@ -13,6 +13,8 @@ interface FileUploaderProps {
 }
 
 interface ModalPopupProps {
+  setOpenSnack(arg0: boolean): unknown;
+  setMessage(arg0: string): unknown;
   reload: any;
   setReload(reload: any): unknown;
   projectId: any;
@@ -35,7 +37,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(event);
     const fileUploaded = event.target.files?.[0];
     setFileName(fileUploaded?.name || '');
     if (fileUploaded) {
@@ -117,8 +118,6 @@ const ModalPopup = (props: ModalPopupProps) => {
         const sheets = wb.SheetNames;
         if (sheets.length) {
           const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-          console.log('rows--->', rows);
-
           setData(rows);
           setHeadings(Object.keys(rows[0]));
         }
@@ -144,7 +143,6 @@ const ModalPopup = (props: ModalPopupProps) => {
         });
         const header: string[] = headerSheet.shift();
         const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-        console.log(rows);
         if (rows.length)
           setHeadings([
             'description',
@@ -160,11 +158,18 @@ const ModalPopup = (props: ModalPopupProps) => {
         else setHeadings([]);
         if (header.length !== 9) alert('Please upload the correct template');
         else {
-          let newData:any[] = [...rows];
-          newData.forEach((ele:any) => {
-            ele['total'] = ele['air_transport'] + ele['fuel'] + ele['labour_advance'] + ele['phone_stationary'] + ele['food_snacks'] + ele['purchase_service'] + ele['others'];
+          let newData: any[] = [...rows];
+          newData.forEach((ele: any) => {
+            ele['total'] =
+              ele['air_transport'] +
+              ele['fuel'] +
+              ele['labour_advance'] +
+              ele['phone_stationary'] +
+              ele['food_snacks'] +
+              ele['purchase_service'] +
+              ele['others'];
           });
-          setData(newData)
+          setData(newData);
         }
       }
       setLoading(false);
@@ -184,7 +189,14 @@ const ModalPopup = (props: ModalPopupProps) => {
           const newData = [...prevData];
           if (e.target.value === '') newData[index][key] = 0;
           else newData[index][key] = parseInt(e.target.value);
-          newData[index]['total'] = newData[index]['air_transport'] + newData[index]['fuel'] + newData[index]['labour_advance'] + newData[index]['phone_stationary'] + newData[index]['food_snacks'] + newData[index]['purchase_service'] + newData[index]['others'];
+          newData[index]['total'] =
+            newData[index]['air_transport'] +
+            newData[index]['fuel'] +
+            newData[index]['labour_advance'] +
+            newData[index]['phone_stationary'] +
+            newData[index]['food_snacks'] +
+            newData[index]['purchase_service'] +
+            newData[index]['others'];
           return newData;
         });
       } else {
@@ -209,22 +221,20 @@ const ModalPopup = (props: ModalPopupProps) => {
   };
 
   const handleSave = (e: any) => {
-    // props.setExpanseList(data);
     let object = {
       site_id: props.siteId,
       project_id: props.projectId,
       created_by: props.userId,
       site_expense_details: data,
     };
-    console.log('object', object);
-    props.closeModal();
-    // postbulkData(object, {
-    //   onSuccess(data, variables, context) {
-    //     console.log('bulkdata', data);
-    //     props.setReload(true);
-    //     props.closeModal();
-    //   },
-    // });
+    postbulkData(object, {
+      onSuccess(data, variables, context) {
+        props.setReload(true);
+        props.closeModal();
+        props?.setMessage('Site Expense has been uploaded successfully !');
+        props.setOpenSnack(true);
+      },
+    });
   };
 
   return (
@@ -300,47 +310,48 @@ const ModalPopup = (props: ModalPopupProps) => {
                 {data.map((elem, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    {headings.map((key) => ((key === 'description') ? (
-                      <td key={key}>
-                        <div
-                              style={{
-                                paddingBottom: '20px',
-                                fontSize: '15px',
-                                // fontWeight: 'bold',
-                              }}
-                            >
-                              <span>{elem[key]}</span>
-                            </div>
-                      </td>
-                    ) : ((key === 'total') ? (
-                      <td key={key}>
-                        <div
-                              style={{
-                                paddingBottom: '20px',
-                                fontSize: '15px',
-                                fontWeight: 'bold',
-                              }}
-                            >
-                              <span>{elem[key]}</span>
-                            </div>
-                      </td>
-                    ):(
-                      <td key={key}>
-                        <Input
-                          type="text"
-                          onChange={(e) => handleValueChange(e, index, key)}
-                          value={elem[key]}
-                        />
-                      </td>
-                    )
-                    )
-                    ))}
+                    {headings.map((key) =>
+                      key === 'description' ? (
+                        <td key={key}>
+                          <div
+                            style={{
+                              paddingBottom: '20px',
+                              fontSize: '15px',
+                              // fontWeight: 'bold',
+                            }}
+                          >
+                            <span>{elem[key]}</span>
+                          </div>
+                        </td>
+                      ) : key === 'total' ? (
+                        <td key={key}>
+                          <div
+                            style={{
+                              paddingBottom: '20px',
+                              fontSize: '15px',
+                              fontWeight: 'bold',
+                            }}
+                          >
+                            <span>{elem[key]}</span>
+                          </div>
+                        </td>
+                      ) : (
+                        <td key={key}>
+                          <Input
+                            type="text"
+                            onChange={(e) => handleValueChange(e, index, key)}
+                            value={elem[key]}
+                          />
+                        </td>
+                      )
+                    )}
                     <td>
                       <Button
                         size="small"
                         shape="rectangle"
                         color="transparent"
                         onClick={() => handleRowRemove(index)}
+                        type="button"
                       >
                         <img src={trashIcon} alt=""></img>
                       </Button>
@@ -363,6 +374,9 @@ const ModalPopup = (props: ModalPopupProps) => {
               shape="rectangle"
               style={{ marginRight: '5px', width: '150px' }}
               type="button"
+              onClick={() => {
+                props.closeModal();
+              }}
             >
               Cancel
             </Button>
@@ -442,6 +456,10 @@ const PopupExpanse: React.FC = (props: any) => {
             userId={props?.userId}
             setReload={props.setReload}
             reload={props.reload}
+            openSnack={props?.openSnack}
+            setOpenSnack={props?.setOpenSnack}
+            message={props?.message}
+            setMessage={props?.setMessage}
           />
         </div>
       )}

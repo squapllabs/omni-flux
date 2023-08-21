@@ -38,10 +38,5 @@ export const getCreateValidateyup = (yup: any) => {
       )
       .typeError(siteExpanseMessages.ENTER_END_DATE)
       .required(siteExpanseMessages.ENTER_END_DATE),
-    site_expense_details: yup.array().of(
-      yup.object().shape({
-        description: yup.string().required('Description is required'),
-      })
-    ),
   });
 };

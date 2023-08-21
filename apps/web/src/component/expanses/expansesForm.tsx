@@ -3,7 +3,6 @@ import Styles from '../../styles/Expanses.module.scss';
 import Input from '../ui/Input';
 import Select from '../ui/selectNew';
 import DatePicker from '../ui/CustomDatePicker';
-import AddIcon from '../menu/icons/addIcon';
 import Button from '../ui/Button';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useFormik } from 'formik';
@@ -13,7 +12,6 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 import {
   createsiteExpense,
   updatesiteExpense,
-  getBysiteExpenseID,
 } from '../../hooks/siteExpanse-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -21,6 +19,8 @@ import siteExpenseService from '../../service/siteExpanse-service';
 import { format } from 'date-fns';
 import * as Yup from 'yup';
 import { getCreateValidateyup } from '../../helper/constants/siteExpanse-constants';
+import CustomDialogBox from '../ui/CustomDialog';
+import CustomSnackBar from '../ui/customSnackBar';
 
 const ExpansesForm = () => {
   let projectId = 39;
@@ -47,8 +47,11 @@ const ExpansesForm = () => {
   const [expense, setExpense] = useState(espanseObject);
   const [ExpenseValue, setExpenseValue] = useState();
   const [openDelete, setOpenDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [reload, setReload] = useState(false);
   const [errors, setErrors] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
   const [initialValues, setInitialValues] = useState({
     employee_name: '',
     employee_id: '',
@@ -59,14 +62,16 @@ const ExpansesForm = () => {
     department: '',
     designation: '',
     site_expense_id: '',
-    site_expense_details: [
-      {
-        description: '',
-      },
-    ],
   });
   const handleCloseDelete = () => {
     setOpenDelete(false);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  /* Function for closing the snackbar */
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
   };
   const { data: getAllDiscription } = getBymasertDataType('SEDT');
   const { data: getAllSiteDepartment } = getBymasertDataType('SITD');
@@ -74,6 +79,8 @@ const ExpansesForm = () => {
   const { data: getAlldesignation } = getBymasertDataType('SITDG');
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
     createsiteExpense();
+  const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
+    updatesiteExpense();
 
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
@@ -89,6 +96,7 @@ const ExpansesForm = () => {
       const datas = await siteExpenseService.getSiteExpenseByProjectandSiteID(
         postIds
       );
+
       setInitialValues({
         employee_name: datas?.data?.employee_name,
         employee_id: datas?.data?.employee_id,
@@ -99,29 +107,30 @@ const ExpansesForm = () => {
         department: datas?.data?.department,
         designation: datas?.data?.designation,
         site_expense_id: datas?.data?.site_expense_id,
-        site_expense_details: [
-          {
-            description: '',
-          },
-        ],
       });
       let arry: any = [];
       datas?.data?.site_expense_details.map((items: any) => {
-        console.log('de', items.is_delete);
         items.is_delete = 'N';
         let demo = {
-          ...items,
+          site_expense_details_id: items.site_expense_details_id,
+          description: items.description,
+          is_delete: 'N',
+          air_transport: items.air_transport,
+          fuel: items.fuel,
+          labour_advance: items.labour_advance,
+          phone_stationary: items.phone_stationary,
+          food_snacks: items.food_snacks,
+          purchase_service: items.purchase_service,
+          others: items.others,
+          total: items.total,
         };
+
         arry.push(demo);
       });
-      console.log('demo', arry);
-
       setExpenseList(arry);
     };
     fetchData();
   }, [reload]);
-  console.log('reload', reload);
-
   const handleExpenseChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -148,8 +157,6 @@ const ExpansesForm = () => {
           tempObj?.others,
       };
     }
-    console.log('tempObj', tempObj);
-
     setExpense(tempObj);
   };
   const handleExistExpenseChange = async (
@@ -179,10 +186,8 @@ const ExpansesForm = () => {
           tempObj?.others,
       };
     }
-    console.log('tempObj', tempObj);
     let tempArry = [...expenseList];
     tempArry[index] = tempObj;
-    // setExpense(tempObj);
     setExpenseList(tempArry);
   };
   const handleExpenseAdd = async () => {
@@ -197,13 +202,10 @@ const ExpansesForm = () => {
           'Description is already present',
           async function (value, { parent }: Yup.TestContext) {
             let isDelete = parent.is_delete;
-            console.log('ExpenseList', expenseList);
             try {
               const isValuePresent = expenseList.some((obj) => {
                 return obj.description === value && obj.is_delete === isDelete;
               });
-              console.log('isValuePresent', isValuePresent);
-
               if (isValuePresent === true) {
                 return false;
               } else {
@@ -226,8 +228,6 @@ const ExpansesForm = () => {
     await schema
       .validate(expense, { abortEarly: false })
       .then(async () => {
-        console.log('Expense', expense);
-        console.log('expenseList', expenseList);
         let tempArr = [];
         tempArr =
           expenseList !== undefined ? [...expenseList, expense] : [expense];
@@ -273,6 +273,8 @@ const ExpansesForm = () => {
     setExpenseList([...expenseList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
+    setMessage('Site expanse details has been deleted');
+    setOpenSnack(true);
   };
 
   const formik = useFormik({
@@ -280,27 +282,65 @@ const ExpansesForm = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log('values', values);
-
-      let object: any = {
-        site_id: siteId,
-        project_id: projectId,
-        employee_name: values.employee_name,
-        employee_id: values.employee_id,
-        employee_phone: values.employee_phone,
-        end_date: values.end_date,
-        start_date: values.start_date,
-        purpose: values.purpose,
-        department: values.department,
-        designation: values.designation,
-        site_expense_details: expenseList,
-        created_by: encryptedData?.userId,
-      };
-      // postSiteExpenseData(object, {
-      //   onSuccess(data, variables, context) {
-      //     console.log('data', data);
-      //   },
-      // });
+      let count = 0;
+      for (let i = 0; i < expenseList.length; i++) {
+        if (expenseList[i].is_delete === 'N') {
+          count++;
+        }
+      }
+      if (count === 0) {
+        setOpenDialog(true);
+      } else {
+        if (values.site_expense_id === '') {
+          const object: any = {
+            site_id: siteId,
+            project_id: projectId,
+            employee_name: values.employee_name,
+            employee_id: values.employee_id,
+            employee_phone: values.employee_phone,
+            end_date: values.end_date,
+            start_date: values.start_date,
+            purpose: values.purpose,
+            department: values.department,
+            designation: values.designation,
+            site_expense_details: expenseList,
+            created_by: encryptedData?.userId,
+          };
+          postSiteExpenseData(object, {
+            onSuccess(data, variables, context) {
+              if (data?.status === true) {
+                setMessage('Site Expense has been added successfully !');
+                setOpenSnack(true);
+              }
+            },
+          });
+        } else {
+          const object: any = {
+            site_id: siteId,
+            project_id: projectId,
+            employee_name: values.employee_name,
+            employee_id: values.employee_id,
+            employee_phone: values.employee_phone,
+            end_date: values.end_date,
+            start_date: values.start_date,
+            purpose: values.purpose,
+            department: values.department,
+            designation: values.designation,
+            site_expense_details: expenseList,
+            created_by: encryptedData?.userId,
+            updated_by: encryptedData?.userId,
+            site_expense_id: values.site_expense_id,
+          };
+          updateSiteExpenseData(object, {
+            onSuccess(data, variables, context) {
+              if (data?.status === true) {
+                setMessage('Site Expense has been updated successfully !');
+                setOpenSnack(true);
+              }
+            },
+          });
+        }
+      }
     },
   });
   return (
@@ -444,7 +484,6 @@ const ExpansesForm = () => {
           </div>
         </div>
         <div className={Styles.box}>
-          {/* <from> */}
           <div className={Styles.textContent}>
             <h3>Expense</h3>
             <span className={Styles.content}>List your site expense.</span>
@@ -457,6 +496,10 @@ const ExpansesForm = () => {
               userId={encryptedData?.userId}
               setReload={setReload}
               reload={reload}
+              openSnack={openSnack}
+              setOpenSnack={setOpenSnack}
+              message={message}
+              setMessage={setMessage}
             />
           </div>
           <div className={Styles.table_container}>
@@ -489,7 +532,6 @@ const ExpansesForm = () => {
                               style={{
                                 paddingBottom: '20px',
                                 fontSize: '15px',
-                                // fontWeight: 'bold',
                               }}
                             >
                               <span>{item?.description}</span>
@@ -603,13 +645,9 @@ const ExpansesForm = () => {
                       onChange={(e) => handleExpenseChange(e)}
                       name="description"
                       defaultLabel="select a Description"
-                      // error={
-                      //   errors?.description ||
-                      //   // formik.errors.site_expense_details[0].description
-                      // }
-                      // error={errors?.description}
                       mandatory
                       value={expense.description || ''}
+                      error={errors.description}
                     >
                       {getAllDiscription?.map((option: any) => (
                         <option
@@ -730,6 +768,21 @@ const ExpansesForm = () => {
         contentLine2=""
         handleClose={handleCloseDelete}
         handleConfirm={deleteSiteExpense}
+      />
+
+      <CustomDialogBox
+        open={openDialog}
+        title="Warning"
+        contentLine1="Please add site expanse details"
+        contentLine2=""
+        handleClose={handleCloseDialog}
+      />
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
       />
     </div>
   );
