@@ -132,7 +132,7 @@ model category {
   updated_by   Int?
   project      project?       @relation(fields: [project_id], references: [project_id])
   is_delete    Boolean        @default(false) @db.Boolean
-  description  String
+  description  String?
   sub_category sub_category[]
 }
 
@@ -147,7 +147,7 @@ model sub_category {
   updated_by       Int?
   is_delete        Boolean            @default(false) @db.Boolean
   category         category?          @relation(fields: [category_id], references: [category_id])
-  description      String
+  description      String?
   sub_sub_category sub_sub_category[]
 }
 
@@ -162,7 +162,7 @@ model sub_sub_category {
   updated_by          Int?
   item                item[]
   is_delete           Boolean       @default(false) @db.Boolean
-  description         String
+  description         String?
   sub_category        sub_category? @relation(fields: [sub_category_id], references: [sub_category_id])
 }
 
