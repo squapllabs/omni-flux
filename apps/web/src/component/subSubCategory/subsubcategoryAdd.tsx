@@ -82,6 +82,7 @@ const SubsubCategoryAdd = () => {
         const Object: any = {
           sub_sub_category_id: values.sub_sub_category_id,
           name: values.name,
+          description: values.description,
           budget: Number(values.budget),
           sub_category_id: Number(values.sub_category_id),
         };
@@ -100,6 +101,7 @@ const SubsubCategoryAdd = () => {
       } else {
         const Object: any = {
           name: values.name,
+          description: values.description,
           budget: Number(values.budget),
           sub_category_id: Number(values.sub_category_id),
         };
