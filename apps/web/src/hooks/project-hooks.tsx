@@ -72,4 +72,25 @@ const updateProject = () => {
     }
   );
 };
-export { useGetAllProject,createProject,getByProject,useDeleteProjects,getByProjectId,updateProject };
+
+const useGetMasterProjectParentType = () => {
+  return useQuery(
+    ['useGetAllmasertData'],
+    () => ProjectService.getAllProjectParentType(),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project.master_data_name,
+          label: project.master_data_name,
+        })),
+    }
+  );
+};
+
+const useGetAllProjectManagers = () => {
+  return useQuery(['useGetAllProjectManager'], () => ProjectService.getAllProjectManagers(), {
+    select: (data) => data.data,
+    staleTime: Infinity,
+  });
+};
+export { useGetAllProject,createProject,getByProject,useDeleteProjects,getByProjectId,updateProject,useGetMasterProjectParentType,useGetAllProjectManagers };

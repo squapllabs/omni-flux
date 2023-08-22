@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/masterdata.module.scss';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -23,6 +23,8 @@ import CustomLoader from '../ui/customLoader';
 import SelectNew from '../ui/selectNew';
 import AddIcon from '../menu/icons/addIcon';
 import TextArea from '../ui/CustomTextArea';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+
 const MaterData = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -57,8 +59,10 @@ const MaterData = () => {
   } = getBySearchmasterData();
   const { data: getAllmasterData, isLoading: getAllloading } =
     useGetAllmasertData();
-  const { data: getAllmasterDataForDrop = [] } =
+  const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
     useGetAllParentmasertDataDrop();
+  console.log('dropLoading', dropLoading);
+
   const { mutate: postMasterData } = createmasertData();
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,6 +188,17 @@ const MaterData = () => {
     setOpenSnack(true);
   };
 
+  const countries: Option[] = [
+    { label: 'PROJECT TYPE', value: 81 },
+
+    { label: 'DESIGNATION', value: 73 },
+
+    { label: 'PURPOSE', value: 72 },
+
+    { label: 'DEPARTMENT', value: 71 },
+    { label: 'SITE EXPANSE DESCRIPTION ', value: 70 },
+    // ... other countries ...
+  ];
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -225,24 +240,24 @@ const MaterData = () => {
                     />
                   </div>
                   <div>
-                    <SelectNew
+                    <AutoCompleteSelect
                       label="Parent Name"
                       name="parent_master_data_id"
                       onChange={formik.handleChange}
                       value={formik.values.parent_master_data_id}
-                      defaultLabel="Select from options"
+                      placeholder="Select from options"
                       width="200px"
+                      onSelect={(value) =>
+                        formik.setFieldValue('parent_master_data_id', value)
+                      }
+                      optionList={
+                        dropLoading === true ? [] : getAllmasterDataForDrop
+                      }
                       error={
                         formik.touched.parent_master_data_id &&
                         formik.errors.parent_master_data_id
                       }
-                    >
-                      {getAllmasterDataForDrop.map((option: any) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </SelectNew>
+                    />
                   </div>
                 </div>
                 <div className={Styles.fields_container_2}>
@@ -269,6 +284,7 @@ const MaterData = () => {
                       justify="center"
                       size="small"
                       icon={<AddIcon />}
+                      onClick={() => console.log(formik.values)}
                     >
                       Add
                     </Button>

@@ -12,7 +12,7 @@ import {
  */
 const createCategory = async (body: createCategoryBody) => {
   try {
-    const { name, project_id, budget, created_by = null } = body;
+    const { name, project_id, budget, created_by = null, description } = body;
     let result = null;
     if (project_id) {
       const categoryData = await categoryDao.getByCategoryNameAndProjectId(
@@ -32,7 +32,8 @@ const createCategory = async (body: createCategoryBody) => {
       name,
       project_id,
       budget,
-      created_by
+      created_by,
+      description
     );
     result = {
       message: 'success',
@@ -53,7 +54,8 @@ const createCategory = async (body: createCategoryBody) => {
  */
 const updateCategory = async (body: updateCategoryBody) => {
   try {
-    const { name, project_id, budget, updated_by, category_id } = body;
+    const { name, project_id, budget, updated_by, category_id, description } =
+      body;
     let result = null;
 
     const categoryExist = await categoryDao.getById(category_id);
@@ -86,7 +88,8 @@ const updateCategory = async (body: updateCategoryBody) => {
       project_id,
       budget,
       updated_by,
-      category_id
+      category_id,
+      description
     );
     result = {
       message: 'success',

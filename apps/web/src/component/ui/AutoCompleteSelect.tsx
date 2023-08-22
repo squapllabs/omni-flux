@@ -1,5 +1,20 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+
+// Docs:
+// Should pass optionList as an array of objects with id and name
+// Should pass onSelect as a function that sets the value to the selected option
+// Should pass value as a string
+// Should pass onChange as a function that sets the value to the input value
+// Example:
+// const [value, setValue] = useState('')
+// const optionList = [{id:1, label:'Option1'}, {id:2, label:'Option2'}, {id:3, label:'Option3'}, {id:4, label:'Option4'}]
+// const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     setValue(e.target.value)
+// }
+// const handleSelect = (option: string) => {
+//     setValue(option)
+// }
 
 interface InputWrapperProps {
   width?: string;
@@ -13,6 +28,11 @@ interface StyledInputProps {
   disabled?: boolean;
 }
 
+interface Option {
+  value: number;
+  label: string;
+}
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
@@ -21,7 +41,41 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
   transparent?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  onSelect: (e: string) => void;
+  optionList: Option[];
 }
+
+const OptionContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 100%;
+`;
+
+const OptionList = styled.ul`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  li {
+    padding: 8px 12px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f4f5f6;
+    }
+  }
+`;
 
 const InputWrapper = styled.div<InputWrapperProps>`
   display: flex;
@@ -102,7 +156,7 @@ const ErrorMessageWrapper = styled.div`
   min-height: 20px; // Change to the height of your error message
 `;
 
-const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
+const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
   label,
   placeholder,
   error,
@@ -112,9 +166,44 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
   transparent,
   disabled,
   mandatory = false,
+  value,
+  onSelect,
+  optionList,
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
+
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [allOptions, setAllOptions] = useState(optionList); // Replace with actual data source
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    setAllOptions(optionList);
+    const filtered = allOptions.filter((option) =>
+      option.label.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredOptions(filtered);
+  }, [value, allOptions, optionList]);
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    const inputElement = inputRef.current;
+
+    const handleFocusChange = () => {
+      if (inputElement === document.activeElement) {
+        setOpen(true);
+      }
+    };
+
+    window.addEventListener('focusin', handleFocusChange);
+    window.addEventListener('focusout', handleFocusChange);
+
+    return () => {
+      window.removeEventListener('focusin', handleFocusChange);
+      window.removeEventListener('focusout', handleFocusChange);
+    };
+  }, []);
+
   return (
     <InputWrapper width={width}>
       {label && (
@@ -131,13 +220,31 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
         <StyledInput
+          ref={inputRef}
           hasSuffixIcon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
+          value={value}
           {...props}
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
+      <OptionContainer>
+        {open && (
+          <OptionList>
+            {filteredOptions.map((option) => (
+              <li
+                onClick={() => {
+                  onSelect(option.label);
+                  setOpen(false);
+                }}
+              >
+                {option.label}
+              </li>
+            ))}
+          </OptionList>
+        )}
+      </OptionContainer>
       {props.errorFree ? (
         <></>
       ) : (
@@ -149,4 +256,4 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
   );
 };
 
-export default Input;
+export default AutoCompleteSelect;

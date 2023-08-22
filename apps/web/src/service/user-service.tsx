@@ -102,6 +102,27 @@ const user_profile_upload = async (file: any) => {
     throw error;
   }
 };
+
+const documentUpload = async (file: any,code:string) => {
+  const formData = new FormData();
+  formData.append("storage", "s3");
+  formData.append("file", file);
+  formData.append("folder", 'OmniFlux');
+  formData.append("code", code);
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/upload/file`, formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur documentUpload :', error);
+    throw error;
+  }
+};
 const filterUser = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -124,5 +145,6 @@ export default {
   deleteUser,
   getAllInactiveUsers,
   user_profile_upload,
-  filterUser
+  filterUser,
+  documentUpload
 };

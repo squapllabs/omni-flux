@@ -80,10 +80,10 @@ const ErrorMessageWrapper = styled.div`
 `;
 
 const RequiredField = styled.span`
-color:red;
+  color: red;
 `;
 
-const DatePicker: React.FC<InputProps  & { mandatory?: boolean }> = ({
+const DatePicker: React.FC<InputProps & { mandatory?: boolean }> = ({
   label,
   placeholder,
   error,
@@ -91,10 +91,14 @@ const DatePicker: React.FC<InputProps  & { mandatory?: boolean }> = ({
   mandatory = false,
   ...props
 }) => {
-  const shouldShowAsterisk = mandatory ;
+  const shouldShowAsterisk = mandatory;
   return (
     <InputWrapper width={width}>
-      {label && <StyledLabel>{label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}</StyledLabel>}
+      {label && (
+        <StyledLabel>
+          {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
+        </StyledLabel>
+      )}
       <InputContainer error={!!error}>
         <StyledInput
           type="date" // Use the inputType here
