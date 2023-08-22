@@ -10,6 +10,7 @@ import SearchIcon from '../menu/icons/search';
 import Input from '../ui/Input';
 import CustomLoader from '../ui/customLoader';
 import { useNavigate } from 'react-router-dom';
+import ViewIcon from '../menu/icons/viewIcon';
 
 const LeadList = () => {
   const navigate = useNavigate();
@@ -19,17 +20,17 @@ const LeadList = () => {
     isLoading: getFilterLoading,
   } = getBySearchLeadEnquiry();
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [disable, setDisable] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IC' },
+    { label: 'active', value: 'AC' },
+    { label: 'inactive', value: 'IC' },
   ]);
   useEffect(() => {
     handleSearch();
@@ -60,7 +61,7 @@ const LeadList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
-    setIsResetDisabled(true);
+    setDisable(false);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -79,13 +80,15 @@ const LeadList = () => {
   const handleEdit = (id: any, name: any) => {
     navigate(`/lead-edit/${id}/${name}`);
   };
+  const handleView = (id: any, name: any) => {
+    if (name === 'Tender') navigate(`/lead-info-tender/${id}`);
+    else navigate(`/lead-info-product/${id}`);
+  };
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
-    setIsResetDisabled(searchValue === '');
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -111,7 +114,7 @@ const LeadList = () => {
                   icon={<AddIcon />}
                   onClick={handleAdd}
                 >
-                  Add
+                  Lead
                 </Button>
               </div>
             </div>
@@ -147,7 +150,7 @@ const LeadList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  disabled={isResetDisabled}
+                  disabled={disable}
                   onClick={handleReset}
                 >
                   Reset
@@ -162,7 +165,6 @@ const LeadList = () => {
                 />
               </div>
             </div>
-            <div className={Styles.dividerStyle}></div>
             <div className={Styles.tableContainer}>
               <table>
                 <thead>
@@ -172,7 +174,7 @@ const LeadList = () => {
                     <th>Lead Code</th>
                     <th>Client Name</th>
                     <th>Client Level</th>
-                    {activeButton === 'AC' && <th></th>}
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -180,7 +182,7 @@ const LeadList = () => {
                     <tr>
                       <td></td>
                       <td>No data found</td>
-                      {activeButton === 'AC' && <td></td>}
+                      <td></td>
                     </tr>
                   ) : (
                     ''
@@ -192,17 +194,21 @@ const LeadList = () => {
                       <td>{item.lead_code}</td>
                       <td>{item.client_contact_name}</td>
                       <td>{item.client_level_info?.master_data_name}</td>
-                      {activeButton === 'AC' && (
-                        <td>
-                          <div className={Styles.tableIcon}>
-                            <EditIcon
-                              onClick={() =>
-                                handleEdit(item.lead_enquiry_id, item.lead_type)
-                              }
-                            />
-                          </div>
-                        </td>
-                      )}
+                      <td>
+                        <div className={Styles.tablerow}>
+                          <EditIcon
+                            onClick={() =>
+                              handleEdit(item.lead_enquiry_id, item.lead_type)
+                            }
+                          />
+                          <ViewIcon
+                            onClick={() =>
+                              // navigate(`/lead-info-product/${item.lead_enquiry_id}`)
+                              handleView(item.lead_enquiry_id, item.lead_type)
+                            }
+                          />
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

@@ -3,11 +3,8 @@ import SiteService from '../service/site-service';
 
 const useGetAllSiteDrop = () => {
   return useQuery(['useGetAllSite'], () => SiteService.getAllSiteDrop(), {
-    select: (data) =>
-      data?.data?.map((site: any) => ({
-        value: site.site_contractor_id,
-        label: site.name,
-      })),
+     select: (data) => data.data,
+    staleTime: Infinity,
   });
 };
 
@@ -19,6 +16,21 @@ const createSite = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries([]);
+      },
+    }
+  );
+};
+
+const instantCreateSite = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SiteService.createNewSite(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllSite']);
+
       },
     }
   );
@@ -70,4 +82,4 @@ const useDeleteSite = () => {
   );
 };
 
-export { useGetAllSiteDrop,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite };
+export { useGetAllSiteDrop,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite,instantCreateSite };
