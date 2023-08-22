@@ -3,6 +3,7 @@ interface createSubCategoryBody {
   category_id: number;
   budget: number;
   created_by: bigint;
+  description: string;
 }
 
 interface updateSubCategoryBody {
@@ -11,6 +12,7 @@ interface updateSubCategoryBody {
   budget: number;
   updated_by: bigint;
   sub_category_id: number;
+  description: string;
 }
 
 export { createSubCategoryBody, updateSubCategoryBody };

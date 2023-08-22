@@ -3,6 +3,7 @@ interface createCategoryBody {
   project_id: number;
   budget: number;
   created_by: bigint;
+  description: string;
 }
 
 interface updateCategoryBody {
@@ -11,6 +12,7 @@ interface updateCategoryBody {
   budget: number;
   updated_by: bigint;
   category_id: number;
+  description: string;
 }
 
 export { createCategoryBody, updateCategoryBody };
