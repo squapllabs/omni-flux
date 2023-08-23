@@ -136,6 +136,11 @@ const MaterData = () => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         let object: any = {};
+        console.log(
+          'values.parent_master_data_id',
+          values.parent_master_data_id
+        );
+
         const num = 0;
         if (Number(values.parent_master_data_id) === num) {
           object = {
@@ -187,18 +192,6 @@ const MaterData = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-
-  const countries: Option[] = [
-    { label: 'PROJECT TYPE', value: 81 },
-
-    { label: 'DESIGNATION', value: 73 },
-
-    { label: 'PURPOSE', value: 72 },
-
-    { label: 'DEPARTMENT', value: 71 },
-    { label: 'SITE EXPANSE DESCRIPTION ', value: 70 },
-    // ... other countries ...
-  ];
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -247,9 +240,11 @@ const MaterData = () => {
                       value={formik.values.parent_master_data_id}
                       placeholder="Select from options"
                       width="200px"
-                      onSelect={(value) =>
-                        formik.setFieldValue('parent_master_data_id', value)
-                      }
+                      onSelect={(value) => {
+                        console.log('selectedValue', value);
+
+                        formik.setFieldValue('parent_master_data_id', value);
+                      }}
                       optionList={
                         dropLoading === true ? [] : getAllmasterDataForDrop
                       }
