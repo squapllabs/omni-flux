@@ -12,7 +12,13 @@ import {
  */
 const createSubSubCategory = async (body: createSubSubCategoryBody) => {
   try {
-    const { name, sub_category_id, budget, created_by = null } = body;
+    const {
+      name,
+      sub_category_id,
+      budget,
+      created_by = null,
+      description,
+    } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
     if (!subCategoryExist) {
@@ -41,7 +47,8 @@ const createSubSubCategory = async (body: createSubSubCategoryBody) => {
       name,
       sub_category_id,
       budget,
-      created_by
+      created_by,
+      description
     );
     result = { success: true, data: subSubCategoryDetails };
     return result;
@@ -58,8 +65,14 @@ const createSubSubCategory = async (body: createSubSubCategoryBody) => {
  */
 const updateSubSubCategory = async (body: updateSubSubCategoryBody) => {
   try {
-    const { name, sub_category_id, budget, updated_by, sub_sub_category_id } =
-      body;
+    const {
+      name,
+      sub_category_id,
+      budget,
+      updated_by,
+      sub_sub_category_id,
+      description,
+    } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
     if (!subCategoryExist) {
@@ -105,7 +118,8 @@ const updateSubSubCategory = async (body: updateSubSubCategoryBody) => {
       sub_category_id,
       budget,
       updated_by,
-      sub_sub_category_id
+      sub_sub_category_id,
+      description
     );
     result = { message: 'success', status: true, data: subSubCategoryDetails };
     return result;
