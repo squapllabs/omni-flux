@@ -5,6 +5,7 @@ const add = async (
   project_id: number,
   budget: number,
   created_by: bigint,
+  description: string,
   connectionObj = null
 ) => {
   try {
@@ -20,6 +21,7 @@ const add = async (
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
+        description,
       },
     });
     return category;
@@ -35,6 +37,7 @@ const edit = async (
   budget: number,
   updated_by: bigint,
   category_id: number,
+  description: string,
   connectionObj = null
 ) => {
   try {
@@ -50,6 +53,7 @@ const edit = async (
         budget,
         updated_by,
         updated_date: currentDate,
+        description,
       },
     });
     return category;

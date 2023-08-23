@@ -13,7 +13,7 @@ import subSubCategoryDao from '../dao/subSubCategory.dao';
  */
 const createSubCategory = async (body: createSubCategoryBody) => {
   try {
-    const { name, category_id, budget, created_by = null } = body;
+    const { name, category_id, budget, created_by = null, description } = body;
     let result = null;
     const categoryExist = await categoryDao.getById(category_id);
     if (!categoryExist) {
@@ -37,7 +37,8 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       name,
       category_id,
       budget,
-      created_by
+      created_by,
+      description
     );
     result = { success: true, data: subCategoryDetails };
     return result;
@@ -54,7 +55,14 @@ const createSubCategory = async (body: createSubCategoryBody) => {
  */
 const updateSubCategory = async (body: updateSubCategoryBody) => {
   try {
-    const { name, category_id, budget, updated_by, sub_category_id } = body;
+    const {
+      name,
+      category_id,
+      budget,
+      updated_by,
+      sub_category_id,
+      description,
+    } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
     if (!subCategoryExist) {
@@ -84,7 +92,8 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       category_id,
       budget,
       updated_by,
-      sub_category_id
+      sub_category_id,
+      description
     );
     result = { success: true, data: subCategoryDetails };
     return result;
