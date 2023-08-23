@@ -176,12 +176,25 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [allOptions, setAllOptions] = useState(optionList); // Replace with actual data source
   const [open, setOpen] = useState(false);
-  useEffect(() => {
-    setAllOptions(optionList);
+  const [values, setValues] = useState(value);
+  const handleChange = (e) => {
+    setValues(e.target.value);
     const filtered = allOptions.filter((option) =>
-      option.label.toLowerCase().includes(value.toLowerCase())
+      option.label.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setFilteredOptions(filtered);
+  };
+
+  useEffect(() => {
+    setAllOptions(optionList);
+    setFilteredOptions(optionList);
+    let num: number = value;
+    if (num > 0) {
+      const matchingObjects = allOptions.filter(
+        (obj) => Number(obj.value) === Number(value)
+      );
+      setValues(matchingObjects[0].label);
+    }
   }, [value, allOptions, optionList]);
 
   const inputRef = useRef();
@@ -203,7 +216,6 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
       window.removeEventListener('focusout', handleFocusChange);
     };
   }, []);
-
   return (
     <InputWrapper width={width}>
       {label && (
@@ -224,24 +236,31 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
           hasSuffixIcon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
-          value={value}
+          value={values}
           {...props}
+          onChange={(e) => handleChange(e)}
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
       <OptionContainer>
         {open && (
           <OptionList>
-            {filteredOptions.map((option) => (
-              <li
-                onClick={() => {
-                  onSelect(option.label);
-                  setOpen(false);
-                }}
-              >
-                {option.label}
-              </li>
-            ))}
+            {filteredOptions.map((option) => {
+              return (
+                <>
+                  <li
+                    key={option.value}
+                    onClick={() => {
+                      onSelect(option.value);
+                      setOpen(false);
+                      setValues(option.label);
+                    }}
+                  >
+                    {option.label}
+                  </li>
+                </>
+              );
+            })}
           </OptionList>
         )}
       </OptionContainer>
