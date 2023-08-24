@@ -8,20 +8,21 @@ import { useFormik } from 'formik';
 import {
   createleadEnquiry,
   updateleadEnquiry,
-} from 'apps/web/src/hooks/leadEnquires-hooks';
-import { useGetAllClient } from 'apps/web/src/hooks/client-hooks';
-import { getBymasertDataType } from 'apps/web/src/hooks/masertData-hook';
+} from '../../../hooks/leadEnquires-hooks';
+import { useGetAllClientDrop } from '../../../hooks/client-hooks';
+import { getBymasertDataType } from '../../../hooks/masertData-hook';
 import {
   getCreateValidateyup,
   getUpdateValidateyup,
-} from 'apps/web/src/helper/constants/lead/leadTender-constant';
+} from '../../../helper/constants/lead/leadTender-constant';
 import * as Yup from 'yup';
-import LeadEnquiresServices from 'apps/web/src/service/leadEnquires-services';
+import LeadEnquiresServices from '../../../service/leadEnquires-services';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
 import { formatBudgetValue } from '../../../helper/common-function';
 import { environment } from '../../../environment/environment';
+import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 
 const Tender: React.FC = (props: any) => {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const Tender: React.FC = (props: any) => {
   const [appendedValue, setAppendedValue] = useState('');
   const { mutate: postleadEnquiry } = createleadEnquiry();
   const { mutate: updatelead } = updateleadEnquiry();
-  const { data: getAllClient = [] } = useGetAllClient();
+  const { data: getAllClient = [] } = useGetAllClientDrop();
   const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
   const { data: getAllIndustrySector = [] } = getBymasertDataType('INSEC');
   const { data: getAllTenderType = [] } = getBymasertDataType('TDTE');
@@ -385,7 +386,7 @@ const Tender: React.FC = (props: any) => {
             </div>
             <div className={Styles.fields_container_1}>
               <div className={Styles.fieldStyle}>
-                <Select
+                <AutoCompleteSelect
                   name="client"
                   label="Client"
                   defaultLabel="select Client"
@@ -393,13 +394,12 @@ const Tender: React.FC = (props: any) => {
                   value={formik.values.client}
                   onChange={formik.handleChange}
                   error={formik.touched.client && formik.errors.client}
-                >
-                  {getAllClient?.map((option: any) => (
-                    <option key={option.client_id} value={option.client_id}>
-                      {option.name}
-                    </option>
-                  ))}
-                </Select>
+                  onSelect={(value) => {
+                    formik.setFieldValue('client', value);
+                  }}
+                  disabled={disable}
+                  optionList={getAllClient}
+                />
               </div>
               <div className={Styles.fieldStyle}>
                 <Select

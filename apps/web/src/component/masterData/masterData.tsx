@@ -61,8 +61,6 @@ const MaterData = () => {
     useGetAllmasertData();
   const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
     useGetAllParentmasertDataDrop();
-  console.log('dropLoading', dropLoading);
-
   const { mutate: postMasterData } = createmasertData();
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +101,6 @@ const MaterData = () => {
     setFilterValues({
       search_by_name: '',
     });
-    setSelectedValue('');
     const masterData: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
@@ -116,6 +113,7 @@ const MaterData = () => {
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
+    setSelectedValue('');
     setIsResetDisabled(true);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -241,8 +239,6 @@ const MaterData = () => {
                       placeholder="Select from options"
                       width="200px"
                       onSelect={(value) => {
-                        console.log('selectedValue', value);
-
                         formik.setFieldValue('parent_master_data_id', value);
                       }}
                       optionList={
@@ -305,19 +301,20 @@ const MaterData = () => {
                   onChange={(e) => handleFilterChange(e)}
                   placeholder="Search by name"
                 />
-                <SelectNew
+                <AutoCompleteSelect
                   name="parent_master_data_id"
-                  onChange={handleDropdownChange}
+                  onChange={() => handleDropdownChange}
                   value={selectedValue}
-                  defaultLabel="Select from options"
-                  width="300px"
-                >
-                  {getAllmasterDataForDrop.map((option: any) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </SelectNew>
+                  placeholder="Parent Name"
+                  width="200px"
+                  onSelect={(value) => {
+                      setSelectedValue(value);
+                      setIsResetDisabled(false);
+                  }}
+                  optionList={
+                    dropLoading === true ? [] : getAllmasterDataForDrop
+                  }
+                />
                 <Button
                   className={Styles.searchButton}
                   shape="rectangle"
