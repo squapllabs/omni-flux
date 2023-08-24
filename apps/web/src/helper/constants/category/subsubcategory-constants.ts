@@ -61,37 +61,37 @@ export const getUpdateValidateyup = (yup: any) => {
       .trim()
       .typeError(subSubErrorMessages.SELECT_SUB_CATEGORY)
       .required(subSubErrorMessages.SELECT_SUB_CATEGORY),
-    name: yup
-      .string()
-      .trim()
-      .typeError(subSubErrorMessages.ENTER_NAME)
-      .required(subSubErrorMessages.ENTER_NAME)
-      .test(
-        'name-availability',
-        subSubErrorMessages.ALREADY_EXIST,
-        async (value: any, { parent }: yup.TestContext) => {
-          const sub_category_id = parent.sub_category_id;
-          const sub_sub_category_id = parent.sub_sub_category_id;
-          const object = {
-            id: sub_category_id,
-            name: value,
-          };
-          if (value) {
-            const response =
-              await subSubCategoryService.checkDublicateSubSubCategory(object);
-            if (
-              response?.status === true &&
-              response.data.sub_sub_category_id === Number(sub_sub_category_id)
-            ) {
-              return true;
-            } else if (response?.status === false) {
-              return true;
-            } else {
-              return false;
-            }
-          }
-        }
-      ),
+    // name: yup
+    //   .string()
+    //   .trim()
+    //   .typeError(subSubErrorMessages.ENTER_NAME)
+    //   .required(subSubErrorMessages.ENTER_NAME)
+    //   .test(
+    //     'name-availability',
+    //     subSubErrorMessages.ALREADY_EXIST,
+    //     async (value: any, { parent }: yup.TestContext) => {
+    //       const sub_category_id = parent.sub_category_id;
+    //       const sub_sub_category_id = parent.sub_sub_category_id;
+    //       const object = {
+    //         id: sub_category_id,
+    //         name: value,
+    //       };
+    //       if (value) {
+    //         const response =
+    //           await subSubCategoryService.checkDublicateSubSubCategory(object);
+    //         if (
+    //           response?.status === true &&
+    //           response.data.sub_sub_category_id === Number(sub_sub_category_id)
+    //         ) {
+    //           return true;
+    //         } else if (response?.status === false) {
+    //           return true;
+    //         } else {
+    //           return false;
+    //         }
+    //       }
+    //     }
+    //   ),
     budget: yup
       .number()
       .required(subSubErrorMessages.ENTER_BUDGET)

@@ -224,6 +224,10 @@ import ExpansesForm from '../component/expanses/expansesForm';
 import PopupExpanse from '../component/expanses/popupExpanse';
 import projectList from '../component/project/projectList';
 import projectEdit from '../component/project/projectEdit';
+import CategotyAdd from '../component/category/categoryAdd';
+import SubCategoryAdd from '../component/subCategory/subCategoryAdd';
+import SubsubCategoryAdd from '../component/subSubCategory/subsubcategoryAdd';
+// import SubCategoryAdd from '../component/subCategory/subCatAdd';
 import ProjectView from '../component/project/projectInfo';
 import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
 import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
@@ -269,6 +273,9 @@ const AppRoutes = () => {
   const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
   const ProtectedProjectWorkBreakDownPage =
     withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedCategoryAdd = withLayoutAndProtection(CategotyAdd);
+  const ProtectedSubCategoryAdd = withLayoutAndProtection(SubCategoryAdd);
+  const ProtectedSubSubCategoryAdd = withLayoutAndProtection(SubsubCategoryAdd);
   const ProtectedExpanses = withLayoutAndProtection(ExpansesForm);
   const ProtectedPopupExpanse = withLayoutAndProtection(PopupExpanse);
   const ProtectedProjectView = withLayoutAndProtection(ProjectView);
@@ -340,6 +347,12 @@ const AppRoutes = () => {
         <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
         <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
+        <Route path="/category-add" element={<ProtectedCategoryAdd />} />
+        <Route path="/category-edit/:id" element={<ProtectedCategoryAdd />} />
+        <Route path="/subcategory-add" element={<ProtectedSubCategoryAdd />} />
+        <Route path="/subcategory-edit/:id" element={<ProtectedSubCategoryAdd />} />
+        <Route path="/subsubcategory-add" element={<ProtectedSubSubCategoryAdd />} />
+        <Route path="/subsubcategory-edit/:id" element={<ProtectedSubSubCategoryAdd />} />
         <Route path="/project-info/:id" element={<ProtectedProjectView />} />
         <Route
           path="/lead-info-product/:id"

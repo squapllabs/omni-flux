@@ -27,10 +27,10 @@ const LeadList = () => {
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
-  const [disable, setDisable] = useState(true);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'active', value: 'AC' },
-    { label: 'inactive', value: 'IC' },
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IC' },
   ]);
   useEffect(() => {
     handleSearch();
@@ -61,7 +61,7 @@ const LeadList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
-    setDisable(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -85,10 +85,12 @@ const LeadList = () => {
     else navigate(`/lead-info-product/${id}`);
   };
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -150,7 +152,7 @@ const LeadList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  disabled={disable}
+                  disabled={isResetDisabled}
                   onClick={handleReset}
                 >
                   Reset
@@ -174,7 +176,7 @@ const LeadList = () => {
                     <th>Lead Code</th>
                     <th>Client Name</th>
                     <th>Client Level</th>
-                    <th></th>
+                    {activeButton === 'AC' && <th></th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -194,21 +196,23 @@ const LeadList = () => {
                       <td>{item.lead_code}</td>
                       <td>{item.client_contact_name}</td>
                       <td>{item.client_level_info?.master_data_name}</td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon
-                            onClick={() =>
-                              handleEdit(item.lead_enquiry_id, item.lead_type)
-                            }
-                          />
-                          <ViewIcon
-                            onClick={() =>
-                              // navigate(`/lead-info-product/${item.lead_enquiry_id}`)
-                              handleView(item.lead_enquiry_id, item.lead_type)
-                            }
-                          />
-                        </div>
-                      </td>
+                      {activeButton === 'AC' && (
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                handleEdit(item.lead_enquiry_id, item.lead_type)
+                              }
+                            />
+                            <ViewIcon
+                              onClick={() =>
+                                // navigate(`/lead-info-product/${item.lead_enquiry_id}`)
+                                handleView(item.lead_enquiry_id, item.lead_type)
+                              }
+                            />
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

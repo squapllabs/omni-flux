@@ -7,24 +7,17 @@ import {
 import CategoryForm from './categoryForm';
 import Button from '../ui/Button';
 import Input from '../../component/ui/Input';
-import { useFormik } from 'formik';
-import { getCreateValidateyup } from '../../helper/constants/category/category-constants';
-import { createCategory } from '../../hooks/category-hooks';
-import * as Yup from 'yup';
-import Select from '../ui/selectNew';
-import { useGetAllProject } from '../../hooks/project-hooks';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
-import { environment } from '../../environment/environment';
+import { useNavigate } from 'react-router-dom';
 
 /* Function for  CategoryList */
 const CategoryList = () => {
@@ -34,8 +27,7 @@ const CategoryList = () => {
     isLoading: FilterLoading,
   } = getBySearchCategroy();
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
-  const { mutate: createNewCategory } = createCategory();
-  const { data: getAllProjectList = [] } = useGetAllProject();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [categoryId, setCategoryID] = useState();
@@ -44,29 +36,20 @@ const CategoryList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
-  const validationSchema = getCreateValidateyup(Yup);
   const [isLoading, setIsLoading] = useState(true);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
   const [filter, setFilter] = useState(false);
-  const [initialValues, setInitialValues] = useState({
-    category_id: '',
-    name: '',
-    budget: '',
-    project_id: '',
-  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [appendedValue, setAppendedValue] = useState('');
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
-  const inputLabelNameFromEnv = `Budget (${environment.INPUTBUDGET})`;
-  const outputLableNameFromEnv = `Budget (${environment.OUTPUTBUDGET})`;
 
   /* Function for Filter Change */
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,10 +124,8 @@ const CategoryList = () => {
   };
 
   /* Function for editing the Category */
-  const handleEdit = (value: any) => {
-    setMode('EDIT');
-    setCategoryID(value);
-    setOpen(true);
+  const handleEdit = (id: any) => {
+    navigate(`/category-edit/${id}`);
   };
 
   /* Function for closing the snackbar */
@@ -160,40 +141,7 @@ const CategoryList = () => {
     setOpenSnack(true);
   };
 
-  /* Function for adding new category and submit form */
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      if (values) {
-        const Object: any = {
-          name: values.name,
-          budget: Number(values.budget),
-          project_id: Number(values.project_id),
-        };
-        createNewCategory(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.message === 'success') {
-              setMessage('Category created');
-              setOpenSnack(true);
-              resetForm();
-            }
-          },
-        });
-      }
-    },
-  });
-
-  /* Function for Duplicating the value of Budget into another field */
-  const handleBudgetChange = (event: any) => {
-    const budgetValue = event.target.value;
-    const data = formatBudgetValue(Number(budgetValue));
-    setAppendedValue(data);
-    formik.setFieldValue('budget', budgetValue);
-    formik.handleChange(event);
-  };
-
+  
   /* Function for group button (Active and Inactive status) */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -203,77 +151,24 @@ const CategoryList = () => {
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div>
-          <div className={Styles.box}>
+          <div className={Styles.top}>
             <div className={Styles.textContent}>
               <h3>Add New Categories</h3>
             </div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className={Styles.fields}>
-                <div>
-                  <Select
-                    label="Project"
-                    name="project_id"
-                    onChange={formik.handleChange}
-                    mandatory={true}
-                    value={formik.values.project_id}
-                    defaultLabel="Select from options"
-                    error={
-                      formik.touched.project_id && formik.errors.project_id
-                    }
-                  >
-                    {getAllProjectList.map((option: any) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-                <div>
-                  <Input
-                    name="name"
-                    label="Category Name"
-                    placeholder="Enter category name"
-                    mandatory={true}
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    error={formik.touched.name && formik.errors.name}
-                    width="250px"
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="budget"
-                    label={inputLabelNameFromEnv}
-                    placeholder="Enter budget"
-                    mandatory={true}
-                    value={formik.values.budget}
-                    onChange={handleBudgetChange}
-                    error={formik.touched.budget && formik.errors.budget}
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="label_field"
-                    label={outputLableNameFromEnv}
-                    placeholder="Enter budget"
-                    value={appendedValue}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon />}
-                  >
-                    Add
-                  </Button>
-                </div>
-              </div>
-            </form>
+            <div>
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon />}
+                onClick={() => {navigate('/category-add')}}
+              >
+                Add Category
+              </Button>
+            </div>
           </div>
+          <div className={Styles.dividerStyle}></div>
           <div className={Styles.box}>
             <div className={Styles.tableContainer}>
               <div className={Styles.textContent1}>
@@ -326,6 +221,7 @@ const CategoryList = () => {
                         <th>S No</th>
                         <th>Category Name</th>
                         <th>Budget</th>
+                        <th>Description</th>
                         {activeButton === 'AC' && <th></th>}
                       </tr>
                     </thead>
@@ -345,6 +241,7 @@ const CategoryList = () => {
                             <td>{index + 1}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
+                            <td>{item.description}</td>
                             {activeButton === 'AC' && (
                               <td>
                                 <div className={Styles.tableIcon}>

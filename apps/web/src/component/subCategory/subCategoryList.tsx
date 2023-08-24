@@ -13,7 +13,6 @@ import * as Yup from 'yup';
 import { createSubcategory } from '../../hooks/subCategory-hooks';
 import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import SearchIcon from '../menu/icons/search';
-import Select from '../ui/selectNew';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
@@ -24,23 +23,17 @@ import CustomSnackBar from '../ui/customSnackBar';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
+import { useNavigate } from 'react-router-dom';
+
 
 //Function for SubCategoryList
 const SubCategoryList = () => {
-  const validationSchema = getCreateValidateyup(Yup);
-  const { data: getAllCategoryDrop = [] } = useGetAllCategoryForDrop();
   const { mutate: getDeleteSubcategoryByID } = useDeleteSubcategory();
-  const { mutate: createNewSubcategory } = createSubcategory();
   const {
     mutate: postDataForFilter,
     data: filterBasedData,
     isLoading: filterDataLoading,
   } = getBySearchCategroy();
-  const [initialValues, setInitialValues] = useState({
-    category_id: '',
-    name: '',
-    budget: '',
-  });
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -62,29 +55,7 @@ const SubCategoryList = () => {
     { label: 'Inactive', value: 'IN' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
-
-  /* Function for Adding new Sub Category */
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      const Object: any = {
-        name: values.name,
-        budget: Number(values.budget),
-        category_id: Number(values.category_id),
-      };
-      createNewSubcategory(Object, {
-        onSuccess: (data, variables, context) => {
-          if (data?.success) {
-            setMessage('Sub category is created successfully');
-            setOpenSnack(true);
-            resetForm();
-          }
-        },
-      });
-    },
-  });
+  const navigate = useNavigate();
 
   /* Function for button group(Active and Inactive) */
   const handleGroupButtonClick = (value: string) => {
@@ -104,10 +75,8 @@ const SubCategoryList = () => {
     setOpenDelete(false);
   };
   /* Function for editing the sub category data */
-  const handleEdit = (value: any) => {
-    setMode('EDIT');
-    setSubcategoryID(value);
-    setOpen(true);
+  const handleEdit = (id: any) => {
+    navigate(`/subcategory-edit/${id}`);
   };
   /* Function for closing the snackbar */
   const handleSnackBarClose = () => {
@@ -184,66 +153,24 @@ const SubCategoryList = () => {
     <div>
       <CustomLoader loading={filterDataLoading} size={48} color="#333C44">
         <div>
-          <div className={Styles.box}>
+          <div className={Styles.top}>
             <div className={Styles.textContent}>
               <h3>Add New Sub Categories</h3>
             </div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className={Styles.fields}>
-                <div>
-                  <Select
-                    label="Category"
-                    name="category_id"
-                    onChange={formik.handleChange}
-                    mandatory={true}
-                    value={formik.values.category_id}
-                    defaultLabel="Select from options"
-                    error={
-                      formik.touched.category_id && formik.errors.category_id
-                    }
-                  >
-                    {getAllCategoryDrop.map((option: any) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-                <Input
-                  name="name"
-                  label="Sub Category Name"
-                  placeholder="Enter sub category name"
-                  value={formik.values.name}
-                  mandatory={true}
-                  onChange={formik.handleChange}
-                  error={formik.touched.name && formik.errors.name}
-                  width="260px"
-                />
-                <div>
-                  <Input
-                    name="budget"
-                    label="Budget"
-                    placeholder="Enter budget"
-                    value={formik.values.budget}
-                    mandatory={true}
-                    onChange={formik.handleChange}
-                    error={formik.touched.budget && formik.errors.budget}
-                  />
-                </div>
-                <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon />}
-                  >
-                    Add
-                  </Button>
-                </div>
-              </div>
-            </form>
+            <div>
+            <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon />}
+                onClick={() => {navigate('/subcategory-add')}}
+              >
+                Add Sub Category
+              </Button>
+            </div>
           </div>
+          <div className={Styles.dividerStyle}></div>
           <div className={Styles.box}>
             <div className={Styles.tableContainer}>
               <div className={Styles.textContent1}>
@@ -300,6 +227,7 @@ const SubCategoryList = () => {
                           <th>Category</th>
                           <th>Sub Category Name</th>
                           <th>Budget</th>
+                          <th>Description</th>
                           {activeButton === 'AC' && <th></th>}
                         </tr>
                       </thead>
@@ -321,6 +249,7 @@ const SubCategoryList = () => {
                               <td>{item.category.name}</td>
                               <td>{item.name}</td>
                               <td>{formatBudgetValue(item.budget)}</td>
+                              <td>{item.description}</td>
                               {activeButton === 'AC' && (
                                 <td>
                                   <div className={Styles.tableIcon}>
