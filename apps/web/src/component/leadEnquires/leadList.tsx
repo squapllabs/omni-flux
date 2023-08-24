@@ -20,7 +20,7 @@ const LeadList = () => {
     isLoading: getFilterLoading,
   } = getBySearchLeadEnquiry();
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -93,6 +93,7 @@ const LeadList = () => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div>
       <CustomLoader loading={getFilterLoading} size={48} color="#333C44">
@@ -189,7 +190,7 @@ const LeadList = () => {
                   )}
                   {filterData?.content?.map((item: any, index: number) => (
                     <tr>
-                      <td>{index + 1}</td>
+                      <td>{ startingIndex+index}</td>
                       <td>{item.lead_type}</td>
                       <td>{item.lead_code}</td>
                       <td>{item.client_contact_name}</td>
@@ -218,6 +219,7 @@ const LeadList = () => {
               <Pagination
                 currentPage={currentPage}
                 totalPages={filterData?.total_page}
+                totalCount={filterData?.total_count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
