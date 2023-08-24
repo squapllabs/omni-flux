@@ -130,7 +130,7 @@ const ProjectWorkBreakList = () => {
                     onChange={handleDropdownChange}
                     value={selectedValue}
                     defaultLabel="Select from options"
-                    width="100%"
+                    width="200px"
                   >
                     {getAllParentDatadrop.map((option: any) => (
                       <option key={option.value} value={option.value}>

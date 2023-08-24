@@ -62,38 +62,38 @@ export const getUpdateValidateyup = (yup: any) => {
       .trim()
       .typeError(userErrorMessages.SELECT_PROJECT_ID),
     // .required(userErrorMessages.SELECT_PROJECT_ID),
-    name: yup
-      .string()
-      .trim()
-      .typeError(userErrorMessages.ENTER_NAME)
-      .required(userErrorMessages.ENTER_NAME)
-      .test(
-        'name-availability',
-        userErrorMessages.ALREADY_EXIST,
-        async (value: any, { parent }: yup.TestContext) => {
-          const project_id = parent.project_id;
-          const category_id = parent.category_id;
-          const object = {
-            id: project_id,
-            name: value,
-          };
-          if (value) {
-            const response = await categoryService.checkDublicateCategory(
-              object
-            );
-            if (
-              response?.status === true &&
-              response.data?.category_id === Number(category_id)
-            ) {
-              return true;
-            } else if (response?.status === false) {
-              return true;
-            } else {
-              return false;
-            }
-          }
-        }
-      ),
+    // name: yup
+    //   .string()
+    //   .trim()
+    //   .typeError(userErrorMessages.ENTER_NAME)
+    //   .required(userErrorMessages.ENTER_NAME)
+    //   .test(
+    //     'name-availability',
+    //     userErrorMessages.ALREADY_EXIST,
+    //     async (value: any, { parent }: yup.TestContext) => {
+    //       const project_id = parent.project_id;
+    //       const category_id = parent.category_id;
+    //       const object = {
+    //         id: project_id,
+    //         name: value,
+    //       };
+    //       if (value) {
+    //         const response = await categoryService.checkDublicateCategory(
+    //           object
+    //         );
+    //         if (
+    //           response?.status === true &&
+    //           response.data?.category_id === Number(category_id)
+    //         ) {
+    //           return true;
+    //         } else if (response?.status === false) {
+    //           return true;
+    //         } else {
+    //           return false;
+    //         }
+    //       }
+    //     }
+    //   ),
     budget: yup
       .number()
       .required(userErrorMessages.ENTER_BUDGET)
