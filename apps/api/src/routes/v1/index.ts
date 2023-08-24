@@ -24,6 +24,8 @@ import masterData from './masterData.route';
 import leadEnquiry from './leadEnquiry.route';
 import projectWorkbreakDown from './projectWorkbreakDown.route';
 import siteExpenseDetails from './siteExpenseDetail.route';
+import capability from './capability.route';
+import permission from './permissions.route';
 
 const router = express.Router();
 
@@ -127,6 +129,14 @@ const defaultRoutes = [
   {
     path: '/site-expense-details',
     route: siteExpenseDetails,
+  },
+  {
+    path: '/capability',
+    route: capability,
+  },
+  {
+    path: '/permission',
+    route: permission,
   },
 ];
 

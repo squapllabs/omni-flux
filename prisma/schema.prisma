@@ -52,14 +52,15 @@ model user_roles {
 }
 
 model role {
-  role_id      Int          @id @default(autoincrement())
-  role_name    String       @db.VarChar(100)
+  role_id      Int           @id @default(autoincrement())
+  role_name    String        @db.VarChar(100)
   created_date DateTime
   updated_date DateTime
   created_by   Int?
   updated_by   Int?
   description  String?
   user_roles   user_roles[]
+  permissions  permissions[]
 
   @@map("role")
 }
@@ -525,4 +526,35 @@ model project_site {
   approvar_data    users?           @relation(fields: [approvar_id], references: [user_id])
   project_details  project?         @relation(fields: [project_id], references: [project_id])
   site_details     site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
+}
+
+model capability {
+  capability_id   Int           @id @default(autoincrement())
+  capability_name String
+  description     String?
+  permission_type String?
+  ui_type         String?
+  is_delete       Boolean       @default(false)
+  created_date    DateTime
+  updated_date    DateTime
+  created_by      Int?
+  updated_by      Int?
+  permissions     permissions[]
+}
+
+model permissions {
+  permission_id   Int         @id @default(autoincrement())
+  is_create       Boolean     @default(false)
+  is_update       Boolean     @default(false)
+  is_read         Boolean     @default(false)
+  is_visible      Boolean     @default(false)
+  capability_id   Int?
+  role_id         Int?
+  is_delete       Boolean     @default(false)
+  created_date    DateTime
+  updated_date    DateTime
+  created_by      Int?
+  updated_by      Int?
+  role_data       role?       @relation(fields: [role_id], references: [role_id])
+  capability_data capability? @relation(fields: [capability_id], references: [capability_id])
 }
