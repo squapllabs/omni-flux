@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/masterdata.module.scss';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -24,6 +24,8 @@ import CustomLoader from '../ui/customLoader';
 import SelectNew from '../ui/selectNew';
 import AddIcon from '../menu/icons/addIcon';
 import TextArea from '../ui/CustomTextArea';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+
 const MaterData = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -58,8 +60,10 @@ const MaterData = () => {
   } = getBySearchmasterData();
   const { data: getAllmasterData, isLoading: getAllloading } =
     useGetAllmasertData();
-  const { data: getAllmasterDataForDrop = [] } =
+  const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
     useGetAllParentmasertDataDrop();
+  console.log('dropLoading', dropLoading);
+
   const { mutate: postMasterData } = createmasertData();
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +99,6 @@ const MaterData = () => {
     setIsResetDisabled(searchValue === '');
   };
   useEffect(() => {
-    // handleSearch();
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
   const handleSearch = async () => {
@@ -120,15 +123,6 @@ const MaterData = () => {
     });
     setSelectedValue('');
     setDataShow(false);
-    // const masterData: any = {
-    //   offset: (currentPage - 1) * rowsPerPage,
-    //   limit: rowsPerPage,
-    //   order_by_column: 'updated_date',
-    //   order_by_direction: 'asc',
-    //   status: 'AC',
-    //   global_search: '',
-    // };
-    // postDataForFilter(masterData);
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
@@ -152,6 +146,11 @@ const MaterData = () => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         let object: any = {};
+        console.log(
+          'values.parent_master_data_id',
+          values.parent_master_data_id
+        );
+
         const num = 0;
         if (Number(values.parent_master_data_id) === num) {
           object = {
@@ -249,24 +248,26 @@ const MaterData = () => {
                     />
                   </div>
                   <div>
-                    <SelectNew
+                    <AutoCompleteSelect
                       label="Parent Name"
                       name="parent_master_data_id"
                       onChange={formik.handleChange}
                       value={formik.values.parent_master_data_id}
-                      defaultLabel="Select from options"
+                      placeholder="Select from options"
                       width="200px"
+                      onSelect={(value) => {
+                        console.log('selectedValue', value);
+
+                        formik.setFieldValue('parent_master_data_id', value);
+                      }}
+                      optionList={
+                        dropLoading === true ? [] : getAllmasterDataForDrop
+                      }
                       error={
                         formik.touched.parent_master_data_id &&
                         formik.errors.parent_master_data_id
                       }
-                    >
-                      {getAllmasterDataForDrop.map((option: any) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </SelectNew>
+                    />
                   </div>
                 </div>
                 <div className={Styles.fields_container_2}>
@@ -293,6 +294,7 @@ const MaterData = () => {
                       justify="center"
                       size="small"
                       icon={<AddIcon />}
+                      onClick={() => console.log(formik.values)}
                     >
                       Add
                     </Button>

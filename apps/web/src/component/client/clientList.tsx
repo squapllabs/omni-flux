@@ -374,7 +374,7 @@ const ClientList = () => {
                 </table>
               </div>
             </div>
-            <div className={Styles.pagination1}>
+            <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
                 totalPages={

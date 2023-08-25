@@ -194,7 +194,7 @@ const UomList = () => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <div>
@@ -322,9 +322,7 @@ const UomList = () => {
                         getFilterData?.content?.map(
                           (data: any, index: number) => (
                             <tr key={data.uom_id}>
-                              {/* <td>{index + 1}</td> */}
-                              
-                          <td>{startingIndex + index}</td>
+                              <td>{startingIndex + index}</td>
                               <td>{data.name}</td>
                               <td>{data.description}</td>
                               {activeButton === 'AC' && (
@@ -355,7 +353,6 @@ const UomList = () => {
                     ) : (
                       initialData?.content?.map((data: any, index: number) => (
                         <tr key={data.uom_id}>
-                          {/* <td>{index + 1}</td> */}
                           <td>{startingIndex + index}</td>
                           <td>{data.name}</td>
                           <td>{data.description}</td>
@@ -380,12 +377,17 @@ const UomList = () => {
                 </table>
               </div>
             </div>
-            <div className={Styles.pagination1}>
+            <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                // totalPages={getFilterData?.total_page}
-                totalPages={ dataShow ? getFilterData?.total_page : initialData?.total_page }
-                totalCount = {dataShow ? getFilterData?.total_count : initialData?.total_count}
+                totalPages={
+                  dataShow ? getFilterData?.total_page : initialData?.total_page
+                }
+                totalCount={
+                  dataShow
+                    ? getFilterData?.total_count
+                    : initialData?.total_count
+                }
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}

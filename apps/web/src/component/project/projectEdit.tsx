@@ -485,11 +485,11 @@ const ProjectEdit = () => {
     setShowSiteForm(true);
   };
 
-  const handleExpenses = (data : any) => {
-    const siteId = data.site_id
-    const projectSiteId = data.project_site_id
-    navigate(`/expenses/${projectSiteId}/${siteId}`)
-  }
+  const handleExpenses = (data: any) => {
+    const siteId = data.siteData?.site_contractor_id;
+    const projectSiteId = Number(routeParams?.id);
+    navigate(`/expenses/${projectSiteId}/${siteId}`);
+  };
 
   // const handleBom = (data:any) => {
   //   const siteId = data.site_id

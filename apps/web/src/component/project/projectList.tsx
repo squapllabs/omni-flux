@@ -44,13 +44,16 @@ const ProjectList = () => {
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -90,7 +93,7 @@ const ProjectList = () => {
     setFilterValues({
       search_by_name: '',
     });
-    setIsLoading(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -166,6 +169,7 @@ const ProjectList = () => {
                 justify="center"
                 size="small"
                 onClick={handleReset}
+                disabled={isResetDisabled}
               >
                 Reset
               </Button>
@@ -205,7 +209,7 @@ const ProjectList = () => {
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th></th>
+                    {activeButton === 'AC' && <th></th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -214,7 +218,7 @@ const ProjectList = () => {
                       <td></td>
                       <td></td>
                       <td>No data found</td>
-                      <td></td>
+                      {activeButton === 'AC' && <td></td>}
                     </tr>
                   ) : (
                     ''
@@ -226,7 +230,7 @@ const ProjectList = () => {
                       <td>{data.code}</td>
                       <td>
                         {data.user?.first_name} {data.user?.last_name}
-                      </td>   
+                      </td>
                       <td>{data.status}</td>
                       <td>
                         {format(new Date(data.date_started), 'MMM dd, yyyy')}
@@ -234,21 +238,27 @@ const ProjectList = () => {
                       <td>
                         {format(new Date(data.date_ended), 'MMM dd, yyyy')}
                       </td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon
-                            onClick={() =>
-                              navigate(`/project-edit/${data.project_id}`)
-                            }
-                          />
-                          <ViewIcon onClick={() => navigate(`/project-info/${data.project_id}`)}/>
-                          {/* <DeleteIcon
+                      {activeButton === 'AC' && (
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                navigate(`/project-edit/${data.project_id}`)
+                              }
+                            />
+                            <ViewIcon
+                              onClick={() =>
+                                navigate(`/project-info/${data.project_id}`)
+                              }
+                            />
+                            {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
                             }
                           /> */}
-                        </div>
-                      </td>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

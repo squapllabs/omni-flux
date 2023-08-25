@@ -5,8 +5,13 @@ import Select from '../../ui/selectNew';
 import TextArea from '../../ui/CustomTextArea';
 import Button from '../../ui/Button';
 import { useFormik } from 'formik';
-import { useGetAllClient } from '../../../hooks/client-hooks';
+import { useGetAllClient ,useGetAllClientDrop} from '../../../hooks/client-hooks';
 import { useGetAllUsers } from '../../../hooks/user-hooks';
+// import {
+//   useGetAllClient,
+//   useGetAllClientDrop,
+// } from 'apps/web/src/hooks/client-hooks';
+// import { useGetAllUsers } from 'apps/web/src/hooks/user-hooks';
 import {
   createleadEnquiry,
   updateleadEnquiry,
@@ -26,6 +31,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomEditDialog from '../../../component/ui/customEditDialogBox';
 import ProductItemEdit from './productItemEdit';
 import CustomDelete from '../../ui/customDeleteDialogBox';
+import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 
 interface Item {
   lead_enquiry_product_item_id: string;
@@ -154,7 +160,7 @@ const ProductSale: React.FC = (props: any) => {
     if (props.leadEnquireId != undefined) fetchData();
     if (props.leadEnquireId === undefined) fetchLeadID();
   }, []);
-  const { data: getAllClient = [] } = useGetAllClient();
+  const { data: getAllClient = [] } = useGetAllClientDrop();
   const { data: getAllUsers = [] } = useGetAllUsers();
   const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
   const { data: getLeadProbability = [] } = getBymasertDataType('LDPRB');
@@ -343,7 +349,7 @@ const ProductSale: React.FC = (props: any) => {
                 />
               </div>
               <div className={Styles.fieldStyle}>
-                <Select
+                {/* <Select
                   name="client"
                   label="Client"
                   defaultLabel="select Client"
@@ -358,7 +364,21 @@ const ProductSale: React.FC = (props: any) => {
                       {option.name}
                     </option>
                   ))}
-                </Select>
+                </Select> */}
+                <AutoCompleteSelect
+                  name="client"
+                  label="Client"
+                  defaultLabel="select Client"
+                  mandatory={true}
+                  value={formik.values.client}
+                  onChange={formik.handleChange}
+                  error={formik.touched.client && formik.errors.client}
+                  onSelect={(value) => {
+                    formik.setFieldValue('client', value);
+                  }}
+                  disabled={disable}
+                  optionList={getAllClient}
+                />
               </div>
             </div>
             <div className={Styles.fields_container_1}>
