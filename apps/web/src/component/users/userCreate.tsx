@@ -334,7 +334,7 @@ const UserCreate = () => {
                   className={Styles.imageset}
                 />
               )}
-              <label>
+              <label htmlFor="upload-photo">
                 <AddIcon />
                 Upload Image
               </label>
