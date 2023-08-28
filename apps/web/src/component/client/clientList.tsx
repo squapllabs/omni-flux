@@ -3,9 +3,9 @@ import Styles from '../../styles/userList.module.scss';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import {
-  useGetAllClient,
   useDeleteClient,
   getByClient,
+  useGetAllPaginatedClient,
 } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
 import CustomEditDialog from '../ui/customEditDialogBox';
@@ -25,12 +25,12 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 
 /* Function for Client List */
 const ClientList = () => {
-  const { isLoading: getAllLoading } = useGetAllClient();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
-    isLoading: FilterLoading,
+    isLoading: searchLoader,
   } = getByClient();
+
   const { mutate: getDeleteClientByID } = useDeleteClient();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -46,6 +46,7 @@ const ClientList = () => {
   const [filter, setFilter] = useState(false);
   const [value, setValue] = useState();
   const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [dataShow, setDataShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -61,9 +62,29 @@ const ClientList = () => {
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
 
+  const clientData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: filterValues.search_by_name,
+  };
+  // console.log('offset in input==>', clientData);
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedClient(clientData);
+  // console.log('sample data====>', sample?.content);
+
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton]);
 
   /* Function for Closing the delete popup */
   const handleCloseDelete = () => {
@@ -126,10 +147,6 @@ const ClientList = () => {
     setIsResetDisabled(searchValue === '');
   };
 
-  useEffect(() => {
-    handleSearch();
-  }, [currentPage, rowsPerPage, activeButton]);
-
   /* Function for Searching a client data from the list */
   const handleSearch = async () => {
     const clientData: any = {
@@ -141,20 +158,13 @@ const ClientList = () => {
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(clientData);
+    setDataShow(true);
     setIsLoading(false);
     setFilter(true);
   };
   /*Function for reseting the list to actual state after search*/
   const handleReset = async () => {
-    const clientData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      global_search: '',
-    };
-    postDataForFilter(clientData);
+    setDataShow(false);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
@@ -179,11 +189,13 @@ const ClientList = () => {
     setActiveButton(value);
   };
 
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  console.log("page index==>",startingIndex)
   return (
     <div>
       <div>
         <CustomLoader
-          loading={isLoading === true ? getAllLoading : FilterLoading}
+          loading={searchLoader ? searchLoader : getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
@@ -294,7 +306,40 @@ const ClientList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {getFilterData?.total_count === 0 ? (
+                    {dataShow ? (
+                      getFilterData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        getFilterData?.content?.map(
+                          (data: any, index: number) => (
+                            <tr key={data.client_id}>
+                              <td>{startingIndex + index}</td>
+                              <td>{data.name}</td>
+                              <td>{data.contact_details}</td>
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <EditIcon
+                                      onClick={() => handleEdit(data.client_id)}
+                                    />
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deleteCategoryHandler(data.client_id)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
+                      )
+                    ) : initialData?.total_count === 0 ? (
                       <tr>
                         <td></td>
                         <td></td>
@@ -302,37 +347,44 @@ const ClientList = () => {
                         {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
-                      ''
+                      initialData?.content?.map((data: any, index: number) => (
+                        <tr key={data.client_id}>
+                          {/* <td>{index + 1}</td> */}
+                          <td>{startingIndex + index}</td>
+                          <td>{data.name}</td>
+                          <td>{data.contact_details}</td>
+                          {activeButton === 'AC' && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() => handleEdit(data.client_id)}
+                                />
+                                <DeleteIcon
+                                  onClick={() =>
+                                    deleteCategoryHandler(data.client_id)
+                                  }
+                                />
+                              </div>
+                            </td>
+                          )}
+                        </tr>
+                      ))
                     )}
-                    {getFilterData?.content?.map((data: any, index: number) => (
-                      <tr key={data.client_id}>
-                        <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.contact_details}</td>
-                        {activeButton === 'AC' && (
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() => handleEdit(data.client_id)}
-                              />
-                              <DeleteIcon
-                                onClick={() =>
-                                  deleteCategoryHandler(data.client_id)
-                                }
-                              />
-                            </div>
-                          </td>
-                        )}
-                      </tr>
-                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
-            <div className={Styles.pagination1}>
+            <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={getFilterData?.total_page}
+                totalPages={
+                  dataShow ? getFilterData?.total_page : initialData?.total_page
+                }
+                totalCount={
+                  dataShow
+                    ? getFilterData?.total_count
+                    : initialData?.total_count
+                }
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}

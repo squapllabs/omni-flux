@@ -103,6 +103,7 @@ const ProjectWorkBreakList = () => {
     setCurrentPage(1);
   };
 
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -201,7 +202,7 @@ const ProjectWorkBreakList = () => {
                     )}
                     {getFilterData?.content?.map((item: any, index: number) => (
                       <tr key={item.project_workbreak_down_id}>
-                        <td>{index + 1}</td>
+                        <td>{startingIndex + index}</td>
                         <td>{item.project_workbreak_down_name}</td>
                         <td>
                           <span
@@ -240,6 +241,7 @@ const ProjectWorkBreakList = () => {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={getFilterData?.total_page}
+                  totalCount={getFilterData?.total_count}
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}

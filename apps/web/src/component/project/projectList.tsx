@@ -126,7 +126,7 @@ const ProjectList = () => {
   const handleSnackBarClose = () => {
     setOpenDeleteSnack(false);
   };
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div className={Styles.container}>
       <div>
@@ -225,7 +225,7 @@ const ProjectList = () => {
                   )}
                   {getFilterData?.content?.map((data: any, index: number) => (
                     <tr key={data.user_id}>
-                      <td>{index + 1}</td>
+                      <td>{ startingIndex + index}</td>
                       <td>{data.project_name}</td>
                       <td>{data.code}</td>
                       <td>
@@ -268,6 +268,7 @@ const ProjectList = () => {
               <Pagination
                 currentPage={currentPage}
                 totalPages={getFilterData?.total_page}
+                totalCount={getFilterData?.total_count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}

@@ -127,7 +127,7 @@ const UserList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div className={Styles.container}>
       <div>
@@ -221,7 +221,7 @@ const UserList = () => {
                   )}
                   {getFilterData?.content?.map((data: any, index: number) => (
                     <tr key={data.user_id}>
-                      <td>{index + 1}</td>
+                      <td>{startingIndex + index}</td>
                       <td>{data.first_name}</td>
                       <td>{data.last_name}</td>
                       <td>{data.email_id}</td>
@@ -249,6 +249,7 @@ const UserList = () => {
               <Pagination
                 currentPage={currentPage}
                 totalPages={getFilterData?.total_page}
+                totalCount={getFilterData?.total_count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
