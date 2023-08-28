@@ -30,12 +30,13 @@ import CustomClientAdd from '../ui/CustomClientAdd';
 import CustomSiteAdd from '../ui/CustomSiteAdd';
 import MoreIcon from '../menu/icons/moreHorizontalIcon';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-
 const ProjectEdit = () => {
   const routeParams = useParams();
   const { data: getOneProjectData, isLoading } = getByProjectId(
     Number(routeParams?.id)
   );
+
+
   const [message, setMessage] = useState('');
   const { mutate: updateProjectData } = updateProject();
   const [openSnack, setOpenSnack] = useState(false);
@@ -107,6 +108,7 @@ const ProjectEdit = () => {
         formattedEndDate = format(currentDate, 'yyyy-MM-dd');
       }
       const siteConfigurationData = getOneProjectData.project_site;
+
       setInitialValues({
         project_name: getOneProjectData?.project_name || '',
         code: getOneProjectData?.code || '',
@@ -378,6 +380,7 @@ const ProjectEdit = () => {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
             setMessage('Project edited');
+
             setOpenSnack(true);
             setInterval(() => {
               navigate('/settings');
@@ -501,10 +504,7 @@ const ProjectEdit = () => {
   // const handleBom = (data:any) => {
   //   const siteId = data.site_id
   //   const projectSiteId = data.project_site_id
-  //   console.log("dsd",data);
-  //   console.log("dsd_1",siteId);
-  //   console.log("dsd_2",projectSiteId);
-  // }
+    // }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -630,7 +630,7 @@ const ProjectEdit = () => {
           </div>
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
-              <AutoCompleteSelect
+              {/* <AutoCompleteSelect
                 name="project_type"
                 label="Project Type"
                 defaultLabel="Select from options"
@@ -640,11 +640,29 @@ const ProjectEdit = () => {
                 error={
                   formik.touched.project_type && formik.errors.project_type
                 }
-                onSelect={(value) => {
-                  formik.setFieldValue('project_type', value);
+                onSelect={(label) => {
+                  formik.setFieldValue('project_type', label);
                 }}
                 optionList={getAllProjectTypeDatadrop}
-              />
+                // disabled
+              /> */}
+              <Select
+                label="Project Type"
+                name="project_type"
+                mandatory={true}
+                onChange={formik.handleChange}
+                value={formik.values.project_type}
+                defaultLabel="Select from options"
+                error={
+                  formik.touched.project_type && formik.errors.project_type
+                }
+              >
+                {getAllProjectTypeDatadrop.map((option: any) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </Select>
             </div>
             <div style={{ width: '40%' }}>
               <AutoCompleteSelect
@@ -842,7 +860,6 @@ const ProjectEdit = () => {
                                   ...siteConfigData,
                                   ['approvar_id']: Number(value),
                                 });
-                                console.log('approvar', value);
                               }}
                               onChange={(e) => handleChangeExistItems(e, index)}
                               optionList={getAllUsersDatadrop}
@@ -884,12 +901,11 @@ const ProjectEdit = () => {
                             defaultLabel="Select Site"
                             value={value.site_id}
                             onSelect={(datas) => {
-                              setValue((prevValue:any) => {
+                              setValue((prevValue: any) => {
                                 const updatedValue = {
                                   ...prevValue,
                                   site_id: datas,
                                 };
-                                console.log('data', updatedValue.site_id);
                                 addressSet(updatedValue.site_id);
                                 return updatedValue;
                               });

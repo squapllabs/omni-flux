@@ -241,7 +241,7 @@ const CategoryList = () => {
                             <td>{index + 1}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
-                            <td>{item.description}</td>
+                            <td>{item.description || '-'}</td>
                             {activeButton === 'AC' && (
                               <td>
                                 <div className={Styles.tableIcon}>

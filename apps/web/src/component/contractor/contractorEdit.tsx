@@ -82,7 +82,7 @@ const ContractorForm = () => {
       updateNewSite(Object, {
         onSuccess: (data: any) => {
           if (data?.status === true) {
-            setMessage('Contractor edited uccessfully');
+            setMessage('Contractor edited');
             setOpenSnack(true);
             setInterval(() => {
               navigate('/contractor');

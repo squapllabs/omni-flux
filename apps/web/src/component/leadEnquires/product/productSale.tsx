@@ -6,23 +6,30 @@ import TextArea from '../../ui/CustomTextArea';
 import Button from '../../ui/Button';
 import { useFormik } from 'formik';
 import {
+  useGetAllClient,
   useGetAllClientDrop,
-} from '../../../hooks/client-hooks';
-import { useGetAllUsersDrop } from '../../../hooks/user-hooks';
+} from 'apps/web/src/hooks/client-hooks';
+import {
+  useGetAllUsers,
+  useGetAllUsersDrop,
+} from 'apps/web/src/hooks/user-hooks';
 import {
   createleadEnquiry,
   updateleadEnquiry,
-} from '../../../hooks/leadEnquires-hooks';
+} from 'apps/web/src/hooks/leadEnquires-hooks';
 import AddIcon from '../../menu/icons/addIcon';
-import { getBymasertDataType } from '../../../hooks/masertData-hook';
-import { useGetAllItemsDrop } from '../../../hooks/item-hooks';
+import { getBymasertDataType } from 'apps/web/src/hooks/masertData-hook';
+import {
+  useGetAllItems,
+  useGetAllItemsDrops,
+} from 'apps/web/src/hooks/item-hooks';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import EditIcon from '../../menu/icons/editIcon';
-import { getCreateValidateyup } from '../../../helper/constants/lead/leadProduct-constants';
-import LeadEnquiresServices from '../../../service/leadEnquires-services';
+import { getCreateValidateyup } from 'apps/web/src/helper/constants/lead/leadProduct-constants';
+import LeadEnquiresServices from 'apps/web/src/service/leadEnquires-services';
 import * as Yup from 'yup';
-import { formatBudgetValue } from '../../../helper/common-function';
-import { environment } from '../../../environment/environment';
+import { formatBudgetValue } from 'apps/web/src/helper/common-function';
+import { environment } from 'apps/web/src/environment/environment';
 import CustomSnackBar from '../../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomEditDialog from '../../../component/ui/customEditDialogBox';
@@ -133,7 +140,7 @@ const ProductSale: React.FC = (props: any) => {
         created_by: data?.data?.created_by,
         lead_product_id: data?.data?.lead_enquiry_product[0]?.lead_product_id,
       });
-      const product: {
+      let product: {
         product_name: any;
         product_id: any;
         quantity: any;
@@ -158,12 +165,12 @@ const ProductSale: React.FC = (props: any) => {
     if (props.leadEnquireId === undefined) fetchLeadID();
   }, []);
   const { data: getAllClient = [] } = useGetAllClientDrop();
-  // const { data: getAllUsers = [] } = useGetAllUsers();
   const { data: getAllUsers = [] } = useGetAllUsersDrop();
   const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
   const { data: getLeadProbability = [] } = getBymasertDataType('LDPRB');
   const { data: getLeadSource = [] } = getBymasertDataType('LDSE');
-  const { data: getAllProduct = [] } = useGetAllItemsDrop();
+  const { data: getAllItems = [] } = useGetAllItems();
+
   const { mutate: postleadEnquiry } = createleadEnquiry();
   const { mutate: updatelead } = updateleadEnquiry();
   const fetchLeadID = async () => {
@@ -286,7 +293,7 @@ const ProductSale: React.FC = (props: any) => {
           postleadEnquiry(object, {
             onSuccess(data, variables, context) {
               resetForm;
-              setMessage('Product sale has created successfully');
+              setMessage('Product sale created');
               setOpenSnack(true);
               setInterval(() => {
                 navigate('/lead-enquires');
@@ -317,7 +324,7 @@ const ProductSale: React.FC = (props: any) => {
           };
           updatelead(object, {
             onSuccess(data, variables, context) {
-              setMessage('Product sale has updated successfully');
+              setMessage('Product sale edited');
               setOpenSnack(true);
               setInterval(() => {
                 navigate('/lead-enquires');
@@ -350,7 +357,7 @@ const ProductSale: React.FC = (props: any) => {
                 <AutoCompleteSelect
                   name="client"
                   label="Client"
-                  defaultLabel="select Client"
+                  defaultLabel="Select Client"
                   mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
@@ -368,7 +375,7 @@ const ProductSale: React.FC = (props: any) => {
                 <Select
                   name="source_name"
                   label="Lead Source"
-                  defaultLabel="select a Lead Source"
+                  defaultLabel="Select a Lead Source"
                   mandatory={true}
                   onChange={formik.handleChange}
                   value={formik.values.source_name}
@@ -390,7 +397,7 @@ const ProductSale: React.FC = (props: any) => {
                 <Select
                   name="client_level"
                   label="Client Level"
-                  defaultLabel="select a Client Level"
+                  defaultLabel="Select a Client Level"
                   mandatory={true}
                   value={formik.values.client_level}
                   onChange={formik.handleChange}
@@ -415,7 +422,7 @@ const ProductSale: React.FC = (props: any) => {
                 <Select
                   name="probability"
                   label="Lead Probability"
-                  defaultLabel="select a Lead Probability"
+                  defaultLabel="Select a Lead Probability"
                   mandatory={true}
                   value={formik.values.probability}
                   onChange={formik.handleChange}
@@ -452,20 +459,24 @@ const ProductSale: React.FC = (props: any) => {
         <div className={Styles.box}>
           <div className={Styles.fields_container_1}>
             <div className={Styles.FieldItemStyle}>
-              <AutoCompleteSelect
-                  name="product_id"
-                  label="Product"
-                  defaultLabel="Select a Product"
-                  mandatory={true}
-                  value={formik.values.lead_product_id}
-                  onChange={formik.handleChange}
-                  error={formik.touched.lead_product_id && formik.errors.lead_product_id}
-                  onSelect={(value) => {
-                    formik.setFieldValue('product_id', value);
-                  }}
-                  disabled={disable}
-                  optionList={getAllProduct}
-                />
+              
+              <Select
+                name="product_id"
+                label="Product"
+                defaultLabel="Select a Product"
+                value={value?.product_id}
+                onChange={handleChangeItems}
+                error={errors?.product_id}
+              >
+                {getAllItems?.map((option: any) => (
+                  <option
+                    key={option.item_id}
+                    value={`${option.item_id}+${option.item_name}`}
+                  >
+                    {option.item_name}
+                  </option>
+                ))}
+              </Select>
             </div>
             <div className={Styles.FieldItemStyle}>
               <Input
@@ -567,15 +578,17 @@ const ProductSale: React.FC = (props: any) => {
                 <AutoCompleteSelect
                   name="sales_person_name"
                   label="Sales person Name"
-                  defaultLabel="select Sales Person"
+                  defaultLabel="Select Sales Person"
                   mandatory={true}
                   value={formik.values.sales_person_name}
                   onChange={formik.handleChange}
-                  error={formik.touched.sales_person_name && formik.errors.sales_person_name}
+                  error={
+                    formik.touched.sales_person_name &&
+                    formik.errors.sales_person_name
+                  }
                   onSelect={(value) => {
                     formik.setFieldValue('sales_person_name', value);
                   }}
-                  disabled={disable}
                   optionList={getAllUsers}
                 />
               </div>

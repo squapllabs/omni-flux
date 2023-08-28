@@ -28,7 +28,6 @@ import projectService from '../../service/project-service';
 import CustomClientAdd from '../ui/CustomClientAdd';
 import CustomSiteAdd from '../ui/CustomSiteAdd';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-import { log } from 'console';
 
 const ProjectForm = () => {
   const navigate = useNavigate();
@@ -299,8 +298,10 @@ const ProjectForm = () => {
         project_documents: s3UploadUrl,
         status: statusData,
       };
+      
       createNewProjectData(Object, {
         onSuccess: (data, variables, context) => {
+          
           if (data?.status === true) {
             setMessage('Project created');
             setOpenSnack(true);
@@ -533,7 +534,7 @@ const ProjectForm = () => {
           </div>
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
-              <AutoCompleteSelect
+              {/* <AutoCompleteSelect
                 name="project_type"
                 label="Project Type"
                 defaultLabel="Select from options"
@@ -548,7 +549,24 @@ const ProjectForm = () => {
                 }}
                 // disabled={disable}
                 optionList={getAllProjectTypeDatadrop}
-              />
+              /> */}
+              <Select
+                label="Project Type"
+                name="project_type"
+                mandatory={true}
+                onChange={formik.handleChange}
+                value={formik.values.project_type}
+                defaultLabel="Select from options"
+                error={
+                  formik.touched.project_type && formik.errors.project_type
+                }
+              >
+                {getAllProjectTypeDatadrop.map((option: any) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </Select>
             </div>
             <div style={{ width: '40%' }}>
               <AutoCompleteSelect
@@ -648,6 +666,7 @@ const ProjectForm = () => {
                             <div className={Styles.siteField}>
                               <AutoCompleteSelect
                                 name="site_id"
+                                width="200px"
                                 defaultLabel="Select Site"
                                 value={row?.site_id}
                                 onChange={(e) =>
@@ -707,7 +726,6 @@ const ProjectForm = () => {
                               defaultLabel="Select Approver"
                               onSelect={(value) => {
                                 setValue({ ...value, ['approvar_id']: value });
-                                console.log('approvar', value);
                               }}
                               onChange={(e) => handleChangeExistItems(e, index)}
                               optionList={getAllUsersDatadrop}
@@ -738,7 +756,6 @@ const ProjectForm = () => {
                                   ...prevValue,
                                   site_id: datas,
                                 };
-                                console.log('data', updatedValue.site_id);
                                 addressSet(updatedValue.site_id);
                                 return updatedValue;
                               });

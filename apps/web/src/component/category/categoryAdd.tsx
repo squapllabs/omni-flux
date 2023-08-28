@@ -4,8 +4,10 @@ import {
   updateCategory,
   getByCategoryID,
 } from '../../hooks/category-hooks';
-import { useGetAllProject } from '../../hooks/project-hooks';
-import Select from '../ui/selectNew';
+import {
+  useGetAllProject,
+  useGetAllProjectDrop,
+} from '../../hooks/project-hooks';
 import { formatBudgetValue } from '../../helper/common-function';
 import { environment } from '../../environment/environment';
 import { useNavigate } from 'react-router-dom';
@@ -22,11 +24,14 @@ import {
 } from '../../helper/constants/category/category-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import CategoryService from '../../service/category-service';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const CategotyAdd: React.FC = (props: any) => {
   const { mutate: createNewCategory } = createCategory();
   const { mutate: updateOneCategory } = updateCategory();
-  const { data: getAllProjectList = [] } = useGetAllProject();
+  const { data: getAllProjectList = [] } =
+    useGetAllProjectDrop();
+
   const routeParams = useParams();
   const validationSchema =
     routeParams?.id === undefined
@@ -40,6 +45,7 @@ const CategotyAdd: React.FC = (props: any) => {
     description: '',
     project_id: '',
   });
+
   const [disable, setDisable] = useState(
     routeParams?.id !== undefined ? true : false
   );
@@ -151,24 +157,23 @@ const CategotyAdd: React.FC = (props: any) => {
                   disabled={disable}
                 />
               </div>
+
               <div>
-                <Select
-                  label="Project"
-                  name="project_id"
-                  onChange={formik.handleChange}
+                <AutoCompleteSelect
                   width="250px"
+                  name="project_id"
+                  label="Project"
+                  defaultLabel="Select from options"
                   mandatory={true}
                   value={formik.values.project_id}
-                  defaultLabel="Select from options"
+                  onChange={formik.handleChange}
                   error={formik.touched.project_id && formik.errors.project_id}
+                  onSelect={(value) => {
+                    formik.setFieldValue('project_id', value);
+                  }}
+                  optionList={getAllProjectList}
                   disabled={disable}
-                >
-                  {getAllProjectList.map((option: any) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Select>
+                />
               </div>
             </div>
             <div className={Styles.fieldRow}>
@@ -205,6 +210,8 @@ const CategotyAdd: React.FC = (props: any) => {
                 rows={4}
                 width="600px"
                 maxCharacterCount={100}
+                mandatory={true}
+                error={formik.touched.description && formik.errors.description}
               />
             </div>
             <div className={Styles.buttonFields}>

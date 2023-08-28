@@ -5,11 +5,12 @@ export const userErrorMessages = {
   ENTER_BUDGET: 'Budget is required',
   ALREADY_EXIST:
     'The category already exists in the same project with the same name.',
-  SELECT_PROJECT_ID: 'Please select the project',
+  SELECT_PROJECT_ID: 'Project is required',
   MINIMUM_CHECK: 'Value must be greater than 0',
   MAXIMUM_CHECK: 'Value must be less then 100000',
-  TYPE_ERROR: 'Only Number are allowed',
-  CHAR_ERROR: 'Only alphabets are allowed'
+  TYPE_ERROR: 'Only Numbers are allowed',
+  CHAR_ERROR: 'Only Alphabets are allowed',
+  ENTER_DESCRIPTION: 'Description required'
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -52,6 +53,9 @@ export const getCreateValidateyup = (yup: any) => {
       .min(1, userErrorMessages.MINIMUM_CHECK)
       .max(100000, userErrorMessages.MAXIMUM_CHECK)
       .typeError(userErrorMessages.TYPE_ERROR),
+    description: yup
+      .string()
+      .required(userErrorMessages.ENTER_DESCRIPTION),
   });
 };
 export const getUpdateValidateyup = (yup: any) => {

@@ -8,16 +8,14 @@ const useGetAllItems = () => {
   });
 };
 
-const useGetAllItemsDrop = () => {
+const useGetAllItemsDrops = () => {
   return useQuery(['useGetAllItemsDrop'], () => ItemService.getAllItems(), {
     select: (data) =>
       data?.data?.map((product: any) => ({
         value: product.item_id,
         label: product.item_name,
       })),
-
-      
   });
 };
 
-export { useGetAllItems,useGetAllItemsDrop };
+export { useGetAllItems,useGetAllItemsDrops };

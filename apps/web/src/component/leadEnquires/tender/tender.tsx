@@ -174,7 +174,7 @@ const Tender: React.FC = (props: any) => {
           postleadEnquiry(object, {
             onSuccess(data, variables, context) {
               resetForm;
-              setMessage('lead Tender has created successfully');
+              setMessage('Lead Tender created');
               setOpenSnack(true);
               setInterval(() => {
                 navigate('/lead-enquires');
@@ -212,7 +212,7 @@ const Tender: React.FC = (props: any) => {
           };
           updatelead(object, {
             onSuccess(data, variables, context) {
-              setMessage('lead Tender has updated successfully');
+              setMessage('lead Tender edited');
               setOpenSnack(true);
               setInterval(() => {
                 navigate('/lead-enquires');
@@ -364,7 +364,7 @@ const Tender: React.FC = (props: any) => {
                   name="industry_sector"
                   label="Industry/Sector"
                   mandatory={true}
-                  defaultLabel="select a Industry sector"
+                  defaultLabel="Select a Industry sector"
                   value={formik.values.industry_sector}
                   onChange={formik.handleChange}
                   error={
@@ -389,7 +389,7 @@ const Tender: React.FC = (props: any) => {
                 <AutoCompleteSelect
                   name="client"
                   label="Client"
-                  defaultLabel="select Client"
+                  defaultLabel="Select Client"
                   mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
@@ -405,7 +405,7 @@ const Tender: React.FC = (props: any) => {
                 <Select
                   name="client_level"
                   label="Client Level"
-                  defaultLabel="select Client"
+                  defaultLabel="Select Client"
                   mandatory={true}
                   value={formik.values.client_level}
                   onChange={formik.handleChange}

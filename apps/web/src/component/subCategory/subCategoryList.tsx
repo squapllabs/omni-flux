@@ -249,7 +249,7 @@ const SubCategoryList = () => {
                               <td>{item.category.name}</td>
                               <td>{item.name}</td>
                               <td>{formatBudgetValue(item.budget)}</td>
-                              <td>{item.description}</td>
+                              <td>{item.description || '-'}</td>
                               {activeButton === 'AC' && (
                                 <td>
                                   <div className={Styles.tableIcon}>

@@ -1,10 +1,10 @@
 export const userErrorMessages = {
-  ENTER_EMAIL: 'Email Id is required',
+  ENTER_EMAIL: 'Username is required',
   ENTER_PASSWORD: 'Password is required',
-  ENTER_VALID_EMAIL: 'Please enter a valid email',
+  ENTER_VALID_EMAIL: 'Please enter a valid Username',
   MIN_PASSWORD_LENGTH: 'Password should be at least 8 characters',
   INVALID_LOGIN: 'Invalid username or password',
-  EMAIL_NOT_FOUND: "This email doesn't exist. Please register to continue",
+  EMAIL_NOT_FOUND: "This Username doesn't exist. Please register to continue",
   PASSWORD_MATCH: 'Please enter the same passwords',
   PASSWORD_MUST_CONTAIN_ONEUPPERCASER: 'Must Contain  One Uppercase',
   PASSWORD_MUST_CONTAIN_ONELOWERCASER: 'Must Contain  One Lowercase',
@@ -31,7 +31,8 @@ export const getLoginYupSchema = (yup: any) => {
       .trim()
       .typeError(userErrorMessages.ENTER_EMAIL)
       .required(userErrorMessages.ENTER_EMAIL)
-      .email(userErrorMessages.ENTER_VALID_EMAIL),
+      .email(userErrorMessages.ENTER_VALID_EMAIL)
+      .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,userErrorMessages.ENTER_VALID_EMAIL),
     password: yup
       .string()
       .min(8, userErrorMessages.MIN_PASSWORD_LENGTH)

@@ -134,11 +134,6 @@ const MaterData = () => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         let object: any = {};
-        console.log(
-          'values.parent_master_data_id',
-          values.parent_master_data_id
-        );
-
         const num = 0;
         if (Number(values.parent_master_data_id) === num) {
           object = {
@@ -159,7 +154,7 @@ const MaterData = () => {
         postMasterData(object, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
-              setMessage('Master Data has added successfully');
+              setMessage('Master Data created');
               setOpenSnack(true);
               setSelectedValue('');
               resetForm();
@@ -211,6 +206,7 @@ const MaterData = () => {
                       placeholder="Enter master name"
                       value={formik.values.master_data_name}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_name &&
                         formik.errors.master_data_name
@@ -224,6 +220,7 @@ const MaterData = () => {
                       placeholder="Enter code"
                       value={formik.values.master_data_type}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_type &&
                         formik.errors.master_data_type
@@ -259,6 +256,7 @@ const MaterData = () => {
                       placeholder="Enter description"
                       value={formik.values.master_data_description}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_description &&
                         formik.errors.master_data_description
@@ -275,7 +273,6 @@ const MaterData = () => {
                       justify="center"
                       size="small"
                       icon={<AddIcon />}
-                      onClick={() => console.log(formik.values)}
                     >
                       Add
                     </Button>
@@ -303,10 +300,11 @@ const MaterData = () => {
                 />
                 <AutoCompleteSelect
                   name="parent_master_data_id"
+                  defaultLabel="Select Parent Name"
                   onChange={() => handleDropdownChange}
                   value={selectedValue}
                   placeholder="Parent Name"
-                  width="200px"
+                  width="260px"
                   onSelect={(value) => {
                       setSelectedValue(value);
                       setIsResetDisabled(false);

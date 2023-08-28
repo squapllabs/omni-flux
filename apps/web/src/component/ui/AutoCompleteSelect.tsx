@@ -183,7 +183,8 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [allOptions, setAllOptions] = useState(optionList); // Replace with actual data source
   const [open, setOpen] = useState(false);
-  const [values, setValues] = useState(value);
+  const [values, setValues] = useState('');
+
   const handleChange = (e) => {
     setValues(e.target.value);
     const filtered = allOptions.filter((option) =>
@@ -196,11 +197,19 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
     setAllOptions(optionList);
     setFilteredOptions(optionList);
     let num: number = value;
+    console.log('num', num);
     if (num > 0) {
+      console.log('succ', num);
       const matchingObjects = allOptions.filter(
         (obj) => Number(obj.value) === Number(value)
       );
-      setValues(matchingObjects[0].label);
+      if (matchingObjects.length > 0) {
+        setValues(matchingObjects[0].label);
+      } else {
+        setValues('');
+      }
+    } else {
+      setValues('');
     }
   }, [value, allOptions, optionList]);
 
@@ -224,6 +233,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
     setValues('');
     onSelect('');
   };
+
   return (
     <InputWrapper width={width}>
       {label && (
@@ -273,7 +283,9 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
         {open && (
           <OptionList>
             {defaultLabel != null && <li value="">{defaultLabel}</li>}
-            {filteredOptions.map((option) => {
+            {filteredOptions?.map((option) => {
+              console.log('itrate', option);
+
               return (
                 <>
                   <li
