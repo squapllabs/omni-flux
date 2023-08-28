@@ -67,7 +67,7 @@ const createmasertData = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllmasertData']);
+        queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
       },
     }
   );
@@ -81,7 +81,7 @@ const updatemasertData = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllmasertData']);
+        queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
       },
     }
   );
@@ -95,7 +95,7 @@ const useDeletemasertData = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllmasertData']);
+        queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
       },
     }
   );
@@ -128,6 +128,17 @@ const getBySearchmasterData = () => {
     }
   );
 };
+//
+const useGetAllPaginatedMasterData = (data: any) => {
+  return useQuery(
+    ['useGetAllMasterPaginatedData'],
+    () => masertDataService.filtermasertData(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
 export {
   useGetAllmasertData,
   getBymasertDataID,
@@ -139,4 +150,5 @@ export {
   useGetAllParentmasertDataDrop,
   useGetMasterCurency,
   getBymasertDataType,
+  useGetAllPaginatedMasterData
 };

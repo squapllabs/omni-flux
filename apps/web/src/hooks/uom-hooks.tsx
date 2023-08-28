@@ -22,7 +22,7 @@ const createuom = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAlluom']);
+        queryClient.invalidateQueries(['useGetAllUomData']);
       },
     }
   );
@@ -36,7 +36,7 @@ const updateUom = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAlluom']);
+        queryClient.invalidateQueries(['useGetAllUomData']);
       },
     }
   );
@@ -50,7 +50,7 @@ const useDeleteUom = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAlluom']);
+        queryClient.invalidateQueries(['useGetAllUomData']);
       },
     }
   );
@@ -80,5 +80,17 @@ const useGetAllUomDrop = () => {
   });
 };
 
-export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom };
+const useGetAllPaginatedUomData = (data: any) => {
+  return useQuery(
+    ['useGetAllUomData'],
+    () => uomService.filterUom(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+
+export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom,useGetAllPaginatedUomData };
 

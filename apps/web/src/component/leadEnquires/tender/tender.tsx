@@ -8,15 +8,15 @@ import { useFormik } from 'formik';
 import {
   createleadEnquiry,
   updateleadEnquiry,
-} from 'apps/web/src/hooks/leadEnquires-hooks';
-import { useGetAllClient } from 'apps/web/src/hooks/client-hooks';
-import { getBymasertDataType } from 'apps/web/src/hooks/masertData-hook';
+} from '../../../hooks/leadEnquires-hooks';
+import { useGetAllClient } from '../../../hooks/client-hooks';
+import { getBymasertDataType } from '../../../hooks/masertData-hook';
 import {
   getCreateValidateyup,
   getUpdateValidateyup,
-} from 'apps/web/src/helper/constants/lead/leadTender-constant';
+} from '../../../helper/constants/lead/leadTender-constant';
 import * as Yup from 'yup';
-import LeadEnquiresServices from 'apps/web/src/service/leadEnquires-services';
+import LeadEnquiresServices from '../../../service/leadEnquires-services';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';

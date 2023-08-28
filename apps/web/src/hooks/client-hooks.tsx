@@ -36,7 +36,7 @@ const createClient = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllClient']);
+        queryClient.invalidateQueries(['useGetAllClientData']);
       },
     }
   );
@@ -64,7 +64,7 @@ const updateClient = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllClient']);
+        queryClient.invalidateQueries(['useGetAllClientData']);
       },
     }
   );
@@ -78,7 +78,7 @@ const useDeleteClient = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllClient']);
+        queryClient.invalidateQueries(['useGetAllClientData']);
       },
     }
   );
@@ -97,6 +97,17 @@ const getByClient = () => {
   );
 };
 
+const useGetAllPaginatedClient = (data: any) => {
+  return useQuery(
+    ['useGetAllClientData'],
+    () => ClientService.filterClient(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
 export {
   useGetAllClient,
   getByuserID,
@@ -105,5 +116,6 @@ export {
   useDeleteClient,
   useGetAllClientDrop,
   getByClient,
-  instantcreateClient
+  instantcreateClient,
+  useGetAllPaginatedClient,
 };

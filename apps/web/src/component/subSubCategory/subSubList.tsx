@@ -143,7 +143,7 @@ const SubSubCategoryList = () => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div>
       <CustomLoader loading={filterLoading} size={48} color="#333C44">
@@ -237,7 +237,7 @@ const SubSubCategoryList = () => {
                       {getFilterData?.content?.map(
                         (item: any, index: number) => (
                           <tr key={item.sub_sub_category_id}>
-                            <td>{index + 1}</td>
+                            <td>{startingIndex + index}</td>
                             <td>{item.sub_category.name}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
@@ -274,6 +274,7 @@ const SubSubCategoryList = () => {
                   <Pagination
                     currentPage={currentPage}
                     totalPages={getFilterData?.total_page}
+                    totalCount={getFilterData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}

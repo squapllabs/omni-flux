@@ -5,25 +5,27 @@ import Select from '../../ui/selectNew';
 import TextArea from '../../ui/CustomTextArea';
 import Button from '../../ui/Button';
 import { useFormik } from 'formik';
-import {
-  useGetAllClient,
-  useGetAllClientDrop,
-} from 'apps/web/src/hooks/client-hooks';
-import { useGetAllUsers } from 'apps/web/src/hooks/user-hooks';
+import { useGetAllClient ,useGetAllClientDrop} from '../../../hooks/client-hooks';
+import { useGetAllUsers } from '../../../hooks/user-hooks';
+// import {
+//   useGetAllClient,
+//   useGetAllClientDrop,
+// } from 'apps/web/src/hooks/client-hooks';
+// import { useGetAllUsers } from 'apps/web/src/hooks/user-hooks';
 import {
   createleadEnquiry,
   updateleadEnquiry,
-} from 'apps/web/src/hooks/leadEnquires-hooks';
+} from '../../../hooks/leadEnquires-hooks';
 import AddIcon from '../../menu/icons/addIcon';
-import { getBymasertDataType } from 'apps/web/src/hooks/masertData-hook';
-import { useGetAllItems } from 'apps/web/src/hooks/item-hooks';
+import { getBymasertDataType } from '../../../hooks/masertData-hook';
+import { useGetAllItems } from '../../../hooks/item-hooks';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import EditIcon from '../../menu/icons/editIcon';
-import { getCreateValidateyup } from 'apps/web/src/helper/constants/lead/leadProduct-constants';
-import LeadEnquiresServices from 'apps/web/src/service/leadEnquires-services';
+import { getCreateValidateyup } from '../../../helper/constants/lead/leadProduct-constants';
+import LeadEnquiresServices from '../../../service/leadEnquires-services';
 import * as Yup from 'yup';
-import { formatBudgetValue } from 'apps/web/src/helper/common-function';
-import { environment } from 'apps/web/src/environment/environment';
+import { formatBudgetValue } from '../../../helper/common-function';
+import { environment } from '../../../environment/environment';
 import CustomSnackBar from '../../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomEditDialog from '../../../component/ui/customEditDialogBox';
