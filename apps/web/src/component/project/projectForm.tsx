@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useGetAllClientDrop } from '../../hooks/client-hooks';
 import { useGetAllUsersDrop, useGetAllUsers } from '../../hooks/user-hooks';
-import { useGetAllSiteDrop } from '../../hooks/site-hooks';
+import { useGetAllSiteDrops } from '../../hooks/site-hooks';
 import siteService from '../../service/site-service';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import AddIcon from '../menu/icons/addIcon';
@@ -27,6 +27,7 @@ import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import projectService from '../../service/project-service';
 import CustomClientAdd from '../ui/CustomClientAdd';
 import CustomSiteAdd from '../ui/CustomSiteAdd';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const ProjectForm = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const ProjectForm = () => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const { data: getAllSite = [] } = useGetAllSiteDrop();
+  const { data: getAllSite = [] } = useGetAllSiteDrops();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
@@ -112,11 +113,18 @@ const ProjectForm = () => {
       ...value,
       [event.target.name]: event.target.value,
     });
+
     if (event.target.name === 'site_id') {
       const siteId = event.target.value;
       const siteData = await siteService.getOneSiteById(siteId);
       setViewAddress(siteData?.data);
     }
+  };
+
+  const addressSet = async (value: any) => {
+    const siteId = value;
+    const siteData = await siteService.getOneSiteById(siteId);
+    setViewAddress(siteData?.data);
   };
 
   const handleChangeExistItems = (
@@ -290,8 +298,10 @@ const ProjectForm = () => {
         project_documents: s3UploadUrl,
         status: statusData,
       };
+      
       createNewProjectData(Object, {
         onSuccess: (data, variables, context) => {
+          
           if (data?.status === true) {
             setMessage('Project created');
             setOpenSnack(true);
@@ -450,38 +460,36 @@ const ProjectForm = () => {
           </div>
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
-              <Select
-                label="Project Manager"
+              <AutoCompleteSelect
                 name="user_id"
-                mandatory={true}
-                onChange={formik.handleChange}
-                value={formik.values.user_id}
+                label="Project Manager"
                 defaultLabel="Select from options"
+                mandatory={true}
+                value={formik.values.user_id}
+                onChange={formik.handleChange}
                 error={formik.touched.user_id && formik.errors.user_id}
-              >
-                {getAllUsersDatadrop.map((option: any) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+                onSelect={(value) => {
+                  formik.setFieldValue('user_id', value);
+                }}
+                // disabled={disable}
+                optionList={getAllUsersDatadrop}
+              />
             </div>
             <div style={{ width: '40%' }} className={Styles.client}>
-              <Select
-                label="Client / Customer"
+              <AutoCompleteSelect
                 name="client_id"
-                mandatory={true}
-                onChange={formik.handleChange}
-                value={formik.values.client_id}
+                label="Client / Customer"
                 defaultLabel="Select from options"
+                mandatory={true}
+                value={formik.values.client_id}
+                onChange={formik.handleChange}
                 error={formik.touched.client_id && formik.errors.client_id}
-              >
-                {getAllClientDatadrop.map((option: any) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+                onSelect={(value) => {
+                  formik.setFieldValue('client_id', value);
+                }}
+                // disabled={disable}
+                optionList={getAllClientDatadrop}
+              />
               <div className={Styles.instantAdd} onClick={handleOpenClientForm}>
                 <AddIcon style={{ height: '15px', width: '15px' }} />
                 <h4 className={Styles.addtext}>Add client</h4>
@@ -526,6 +534,22 @@ const ProjectForm = () => {
           </div>
           <div className={Styles.inputFields}>
             <div style={{ width: '40%' }}>
+              {/* <AutoCompleteSelect
+                name="project_type"
+                label="Project Type"
+                defaultLabel="Select from options"
+                mandatory={true}
+                value={formik.values.project_type}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.project_type && formik.errors.project_type
+                }
+                onSelect={(value) => {
+                  formik.setFieldValue('project_type', value);
+                }}
+                // disabled={disable}
+                optionList={getAllProjectTypeDatadrop}
+              /> */}
               <Select
                 label="Project Type"
                 name="project_type"
@@ -545,21 +569,20 @@ const ProjectForm = () => {
               </Select>
             </div>
             <div style={{ width: '40%' }}>
-              <Select
-                label="Approver"
+              <AutoCompleteSelect
                 name="approvar_id"
-                onChange={formik.handleChange}
+                label="Approver"
+                defaultLabel="Select from options"
                 mandatory={true}
                 value={formik.values.approvar_id}
-                defaultLabel="Select from options"
+                onChange={formik.handleChange}
                 error={formik.touched.approvar_id && formik.errors.approvar_id}
-              >
-                {getAllUsersDatadrop.map((option: any) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+                onSelect={(value) => {
+                  formik.setFieldValue('approvar_id', value);
+                }}
+                // disabled={disable}
+                optionList={getAllUsersDatadrop}
+              />
             </div>
           </div>
           <div className={Styles.inputFields}>
@@ -641,24 +664,19 @@ const ProjectForm = () => {
                         <td>
                           <div className={Styles.selectedProjectName}>
                             <div className={Styles.siteField}>
-                              <Select
-                                width="110%"
+                              <AutoCompleteSelect
                                 name="site_id"
+                                width="200px"
+                                defaultLabel="Select Site"
+                                value={row?.site_id}
                                 onChange={(e) =>
                                   handleChangeExistItems(e, index)
                                 }
-                                value={row?.site_id}
-                                defaultLabel="Select Site"
-                              >
-                                {getAllSite.map((option: any) => (
-                                  <option
-                                    key={option.value}
-                                    value={`${option.site_contractor_id}`}
-                                  >
-                                    {option.name}
-                                  </option>
-                                ))}
-                              </Select>
+                                onSelect={(value) => {
+                                  setValue({ ...value, ['site_id']: value });
+                                }}
+                                optionList={getAllSite}
+                              />
                             </div>
                           </div>
                         </td>
@@ -702,24 +720,16 @@ const ProjectForm = () => {
                         </td>
                         <td>
                           <div className={Styles.siteEstimation}>
-                            <Select
-                              width="140px"
+                            <AutoCompleteSelect
                               name="approvar_id"
-                              onChange={(e) => handleChangeExistItems(e, index)}
                               value={row?.approvar_id}
                               defaultLabel="Select Approver"
-                            >
-                              {getAllUsersSiteDatadrop?.data.map(
-                                (option: any) => (
-                                  <option
-                                    key={option.value}
-                                    value={`${option.user_id}`}
-                                  >
-                                    {option.first_name}
-                                  </option>
-                                )
-                              )}
-                            </Select>
+                              onSelect={(value) => {
+                                setValue({ ...value, ['approvar_id']: value });
+                              }}
+                              onChange={(e) => handleChangeExistItems(e, index)}
+                              optionList={getAllUsersDatadrop}
+                            />
                           </div>
                         </td>
                         <td>
@@ -735,23 +745,24 @@ const ProjectForm = () => {
                     <td>
                       <div className={Styles.selectedProjectName}>
                         <div className={Styles.siteField}>
-                          <Select
+                          <AutoCompleteSelect
+                            width="200px"
                             name="site_id"
-                            width="110%"
-                            onChange={handleChangeItems}
-                            value={value.site_id}
                             defaultLabel="Select Site"
+                            value={value.site_id}
+                            onSelect={(datas) => {
+                              setValue((prevValue: any) => {
+                                const updatedValue = {
+                                  ...prevValue,
+                                  site_id: datas,
+                                };
+                                addressSet(updatedValue.site_id);
+                                return updatedValue;
+                              });
+                            }}
                             error={errors?.site_id}
-                          >
-                            {getAllSite.map((option: any) => (
-                              <option
-                                key={option.value}
-                                value={`${option.site_contractor_id}`}
-                              >
-                                {option.name}
-                              </option>
-                            ))}
-                          </Select>
+                            optionList={getAllSite}
+                          />
                         </div>
                         <div
                           className={Styles.instantAdd}
@@ -819,25 +830,16 @@ const ProjectForm = () => {
                     <td>
                       {value.site_id ? (
                         <div className={Styles.siteEstimation}>
-                          <Select
-                            width="140px"
+                          <AutoCompleteSelect
                             name="approvar_id"
-                            onChange={handleChangeItems}
-                            value={value.approvar_id}
                             defaultLabel="Select Approver"
+                            value={value.approvar_id}
+                            onSelect={(datas) => {
+                              setValue({ ...value, ['approvar_id']: datas });
+                            }}
+                            optionList={getAllUsersDatadrop}
                             error={errors?.approvar_id}
-                          >
-                            {getAllUsersSiteDatadrop?.data.map(
-                              (option: any) => (
-                                <option
-                                  key={option.value}
-                                  value={`${option.user_id}`}
-                                >
-                                  {option.first_name}
-                                </option>
-                              )
-                            )}
-                          </Select>
+                          />
                         </div>
                       ) : (
                         ''

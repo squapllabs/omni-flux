@@ -10,6 +10,33 @@ const useGetAllProject = () => {
       })),
   });
 };
+// const useGetAllProjectDrop = () => {
+//   return useQuery(
+//     ['useGetAllProjectDrop'],
+//     () => ProjectService.getAllProject(),
+//     {
+//       select: (data) =>
+//         data?.data?.map((project: any) => ({
+//           value: project.project_id,
+//           label: project.project_name,
+//         })),
+//     }
+//   );
+// };
+
+const useGetAllProjectDrop = () => {
+  return useQuery(
+    ['useGetAllProjectDrop'],
+    () => ProjectService.getAllProject(),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project.project_id,
+          label: project.project_name,
+        })),
+    }
+  );
+};
 
 const createProject = () => {
   const queryClient = useQueryClient();
@@ -27,8 +54,8 @@ const createProject = () => {
 
 const getByProject = () => {
   const queryClient = useQueryClient();
-  return useMutation (
-    (data:any) => {
+  return useMutation(
+    (data: any) => {
       return ProjectService.filterProject(data);
     },
     {
@@ -36,7 +63,7 @@ const getByProject = () => {
         response;
       },
     }
-  )
+  );
 };
 
 const useDeleteProjects = () => {
@@ -54,9 +81,13 @@ const useDeleteProjects = () => {
 };
 
 const getByProjectId = (id: number) => {
-  return useQuery(['getByuserID', id], () => ProjectService.getOneProjectById(id), {
-    select: (data) => data.data,
-  });
+  return useQuery(
+    ['getByuserID', id],
+    () => ProjectService.getOneProjectById(id),
+    {
+      select: (data) => data.data,
+    }
+  );
 };
 
 const updateProject = () => {
@@ -88,9 +119,23 @@ const useGetMasterProjectParentType = () => {
 };
 
 const useGetAllProjectManagers = () => {
-  return useQuery(['useGetAllProjectManager'], () => ProjectService.getAllProjectManagers(), {
-    select: (data) => data.data,
-    staleTime: Infinity,
-  });
+  return useQuery(
+    ['useGetAllProjectManager'],
+    () => ProjectService.getAllProjectManagers(),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
 };
-export { useGetAllProject,createProject,getByProject,useDeleteProjects,getByProjectId,updateProject,useGetMasterProjectParentType,useGetAllProjectManagers };
+export {
+  useGetAllProject,
+  createProject,
+  getByProject,
+  useDeleteProjects,
+  getByProjectId,
+  updateProject,
+  useGetMasterProjectParentType,
+  useGetAllProjectManagers,
+  useGetAllProjectDrop,
+};

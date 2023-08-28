@@ -8,6 +8,16 @@ const useGetAllSiteDrop = () => {
   });
 };
 
+const useGetAllSiteDrops = () => {
+  return useQuery(['useGetAllSiteDrop'], () => SiteService.getAllSiteDrop(), {
+    select: (data) =>
+      data?.data?.map((site_id: any) => ({
+        value: site_id.site_contractor_id,
+        label: site_id.name,
+      })),
+  });
+};
+
 const createSite = () => {
   return useMutation(
     (data: any) => {
@@ -82,4 +92,4 @@ const useDeleteSite = () => {
   );
 };
 
-export { useGetAllSiteDrop,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite,instantCreateSite };
+export { useGetAllSiteDrop,useGetAllSiteDrops,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite,instantCreateSite };

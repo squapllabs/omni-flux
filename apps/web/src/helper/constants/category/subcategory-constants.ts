@@ -3,13 +3,14 @@ import SubcategoryService from '../../../service/subCategory-service';
 export const subCategoryErrorMessages = {
   ENTER_NAME: 'Subcategory name is required',
   ENTER_BUDGET: 'Budget is required',
-  SELECT_CATEGORY: 'Please Select the category',
+  SELECT_CATEGORY: 'Category is required',
   ALREADY_EXIST:
     'The Sub category already exists in the same category with the same name.',
   MINIMUM_CHECK: 'Value must be greater than 0',
   MAXIMUM_CHECK: 'Value must be less then 100000',
   TYPE_ERROR: 'Only Number are allowed',
-  CHAR_ERROR: 'Only alphabets are allowed'
+  CHAR_ERROR: 'Only alphabets are allowed',
+  ENTER_DESCRIPTION: 'Description required'
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -52,6 +53,9 @@ export const getCreateValidateyup = (yup: any) => {
       .min(1, subCategoryErrorMessages.MINIMUM_CHECK)
       .max(100000, subCategoryErrorMessages.MAXIMUM_CHECK)
       .typeError(subCategoryErrorMessages.TYPE_ERROR),
+    description: yup
+      .string()
+      .required(subCategoryErrorMessages.ENTER_DESCRIPTION),
   });
 };
 export const getUpdateValidateyup = (yup: any) => {

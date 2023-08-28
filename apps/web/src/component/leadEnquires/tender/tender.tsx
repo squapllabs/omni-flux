@@ -9,7 +9,7 @@ import {
   createleadEnquiry,
   updateleadEnquiry,
 } from '../../../hooks/leadEnquires-hooks';
-import { useGetAllClient } from '../../../hooks/client-hooks';
+import { useGetAllClientDrop } from '../../../hooks/client-hooks';
 import { getBymasertDataType } from '../../../hooks/masertData-hook';
 import {
   getCreateValidateyup,
@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
 import { formatBudgetValue } from '../../../helper/common-function';
 import { environment } from '../../../environment/environment';
+import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 
 const Tender: React.FC = (props: any) => {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const Tender: React.FC = (props: any) => {
   const [appendedValue, setAppendedValue] = useState('');
   const { mutate: postleadEnquiry } = createleadEnquiry();
   const { mutate: updatelead } = updateleadEnquiry();
-  const { data: getAllClient = [] } = useGetAllClient();
+  const { data: getAllClient = [] } = useGetAllClientDrop();
   const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
   const { data: getAllIndustrySector = [] } = getBymasertDataType('INSEC');
   const { data: getAllTenderType = [] } = getBymasertDataType('TDTE');
@@ -173,7 +174,7 @@ const Tender: React.FC = (props: any) => {
           postleadEnquiry(object, {
             onSuccess(data, variables, context) {
               resetForm;
-              setMessage('lead Tender has created successfully');
+              setMessage('Lead Tender created');
               setOpenSnack(true);
               setInterval(() => {
                 navigate('/lead-enquires');
@@ -211,7 +212,7 @@ const Tender: React.FC = (props: any) => {
           };
           updatelead(object, {
             onSuccess(data, variables, context) {
-              setMessage('lead Tender has updated successfully');
+              setMessage('lead Tender edited');
               setOpenSnack(true);
               setInterval(() => {
                 navigate('/lead-enquires');
@@ -363,7 +364,7 @@ const Tender: React.FC = (props: any) => {
                   name="industry_sector"
                   label="Industry/Sector"
                   mandatory={true}
-                  defaultLabel="select a Industry sector"
+                  defaultLabel="Select a Industry sector"
                   value={formik.values.industry_sector}
                   onChange={formik.handleChange}
                   error={
@@ -385,27 +386,26 @@ const Tender: React.FC = (props: any) => {
             </div>
             <div className={Styles.fields_container_1}>
               <div className={Styles.fieldStyle}>
-                <Select
+                <AutoCompleteSelect
                   name="client"
                   label="Client"
-                  defaultLabel="select Client"
+                  defaultLabel="Select Client"
                   mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
                   error={formik.touched.client && formik.errors.client}
-                >
-                  {getAllClient?.map((option: any) => (
-                    <option key={option.client_id} value={option.client_id}>
-                      {option.name}
-                    </option>
-                  ))}
-                </Select>
+                  onSelect={(value) => {
+                    formik.setFieldValue('client', value);
+                  }}
+                  disabled={disable}
+                  optionList={getAllClient}
+                />
               </div>
               <div className={Styles.fieldStyle}>
                 <Select
                   name="client_level"
                   label="Client Level"
-                  defaultLabel="select Client"
+                  defaultLabel="Select Client"
                   mandatory={true}
                   value={formik.values.client_level}
                   onChange={formik.handleChange}

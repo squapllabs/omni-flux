@@ -62,8 +62,6 @@ const MaterData = () => {
     useGetAllmasertData();
   const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
     useGetAllParentmasertDataDrop();
-  console.log('dropLoading', dropLoading);
-
   const { mutate: postMasterData } = createmasertData();
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,11 +119,21 @@ const MaterData = () => {
     setFilterValues({
       search_by_name: '',
     });
+    // const masterData: any = {
+    //   offset: (currentPage - 1) * rowsPerPage,
+    //   limit: rowsPerPage,
+    //   order_by_column: 'updated_date',
+    //   order_by_direction: 'asc',
+    //   status: 'AC',
+    //   global_search: '',
+    // };
+    // postDataForFilter(masterData);
     setSelectedValue('');
     setDataShow(false);
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
+    setSelectedValue('');
     setIsResetDisabled(true);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -146,11 +154,6 @@ const MaterData = () => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         let object: any = {};
-        console.log(
-          'values.parent_master_data_id',
-          values.parent_master_data_id
-        );
-
         const num = 0;
         if (Number(values.parent_master_data_id) === num) {
           object = {
@@ -171,7 +174,7 @@ const MaterData = () => {
         postMasterData(object, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
-              setMessage('Master Data has added successfully');
+              setMessage('Master Data created');
               setOpenSnack(true);
               setSelectedValue('');
               resetForm();
@@ -202,7 +205,7 @@ const MaterData = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader
@@ -228,6 +231,7 @@ const MaterData = () => {
                       placeholder="Enter master name"
                       value={formik.values.master_data_name}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_name &&
                         formik.errors.master_data_name
@@ -241,6 +245,7 @@ const MaterData = () => {
                       placeholder="Enter code"
                       value={formik.values.master_data_type}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_type &&
                         formik.errors.master_data_type
@@ -256,8 +261,6 @@ const MaterData = () => {
                       placeholder="Select from options"
                       width="200px"
                       onSelect={(value) => {
-                        console.log('selectedValue', value);
-
                         formik.setFieldValue('parent_master_data_id', value);
                       }}
                       optionList={
@@ -278,6 +281,7 @@ const MaterData = () => {
                       placeholder="Enter description"
                       value={formik.values.master_data_description}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_description &&
                         formik.errors.master_data_description
@@ -294,7 +298,6 @@ const MaterData = () => {
                       justify="center"
                       size="small"
                       icon={<AddIcon />}
-                      onClick={() => console.log(formik.values)}
                     >
                       Add
                     </Button>
@@ -320,19 +323,21 @@ const MaterData = () => {
                   onChange={(e) => handleFilterChange(e)}
                   placeholder="Search by name"
                 />
-                <SelectNew
+                <AutoCompleteSelect
                   name="parent_master_data_id"
-                  onChange={handleDropdownChange}
+                  defaultLabel="Select Parent Name"
+                  onChange={() => handleDropdownChange}
                   value={selectedValue}
-                  defaultLabel="Select from options"
-                  width="300px"
-                >
-                  {getAllmasterDataForDrop.map((option: any) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </SelectNew>
+                  placeholder="Parent Name"
+                  width="260px"
+                  onSelect={(value) => {
+                    setSelectedValue(value);
+                    setIsResetDisabled(false);
+                  }}
+                  optionList={
+                    dropLoading === true ? [] : getAllmasterDataForDrop
+                  }
+                />
                 <Button
                   className={Styles.searchButton}
                   shape="rectangle"

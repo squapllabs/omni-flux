@@ -26,8 +26,8 @@ const createProjectData = async (values: JSON) => {
   }
 };
 
-const checkProjectCodeDuplicate = async (values:any) => {
-  const data = values.toUpperCase()
+const checkProjectCodeDuplicate = async (values: any) => {
+  const data = values.toUpperCase();
   try {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/project/check-duplicate-code/${data}`
@@ -40,7 +40,7 @@ const checkProjectCodeDuplicate = async (values:any) => {
 
 const filterProject = async (values: JSON) => {
   try {
-    const response = await axiosinterceptor.post (
+    const response = await axiosinterceptor.post(
       `${environment.apiUrl}/project/search`,
       values
     );
@@ -49,7 +49,7 @@ const filterProject = async (values: JSON) => {
     console.log('Error in project search :', error);
     throw error;
   }
-}
+};
 const deleteProject = async (id: number) => {
   try {
     const response = await axiosinterceptor.delete(
@@ -118,5 +118,5 @@ export default {
   getOneProjectById,
   updateProjectData,
   getAllProjectParentType,
-  getAllProjectManagers
+  getAllProjectManagers,
 };
