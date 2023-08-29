@@ -486,7 +486,7 @@ const HsnCodeList = () => {
                                   className={Styles.truncatedStyle}
                                   title={data.description}
                                 >
-                                  {data.description.substring(0, 20)}
+                                  {data.description?data.description.substring(0, 20): '-'}
                                 </span>
                               </td>
                               {activeButton === 'AC' && (
@@ -523,10 +523,9 @@ const HsnCodeList = () => {
                           <td>{data.code}</td>
                           <td>
                             <span
-                              className={Styles.truncatedStyle}
                               title={data.description}
                             >
-                              {data.description.substring(0, 20)}
+                              {data.description.substring(0,30)}
                             </span>
                           </td>
                           {activeButton === 'AC' && (

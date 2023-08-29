@@ -92,7 +92,7 @@ const CategotyAdd: React.FC = (props: any) => {
             if (data?.message === 'success') {
               setMessage('Category Edited');
               setOpenSnack(true);
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/settings');
               }, 1000);
             }
@@ -110,7 +110,7 @@ const CategotyAdd: React.FC = (props: any) => {
             if (data?.message === 'success') {
               setMessage('Category created');
               setOpenSnack(true);
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/settings');
               }, 1000);
             }

@@ -84,7 +84,7 @@ const SiteForm = () => {
           if (data?.status === true) {
             setMessage('Site edited');
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/site');
             }, 1000);
           }

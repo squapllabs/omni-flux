@@ -305,7 +305,7 @@ const ProjectForm = () => {
           if (data?.status === true) {
             setMessage('Project created');
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/settings');
             }, 1000);
           }

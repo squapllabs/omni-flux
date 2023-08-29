@@ -382,7 +382,7 @@ const ProjectEdit = () => {
             setMessage('Project edited');
 
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/settings');
             }, 1000);
           }

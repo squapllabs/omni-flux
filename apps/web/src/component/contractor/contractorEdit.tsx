@@ -84,7 +84,7 @@ const ContractorForm = () => {
           if (data?.status === true) {
             setMessage('Contractor edited');
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/contractor');
             }, 1000);
           }

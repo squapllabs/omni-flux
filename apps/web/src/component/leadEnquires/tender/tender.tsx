@@ -176,7 +176,7 @@ const Tender: React.FC = (props: any) => {
               resetForm;
               setMessage('Lead Tender created');
               setOpenSnack(true);
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/lead-enquires');
               }, 3000);
             },
@@ -214,7 +214,7 @@ const Tender: React.FC = (props: any) => {
             onSuccess(data, variables, context) {
               setMessage('lead Tender edited');
               setOpenSnack(true);
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/lead-enquires');
               }, 3000);
             },

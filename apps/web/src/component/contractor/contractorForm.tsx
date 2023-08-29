@@ -59,7 +59,7 @@ const ContractorForm = () => {
           if (data?.status === true) {
             setMessage('Contractor created');
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/site');
             }, 1000);
           }

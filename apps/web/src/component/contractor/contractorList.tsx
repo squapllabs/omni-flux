@@ -199,7 +199,11 @@ const ContractorList = () => {
                         <td>{item.name}</td>
                         <td>{item.code}</td>
                         <td>{item.mobile_number}</td>
-                        <td>{item.description}</td>
+                        <td>
+                            <span title={item.description}>
+                              {item.description?item.description.substring(0, 50) : '-'}
+                            </span>
+                        </td>
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tableIcon}>

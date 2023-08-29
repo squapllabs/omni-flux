@@ -93,7 +93,7 @@ const SubsubCategoryAdd = () => {
               setOpenSnack(true);
               setMessage('Sub Sub Category Edited');
               resetForm();
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/settings');
               }, 1000);
             }
@@ -112,7 +112,7 @@ const SubsubCategoryAdd = () => {
               setOpenSnack(true);
               setMessage('Sub Sub Category created');
               resetForm();
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/settings');
               }, 1000);
             }

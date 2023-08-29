@@ -316,7 +316,7 @@ const ExpansesForm = () => {
               if (data?.status === true) {
                 setMessage('Site Expense has been added successfully !');
                 setOpenSnack(true);
-                setInterval(() => {
+                setTimeout(() => {
                   navigate(`/project-edit/${projectId}`);
                 }, 3000);
               }
@@ -344,7 +344,7 @@ const ExpansesForm = () => {
               if (data?.status === true) {
                 setMessage('Site Expense has been updated successfully !');
                 setOpenSnack(true);
-                setInterval(() => {
+                setTimeout(() => {
                   navigate(`/project-edit/${projectId}`);
                 }, 3000);
               }

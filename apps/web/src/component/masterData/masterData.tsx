@@ -386,7 +386,6 @@ const MaterData = () => {
                         getFilterData?.content?.map(
                           (data: any, index: number) => (
                             <tr key={data.master_data_id}>
-                              {/* <td>{index + 1}</td> */}
                               <td>{startingIndex + index}</td>
                               <td>{data.master_data_name}</td>
                               <td>{data.master_data_description}</td>
@@ -421,7 +420,13 @@ const MaterData = () => {
                         <tr key={data.uom_id}>
                           <td>{startingIndex + index}</td>
                           <td>{data.master_data_name}</td>
-                          <td>{data.master_data_description}</td>
+                          {/* <td>{data.master_data_description}</td> */}
+                          <td>
+                                <span title={data?.master_data_description}>
+                                  {data?.master_data_description
+                                    ? data?.master_data_description.substring(0,30): '-'}
+                                </span>
+                              </td>
                           <td>{data.master_data_type}</td>
                           <td>
                             {data?.parent?.master_data_name === undefined
@@ -429,7 +434,7 @@ const MaterData = () => {
                               : data?.parent?.master_data_name}
                           </td>
                           {activeButton === 'AC' && (
-                            <td>
+                            <td className={Styles.tablerow}>
                               <EditIcon
                                 onClick={() => handleEdit(data.master_data_id)}
                               />

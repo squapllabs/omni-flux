@@ -71,7 +71,7 @@ const ProjectWorkBreakForm = () => {
           if (data?.status === true) {
             setMessage('Project Workbreak down created');
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/project-workbreakdown');
             }, 1000);
           }

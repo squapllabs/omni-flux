@@ -241,7 +241,11 @@ const SubSubCategoryList = () => {
                             <td>{item.sub_category.name}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
-                            <td>{item.description || '-'}</td>
+                            <td>
+                              <span title={item.description}>
+                                {item.description?item.description.substring(0, 20) : '-'}
+                              </span>
+                            </td>
                             {activeButton === 'AC' && (
                               <td>
                                 <div className={Styles.tableIcon}>

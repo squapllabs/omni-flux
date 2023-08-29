@@ -163,7 +163,7 @@ const UserEdit = () => {
           if (data?.success === true) {
             setOpenSnakBar(true);
             setMessage('User Data Has updated Successfully');
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/settings');
             }, 3000);
           }

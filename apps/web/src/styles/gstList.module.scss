@@ -71,6 +71,7 @@
     display: flex;
     flex-direction: row;
     column-gap: 15px;
+    cursor: pointer;
   }
   
   tr:nth-child(even) {
@@ -131,13 +132,6 @@
     padding: 0px 0px 5px 10px;
   }
 
-  .truncatedStyle {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100px;
-  }
   .downloadButton {
     display: flex;
     align-items: center;  

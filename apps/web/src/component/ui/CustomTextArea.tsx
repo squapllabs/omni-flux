@@ -108,6 +108,7 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
       setCharacterCount(remainingCharacters);
     } else if (maxCharacterCount) {
       setCurrentValue(inputValue.slice(0, maxCharacterCount));
+      setCharacterCount(0);
     }
   };
   const shouldShowAsterisk = mandatory ;
@@ -120,7 +121,8 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
         rows={rows}
         onChange={handleInputChange}
         value={currentValue}
-        readOnly={characterCount === 0}
+        // readOnly={characterCount === 0}
+        maxLength={maxCharacterCount}
         {...props}
       />
       {maxCharacterCount && (

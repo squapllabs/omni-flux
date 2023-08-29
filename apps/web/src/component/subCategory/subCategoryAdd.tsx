@@ -90,7 +90,7 @@ const SubCategoryAdd = () => {
             if (data?.success === true) {
               setMessage('Sub Category Edited');
               setOpenSnack(true);
-              setInterval(() => {navigate('/settings')},1000);
+              setTimeout(() => {navigate('/settings')},1000);
             }
           },
         });
@@ -106,7 +106,7 @@ const SubCategoryAdd = () => {
             if (data?.success === true) {
               setMessage('Sub category created');
               setOpenSnack(true);
-              setInterval(() => {navigate('/settings')},1000);
+              setTimeout(() => {navigate('/settings')},1000);
               
             }
           },
