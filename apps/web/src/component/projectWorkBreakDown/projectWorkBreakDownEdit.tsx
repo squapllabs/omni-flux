@@ -93,7 +93,7 @@ const ProjectWorkBreakEdit = () => {
           if (data?.status === true) {
             setMessage('Project Workbreak down edited');
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/project-workbreakdown');
             }, 1000);
           }

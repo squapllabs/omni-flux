@@ -118,7 +118,7 @@ const UserCreate = () => {
           if (data?.success) {
             setMessage('User created successfully');
             setOpenSnakBar(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/settings');
             }, 3000);
           } else {

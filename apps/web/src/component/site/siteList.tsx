@@ -112,7 +112,7 @@ const ProjectWorkBreakList = () => {
     setOpenSnack(false);
   };
 
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -200,7 +200,14 @@ const ProjectWorkBreakList = () => {
                         <td>{item.name}</td>
                         <td>{item.code}</td>
                         <td>{item.mobile_number}</td>
-                        <td>{item.description}</td>
+                        {/* <td>{item.description}</td> */}
+                        <td>
+                          <span title={item.description}>
+                            {item.description
+                              ? item.description.substring(0, 30)
+                              : '-'}
+                          </span>
+                        </td>
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tableIcon}>
