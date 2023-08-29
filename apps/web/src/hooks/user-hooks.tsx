@@ -18,6 +18,17 @@ const useGetAllUsersDrop = () => {
   });
 };
 
+const useGetAllPaginatedUser = (data: any) => {
+  return useQuery(
+    ['useGetAllUsers'],
+    () => userService.filterUser(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
 const useGetAllInactiveUsers = () => {
   return useQuery(
     ['useGetAllInactiveUsers'],
@@ -100,4 +111,5 @@ export {
   useGetAllInactiveUsers,
   useGetAllUsersDrop,
   getByUser,
+  useGetAllPaginatedUser,
 };
