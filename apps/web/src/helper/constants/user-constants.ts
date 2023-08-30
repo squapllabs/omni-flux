@@ -35,23 +35,6 @@ export const getLoginYupSchema = (yup: any) => {
       .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,userErrorMessages.ENTER_VALID_EMAIL),
     password: yup
       .string()
-      .min(8, userErrorMessages.MIN_PASSWORD_LENGTH)
-      .matches(
-        /^(?=.*[a-z])/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN_ONELOWERCASER
-      )
-      .matches(
-        /^(?=.*[A-Z])/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
-      )
-      .matches(
-        /^(?=.*[!@#$%^&*])/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
-      )
-      .matches(
-        /^(?=.*[0-9])/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN_ONENUMBER
-      )
       .typeError(userErrorMessages.ENTER_PASSWORD)
       .required(userErrorMessages.ENTER_PASSWORD),
   });

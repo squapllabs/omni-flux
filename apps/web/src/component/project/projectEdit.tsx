@@ -35,7 +35,7 @@ const ProjectEdit = () => {
   const { data: getOneProjectData, isLoading } = getByProjectId(
     Number(routeParams?.id)
   );
-
+  const isStatusInProgress = getOneProjectData?.status === 'Inprogress';
 
   const [message, setMessage] = useState('');
   const { mutate: updateProjectData } = updateProject();
@@ -564,6 +564,7 @@ const ProjectEdit = () => {
                 name="user_id"
                 label="Project Manager"
                 defaultLabel="Select from options"
+                placeholder="Select from options"
                 mandatory={true}
                 value={formik.values.user_id}
                 onChange={formik.handleChange}
@@ -580,6 +581,7 @@ const ProjectEdit = () => {
                 name="client_id"
                 label="Client / Customer"
                 defaultLabel="Select from options"
+                placeholder="Select from options"
                 mandatory={true}
                 value={formik.values.client_id}
                 onChange={formik.handleChange}
@@ -669,6 +671,7 @@ const ProjectEdit = () => {
                 name="approvar_id"
                 label="Approver"
                 defaultLabel="Select from options"
+                placeholder="Select from options"
                 mandatory={true}
                 value={formik.values.approvar_id}
                 onChange={formik.handleChange}
@@ -763,6 +766,7 @@ const ProjectEdit = () => {
                                 width="200px"
                                 name="site_id"
                                 defaultLabel="Select Site"
+                                placeholder="Select from options"
                                 value={row?.site_id}
                                 onSelect={(value) => {
                                   setValue({
@@ -854,6 +858,7 @@ const ProjectEdit = () => {
                             <AutoCompleteSelect
                               name="approvar_id"
                               value={row?.approvar_id}
+                              placeholder="Select from options"
                               defaultLabel="Select Approver"
                               onSelect={(value) => {
                                 setValue({
@@ -899,6 +904,7 @@ const ProjectEdit = () => {
                             width="200px"
                             name="site_id"
                             defaultLabel="Select Site"
+                            placeholder="Select from options"
                             value={value.site_id}
                             onSelect={(datas) => {
                               setValue((prevValue: any) => {
@@ -1001,6 +1007,7 @@ const ProjectEdit = () => {
                           <AutoCompleteSelect
                             name="approvar_id"
                             defaultLabel="Select Approver"
+                            placeholder="Select from options"
                             value={value.approvar_id}
                             onSelect={(datas) => {
                               setValue({ ...value, ['approvar_id']: datas });
@@ -1108,6 +1115,7 @@ const ProjectEdit = () => {
               shape="rectangle"
               justify="center"
               onClick={() => drafthandler()}
+              disabled={isStatusInProgress}
             >
               Draft
             </Button>

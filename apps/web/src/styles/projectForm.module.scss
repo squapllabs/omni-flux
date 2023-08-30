@@ -73,9 +73,15 @@
   color: #848289;
 }
 
-.resetButton:hover {
+.resetButton:hover:not(:disabled) {
   background-color: #c4c4c6;
   color: #ffffff;
+}
+
+.resetButton:disabled {
+  background-color: #dcdcdc; 
+  color: #848289; 
+  cursor: not-allowed;
 }
 .tableContainer {
   padding: 10px 30px 15px 30px;

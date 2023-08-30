@@ -164,6 +164,7 @@ const CategotyAdd: React.FC = (props: any) => {
                   name="project_id"
                   label="Project"
                   defaultLabel="Select from options"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.project_id}
                   onChange={formik.handleChange}

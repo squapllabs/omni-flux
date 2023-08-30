@@ -125,7 +125,7 @@ const ClientList = () => {
         createNewClient(Object, {
           onSuccess: (data: { success: any }, variables: any, context: any) => {
             if (data?.success) {
-              setMessage('New Client has been successfully created');
+              setMessage('Client created');
               setOpenSnack(true);
               resetForm();
             } else {
