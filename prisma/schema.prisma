@@ -149,22 +149,29 @@ model sub_category {
   is_delete        Boolean            @default(false) @db.Boolean
   category         category?          @relation(fields: [category_id], references: [category_id])
   description      String?
+  project_id       Int?
+  project_data     project?           @relation(fields: [project_id], references: [project_id])
   sub_sub_category sub_sub_category[]
 }
 
 model sub_sub_category {
-  sub_sub_category_id Int           @id @default(autoincrement())
-  name                String        @db.VarChar(100)
-  sub_category_id     Int?
-  budget              Float?
-  created_date        DateTime
-  updated_date        DateTime
-  created_by          Int?
-  updated_by          Int?
-  item                item[]
-  is_delete           Boolean       @default(false) @db.Boolean
-  description         String?
-  sub_category        sub_category? @relation(fields: [sub_category_id], references: [sub_category_id])
+  sub_sub_category_id        Int                @id @default(autoincrement())
+  name                       String             @db.VarChar(100)
+  sub_category_id            Int?
+  budget                     Float?
+  created_date               DateTime
+  updated_date               DateTime
+  created_by                 Int?
+  updated_by                 Int?
+  item                       item[]
+  is_delete                  Boolean            @default(false) @db.Boolean
+  description                String?
+  project_id                 Int?
+  parent_sub_sub_category_id Int?
+  project_data               project?           @relation(fields: [project_id], references: [project_id])
+  parent_data                sub_sub_category?  @relation("ChildToParent", fields: [parent_sub_sub_category_id], references: [sub_sub_category_id])
+  child_data                 sub_sub_category[] @relation("ChildToParent")
+  sub_category               sub_category?      @relation(fields: [sub_category_id], references: [sub_category_id])
 }
 
 model project {
@@ -195,6 +202,8 @@ model project {
   project_workbreak_down project_workbreak_down[]
   project_site           project_site[]
   site_expense           site_expense[]
+  sub_category           sub_category[]
+  sub_sub_category       sub_sub_category[]
 }
 
 model project_expense {
