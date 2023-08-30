@@ -382,7 +382,7 @@ const searchSubSubCategory = async (body) => {
 };
 
 /**
- * Method to get SubCategory By subCategoryId
+ * Method to get SubSubCategory By subCategoryId
  * @param subCategoryId
  * @returns
  */
@@ -419,7 +419,80 @@ const getBySubCategoryId = async (subCategoryId: number) => {
     }
   } catch (error) {
     console.log(
-      'Error occurred in getBySubCategoryId subCategory service : ',
+      'Error occurred in getBySubCategoryId subSubCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get All Parent SubSubCategory
+ * @returns
+ */
+const getAllParentData = async () => {
+  try {
+    let result = null;
+    const subSubCategoryData = await subSubCategoryDao.getAllParentData();
+    result = {
+      message: 'success',
+      status: true,
+      data: subSubCategoryData,
+    };
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllParentData subSubCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get Child Sub Sub Category By parent_sub_sub_category_id
+ * @returns
+ */
+const getChildDataByParentSubSubCatId = async (
+  parent_sub_sub_category_id: number
+) => {
+  try {
+    let result = null;
+
+    const subSubCategoryData = await subSubCategoryDao.getById(
+      parent_sub_sub_category_id
+    );
+    if (!subSubCategoryData) {
+      result = {
+        message: 'parent_sub_sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const childSubSubCategoryData =
+      await subSubCategoryDao.getChildDataByParentSubSubCatId(
+        parent_sub_sub_category_id
+      );
+    if (childSubSubCategoryData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: childSubSubCategoryData,
+      };
+      return result;
+    } else {
+      result = {
+        message:
+          'There is no child data related to this parent_sub_sub_category_id',
+        status: false,
+        data: childSubSubCategoryData,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getChildDataByParentSubSubCatId subSubCategory service : ',
       error
     );
     throw error;
@@ -436,4 +509,6 @@ export {
   getAllInActiveSubSubCategories,
   searchSubSubCategory,
   getBySubCategoryId,
+  getAllParentData,
+  getChildDataByParentSubSubCatId,
 };

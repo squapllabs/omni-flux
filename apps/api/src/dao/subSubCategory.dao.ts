@@ -274,7 +274,66 @@ const getBySubCategoryId = async (
     });
     return subCategory;
   } catch (error) {
-    console.log('Error occurred in subCategory getBySubCategoryId dao', error);
+    console.log(
+      'Error occurred in subSubCategory getBySubCategoryId dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const getAllParentData = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_sub_category.findMany({
+      where: {
+        parent_sub_sub_category_id: null,
+        is_delete: false,
+      },
+      include: {
+        sub_category: {
+          include: {
+            category: true,
+          },
+        },
+        parent_data: true,
+        child_data: true,
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log('Error occurred in subSubCategory getAllParentData dao', error);
+    throw error;
+  }
+};
+
+const getChildDataByParentSubSubCatId = async (
+  parent_sub_sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_sub_category.findMany({
+      where: {
+        parent_sub_sub_category_id: Number(parent_sub_sub_category_id),
+        is_delete: false,
+      },
+      include: {
+        sub_category: {
+          include: {
+            category: true,
+          },
+        },
+        parent_data: true,
+        child_data: true,
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log(
+      'Error occurred in subSubCategory getChildDataByParentSubSubCatId dao',
+      error
+    );
     throw error;
   }
 };
@@ -289,4 +348,6 @@ export default {
   getAllInActiveSubSubCategories,
   searchSubSubCategory,
   getBySubCategoryId,
+  getAllParentData,
+  getChildDataByParentSubSubCatId,
 };
