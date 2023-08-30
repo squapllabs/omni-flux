@@ -1,0 +1,36 @@
+.popupContent {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 500px;
+  }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 24px 16px 25px
+  }
+
+  .field {
+    padding: 5px 20px 5px 20px;
+  }
+  
+  .dividerStyle {
+    border-bottom: 1px solid #ccc;
+    // padding: 3px 1px 5px 1px;
+  }
+  
+  .formButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px 20px 10px 0px;
+  }
+
+  
+  .cancelButton:hover {
+    background-color: #c4c4c6;
+    color: #070707;
+  }
+  

@@ -18,7 +18,7 @@ import CustomEditDialog from '../ui/customEditDialogBox';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
-
+import CustomBomAddPopup from '../ui/CustomBomAddPopup';
 /* Function for  CategoryList */
 const CategoryList = () => {
   const {
@@ -45,6 +45,7 @@ const CategoryList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
+  // const [showClientForm, setShowClientForm] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -153,6 +154,18 @@ const CategoryList = () => {
           <div className={Styles.top}>
             <div className={Styles.textContent}>
               <h3>Add New Categories</h3>
+              {/* <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon />}
+                onClick={() => {
+                 setShowClientForm(true);
+                }}
+              >
+                Items
+              </Button> */}
             </div>
             <div>
               <Button
@@ -317,6 +330,10 @@ const CategoryList = () => {
         autoHideDuration={1000}
         type="success"
       />
+        {/* <CustomBomAddPopup
+          isVissible={showClientForm}
+          onAction={setShowClientForm}
+        /> */}
     </div>
   );
 };
