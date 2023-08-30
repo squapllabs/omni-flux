@@ -28,8 +28,8 @@ CREATE TABLE bom (
     sub_sub_category_id int4,
     item_id int4,
     is_delete boolean not null default false,
-    create_date timestamptz NOT null default now(),
-    update_date timestamptz NOT NULL,
+    created_date timestamptz NOT null default now(),
+    updated_date timestamptz NOT NULL,
     created_by int8,
     updated_by int8,
     constraint pk_bom primary key bom_id,
@@ -39,3 +39,9 @@ CREATE TABLE bom (
     constraint fk_bom_sub_sub_category_id foreign key (sub_sub_category_id) references sub_sub_category(sub_sub_category_id),
     constraint fk_bom_item_id foreign key (item_id) references item(item_id)
 );
+
+-- alter table "bom" 
+-- rename column create_date to created_date;
+
+-- alter table "bom" 
+-- rename column update_date to updated_date;
