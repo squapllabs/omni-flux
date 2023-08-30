@@ -22,6 +22,7 @@ import TextArea from '../ui/CustomTextArea';
 import SubSubCategoryService from '../../service/subSubCategory-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import { environment } from '../../environment/environment';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const SubsubCategoryAdd = () => {
   const { data: getAllSubCategory = [] } = useGetAllSubcategoryDrop();
@@ -92,7 +93,7 @@ const SubsubCategoryAdd = () => {
               setOpenSnack(true);
               setMessage('Sub Sub Category Edited');
               resetForm();
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/settings');
               }, 1000);
             }
@@ -111,7 +112,7 @@ const SubsubCategoryAdd = () => {
               setOpenSnack(true);
               setMessage('Sub Sub Category created');
               resetForm();
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/settings');
               }, 1000);
             }
@@ -132,7 +133,6 @@ const SubsubCategoryAdd = () => {
     formik.setFieldValue('budget', budgetValue);
     formik.handleChange(event);
   };
-
 
   return (
     <div>
@@ -160,26 +160,24 @@ const SubsubCategoryAdd = () => {
                 />
               </div>
               <div>
-                <Select
-                  label="Sub Category"
-                  name="sub_category_id"
-                  mandatory={true}
+                <AutoCompleteSelect
                   width="250px"
-                  onChange={formik.handleChange}
-                  value={formik.values.sub_category_id}
+                  name="sub_category_id"
+                  label="Sub Sub Category"
                   defaultLabel="Select from options"
+                  mandatory={true}
+                  value={formik.values.sub_category_id}
+                  onChange={formik.handleChange}
+                  disabled={disable}
                   error={
                     formik.touched.sub_category_id &&
                     formik.errors.sub_category_id
                   }
-                  disabled={disable}
-                >
-                  {getAllSubCategory.map((option: any) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Select>
+                  onSelect={(value) => {
+                    formik.setFieldValue('sub_category_id', value);
+                  }}
+                  optionList={getAllSubCategory}
+                />
               </div>
             </div>
             <div className={Styles.fieldRow}>
@@ -215,7 +213,9 @@ const SubsubCategoryAdd = () => {
                 onChange={formik.handleChange}
                 rows={4}
                 width="600px"
+                mandatory={true}
                 maxCharacterCount={100}
+                error={formik.touched.description && formik.errors.description}
               />
             </div>
             <div className={Styles.buttonFields}>

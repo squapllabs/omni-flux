@@ -143,7 +143,7 @@ const SubSubCategoryList = () => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div>
       <CustomLoader loading={filterLoading} size={48} color="#333C44">
@@ -217,7 +217,7 @@ const SubSubCategoryList = () => {
                       <tr>
                         <th>S No</th>
                         <th>Sub Category</th>
-                        <th>Name</th>
+                        <th>Sub Sub Category</th>
                         <th>Budget</th>
                         <th>Description</th>
                         {activeButton === 'AC' && <th></th>}
@@ -237,11 +237,15 @@ const SubSubCategoryList = () => {
                       {getFilterData?.content?.map(
                         (item: any, index: number) => (
                           <tr key={item.sub_sub_category_id}>
-                            <td>{index + 1}</td>
+                            <td>{startingIndex + index}</td>
                             <td>{item.sub_category.name}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
-                            <td>{item.description}</td>
+                            <td>
+                              <span title={item.description}>
+                                {item.description?item.description.substring(0, 20) : '-'}
+                              </span>
+                            </td>
                             {activeButton === 'AC' && (
                               <td>
                                 <div className={Styles.tableIcon}>
@@ -274,6 +278,7 @@ const SubSubCategoryList = () => {
                   <Pagination
                     currentPage={currentPage}
                     totalPages={getFilterData?.total_page}
+                    totalCount={getFilterData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}

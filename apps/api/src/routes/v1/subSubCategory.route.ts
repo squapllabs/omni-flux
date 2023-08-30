@@ -10,8 +10,11 @@ import {
   createSubSubCategory,
   deleteBySubSubCategoryId,
   getAllInActiveSubSubCategories,
+  getAllParentData,
   getAllSubSubCategory,
+  getBySubCategoryId,
   getBySubSubCategoryId,
+  getChildDataByParentSubSubCatId,
   searchSubSubCategory,
   updateSubSubCategory,
 } from '../../controller/subSubCategory.controller';
@@ -53,5 +56,19 @@ router.get(
 router.get('/get-all-inactive', authMiddleware, getAllInActiveSubSubCategories);
 
 router.post('/search', authMiddleware, searchSubSubCategory);
+
+router.get(
+  '/get-by-sub-category-id/:sub_category_id',
+  authMiddleware,
+  getBySubCategoryId
+);
+
+router.get('/get-all-parent-data', authMiddleware, getAllParentData);
+
+router.get(
+  '/get-child-data-by-parent-id/:parent_sub_sub_category_id',
+  authMiddleware,
+  getChildDataByParentSubSubCatId
+);
 
 export default router;

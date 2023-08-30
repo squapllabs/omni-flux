@@ -14,7 +14,7 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   rowsPerPage: number;
-
+  totalCount: number;
   onPageChange: (page: number) => void;
   onRowsPerPageChange: (rowsPerPage: number) => void;
 }
@@ -23,6 +23,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   rowsPerPage,
+  totalCount,
   onPageChange,
   onRowsPerPageChange,
 }) => {
@@ -36,6 +37,9 @@ const Pagination: React.FC<PaginationProps> = ({
     const newRowsPerPage = parseInt(event.target.value, 10);
     onRowsPerPageChange(newRowsPerPage);
   };
+
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  const endingIndex = Math.min(startingIndex + rowsPerPage - 1, totalCount);
 
   return (
     <div className={Styles.container}>
@@ -56,7 +60,8 @@ const Pagination: React.FC<PaginationProps> = ({
         </div>
       </div>
       <span className={Styles.pagesCount}>
-        {currentPage} - {rowsPerPage} of {totalPages}
+        {startingIndex} - {endingIndex} of {totalCount}
+        {/* {currentPage} - {totalPages} of {totalCount} */}
       </span>
 
       <div className={Styles.icons}>

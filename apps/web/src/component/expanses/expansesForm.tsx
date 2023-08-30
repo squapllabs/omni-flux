@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Styles from '../../styles/Expanses.module.scss';
+import Styles from '../../styles/expanses.module.scss';
 import Input from '../ui/Input';
 import Select from '../ui/selectNew';
 import DatePicker from '../ui/CustomDatePicker';
 import Button from '../ui/Button';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useFormik } from 'formik';
-import { getBymasertDataType } from 'apps/web/src/hooks/masertData-hook';
+import { getBymasertDataType } from '../../hooks/masertData-hook';
 import PopupExpense from './popupExpanse';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import {
@@ -316,7 +316,7 @@ const ExpansesForm = () => {
               if (data?.status === true) {
                 setMessage('Site Expense has been added successfully !');
                 setOpenSnack(true);
-                setInterval(() => {
+                setTimeout(() => {
                   navigate(`/project-edit/${projectId}`);
                 }, 3000);
               }
@@ -344,7 +344,7 @@ const ExpansesForm = () => {
               if (data?.status === true) {
                 setMessage('Site Expense has been updated successfully !');
                 setOpenSnack(true);
-                setInterval(() => {
+                setTimeout(() => {
                   navigate(`/project-edit/${projectId}`);
                 }, 3000);
               }
@@ -535,7 +535,7 @@ const ExpansesForm = () => {
                   if (item?.is_delete === 'N') {
                     rowIndex = rowIndex + 1;
                     return (
-                      <>
+                      
                         <tr>
                           <td>{rowIndex}</td>
                           <td>
@@ -644,7 +644,7 @@ const ExpansesForm = () => {
                             </div>
                           </td>
                         </tr>
-                      </>
+                    
                     );
                   }
                 })}

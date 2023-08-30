@@ -148,7 +148,7 @@ const SubCategoryList = () => {
     });
     setIsResetDisabled(searchValue === '');
   };
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div>
       <CustomLoader loading={filterDataLoading} size={48} color="#333C44">
@@ -245,11 +245,15 @@ const SubCategoryList = () => {
                         {filterBasedData?.content?.map(
                           (item: any, index: number) => (
                             <tr key={item.sub_category_id}>
-                              <td>{index + 1}</td>
+                              <td>{startingIndex + index}</td>
                               <td>{item.category.name}</td>
                               <td>{item.name}</td>
                               <td>{formatBudgetValue(item.budget)}</td>
-                              <td>{item.description}</td>
+                              <td>
+                              <span title={item.description}>
+                                {item.description?item.description.substring(0, 20) : '-'}
+                              </span>
+                            </td>
                               {activeButton === 'AC' && (
                                 <td>
                                   <div className={Styles.tableIcon}>
@@ -282,6 +286,7 @@ const SubCategoryList = () => {
                     <Pagination
                       currentPage={currentPage}
                       totalPages={filterBasedData?.total_page}
+                      totalCount={filterBasedData?.total_count}
                       rowsPerPage={rowsPerPage}
                       onPageChange={handlePageChange}
                       onRowsPerPageChange={handleRowsPerPageChange}

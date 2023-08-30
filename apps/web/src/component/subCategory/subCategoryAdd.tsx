@@ -21,6 +21,7 @@ import Styles from '../../styles/categoryForm.module.scss';
 import SubcategoryService from '../../service/subCategory-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import { environment } from '../../environment/environment';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const SubCategoryAdd = () => {
   const { data: getAllCategoryDrop = [] } = useGetAllCategoryForDrop();
@@ -89,7 +90,7 @@ const SubCategoryAdd = () => {
             if (data?.success === true) {
               setMessage('Sub Category Edited');
               setOpenSnack(true);
-              setInterval(() => {navigate('/settings')},1000);
+              setTimeout(() => {navigate('/settings')},1000);
             }
           },
         });
@@ -103,9 +104,9 @@ const SubCategoryAdd = () => {
         createNewSubcategory(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success === true) {
-              setMessage('Sub category is created successfully');
+              setMessage('Sub category created');
               setOpenSnack(true);
-              setInterval(() => {navigate('/settings')},1000);
+              setTimeout(() => {navigate('/settings')},1000);
               
             }
           },
@@ -152,23 +153,21 @@ const SubCategoryAdd = () => {
               />
             </div>
             <div>
-              <Select
-                label="Category"
-                name="category_id"
-                onChange={formik.handleChange}
-                mandatory={true}
-                width="250px"
-                value={formik.values.category_id}
-                defaultLabel="Select from options"
-                error={formik.touched.category_id && formik.errors.category_id}
-                disabled={disable}
-              >
-                {getAllCategoryDrop.map((option: any) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+              <AutoCompleteSelect
+                  width="250px"
+                  name="category_id"
+                  label="Sub Category"
+                  defaultLabel="Select from options"
+                  mandatory={true}
+                  value={formik.values.category_id}
+                  onChange={formik.handleChange}
+                  disabled={disable}
+                  error={formik.touched.category_id && formik.errors.category_id}
+                  onSelect={(value) => {
+                    formik.setFieldValue('category_id', value);
+                  }}
+                  optionList={getAllCategoryDrop}
+                />
             </div>
             </div>
             <div className={Styles.fieldRow}>
@@ -204,7 +203,9 @@ const SubCategoryAdd = () => {
                 onChange={formik.handleChange}
                 rows={4}
                 width="600px"
+                mandatory={true}
                 maxCharacterCount={100}
+                error={formik.touched.description && formik.errors.description}
               />
             </div>
             <div className={Styles.buttonFields}>

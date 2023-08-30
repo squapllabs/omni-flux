@@ -83,6 +83,7 @@ td {
   display: flex;
   flex-direction: row;
   column-gap: 15px;
+  cursor: pointer;
 }
 tr:nth-child(even) {
   background-color: #f2f2f2;

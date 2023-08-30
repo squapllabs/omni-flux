@@ -12,6 +12,7 @@ import {
   useGetAllParentmasertDataDrop,
   useDeletemasertData,
   getBySearchmasterData,
+  useGetAllPaginatedMasterData,
 } from '../../hooks/masertData-hook';
 import EditIcon from '../menu/icons/editIcon';
 import SearchIcon from '../menu/icons/search';
@@ -55,14 +56,12 @@ const MaterData = () => {
   const {
     mutate: postDataForFilter,
     data: getFilterData,
-    isLoading: FilterLoading,
+    isLoading: searchLoader,
   } = getBySearchmasterData();
   const { data: getAllmasterData, isLoading: getAllloading } =
     useGetAllmasertData();
   const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
     useGetAllParentmasertDataDrop();
-  console.log('dropLoading', dropLoading);
-
   const { mutate: postMasterData } = createmasertData();
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +72,22 @@ const MaterData = () => {
     });
     setIsResetDisabled(searchValue === '');
   };
+  const [dataShow, setDataShow] = useState(false);
+  const masterData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: filterValues.search_by_name,
+  };
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedMasterData(masterData);
+  // console.log("master data===>",initialData);
+
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -82,7 +97,7 @@ const MaterData = () => {
     setIsResetDisabled(searchValue === '');
   };
   useEffect(() => {
-    handleSearch();
+    refetch();
   }, [currentPage, rowsPerPage, activeButton]);
   const handleSearch = async () => {
     const masterData: any = {
@@ -94,8 +109,9 @@ const MaterData = () => {
       global_search: filterValues.search_by_name,
       parent_id: Number(selectedValue),
     };
-    await postDataForFilter(masterData);
-    setTotalPages(getFilterData?.total_page);
+    postDataForFilter(masterData);
+    setDataShow(true);
+    // setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
   };
@@ -103,19 +119,21 @@ const MaterData = () => {
     setFilterValues({
       search_by_name: '',
     });
+    // const masterData: any = {
+    //   offset: (currentPage - 1) * rowsPerPage,
+    //   limit: rowsPerPage,
+    //   order_by_column: 'updated_date',
+    //   order_by_direction: 'asc',
+    //   status: 'AC',
+    //   global_search: '',
+    // };
+    // postDataForFilter(masterData);
     setSelectedValue('');
-    const masterData: any = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'asc',
-      status: 'AC',
-      global_search: '',
-    };
-    postDataForFilter(masterData);
+    setDataShow(false);
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
+    setSelectedValue('');
     setIsResetDisabled(true);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -136,11 +154,6 @@ const MaterData = () => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         let object: any = {};
-        console.log(
-          'values.parent_master_data_id',
-          values.parent_master_data_id
-        );
-
         const num = 0;
         if (Number(values.parent_master_data_id) === num) {
           object = {
@@ -161,7 +174,7 @@ const MaterData = () => {
         postMasterData(object, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
-              setMessage('Master Data has added successfully');
+              setMessage('Master Data created');
               setOpenSnack(true);
               setSelectedValue('');
               resetForm();
@@ -192,9 +205,14 @@ const MaterData = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
-      <CustomLoader loading={FilterLoading} size={48} color="#333C44">
+      <CustomLoader
+        loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+        size={48}
+        color="#333C44"
+      >
         <div className={Styles.conatiner}>
           <div className={Styles.box}>
             <div className={Styles.textContent}>
@@ -213,6 +231,7 @@ const MaterData = () => {
                       placeholder="Enter master name"
                       value={formik.values.master_data_name}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_name &&
                         formik.errors.master_data_name
@@ -226,6 +245,7 @@ const MaterData = () => {
                       placeholder="Enter code"
                       value={formik.values.master_data_type}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_type &&
                         formik.errors.master_data_type
@@ -241,8 +261,6 @@ const MaterData = () => {
                       placeholder="Select from options"
                       width="200px"
                       onSelect={(value) => {
-                        console.log('selectedValue', value);
-
                         formik.setFieldValue('parent_master_data_id', value);
                       }}
                       optionList={
@@ -263,6 +281,7 @@ const MaterData = () => {
                       placeholder="Enter description"
                       value={formik.values.master_data_description}
                       onChange={formik.handleChange}
+                      mandatory={true}
                       error={
                         formik.touched.master_data_description &&
                         formik.errors.master_data_description
@@ -279,7 +298,6 @@ const MaterData = () => {
                       justify="center"
                       size="small"
                       icon={<AddIcon />}
-                      onClick={() => console.log(formik.values)}
                     >
                       Add
                     </Button>
@@ -305,19 +323,21 @@ const MaterData = () => {
                   onChange={(e) => handleFilterChange(e)}
                   placeholder="Search by name"
                 />
-                <SelectNew
+                <AutoCompleteSelect
                   name="parent_master_data_id"
-                  onChange={handleDropdownChange}
+                  defaultLabel="Select Parent Name"
+                  onChange={() => handleDropdownChange}
                   value={selectedValue}
-                  defaultLabel="Select from options"
-                  width="300px"
-                >
-                  {getAllmasterDataForDrop.map((option: any) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </SelectNew>
+                  placeholder="Parent Name"
+                  width="260px"
+                  onSelect={(value) => {
+                    setSelectedValue(value);
+                    setIsResetDisabled(false);
+                  }}
+                  optionList={
+                    dropLoading === true ? [] : getAllmasterDataForDrop
+                  }
+                />
                 <Button
                   className={Styles.searchButton}
                   shape="rectangle"
@@ -353,37 +373,76 @@ const MaterData = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {getFilterData?.total_count === 0 ? (
+                    {dataShow ? (
+                      getFilterData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          <td></td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        getFilterData?.content?.map(
+                          (data: any, index: number) => (
+                            <tr key={data.master_data_id}>
+                              <td>{startingIndex + index}</td>
+                              <td>{data.master_data_name}</td>
+                              <td>{data.master_data_description}</td>
+                              <td>{data.master_data_type}</td>
+                              <td>
+                                {data?.parent?.master_data_name === undefined
+                                  ? '-'
+                                  : data?.parent?.master_data_name}
+                              </td>
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <EditIcon
+                                    onClick={() =>
+                                      handleEdit(data.master_data_id)
+                                    }
+                                  />
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
+                      )
+                    ) : initialData?.total_count === 0 ? (
                       <tr>
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        <td></td>
                         {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
-                      ''
-                    )}
-                    {getFilterData?.content?.map((item: any, index: number) => (
-                      <tr key={item.master_data_id}>
-                        <td>{index + 1}</td>
-                        <td>{item.master_data_name}</td>
-                        <td>{item.master_data_description}</td>
-                        <td>{item.master_data_type}</td>
-                        <td>
-                          {item?.parent?.master_data_name === undefined
-                            ? '-'
-                            : item?.parent?.master_data_name}
-                        </td>
-                        {activeButton === 'AC' && (
+                      initialData?.content?.map((data: any, index: number) => (
+                        <tr key={data.uom_id}>
+                          <td>{startingIndex + index}</td>
+                          <td>{data.master_data_name}</td>
+                          {/* <td>{data.master_data_description}</td> */}
                           <td>
-                            <EditIcon
-                              onClick={() => handleEdit(item.master_data_id)}
-                            />
+                                <span title={data?.master_data_description}>
+                                  {data?.master_data_description
+                                    ? data?.master_data_description.substring(0,30): '-'}
+                                </span>
+                              </td>
+                          <td>{data.master_data_type}</td>
+                          <td>
+                            {data?.parent?.master_data_name === undefined
+                              ? '-'
+                              : data?.parent?.master_data_name}
                           </td>
-                        )}
-                      </tr>
-                    ))}
+                          {activeButton === 'AC' && (
+                            <td className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() => handleEdit(data.master_data_id)}
+                              />
+                            </td>
+                          )}
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -391,7 +450,14 @@ const MaterData = () => {
             <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={getFilterData?.total_page}
+                totalPages={
+                  dataShow ? getFilterData?.total_page : initialData?.total_page
+                }
+                totalCount={
+                  dataShow
+                    ? getFilterData?.total_count
+                    : initialData?.total_count
+                }
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}

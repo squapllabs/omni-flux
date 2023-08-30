@@ -40,7 +40,9 @@ const Login = () => {
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    const fieldName = event.target.name;
+    setValues({ ...values, [fieldName]: event.target.value });
+    setErrors({ ...errors, [fieldName]: '' });
   };
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {

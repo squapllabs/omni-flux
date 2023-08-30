@@ -23,7 +23,6 @@ const ContractorList = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [filterValues, setFilterValues] = useState({
@@ -60,7 +59,6 @@ const ContractorList = () => {
       type: 'Contractor',
     };
     postDataForFilter(demo);
-    setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
   };
@@ -112,6 +110,8 @@ const ContractorList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -195,11 +195,15 @@ const ContractorList = () => {
                     )}
                     {getFilterData?.content?.map((item: any, index: number) => (
                       <tr key={item.site_contractor_id}>
-                        <td>{index + 1}</td>
+                        <td>{startingIndex + index}</td>
                         <td>{item.name}</td>
                         <td>{item.code}</td>
                         <td>{item.mobile_number}</td>
-                        <td>{item.description}</td>
+                        <td>
+                            <span title={item.description}>
+                              {item.description?item.description.substring(0, 50) : '-'}
+                            </span>
+                        </td>
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tableIcon}>
@@ -231,6 +235,7 @@ const ContractorList = () => {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={getFilterData?.total_page}
+                  totalCount={getFilterData?.total_count}
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}

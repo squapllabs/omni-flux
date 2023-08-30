@@ -1,11 +1,11 @@
-import { useGetAllItems } from 'apps/web/src/hooks/item-hooks';
+import { useGetAllItems } from '../../../hooks/item-hooks';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import Select from '../../ui/selectNew';
 import Input from '../../ui/Input';
 import { useFormik } from 'formik';
 import Button from '../../ui/Button';
-import { getValidateProductyup } from 'apps/web/src/helper/constants/lead/leadProduct-constants';
+import { getValidateProductyup } from '../../../helper/constants/lead/leadProduct-constants'
 import Styles from '../../../styles/leadTender.module.scss';
 import CancelIcon from '../../menu/icons/closeIcon';
 

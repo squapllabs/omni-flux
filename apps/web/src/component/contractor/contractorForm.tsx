@@ -57,9 +57,9 @@ const ContractorForm = () => {
       createNewSite(Object, {
         onSuccess: (data: any) => {
           if (data?.status === true) {
-            setMessage('Project Workbreak down created');
+            setMessage('Contractor created');
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/site');
             }, 1000);
           }
@@ -138,6 +138,7 @@ const ContractorForm = () => {
                 onChange={formik.handleChange}
                 rows={4}
                 maxCharacterCount={100}
+                mandatory={true}
               />
             </div>
           </div>

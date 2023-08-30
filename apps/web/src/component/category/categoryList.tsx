@@ -141,12 +141,11 @@ const CategoryList = () => {
     setOpenSnack(true);
   };
 
-  
   /* Function for group button (Active and Inactive status) */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -162,7 +161,9 @@ const CategoryList = () => {
                 justify="center"
                 size="small"
                 icon={<AddIcon />}
-                onClick={() => {navigate('/category-add')}}
+                onClick={() => {
+                  navigate('/category-add');
+                }}
               >
                 Add Category
               </Button>
@@ -238,10 +239,14 @@ const CategoryList = () => {
                       {getFilterData?.content?.map(
                         (item: any, index: number) => (
                           <tr key={item.category_id}>
-                            <td>{index + 1}</td>
+                            <td>{startingIndex + index}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
-                            <td>{item.description}</td>
+                            <td>
+                              <span title={item.description}>
+                                {item.description?item.description.substring(0, 20) : '-'}
+                              </span>
+                            </td>
                             {activeButton === 'AC' && (
                               <td>
                                 <div className={Styles.tableIcon}>
@@ -272,6 +277,7 @@ const CategoryList = () => {
                   <Pagination
                     currentPage={currentPage}
                     totalPages={getFilterData?.total_page}
+                    totalCount={getFilterData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}

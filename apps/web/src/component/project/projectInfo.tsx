@@ -7,11 +7,11 @@ import CustomCard from '../ui/CustomCard';
 import { getByProjectId } from '../../hooks/project-hooks';
 import { format } from 'date-fns';
 
-const ProjectView= () => {
+const ProjectView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const ProjectId = Number(routeParams?.id);
-  const { data: getOneProject } = getByProjectId(ProjectId); 
+  const { data: getOneProject } = getByProjectId(ProjectId);
 
   return (
     <div>
@@ -72,7 +72,7 @@ const ProjectView= () => {
             <div className={Styles.dataRows}>
               <div className={Styles.leftData}>Manager</div>
               <div className={Styles.rightData}>
-                  {' '}
+                {' '}
                 {getOneProject?.user?.first_name
                   ? `${getOneProject?.user?.first_name} ${
                       getOneProject?.user?.last_name
@@ -159,33 +159,29 @@ const ProjectView= () => {
               <div className={Styles.leftData}>Uploaded Documents</div>
               <div className={Styles.rightData}>
                 <ul className={Styles.siteList}>
-                  {getOneProject?.project_documents.map((document: any,index: any) => (
-                    <li key={index}>
-                      <a
-                        href={document.path}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Document {index + 1}
-                      </a>
-                    </li>
-                  ))}
+                  {getOneProject?.project_documents.length > 0 ? (
+                    getOneProject.project_documents.map(
+                      (document: any, index: any) => (
+                        <li key={index}>
+                          <a
+                            href={document.path}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Document {index + 1}
+                          </a>
+                        </li>
+                      )
+                    )
+                  ) : (
+                    <li>-</li>
+                  )}
                 </ul>
               </div>
             </div>
           </div>
         </CustomCard>
       </div>
-      {/* <div className={Styles.buttonContainer}>
-        <Button
-          text="Back"
-          backgroundColor="#7F56D9"
-          fontSize={14}
-          fontWeight={500}
-          width={100}
-          onClick={() => navigate('/settings')}
-        />
-      </div> */}
     </div>
   );
 };

@@ -111,6 +111,8 @@ const ProjectWorkBreakList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -194,11 +196,18 @@ const ProjectWorkBreakList = () => {
                     )}
                     {getFilterData?.content?.map((item: any, index: number) => (
                       <tr key={item.site_contractor_id}>
-                        <td>{index + 1}</td>
+                        <td>{startingIndex + index}</td>
                         <td>{item.name}</td>
                         <td>{item.code}</td>
                         <td>{item.mobile_number}</td>
-                        <td>{item.description}</td>
+                        {/* <td>{item.description}</td> */}
+                        <td>
+                          <span title={item.description}>
+                            {item.description
+                              ? item.description.substring(0, 30)
+                              : '-'}
+                          </span>
+                        </td>
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tableIcon}>
@@ -230,6 +239,7 @@ const ProjectWorkBreakList = () => {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={getFilterData?.total_page}
+                  totalCount={getFilterData?.total_count}
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}

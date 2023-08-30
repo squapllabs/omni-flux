@@ -5,25 +5,22 @@ import Select from '../../ui/selectNew';
 import TextArea from '../../ui/CustomTextArea';
 import Button from '../../ui/Button';
 import { useFormik } from 'formik';
-import {
-  useGetAllClient,
-  useGetAllClientDrop,
-} from 'apps/web/src/hooks/client-hooks';
-import { useGetAllUsers } from 'apps/web/src/hooks/user-hooks';
+import { useGetAllClientDrop } from '../../../hooks/client-hooks';
+import { useGetAllUsersDrop } from '../../../hooks/user-hooks';
 import {
   createleadEnquiry,
   updateleadEnquiry,
-} from 'apps/web/src/hooks/leadEnquires-hooks';
+} from '../../../hooks/leadEnquires-hooks';
 import AddIcon from '../../menu/icons/addIcon';
-import { getBymasertDataType } from 'apps/web/src/hooks/masertData-hook';
-import { useGetAllItems } from 'apps/web/src/hooks/item-hooks';
+import { getBymasertDataType } from '../../../hooks/masertData-hook';
+import { useGetAllItems } from '../../../hooks/item-hooks';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import EditIcon from '../../menu/icons/editIcon';
-import { getCreateValidateyup } from 'apps/web/src/helper/constants/lead/leadProduct-constants';
-import LeadEnquiresServices from 'apps/web/src/service/leadEnquires-services';
+import { getCreateValidateyup } from '../../../helper/constants/lead/leadProduct-constants';
+import LeadEnquiresServices from '../../../service/leadEnquires-services';
 import * as Yup from 'yup';
-import { formatBudgetValue } from 'apps/web/src/helper/common-function';
-import { environment } from 'apps/web/src/environment/environment';
+import { formatBudgetValue } from '../../../helper/common-function';
+import { environment } from '../../../environment/environment';
 import CustomSnackBar from '../../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomEditDialog from '../../../component/ui/customEditDialogBox';
@@ -159,11 +156,12 @@ const ProductSale: React.FC = (props: any) => {
     if (props.leadEnquireId === undefined) fetchLeadID();
   }, []);
   const { data: getAllClient = [] } = useGetAllClientDrop();
-  const { data: getAllUsers = [] } = useGetAllUsers();
+  const { data: getAllUsers = [] } = useGetAllUsersDrop();
   const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
   const { data: getLeadProbability = [] } = getBymasertDataType('LDPRB');
   const { data: getLeadSource = [] } = getBymasertDataType('LDSE');
   const { data: getAllItems = [] } = useGetAllItems();
+
   const { mutate: postleadEnquiry } = createleadEnquiry();
   const { mutate: updatelead } = updateleadEnquiry();
   const fetchLeadID = async () => {
@@ -286,9 +284,9 @@ const ProductSale: React.FC = (props: any) => {
           postleadEnquiry(object, {
             onSuccess(data, variables, context) {
               resetForm;
-              setMessage('Product sale has created successfully');
+              setMessage('Product sale created');
               setOpenSnack(true);
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/lead-enquires');
               }, 3000);
             },
@@ -317,9 +315,9 @@ const ProductSale: React.FC = (props: any) => {
           };
           updatelead(object, {
             onSuccess(data, variables, context) {
-              setMessage('Product sale has updated successfully');
+              setMessage('Product sale edited');
               setOpenSnack(true);
-              setInterval(() => {
+              setTimeout(() => {
                 navigate('/lead-enquires');
               }, 3000);
             },
@@ -347,26 +345,10 @@ const ProductSale: React.FC = (props: any) => {
                 />
               </div>
               <div className={Styles.fieldStyle}>
-                {/* <Select
-                  name="client"
-                  label="Client"
-                  defaultLabel="select Client"
-                  mandatory={true}
-                  value={formik.values.client}
-                  onChange={formik.handleChange}
-                  error={formik.touched.client && formik.errors.client}
-                  disabled={disable}
-                >
-                  {getAllClient?.map((option: any) => (
-                    <option key={option.client_id} value={option.client_id}>
-                      {option.name}
-                    </option>
-                  ))}
-                </Select> */}
                 <AutoCompleteSelect
                   name="client"
                   label="Client"
-                  defaultLabel="select Client"
+                  defaultLabel="Select Client"
                   mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
@@ -384,7 +366,7 @@ const ProductSale: React.FC = (props: any) => {
                 <Select
                   name="source_name"
                   label="Lead Source"
-                  defaultLabel="select a Lead Source"
+                  defaultLabel="Select a Lead Source"
                   mandatory={true}
                   onChange={formik.handleChange}
                   value={formik.values.source_name}
@@ -406,7 +388,7 @@ const ProductSale: React.FC = (props: any) => {
                 <Select
                   name="client_level"
                   label="Client Level"
-                  defaultLabel="select a Client Level"
+                  defaultLabel="Select a Client Level"
                   mandatory={true}
                   value={formik.values.client_level}
                   onChange={formik.handleChange}
@@ -431,7 +413,7 @@ const ProductSale: React.FC = (props: any) => {
                 <Select
                   name="probability"
                   label="Lead Probability"
-                  defaultLabel="select a Lead Probability"
+                  defaultLabel="Select a Lead Probability"
                   mandatory={true}
                   value={formik.values.probability}
                   onChange={formik.handleChange}
@@ -471,7 +453,7 @@ const ProductSale: React.FC = (props: any) => {
               <Select
                 name="product_id"
                 label="Product"
-                defaultLabel="select a Product"
+                defaultLabel="Select a Product"
                 value={value?.product_id}
                 onChange={handleChangeItems}
                 error={errors?.product_id}
@@ -583,10 +565,10 @@ const ProductSale: React.FC = (props: any) => {
                 </div>
               </div>
               <div className={Styles.fieldStyle}>
-                <Select
+                <AutoCompleteSelect
                   name="sales_person_name"
                   label="Sales person Name"
-                  defaultLabel="select Client"
+                  defaultLabel="Select Sales Person"
                   mandatory={true}
                   value={formik.values.sales_person_name}
                   onChange={formik.handleChange}
@@ -594,13 +576,11 @@ const ProductSale: React.FC = (props: any) => {
                     formik.touched.sales_person_name &&
                     formik.errors.sales_person_name
                   }
-                >
-                  {getAllUsers?.data?.map((option: any) => (
-                    <option key={option.user_id} value={option.user_id}>
-                      {option.first_name} {option.last_name}
-                    </option>
-                  ))}
-                </Select>
+                  onSelect={(value) => {
+                    formik.setFieldValue('sales_person_name', value);
+                  }}
+                  optionList={getAllUsers}
+                />
               </div>
             </div>
             <div className={Styles.fields_container_1}>

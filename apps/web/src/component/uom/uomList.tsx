@@ -3,7 +3,12 @@ import Styles from '../../styles/userList.module.scss';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import EditIcon from '../menu/icons/editIcon';
 import CustomSnackBar from '../ui/customSnackBar';
-import { useGetAlluom, useDeleteUom, getByUom } from '../../hooks/uom-hooks';
+import {
+  useGetAlluom,
+  useDeleteUom,
+  getByUom,
+  useGetAllPaginatedUomData,
+} from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import Button from '../ui/Button';
@@ -22,12 +27,15 @@ import TextArea from '../ui/CustomTextArea';
 
 /* Function for Unit of Measurement */
 const UomList = () => {
-  const { isLoading: getAllLoading } = useGetAlluom();
+  // const { isLoading: getAllLoading } = useGetAlluom();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
-    isLoading: FilterLoading,
+    isLoading: searchLoader,
   } = getByUom();
+
+  // console.log('uom search data==>', getFilterData);
+
   const { mutate: getDeleteuomByID } = useDeleteUom();
   const { mutate: createNewuom } = createuom();
   const [open, setOpen] = useState(false);
@@ -43,6 +51,7 @@ const UomList = () => {
   const [filter, setFilter] = useState(false);
   const [value, setValue] = useState();
   const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [dataShow, setDataShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -57,6 +66,20 @@ const UomList = () => {
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const validationSchema = getuomCreateValidateyup(Yup);
+  const uomData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: filterValues.search_by_name,
+  };
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedUomData(uomData);
+  // console.log('uom search data==>', initialData);
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -117,8 +140,10 @@ const UomList = () => {
   };
 
   useEffect(() => {
-    handleSearch();
+    // handleSearch();
+    refetch();
   }, [currentPage, rowsPerPage, activeButton]);
+
   /* Function for searching data in the UOM Table */
   const handleSearch = async () => {
     const uomData: any = {
@@ -130,20 +155,22 @@ const UomList = () => {
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(uomData);
+    setDataShow(true);
     setIsLoading(false);
     setFilter(true);
   };
   /* Function for resting the table to its actual state after search */
   const handleReset = async () => {
-    const uomData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_by',
-      order_by_direction: 'desc',
-      status: 'AC',
-      global_search: '',
-    };
-    postDataForFilter(uomData);
+    setDataShow(false);
+    // const uomData: any = {
+    //   limit: rowsPerPage,
+    //   offset: (currentPage - 1) * rowsPerPage,
+    //   order_by_column: 'updated_by',
+    //   order_by_direction: 'desc',
+    //   status: 'AC',
+    //   global_search: '',
+    // };
+    // postDataForFilter(uomData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
@@ -167,12 +194,12 @@ const UomList = () => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <div>
         <CustomLoader
-          loading={isLoading === true ? getAllLoading : FilterLoading}
+          loading={searchLoader ? searchLoader : getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
@@ -283,7 +310,40 @@ const UomList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {getFilterData?.total_count === 0 ? (
+                    {dataShow ? (
+                      getFilterData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        getFilterData?.content?.map(
+                          (data: any, index: number) => (
+                            <tr key={data.uom_id}>
+                              <td>{startingIndex + index}</td>
+                              <td>{data.name}</td>
+                              <td>{data.description}</td>
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <EditIcon
+                                      onClick={() => handleEdit(data.uom_id)}
+                                    />
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deleteCategoryHandler(data.uom_id)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
+                      )
+                    ) : initialData?.total_count === 0 ? (
                       <tr>
                         <td></td>
                         <td></td>
@@ -291,37 +351,43 @@ const UomList = () => {
                         {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
-                      ''
+                      initialData?.content?.map((data: any, index: number) => (
+                        <tr key={data.uom_id}>
+                          <td>{startingIndex + index}</td>
+                          <td>{data.name}</td>
+                          <td>{data.description}</td>
+                          {activeButton === 'AC' && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() => handleEdit(data.uom_id)}
+                                />
+                                <DeleteIcon
+                                  onClick={() =>
+                                    deleteCategoryHandler(data.uom_id)
+                                  }
+                                />
+                              </div>
+                            </td>
+                          )}
+                        </tr>
+                      ))
                     )}
-                    {getFilterData?.content?.map((data: any, index: number) => (
-                      <tr key={data.uom_id}>
-                        <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.description}</td>
-                        {activeButton === 'AC' && (
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() => handleEdit(data.uom_id)}
-                              />
-                              <DeleteIcon
-                                onClick={() =>
-                                  deleteCategoryHandler(data.uom_id)
-                                }
-                              />
-                            </div>
-                          </td>
-                        )}
-                      </tr>
-                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
-            <div className={Styles.pagination1}>
+            <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={getFilterData?.total_page}
+                totalPages={
+                  dataShow ? getFilterData?.total_page : initialData?.total_page
+                }
+                totalCount={
+                  dataShow
+                    ? getFilterData?.total_count
+                    : initialData?.total_count
+                }
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}

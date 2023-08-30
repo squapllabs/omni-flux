@@ -6,6 +6,7 @@ const add = async (
   budget: number,
   created_by: bigint,
   description: string,
+  project_id: number,
   connectionObj = null
 ) => {
   try {
@@ -22,6 +23,7 @@ const add = async (
         updated_date: currentDate,
         is_delete: is_delete,
         description,
+        project_id,
       },
     });
     return subCategory;
@@ -38,6 +40,7 @@ const edit = async (
   updated_by: bigint,
   sub_category_id: number,
   description: string,
+  project_id: number,
   connectionObj = null
 ) => {
   try {
@@ -54,6 +57,7 @@ const edit = async (
         updated_by,
         updated_date: currentDate,
         description,
+        project_id,
       },
     });
     return subCategory;
@@ -73,6 +77,12 @@ const getById = async (subCategoryId: number, connectionObj = null) => {
       },
       include: {
         category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
       },
     });
     return subCategory;
@@ -96,6 +106,12 @@ const getAll = async (connectionObj = null) => {
       ],
       include: {
         category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
       },
     });
     return subCategories;
@@ -185,6 +201,12 @@ const searchSubCategory = async (
       ],
       include: {
         category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
       },
       skip: offset,
       take: limit,
@@ -209,10 +231,19 @@ const searchSubCategory = async (
 const getByCategoryId = async (categoryId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subCategory = await transaction.sub_category.findFirst({
+    const subCategory = await transaction.sub_category.findMany({
       where: {
         category_id: Number(categoryId),
         is_delete: false,
+      },
+      include: {
+        category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
       },
     });
     return subCategory;

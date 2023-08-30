@@ -82,9 +82,9 @@ const SiteForm = () => {
       updateNewSite(Object, {
         onSuccess: (data: any) => {
           if (data?.status === true) {
-            setMessage('Site edited uccessfully');
+            setMessage('Site edited');
             setOpenSnack(true);
-            setInterval(() => {
+            setTimeout(() => {
               navigate('/site');
             }, 1000);
           }
