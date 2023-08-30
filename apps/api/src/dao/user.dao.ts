@@ -84,9 +84,9 @@ const getById = async (userId: number) => {
         user_id: Number(userId),
         is_delete: false,
       },
-      include: {
-        parent_data: true,
-      },
+      // include: {
+      //   parent_data: true,
+      // },
     });
 
     return user;
@@ -128,9 +128,9 @@ const getAll = async (user_status) => {
       where: {
         user_status: user_status,
       },
-      include: {
-        parent_data: true,
-      },
+      // include: {
+      //   parent_data: true,
+      // },
     });
     const usersCount = await prisma.users.count({
       where: {
@@ -419,6 +419,7 @@ const getChildUsersByParentUserId = async (
     throw error;
   }
 };
+
 
 export default {
   add,
