@@ -18,11 +18,10 @@ import Pagination from '../menu/pagination';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import AddIcon from '../menu/icons/addIcon';
-import UserEdit from './userEdit';
 
 /* Function for User List */
 const UserList = () => {
-  const { isLoading: getAllLoading } = useGetAllUsers();
+  // const { isLoading: getAllLoading } = useGetAllUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
   const {
     mutate: postDataForFilter,
