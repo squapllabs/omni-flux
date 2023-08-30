@@ -331,8 +331,29 @@ const searchPermission = async (body) => {
     throw error;
   }
 };
+const getByusersId = async (user_id: number) => {
+  try {
+    let result = null;
+    const permissionData = await permissionDao.getByUserId(user_id);
+    if (permissionData) {
+      result = { message: 'success', status: true, data: permissionData };
+      return result;
+    } else {
+      result = {
+        status: false,
+        message: 'permission_id does not exist',
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getById permission service : ', error);
+    throw error;
+  }
+};
 
 export {
+  getByusersId,
   createPermission,
   updatePermission,
   getAllPermissions,

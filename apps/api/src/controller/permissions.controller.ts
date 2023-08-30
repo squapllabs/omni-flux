@@ -67,7 +67,20 @@ const searchPermission = catchAsync(async (req, res) => {
   }
 });
 
+const getByPermissionUserId = catchAsync(async (req, res) => {
+  const methodName = '/getByPermissionId';
+  try {
+    const permission = await permissionsService.getByusersId(
+      req.params.user_id
+    );
+    res.send(permission);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
+  getByPermissionUserId,
   createPermission,
   updatePermission,
   getAllPermissions,
