@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+ environment{
+     GITHUB_TOKEN = credentials('your-github-token-credential-id')
+}
     stages {
         stage('checkout code'){
             steps {
@@ -7,6 +11,7 @@ pipeline {
                 branches: [[name: '*/main']],
                 extensions: scm.extensions,
                 userRemoteConfigs: [[
+                   credentialsId: env.GITHUB_TOKEN,
                     url: 'https://github.com/squapllabs/omni-flux',
                 ]]
             ])
