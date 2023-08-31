@@ -27,6 +27,7 @@ import siteExpenseDetails from './siteExpenseDetail.route';
 import capability from './capability.route';
 import permission from './permissions.route';
 import bom from './bom.route';
+import vendor from './vendor.route';
 
 const router = express.Router();
 
@@ -142,7 +143,11 @@ const defaultRoutes = [
   {
     path: '/bom',
     route: bom,
-  }
+  },
+  {
+    path: '/vendor',
+    route: vendor,
+  },
 ];
 
 defaultRoutes.forEach((r) => {
