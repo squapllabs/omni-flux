@@ -231,6 +231,7 @@ import SubsubCategoryAdd from '../component/subSubCategory/subsubcategoryAdd';
 import ProjectView from '../component/project/projectInfo';
 import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
 import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
+import BomList from '../component/bom/bomList';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -281,6 +282,7 @@ const AppRoutes = () => {
   const ProtectedProjectView = withLayoutAndProtection(ProjectView);
   const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
   const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
+  const ProtectedBomList = withLayoutAndProtection(BomList);
 
   return (
     <div>
@@ -350,9 +352,18 @@ const AppRoutes = () => {
         <Route path="/category-add" element={<ProtectedCategoryAdd />} />
         <Route path="/category-edit/:id" element={<ProtectedCategoryAdd />} />
         <Route path="/subcategory-add" element={<ProtectedSubCategoryAdd />} />
-        <Route path="/subcategory-edit/:id" element={<ProtectedSubCategoryAdd />} />
-        <Route path="/subsubcategory-add" element={<ProtectedSubSubCategoryAdd />} />
-        <Route path="/subsubcategory-edit/:id" element={<ProtectedSubSubCategoryAdd />} />
+        <Route
+          path="/subcategory-edit/:id"
+          element={<ProtectedSubCategoryAdd />}
+        />
+        <Route
+          path="/subsubcategory-add"
+          element={<ProtectedSubSubCategoryAdd />}
+        />
+        <Route
+          path="/subsubcategory-edit/:id"
+          element={<ProtectedSubSubCategoryAdd />}
+        />
         <Route path="/project-info/:id" element={<ProtectedProjectView />} />
         <Route
           path="/lead-info-product/:id"
@@ -362,6 +373,7 @@ const AppRoutes = () => {
           path="/lead-info-tender/:id"
           element={<ProtectedLeadTenderView />}
         />
+        <Route path="/bom" element={<ProtectedBomList />} />
       </Routes>
     </div>
   );
