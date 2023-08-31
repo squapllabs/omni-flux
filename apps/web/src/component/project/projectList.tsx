@@ -54,6 +54,9 @@ const ProjectList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);

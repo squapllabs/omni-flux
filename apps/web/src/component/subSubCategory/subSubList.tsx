@@ -118,6 +118,9 @@ const SubSubCategoryList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
   /* Function for resting the search and data to normal state */
   const handleReset = async () => {

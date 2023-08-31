@@ -137,6 +137,9 @@ const UomList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
 
   useEffect(() => {
@@ -162,22 +165,14 @@ const UomList = () => {
   /* Function for resting the table to its actual state after search */
   const handleReset = async () => {
     setDataShow(false);
-    // const uomData: any = {
-    //   limit: rowsPerPage,
-    //   offset: (currentPage - 1) * rowsPerPage,
-    //   order_by_column: 'updated_by',
-    //   order_by_direction: 'desc',
-    //   status: 'AC',
-    //   global_search: '',
-    // };
-    // postDataForFilter(uomData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
       search_by_name: '',
     });
+    setIsResetDisabled(true);     
     setIsLoading(false);
-    setIsResetDisabled(true);
+    
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {

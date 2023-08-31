@@ -53,7 +53,7 @@ const UserList = () => {
     order_by_column: 'updated_by',
     order_by_direction: 'desc',
     global_search: '',
-    status: 'AC',
+    status: activeButton,
   };
   const {
     isLoading: getAllLoadingPaginated,
@@ -90,6 +90,9 @@ const UserList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
 
   useEffect(() => {

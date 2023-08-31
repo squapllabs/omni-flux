@@ -145,6 +145,9 @@ const ClientList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
 
   /* Function for Searching a client data from the list */

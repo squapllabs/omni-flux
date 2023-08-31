@@ -147,6 +147,9 @@ const SubCategoryList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
