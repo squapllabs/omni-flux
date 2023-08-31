@@ -188,4 +188,87 @@ const deleteVendor = async (vendorId: number) => {
   }
 };
 
-export { createVendor, updateVendor, getAllVendor, getById, deleteVendor };
+/**
+ * Method to search Vendor - Pagination API
+ * @returns
+ */
+const searchVendor = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterVendor: {
+        AND: [],
+        OR: [
+          { vendor_name: { contains: global_search, mode: 'insensitive' } },
+          { contact_person: { contains: global_search, mode: 'insensitive' } },
+          { contact_email: { contains: global_search, mode: 'insensitive' } },
+          {
+            contact_phone_no: { contains: global_search, mode: 'insensitive' },
+          },
+          { tax_id: { contains: global_search, mode: 'insensitive' } },
+          { payment_terms: { contains: global_search, mode: 'insensitive' } },
+          { currency: { contains: global_search, mode: 'insensitive' } },
+          { lead_time: { contains: global_search, mode: 'insensitive' } },
+          { notes: { contains: global_search, mode: 'insensitive' } },
+          {
+            vendor_category_data: {
+              master_data_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            preferred_payment_method_data: {
+              master_data_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await vendorDao.searchVendor(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempVendorData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempVendorData;
+  } catch (error) {
+    console.log('Error occurred in searchVendor Vendor service : ', error);
+    throw error;
+  }
+};
+
+export {
+  createVendor,
+  updateVendor,
+  getAllVendor,
+  getById,
+  deleteVendor,
+  searchVendor,
+};

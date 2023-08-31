@@ -10,6 +10,7 @@ import {
   deleteByVendorId,
   getAllVendor,
   getByVendorId,
+  searchVendor,
   updateVendor,
 } from '../../controller/vendor.controller';
 
@@ -36,5 +37,7 @@ router.get('/get-all', authMiddleware, getAllVendor);
 router.get('/get/:vendor_id', authMiddleware, getByVendorId);
 
 router.delete('/delete/:vendor_id', authMiddleware, deleteByVendorId);
+
+router.post('/search', authMiddleware, searchVendor);
 
 export default router;

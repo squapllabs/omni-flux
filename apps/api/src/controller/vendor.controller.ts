@@ -53,10 +53,21 @@ const deleteByVendorId = catchAsync(async (req, res) => {
   }
 });
 
+const searchVendor = catchAsync(async (req, res) => {
+  const methodName = '/searchVendor';
+  try {
+    const vendor = await vendorService.searchVendor(req.body);
+    res.send(vendor);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createVendor,
   updateVendor,
   getAllVendor,
   getByVendorId,
   deleteByVendorId,
+  searchVendor,
 };

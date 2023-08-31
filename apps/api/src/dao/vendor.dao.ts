@@ -111,6 +111,10 @@ const getById = async (vendorId: number, connectionObj = null) => {
         vendor_id: Number(vendorId),
         is_delete: false,
       },
+      include: {
+        vendor_category_data: true,
+        preferred_payment_method_data: true,
+      },
     });
     return vendor;
   } catch (error) {
@@ -125,6 +129,10 @@ const getAll = async (connectionObj = null) => {
     const vendor = await transaction.vendor.findMany({
       where: {
         is_delete: false,
+      },
+      include: {
+        vendor_category_data: true,
+        preferred_payment_method_data: true,
       },
       orderBy: [
         {
@@ -157,10 +165,50 @@ const deleteVendor = async (vendorId: number, connectionObj = null) => {
   }
 };
 
+const searchVendor = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterVendor;
+    const vendor = await transaction.vendor.findMany({
+      where: filter,
+      include: {
+        vendor_category_data: true,
+        preferred_payment_method_data: true,
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const vendorCount = await transaction.vendor.count({
+      where: filter,
+    });
+    const vendorData = {
+      count: vendorCount,
+      data: vendor,
+    };
+    return vendorData;
+  } catch (error) {
+    console.log('Error occurred in vendor dao : searchVendor ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getById,
   getAll,
   deleteVendor,
+  searchVendor,
 };

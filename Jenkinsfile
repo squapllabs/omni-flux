@@ -1,19 +1,29 @@
 pipeline {
     agent any
-    stages {
-        stage('checkout code'){
+
+ environment{
+     GITHUB_TOKEN = credentials('your-github-token-credential-id')
+}
+     stages {
+        stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM',
+                script {
+                    def scmVars = checkout(
+                        changelog: false,
+                        poll: false,
+                        scm: [
+                            $class: 'GitSCM',
                 branches: [[name: '*/main']],
-                extensions: scm.extensions,
+               extensions: [[$class: 'CloneOption', depth: 1]],
                 userRemoteConfigs: [[
+                   credentialsId: env.GITHUB_TOKEN,
                     url: 'https://github.com/squapllabs/omni-flux',
-                    credentialsId: 'GitCredentials'
                 ]]
             ])
             echo 'git checkout completed'
             }
 		}
+        }
         stage('docker image build') {
             steps {
                 echo 'running docker container details'
@@ -24,5 +34,6 @@ pipeline {
                 echo 'docker build completed'
             }
         }
-    }
+    }     
 }
+
