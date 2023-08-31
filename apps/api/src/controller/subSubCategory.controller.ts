@@ -98,6 +98,41 @@ const searchSubSubCategory = catchAsync(async (req, res) => {
   }
 });
 
+const getBySubCategoryId = catchAsync(async (req, res) => {
+  const methodName = '/getBySubCategoryId';
+  try {
+    const subSubCategory = await subSubCategoryService.getBySubCategoryId(
+      req.params.sub_category_id
+    );
+    res.send(subSubCategory);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getAllParentData = catchAsync(async (req, res) => {
+  const methodName = '/getAllParentData';
+  try {
+    const subSubCategory = await subSubCategoryService.getAllParentData();
+    res.send(subSubCategory);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getChildDataByParentSubSubCatId = catchAsync(async (req, res) => {
+  const methodName = '/getChildDataByParentSubSubCatId';
+  try {
+    const subSubCategory =
+      await subSubCategoryService.getChildDataByParentSubSubCatId(
+        req.params.parent_sub_sub_category_id
+      );
+    res.send(subSubCategory);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createSubSubCategory,
   updateSubSubCategory,
@@ -107,4 +142,7 @@ export {
   checkDuplicateSubSubCategoryName,
   getAllInActiveSubSubCategories,
   searchSubSubCategory,
+  getBySubCategoryId,
+  getAllParentData,
+  getChildDataByParentSubSubCatId,
 };

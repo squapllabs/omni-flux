@@ -88,6 +88,7 @@ model uom {
   created_by             Int?
   updated_by             Int?
   item                   item[]
+  bom                    bom[]
   is_delete              Boolean                  @default(false) @db.Boolean
   project_workbreak_down project_workbreak_down[]
 
@@ -135,6 +136,7 @@ model category {
   is_delete    Boolean        @default(false) @db.Boolean
   description  String?
   sub_category sub_category[]
+  bom          bom[]
 }
 
 model sub_category {
@@ -149,22 +151,31 @@ model sub_category {
   is_delete        Boolean            @default(false) @db.Boolean
   category         category?          @relation(fields: [category_id], references: [category_id])
   description      String?
+  project_id       Int?
+  project_data     project?           @relation(fields: [project_id], references: [project_id])
   sub_sub_category sub_sub_category[]
+  bom              bom[]
 }
 
 model sub_sub_category {
-  sub_sub_category_id Int           @id @default(autoincrement())
-  name                String        @db.VarChar(100)
-  sub_category_id     Int?
-  budget              Float?
-  created_date        DateTime
-  updated_date        DateTime
-  created_by          Int?
-  updated_by          Int?
-  item                item[]
-  is_delete           Boolean       @default(false) @db.Boolean
-  description         String?
-  sub_category        sub_category? @relation(fields: [sub_category_id], references: [sub_category_id])
+  sub_sub_category_id        Int                @id @default(autoincrement())
+  name                       String             @db.VarChar(100)
+  sub_category_id            Int?
+  budget                     Float?
+  created_date               DateTime
+  updated_date               DateTime
+  created_by                 Int?
+  updated_by                 Int?
+  item                       item[]
+  is_delete                  Boolean            @default(false) @db.Boolean
+  description                String?
+  project_id                 Int?
+  parent_sub_sub_category_id Int?
+  project_data               project?           @relation(fields: [project_id], references: [project_id])
+  parent_data                sub_sub_category?  @relation("ChildToParent", fields: [parent_sub_sub_category_id], references: [sub_sub_category_id])
+  child_data                 sub_sub_category[] @relation("ChildToParent")
+  sub_category               sub_category?      @relation(fields: [sub_category_id], references: [sub_category_id])
+  bom                        bom[]
 }
 
 model project {
@@ -195,6 +206,8 @@ model project {
   project_workbreak_down project_workbreak_down[]
   project_site           project_site[]
   site_expense           site_expense[]
+  sub_category           sub_category[]
+  sub_sub_category       sub_sub_category[]
 }
 
 model project_expense {
@@ -331,6 +344,7 @@ model item {
   sub_sub_category          sub_sub_category?           @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
   brand                     brand?                      @relation(fields: [brand_id], references: [brand_id])
   lead_enquiry_product_item lead_enquiry_product_item[]
+  bom                       bom[]
 
   @@map(name: "item")
 }
@@ -557,4 +571,27 @@ model permissions {
   updated_by      Int?
   role_data       role?       @relation(fields: [role_id], references: [role_id])
   capability_data capability? @relation(fields: [capability_id], references: [capability_id])
+}
+
+model bom {
+  bom_id                Int               @id @default(autoincrement())
+  bom_name              String            @db.VarChar(255)
+  quantity              Int?
+  uom_id                Int?
+  category_id           Int?
+  sub_category_id       Int?
+  sub_sub_category_id   Int?
+  item_id               Int?
+  is_delete             Boolean           @default(false)
+  created_date          DateTime          @default(now())
+  updated_date          DateTime
+  created_by            Int?
+  updated_by            Int?
+  uom_data              uom?              @relation(fields: [uom_id], references: [uom_id])
+  category_data         category?         @relation(fields: [category_id], references: [category_id])
+  sub_category_data     sub_category?     @relation(fields: [sub_category_id], references: [sub_category_id])
+  sub_sub_category_data sub_sub_category? @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
+  item_data             item?             @relation(fields: [item_id], references: [item_id])
+
+  @@map("bom")
 }
