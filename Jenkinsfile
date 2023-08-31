@@ -23,6 +23,7 @@ pipeline {
             echo 'git checkout completed'
             }
 		}
+        }
         stage('docker image build') {
             steps {
                 echo 'running docker container details'
@@ -33,6 +34,6 @@ pipeline {
                 echo 'docker build completed'
             }
         }
-    }
-  }
+    }     
 }
+
