@@ -12,6 +12,8 @@ import {
   getByPermissionId,
   searchPermission,
   updatePermission,
+  getByPermissionUserId,
+
 } from '../../controller/permissions.controller';
 
 const router = express.Router();
@@ -32,12 +34,14 @@ router.put(
   updatePermission
 );
 
-router.get('/get-all', authMiddleware, getAllPermissions);
+router.get('/get-all',  getAllPermissions);
 
 router.get('/get/:permission_id', authMiddleware, getByPermissionId);
 
 router.delete('/delete/:permission_id', authMiddleware, deleteByPermissionId);
 
 router.post('/search', authMiddleware, searchPermission);
+
+router.get('/get/permissions/:user_id',getByPermissionUserId);
 
 export default router;
