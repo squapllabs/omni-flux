@@ -4,10 +4,15 @@ pipeline {
  environment{
      GITHUB_TOKEN = credentials('your-github-token-credential-id')
 }
-    stages {
-        stage('checkout code'){
+     stages {
+        stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM',
+                script {
+                    def scmVars = checkout(
+                        changelog: false,
+                        poll: false,
+                        scm: [
+                            $class: 'GitSCM',
                 branches: [[name: '*/main']],
                extensions: [[$class: 'CloneOption', depth: 1]],
                 userRemoteConfigs: [[
