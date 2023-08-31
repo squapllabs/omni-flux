@@ -49,7 +49,7 @@ const SelectContainer = styled.div<StyledSelectProps>`
 const StyledSelect = styled.select<StyledSelectProps>`
   appearance: none; // this is to remove default browser dropdown icon
   width: 100%;
-  height: 38px;
+  height: 35px;
   background-color: ${(props) => (props.disabled ? 'white' : 'transparent')};
   color: ${(props) => (props.disabled ? '#888' : 'inherit')};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
@@ -58,7 +58,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   border: none;
   border-radius: 4px;
   outline: none;
-  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border: 0px solid ${(props) => (props.error ? 'red' : '#ccc')};
   option {
     color: black;
     background: white;

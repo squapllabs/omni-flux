@@ -399,7 +399,7 @@ const HsnCodeList = () => {
                   text={
                     <div className={Styles.downloadButton}>
                       <DownloadIcon />
-                      Download sample Data
+                      Download Sample Data
                     </div>
                   }
                   onClick={handleDownload}

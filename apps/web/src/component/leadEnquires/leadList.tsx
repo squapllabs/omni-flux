@@ -187,6 +187,7 @@ const LeadList = () => {
                   {filterData?.total_count === 0 ? (
                     <tr>
                       <td></td>
+                      <td></td>
                       <td>No data found</td>
                       <td></td>
                     </tr>

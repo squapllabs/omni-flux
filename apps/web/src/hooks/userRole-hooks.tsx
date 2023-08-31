@@ -14,4 +14,15 @@ const useGetAllRoles = () => {
   });
 };
 
-export { useGetAllRoles };
+const useGetAllRole = () => {
+  return useQuery(
+    ['useGetAllRoles'],
+    () => userRoleService.getAllRoles(),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+export { useGetAllRoles,useGetAllRole };

@@ -572,7 +572,7 @@ const ProjectEdit = () => {
                 onSelect={(value) => {
                   formik.setFieldValue('user_id', value);
                 }}
-                // disabled={disable}
+                disabled
                 optionList={getAllUsersDatadrop}
               />
             </div>
@@ -589,7 +589,7 @@ const ProjectEdit = () => {
                 onSelect={(value) => {
                   formik.setFieldValue('client_id', value);
                 }}
-                // disabled={disable}
+                disabled
                 optionList={getAllClientDatadrop}
               />
             </div>
