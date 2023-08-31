@@ -84,6 +84,17 @@ const filterSubCategory = async (values: JSON) => {
   }
 };
 
+const getOneSubCatListbyCatID = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/sub-category/get-by-category-id/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in get sub category  list', error);
+    throw error;
+  }
+};
 export default {
   getAllSubcategory,
   getOneSubcategoryByID,
@@ -92,4 +103,5 @@ export default {
   deleteSubcategory,
   checkDublicateSubCategory,
   filterSubCategory,
+  getOneSubCatListbyCatID,
 };
