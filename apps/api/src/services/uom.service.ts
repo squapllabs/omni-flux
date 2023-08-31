@@ -1,6 +1,8 @@
 import uomDao from '../dao/uom.dao';
 import { createUomBody, updateUomBody } from '../interfaces/uom.Interface';
 import itemDao from '../dao/item.dao';
+import projectWorkbreakDownDao from '../dao/projectWorkbreakDown.dao';
+import bomDao from '../dao/bom.dao';
 
 /**
  * Method to Create a New Uom
@@ -109,6 +111,29 @@ const deleteUom = async (uomId: number) => {
       };
       return result;
     }
+
+    const uomExistInProjectWorkbreakDown =
+      await projectWorkbreakDownDao.getByUomId(uomId);
+    if (uomExistInProjectWorkbreakDown) {
+      const result = {
+        status: false,
+        message:
+          'Unable to delete.This uom_id is mapped in Project Workbreak Down Table',
+        data: null,
+      };
+      return result;
+    }
+
+    const uomExistInBom = await bomDao.getByUomId(uomId);
+    if (uomExistInBom) {
+      const result = {
+        status: false,
+        message: 'Unable to delete.This uom_id is mapped in BOM Table',
+        data: null,
+      };
+      return result;
+    }
+
     const data = await uomDao.deleteUom(uomId);
     if (data) {
       const result = {
@@ -167,7 +192,6 @@ const searchUom = async (body) => {
     const order_by_direction =
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
-    const status = body.status;
     const filterObj = {
       filterUom: {
         AND: [],
@@ -175,7 +199,6 @@ const searchUom = async (body) => {
           { name: { contains: global_search, mode: 'insensitive' } },
           { description: { contains: global_search, mode: 'insensitive' } },
         ],
-        is_delete: status === 'AC' ? false : true,
       },
     };
 

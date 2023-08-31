@@ -61,7 +61,6 @@ const getById = async (uomId: number, connectionObj = null) => {
     const uom = await transaction.uom.findFirst({
       where: {
         uom_id: Number(uomId),
-        is_delete: false,
       },
     });
     return uom;
@@ -94,12 +93,9 @@ const getAll = async (connectionObj = null) => {
 const deleteUom = async (uomId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const uom = await transaction.uom.update({
+    const uom = await transaction.uom.delete({
       where: {
         uom_id: Number(uomId),
-      },
-      data: {
-        is_delete: true,
       },
     });
     return uom;
