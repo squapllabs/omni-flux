@@ -15,7 +15,7 @@ import { useGetAllItemsDrops } from '../../hooks/item-hooks';
 
 const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
   const { isVissible, onAction } = props;
-  const validationSchemaClient = getBomValidateyup(Yup);
+  const validationSchemaBom = getBomValidateyup(Yup);
   const { mutate: createNewBom } = createBom();
   const [clientinitialValues, setclientInitialValues] = useState({
     bom_name: '',
@@ -31,9 +31,9 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
   const [openSnack, setOpenSnack] = useState(false);
   const formik = useFormik({
     initialValues: clientinitialValues,
-    validationSchema: validationSchemaClient,
+    validationSchema: validationSchemaBom,
     enableReinitialize: true,
-    onSubmit: (values) => {
+    onSubmit: (values,{resetForm}) => {
       const Object: any = {
         quantity: Number(values.quantity),
         bom_name: values.bom_name,
@@ -55,6 +55,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
 
   const handleCloseForm = () => {
     onAction(false);
+    formik.resetForm()
   };
 
   const handleSnackBarClose = () => {
@@ -79,14 +80,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                   </div>
                 </div>
                 <div className={Styles.dividerStyle}></div>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    paddingTop:'10px'
-                  }}
-                >
+                <div className={Styles.mainField}>
                   <div>
                     <Input
                       label="Name"
@@ -112,13 +106,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                     />
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                  }}
-                >
+                <div className={Styles.selectField}>
                   <div>
                     <AutoCompleteSelect
                       label="Item Name"
@@ -178,7 +166,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                       size="small"
                       type="submit"
                     >
-                      Submit
+                      Save
                     </Button>
                   </div>
                 </div>

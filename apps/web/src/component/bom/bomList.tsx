@@ -2,42 +2,56 @@ import React, { useEffect, useState } from 'react';
 import { useGetAllCategory } from '../../hooks/category-hooks';
 import Styles from '../../styles/bom.module.scss';
 import DropdownIcon from '../menu/icons/dropDownButton';
+import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import subCategoryService from '../../service/subCategory-service';
 import subSubCategoryService from '../../service/subSubCategory-service';
 import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomBomAddPopup from '../ui/CustomBomAddPopup';
+import CustomAbstractAddPopup from '../ui/CustomAbstractPopup';
 import BomService from '../../service/bom-service';
+import { formatBudgetValue } from '../../helper/common-function';
+
 const BomList = () => {
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState(80);
   const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [selectedSubSubCategory, setSelectedSubSubCategory] = useState();
   const [selectedSubSubChild, setSelectedSubSubChild] = useState();
   const [subCatList, setSubCatList] = useState([]);
   const [subSubCatList, setSubSubCatList] = useState([]);
   const [subSubChildList, setSubSubChildList] = useState([]);
-  const [showClientForm, setShowClientForm] = useState(false);
+  const [showItemForm, setShowItemForm] = useState(false);
+  const [showAbstractForm, setShowAbstractForm] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSub, setOpenSub] = useState(false);
   const [openChild, setOpenChild] = useState(false);
+  const [mainHeadData, setMainHeadData] = useState();
+  console.log('mainData ==>', mainHeadData);
+
   const { data: categories, isLoading: categoriesLoader } = useGetAllCategory();
+  console.log('categories data===>', categories);
+
   useEffect(() => {
     handleLoadData();
-  });
+  }, [selectedCategory]);
   const handleLoadData = async () => {
     const Obj: any = {
       category_id: selectedCategory,
       sub_category_id: null,
       sub_sub_category_id: null,
     };
+    console.log("initial obj",Obj);
     const bomData = await BomService.getCustomBomData(Obj);
-    console.log('bomData', bomData);
+    console.log('bomData ===>', bomData);
   };
   const handleSelectedCategory = async (value: any) => {
-    console.log(value);
-    setSelectedCategory(value);
-    const subCatList = await subCategoryService.getOneSubCatListbyCatID(value);
+    console.log('category id selected ===>', value.category_id);
+    setSelectedCategory(value.category_id);
+    setMainHeadData(value);
+    const subCatList = await subCategoryService.getOneSubCatListbyCatID(
+      value.category_id
+    );
     setSubCatList(subCatList.data);
     if (subCatList?.data === null) {
       setOpen(false);
@@ -83,11 +97,14 @@ const BomList = () => {
                 justify="center"
                 size="small"
                 icon={<AddIcon width={20} />}
+                onClick={() => {
+                  setShowAbstractForm(true);
+                }}
               >
                 Abstract
               </Button>
             </div>
-            <div>
+            {/* <div>
               <Button
                 color="primary"
                 shape="rectangle"
@@ -95,12 +112,12 @@ const BomList = () => {
                 size="small"
                 icon={<AddIcon width={20} />}
                 onClick={() => {
-                  setShowClientForm(true);
+                  setShowItemForm(true);
                 }}
               >
                 Item
               </Button>
-            </div>
+            </div> */}
           </div>
           <div className={Styles.subcontainer}>
             <div className={Styles.submenu}>
@@ -115,12 +132,10 @@ const BomList = () => {
                               ? Styles.selected
                               : Styles.primarylistContent
                           }
-                          onClick={() =>
-                            handleSelectedCategory(items.category_id)
-                          }
+                          onClick={() => handleSelectedCategory(items)}
                         >
                           {items?.name}
-                          <DropdownIcon />
+                          <MoreVerticalIcon />
                         </div>
                         {open && selectedCategory === items.category_id ? (
                           <div className={Styles.additional_content}>
@@ -236,18 +251,41 @@ const BomList = () => {
               </div>
             </div>
             <div className={Styles.mainContainer}>
-              <div>aaa</div>
-              <div>aaa</div>
-              <div>aaa</div>
-              <div>aaa</div>
-              <div>aaa</div>
+              <div className ={Styles.mainHeading}>
+                <div className ={Styles.mainLeftContent}>
+                  <h4>Category description</h4>
+                  <span className={Styles.descriptionContent}>{mainHeadData?.description}</span>
+                </div>
+                <div>
+                <h4>Budget</h4>
+                  <p>{formatBudgetValue(mainHeadData?.budget ? mainHeadData?.budget : '' )}</p>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon width={20} />}
+                    onClick={() => {
+                      setShowItemForm(true);
+                    }}
+                  >
+                    Item
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </CustomLoader>
       <CustomBomAddPopup
-        isVissible={showClientForm}
-        onAction={setShowClientForm}
+        isVissible={showItemForm}
+        onAction={setShowItemForm}
+      />
+      <CustomAbstractAddPopup
+        isVissible={showAbstractForm}
+        onAction={setShowAbstractForm}
       />
     </div>
   );
