@@ -390,6 +390,7 @@ const Tender: React.FC = (props: any) => {
                   name="client"
                   label="Client"
                   defaultLabel="Select Client"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}

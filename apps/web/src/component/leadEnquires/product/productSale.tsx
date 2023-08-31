@@ -253,7 +253,7 @@ const ProductSale: React.FC = (props: any) => {
     formik.handleChange(event);
   };
 
-  const outputLableNameFromEnv = `Approx value (${environment.OUTPUTBUDGET})`;
+  const outputLableNameFromEnv = `Approx Value (${environment.OUTPUTBUDGET})`;
 
   const formik = useFormik({
     initialValues,
@@ -349,6 +349,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="client"
                   label="Client"
                   defaultLabel="Select Client"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
@@ -517,7 +518,6 @@ const ProductSale: React.FC = (props: any) => {
                     if (item?.is_delete === 'N') {
                       rowIndex = rowIndex + 1;
                       return (
-                        <>
                           <tr key={index}>
                             <td>{rowIndex}</td>
                             <td>{item.product_name}</td>
@@ -533,7 +533,6 @@ const ProductSale: React.FC = (props: any) => {
                               />
                             </td>
                           </tr>
-                        </>
                       );
                     }
                   })}
@@ -548,7 +547,7 @@ const ProductSale: React.FC = (props: any) => {
               <div className={Styles.fieldStyle}>
                 <div className={Styles.tableData}>
                   <Input
-                    label="Approx value"
+                    label="Approx Value"
                     name="approx_value"
                     mandatory={true}
                     value={formik.values.approx_value}
@@ -567,8 +566,9 @@ const ProductSale: React.FC = (props: any) => {
               <div className={Styles.fieldStyle}>
                 <AutoCompleteSelect
                   name="sales_person_name"
-                  label="Sales person Name"
+                  label="Sales Person Name"
                   defaultLabel="Select Sales Person"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.sales_person_name}
                   onChange={formik.handleChange}

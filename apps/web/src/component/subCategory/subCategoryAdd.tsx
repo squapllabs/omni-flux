@@ -158,6 +158,7 @@ const SubCategoryAdd = () => {
                   name="category_id"
                   label="Sub Category"
                   defaultLabel="Select from options"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.category_id}
                   onChange={formik.handleChange}

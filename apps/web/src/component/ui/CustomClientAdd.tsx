@@ -70,6 +70,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                     </button>
                   </div>
                 </div>
+                <div className={Styles1.dividerStyle}></div>
                 <div className={Styles1.field}>
                   <Input
                     label="Name"

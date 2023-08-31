@@ -43,7 +43,7 @@ export const getuomUpdateValidateyup = (yup: any) => {
       .trim()
       .typeError(userErrorMessages.ENTER_NAME)
       .required(userErrorMessages.ENTER_NAME)
-      .matches(/^[a-zA-Z0-9]+$/, userErrorMessages.ENTER_SPECIAL_CHARACTER)
+      // .matches(/^[a-zA-Z0-9]+$/, userErrorMessages.ENTER_SPECIAL_CHARACTER)
       .test(
         'uom-availability',
         userErrorMessages.NAME_EXIST,
@@ -53,11 +53,11 @@ export const getuomUpdateValidateyup = (yup: any) => {
             const response = await uomService.getOneUomByName(value);
             if (
               response?.success === true &&
-              response.data[0].uom_id === uomCode
+              response.data[0].uom_id !== uomCode
             ) {
-              return true;
-            } else {
               return false;
+            } else {
+              return true;
             }
           }
         }

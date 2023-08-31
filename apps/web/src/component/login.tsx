@@ -193,13 +193,13 @@ const Login = () => {
                       fullWidth
                       onClick={(e) => handleSubmit(e)}
                     >
-                      Sign in
+                      Sign In
                     </Button>
                   </div>
 
                   <div className={Styles.newAccounts}>
                     <p className={Styles.newAccounts_msg}>
-                      don't have any account? <a href="#">Sign in</a>
+                      Don't have any account? <a href="#">Sign Up</a>
                     </p>
                   </div>
                 </div>
