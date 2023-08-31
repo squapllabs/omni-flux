@@ -8,7 +8,6 @@ pipeline {
                 extensions: scm.extensions,
                 userRemoteConfigs: [[
                     url: 'https://github.com/squapllabs/omni-flux',
-                    credentialsId: 'GitCredentials'
                 ]]
             ])
             echo 'git checkout completed'
