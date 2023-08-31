@@ -9,7 +9,7 @@ pipeline {
             steps {
                 checkout([$class: 'GitSCM',
                 branches: [[name: '*/main']],
-                extensions: scm.extensions,
+               extensions: [[$class: 'CloneOption', depth: 1]],
                 userRemoteConfigs: [[
                    credentialsId: env.GITHUB_TOKEN,
                     url: 'https://github.com/squapllabs/omni-flux',
