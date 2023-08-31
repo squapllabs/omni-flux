@@ -192,7 +192,6 @@ const searchUom = async (body) => {
     const order_by_direction =
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
-    const status = body.status;
     const filterObj = {
       filterUom: {
         AND: [],
@@ -200,7 +199,6 @@ const searchUom = async (body) => {
           { name: { contains: global_search, mode: 'insensitive' } },
           { description: { contains: global_search, mode: 'insensitive' } },
         ],
-        is_delete: status === 'AC' ? false : true,
       },
     };
 
