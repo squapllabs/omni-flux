@@ -282,7 +282,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
           <OptionList>
             {defaultLabel != null && <li value="">{defaultLabel}</li>}
             {filteredOptions?.map((option) => {
-
+              
               return (
                 <>
                   <li
