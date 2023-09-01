@@ -18,10 +18,10 @@ pipeline {
         stage('docker image build') {
             steps {
                 echo 'running docker container details'
-                sh 'sudo docker ps'
+                sh ' docker ps'
 				sh 'whoami'
                 echo 'docker build started'
-                sh 'sudo docker build -t Omni_flux_image .'
+                sh 'docker build -t Omni_flux_image .'
                 echo 'docker build completed'
             }
         }
