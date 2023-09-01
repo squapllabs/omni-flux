@@ -1,0 +1,33 @@
+{
+  "id": "1ae81fbb-4dc3-4807-98a8-48e93a7cd321",
+  "name": "Vijay",
+  "values": [
+    {
+      "key": "API_URL",
+      "value": "http://localhost:8080",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "login_email",
+      "value": "vijay.perumalsamy@aalamsoft.com",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "login_password",
+      "value": "Aalam@123",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "omni_access_token",
+      "value": "",
+      "type": "any",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2023-08-31T08:55:05.965Z",
+  "_postman_exported_using": "Postman/10.17.4"
+}

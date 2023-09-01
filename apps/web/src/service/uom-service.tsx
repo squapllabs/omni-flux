@@ -65,6 +65,8 @@ const getOneUomByName = async (values: any) => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/uom/getByName/${values}`
     );
+    console.log("uom",response.data);
+    
     return response.data;
   } catch (error) {
     console.log('Error in getOne uom :', error);

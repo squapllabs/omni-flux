@@ -197,9 +197,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
     setAllOptions(optionList);
     setFilteredOptions(optionList);
     let num: number = value;
-    console.log('num', num);
     if (num > 0) {
-      console.log('succ', num);
       const matchingObjects = allOptions.filter(
         (obj) => Number(obj.value) === Number(value)
       );
@@ -269,13 +267,18 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
               gap: '10px',
             }}
           >
-            {values != '' ? (
+            {!disabled && values != '' ? (
               <CloseIcon width={10} onClick={(e) => handleClear(e)} />
             ) : (
               ''
             )}
 
-            <DropdownIcon />
+            <DropdownIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpen(!open);
+              }}
+            />
           </div>
         </SuffixIconWrapper>
       </InputContainer>
@@ -284,8 +287,6 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
           <OptionList>
             {defaultLabel != null && <li value="">{defaultLabel}</li>}
             {filteredOptions?.map((option) => {
-              console.log('itrate', option);
-
               return (
                 <>
                   <li

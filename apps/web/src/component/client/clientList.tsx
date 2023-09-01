@@ -125,7 +125,7 @@ const ClientList = () => {
         createNewClient(Object, {
           onSuccess: (data: { success: any }, variables: any, context: any) => {
             if (data?.success) {
-              setMessage('New Client has been successfully created');
+              setMessage('Client created');
               setOpenSnack(true);
               resetForm();
             } else {
@@ -145,6 +145,9 @@ const ClientList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
 
   /* Function for Searching a client data from the list */

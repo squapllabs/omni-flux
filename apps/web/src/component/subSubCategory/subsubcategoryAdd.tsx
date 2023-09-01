@@ -108,7 +108,7 @@ const SubsubCategoryAdd = () => {
         };
         createNewSubSubCategory(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.status === true) {
+            if (data?.success === true) {
               setOpenSnack(true);
               setMessage('Sub Sub Category created');
               resetForm();
@@ -165,6 +165,7 @@ const SubsubCategoryAdd = () => {
                   name="sub_category_id"
                   label="Sub Sub Category"
                   defaultLabel="Select from options"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.sub_category_id}
                   onChange={formik.handleChange}

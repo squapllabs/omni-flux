@@ -405,21 +405,23 @@ model user_profiles {
 }
 
 model master_data {
-  master_data_id          Int                    @id @default(autoincrement())
-  master_data_name        String                 @db.VarChar(100)
-  master_data_description String?                @db.VarChar(250)
-  master_data_type        String                 @db.VarChar(20)
-  parent_master_data_id   Int?
-  is_delete               Boolean                @default(false)
-  created_date            DateTime
-  updated_date            DateTime
-  created_by              Int?
-  updated_by              Int?
-  parent                  master_data?           @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
-  children                master_data[]          @relation("ChildToParent")
-  leadEnquiries           lead_enquiry[]
-  lead_enquiry_product    lead_enquiry_product[]
-  lead_enquiry_tender     lead_enquiry_tender[]
+  master_data_id                     Int                    @id @default(autoincrement())
+  master_data_name                   String                 @db.VarChar(100)
+  master_data_description            String?                @db.VarChar(250)
+  master_data_type                   String                 @db.VarChar(20)
+  parent_master_data_id              Int?
+  is_delete                          Boolean                @default(false)
+  created_date                       DateTime
+  updated_date                       DateTime
+  created_by                         Int?
+  updated_by                         Int?
+  parent                             master_data?           @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
+  children                           master_data[]          @relation("ChildToParent")
+  leadEnquiries                      lead_enquiry[]
+  lead_enquiry_product               lead_enquiry_product[]
+  lead_enquiry_tender                lead_enquiry_tender[]
+  vendor_as_vendor_category          vendor[]               @relation("VendorCategoryRelation")
+  vendor_as_preferred_payment_method vendor[]               @relation("PreferredPaymentMethodRelation")
 
   @@unique([master_data_type, parent_master_data_id])
   @@map("master_data")
@@ -594,4 +596,29 @@ model bom {
   item_data             item?             @relation(fields: [item_id], references: [item_id])
 
   @@map("bom")
+}
+
+model vendor {
+  vendor_id                     Int          @id @default(autoincrement())
+  vendor_name                   String       @db.VarChar(100)
+  contact_person                String?      @db.VarChar(50)
+  contact_email                 String?      @db.VarChar(100)
+  contact_phone_no              String?      @db.VarChar(20)
+  address                       Json?
+  tax_id                        String?      @db.VarChar(50)
+  payment_terms                 String?
+  preferred_payment_method_id   Int?
+  bank_account_details          Json?
+  currency                      String?      @db.VarChar(10)
+  vendor_category_id            Int?
+  lead_time                     String?      @db.VarChar(20)
+  minimum_order_quantity        Int?
+  notes                         String?
+  is_delete                     Boolean      @default(false)
+  created_date                  DateTime     @default(now())
+  updated_date                  DateTime
+  created_by                    Int?
+  updated_by                    Int?
+  vendor_category_data          master_data? @relation("VendorCategoryRelation", fields: [vendor_category_id], references: [master_data_id])
+  preferred_payment_method_data master_data? @relation("PreferredPaymentMethodRelation", fields: [preferred_payment_method_id], references: [master_data_id])
 }

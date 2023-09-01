@@ -22,6 +22,7 @@ export const userErrorMessages = {
   ENTER_VALID_DEPARTMENT: 'Invalid department',
   ENTER_MAX_NAME: 'Name should not exceed 100 characters',
   ENTER_MAX_DEPARTMENT: 'Department should not exceed 100 characters',
+  ENTER_ROLE: 'Role is required'
 };
 
 export const getLoginYupSchema = (yup: any) => {
@@ -35,23 +36,6 @@ export const getLoginYupSchema = (yup: any) => {
       .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,userErrorMessages.ENTER_VALID_EMAIL),
     password: yup
       .string()
-      .min(8, userErrorMessages.MIN_PASSWORD_LENGTH)
-      .matches(
-        /^(?=.*[a-z])/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN_ONELOWERCASER
-      )
-      .matches(
-        /^(?=.*[A-Z])/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN_ONEUPPERCASER
-      )
-      .matches(
-        /^(?=.*[!@#$%^&*])/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN_ONESPECIAL
-      )
-      .matches(
-        /^(?=.*[0-9])/,
-        userErrorMessages.PASSWORD_MUST_CONTAIN_ONENUMBER
-      )
       .typeError(userErrorMessages.ENTER_PASSWORD)
       .required(userErrorMessages.ENTER_PASSWORD),
   });
@@ -105,6 +89,9 @@ export const getUsercreationYupschema = (yup: any) => {
       .string()
       .required(userErrorMessages.ENTER_EMAIL)
       .email(userErrorMessages.ENTER_VALID_EMAIL),
+    role_id: yup
+      .string()
+      .required(userErrorMessages.ENTER_ROLE),
     user_password: yup
       .string()
       .min(8, userErrorMessages.MIN_PASSWORD_LENGTH)

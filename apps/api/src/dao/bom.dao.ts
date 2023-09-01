@@ -228,6 +228,21 @@ const getByCategorySubCatAndSubSubCatId = async (
   }
 };
 
+const getByUomId = async (uomId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const bom = await transaction.bom.findFirst({
+      where: {
+        uom_id: Number(uomId),
+      },
+    });
+    return bom;
+  } catch (error) {
+    console.log('Error occurred in bom dao : getByUomId', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getById,
@@ -235,4 +250,5 @@ export default {
   deleteBom,
   getAll,
   getByCategorySubCatAndSubSubCatId,
+  getByUomId,
 };
