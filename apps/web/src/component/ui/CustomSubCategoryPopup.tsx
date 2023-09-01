@@ -4,43 +4,44 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
-// import { createAbstract } from '../../hooks/abstract-hooks';
-import { createCategory } from '../../hooks/category-hooks';
+import {createSubcategory} from '../../hooks/subCategory-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
-import { getAbstractValidateyup } from '../../helper/constants/abstract-constants';
+import { getSubCategoryValidateyup } from '../../helper/constants/abstract-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 
-const CustomAbstractAdd = (props: { isVissible: any; onAction: any }) => {
-  const { isVissible, onAction } = props;
-  const validationSchemaAbstract = getAbstractValidateyup(Yup);
-  const { mutate: createNewAbstract } = createCategory();
+const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCategoryId:any }) => {
+  const { isVissible, onAction,selectedCategoryId } = props;
+  console.log("id in popup==>",selectedCategoryId);
+  const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
+  const { mutate: createNewSubCategory } = createSubcategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
-    project_id:''
+    project_id:'',
+    category_id:''
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const formik = useFormik({
     initialValues: clientinitialValues,
-    validationSchema: validationSchemaAbstract,
+    validationSchema: validationSchemaSubCategory,
     enableReinitialize: true,    
     onSubmit: (values,{ resetForm }) => {
       const Object: any = {
         name: values.name,
         description: values.description,
         project_id : 62,
-        budget:0
+        budget:0,
+        category_id:selectedCategoryId
       };
       console.log("abstract from",Object);
-        createNewAbstract(Object, {
+      createNewSubCategory(Object, {
           onSuccess: (data, variables, context) => {
             console.log("samlpe data==>",data);
-            
-            if (data?.status) {
-              setMessage('Abstract created');
+            if (data?.success === true)  {
+              setMessage('Sub Category created');
               setOpenSnack(true);
               handleCloseForm();
               resetForm();
@@ -68,7 +69,7 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any }) => {
               <form onSubmit={formik.handleSubmit}>
                 <div className={Styles.header}>
                   <div>
-                    <h4>Add Abstract</h4>
+                    <h4>Add Sub Category</h4>
                   </div>
                   <div>
                     <CloseIcon onClick={handleCloseForm} />
@@ -79,7 +80,7 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any }) => {
                   <div>
                     <Input
                       label="Name"
-                      placeholder="Enter abstract name"
+                      placeholder="Enter sub category name"
                       name="name"
                       mandatory={true}
                       value={formik.values.name}
@@ -145,5 +146,5 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any }) => {
   );
 };
 
-export default CustomAbstractAdd;
+export default CustomSubCategoryAdd;
 

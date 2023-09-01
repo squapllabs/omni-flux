@@ -10,6 +10,8 @@ import AddIcon from '../menu/icons/addIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomBomAddPopup from '../ui/CustomBomAddPopup';
 import CustomAbstractAddPopup from '../ui/CustomAbstractPopup';
+import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
+import CustomSubSubCategoryAddPopup from '../ui/CustomSubSubCategoryPopup';
 import BomService from '../../service/bom-service';
 import { formatBudgetValue } from '../../helper/common-function';
 
@@ -23,11 +25,22 @@ const BomList = () => {
   const [subSubChildList, setSubSubChildList] = useState([]);
   const [showItemForm, setShowItemForm] = useState(false);
   const [showAbstractForm, setShowAbstractForm] = useState(false);
+  const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
+  const [showSubSubCategoryForm, setShowSubSubCategoryForm] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSub, setOpenSub] = useState(false);
   const [openChild, setOpenChild] = useState(false);
-  const [mainHeadData, setMainHeadData] = useState();
-  console.log('mainData ==>', mainHeadData);
+  const [categoryData, setCategoryData] = useState();
+  const [subCategoryData, setSubCategoryData] = useState();
+  const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
+  const [openedContextMenuForCategory, setOpenedContextMenuForCategory] =
+    useState<number | null>(null);
+  const [categoryId, setCategoryId] = useState();
+  const [subCategoryIDd,setSubCategoryId] = useState();
+  console.log('id to props--->', openedContextMenuForCategory);
+// console.log("ddddddddddddd",subSubChildList?.description);
+
+  console.log('mainData ==>', categoryData);
 
   const { data: categories, isLoading: categoriesLoader } = useGetAllCategory();
   console.log('categories data===>', categories);
@@ -48,10 +61,11 @@ const BomList = () => {
   const handleSelectedCategory = async (value: any) => {
     console.log('category id selected ===>', value.category_id);
     setSelectedCategory(value.category_id);
-    setMainHeadData(value);
+    setCategoryData(value);
     const subCatList = await subCategoryService.getOneSubCatListbyCatID(
       value.category_id
     );
+    console.log('line 62 --->', subCatList);
     setSubCatList(subCatList.data);
     if (subCatList?.data === null) {
       setOpen(false);
@@ -60,9 +74,10 @@ const BomList = () => {
     }
   };
   const handleSelectedSubCategory = async (value: any) => {
-    setSelectedSubCategory(value);
-    const subsubCatList =
-      await subSubCategoryService.getOneSubSubCatListbySubCatID(value);
+    setSelectedSubCategory(value.sub_category_id);
+    const subsubCatList = await subSubCategoryService.getOneSubSubCatListbySubCatID(value.sub_category_id);
+    console.log("value===>",value);
+    setSubCategoryData(value)
     setSubSubCatList(subsubCatList.data);
     if (subsubCatList?.data === null) {
       setOpenSub(false);
@@ -85,42 +100,94 @@ const BomList = () => {
     console.log(value);
     setSelectedSubSubChild(value);
   };
+
+  useEffect(() => {
+    const closeContextMenu = () => {
+      setMoreIconDropdownOpen(false);
+      setOpenedContextMenuForCategory(null);
+    };
+    window.addEventListener('click', closeContextMenu);
+    return () => {
+      window.removeEventListener('click', closeContextMenu);
+    };
+  }, []);
   return (
     <div>
       <CustomLoader loading={categoriesLoader}>
         <div className={Styles.container}>
-          <div className={Styles.subHeader}>
-          </div>
+          <div className={Styles.subHeader}></div>
           <div className={Styles.subcontainer}>
             <div className={Styles.submenu}>
               <div className={Styles.side_menu}>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    fullWidth
-                    icon={<AddIcon width={20} />}
-                    onClick={() => {
-                      setShowAbstractForm(true);
-                    }}
-                  >
-                    Abstract
-                  </Button>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  fullWidth
+                  icon={<AddIcon width={20} />}
+                  onClick={() => {
+                    setShowAbstractForm(true);
+                  }}
+                >
+                  Abstract
+                </Button>
                 {categories?.map((items: any, index: any) => {
                   return (
                     <ul key={index}>
                       <li>
                         <div
-                          className={
-                            selectedCategory === items.category_id
-                              ? Styles.selected
-                              : Styles.primarylistContent
-                          }
-                          onClick={() => handleSelectedCategory(items)}
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                          }}
                         >
-                          {items?.name}
-                          <MoreVerticalIcon />
+                          <div
+                            className={
+                              selectedCategory === items.category_id
+                                ? Styles.selected
+                                : Styles.primarylistContent
+                            }
+                            onClick={() => handleSelectedCategory(items)}
+                          >
+                            {items?.name}
+                          </div>
+                          <div>
+                            <MoreVerticalIcon
+                              onClick={(e: any) => {
+                                e.stopPropagation();
+                                console.log('icon pressed');
+                                setOpenedContextMenuForCategory(
+                                  items.category_id
+                                );
+                                setCategoryId(items.category_id);
+                                setMoreIconDropdownOpen(!moreIconDropdownOpen);
+                              }}
+                            />
+                            {moreIconDropdownOpen &&
+                              items.category_id ===
+                                openedContextMenuForCategory && (
+                                <ul className={Styles.menu}>
+                                  <li
+                                    className={Styles.menuItem}
+                                    onClick={() => setShowSubCategoryForm(true)}
+                                  >
+                                    <div
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '5px',
+                                      }}
+                                    >
+                                      <div>
+                                        <AddIcon width={20} />
+                                      </div>
+                                      <span>Sub Category</span>
+                                    </div>
+                                  </li>
+                                </ul>
+                              )}
+                          </div>
                         </div>
                         {open && selectedCategory === items.category_id ? (
                           <div className={Styles.additional_content}>
@@ -136,13 +203,11 @@ const BomList = () => {
                                           : Styles.primarylistContent
                                       }
                                       onClick={() =>
-                                        handleSelectedSubCategory(
-                                          item.sub_category_id
-                                        )
+                                        handleSelectedSubCategory(item)
                                       }
                                     >
                                       {item?.name}
-                                      <DropdownIcon />
+                                      {/* <DropdownIcon /> */}
                                     </div>
                                     {openSub &&
                                     selectedSubCategory ===
@@ -169,8 +234,8 @@ const BomList = () => {
                                                     }
                                                   >
                                                     {item?.name}
-                                                    <DropdownIcon />
                                                   </div>
+
                                                   {openChild &&
                                                   selectedSubSubCategory ===
                                                     item.sub_sub_category_id ? (
@@ -236,18 +301,34 @@ const BomList = () => {
               </div>
             </div>
             <div className={Styles.mainContainer}>
+            {categoryData && (
               <div className={Styles.mainHeading}>
                 <div className={Styles.mainLeftContent}>
-                  <h4>Category description</h4>
                   <span className={Styles.descriptionContent}>
-                    {mainHeadData?.description}
+                    {categoryData?.description}
                   </span>
                 </div>
                 <div>
-                  <h4>Budget</h4>
                   <p>
                     {formatBudgetValue(
-                      mainHeadData?.budget ? mainHeadData?.budget : ''
+                      categoryData?.budget ? categoryData?.budget : 0
+                    )}
+                  </p>
+                </div>
+                <div></div>
+              </div>
+                )}
+              {subCategoryData && (
+                <div className={Styles.mainHeading}>
+                <div className={Styles.mainLeftContent}>
+                  <span className={Styles.descriptionContentOne}>
+                    {subCategoryData?.description}
+                  </span>
+                </div>
+                <div>
+                  <p>
+                    {formatBudgetValue(
+                      subCategoryData?.budget ? subCategoryData?.budget : 0
                     )}
                   </p>
                 </div>
@@ -265,7 +346,8 @@ const BomList = () => {
                     Item
                   </Button>
                 </div>
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -274,6 +356,16 @@ const BomList = () => {
       <CustomAbstractAddPopup
         isVissible={showAbstractForm}
         onAction={setShowAbstractForm}
+      />
+      <CustomSubCategoryAddPopup
+        isVissible={showSubCategoryForm}
+        onAction={setShowSubCategoryForm}
+        selectedCategoryId={categoryId}
+      />
+      <CustomSubSubCategoryAddPopup
+        isVissible={showSubSubCategoryForm}
+        onAction={setShowSubSubCategoryForm}
+        selectedCategoryId={categoryId}
       />
     </div>
   );

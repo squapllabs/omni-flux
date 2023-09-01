@@ -1,7 +1,5 @@
 export const abstractErrorMessages = {
     ENTER_NAME: 'Abstract Name is required',
-    ENTER_QUANTITY: 'Budget is required',
-    TYPECHECK:'Numbers only allowed',
     ENTER_DESCRIPTION: 'Description is required'
   };
   
@@ -11,13 +9,26 @@ export const abstractErrorMessages = {
         .string()
         .trim()
         .required(abstractErrorMessages.ENTER_NAME),
-        budget: yup
-        .number()
-        .required(abstractErrorMessages.ENTER_QUANTITY)
-        .typeError(abstractErrorMessages.TYPECHECK),
         description:yup
         .string()
         .required(abstractErrorMessages.ENTER_DESCRIPTION),
     });
   };
   
+
+  export const subCategoryErrorMessages = {
+    ENTER_NAME: 'Abstract Name is required',
+    ENTER_DESCRIPTION: 'Description is required'
+  };
+  
+  export const getSubCategoryValidateyup = (yup: any) => {
+    return yup.object().shape({
+        name: yup
+        .string()
+        .trim()
+        .required(subCategoryErrorMessages.ENTER_NAME),
+        description:yup
+        .string()
+        .required(subCategoryErrorMessages.ENTER_DESCRIPTION),
+    });
+  };

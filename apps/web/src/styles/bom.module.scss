@@ -40,9 +40,6 @@
       cursor: pointer;
       font-size: 14px;
       font-weight: 600;
-      //   &:hover {
-      //     background-color: #f0f0f0;
-      //   }
     }
   }
 }
@@ -52,6 +49,7 @@
   background-color: #d0d5dd;
   padding: 8px;
   color: #667085;
+  width:80%
 }
 .primarylistContent {
   display: flex;
@@ -68,7 +66,8 @@
 .mainHeading{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  // justify-content: space-between;
+  justify-content: space-around;
 }
 
 .mainLeftContent{
@@ -78,4 +77,34 @@
 .descriptionContent{
   text-align:justify;
   display: block;
+  font-weight: bold;
+}
+
+.descriptionContentOne{
+  text-align:justify;
+  display: block;
+  // font-weight: bold;
+}
+
+.menu {
+  list-style: none;
+  position: absolute;
+  top: 60;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  font-weight: normal;
+  border-radius: 0px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0.1, 0.1);
+  z-index: 100;
+  background-color: white;
+}
+.menuItem:hover {
+  background-color: #ddd;
+}
+.menuItem {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 10px;
 }
