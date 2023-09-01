@@ -21,7 +21,7 @@ pipeline {
                 sh ' docker ps'
 				sh 'whoami'
                 echo 'docker build started'
-                sh 'docker build -t Omni_flux_image .'
+                sh 'docker build -t omni_flux_image .'
                 echo 'docker build completed'
             }
         }
