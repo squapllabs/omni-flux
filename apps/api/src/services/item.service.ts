@@ -12,7 +12,6 @@ const addItem = async (body: createItemBody) => {
   try {
     const brand_id = body.brand_id;
     const item_name = body.item_name;
-    const sub_sub_category_id = body.sub_sub_category_id;
     const description = body.description;
     const hsn_code_id = body.hsn_code_id;
     const gst_id = body.gst_id;
@@ -25,7 +24,6 @@ const addItem = async (body: createItemBody) => {
       .$transaction(async (prisma) => {
         const CreateItem = await itemDao.add(
           item_name,
-          sub_sub_category_id,
           description,
           hsn_code_id,
           gst_id,
@@ -91,7 +89,6 @@ const transformExcelData = (data: any[]): createItemBody[] => {
     const currentDate = new Date();
     return {
       item_name: item.item_name,
-      sub_sub_category_id: Number(item.sub_sub_category_id),
       description: item.description,
       hsn_code_id: Number(item.hsn_code_id),
       gst_id: Number(item.gst_id),
@@ -256,7 +253,6 @@ const updateItem = async (body: updateItemBody) => {
   try {
     const item_id = body.item_id;
     const item_name = body.item_name;
-    const sub_sub_category_id = body.sub_sub_category_id;
     const description = body.description;
     const hsn_code_id = body.hsn_code_id;
     const gst_id = body.gst_id;
@@ -270,7 +266,6 @@ const updateItem = async (body: updateItemBody) => {
       const itemDetails = await itemDao.edit(
         item_id,
         item_name,
-        sub_sub_category_id,
         description,
         hsn_code_id,
         gst_id,

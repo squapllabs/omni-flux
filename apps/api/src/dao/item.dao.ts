@@ -3,7 +3,6 @@ import { createItemBody } from '../interfaces/item.interface';
 
 const add = async (
   item_name: string,
-  sub_sub_category_id: number,
   description: string,
   hsn_code_id: number,
   gst_id: number,
@@ -20,7 +19,6 @@ const add = async (
     const item = await transaction.item.create({
       data: {
         item_name,
-        sub_sub_category_id,
         description,
         hsn_code_id,
         gst_id,
@@ -93,12 +91,6 @@ const getAll = async (
           select: {
             name: true,
             uom_id: true,
-          },
-        },
-        sub_sub_category: {
-          select: {
-            name: true,
-            sub_sub_category_id: true,
           },
         },
         item_type: {
@@ -183,7 +175,6 @@ const deleteItem = async (item_id: number, connectionObj = null) => {
 const edit = async (
   item_id: number,
   item_name: string,
-  sub_sub_category_id: number,
   description: string,
   hsn_code_id: number,
   gst_id: number,
@@ -202,7 +193,6 @@ const edit = async (
       },
       data: {
         item_name,
-        sub_sub_category_id,
         description,
         hsn_code_id,
         gst_id,
