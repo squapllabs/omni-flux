@@ -17,7 +17,6 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
   const { mutate: createNewAbstract } = createAbstract();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
-    budget: '',
     description: '',
   });
   const [message, setMessage] = useState('');
@@ -29,7 +28,6 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
     onSubmit: (values,{ resetForm }) => {
       const Object: any = {
         name: values.name,
-        budget: values.budget,
         description: values.description,
       };
       console.log(Object);
@@ -75,24 +73,12 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                   <div>
                     <Input
                       label="Name"
-                      placeholder="Enter name"
+                      placeholder="Enter abstract name"
                       name="name"
                       mandatory={true}
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       error={formik.touched.name && formik.errors.name}
-                      width="60%"
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      label="Budget"
-                      placeholder="Enter budget"
-                      name="budget"
-                      value={formik.values.budget}
-                      onChange={formik.handleChange}
-                      error={formik.touched.budget && formik.errors.budget}
-                      mandatory={true}
                       width="60%"
                     />
                   </div>
@@ -107,8 +93,8 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                       error={
                         formik.touched.description && formik.errors.description
                       }
-                      rows={3}
-                      maxCharacterCount={120}
+                      rows={5}
+                      maxCharacterCount={150}
                     />
                   </div>
                 </div>

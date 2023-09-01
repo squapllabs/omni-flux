@@ -41,7 +41,7 @@ const BomList = () => {
       sub_category_id: null,
       sub_sub_category_id: null,
     };
-    console.log("initial obj",Obj);
+    console.log('initial obj', Obj);
     const bomData = await BomService.getCustomBomData(Obj);
     console.log('bomData ===>', bomData);
   };
@@ -90,38 +90,23 @@ const BomList = () => {
       <CustomLoader loading={categoriesLoader}>
         <div className={Styles.container}>
           <div className={Styles.subHeader}>
-            <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon width={20} />}
-                onClick={() => {
-                  setShowAbstractForm(true);
-                }}
-              >
-                Abstract
-              </Button>
-            </div>
-            {/* <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon width={20} />}
-                onClick={() => {
-                  setShowItemForm(true);
-                }}
-              >
-                Item
-              </Button>
-            </div> */}
           </div>
           <div className={Styles.subcontainer}>
             <div className={Styles.submenu}>
               <div className={Styles.side_menu}>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    fullWidth
+                    icon={<AddIcon width={20} />}
+                    onClick={() => {
+                      setShowAbstractForm(true);
+                    }}
+                  >
+                    Abstract
+                  </Button>
                 {categories?.map((items: any, index: any) => {
                   return (
                     <ul key={index}>
@@ -251,14 +236,20 @@ const BomList = () => {
               </div>
             </div>
             <div className={Styles.mainContainer}>
-              <div className ={Styles.mainHeading}>
-                <div className ={Styles.mainLeftContent}>
+              <div className={Styles.mainHeading}>
+                <div className={Styles.mainLeftContent}>
                   <h4>Category description</h4>
-                  <span className={Styles.descriptionContent}>{mainHeadData?.description}</span>
+                  <span className={Styles.descriptionContent}>
+                    {mainHeadData?.description}
+                  </span>
                 </div>
                 <div>
-                <h4>Budget</h4>
-                  <p>{formatBudgetValue(mainHeadData?.budget ? mainHeadData?.budget : '' )}</p>
+                  <h4>Budget</h4>
+                  <p>
+                    {formatBudgetValue(
+                      mainHeadData?.budget ? mainHeadData?.budget : ''
+                    )}
+                  </p>
                 </div>
                 <div>
                   <Button
@@ -279,10 +270,7 @@ const BomList = () => {
           </div>
         </div>
       </CustomLoader>
-      <CustomBomAddPopup
-        isVissible={showItemForm}
-        onAction={setShowItemForm}
-      />
+      <CustomBomAddPopup isVissible={showItemForm} onAction={setShowItemForm} />
       <CustomAbstractAddPopup
         isVissible={showAbstractForm}
         onAction={setShowAbstractForm}
