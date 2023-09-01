@@ -12,13 +12,13 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-RUN npx nx build api
-RUN npx nx build web
+# RUN npx nx build api
+# RUN npx nx build web
 
 WORKDIR /app/dist/apps/api
 
 EXPOSE 8080
-CMD ["npm", "start"]
+CMD npx nx build api
 WORKDIR /app/dist/apps/web
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD RUN npx nx build web
