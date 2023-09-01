@@ -22,6 +22,7 @@ import { getCreateValidateyup } from '../../helper/constants/siteExpanse-constan
 import CustomDialogBox from '../ui/CustomDialog';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useParams, useNavigate } from 'react-router-dom';
+import KeyboardBackspaceIcon from '../menu/icons/backArrow';
 
 const ExpansesForm = () => {
   const params = useParams();
@@ -87,7 +88,7 @@ const ExpansesForm = () => {
 
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
-    let formattedDate = format(currentDate, 'yyyy-MM-dd');
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
   useEffect(() => {
@@ -357,10 +358,22 @@ const ExpansesForm = () => {
   return (
     <div>
       <div className={Styles.container}>
-        <div>
+        <div className={Styles.top}>
           <div className={Styles.textContent}>
             <h3>Add Site Expense</h3>
             <span className={Styles.content}>Add your site expense.</span>
+          </div>
+          <div>
+            <Button
+              shape="rectangle"
+              size="small"
+              justify="center"
+              color="primary"
+              icon={<KeyboardBackspaceIcon />}
+              onClick={() => {navigate('/settings')}}
+            >
+              Back
+            </Button>
           </div>
         </div>
       </div>
@@ -409,7 +422,7 @@ const ExpansesForm = () => {
               <div className={Styles.fieldStyle}>
                 <Select
                   label="Purpose"
-                  defaultLabel="select a Purpose"
+                  defaultLabel="Select a Purpose"
                   name="purpose"
                   onChange={formik.handleChange}
                   value={formik.values.purpose}
@@ -431,7 +444,7 @@ const ExpansesForm = () => {
               <div className={Styles.fieldStyle}>
                 <Select
                   label="Department"
-                  defaultLabel="select a Department"
+                  defaultLabel="Select a Department"
                   name="department"
                   onChange={formik.handleChange}
                   value={formik.values.department}
@@ -452,7 +465,7 @@ const ExpansesForm = () => {
                 <Select
                   label="Designation"
                   name="designation"
-                  defaultLabel="select a Designation"
+                  defaultLabel="Select a Designation"
                   onChange={formik.handleChange}
                   value={formik.values.designation}
                   error={
@@ -535,116 +548,100 @@ const ExpansesForm = () => {
                   if (item?.is_delete === 'N') {
                     rowIndex = rowIndex + 1;
                     return (
-                      
-                        <tr>
-                          <td>{rowIndex}</td>
-                          <td>
-                            <div
-                              style={{
-                                paddingBottom: '20px',
-                                fontSize: '15px',
-                              }}
-                            >
-                              <span>{item?.description}</span>
-                            </div>
-                          </td>
-                          <td>
-                            <Input
-                              width={tableInputwidth}
-                              name="air_transport"
-                              onChange={(e) =>
-                                handleExistExpenseChange(e, index)
+                      <tr>
+                        <td>{rowIndex}</td>
+                        <td>
+                          <div
+                            style={{
+                              paddingBottom: '20px',
+                              fontSize: '15px',
+                            }}
+                          >
+                            <span>{item?.description}</span>
+                          </div>
+                        </td>
+                        <td>
+                          <Input
+                            width={tableInputwidth}
+                            name="air_transport"
+                            onChange={(e) => handleExistExpenseChange(e, index)}
+                            value={item?.air_transport}
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            width={tableInputwidth}
+                            name="fuel"
+                            onChange={(e) => handleExistExpenseChange(e, index)}
+                            value={item?.fuel}
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            width={tableInputwidth}
+                            name="labour_advance"
+                            onChange={(e) => handleExistExpenseChange(e, index)}
+                            value={item?.labour_advance}
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            width={tableInputwidth}
+                            name="phone_stationary"
+                            onChange={(e) => handleExistExpenseChange(e, index)}
+                            value={item?.phone_stationary}
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            width={tableInputwidth}
+                            name="food_snacks"
+                            onChange={(e) => handleExistExpenseChange(e, index)}
+                            value={item?.food_snacks}
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            width={tableInputwidth}
+                            name="purchase_service"
+                            onChange={(e) => handleExistExpenseChange(e, index)}
+                            value={item?.purchase_service}
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            width={tableInputwidth}
+                            onChange={(e) => handleExistExpenseChange(e, index)}
+                            name="others"
+                            value={item?.others}
+                          />
+                        </td>
+                        <td>
+                          <div
+                            style={{
+                              paddingBottom: '20px',
+                              fontSize: '15px',
+                              fontWeight: 'bold',
+                            }}
+                          >
+                            <span>{expenseList[index].total}</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            style={{
+                              cursor: 'pointer',
+                              paddingBottom: '20px',
+                            }}
+                          >
+                            <DeleteIcon
+                              onClick={(e: any) =>
+                                handleDeleteSiteExpense(e, item)
                               }
-                              value={item?.air_transport}
                             />
-                          </td>
-                          <td>
-                            <Input
-                              width={tableInputwidth}
-                              name="fuel"
-                              onChange={(e) =>
-                                handleExistExpenseChange(e, index)
-                              }
-                              value={item?.fuel}
-                            />
-                          </td>
-                          <td>
-                            <Input
-                              width={tableInputwidth}
-                              name="labour_advance"
-                              onChange={(e) =>
-                                handleExistExpenseChange(e, index)
-                              }
-                              value={item?.labour_advance}
-                            />
-                          </td>
-                          <td>
-                            <Input
-                              width={tableInputwidth}
-                              name="phone_stationary"
-                              onChange={(e) =>
-                                handleExistExpenseChange(e, index)
-                              }
-                              value={item?.phone_stationary}
-                            />
-                          </td>
-                          <td>
-                            <Input
-                              width={tableInputwidth}
-                              name="food_snacks"
-                              onChange={(e) =>
-                                handleExistExpenseChange(e, index)
-                              }
-                              value={item?.food_snacks}
-                            />
-                          </td>
-                          <td>
-                            <Input
-                              width={tableInputwidth}
-                              name="purchase_service"
-                              onChange={(e) =>
-                                handleExistExpenseChange(e, index)
-                              }
-                              value={item?.purchase_service}
-                            />
-                          </td>
-                          <td>
-                            <Input
-                              width={tableInputwidth}
-                              onChange={(e) =>
-                                handleExistExpenseChange(e, index)
-                              }
-                              name="others"
-                              value={item?.others}
-                            />
-                          </td>
-                          <td>
-                            <div
-                              style={{
-                                paddingBottom: '20px',
-                                fontSize: '15px',
-                                fontWeight: 'bold',
-                              }}
-                            >
-                              <span>{expenseList[index].total}</span>
-                            </div>
-                          </td>
-                          <td>
-                            <div
-                              style={{
-                                cursor: 'pointer',
-                                paddingBottom: '20px',
-                              }}
-                            >
-                              <DeleteIcon
-                                onClick={(e: any) =>
-                                  handleDeleteSiteExpense(e, item)
-                                }
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                    
+                          </div>
+                        </td>
+                      </tr>
                     );
                   }
                 })}
@@ -655,7 +652,7 @@ const ExpansesForm = () => {
                       width="200px"
                       onChange={(e) => handleExpenseChange(e)}
                       name="description"
-                      defaultLabel="select a Description"
+                      defaultLabel="Select a Description"
                       mandatory
                       value={expense.description || ''}
                       error={errors.description}

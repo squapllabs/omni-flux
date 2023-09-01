@@ -42,6 +42,9 @@ const ContractorList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
 
   useEffect(() => {

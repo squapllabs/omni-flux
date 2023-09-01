@@ -18,11 +18,10 @@ import Pagination from '../menu/pagination';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import AddIcon from '../menu/icons/addIcon';
-import UserEdit from './userEdit';
 
 /* Function for User List */
 const UserList = () => {
-  const { isLoading: getAllLoading } = useGetAllUsers();
+  // const { isLoading: getAllLoading } = useGetAllUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
   const {
     mutate: postDataForFilter,
@@ -54,7 +53,7 @@ const UserList = () => {
     order_by_column: 'updated_by',
     order_by_direction: 'desc',
     global_search: '',
-    status: 'AC',
+    status: activeButton,
   };
   const {
     isLoading: getAllLoadingPaginated,
@@ -91,6 +90,9 @@ const UserList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
 
   useEffect(() => {
