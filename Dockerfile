@@ -21,4 +21,4 @@ EXPOSE 8080
 CMD ["npm", "start"]
 WORKDIR /app/dist/apps/web
 EXPOSE 3000
-CMD ["node", "./server.js"]
+CMD ["npm", "start"]
