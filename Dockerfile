@@ -12,5 +12,13 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8000
-CMD [ "node", "index.js" ]
+RUN npx nx build api
+RUN npx nx build web
+
+WORKDIR /app/dist/apps/api
+
+EXPOSE 8080
+CMD ["npm", "start"]
+WORKDIR /app/dist/apps/api
+EXPOSE 3000
+CMD ["npm", "start"]
