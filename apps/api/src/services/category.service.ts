@@ -117,8 +117,9 @@ const getById = async (categoryId: number) => {
       return result;
     } else {
       result = {
-        status: false,
+
         message: 'category_id does not exist',
+        status: false,
         data: null,
       };
       return result;
@@ -155,8 +156,9 @@ const deleteCategory = async (categoryId: number) => {
       await subCategoryDao.getByCategoryId(categoryId);
     if (!categoryExist) {
       const result = {
-        status: false,
+
         message: 'category_id does not exist',
+        status: false,
         data: null,
       };
       return result;
@@ -164,9 +166,8 @@ const deleteCategory = async (categoryId: number) => {
 
     if (subCategoryExistForThisCategory) {
       const result = {
+        message: 'Unable to delete this category.Please delete the associated child category.',
         status: false,
-        message:
-          'Unable to delete this category.Please delete the associated child category.',
         data: null,
       };
       return result;
@@ -181,8 +182,9 @@ const deleteCategory = async (categoryId: number) => {
       return result;
     } else {
       const result = {
-        status: false,
+
         message: 'Failed to delete this category',
+        status: false,
         data: null,
       };
       return result;

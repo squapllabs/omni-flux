@@ -152,16 +152,54 @@ const deleteBomById = async (bom_id: number) => {
         data: null,
       }
     } else {
-      const bomData = await bomDao.deleteBom(bom_id);
-      result = {
-        message: 'success',
-        status: true,
-        data: bomData,
+      const data = await bomDao.deleteBom(bom_id);
+      if (data) {
+        result = {
+          message: 'successfully delete bom.service',
+          status: true,
+          data: null,
+        }
+      } else {
+        result = {
+          message: 'can not delete bom.service',
+          status: false,
+          data: null,
+        }
       }
+
     }
     return result;
   } catch (error) {
     console.log("Error occurred in delete bom.service", error);
+    throw error;
+  }
+};
+
+/**
+ * Method to entireData bom
+ * @param bomId
+ */
+const getEntireDataByBomId = async (bom_id: number) => {
+  try {
+    let result = null;
+    const bomExist = await bomDao.getById(bom_id);
+    if (!bomExist) {
+      result = {
+        message: 'bom_id does not exist',
+        status: false,
+        data: null,
+      }
+    } else {
+      const bomEntireData = await bomDao.entireData(bom_id);
+      result = {
+        message: 'success',
+        status: true,
+        data: bomEntireData,
+      }
+    }
+    return result;
+  } catch (error) {
+    console.log("Error occurred in getEntireDataByBomId bom.service", error);
     throw error;
   }
 };
@@ -172,4 +210,5 @@ export {
   updateBom,
   fetchBomById,
   getAllBom,
+  getEntireDataByBomId,
 }

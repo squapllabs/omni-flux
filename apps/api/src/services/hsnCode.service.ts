@@ -15,7 +15,7 @@ const createHsnCode = async (body: createHsnCodeBody) => {
   try {
     const { code, description, created_by = null } = body;
     const hsnCodeDetails = await hsnCodeDao.add(code, description, created_by);
-    const result = { success: true, data: hsnCodeDetails };
+    const result = { mesage: 'success', status: true, data: hsnCodeDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in hsnCode service Add: ', error);
@@ -40,10 +40,10 @@ const updateHsnCode = async (body: updateHsnCodeBody) => {
         updated_by,
         hsn_code_id
       );
-      result = { success: true, data: hsnCodeDetails };
+      result = { mesage: 'success', status: true, data: hsnCodeDetails };
       return result;
     } else {
-      result = { success: false, message: 'hsn_code_id not exist' };
+      result = { message: 'hsn_code_id not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -62,10 +62,10 @@ const getById = async (hsnCodeId: number) => {
     let result = null;
     const hsnCodeData = await hsnCodeDao.getById(hsnCodeId);
     if (hsnCodeData) {
-      result = { success: true, data: hsnCodeData };
+      result = { mesage: 'success', status: true, data: hsnCodeData };
       return result;
     } else {
-      result = { success: false, message: 'hsn_code_id does not exist' };
+      result = { message: 'hsn_code_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -81,7 +81,7 @@ const getById = async (hsnCodeId: number) => {
 const getAllHsnCode = async () => {
   try {
     const result = await hsnCodeDao.getAll();
-    const hsnCodeData = { success: true, data: result };
+    const hsnCodeData = { mesage: 'success', status: true, data: result };
     return hsnCodeData;
   } catch (error) {
     console.log('Error occurred in getAllHsnCode hsnCode service : ', error);
@@ -123,8 +123,8 @@ const deleteHsnCode = async (hsnCodeId: number) => {
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this hsnCode',
+        status: false,
         data: null,
       };
       return result;
@@ -145,10 +145,10 @@ const getByCode = async (code: string) => {
     let result = null;
     const hsnCodeData = await hsnCodeDao.getByCode(code);
     if (hsnCodeData) {
-      result = { success: true, is_exist: true, data: hsnCodeData };
+      result = { mesage: 'success', status: true, is_exist: true, data: hsnCodeData };
       return result;
     } else {
-      result = { success: false, is_exist: false };
+      result = { message: 'code is not present', status: false, data: null, is_exist: false };
       return result;
     }
   } catch (error) {
@@ -194,8 +194,8 @@ const transformExcelData = (
   const parsedData: createHsnCodeBody[] = data.map((hsnCode) => {
     let created_by =
       hsnCode.created_by === 'null' ||
-      hsnCode.created_by === undefined ||
-      hsnCode.created_by === null
+        hsnCode.created_by === undefined ||
+        hsnCode.created_by === null
         ? null
         : Number(hsnCode.created_by);
 

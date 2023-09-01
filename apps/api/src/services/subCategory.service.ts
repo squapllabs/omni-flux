@@ -24,7 +24,7 @@ const createSubCategory = async (body: createSubCategoryBody) => {
     let result = null;
     const categoryExist = await categoryDao.getById(category_id);
     if (!categoryExist) {
-      result = { success: false, message: 'category_id does not exist' };
+      result = { status: false, data: null,message: 'category_id does not exist' };
       return result;
     }
     const checkDuplicate =
@@ -48,7 +48,7 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       description,
       project_id
     );
-    result = { success: true, data: subCategoryDetails };
+    result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in subCategory service Add: ', error);
@@ -75,12 +75,12 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
     if (!subCategoryExist) {
-      result = { success: false, message: 'sub_category_id does not exist' };
+      result = { status: false, data: null,message: 'sub_category_id does not exist' };
       return result;
     }
     const categoryExist = await categoryDao.getById(category_id);
     if (!categoryExist) {
-      result = { success: false, message: 'category_id does not exist' };
+      result = { status: false, data: null,message: 'category_id does not exist' };
       return result;
     }
     const checkDuplicate =
@@ -105,7 +105,7 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       description,
       project_id
     );
-    result = { success: true, data: subCategoryDetails };
+    result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in subCategory service Edit: ', error);
@@ -126,7 +126,7 @@ const getById = async (subCategoryId: number) => {
       result = { message: 'success', status: true, data: subCategoryData };
       return result;
     } else {
-      result = { success: false, message: 'sub_category_id does not exist' };
+      result = { status: false, data: null,message: 'sub_category_id does not exist' };
       return result;
     }
   } catch (error) {
