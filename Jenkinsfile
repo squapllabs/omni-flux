@@ -1,23 +1,14 @@
 pipeline {
     agent any
-
- environment{
-     GITHUB_TOKEN = credentials('your-github-token-credential-id')
-}
-     stages {
-        stage('Checkout') {
+    stages {
+        stage('checkout code'){
             steps {
-                script {
-                    def scmVars = checkout(
-                        changelog: false,
-                        poll: false,
-                        scm: [
-                            $class: 'GitSCM',
+                checkout([$class: 'GitSCM',
                 branches: [[name: '*/main']],
-               extensions: [[$class: 'CloneOption', depth: 1]],
+                extensions: scm.extensions,
                 userRemoteConfigs: [[
-                   credentialsId: env.GITHUB_TOKEN,
                     url: 'https://github.com/squapllabs/omni-flux',
+                    credentialsId: 'GitCredentials'
                 ]]
             ])
             echo 'git checkout completed'
