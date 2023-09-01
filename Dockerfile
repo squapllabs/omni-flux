@@ -19,6 +19,6 @@ WORKDIR /app/dist/apps/api
 
 EXPOSE 8080
 CMD ["npm", "start"]
-WORKDIR /app/dist/apps/api
+WORKDIR /app/dist/apps/web
 EXPOSE 3000
 CMD ["npm", "start"]
