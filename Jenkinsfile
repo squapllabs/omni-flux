@@ -7,7 +7,7 @@ pipeline {
                 branches: [[name: '*/main']],
                 extensions: scm.extensions,
                 userRemoteConfigs: [[
-                    url: 'https://github.com/squapllabs/omni-flux',
+                    url: 'git@github.com:squapllabs/omni-flux.git',
                     credentialsId: 'GitCredentials'
                 ]]
             ])
