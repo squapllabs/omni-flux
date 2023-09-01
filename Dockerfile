@@ -21,4 +21,4 @@ EXPOSE 8080
 CMD npx nx build api
 WORKDIR /app/dist/apps/web
 EXPOSE 3000
-CMD RUN npx nx build web
+CMD npx nx build web
