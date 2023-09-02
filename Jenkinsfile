@@ -17,9 +17,6 @@ pipeline {
         
       stage('File copy and remove') {
         steps {
-            // sh 'zip -r /var/lib/jenkins/workspace/Omni_test1.zip /var/lib/jenkins/workspace/Omni_test1'
-            // sh 'scp /var/lib/jenkins/workspace/Omni_test1.zip root@192.168.2.27:/root/omniflux_application'
-            // sh 'sh /root/omnishell/omniflux_clean_script.sh'   
             sh 'sh /root/omniflux_dep/omniflux_deploy.sh'
         }
       }
