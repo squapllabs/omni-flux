@@ -83,6 +83,16 @@ const getAllItemData = catchAsync(async (req, res) => {
   }
 });
 
+const search = catchAsync(async (req, res) => {
+  const methodName = '/search';
+  try {
+    const item = await itemService.searchItem(req.body);
+    res.send(item);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   addItem,
   deleteByItemId,
@@ -92,4 +102,5 @@ export {
   addBulkItems,
   getAllItemBySearch,
   getAllItemData,
+  search,
 };

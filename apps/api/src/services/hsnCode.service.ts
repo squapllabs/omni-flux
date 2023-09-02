@@ -65,7 +65,11 @@ const getById = async (hsnCodeId: number) => {
       result = { mesage: 'success', status: true, data: hsnCodeData };
       return result;
     } else {
-      result = { message: 'hsn_code_id does not exist', status: false, data: null };
+      result = {
+        message: 'hsn_code_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -145,10 +149,20 @@ const getByCode = async (code: string) => {
     let result = null;
     const hsnCodeData = await hsnCodeDao.getByCode(code);
     if (hsnCodeData) {
-      result = { mesage: 'success', status: true, is_exist: true, data: hsnCodeData };
+      result = {
+        mesage: 'success',
+        status: true,
+        is_exist: true,
+        data: hsnCodeData,
+      };
       return result;
     } else {
-      result = { message: 'code is not present', status: false, data: null, is_exist: false };
+      result = {
+        message: 'code is not present',
+        status: false,
+        data: null,
+        is_exist: false,
+      };
       return result;
     }
   } catch (error) {
@@ -194,8 +208,8 @@ const transformExcelData = (
   const parsedData: createHsnCodeBody[] = data.map((hsnCode) => {
     let created_by =
       hsnCode.created_by === 'null' ||
-        hsnCode.created_by === undefined ||
-        hsnCode.created_by === null
+      hsnCode.created_by === undefined ||
+      hsnCode.created_by === null
         ? null
         : Number(hsnCode.created_by);
 

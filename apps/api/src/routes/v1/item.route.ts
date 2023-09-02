@@ -9,6 +9,7 @@ import {
   addBulkItems,
   getAllItemBySearch,
   getAllItemData,
+  search,
 } from '../../controller/item.controller';
 import { itemUpdateValidator } from '../../validations/item';
 import { runValidation } from '../../validations/index';
@@ -36,5 +37,7 @@ router.put(
 router.post('/get-all-items-by-search', authMiddleware, getAllItemBySearch);
 
 router.get('/get-all', authMiddleware, getAllItemData);
+
+router.post('/search', authMiddleware, search);
 
 export default router;

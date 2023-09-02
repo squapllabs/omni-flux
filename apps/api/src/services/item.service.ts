@@ -40,7 +40,8 @@ const addItem = async (body: createItemBody) => {
       .then((data) => {
         console.log('Successfully item Data Returned ', data);
         const newItemData = {
-          message: 'success', status: true,
+          message: 'success',
+          status: true,
           data: data,
         };
         return newItemData;
@@ -72,7 +73,8 @@ const addBulkItems = async (req) => {
     console.log('Successfully/ inserted bulk item', result);
 
     return {
-      message: 'success', status: true,
+      message: 'success',
+      status: true,
       data: result,
     };
   } catch (error) {
@@ -99,6 +101,7 @@ const transformExcelData = (data: any[]): createItemBody[] => {
       updated_date: currentDate,
       item_type_id: Number(item.item_type_id),
       brand_id: Number(item.brand_id),
+      is_delete: false,
     };
   });
 
@@ -144,7 +147,8 @@ const getAllItem = async (data) => {
     );
     const total_page = Math.round(result.totalCount / limitValue);
     const itemData = {
-      message: 'success', status: true,
+      message: 'success',
+      status: true,
       total_count: result.totalCount,
       total_page,
       data: result.items,
@@ -208,7 +212,7 @@ const getById = async (item_id: number) => {
       result = { message: 'success', status: true, data: itemData };
       return result;
     } else {
-      result = { message: 'item Id not exist', status: false, data: null };
+      result = { message: 'item Id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -225,18 +229,27 @@ const deleteItem = async (item_id: number) => {
   try {
     const itemExist = await itemDao.getById(item_id);
     if (!itemExist) {
-      const result = { message: 'item Id Not Exist', status: false, data: null };
+      const result = {
+        message: 'item_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const data = await itemDao.deleteItem(item_id);
     if (data) {
       const result = {
-        message: 'successfully delete this item', status: true,
+        message: 'Successfully deleted this item',
+        status: true,
         data: null,
       };
       return result;
     } else {
-      const result = { message: 'Failed to delete this item', status: false, data: null };
+      const result = {
+        message: 'Failed to delete this item',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -304,6 +317,89 @@ const getAllItemData = async () => {
   }
 };
 
+/**
+ * Method to search Item - Pagination API
+ * @returns
+ */
+const searchItem = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterItem: {
+        AND: [],
+        OR: [
+          { item_name: { contains: global_search, mode: 'insensitive' } },
+          { description: { contains: global_search, mode: 'insensitive' } },
+          {
+            hsn_code: {
+              code: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            brand: {
+              brand_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            item_type: {
+              master_data_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            uom: {
+              name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await itemDao.searchItem(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempItemData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempItemData;
+  } catch (error) {
+    console.log('Error occurred in searchItem Item service : ', error);
+    throw error;
+  }
+};
+
 export {
   addItem,
   getAllItem,
@@ -313,4 +409,5 @@ export {
   addBulkItems,
   getAllItemBySearch,
   getAllItemData,
+  searchItem,
 };

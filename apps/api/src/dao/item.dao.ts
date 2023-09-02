@@ -15,6 +15,7 @@ const add = async (
 ) => {
   try {
     const currentDate = new Date();
+    const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const item = await transaction.item.create({
       data: {
@@ -29,6 +30,7 @@ const add = async (
         created_date: currentDate,
         updated_date: currentDate,
         brand_id,
+        is_delete: is_delete,
       },
     });
     return item;
@@ -44,7 +46,6 @@ const addBulk = async (items: createItemBody[], connectionObj = null) => {
     const createdItems = await transaction.item.createMany({
       data: items,
     });
-
     return createdItems;
   } catch (error) {
     console.log('Error occurred in itemDao addBulk dao', error);
@@ -145,9 +146,37 @@ const getAllBySearch = async (keyword, connectionObj = null) => {
 const getById = async (item_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const item = await transaction.item.findUnique({
+    const item = await transaction.item.findFirst({
       where: {
         item_id: Number(item_id),
+        is_delete: false,
+      },
+      include: {
+        gst: {
+          select: {
+            rate: true,
+          },
+        },
+        hsn_code: {
+          select: {
+            code: true,
+          },
+        },
+        uom: {
+          select: {
+            name: true,
+          },
+        },
+        item_type: {
+          select: {
+            master_data_name: true,
+          },
+        },
+        brand: {
+          select: {
+            brand_name: true,
+          },
+        },
       },
     });
     return item;
@@ -160,9 +189,12 @@ const getById = async (item_id: number, connectionObj = null) => {
 const deleteItem = async (item_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const item = await transaction.item.delete({
+    const item = await transaction.item.update({
       where: {
         item_id: Number(item_id),
+      },
+      data: {
+        is_delete: true,
       },
     });
     return item;
@@ -258,10 +290,102 @@ const getByUOMId = async (uomId: number, connectionObj = null) => {
 const getAllItems = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const item = await transaction.item.findMany({});
+    const item = await transaction.item.findMany({
+      where: { is_delete: false },
+      orderBy: [{ updated_date: 'desc' }],
+      include: {
+        gst: {
+          select: {
+            rate: true,
+          },
+        },
+        hsn_code: {
+          select: {
+            code: true,
+          },
+        },
+        uom: {
+          select: {
+            name: true,
+          },
+        },
+        item_type: {
+          select: {
+            master_data_name: true,
+          },
+        },
+        brand: {
+          select: {
+            brand_name: true,
+          },
+        },
+      },
+    });
     return item;
   } catch (error) {
     console.log('Error occurred in item getAllItems dao', error);
+    throw error;
+  }
+};
+
+const searchItem = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterItem;
+    const item = await transaction.item.findMany({
+      where: filter,
+      include: {
+        gst: {
+          select: {
+            rate: true,
+          },
+        },
+        hsn_code: {
+          select: {
+            code: true,
+          },
+        },
+        uom: {
+          select: {
+            name: true,
+          },
+        },
+        item_type: {
+          select: {
+            master_data_name: true,
+          },
+        },
+        brand: {
+          select: {
+            brand_name: true,
+          },
+        },
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const itemCount = await transaction.item.count({
+      where: filter,
+    });
+    const itemData = {
+      count: itemCount,
+      data: item,
+    };
+    return itemData;
+  } catch (error) {
+    console.log('Error occurred in item dao : searchItem ', error);
     throw error;
   }
 };
@@ -278,4 +402,5 @@ export default {
   getByGSTId,
   getByUOMId,
   getAllItems,
+  searchItem,
 };
