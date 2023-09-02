@@ -7,12 +7,12 @@
       "exec_mode": "cluster",
       "instances": "max"
     },
-    {
-      "name": "web",
-      "script": "/app/dist/apps/web/server.js", // Adjust the path as needed
-      "cwd": "/app/dist/apps/web",
-      "exec_mode": "cluster",
-      "instances": "max"
-    }
+   # {
+    #  "name": "web",
+     # "script": "/app/dist/apps/web/server.js", // Adjust the path as needed
+     # "cwd": "/app/dist/apps/web",
+     # "exec_mode": "cluster",
+     # "instances": "max"
+    #}
   ]
 }
