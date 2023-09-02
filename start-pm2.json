@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "api",
+      "script": "/app/dist/apps/api/main.js", // Adjust the path as needed
+      "cwd": "/app/dist/apps/api",
+      "exec_mode": "cluster",
+      "instances": "max"
+    },
+   # {
+    #  "name": "web",
+     # "script": "/app/dist/apps/web/server.js", // Adjust the path as needed
+     # "cwd": "/app/dist/apps/web",
+     # "exec_mode": "cluster",
+     # "instances": "max"
+    #}
+  ]
+}
