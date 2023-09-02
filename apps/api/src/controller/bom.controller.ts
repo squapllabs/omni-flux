@@ -63,6 +63,16 @@ const getByCategorySubCatAndSubSubCatId = catchAsync(async (req, res) => {
   }
 });
 
+const fetchEntireDataByBomId = catchAsync(async (req, res) => {
+  const methodName = '/getEntireData';
+  try {
+    const result = await bomService.getEntireDataByBomId(req.params.bom_id);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createBom,
   updateBom,
@@ -70,4 +80,5 @@ export {
   deleteBom,
   getAllBom,
   getByCategorySubCatAndSubSubCatId,
+  fetchEntireDataByBomId,
 };

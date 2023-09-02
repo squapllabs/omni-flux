@@ -245,8 +245,7 @@ const deleteSiteExpense = async (siteExpenseId: number) => {
 
     if (siteExpenseExist?.site_expense_details?.length > 0) {
       const result = {
-        message:
-          'Unable to delete this.The site_expense_id is mapped on site_expense_details',
+        message: 'Unable to delete this.The site_expense_id is mapped on site_expense_details',
         status: false,
         data: null,
       };
@@ -439,8 +438,41 @@ const getByProjectIdAndSiteId = async (project_id: number, site_id: number) => {
       return result;
     } else {
       result = {
-        message:
-          'site_expense does not exist for this project_id and site_id combination',
+        message: 'site_expense does not exist for this project_id and site_id combination',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectIdAndSiteId siteExpense service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get siteExpense By Project Id and Site Id
+ * @param project_id
+ * @param site_id
+ * @returns
+ */
+const getSiteExpenseDetailsBySiteExpenseId = async (site_expense_id: number) => {
+  try {
+    let result = null;
+    const status = 'Pending';
+    const siteExpenseDetailsData = await siteExpenseDao.getSiteExpenseDeatilsBySiteExpenceId(
+      site_expense_id,
+      status,
+    );
+    if (siteExpenseDetailsData) {
+      result = { message: 'success', status: true, data: siteExpenseDetailsData };
+      return result;
+    } else {
+      result = {
+        message: 'site_expense does not exist for this site_expense_id',
         status: false,
         data: null,
       };
@@ -463,4 +495,5 @@ export {
   deleteSiteExpense,
   searchSiteExpense,
   getByProjectIdAndSiteId,
+  getSiteExpenseDetailsBySiteExpenseId,
 };

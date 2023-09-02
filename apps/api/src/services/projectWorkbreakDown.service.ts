@@ -283,8 +283,8 @@ const deleteProjectWorkbreakDown = async (projectWorkbreakDownId: number) => {
     );
     if (!projectWorkbreakDownExist) {
       const result = {
-        status: false,
         message: 'project_workbreak_down_id does not exist',
+        status: false,
         data: null,
       };
       return result;
@@ -295,15 +295,15 @@ const deleteProjectWorkbreakDown = async (projectWorkbreakDownId: number) => {
     );
     if (data) {
       const result = {
-        status: true,
         message: 'ProjectWorkbreakDown Data Deleted Successfully',
+        status: true,
         data: null,
       };
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this projectWorkbreakDown',
+        status: false,
         data: null,
       };
       return result;

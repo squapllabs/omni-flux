@@ -162,12 +162,20 @@ const deleteBomById = async (bom_id: number) => {
         data: null,
       };
     } else {
-      const bomData = await bomDao.deleteBom(bom_id);
-      result = {
-        message: 'success',
-        status: true,
-        data: bomData,
-      };
+      const data = await bomDao.deleteBom(bom_id);
+      if (data) {
+        result = {
+          message: 'Bom Data Successfully Deleted',
+          status: true,
+          data: null,
+        };
+      } else {
+        result = {
+          message: 'Failed to delete this bom',
+          status: false,
+          data: null,
+        };
+      }
     }
     return result;
   } catch (error) {
@@ -205,6 +213,35 @@ const getByCategorySubCatAndSubSubCatId = async (body) => {
   }
 };
 
+/**
+ * Method to entireData bom
+ * @param bomId
+ */
+const getEntireDataByBomId = async (bom_id: number) => {
+  try {
+    let result = null;
+    const bomExist = await bomDao.getById(bom_id);
+    if (!bomExist) {
+      result = {
+        message: 'bom_id does not exist',
+        status: false,
+        data: null,
+      };
+    } else {
+      const bomEntireData = await bomDao.entireData(bom_id);
+      result = {
+        message: 'success',
+        status: true,
+        data: bomEntireData,
+      };
+    }
+    return result;
+  } catch (error) {
+    console.log('Error occurred in getEntireDataByBomId bom.service', error);
+    throw error;
+  }
+};
+
 export {
   deleteBomById,
   createBom,
@@ -212,4 +249,5 @@ export {
   fetchBomById,
   getAllBom,
   getByCategorySubCatAndSubSubCatId,
+  getEntireDataByBomId,
 };

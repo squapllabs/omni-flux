@@ -40,7 +40,7 @@ const addItem = async (body: createItemBody) => {
       .then((data) => {
         console.log('Successfully item Data Returned ', data);
         const newItemData = {
-          success: true,
+          message: 'success', status: true,
           data: data,
         };
         return newItemData;
@@ -72,7 +72,7 @@ const addBulkItems = async (req) => {
     console.log('Successfully/ inserted bulk item', result);
 
     return {
-      success: true,
+      message: 'success', status: true,
       data: result,
     };
   } catch (error) {
@@ -144,7 +144,7 @@ const getAllItem = async (data) => {
     );
     const total_page = Math.round(result.totalCount / limitValue);
     const itemData = {
-      success: true,
+      message: 'success', status: true,
       total_count: result.totalCount,
       total_page,
       data: result.items,
@@ -186,7 +186,7 @@ const getAllItemBySearch = async (data) => {
     console.log(keyword);
     const itemData = await itemDao.getAllBySearch(keyword);
     if (itemData) {
-      result = { success: true, data: itemData };
+      result = { message: 'success', status: true, data: itemData };
       return result;
     }
   } catch (error) {
@@ -205,10 +205,10 @@ const getById = async (item_id: number) => {
     let result = null;
     const itemData = await itemDao.getById(item_id);
     if (itemData) {
-      result = { success: true, data: itemData };
+      result = { message: 'success', status: true, data: itemData };
       return result;
     } else {
-      result = { success: false, message: 'item Id not exist' };
+      result = { message: 'item Id not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -225,18 +225,18 @@ const deleteItem = async (item_id: number) => {
   try {
     const itemExist = await itemDao.getById(item_id);
     if (!itemExist) {
-      const result = { success: false, message: 'item Id Not Exist' };
+      const result = { message: 'item Id Not Exist', status: false, data: null };
       return result;
     }
     const data = await itemDao.deleteItem(item_id);
     if (data) {
       const result = {
-        success: true,
-        message: 'item Data Deleted Successfully',
+        message: 'successfully delete this item', status: true,
+        data: null,
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this item' };
+      const result = { message: 'Failed to delete this item', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -274,10 +274,10 @@ const updateItem = async (body: updateItemBody) => {
         item_type_id,
         brand_id
       );
-      result = { success: true, data: itemDetails };
+      result = { message: 'success', status: true, data: itemDetails };
       return result;
     } else {
-      result = { success: false, message: 'item_id not exist' };
+      result = { message: 'item_id not exist', status: false, data: null };
       return result;
     }
   } catch (error) {

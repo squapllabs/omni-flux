@@ -354,8 +354,7 @@ const getByParentType = async (masterDataType: string) => {
       return result;
     } else {
       result = {
-        message:
-          'Invalid input: The specified master_data_type does not exist as a parent. Please provide a valid master_data_type.',
+        message: 'Invalid input: The specified master_data_type does not exist as a parent. Please provide a valid master_data_type.',
         status: false,
         data: null,
       };

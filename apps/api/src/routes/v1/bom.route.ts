@@ -7,6 +7,7 @@ import {
   updateBom,
   getAllBom,
   getByCategorySubCatAndSubSubCatId,
+  fetchEntireDataByBomId,
 } from '../../controller/bom.controller';
 import authMiddleware from '../../middleware/auth';
 import { runValidation } from '../../validations/index';
@@ -27,5 +28,7 @@ router.post(
   authMiddleware,
   getByCategorySubCatAndSubSubCatId
 );
+
+router.get('/get-entire-data/:bom_id', fetchEntireDataByBomId);
 
 export default router;

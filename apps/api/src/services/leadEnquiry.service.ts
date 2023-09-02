@@ -111,8 +111,7 @@ const createLeadEnquiry = async (body: createLeadEnquiryBody) => {
     if (status) {
       if (!allowedStatusValues.includes(status)) {
         result = {
-          message:
-            'Invalid status value. Allowed values: AWARDED, REJECTED, CLONE, COMPLETED, INPROGRESS, ON HOLD',
+          message: 'Invalid status value. Allowed values: AWARDED, REJECTED, CLONE, COMPLETED, INPROGRESS, ON HOLD',
           status: false,
           data: null,
         };
@@ -382,8 +381,7 @@ const updateLeadEnquiry = async (body: updateLeadEnquiryBody) => {
     if (status) {
       if (!allowedStatusValues.includes(status)) {
         result = {
-          message:
-            'Invalid status value. Allowed values: AWARDED, REJECTED, CLONE, COMPLETED, INPROGRESS, ON HOLD',
+          message: 'Invalid status value. Allowed values: AWARDED, REJECTED, CLONE, COMPLETED, INPROGRESS, ON HOLD',
           status: false,
           data: null,
         };
@@ -509,8 +507,8 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
     const leadEnquiryExist = await leadEnquiryDao.getById(leadEnquiryId);
     if (!leadEnquiryExist) {
       const result = {
-        status: false,
         message: 'lead_enquiry_id does not exist',
+        status: false,
         data: null,
       };
       return result;
@@ -518,9 +516,9 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
 
     if (leadEnquiryExist.lead_enquiry_product.length === 0) {
       const result = {
+
+        message: 'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_product table',
         status: false,
-        message:
-          'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_product table',
         data: null,
       };
       return result;
@@ -528,9 +526,8 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
 
     if (leadEnquiryExist.lead_enquiry_tenders.length === 0) {
       const result = {
+        message: 'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_tender table',
         status: false,
-        message:
-          'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_tender table',
         data: null,
       };
       return result;
@@ -538,9 +535,8 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
 
     if (leadEnquiryExist.lead_enquiry_product_item.length === 0) {
       const result = {
+        message: 'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_product_item table',
         status: false,
-        message:
-          'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_product_item table',
         data: null,
       };
       return result;
@@ -556,8 +552,8 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this leadEnquiry',
+        status: false,
         data: null,
       };
       return result;
