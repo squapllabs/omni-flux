@@ -15,6 +15,13 @@ pipeline {
             }
 		}
         
+      stage('File copy and remove') {
+        steps {
+            sh 'zip -r /var/lib/jenkins/workspace/Omni_test1.zip /var/lib/jenkins/workspace/Omni_test1'
+            sh 'sh /root/omnishell/omnifluxCopy.sh'
+            // sh 'sh /root/omnishell/omniflux_clean_script.sh'    
+        }
+      }
     //     stage('docker image build') {
     //         steps {
     //             echo 'running docker container details'
