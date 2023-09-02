@@ -19,7 +19,7 @@ pipeline {
         steps {
             sh 'zip -r /var/lib/jenkins/workspace/Omni_test1.zip /var/lib/jenkins/workspace/Omni_test1'
             echo '1'
-            sh 'chmod +x -R ${/var/lib/jenkins/workspace/Omni_test1.zip}'
+            sh 'chmod +x -R /var/lib/jenkins/workspace/Omni_test1.zip'
             echo '2'
             sh 'sh /root/omnishell/omnifluxCopy.sh'
             echo '3'
