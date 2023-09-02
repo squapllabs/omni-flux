@@ -19,7 +19,7 @@ pipeline {
         steps {
            // sh 'scp /var/lib/jenkins/workspace/Omni_test1.zip root@192.168.2.27:/root/omniflux_application'
            // sh 'sh /var/lib/jenkins/workspace/omniflux_deploy.sh'
-            sh 'sh /var/lib/jenkins/workspace/omniflux_clean_script.sh
+            sh 'sh /var/lib/jenkins/workspace/omniflux_clean_script.sh'
 
         }
       }
