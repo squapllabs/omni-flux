@@ -20,7 +20,7 @@ pipeline {
             sh 'zip -r /var/lib/jenkins/workspace/Omni_test1.zip /var/lib/jenkins/workspace/Omni_test1'
            // sh 'scp /var/lib/jenkins/workspace/Omni_test1.zip root@192.168.2.27:/root/omniflux_application'
            // sh 'sh /var/lib/jenkins/workspace/omniflux_deploy.sh'
-            sh 'rm -rf cd /var/lib/jenkins/workspace/Omni_test1'
+            sh 'rm -rf /var/lib/jenkins/workspace/Omni_test1'
 
         }
       }
