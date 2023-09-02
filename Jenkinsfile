@@ -14,7 +14,7 @@ pipeline {
             echo 'git checkout completed'
             }
 		}
-        
+      
       stage('File copy and remove') {
         steps {
             sh 'sh /root/omniflux_dep/omniflux_deploy.sh'
