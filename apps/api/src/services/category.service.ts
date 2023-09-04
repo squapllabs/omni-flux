@@ -1,4 +1,5 @@
 import categoryDao from '../dao/category.dao';
+import projectDao from '../dao/project.dao';
 import subCategoryDao from '../dao/subCategory.dao';
 import {
   createCategoryBody,
@@ -117,7 +118,6 @@ const getById = async (categoryId: number) => {
       return result;
     } else {
       result = {
-
         message: 'category_id does not exist',
         status: false,
         data: null,
@@ -156,7 +156,6 @@ const deleteCategory = async (categoryId: number) => {
       await subCategoryDao.getByCategoryId(categoryId);
     if (!categoryExist) {
       const result = {
-
         message: 'category_id does not exist',
         status: false,
         data: null,
@@ -166,7 +165,8 @@ const deleteCategory = async (categoryId: number) => {
 
     if (subCategoryExistForThisCategory) {
       const result = {
-        message: 'Unable to delete this category.Please delete the associated child category.',
+        message:
+          'Unable to delete this category.Please delete the associated child category.',
         status: false,
         data: null,
       };
@@ -182,7 +182,6 @@ const deleteCategory = async (categoryId: number) => {
       return result;
     } else {
       const result = {
-
         message: 'Failed to delete this category',
         status: false,
         data: null,
@@ -307,6 +306,41 @@ const searchCategory = async (body) => {
   }
 };
 
+/**
+ * Method to get Category By project_id
+ * @param project_id
+ * @returns
+ */
+const getByProjectId = async (project_id: number) => {
+  try {
+    let result = null;
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      result = {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const categoryData = await categoryDao.getByProjectId(project_id);
+    if (categoryData.length > 0) {
+      result = { message: 'success', status: true, data: categoryData };
+      return result;
+    } else {
+      result = {
+        message: 'No category found related to this category',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByProjectId category service : ', error);
+    throw error;
+  }
+};
+
 export {
   createCategory,
   updateCategory,
@@ -316,4 +350,5 @@ export {
   checkDuplicateProjectCategoryName,
   getAllInActiveCategories,
   searchCategory,
+  getByProjectId,
 };
