@@ -91,6 +91,16 @@ const getBySearchCategroy = () => {
     }
   );
 };
+
+const getBycategoryIDinSub = (id: number) => {
+  return useQuery(
+    ['getSubcategoryList', id],
+    () => SubcategoryService.getOneSubCatListbyCatID(id),
+    {
+      select: (data) => data.data,
+    }
+  );
+};
 export {
   useGetAllSubcategory,
   getBySubcategoryID,
@@ -99,4 +109,5 @@ export {
   useDeleteSubcategory,
   getBySearchCategroy,
   useGetAllSubcategoryDrop,
+  getBycategoryIDinSub,
 };

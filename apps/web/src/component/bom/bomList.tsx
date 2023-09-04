@@ -11,15 +11,18 @@ import CustomAbstractAddPopup from '../ui/CustomAbstractPopup';
 import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
 import BomService from '../../service/bom-service';
 import { formatBudgetValue } from '../../helper/common-function';
+import BomItems from './bomItems';
+import Bom from './bom';
 
 const BomList = () => {
   const [selectedCategory, setSelectedCategory] = useState(80);
+  const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [showItemForm, setShowItemForm] = useState(false);
   const [showAbstractForm, setShowAbstractForm] = useState(false);
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [open, setOpen] = useState(false);
   const [categoryData, setCategoryData] = useState();
-  console.log('rrrrrrrrrrr', categoryData);
+  console.log('selectedSubCategory', selectedSubCategory);
   const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
   const [openedContextMenuForCategory, setOpenedContextMenuForCategory] =
     useState<number | null>(null);
@@ -175,50 +178,31 @@ const BomList = () => {
                   </div>
                 </div>
               )}
-              <div className={Styles.taskButton}>
-                <Button
-                  color="secondary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon width={20} />}
-                  onClick={() => {
-                    setShowSubCategoryForm(true);
-                  }}
-                >
-                  Add Tasks
-                </Button>
-              </div>
-              {/* {subCategoryData && (
-                <div className={Styles.mainHeading}>
-                  <div className={Styles.mainLeftContent}>
-                    <span className={Styles.descriptionContentOne}>
-                      {subCategoryData?.description}
-                    </span>
-                  </div>
-                  <div>
-                    <p>
-                      {formatBudgetValue(
-                        subCategoryData?.budget ? subCategoryData?.budget : 0
-                      )}
-                    </p>
-                  </div> */}
-              {/* <div>
+              {selectedSubCategory === undefined ? (
+                <>
+                  <div className={Styles.taskButton}>
                     <Button
-                      color="primary"
+                      color="secondary"
                       shape="rectangle"
                       justify="center"
                       size="small"
                       icon={<AddIcon width={20} />}
                       onClick={() => {
-                        setShowItemForm(true);
+                        setShowSubCategoryForm(true);
                       }}
                     >
-                      Item
+                      Add Tasks
                     </Button>
-                  </div> */}
-              {/* </div>
-              )} */}
+                  </div>
+                  <BomItems
+                    selectedCategory={selectedCategory}
+                    setSelectedSubCategory={setSelectedSubCategory}
+                    selectedSubCategory={selectedSubCategory}
+                  />
+                </>
+              ) : (
+                <Bom selectedSubCategory={selectedSubCategory} />
+              )}
             </div>
           </div>
         </div>
