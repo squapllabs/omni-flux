@@ -11,6 +11,7 @@ const add = async (
   updated_by: bigint,
   item_type_id: number,
   brand_id: number,
+  rate: number,
   connectionObj = null
 ) => {
   try {
@@ -31,6 +32,7 @@ const add = async (
         updated_date: currentDate,
         brand_id,
         is_delete: is_delete,
+        rate,
       },
     });
     return item;
@@ -214,6 +216,7 @@ const edit = async (
   updated_by: bigint,
   item_type_id: number,
   brand_id: number,
+  rate: number,
   connectionObj = null
 ) => {
   try {
@@ -233,6 +236,7 @@ const edit = async (
         updated_date: currentDate,
         item_type_id,
         brand_id,
+        rate,
       },
     });
     return item;
@@ -390,6 +394,24 @@ const searchItem = async (
   }
 };
 
+const getByItemName = async (item_name: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj ? connectionObj : prisma;
+    const item = await transaction.item.findFirst({
+      where: {
+        item_name: {
+          equals: item_name,
+          mode: 'insensitive',
+        },
+      },
+    });
+    return item;
+  } catch (error) {
+    console.log('Error occurred in Item Dao : getByItemName ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getAll,
@@ -403,4 +425,5 @@ export default {
   getByUOMId,
   getAllItems,
   searchItem,
+  getByItemName,
 };

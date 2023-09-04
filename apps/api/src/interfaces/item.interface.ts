@@ -8,6 +8,7 @@ interface createItemBody {
   updated_by: bigint;
   item_type_id: number;
   brand_id: number;
+  rate: number;
 }
 interface updateItemBody {
   item_id: number;
@@ -19,6 +20,7 @@ interface updateItemBody {
   updated_by: bigint;
   item_type_id: number;
   brand_id: number;
+  rate: number;
 }
 
 export { createItemBody, updateItemBody };

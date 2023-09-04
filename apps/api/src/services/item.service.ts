@@ -19,6 +19,7 @@ const addItem = async (body: createItemBody) => {
     const created_by = body.created_by;
     const updated_by = body.updated_by;
     const item_type_id = body.item_type_id;
+    const rate = body.rate;
 
     result = await prisma
       .$transaction(async (prisma) => {
@@ -32,6 +33,7 @@ const addItem = async (body: createItemBody) => {
           updated_by,
           item_type_id,
           brand_id,
+          rate,
           prisma
         );
 
@@ -102,6 +104,7 @@ const transformExcelData = (data: any[]): createItemBody[] => {
       item_type_id: Number(item.item_type_id),
       brand_id: Number(item.brand_id),
       is_delete: false,
+      rate: Number(item.rate),
     };
   });
 
@@ -187,7 +190,6 @@ const getAllItemBySearch = async (data) => {
   try {
     const keyword = data.keyword;
     let result = null;
-    console.log(keyword);
     const itemData = await itemDao.getAllBySearch(keyword);
     if (itemData) {
       result = { message: 'success', status: true, data: itemData };
@@ -273,6 +275,7 @@ const updateItem = async (body: updateItemBody) => {
     const updated_by = body.updated_by;
     const item_type_id = body.item_type_id;
     const brand_id = body.brand_id;
+    const rate = body.rate;
     let result = null;
     const ItemExist = await itemDao.getById(item_id);
     if (ItemExist) {
@@ -285,12 +288,13 @@ const updateItem = async (body: updateItemBody) => {
         uom_id,
         updated_by,
         item_type_id,
-        brand_id
+        brand_id,
+        rate
       );
       result = { message: 'success', status: true, data: itemDetails };
       return result;
     } else {
-      result = { message: 'item_id not exist', status: false, data: null };
+      result = { message: 'item_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -400,6 +404,27 @@ const searchItem = async (body) => {
   }
 };
 
+/**
+ * Method to get item by item name
+ * @param item_name
+ * @returns {Promise<object>} Result object
+ */
+const getByItemName = async (item_name) => {
+  try {
+    const itemData = await itemDao.getByItemName(item_name);
+    const isExist = !!itemData;
+    return {
+      message: isExist ? 'item_name already exists' : 'item_name is available',
+      status: isExist,
+      is_exist: isExist,
+      data: itemData,
+    };
+  } catch (error) {
+    console.log('Error occurred in getByItemName item service: ', error);
+    throw error;
+  }
+};
+
 export {
   addItem,
   getAllItem,
@@ -410,4 +435,5 @@ export {
   getAllItemBySearch,
   getAllItemData,
   searchItem,
+  getByItemName,
 };
