@@ -166,7 +166,6 @@ model sub_sub_category {
   updated_date               DateTime
   created_by                 Int?
   updated_by                 Int?
-  item                       item[]
   is_delete                  Boolean            @default(false) @db.Boolean
   description                String?
   project_id                 Int?
@@ -325,7 +324,6 @@ model warehouse_inventory {
 model item {
   item_id                   Int                         @id @default(autoincrement())
   item_name                 String                      @db.VarChar(100)
-  sub_sub_category_id       Int?
   description               String?
   hsn_code_id               Int?
   gst_id                    Int?
@@ -336,12 +334,12 @@ model item {
   updated_by                Int?
   item_type_id              Int?
   brand_id                  Int?
-  // Relation to fetch hsn_code_name from hsn_code model
+  rate                      Float?
+  is_delete                 Boolean                     @default(false)
   hsn_code                  hsn_code?                   @relation(fields: [hsn_code_id], references: [hsn_code_id])
   gst                       gst?                        @relation(fields: [gst_id], references: [gst_id])
   uom                       uom?                        @relation(fields: [uom_id], references: [uom_id])
-  item_type                 item_type?                  @relation(fields: [item_type_id], references: [item_type_id])
-  sub_sub_category          sub_sub_category?           @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
+  item_type                 master_data?                @relation(fields: [item_type_id], references: [master_data_id])
   brand                     brand?                      @relation(fields: [brand_id], references: [brand_id])
   lead_enquiry_product_item lead_enquiry_product_item[]
   bom                       bom[]
@@ -371,8 +369,6 @@ model item_type {
   updated_date        DateTime
   created_by          Int?
   updated_by          Int?
-
-  item item[]
 }
 
 model brand {
@@ -422,6 +418,7 @@ model master_data {
   lead_enquiry_tender                lead_enquiry_tender[]
   vendor_as_vendor_category          vendor[]               @relation("VendorCategoryRelation")
   vendor_as_preferred_payment_method vendor[]               @relation("PreferredPaymentMethodRelation")
+  item                               item[]
 
   @@unique([master_data_type, parent_master_data_id])
   @@map("master_data")

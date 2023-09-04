@@ -19,7 +19,7 @@ const createClient = async (body: createClientBody) => {
       contact_details,
       created_by
     );
-    const result = { success: true, data: clientDetails };
+    const result = { message: 'success', status: true, data: clientDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in client service Add: ', error);
@@ -39,7 +39,7 @@ const updateClient = async (body: updateClientBody) => {
     let result = null;
     const clientExist = await clientDao.getById(client_id);
     if (!clientExist) {
-      result = { success: false, message: 'client_id does not exist' };
+      result = { message: 'client_id does not exist', status: false, data: null };
       return result;
     } else {
       const clientDetails = await clientDao.edit(
@@ -48,7 +48,7 @@ const updateClient = async (body: updateClientBody) => {
         updated_by,
         client_id
       );
-      result = { success: true, data: clientDetails };
+      result = { message: 'success', status: true, data: clientDetails };
       return result;
     }
   } catch (error) {
@@ -67,10 +67,10 @@ const getById = async (clientId: number) => {
     let result = null;
     const clientData = await clientDao.getById(clientId);
     if (clientData) {
-      result = { success: true, data: clientData };
+      result = { message: 'success', status: true, data: clientData };
       return result;
     } else {
-      result = { success: false, message: 'client_id does not exist' };
+      result = { message: 'client_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -86,7 +86,7 @@ const getById = async (clientId: number) => {
 const getAllClients = async () => {
   try {
     const result = await clientDao.getAll();
-    const clientData = { success: true, data: result };
+    const clientData = { message: 'success', status: true, data: result };
     return clientData;
   } catch (error) {
     console.log('Error occurred in getAllClients client service : ', error);
@@ -126,8 +126,7 @@ const deleteClient = async (clientId: number) => {
 
     if (clientExistInLeadEnquiry) {
       const result = {
-        message:
-          'Unable to delete.This client_id is mapped in lead_enquiry table',
+        message: 'Unable to delete.This client_id is mapped in lead_enquiry table',
         status: false,
         data: null,
       };

@@ -80,6 +80,17 @@ const getByProjectIdAndSiteId = catchAsync(async (req, res) => {
   }
 });
 
+const getSiteExpenseDetailsBySiteExpenseId = catchAsync(async (req, res) => {
+  const methodName = '/getSiteExpenseDetailsSiteExpenseId';
+  try {
+    const siteExpenseDetails = await siteExpenseService.getSiteExpenseDetailsBySiteExpenseId(
+      req.params.site_expense_id
+    );
+    res.send(siteExpenseDetails);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
 export {
   createSiteExpense,
   updateSiteExpense,
@@ -88,4 +99,5 @@ export {
   deleteBySiteExpenseId,
   searchSiteExpense,
   getByProjectIdAndSiteId,
+  getSiteExpenseDetailsBySiteExpenseId,
 };

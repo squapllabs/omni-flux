@@ -11,6 +11,7 @@ import {
   getAllCategory,
   getAllInActiveCategories,
   getByCategoryId,
+  getByProjectId,
   searchCategory,
   updateCategory,
 } from '../../controller/category.controller';
@@ -49,5 +50,7 @@ router.get(
 router.get('/get-all-inactive', authMiddleware, getAllInActiveCategories);
 
 router.post('/search', authMiddleware, searchCategory);
+
+router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
 
 export default router;

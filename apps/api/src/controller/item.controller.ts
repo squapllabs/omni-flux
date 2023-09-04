@@ -83,6 +83,26 @@ const getAllItemData = catchAsync(async (req, res) => {
   }
 });
 
+const search = catchAsync(async (req, res) => {
+  const methodName = '/search';
+  try {
+    const item = await itemService.searchItem(req.body);
+    res.send(item);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const checkDuplicateName = catchAsync(async (req, res) => {
+  const methodName = '/checkDuplicateName';
+  try {
+    const item = await itemService.getByItemName(req.params.item_name);
+    res.send(item);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   addItem,
   deleteByItemId,
@@ -92,4 +112,6 @@ export {
   addBulkItems,
   getAllItemBySearch,
   getAllItemData,
+  search,
+  checkDuplicateName,
 };

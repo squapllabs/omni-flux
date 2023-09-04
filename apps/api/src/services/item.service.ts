@@ -12,7 +12,6 @@ const addItem = async (body: createItemBody) => {
   try {
     const brand_id = body.brand_id;
     const item_name = body.item_name;
-    const sub_sub_category_id = body.sub_sub_category_id;
     const description = body.description;
     const hsn_code_id = body.hsn_code_id;
     const gst_id = body.gst_id;
@@ -20,12 +19,12 @@ const addItem = async (body: createItemBody) => {
     const created_by = body.created_by;
     const updated_by = body.updated_by;
     const item_type_id = body.item_type_id;
+    const rate = body.rate;
 
     result = await prisma
       .$transaction(async (prisma) => {
         const CreateItem = await itemDao.add(
           item_name,
-          sub_sub_category_id,
           description,
           hsn_code_id,
           gst_id,
@@ -34,6 +33,7 @@ const addItem = async (body: createItemBody) => {
           updated_by,
           item_type_id,
           brand_id,
+          rate,
           prisma
         );
 
@@ -42,7 +42,8 @@ const addItem = async (body: createItemBody) => {
       .then((data) => {
         console.log('Successfully item Data Returned ', data);
         const newItemData = {
-          success: true,
+          message: 'success',
+          status: true,
           data: data,
         };
         return newItemData;
@@ -74,7 +75,8 @@ const addBulkItems = async (req) => {
     console.log('Successfully/ inserted bulk item', result);
 
     return {
-      success: true,
+      message: 'success',
+      status: true,
       data: result,
     };
   } catch (error) {
@@ -91,7 +93,6 @@ const transformExcelData = (data: any[]): createItemBody[] => {
     const currentDate = new Date();
     return {
       item_name: item.item_name,
-      sub_sub_category_id: Number(item.sub_sub_category_id),
       description: item.description,
       hsn_code_id: Number(item.hsn_code_id),
       gst_id: Number(item.gst_id),
@@ -102,6 +103,8 @@ const transformExcelData = (data: any[]): createItemBody[] => {
       updated_date: currentDate,
       item_type_id: Number(item.item_type_id),
       brand_id: Number(item.brand_id),
+      is_delete: false,
+      rate: Number(item.rate),
     };
   });
 
@@ -147,7 +150,8 @@ const getAllItem = async (data) => {
     );
     const total_page = Math.round(result.totalCount / limitValue);
     const itemData = {
-      success: true,
+      message: 'success',
+      status: true,
       total_count: result.totalCount,
       total_page,
       data: result.items,
@@ -186,10 +190,9 @@ const getAllItemBySearch = async (data) => {
   try {
     const keyword = data.keyword;
     let result = null;
-    console.log(keyword);
     const itemData = await itemDao.getAllBySearch(keyword);
     if (itemData) {
-      result = { success: true, data: itemData };
+      result = { message: 'success', status: true, data: itemData };
       return result;
     }
   } catch (error) {
@@ -208,10 +211,10 @@ const getById = async (item_id: number) => {
     let result = null;
     const itemData = await itemDao.getById(item_id);
     if (itemData) {
-      result = { success: true, data: itemData };
+      result = { message: 'success', status: true, data: itemData };
       return result;
     } else {
-      result = { success: false, message: 'item Id not exist' };
+      result = { message: 'item Id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -228,18 +231,27 @@ const deleteItem = async (item_id: number) => {
   try {
     const itemExist = await itemDao.getById(item_id);
     if (!itemExist) {
-      const result = { success: false, message: 'item Id Not Exist' };
+      const result = {
+        message: 'item_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const data = await itemDao.deleteItem(item_id);
     if (data) {
       const result = {
-        success: true,
-        message: 'item Data Deleted Successfully',
+        message: 'Successfully deleted this item',
+        status: true,
+        data: null,
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this item' };
+      const result = {
+        message: 'Failed to delete this item',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -256,7 +268,6 @@ const updateItem = async (body: updateItemBody) => {
   try {
     const item_id = body.item_id;
     const item_name = body.item_name;
-    const sub_sub_category_id = body.sub_sub_category_id;
     const description = body.description;
     const hsn_code_id = body.hsn_code_id;
     const gst_id = body.gst_id;
@@ -264,25 +275,26 @@ const updateItem = async (body: updateItemBody) => {
     const updated_by = body.updated_by;
     const item_type_id = body.item_type_id;
     const brand_id = body.brand_id;
+    const rate = body.rate;
     let result = null;
     const ItemExist = await itemDao.getById(item_id);
     if (ItemExist) {
       const itemDetails = await itemDao.edit(
         item_id,
         item_name,
-        sub_sub_category_id,
         description,
         hsn_code_id,
         gst_id,
         uom_id,
         updated_by,
         item_type_id,
-        brand_id
+        brand_id,
+        rate
       );
-      result = { success: true, data: itemDetails };
+      result = { message: 'success', status: true, data: itemDetails };
       return result;
     } else {
-      result = { success: false, message: 'item_id not exist' };
+      result = { message: 'item_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -309,6 +321,110 @@ const getAllItemData = async () => {
   }
 };
 
+/**
+ * Method to search Item - Pagination API
+ * @returns
+ */
+const searchItem = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterItem: {
+        AND: [],
+        OR: [
+          { item_name: { contains: global_search, mode: 'insensitive' } },
+          { description: { contains: global_search, mode: 'insensitive' } },
+          {
+            hsn_code: {
+              code: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            brand: {
+              brand_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            item_type: {
+              master_data_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            uom: {
+              name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await itemDao.searchItem(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempItemData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempItemData;
+  } catch (error) {
+    console.log('Error occurred in searchItem Item service : ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to get item by item name
+ * @param item_name
+ * @returns {Promise<object>} Result object
+ */
+const getByItemName = async (item_name) => {
+  try {
+    const itemData = await itemDao.getByItemName(item_name);
+    const isExist = !!itemData;
+    return {
+      message: isExist ? 'item_name already exists' : 'item_name is available',
+      status: isExist,
+      is_exist: isExist,
+      data: itemData,
+    };
+  } catch (error) {
+    console.log('Error occurred in getByItemName item service: ', error);
+    throw error;
+  }
+};
+
 export {
   addItem,
   getAllItem,
@@ -318,4 +434,6 @@ export {
   addBulkItems,
   getAllItemBySearch,
   getAllItemData,
+  searchItem,
+  getByItemName,
 };

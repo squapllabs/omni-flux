@@ -13,7 +13,7 @@ const createUom = async (body: createUomBody) => {
   try {
     const { name, description, created_by = null } = body;
     const uomDetails = await uomDao.add(name, description, created_by);
-    const result = { success: true, data: uomDetails };
+    const result = { message: 'success', status: true, data: uomDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in uom service Add: ', error);
@@ -38,10 +38,10 @@ const updateUom = async (body: updateUomBody) => {
         updated_by,
         uom_id
       );
-      result = { success: true, data: uomDetails };
+      result = { message: 'success', status: true, data: uomDetails };
       return result;
     } else {
-      result = { success: false, message: 'uom_id does not exist' };
+      result = { message: 'uom_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -60,10 +60,10 @@ const getById = async (uomId: number) => {
     let result = null;
     const uomData = await uomDao.getById(uomId);
     if (uomData) {
-      result = { success: true, data: uomData };
+      result = { message: 'success', status: true, data: uomData };
       return result;
     } else {
-      result = { success: false, message: 'uom_id does not exist' };
+      result = { message: 'uom_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -79,7 +79,7 @@ const getById = async (uomId: number) => {
 const getAllUom = async () => {
   try {
     const result = await uomDao.getAll();
-    const uomData = { success: true, data: result };
+    const uomData = { message: 'success', status: true, data: result };
     return uomData;
   } catch (error) {
     console.log('Error occurred in getAllUom uom service : ', error);
@@ -96,8 +96,8 @@ const deleteUom = async (uomId: number) => {
     const uomExist = await uomDao.getById(uomId);
     if (!uomExist) {
       const result = {
-        status: false,
         message: 'uom_id does not exist',
+        status: false,
         data: null,
       };
       return result;
@@ -105,8 +105,8 @@ const deleteUom = async (uomId: number) => {
     const uomExistInItem = await itemDao.getByUOMId(uomId);
     if (uomExistInItem) {
       const result = {
-        status: false,
         message: 'Unable to delete.This uom_id is mapped in Item Table',
+        status: false,
         data: null,
       };
       return result;
@@ -137,15 +137,16 @@ const deleteUom = async (uomId: number) => {
     const data = await uomDao.deleteUom(uomId);
     if (data) {
       const result = {
-        status: true,
+
         message: 'Uom Data Deleted Successfully',
+        status: true,
         data: null,
       };
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this uom',
+        status: false,
         data: null,
       };
       return result;
@@ -166,10 +167,10 @@ const getByName = async (name: string) => {
     let result = null;
     const uomData = await uomDao.getByName(name);
     if (uomData.length > 0) {
-      result = { success: true, is_exist: true, data: uomData };
+      result = { message: 'success', status: true, is_exist: true, data: uomData };
       return result;
     } else {
-      result = { success: false, is_exist: false };
+      result = { message: 'name is not exist', status: false, data: null, is_exist: false };
       return result;
     }
   } catch (error) {

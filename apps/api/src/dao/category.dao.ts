@@ -200,6 +200,26 @@ const searchCategory = async (
   }
 };
 
+const getByProjectId = async (project_id: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const category = await transaction.category.findMany({
+      where: {
+        project_id: Number(project_id),
+        is_delete: false,
+      },
+      orderBy: [{ updated_date: 'desc' }],
+      include: {
+        project: true,
+      },
+    });
+    return category;
+  } catch (error) {
+    console.log('Error occurred in category getByProjectId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -209,4 +229,5 @@ export default {
   getByCategoryNameAndProjectId,
   getAllInActiveCategories,
   searchCategory,
+  getByProjectId,
 };
