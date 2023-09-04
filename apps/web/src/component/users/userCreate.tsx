@@ -55,22 +55,6 @@ const UserCreate = () => {
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
-  const handleDropdownChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedRoleId = event.target.value;
-    setSelectedValue(selectedRoleId);
-    formik.setFieldValue('role_id', selectedRoleId);
-    formik.setFieldTouched('role_id', false);
-    formik.setFieldError('role_id', '');
-  };
-
-  const handleDropdownGenderChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedGender = event.target.value;
-    setSelectedGenderValue(selectedGender);
-  };
 
   const { mutate: createNewusers } = createUser();
   const { data: getAllRoles = [] } = useGetAllRole();

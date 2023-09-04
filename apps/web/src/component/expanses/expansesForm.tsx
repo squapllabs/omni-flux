@@ -27,14 +27,14 @@ import KeyboardBackspaceIcon from '../menu/icons/backArrow';
 const ExpansesForm = () => {
   const params = useParams();
   const navigate = useNavigate();
-  let projectId = Number(params?.projectId);
-  let siteId = Number(params?.siteId);
+  const projectId = Number(params?.projectId);
+  const siteId = Number(params?.siteId);
   const validationSchema = getCreateValidateyup(Yup);
   const state: RootState = store.getState();
-  let encryptedData = getToken(state, 'Data');
-  var tableInputwidth = '100px';
+  const encryptedData = getToken(state, 'Data');
+  const tableInputwidth = '100px';
   let rowIndex = 0;
-  let espanseObject: any = {
+  const espanseObject: any = {
     site_expense_details_id: '',
     description: '',
     is_delete: 'N',
@@ -112,10 +112,10 @@ const ExpansesForm = () => {
         designation: datas?.data?.designation,
         site_expense_id: datas?.data?.site_expense_id,
       });
-      let arry: any = [];
+      const arry: any = [];
       datas?.data?.site_expense_details.map((items: any) => {
         items.is_delete = 'N';
-        let demo = {
+        const demo = {
           site_expense_details_id: items.site_expense_details_id,
           description: items.description,
           is_delete: 'N',
@@ -190,7 +190,7 @@ const ExpansesForm = () => {
           tempObj?.others,
       };
     }
-    let tempArry = [...expenseList];
+    const tempArry = [...expenseList];
     tempArry[index] = tempObj;
     setExpenseList(tempArry);
   };
@@ -205,7 +205,7 @@ const ExpansesForm = () => {
           'description-availability',
           'Description is already present',
           async function (value, { parent }: Yup.TestContext) {
-            let isDelete = parent.is_delete;
+            const isDelete = parent.is_delete;
             try {
               const isValuePresent = expenseList.some((obj) => {
                 return obj.description === value && obj.is_delete === isDelete;
@@ -250,7 +250,7 @@ const ExpansesForm = () => {
         });
       })
       .catch((e) => {
-        let errorObj: any = {};
+        const errorObj: any = {};
         e.inner.map((errors: any) => {
           return (errorObj[errors.path] = errors.message);
         });
@@ -312,8 +312,6 @@ const ExpansesForm = () => {
           };
           postSiteExpenseData(object, {
             onSuccess(data, variables, context) {
-              console.log('data', data);
-
               if (data?.status === true) {
                 setMessage('Site Expense has been added successfully !');
                 setOpenSnack(true);
