@@ -13,7 +13,6 @@ import TextArea from '../ui/CustomTextArea';
 
 const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCategoryId:any }) => {
   const { isVissible, onAction,selectedCategoryId } = props;
-  console.log("id in popup==>",selectedCategoryId);
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = createSubcategory();
   const [clientinitialValues, setclientInitialValues] = useState({
@@ -69,7 +68,7 @@ const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCa
               <form onSubmit={formik.handleSubmit}>
                 <div className={Styles.header}>
                   <div>
-                    <h4>Add Sub Category</h4>
+                    <h4>Add Tasks</h4>
                   </div>
                   <div>
                     <CloseIcon onClick={handleCloseForm} />
@@ -80,7 +79,7 @@ const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCa
                   <div>
                     <Input
                       label="Name"
-                      placeholder="Enter sub category name"
+                      placeholder="Enter task name"
                       name="name"
                       mandatory={true}
                       value={formik.values.name}

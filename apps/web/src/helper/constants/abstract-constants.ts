@@ -17,7 +17,7 @@ export const abstractErrorMessages = {
   
 
   export const subCategoryErrorMessages = {
-    ENTER_NAME: 'Abstract Name is required',
+    ENTER_NAME: 'Task Name is required',
     ENTER_DESCRIPTION: 'Description is required'
   };
   

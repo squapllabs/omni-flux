@@ -25,7 +25,8 @@
   border-radius: 5px;
 }
 .mainContainer {
-  background-color: rgb(243, 243, 243);
+  // background-color: rgb(243, 243, 243);
+  background-color: lavenderblush;
   width: 80%;
   padding: 5px;
   border-radius: 5px;
@@ -66,24 +67,26 @@
 .mainHeading{
   display: flex;
   flex-direction: row;
-  // justify-content: space-between;
-  justify-content: space-around;
+  justify-content: space-between;
+  background-color: lavender;
+  padding: 10px;
+  // justify-content: space-around;
 }
 
 .mainLeftContent{
-  width:55%
+  width:55%;
 }
 
 .descriptionContent{
   text-align:justify;
   display: block;
-  font-weight: bold;
+  font-size: small;
 }
 
 .descriptionContentOne{
   text-align:justify;
   display: block;
-  // font-weight: bold;
+  font-size: small;
 }
 
 .menu {
@@ -107,4 +110,21 @@
   flex-direction: column;
   padding: 5px;
   gap: 10px;
+}
+
+.topSideMenu{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+}
+.topSideHeading{
+  font-weight: lighter;
+  font-size: 0.8rem;
+}
+.taskButton{
+  display: flex;
+  justify-content: flex-end;
+  padding:5px 10px 0px 0px;
 }
