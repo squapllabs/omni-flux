@@ -29,6 +29,6 @@ router.post(
   getByCategorySubCatAndSubSubCatId
 );
 
-router.get('/get-entire-data/:bom_id', fetchEntireDataByBomId);
+router.get('/get-entire-data/:bom_id', authMiddleware, fetchEntireDataByBomId);
 
 export default router;
