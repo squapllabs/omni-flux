@@ -373,7 +373,7 @@ const AppRoutes = () => {
           path="/lead-info-tender/:id"
           element={<ProtectedLeadTenderView />}
         />
-        <Route path="/bom" element={<ProtectedBomList />} />
+        <Route path="/bom/:projectId" element={<ProtectedBomList />} />
       </Routes>
     </div>
   );

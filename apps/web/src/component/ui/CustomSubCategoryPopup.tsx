@@ -11,8 +11,10 @@ import { getSubCategoryValidateyup } from '../../helper/constants/abstract-const
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 
-const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCategoryId:any }) => {
-  const { isVissible, onAction,selectedCategoryId } = props;
+const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCategoryId:any,selectedProject:any }) => {
+  const { isVissible, onAction,selectedCategoryId,selectedProject } = props;
+  console.log("!!!!!!!!!!",selectedProject);
+  
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = createSubcategory();
   const [clientinitialValues, setclientInitialValues] = useState({
@@ -31,11 +33,11 @@ const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCa
       const Object: any = {
         name: values.name,
         description: values.description,
-        project_id : 62,
+        project_id : selectedProject,
         budget:0,
         category_id:selectedCategoryId
       };
-      console.log("abstract from",Object);
+      console.log("sub category added form ",Object);
       createNewSubCategory(Object, {
           onSuccess: (data, variables, context) => {
             console.log("samlpe data==>",data);

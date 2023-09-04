@@ -12,8 +12,8 @@ import { getAbstractValidateyup } from '../../helper/constants/abstract-constant
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 
-const CustomAbstractAdd = (props: { isVissible: any; onAction: any }) => {
-  const { isVissible, onAction } = props;
+const CustomAbstractAdd = (props: { isVissible: any; onAction: any,selectedProject:any }) => {
+  const { isVissible, onAction,selectedProject } = props;
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
   const { mutate: createNewAbstract } = createCategory();
   const [clientinitialValues, setclientInitialValues] = useState({
@@ -31,7 +31,7 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any }) => {
       const Object: any = {
         name: values.name,
         description: values.description,
-        project_id : 62,
+        project_id : selectedProject,
         budget:0
       };
       console.log("abstract from",Object);

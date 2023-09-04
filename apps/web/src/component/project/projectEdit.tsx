@@ -501,10 +501,10 @@ const ProjectEdit = () => {
     navigate(`/expenses/${projectSiteId}/${siteId}`);
   };
 
-  // const handleBom = (data:any) => {
-  //   const siteId = data.site_id
-  //   const projectSiteId = data.project_site_id
-    // }
+  const handleBom = () => {
+    const projectSiteId = Number(routeParams?.id);
+    navigate(`/bom/${projectSiteId}`);
+    }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -878,7 +878,7 @@ const ProjectEdit = () => {
                               <ul className={Styles.menu}>
                                 <li
                                   className={Styles.menuItem}
-                                  // onClick={() => handleBom(row)}
+                                  onClick={() => handleBom()}
                                 >
                                   <span>Add Bom</span>
                                 </li>

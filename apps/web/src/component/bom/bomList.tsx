@@ -13,8 +13,13 @@ import BomService from '../../service/bom-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomItems from './bomItems';
 import Bom from './bom';
+import { useParams } from 'react-router-dom';
 
 const BomList = () => {
+  const params = useParams();
+  const projectId = Number(params?.projectId);
+  console.log("pppppppp",projectId);
+  const [projectsId,setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState(80);
   const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [showItemForm, setShowItemForm] = useState(false);
@@ -112,7 +117,10 @@ const BomList = () => {
                                 ? Styles.selected
                                 : Styles.primarylistContent
                             }
-                            onClick={() => handleSelectedCategory(items)}
+                            onClick={() => {
+                              handleSelectedCategory(items)
+                              setCategoryId(items.category_id)}
+                            }
                           >
                             {items?.name}
                           </div>
@@ -211,11 +219,13 @@ const BomList = () => {
       <CustomAbstractAddPopup
         isVissible={showAbstractForm}
         onAction={setShowAbstractForm}
+        selectedProject={projectsId}
       />
       <CustomSubCategoryAddPopup
         isVissible={showSubCategoryForm}
         onAction={setShowSubCategoryForm}
         selectedCategoryId={categoryId}
+        selectedProject={projectsId}
       />
     </div>
   );
