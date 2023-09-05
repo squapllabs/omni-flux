@@ -7,10 +7,14 @@ const add = async (
   created_by: bigint,
   description: string,
   project_id: number,
+  start_date: Date,
+  end_date: Date,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
+    const formatted_start_date = start_date ? new Date(start_date) : null;
+    const formatted_end_date = end_date ? new Date(end_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const is_delete = false;
     const subCategory = await transaction.sub_category.create({
@@ -24,6 +28,8 @@ const add = async (
         is_delete: is_delete,
         description,
         project_id,
+        start_date: formatted_start_date,
+        end_date: formatted_end_date,
       },
     });
     return subCategory;
@@ -41,10 +47,14 @@ const edit = async (
   sub_category_id: number,
   description: string,
   project_id: number,
+  start_date: Date,
+  end_date: Date,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
+    const formatted_start_date = start_date ? new Date(start_date) : null;
+    const formatted_end_date = end_date ? new Date(end_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const subCategory = await transaction.sub_category.update({
       where: {
@@ -58,6 +68,8 @@ const edit = async (
         updated_date: currentDate,
         description,
         project_id,
+        start_date: formatted_start_date,
+        end_date: formatted_end_date,
       },
     });
     return subCategory;

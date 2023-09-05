@@ -5,6 +5,8 @@ interface createSubCategoryBody {
   created_by: bigint;
   description: string;
   project_id: number;
+  start_date: Date;
+  end_date: Date;
 }
 
 interface updateSubCategoryBody {
@@ -15,6 +17,8 @@ interface updateSubCategoryBody {
   sub_category_id: number;
   description: string;
   project_id: number;
+  start_date: Date;
+  end_date: Date;
 }
 
 export { createSubCategoryBody, updateSubCategoryBody };
