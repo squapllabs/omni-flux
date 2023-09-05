@@ -503,8 +503,8 @@ const ProjectEdit = () => {
 
   const handleBom = () => {
     const projectSiteId = Number(routeParams?.id);
-    navigate(`/bom/${projectSiteId}`);
-    }
+    navigate(`/bomlist/${projectSiteId}`);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;

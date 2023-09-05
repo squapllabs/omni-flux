@@ -36,8 +36,8 @@ const BomList = () => {
   const [openedContextMenuForCategory, setOpenedContextMenuForCategory] =
     useState<number | null>(null);
   const [categoryId, setCategoryId] = useState();
-  const [categories,setCategories] = useState();
-  const [reload,setReload] = useState(false);
+  const [categories, setCategories] = useState();
+  const [reload, setReload] = useState(false);
   // const { data: categories, isLoading: categoriesLoader } = useGetAllCategoryByProjectId(projectId);
   // console.log('categories data===>', categories);
   // console.log('mainData ==>', categoryData);
@@ -225,6 +225,7 @@ const BomList = () => {
                     selectedCategory={selectedCategory}
                     setSelectedSubCategory={setSelectedSubCategory}
                     selectedSubCategory={selectedSubCategory}
+                    projectsId={projectsId}
                   />
                 ) : (
                   <Bom selectedSubCategory={selectedSubCategory} />

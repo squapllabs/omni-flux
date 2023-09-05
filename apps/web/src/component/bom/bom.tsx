@@ -16,9 +16,12 @@ import {
   bomErrorMessages,
 } from '../../helper/constants/bom-constants';
 import * as Yup from 'yup';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Bom: React.FC = (props: any) => {
-  const fieldWidth = '80px';
+  const params = useParams();
+  const navigate = useNavigate();
+  const fieldWidth = '140px';
   let rowIndex = 0;
   const [bomList, setBomList] = useState<any>([]);
   const validationSchema = Yup.object().shape({
@@ -57,7 +60,7 @@ const Bom: React.FC = (props: any) => {
   });
   const intialBom: any = {
     created_by: 1,
-    sub_category_id: props?.selectedSubCategory,
+    sub_category_id: Number(params?.subCategoryId),
     item_id: '',
     bom_name: '',
     description: '',
@@ -69,7 +72,6 @@ const Bom: React.FC = (props: any) => {
     is_delete: false,
     bom_type: '',
     bom_id: '',
-    bom_list: '',
   };
   const [initialValues, setInitialValues] = useState(intialBom);
 
@@ -86,7 +88,7 @@ const Bom: React.FC = (props: any) => {
   useEffect(() => {
     const fetchData = async () => {
       const obj = {
-        id: props?.selectedSubCategory,
+        id: params?.subCategoryId,
         type: activeButton,
       };
       const getData = await BomService.getBOMbySubCatIDandType(obj);
@@ -137,9 +139,14 @@ const Bom: React.FC = (props: any) => {
   });
 
   const handleBulkBomAdd = () => {
+    console.log('finalbomList', bomList);
+
     bulkBomData(bomList, {
       onSuccess(data, variables, context) {
         console.log('data', data);
+        if (data?.status === true) {
+          navigate(`/bomlist/${params?.projectId}`);
+        }
       },
     });
   };
@@ -184,7 +191,7 @@ const Bom: React.FC = (props: any) => {
                     </td> */}
                     <td>
                       <AutoCompleteSelect
-                        width="200px"
+                        width="250px"
                         name="uom_id"
                         mandatory={true}
                         optionList={getAllUomDrop}
@@ -236,7 +243,7 @@ const Bom: React.FC = (props: any) => {
               <td>{rowIndex + 1}</td>
               <td>
                 <AutoCompleteSelect
-                  width="120px"
+                  width="250px"
                   name="item_id"
                   mandatory={true}
                   optionList={getAllItemDrop}
@@ -269,7 +276,7 @@ const Bom: React.FC = (props: any) => {
               </td> */}
               <td>
                 <AutoCompleteSelect
-                  width="200px"
+                  width="250px"
                   name="uom_id"
                   mandatory={true}
                   optionList={getAllUomDrop}
