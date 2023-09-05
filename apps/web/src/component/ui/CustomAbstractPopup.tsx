@@ -5,48 +5,59 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
 // import { createAbstract } from '../../hooks/abstract-hooks';
-import { createCategory } from '../../hooks/category-hooks';
+import { createInstantCategory } from '../../hooks/category-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import { getAbstractValidateyup } from '../../helper/constants/abstract-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
+import DatePicker from './CustomDatePicker';
 
-const CustomAbstractAdd = (props: { isVissible: any; onAction: any,selectedProject:any }) => {
-  const { isVissible, onAction,selectedProject } = props;
+const CustomAbstractAdd = (props: {
+  isVissible: any;
+  onAction: any;
+  selectedProject: any;
+  setReload:any
+}) => {
+  const { isVissible, onAction, selectedProject,setReload } = props;
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
-  const { mutate: createNewAbstract } = createCategory();
+  const { mutate: createNewAbstract } = createInstantCategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
-    project_id:''
+    project_id: '',
+    date_started: '',
+    date_ended: '',
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const formik = useFormik({
     initialValues: clientinitialValues,
     validationSchema: validationSchemaAbstract,
-    enableReinitialize: true,    
-    onSubmit: (values,{ resetForm }) => {
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
       const Object: any = {
         name: values.name,
         description: values.description,
-        project_id : selectedProject,
-        budget:0
+        project_id: selectedProject,
+        budget: 0,
+        // date_started: values.date_started,
+        // date_ended: values.date_ended
       };
-      console.log("abstract from",Object);
-        createNewAbstract(Object, {
-          onSuccess: (data, variables, context) => {
-            console.log("samlpe data==>",data);
-            
-            if (data?.status) {
-              setMessage('Abstract created');
-              setOpenSnack(true);
-              handleCloseForm();
-              resetForm();
-            }
-          },
-        });
+      console.log('abstract from', Object);
+      createNewAbstract(Object, {
+        onSuccess: (data, variables, context) => {
+          console.log('samlpe data==>', data);
+
+          if (data?.status) {
+            setMessage('Abstract created');
+            setOpenSnack(true);
+            setReload(true);
+            handleCloseForm();
+            resetForm();
+          }
+        },
+      });
     },
   });
 
@@ -103,6 +114,41 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any,selectedProje
                       maxCharacterCount={150}
                     />
                   </div>
+                  <div className={Styles.dateField}>
+                    <DatePicker
+                      label="Start Date"
+                      name="date_started"
+                      value={formik.values.date_started}
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          min: '1930-01-01',
+                          max: `${new Date().toISOString().slice(0, 10)}`,
+                        },
+                      }}
+                      error={
+                        formik.touched.date_started &&
+                        formik.errors.date_started
+                      }
+                    />
+                    <DatePicker
+                      label="End Date"
+                      name="date_ended"
+                      value={formik.values.date_ended}
+                      onChange={formik.handleChange}
+                      // InputProps={{
+                      //   inputProps: {
+                      //     min: formik.values.date_started,
+                      //     // ? formik.values.date_started.toString().slice(0, 10)
+                      //     // : '1930-01-01',
+                      //     max: `${new Date().toISOString().slice(0, 10)}`,
+                      //   },
+                      // }}
+                      error={
+                        formik.touched.date_ended && formik.errors.date_ended
+                      }
+                    />
+                  </div>
                 </div>
                 <div className={Styles.dividerStyle}></div>
                 <div className={Styles.formButton}>
@@ -146,4 +192,3 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any,selectedProje
 };
 
 export default CustomAbstractAdd;
-

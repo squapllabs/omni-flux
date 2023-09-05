@@ -34,6 +34,7 @@ const BomList = () => {
     useState<number | null>(null);
   const [categoryId, setCategoryId] = useState();
   const [categories,setCategories] = useState();
+  const [reload,setReload] = useState(false);
   // const { data: categories, isLoading: categoriesLoader } = useGetAllCategoryByProjectId(projectId);
   // console.log('categories data===>', categories);
   // console.log('mainData ==>', categoryData);
@@ -46,7 +47,7 @@ const BomList = () => {
       setCategories(datas.data)
     };
     fetchData();
-  }, []);
+  }, [reload]);
 
 
   useEffect(() => {
@@ -231,6 +232,7 @@ const BomList = () => {
         isVissible={showAbstractForm}
         onAction={setShowAbstractForm}
         selectedProject={projectsId}
+        setReload={setReload}
       />
       <CustomSubCategoryAddPopup
         isVissible={showSubCategoryForm}

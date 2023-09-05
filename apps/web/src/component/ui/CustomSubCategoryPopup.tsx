@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
-import {createSubcategory} from '../../hooks/subCategory-hooks';
+import {createInstantSubcategory} from '../../hooks/subCategory-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import { getSubCategoryValidateyup } from '../../helper/constants/abstract-constants';
@@ -16,7 +16,7 @@ const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCa
   console.log("!!!!!!!!!!",selectedProject);
   
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
-  const { mutate: createNewSubCategory } = createSubcategory();
+  const { mutate: createNewSubCategory } = createInstantSubcategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
