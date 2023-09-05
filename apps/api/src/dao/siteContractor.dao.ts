@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import { CaseInsensitiveFilter } from '../utils/caseSensitiveFilter';
 
 const add = async (
   name: string,
@@ -237,46 +238,9 @@ const searchSiteContractor = async (
       orderBy: [{ [orderByColumn]: orderByDirection }],
     });
 
-    const filteredSiteContractors = allSiteContractors.filter(
-      (siteContractor) => {
-        const lowerName = siteContractor.name
-          ? siteContractor.name.toLowerCase()
-          : '';
-        const lowerStreet =
-          siteContractor.address && siteContractor.address.street
-            ? siteContractor.address.street.toLowerCase()
-            : '';
-        const lowerCity =
-          siteContractor.address && siteContractor.address.city
-            ? siteContractor.address.city.toLowerCase()
-            : '';
-        const lowerState =
-          siteContractor.address && siteContractor.address.state
-            ? siteContractor.address.state.toLowerCase()
-            : '';
-        const lowerCountry =
-          siteContractor.address && siteContractor.address.country
-            ? siteContractor.address.country.toLowerCase()
-            : '';
-        const lowerPinCode =
-          siteContractor.address && siteContractor.address.pin_code
-            ? siteContractor.address.pin_code.toLowerCase()
-            : '';
-        const lowerDescription = siteContractor.description
-          ? siteContractor.description.toLowerCase()
-          : '';
+    const propertiesToFilter = ['name', 'address.street', 'address.city', 'address.state', 'address.country', 'address.pin_code', 'description'];
 
-        return (
-          lowerName.includes(globalSearch) ||
-          lowerStreet.includes(globalSearch) ||
-          lowerCity.includes(globalSearch) ||
-          lowerState.includes(globalSearch) ||
-          lowerCountry.includes(globalSearch) ||
-          lowerPinCode.includes(globalSearch) ||
-          lowerDescription.includes(globalSearch)
-        );
-      }
-    );
+    const filteredSiteContractors = CaseInsensitiveFilter(allSiteContractors, globalSearch, propertiesToFilter);
 
     const siteContractorCount = filteredSiteContractors.length;
     const pagedSiteContractors = filteredSiteContractors.slice(

@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import { CaseInsensitiveFilter } from '../utils/caseSensitiveFilter';
 
 const add = async (
   vendor_name: string,
@@ -165,12 +166,14 @@ const deleteVendor = async (vendorId: number, connectionObj = null) => {
   }
 };
 
+
 const searchVendor = async (
   offset: number,
   limit: number,
   orderByColumn: string,
   orderByDirection: string,
   filters,
+  global_search,
   connectionObj = null
 ) => {
   try {
@@ -187,15 +190,24 @@ const searchVendor = async (
           [orderByColumn]: orderByDirection,
         },
       ],
-      skip: offset,
-      take: limit,
     });
-    const vendorCount = await transaction.vendor.count({
-      where: filter,
-    });
+
+    const globalSearch = global_search;
+
+    const propertiesToFilter = ['preferred_payment_method_data.master_data_name', 'vendor_category_data.master_data_name',
+      'notes', 'lead_time', 'currency', 'payment_terms', 'tax_id', 'contact_phone_no', 'contact_email', 'contact_person',
+      'bank_account_details.bank_name', 'bank_account_details.account_number', 'address.street', 'address.city',
+      'address.state', 'address.country', 'address.pin_code', 'bank_account_details.ifsc_code', 'vendor_name'];
+
+    const filteredVendors = CaseInsensitiveFilter(vendor, globalSearch, propertiesToFilter);
+    const vendorCount = filteredVendors.length;
+    const vendors = filteredVendors.slice(
+      offset,
+      offset + limit
+    );
     const vendorData = {
       count: vendorCount,
-      data: vendor,
+      data: vendors,
     };
     return vendorData;
   } catch (error) {
@@ -203,6 +215,7 @@ const searchVendor = async (
     throw error;
   }
 };
+
 
 export default {
   add,
