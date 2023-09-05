@@ -11,6 +11,16 @@ const useGetAllCategory = () => {
     }
   );
 };
+const useGetAllCategoryByProjectId = (id: number) => {
+  return useQuery(
+    ['useGetAllCategoryByProject'],
+    () => CategoryService.getAllCategoryByProjectId(id),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
 const useGetAllCategoryForDrop = () => {
   return useQuery(
     ['useGetAllCategoryDrop'],
@@ -97,4 +107,5 @@ export {
   useDeleteCategory,
   useGetAllCategoryForDrop,
   getBySearchCategroy,
+  useGetAllCategoryByProjectId
 };

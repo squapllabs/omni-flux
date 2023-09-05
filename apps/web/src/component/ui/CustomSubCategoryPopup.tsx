@@ -41,7 +41,7 @@ const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCa
       createNewSubCategory(Object, {
           onSuccess: (data, variables, context) => {
             console.log("samlpe data==>",data);
-            if (data?.success === true)  {
+            if (data?.status === true)  {
               setMessage('Sub Category created');
               setOpenSnack(true);
               handleCloseForm();

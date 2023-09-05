@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useGetAllCategory } from '../../hooks/category-hooks';
+import { useGetAllCategory,useGetAllCategoryByProjectId } from '../../hooks/category-hooks';
 import Styles from '../../styles/bom.module.scss';
 import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import subCategoryService from '../../service/subCategory-service';
@@ -14,6 +14,7 @@ import { formatBudgetValue } from '../../helper/common-function';
 import BomItems from './bomItems';
 import Bom from './bom';
 import { useParams } from 'react-router-dom';
+import CategoryService from '../../service/category-service';
 
 const BomList = () => {
   const params = useParams();
@@ -32,11 +33,21 @@ const BomList = () => {
   const [openedContextMenuForCategory, setOpenedContextMenuForCategory] =
     useState<number | null>(null);
   const [categoryId, setCategoryId] = useState();
+  const [categories,setCategories] = useState();
+  // const { data: categories, isLoading: categoriesLoader } = useGetAllCategoryByProjectId(projectId);
+  // console.log('categories data===>', categories);
+  // console.log('mainData ==>', categoryData);
 
-  console.log('mainData ==>', categoryData);
 
-  const { data: categories, isLoading: categoriesLoader } = useGetAllCategory();
-  console.log('categories data===>', categories);
+  useEffect(() => {
+    const fetchData = async () => {
+      const datas = await CategoryService.getAllCategoryByProjectId(projectId)
+      console.log("use effect api called ===>",datas);
+      setCategories(datas.data)
+    };
+    fetchData();
+  }, []);
+
 
   useEffect(() => {
     handleLoadData();
@@ -77,7 +88,7 @@ const BomList = () => {
 
   return (
     <div>
-      <CustomLoader loading={categoriesLoader}>
+      {/* <CustomLoader loading={categoriesLoader}> */}
         <div className={Styles.container}>
           <div className={Styles.subHeader}></div>
           <div className={Styles.subcontainer}>
@@ -214,7 +225,7 @@ const BomList = () => {
             </div>
           </div>
         </div>
-      </CustomLoader>
+      {/* </CustomLoader> */}
       <CustomBomAddPopup isVissible={showItemForm} onAction={setShowItemForm} />
       <CustomAbstractAddPopup
         isVissible={showAbstractForm}
