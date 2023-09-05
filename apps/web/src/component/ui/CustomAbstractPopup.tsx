@@ -26,8 +26,8 @@ const CustomAbstractAdd = (props: {
     name: '',
     description: '',
     project_id: '',
-    date_started: '',
-    date_ended: '',
+    start_date: '',
+    end_date: '',
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -41,15 +41,15 @@ const CustomAbstractAdd = (props: {
         description: values.description,
         project_id: selectedProject,
         budget: 0,
-        // date_started: values.date_started,
-        // date_ended: values.date_ended
+        start_date: values.start_date,
+        end_date: values.end_date
       };
       console.log('abstract from', Object);
       createNewAbstract(Object, {
         onSuccess: (data, variables, context) => {
           console.log('samlpe data==>', data);
 
-          if (data?.status) {
+          if (data?.status === true) {
             setMessage('Abstract created');
             setOpenSnack(true);
             setReload(true);
@@ -96,7 +96,6 @@ const CustomAbstractAdd = (props: {
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       error={formik.touched.name && formik.errors.name}
-                      width="60%"
                     />
                   </div>
                   <div>
@@ -117,8 +116,8 @@ const CustomAbstractAdd = (props: {
                   <div className={Styles.dateField}>
                     <DatePicker
                       label="Start Date"
-                      name="date_started"
-                      value={formik.values.date_started}
+                      name="start_date"
+                      value={formik.values.start_date}
                       onChange={formik.handleChange}
                       InputProps={{
                         inputProps: {
@@ -127,25 +126,17 @@ const CustomAbstractAdd = (props: {
                         },
                       }}
                       error={
-                        formik.touched.date_started &&
-                        formik.errors.date_started
+                        formik.touched.start_date &&
+                        formik.errors.start_date
                       }
                     />
                     <DatePicker
                       label="End Date"
-                      name="date_ended"
-                      value={formik.values.date_ended}
+                      name="end_date"
+                      value={formik.values.end_date}
                       onChange={formik.handleChange}
-                      // InputProps={{
-                      //   inputProps: {
-                      //     min: formik.values.date_started,
-                      //     // ? formik.values.date_started.toString().slice(0, 10)
-                      //     // : '1930-01-01',
-                      //     max: `${new Date().toISOString().slice(0, 10)}`,
-                      //   },
-                      // }}
                       error={
-                        formik.touched.date_ended && formik.errors.date_ended
+                        formik.touched.end_date && formik.errors.end_date
                       }
                     />
                   </div>

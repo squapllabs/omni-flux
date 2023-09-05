@@ -8,24 +8,19 @@ export const getAbstractValidateyup = (yup: any) => {
   return yup.object().shape({
     name: yup.string().trim().required(abstractErrorMessages.ENTER_NAME),
     description: yup.string().required(abstractErrorMessages.ENTER_DESCRIPTION),
-    date_ended: yup
+    start_date: yup.date(),
+    end_date: yup
       .date()
-      .min(
-        yup.ref('date_started'),
-        'End date cannot be earlier than start date'
-      )
+      .min(yup.ref('start_date'), 'End date cannot be earlier than start date')
       .test(
         'is-greater',
         'End date must be greater than the start date',
         function (value: string | number | Date, { parent }: yup.TestContext) {
-          const startDate = parent.date_started;
-          console.log("startDate",startDate);
-          
+          const startDate = parent.start_date;
           if (!startDate || !value) return true;
           return new Date(value) > new Date(startDate);
         }
-      )
-      ,
+      ),
   });
 };
 
@@ -40,5 +35,18 @@ export const getSubCategoryValidateyup = (yup: any) => {
     description: yup
       .string()
       .required(subCategoryErrorMessages.ENTER_DESCRIPTION),
+    start_date: yup.date(),
+    end_date: yup
+      .date()
+      .min(yup.ref('start_date'), 'End date cannot be earlier than start date')
+      .test(
+        'is-greater',
+        'End date must be greater than the start date',
+        function (value: string | number | Date, { parent }: yup.TestContext) {
+          const startDate = parent.start_date;
+          if (!startDate || !value) return true;
+          return new Date(value) > new Date(startDate);
+        }
+      ),
   });
 };
