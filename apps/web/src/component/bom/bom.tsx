@@ -9,6 +9,8 @@ import { useFormik } from 'formik';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import Button from '../ui/Button';
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSnackBar from '../ui/customSnackBar';
 import { createBulkBom } from '../../hooks/bom-hooks';
 import BomService from '../../service/bom-service';
 import {
@@ -17,6 +19,8 @@ import {
 } from '../../helper/constants/bom-constants';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getBySubcategoryID } from '../../hooks/subCategory-hooks';
+import { formatBudgetValue } from '../../helper/common-function';
 
 const Bom: React.FC = (props: any) => {
   const params = useParams();
@@ -74,16 +78,23 @@ const Bom: React.FC = (props: any) => {
     bom_id: '',
   };
   const [initialValues, setInitialValues] = useState(intialBom);
-
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'RAW MATERIAL', value: 'RAWMT' },
     { label: 'LABOUR', value: 'RAWLB' },
     { label: 'MACHINERY', value: 'MAC' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('RAWMT');
+  const [bomValue, setBomValue] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
   const { data: getAllItemDrop } = useGetAllItemsDrops();
   const { data: getAllUomDrop } = useGetAllUomDrop();
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
+  const { data: getSubCategoryData } = getBySubcategoryID(
+    Number(params?.subCategoryId)
+  );
+  console.log('getSubCategoryData', getSubCategoryData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,16 +112,35 @@ const Bom: React.FC = (props: any) => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
+  const handleDeleteSiteExpense = (e: any, value: any) => {
+    setBomValue(value);
+    setOpenDelete(true);
+  };
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
     console.log('bomData', bomList[index]);
     let tempObj = {};
-    tempObj = {
-      ...bomList[index],
-      [event.target.name]: event.target.value,
-    };
+    if (
+      event.target.name === 'quantity' ||
+      event.target.name === 'price' ||
+      event.target.name === 'rate'
+    ) {
+      tempObj = {
+        ...bomList[index],
+        [event.target.name]: Number(event.target.value),
+      };
+    } else {
+      tempObj = {
+        ...bomList[index],
+        [event.target.name]: event.target.value,
+      };
+    }
+
     let tempArry = [...bomList];
     tempArry[index] = tempObj;
     setBomList(tempArry);
@@ -119,7 +149,24 @@ const Bom: React.FC = (props: any) => {
     return accumulator + currentItem.total;
   }, 0);
   console.log('sumOfRates', sumOfRates);
-
+  const deleteBOM = () => {
+    const itemIndex = bomList.findIndex(
+      (item: any) =>
+        item.item_id === bomValue?.item_id &&
+        item.is_delete === bomValue?.is_delete
+    );
+    bomList[itemIndex] = {
+      ...bomList[itemIndex],
+      is_delete: true,
+    };
+    setBomList([...bomList]);
+    rowIndex = rowIndex - 1;
+    setOpenDelete(false);
+  };
+  /* Function for closing the snackbar */
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -139,19 +186,61 @@ const Bom: React.FC = (props: any) => {
   });
 
   const handleBulkBomAdd = () => {
-    console.log('finalbomList', bomList);
+    console.log('bomList', bomList);
 
     bulkBomData(bomList, {
       onSuccess(data, variables, context) {
         console.log('data', data);
         if (data?.status === true) {
-          navigate(`/bomlist/${params?.projectId}`);
+          setTimeout(() => {
+            navigate(`/bomlist/${params?.projectId}`);
+          }, 3000);
         }
       },
     });
   };
   return (
-    <div>
+    <div className={Styles.bomcontainer}>
+      <div className={Styles.mainheader}>
+        <div>
+          <div className={Styles.mainHeading}>
+            <div className={Styles.mainLeftContent}>
+              <h3>{getSubCategoryData?.category?.name}</h3>
+              <p className={Styles.descriptionContent}>
+                {getSubCategoryData?.category?.description}
+              </p>
+            </div>
+            <div>
+              <p>Allocated Budget</p>
+              <p>
+                {formatBudgetValue(
+                  getSubCategoryData?.category?.budget
+                    ? getSubCategoryData?.category?.budget
+                    : 0
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className={Styles.mainHeading}>
+            <div className={Styles.mainLeftContent}>
+              <h3>{getSubCategoryData?.name}</h3>
+              <p className={Styles.descriptionContent}>
+                {getSubCategoryData?.description}
+              </p>
+            </div>
+            <div>
+              <p>Allocated Budget</p>
+              <p>
+                {formatBudgetValue(
+                  getSubCategoryData?.budget ? getSubCategoryData?.budget : 0
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className={Styles.groupButton}>
         <CustomGroupButton
           labels={buttonLabels}
@@ -159,29 +248,30 @@ const Bom: React.FC = (props: any) => {
           activeButton={activeButton}
         />
       </div>
-      <div className={Styles.tableContainer}>
-        <table className={Styles.scrollable_table}>
-          <thead>
-            <tr>
-              <th>S No</th>
-              <th>Item</th>
-              {/* <th>Description</th> */}
-              <th>UOM</th>
-              <th>Quantity</th>
-              <th>Rate</th>
-              <th>Total</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bomList?.map((items: any, index: any) => {
-              if (items.is_delete === false) {
-                rowIndex = rowIndex + 1;
-                return (
-                  <tr>
-                    <td>{rowIndex}</td>
-                    <td>{items.bom_name}</td>
-                    {/* <td>
+      <div className={Styles.mainBody}>
+        <div className={Styles.tableContainer}>
+          <table className={Styles.scrollable_table}>
+            <thead>
+              <tr>
+                <th>S No</th>
+                <th>Item</th>
+                {/* <th>Description</th> */}
+                <th>UOM</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bomList?.map((items: any, index: any) => {
+                if (items.is_delete === false) {
+                  rowIndex = rowIndex + 1;
+                  return (
+                    <tr>
+                      <td>{rowIndex}</td>
+                      <td>{items.bom_name}</td>
+                      {/* <td>
                       <Input
                         name="description"
                         width={fieldWidth}
@@ -189,81 +279,90 @@ const Bom: React.FC = (props: any) => {
                         onChange={(e) => handleListChange(e, index)}
                       />
                     </td> */}
-                    <td>
-                      <AutoCompleteSelect
-                        width="250px"
-                        name="uom_id"
-                        mandatory={true}
-                        optionList={getAllUomDrop}
-                        value={items.uom_id}
-                        onChange={(e) => handleListChange(e, index)}
-                      />
-                    </td>
-                    <td>
-                      <Input
-                        width={fieldWidth}
-                        name="quantity"
-                        mandatory={true}
-                        value={items.quantity}
-                        onChange={(e) => handleListChange(e, index)}
-                      />
-                    </td>
-                    <td>
-                      <Input
-                        name="rate"
-                        width={fieldWidth}
-                        value={items.rate}
-                        onChange={(e) => handleListChange(e, index)}
-                      />
-                    </td>
-                    <td>
-                      <div
-                        style={{
-                          paddingBottom: '20px',
-                        }}
-                      >
-                        <label>{items.quantity * items.rate}</label>
-                      </div>
-                    </td>
-                    <td>
-                      <div
-                        style={{
-                          cursor: 'pointer',
-                          paddingBottom: '20px',
-                        }}
-                      >
-                        <DeleteIcon />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              }
-            })}
-            <tr>
-              <td>{rowIndex + 1}</td>
-              <td>
-                <AutoCompleteSelect
-                  width="250px"
-                  name="item_id"
-                  mandatory={true}
-                  optionList={getAllItemDrop}
-                  value={formik.values.item_id}
-                  onChange={formik.handleChange}
-                  error={formik.touched.item_id && formik.errors.item_id}
-                  onSelect={(value) => {
-                    formik.setFieldValue('item_id', value);
-                    const matchingObjects = getAllItemDrop.filter(
-                      (obj: any) => Number(obj.value) === Number(value)
-                    );
-                    formik.setFieldValue('bom_name', matchingObjects[0]?.label);
-                    formik.setFieldValue(
-                      'rate',
-                      matchingObjects[0]?.temp?.rate
-                    );
-                  }}
-                />
-              </td>
-              {/* <td>
+                      <td>
+                        <AutoCompleteSelect
+                          width="250px"
+                          name="uom_id"
+                          mandatory={true}
+                          optionList={getAllUomDrop}
+                          value={items.uom_id}
+                          onChange={(e) => handleListChange(e, index)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          width={fieldWidth}
+                          name="quantity"
+                          mandatory={true}
+                          value={items.quantity}
+                          onChange={(e) => handleListChange(e, index)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          name="rate"
+                          width={fieldWidth}
+                          value={items.rate}
+                          onChange={(e) => handleListChange(e, index)}
+                        />
+                      </td>
+                      <td>
+                        <div
+                          style={{
+                            paddingBottom: '20px',
+                          }}
+                        >
+                          <label>{items.quantity * items.rate}</label>
+                        </div>
+                      </td>
+                      <td>
+                        <div
+                          style={{
+                            cursor: 'pointer',
+                            paddingBottom: '20px',
+                          }}
+                        >
+                          <div
+                            onClick={(e: any) =>
+                              handleDeleteSiteExpense(e, items)
+                            }
+                          >
+                            <DeleteIcon />
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              })}
+              <tr>
+                <td>{rowIndex + 1}</td>
+                <td>
+                  <AutoCompleteSelect
+                    width="250px"
+                    name="item_id"
+                    mandatory={true}
+                    optionList={getAllItemDrop}
+                    value={formik.values.item_id}
+                    onChange={formik.handleChange}
+                    error={formik.touched.item_id && formik.errors.item_id}
+                    onSelect={(value) => {
+                      formik.setFieldValue('item_id', value);
+                      const matchingObjects = getAllItemDrop.filter(
+                        (obj: any) => Number(obj.value) === Number(value)
+                      );
+                      formik.setFieldValue(
+                        'bom_name',
+                        matchingObjects[0]?.label
+                      );
+                      formik.setFieldValue(
+                        'rate',
+                        matchingObjects[0]?.temp?.rate
+                      );
+                    }}
+                  />
+                </td>
+                {/* <td>
                 <Input
                   name="description"
                   width={fieldWidth}
@@ -274,77 +373,106 @@ const Bom: React.FC = (props: any) => {
                   }
                 />
               </td> */}
-              <td>
-                <AutoCompleteSelect
-                  width="250px"
-                  name="uom_id"
-                  mandatory={true}
-                  optionList={getAllUomDrop}
-                  value={formik.values.uom_id}
-                  onChange={formik.handleChange}
-                  error={formik.touched.uom_id && formik.errors.uom_id}
-                  onSelect={(value) => {
-                    formik.setFieldValue('uom_id', value);
-                  }}
-                />
-              </td>
-              <td>
-                <Input
-                  width={fieldWidth}
-                  name="quantity"
-                  mandatory={true}
-                  value={formik.values.quantity}
-                  onChange={formik.handleChange}
-                  error={formik.touched.quantity && formik.errors.quantity}
-                />
-              </td>
-              <td>
-                <Input
-                  name="rate"
-                  width={fieldWidth}
-                  value={formik.values.rate}
-                  onChange={formik.handleChange}
-                  error={formik.touched.rate && formik.errors.rate}
-                />
-              </td>
-              <td>
-                <label>{formik.values.quantity * formik.values.rate}</label>
-              </td>
-              <td>
-                <div
-                  style={{
-                    cursor: 'pointer',
-                    paddingBottom: '20px',
-                  }}
-                >
-                  <div onClick={formik.handleSubmit}>
-                    <AddIcon />
+                <td>
+                  <AutoCompleteSelect
+                    width="250px"
+                    name="uom_id"
+                    mandatory={true}
+                    optionList={getAllUomDrop}
+                    value={formik.values.uom_id}
+                    onChange={formik.handleChange}
+                    error={formik.touched.uom_id && formik.errors.uom_id}
+                    onSelect={(value) => {
+                      formik.setFieldValue('uom_id', value);
+                    }}
+                  />
+                </td>
+                <td>
+                  <Input
+                    width={fieldWidth}
+                    name="quantity"
+                    mandatory={true}
+                    value={formik.values.quantity}
+                    onChange={formik.handleChange}
+                    error={formik.touched.quantity && formik.errors.quantity}
+                  />
+                </td>
+                <td>
+                  <Input
+                    name="rate"
+                    width={fieldWidth}
+                    value={formik.values.rate}
+                    onChange={formik.handleChange}
+                    error={formik.touched.rate && formik.errors.rate}
+                  />
+                </td>
+                <td>
+                  <label>{formik.values.quantity * formik.values.rate}</label>
+                </td>
+                <td>
+                  <div
+                    style={{
+                      cursor: 'pointer',
+                      paddingBottom: '20px',
+                    }}
+                  >
+                    <div onClick={formik.handleSubmit}>
+                      <AddIcon />
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className={Styles.saveButton}>
-        <Button
-          color="primary"
-          shape="rectangle"
-          justify="center"
-          size="small"
-          onClick={(e) => handleBulkBomAdd(e)}
-        >
-          SAVE
-        </Button>
-      </div>
-      <div className={Styles.totalPanel}>
-        <div className={Styles.panelList}>
-          <span>Raw Material Cost : {sumOfRates}</span>
-          <span>Manpower Cost : 0</span>
-          <span>Machinery Cost : 0</span>
-          <span>Total : {sumOfRates}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className={Styles.saveButton}>
+          <Button
+            color="primary"
+            shape="rectangle"
+            justify="center"
+            size="small"
+            onClick={(e) => handleBulkBomAdd(e)}
+          >
+            SAVE
+          </Button>
         </div>
       </div>
+
+      <div className={Styles.totalPanel}>
+        <div className={Styles.panelList}>
+          <div className={Styles.panel}>
+            <span className={Styles.panelTitle}>Raw Material Cost:</span>
+            <span>{sumOfRates}</span>
+          </div>
+          <div className={Styles.panel}>
+            <span className={Styles.panelTitle}>Manpower Cost:</span>
+            <span>0</span>
+          </div>
+          <div className={Styles.panel}>
+            <span className={Styles.panelTitle}>Machinery Cost:</span>
+            <span>0</span>
+          </div>
+          <div className={Styles.panel}>
+            <span className={Styles.panelTitle}>Total:</span>
+            <span>{sumOfRates}</span>
+          </div>
+        </div>
+      </div>
+      <CustomDelete
+        open={openDelete}
+        title="Delete BOM"
+        contentLine1="Are you sure you want to delete this BOM ?"
+        contentLine2=""
+        handleClose={handleCloseDelete}
+        handleConfirm={deleteBOM}
+      />
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
+      />
     </div>
   );
 };

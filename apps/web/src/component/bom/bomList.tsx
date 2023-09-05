@@ -220,16 +220,12 @@ const BomList = () => {
                     </div>
                   </div>
                 )}
-                {selectedSubCategory === undefined ? (
-                  <BomItems
-                    selectedCategory={selectedCategory}
-                    setSelectedSubCategory={setSelectedSubCategory}
-                    selectedSubCategory={selectedSubCategory}
-                    projectsId={projectsId}
-                  />
-                ) : (
-                  <Bom selectedSubCategory={selectedSubCategory} />
-                )}
+                <BomItems
+                  selectedCategory={selectedCategory}
+                  setSelectedSubCategory={setSelectedSubCategory}
+                  selectedSubCategory={selectedSubCategory}
+                  projectsId={projectsId}
+                />
               </div>
             </div>
           </div>
