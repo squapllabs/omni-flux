@@ -47,6 +47,9 @@ const BomList = () => {
       const datas = await CategoryService.getAllCategoryByProjectId(projectId);
       console.log('use effect api called ===>', datas);
       setCategories(datas.data);
+      setCategoryData(datas.data[0])
+      setSelectedCategory(datas.data[0].category_id)
+      setCategoryId(datas.data[0].category_id)
     };
     fetchData();
   }, [reload]);
@@ -65,16 +68,6 @@ const BomList = () => {
   const handleSelectedCategory = async (value: any) => {
     setSelectedCategory(value.category_id);
     setCategoryData(value);
-    // const subCatList = await subCategoryService.getOneSubCatListbyCatID(
-    //   value.category_id
-    // );
-    // console.log('line 62 --->', subCatList);
-    // setSubCatList(subCatList.data);
-    // if (subCatList?.data === null) {
-    //   setOpen(false);
-    // } else {
-    //   setOpen(!open);
-    // }
   };
 
   useEffect(() => {
