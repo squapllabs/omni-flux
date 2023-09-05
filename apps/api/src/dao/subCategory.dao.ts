@@ -265,6 +265,32 @@ const getByCategoryId = async (categoryId: number, connectionObj = null) => {
   }
 };
 
+const updateBudget = async (
+  budget: number,
+  sub_category_id: number,
+  updated_by: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj ? connectionObj : prisma;
+    const currentDate = new Date();
+    const subCategoryDetails = await transaction.sub_category.update({
+      where: {
+        sub_category_id: sub_category_id,
+      },
+      data: {
+        budget: budget,
+        updated_date: currentDate,
+        updated_by,
+      },
+    });
+    return subCategoryDetails;
+  } catch (error) {
+    console.log('Error occurred in sub category dao updateBudget', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -275,4 +301,5 @@ export default {
   getAllInActiveSubCategories,
   searchSubCategory,
   getByCategoryId,
+  updateBudget,
 };
