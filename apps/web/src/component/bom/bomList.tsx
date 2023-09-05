@@ -21,7 +21,7 @@ const BomList = () => {
   const projectId = Number(params?.projectId);
   console.log("pppppppp",projectId);
   const [projectsId,setProjectsId] = useState(projectId);
-  const [selectedCategory, setSelectedCategory] = useState(80);
+  const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [showItemForm, setShowItemForm] = useState(false);
   const [showAbstractForm, setShowAbstractForm] = useState(false);
@@ -67,7 +67,7 @@ const BomList = () => {
       value.category_id
     );
     console.log('line 62 --->', subCatList);
-    setSubCatList(subCatList.data);
+    // setSubCatList(subCatList.data);
     if (subCatList?.data === null) {
       setOpen(false);
     } else {

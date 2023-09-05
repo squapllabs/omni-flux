@@ -1,0 +1,37 @@
+.mainHeading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: lavender;
+  padding: 10px;
+}
+
+.mainLeftContent {
+  width: 55%;
+}
+
+.descriptionContent {
+  text-align: justify;
+  display: block;
+  font-size: small;
+}
+
+.descriptionContentOne {
+  text-align: justify;
+  display: block;
+  font-size: small;
+}
+.rightContent {
+  display: flex;
+  align-items: center;
+}
+
+.addPlan {
+  color: cadetblue;
+  font-weight: lighter;
+  font-size: x-small;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+  cursor: pointer;
+}
