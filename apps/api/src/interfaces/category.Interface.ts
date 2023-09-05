@@ -4,6 +4,8 @@ interface createCategoryBody {
   budget: number;
   created_by: bigint;
   description: string;
+  start_date: Date;
+  end_date: Date;
 }
 
 interface updateCategoryBody {
@@ -13,6 +15,8 @@ interface updateCategoryBody {
   updated_by: bigint;
   category_id: number;
   description: string;
+  start_date: Date;
+  end_date: Date;
 }
 
 export { createCategoryBody, updateCategoryBody };

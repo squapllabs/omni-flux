@@ -135,6 +135,8 @@ model category {
   project      project?       @relation(fields: [project_id], references: [project_id])
   is_delete    Boolean        @default(false) @db.Boolean
   description  String?
+  start_date   DateTime?
+  end_date     DateTime?
   sub_category sub_category[]
   bom          bom[]
 }
@@ -148,6 +150,8 @@ model sub_category {
   updated_date     DateTime
   created_by       Int?
   updated_by       Int?
+  start_date       DateTime?
+  end_date         DateTime?
   is_delete        Boolean            @default(false) @db.Boolean
   category         category?          @relation(fields: [category_id], references: [category_id])
   description      String?
@@ -586,6 +590,10 @@ model bom {
   updated_date          DateTime
   created_by            Int?
   updated_by            Int?
+  description           String?
+  rate                  Float?
+  total                 Float?
+  bom_type              String?
   uom_data              uom?              @relation(fields: [uom_id], references: [uom_id])
   category_data         category?         @relation(fields: [category_id], references: [category_id])
   sub_category_data     sub_category?     @relation(fields: [sub_category_id], references: [sub_category_id])

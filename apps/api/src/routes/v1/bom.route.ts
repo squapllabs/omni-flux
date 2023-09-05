@@ -8,6 +8,8 @@ import {
   getAllBom,
   getByCategorySubCatAndSubSubCatId,
   fetchEntireDataByBomId,
+  addBulkBom,
+  getBomBySubCategoryIdAndBomType,
 } from '../../controller/bom.controller';
 import authMiddleware from '../../middleware/auth';
 import { runValidation } from '../../validations/index';
@@ -29,6 +31,14 @@ router.post(
   getByCategorySubCatAndSubSubCatId
 );
 
-router.get('/get-entire-data/:bom_id', fetchEntireDataByBomId);
+router.get('/get-entire-data/:bom_id', authMiddleware, fetchEntireDataByBomId);
+
+router.post('/add-bulk', authMiddleware, addBulkBom);
+
+router.get(
+  '/get-by-sub-cat-id-and-bom-type/:sub_category_id/:bom_type',
+  authMiddleware,
+  getBomBySubCategoryIdAndBomType
+);
 
 export default router;

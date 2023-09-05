@@ -6,12 +6,16 @@ const add = async (
   budget: number,
   created_by: bigint,
   description: string,
+  start_date: Date,
+  end_date: Date,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const is_delete = false;
+    const formatted_start_date = start_date ? new Date(start_date) : null;
+    const formatted_end_date = end_date ? new Date(end_date) : null;
     const category = await transaction.category.create({
       data: {
         name,
@@ -22,6 +26,8 @@ const add = async (
         updated_date: currentDate,
         is_delete: is_delete,
         description,
+        start_date: formatted_start_date,
+        end_date: formatted_end_date,
       },
     });
     return category;
@@ -38,10 +44,14 @@ const edit = async (
   updated_by: bigint,
   category_id: number,
   description: string,
+  start_date: Date,
+  end_date: Date,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
+    const formatted_start_date = start_date ? new Date(start_date) : null;
+    const formatted_end_date = end_date ? new Date(end_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const category = await transaction.category.update({
       where: {
@@ -54,6 +64,8 @@ const edit = async (
         updated_by,
         updated_date: currentDate,
         description,
+        start_date: formatted_start_date,
+        end_date: formatted_end_date,
       },
     });
     return category;

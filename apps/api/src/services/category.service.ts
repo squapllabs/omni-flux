@@ -13,9 +13,26 @@ import {
  */
 const createCategory = async (body: createCategoryBody) => {
   try {
-    const { name, project_id, budget, created_by = null, description } = body;
+    const {
+      name,
+      project_id,
+      budget,
+      created_by = null,
+      description,
+      start_date,
+      end_date,
+    } = body;
     let result = null;
     if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+
       const categoryData = await categoryDao.getByCategoryNameAndProjectId(
         name,
         Number(project_id)
@@ -34,7 +51,9 @@ const createCategory = async (body: createCategoryBody) => {
       project_id,
       budget,
       created_by,
-      description
+      description,
+      start_date,
+      end_date
     );
     result = {
       message: 'success',
@@ -55,8 +74,16 @@ const createCategory = async (body: createCategoryBody) => {
  */
 const updateCategory = async (body: updateCategoryBody) => {
   try {
-    const { name, project_id, budget, updated_by, category_id, description } =
-      body;
+    const {
+      name,
+      project_id,
+      budget,
+      updated_by,
+      category_id,
+      description,
+      start_date,
+      end_date,
+    } = body;
     let result = null;
 
     const categoryExist = await categoryDao.getById(category_id);
@@ -70,6 +97,14 @@ const updateCategory = async (body: updateCategoryBody) => {
     }
 
     if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
       const categoryData = await categoryDao.getByCategoryNameAndProjectId(
         name,
         Number(project_id)
@@ -90,7 +125,9 @@ const updateCategory = async (body: updateCategoryBody) => {
       budget,
       updated_by,
       category_id,
-      description
+      description,
+      start_date,
+      end_date
     );
     result = {
       message: 'success',
