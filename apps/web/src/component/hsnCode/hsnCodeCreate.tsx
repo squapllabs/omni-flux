@@ -52,7 +52,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
         };
         createNewHsnCode(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.mesage === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Hsc Code created');
@@ -69,7 +69,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
 
         updateHsnById(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.mesage === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Hsn Code edited');
