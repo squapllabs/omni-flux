@@ -5,48 +5,59 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
 // import { createAbstract } from '../../hooks/abstract-hooks';
-import { createCategory } from '../../hooks/category-hooks';
+import { createInstantCategory } from '../../hooks/category-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import { getAbstractValidateyup } from '../../helper/constants/abstract-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
+import DatePicker from './CustomDatePicker';
 
-const CustomAbstractAdd = (props: { isVissible: any; onAction: any,selectedProject:any }) => {
-  const { isVissible, onAction,selectedProject } = props;
+const CustomAbstractAdd = (props: {
+  isVissible: any;
+  onAction: any;
+  selectedProject: any;
+  setReload:any
+}) => {
+  const { isVissible, onAction, selectedProject,setReload } = props;
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
-  const { mutate: createNewAbstract } = createCategory();
+  const { mutate: createNewAbstract } = createInstantCategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
-    project_id:''
+    project_id: '',
+    start_date: '',
+    end_date: '',
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const formik = useFormik({
     initialValues: clientinitialValues,
     validationSchema: validationSchemaAbstract,
-    enableReinitialize: true,    
-    onSubmit: (values,{ resetForm }) => {
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
       const Object: any = {
         name: values.name,
         description: values.description,
-        project_id : selectedProject,
-        budget:0
+        project_id: selectedProject,
+        budget: 0,
+        start_date: values.start_date,
+        end_date: values.end_date
       };
-      console.log("abstract from",Object);
-        createNewAbstract(Object, {
-          onSuccess: (data, variables, context) => {
-            console.log("samlpe data==>",data);
-            
-            if (data?.status) {
-              setMessage('Abstract created');
-              setOpenSnack(true);
-              handleCloseForm();
-              resetForm();
-            }
-          },
-        });
+      console.log('abstract from', Object);
+      createNewAbstract(Object, {
+        onSuccess: (data, variables, context) => {
+          console.log('samlpe data==>', data);
+
+          if (data?.status === true) {
+            setMessage('Abstract created');
+            setOpenSnack(true);
+            setReload(true);
+            handleCloseForm();
+            resetForm();
+          }
+        },
+      });
     },
   });
 
@@ -85,7 +96,6 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any,selectedProje
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       error={formik.touched.name && formik.errors.name}
-                      width="60%"
                     />
                   </div>
                   <div>
@@ -101,6 +111,33 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any,selectedProje
                       }
                       rows={5}
                       maxCharacterCount={150}
+                    />
+                  </div>
+                  <div className={Styles.dateField}>
+                    <DatePicker
+                      label="Start Date"
+                      name="start_date"
+                      value={formik.values.start_date}
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          min: '1930-01-01',
+                          max: `${new Date().toISOString().slice(0, 10)}`,
+                        },
+                      }}
+                      error={
+                        formik.touched.start_date &&
+                        formik.errors.start_date
+                      }
+                    />
+                    <DatePicker
+                      label="End Date"
+                      name="end_date"
+                      value={formik.values.end_date}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.end_date && formik.errors.end_date
+                      }
                     />
                   </div>
                 </div>
@@ -146,4 +183,3 @@ const CustomAbstractAdd = (props: { isVissible: any; onAction: any,selectedProje
 };
 
 export default CustomAbstractAdd;
-

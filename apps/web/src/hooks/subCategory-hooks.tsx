@@ -92,7 +92,7 @@ const getBySearchCategroy = () => {
   );
 };
 
-const getBycategoryIDinSub = (id: number) => {
+const getBycategoryIdInSub = (id: number) => {
   return useQuery(
     ['getSubcategoryList', id],
     () => SubcategoryService.getOneSubCatListbyCatID(id),
@@ -101,6 +101,21 @@ const getBycategoryIDinSub = (id: number) => {
     }
   );
 };
+
+const createInstantSubcategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SubcategoryService.createSubcategory(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getSubcategoryList']);
+      },
+    }
+  );
+};
+
 export {
   useGetAllSubcategory,
   getBySubcategoryID,
@@ -109,5 +124,6 @@ export {
   useDeleteSubcategory,
   getBySearchCategroy,
   useGetAllSubcategoryDrop,
-  getBycategoryIDinSub,
+  getBycategoryIdInSub,
+  createInstantSubcategory
 };

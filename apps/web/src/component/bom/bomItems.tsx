@@ -1,5 +1,5 @@
 import React from 'react';
-import { getBycategoryIDinSub } from '../../hooks/subCategory-hooks';
+import { getBycategoryIdInSub } from '../../hooks/subCategory-hooks';
 import Button from '../ui/Button';
 import Styles from '../../styles/bomList.module.scss';
 import AddIcon from '../menu/icons/addIcon';
@@ -10,7 +10,7 @@ const BomItems = (props: {
   selectedSubCategory: any;
 }) => {
   const { selectedCategory } = props;
-  const { data: getAllData } = getBycategoryIDinSub(selectedCategory);
+  const { data: getAllData } = getBycategoryIdInSub(selectedCategory);
   console.log('getAllData in bom itemss', getAllData);
 
   return (
@@ -18,7 +18,7 @@ const BomItems = (props: {
     <div>
       {getAllData?.map((items: any, index: any) => {
         return (
-          <div>
+          <div key={items.sub_category_id}>
             <div className={Styles.dividerContent}>
               <div className={Styles.mainHeading}>
                 <div className={Styles.mainLeftContent}>
