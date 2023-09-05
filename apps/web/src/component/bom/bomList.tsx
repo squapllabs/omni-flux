@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useGetAllCategory,useGetAllCategoryByProjectId } from '../../hooks/category-hooks';
+import {
+  useGetAllCategory,
+  useGetAllCategoryByProjectId,
+} from '../../hooks/category-hooks';
 import Styles from '../../styles/bom.module.scss';
 import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import subCategoryService from '../../service/subCategory-service';
@@ -19,8 +22,8 @@ import CategoryService from '../../service/category-service';
 const BomList = () => {
   const params = useParams();
   const projectId = Number(params?.projectId);
-  console.log("pppppppp",projectId);
-  const [projectsId,setProjectsId] = useState(projectId);
+  console.log('pppppppp', projectId);
+  const [projectsId, setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [showItemForm, setShowItemForm] = useState(false);
@@ -39,16 +42,14 @@ const BomList = () => {
   // console.log('categories data===>', categories);
   // console.log('mainData ==>', categoryData);
 
-
   useEffect(() => {
     const fetchData = async () => {
-      const datas = await CategoryService.getAllCategoryByProjectId(projectId)
-      console.log("use effect api called ===>",datas);
-      setCategories(datas.data)
+      const datas = await CategoryService.getAllCategoryByProjectId(projectId);
+      console.log('use effect api called ===>', datas);
+      setCategories(datas.data);
     };
     fetchData();
   }, [reload]);
-
 
   useEffect(() => {
     handleLoadData();
@@ -90,8 +91,8 @@ const BomList = () => {
   return (
     <div>
       {/* <CustomLoader loading={categoriesLoader}> */}
-        <div className={Styles.container}>
-          <div className={Styles.subHeader}></div>
+      <div className={Styles.container}>
+        <div className={Styles.subHeader}>
           <div className={Styles.subcontainer}>
             <div className={Styles.submenu}>
               <div className={Styles.side_menu}>
@@ -130,9 +131,9 @@ const BomList = () => {
                                 : Styles.primarylistContent
                             }
                             onClick={() => {
-                              handleSelectedCategory(items)
-                              setCategoryId(items.category_id)}
-                            }
+                              handleSelectedCategory(items);
+                              setCategoryId(items.category_id);
+                            }}
                           >
                             {items?.name}
                           </div>
@@ -154,7 +155,7 @@ const BomList = () => {
                                 <ul className={Styles.menu}>
                                   <li
                                     className={Styles.menuItem}
-                                    onClick={() => setShowSubCategoryForm(true)}
+                                    // onClick={() => setShowSubCategoryForm(true)}
                                   >
                                     <div
                                       style={{
@@ -166,7 +167,7 @@ const BomList = () => {
                                       <div>
                                         <AddIcon width={20} />
                                       </div>
-                                      <span>Sub Category</span>
+                                      <span>Options</span>
                                     </div>
                                   </li>
                                 </ul>
@@ -226,6 +227,7 @@ const BomList = () => {
             </div>
           </div>
         </div>
+      </div>
       {/* </CustomLoader> */}
       <CustomBomAddPopup isVissible={showItemForm} onAction={setShowItemForm} />
       <CustomAbstractAddPopup
