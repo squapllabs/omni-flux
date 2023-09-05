@@ -92,7 +92,7 @@ const getBySearchCategroy = () => {
   );
 };
 
-const getBycategoryIDinSub = (id: number) => {
+const getBycategoryIdInSub = (id: number) => {
   return useQuery(
     ['getSubcategoryList', id],
     () => SubcategoryService.getOneSubCatListbyCatID(id),
@@ -109,5 +109,5 @@ export {
   useDeleteSubcategory,
   getBySearchCategroy,
   useGetAllSubcategoryDrop,
-  getBycategoryIDinSub,
+  getBycategoryIdInSub,
 };

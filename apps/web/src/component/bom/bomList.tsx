@@ -29,7 +29,7 @@ const BomList = () => {
   const [showItemForm, setShowItemForm] = useState(false);
   const [showAbstractForm, setShowAbstractForm] = useState(false);
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [categoryData, setCategoryData] = useState();
   console.log('selectedSubCategory', selectedSubCategory);
   const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
@@ -37,6 +37,8 @@ const BomList = () => {
     useState<number | null>(null);
   const [categoryId, setCategoryId] = useState();
   const [categories, setCategories] = useState();
+  console.log('categories yy ==>', categories);
+
   // const { data: categories, isLoading: categoriesLoader } = useGetAllCategoryByProjectId(projectId);
   // console.log('categories data===>', categories);
   // console.log('mainData ==>', categoryData);
@@ -50,30 +52,30 @@ const BomList = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    handleLoadData();
-  }, [selectedCategory]);
-  const handleLoadData = async () => {
-    const Obj: any = {
-      category_id: selectedCategory,
-      sub_category_id: null,
-      sub_sub_category_id: null,
-    };
-    const bomData = await BomService.getCustomBomData(Obj);
-  };
+  // useEffect(() => {
+  //   handleLoadData();
+  // }, [selectedCategory]);
+  // const handleLoadData = async () => {
+  //   const Obj: any = {
+  //     category_id: selectedCategory,
+  //     sub_category_id: null,
+  //     sub_sub_category_id: null,
+  //   };
+  //   const bomData = await BomService.getCustomBomData(Obj);
+  // };
   const handleSelectedCategory = async (value: any) => {
     setSelectedCategory(value.category_id);
     setCategoryData(value);
-    const subCatList = await subCategoryService.getOneSubCatListbyCatID(
-      value.category_id
-    );
-    console.log('line 62 --->', subCatList);
+    // const subCatList = await subCategoryService.getOneSubCatListbyCatID(
+    //   value.category_id
+    // );
+    // console.log('line 62 --->', subCatList);
     // setSubCatList(subCatList.data);
-    if (subCatList?.data === null) {
-      setOpen(false);
-    } else {
-      setOpen(!open);
-    }
+    // if (subCatList?.data === null) {
+    //   setOpen(false);
+    // } else {
+    //   setOpen(!open);
+    // }
   };
 
   useEffect(() => {
@@ -90,117 +92,16 @@ const BomList = () => {
   return (
     <div>
       {/* <CustomLoader loading={categoriesLoader}> */}
-      <div className={Styles.container}>
-        <div className={Styles.subHeader}>
-          <div className={Styles.subcontainer}>
-            <div className={Styles.submenu}>
-              <div className={Styles.side_menu}>
-                <div className={Styles.topSideMenu}>
-                  <div className={Styles.topSideHeading}>
-                    <h3>BOQ Creator</h3>
-                  </div>
-                  <Button
-                    color="secondary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon width={20} />}
-                    onClick={() => {
-                      setShowAbstractForm(true);
-                    }}
-                  >
-                    Add Abstract
-                  </Button>
-                </div>
-                {categories?.map((items: any, index: any) => {
-                  return (
-                    <ul key={index}>
-                      <li>
-                        {/* it is category shows */}
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                          }}
-                        >
-                          <div
-                            className={
-                              selectedCategory === items.category_id
-                                ? Styles.selected
-                                : Styles.primarylistContent
-                            }
-                            onClick={() => {
-                              handleSelectedCategory(items);
-                              setCategoryId(items.category_id);
-                            }}
-                          >
-                            {items?.name}
-                          </div>
-                          <div>
-                            {/* category add  */}
-                            <MoreVerticalIcon
-                              onClick={(e: any) => {
-                                e.stopPropagation();
-                                setOpenedContextMenuForCategory(
-                                  items.category_id
-                                );
-                                setCategoryId(items.category_id);
-                                setMoreIconDropdownOpen(!moreIconDropdownOpen);
-                              }}
-                            />
-                            {moreIconDropdownOpen &&
-                              items.category_id ===
-                                openedContextMenuForCategory && (
-                                <ul className={Styles.menu}>
-                                  <li
-                                    className={Styles.menuItem}
-                                    // onClick={() => setShowSubCategoryForm(true)}
-                                  >
-                                    <div
-                                      style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '5px',
-                                      }}
-                                    >
-                                      <div>
-                                        <AddIcon width={20} />
-                                      </div>
-                                      <span>Options</span>
-                                    </div>
-                                  </li>
-                                </ul>
-                              )}
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  );
-                })}
-              </div>
-            </div>
-            <div className={Styles.mainContainer}>
-              {categoryData && (
-                <div className={Styles.mainHeading}>
-                  <div className={Styles.mainLeftContent}>
-                    <h3>{categoryData?.name}</h3>
-                    <p className={Styles.descriptionContent}>
-                      {categoryData?.description}
-                    </p>
-                  </div>
-                  <div>
-                    <p>Allocated Budget</p>
-                    <p>
-                      {formatBudgetValue(
-                        categoryData?.budget ? categoryData?.budget : 0
-                      )}
-                    </p>
-                  </div>
-                </div>
-              )}
-              {selectedSubCategory === undefined ? (
-                <>
-                  <div className={Styles.taskButton}>
+      {categories ? (
+        <div className={Styles.container}>
+          <div className={Styles.subHeader}>
+            <div className={Styles.subcontainer}>
+              <div className={Styles.submenu}>
+                <div className={Styles.side_menu}>
+                  <div className={Styles.topSideMenu}>
+                    <div className={Styles.topSideHeading}>
+                      <h3>BOQ Creator</h3>
+                    </div>
                     <Button
                       color="secondary"
                       shape="rectangle"
@@ -208,25 +109,148 @@ const BomList = () => {
                       size="small"
                       icon={<AddIcon width={20} />}
                       onClick={() => {
-                        setShowSubCategoryForm(true);
+                        setShowAbstractForm(true);
                       }}
                     >
-                      Add Tasks
+                      Add Abstract
                     </Button>
                   </div>
+                  {categories?.map((items: any, index: any) => {
+                    return (
+                      <ul key={index}>
+                        <li>
+                          {/* it is category shows */}
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                            }}
+                          >
+                            <div
+                              className={
+                                selectedCategory === items.category_id
+                                  ? Styles.selected
+                                  : Styles.primarylistContent
+                              }
+                              onClick={() => {
+                                handleSelectedCategory(items);
+                                setCategoryId(items.category_id);
+                              }}
+                            >
+                              {items?.name}
+                            </div>
+                            <div>
+                              {/* category add  */}
+                              <MoreVerticalIcon
+                                onClick={(e: any) => {
+                                  e.stopPropagation();
+                                  setOpenedContextMenuForCategory(
+                                    items.category_id
+                                  );
+                                  setCategoryId(items.category_id);
+                                  setMoreIconDropdownOpen(
+                                    !moreIconDropdownOpen
+                                  );
+                                }}
+                              />
+                              {moreIconDropdownOpen &&
+                                items.category_id ===
+                                  openedContextMenuForCategory && (
+                                  <ul className={Styles.menu}>
+                                    <li
+                                      className={Styles.menuItem}
+                                      // onClick={() => setShowSubCategoryForm(true)}
+                                    >
+                                      <div
+                                        style={{
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                          gap: '5px',
+                                        }}
+                                      >
+                                        <div>
+                                          <AddIcon width={20} />
+                                        </div>
+                                        <span>Options</span>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                )}
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className={Styles.mainContainer}>
+                {categoryData && (
+                  <div>
+                    <div className={Styles.mainHeading}>
+                      <div className={Styles.mainLeftContent}>
+                        <h3>{categoryData?.name}</h3>
+                        <p className={Styles.descriptionContent}>
+                          {categoryData?.description}
+                        </p>
+                      </div>
+                      <div>
+                        <p>Allocated Budget</p>
+                        <p>
+                          {formatBudgetValue(
+                            categoryData?.budget ? categoryData?.budget : 0
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                    <div>
+                      <div className={Styles.taskButton}>
+                        <Button
+                          color="secondary"
+                          shape="rectangle"
+                          justify="center"
+                          size="small"
+                          icon={<AddIcon width={20} />}
+                          onClick={() => {
+                            setShowSubCategoryForm(true);
+                          }}
+                        >
+                          Add Tasks
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {selectedSubCategory === undefined ? (
                   <BomItems
                     selectedCategory={selectedCategory}
                     setSelectedSubCategory={setSelectedSubCategory}
                     selectedSubCategory={selectedSubCategory}
                   />
-                </>
-              ) : (
-                <Bom selectedSubCategory={selectedSubCategory} />
-              )}
+                ) : (
+                  <Bom selectedSubCategory={selectedSubCategory} />
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className={Styles.Secondcontainer}>
+          <div className={Styles.abstractButton}>
+            <Button
+              color="primary"
+              shape="rectangle"
+              size="small"
+              icon={<AddIcon width={20} />}
+              onClick={() => {
+                setShowAbstractForm(true);
+              }}
+            >
+              Add Abstract
+            </Button>
+          </div>
+        </div>
+      )}
       {/* </CustomLoader> */}
       <CustomBomAddPopup isVissible={showItemForm} onAction={setShowItemForm} />
       <CustomAbstractAddPopup
