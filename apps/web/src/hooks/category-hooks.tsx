@@ -21,6 +21,21 @@ const useGetAllCategoryByProjectId = (id: number) => {
     }
   );
 };
+
+const createInstantCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return CategoryService.createCategory(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllCategoryByProject']);
+      },
+    }
+  );
+};
+
 const useGetAllCategoryForDrop = () => {
   return useQuery(
     ['useGetAllCategoryDrop'],
@@ -107,5 +122,6 @@ export {
   useDeleteCategory,
   useGetAllCategoryForDrop,
   getBySearchCategroy,
-  useGetAllCategoryByProjectId
+  useGetAllCategoryByProjectId,
+  createInstantCategory
 };

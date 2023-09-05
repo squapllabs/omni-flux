@@ -258,16 +258,47 @@ const getEntireDataByBomId = async (bom_id: number) => {
  */
 const addBulkBom = async (body) => {
   try {
+    const sub_category_id = body[0].sub_category_id;
+
+    const subCategoryExist = await subCategoryDao.getById(sub_category_id);
+    if (!subCategoryExist) {
+      return {
+        message: 'sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
     const bom = await bomDao.addBulk(body);
+    let subCategoryBudget = 0;
+    const updated_by = body[0].updated_by
+      ? body[0].updated_by
+      : body[0].created_by
+      ? body[0].created_by
+      : null;
+    for (const bom of body) {
+      if (!bom.is_delete) {
+        subCategoryBudget += bom.total;
+      }
+    }
+
+    const subCategoryDetails = await subCategoryDao.updateBudget(
+      subCategoryBudget,
+      sub_category_id,
+      updated_by
+    );
+
+    const data = { bom: bom, sub_category_details: subCategoryDetails };
+
     if (bom) {
       return {
         message: 'success',
         status: true,
-        data: bom,
+        data: data,
       };
     }
   } catch (error) {
-    console.log('Error occurred in getEntireDataByBomId bom.service', error);
+    console.log('Error occurred in Bom service addBulkBom : ', error);
     throw error;
   }
 };

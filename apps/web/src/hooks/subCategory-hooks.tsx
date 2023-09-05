@@ -101,6 +101,21 @@ const getBycategoryIdInSub = (id: number) => {
     }
   );
 };
+
+const createInstantSubcategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SubcategoryService.createSubcategory(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getSubcategoryList']);
+      },
+    }
+  );
+};
+
 export {
   useGetAllSubcategory,
   getBySubcategoryID,
@@ -110,4 +125,5 @@ export {
   getBySearchCategroy,
   useGetAllSubcategoryDrop,
   getBycategoryIdInSub,
+  createInstantSubcategory
 };
