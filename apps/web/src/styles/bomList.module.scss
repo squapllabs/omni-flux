@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: lavender;
+  background-color: white;
   padding: 10px;
 }
 
@@ -27,11 +27,36 @@
 }
 
 .addPlan {
-  color: cadetblue;
+  color: #7f56d9;
   font-weight: lighter;
   font-size: x-small;
   display: flex;
   flex-direction: row;
-  align-self: flex-end;
   cursor: pointer;
+  padding: 5px 0px 0px 5px;
+  width:7%;
 }
+.addText{
+    padding-top: 2px;
+}
+.dividerContent{
+    border-bottom: 1px solid #ccc; 
+    padding: 7px;
+}
+
+.scrollContainer{
+    height: 400px; 
+    overflow-y: auto;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    width: 0.5em;
+  }
+  
+  .scrollContainer::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Color of the thumb (bar itself) */
+  }
+  
+  .sscrollContainer::-webkit-scrollbar-track {
+    background-color: transparent; /* Color of the track (background behind thumb) */
+  }
