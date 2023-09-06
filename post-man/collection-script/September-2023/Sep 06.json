@@ -11822,7 +11822,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "[\r\n    {\r\n        \"bom_name\": \"Sand\",\r\n        \"item_id\": 165,\r\n        \"uom_id\": 6,\r\n        \"description\": \"Sand Description\",\r\n        \"quantity\": 100,\r\n        \"rate\": 500,\r\n        \"total\": 50101,\r\n        \"created_by\": 1,\r\n        \"sub_category_id\": 72,\r\n        \"bom_type\": \"RAWMT\", // RESOR,MACHRY\r\n        \"is_delete\": false\r\n    },\r\n    {\r\n        \"bom_name\": \"Brick\",\r\n        \"item_id\": 165,\r\n        \"uom_id\": 6,\r\n        \"description\": \"Brick Description\",\r\n        \"quantity\": 100,\r\n        \"rate\": 500,\r\n        \"total\": 50001,\r\n        \"created_by\": 1,\r\n        \"sub_category_id\": 72,\r\n        \"bom_type\": \"RAWMT\", // RESOR,MACHRY\r\n        \"is_delete\": false\r\n    }\r\n]",
+              "raw": "[\r\n    {\r\n        \"bom_name\": \"Pipes\",\r\n        \"machinery_id\": 6,\r\n        \"uom_id\": 6,\r\n        \"description\": \"Pipes Description\",\r\n        \"quantity\": 8,\r\n        \"rate\": 500,\r\n        \"total\": 4000,\r\n        \"created_by\": 1,\r\n        \"sub_category_id\": 72,\r\n        \"bom_type\": \"MCHNRY\",\r\n        \"is_delete\": false\r\n    }\r\n]",
               "options": {
                 "raw": {
                   "language": "json"
@@ -11837,7 +11837,7 @@
           },
           "response": [
             {
-              "name": "API To Add Bulk BOM",
+              "name": "Raw Materials Example",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -11907,6 +11907,150 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"bom_id\": 30,\n            \"bom_name\": \"Sand\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 62,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T06:44:32.779Z\",\n            \"updated_date\": \"2023-09-05T06:45:01.468Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Sand Description\",\n            \"rate\": 500,\n            \"total\": 50000,\n            \"bom_type\": \"RAWMT\"\n        },\n        {\n            \"bom_id\": 31,\n            \"bom_name\": \"Brick\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 62,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T06:44:32.779Z\",\n            \"updated_date\": \"2023-09-05T06:45:01.468Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Brick Description\",\n            \"rate\": 500,\n            \"total\": 50000,\n            \"bom_type\": \"RAWMT\"\n        }\n    ]\n}"
+            },
+            {
+              "name": "Labour Example",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\r\n    {\r\n        \"bom_name\": \"Electrician\",\r\n        \"labour_id\": 3,\r\n        \"uom_id\": 6,\r\n        \"description\": \"Electrician Description\",\r\n        \"quantity\": 8,\r\n        \"rate\": 500,\r\n        \"total\": 4000,\r\n        \"created_by\": 1,\r\n        \"sub_category_id\": 72,\r\n        \"bom_type\": \"LABOR\",\r\n        \"is_delete\": false\r\n    }\r\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/bom/add-bulk",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "bom", "add-bulk"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1169"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"491-Em+MugSDVu92A9SA4Yg3THJ8rMY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 06 Sep 2023 12:58:30 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"bom\": [\n            {\n                \"bom_id\": 78,\n                \"bom_name\": \"Electrician\",\n                \"quantity\": 8,\n                \"uom_id\": 6,\n                \"category_id\": null,\n                \"sub_category_id\": 72,\n                \"sub_sub_category_id\": null,\n                \"item_id\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-06T12:58:29.059Z\",\n                \"updated_date\": \"2023-09-06T12:58:29.059Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"description\": \"Electrician Description\",\n                \"rate\": 500,\n                \"total\": 4000,\n                \"bom_type\": \"LABOR\",\n                \"machinery_id\": null,\n                \"labour_id\": 3\n            }\n        ],\n        \"sub_category_details\": {\n            \"sub_category_id\": 72,\n            \"name\": \"Soil Testing\",\n            \"category_id\": 100,\n            \"budget\": 4000,\n            \"created_date\": \"2023-09-05T07:56:39.083Z\",\n            \"updated_date\": \"2023-09-06T12:58:29.510Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"start_date\": \"1999-11-24T00:00:00.000Z\",\n            \"end_date\": \"1999-11-26T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"description\": \"Description for Soil Testing\",\n            \"project_id\": 80\n        },\n        \"category_details\": {\n            \"category_id\": 100,\n            \"name\": \"Civil\",\n            \"project_id\": 80,\n            \"budget\": 4000,\n            \"created_date\": \"2023-09-05T07:50:09.432Z\",\n            \"updated_date\": \"2023-09-06T12:58:30.302Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"is_delete\": false,\n            \"description\": \"Updated Description for Civil Category\",\n            \"start_date\": \"1999-11-24T00:00:00.000Z\",\n            \"end_date\": \"1999-11-30T00:00:00.000Z\"\n        }\n    }\n}"
+            },
+            {
+              "name": "Machinery Example",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\r\n    {\r\n        \"bom_name\": \"Pipes\",\r\n        \"machinery_id\": 6,\r\n        \"uom_id\": 6,\r\n        \"description\": \"Pipes Description\",\r\n        \"quantity\": 8,\r\n        \"rate\": 500,\r\n        \"total\": 4000,\r\n        \"created_by\": 1,\r\n        \"sub_category_id\": 72,\r\n        \"bom_type\": \"MCHNRY\",\r\n        \"is_delete\": false\r\n    }\r\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/bom/add-bulk",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "bom", "add-bulk"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1158"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"486-uzbizaqDxEt/sFI/DZjJN+pHVfA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 06 Sep 2023 12:59:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"bom\": [\n            {\n                \"bom_id\": 79,\n                \"bom_name\": \"Pipes\",\n                \"quantity\": 8,\n                \"uom_id\": 6,\n                \"category_id\": null,\n                \"sub_category_id\": 72,\n                \"sub_sub_category_id\": null,\n                \"item_id\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-06T12:59:53.008Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.008Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"description\": \"Pipes Description\",\n                \"rate\": 500,\n                \"total\": 4000,\n                \"bom_type\": \"MCHNRY\",\n                \"machinery_id\": 6,\n                \"labour_id\": null\n            }\n        ],\n        \"sub_category_details\": {\n            \"sub_category_id\": 72,\n            \"name\": \"Soil Testing\",\n            \"category_id\": 100,\n            \"budget\": 4000,\n            \"created_date\": \"2023-09-05T07:56:39.083Z\",\n            \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"start_date\": \"1999-11-24T00:00:00.000Z\",\n            \"end_date\": \"1999-11-26T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"description\": \"Description for Soil Testing\",\n            \"project_id\": 80\n        },\n        \"category_details\": {\n            \"category_id\": 100,\n            \"name\": \"Civil\",\n            \"project_id\": 80,\n            \"budget\": 4000,\n            \"created_date\": \"2023-09-05T07:50:09.432Z\",\n            \"updated_date\": \"2023-09-06T12:59:53.926Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"is_delete\": false,\n            \"description\": \"Updated Description for Civil Category\",\n            \"start_date\": \"1999-11-24T00:00:00.000Z\",\n            \"end_date\": \"1999-11-30T00:00:00.000Z\"\n        }\n    }\n}"
             }
           ]
         },
@@ -12177,15 +12321,15 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "2654"
+                  "value": "38478"
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"a5e-f9eliVDwz3wiLc9wB97PGZrTlgQ\""
+                  "value": "W/\"964e-qWWm/zVX77Pu0yqVJuDaIrJsVIk\""
                 },
                 {
                   "key": "Date",
-                  "value": "Tue, 05 Sep 2023 06:46:58 GMT"
+                  "value": "Wed, 06 Sep 2023 13:01:32 GMT"
                 },
                 {
                   "key": "Connection",
@@ -12197,7 +12341,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"bom_id\": 30,\n            \"bom_name\": \"Sand\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 62,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T06:44:32.779Z\",\n            \"updated_date\": \"2023-09-05T06:45:01.468Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Sand Description\",\n            \"rate\": 500,\n            \"total\": 50000,\n            \"bom_type\": \"RAWMT\",\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 62,\n                \"name\": \"Item No. 1\",\n                \"category_id\": 93,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-04T12:58:29.656Z\",\n                \"updated_date\": \"2023-09-04T12:58:29.656Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"description\": \"Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            }\n        },\n        {\n            \"bom_id\": 31,\n            \"bom_name\": \"Brick\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 62,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T06:44:32.779Z\",\n            \"updated_date\": \"2023-09-05T06:45:01.468Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Brick Description\",\n            \"rate\": 500,\n            \"total\": 50000,\n            \"bom_type\": \"RAWMT\",\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 62,\n                \"name\": \"Item No. 1\",\n                \"category_id\": 93,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-04T12:58:29.656Z\",\n                \"updated_date\": \"2023-09-04T12:58:29.656Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"description\": \"Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            }\n        }\n    ]\n}"
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"bom_id\": 79,\n            \"bom_name\": \"Pipes\",\n            \"quantity\": 8,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T12:59:53.008Z\",\n            \"updated_date\": \"2023-09-06T12:59:53.008Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Pipes Description\",\n            \"rate\": 500,\n            \"total\": 4000,\n            \"bom_type\": \"MCHNRY\",\n            \"machinery_id\": 6,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": null,\n            \"labour_data\": null,\n            \"machinery_data\": {\n                \"machinery_id\": 6,\n                \"machinery_name\": \"Pipes\",\n                \"machinery_model\": \"ABC-123\",\n                \"machinery_type\": \"Heavy Equipment\",\n                \"manufacturer\": \"APV Machinery Co.\",\n                \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n                \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n                \"operational_status\": \"Operational\",\n                \"location\": \"Construction Site A\",\n                \"rate\": 150,\n                \"uom_id\": 6,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-06T12:39:31.474Z\",\n                \"updated_date\": \"2023-09-06T12:40:40.121Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            }\n        },\n        {\n            \"bom_id\": 78,\n            \"bom_name\": \"Electrician\",\n            \"quantity\": 8,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T12:58:29.059Z\",\n            \"updated_date\": \"2023-09-06T12:58:29.059Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Electrician Description\",\n            \"rate\": 500,\n            \"total\": 4000,\n            \"bom_type\": \"LABOR\",\n            \"machinery_id\": null,\n            \"labour_id\": 3,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": null,\n            \"labour_data\": {\n                \"labour_id\": 3,\n                \"labour_type\": \"Electrician\",\n                \"rate\": 30,\n                \"uom_id\": 6,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-06T11:20:34.371Z\",\n                \"updated_date\": \"2023-09-06T11:21:18.702Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 77,\n            \"bom_name\": \"Labour\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T12:53:12.602Z\",\n            \"updated_date\": \"2023-09-06T12:53:12.602Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Labour Description\",\n            \"rate\": 500,\n            \"total\": 50101,\n            \"bom_type\": \"LABOR\",\n            \"machinery_id\": null,\n            \"labour_id\": 3,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": null,\n            \"labour_data\": {\n                \"labour_id\": 3,\n                \"labour_type\": \"Electrician\",\n                \"rate\": 30,\n                \"uom_id\": 6,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-06T11:20:34.371Z\",\n                \"updated_date\": \"2023-09-06T11:21:18.702Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 76,\n            \"bom_name\": \"Pipe\",\n            \"quantity\": 2,\n            \"uom_id\": 4,\n            \"category_id\": null,\n            \"sub_category_id\": 84,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 166,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T12:36:51.301Z\",\n            \"updated_date\": \"2023-09-06T12:36:51.301Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 340,\n            \"total\": 680,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 4,\n                \"name\": \"Meter\",\n                \"description\": \"Unit length measurement\",\n                \"created_date\": \"2023-07-18T07:15:09.336Z\",\n                \"updated_date\": \"2023-08-23T23:53:09.931Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 84,\n                \"name\": \"Phase One\",\n                \"category_id\": 119,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-05T14:27:42.290Z\",\n                \"updated_date\": \"2023-09-06T12:46:22.320Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Phase 1 ground projects\",\n                \"project_id\": 82\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 166,\n                \"item_name\": \"Pipe\",\n                \"description\": \"water pipes\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 48,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T12:32:07.422Z\",\n                \"updated_date\": \"2023-09-04T12:32:07.422Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 6,\n                \"rate\": 340,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 63,\n            \"bom_name\": \"TMT Rod\",\n            \"quantity\": 2,\n            \"uom_id\": 47,\n            \"category_id\": null,\n            \"sub_category_id\": 84,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 167,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T14:28:13.695Z\",\n            \"updated_date\": \"2023-09-06T12:36:51.301Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 1000,\n            \"total\": 2000,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 47,\n                \"name\": \"Laptop\",\n                \"description\": \"Pieces\",\n                \"created_date\": \"2023-08-31T23:43:31.314Z\",\n                \"updated_date\": \"2023-08-31T23:43:31.314Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 84,\n                \"name\": \"Phase One\",\n                \"category_id\": 119,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-05T14:27:42.290Z\",\n                \"updated_date\": \"2023-09-06T12:46:22.320Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Phase 1 ground projects\",\n                \"project_id\": 82\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 167,\n                \"item_name\": \"TMT Rod\",\n                \"description\": \"Steel for concrete\",\n                \"hsn_code_id\": 368,\n                \"gst_id\": 53,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 5,\n                \"rate\": 1000,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 64,\n            \"bom_name\": \"Cement\",\n            \"quantity\": 3,\n            \"uom_id\": 44,\n            \"category_id\": null,\n            \"sub_category_id\": 84,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T14:28:13.695Z\",\n            \"updated_date\": \"2023-09-06T12:36:51.301Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 50050,\n            \"total\": 150150,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 44,\n                \"name\": \"Electrical Currents\",\n                \"description\": \"Amperes\",\n                \"created_date\": \"2023-08-30T12:36:03.251Z\",\n                \"updated_date\": \"2023-08-31T11:50:47.247Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 84,\n                \"name\": \"Phase One\",\n                \"category_id\": 119,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-05T14:27:42.290Z\",\n                \"updated_date\": \"2023-09-06T12:46:22.320Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Phase 1 ground projects\",\n                \"project_id\": 82\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 75,\n            \"bom_name\": \"Pipe\",\n            \"quantity\": 22,\n            \"uom_id\": 51,\n            \"category_id\": null,\n            \"sub_category_id\": 89,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 166,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T11:18:06.119Z\",\n            \"updated_date\": \"2023-09-06T11:18:06.119Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 340,\n            \"total\": 7480,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 51,\n                \"name\": \"Hourly Wise\",\n                \"description\": \"Hourly Wise\",\n                \"created_date\": \"2023-09-06T11:01:03.050Z\",\n                \"updated_date\": \"2023-09-06T11:01:03.050Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": \"LABOR\",\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 89,\n                \"name\": \"Fire phase 4\",\n                \"category_id\": 125,\n                \"budget\": 7480,\n                \"created_date\": \"2023-09-06T11:17:39.358Z\",\n                \"updated_date\": \"2023-09-06T11:18:06.261Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Fire phase 4\",\n                \"project_id\": 84\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 166,\n                \"item_name\": \"Pipe\",\n                \"description\": \"water pipes\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 48,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T12:32:07.422Z\",\n                \"updated_date\": \"2023-09-04T12:32:07.422Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 6,\n                \"rate\": 340,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 74,\n            \"bom_name\": \"Pipe\",\n            \"quantity\": 3,\n            \"uom_id\": 44,\n            \"category_id\": null,\n            \"sub_category_id\": 88,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 166,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T10:28:02.961Z\",\n            \"updated_date\": \"2023-09-06T10:28:02.961Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 340,\n            \"total\": 1020,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 44,\n                \"name\": \"Electrical Currents\",\n                \"description\": \"Amperes\",\n                \"created_date\": \"2023-08-30T12:36:03.251Z\",\n                \"updated_date\": \"2023-08-31T11:50:47.247Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 88,\n                \"name\": \"Fire Phase 3 check\",\n                \"category_id\": 125,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-06T10:27:31.516Z\",\n                \"updated_date\": \"2023-09-06T12:44:26.934Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": true,\n                \"description\": \"Fire Phase 3 check\",\n                \"project_id\": 84\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 166,\n                \"item_name\": \"Pipe\",\n                \"description\": \"water pipes\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 48,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T12:32:07.422Z\",\n                \"updated_date\": \"2023-09-04T12:32:07.422Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 6,\n                \"rate\": 340,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 73,\n            \"bom_name\": \"TMT Rod\",\n            \"quantity\": 22,\n            \"uom_id\": 45,\n            \"category_id\": null,\n            \"sub_category_id\": 88,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 167,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T10:28:02.961Z\",\n            \"updated_date\": \"2023-09-06T10:28:02.961Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 1000,\n            \"total\": 22000,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 45,\n                \"name\": \"Resistances\",\n                \"description\": \"OHM\",\n                \"created_date\": \"2023-08-30T12:41:00.374Z\",\n                \"updated_date\": \"2023-08-31T11:50:53.358Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 88,\n                \"name\": \"Fire Phase 3 check\",\n                \"category_id\": 125,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-06T10:27:31.516Z\",\n                \"updated_date\": \"2023-09-06T12:44:26.934Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": true,\n                \"description\": \"Fire Phase 3 check\",\n                \"project_id\": 84\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 167,\n                \"item_name\": \"TMT Rod\",\n                \"description\": \"Steel for concrete\",\n                \"hsn_code_id\": 368,\n                \"gst_id\": 53,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 5,\n                \"rate\": 1000,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 70,\n            \"bom_name\": \"Pipe\",\n            \"quantity\": 20,\n            \"uom_id\": 44,\n            \"category_id\": null,\n            \"sub_category_id\": 87,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 166,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T10:05:42.800Z\",\n            \"updated_date\": \"2023-09-06T10:18:45.404Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 340,\n            \"total\": 6800,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 44,\n                \"name\": \"Electrical Currents\",\n                \"description\": \"Amperes\",\n                \"created_date\": \"2023-08-30T12:36:03.251Z\",\n                \"updated_date\": \"2023-08-31T11:50:47.247Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 87,\n                \"name\": \"Ground fire one\",\n                \"category_id\": 121,\n                \"budget\": 67811,\n                \"created_date\": \"2023-09-06T07:38:55.756Z\",\n                \"updated_date\": \"2023-09-06T10:18:45.755Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Ground fire one description\",\n                \"project_id\": 84\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 166,\n                \"item_name\": \"Pipe\",\n                \"description\": \"water pipes\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 48,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T12:32:07.422Z\",\n                \"updated_date\": \"2023-09-04T12:32:07.422Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 6,\n                \"rate\": 340,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 69,\n            \"bom_name\": \"TMT Rod\",\n            \"quantity\": 50,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 87,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 167,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T07:41:07.300Z\",\n            \"updated_date\": \"2023-09-06T10:18:45.404Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 1000,\n            \"total\": 50000,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 87,\n                \"name\": \"Ground fire one\",\n                \"category_id\": 121,\n                \"budget\": 67811,\n                \"created_date\": \"2023-09-06T07:38:55.756Z\",\n                \"updated_date\": \"2023-09-06T10:18:45.755Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Ground fire one description\",\n                \"project_id\": 84\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 167,\n                \"item_name\": \"TMT Rod\",\n                \"description\": \"Steel for concrete\",\n                \"hsn_code_id\": 368,\n                \"gst_id\": 53,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 5,\n                \"rate\": 1000,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 72,\n            \"bom_name\": \"Item 10\",\n            \"quantity\": 22,\n            \"uom_id\": 44,\n            \"category_id\": null,\n            \"sub_category_id\": 87,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 163,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T10:18:45.404Z\",\n            \"updated_date\": \"2023-09-06T10:18:45.404Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 500.5,\n            \"total\": 11011,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 44,\n                \"name\": \"Electrical Currents\",\n                \"description\": \"Amperes\",\n                \"created_date\": \"2023-08-30T12:36:03.251Z\",\n                \"updated_date\": \"2023-08-31T11:50:47.247Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 87,\n                \"name\": \"Ground fire one\",\n                \"category_id\": 121,\n                \"budget\": 67811,\n                \"created_date\": \"2023-09-06T07:38:55.756Z\",\n                \"updated_date\": \"2023-09-06T10:18:45.755Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Ground fire one description\",\n                \"project_id\": 84\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 163,\n                \"item_name\": \"Item 10\",\n                \"description\": \"Item 10 Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 500.5,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 67,\n            \"bom_name\": \"Pipe\",\n            \"quantity\": 1,\n            \"uom_id\": 45,\n            \"category_id\": null,\n            \"sub_category_id\": 86,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 166,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T05:22:27.755Z\",\n            \"updated_date\": \"2023-09-06T07:37:39.283Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 340,\n            \"total\": 340,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 45,\n                \"name\": \"Resistances\",\n                \"description\": \"OHM\",\n                \"created_date\": \"2023-08-30T12:41:00.374Z\",\n                \"updated_date\": \"2023-08-31T11:50:53.358Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 86,\n                \"name\": \"Ground Fire\",\n                \"category_id\": 121,\n                \"budget\": 100440,\n                \"created_date\": \"2023-09-06T05:19:52.187Z\",\n                \"updated_date\": \"2023-09-06T07:37:39.940Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Ground Fire\",\n                \"project_id\": 84\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 166,\n                \"item_name\": \"Pipe\",\n                \"description\": \"water pipes\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 48,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T12:32:07.422Z\",\n                \"updated_date\": \"2023-09-04T12:32:07.422Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 6,\n                \"rate\": 340,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 68,\n            \"bom_name\": \"Cement\",\n            \"quantity\": 2,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 86,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T07:37:39.283Z\",\n            \"updated_date\": \"2023-09-06T07:37:39.283Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 50050,\n            \"total\": 100100,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 86,\n                \"name\": \"Ground Fire\",\n                \"category_id\": 121,\n                \"budget\": 100440,\n                \"created_date\": \"2023-09-06T05:19:52.187Z\",\n                \"updated_date\": \"2023-09-06T07:37:39.940Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Ground Fire\",\n                \"project_id\": 84\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 66,\n            \"bom_name\": \"Item 10\",\n            \"quantity\": 3,\n            \"uom_id\": 45,\n            \"category_id\": null,\n            \"sub_category_id\": 85,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 163,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T14:37:54.798Z\",\n            \"updated_date\": \"2023-09-05T14:37:54.798Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 500.5,\n            \"total\": 1501.5,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 45,\n                \"name\": \"Resistances\",\n                \"description\": \"OHM\",\n                \"created_date\": \"2023-08-30T12:41:00.374Z\",\n                \"updated_date\": \"2023-08-31T11:50:53.358Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 85,\n                \"name\": \"Ground level\",\n                \"category_id\": 120,\n                \"budget\": 101601.5,\n                \"created_date\": \"2023-09-05T14:37:18.550Z\",\n                \"updated_date\": \"2023-09-05T14:37:55.060Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Ground level\",\n                \"project_id\": 83\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 163,\n                \"item_name\": \"Item 10\",\n                \"description\": \"Item 10 Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 500.5,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 65,\n            \"bom_name\": \"Cement\",\n            \"quantity\": 2,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 85,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T14:37:54.798Z\",\n            \"updated_date\": \"2023-09-05T14:37:54.798Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 50050,\n            \"total\": 100100,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 85,\n                \"name\": \"Ground level\",\n                \"category_id\": 120,\n                \"budget\": 101601.5,\n                \"created_date\": \"2023-09-05T14:37:18.550Z\",\n                \"updated_date\": \"2023-09-05T14:37:55.060Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Ground level\",\n                \"project_id\": 83\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 53,\n            \"bom_name\": \"Item 9\",\n            \"quantity\": 2,\n            \"uom_id\": 43,\n            \"category_id\": null,\n            \"sub_category_id\": 71,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 162,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T09:15:16.717Z\",\n            \"updated_date\": \"2023-09-05T14:24:32.722Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 20,\n            \"total\": 40,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 43,\n                \"name\": \"water\",\n                \"description\": \"liter\",\n                \"created_date\": \"2023-08-30T04:57:31.059Z\",\n                \"updated_date\": \"2023-08-30T12:38:40.564Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 71,\n                \"name\": \"Fire Two\",\n                \"category_id\": 97,\n                \"budget\": 40,\n                \"created_date\": \"2023-09-05T07:37:19.747Z\",\n                \"updated_date\": \"2023-09-05T14:24:33.025Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"description\": \"Fire Two\",\n                \"project_id\": 81\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 162,\n                \"item_name\": \"Item 9\",\n                \"description\": \"Item 9 Desc\",\n                \"hsn_code_id\": 201,\n                \"gst_id\": 29,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T06:01:43.120Z\",\n                \"updated_date\": \"2023-09-04T06:02:42.101Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 110,\n                \"brand_id\": 6,\n                \"rate\": null,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 61,\n            \"bom_name\": \"Sand\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T12:35:36.014Z\",\n            \"updated_date\": \"2023-09-05T12:35:36.014Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Sand Description\",\n            \"rate\": 500,\n            \"total\": 50101,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 62,\n            \"bom_name\": \"Brick\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T12:35:36.014Z\",\n            \"updated_date\": \"2023-09-05T12:35:36.014Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Brick Description\",\n            \"rate\": 500,\n            \"total\": 50001,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 59,\n            \"bom_name\": \"Sand\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T12:34:48.971Z\",\n            \"updated_date\": \"2023-09-05T12:34:48.971Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Sand Description\",\n            \"rate\": 500,\n            \"total\": 50101,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 60,\n            \"bom_name\": \"Brick\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T12:34:48.971Z\",\n            \"updated_date\": \"2023-09-05T12:34:48.971Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Brick Description\",\n            \"rate\": 500,\n            \"total\": 50001,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 56,\n            \"bom_name\": \"Cement\",\n            \"quantity\": 1,\n            \"uom_id\": 45,\n            \"category_id\": null,\n            \"sub_category_id\": 77,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T11:47:30.210Z\",\n            \"updated_date\": \"2023-09-05T12:03:03.705Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 50050,\n            \"total\": 50050,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 45,\n                \"name\": \"Resistances\",\n                \"description\": \"OHM\",\n                \"created_date\": \"2023-08-30T12:41:00.374Z\",\n                \"updated_date\": \"2023-08-31T11:50:53.358Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 77,\n                \"name\": \"Fire Six\",\n                \"category_id\": 97,\n                \"budget\": 72050,\n                \"created_date\": \"2023-09-05T09:55:03.708Z\",\n                \"updated_date\": \"2023-09-06T11:30:03.460Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": \"2023-09-19T00:00:00.000Z\",\n                \"end_date\": \"2023-10-01T00:00:00.000Z\",\n                \"is_delete\": true,\n                \"description\": \"Fire Six\",\n                \"project_id\": 81\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 58,\n            \"bom_name\": \"TMT Rod\",\n            \"quantity\": 22,\n            \"uom_id\": 44,\n            \"category_id\": null,\n            \"sub_category_id\": 77,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 167,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T12:03:03.705Z\",\n            \"updated_date\": \"2023-09-05T12:03:03.705Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 1000,\n            \"total\": 22000,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 44,\n                \"name\": \"Electrical Currents\",\n                \"description\": \"Amperes\",\n                \"created_date\": \"2023-08-30T12:36:03.251Z\",\n                \"updated_date\": \"2023-08-31T11:50:47.247Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 77,\n                \"name\": \"Fire Six\",\n                \"category_id\": 97,\n                \"budget\": 72050,\n                \"created_date\": \"2023-09-05T09:55:03.708Z\",\n                \"updated_date\": \"2023-09-06T11:30:03.460Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": \"2023-09-19T00:00:00.000Z\",\n                \"end_date\": \"2023-10-01T00:00:00.000Z\",\n                \"is_delete\": true,\n                \"description\": \"Fire Six\",\n                \"project_id\": 81\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 167,\n                \"item_name\": \"TMT Rod\",\n                \"description\": \"Steel for concrete\",\n                \"hsn_code_id\": 368,\n                \"gst_id\": 53,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 5,\n                \"rate\": 1000,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 51,\n            \"bom_name\": \"Cement\",\n            \"quantity\": 33,\n            \"uom_id\": 38,\n            \"category_id\": null,\n            \"sub_category_id\": 70,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T09:10:54.890Z\",\n            \"updated_date\": \"2023-09-05T12:02:37.169Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 50050,\n            \"total\": 1651650,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 38,\n                \"name\": \"Degree\",\n                \"description\": \"farenhite\",\n                \"created_date\": \"2023-08-02T13:45:10.217Z\",\n                \"updated_date\": \"2023-08-30T12:40:05.952Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 70,\n                \"name\": \"Fire One\",\n                \"category_id\": 97,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-05T07:37:04.036Z\",\n                \"updated_date\": \"2023-09-06T11:50:22.826Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": true,\n                \"description\": \"Fire One Edit\",\n                \"project_id\": 81\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 57,\n            \"bom_name\": \"Item 10\",\n            \"quantity\": 11,\n            \"uom_id\": 45,\n            \"category_id\": null,\n            \"sub_category_id\": 70,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 163,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T12:02:37.169Z\",\n            \"updated_date\": \"2023-09-05T12:02:37.169Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 500.5,\n            \"total\": 5505.5,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 45,\n                \"name\": \"Resistances\",\n                \"description\": \"OHM\",\n                \"created_date\": \"2023-08-30T12:41:00.374Z\",\n                \"updated_date\": \"2023-08-31T11:50:53.358Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 70,\n                \"name\": \"Fire One\",\n                \"category_id\": 97,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-05T07:37:04.036Z\",\n                \"updated_date\": \"2023-09-06T11:50:22.826Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": true,\n                \"description\": \"Fire One Edit\",\n                \"project_id\": 81\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 163,\n                \"item_name\": \"Item 10\",\n                \"description\": \"Item 10 Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 500.5,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 54,\n            \"bom_name\": \"Item 10\",\n            \"quantity\": 22,\n            \"uom_id\": 44,\n            \"category_id\": null,\n            \"sub_category_id\": 76,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 163,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T10:31:48.598Z\",\n            \"updated_date\": \"2023-09-05T11:51:54.207Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 5,\n            \"total\": 11011,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 44,\n                \"name\": \"Electrical Currents\",\n                \"description\": \"Amperes\",\n                \"created_date\": \"2023-08-30T12:36:03.251Z\",\n                \"updated_date\": \"2023-08-31T11:50:47.247Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 76,\n                \"name\": \"Fire Four\",\n                \"category_id\": 97,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-05T09:37:02.683Z\",\n                \"updated_date\": \"2023-09-06T11:31:36.073Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": true,\n                \"description\": \"Fire Four \",\n                \"project_id\": 81\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 163,\n                \"item_name\": \"Item 10\",\n                \"description\": \"Item 10 Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 500.5,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 55,\n            \"bom_name\": \"TMT Rod\",\n            \"quantity\": 1,\n            \"uom_id\": 44,\n            \"category_id\": null,\n            \"sub_category_id\": 76,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 167,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T10:32:14.690Z\",\n            \"updated_date\": \"2023-09-05T11:51:54.207Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 1000,\n            \"total\": 1000,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 44,\n                \"name\": \"Electrical Currents\",\n                \"description\": \"Amperes\",\n                \"created_date\": \"2023-08-30T12:36:03.251Z\",\n                \"updated_date\": \"2023-08-31T11:50:47.247Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 76,\n                \"name\": \"Fire Four\",\n                \"category_id\": 97,\n                \"budget\": 0,\n                \"created_date\": \"2023-09-05T09:37:02.683Z\",\n                \"updated_date\": \"2023-09-06T11:31:36.073Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": true,\n                \"description\": \"Fire Four \",\n                \"project_id\": 81\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 167,\n                \"item_name\": \"TMT Rod\",\n                \"description\": \"Steel for concrete\",\n                \"hsn_code_id\": 368,\n                \"gst_id\": 53,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 5,\n                \"rate\": 1000,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 48,\n            \"bom_name\": \"Sand\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T09:06:55.218Z\",\n            \"updated_date\": \"2023-09-05T09:06:55.218Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Sand Description\",\n            \"rate\": 500,\n            \"total\": 50101,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_id\": 49,\n            \"bom_name\": \"Brick\",\n            \"quantity\": 100,\n            \"uom_id\": 6,\n            \"category_id\": null,\n            \"sub_category_id\": 72,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 165,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-05T09:06:55.218Z\",\n            \"updated_date\": \"2023-09-05T09:06:55.218Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"Brick Description\",\n            \"rate\": 500,\n            \"total\": 50001,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 72,\n                \"name\": \"Soil Testing\",\n                \"category_id\": 100,\n                \"budget\": 4000,\n                \"created_date\": \"2023-09-05T07:56:39.083Z\",\n                \"updated_date\": \"2023-09-06T12:59:53.399Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"start_date\": \"1999-11-24T00:00:00.000Z\",\n                \"end_date\": \"1999-11-26T00:00:00.000Z\",\n                \"is_delete\": false,\n                \"description\": \"Description for Soil Testing\",\n                \"project_id\": 80\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 165,\n                \"item_name\": \"Cement\",\n                \"description\": \"Cement Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T12:20:04.279Z\",\n                \"updated_date\": \"2023-09-04T12:20:04.279Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 50050,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        }\n    ]\n}"
             }
           ]
         },
@@ -13561,6 +13705,587 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 2,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"labour_id\": 3,\n            \"labour_type\": \"Electrician\",\n            \"rate\": 30,\n            \"uom_id\": 6,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T11:20:34.371Z\",\n            \"updated_date\": \"2023-09-06T11:21:18.702Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"uom\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            }\n        },\n        {\n            \"labour_id\": 2,\n            \"labour_type\": \"Carpendor\",\n            \"rate\": null,\n            \"uom_id\": 6,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T10:43:10.440Z\",\n            \"updated_date\": \"2023-09-06T10:46:53.324Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"uom\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            }\n        }\n    ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Machinery",
+      "item": [
+        {
+          "name": "API To Create Machinery",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"machinery_name\": \"Pipes\",\r\n    \"machinery_model\": \"ABC-123\",\r\n    \"machinery_type\": \"Heavy Equipment\",\r\n    \"manufacturer\": \"APV Machinery Co.\",\r\n    \"date_of_purchase\": \"2023-11-24\",\r\n    \"warranty_expired_on\": \"2025-01-24\",\r\n    \"operational_status\": \"Operational\",\r\n    \"location\": \"Construction Site A\",\r\n    \"rate\": 150.0,\r\n    \"uom_id\": 6,\r\n    \"created_by\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/machinery",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "machinery"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Create Machinery",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"machinery_name\": \"Pipes\",\r\n    \"machinery_model\": \"ABC-123\",\r\n    \"machinery_type\": \"Heavy Equipment\",\r\n    \"manufacturer\": \"APV Machinery Co.\",\r\n    \"date_of_purchase\": \"2023-11-24\",\r\n    \"warranty_expired_on\": \"2025-01-24\",\r\n    \"operational_status\": \"Operational\",\r\n    \"location\": \"Construction Site A\",\r\n    \"rate\": 150.0,\r\n    \"uom_id\": 6,\r\n    \"created_by\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/machinery",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "machinery"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "504"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1f8-F0tChuyc0u4ZcpnFiEiLeH/1ym8\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 06 Sep 2023 12:39:31 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"machinery_id\": 6,\n        \"machinery_name\": \"Pipes\",\n        \"machinery_model\": \"ABC-123\",\n        \"machinery_type\": \"Heavy Equipment\",\n        \"manufacturer\": \"APV Machinery Co.\",\n        \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n        \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n        \"operational_status\": \"Operational\",\n        \"location\": \"Construction Site A\",\n        \"rate\": 150,\n        \"uom_id\": 6,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-06T12:39:31.474Z\",\n        \"updated_date\": \"2023-09-06T12:39:31.474Z\",\n        \"created_by\": 1,\n        \"updated_by\": null\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Update Machinery",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"machinery_name\": \"Pipes\",\r\n    \"machinery_model\": \"ABC-123\",\r\n    \"machinery_type\": \"Heavy Equipment\",\r\n    \"manufacturer\": \"APV Machinery Co.\",\r\n    \"date_of_purchase\": \"2023-11-24\",\r\n    \"warranty_expired_on\": \"2025-01-24\",\r\n    \"operational_status\": \"Operational\",\r\n    \"location\": \"Construction Site A\",\r\n    \"rate\": 150.0,\r\n    \"uom_id\": 6,\r\n    \"updated_by\": 1,\r\n    \"machinery_id\": 6\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/machinery",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "machinery"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Update Machinery",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"machinery_name\": \"Pipes\",\r\n    \"machinery_model\": \"ABC-123\",\r\n    \"machinery_type\": \"Heavy Equipment\",\r\n    \"manufacturer\": \"APV Machinery Co.\",\r\n    \"date_of_purchase\": \"2023-11-24\",\r\n    \"warranty_expired_on\": \"2025-01-24\",\r\n    \"operational_status\": \"Operational\",\r\n    \"location\": \"Construction Site A\",\r\n    \"rate\": 150.0,\r\n    \"uom_id\": 6,\r\n    \"updated_by\": 1,\r\n    \"machinery_id\": 6\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/machinery",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "machinery"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "501"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1f5-fX/flMi5BR0/6kdtUWKdct6SHdw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 06 Sep 2023 12:40:40 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"machinery_id\": 6,\n        \"machinery_name\": \"Pipes\",\n        \"machinery_model\": \"ABC-123\",\n        \"machinery_type\": \"Heavy Equipment\",\n        \"manufacturer\": \"APV Machinery Co.\",\n        \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n        \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n        \"operational_status\": \"Operational\",\n        \"location\": \"Construction Site A\",\n        \"rate\": 150,\n        \"uom_id\": 6,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-06T12:39:31.474Z\",\n        \"updated_date\": \"2023-09-06T12:40:40.121Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get All Machineries",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/machinery/get-all",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "machinery", "get-all"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get All Machineries",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/machinery/get-all",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "machinery", "get-all"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1395"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"573-+SOoaqbHF9hz7Phi+YbXMe+Le0o\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 06 Sep 2023 12:41:07 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"machinery_id\": 6,\n            \"machinery_name\": \"Pipes\",\n            \"machinery_model\": \"ABC-123\",\n            \"machinery_type\": \"Heavy Equipment\",\n            \"manufacturer\": \"APV Machinery Co.\",\n            \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n            \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n            \"operational_status\": \"Operational\",\n            \"location\": \"Construction Site A\",\n            \"rate\": 150,\n            \"uom_id\": 6,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T12:39:31.474Z\",\n            \"updated_date\": \"2023-09-06T12:40:40.121Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            }\n        },\n        {\n            \"machinery_id\": 5,\n            \"machinery_name\": \"Pipes\",\n            \"machinery_model\": \"ABC-123\",\n            \"machinery_type\": \"Heavy Equipment\",\n            \"manufacturer\": \"APV Machinery Co.\",\n            \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n            \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n            \"operational_status\": \"Operational\",\n            \"location\": \"Construction Site A\",\n            \"rate\": 150,\n            \"uom_id\": 6,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T12:39:23.172Z\",\n            \"updated_date\": \"2023-09-06T12:39:23.172Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            }\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Machinery By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/machinery/get/6",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "machinery", "get", "6"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Machinery By Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/machinery/get/6",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "machinery", "get", "6"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "716"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2cc-LfOAgqquhGJaAxJG2zGocC+bfuI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 06 Sep 2023 12:43:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"machinery_id\": 6,\n        \"machinery_name\": \"Pipes\",\n        \"machinery_model\": \"ABC-123\",\n        \"machinery_type\": \"Heavy Equipment\",\n        \"manufacturer\": \"APV Machinery Co.\",\n        \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n        \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n        \"operational_status\": \"Operational\",\n        \"location\": \"Construction Site A\",\n        \"rate\": 150,\n        \"uom_id\": 6,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-06T12:39:31.474Z\",\n        \"updated_date\": \"2023-09-06T12:40:40.121Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1,\n        \"uom_data\": {\n            \"uom_id\": 6,\n            \"name\": \"Kilogram\",\n            \"description\": \"KG\",\n            \"created_date\": \"2023-07-19T07:19:55.434Z\",\n            \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"uom_type\": null,\n            \"is_delete\": false\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Delete Machinery By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/machinery/delete/6",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "machinery", "delete", "6"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Delete Machinery By Id",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/machinery/delete/6",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "machinery", "delete", "6"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "75"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4b-ZrhgW6IwGT8RtEVJPnQFZWIZcKk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 06 Sep 2023 12:48:34 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Machinery Data Deleted Successfully\",\n    \"status\": true,\n    \"data\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Search Machinery ",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"limit\":5,\r\n    \"offset\":0,\r\n    \"order_by_column\":\"updated_by\",\r\n    \"order_by_direction\":\"desc\",\r\n    \"global_search\":\"Kil\",\r\n    \"status\":\"AC\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/machinery/search",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "machinery", "search"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Search Machinery",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"limit\":5,\r\n    \"offset\":0,\r\n    \"order_by_column\":\"updated_by\",\r\n    \"order_by_direction\":\"desc\",\r\n    \"global_search\":\"Kil\",\r\n    \"status\":\"AC\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/machinery/search",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "machinery", "search"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1429"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"595-APFbsF1HclDA4CKcGd9DmMfEfsA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 06 Sep 2023 12:50:22 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 2,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"machinery_id\": 5,\n            \"machinery_name\": \"Pipes\",\n            \"machinery_model\": \"ABC-123\",\n            \"machinery_type\": \"Heavy Equipment\",\n            \"manufacturer\": \"APV Machinery Co.\",\n            \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n            \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n            \"operational_status\": \"Operational\",\n            \"location\": \"Construction Site A\",\n            \"rate\": 150,\n            \"uom_id\": 6,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T12:39:23.172Z\",\n            \"updated_date\": \"2023-09-06T12:39:23.172Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            }\n        },\n        {\n            \"machinery_id\": 6,\n            \"machinery_name\": \"Pipes\",\n            \"machinery_model\": \"ABC-123\",\n            \"machinery_type\": \"Heavy Equipment\",\n            \"manufacturer\": \"APV Machinery Co.\",\n            \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n            \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n            \"operational_status\": \"Operational\",\n            \"location\": \"Construction Site A\",\n            \"rate\": 150,\n            \"uom_id\": 6,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-06T12:39:31.474Z\",\n            \"updated_date\": \"2023-09-06T12:40:40.121Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"uom_data\": {\n                \"uom_id\": 6,\n                \"name\": \"Kilogram\",\n                \"description\": \"KG\",\n                \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": null,\n                \"is_delete\": false\n            }\n        }\n    ]\n}"
             }
           ]
         }

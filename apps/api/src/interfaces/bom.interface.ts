@@ -17,6 +17,7 @@ interface bomBody {
   created_date: Date;
   updated_date: Date;
   machinery_id: number;
+  labour_id: number;
 }
 
 export { bomBody };

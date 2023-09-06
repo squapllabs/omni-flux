@@ -16,6 +16,7 @@ const add = async (
   total: number,
   bom_type: string,
   machinery_id: number,
+  labour_id: number,
   connectionObj = null
 ) => {
   try {
@@ -37,6 +38,7 @@ const add = async (
         total,
         bom_type,
         machinery_id,
+        labour_id,
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
@@ -64,6 +66,7 @@ const edit = async (
   total: number,
   bom_type: string,
   machinery_id: number,
+  labour_id: number,
   connectionObj = null
 ) => {
   try {
@@ -84,6 +87,7 @@ const edit = async (
         total,
         bom_type,
         machinery_id,
+        labour_id,
         updated_date: currentDate,
         updated_by,
       },
@@ -108,6 +112,8 @@ const getAll = async (connectionObj = null) => {
         sub_category_data: true,
         sub_sub_category_data: true,
         item_data: true,
+        labour_data: true,
+        machinery_data: true,
       },
       orderBy: [{ updated_date: 'desc' }],
     });
@@ -132,6 +138,8 @@ const getById = async (bom_id: number, connectionObj = null) => {
         sub_category_data: true,
         sub_sub_category_data: true,
         item_data: true,
+        labour_data: true,
+        machinery_data: true,
       },
     });
     return bom;
@@ -178,6 +186,8 @@ const getByCategorySubCatAndSubSubCatId = async (
           sub_category_data: true,
           sub_sub_category_data: true,
           item_data: true,
+          labour_data: true,
+          machinery_data: true,
         },
         orderBy: [
           {
@@ -208,6 +218,8 @@ const getByCategorySubCatAndSubSubCatId = async (
           sub_category_data: true,
           sub_sub_category_data: true,
           item_data: true,
+          labour_data: true,
+          machinery_data: true,
         },
         orderBy: [
           {
@@ -236,6 +248,8 @@ const getByCategorySubCatAndSubSubCatId = async (
           sub_category_data: true,
           sub_sub_category_data: true,
           item_data: true,
+          labour_data: true,
+          machinery_data: true,
         },
         orderBy: [
           {
@@ -364,6 +378,8 @@ const addBulk = async (bulkBom: bomBody[], connectionObj = null) => {
       const category_id = bom.category_id;
       const sub_sub_category_id = bom.sub_sub_category_id;
       const bom_id = bom.bom_id;
+      const machinery_id = bom.machinery_id;
+      const labour_id = bom.labour_id;
       if (bom_id) {
         if (is_delete === true) {
           await transaction.bom.update({
@@ -388,6 +404,8 @@ const addBulk = async (bulkBom: bomBody[], connectionObj = null) => {
               rate,
               total,
               bom_type,
+              machinery_id,
+              labour_id,
               updated_date: currentDate,
             },
           });
@@ -408,6 +426,8 @@ const addBulk = async (bulkBom: bomBody[], connectionObj = null) => {
             rate,
             total,
             bom_type,
+            machinery_id,
+            labour_id,
             created_date: currentDate,
             updated_date: currentDate,
             is_delete: false,
@@ -442,6 +462,8 @@ const getBomBySubCategoryIdAndBomType = async (
         sub_category_data: true,
         sub_sub_category_data: true,
         item_data: true,
+        labour_data: true,
+        machinery_data: true,
       },
       orderBy: [
         {
