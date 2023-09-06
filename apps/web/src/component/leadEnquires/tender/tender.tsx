@@ -76,7 +76,7 @@ const Tender: React.FC = (props: any) => {
   };
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
-    let formattedDate = format(currentDate, 'yyyy-MM-dd');
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
 
@@ -91,7 +91,7 @@ const Tender: React.FC = (props: any) => {
   const outputLableNameFromEnv = `Estimate Value (${environment.OUTPUTBUDGET})`;
   useEffect(() => {
     const fetchData = async () => {
-      let data = await LeadEnquiresServices.getOneleadEnquiryByID(
+      const data = await LeadEnquiresServices.getOneleadEnquiryByID(
         props.leadEnquireId
       );
 
@@ -145,7 +145,7 @@ const Tender: React.FC = (props: any) => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         if (props.leadEnquireId === undefined) {
-          let object: any = {
+          const object: any = {
             lead_type: props.leadType,
             client: Number(values.client),
             client_level: Number(values.client_level),
@@ -173,7 +173,7 @@ const Tender: React.FC = (props: any) => {
           };
           postleadEnquiry(object, {
             onSuccess(data, variables, context) {
-              resetForm;
+              resetForm();
               setMessage('Lead Tender created');
               setOpenSnack(true);
               setTimeout(() => {
@@ -182,7 +182,7 @@ const Tender: React.FC = (props: any) => {
             },
           });
         } else {
-          let object: any = {
+          const object: any = {
             lead_type: props.leadType,
             client: Number(values.client),
             client_level: Number(values.client_level),

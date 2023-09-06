@@ -59,9 +59,9 @@ export const gethsnUpdateValidateyup = (yup: any) => {
               response?.success === true &&
               response.data.hsn_code_id === hsnCode
             ) {
-              return true;
-            } else {
               return false;
+            } else {
+              return true;
             }
           }
         }
