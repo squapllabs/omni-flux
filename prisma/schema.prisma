@@ -646,3 +646,24 @@ model labour {
   uom          uom?     @relation(fields: [uom_id], references: [uom_id])
   bom          bom[]
 }
+
+model machinery {
+  machinery_id      Int       @id @default(autoincrement())
+  machinery_name    String    @db.VarChar(255)
+  machinery_model   String?   @db.VarChar(50)
+  machinery_type    String?   @db.VarChar(50)
+  manufacturer      String?   @db.VarChar(255)
+  date_of_purchase  DateTime? 
+  warranty_expiried_on DateTime? 
+  operational_status String?   @db.VarChar(50)
+  location          String?   @db.VarChar(255)
+  rate              Float?    
+  uom_id            Int?      
+  is_delete         Boolean   @default(false)
+  created_date      DateTime  @default(now())
+  updated_date      DateTime 
+  created_by        Int?     
+  updated_by        Int?
+  @@map("machinery") 
+}
+
