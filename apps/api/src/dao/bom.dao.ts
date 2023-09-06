@@ -481,6 +481,87 @@ const getBomBySubCategoryIdAndBomType = async (
   }
 };
 
+const getBomTotalBySubCategoryId = async (
+  sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    // const result = await transaction.bom.aggregate({
+    //   where: {
+    //     sub_category_id: Number(sub_category_id),
+    //   },
+    //   _sum: {
+    //     total: true,
+    //   },
+    //   _sumRawmt: {
+    //     total: {
+    //       _eq: 'RAWMT',
+    //     },
+    //   },
+    //   _sumLabor: {
+    //     total: {
+    //       _eq: 'LABOR',
+    //     },
+    //   },
+    //   _sumMcnry: {
+    //     total: {
+    //       _eq: 'MCNRY',
+    //     },
+    //   },
+    // });
+
+    // const {
+    //   _sum: { total },
+    //   _sumRawmt,
+    //   _sumLabor,
+    //   _sumMcnry,
+    // } = result;
+    // return {
+    //   raw_material: _sumRawmt.total || 0,
+    //   labour: _sumLabor.total || 0,
+    //   machinery: _sumMcnry.total || 0,
+    //   total: total || 0,
+    // };
+
+    const result = await transaction.$queryRaw`select
+    SUM(case when bom_type = 'RAWMT' then total else 0 end) as raw_material,
+    SUM(case when bom_type = 'LABOR' then total else 0 end) as labour,
+    SUM(case when bom_type = 'MCNRY' then total else 0 end) as machinery
+  from
+    "bom"
+  where
+    sub_category_id = ${sub_category_id} and is_delete =false`;
+    return result;
+  } catch (error) {
+    console.error('Error occurred in BomDao getById:', error);
+    throw error;
+  }
+};
+
+const getBomSumBySubCategoryId = async (
+  sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const bom = await transaction.bom.aggregate({
+      where: {
+        sub_category_id: Number(sub_category_id),
+        is_delete: false,
+      },
+      _sum: {
+        total: true,
+      },
+    });
+
+    return bom._sum.total || 0;
+  } catch (error) {
+    console.error('Error occurred in BomDao getBomSumBySubCategoryId:', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getById,
@@ -492,4 +573,6 @@ export default {
   entireData,
   addBulk,
   getBomBySubCategoryIdAndBomType,
+  getBomTotalBySubCategoryId,
+  getBomSumBySubCategoryId,
 };
