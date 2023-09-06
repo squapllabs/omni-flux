@@ -634,9 +634,7 @@ model vendor {
 model labour {
   labour_id    Int      @id @default(autoincrement())
   labour_type  String   @db.VarChar(100)
-  quantity     Int?
   rate         Float?
-  total        Float?
   uom_id       Int?
   is_delete    Boolean  @default(false)
   created_date DateTime @default(now())

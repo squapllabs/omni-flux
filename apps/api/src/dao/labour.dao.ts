@@ -2,9 +2,7 @@ import prisma from '../utils/prisma';
 
 const add = async (
   labour_type: string,
-  quantity: number,
   rate: number,
-  total: number,
   uom_id: number,
   created_by: number,
   connectionObj = null
@@ -16,9 +14,7 @@ const add = async (
     const labour = await transaction.labour.create({
       data: {
         labour_type,
-        quantity,
         rate,
-        total,
         uom_id,
         created_by,
         created_date: currentDate,
@@ -36,9 +32,7 @@ const add = async (
 const edit = async (
   labour_id: number,
   labour_type: string,
-  quantity: number,
   rate: number,
-  total: number,
   uom_id: number,
   updated_by: number,
   connectionObj = null
@@ -52,9 +46,7 @@ const edit = async (
       },
       data: {
         labour_type,
-        quantity,
         rate,
-        total,
         uom_id,
         updated_by,
         updated_date: currentDate,

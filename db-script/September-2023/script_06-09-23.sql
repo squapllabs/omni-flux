@@ -44,3 +44,15 @@ constraint fk_labour_uom_id foreign key (uom_id) references uom(uom_id)
 
 alter table uom 
 add column uom_type varchar(10);
+
+alter table labour 
+drop column rate;
+
+alter table labour 
+drop column total;
+
+alter table labour 
+drop column quantity;
+
+alter table labour 
+add column rate double precision;

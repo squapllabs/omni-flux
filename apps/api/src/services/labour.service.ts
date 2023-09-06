@@ -8,12 +8,10 @@ import { labourBody } from '../interfaces/labour.inteface';
  */
 const createLabour = async (body: labourBody) => {
   try {
-    const { labour_type, quantity, rate, total, uom_id, created_by } = body;
+    const { labour_type, rate, uom_id, created_by } = body;
     const labourDetails = await labourDao.add(
       labour_type,
-      quantity,
       rate,
-      total,
       uom_id,
       created_by
     );
@@ -33,15 +31,7 @@ const createLabour = async (body: labourBody) => {
 
 const updateLabour = async (body: labourBody) => {
   try {
-    const {
-      labour_type,
-      quantity,
-      rate,
-      total,
-      uom_id,
-      updated_by,
-      labour_id,
-    } = body;
+    const { labour_type, rate, uom_id, updated_by, labour_id } = body;
     let result = null;
     const labourExist = await labourDao.getById(labour_id);
     if (!labourExist) {
@@ -55,9 +45,7 @@ const updateLabour = async (body: labourBody) => {
       const labourDetails = await labourDao.edit(
         labour_id,
         labour_type,
-        quantity,
         rate,
-        total,
         uom_id,
         updated_by
       );
