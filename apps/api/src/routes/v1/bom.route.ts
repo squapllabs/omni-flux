@@ -10,6 +10,7 @@ import {
   fetchEntireDataByBomId,
   addBulkBom,
   getBomBySubCategoryIdAndBomType,
+  getBomTotalBySubCategoryId,
 } from '../../controller/bom.controller';
 import authMiddleware from '../../middleware/auth';
 import { runValidation } from '../../validations/index';
@@ -39,6 +40,12 @@ router.get(
   '/get-by-sub-cat-id-and-bom-type/:sub_category_id/:bom_type',
   authMiddleware,
   getBomBySubCategoryIdAndBomType
+);
+
+router.get(
+  '/get-bom-total-by-sub-cat-id/:sub_category_id',
+  authMiddleware,
+  getBomTotalBySubCategoryId
 );
 
 export default router;

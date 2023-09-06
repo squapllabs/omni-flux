@@ -284,9 +284,36 @@ const updateBudget = async (
         updated_by,
       },
     });
+
     return subCategoryDetails;
   } catch (error) {
     console.log('Error occurred in sub category dao updateBudget', error);
+    throw error;
+  }
+};
+
+const getSumOfBudgetByCategoryId = async (
+  category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.aggregate({
+      where: {
+        category_id: Number(category_id),
+        is_delete: false,
+      },
+      _sum: {
+        budget: true,
+      },
+    });
+
+    return subCategory._sum.budget || 0;
+  } catch (error) {
+    console.error(
+      'Error occurred in sub category dao getSumOfBudgetByCategoryId:',
+      error
+    );
     throw error;
   }
 };
@@ -302,4 +329,5 @@ export default {
   searchSubCategory,
   getByCategoryId,
   updateBudget,
+  getSumOfBudgetByCategoryId,
 };
