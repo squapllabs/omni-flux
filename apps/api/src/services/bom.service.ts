@@ -1,4 +1,5 @@
 import bomDao from '../dao/bom.dao';
+import categoryDao from '../dao/category.dao';
 import subCategoryDao from '../dao/subCategory.dao';
 import { bomBody } from '../interfaces/bom.interface';
 
@@ -288,7 +289,30 @@ const addBulkBom = async (body) => {
       updated_by
     );
 
-    const data = { bom: bom, sub_category_details: subCategoryDetails };
+    const category_id = subCategoryDetails?.category_id;
+    let categoryBudget = 0;
+
+    const subCategoryDataByCategoryId = await subCategoryDao.getByCategoryId(
+      category_id
+    );
+
+    for (const subCategory of subCategoryDataByCategoryId) {
+      if (!subCategory.is_delete) {
+        categoryBudget += subCategory.budget;
+      }
+    }
+
+    const categoryDetails = await categoryDao.updateBudget(
+      categoryBudget,
+      category_id,
+      updated_by
+    );
+
+    const data = {
+      bom: bom,
+      sub_category_details: subCategoryDetails,
+      category_details: categoryDetails,
+    };
 
     if (bom) {
       return {
