@@ -432,6 +432,13 @@ const getBomBySubCategoryIdAndBomType = async (
         sub_category_id: Number(sub_category_id),
         bom_type: bom_type,
       },
+      include: {
+        uom_data: true,
+        category_data: true,
+        sub_category_data: true,
+        sub_sub_category_data: true,
+        item_data: true,
+      },
       orderBy: [
         {
           updated_date: 'desc',

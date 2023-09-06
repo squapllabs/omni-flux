@@ -1,5 +1,13 @@
 import express from 'express';
-import { forgetPassword, editPassword, isLoggedIn, logOut, login, loginValidate, refreshToken } from '../../controller/auth.controller';
+import {
+  forgetPassword,
+  editPassword,
+  isLoggedIn,
+  logOut,
+  login,
+  loginValidate,
+  refreshToken,
+} from '../../controller/auth.controller';
 import { runValidation } from '../../validations';
 import { userLoginValidator } from '../../validations/users';
 import { validateCookie } from '../../utils/helper';

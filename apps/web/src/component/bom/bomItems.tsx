@@ -97,8 +97,8 @@ const BomItems = (props: {
                         <tbody>
                           {tableData?.map((item: any, index: any) => (
                             <tr key={item.bom_id}>
-                              <td>{item.item_id}</td>
-                              <td>{item.uom_id}</td>
+                              <td>{item.item_data?.item_name}</td>
+                              <td>{item.uom_data?.name}</td>
                               <td>{item.quantity}</td>
                               <td>{formatBudgetValue(item.rate)}</td>
                               <td>{formatBudgetValue(item.total)}</td>
