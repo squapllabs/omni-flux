@@ -231,6 +231,7 @@ import SubsubCategoryAdd from '../component/subSubCategory/subsubcategoryAdd';
 import ProjectView from '../component/project/projectInfo';
 import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
 import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
+import ProductAdd from '../component/products/productAdd';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -281,6 +282,7 @@ const AppRoutes = () => {
   const ProtectedProjectView = withLayoutAndProtection(ProjectView);
   const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
   const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
+  const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
 
   return (
     <div>
@@ -361,6 +363,14 @@ const AppRoutes = () => {
         <Route
           path="/lead-info-tender/:id"
           element={<ProtectedLeadTenderView />}
+        />
+        <Route
+          path="/product-add"
+          element={<ProtectedProductAddPage />}
+        />
+        <Route
+          path="/product-edit/:id"
+          element={<ProtectedProductAddPage />}
         />
       </Routes>
     </div>

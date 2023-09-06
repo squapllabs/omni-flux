@@ -87,10 +87,12 @@ model uom {
   updated_date           DateTime                 @default(now())
   created_by             Int?
   updated_by             Int?
+  uom_type               String?
   item                   item[]
   bom                    bom[]
   is_delete              Boolean                  @default(false) @db.Boolean
   project_workbreak_down project_workbreak_down[]
+  labour                 labour[]
 
   @@map(name: "uom")
 }
@@ -594,6 +596,7 @@ model bom {
   rate                  Float?
   total                 Float?
   bom_type              String?
+  machinery_id          Int?
   uom_data              uom?              @relation(fields: [uom_id], references: [uom_id])
   category_data         category?         @relation(fields: [category_id], references: [category_id])
   sub_category_data     sub_category?     @relation(fields: [sub_category_id], references: [sub_category_id])
@@ -626,6 +629,19 @@ model vendor {
   updated_by                    Int?
   vendor_category_data          master_data? @relation("VendorCategoryRelation", fields: [vendor_category_id], references: [master_data_id])
   preferred_payment_method_data master_data? @relation("PreferredPaymentMethodRelation", fields: [preferred_payment_method_id], references: [master_data_id])
+}
+
+model labour {
+  labour_id    Int      @id @default(autoincrement())
+  labour_type  String   @db.VarChar(100)
+  rate         Float?
+  uom_id       Int?
+  is_delete    Boolean  @default(false)
+  created_date DateTime @default(now())
+  updated_date DateTime
+  created_by   Int?
+  updated_by   Int?
+  uom          uom?     @relation(fields: [uom_id], references: [uom_id])
 }
 
 model machinery {

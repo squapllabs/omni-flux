@@ -55,4 +55,18 @@ const updateGst = () => {
     }
   );
 };
-export { useGetAllGst, useDeleteGst, createGst, updateGst, useGetOneGst };
+
+const useGetAllGstForDrop = () => {
+  return useQuery(
+      ['useGetAllGstDrop'],
+      () => gstService.getAllGst(),
+      {
+          select: (data) =>
+              data?.data?.map((gst: any) => ({
+                  value:gst.gst_id,
+                  label:gst.rate,
+              })),
+      }
+  );
+};
+export { useGetAllGst, useDeleteGst, createGst, updateGst, useGetOneGst,useGetAllGstForDrop };

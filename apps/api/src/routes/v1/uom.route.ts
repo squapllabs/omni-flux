@@ -6,6 +6,7 @@ import {
   createUom,
   deleteByUomId,
   getAllUom,
+  getByType,
   getByUomId,
   getByUomName,
   searchUom,
@@ -27,5 +28,7 @@ router.delete('/delete/:uom_id', authMiddleware, deleteByUomId);
 router.get('/getByName/:name', authMiddleware, getByUomName);
 
 router.post('/search-uom', authMiddleware, searchUom);
+
+router.get('/get-by-uom-type/:uom_type', authMiddleware, getByType);
 
 export default router;

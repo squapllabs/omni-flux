@@ -15,6 +15,7 @@ const add = async (
   rate: number,
   total: number,
   bom_type: string,
+  machinery_id: number,
   connectionObj = null
 ) => {
   try {
@@ -35,6 +36,7 @@ const add = async (
         rate,
         total,
         bom_type,
+        machinery_id,
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
@@ -61,6 +63,7 @@ const edit = async (
   rate: number,
   total: number,
   bom_type: string,
+  machinery_id: number,
   connectionObj = null
 ) => {
   try {
@@ -80,6 +83,7 @@ const edit = async (
         rate,
         total,
         bom_type,
+        machinery_id,
         updated_date: currentDate,
         updated_by,
       },

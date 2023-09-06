@@ -11,8 +11,13 @@ import bomDao from '../dao/bom.dao';
  */
 const createUom = async (body: createUomBody) => {
   try {
-    const { name, description, created_by = null } = body;
-    const uomDetails = await uomDao.add(name, description, created_by);
+    const { name, description, created_by = null, uom_type } = body;
+    const uomDetails = await uomDao.add(
+      name,
+      description,
+      created_by,
+      uom_type
+    );
     const result = { message: 'success', status: true, data: uomDetails };
     return result;
   } catch (error) {
@@ -28,7 +33,7 @@ const createUom = async (body: createUomBody) => {
  */
 const updateUom = async (body: updateUomBody) => {
   try {
-    const { name, description, updated_by, uom_id } = body;
+    const { name, description, updated_by, uom_type, uom_id } = body;
     let result = null;
     const uomExist = await uomDao.getById(uom_id);
     if (uomExist) {
@@ -36,6 +41,7 @@ const updateUom = async (body: updateUomBody) => {
         name,
         description,
         updated_by,
+        uom_type,
         uom_id
       );
       result = { message: 'success', status: true, data: uomDetails };
@@ -137,7 +143,6 @@ const deleteUom = async (uomId: number) => {
     const data = await uomDao.deleteUom(uomId);
     if (data) {
       const result = {
-
         message: 'Uom Data Deleted Successfully',
         status: true,
         data: null,
@@ -167,10 +172,20 @@ const getByName = async (name: string) => {
     let result = null;
     const uomData = await uomDao.getByName(name);
     if (uomData.length > 0) {
-      result = { message: 'success', status: true, is_exist: true, data: uomData };
+      result = {
+        message: 'success',
+        status: true,
+        is_exist: true,
+        data: uomData,
+      };
       return result;
     } else {
-      result = { message: 'name is not exist', status: false, data: null, is_exist: false };
+      result = {
+        message: 'name is not exist',
+        status: false,
+        data: null,
+        is_exist: false,
+      };
       return result;
     }
   } catch (error) {
@@ -228,6 +243,32 @@ const searchUom = async (body) => {
   }
 };
 
+/**
+ * Method to get Uom By Uom Type
+ * @param uomType
+ * @returns
+ */
+const getByType = async (uomType: string) => {
+  try {
+    let result = null;
+    const uomData = await uomDao.getByType(uomType);
+    if (uomData.length > 0) {
+      result = { message: 'success', status: true, data: uomData };
+      return result;
+    } else {
+      result = {
+        message: 'uom does not exist for this uom_type',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByType uom service : ', error);
+    throw error;
+  }
+};
+
 export {
   createUom,
   updateUom,
@@ -236,4 +277,5 @@ export {
   deleteUom,
   getByName,
   searchUom,
+  getByType,
 };
