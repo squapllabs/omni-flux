@@ -82,7 +82,7 @@ const updateCategory = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllCategory']);
+        queryClient.invalidateQueries(['useGetAllCategoryByProject']);
       },
     }
   );
@@ -96,7 +96,7 @@ const useDeleteCategory = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllCategory']);
+        queryClient.invalidateQueries(['useGetAllCategoryByProject']);
       },
     }
   );

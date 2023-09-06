@@ -68,6 +68,8 @@ const deleteCategory = async (id: number) => {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/category/delete/${id}`
     );
+    console.log("delete",response.data);
+    
     return response.data;
   } catch (error) {
     console.log('Error in occur in delete category  :', error);
