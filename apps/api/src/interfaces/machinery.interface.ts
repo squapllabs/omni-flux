@@ -5,7 +5,7 @@ interface machineryBody {
     machinery_type: string;
     manufacturer: string;
     date_of_purchase: Date;
-    warranty_expiried_on: Date;
+    warranty_expired_on: Date;
     operational_status: string;
     location: string;
     rate: number;

@@ -6,7 +6,7 @@ const add = async (
     machinery_type: string,
     manufacturer: string,
     date_of_purchase: Date,
-    warranty_expiried_on: Date,
+    warranty_expired_on: Date,
     operational_status: string,
     location: string,
     rate: number,
@@ -18,7 +18,7 @@ const add = async (
 
         const currentDate = new Date();
         const formatted_date_of_purchase = date_of_purchase ? new Date(date_of_purchase) : null;
-        const formatted_warranty_expiried_on = warranty_expiried_on ? new Date(warranty_expiried_on) : null;
+        const formatted_warranty_expired_on = warranty_expired_on ? new Date(warranty_expired_on) : null;
         const is_delete = false;
         const transaction = connectionObj ? connectionObj : prisma;
         const machinery = await transaction.machinery.create({
@@ -28,7 +28,7 @@ const add = async (
                 machinery_type,
                 manufacturer,
                 date_of_purchase: formatted_date_of_purchase,
-                warranty_expiried_on: formatted_warranty_expiried_on,
+                warranty_expired_on: formatted_warranty_expired_on,
                 operational_status,
                 location,
                 rate,
@@ -53,7 +53,7 @@ const edit = async (
     machinery_type: string,
     manufacturer: string,
     date_of_purchase: Date,
-    warranty_expiried_on: Date,
+    warranty_expired_on: Date,
     operational_status: string,
     location: string,
     rate: number,
@@ -64,7 +64,7 @@ const edit = async (
     try {
         const currentDate = new Date();
         const formatted_date_of_purchase = date_of_purchase ? new Date(date_of_purchase) : null;
-        const formatted_warranty_expiried_on = warranty_expiried_on ? new Date(warranty_expiried_on) : null;
+        const formattedwarranty_expired_on = warranty_expired_on ? new Date(warranty_expired_on) : null;
         const transaction = connectionObj ? connectionObj : prisma;
         const machinery = await transaction.machinery.update({
             where: {
@@ -76,7 +76,7 @@ const edit = async (
                 machinery_type,
                 manufacturer,
                 date_of_purchase: formatted_date_of_purchase,
-                warranty_expiried_on: formatted_warranty_expiried_on,
+                warranty_expired_on: formattedwarranty_expired_on,
                 operational_status,
                 location,
                 rate,
