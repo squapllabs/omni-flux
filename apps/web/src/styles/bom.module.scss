@@ -1,6 +1,6 @@
 .container {
   padding: 10px 10px 10px 10px;
-  height: 100%;
+  height: 100vh;
 }
 .subHeader {
   display: flex;
@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   gap: 10px;
 }
 .submenu {
@@ -129,11 +129,11 @@
 .tableContainer {
   padding: 10px;
   width: 100%;
-  height: 100%;
+  // height: 100%;
   // overflow-x: auto;
-  // overflow-y: auto;
-  max-width: 950px; /* Adjust the maximum width as needed */
-  max-height: 250px;
+  // overflow-y: none;
+  max-width: 1150px; /* Adjust the maximum width as needed */
+  // max-height: 550px;
   margin: 0 auto;
   &::-webkit-scrollbar {
     width: 0px;
@@ -180,4 +180,63 @@
 
 .options:hover {
   background-color: #ddd;
+}
+.saveButton {
+  display: flex;
+  justify-content: end;
+  padding-right: 10px;
+}
+.totalPanel {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #ccc;
+  padding: 10px;
+}
+.panelList {
+  width: 20%;
+  padding: 10px;
+}
+.panel {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  text-align: right;
+  align-items: end;
+}
+.panelTitle {
+  text-align: right;
+  align-items: end;
+  color: rgb(0, 0, 0);
+}
+
+.groupButton {
+  display: flex;
+  margin-top: 1%;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+.Secondcontainer {
+  height: 100vh;
+}
+
+.abstractButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 230px;
+}
+
+.bomcontainer {
+  padding: 10px 10px 10px 10px;
+  height: 100%;
+}
+
+.mainheader {
+  height: 30%;
+  background-color: #0042d2;
+}
+.mainBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 10px;
 }

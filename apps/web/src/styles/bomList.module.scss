@@ -4,6 +4,7 @@
   justify-content: space-between;
   background-color: white;
   padding: 10px;
+  cursor: pointer;
 }
 
 .mainLeftContent {
@@ -49,19 +50,25 @@
     padding: 7px;
 }
 
-.scrollContainer{
-    height: 400px; 
-    overflow-y: auto;
+.groupButton{
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 0px 5px 5px;
 }
 
-.scrollContainer::-webkit-scrollbar {
-    width: 0.5em;
-  }
+// .scrollContainer{
+//     height: 400px; 
+//     overflow-y: auto;
+// }
+
+// .scrollContainer::-webkit-scrollbar {
+//     width: 0.5em;
+//   }
   
-  .scrollContainer::-webkit-scrollbar-thumb {
-    background-color: transparent; /* Color of the thumb (bar itself) */
-  }
+//   .scrollContainer::-webkit-scrollbar-thumb {
+//     background-color: transparent; 
+//   }
   
-  .sscrollContainer::-webkit-scrollbar-track {
-    background-color: transparent; /* Color of the track (background behind thumb) */
-  }
+//   .sscrollContainer::-webkit-scrollbar-track {
+//     background-color: transparent; 
+//   }

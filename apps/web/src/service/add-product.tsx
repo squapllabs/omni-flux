@@ -13,13 +13,11 @@ const addProduct = async (values: JSON) => {
     throw error;
   }
 };
-const getAllItems = async (values: JSON) => {
+const getAllItems = async () => {
   try {
-    const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/item/get-all-items`,
-      values
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/item/get-all`,
     );
-
     return response.data;
   } catch (error) {
     console.log('Error in getting all items', error);
@@ -39,8 +37,61 @@ const deleteItem = async (id: number) => {
   }
 };
 
+const getOneByItemID =async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/item/get/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne product :', error);
+    throw error;
+  }
+}
+
+const updateItem = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/item/update-item`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in item edit:', error);
+  }
+};
+
+const filterItem = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/item/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in item search :', error);
+    throw error;
+  }
+}
+
+const getOneItemByName = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/item/check-duplicate-name/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne uom :', error);
+    throw error;
+  }
+};
+
 export default {
   addProduct,
   getAllItems,
   deleteItem,
+  getOneByItemID,
+  updateItem,
+  filterItem,
+  getOneItemByName
 };

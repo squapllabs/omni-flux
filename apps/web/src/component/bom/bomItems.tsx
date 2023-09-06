@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  getBycategoryIDinSub,
+  getBycategoryIdInSub,
   useDeleteSubcategory,
 } from '../../hooks/subCategory-hooks';
-import Button from '../ui/Button';
 import Styles from '../../styles/bomList.module.scss';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
+import { useNavigate } from 'react-router-dom';
+import bomService from '../../service/bom-service';
+import CustomGroupButton from '../ui/CustomGroupButton';
+import BomLabours from './bomTables/bomLabours';
 import EditIcon from '../menu/icons/editIcon';
 import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
 import DeleteIcon from '../menu/icons/deleteIcon';
@@ -17,10 +20,10 @@ const BomItems = (props: {
   selectedCategory: any;
   setSelectedSubCategory: any;
   selectedSubCategory: any;
-  selectedProject: any;
+  projectsId: any;
 }) => {
-  const { selectedCategory, selectedProject, selectedSubCategory } = props;
-  const { data: getAllData } = getBycategoryIDinSub(selectedCategory);
+  const { selectedCategory } = props;
+  const { data: getAllData } = getBycategoryIdInSub(selectedCategory);
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();
@@ -31,6 +34,16 @@ const BomItems = (props: {
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [value, setValue] = useState();
+  const navigate = useNavigate();
+  const [isExpanded, setIsExpanded] = useState(null);
+  const [tableData, setTableData] = useState();
+  const [activeButton, setActiveButton] = useState<string | null>('RAWMT');
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'RAW MATERIAL', value: 'RAWMT' },
+    // { label: 'LABOUR', value: 'RAWLB' },
+    // { label: 'MACHINERY', value: 'MAC' },
+  ]);
+  console.log('getAllData in bom itemss', getAllData);
 
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -68,15 +81,37 @@ const BomItems = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
+
+  const handleDemo = async (subCategoryId: any) => {
+    const obj = {
+      id: subCategoryId,
+      type: activeButton,
+    };
+    if (isExpanded === subCategoryId) {
+      setIsExpanded(null);
+    } else {
+      const getData = await bomService.getBOMbySubCatIDandType(obj);
+      console.log('sample data =====>', getData.data);
+      setTableData(getData.data);
+      setIsExpanded(subCategoryId);
+    }
+  };
 
   return (
     <div className={Styles.scrollContainer}>
       <div>
         {getAllData?.map((items: any, index: any) => {
+          const isItemExpanded = isExpanded === items.sub_category_id;
           return (
-            <div>
+            <div key={items.sub_category_id}>
               <div className={Styles.dividerContent}>
-                <div className={Styles.mainHeading}>
+                <div
+                  className={Styles.mainHeading}
+                  onClick={() => handleDemo(items?.sub_category_id)}
+                >
                   <div className={Styles.mainLeftContent}>
                     <h4>
                       {index + 1}. {items?.name}
@@ -91,11 +126,67 @@ const BomItems = (props: {
                     </p>
                   </div>
                 </div>
+                <div>
+                  {isItemExpanded && (
+                    <div>
+                      <div className={Styles.groupButton}>
+                        <CustomGroupButton
+                          labels={buttonLabels}
+                          onClick={handleGroupButtonClick}
+                          activeButton={activeButton}
+                        />
+                      </div>
+                      <div>
+                        {activeButton === 'RAWMT' ? (
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>S No</th>
+                                <th>ITEM</th>
+                                <th>UOM</th>
+                                <th>QUANTITY</th>
+                                <th>RATE</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {tableData && tableData.length > 0 ? (
+                                tableData.map((item: any, index: any) => (
+                                  <tr key={item.bom_id}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.item_data?.item_name}</td>
+                                    <td>{item.uom_data?.name}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{formatBudgetValue(item.rate)}</td>
+                                    <td>{formatBudgetValue(item.total)}</td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td>No records found</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        ) : (
+                          ' '
+                        )}
+                        {activeButton === 'RAWLB' ? <BomLabours /> : ''}
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className={Styles.options}>
                   <div
                     className={Styles.addPlan}
                     onClick={() => {
-                      props.setSelectedSubCategory(items?.sub_category_id);
+                      navigate(
+                        `/bom/${items?.sub_category_id}/${props.projectsId}`
+                      );
                     }}
                   >
                     <AddIcon style={{ height: '15px', width: '15px' }} />
@@ -104,7 +195,6 @@ const BomItems = (props: {
                   <div
                     className={Styles.addPlan}
                     onClick={() => {
-                      // setShowSubCategoryForm(items?.sub_category_id);
                       handleEdit(items?.sub_category_id);
                       setSelectedSubCategoryId(items?.sub_category_id);
                     }}
@@ -122,6 +212,17 @@ const BomItems = (props: {
                     <p className={Styles.addText}>Delete Task</p>
                   </div>
                 </div>
+                {/* <div
+                  className={Styles.addPlan}
+                  onClick={() => {
+                    navigate(
+                      `/bom/${items?.sub_category_id}/${selectedProject}`
+                    );
+                  }}
+                >
+                  <AddIcon style={{ height: '15px', width: '15px' }} />
+                  <p className={Styles.addText}>Add Plan</p>
+                </div> */}
               </div>
             </div>
           );
@@ -132,7 +233,7 @@ const BomItems = (props: {
         onAction={setShowSubCategoryForm}
         selectedCategoryId={selectedCategory}
         selectedSubCategory={selectedSubCategoryId}
-        selectedProject={selectedProject}
+        selectedProject={props.projectsId}
         mode={mode}
         setMode={setMode}
       />
