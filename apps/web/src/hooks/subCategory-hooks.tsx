@@ -50,34 +50,6 @@ const createSubcategory = () => {
   );
 };
 
-const updateSubcategory = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return SubcategoryService.updateSubcategory(data);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllSubcategory']);
-      },
-    }
-  );
-};
-
-const useDeleteSubcategory = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return SubcategoryService.deleteSubcategory(data);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllSubcategory']);
-      },
-    }
-  );
-};
-
 const getBySearchCategroy = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -107,6 +79,34 @@ const createInstantSubcategory = () => {
   return useMutation(
     (data: any) => {
       return SubcategoryService.createSubcategory(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getSubcategoryList']);
+      },
+    }
+  );
+};
+
+const updateSubcategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SubcategoryService.updateSubcategory(data);
+    },
+    {
+      onSuccess: (data, _v) => {
+        queryClient.invalidateQueries(['getSubcategoryList'], _v.category_id);
+      },
+    }
+  );
+};
+
+const useDeleteSubcategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SubcategoryService.deleteSubcategory(data);
     },
     {
       onSuccess: () => {

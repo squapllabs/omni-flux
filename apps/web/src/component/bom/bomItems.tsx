@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { getBycategoryIdInSub } from '../../hooks/subCategory-hooks';
+import {
+  getBycategoryIdInSub,
+  useDeleteSubcategory,
+} from '../../hooks/subCategory-hooks';
 import Styles from '../../styles/bomList.module.scss';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
 import bomService from '../../service/bom-service';
 import CustomGroupButton from '../ui/CustomGroupButton';
+import BomLabours from './bomTables/bomLabours';
+import EditIcon from '../menu/icons/editIcon';
+import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import CustomSnackBar from '../ui/customSnackBar';
+import CustomDelete from '../ui/customDeleteDialogBox';
 
 const BomItems = (props: {
   selectedCategory: any;
@@ -13,19 +22,65 @@ const BomItems = (props: {
   selectedSubCategory: any;
   projectsId: any;
 }) => {
-  const { selectedCategory, projectsId } = props;
+  const { selectedCategory } = props;
   const { data: getAllData } = getBycategoryIdInSub(selectedCategory);
+  const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
+  const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isWarning, setIswarning] = useState(false);
+  const [mode, setMode] = useState('');
+  const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [value, setValue] = useState();
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(null);
   const [tableData, setTableData] = useState();
   const [activeButton, setActiveButton] = useState<string | null>('RAWMT');
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'RAW MATERIAL', value: 'RAWMT' },
-    { label: 'LABOUR', value: 'RAWLB' },
-    { label: 'MACHINERY', value: 'MAC' },
+    // { label: 'LABOUR', value: 'RAWLB' },
+    // { label: 'MACHINERY', value: 'MAC' },
   ]);
   console.log('getAllData in bom itemss', getAllData);
 
+  const handleEdit = (value: any) => {
+    setMode('EDIT');
+    setShowSubCategoryForm(true);
+    setSelectedSubCategoryId(value);
+  };
+
+  const deleteHandler = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+
+  const handleDelete = () => {
+    getDeleteSubCategoryByID(value, {
+      onSuccess: (response) => {
+        const { message, data, status } = response;
+        if (status === false) {
+          setMessage('Task cannot be deleted');
+          setOpenSnack(true);
+          setIswarning(true);
+          handleCloseDelete();
+        } else {
+          setMessage('Successfully deleted');
+          setOpenSnack(true);
+          handleCloseDelete();
+        }
+      },
+    });
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
@@ -39,8 +94,7 @@ const BomItems = (props: {
       setIsExpanded(null);
     } else {
       const getData = await bomService.getBOMbySubCatIDandType(obj);
-      console.log("sample data =====>",getData.data);
-      
+      console.log('sample data =====>', getData.data);
       setTableData(getData.data);
       setIsExpanded(subCategoryId);
     }
@@ -54,11 +108,11 @@ const BomItems = (props: {
           return (
             <div key={items.sub_category_id}>
               <div className={Styles.dividerContent}>
-                <div className={Styles.mainHeading}>
-                  <div
-                    className={Styles.mainLeftContent}
-                    onClick={() => handleDemo(items?.sub_category_id)}
-                  >
+                <div
+                  className={Styles.mainHeading}
+                  onClick={() => handleDemo(items?.sub_category_id)}
+                >
+                  <div className={Styles.mainLeftContent}>
                     <h4>
                       {index + 1}. {items?.name}
                     </h4>
@@ -66,7 +120,6 @@ const BomItems = (props: {
                       {items?.description}
                     </p>
                   </div>
-
                   <div className={Styles.rightContent}>
                     <p>
                       {formatBudgetValue(items?.budget ? items?.budget : 0)}
@@ -75,7 +128,6 @@ const BomItems = (props: {
                 </div>
                 <div>
                   {isItemExpanded && (
-                    
                     <div>
                       <div className={Styles.groupButton}>
                         <CustomGroupButton
@@ -84,47 +136,122 @@ const BomItems = (props: {
                           activeButton={activeButton}
                         />
                       </div>
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>ITEM</th>
-                            <th>UOM</th>
-                            <th>QUANTITY</th>
-                            <th>RATE</th>
-                            <th>Total</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {tableData?.map((item: any, index: any) => (
-                            <tr key={item.bom_id}>
-                              <td>{item.item_data?.item_name}</td>
-                              <td>{item.uom_data?.name}</td>
-                              <td>{item.quantity}</td>
-                              <td>{formatBudgetValue(item.rate)}</td>
-                              <td>{formatBudgetValue(item.total)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                      <div>
+                        {activeButton === 'RAWMT' ? (
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>S No</th>
+                                <th>ITEM</th>
+                                <th>UOM</th>
+                                <th>QUANTITY</th>
+                                <th>RATE</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {tableData && tableData.length > 0 ? (
+                                tableData.map((item: any, index: any) => (
+                                  <tr key={item.bom_id}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.item_data?.item_name}</td>
+                                    <td>{item.uom_data?.name}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{formatBudgetValue(item.rate)}</td>
+                                    <td>{formatBudgetValue(item.total)}</td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td>No records found</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        ) : (
+                          ' '
+                        )}
+                        {activeButton === 'RAWLB' ? <BomLabours /> : ''}
+                      </div>
                     </div>
                   )}
                 </div>
-                <div
+                <div className={Styles.options}>
+                  <div
+                    className={Styles.addPlan}
+                    onClick={() => {
+                      navigate(
+                        `/bom/${items?.sub_category_id}/${props.projectsId}`
+                      );
+                    }}
+                  >
+                    <AddIcon style={{ height: '15px', width: '15px' }} />
+                    <p className={Styles.addText}>Add Plan</p>
+                  </div>
+                  <div
+                    className={Styles.addPlan}
+                    onClick={() => {
+                      handleEdit(items?.sub_category_id);
+                      setSelectedSubCategoryId(items?.sub_category_id);
+                    }}
+                  >
+                    <EditIcon style={{ height: '15px', width: '15px' }} />
+                    <p className={Styles.addText}>Edit Task</p>
+                  </div>
+                  <div
+                    className={Styles.addPlan}
+                    onClick={() => {
+                      deleteHandler(items?.sub_category_id);
+                    }}
+                  >
+                    <DeleteIcon style={{ height: '15px', width: '15px' }} />
+                    <p className={Styles.addText}>Delete Task</p>
+                  </div>
+                </div>
+                {/* <div
                   className={Styles.addPlan}
                   onClick={() => {
                     navigate(
-                      `/bom/${items?.sub_category_id}/${props.projectsId}`
+                      `/bom/${items?.sub_category_id}/${selectedProject}`
                     );
                   }}
                 >
                   <AddIcon style={{ height: '15px', width: '15px' }} />
                   <p className={Styles.addText}>Add Plan</p>
-                </div>
+                </div> */}
               </div>
             </div>
           );
         })}
       </div>
+      <CustomSubCategoryAddPopup
+        isVissible={showSubCategoryForm}
+        onAction={setShowSubCategoryForm}
+        selectedCategoryId={selectedCategory}
+        selectedSubCategory={selectedSubCategoryId}
+        selectedProject={props.projectsId}
+        mode={mode}
+        setMode={setMode}
+      />
+      <CustomDelete
+        open={openDelete}
+        title="Delete Task"
+        contentLine1="Are you sure you want to delete this Task ?"
+        contentLine2=""
+        handleClose={handleCloseDelete}
+        handleConfirm={handleDelete}
+      />
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type={isWarning === true ? 'error' : 'success'}
+      />
     </div>
   );
 };

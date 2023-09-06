@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   useGetAllCategory,
   useGetAllCategoryByProjectId,
+  useDeleteCategory,
 } from '../../hooks/category-hooks';
 import Styles from '../../styles/bom.module.scss';
 import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
@@ -18,6 +19,10 @@ import BomItems from './bomItems';
 import Bom from './bom';
 import { useParams } from 'react-router-dom';
 import CategoryService from '../../service/category-service';
+import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import CustomSnackBar from '../ui/customSnackBar';
+import CustomDelete from '../ui/customDeleteDialogBox';
 
 const BomList = () => {
   const params = useParams();
@@ -35,6 +40,17 @@ const BomList = () => {
   const [categoryId, setCategoryId] = useState();
   const [categories, setCategories] = useState();
   const [reload, setReload] = useState(false);
+  const [mode, setMode] = useState('');
+  const [open, setOpen] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isWarning, setIswarning] = React.useState(false);
+  const { mutate: getDeleteCategoryByID } = useDeleteCategory();
+  const [value, setValue] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  // const { data: categories, isLoading: categoriesLoader } = useGetAllCategoryByProjectId(projectId);
+  // console.log('categories data===>', categories);
+  // console.log('mainData ==>', categoryData);
   const [isloading, setIsloading] = useState(true);
 
   useEffect(() => {
@@ -52,6 +68,56 @@ const BomList = () => {
   const handleSelectedCategory = async (value: any) => {
     setSelectedCategory(value.category_id);
     setCategoryData(value);
+    const subCatList = await subCategoryService.getOneSubCatListbyCatID(
+      Number(value.category_id)
+    );
+    console.log('Subcatlist', subCatList);
+
+    // setSubCatList(subCatList.data);
+    if (subCatList?.message === 'success') {
+      setOpen(!open);
+      setReload(true);
+    } else {
+      setOpen(false);
+    }
+  };
+
+  const handleEdit = (value: any) => {
+    setMode('EDIT');
+    setCategoryId(value);
+    setShowAbstractForm(true);
+  };
+
+  const deleteHandler = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+
+  const handleDelete = () => {
+    getDeleteCategoryByID(value, {
+      onSuccess: (response) => {
+        const { message, data, status } = response;
+        if (status === false) {
+          setMessage('Abstract cannot be deleted');
+          setOpenSnack(true);
+          setIswarning(true);
+          handleCloseDelete();
+        } else {
+          setMessage('Abstract deleted');
+          setOpenSnack(true);
+          setReload(true);
+          handleCloseDelete();
+        }
+      },
+    });
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
   };
 
   useEffect(() => {
@@ -142,14 +208,29 @@ const BomList = () => {
                                         <div
                                           style={{
                                             display: 'flex',
-                                            alignItems: 'center',
+                                            flexDirection: 'column',
+                                            // alignItems: 'center',
                                             gap: '5px',
                                           }}
                                         >
-                                          <div>
-                                            <AddIcon width={20} />
+                                          <div
+                                            className={Styles.options}
+                                            onClick={() =>
+                                              handleEdit(items.category_id)
+                                            }
+                                          >
+                                            <EditIcon width={20} />
+                                            <span>Edit</span>
                                           </div>
-                                          <span>Options</span>
+                                          <div
+                                            className={Styles.options}
+                                            onClick={() =>
+                                              deleteHandler(items.category_id)
+                                            }
+                                          >
+                                            <DeleteIcon width={20} />
+                                            <span>Delete</span>
+                                          </div>
                                         </div>
                                       </li>
                                     </ul>
@@ -233,12 +314,29 @@ const BomList = () => {
         onAction={setShowAbstractForm}
         selectedProject={projectsId}
         setReload={setReload}
+        mode={mode}
+        categoryId={categoryId}
       />
       <CustomSubCategoryAddPopup
         isVissible={showSubCategoryForm}
         onAction={setShowSubCategoryForm}
         selectedCategoryId={categoryId}
         selectedProject={projectsId}
+      />
+      <CustomDelete
+        open={openDelete}
+        title="Delete Abstract"
+        contentLine1="Are you sure you want to delete this Abstract"
+        contentLine2=""
+        handleClose={handleCloseDelete}
+        handleConfirm={handleDelete}
+      />
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type={isWarning === true ? 'error' : 'success'}
       />
     </div>
   );

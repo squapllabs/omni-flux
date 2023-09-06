@@ -1,63 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
 // import { createAbstract } from '../../hooks/abstract-hooks';
-import { createInstantCategory } from '../../hooks/category-hooks';
+import { createInstantCategory, updateCategory } from '../../hooks/category-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import { getAbstractValidateyup } from '../../helper/constants/abstract-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 import DatePicker from './CustomDatePicker';
+import CategoryService from '../../service/category-service';
+import { format } from 'date-fns';
 
 const CustomAbstractAdd = (props: {
   isVissible: any;
   onAction: any;
   selectedProject: any;
-  setReload:any
+  setReload: any;
+  mode: any;
+  categoryId: any;
 }) => {
-  const { isVissible, onAction, selectedProject,setReload } = props;
+  const { isVissible, onAction, selectedProject, setReload, mode, categoryId } =
+    props;
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
   const { mutate: createNewAbstract } = createInstantCategory();
+  const { mutate: updateCategoryData } = updateCategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
     project_id: '',
     start_date: '',
     end_date: '',
+    category_id: ''
   });
+
+  const dateFormat = (value: any) => {
+    if(value !== null) {
+    const currentDate = new Date(value);
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
+    return formattedDate;
+    }
+  };
+
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
+  useEffect(() => {
+    if (props.mode === 'EDIT') {
+      const fetchOne = async () => {
+        const data = await CategoryService.getOneCategoryByID(props.categoryId);
+        setclientInitialValues({
+          name: data?.data?.name,
+          project_id: data?.data?.project_id,
+          description: data?.data?.description,
+          start_date: dateFormat(data?.data?.start_date),
+          end_date: dateFormat(data?.data?.end_date),
+          category_id: data?.data?.category_id,
+        });
+        console.log("dataaaa",data);
+        
+      };
+      fetchOne();
+    }
+  }, [props.mode, props.categoryId]);
+
   const formik = useFormik({
     initialValues: clientinitialValues,
     validationSchema: validationSchemaAbstract,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      const Object: any = {
-        name: values.name,
-        description: values.description,
-        project_id: selectedProject,
-        budget: 0,
-        start_date: values.start_date,
-        end_date: values.end_date
-      };
-      console.log('abstract from', Object);
-      createNewAbstract(Object, {
-        onSuccess: (data, variables, context) => {
-          console.log('samlpe data==>', data);
-
-          if (data?.status === true) {
-            setMessage('Abstract created');
-            setOpenSnack(true);
-            setReload(true);
-            handleCloseForm();
-            resetForm();
+      if (props.mode === 'EDIT') {
+        const Object: any = {
+          name: values.name,
+          description: values.description,
+          project_id: selectedProject,
+          budget: 0,
+          start_date: values.start_date,
+          end_date: values.end_date,
+          category_id: values.category_id,
+        };
+        console.log('abstract from', Object);
+        updateCategoryData(Object, {
+          onSuccess: (data,variables,context) => {
+            console.log('samlpe data==>', data);
+            if (data?.status === true) {
+              setMessage('Abstract edited');
+              setOpenSnack(true);
+              setReload(true);
+              handleCloseForm();
+              resetForm();
+            }
           }
-        },
-      });
+        })
+      } else {
+        const Object: any = {
+          name: values.name,
+          description: values.description,
+          project_id: selectedProject,
+          budget: 0,
+          start_date: values.start_date,
+          end_date: values.end_date,
+        };
+        console.log('abstract from', Object);
+        createNewAbstract(Object, {
+          onSuccess: (data, variables, context) => {
+            console.log('samlpe data==>', data);
+            if (data?.status === true) {
+              setMessage('Abstract created');
+              setOpenSnack(true);
+              setReload(true);
+              handleCloseForm();
+              resetForm();
+            }
+          },
+        });
+      }
     },
   });
 
@@ -126,8 +185,7 @@ const CustomAbstractAdd = (props: {
                         },
                       }}
                       error={
-                        formik.touched.start_date &&
-                        formik.errors.start_date
+                        formik.touched.start_date && formik.errors.start_date
                       }
                     />
                     <DatePicker
@@ -135,9 +193,7 @@ const CustomAbstractAdd = (props: {
                       name="end_date"
                       value={formik.values.end_date}
                       onChange={formik.handleChange}
-                      error={
-                        formik.touched.end_date && formik.errors.end_date
-                      }
+                      error={formik.touched.end_date && formik.errors.end_date}
                     />
                   </div>
                 </div>

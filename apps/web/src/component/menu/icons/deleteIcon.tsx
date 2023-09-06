@@ -5,6 +5,7 @@ interface DeleteIconProps {
   height?: number;
   color?: string;
   onClick: () => void;
+  style?: React.CSSProperties;
 }
 
 const DeleteIcon: FC<DeleteIconProps> = ({
@@ -12,12 +13,14 @@ const DeleteIcon: FC<DeleteIconProps> = ({
   height = 20,
   color = '#475467',
   onClick,
+  style,
 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
+      style={style}
       fill="none"
       viewBox="0 0 18 20"
       onClick={onClick}
