@@ -200,7 +200,7 @@ const deleteCategory = async (categoryId: number) => {
       return result;
     }
 
-    if (subCategoryExistForThisCategory) {
+    if (subCategoryExistForThisCategory.length > 0) {
       const result = {
         message:
           'Unable to delete this category.Please delete the associated child category.',
@@ -212,8 +212,8 @@ const deleteCategory = async (categoryId: number) => {
     const data = await categoryDao.deleteCategory(categoryId);
     if (data) {
       const result = {
-        status: true,
         message: 'Category Data Deleted Successfully',
+        status: true,
         data: null,
       };
       return result;

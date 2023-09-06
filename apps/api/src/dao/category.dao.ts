@@ -232,6 +232,32 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
   }
 };
 
+const updateBudget = async (
+  budget: number,
+  category_id: number,
+  updated_by: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj ? connectionObj : prisma;
+    const currentDate = new Date();
+    const subCategoryDetails = await transaction.category.update({
+      where: {
+        category_id: category_id,
+      },
+      data: {
+        budget: budget,
+        updated_date: currentDate,
+        updated_by,
+      },
+    });
+    return subCategoryDetails;
+  } catch (error) {
+    console.log('Error occurred in category dao updateBudget', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -242,4 +268,5 @@ export default {
   getAllInActiveCategories,
   searchCategory,
   getByProjectId,
+  updateBudget,
 };
