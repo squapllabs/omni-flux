@@ -22,49 +22,33 @@ import CategoryService from '../../service/category-service';
 const BomList = () => {
   const params = useParams();
   const projectId = Number(params?.projectId);
-  console.log('pppppppp', projectId);
   const [projectsId, setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [showItemForm, setShowItemForm] = useState(false);
   const [showAbstractForm, setShowAbstractForm] = useState(false);
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
-  // const [open, setOpen] = useState(false);
   const [categoryData, setCategoryData] = useState();
-  console.log('selectedSubCategory', selectedSubCategory);
   const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
   const [openedContextMenuForCategory, setOpenedContextMenuForCategory] =
     useState<number | null>(null);
   const [categoryId, setCategoryId] = useState();
   const [categories, setCategories] = useState();
   const [reload, setReload] = useState(false);
-  // const { data: categories, isLoading: categoriesLoader } = useGetAllCategoryByProjectId(projectId);
-  // console.log('categories data===>', categories);
-  // console.log('mainData ==>', categoryData);
+  const [isloading, setIsloading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const datas = await CategoryService.getAllCategoryByProjectId(projectId);
-      console.log('use effect api called ===>', datas);
       setCategories(datas.data);
-      setCategoryData(datas.data[0])
-      setSelectedCategory(datas.data[0].category_id)
-      setCategoryId(datas.data[0].category_id)
+      setIsloading(false);
+      setCategoryData(datas.data[0]);
+      setSelectedCategory(datas.data[0].category_id);
+      setCategoryId(datas.data[0].category_id);
     };
     fetchData();
   }, [reload]);
 
-  // useEffect(() => {
-  //   handleLoadData();
-  // }, [selectedCategory]);
-  // const handleLoadData = async () => {
-  //   const Obj: any = {
-  //     category_id: selectedCategory,
-  //     sub_category_id: null,
-  //     sub_sub_category_id: null,
-  //   };
-  //   const bomData = await BomService.getCustomBomData(Obj);
-  // };
   const handleSelectedCategory = async (value: any) => {
     setSelectedCategory(value.category_id);
     setCategoryData(value);
@@ -83,164 +67,166 @@ const BomList = () => {
 
   return (
     <div>
-      {/* <CustomLoader loading={categoriesLoader}> */}
-      {categories ? (
+      {isloading ? (
+        <CustomLoader loading={isloading} size={30} />
+      ) : (
         <div className={Styles.container}>
-          <div className={Styles.subHeader}>
-            <div className={Styles.subcontainer}>
-              <div className={Styles.submenu}>
-                <div className={Styles.side_menu}>
-                  <div className={Styles.topSideMenu}>
-                    <div className={Styles.topSideHeading}>
-                      <h3>BOQ Creator</h3>
+          {categories ? (
+            <div className={Styles.subHeader}>
+              <div className={Styles.subcontainer}>
+                <div className={Styles.submenu}>
+                  <div className={Styles.side_menu}>
+                    <div className={Styles.topSideMenu}>
+                      <div className={Styles.topSideHeading}>
+                        <h3>BOQ Creator</h3>
+                      </div>
+                      <Button
+                        color="secondary"
+                        shape="rectangle"
+                        justify="center"
+                        size="small"
+                        icon={<AddIcon width={20} />}
+                        onClick={() => {
+                          setShowAbstractForm(true);
+                        }}
+                      >
+                        Add Abstract
+                      </Button>
                     </div>
-                    <Button
-                      color="secondary"
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      icon={<AddIcon width={20} />}
-                      onClick={() => {
-                        setShowAbstractForm(true);
-                      }}
-                    >
-                      Add Abstract
-                    </Button>
-                  </div>
-                  {categories?.map((items: any, index: any) => {
-                    return (
-                      <ul key={index}>
-                        <li>
-                          {/* it is category shows */}
-                          <div
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                            }}
-                          >
+                    {categories?.map((items: any, index: any) => {
+                      return (
+                        <ul key={index}>
+                          <li>
+                            {/* it is category shows */}
                             <div
-                              className={
-                                selectedCategory === items.category_id
-                                  ? Styles.selected
-                                  : Styles.primarylistContent
-                              }
-                              onClick={() => {
-                                handleSelectedCategory(items);
-                                setCategoryId(items.category_id);
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
                               }}
                             >
-                              {items?.name}
-                            </div>
-                            <div>
-                              {/* category add  */}
-                              <MoreVerticalIcon
-                                onClick={(e: any) => {
-                                  e.stopPropagation();
-                                  setOpenedContextMenuForCategory(
-                                    items.category_id
-                                  );
+                              <div
+                                className={
+                                  selectedCategory === items.category_id
+                                    ? Styles.selected
+                                    : Styles.primarylistContent
+                                }
+                                onClick={() => {
+                                  handleSelectedCategory(items);
                                   setCategoryId(items.category_id);
-                                  setMoreIconDropdownOpen(
-                                    !moreIconDropdownOpen
-                                  );
                                 }}
-                              />
-                              {moreIconDropdownOpen &&
-                                items.category_id ===
-                                  openedContextMenuForCategory && (
-                                  <ul className={Styles.menu}>
-                                    <li
-                                      className={Styles.menuItem}
-                                      // onClick={() => setShowSubCategoryForm(true)}
-                                    >
-                                      <div
-                                        style={{
-                                          display: 'flex',
-                                          alignItems: 'center',
-                                          gap: '5px',
-                                        }}
+                              >
+                                {items?.name}
+                              </div>
+                              <div>
+                                {/* category add  */}
+                                <MoreVerticalIcon
+                                  onClick={(e: any) => {
+                                    e.stopPropagation();
+                                    setOpenedContextMenuForCategory(
+                                      items.category_id
+                                    );
+                                    setCategoryId(items.category_id);
+                                    setMoreIconDropdownOpen(
+                                      !moreIconDropdownOpen
+                                    );
+                                  }}
+                                />
+                                {moreIconDropdownOpen &&
+                                  items.category_id ===
+                                    openedContextMenuForCategory && (
+                                    <ul className={Styles.menu}>
+                                      <li
+                                        className={Styles.menuItem}
+                                        // onClick={() => setShowSubCategoryForm(true)}
                                       >
-                                        <div>
-                                          <AddIcon width={20} />
+                                        <div
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '5px',
+                                          }}
+                                        >
+                                          <div>
+                                            <AddIcon width={20} />
+                                          </div>
+                                          <span>Options</span>
                                         </div>
-                                        <span>Options</span>
-                                      </div>
-                                    </li>
-                                  </ul>
-                                )}
+                                      </li>
+                                    </ul>
+                                  )}
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                      </ul>
-                    );
-                  })}
+                          </li>
+                        </ul>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-              <div className={Styles.mainContainer}>
-                {categoryData && (
-                  <div>
-                    <div className={Styles.mainHeading}>
-                      <div className={Styles.mainLeftContent}>
-                        <h3>{categoryData?.name}</h3>
-                        <p className={Styles.descriptionContent}>
-                          {categoryData?.description}
-                        </p>
+                <div className={Styles.mainContainer}>
+                  {categoryData && (
+                    <div>
+                      <div className={Styles.mainHeading}>
+                        <div className={Styles.mainLeftContent}>
+                          <h3>{categoryData?.name}</h3>
+                          <p className={Styles.descriptionContent}>
+                            {categoryData?.description}
+                          </p>
+                        </div>
+                        <div>
+                          <p>Allocated Budget</p>
+                          <p>
+                            {formatBudgetValue(
+                              categoryData?.budget ? categoryData?.budget : 0
+                            )}
+                          </p>
+                        </div>
                       </div>
                       <div>
-                        <p>Allocated Budget</p>
-                        <p>
-                          {formatBudgetValue(
-                            categoryData?.budget ? categoryData?.budget : 0
-                          )}
-                        </p>
+                        <div className={Styles.taskButton}>
+                          <Button
+                            color="secondary"
+                            shape="rectangle"
+                            justify="center"
+                            size="small"
+                            icon={<AddIcon width={20} />}
+                            onClick={() => {
+                              setShowSubCategoryForm(true);
+                            }}
+                          >
+                            Add Tasks
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <div className={Styles.taskButton}>
-                        <Button
-                          color="secondary"
-                          shape="rectangle"
-                          justify="center"
-                          size="small"
-                          icon={<AddIcon width={20} />}
-                          onClick={() => {
-                            setShowSubCategoryForm(true);
-                          }}
-                        >
-                          Add Tasks
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <BomItems
-                  selectedCategory={selectedCategory}
-                  setSelectedSubCategory={setSelectedSubCategory}
-                  selectedSubCategory={selectedSubCategory}
-                  projectsId={projectsId}
-                />
+                  )}
+                  <BomItems
+                    selectedCategory={selectedCategory}
+                    setSelectedSubCategory={setSelectedSubCategory}
+                    selectedSubCategory={selectedSubCategory}
+                    projectsId={projectsId}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      ) : (
-        <div className={Styles.Secondcontainer}>
-          <div className={Styles.abstractButton}>
-            <Button
-              color="primary"
-              shape="rectangle"
-              size="small"
-              icon={<AddIcon width={20} />}
-              onClick={() => {
-                setShowAbstractForm(true);
-              }}
-            >
-              Add Abstract
-            </Button>
-          </div>
+          ) : (
+            <div className={Styles.Secondcontainer}>
+              <div className={Styles.abstractButton}>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  size="small"
+                  icon={<AddIcon width={20} />}
+                  onClick={() => {
+                    setShowAbstractForm(true);
+                  }}
+                >
+                  Add Abstract
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       )}
-      {/* </CustomLoader> */}
       <CustomBomAddPopup isVissible={showItemForm} onAction={setShowItemForm} />
       <CustomAbstractAddPopup
         isVissible={showAbstractForm}
