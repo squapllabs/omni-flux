@@ -16,6 +16,7 @@ interface bomBody {
   bom_type: string;
   created_date: Date;
   updated_date: Date;
+  machinery_id: number;
 }
 
 export { bomBody };
