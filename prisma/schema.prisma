@@ -597,11 +597,13 @@ model bom {
   total                 Float?
   bom_type              String?
   machinery_id          Int?
+  labour_id             Int?
   uom_data              uom?              @relation(fields: [uom_id], references: [uom_id])
   category_data         category?         @relation(fields: [category_id], references: [category_id])
   sub_category_data     sub_category?     @relation(fields: [sub_category_id], references: [sub_category_id])
   sub_sub_category_data sub_sub_category? @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
   item_data             item?             @relation(fields: [item_id], references: [item_id])
+  labour_data           labour?           @relation(fields: [labour_id], references: [labour_id])
 
   @@map("bom")
 }
@@ -642,4 +644,5 @@ model labour {
   created_by   Int?
   updated_by   Int?
   uom          uom?     @relation(fields: [uom_id], references: [uom_id])
+  bom          bom[]
 }
