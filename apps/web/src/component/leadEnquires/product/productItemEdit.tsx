@@ -25,8 +25,8 @@ const ProductItemEdit: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       if (values) {
-        let productName = values.product_id.split('+');
-        let obj = {
+        const productName = values.product_id.split('+');
+        const obj = {
           lead_enquiry_product_item_id: values.lead_enquiry_product_item_id,
           product_name: productName[1],
           product_id: Number(productName[0]),

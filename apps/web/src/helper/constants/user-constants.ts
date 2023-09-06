@@ -1,3 +1,5 @@
+import userService from "../../service/user-service";
+
 export const userErrorMessages = {
   ENTER_EMAIL: 'Username is required',
   ENTER_PASSWORD: 'Password is required',
@@ -22,7 +24,8 @@ export const userErrorMessages = {
   ENTER_VALID_DEPARTMENT: 'Invalid department',
   ENTER_MAX_NAME: 'Name should not exceed 100 characters',
   ENTER_MAX_DEPARTMENT: 'Department should not exceed 100 characters',
-  ENTER_ROLE: 'Role is required'
+  ENTER_ROLE: 'Role is required',
+  EMAIL_EXISTS: 'Email ID already exists'
 };
 
 export const getLoginYupSchema = (yup: any) => {
@@ -88,7 +91,21 @@ export const getUsercreationYupschema = (yup: any) => {
     email_id: yup
       .string()
       .required(userErrorMessages.ENTER_EMAIL)
-      .email(userErrorMessages.ENTER_VALID_EMAIL),
+      .email(userErrorMessages.ENTER_VALID_EMAIL)
+      .test(
+        'email-availability',
+        userErrorMessages.EMAIL_EXISTS,
+        async(value:any) => {
+          if(value) {
+            const response = await userService.getOneUser(value);
+            if(response?.success === true) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+      ),
     role_id: yup
       .string()
       .required(userErrorMessages.ENTER_ROLE),

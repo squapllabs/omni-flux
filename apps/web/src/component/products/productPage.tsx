@@ -2,76 +2,124 @@ import React, { useState, useEffect } from 'react';
 import Button from '../menu/button';
 import { useNavigate } from 'react-router-dom';
 import Styles from '..//../styles/listItem.module.scss';
-import Pagination from './pagination';
+import Pagination from '../menu/pagination';
 import AddIcon from '../menu/icons/addIcon';
 import DownloadIcon from '../menu/icons/download';
-import Dropdown from '../menu/dropDown';
-import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
-import FilterIcon from '../menu/icons/filterIcon';
-import DescendingIcon from '../menu/icons/descendingIcon';
-import SearchInput from './searchInputBox';
+import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
-
-import items from '../../service/add-product';
+import ButtonOne from '../ui/Button';
+import CustomGroupButton from '../ui/CustomGroupButton';
+import CustomLoader from '../ui/customLoader';
+import {
+  getByItem,
+  useGetAllPaginatedItemData,
+} from '../../hooks/add-product-hooks';
+import EditIcon from '../menu/icons/editIcon';
+import { formatBudgetValue } from '../../helper/common-function';
 
 const ProductPage = () => {
+  const {
+    mutate: postDataForFilter,
+    data: getFilterData,
+    isLoading: searchLoader,
+  } = getByItem();
+  
   const navigate = useNavigate();
-
-  const [itemValue, setItemValues] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(5); // Set initial value to 1
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  useEffect(() => {
-    fetchData();
-  }, [rowsPerPage, currentPage]);
-
-  const handleAddProduct = () => {
-    navigate('/add-products');
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filter, setFilter] = useState(false);
+  const [dataShow, setDataShow] = useState(false);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IN' },
+  ]);
+  const [filterValues, setFilterValues] = useState({
+    search_by_name: '',
+  });
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const itemData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: filterValues.search_by_name,
   };
 
-  const fetchData = async () => {
-    const requestData = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-    };
-    try {
-      const data = await items.getAllItems(requestData);
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedItemData(itemData);
 
-      setItemValues(data.data);
-      setTotalPages(data.total_page);
+  useEffect(() => {
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton]);
 
-      // console.log(data.total_page);
-    } catch (error) {
-      console.log('Error in fetching data:', error);
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
+    setFilterValues({
+      ...filterValues,
+      ['search_by_name']: event.target.value,
+    });
+    setIsResetDisabled(searchValue === '');
+    if (searchValue === '') {
+      handleReset();
     }
   };
 
-  const handlePageChange = (page) => {
+  const handleSearch = async () => {
+    const itemData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: activeButton,
+      global_search: filterValues.search_by_name,
+    };
+    postDataForFilter(itemData);
+    setDataShow(true);
+    setIsLoading(false);
+    setFilter(true);
+  };
+
+  const handleReset = async () => {
+    setDataShow(false);
+    setIsLoading(false);
+    setFilter(false);
+    setFilterValues({
+      search_by_name: '',
+    });
+    setIsLoading(false);
+    setIsResetDisabled(true);
+  };
+
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
+
+  const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
 
-  const handleRowsPerPageChange = (newRowsPerPage) => {
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
 
   const convertToCSV = (data: any[]) => {
-    const header = [
-      'Code',
-      'Sub Category',
-      'Description',
-      'GST',
-      'HSN Code',
-      'UOM',
-    ];
+    const header = ['Code', 'Description', 'GST','Rate', 'HSN Code', 'UOM'];
     const csvRows = [header.join(',')];
     for (const item of data) {
       const rowData = [
         item.item_name,
-        item.sub_sub_category.name,
         item.description,
         item.gst.rate,
+        item.rate || '-',
         item.hsn_code.code,
         item.uom.name,
       ];
@@ -81,7 +129,7 @@ const ProductPage = () => {
   };
 
   const handleDownload = () => {
-    const csvContent = convertToCSV(itemValue);
+    const csvContent = convertToCSV(initialData.content);
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -91,196 +139,194 @@ const ProductPage = () => {
     URL.revokeObjectURL(url);
   };
 
-  const handleReset = () => {
-    console.log('reset');
+  const handleEdit = (id: any) => {
+    navigate(`/product-edit/${id}`);
   };
-  const handleSearch = () => {};
+
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
   return (
     <div className={Styles.container}>
-      <div className={Styles.topContent}>
-        <div className={Styles.leftContainer}>
-          <h1>List of Items</h1>
-          <p>Manage your raw materials ( Raw, Semi Finished & Finished).</p>
-        </div>
-        <div className={Styles.rightContainer}>
-          <div className={Styles.button}>
-            <Button
-              text={
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <DownloadIcon style={{ padding: '4px' }} />
-                  Download csv
-                </div>
-              }
-              onClick={handleDownload}
-              backgroundColor="white"
-              textColor="black"
-              width={140}
-              border="1px solid #D0D5DD"
-              borderRadius={8}
-            />
+      <CustomLoader
+        loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+        size={48}
+        color="#333C44"
+      >
+        <div className={Styles.topContent}>
+          <div className={Styles.leftContainer}>
+            <h1>List of Items</h1>
+            <p>Manage your raw materials ( Raw, Semi Finished & Finished).</p>
           </div>
-          <div className={Styles.button}>
-            <Button
-              text={
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <AddIcon style={{ padding: '4px' }} />
-                  Add items
-                </div>
-              }
-              onClick={handleAddProduct}
-              backgroundColor="#7F56D9"
-              fontSize={14}
-              fontWeight={500}
-              width={125}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className={Styles.middleContent}>
-        <div className={Styles.middleRightContent}>
-          <div
-            style={{
-              border: '1px solid gray',
-              padding: '8px',
-              borderRadius: '8px',
-              width: '300px',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <SearchIcon style={{ padding: '0 5px' }} />
-            <SearchInput
-              placeholder="Search by Item Name"
-              onSearch={handleSearch}
-            />
-          </div>
-          <div>
-            <Button
-              text="Search"
-              onClick={() => {}}
-              border="1px solid #E9D7FE"
-              backgroundColor="#F9F5FF"
-              textColor="#6941C6"
-              fontWeight={600}
-              borderRadius={8}
-            />
-          </div>
-
-          <div className={Styles.resetButton} onClick={handleReset}>
-            <h2> Reset</h2>
+          <div className={Styles.rightContainer}>
+            <div className={Styles.button}>
+              <Button
+                text={
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <DownloadIcon style={{ padding: '4px' }} />
+                    Download csv
+                  </div>
+                }
+                onClick={handleDownload}
+                backgroundColor="white"
+                textColor="black"
+                width={140}
+                height={45}
+                style={{ paddingLeft: '8px' }}
+                border="1px solid #D0D5DD"
+                borderRadius={5}
+              />
+            </div>
+            <div className={Styles.button}>
+              <ButtonOne
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="medium"
+                icon={<AddIcon />}
+                onClick={() => {
+                  navigate('/product-add');
+                }}
+              >
+                Add Items
+              </ButtonOne>
+            </div>
           </div>
         </div>
 
-        <div className={Styles.middleRightContent}>
-          <div className={Styles.button}>
-            <Dropdown
-              label={
-                <Button
-                  text={
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <FilterIcon style={{ padding: '0 10px' }} />
-                      <p style={{ padding: '0 10px', fontSize: '16px' }}>
-                        Filter
-                      </p>
-                      <CancelFilterIcon
-                        style={{
-                          padding: '8px 10px',
-                          borderLeft: '1px solid #D0D5DD',
-                        }}
-                      />
-                    </div>
-                  }
-                  onClick={() => {}}
-                  width={150}
-                  textColor="black"
-                  backgroundColor="white"
-                  border="1px solid #D0D5DD"
-                  borderRadius={8}
-                />
-              }
-            >
-              <div>filter item</div>
-            </Dropdown>
-          </div>
-
-          <div className={Styles.button}>
-            <Dropdown
-              label={
-                <Button
-                  text={
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <DescendingIcon style={{ padding: '0 10px' }} />
-                      <p
-                        style={{
-                          padding: '8px 10px',
-                          fontSize: '16px',
-                          borderLeft: '1px solid #D0D5DD',
-                        }}
-                      >
-                        Last Updated On
-                      </p>
-                    </div>
-                  }
-                  onClick={() => {}}
-                  width={190}
-                  textColor="black"
-                  backgroundColor="white"
-                  border="1px solid #D0D5DD"
-                  borderRadius={8}
-                />
-              }
-            ></Dropdown>
-          </div>
+        <div className={Styles.middleContent}>
+          <div className={Styles.middleRightContent}>
+            <div className={Styles.searchField}>
+              <Input
+                width="260px"
+                prefixIcon={<SearchIcon />}
+                name="search_by_name"
+                value={filterValues.search_by_name}
+                onChange={(e) => handleFilterChange(e)}
+                placeholder="Search"
+              />
+            </div>
+            <div>
+              <ButtonOne
+                className={Styles.searchButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleSearch}
+              >
+                Search
+              </ButtonOne>
+            </div>
+            <div>
+              <ButtonOne
+                className={Styles.resetButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleReset}
+                disabled={isResetDisabled}
+              >
+                Reset
+              </ButtonOne>
+            </div>
+            </div>
+            <div className={Styles.groupButton}>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
+          
         </div>
-      </div>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Sub Category</th>
-              <th>Description</th>
-              <th>GST</th>
-              <th>HSN Code</th>
-              <th>UOM</th>
-              {/* <th>Delete</th> */}
-            </tr>
-          </thead>
-          <tbody>
-            {itemValue.map((item) => (
+        <div>
+          <table>
+            <thead>
               <tr>
-                <td>{item.item_name}</td>
-                <td>{item.sub_sub_category.name}</td>
-                <td>{item.description}</td>
-                <td>{item.gst.rate}</td>
-                <td>{item.hsn_code.code}</td>
-                <td>{item.uom.name}</td>
+                <th>S No</th>
+                <th>Item Name</th>
+                <th>Item Type</th>
+                <th>Description</th>
+                <th>GST</th>
+                <th>Rate</th>
+                {activeButton === 'AC' && <th></th>}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        rowsPerPage={rowsPerPage}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleRowsPerPageChange}
-      />
+            </thead>
+            <tbody>
+              {dataShow ? (
+                getFilterData?.total_count === 0 ? (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>No data found</td>
+                    {activeButton === 'AC' && <td></td>}
+                  </tr>
+                ) : (
+                  getFilterData?.content?.map((data: any, index: any) => (
+                    <tr key={data.item_id}>
+                      <td>{startingIndex + index}</td>
+                      <td>{data.item_name}</td>
+                      <td>
+                        {data.item_type && data.item_type.master_data_name}
+                      </td>
+                      <td>{data.description}</td>
+                      <td>{data.gst.rate}</td>
+                      <td>{formatBudgetValue(data.rate || '-')}</td>
+                      {activeButton === 'AC' && (
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() => handleEdit(data.item_id)}
+                            />
+                          </div>
+                        </td>
+                      )}
+                    </tr>
+                  ))
+                )
+              ) : initialData?.total_count === 0 ? (
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td>No data found</td>
+                  {activeButton === 'AC' && <td></td>}
+                </tr>
+              ) : (
+                initialData?.content?.map((data: any, index: any) => (
+                  <tr key={data.item_id}>
+                    <td>{startingIndex + index}</td>
+                    <td>{data.item_name}</td>
+                    <td>{data.item_type && data.item_type.master_data_name}</td>
+                    <td>{data.description}</td>
+                    <td>{data.gst.rate}</td>
+                    <td>{formatBudgetValue(data.rate || '-')}</td>
+                    {activeButton === 'AC' && (
+                      <td>
+                        <div className={Styles.tablerow}>
+                          <EditIcon onClick={() => handleEdit(data.item_id)} />
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className={Styles.pagination}>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={
+              dataShow ? getFilterData?.total_page : initialData?.total_page
+            }
+            totalCount={
+              dataShow ? getFilterData?.total_count : initialData?.total_count
+            }
+            rowsPerPage={rowsPerPage}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
+          />
+        </div>
+      </CustomLoader>
     </div>
   );
 };
