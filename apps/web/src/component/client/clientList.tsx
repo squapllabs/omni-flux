@@ -70,13 +70,11 @@ const ClientList = () => {
     status: activeButton,
     global_search: filterValues.search_by_name,
   };
-  // console.log('offset in input==>', clientData);
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
     refetch,
   } = useGetAllPaginatedClient(clientData);
-  // console.log('sample data====>', sample?.content);
 
   const handleClose = () => {
     setOpen(false);
@@ -193,7 +191,7 @@ const ClientList = () => {
   };
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
-  console.log("page index==>",startingIndex)
+
   return (
     <div>
       <div>

@@ -93,7 +93,6 @@ const HsnCodeList = () => {
     data: initialData,
     refetch,
   } = useGetAllPaginatedHsnCodeData(hsnCodeData);
-  // console.log('hsnCodeLIst data', initialData);
 
   const deleteCategoryHandler = (id: any) => {
     setValue(id);
@@ -489,7 +488,7 @@ const HsnCodeList = () => {
                                   className={Styles.truncatedStyle}
                                   title={data.description}
                                 >
-                                  {data.description?data.description.substring(0, 20): '-'}
+                                  {data.description?data.description.substring(0, 30): '-'}
                                 </span>
                               </td>
                               {activeButton === 'AC' && (
@@ -521,14 +520,14 @@ const HsnCodeList = () => {
                       </tr>
                     ) : (
                       initialData?.content?.map((data: any, index: number) => (
-                        <tr key={data.uom_id}>
+                        <tr key={data.hsn_code_id}>
                           <td>{startingIndex + index}</td>
                           <td>{data.code}</td>
                           <td>
                             <span
                               title={data.description}
                             >
-                              {data.description.substring(0,30)}
+                              {data.description?data.description.substring(0, 30): '-'}
                             </span>
                           </td>
                           {activeButton === 'AC' && (

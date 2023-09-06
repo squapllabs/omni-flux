@@ -8,6 +8,20 @@ const useGetAllHsnCode = () => {
   });
 };
 
+const useGetAllHsnForDrop = () => {
+  return useQuery(
+      ['useGetAllHsnDrop'],
+      () => hsnCodeService.getAllHsnCode(),
+      {
+          select: (data) =>
+              data?.data?.map((hsn: any) => ({
+                  value:hsn.hsn_code_id,
+                  label:hsn.code,
+              })),
+      }
+  );
+};
+
 const useDeleteHsnCode = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -89,4 +103,4 @@ const useGetAllPaginatedHsnCodeData = (data: any) => {
   );
 };
 
-export { useGetAllHsnCode, useDeleteHsnCode, createHsnCode, updateHsnCode ,uploadHsnCode, getByCode, useGetAllPaginatedHsnCodeData};
+export { useGetAllHsnCode, useDeleteHsnCode, createHsnCode, updateHsnCode ,uploadHsnCode, getByCode, useGetAllPaginatedHsnCodeData,useGetAllHsnForDrop};

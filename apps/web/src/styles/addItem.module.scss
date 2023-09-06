@@ -1,107 +1,41 @@
 .container{
 display: flex;
-margin: 4%;
+margin: 1%;
 flex-direction: column;
 gap:20px
 }
 .headingContainer{
 display: flex;
 flex-direction: column;
-border-bottom: 2px solid var(--gray-200-color);
+border-bottom: 1px solid black;
 }
-.headingContainer h2{
-  font-size: 16px;
-  color:var(--gray-700-color);
+.headingContainer h3{
+  font-size: 20px;
+  color:black;
 }
 .headingContainer p{
   font-size: 14px;
   padding: 8px 0 20px 0;
   color: var(--gray-600-color)
 }
-
-.itemDetailHeading{
-  width: 25%;
-
-}
-.itemContainer{
-display: flex;
-
-}
-.inputContainer{
-  width: 30%;
-}
-.itemDetailHeading p{
-  color:var(--gray-700-color);
-  font-weight: bold;
-}
-
-.formContainer{
+.itemField {
   display: flex;
-  flex-direction: column;
-  gap: 30px;
+  flex-direction:column;
+  justify-content: space-around;
+  gap: 10px;
 }
-
-label {
-  margin-bottom: 4px;
-  font-size: 0.75rem;
-  color: #333C44;
-  font-weight: 400;
-}
-
-.inputContainer textarea {
-  width: 95%;
-  padding: 0.5rem;
-  border: 2px solid var(--gray-200-color);
-  border-radius: 4px;
-  outline: none;
-  height: 80px;
-  background-color: #f4f5f6;
-}
-
-.descriptionCaption{
-  font-size: 10px;
-  color: var(--gray-600-color);
-  font-weight: 400;
-}
-.charCount{
-  font-size: 12px;
-  color: var(--gray-600-color);
-}
-
-
-.select-container {
+.itemField1 {
   display: flex;
-
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: column;
-
-
-
-  select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-    background-color: #f4f5f6;
-
-
-    &:focus {
-      outline: none;
-      border-color: #dadde0;
-      box-shadow: 0 0 4px #d7dbe0;
-    }
-  }
+  flex-direction:row;
+  justify-content: space-around;
 }
-.separationLine {
-  height: 1.5px;
-  background-color: var(--gray-200-color);
 
+.buttonFields {
+  display:flex;
+  flex-direction:row;
+  gap:10px;
+  justify-content:flex-end;
+  padding-right:110px;
 }
-.error{
-  color: red;
-  font-size: 12px;
-}
+
 

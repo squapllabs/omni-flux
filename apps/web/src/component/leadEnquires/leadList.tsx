@@ -47,7 +47,6 @@ const LeadList = () => {
     postleadEnquiry(demo);
     setIsLoading(false);
     setFilter(true);
-    setDisable(false);
   };
   const handleReset = async () => {
     const demo: any = {
