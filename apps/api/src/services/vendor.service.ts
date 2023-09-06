@@ -206,35 +206,35 @@ const searchVendor = async (body) => {
     const filterObj = {
       filterVendor: {
         AND: [],
-        OR: [
-          { vendor_name: { contains: global_search, mode: 'insensitive' } },
-          { contact_person: { contains: global_search, mode: 'insensitive' } },
-          { contact_email: { contains: global_search, mode: 'insensitive' } },
-          {
-            contact_phone_no: { contains: global_search, mode: 'insensitive' },
-          },
-          { tax_id: { contains: global_search, mode: 'insensitive' } },
-          { payment_terms: { contains: global_search, mode: 'insensitive' } },
-          { currency: { contains: global_search, mode: 'insensitive' } },
-          { lead_time: { contains: global_search, mode: 'insensitive' } },
-          { notes: { contains: global_search, mode: 'insensitive' } },
-          {
-            vendor_category_data: {
-              master_data_name: {
-                contains: global_search,
-                mode: 'insensitive',
-              },
-            },
-          },
-          {
-            preferred_payment_method_data: {
-              master_data_name: {
-                contains: global_search,
-                mode: 'insensitive',
-              },
-            },
-          },
-        ],
+        // OR: [
+        //   { vendor_name: { contains: global_search, mode: 'insensitive' } },
+        //   { contact_person: { contains: global_search, mode: 'insensitive' } },
+        //   { contact_email: { contains: global_search, mode: 'insensitive' } },
+        //   {
+        //     contact_phone_no: { contains: global_search, mode: 'insensitive' },
+        //   },
+        //   { tax_id: { contains: global_search, mode: 'insensitive' } },
+        //   { payment_terms: { contains: global_search, mode: 'insensitive' } },
+        //   { currency: { contains: global_search, mode: 'insensitive' } },
+        //   { lead_time: { contains: global_search, mode: 'insensitive' } },
+        //   { notes: { contains: global_search, mode: 'insensitive' } },
+        //   {
+        //     vendor_category_data: {
+        //       master_data_name: {
+        //         contains: global_search,
+        //         mode: 'insensitive',
+        //       },
+        //     },
+        //   },
+        //   {
+        //     preferred_payment_method_data: {
+        //       master_data_name: {
+        //         contains: global_search,
+        //         mode: 'insensitive',
+        //       },
+        //     },
+        //   },
+        // ],
         is_delete: status === 'AC' ? false : true,
       },
     };
@@ -244,7 +244,8 @@ const searchVendor = async (body) => {
       limit,
       order_by_column,
       order_by_direction,
-      filterObj
+      filterObj,
+      global_search
     );
 
     const count = result.count;

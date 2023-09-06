@@ -5,6 +5,7 @@ import {
   updateSubCategoryBody,
 } from '../interfaces/subCategory.Interface';
 import subSubCategoryDao from '../dao/subSubCategory.dao';
+import projectDao from '../dao/project.dao';
 
 /**
  * Method to Create a New SubCategory
@@ -20,13 +21,30 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       created_by = null,
       description,
       project_id,
+      start_date,
+      end_date,
     } = body;
     let result = null;
     const categoryExist = await categoryDao.getById(category_id);
     if (!categoryExist) {
-      result = { success: false, message: 'category_id does not exist' };
+      result = {
+        message: 'category_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const checkDuplicate =
       await subCategoryDao.getBySubCategoryNameAndCategoryId(
         name,
@@ -46,9 +64,11 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       budget,
       created_by,
       description,
-      project_id
+      project_id,
+      start_date,
+      end_date
     );
-    result = { success: true, data: subCategoryDetails };
+    result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in subCategory service Add: ', error);
@@ -71,16 +91,37 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       sub_category_id,
       description,
       project_id,
+      start_date,
+      end_date,
     } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
     if (!subCategoryExist) {
-      result = { success: false, message: 'sub_category_id does not exist' };
+      result = {
+        message: 'sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const categoryExist = await categoryDao.getById(category_id);
     if (!categoryExist) {
-      result = { success: false, message: 'category_id does not exist' };
+      result = {
+        message: 'category_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const checkDuplicate =
@@ -103,9 +144,11 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       updated_by,
       sub_category_id,
       description,
-      project_id
+      project_id,
+      start_date,
+      end_date
     );
-    result = { success: true, data: subCategoryDetails };
+    result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in subCategory service Edit: ', error);
@@ -126,7 +169,11 @@ const getById = async (subCategoryId: number) => {
       result = { message: 'success', status: true, data: subCategoryData };
       return result;
     } else {
-      result = { success: false, message: 'sub_category_id does not exist' };
+      result = {
+        status: false,
+        data: null,
+        message: 'sub_category_id does not exist',
+      };
       return result;
     }
   } catch (error) {

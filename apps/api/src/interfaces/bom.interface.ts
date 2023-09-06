@@ -10,6 +10,12 @@ interface bomBody {
   is_delete: boolean;
   created_by: number;
   updated_by: number;
+  description: string;
+  rate: number;
+  total: number;
+  bom_type: string;
+  created_date: Date;
+  updated_date: Date;
 }
 
 export { bomBody };

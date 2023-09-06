@@ -10,7 +10,7 @@ const createRole = async (body: createRoleBody) => {
   try {
     const { role_name, description, created_by } = body;
     const roleDetails = await roleDao.add(role_name, created_by, description);
-    const result = { success: true, data: roleDetails };
+    const result = { message: 'success', status: true, data: roleDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in role service Add: ', error);
@@ -36,10 +36,10 @@ const updateRole = async (body: updateRoleBody) => {
         updated_by,
         role_id
       );
-      result = { success: true, data: roleDetails };
+      result = { message: 'success', status: true, data: roleDetails };
       return result;
     } else {
-      result = { success: false, message: 'role_id does not exist' };
+      result = { message: 'role_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -58,10 +58,10 @@ const getById = async (roleId: number) => {
     let result = null;
     const roleData = await roleDao.getById(roleId);
     if (roleData) {
-      result = { success: true, data: roleData };
+      result = { message: 'success', status: true, data: roleData };
       return result;
     } else {
-      result = { success: false, message: 'role_id does not exist' };
+      result = { message: 'role_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -77,7 +77,7 @@ const getById = async (roleId: number) => {
 const getAllRoles = async () => {
   try {
     const result = await roleDao.getAll();
-    const roleData = { success: true, data: result };
+    const roleData = { message: 'success', status: true, data: result };
     return roleData;
   } catch (error) {
     console.log('Error occurred in getAllRoles role service : ', error);
@@ -94,18 +94,19 @@ const deleteRole = async (roleId: number) => {
     const roleExist = await roleDao.getById(roleId);
 
     if (!roleExist) {
-      const result = { success: false, message: 'role_id does not exist' };
+      const result = { message: 'role_id does not exist', status: false, data: null };
       return result;
     }
     const data = await roleDao.deleteRole(roleId);
     if (data) {
       const result = {
-        success: true,
-        message: 'Role Data Deleted Successfully',
+        message: 'successfully deleted this role',
+        staus: true,
+        data: null
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this role' };
+      const result = { message: 'Failed to delete this role', status: false, data: null };
       return result;
     }
   } catch (error) {

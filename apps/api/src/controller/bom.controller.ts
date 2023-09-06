@@ -6,8 +6,8 @@ const errorText = 'Error';
 const createBom = catchAsync(async (req, res) => {
   const methodName = '/createBom';
   try {
-    const result = await bomService.createBom(req.body);
-    res.send(result);
+    const bom = await bomService.createBom(req.body);
+    res.send(bom);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
@@ -16,8 +16,8 @@ const createBom = catchAsync(async (req, res) => {
 const updateBom = catchAsync(async (req, res) => {
   const methodName = '/updateBom';
   try {
-    const result = await bomService.updateBom(req.body);
-    res.send(result);
+    const bom = await bomService.updateBom(req.body);
+    res.send(bom);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
@@ -26,8 +26,8 @@ const updateBom = catchAsync(async (req, res) => {
 const getAllBom = catchAsync(async (req, res) => {
   const methodName = '/getAllBom';
   try {
-    const category = await bomService.getAllBom();
-    res.send(category);
+    const bom = await bomService.getAllBom();
+    res.send(bom);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
@@ -36,8 +36,8 @@ const getAllBom = catchAsync(async (req, res) => {
 const getByBomId = catchAsync(async (req, res) => {
   const methodName = '/getByBomId';
   try {
-    const result = await bomService.fetchBomById(req.params.bom_id);
-    res.send(result);
+    const bom = await bomService.fetchBomById(req.params.bom_id);
+    res.send(bom);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
@@ -46,8 +46,8 @@ const getByBomId = catchAsync(async (req, res) => {
 const deleteBom = catchAsync(async (req, res) => {
   const methodName = '/deleteBom';
   try {
-    const result = await bomService.deleteBomById(req.params.bom_id);
-    res.send(result);
+    const bom = await bomService.deleteBomById(req.params.bom_id);
+    res.send(bom);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
@@ -56,8 +56,41 @@ const deleteBom = catchAsync(async (req, res) => {
 const getByCategorySubCatAndSubSubCatId = catchAsync(async (req, res) => {
   const methodName = '/getByCategorySubCatAndSubSubCatId';
   try {
-    const result = await bomService.getByCategorySubCatAndSubSubCatId(req.body);
-    res.send(result);
+    const bom = await bomService.getByCategorySubCatAndSubSubCatId(req.body);
+    res.send(bom);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const fetchEntireDataByBomId = catchAsync(async (req, res) => {
+  const methodName = '/getEntireData';
+  try {
+    const bom = await bomService.getEntireDataByBomId(req.params.bom_id);
+    res.send(bom);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const addBulkBom = catchAsync(async (req, res) => {
+  const methodName = '/addBulkBom';
+  try {
+    const bom = await bomService.addBulkBom(req.body);
+    res.send(bom);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getBomBySubCategoryIdAndBomType = catchAsync(async (req, res) => {
+  const methodName = '/getBomBySubCategoryIdAndBomType';
+  try {
+    const bom = await bomService.getBomBySubCategoryIdAndBomType(
+      req.params.sub_category_id,
+      req.params.bom_type
+    );
+    res.send(bom);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
@@ -70,4 +103,7 @@ export {
   deleteBom,
   getAllBom,
   getByCategorySubCatAndSubSubCatId,
+  fetchEntireDataByBomId,
+  addBulkBom,
+  getBomBySubCategoryIdAndBomType,
 };

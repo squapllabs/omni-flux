@@ -1,5 +1,5 @@
 import stockDao from '../dao/stock.dao';
-import {createStockBody,updateStockBody} from '../interfaces/stock.interface';
+import { createStockBody, updateStockBody } from '../interfaces/stock.interface';
 import prisma from '../utils/prisma';
 
 /**
@@ -8,53 +8,54 @@ import prisma from '../utils/prisma';
  * @returns
  */
 const createStock = async (body: createStockBody) => {
-    let result = null;
-    try {
-      const {
-        item_id,
-        transaction_type,
-        quantity,
-        transaction_date,
-        warehouse_id,
-        site_id,
-        created_by,
-        updated_by,
-      } = body;
-      console.log(body);
-      result = await prisma
-        .$transaction(async (prisma) => {
-          const CreateStock = await stockDao.add(
-        item_id,
-        transaction_type,
-        quantity,
-        transaction_date,
-        warehouse_id,
-        site_id,
-        created_by,
-        updated_by,
-            prisma
-          );
+  let result = null;
+  try {
+    const {
+      item_id,
+      transaction_type,
+      quantity,
+      transaction_date,
+      warehouse_id,
+      site_id,
+      created_by,
+      updated_by,
+    } = body;
+    console.log(body);
+    result = await prisma
+      .$transaction(async (prisma) => {
+        const CreateStock = await stockDao.add(
+          item_id,
+          transaction_type,
+          quantity,
+          transaction_date,
+          warehouse_id,
+          site_id,
+          created_by,
+          updated_by,
+          prisma
+        );
 
-          return CreateStock;
-        })
-        .then((data) => {
-          console.log('Successfully stock Data Returned ', data);
-          const newStockData = {
-            success: true,
-            data: data,
-          };
-          return newStockData;
-        })
-        .catch((error: string) => {
-          console.log('Failure, ROLLBACK was executed', error);
-          throw error;
-        });
-      return result;
-    } catch (error) {
-      console.log('Error occurred in stock service Add: ', error);
-      throw error;
-    }
-  };
+        return CreateStock;
+      })
+      .then((data) => {
+        console.log('Successfully stock Data Returned ', data);
+        const newStockData = {
+          message: 'success',
+          status: true,
+          data: data,
+        };
+        return newStockData;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return result;
+  } catch (error) {
+    console.log('Error occurred in stock service Add: ', error);
+    throw error;
+  }
+};
 
 /* * Method to Get All stock
  * @returns
@@ -62,7 +63,7 @@ const createStock = async (body: createStockBody) => {
 const getAllStock = async () => {
   try {
     const result = await stockDao.getAll();
-    const stockData = { success: true, data: result };
+    const stockData = { message: 'success', status: true, data: result };
     return stockData;
   } catch (error) {
     console.log('Error occurred in getAll stock service : ', error);
@@ -79,10 +80,10 @@ const getById = async (StockId: number) => {
     let result = null;
     const stockData = await stockDao.getById(StockId);
     if (stockData) {
-      result = { success: true, data: stockData };
+      result = { message: 'success', status: true, data: stockData };
       return result;
     } else {
-      result = { success: false, message: 'stock id not exist' };
+      result = { message: 'stock id not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -98,18 +99,19 @@ const deleteStock = async (stockId: number) => {
   try {
     const productExist = await stockDao.getById(stockId);
     if (!productExist) {
-      const result = { success: false, message: 'product Id Not Exist' };
+      const result = { status: false, data: null, message: 'product Id Not Exist' };
       return result;
     }
     const data = await stockDao.deleteStock(stockId);
     if (data) {
       const result = {
-        success: true,
         message: 'stock Data Deleted Successfully',
+        status: true,
+        data: null
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this stock' };
+      const result = { message: 'Failed to delete this stock', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -125,14 +127,14 @@ const deleteStock = async (stockId: number) => {
 const updateStock = async (body: updateStockBody) => {
   try {
     const {
-        stock_id,
-        item_id,
-        transaction_type,
-        quantity,
-        transaction_date,
-        warehouse_id,
-        site_id,
-        updated_by,
+      stock_id,
+      item_id,
+      transaction_type,
+      quantity,
+      transaction_date,
+      warehouse_id,
+      site_id,
+      updated_by,
     } = body;
     let result = null;
     const stockExist = await stockDao.getById(stock_id);
@@ -147,10 +149,10 @@ const updateStock = async (body: updateStockBody) => {
         site_id,
         updated_by,
       );
-      result = { success: true, data: stockDetails };
+      result = { message: 'success', status: true, data: stockDetails };
       return result;
     } else {
-      result = { success: false, message: 'stock_id not exist' };
+      result = { message: 'stock_id not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -159,9 +161,9 @@ const updateStock = async (body: updateStockBody) => {
   }
 };
 export {
-    createStock,
-    updateStock,
-    deleteStock,
-    getAllStock,
-    getById,
+  createStock,
+  updateStock,
+  deleteStock,
+  getAllStock,
+  getById,
 }

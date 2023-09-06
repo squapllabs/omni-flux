@@ -54,7 +54,7 @@ const createSubSubCategory = async (body: createSubSubCategoryBody) => {
       project_id,
       parent_sub_sub_category_id
     );
-    result = { success: true, data: subSubCategoryDetails };
+    result = { message: 'success', status: true, data: subSubCategoryDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in subSubCategory service Add: ', error);
@@ -153,8 +153,9 @@ const getById = async (subSubCategoryId: number) => {
       return result;
     } else {
       result = {
-        success: false,
         message: 'sub_sub_category_id does not exist',
+        staus: false,
+        data: null
       };
       return result;
     }
@@ -198,8 +199,8 @@ const deleteSubSubCategory = async (subSubCategoryId: number) => {
 
     if (!subSubCategoryExist) {
       const result = {
-        status: false,
         message: 'sub_sub_category_id does Not Exist',
+        status: false,
         data: null,
       };
       return result;
@@ -208,15 +209,15 @@ const deleteSubSubCategory = async (subSubCategoryId: number) => {
     const data = await subSubCategoryDao.deleteSubSubCategory(subSubCategoryId);
     if (data) {
       const result = {
-        status: true,
         message: 'SubSubCategory Data Deleted Successfully',
+        status: true,
         data: null,
       };
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this subSubCategory',
+        status: false,
         data: null,
       };
       return result;
@@ -483,8 +484,7 @@ const getChildDataByParentSubSubCatId = async (
       return result;
     } else {
       result = {
-        message:
-          'There is no child data related to this parent_sub_sub_category_id',
+        message: 'There is no child data related to this parent_sub_sub_category_id',
         status: false,
         data: childSubSubCategoryData,
       };

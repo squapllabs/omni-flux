@@ -444,6 +444,37 @@ const getByProjectIdAndSiteId = async (
   }
 };
 
+const getSiteExpenseDeatilsBySiteExpenceId = async (
+  siteExpenseId: number,
+  status: string,
+  connectionObj = null,
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const siteExpenseDetails = await transaction.site_expense.findFirst({
+      where: {
+        site_expense_id: Number(siteExpenseId),
+        is_delete: false,
+      },
+      include: {
+        site_expense_details: {
+          where: {
+            status: String(status),
+          },
+        },
+      },
+    });
+
+    return siteExpenseDetails;
+  } catch (error) {
+    console.log(
+      'Error occurred in siteExpense getByProjectIdAndSiteId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -452,4 +483,5 @@ export default {
   deleteSiteExpense,
   searchSiteExpense,
   getByProjectIdAndSiteId,
+  getSiteExpenseDeatilsBySiteExpenceId,
 };

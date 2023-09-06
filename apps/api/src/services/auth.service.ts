@@ -22,10 +22,10 @@ const forgetPassword = async (body: { email_id: string }) => {
       );
       const link = `${process.env.REACT_APP_URL}/reset-password/${userId}/${token}/`;
       console.log('link ==>', link);
-      result = { success: true, link: link };
+      result = { message: 'success', status: true, link: link };
       return result;
     } else {
-      result = { success: false, message: 'user email not exist' };
+      result = { message: 'user email not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -50,9 +50,9 @@ const updatePassword = async (body: {
 
     if (userCheckExist) {
       result = await authDao.editPassword(email_id, md5(user_password));
-      return (result = { success: true, data: result });
+      return (result = { message: 'success', status: true, data: result });
     } else {
-      return (result = { success: false, message: 'email_id does not exist' });
+      return (result = { status: false, data: null, message: 'email_id does not exist' });
     }
   } catch (error) {
     console.log('Error occurred in update password : ', error);

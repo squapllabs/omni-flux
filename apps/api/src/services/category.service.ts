@@ -1,4 +1,5 @@
 import categoryDao from '../dao/category.dao';
+import projectDao from '../dao/project.dao';
 import subCategoryDao from '../dao/subCategory.dao';
 import {
   createCategoryBody,
@@ -12,9 +13,26 @@ import {
  */
 const createCategory = async (body: createCategoryBody) => {
   try {
-    const { name, project_id, budget, created_by = null, description } = body;
+    const {
+      name,
+      project_id,
+      budget,
+      created_by = null,
+      description,
+      start_date,
+      end_date,
+    } = body;
     let result = null;
     if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+
       const categoryData = await categoryDao.getByCategoryNameAndProjectId(
         name,
         Number(project_id)
@@ -33,7 +51,9 @@ const createCategory = async (body: createCategoryBody) => {
       project_id,
       budget,
       created_by,
-      description
+      description,
+      start_date,
+      end_date
     );
     result = {
       message: 'success',
@@ -54,8 +74,16 @@ const createCategory = async (body: createCategoryBody) => {
  */
 const updateCategory = async (body: updateCategoryBody) => {
   try {
-    const { name, project_id, budget, updated_by, category_id, description } =
-      body;
+    const {
+      name,
+      project_id,
+      budget,
+      updated_by,
+      category_id,
+      description,
+      start_date,
+      end_date,
+    } = body;
     let result = null;
 
     const categoryExist = await categoryDao.getById(category_id);
@@ -69,6 +97,14 @@ const updateCategory = async (body: updateCategoryBody) => {
     }
 
     if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
       const categoryData = await categoryDao.getByCategoryNameAndProjectId(
         name,
         Number(project_id)
@@ -89,7 +125,9 @@ const updateCategory = async (body: updateCategoryBody) => {
       budget,
       updated_by,
       category_id,
-      description
+      description,
+      start_date,
+      end_date
     );
     result = {
       message: 'success',
@@ -117,8 +155,8 @@ const getById = async (categoryId: number) => {
       return result;
     } else {
       result = {
-        status: false,
         message: 'category_id does not exist',
+        status: false,
         data: null,
       };
       return result;
@@ -155,18 +193,18 @@ const deleteCategory = async (categoryId: number) => {
       await subCategoryDao.getByCategoryId(categoryId);
     if (!categoryExist) {
       const result = {
-        status: false,
         message: 'category_id does not exist',
+        status: false,
         data: null,
       };
       return result;
     }
 
-    if (subCategoryExistForThisCategory) {
+    if (subCategoryExistForThisCategory.length > 0) {
       const result = {
-        status: false,
         message:
           'Unable to delete this category.Please delete the associated child category.',
+        status: false,
         data: null,
       };
       return result;
@@ -174,15 +212,15 @@ const deleteCategory = async (categoryId: number) => {
     const data = await categoryDao.deleteCategory(categoryId);
     if (data) {
       const result = {
-        status: true,
         message: 'Category Data Deleted Successfully',
+        status: true,
         data: null,
       };
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this category',
+        status: false,
         data: null,
       };
       return result;
@@ -305,6 +343,41 @@ const searchCategory = async (body) => {
   }
 };
 
+/**
+ * Method to get Category By project_id
+ * @param project_id
+ * @returns
+ */
+const getByProjectId = async (project_id: number) => {
+  try {
+    let result = null;
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      result = {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const categoryData = await categoryDao.getByProjectId(project_id);
+    if (categoryData.length > 0) {
+      result = { message: 'success', status: true, data: categoryData };
+      return result;
+    } else {
+      result = {
+        message: 'No category found related to this category',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByProjectId category service : ', error);
+    throw error;
+  }
+};
+
 export {
   createCategory,
   updateCategory,
@@ -314,4 +387,5 @@ export {
   checkDuplicateProjectCategoryName,
   getAllInActiveCategories,
   searchCategory,
+  getByProjectId,
 };

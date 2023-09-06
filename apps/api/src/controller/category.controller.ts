@@ -88,6 +88,18 @@ const searchCategory = catchAsync(async (req, res) => {
   }
 });
 
+const getByProjectId = catchAsync(async (req, res) => {
+  const methodName = '/getByProjectId';
+  try {
+    const category = await categoryService.getByProjectId(
+      req.params.project_id
+    );
+    res.send(category);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createCategory,
   updateCategory,
@@ -97,4 +109,5 @@ export {
   checkDuplicateProjectCategoryName,
   getAllInActiveCategories,
   searchCategory,
+  getByProjectId,
 };
