@@ -24,6 +24,7 @@ const createBom = async (body: bomBody) => {
       rate,
       total,
       bom_type,
+      machinery_id,
     } = body;
 
     const bomData = await bomDao.add(
@@ -38,7 +39,8 @@ const createBom = async (body: bomBody) => {
       description,
       rate,
       total,
-      bom_type
+      bom_type,
+      machinery_id
     );
     if (bomData) {
       result = {
@@ -75,6 +77,7 @@ const updateBom = async (body: bomBody) => {
       rate,
       total,
       bom_type,
+      machinery_id,
     } = body;
     let result = null;
     const bomExist = await bomDao.getById(bom_id);
@@ -99,7 +102,8 @@ const updateBom = async (body: bomBody) => {
       description,
       rate,
       total,
-      bom_type
+      bom_type,
+      machinery_id
     );
     result = {
       message: 'success',

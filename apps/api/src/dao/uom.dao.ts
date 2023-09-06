@@ -4,6 +4,7 @@ const add = async (
   name: string,
   description: string,
   created_by: bigint,
+  uom_type: string,
   connectionObj = null
 ) => {
   try {
@@ -15,6 +16,7 @@ const add = async (
         name,
         description,
         created_by,
+        uom_type,
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
@@ -31,6 +33,7 @@ const edit = async (
   name: string,
   description: string,
   updated_by: bigint,
+  uom_type: string,
   uom_id: number,
   connectionObj = null
 ) => {
@@ -45,6 +48,7 @@ const edit = async (
         name,
         description,
         updated_by,
+        uom_type,
         updated_date: currentDate,
       },
     });
@@ -61,6 +65,7 @@ const getById = async (uomId: number, connectionObj = null) => {
     const uom = await transaction.uom.findFirst({
       where: {
         uom_id: Number(uomId),
+        is_delete: false,
       },
     });
     return uom;
@@ -152,6 +157,23 @@ const searchUOM = async (
   }
 };
 
+const getByType = async (uomType: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const uom = await transaction.uom.findMany({
+      where: {
+        uom_type: uomType,
+        is_delete: false,
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return uom;
+  } catch (error) {
+    console.log('Error occurred in uom getByType dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -160,4 +182,5 @@ export default {
   deleteUom,
   getByName,
   searchUOM,
+  getByType,
 };
