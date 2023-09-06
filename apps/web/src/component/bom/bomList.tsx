@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   useGetAllCategory,
   useGetAllCategoryByProjectId,
-  useDeleteCategory
+  useDeleteCategory,
 } from '../../hooks/category-hooks';
 import Styles from '../../styles/bom.module.scss';
 import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
@@ -27,7 +27,6 @@ import { log } from 'console';
 const BomList = () => {
   const params = useParams();
   const projectId = Number(params?.projectId);
-  console.log('pppppppp', projectId);
   const [projectsId, setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
@@ -36,17 +35,16 @@ const BomList = () => {
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [open, setOpen] = useState(false);
   const [categoryData, setCategoryData] = useState();
-  console.log('selectedSubCategory', selectedSubCategory);
   const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
   const [openedContextMenuForCategory, setOpenedContextMenuForCategory] =
     useState<number | null>(null);
   const [categoryId, setCategoryId] = useState();
   const [categories, setCategories] = useState();
   const [reload, setReload] = useState(false);
-  const [mode,setMode] = useState('');
+  const [mode, setMode] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const [value, setValue] = useState();
+  const [isWarning, setIswarning] = React.useState(false);
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
   // const { data: categories, isLoading: categoriesLoader } = useGetAllCategoryByProjectId(projectId);
   // console.log('categories data===>', categories);
@@ -55,7 +53,6 @@ const BomList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const datas = await CategoryService.getAllCategoryByProjectId(projectId);
-      console.log('use effect api called ===>', datas);
       setCategories(datas.data);
     };
     fetchData();
@@ -78,35 +75,38 @@ const BomList = () => {
     const subCatList = await subCategoryService.getOneSubCatListbyCatID(
       value.category_id
     );
-    console.log('line 62 --->', subCatList);
     // setSubCatList(subCatList.data);
     if (subCatList?.data === null) {
       setOpen(false);
     } else {
       setOpen(!open);
+      setReload(true);
     }
   };
 
-  const handleEdit = (value: any ) => {
+  const handleEdit = (value: any) => {
     setMode('EDIT');
     setCategoryId(value);
     setShowAbstractForm(true);
-  }
+  };
 
-  // const deleteCategoryHandler = (id:any) => {
-  //   console.log("valueDelete",value);
-    
-  //   setValue(value);
-  //   handleDelete();
-  // }
-
-  const handleDelete = (value:any) => {
-    console.log("deleteValue",value);
-    
-    getDeleteCategoryByID(value);
-    setMessage('Successfully deleted');
-    setOpenSnack(true);
-  }
+  const handleDelete = (value: any) => {
+    const deleteID = value;
+    getDeleteCategoryByID(deleteID, {
+      onSuccess: (response) => {
+        const { message, data, status } = response;
+        if (status === false) {
+          setMessage('Category cannot be deleted');
+          setOpenSnack(true);
+          setIswarning(true);
+        } else {
+          setMessage('Successfully deleted');
+          setOpenSnack(true);
+          setReload(true);
+        }
+      },
+    });
+  };
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -172,7 +172,7 @@ const BomList = () => {
                           >
                             {items?.name}
                           </div>
-                          <div>
+                          <div style={{paddingTop:'5px'}}>
                             {/* category add  */}
                             <MoreVerticalIcon
                               onClick={(e: any) => {
@@ -196,33 +196,29 @@ const BomList = () => {
                                       style={{
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        alignItems: 'center',
+                                        // alignItems: 'center',
                                         gap: '5px',
                                       }}
                                     >
-                                      <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '5px',
-                                      }}>
+                                      <div
+                                        className={Styles.options}
+                                        onClick={() =>
+                                          handleEdit(items.category_id)
+                                        }
+                                      >
                                         <EditIcon
                                           width={20}
-                                          onClick={() =>
-                                            handleEdit(items.category_id)
-                                          }
                                         />
                                         <span>Edit</span>
                                       </div>
-                                      <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '5px',
-                                      }}>
+                                      <div
+                                        className={Styles.options}
+                                        onClick={() =>
+                                          handleDelete(items.category_id)
+                                        }
+                                      >
                                         <DeleteIcon
                                           width={20}
-                                          onClick={() =>
-                                            handleDelete(items.category_id)
-                                          }
                                         />
                                         <span>Delete</span>
                                       </div>
@@ -307,7 +303,7 @@ const BomList = () => {
         message={message}
         onClose={handleSnackBarClose}
         autoHideDuration={1000}
-        type="success"
+        type={isWarning === true ? 'error' : 'success'}
       />
     </div>
   );
