@@ -627,3 +627,24 @@ model vendor {
   vendor_category_data          master_data? @relation("VendorCategoryRelation", fields: [vendor_category_id], references: [master_data_id])
   preferred_payment_method_data master_data? @relation("PreferredPaymentMethodRelation", fields: [preferred_payment_method_id], references: [master_data_id])
 }
+
+model machinery {
+  machinery_id      Int       @id @default(autoincrement())
+  machinery_name    String    @db.VarChar(255)
+  machinery_model   String?   @db.VarChar(50)
+  machinery_type    String?   @db.VarChar(50)
+  manufacturer      String?   @db.VarChar(255)
+  date_of_purchase  DateTime? 
+  warranty_expiried_on DateTime? 
+  operational_status String?   @db.VarChar(50)
+  location          String?   @db.VarChar(255)
+  rate              Float?    
+  uom_id            Int?      
+  is_delete         Boolean   @default(false)
+  created_date      DateTime  @default(now())
+  updated_date      DateTime 
+  created_by        Int?     
+  updated_by        Int?
+  @@map("machinery") 
+}
+

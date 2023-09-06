@@ -28,6 +28,7 @@ import capability from './capability.route';
 import permission from './permissions.route';
 import bom from './bom.route';
 import vendor from './vendor.route';
+import machinery from './machinery.route';
 
 const router = express.Router();
 
@@ -147,6 +148,10 @@ const defaultRoutes = [
   {
     path: '/vendor',
     route: vendor,
+  },
+  {
+    path: '/machinery',
+    route: machinery,
   },
 ];
 
