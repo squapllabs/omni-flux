@@ -233,6 +233,7 @@ import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
 import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
 import BomList from '../component/bom/bomList';
 import Bom from '../component/bom/bom';
+import ProductAdd from '../component/products/productAdd';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -285,6 +286,7 @@ const AppRoutes = () => {
   const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
   const ProtectedBomList = withLayoutAndProtection(BomList);
   const ProtectedBom = withLayoutAndProtection(Bom);
+  const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
 
   return (
     <div>
@@ -380,6 +382,8 @@ const AppRoutes = () => {
           path="/bom/:subCategoryId/:projectId"
           element={<ProtectedBom />}
         />
+        <Route path="/product-add" element={<ProtectedProductAddPage />} />
+        <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
       </Routes>
     </div>
   );

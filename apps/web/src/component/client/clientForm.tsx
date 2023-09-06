@@ -45,7 +45,7 @@ const ClientForm: React.FC = (props: any) => {
         };
         createNewClient(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Client created');
@@ -61,7 +61,7 @@ const ClientForm: React.FC = (props: any) => {
         };
         updateClientDetails(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Client edited');
