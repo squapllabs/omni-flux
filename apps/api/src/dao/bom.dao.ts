@@ -531,7 +531,7 @@ const getBomTotalBySubCategoryId = async (
   from
     "bom"
   where
-    sub_category_id = ${sub_category_id} and is_delete =false`;
+    sub_category_id = ${sub_category_id}::integer and is_delete =false`;
     return result;
   } catch (error) {
     console.error('Error occurred in BomDao getById:', error);
