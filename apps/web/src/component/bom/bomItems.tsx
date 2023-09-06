@@ -6,6 +6,7 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
 import bomService from '../../service/bom-service';
 import CustomGroupButton from '../ui/CustomGroupButton';
+import BomLabours from './bomTables/bomLabours';
 
 const BomItems = (props: {
   selectedCategory: any;
@@ -39,8 +40,7 @@ const BomItems = (props: {
       setIsExpanded(null);
     } else {
       const getData = await bomService.getBOMbySubCatIDandType(obj);
-      console.log("sample data =====>",getData.data);
-      
+      console.log('sample data =====>', getData.data);
       setTableData(getData.data);
       setIsExpanded(subCategoryId);
     }
@@ -54,11 +54,11 @@ const BomItems = (props: {
           return (
             <div key={items.sub_category_id}>
               <div className={Styles.dividerContent}>
-                <div className={Styles.mainHeading}>
-                  <div
-                    className={Styles.mainLeftContent}
-                    onClick={() => handleDemo(items?.sub_category_id)}
-                  >
+                <div
+                  className={Styles.mainHeading}
+                  onClick={() => handleDemo(items?.sub_category_id)}
+                >
+                  <div className={Styles.mainLeftContent}>
                     <h4>
                       {index + 1}. {items?.name}
                     </h4>
@@ -66,7 +66,6 @@ const BomItems = (props: {
                       {items?.description}
                     </p>
                   </div>
-
                   <div className={Styles.rightContent}>
                     <p>
                       {formatBudgetValue(items?.budget ? items?.budget : 0)}
@@ -75,7 +74,6 @@ const BomItems = (props: {
                 </div>
                 <div>
                   {isItemExpanded && (
-                    
                     <div>
                       <div className={Styles.groupButton}>
                         <CustomGroupButton
@@ -84,28 +82,47 @@ const BomItems = (props: {
                           activeButton={activeButton}
                         />
                       </div>
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>ITEM</th>
-                            <th>UOM</th>
-                            <th>QUANTITY</th>
-                            <th>RATE</th>
-                            <th>Total</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {tableData?.map((item: any, index: any) => (
-                            <tr key={item.bom_id}>
-                              <td>{item.item_data?.item_name}</td>
-                              <td>{item.uom_data?.name}</td>
-                              <td>{item.quantity}</td>
-                              <td>{formatBudgetValue(item.rate)}</td>
-                              <td>{formatBudgetValue(item.total)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                      <div>
+                        {activeButton === 'RAWMT' ? (
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>S No</th>
+                                <th>ITEM</th>
+                                <th>UOM</th>
+                                <th>QUANTITY</th>
+                                <th>RATE</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {tableData && tableData.length > 0 ? (
+                                tableData.map((item: any, index: any) => (
+                                  <tr key={item.bom_id}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.item_data?.item_name}</td>
+                                    <td>{item.uom_data?.name}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{formatBudgetValue(item.rate)}</td>
+                                    <td>{formatBudgetValue(item.total)}</td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td>No records found</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        ) : (
+                          ' '
+                        )}
+                        {activeButton === 'RAWLB' ? <BomLabours /> : ''}
+                      </div>
                     </div>
                   )}
                 </div>

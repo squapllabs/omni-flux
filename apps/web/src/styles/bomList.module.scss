@@ -4,6 +4,7 @@
   justify-content: space-between;
   background-color: white;
   padding: 10px;
+  cursor: pointer;
 }
 
 .mainLeftContent {
@@ -47,6 +48,7 @@
 .groupButton{
     display: flex;
     justify-content: flex-end;
+    padding: 5px 0px 5px 5px;
 }
 
 // .scrollContainer{
