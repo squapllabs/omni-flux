@@ -139,7 +139,11 @@ const updateUser = async (body: updateUserBody) => {
 
     const userExist = await userDao.getById(user_id);
     if (!userExist) {
-      return (result = { message: 'user id does not exists', status: false, data: null });
+      return (result = {
+        message: 'user id does not exists',
+        status: false,
+        data: null,
+      });
     }
 
     if (parent_user_id) {
@@ -291,7 +295,7 @@ const userLogin = async (
       result = {
         message: 'Email id and password Wrong',
         status: false,
-        data: null
+        data: null,
       };
       return result;
     }
@@ -311,11 +315,12 @@ const userLogin = async (
       return (result = {
         message: 'Error! Something went wrong',
         status: false,
-        data: null
+        data: null,
       });
     }
     const fullName = dbUser?.first_name + ' ' + dbUser?.last_name;
     const userId = dbUser?.user_id;
+    const userData = dbUser;
     const loginResponse = {
       status: true,
       message: 'Success',
@@ -324,6 +329,7 @@ const userLogin = async (
       fullName: fullName,
       email: email_id,
       userId: userId,
+      userData: userData,
     };
     res.send(loginResponse);
   } catch (error) {
@@ -331,7 +337,7 @@ const userLogin = async (
     const loginResponse = {
       message: 'something went wrong',
       status: false,
-      data: null
+      data: null,
     };
     return loginResponse;
   }
@@ -387,7 +393,11 @@ const deleteUser = async (userId) => {
     const userExist = await userDao.getById(userId);
 
     if (!userExist) {
-      const result = { message: 'User Id Not Exist', status: false, data: null };
+      const result = {
+        message: 'User Id Not Exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const data = await userDao.deleteUser(userId);
@@ -395,11 +405,15 @@ const deleteUser = async (userId) => {
       const result = {
         message: 'User Data Deleted Successfully',
         staus: true,
-        data: null
+        data: null,
       };
       return result;
     } else {
-      const result = { message: 'Failed to delete this user', status: false, data: null };
+      const result = {
+        message: 'Failed to delete this user',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
