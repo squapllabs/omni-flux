@@ -14,11 +14,10 @@ import Input from '../../ui/Input';
 import BomService from '../../../service/bom-service';
 import CustomSnackBar from '../../ui/customSnackBar';
 import CustomDelete from '../../ui/customDeleteDialogBox';
-import { useGetAllLabourForDrop } from '../../../hooks/labour-hooks';
+import { useGetAllMachineryForDrop } from '../../../hooks/machinery-hooks';
 
-const BomLabours: React.FC = (props: any) => {
+const BomMachinery: React.FC = (props: any) => {
   const navigate = useNavigate();
-
   const fieldWidth = '140px';
   let rowIndex = 0;
   const [bomList, setBomList] = useState<any>([]);
@@ -27,7 +26,7 @@ const BomLabours: React.FC = (props: any) => {
     quantity: Yup.number()
       .required(bomErrorMessages.ENTER_QUANTITY)
       .typeError(bomErrorMessages.TYPECHECK),
-    labour_id: Yup.string()
+    machinery_id: Yup.string()
       .trim()
       .required(bomErrorMessages.ENTER_ITEM)
       .test(
@@ -38,7 +37,7 @@ const BomLabours: React.FC = (props: any) => {
           try {
             const isValuePresent = bomList.some((obj: any) => {
               return (
-                Number(obj.labour_id) === Number(value) &&
+                Number(obj.machinery_id) === Number(value) &&
                 obj.is_delete === isDelete
               );
             });
@@ -56,7 +55,7 @@ const BomLabours: React.FC = (props: any) => {
   const intialBom: any = {
     created_by: 1,
     sub_category_id: Number(props?.subCategoryId),
-    labour_id: '',
+    machinery_id: '',
     bom_name: '',
     description: '',
     uom_id: '',
@@ -89,8 +88,8 @@ const BomLabours: React.FC = (props: any) => {
     };
     fetchData();
   }, [reload]);
-  const { data: getAllLabourDrop } = useGetAllLabourForDrop();
-  console.log('getAllLabourDrop', getAllLabourDrop);
+  const { data: getAllMachineDrop } = useGetAllMachineryForDrop();
+  console.log('getAllMachineDrop', getAllMachineDrop);
 
   const { data: getAllUomDrop } = getUomByType('LABOR');
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
@@ -160,7 +159,7 @@ const BomLabours: React.FC = (props: any) => {
   const deleteBOM = () => {
     const itemIndex = bomList.findIndex(
       (item: any) =>
-        item.labour_id === bomValue?.labour_id &&
+        item.machinery_id === bomValue?.machinery_id &&
         item.is_delete === bomValue?.is_delete
     );
     bomList[itemIndex] = {
@@ -194,10 +193,10 @@ const BomLabours: React.FC = (props: any) => {
             <thead>
               <tr>
                 <th>S No</th>
-                <th>Labour Type</th>
+                <th>Machine Type</th>
                 {/* <th>Description</th> */}
-                <th>Wages Type</th>
-                <th>Labour Count</th>
+                <th>Rent Type</th>
+                <th>Machine Count</th>
                 <th>Rate</th>
                 <th>Total</th>
                 <th>Action</th>
@@ -280,15 +279,17 @@ const BomLabours: React.FC = (props: any) => {
                 <td>
                   <AutoCompleteSelect
                     width="250px"
-                    name="labour_id"
+                    name="machinery_id"
                     mandatory={true}
-                    optionList={getAllLabourDrop}
-                    value={formik.values.labour_id}
+                    optionList={getAllMachineDrop}
+                    value={formik.values.machinery_id}
                     onChange={formik.handleChange}
-                    error={formik.touched.labour_id && formik.errors.labour_id}
+                    error={
+                      formik.touched.machinery_id && formik.errors.machinery_id
+                    }
                     onSelect={(value) => {
-                      formik.setFieldValue('labour_id', value);
-                      const matchingObjects = getAllLabourDrop.filter(
+                      formik.setFieldValue('machinery_id', value);
+                      const matchingObjects = getAllMachineDrop.filter(
                         (obj: any) => Number(obj.value) === Number(value)
                       );
                       formik.setFieldValue(
@@ -401,4 +402,4 @@ const BomLabours: React.FC = (props: any) => {
   );
 };
 
-export default BomLabours;
+export default BomMachinery;

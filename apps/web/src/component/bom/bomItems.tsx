@@ -202,7 +202,7 @@ const BomItems = (props: {
                     <EditIcon style={{ height: '15px', width: '15px' }} />
                     <p className={Styles.addText}>Edit Task</p>
                   </div>
-                  <div
+                  {/* <div
                     className={Styles.addPlan}
                     onClick={() => {
                       deleteHandler(items?.sub_category_id);
@@ -210,7 +210,7 @@ const BomItems = (props: {
                   >
                     <DeleteIcon style={{ height: '15px', width: '15px' }} />
                     <p className={Styles.addText}>Delete Task</p>
-                  </div>
+                  </div> */}
                 </div>
                 {/* <div
                   className={Styles.addPlan}

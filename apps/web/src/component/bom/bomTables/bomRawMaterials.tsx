@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
 import { createBulkBom } from '../../../hooks/bom-hooks';
+import { useGetAllItemsDrops } from '../../../hooks/item-hooks';
 import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -14,9 +15,8 @@ import Input from '../../ui/Input';
 import BomService from '../../../service/bom-service';
 import CustomSnackBar from '../../ui/customSnackBar';
 import CustomDelete from '../../ui/customDeleteDialogBox';
-import { useGetAllLabourForDrop } from '../../../hooks/labour-hooks';
 
-const BomLabours: React.FC = (props: any) => {
+const BomRawMaterials: React.FC = (props: any) => {
   const navigate = useNavigate();
 
   const fieldWidth = '140px';
@@ -27,18 +27,21 @@ const BomLabours: React.FC = (props: any) => {
     quantity: Yup.number()
       .required(bomErrorMessages.ENTER_QUANTITY)
       .typeError(bomErrorMessages.TYPECHECK),
-    labour_id: Yup.string()
+    item_id: Yup.string()
       .trim()
       .required(bomErrorMessages.ENTER_ITEM)
       .test(
         'decimal-validation',
         bomErrorMessages.ITEM_EXIST,
         async function (value: number, { parent }: Yup.TestContext) {
+          console.log('value', value);
+          console.log('parent.is_delete', parent.is_delete);
+          console.log('bomList', bomList);
           let isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
               return (
-                Number(obj.labour_id) === Number(value) &&
+                Number(obj.item_id) === Number(value) &&
                 obj.is_delete === isDelete
               );
             });
@@ -56,7 +59,7 @@ const BomLabours: React.FC = (props: any) => {
   const intialBom: any = {
     created_by: 1,
     sub_category_id: Number(props?.subCategoryId),
-    labour_id: '',
+    item_id: '',
     bom_name: '',
     description: '',
     uom_id: '',
@@ -89,10 +92,8 @@ const BomLabours: React.FC = (props: any) => {
     };
     fetchData();
   }, [reload]);
-  const { data: getAllLabourDrop } = useGetAllLabourForDrop();
-  console.log('getAllLabourDrop', getAllLabourDrop);
-
-  const { data: getAllUomDrop } = getUomByType('LABOR');
+  const { data: getAllItemDrop } = useGetAllItemsDrops();
+  const { data: getAllUomDrop } = getUomByType('RAWMT');
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
   const rawMaterialTotalCalulate = async () => {
     const sumOfRates = await bomList.reduce(
@@ -160,7 +161,7 @@ const BomLabours: React.FC = (props: any) => {
   const deleteBOM = () => {
     const itemIndex = bomList.findIndex(
       (item: any) =>
-        item.labour_id === bomValue?.labour_id &&
+        item.item_id === bomValue?.item_id &&
         item.is_delete === bomValue?.is_delete
     );
     bomList[itemIndex] = {
@@ -194,10 +195,10 @@ const BomLabours: React.FC = (props: any) => {
             <thead>
               <tr>
                 <th>S No</th>
-                <th>Labour Type</th>
+                <th>Item</th>
                 {/* <th>Description</th> */}
-                <th>Wages Type</th>
-                <th>Labour Count</th>
+                <th>UOM</th>
+                <th>Quantity</th>
                 <th>Rate</th>
                 <th>Total</th>
                 <th>Action</th>
@@ -280,29 +281,24 @@ const BomLabours: React.FC = (props: any) => {
                 <td>
                   <AutoCompleteSelect
                     width="250px"
-                    name="labour_id"
+                    name="item_id"
                     mandatory={true}
-                    optionList={getAllLabourDrop}
-                    value={formik.values.labour_id}
+                    optionList={getAllItemDrop}
+                    value={formik.values.item_id}
                     onChange={formik.handleChange}
-                    error={formik.touched.labour_id && formik.errors.labour_id}
+                    error={formik.touched.item_id && formik.errors.item_id}
                     onSelect={(value) => {
-                      formik.setFieldValue('labour_id', value);
-                      const matchingObjects = getAllLabourDrop.filter(
+                      formik.setFieldValue('item_id', value);
+                      const matchingObjects = getAllItemDrop.filter(
                         (obj: any) => Number(obj.value) === Number(value)
                       );
                       formik.setFieldValue(
                         'bom_name',
                         matchingObjects[0]?.label
                       );
-                      console.log(
-                        'matchingObjects.data?.rate',
-                        matchingObjects[0].data?.rate
-                      );
-
                       formik.setFieldValue(
                         'rate',
-                        matchingObjects[0].data?.rate
+                        matchingObjects[0]?.temp?.rate
                       );
                     }}
                   />
@@ -401,4 +397,4 @@ const BomLabours: React.FC = (props: any) => {
   );
 };
 
-export default BomLabours;
+export default BomRawMaterials;
