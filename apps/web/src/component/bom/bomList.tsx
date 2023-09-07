@@ -55,11 +55,11 @@ const BomList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const obj = {
-      //   projectId : projectId,
-      //   bomconfigId : bomconfigId
-      // }
-      const datas = await CategoryService.getAllCategoryByProjectId(projectId);
+      const obj = {
+        projectId : projectId,
+        bomconfigId : bomconfigId
+      }
+      const datas = await CategoryService.getAllCategoryByProjectId(obj);
       setCategories(datas.data);
       setIsloading(false);
       setCategoryData(datas.data[0]);
@@ -286,7 +286,7 @@ const BomList = () => {
                     setSelectedSubCategory={setSelectedSubCategory}
                     selectedSubCategory={selectedSubCategory}
                     projectsId={projectsId}
-                    // selectedBomConfig={bomconfigId}
+                    selectedBomConfig={bomconfigId}
                   />
                 </div>
               </div>

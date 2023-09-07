@@ -21,10 +21,14 @@ const BomItems = (props: {
   setSelectedSubCategory: any;
   selectedSubCategory: any;
   projectsId: any;
-  // selectedBomConfig:any;
+  selectedBomConfig:any;
 }) => {
-  const { selectedCategory } = props;
-  const { data: getAllData } = getBycategoryIdInSub(selectedCategory);
+  const { selectedCategory,selectedBomConfig } = props;
+  const obj = {
+    selectedCategory:selectedCategory,
+    selectedBomConfig:selectedBomConfig
+  }
+  const { data: getAllData } = getBycategoryIdInSub(obj);
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();

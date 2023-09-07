@@ -16,7 +16,7 @@ const getAllCategoryByProjectId = async (values: any) => {
   console.log("service api called",values);
   try {
     const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/category/get-by-project-id/${values}`
+      `${environment.apiUrl}/category/get-by-project-id/${values.projectId}/${values.bomconfigId}`
     );
     console.log("service api return",response.data);
     return response.data;

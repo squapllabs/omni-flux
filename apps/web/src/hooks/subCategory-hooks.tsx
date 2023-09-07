@@ -64,10 +64,10 @@ const getBySearchCategroy = () => {
   );
 };
 
-const getBycategoryIdInSub = (id: number) => {
+const getBycategoryIdInSub = (values : any) => {
   return useQuery(
-    ['getSubcategoryList', id],
-    () => SubcategoryService.getOneSubCatListbyCatID(id),
+    ['getSubcategoryList', values],
+    () => SubcategoryService.getOneSubCatListbyCatID(values),
     {
       select: (data) => data.data,
     }
