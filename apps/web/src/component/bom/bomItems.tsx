@@ -21,6 +21,7 @@ const BomItems = (props: {
   setSelectedSubCategory: any;
   selectedSubCategory: any;
   projectsId: any;
+  // selectedBomConfig:any;
 }) => {
   const { selectedCategory } = props;
   const { data: getAllData } = getBycategoryIdInSub(selectedCategory);
