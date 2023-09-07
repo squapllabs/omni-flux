@@ -48,9 +48,6 @@ const BomList = () => {
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
   const [value, setValue] = useState();
   const [openDelete, setOpenDelete] = useState(false);
-  // const { data: categories, isLoading: categoriesLoader } = useGetAllCategoryByProjectId(projectId);
-  // console.log('categories data===>', categories);
-  // console.log('mainData ==>', categoryData);
   const [isloading, setIsloading] = useState(true);
 
   useEffect(() => {
@@ -71,9 +68,6 @@ const BomList = () => {
     const subCatList = await subCategoryService.getOneSubCatListbyCatID(
       Number(value.category_id)
     );
-    console.log('Subcatlist', subCatList);
-
-    // setSubCatList(subCatList.data);
     if (subCatList?.message === 'success') {
       setOpen(!open);
       setReload(true);

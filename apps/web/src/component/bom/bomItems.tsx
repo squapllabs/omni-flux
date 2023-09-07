@@ -9,7 +9,6 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
 import bomService from '../../service/bom-service';
 import CustomGroupButton from '../ui/CustomGroupButton';
-import BomLabours from './bomTables/bomLabours';
 import EditIcon from '../menu/icons/editIcon';
 import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
 import DeleteIcon from '../menu/icons/deleteIcon';
@@ -45,7 +44,6 @@ const BomItems = (props: {
     { label: 'LABOUR', value: 'LABOR' },
     { label: 'MACHINERY', value: 'MCNRY' },
   ]);
-  // console.log('getAllData in bom itemss', getAllData);
 
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -92,7 +90,6 @@ const BomItems = (props: {
     }
     try {
       const getData = await bomService.getBOMbySubCatIDandType(obj);
-      console.log('sample labour =====>', getData.data);
       setTableData(getData.data);
       setIsTableLoader(false)
     } catch (error) {
@@ -110,7 +107,6 @@ const BomItems = (props: {
       setActiveButton('RAWMT');
     } else {
       const getData = await bomService.getBOMbySubCatIDandType(obj);
-      // console.log('sample data =====>', getData.data);
       setActiveButton('RAWMT');
       setTableData(getData.data);
       setIsExpanded(subCategoryId);
