@@ -309,7 +309,15 @@ const Navbar = () => {
               </div>
             </div>
           </Dropdown>
+          <div
+            onClick={() => {
+              navigate('/project-list');
+            }}
+          >
+            Project
+          </div>
         </div>
+
         <div className={Styles.rightIcons}>
           <SearchBar onSearch={handleSearch} />
 

@@ -234,6 +234,7 @@ import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
 import BomList from '../component/bom/bomList';
 import Bom from '../component/bom/bom';
 import ProductAdd from '../component/products/productAdd';
+import Project from '../component/project/project';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -287,6 +288,7 @@ const AppRoutes = () => {
   const ProtectedBomList = withLayoutAndProtection(BomList);
   const ProtectedBom = withLayoutAndProtection(Bom);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
+  const ProtectedProject = withLayoutAndProtection(Project);
 
   return (
     <div>
@@ -384,6 +386,7 @@ const AppRoutes = () => {
         />
         <Route path="/product-add" element={<ProtectedProductAddPage />} />
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
+        <Route path="/project" element={<ProtectedProject />} />
       </Routes>
     </div>
   );
