@@ -214,6 +214,7 @@ model project {
   site_expense           site_expense[]
   sub_category           sub_category[]
   sub_sub_category       sub_sub_category[]
+  bom_configuration      bom_configuration[]
 }
 
 model project_expense {
@@ -426,6 +427,7 @@ model master_data {
   vendor_as_vendor_category          vendor[]               @relation("VendorCategoryRelation")
   vendor_as_preferred_payment_method vendor[]               @relation("PreferredPaymentMethodRelation")
   item                               item[]
+  bom_configuration                  bom_configuration[]
 
   @@unique([master_data_type, parent_master_data_id])
   @@map("master_data")
@@ -670,4 +672,20 @@ model machinery {
   bom                 bom[]
 
   @@map("machinery")
+}
+
+model bom_configuration {
+  bom_configuration_id Int          @id @default(autoincrement())
+  bom_name             String
+  bom_description      String?
+  bom_type_id          Int?
+  project_id           Int?
+  budget               Float?
+  is_delete            Boolean      @default(false)
+  created_date         DateTime     @default(now())
+  updated_date         DateTime
+  created_by           Int?
+  updated_by           Int?
+  bom_type_data        master_data? @relation(fields: [bom_type_id], references: [master_data_id])
+  project_data         project?     @relation(fields: [project_id], references: [project_id])
 }

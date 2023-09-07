@@ -32,6 +32,7 @@ const createProject = async (body: createProjectBody) => {
       created_by,
       site_configuration,
       approvar_id,
+      bom_configuration,
     } = body;
     let result = null;
 
@@ -87,7 +88,8 @@ const createProject = async (body: createProjectBody) => {
       project_documents,
       created_by,
       site_configuration,
-      approvar_id
+      approvar_id,
+      bom_configuration
     );
     result = { message: 'success', status: true, data: projectDetails };
     return result;
@@ -122,6 +124,7 @@ const updateProject = async (body: updateProjectBody) => {
       project_id,
       site_configuration,
       approvar_id,
+      bom_configuration,
     } = body;
     let result = null;
 
@@ -196,7 +199,8 @@ const updateProject = async (body: updateProjectBody) => {
         updated_by,
         project_id,
         site_configuration,
-        approvar_id
+        approvar_id,
+        bom_configuration
       );
       result = { message: 'success', status: true, data: projectDetails };
       return result;
