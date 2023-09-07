@@ -91,6 +91,17 @@ const useGetAllPaginatedUomData = (data: any) => {
   );
 };
 
+const getByUomType = () => {
+  return useQuery(
+    ['getOnemasertDataType'],
+    () => uomService.getOneUomByType(),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
 
-export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom,useGetAllPaginatedUomData };
+
+export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom,useGetAllPaginatedUomData,getByUomType };
 
