@@ -1,7 +1,9 @@
-import bomDao from '../dao/bom.dao';
+import bomConfigurationDao from '../dao/bomConfiguration.dao';
+import bomDetailDao from '../dao/bomDetail.dao';
 import categoryDao from '../dao/category.dao';
 import subCategoryDao from '../dao/subCategory.dao';
-import { bomBody } from '../interfaces/bom.interface';
+import { bomBody } from '../interfaces/bomDetail.interface';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New Bom
@@ -24,9 +26,12 @@ const createBom = async (body: bomBody) => {
       rate,
       total,
       bom_type,
+      machinery_id,
+      labour_id,
+      bom_configuration_id,
     } = body;
 
-    const bomData = await bomDao.add(
+    const bomData = await bomDetailDao.add(
       bom_name,
       quantity,
       uom_id,
@@ -38,7 +43,10 @@ const createBom = async (body: bomBody) => {
       description,
       rate,
       total,
-      bom_type
+      bom_type,
+      machinery_id,
+      labour_id,
+      bom_configuration_id
     );
     if (bomData) {
       result = {
@@ -62,7 +70,7 @@ const createBom = async (body: bomBody) => {
 const updateBom = async (body: bomBody) => {
   try {
     const {
-      bom_id,
+      bom_detail_id,
       bom_name,
       quantity,
       uom_id,
@@ -75,19 +83,22 @@ const updateBom = async (body: bomBody) => {
       rate,
       total,
       bom_type,
+      machinery_id,
+      labour_id,
+      bom_configuration_id,
     } = body;
     let result = null;
-    const bomExist = await bomDao.getById(bom_id);
+    const bomExist = await bomDetailDao.getById(bom_detail_id);
     if (!bomExist) {
       result = {
-        message: 'bom_id does not exist',
+        message: 'bom_detail_id does not exist',
         status: false,
         data: null,
       };
       return result;
     }
-    const bomDetails = await bomDao.edit(
-      bom_id,
+    const bomDetails = await bomDetailDao.edit(
+      bom_detail_id,
       bom_name,
       quantity,
       uom_id,
@@ -99,7 +110,10 @@ const updateBom = async (body: bomBody) => {
       description,
       rate,
       total,
-      bom_type
+      bom_type,
+      machinery_id,
+      labour_id,
+      bom_configuration_id
     );
     result = {
       message: 'success',
@@ -120,7 +134,7 @@ const updateBom = async (body: bomBody) => {
  */
 const getAllBom = async () => {
   try {
-    const result = await bomDao.getAll();
+    const result = await bomDetailDao.getAll();
     const bomData = { message: 'success', status: true, data: result };
     return bomData;
   } catch (error) {
@@ -131,13 +145,13 @@ const getAllBom = async () => {
 
 /**
  * Method to get Bom By BomId
- * @param bomId
+ * @param bomDetailId
  * @returns
  */
-const fetchBomById = async (bom_id: number) => {
+const fetchBomById = async (bom_detail_id: number) => {
   try {
     let result = null;
-    const bomData = await bomDao.getById(bom_id);
+    const bomData = await bomDetailDao.getById(bom_detail_id);
     if (bomData) {
       result = {
         message: 'success',
@@ -146,34 +160,34 @@ const fetchBomById = async (bom_id: number) => {
       };
     } else {
       result = {
-        message: 'bom_id does not exist',
+        message: 'bom_detail_id does not exist',
         status: false,
         data: null,
       };
     }
     return result;
   } catch (error) {
-    console.log('Error occurred in bom_id', error);
+    console.log('Error occurred in bom service fetchBomById ', error);
     throw error;
   }
 };
 
 /**
  * Method to delete bom
- * @param bomId
+ * @param bomDetailId
  */
-const deleteBomById = async (bom_id: number) => {
+const deleteBomById = async (bom_detail_id: number) => {
   try {
     let result = null;
-    const bomExist = await bomDao.getById(bom_id);
+    const bomExist = await bomDetailDao.getById(bom_detail_id);
     if (!bomExist) {
       result = {
-        message: 'bom_id does not exist',
+        message: 'bom_detail_id does not exist',
         status: false,
         data: null,
       };
     } else {
-      const data = await bomDao.deleteBom(bom_id);
+      const data = await bomDetailDao.deleteBom(bom_detail_id);
       if (data) {
         result = {
           message: 'Bom Data Successfully Deleted',
@@ -208,7 +222,7 @@ const getByCategorySubCatAndSubSubCatId = async (body) => {
       sub_category_id = null,
       sub_sub_category_id = null,
     } = body;
-    const bomData = await bomDao.getByCategorySubCatAndSubSubCatId(
+    const bomData = await bomDetailDao.getByCategorySubCatAndSubSubCatId(
       category_id,
       sub_category_id,
       sub_sub_category_id
@@ -226,20 +240,20 @@ const getByCategorySubCatAndSubSubCatId = async (body) => {
 
 /**
  * Method to entireData bom
- * @param bomId
+ * @param bomDetailId
  */
-const getEntireDataByBomId = async (bom_id: number) => {
+const getEntireDataByBomId = async (bom_detail_id: number) => {
   try {
     let result = null;
-    const bomExist = await bomDao.getById(bom_id);
+    const bomExist = await bomDetailDao.getById(bom_detail_id);
     if (!bomExist) {
       result = {
-        message: 'bom_id does not exist',
+        message: 'bom_detail_id does not exist',
         status: false,
         data: null,
       };
     } else {
-      const bomEntireData = await bomDao.entireData(bom_id);
+      const bomEntireData = await bomDetailDao.entireData(bom_detail_id);
       result = {
         message: 'success',
         status: true,
@@ -260,6 +274,7 @@ const getEntireDataByBomId = async (bom_id: number) => {
 const addBulkBom = async (body) => {
   try {
     const sub_category_id = body[0].sub_category_id;
+    const bom_configuration_id = body[0].bom_configuration_id;
 
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
     if (!subCategoryExist) {
@@ -269,58 +284,75 @@ const addBulkBom = async (body) => {
         data: null,
       };
     }
+    const result = await prisma
+      .$transaction(async (prisma) => {
+        const bom = await bomDetailDao.addBulk(body, prisma);
+        const subCategoryBudget = await bomDetailDao.getBomSumBySubCategoryId(
+          sub_category_id,
+          prisma
+        );
 
-    const bom = await bomDao.addBulk(body);
-    let subCategoryBudget = 0;
-    const updated_by = body[0].updated_by
-      ? body[0].updated_by
-      : body[0].created_by
-      ? body[0].created_by
-      : null;
-    for (const bom of body) {
-      if (!bom.is_delete) {
-        subCategoryBudget += bom.total;
-      }
-    }
+        const updated_by = body[0].updated_by
+          ? body[0].updated_by
+          : body[0].created_by
+          ? body[0].created_by
+          : null;
 
-    const subCategoryDetails = await subCategoryDao.updateBudget(
-      subCategoryBudget,
-      sub_category_id,
-      updated_by
-    );
+        const subCategoryDetails = await subCategoryDao.updateBudget(
+          subCategoryBudget,
+          sub_category_id,
+          updated_by,
+          prisma
+        );
 
-    const category_id = subCategoryDetails?.category_id;
-    let categoryBudget = 0;
+        const category_id = subCategoryDetails?.category_id;
 
-    const subCategoryDataByCategoryId = await subCategoryDao.getByCategoryId(
-      category_id
-    );
+        const subCategoryDataByCategoryId =
+          await subCategoryDao.getSumOfBudgetByCategoryId(category_id, prisma);
 
-    for (const subCategory of subCategoryDataByCategoryId) {
-      if (!subCategory.is_delete) {
-        categoryBudget += subCategory.budget;
-      }
-    }
+        const categoryDetails = await categoryDao.updateBudget(
+          subCategoryDataByCategoryId,
+          category_id,
+          updated_by,
+          prisma
+        );
 
-    const categoryDetails = await categoryDao.updateBudget(
-      categoryBudget,
-      category_id,
-      updated_by
-    );
+        const bomConfigurationBudget =
+          await bomDetailDao.getTotalByBomConfigurationId(
+            bom_configuration_id,
+            prisma
+          );
 
-    const data = {
-      bom: bom,
-      sub_category_details: subCategoryDetails,
-      category_details: categoryDetails,
-    };
+        const bomConfigurationDetails = await bomConfigurationDao.updateBudget(
+          bomConfigurationBudget,
+          bom_configuration_id,
+          updated_by,
+          prisma
+        );
 
-    if (bom) {
-      return {
-        message: 'success',
-        status: true,
-        data: data,
-      };
-    }
+        const data = {
+          bom: bom,
+          sub_category_details: subCategoryDetails,
+          category_details: categoryDetails,
+          bom_configuration_details: bomConfigurationDetails,
+        };
+
+        return data;
+      })
+      .then((data) => {
+        console.log('Successfully BOM Data Returned ', data);
+        const bomData = {
+          message: 'success',
+          status: true,
+          data: data,
+        };
+        return bomData;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return result;
   } catch (error) {
     console.log('Error occurred in Bom service addBulkBom : ', error);
     throw error;
@@ -329,7 +361,8 @@ const addBulkBom = async (body) => {
 
 /**
  * Method to get Bom By SubCategoryId And BomType
- * @param bomId
+ * @param sub_category_id
+ * @param bom_type
  * @returns
  */
 const getBomBySubCategoryIdAndBomType = async (
@@ -346,7 +379,7 @@ const getBomBySubCategoryIdAndBomType = async (
       };
     }
 
-    const bomData = await bomDao.getBomBySubCategoryIdAndBomType(
+    const bomData = await bomDetailDao.getBomBySubCategoryIdAndBomType(
       sub_category_id,
       bom_type
     );
@@ -373,14 +406,57 @@ const getBomBySubCategoryIdAndBomType = async (
   }
 };
 
+/**
+ * Method to get Bom Total Value By SubCategoryId
+ * @param sub_category_id
+ * @returns
+ */
+const getBomTotalBySubCategoryId = async (sub_category_id: number) => {
+  try {
+    const subCategoryExist = await subCategoryDao.getById(sub_category_id);
+    if (!subCategoryExist) {
+      return {
+        message: 'sub_category_id does not exist ',
+        status: false,
+        data: null,
+      };
+    }
+
+    const bomData = await bomDetailDao.getBomTotalBySubCategoryId(
+      sub_category_id
+    );
+
+    if (bomData) {
+      return {
+        message: 'success',
+        status: true,
+        data: bomData,
+      };
+    } else {
+      return {
+        message: 'No data found for this sub_category_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in bom service getBomTotalBySubCategoryId : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
-  deleteBomById,
   createBom,
   updateBom,
   fetchBomById,
   getAllBom,
+  deleteBomById,
   getByCategorySubCatAndSubSubCatId,
   getEntireDataByBomId,
   addBulkBom,
   getBomBySubCategoryIdAndBomType,
+  getBomTotalBySubCategoryId,
 };
