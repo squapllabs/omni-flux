@@ -9,13 +9,12 @@ RUN npm install
 COPY . .
 
 Run npx nx build web
-//RUN npm run build
 
+//RUN npm run build
 
 FROM nginx:alpine
 
 COPY --from=build /app/dist/apps/web /usr/share/nginx/html
-
 
 EXPOSE 80
 
