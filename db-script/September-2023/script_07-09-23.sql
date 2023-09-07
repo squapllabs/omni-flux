@@ -22,3 +22,15 @@ add column bom_configuration_id int4;
 
 alter table bom_detail 
 add constraint fk_bom_detail_bom_configuration_id foreign key (bom_configuration_id) references bom_configuration(bom_configuration_id);
+
+alter table category 
+add column bom_configuration_id int4;
+
+alter table category 
+add constraint fk_category_bom_configuration_id foreign key (bom_configuration_id) references bom_configuration(bom_configuration_id);
+
+alter table sub_category 
+add column bom_configuration_id int4;
+
+alter table sub_category 
+add constraint fk_sub_category_bom_configuration_id foreign key (bom_configuration_id) references bom_configuration(bom_configuration_id);

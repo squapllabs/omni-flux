@@ -127,41 +127,45 @@ model hsn_code {
 }
 
 model category {
-  category_id  Int            @id @default(autoincrement())
-  name         String         @db.VarChar(100)
-  project_id   Int?
-  budget       Float?
-  created_date DateTime
-  updated_date DateTime
-  created_by   Int?
-  updated_by   Int?
-  project      project?       @relation(fields: [project_id], references: [project_id])
-  is_delete    Boolean        @default(false) @db.Boolean
-  description  String?
-  start_date   DateTime?
-  end_date     DateTime?
-  sub_category sub_category[]
-  bom_detail   bom_detail[]
+  category_id            Int                @id @default(autoincrement())
+  name                   String             @db.VarChar(100)
+  project_id             Int?
+  budget                 Float?
+  created_date           DateTime
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+  bom_configuration_id   Int?
+  bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
+  project                project?           @relation(fields: [project_id], references: [project_id])
+  is_delete              Boolean            @default(false) @db.Boolean
+  description            String?
+  start_date             DateTime?
+  end_date               DateTime?
+  sub_category           sub_category[]
+  bom_detail             bom_detail[]
 }
 
 model sub_category {
-  sub_category_id  Int                @id @default(autoincrement())
-  name             String             @db.VarChar(100)
-  category_id      Int?
-  budget           Float?
-  created_date     DateTime
-  updated_date     DateTime
-  created_by       Int?
-  updated_by       Int?
-  start_date       DateTime?
-  end_date         DateTime?
-  is_delete        Boolean            @default(false) @db.Boolean
-  category         category?          @relation(fields: [category_id], references: [category_id])
-  description      String?
-  project_id       Int?
-  project_data     project?           @relation(fields: [project_id], references: [project_id])
-  sub_sub_category sub_sub_category[]
-  bom_detail       bom_detail[]
+  sub_category_id        Int                @id @default(autoincrement())
+  name                   String             @db.VarChar(100)
+  category_id            Int?
+  budget                 Float?
+  created_date           DateTime
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+  start_date             DateTime?
+  end_date               DateTime?
+  is_delete              Boolean            @default(false) @db.Boolean
+  bom_configuration_id   Int?
+  bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
+  category               category?          @relation(fields: [category_id], references: [category_id])
+  description            String?
+  project_id             Int?
+  project_data           project?           @relation(fields: [project_id], references: [project_id])
+  sub_sub_category       sub_sub_category[]
+  bom_detail             bom_detail[]
 }
 
 model sub_sub_category {
@@ -677,18 +681,20 @@ model machinery {
 }
 
 model bom_configuration {
-  bom_configuration_id Int          @id @default(autoincrement())
+  bom_configuration_id Int            @id @default(autoincrement())
   bom_name             String
   bom_description      String?
   bom_type_id          Int?
   project_id           Int?
   budget               Float?
-  is_delete            Boolean      @default(false)
-  created_date         DateTime     @default(now())
+  is_delete            Boolean        @default(false)
+  created_date         DateTime       @default(now())
   updated_date         DateTime
   created_by           Int?
   updated_by           Int?
-  bom_type_data        master_data? @relation(fields: [bom_type_id], references: [master_data_id])
-  project_data         project?     @relation(fields: [project_id], references: [project_id])
+  bom_type_data        master_data?   @relation(fields: [bom_type_id], references: [master_data_id])
+  project_data         project?       @relation(fields: [project_id], references: [project_id])
   bom_detail           bom_detail[]
+  category             category[]
+  sub_category         sub_category[]
 }
