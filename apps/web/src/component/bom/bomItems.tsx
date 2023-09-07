@@ -15,6 +15,7 @@ import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomLoader from '../ui/customLoader';
 
 const BomItems = (props: {
   selectedCategory: any;
@@ -37,13 +38,14 @@ const BomItems = (props: {
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(null);
   const [tableData, setTableData] = useState();
+  const[istableLoader,setIsTableLoader] = useState(true);
   const [activeButton, setActiveButton] = useState<string | null>('RAWMT');
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'RAW MATERIAL', value: 'RAWMT' },
-    // { label: 'LABOUR', value: 'RAWLB' },
-    // { label: 'MACHINERY', value: 'MAC' },
+    { label: 'LABOUR', value: 'LABOR' },
+    { label: 'MACHINERY', value: 'MCNRY' },
   ]);
-  console.log('getAllData in bom itemss', getAllData);
+  // console.log('getAllData in bom itemss', getAllData);
 
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -81,8 +83,20 @@ const BomItems = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const handleGroupButtonClick = (value: string) => {
+  const handleGroupButtonClick = async (value: string) => {
     setActiveButton(value);
+    const obj = {
+      id: isExpanded,
+      type: value,
+    }
+    try {
+      const getData = await bomService.getBOMbySubCatIDandType(obj);
+      // console.log('sample labour =====>', getData.data);
+      setTableData(getData.data);
+      setIsTableLoader(false)
+    } catch (error) {
+      console.error('Error fetching data in handleGroupButtonClick :', error);
+    }
   };
 
   const handleDemo = async (subCategoryId: any) => {
@@ -92,13 +106,19 @@ const BomItems = (props: {
     };
     if (isExpanded === subCategoryId) {
       setIsExpanded(null);
+      setActiveButton('RAWMT');
     } else {
       const getData = await bomService.getBOMbySubCatIDandType(obj);
-      console.log('sample data =====>', getData.data);
+      // console.log('sample data =====>', getData.data);
+      setActiveButton('RAWMT');
       setTableData(getData.data);
       setIsExpanded(subCategoryId);
     }
   };
+
+  useEffect(() => {
+    // handleDemo()
+  }, [activeButton]);
 
   return (
     <div className={Styles.scrollContainer}>
@@ -137,7 +157,8 @@ const BomItems = (props: {
                         />
                       </div>
                       <div>
-                        {activeButton === 'RAWMT' ? (
+                      {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
+                        activeButton === 'RAWMT' ? (
                           <table>
                             <thead>
                               <tr>
@@ -174,8 +195,88 @@ const BomItems = (props: {
                           </table>
                         ) : (
                           ' '
+                        )
+                      )}
+                        {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
+                        activeButton === 'LABOR' ? (
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>S No</th>
+                                <th>LABOUR TYPE</th>
+                                <th>WAGES TYPE</th>
+                                <th>LABOUR Count</th>
+                                <th>RATE</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {tableData && tableData.length > 0 ? (
+                                tableData.map((item: any, index: any) => (
+                                  <tr key={item.bom_id}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.bom_name}</td>
+                                    <td>{item.uom_data?.name}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{formatBudgetValue(item.rate)}</td>
+                                    <td>{formatBudgetValue(item.total)}</td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td>No records found</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        ) : (
+                          ' '
+                        )
                         )}
-                        {activeButton === 'RAWLB' ? <BomLabours /> : ''}
+                         {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
+                        activeButton === 'MCNRY' ? (
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>S No</th>
+                                <th>MACHINE TYPE</th>
+                                <th>RENT TYPE</th>
+                                <th>MACHINE Count</th>
+                                <th>RATE</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {tableData && tableData.length > 0 ? (
+                                tableData.map((item: any, index: any) => (
+                                  <tr key={item.bom_id}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.bom_name}</td>
+                                    <td>{item.uom_data?.name}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{formatBudgetValue(item.rate)}</td>
+                                    <td>{formatBudgetValue(item.total)}</td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td>No records found</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        ) : (
+                          ' '
+                        )
+                         )}
                       </div>
                     </div>
                   )}
