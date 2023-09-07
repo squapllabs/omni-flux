@@ -27,6 +27,9 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 const BomList = () => {
   const params = useParams();
   const projectId = Number(params?.projectId);
+  const bomconfigId = Number(params?.bomconfigId);
+  console.log("oooo",params)
+  // const projectId = Number(params?.projectId);
   const [projectsId, setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
@@ -307,6 +310,7 @@ const BomList = () => {
         isVissible={showAbstractForm}
         onAction={setShowAbstractForm}
         selectedProject={projectsId}
+        selectedBomConfig={bomconfigId}
         setReload={setReload}
         mode={mode}
         categoryId={categoryId}
@@ -316,6 +320,7 @@ const BomList = () => {
         onAction={setShowSubCategoryForm}
         selectedCategoryId={categoryId}
         selectedProject={projectsId}
+        selectedBomConfig={bomconfigId}
       />
       <CustomDelete
         open={openDelete}
