@@ -14,3 +14,11 @@ constraint pk_bom_configuration primary key (bom_configuration_id),
 constraint fk_bom_configuration_bom_type_id foreign key (bom_type_id) references master_data(master_data_id),
 constraint fk_bom_configuration_project_id foreign key (project_id) references project(project_id)
 )
+
+alter table bom rename to bom_detail;
+
+alter table bom_detail
+add column bom_configuration_id int4;
+
+alter table bom_detail 
+add constraint fk_bom_detail_bom_configuration_id foreign key (bom_configuration_id) references bom_configuration(bom_configuration_id);

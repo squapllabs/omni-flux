@@ -90,7 +90,7 @@ const add = async (
       const bom_name = bom.bom_name;
       const bom_description = bom.bom_description;
       const bom_type_id = bom.bom_type_id;
-      const budget = bom.budget;
+      const budget = bom.budget ? bom.budget : 0;
       const is_delete = bom.is_delete;
 
       if (is_delete === 'N') {
@@ -238,7 +238,7 @@ const edit = async (
       const bom_name = bom.bom_name;
       const bom_description = bom.bom_description;
       const bom_type_id = bom.bom_type_id;
-      const budget = bom.budget;
+      const budget = bom.budget ? bom.budget : 0;
       const is_delete = bom.is_delete;
       const bom_configuration_id = bom.bom_configuration_id;
 
