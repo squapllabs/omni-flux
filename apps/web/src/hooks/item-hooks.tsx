@@ -14,8 +14,9 @@ const useGetAllItemsDrops = () => {
       data?.data?.map((product: any) => ({
         value: product.item_id,
         label: product.item_name,
+        temp: product,
       })),
   });
 };
 
-export { useGetAllItems,useGetAllItemsDrops };
+export { useGetAllItems, useGetAllItemsDrops };

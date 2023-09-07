@@ -71,6 +71,17 @@ const getOneUomByName = async (values: any) => {
     throw error;
   }
 };
+const getUomByType = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/uom/get-by-uom-type/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getUomByType uom :', error);
+    throw error;
+  }
+};
 const filterUom = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -91,5 +102,6 @@ export default {
   updateUom,
   deleteUom,
   getOneUomByName,
-  filterUom
+  filterUom,
+  getUomByType,
 };
