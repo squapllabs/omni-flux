@@ -1,4 +1,4 @@
-import { bomBody } from '../interfaces/bom.interface';
+import { bomBody } from '../interfaces/bomDetail.interface';
 import db from '../utils/db';
 import prisma from '../utils/prisma';
 
@@ -17,13 +17,14 @@ const add = async (
   bom_type: string,
   machinery_id: number,
   labour_id: number,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const bom = transaction.bom.create({
+    const bom = transaction.bom_detail.create({
       data: {
         bom_name,
         quantity,
@@ -39,6 +40,7 @@ const add = async (
         bom_type,
         machinery_id,
         labour_id,
+        bom_configuration_id,
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
@@ -52,7 +54,7 @@ const add = async (
 };
 
 const edit = async (
-  bom_id: number,
+  bom_detail_id: number,
   bom_name: string,
   quantity: number,
   uom_id: number,
@@ -67,13 +69,14 @@ const edit = async (
   bom_type: string,
   machinery_id: number,
   labour_id: number,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const bom = transaction.bom.update({
-      where: { bom_id: bom_id },
+    const bom = transaction.bom_detail.update({
+      where: { bom_detail_id: bom_detail_id },
       data: {
         bom_name,
         quantity,
@@ -88,6 +91,7 @@ const edit = async (
         bom_type,
         machinery_id,
         labour_id,
+        bom_configuration_id,
         updated_date: currentDate,
         updated_by,
       },
@@ -102,11 +106,20 @@ const edit = async (
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const bom = await transaction.bom.findMany({
+    const bom = await transaction.bom_detail.findMany({
       where: {
         is_delete: false,
       },
       include: {
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
         uom_data: true,
         category_data: true,
         sub_category_data: true,
@@ -124,15 +137,24 @@ const getAll = async (connectionObj = null) => {
   }
 };
 
-const getById = async (bom_id: number, connectionObj = null) => {
+const getById = async (bom_detail_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const bom = await transaction.bom.findFirst({
+    const bom = await transaction.bom_detail.findFirst({
       where: {
-        bom_id: Number(bom_id),
+        bom_detail_id: Number(bom_detail_id),
         is_delete: false,
       },
       include: {
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
         uom_data: true,
         category_data: true,
         sub_category_data: true,
@@ -149,11 +171,11 @@ const getById = async (bom_id: number, connectionObj = null) => {
   }
 };
 
-const deleteBom = async (bom_id: number, connectionObj = null) => {
+const deleteBom = async (bom_detail_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const bom = await transaction.bom.update({
-      where: { bom_id: Number(bom_id) },
+    const bom = await transaction.bom_detail.update({
+      where: { bom_detail_id: Number(bom_detail_id) },
       data: { is_delete: true },
     });
     return bom;
@@ -173,7 +195,7 @@ const getByCategorySubCatAndSubSubCatId = async (
     const transaction = connectionObj !== null ? connectionObj : prisma;
     let result = null;
     if (categoryId && subCategoryId && subSubCategoryId) {
-      const bom = await transaction.bom.findMany({
+      const bom = await transaction.bom_detail.findMany({
         where: {
           category_id: Number(categoryId),
           sub_category_id: Number(subCategoryId),
@@ -181,6 +203,7 @@ const getByCategorySubCatAndSubSubCatId = async (
           is_delete: false,
         },
         include: {
+          bom_configuration_data: true,
           uom_data: true,
           category_data: true,
           sub_category_data: true,
@@ -195,7 +218,7 @@ const getByCategorySubCatAndSubSubCatId = async (
           },
         ],
       });
-      const count = await transaction.bom.count({
+      const count = await transaction.bom_detail.count({
         where: {
           category_id: Number(categoryId),
           sub_category_id: Number(subCategoryId),
@@ -206,13 +229,14 @@ const getByCategorySubCatAndSubSubCatId = async (
       result = { count: count, data: bom };
       return result;
     } else if (categoryId && subCategoryId) {
-      const bom = await transaction.bom.findMany({
+      const bom = await transaction.bom_detail.findMany({
         where: {
           category_id: Number(categoryId),
           sub_category_id: Number(subCategoryId),
           is_delete: false,
         },
         include: {
+          bom_configuration_data: true,
           uom_data: true,
           category_data: true,
           sub_category_data: true,
@@ -227,7 +251,7 @@ const getByCategorySubCatAndSubSubCatId = async (
           },
         ],
       });
-      const count = await transaction.bom.count({
+      const count = await transaction.bom_detail.count({
         where: {
           category_id: Number(categoryId),
           sub_category_id: Number(subCategoryId),
@@ -237,12 +261,13 @@ const getByCategorySubCatAndSubSubCatId = async (
       result = { count: count, data: bom };
       return result;
     } else if (categoryId) {
-      const bom = await transaction.bom.findMany({
+      const bom = await transaction.bom_detail.findMany({
         where: {
           category_id: Number(categoryId),
           is_delete: false,
         },
         include: {
+          bom_configuration_data: true,
           uom_data: true,
           category_data: true,
           sub_category_data: true,
@@ -257,7 +282,7 @@ const getByCategorySubCatAndSubSubCatId = async (
           },
         ],
       });
-      const count = await transaction.bom.count({
+      const count = await transaction.bom_detail.count({
         where: {
           category_id: Number(categoryId),
           is_delete: false,
@@ -278,7 +303,7 @@ const getByCategorySubCatAndSubSubCatId = async (
 const getByUomId = async (uomId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const bom = await transaction.bom.findFirst({
+    const bom = await transaction.bom_detail.findFirst({
       where: {
         uom_id: Number(uomId),
       },
@@ -290,7 +315,7 @@ const getByUomId = async (uomId: number, connectionObj = null) => {
   }
 };
 
-const entireData = async (bom_id: number, connectionObj = null) => {
+const entireData = async (bom_detail_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : db;
     const query = `SELECT
@@ -334,7 +359,7 @@ const entireData = async (bom_id: number, connectionObj = null) => {
             'brand_id', i.brand_id
         ) AS item_data
         FROM
-            public.bom b
+            public.bom_detail b
         left JOIN
             public.category c ON b.category_id = c.category_id
         left JOIN
@@ -346,13 +371,12 @@ const entireData = async (bom_id: number, connectionObj = null) => {
         left JOIN
             public.uom u ON b.uom_id = u.uom_id
         WHERE
-            b.bom_id = $1;
-                `;
+            b.bom_detail_id = $1  `;
 
-    const result = transaction.manyOrNone(query, [bom_id]);
+    const result = transaction.manyOrNone(query, [bom_detail_id]);
     return result;
   } catch (error) {
-    console.log('Error occure in bom.dao entireData ', error);
+    console.log('Error occure in bom dao entireData ', error);
     throw error;
   }
 };
@@ -377,20 +401,22 @@ const addBulk = async (bulkBom: bomBody[], connectionObj = null) => {
       const bom_type = bom.bom_type;
       const category_id = bom.category_id;
       const sub_sub_category_id = bom.sub_sub_category_id;
-      const bom_id = bom.bom_id;
+      const bom_detail_id = bom.bom_detail_id;
       const machinery_id = bom.machinery_id;
       const labour_id = bom.labour_id;
-      if (bom_id) {
+      const bom_configuration_id = bom.bom_configuration_id;
+
+      if (bom_detail_id) {
         if (is_delete === true) {
-          await transaction.bom.update({
-            where: { bom_id: bom_id },
+          await transaction.bom_detail.update({
+            where: { bom_detail_id: bom_detail_id },
             data: {
               is_delete: true,
             },
           });
         } else {
-          const bomResult = await transaction.bom.update({
-            where: { bom_id: bom_id },
+          const bomResult = await transaction.bom_detail.update({
+            where: { bom_detail_id: bom_detail_id },
             data: {
               bom_name,
               quantity,
@@ -406,13 +432,14 @@ const addBulk = async (bulkBom: bomBody[], connectionObj = null) => {
               bom_type,
               machinery_id,
               labour_id,
+              bom_configuration_id,
               updated_date: currentDate,
             },
           });
           bomData.push(bomResult);
         }
       } else if (is_delete === false) {
-        const bomResult = await transaction.bom.create({
+        const bomResult = await transaction.bom_detail.create({
           data: {
             bom_name,
             quantity,
@@ -428,6 +455,7 @@ const addBulk = async (bulkBom: bomBody[], connectionObj = null) => {
             bom_type,
             machinery_id,
             labour_id,
+            bom_configuration_id,
             created_date: currentDate,
             updated_date: currentDate,
             is_delete: false,
@@ -450,13 +478,14 @@ const getBomBySubCategoryIdAndBomType = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const bom = await transaction.bom.findMany({
+    const bom = await transaction.bom_detail.findMany({
       where: {
         is_delete: false,
         sub_category_id: Number(sub_category_id),
         bom_type: bom_type,
       },
       include: {
+        bom_configuration_data: true,
         uom_data: true,
         category_data: true,
         sub_category_data: true,
@@ -487,51 +516,14 @@ const getBomTotalBySubCategoryId = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    // const result = await transaction.bom.aggregate({
-    //   where: {
-    //     sub_category_id: Number(sub_category_id),
-    //   },
-    //   _sum: {
-    //     total: true,
-    //   },
-    //   _sumRawmt: {
-    //     total: {
-    //       _eq: 'RAWMT',
-    //     },
-    //   },
-    //   _sumLabor: {
-    //     total: {
-    //       _eq: 'LABOR',
-    //     },
-    //   },
-    //   _sumMcnry: {
-    //     total: {
-    //       _eq: 'MCNRY',
-    //     },
-    //   },
-    // });
-
-    // const {
-    //   _sum: { total },
-    //   _sumRawmt,
-    //   _sumLabor,
-    //   _sumMcnry,
-    // } = result;
-    // return {
-    //   raw_material: _sumRawmt.total || 0,
-    //   labour: _sumLabor.total || 0,
-    //   machinery: _sumMcnry.total || 0,
-    //   total: total || 0,
-    // };
-
     const result = await transaction.$queryRaw`select
     SUM(case when bom_type = 'RAWMT' then total else 0 end) as raw_material,
     SUM(case when bom_type = 'LABOR' then total else 0 end) as labour,
     SUM(case when bom_type = 'MCNRY' then total else 0 end) as machinery
   from
-    "bom"
+    "bom_detail"
   where
-    sub_category_id = ${sub_category_id} and is_delete =false`;
+    sub_category_id = ${sub_category_id}::integer and is_delete =false`;
     return result;
   } catch (error) {
     console.error('Error occurred in BomDao getById:', error);
@@ -545,7 +537,7 @@ const getBomSumBySubCategoryId = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const bom = await transaction.bom.aggregate({
+    const bom = await transaction.bom_detail.aggregate({
       where: {
         sub_category_id: Number(sub_category_id),
         is_delete: false,
@@ -558,6 +550,31 @@ const getBomSumBySubCategoryId = async (
     return bom._sum.total || 0;
   } catch (error) {
     console.error('Error occurred in BomDao getBomSumBySubCategoryId:', error);
+    throw error;
+  }
+};
+
+const getTotalByBomConfigurationId = async (
+  bom_configuration_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const bom = await transaction.bom_detail.aggregate({
+      where: {
+        bom_configuration_id: Number(bom_configuration_id),
+        is_delete: false,
+      },
+      _sum: {
+        total: true,
+      },
+    });
+    return bom._sum.total || 0;
+  } catch (error) {
+    console.error(
+      'Error occurred in BomDao getTotalByBomConfigurationId :',
+      error
+    );
     throw error;
   }
 };
@@ -575,4 +592,5 @@ export default {
   getBomBySubCategoryIdAndBomType,
   getBomTotalBySubCategoryId,
   getBomSumBySubCategoryId,
+  getTotalByBomConfigurationId,
 };
