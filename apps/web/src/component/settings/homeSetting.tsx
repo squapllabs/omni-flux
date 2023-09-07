@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import Styles from '../../styles/homeSettings.module.scss';
-import CustomGroupButton from "../ui/CustomGroupButton";
-import Category from "../category/category";
-import UserList from "../users/userList";
-import MasterData from "../masterData/masterData";
-import ProjectList from "../project/projectList";
-import LeadList from "../leadEnquires/leadList";
+import CustomGroupButton from '../ui/CustomGroupButton';
+import Category from '../category/category';
+import UserList from '../users/userList';
+import MasterData from '../masterData/masterData';
+import ProjectList from '../project/projectList';
+import LeadList from '../leadEnquires/leadList';
 const Settings = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Category', value: 'C' },
     { label: 'Master Data', value: 'M' },
     { label: 'User List', value: 'U' },
-    { label: 'Project List', value: 'PL' },
-    { label: 'Lead List', value: 'LL'},
+    // { label: 'Project List', value: 'PL' },
+    { label: 'Lead List', value: 'LL' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('C');
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
-  }
+  };
   return (
     <div>
       <div className={Styles.container}>
@@ -39,6 +39,6 @@ const Settings = () => {
         {activeButton === 'LL' && <LeadList />}
       </div>
     </div>
-  )
-}
+  );
+};
 export default Settings;
