@@ -84,6 +84,7 @@ const BomItems = (props: {
     setOpenSnack(false);
   };
   const handleGroupButtonClick = async (value: string) => {
+    setIsTableLoader(true)
     setActiveButton(value);
     const obj = {
       id: isExpanded,
@@ -91,7 +92,7 @@ const BomItems = (props: {
     }
     try {
       const getData = await bomService.getBOMbySubCatIDandType(obj);
-      // console.log('sample labour =====>', getData.data);
+      console.log('sample labour =====>', getData.data);
       setTableData(getData.data);
       setIsTableLoader(false)
     } catch (error) {
@@ -158,7 +159,7 @@ const BomItems = (props: {
                         />
                       </div>
                       <div>
-                      {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
+                      {istableLoader ? (<CustomLoader loading={istableLoader} size={25} />) : (
                         activeButton === 'RAWMT' ? (
                           <table>
                             <thead>
@@ -174,7 +175,7 @@ const BomItems = (props: {
                             <tbody>
                               {tableData && tableData.length > 0 ? (
                                 tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_id}>
+                                  <tr key={item.bom_detail_id}>
                                     <td>{index + 1}</td>
                                     <td>{item.item_data?.item_name}</td>
                                     <td>{item.uom_data?.name}</td>
@@ -198,7 +199,7 @@ const BomItems = (props: {
                           ' '
                         )
                       )}
-                        {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
+                        {istableLoader ? (<CustomLoader loading={istableLoader} size={25} />) : (
                         activeButton === 'LABOR' ? (
                           <table>
                             <thead>
@@ -214,7 +215,7 @@ const BomItems = (props: {
                             <tbody>
                               {tableData && tableData.length > 0 ? (
                                 tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_id}>
+                                  <tr key={item.bom_detail_id}>
                                     <td>{index + 1}</td>
                                     <td>{item.bom_name}</td>
                                     <td>{item.uom_data?.name}</td>
@@ -238,7 +239,7 @@ const BomItems = (props: {
                           ' '
                         )
                         )}
-                         {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
+                         {istableLoader ? (<CustomLoader loading={istableLoader} size={25} />) : (
                         activeButton === 'MCNRY' ? (
                           <table>
                             <thead>
@@ -254,7 +255,7 @@ const BomItems = (props: {
                             <tbody>
                               {tableData && tableData.length > 0 ? (
                                 tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_id}>
+                                  <tr key={item.bom_detail_id}>
                                     <td>{index + 1}</td>
                                     <td>{item.bom_name}</td>
                                     <td>{item.uom_data?.name}</td>
