@@ -113,6 +113,7 @@ const BomItems = (props: {
       setActiveButton('RAWMT');
       setTableData(getData.data);
       setIsExpanded(subCategoryId);
+      setIsTableLoader(false)
     }
   };
 
