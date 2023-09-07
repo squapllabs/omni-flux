@@ -271,12 +271,12 @@ const searchSubCategory = async (
   }
 };
 
-const getByCategoryId = async (categoryId: number, connectionObj = null) => {
+const getByCategoryId = async (category_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const subCategory = await transaction.sub_category.findMany({
       where: {
-        category_id: Number(categoryId),
+        category_id: Number(category_id),
         is_delete: false,
       },
       include: {
@@ -301,6 +301,48 @@ const getByCategoryId = async (categoryId: number, connectionObj = null) => {
     return subCategory;
   } catch (error) {
     console.log('Error occurred in subCategory getByCategoryId dao', error);
+    throw error;
+  }
+};
+
+const getByCategoryIdAndBomConfigurationId = async (
+  category_id: number,
+  bom_configuration_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.findMany({
+      where: {
+        category_id: Number(category_id),
+        bom_configuration_id: Number(bom_configuration_id),
+        is_delete: false,
+      },
+      include: {
+        category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log(
+      'Error occurred in subCategory getByCategoryIdAndBomConfigurationId dao',
+      error
+    );
     throw error;
   }
 };
@@ -370,4 +412,5 @@ export default {
   getByCategoryId,
   updateBudget,
   getSumOfBudgetByCategoryId,
+  getByCategoryIdAndBomConfigurationId,
 };

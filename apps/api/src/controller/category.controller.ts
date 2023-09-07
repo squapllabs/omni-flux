@@ -92,7 +92,8 @@ const getByProjectId = catchAsync(async (req, res) => {
   const methodName = '/getByProjectId';
   try {
     const category = await categoryService.getByProjectId(
-      req.params.project_id
+      req.params.project_id,
+      req.params.bom_configuration_id
     );
     res.send(category);
   } catch (err) {

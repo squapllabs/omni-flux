@@ -243,12 +243,17 @@ const searchCategory = async (
   }
 };
 
-const getByProjectId = async (project_id: number, connectionObj = null) => {
+const getByProjectId = async (
+  project_id: number,
+  bom_configuration_id: number,
+  connectionObj = null
+) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const category = await transaction.category.findMany({
       where: {
         project_id: Number(project_id),
+        bom_configuration_id: Number(bom_configuration_id),
         is_delete: false,
       },
       orderBy: [{ updated_date: 'desc' }],
