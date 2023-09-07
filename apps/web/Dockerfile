@@ -10,7 +10,6 @@ COPY . .
 
 Run npx nx build web
 
-//RUN npm run build
 
 FROM nginx:alpine
 
