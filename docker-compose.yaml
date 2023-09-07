@@ -9,6 +9,6 @@ services:
   backend:
     build:
       context: .
-      dockerfile: ./apps/Api/Dockerfile
+      dockerfile: ./apps/api/Dockerfile
     ports:
       - "3000:3000"
