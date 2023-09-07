@@ -2,7 +2,7 @@ import uomDao from '../dao/uom.dao';
 import { createUomBody, updateUomBody } from '../interfaces/uom.Interface';
 import itemDao from '../dao/item.dao';
 import projectWorkbreakDownDao from '../dao/projectWorkbreakDown.dao';
-import bomDao from '../dao/bom.dao';
+import bomDao from '../dao/bomDetail.dao';
 
 /**
  * Method to Create a New Uom

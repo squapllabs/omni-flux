@@ -1,5 +1,8 @@
 import express from 'express';
-import { bomCreateValidator, bomUpdateValidator } from '../../validations/bom';
+import {
+  bomCreateValidator,
+  bomUpdateValidator,
+} from '../../validations/bomDetail';
 import {
   createBom,
   deleteBom,
@@ -11,7 +14,7 @@ import {
   addBulkBom,
   getBomBySubCategoryIdAndBomType,
   getBomTotalBySubCategoryId,
-} from '../../controller/bom.controller';
+} from '../../controller/bomDetail.controller';
 import authMiddleware from '../../middleware/auth';
 import { runValidation } from '../../validations/index';
 
