@@ -9,6 +9,7 @@ const add = async (
   project_id: number,
   start_date: Date,
   end_date: Date,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
@@ -30,6 +31,7 @@ const add = async (
         project_id,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
+        bom_configuration_id,
       },
     });
     return subCategory;
@@ -49,6 +51,7 @@ const edit = async (
   project_id: number,
   start_date: Date,
   end_date: Date,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
@@ -70,6 +73,7 @@ const edit = async (
         project_id,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
+        bom_configuration_id,
       },
     });
     return subCategory;
@@ -93,6 +97,15 @@ const getById = async (subCategoryId: number, connectionObj = null) => {
           select: {
             project_name: true,
             description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
           },
         },
       },
@@ -122,6 +135,15 @@ const getAll = async (connectionObj = null) => {
           select: {
             project_name: true,
             description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
           },
         },
       },
@@ -178,12 +200,12 @@ const getBySubCategoryNameAndCategoryId = async (
 const getAllInActiveSubCategories = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const SubCategory = await transaction.sub_category.findMany({
+    const subCategory = await transaction.sub_category.findMany({
       where: {
         is_delete: true,
       },
     });
-    return SubCategory;
+    return subCategory;
   } catch (error) {
     console.log(
       'Error occurred in subCategory getAllInActiveSubCategories dao',
@@ -217,6 +239,15 @@ const searchSubCategory = async (
           select: {
             project_name: true,
             description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
           },
         },
       },
@@ -254,6 +285,15 @@ const getByCategoryId = async (categoryId: number, connectionObj = null) => {
           select: {
             project_name: true,
             description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
           },
         },
       },
