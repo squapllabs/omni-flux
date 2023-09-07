@@ -232,6 +232,8 @@ import ProjectView from '../component/project/projectInfo';
 import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
 import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
 import ProductAdd from '../component/products/productAdd';
+import LabourList from '../component/labour/labourList';
+import LabourAdd from '../component/labour/labourAdd';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -283,6 +285,10 @@ const AppRoutes = () => {
   const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
   const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
+  const ProtectedLabourListPage = withLayoutAndProtection(LabourList);
+  const ProtectedLabourAddPage = withLayoutAndProtection(LabourAdd);
+  
+
 
   return (
     <div>
@@ -371,6 +377,14 @@ const AppRoutes = () => {
         <Route
           path="/product-edit/:id"
           element={<ProtectedProductAddPage />}
+        />
+         <Route
+          path="/labour"
+          element={<ProtectedLabourListPage />}
+        />
+        <Route
+          path="/labour-add"
+          element={<ProtectedLabourAddPage />}
         />
       </Routes>
     </div>
