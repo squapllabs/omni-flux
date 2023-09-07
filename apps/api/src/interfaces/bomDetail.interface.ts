@@ -1,5 +1,5 @@
 interface bomBody {
-  bom_id: number;
+  bom_detail_id: number;
   bom_name: string;
   quantity: number;
   uom_id: number;
@@ -16,6 +16,9 @@ interface bomBody {
   bom_type: string;
   created_date: Date;
   updated_date: Date;
+  machinery_id: number;
+  labour_id: number;
+  bom_configuration_id: number;
 }
 
 export { bomBody };

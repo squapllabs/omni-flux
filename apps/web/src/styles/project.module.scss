@@ -1,0 +1,48 @@
+.Container {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.inputFieldMain {
+  //   padding: 0px 0px 0px 20px;
+  width: 96%;
+  height: 50%;
+}
+.inputFields {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15%;
+}
+
+.instantAdd {
+  color: cadetblue;
+  font-weight: lighter;
+  font-size: x-small;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+  cursor: pointer;
+}
+.submitButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 0px 30px 15px 0px;
+  gap: 10px;
+}
+.resetButton {
+  color: #848289;
+}
+
+.resetButton:hover:not(:disabled) {
+  background-color: #c4c4c6;
+  color: #ffffff;
+}
+
+.resetButton:disabled {
+  background-color: #dcdcdc;
+  color: #848289;
+  cursor: not-allowed;
+}

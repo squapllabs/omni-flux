@@ -5,19 +5,22 @@ interface EditIconProps {
   height?: number;
   color?: string;
   onClick: () => void;
+  style?: React.CSSProperties;
 }
 
 const EditIcon: FC<EditIconProps> = ({
   width = 22,
   height = 27,
   color = '#475467',
-  onClick
+  onClick,
+  style
 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
+      style={style}
       fill="none"
       viewBox="0 0 18 20"
       onClick={onClick}
