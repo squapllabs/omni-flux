@@ -434,10 +434,13 @@ const searchSubCategory = async (body) => {
  * @param categoryId
  * @returns
  */
-const getByCategoryId = async (categoryId: number) => {
+const getByCategoryId = async (
+  category_id: number,
+  bom_configuration_id: number
+) => {
   try {
     let result = null;
-    const categoryData = await categoryDao.getById(categoryId);
+    const categoryData = await categoryDao.getById(category_id);
     if (!categoryData) {
       result = {
         message: 'category_id does not exist',
@@ -447,7 +450,24 @@ const getByCategoryId = async (categoryId: number) => {
       return result;
     }
 
-    const subCategoryData = await subCategoryDao.getByCategoryId(categoryId);
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const subCategoryData =
+      await subCategoryDao.getByCategoryIdAndBomConfigurationId(
+        category_id,
+        bom_configuration_id
+      );
     if (subCategoryData.length > 0) {
       result = {
         message: 'success',

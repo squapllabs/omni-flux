@@ -380,7 +380,10 @@ const searchCategory = async (body) => {
  * @param project_id
  * @returns
  */
-const getByProjectId = async (project_id: number) => {
+const getByProjectId = async (
+  project_id: number,
+  bom_configuration_id: number
+) => {
   try {
     let result = null;
     const projectExist = await projectDao.getById(project_id);
@@ -392,13 +395,31 @@ const getByProjectId = async (project_id: number) => {
       };
       return result;
     }
-    const categoryData = await categoryDao.getByProjectId(project_id);
+
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const categoryData = await categoryDao.getByProjectId(
+      project_id,
+      bom_configuration_id
+    );
     if (categoryData.length > 0) {
       result = { message: 'success', status: true, data: categoryData };
       return result;
     } else {
       result = {
-        message: 'No category found related to this category',
+        message:
+          'No category found related to this project_id and bom configuration_id combo',
         status: false,
         data: null,
       };
