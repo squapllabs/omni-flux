@@ -42,12 +42,14 @@ stage('prune Docker data') {
             // sh 'docker-compose up -d'
           // }
        // }
-    }     
-}
+  //  }     
+// }
 post
    {
     always{
       docker compose down --remove-orphans -v
       docker compose ps
   }
+}
+}
 }
