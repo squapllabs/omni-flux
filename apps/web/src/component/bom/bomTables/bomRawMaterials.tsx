@@ -18,8 +18,6 @@ import CustomDelete from '../../ui/customDeleteDialogBox';
 
 const BomRawMaterials: React.FC = (props: any) => {
   const navigate = useNavigate();
-  console.log('props', props);
-
   const fieldWidth = '140px';
   let rowIndex = 0;
   const [bomList, setBomList] = useState<any>([]);
@@ -35,9 +33,6 @@ const BomRawMaterials: React.FC = (props: any) => {
         'decimal-validation',
         bomErrorMessages.ITEM_EXIST,
         async function (value: number, { parent }: Yup.TestContext) {
-          console.log('value', value);
-          console.log('parent.is_delete', parent.is_delete);
-          console.log('bomList', bomList);
           let isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
@@ -46,7 +41,6 @@ const BomRawMaterials: React.FC = (props: any) => {
                 obj.is_delete === isDelete
               );
             });
-            console.log('state', isValuePresent);
             if (isValuePresent === false) {
               return true;
             } else return false;
@@ -127,9 +121,7 @@ const BomRawMaterials: React.FC = (props: any) => {
       values['quantity'] = Number(formik.values.quantity);
       values['rate'] = Number(formik.values.rate);
       values['bom_configuration_id'] = Number(props.bomId);
-      console.log('values', values);
       let arr = [];
-      console.log('props.bomList', props.bomList);
       arr = [...props.bomList, values];
       props.setBomList(arr);
       resetForm();

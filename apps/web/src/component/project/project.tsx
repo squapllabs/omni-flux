@@ -19,6 +19,7 @@ const Project = () => {
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
+  const [reload, setReload] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +29,7 @@ const Project = () => {
       setProjectData(getData);
     };
     if (routeParams?.id != undefined) fetchData();
-  }, []);
+  }, [loader]);
   const handleGroupButtonClick = (value: string) => {
     if (routeParams?.id != undefined) {
       setActiveButton(value);

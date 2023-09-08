@@ -41,7 +41,6 @@ const BomMachinery: React.FC = (props: any) => {
                 obj.is_delete === isDelete
               );
             });
-            console.log('state', isValuePresent);
             if (isValuePresent === false) {
               return true;
             } else return false;
@@ -89,8 +88,6 @@ const BomMachinery: React.FC = (props: any) => {
     fetchData();
   }, [reload]);
   const { data: getAllMachineDrop } = useGetAllMachineryForDrop();
-  console.log('getAllMachineDrop', getAllMachineDrop);
-
   const { data: getAllUomDrop } = getUomByType('LABOR');
   const rawMaterialTotalCalulate = async () => {
     const sumOfRates = await bomList.reduce(
@@ -148,7 +145,6 @@ const BomMachinery: React.FC = (props: any) => {
       values['quantity'] = Number(formik.values.quantity);
       values['rate'] = Number(formik.values.rate);
       values['bom_configuration_id'] = Number(props.bomId);
-      console.log('values', values);
       let arr = [];
       arr = [...props.bomList, values];
       props.setBomList(arr);
@@ -284,11 +280,6 @@ const BomMachinery: React.FC = (props: any) => {
                         'bom_name',
                         matchingObjects[0]?.label
                       );
-                      console.log(
-                        'matchingObjects.data?.rate',
-                        matchingObjects[0].data?.rate
-                      );
-
                       formik.setFieldValue(
                         'rate',
                         matchingObjects[0].data?.rate

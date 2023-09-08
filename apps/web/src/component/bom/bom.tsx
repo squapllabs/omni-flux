@@ -42,19 +42,12 @@ const Bom: React.FC = (props: any) => {
   const { data: getSubCategoryData } = getBySubcategoryID(
     Number(params?.subCategoryId)
   );
-  console.log('getSubCategoryData', getSubCategoryData);
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(
-        'Number(params?.subCategoryId)',
-        Number(params?.subCategoryId)
-      );
-
       const getData = await BomService.getBOMbySubCatID(
         Number(params?.subCategoryId)
       );
-      console.log('getData', getData);
       if (getData?.data != null) setBomList(getData?.data);
       const Rawmaterialobj = {
         id: params?.subCategoryId,
@@ -92,7 +85,6 @@ const Bom: React.FC = (props: any) => {
           0
         );
         setRawLabourTotal(sumOfRates);
-        console.log('getDataRawMAterial', sumOfRates);
       }
       if (getDatamachinery?.status === true) {
         const sumOfRates = await getDatamachinery?.data.reduce(
@@ -102,18 +94,14 @@ const Bom: React.FC = (props: any) => {
           0
         );
         setMachineryTotal(sumOfRates);
-        console.log('getDataRawMAterial', sumOfRates);
       }
     };
     fetchData();
   }, [activeButton, reload]);
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
   const handleBulkBomAdd = () => {
-    console.log('bomList', bomList);
-
     bulkBomData(bomList, {
       onSuccess(data, variables, context) {
-        console.log('data', data);
         if (data?.status === true) {
           setMessage('BOM created successfully');
           setOpenSnack(true);

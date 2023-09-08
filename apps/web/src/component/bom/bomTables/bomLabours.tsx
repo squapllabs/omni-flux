@@ -18,7 +18,6 @@ import { useGetAllLabourForDrop } from '../../../hooks/labour-hooks';
 
 const BomLabours: React.FC = (props: any) => {
   const navigate = useNavigate();
-  console.log('propslabour', props?.bomList?.length);
   const fieldWidth = '140px';
   let rowIndex = 0;
   const validationSchema = Yup.object().shape({
@@ -41,7 +40,6 @@ const BomLabours: React.FC = (props: any) => {
                 obj.is_delete === isDelete
               );
             });
-            console.log('state', isValuePresent);
             if (isValuePresent === false) {
               return true;
             } else return false;
@@ -76,17 +74,7 @@ const BomLabours: React.FC = (props: any) => {
 
   const { data: getAllLabourDrop } = useGetAllLabourForDrop();
   const { data: getAllUomDrop } = getUomByType('LABOR');
-  console.log('getAllUomDrop', getAllUomDrop);
-
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
-  const rawMaterialTotalCalulate = async () => {
-    const sumOfRates = await bomList.reduce(
-      (accumulator: any, currentItem: any) => {
-        return accumulator + currentItem.total;
-      },
-      0
-    );
-  };
 
   const handleDeleteSiteExpense = (e: any, value: any) => {
     setBomValue(value);
@@ -122,7 +110,6 @@ const BomLabours: React.FC = (props: any) => {
     let tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
-    rawMaterialTotalCalulate();
   };
   const formik = useFormik({
     initialValues,
@@ -140,7 +127,6 @@ const BomLabours: React.FC = (props: any) => {
       arr = [...props.bomList, values];
       props.setBomList(arr);
       resetForm();
-      rawMaterialTotalCalulate();
     },
   });
   const deleteBOM = () => {
