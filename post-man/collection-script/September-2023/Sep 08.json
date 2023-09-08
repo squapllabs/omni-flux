@@ -15936,6 +15936,111 @@
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"project_member_association_id\": 1,\n            \"project_id\": 132,\n            \"user_id\": 62,\n            \"project_role_id\": 117,\n            \"access_start_date\": \"2023-09-08T00:00:00.000Z\",\n            \"access_end_date\": \"2023-12-31T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-08T12:14:41.883Z\",\n            \"updated_date\": \"2023-09-08T12:14:41.883Z\",\n            \"created_by\": 1,\n            \"updated_by\": null\n        }\n    ]\n}"
             }
           ]
+        },
+        {
+          "name": "API To Search Project Member Association",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"VijAy\",\r\n    \"project_id\": 132,\r\n    \"status\": \"AC\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/project-member-association/search",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "project-member-association", "search"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Search Project Member Association",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"VijAy\",\r\n    \"project_id\": 132,\r\n    \"status\": \"AC\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/project-member-association/search",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "project-member-association", "search"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1253"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4e5-kssxgjdpZOZ6b8Clo0CJoVMnAtg\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 08 Sep 2023 13:15:35 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"project_member_association_id\": 1,\n            \"project_id\": 132,\n            \"user_id\": 62,\n            \"project_role_id\": 117,\n            \"access_start_date\": \"2023-09-08T00:00:00.000Z\",\n            \"access_end_date\": \"2023-12-31T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-08T12:14:41.883Z\",\n            \"updated_date\": \"2023-09-08T12:14:41.883Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"project_data\": {\n                \"project_id\": 132,\n                \"project_name\": \"Trivent project\",\n                \"description\": \"The new M4 debuted in 2019, with a 14-kilometre stretch of road widening. The new M8.\",\n                \"user_id\": 61,\n                \"date_started\": \"2023-09-08T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-07T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 25,\n                \"project_documents\": [],\n                \"created_date\": \"2023-09-08T10:51:16.351Z\",\n                \"updated_date\": \"2023-09-08T12:51:58.187Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Water Treatment Plan\",\n                \"code\": \"1243\",\n                \"estimated_budget\": 25000,\n                \"actual_budget\": 223,\n                \"approvar_id\": 98\n            },\n            \"user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"user_profiles\": {\n                    \"profile_image_url\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1690374500388-67413086-aalam1-4.png\"\n                }\n            },\n            \"project_role_data\": {\n                \"master_data_name\": \"Planning Engineer\"\n            }\n        }\n    ]\n}"
+            }
+          ]
         }
       ]
     }
