@@ -12,18 +12,26 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { useParams } from 'react-router-dom';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
 import Select from '../ui/selectNew';
+import { getvendorcreationYupschema } from '../../helper/constants/vendor-constants';
+import { createVendor, updateVendor } from '../../hooks/vendor-hooks';
+import vendorService from '../../service/vendor-service';
 
 const AddVendor = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
+  const { mutate: createNewVendor } = createVendor();
+  const { mutate: updateVendors } = updateVendor();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData.userData;
   const { data: getAllPaymentTypeList = [] } = getBymasertDataType('PPM');
   const { data: getAllVendorTypeList = [] } = getBymasertDataType('VNC');
   const { data: getAllCurrencyTypeList = [] } = getBymasertDataType('CRTYP');
+
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+
+  const validationSchema = getvendorcreationYupschema(Yup);
 
   const [initialValues, setInitialValues] = useState({
     vendor_id: '',
@@ -42,9 +50,9 @@ const AddVendor = () => {
       account_no: '',
       ifsc_code: '',
       acc_holder_name: '',
-      branch_name: '',
+      bank_name: '',
     },
-    preferred_payment_id: '',
+    preferred_payment_method_id: '',
     currency: '',
     payment_terms: '',
     vendor_category_id: '',
@@ -52,11 +60,58 @@ const AddVendor = () => {
     minimum_order_quantity: '',
     notes: '',
     created_by: '',
-    updated_by: '',
+    tax_id: '',
   });
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+
+  useEffect(() => {
+    if (Number(routeParams?.id)) {
+      const fetchOne = async () => {
+        const Vendordata = await vendorService.getOneVendorById(
+          Number(routeParams?.id)
+        );
+        setInitialValues({
+          vendor_id: Vendordata?.data?.vendor_id,
+          vendor_name: Vendordata?.data?.vendor_name,
+          contact_person: Vendordata?.data?.contact_person,
+          contact_email: Vendordata?.data?.contact_email,
+          contact_phone_no: Vendordata?.data?.contact_phone_no,
+          address: {
+            street: Vendordata?.data?.address?.street || '',
+            city: Vendordata?.data?.address?.city || '',
+            state: Vendordata?.data?.address?.state || '',
+            country: Vendordata?.data?.address?.country || '',
+            pin_code: Vendordata?.data?.address?.pin_code || '',
+          },
+          bank_account_details: {
+            account_no: Vendordata?.data?.bank_account_details.account_no,
+            ifsc_code: Vendordata?.data?.bank_account_details.ifsc_code,
+            acc_holder_name:
+              Vendordata?.data?.bank_account_details.acc_holder_name,
+            bank_name: Vendordata?.data?.bank_account_details.bank_name,
+          },
+          preferred_payment_method_id:
+            Vendordata?.data?.preferred_payment_method_id,
+          currency: Vendordata?.data?.currency,
+          payment_terms: Vendordata?.data?.payment_terms,
+          vendor_category_id: Vendordata?.data?.vendor_category_id,
+          lead_time: Vendordata?.data?.lead_time,
+          minimum_order_quantity: Vendordata?.data?.minimum_order_quantity,
+          notes: Vendordata?.data?.notes,
+          created_by: userData.user_id,
+          tax_id: Vendordata?.data?.tax_id,
+        });
+      };
+      fetchOne();
+    }
+  }, [routeParams?.id]);
 
   const formik = useFormik({
     initialValues,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       const Object: any = {
@@ -75,23 +130,49 @@ const AddVendor = () => {
           account_no: values.bank_account_details.account_no,
           ifsc_code: values.bank_account_details.ifsc_code,
           acc_holder_name: values.bank_account_details.acc_holder_name,
-          branch_name: values.bank_account_details.branch_name,
+          bank_name: values.bank_account_details.bank_name,
         },
-        preferred_payment_id: values.preferred_payment_id,
+        preferred_payment_method_id: Number(values.preferred_payment_method_id),
         currency: values.currency,
         payment_terms: values.payment_terms,
-        vendor_category_id: values.vendor_category_id,
+        vendor_category_id: Number(values.vendor_category_id),
         lead_time: values.lead_time,
-        minimum_order_quantity: values.minimum_order_quantity,
+        minimum_order_quantity: Number(values.minimum_order_quantity),
         notes: values.notes,
         created_by: userData.user_id,
+        tax_id: values.tax_id,
+        vendor_id: Number(routeParams?.id) ?  Number(routeParams?.id) : ''
       };
-      console.log("Object",Object);
+      if (Number(routeParams?.id)) {
+        updateVendors(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.status === true) {
+              setMessage('Vendor edited');
+              setOpenSnack(true);
+              setTimeout(() => {
+                navigate('/settings');
+              }, 1000);
+            }
+          },
+        });
+      } else {
+        createNewVendor(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.status === true) {
+              setMessage('Vendor created');
+              setOpenSnack(true);
+              setTimeout(() => {
+                navigate('/settings');
+              }, 1000);
+            }
+          },
+        });
+      }
     },
   });
 
   return (
-    <div>
+    <div className={Styles.container}>
       <div className={Styles.box}>
         <div>
           <h3>{routeParams.id ? 'Vendor Edit' : 'Vendor Add'}</h3>
@@ -100,10 +181,10 @@ const AddVendor = () => {
       <div className={Styles.dividerStyle}></div>
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
-          <div className={Styles.formSection}>
-            <div className={Styles.box1}>
-              <h4>Vendor Details</h4>
-            </div>
+          <div className={Styles.box1}>
+            <h4>Vendor Details</h4>
+          </div>
+          <div className={Styles.inputFieldMain}>
             <div className={Styles.fieldRow}>
               <div>
                 <Input
@@ -245,6 +326,7 @@ const AddVendor = () => {
                 <Input
                   name="bank_account_details.account_no"
                   label="Account Number"
+                  mandatory={true}
                   placeholder="Enter Account Number"
                   value={formik.values.bank_account_details.account_no}
                   onChange={formik.handleChange}
@@ -258,7 +340,8 @@ const AddVendor = () => {
               <div>
                 <Input
                   name="bank_account_details.ifsc_code"
-                  label="Ifsc Code"
+                  label="IFSC Code"
+                  mandatory={true}
                   placeholder="Enter Ifsc Code"
                   value={formik.values.bank_account_details.ifsc_code}
                   onChange={formik.handleChange}
@@ -273,6 +356,7 @@ const AddVendor = () => {
                 <Input
                   name="bank_account_details.acc_holder_name"
                   label="Account Holder Name"
+                  mandatory={true}
                   placeholder="Enter Account Holder Name"
                   value={formik.values.bank_account_details.acc_holder_name}
                   onChange={formik.handleChange}
@@ -287,29 +371,30 @@ const AddVendor = () => {
             <div className={Styles.fieldRow}>
               <div>
                 <Input
-                  name="bank_account_details.branch_name"
-                  label="Branch Name"
-                  placeholder="Enter Branch Name"
-                  value={formik.values.bank_account_details.branch_name}
+                  name="bank_account_details.bank_name"
+                  label="Bank Name"
+                  placeholder="Enter Bank Name"
+                  value={formik.values.bank_account_details.bank_name}
                   onChange={formik.handleChange}
                   width="250px"
                   error={
-                    formik.touched.bank_account_details?.branch_name &&
-                    formik.errors.bank_account_details?.branch_name
+                    formik.touched.bank_account_details?.bank_name &&
+                    formik.errors.bank_account_details?.bank_name
                   }
                 />
               </div>
               <div>
                 <Select
-                  name="preferred_payment_id"
+                  name="preferred_payment_method_id"
                   label="Preffered Payment Type"
                   defaultLabel="Select from options"
                   width="250px"
-                  value={formik.values.preferred_payment_id}
+                  mandatory={true}
+                  value={formik.values.preferred_payment_method_id}
                   onChange={formik.handleChange}
                   error={
-                    formik.touched.preferred_payment_id &&
-                    formik.errors.preferred_payment_id
+                    formik.touched.preferred_payment_method_id &&
+                    formik.errors.preferred_payment_method_id
                   }
                 >
                   {getAllPaymentTypeList?.map((option: any) => (
@@ -323,22 +408,20 @@ const AddVendor = () => {
                 </Select>
               </div>
               <div>
-              <Select
+                <Select
                   name="currency"
                   label="Currency"
                   defaultLabel="Select from options"
+                  mandatory={true}
                   width="250px"
                   value={formik.values.currency}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.currency &&
-                    formik.errors.currency
-                  }
+                  error={formik.touched.currency && formik.errors.currency}
                 >
                   {getAllCurrencyTypeList?.map((option: any) => (
                     <option
                       key={option.master_data_id}
-                      value={option.master_data_id}
+                      value={option.master_data_name}
                     >
                       {option.master_data_name}
                     </option>
@@ -346,12 +429,12 @@ const AddVendor = () => {
                 </Select>
               </div>
             </div>
-            <div style={{ paddingLeft: '100px' }}>
+            <div className={Styles.fieldRowLast}>
               <TextArea
                 name="payment_terms"
                 label="Payment Terms"
                 placeholder="Enter description"
-                width="650px"
+                width="35%"
                 value={formik.values.payment_terms}
                 onChange={formik.handleChange}
                 rows={5}
@@ -370,6 +453,7 @@ const AddVendor = () => {
                   name="vendor_category_id"
                   label="Vendor Category Type"
                   defaultLabel="Select from options"
+                  mandatory={true}
                   width="250px"
                   value={formik.values.vendor_category_id}
                   onChange={formik.handleChange}
@@ -414,12 +498,26 @@ const AddVendor = () => {
                 />
               </div>
             </div>
-            <div style={{ paddingLeft: '100px' }}>
+            <div className={Styles.fieldRowLast}>
+              <div>
+                <Input
+                  name="tax_id"
+                  label="Tax Number"
+                  mandatory={true}
+                  placeholder="Enter tax number"
+                  value={formik.values.tax_id}
+                  onChange={formik.handleChange}
+                  width="250px"
+                  error={formik.touched.tax_id && formik.errors.tax_id}
+                />
+              </div>
+            </div>
+            <div className={Styles.fieldRowLast}>
               <TextArea
                 name="notes"
                 label="Notes"
                 placeholder="Enter Notes"
-                width="650px"
+                width="35%"
                 value={formik.values.notes}
                 onChange={formik.handleChange}
                 rows={5}
@@ -468,6 +566,13 @@ const AddVendor = () => {
           </div>
         </form>
       </div>
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
+      />
     </div>
   );
 };

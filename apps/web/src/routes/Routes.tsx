@@ -390,8 +390,8 @@ const AppRoutes = () => {
         />
         <Route path="/add-machinery" element={<ProtectedMachineryAddPage />} />
         <Route path="/edit-machinery/:id" element={<ProtectedMachineryAddPage />} />
-        <Route path="/add-vendor" element={<ProtectedVendorAddPage />} />
-        <Route path="/edit-vendor/:id" element={<ProtectedVendorAddPage />} />
+        <Route path="/vendor-add" element={<ProtectedVendorAddPage />} />
+        <Route path="/vendor-edit/:id" element={<ProtectedVendorAddPage />} />
         <Route path="/product-add" element={<ProtectedProductAddPage />} />
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
         <Route path="/project" element={<ProtectedProject />} />
