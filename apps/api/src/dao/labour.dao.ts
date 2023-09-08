@@ -166,7 +166,7 @@ const checkDuplicateLabourType = async (
     const labour = await transaction.labour.findFirst({
       where: {
         labour_type: {
-          contains: labour_type,
+          equals: labour_type,
           mode: 'insensitive',
         },
       },
