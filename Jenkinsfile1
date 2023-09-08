@@ -37,10 +37,10 @@ stage('prune Docker data') {
            }
         }
 
-stage('docker compose build') {
-            steps {
-             sh 'docker-compose up -d'
-           }
-        }
+// stage('docker compose build') {
+           // steps {
+            // sh 'docker-compose up -d'
+          // }
+       // }
     }     
 }
