@@ -17,19 +17,24 @@ import BomService from '../../service/bom-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomItems from './bomItems';
 import Bom from './bom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CategoryService from '../../service/category-service';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
-
+import { getByProjectId } from '../../hooks/project-hooks';
+import BackArrow from '../menu/icons/backArrow';
 const BomList = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const bomconfigId = Number(params?.bomconfigId);
   console.log('oooo', params);
   // const projectId = Number(params?.projectId);
+  const { data: projectData } = getByProjectId(projectId);
+  console.log('projectData', projectData);
+
   const [projectsId, setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
@@ -56,9 +61,9 @@ const BomList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const obj = {
-        projectId : projectId,
-        bomconfigId : bomconfigId
-      }
+        projectId: projectId,
+        bomconfigId: bomconfigId,
+      };
       const datas = await CategoryService.getAllCategoryByProjectId(obj);
       setCategories(datas.data);
       setIsloading(false);
@@ -134,6 +139,33 @@ const BomList = () => {
 
   return (
     <div>
+      <div className={Styles.headingcontainer}>
+        <div className={Styles.box}>
+          <div className={Styles.mainTextContent}>
+            <div className={Styles.textContent_1}>
+              <h3>{projectData?.project_name}</h3>
+              <span className={Styles.content}>{projectData?.description}</span>
+            </div>
+            <div className={Styles.backButton}>
+              <div>
+                <Button
+                  color="secondary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<BackArrow />}
+                  onClick={() => {
+                    navigate(`/project-edit/${projectId}`);
+                  }}
+                >
+                  Back
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={Styles.box}></div>
       {isloading ? (
         <CustomLoader loading={isloading} size={30} />
       ) : (
@@ -160,6 +192,7 @@ const BomList = () => {
                         Add Abstract
                       </Button>
                     </div>
+
                     {categories?.map((items: any, index: any) => {
                       return (
                         <ul key={index}>

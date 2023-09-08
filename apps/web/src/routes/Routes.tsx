@@ -383,10 +383,7 @@ const AppRoutes = () => {
           path="/bomlist/:projectId/:bomconfigId"
           element={<ProtectedBomList />}
         />
-        <Route
-          path="/bom/:subCategoryId/:projectId"
-          element={<ProtectedBom />}
-        />
+        <Route path="/bom/:subCategoryId" element={<ProtectedBom />} />
         <Route path="/product-add" element={<ProtectedProductAddPage />} />
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
         <Route path="/project" element={<ProtectedProject />} />

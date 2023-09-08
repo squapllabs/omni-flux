@@ -16,6 +16,7 @@ import {
   createProject,
   getByProjectId,
   useGetMasterProjectParentType,
+  updateProject,
 } from '../../../hooks/project-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
@@ -24,6 +25,7 @@ import projectService from '../../../service/project-service';
 const ProjectBomConfig: React.FC = (props: any) => {
   const routeParams = useParams();
   const navigate = useNavigate();
+  let rowIndex = 0;
   const [initialValues, setInitialValues] = useState({
     bom_name: '',
     bom_description: '',
@@ -40,6 +42,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [projectData, setProjectData] = useState<any>({});
   const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
   const { mutate: createNewProjectData } = createProject();
+  const { mutate: updateProjectData } = updateProject();
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -103,28 +106,45 @@ const ProjectBomConfig: React.FC = (props: any) => {
     setOpenSnack(false);
   };
   const handleSubmit = () => {
-    console.log('bomList', bomConfig);
     const obj: any = {
       ...projectData,
       bom_configuration: bomConfig,
       site_configuration: projectData?.project_site,
     };
-    console.log('obj', obj);
-    createNewProjectData(obj, {
-      onSuccess: (data, variables, context) => {
-        console.log('ssssss', data);
-        if (data?.status === true) {
-          setMessage('BOM created');
-          setOpenSnack(true);
-          console.log('saveddata', data);
-          props.setLoader(!props.loader);
-          setTimeout(() => {
-            navigate(`/project/${data?.data?.project?.project_id}`);
-            props.setLoader(props.loader);
-          }, 1000);
-        }
-      },
-    });
+    if (routeParams?.id === undefined) {
+      createNewProjectData(obj, {
+        onSuccess: (data, variables, context) => {
+          console.log('datassss', data);
+          if (data?.status === true) {
+            setMessage('BOM created');
+            setOpenSnack(true);
+            props.setLoader(!props.loader);
+            setTimeout(() => {
+              navigate(`/project-edit/${data?.data?.project?.project_id}`);
+              props.setLoader(props.loader);
+              props.setActiveButton('PGS');
+            }, 2000);
+          }
+        },
+      });
+    } else {
+      updateProjectData(obj, {
+        onSuccess: (data, variables, context) => {
+          console.log('datassss', data);
+          if (data?.status === true) {
+            setMessage('BOM Updated');
+            setOpenSnack(true);
+
+            props.setLoader(!props.loader);
+            setTimeout(() => {
+              navigate(`/project-edit/${data?.data?.project?.project_id}`);
+              props.setLoader(props.loader);
+              props.setActiveButton('PGS');
+            }, 2000);
+          }
+        },
+      });
+    }
   };
   const formik = useFormik({
     initialValues,
@@ -155,10 +175,12 @@ const ProjectBomConfig: React.FC = (props: any) => {
             </thead>
             <tbody>
               {bomConfig?.map((item: any, index: any) => {
+                console.log('bom_configuration_id', item?.bom_configuration_id);
+                rowIndex = rowIndex + 1;
                 return (
                   <>
                     <tr>
-                      <td>1</td>
+                      <td>{rowIndex}</td>
                       <td>{item?.bom_name}</td>
                       <td>{item?.bom_description}</td>
                       <td>{item?.bom_type_name}</td>
@@ -171,6 +193,12 @@ const ProjectBomConfig: React.FC = (props: any) => {
                               `/bomlist/${routeParams.id}/${item?.bom_configuration_id}`
                             );
                           }}
+                          style={{
+                            pointerEvents:
+                              `${item?.bom_configuration_id}` === ''
+                                ? 'none'
+                                : 'auto',
+                          }}
                         >
                           <AddIcon style={{ height: '15px', width: '15px' }} />
                           <p className={Styles.addText}>Add BOM</p>
@@ -181,7 +209,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 );
               })}
               <tr>
-                <td>1</td>
+                <td>{rowIndex + 1}</td>
                 <td>
                   <Input
                     name="bom_name"
@@ -210,7 +238,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
                     optionList={getBomType}
                     value={formik.values.bom_type_id}
                     onChange={formik.handleChange}
-                    value={formik.values.bom_type_id}
                     onSelect={(value) => {
                       formik.setFieldValue('bom_type_id', value);
                       const matchingObjects = getBomType.filter(
@@ -259,12 +286,11 @@ const ProjectBomConfig: React.FC = (props: any) => {
               shape="rectangle"
               size="small"
               justify="center"
-              icon={<AddIcon />}
               onClick={(e) => {
                 handleSubmit(e);
               }}
             >
-              BOM CONFIG
+              Save Config
             </Button>
           </div>
         </div>

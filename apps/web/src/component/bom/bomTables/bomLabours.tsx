@@ -18,10 +18,9 @@ import { useGetAllLabourForDrop } from '../../../hooks/labour-hooks';
 
 const BomLabours: React.FC = (props: any) => {
   const navigate = useNavigate();
-
+  console.log('propslabour', props?.bomList?.length);
   const fieldWidth = '140px';
   let rowIndex = 0;
-  const [bomList, setBomList] = useState<any>([]);
   const validationSchema = Yup.object().shape({
     bom_name: Yup.string().trim().required(bomErrorMessages.ENTER_NAME),
     quantity: Yup.number()
@@ -36,7 +35,7 @@ const BomLabours: React.FC = (props: any) => {
         async function (value: number, { parent }: Yup.TestContext) {
           let isDelete = parent.is_delete;
           try {
-            const isValuePresent = bomList.some((obj: any) => {
+            const isValuePresent = props.bomList.some((obj: any) => {
               return (
                 Number(obj.labour_id) === Number(value) &&
                 obj.is_delete === isDelete
@@ -75,24 +74,10 @@ const BomLabours: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const obj = {
-        id: props?.subCategoryId,
-        type: props?.activeButton,
-      };
-      const getData = await BomService.getBOMbySubCatIDandType(obj);
-      if (getData?.status === true) {
-        setBomList(getData?.data);
-        rawMaterialTotalCalulate();
-      }
-    };
-    fetchData();
-  }, [reload]);
   const { data: getAllLabourDrop } = useGetAllLabourForDrop();
-  console.log('getAllLabourDrop', getAllLabourDrop);
-
   const { data: getAllUomDrop } = getUomByType('LABOR');
+  console.log('getAllUomDrop', getAllUomDrop);
+
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
   const rawMaterialTotalCalulate = async () => {
     const sumOfRates = await bomList.reduce(
@@ -124,19 +109,19 @@ const BomLabours: React.FC = (props: any) => {
       event.target.name === 'rate'
     ) {
       tempObj = {
-        ...bomList[index],
+        ...props.bomList[index],
         [event.target.name]: Number(event.target.value),
       };
     } else {
       tempObj = {
-        ...bomList[index],
+        ...props.bomList[index],
         [event.target.name]: event.target.value,
       };
     }
 
-    let tempArry = [...bomList];
+    let tempArry = [...props.bomList];
     tempArry[index] = tempObj;
-    setBomList(tempArry);
+    props.setBomList(tempArry);
     rawMaterialTotalCalulate();
   };
   const formik = useFormik({
@@ -149,42 +134,28 @@ const BomLabours: React.FC = (props: any) => {
       values['bom_type'] = props?.activeButton;
       values['quantity'] = Number(formik.values.quantity);
       values['rate'] = Number(formik.values.rate);
+      values['bom_configuration_id'] = Number(props.bomId);
       console.log('values', values);
       let arr = [];
-      arr = [...bomList, values];
-      setBomList(arr);
+      arr = [...props.bomList, values];
+      props.setBomList(arr);
       resetForm();
       rawMaterialTotalCalulate();
     },
   });
   const deleteBOM = () => {
-    const itemIndex = bomList.findIndex(
+    const itemIndex = props.bomList.findIndex(
       (item: any) =>
         item.labour_id === bomValue?.labour_id &&
         item.is_delete === bomValue?.is_delete
     );
-    bomList[itemIndex] = {
-      ...bomList[itemIndex],
+    props.bomList[itemIndex] = {
+      ...props.bomList[itemIndex],
       is_delete: true,
     };
-    setBomList([...bomList]);
+    props.setBomList([...props.bomList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
-  };
-  const handleBulkBomAdd = () => {
-    bulkBomData(bomList, {
-      onSuccess(data, variables, context) {
-        console.log('data', data);
-        if (data?.status === true) {
-          setMessage('BOM created successfully');
-          setOpenSnack(true);
-          props.setReload(!props.reload);
-          // setTimeout(() => {
-          //   navigate(`/bomlist/${props?.projectId}`);
-          // }, 3000);
-        }
-      },
-    });
   };
   return (
     <div>
@@ -204,14 +175,18 @@ const BomLabours: React.FC = (props: any) => {
               </tr>
             </thead>
             <tbody>
-              {bomList?.map((items: any, index: any) => {
-                if (items.is_delete === false) {
-                  rowIndex = rowIndex + 1;
-                  return (
-                    <tr>
-                      <td>{rowIndex}</td>
-                      <td>{items.bom_name}</td>
-                      {/* <td>
+              {props?.bomList?.length != 0
+                ? props?.bomList?.map((items: any, index: any) => {
+                    if (
+                      items.is_delete === false &&
+                      items.bom_type === 'LABOR'
+                    ) {
+                      rowIndex = rowIndex + 1;
+                      return (
+                        <tr key={index}>
+                          <td>{rowIndex}</td>
+                          <td>{items.bom_name}</td>
+                          {/* <td>
                       <Input
                         name="description"
                         width={fieldWidth}
@@ -219,62 +194,65 @@ const BomLabours: React.FC = (props: any) => {
                         onChange={(e) => handleListChange(e, index)}
                       />
                     </td> */}
-                      <td>
-                        <AutoCompleteSelect
-                          width="250px"
-                          name="uom_id"
-                          mandatory={true}
-                          optionList={getAllUomDrop}
-                          value={items.uom_id}
-                          onChange={(e) => handleListChange(e, index)}
-                        />
-                      </td>
-                      <td>
-                        <Input
-                          width={fieldWidth}
-                          name="quantity"
-                          mandatory={true}
-                          value={items.quantity}
-                          onChange={(e) => handleListChange(e, index)}
-                        />
-                      </td>
-                      <td>
-                        <Input
-                          name="rate"
-                          width={fieldWidth}
-                          value={items.rate}
-                          onChange={(e) => handleListChange(e, index)}
-                        />
-                      </td>
-                      <td>
-                        <div
-                          style={{
-                            paddingBottom: '20px',
-                          }}
-                        >
-                          <label>{items.quantity * items.rate}</label>
-                        </div>
-                      </td>
-                      <td>
-                        <div
-                          style={{
-                            cursor: 'pointer',
-                            paddingBottom: '20px',
-                          }}
-                        >
-                          <div
-                            onClick={(e: any) =>
-                              handleDeleteSiteExpense(e, items)
-                            }
-                          >
-                            <DeleteIcon />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                }
-              })}
+                          <td>
+                            <AutoCompleteSelect
+                              width="250px"
+                              name="uom_id"
+                              mandatory={true}
+                              optionList={
+                                getAllUomDrop != undefined ? getAllUomDrop : []
+                              }
+                              value={items.uom_id}
+                              onChange={(e) => handleListChange(e, index)}
+                            />
+                          </td>
+                          <td>
+                            <Input
+                              width={fieldWidth}
+                              name="quantity"
+                              mandatory={true}
+                              value={items.quantity}
+                              onChange={(e) => handleListChange(e, index)}
+                            />
+                          </td>
+                          <td>
+                            <Input
+                              name="rate"
+                              width={fieldWidth}
+                              value={items.rate}
+                              onChange={(e) => handleListChange(e, index)}
+                            />
+                          </td>
+                          <td>
+                            <div
+                              style={{
+                                paddingBottom: '20px',
+                              }}
+                            >
+                              <label>{items.quantity * items.rate}</label>
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              style={{
+                                cursor: 'pointer',
+                                paddingBottom: '20px',
+                              }}
+                            >
+                              <div
+                                onClick={(e: any) =>
+                                  handleDeleteSiteExpense(e, items)
+                                }
+                              >
+                                <DeleteIcon />
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  })
+                : ''}
               <tr>
                 <td>{rowIndex + 1}</td>
                 <td>
@@ -370,7 +348,7 @@ const BomLabours: React.FC = (props: any) => {
             </tbody>
           </table>
         </div>
-        <div className={Styles.saveButton}>
+        {/* <div className={Styles.saveButton}>
           <Button
             color="primary"
             shape="rectangle"
@@ -380,7 +358,7 @@ const BomLabours: React.FC = (props: any) => {
           >
             SAVE
           </Button>
-        </div>
+        </div> */}
       </div>
       <CustomDelete
         open={openDelete}

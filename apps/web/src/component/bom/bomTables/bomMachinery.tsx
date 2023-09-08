@@ -92,7 +92,6 @@ const BomMachinery: React.FC = (props: any) => {
   console.log('getAllMachineDrop', getAllMachineDrop);
 
   const { data: getAllUomDrop } = getUomByType('LABOR');
-  const { mutate: bulkBomData, data: responseData } = createBulkBom();
   const rawMaterialTotalCalulate = async () => {
     const sumOfRates = await bomList.reduce(
       (accumulator: any, currentItem: any) => {
@@ -123,19 +122,19 @@ const BomMachinery: React.FC = (props: any) => {
       event.target.name === 'rate'
     ) {
       tempObj = {
-        ...bomList[index],
+        ...props.bomList[index],
         [event.target.name]: Number(event.target.value),
       };
     } else {
       tempObj = {
-        ...bomList[index],
+        ...props.bomList[index],
         [event.target.name]: event.target.value,
       };
     }
 
-    let tempArry = [...bomList];
+    let tempArry = [...props.bomList];
     tempArry[index] = tempObj;
-    setBomList(tempArry);
+    props.setBomList(tempArry);
     rawMaterialTotalCalulate();
   };
   const formik = useFormik({
@@ -148,43 +147,30 @@ const BomMachinery: React.FC = (props: any) => {
       values['bom_type'] = props?.activeButton;
       values['quantity'] = Number(formik.values.quantity);
       values['rate'] = Number(formik.values.rate);
+      values['bom_configuration_id'] = Number(props.bomId);
       console.log('values', values);
       let arr = [];
-      arr = [...bomList, values];
-      setBomList(arr);
+      arr = [...props.bomList, values];
+      props.setBomList(arr);
       resetForm();
       rawMaterialTotalCalulate();
     },
   });
   const deleteBOM = () => {
-    const itemIndex = bomList.findIndex(
+    const itemIndex = props.bomList.findIndex(
       (item: any) =>
         item.machinery_id === bomValue?.machinery_id &&
         item.is_delete === bomValue?.is_delete
     );
-    bomList[itemIndex] = {
-      ...bomList[itemIndex],
+    props.bomList[itemIndex] = {
+      ...props.bomList[itemIndex],
       is_delete: true,
     };
-    setBomList([...bomList]);
+    props.setBomList([...props.bomList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
   };
-  const handleBulkBomAdd = () => {
-    bulkBomData(bomList, {
-      onSuccess(data, variables, context) {
-        console.log('data', data);
-        if (data?.status === true) {
-          setMessage('BOM created successfully');
-          setOpenSnack(true);
-          props.setReload(!props.reload);
-          // setTimeout(() => {
-          //   navigate(`/bomlist/${props?.projectId}`);
-          // }, 3000);
-        }
-      },
-    });
-  };
+
   return (
     <div>
       <div>
@@ -203,8 +189,8 @@ const BomMachinery: React.FC = (props: any) => {
               </tr>
             </thead>
             <tbody>
-              {bomList?.map((items: any, index: any) => {
-                if (items.is_delete === false) {
+              {props.bomList?.map((items: any, index: any) => {
+                if (items.is_delete === false && items.bom_type === 'MCNRY') {
                   rowIndex = rowIndex + 1;
                   return (
                     <tr>
@@ -223,7 +209,9 @@ const BomMachinery: React.FC = (props: any) => {
                           width="250px"
                           name="uom_id"
                           mandatory={true}
-                          optionList={getAllUomDrop}
+                          optionList={
+                            getAllUomDrop != undefined ? getAllUomDrop : []
+                          }
                           value={items.uom_id}
                           onChange={(e) => handleListChange(e, index)}
                         />
@@ -370,17 +358,6 @@ const BomMachinery: React.FC = (props: any) => {
               </tr>
             </tbody>
           </table>
-        </div>
-        <div className={Styles.saveButton}>
-          <Button
-            color="primary"
-            shape="rectangle"
-            justify="center"
-            size="small"
-            onClick={(e) => handleBulkBomAdd(e)}
-          >
-            SAVE
-          </Button>
         </div>
       </div>
       <CustomDelete
