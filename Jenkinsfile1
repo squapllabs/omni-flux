@@ -31,17 +31,17 @@ pipeline {
               // sh 'docker build -t omni_flux_image .'
               // echo 'docker build completed'
                    
-stage('prune Docker data') {
-            steps {
-             sh 'docker system prune -a --volumes -f'
-           }
-        }
+// stage('prune Docker data') {
+           // steps {
+             // sh 'docker system prune -a --volumes -f'
+         //  }
+       // }
 
-stage('docker compose build') {
-            steps {
-             sh 'docker-compose up -d'
-           }
-        }
+// stage('docker compose build') {
+          //  steps {
+        //     sh 'docker-compose up -d'
+        //   }
+     //   }
 stage('File copy and remove') {
             steps {
               sh 'docker save omniflux_application_frontend omniflux_application_backend | gzip > /var/lib/jenkins/workspace/docker_compressed-images/omniflux_application_images.tar'
