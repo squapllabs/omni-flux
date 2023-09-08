@@ -396,6 +396,7 @@ const AppRoutes = () => {
           path="/labour-add"
           element={<ProtectedLabourAddPage />}
         />
+        <Route path="/labour-edit/:id" element={<ProtectedLabourAddPage />} />
         <Route path="/product-add" element={<ProtectedProductAddPage />} />
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
         <Route path="/project" element={<ProtectedProject />} />
