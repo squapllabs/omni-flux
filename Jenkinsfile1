@@ -30,7 +30,6 @@ pipeline {
               // echo 'docker build started'
               // sh 'docker build -t omni_flux_image .'
               // echo 'docker build completed'
-
                    
 stage('prune Docker data') {
             steps {
