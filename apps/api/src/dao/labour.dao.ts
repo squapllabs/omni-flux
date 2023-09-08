@@ -157,6 +157,27 @@ const searchLabour = async (
   }
 };
 
+const checkDuplicateLabourType = async (
+  labour_type: string,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const labour = await transaction.labour.findFirst({
+      where: {
+        labour_type: {
+          contains: labour_type,
+          mode: 'insensitive',
+        },
+      },
+    });
+    return labour;
+  } catch (error) {
+    console.log('Error occurred in labour checkDuplicateLabourType dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -164,4 +185,5 @@ export default {
   getAll,
   deleteLabour,
   searchLabour,
+  checkDuplicateLabourType,
 };
