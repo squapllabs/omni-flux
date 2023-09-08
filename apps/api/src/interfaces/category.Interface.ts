@@ -6,6 +6,7 @@ interface createCategoryBody {
   description: string;
   start_date: Date;
   end_date: Date;
+  bom_configuration_id: number;
 }
 
 interface updateCategoryBody {
@@ -17,6 +18,7 @@ interface updateCategoryBody {
   description: string;
   start_date: Date;
   end_date: Date;
+  bom_configuration_id: number;
 }
 
 export { createCategoryBody, updateCategoryBody };

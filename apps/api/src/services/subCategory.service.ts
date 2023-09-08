@@ -6,6 +6,7 @@ import {
 } from '../interfaces/subCategory.Interface';
 import subSubCategoryDao from '../dao/subSubCategory.dao';
 import projectDao from '../dao/project.dao';
+import bomConfigurationDao from '../dao/bomConfiguration.dao';
 
 /**
  * Method to Create a New SubCategory
@@ -23,6 +24,7 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       project_id,
       start_date,
       end_date,
+      bom_configuration_id,
     } = body;
     let result = null;
     const categoryExist = await categoryDao.getById(category_id);
@@ -58,6 +60,20 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       };
       return result;
     }
+
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const subCategoryDetails = await subCategoryDao.add(
       name,
       category_id,
@@ -66,7 +82,8 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       description,
       project_id,
       start_date,
-      end_date
+      end_date,
+      bom_configuration_id
     );
     result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
@@ -93,9 +110,11 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       project_id,
       start_date,
       end_date,
+      bom_configuration_id,
     } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
+
     if (!subCategoryExist) {
       result = {
         message: 'sub_category_id does not exist',
@@ -104,11 +123,25 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       };
       return result;
     }
+
     if (project_id) {
       const projectExist = await projectDao.getById(project_id);
       if (!projectExist) {
         return {
           message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
           status: false,
           data: null,
         };
@@ -146,7 +179,8 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       description,
       project_id,
       start_date,
-      end_date
+      end_date,
+      bom_configuration_id
     );
     result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
@@ -400,10 +434,13 @@ const searchSubCategory = async (body) => {
  * @param categoryId
  * @returns
  */
-const getByCategoryId = async (categoryId: number) => {
+const getByCategoryId = async (
+  category_id: number,
+  bom_configuration_id: number
+) => {
   try {
     let result = null;
-    const categoryData = await categoryDao.getById(categoryId);
+    const categoryData = await categoryDao.getById(category_id);
     if (!categoryData) {
       result = {
         message: 'category_id does not exist',
@@ -413,7 +450,24 @@ const getByCategoryId = async (categoryId: number) => {
       return result;
     }
 
-    const subCategoryData = await subCategoryDao.getByCategoryId(categoryId);
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const subCategoryData =
+      await subCategoryDao.getByCategoryIdAndBomConfigurationId(
+        category_id,
+        bom_configuration_id
+      );
     if (subCategoryData.length > 0) {
       result = {
         message: 'success',

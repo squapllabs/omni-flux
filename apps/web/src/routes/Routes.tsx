@@ -231,9 +231,12 @@ import SubsubCategoryAdd from '../component/subSubCategory/subsubcategoryAdd';
 import ProjectView from '../component/project/projectInfo';
 import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
 import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
+import BomList from '../component/bom/bomList';
+import Bom from '../component/bom/bom';
 import ProductAdd from '../component/products/productAdd';
 import AddMachinery from '../component/machinery/addMachinery';
 import AddVendor from '../component/vendor/vendorAdd';
+import Project from '../component/project/project';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -284,9 +287,12 @@ const AppRoutes = () => {
   const ProtectedProjectView = withLayoutAndProtection(ProjectView);
   const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
   const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
+  const ProtectedBomList = withLayoutAndProtection(BomList);
+  const ProtectedBom = withLayoutAndProtection(Bom);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
   const ProtectedMachineryAddPage = withLayoutAndProtection(AddMachinery);
   const ProtectedVendorAddPage = withLayoutAndProtection(AddVendor);
+  const ProtectedProject = withLayoutAndProtection(Project);
 
   return (
     <div>
@@ -356,9 +362,18 @@ const AppRoutes = () => {
         <Route path="/category-add" element={<ProtectedCategoryAdd />} />
         <Route path="/category-edit/:id" element={<ProtectedCategoryAdd />} />
         <Route path="/subcategory-add" element={<ProtectedSubCategoryAdd />} />
-        <Route path="/subcategory-edit/:id" element={<ProtectedSubCategoryAdd />} />
-        <Route path="/subsubcategory-add" element={<ProtectedSubSubCategoryAdd />} />
-        <Route path="/subsubcategory-edit/:id" element={<ProtectedSubSubCategoryAdd />} />
+        <Route
+          path="/subcategory-edit/:id"
+          element={<ProtectedSubCategoryAdd />}
+        />
+        <Route
+          path="/subsubcategory-add"
+          element={<ProtectedSubSubCategoryAdd />}
+        />
+        <Route
+          path="/subsubcategory-edit/:id"
+          element={<ProtectedSubSubCategoryAdd />}
+        />
         <Route path="/project-info/:id" element={<ProtectedProjectView />} />
         <Route
           path="/lead-info-product/:id"
@@ -368,18 +383,18 @@ const AppRoutes = () => {
           path="/lead-info-tender/:id"
           element={<ProtectedLeadTenderView />}
         />
+        <Route path="/bomlist/:projectId" element={<ProtectedBomList />} />
         <Route
-          path="/product-add"
-          element={<ProtectedProductAddPage />}
-        />
-        <Route
-          path="/product-edit/:id"
-          element={<ProtectedProductAddPage />}
+          path="/bom/:subCategoryId/:projectId"
+          element={<ProtectedBom />}
         />
         <Route path="/add-machinery" element={<ProtectedMachineryAddPage />} />
         <Route path="/edit-machinery/:id" element={<ProtectedMachineryAddPage />} />
         <Route path="/add-vendor" element={<ProtectedVendorAddPage />} />
         <Route path="/edit-vendor/:id" element={<ProtectedVendorAddPage />} />
+        <Route path="/product-add" element={<ProtectedProductAddPage />} />
+        <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
+        <Route path="/project" element={<ProtectedProject />} />
       </Routes>
     </div>
   );

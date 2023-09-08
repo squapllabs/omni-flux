@@ -26,7 +26,7 @@ import projectWorkbreakDown from './projectWorkbreakDown.route';
 import siteExpenseDetails from './siteExpenseDetail.route';
 import capability from './capability.route';
 import permission from './permissions.route';
-import bom from './bom.route';
+import bom from './bomDetail.route';
 import vendor from './vendor.route';
 import labour from './labour.route';
 import machinery from './machinery.route';

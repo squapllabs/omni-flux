@@ -89,7 +89,7 @@ model uom {
   updated_by             Int?
   uom_type               String?
   item                   item[]
-  bom                    bom[]
+  bom_detail             bom_detail[]
   is_delete              Boolean                  @default(false) @db.Boolean
   project_workbreak_down project_workbreak_down[]
   labour                 labour[]
@@ -127,41 +127,45 @@ model hsn_code {
 }
 
 model category {
-  category_id  Int            @id @default(autoincrement())
-  name         String         @db.VarChar(100)
-  project_id   Int?
-  budget       Float?
-  created_date DateTime
-  updated_date DateTime
-  created_by   Int?
-  updated_by   Int?
-  project      project?       @relation(fields: [project_id], references: [project_id])
-  is_delete    Boolean        @default(false) @db.Boolean
-  description  String?
-  start_date   DateTime?
-  end_date     DateTime?
-  sub_category sub_category[]
-  bom          bom[]
+  category_id            Int                @id @default(autoincrement())
+  name                   String             @db.VarChar(100)
+  project_id             Int?
+  budget                 Float?
+  created_date           DateTime
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+  bom_configuration_id   Int?
+  bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
+  project                project?           @relation(fields: [project_id], references: [project_id])
+  is_delete              Boolean            @default(false) @db.Boolean
+  description            String?
+  start_date             DateTime?
+  end_date               DateTime?
+  sub_category           sub_category[]
+  bom_detail             bom_detail[]
 }
 
 model sub_category {
-  sub_category_id  Int                @id @default(autoincrement())
-  name             String             @db.VarChar(100)
-  category_id      Int?
-  budget           Float?
-  created_date     DateTime
-  updated_date     DateTime
-  created_by       Int?
-  updated_by       Int?
-  start_date       DateTime?
-  end_date         DateTime?
-  is_delete        Boolean            @default(false) @db.Boolean
-  category         category?          @relation(fields: [category_id], references: [category_id])
-  description      String?
-  project_id       Int?
-  project_data     project?           @relation(fields: [project_id], references: [project_id])
-  sub_sub_category sub_sub_category[]
-  bom              bom[]
+  sub_category_id        Int                @id @default(autoincrement())
+  name                   String             @db.VarChar(100)
+  category_id            Int?
+  budget                 Float?
+  created_date           DateTime
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+  start_date             DateTime?
+  end_date               DateTime?
+  is_delete              Boolean            @default(false) @db.Boolean
+  bom_configuration_id   Int?
+  bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
+  category               category?          @relation(fields: [category_id], references: [category_id])
+  description            String?
+  project_id             Int?
+  project_data           project?           @relation(fields: [project_id], references: [project_id])
+  sub_sub_category       sub_sub_category[]
+  bom_detail             bom_detail[]
 }
 
 model sub_sub_category {
@@ -181,7 +185,7 @@ model sub_sub_category {
   parent_data                sub_sub_category?  @relation("ChildToParent", fields: [parent_sub_sub_category_id], references: [sub_sub_category_id])
   child_data                 sub_sub_category[] @relation("ChildToParent")
   sub_category               sub_category?      @relation(fields: [sub_category_id], references: [sub_category_id])
-  bom                        bom[]
+  bom_detail                 bom_detail[]
 }
 
 model project {
@@ -350,7 +354,7 @@ model item {
   item_type                 master_data?                @relation(fields: [item_type_id], references: [master_data_id])
   brand                     brand?                      @relation(fields: [brand_id], references: [brand_id])
   lead_enquiry_product_item lead_enquiry_product_item[]
-  bom                       bom[]
+  bom_detail                bom_detail[]
 
   @@map(name: "item")
 }
@@ -581,35 +585,37 @@ model permissions {
   capability_data capability? @relation(fields: [capability_id], references: [capability_id])
 }
 
-model bom {
-  bom_id                Int               @id @default(autoincrement())
-  bom_name              String            @db.VarChar(255)
-  quantity              Int?
-  uom_id                Int?
-  category_id           Int?
-  sub_category_id       Int?
-  sub_sub_category_id   Int?
-  item_id               Int?
-  is_delete             Boolean           @default(false)
-  created_date          DateTime          @default(now())
-  updated_date          DateTime
-  created_by            Int?
-  updated_by            Int?
-  description           String?
-  rate                  Float?
-  total                 Float?
-  bom_type              String?
-  machinery_id          Int?
-  labour_id             Int?
-  uom_data              uom?              @relation(fields: [uom_id], references: [uom_id])
-  category_data         category?         @relation(fields: [category_id], references: [category_id])
-  sub_category_data     sub_category?     @relation(fields: [sub_category_id], references: [sub_category_id])
-  sub_sub_category_data sub_sub_category? @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
-  item_data             item?             @relation(fields: [item_id], references: [item_id])
-  labour_data           labour?           @relation(fields: [labour_id], references: [labour_id])
-  machinery_data        machinery?        @relation(fields: [machinery_id], references: [machinery_id])
+model bom_detail {
+  bom_detail_id          Int                @id @default(autoincrement())
+  bom_name               String             @db.VarChar(255)
+  quantity               Int?
+  uom_id                 Int?
+  category_id            Int?
+  sub_category_id        Int?
+  sub_sub_category_id    Int?
+  item_id                Int?
+  is_delete              Boolean            @default(false)
+  created_date           DateTime           @default(now())
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+  description            String?
+  rate                   Float?
+  total                  Float?
+  bom_type               String?
+  machinery_id           Int?
+  labour_id              Int?
+  bom_configuration_id   Int?
+  bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
+  uom_data               uom?               @relation(fields: [uom_id], references: [uom_id])
+  category_data          category?          @relation(fields: [category_id], references: [category_id])
+  sub_category_data      sub_category?      @relation(fields: [sub_category_id], references: [sub_category_id])
+  sub_sub_category_data  sub_sub_category?  @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
+  item_data              item?              @relation(fields: [item_id], references: [item_id])
+  labour_data            labour?            @relation(fields: [labour_id], references: [labour_id])
+  machinery_data         machinery?         @relation(fields: [machinery_id], references: [machinery_id])
 
-  @@map("bom")
+  @@map("bom_detail")
 }
 
 model vendor {
@@ -638,54 +644,57 @@ model vendor {
 }
 
 model labour {
-  labour_id    Int      @id @default(autoincrement())
-  labour_type  String   @db.VarChar(100)
+  labour_id    Int          @id @default(autoincrement())
+  labour_type  String       @db.VarChar(100)
   rate         Float?
   uom_id       Int?
-  is_delete    Boolean  @default(false)
-  created_date DateTime @default(now())
+  is_delete    Boolean      @default(false)
+  created_date DateTime     @default(now())
   updated_date DateTime
   created_by   Int?
   updated_by   Int?
-  uom          uom?     @relation(fields: [uom_id], references: [uom_id])
-  bom          bom[]
+  uom          uom?         @relation(fields: [uom_id], references: [uom_id])
+  bom_detail   bom_detail[]
 }
 
 model machinery {
-  machinery_id        Int       @id @default(autoincrement())
-  machinery_name      String    @db.VarChar(255)
-  machinery_model     String?   @db.VarChar(50)
-  machinery_type      String?   @db.VarChar(50)
-  manufacturer        String?   @db.VarChar(255)
+  machinery_id        Int          @id @default(autoincrement())
+  machinery_name      String       @db.VarChar(255)
+  machinery_model     String?      @db.VarChar(50)
+  machinery_type      String?      @db.VarChar(50)
+  manufacturer        String?      @db.VarChar(255)
   date_of_purchase    DateTime?
   warranty_expired_on DateTime?
-  operational_status  String?   @db.VarChar(50)
-  location            String?   @db.VarChar(255)
+  operational_status  String?      @db.VarChar(50)
+  location            String?      @db.VarChar(255)
   rate                Float?
   uom_id              Int?
-  is_delete           Boolean   @default(false)
-  created_date        DateTime  @default(now())
+  is_delete           Boolean      @default(false)
+  created_date        DateTime     @default(now())
   updated_date        DateTime
   created_by          Int?
   updated_by          Int?
-  uom_data            uom?      @relation(fields: [uom_id], references: [uom_id])
-  bom                 bom[]
+  uom_data            uom?         @relation(fields: [uom_id], references: [uom_id])
+  bom_detail          bom_detail[]
 
   @@map("machinery")
 }
 
 model bom_configuration {
-  bom_configuration_id Int          @id @default(autoincrement())
+  bom_configuration_id Int            @id @default(autoincrement())
   bom_name             String
   bom_description      String?
   bom_type_id          Int?
   project_id           Int?
   budget               Float?
-  is_delete            Boolean      @default(false)
-  created_date         DateTime     @default(now())
+  is_delete            Boolean        @default(false)
+  created_date         DateTime       @default(now())
   updated_date         DateTime
   created_by           Int?
   updated_by           Int?
-  bom_type_data        master_data? @relation(fields: [bom_type_id], references: [master_data_id])
-  project_data         project?     @relation(fields: [project_id], references: [project_id])
+  bom_type_data        master_data?   @relation(fields: [bom_type_id], references: [master_data_id])
+  project_data         project?       @relation(fields: [project_id], references: [project_id])
+  bom_detail           bom_detail[]
+  category             category[]
+  sub_category         sub_category[]
 }

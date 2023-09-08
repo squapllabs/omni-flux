@@ -76,3 +76,6 @@ const deleteMachinery = async (id: number) => {
 };
 
 export default {getAllMachinery,createMachinery,filterMachinery,getOneMachineryByID,updateMachinery,deleteMachinery};
+// export default {
+//   getAllMachinery,
+// };

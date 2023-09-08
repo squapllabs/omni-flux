@@ -11,6 +11,31 @@ const useGetAllCategory = () => {
     }
   );
 };
+const useGetAllCategoryByProjectId = (id: number) => {
+  return useQuery(
+    ['useGetAllCategoryByProject'],
+    () => CategoryService.getAllCategoryByProjectId(id),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+const createInstantCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return CategoryService.createCategory(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllCategoryByProject']);
+      },
+    }
+  );
+};
+
 const useGetAllCategoryForDrop = () => {
   return useQuery(
     ['useGetAllCategoryDrop'],
@@ -57,7 +82,7 @@ const updateCategory = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllCategory']);
+        queryClient.invalidateQueries(['useGetAllCategoryByProject']);
       },
     }
   );
@@ -71,7 +96,7 @@ const useDeleteCategory = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllCategory']);
+        queryClient.invalidateQueries(['useGetAllCategoryByProject']);
       },
     }
   );
@@ -97,4 +122,6 @@ export {
   useDeleteCategory,
   useGetAllCategoryForDrop,
   getBySearchCategroy,
+  useGetAllCategoryByProjectId,
+  createInstantCategory
 };

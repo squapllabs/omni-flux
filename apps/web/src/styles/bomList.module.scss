@@ -1,0 +1,74 @@
+.mainHeading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.mainLeftContent {
+  width: 55%;
+}
+
+.descriptionContent {
+  text-align: justify;
+  display: block;
+  font-size: small;
+}
+
+.descriptionContentOne {
+  text-align: justify;
+  display: block;
+  font-size: small;
+}
+.rightContent {
+  display: flex;
+  align-items: center;
+}
+
+.addPlan {
+  color: #7f56d9;
+  font-weight: lighter;
+  font-size: x-small;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  padding: 5px 0px 0px 0px;
+  width:8%;
+  gap: 3px;
+}
+.options {
+  display: flex;
+  flex-direction: row;
+}
+.addText{
+    padding-top: 2px;
+}
+.dividerContent{
+    border-bottom: 1px solid #ccc; 
+    padding: 7px;
+}
+
+.groupButton{
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 0px 5px 5px;
+}
+
+// .scrollContainer{
+//     height: 400px; 
+//     overflow-y: auto;
+// }
+
+// .scrollContainer::-webkit-scrollbar {
+//     width: 0.5em;
+//   }
+  
+//   .scrollContainer::-webkit-scrollbar-thumb {
+//     background-color: transparent; 
+//   }
+  
+//   .sscrollContainer::-webkit-scrollbar-track {
+//     background-color: transparent; 
+//   }

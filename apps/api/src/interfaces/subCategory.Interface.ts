@@ -7,6 +7,7 @@ interface createSubCategoryBody {
   project_id: number;
   start_date: Date;
   end_date: Date;
+  bom_configuration_id: number;
 }
 
 interface updateSubCategoryBody {
@@ -19,6 +20,7 @@ interface updateSubCategoryBody {
   project_id: number;
   start_date: Date;
   end_date: Date;
+  bom_configuration_id: number;
 }
 
 export { createSubCategoryBody, updateSubCategoryBody };
