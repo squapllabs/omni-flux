@@ -42,6 +42,6 @@ stage('prune Docker data') {
             // sh 'docker-compose up -d'
           // }
        // }
-  //  }     
-// }
+    }     
+}
 
