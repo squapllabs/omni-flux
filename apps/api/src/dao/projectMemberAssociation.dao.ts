@@ -93,6 +93,21 @@ const getById = async (
           project_member_association_id: Number(projectMemberAssociationId),
           is_delete: false,
         },
+        include: {
+          project_data: true,
+          user_data: {
+            select: {
+              first_name: true,
+              last_name: true,
+              user_profiles: {
+                select: {
+                  profile_image_url: true,
+                },
+              },
+            },
+          },
+          project_role_data: { select: { master_data_name: true } },
+        },
       });
     return projectMemberAssociation;
   } catch (error) {
@@ -111,6 +126,21 @@ const getAll = async (connectionObj = null) => {
       await transaction.project_member_association.findMany({
         where: {
           is_delete: false,
+        },
+        include: {
+          project_data: true,
+          user_data: {
+            select: {
+              first_name: true,
+              last_name: true,
+              user_profiles: {
+                select: {
+                  profile_image_url: true,
+                },
+              },
+            },
+          },
+          project_role_data: { select: { master_data_name: true } },
         },
         orderBy: [
           {
@@ -164,6 +194,21 @@ const getByProjectIdAndUserId = async (
           user_id: Number(user_id),
           is_delete: false,
         },
+        include: {
+          project_data: true,
+          user_data: {
+            select: {
+              first_name: true,
+              last_name: true,
+              user_profiles: {
+                select: {
+                  profile_image_url: true,
+                },
+              },
+            },
+          },
+          project_role_data: { select: { master_data_name: true } },
+        },
       });
     return projectMemberAssociation;
   } catch (error) {
@@ -184,6 +229,21 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
           project_id: Number(project_id),
           is_delete: false,
         },
+        include: {
+          project_data: true,
+          user_data: {
+            select: {
+              first_name: true,
+              last_name: true,
+              user_profiles: {
+                select: {
+                  profile_image_url: true,
+                },
+              },
+            },
+          },
+          project_role_data: { select: { master_data_name: true } },
+        },
         orderBy: [
           {
             updated_date: 'desc',
@@ -200,6 +260,63 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
   }
 };
 
+const searchProjectMemberAssociation = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterProjectMemberAssociation;
+    const projectMemberAssociation =
+      await transaction.project_member_association.findMany({
+        where: filter,
+        include: {
+          project_data: true,
+          user_data: {
+            select: {
+              first_name: true,
+              last_name: true,
+              user_profiles: {
+                select: {
+                  profile_image_url: true,
+                },
+              },
+            },
+          },
+          project_role_data: { select: { master_data_name: true } },
+        },
+
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+    const projectMemberAssociationCount =
+      await transaction.project_member_association.count({
+        where: filter,
+      });
+
+    const projectMemberAssociationData = {
+      count: projectMemberAssociationCount,
+      data: projectMemberAssociation,
+    };
+    return projectMemberAssociationData;
+  } catch (error) {
+    console.log(
+      'Error occurred in Project Member Association dao :  searchProjectMemberAssociation ',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -208,4 +325,5 @@ export default {
   deleteProjectMemberAssociation,
   getByProjectIdAndUserId,
   getByProjectId,
+  searchProjectMemberAssociation,
 };

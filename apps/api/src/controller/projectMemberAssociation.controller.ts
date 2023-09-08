@@ -93,6 +93,19 @@ const getByProjectId = catchAsync(async (req, res) => {
   }
 });
 
+const search = catchAsync(async (req, res) => {
+  const methodName = '/search';
+  try {
+    const projectMemberAssociation =
+      await projectMemberAssociationService.searchProjectMemberAssociation(
+        req.body
+      );
+    res.send(projectMemberAssociation);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createProjectMemberAssociation,
   updateProjectMemberAssociation,
@@ -101,4 +114,5 @@ export {
   deleteByProjectMemberAssociationId,
   getByProjectIdAndUserId,
   getByProjectId,
+  search,
 };

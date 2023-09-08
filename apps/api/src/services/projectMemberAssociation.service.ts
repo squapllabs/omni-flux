@@ -385,6 +385,110 @@ const getByProjectId = async (project_id: number) => {
   }
 };
 
+/**
+ * Method to search Project Member Association - Pagination API
+ * @returns
+ */
+const searchProjectMemberAssociation = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const project_id = body.project_id;
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterProjectMemberAssociation = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (project_id) {
+      filterObj.filterProjectMemberAssociation.AND =
+        filterObj.filterProjectMemberAssociation.AND || [];
+      filterObj.filterProjectMemberAssociation.AND.push({
+        project_id: project_id,
+      });
+    }
+
+    if (global_search) {
+      filterObj.filterProjectMemberAssociation =
+        filterObj.filterProjectMemberAssociation || {};
+      filterObj.filterProjectMemberAssociation.OR =
+        filterObj.filterProjectMemberAssociation.OR || [];
+
+      filterObj.filterProjectMemberAssociation.OR.push(
+        {
+          project_data: {
+            project_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          user_data: {
+            first_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          user_data: {
+            last_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_role_data: {
+            master_data_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
+    }
+
+    const result =
+      await projectMemberAssociationDao.searchProjectMemberAssociation(
+        offset,
+        limit,
+        order_by_column,
+        order_by_direction,
+        filterObj
+      );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempProjectData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempProjectData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchProjectMemberAssociation ProjectMemberAssociation service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProjectMemberAssociation,
   updateProjectMemberAssociation,
@@ -393,4 +497,5 @@ export {
   deleteProjectMemberAssociation,
   getByProjectIdAndUserId,
   getByProjectId,
+  searchProjectMemberAssociation,
 };
