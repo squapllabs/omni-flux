@@ -30,6 +30,7 @@ import bom from './bomDetail.route';
 import vendor from './vendor.route';
 import labour from './labour.route';
 import machinery from './machinery.route';
+import userPrimaryProject from './userPrimaryProject.route';
 
 const router = express.Router();
 
@@ -157,6 +158,10 @@ const defaultRoutes = [
   {
     path: '/machinery',
     route: machinery,
+  },
+  {
+    path: '/user-primary-project',
+    route: userPrimaryProject,
   },
 ];
 

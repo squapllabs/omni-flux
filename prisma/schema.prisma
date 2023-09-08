@@ -33,6 +33,7 @@ model users {
   site_expense_details site_expense_details[]
   project_site         project_site[]
   user_roles           user_roles[]
+  user_primary_project user_primary_project[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -219,6 +220,7 @@ model project {
   sub_category           sub_category[]
   sub_sub_category       sub_sub_category[]
   bom_configuration      bom_configuration[]
+  user_primary_project   user_primary_project[]
 }
 
 model project_expense {
@@ -697,4 +699,16 @@ model bom_configuration {
   bom_detail           bom_detail[]
   category             category[]
   sub_category         sub_category[]
+}
+
+model user_primary_project {
+  user_primary_project_id Int      @id @default(autoincrement())
+  user_id                 Int?
+  project_id              Int?
+  created_date            DateTime @default(now())
+  updated_date            DateTime
+  created_by              Int?
+  updated_by              Int?
+  user_data               users?   @relation(fields: [user_id], references: [user_id])
+  project_data            project? @relation(fields: [project_id], references: [project_id])
 }

@@ -516,15 +516,30 @@ const getBomTotalBySubCategoryId = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const result = await transaction.$queryRaw`select
-    SUM(case when bom_type = 'RAWMT' then total else 0 end) as raw_material,
-    SUM(case when bom_type = 'LABOR' then total else 0 end) as labour,
-    SUM(case when bom_type = 'MCNRY' then total else 0 end) as machinery
-  from
-    "bom_detail"
-  where
-    sub_category_id = ${sub_category_id}::integer and is_delete =false`;
-    return result;
+    const bom = await transaction.bom_detail.groupBy({
+      by: ['bom_type'],
+      where: {
+        sub_category_id: Number(sub_category_id),
+        is_delete: false,
+      },
+      _sum: {
+        total: true,
+      },
+    });
+
+    const formattedResult = {};
+    const typeMapping = {
+      RAWMT: 'raw_material',
+      LABOR: 'labour',
+      MCNRY: 'machinery',
+    };
+
+    bom.forEach((item) => {
+      const aliasName = typeMapping[item.bom_type] || item.bom_type;
+      formattedResult[aliasName] = item._sum.total;
+    });
+
+    return formattedResult;
   } catch (error) {
     console.error(
       'Error occurred in BomDao getBomTotalBySubCategoryId:',
