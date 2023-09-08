@@ -8,6 +8,7 @@ const add = async (
   description: string,
   start_date: Date,
   end_date: Date,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
@@ -28,6 +29,7 @@ const add = async (
         description,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
+        bom_configuration_id,
       },
     });
     return category;
@@ -46,6 +48,7 @@ const edit = async (
   description: string,
   start_date: Date,
   end_date: Date,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
@@ -66,6 +69,7 @@ const edit = async (
         description,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
+        bom_configuration_id,
       },
     });
     return category;
@@ -85,6 +89,15 @@ const getById = async (categoryId: number, connectionObj = null) => {
       },
       include: {
         project: true,
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
     });
     return category;
@@ -108,6 +121,15 @@ const getAll = async (connectionObj = null) => {
       ],
       include: {
         project: true,
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
     });
     return category;
@@ -194,6 +216,15 @@ const searchCategory = async (
       ],
       include: {
         project: true,
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
       skip: offset,
       take: limit,
@@ -212,17 +243,31 @@ const searchCategory = async (
   }
 };
 
-const getByProjectId = async (project_id: number, connectionObj = null) => {
+const getByProjectId = async (
+  project_id: number,
+  bom_configuration_id: number,
+  connectionObj = null
+) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const category = await transaction.category.findMany({
       where: {
         project_id: Number(project_id),
+        bom_configuration_id: Number(bom_configuration_id),
         is_delete: false,
       },
       orderBy: [{ updated_date: 'desc' }],
       include: {
         project: true,
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
     });
     return category;
