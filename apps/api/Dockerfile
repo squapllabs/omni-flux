@@ -10,10 +10,7 @@ RUN npm install
 COPY . .
 
 
-RUN npm run build
-
-
-
+RUN npx nx build api
 
 EXPOSE 3000
 
