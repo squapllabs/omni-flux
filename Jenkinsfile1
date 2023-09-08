@@ -44,3 +44,10 @@ stage('prune Docker data') {
        // }
     }     
 }
+post
+   {
+    always{
+      docker compose down --remove-orphans -v
+      docker compose ps
+  }
+}
