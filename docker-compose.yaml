@@ -6,3 +6,9 @@ services:
       dockerfile: ./apps/web/Dockerfile
     ports:
       - "8082:80"
+  backend:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    ports:
+      - "3000:3000"
