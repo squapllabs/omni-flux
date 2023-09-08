@@ -597,6 +597,45 @@ const getTotalByBomConfigurationId = async (
   }
 };
 
+const getBySubCategoryId = async (
+  sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const bom = await transaction.bom_detail.findMany({
+      where: {
+        sub_category_id: Number(sub_category_id),
+        is_delete: false,
+      },
+      include: {
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
+        uom_data: true,
+        category_data: true,
+        sub_category_data: true,
+        sub_sub_category_data: true,
+        item_data: true,
+        labour_data: true,
+        machinery_data: true,
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+
+    return bom;
+  } catch (error) {
+    console.error('Error occurred in BomDao getBySubCategoryId:', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getById,
@@ -611,4 +650,5 @@ export default {
   getBomTotalBySubCategoryId,
   getBomSumBySubCategoryId,
   getTotalByBomConfigurationId,
+  getBySubCategoryId,
 };
