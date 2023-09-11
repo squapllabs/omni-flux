@@ -14,6 +14,7 @@ import {
   createProject,
   getByProjectId,
   useGetMasterProjectParentType,
+  updateProject,
 } from '../../../hooks/project-hooks';
 import CustomClientAdd from '../../ui/CustomClientAdd';
 import CustomSiteAdd from '../../ui/CustomSiteAdd';
@@ -23,6 +24,10 @@ import Select from '../../ui/selectNew';
 import projectService from '../../../service/project-service';
 import { useParams, useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
+import {
+  getCreateValidateyup,
+  getEditValidateyup,
+} from '../../../helper/constants/project-constants';
 
 const ProjectGeneralDetails: React.FC = (props: any) => {
   const routeParams = useParams();
@@ -58,13 +63,15 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
+  const [bomConfig, setBomConfig] = useState<any>([]);
+  const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getAllProjectTypeDatadrop = [] } =
     useGetMasterProjectParentType();
   const { mutate: createNewProjectData } = createProject();
-
+  const { mutate: updateProjectData } = updateProject();
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -92,6 +99,8 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         project_id: getData?.data?.project_id,
         bom_configuration: getData?.data?.bom_configuration,
       });
+      setBomConfig(getData?.data?.bom_configuration);
+      setSiteConfigData(getData?.data?.project_site);
     };
     if (routeParams?.id != undefined) fetchData();
   }, [routeParams?.id]);
@@ -117,7 +126,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const validateSchema = yup.object().shape({
+  const validateSchemaCreate = yup.object().shape({
     project_name: yup.string().required('Project name is required'),
     code: yup
       .string()
@@ -162,9 +171,39 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         'Project end date cannot be earlier than start date'
       ),
   });
+  const validateSchemaEdit = yup.object().shape({
+    project_name: yup.string().required('Project name is required'),
+    user_id: yup.string().trim().required('Project manager is required'),
+    approvar_id: yup.string().trim().required('Approver is required'),
+    client_id: yup
+      .string()
+      .trim()
+      .required('Project client/customer is required'),
+    estimated_budget: yup
+      .number()
+      .min(1, 'Value must be greater than 0')
+      .max(100000, 'Value must be less then 100000')
+      .typeError('Only Number are allowed')
+      .required('Estimated budget is required'),
+    actual_budget: yup
+      .number()
+      .min(1, 'Value must be greater than 0')
+      .max(100000, 'Value must be less then 100000')
+      .typeError('Only Number are allowed'),
+    project_type: yup.string().trim().required('Project type is required'),
+    date_started: yup.date().required('Project start date is required'),
+    date_ended: yup
+      .date()
+      .required('Project end date is required')
+      .min(
+        yup.ref('date_started'),
+        'Project end date cannot be earlier than start date'
+      ),
+  });
   const formik = useFormik({
     initialValues,
-    validationSchema: validateSchema,
+    validationSchema:
+      routeParams?.id === undefined ? validateSchemaCreate : validateSchemaEdit,
     enableReinitialize: true,
     onSubmit: async (values) => {
       console.log('values', values);
@@ -183,34 +222,57 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         actual_budget: Number(values.actual_budget),
         description: values.description,
         project_notes: values.project_notes,
-        site_configuration: [],
+        site_configuration: siteConfigData,
         project_documents: [],
-        bom_configuration: [],
+        bom_configuration: bomConfig,
         status: statusData,
       };
       console.log('Object', Object);
-
-      createNewProjectData(Object, {
-        onSuccess: (data, variables, context) => {
-          console.log('ssssss', data);
-          if (data?.status === true) {
-            setMessage('Project created');
-            setOpenSnack(true);
-            console.log('saveddata', data);
-            props.setLoader(!props.loader);
-            if (data?.data?.project?.status === 'Draft') {
-              setTimeout(() => {
-                navigate('/project-list');
-              }, 1000);
-            } else {
-              setTimeout(() => {
-                navigate(`/project/${data?.data?.project?.project_id}`);
-                props.setLoader(props.loader);
-              }, 1000);
+      if (routeParams?.id === undefined) {
+        createNewProjectData(Object, {
+          onSuccess: (data, variables, context) => {
+            console.log('datassss', data);
+            if (data?.status === true) {
+              setMessage('Project created');
+              setOpenSnack(true);
+              console.log('saveddata', data);
+              props.setLoader(!props.loader);
+              if (data?.data?.project?.status === 'Draft') {
+                setTimeout(() => {
+                  navigate('/project-list');
+                }, 1000);
+              } else {
+                setTimeout(() => {
+                  navigate(`/project-edit/${data?.data?.project?.project_id}`);
+                  props.setLoader(props.loader);
+                }, 1000);
+              }
             }
-          }
-        },
-      });
+          },
+        });
+      } else {
+        updateProjectData(Object, {
+          onSuccess: (data, variables, context) => {
+            console.log('datassss', data);
+            if (data?.status === true) {
+              setMessage('Project updated');
+              setOpenSnack(true);
+              console.log('saveddata', data);
+              props.setLoader(!props.loader);
+              if (data?.data?.project?.status === 'Draft') {
+                setTimeout(() => {
+                  navigate('/project-list');
+                }, 1000);
+              } else {
+                setTimeout(() => {
+                  navigate(`/project-edit/${data?.data?.project?.project_id}`);
+                  props.setLoader(props.loader);
+                }, 1000);
+              }
+            }
+          },
+        });
+      }
     },
   });
   return (
@@ -240,6 +302,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                 value={formik.values.code}
                 onChange={formik.handleChange}
                 error={formik.touched.code && formik.errors.code}
+                disabled={routeParams?.id === undefined ? false : true}
               />
             </div>
           </div>

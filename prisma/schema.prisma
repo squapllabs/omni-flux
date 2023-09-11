@@ -8,31 +8,33 @@ datasource db {
 }
 
 model users {
-  user_id              Int                    @id @default(autoincrement())
-  first_name           String?                @db.VarChar(100)
-  last_name            String?                @db.VarChar(100)
-  user_password        String?                @db.VarChar(255)
-  contact_no           String?                @db.VarChar(20)
-  email_id             String                 @db.VarChar(100)
-  user_status          String?                @db.VarChar(5)
-  created_by           Int?
-  created_date         DateTime
-  updated_by           Int?
-  updated_date         DateTime
-  is_delete            Boolean                @default(false) @db.Boolean
-  is_initial_login     Boolean                @default(true) @db.Boolean
-  department           String?                @db.VarChar(100)
-  is_two_factor        Boolean                @default(false) @db.Boolean
-  parent_user_id       Int?
-  parent_data          users?                 @relation("childToParent", fields: [parent_user_id], references: [user_id])
-  child_data           users[]                @relation("childToParent")
-  projects             project[]              @relation("approvar_relation")
-  user_profiles        user_profiles?
-  sales_person_name    lead_enquiry_product[]
-  project              project[]
-  site_expense_details site_expense_details[]
-  project_site         project_site[]
-  user_roles           user_roles[]
+  user_id                    Int                          @id @default(autoincrement())
+  first_name                 String?                      @db.VarChar(100)
+  last_name                  String?                      @db.VarChar(100)
+  user_password              String?                      @db.VarChar(255)
+  contact_no                 String?                      @db.VarChar(20)
+  email_id                   String                       @db.VarChar(100)
+  user_status                String?                      @db.VarChar(5)
+  created_by                 Int?
+  created_date               DateTime
+  updated_by                 Int?
+  updated_date               DateTime
+  is_delete                  Boolean                      @default(false) @db.Boolean
+  is_initial_login           Boolean                      @default(true) @db.Boolean
+  department                 String?                      @db.VarChar(100)
+  is_two_factor              Boolean                      @default(false) @db.Boolean
+  parent_user_id             Int?
+  parent_data                users?                       @relation("childToParent", fields: [parent_user_id], references: [user_id])
+  child_data                 users[]                      @relation("childToParent")
+  projects                   project[]                    @relation("approvar_relation")
+  user_profiles              user_profiles?
+  sales_person_name          lead_enquiry_product[]
+  project                    project[]
+  site_expense_details       site_expense_details[]
+  project_site               project_site[]
+  user_roles                 user_roles[]
+  user_primary_project       user_primary_project[]
+  project_member_association project_member_association[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -189,36 +191,38 @@ model sub_sub_category {
 }
 
 model project {
-  project_id             Int                      @id @default(autoincrement())
-  project_name           String                   @db.VarChar(100)
-  description            String?
-  user_id                Int?
-  date_started           DateTime?
-  date_ended             DateTime?
-  status                 String?                  @db.VarChar(50)
-  client_id              Int?
-  project_documents      Json?
-  created_date           DateTime                 @default(now())
-  updated_date           DateTime                 @updatedAt
-  created_by             Int?
-  updated_by             Int?
-  is_delete              Boolean                  @default(false)
-  project_notes          String?
-  project_type           String?
-  code                   String?
-  estimated_budget       Float?
-  actual_budget          Float?
-  approvar_id            Int?
-  user                   users?                   @relation(fields: [user_id], references: [user_id])
-  client                 client?                  @relation(fields: [client_id], references: [client_id])
-  approvar_data          users?                   @relation("approvar_relation", fields: [approvar_id], references: [user_id])
-  category               category[]
-  project_workbreak_down project_workbreak_down[]
-  project_site           project_site[]
-  site_expense           site_expense[]
-  sub_category           sub_category[]
-  sub_sub_category       sub_sub_category[]
-  bom_configuration      bom_configuration[]
+  project_id                 Int                          @id @default(autoincrement())
+  project_name               String                       @db.VarChar(100)
+  description                String?
+  user_id                    Int?
+  date_started               DateTime?
+  date_ended                 DateTime?
+  status                     String?                      @db.VarChar(50)
+  client_id                  Int?
+  project_documents          Json?
+  created_date               DateTime                     @default(now())
+  updated_date               DateTime                     @updatedAt
+  created_by                 Int?
+  updated_by                 Int?
+  is_delete                  Boolean                      @default(false)
+  project_notes              String?
+  project_type               String?
+  code                       String?
+  estimated_budget           Float?
+  actual_budget              Float?
+  approvar_id                Int?
+  user                       users?                       @relation(fields: [user_id], references: [user_id])
+  client                     client?                      @relation(fields: [client_id], references: [client_id])
+  approvar_data              users?                       @relation("approvar_relation", fields: [approvar_id], references: [user_id])
+  category                   category[]
+  project_workbreak_down     project_workbreak_down[]
+  project_site               project_site[]
+  site_expense               site_expense[]
+  sub_category               sub_category[]
+  sub_sub_category           sub_sub_category[]
+  bom_configuration          bom_configuration[]
+  user_primary_project       user_primary_project[]
+  project_member_association project_member_association[]
 }
 
 model project_expense {
@@ -413,25 +417,26 @@ model user_profiles {
 }
 
 model master_data {
-  master_data_id                     Int                    @id @default(autoincrement())
-  master_data_name                   String                 @db.VarChar(100)
-  master_data_description            String?                @db.VarChar(250)
-  master_data_type                   String                 @db.VarChar(20)
+  master_data_id                     Int                          @id @default(autoincrement())
+  master_data_name                   String                       @db.VarChar(100)
+  master_data_description            String?                      @db.VarChar(250)
+  master_data_type                   String                       @db.VarChar(20)
   parent_master_data_id              Int?
-  is_delete                          Boolean                @default(false)
+  is_delete                          Boolean                      @default(false)
   created_date                       DateTime
   updated_date                       DateTime
   created_by                         Int?
   updated_by                         Int?
-  parent                             master_data?           @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
-  children                           master_data[]          @relation("ChildToParent")
+  parent                             master_data?                 @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
+  children                           master_data[]                @relation("ChildToParent")
   leadEnquiries                      lead_enquiry[]
   lead_enquiry_product               lead_enquiry_product[]
   lead_enquiry_tender                lead_enquiry_tender[]
-  vendor_as_vendor_category          vendor[]               @relation("VendorCategoryRelation")
-  vendor_as_preferred_payment_method vendor[]               @relation("PreferredPaymentMethodRelation")
+  vendor_as_vendor_category          vendor[]                     @relation("VendorCategoryRelation")
+  vendor_as_preferred_payment_method vendor[]                     @relation("PreferredPaymentMethodRelation")
   item                               item[]
   bom_configuration                  bom_configuration[]
+  project_member_association         project_member_association[]
 
   @@unique([master_data_type, parent_master_data_id])
   @@map("master_data")
@@ -697,4 +702,33 @@ model bom_configuration {
   bom_detail           bom_detail[]
   category             category[]
   sub_category         sub_category[]
+}
+
+model user_primary_project {
+  user_primary_project_id Int      @id @default(autoincrement())
+  user_id                 Int?
+  project_id              Int?
+  created_date            DateTime @default(now())
+  updated_date            DateTime
+  created_by              Int?
+  updated_by              Int?
+  user_data               users?   @relation(fields: [user_id], references: [user_id])
+  project_data            project? @relation(fields: [project_id], references: [project_id])
+}
+
+model project_member_association {
+  project_member_association_id Int          @id @default(autoincrement())
+  project_id                    Int
+  user_id                       Int
+  project_role_id               Int?
+  access_start_date             DateTime?
+  access_end_date               DateTime?
+  is_delete                     Boolean      @default(false)
+  created_date                  DateTime     @default(now())
+  updated_date                  DateTime
+  created_by                    Int?
+  updated_by                    Int?
+  project_data                  project      @relation(fields: [project_id], references: [project_id])
+  user_data                     users        @relation(fields: [user_id], references: [user_id])
+  project_role_data             master_data? @relation(fields: [project_role_id], references: [master_data_id])
 }

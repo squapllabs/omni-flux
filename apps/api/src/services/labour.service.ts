@@ -208,6 +208,41 @@ const searchLabour = async (body) => {
   }
 };
 
+/**
+ * Method to Check Duplicate Labour By Labour Type
+ * @param labour_type
+ * @returns
+ */
+const checkDuplicateLabourType = async (labour_type: string) => {
+  try {
+    let result = null;
+    const labourData = await labourDao.checkDuplicateLabourType(labour_type);
+    if (labourData) {
+      result = {
+        message: 'labour_type already exist',
+        status: true,
+        is_exist: true,
+        data: labourData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'labour_type does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in checkDuplicateLabourType labour service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createLabour,
   updateLabour,
@@ -215,4 +250,5 @@ export {
   getById,
   deleteLabour,
   searchLabour,
+  checkDuplicateLabourType,
 };
