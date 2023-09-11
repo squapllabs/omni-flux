@@ -1,5 +1,0 @@
-alter table project_member_association 
-drop constraint fk_project_member_association_project_role_id;
-
-alter table project_member_association 
-add constraint fk_project_member_association_project_role_id foreign key (project_role_id) references role(role_id);

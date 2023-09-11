@@ -401,6 +401,7 @@ const searchProjectMemberAssociation = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const project_id = body.project_id;
+    const user_id = body.user_id;
 
     const filterObj: any = {};
 
@@ -415,6 +416,14 @@ const searchProjectMemberAssociation = async (body) => {
         filterObj.filterProjectMemberAssociation.AND || [];
       filterObj.filterProjectMemberAssociation.AND.push({
         project_id: project_id,
+      });
+    }
+
+    if (user_id) {
+      filterObj.filterProjectMemberAssociation.AND =
+        filterObj.filterProjectMemberAssociation.AND || [];
+      filterObj.filterProjectMemberAssociation.AND.push({
+        user_id: user_id,
       });
     }
 

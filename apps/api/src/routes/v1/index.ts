@@ -32,6 +32,8 @@ import labour from './labour.route';
 import machinery from './machinery.route';
 import userPrimaryProject from './userPrimaryProject.route';
 import projectMemberAssociation from './projectMemberAssociation.route';
+import store from './store.route';
+import projectSite from './projectSite.route';
 
 const router = express.Router();
 
@@ -167,6 +169,14 @@ const defaultRoutes = [
   {
     path: '/project-member-association',
     route: projectMemberAssociation,
+  },
+  {
+    path: '/store',
+    route: store,
+  },
+  {
+    path: '/project-site',
+    route: projectSite,
   },
 ];
 

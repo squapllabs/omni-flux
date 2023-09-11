@@ -99,6 +99,7 @@ const getById = async (
             select: {
               first_name: true,
               last_name: true,
+              email_id: true,
               user_profiles: {
                 select: {
                   profile_image_url: true,
@@ -133,6 +134,7 @@ const getAll = async (connectionObj = null) => {
             select: {
               first_name: true,
               last_name: true,
+              email_id: true,
               user_profiles: {
                 select: {
                   profile_image_url: true,
@@ -200,6 +202,7 @@ const getByProjectIdAndUserId = async (
             select: {
               first_name: true,
               last_name: true,
+              email_id: true,
               user_profiles: {
                 select: {
                   profile_image_url: true,
@@ -235,6 +238,7 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
             select: {
               first_name: true,
               last_name: true,
+              email_id: true,
               user_profiles: {
                 select: {
                   profile_image_url: true,
@@ -280,6 +284,7 @@ const searchProjectMemberAssociation = async (
             select: {
               first_name: true,
               last_name: true,
+              email_id: true,
               user_profiles: {
                 select: {
                   profile_image_url: true,
@@ -339,6 +344,7 @@ const getByProjectIdAndRoleType = async (
               user_id: true,
               first_name: true,
               last_name: true,
+              email_id: true,
               user_profiles: {
                 select: {
                   profile_image_url: true,
