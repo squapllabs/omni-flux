@@ -8,12 +8,9 @@ const createBom = () => {
       return BomService.createBomData(data);
     },
     {
-      onSuccess: (response, _var) => {
+      onSuccess: (response) => {
         response;
-        queryClient.invalidateQueries([
-          'getOneSubcategoryID',
-          _var[0].sub_category_id,
-        ]);
+        //   queryClient.invalidateQueries(['useGetAllClientData']);
       },
     }
   );

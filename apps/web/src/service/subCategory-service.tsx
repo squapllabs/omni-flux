@@ -87,7 +87,7 @@ const filterSubCategory = async (values: JSON) => {
 const getOneSubCatListbyCatID = async (values: any) => {
   try {
     const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/sub-category/get-by-category-id/${values.selectedCategory}/${values.selectedBomConfig}`
+      `${environment.apiUrl}/sub-category/get-by-category-id/${values}`
     );
     return response.data;
   } catch (error) {

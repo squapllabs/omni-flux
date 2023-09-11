@@ -36,17 +36,6 @@ const getBOMbySubCatIDandType = async (values: any) => {
     throw error;
   }
 };
-const getBOMbySubCatID = async (values: number) => {
-  try {
-    const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/bom/get-by-sub-category-id/${values}`
-    );
-    return response.data;
-  } catch (error) {
-    console.log('Error in bom insert :', error);
-    throw error;
-  }
-};
 
 const getCustomBomData = async (values: JSON) => {
   try {
@@ -67,5 +56,4 @@ export default {
   getCustomBomData,
   createBulkBom,
   getBOMbySubCatIDandType,
-  getBOMbySubCatID,
 };
