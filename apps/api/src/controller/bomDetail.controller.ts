@@ -112,6 +112,18 @@ const getBomTotalBySubCategoryId = catchAsync(async (req, res) => {
   }
 });
 
+const getBySubCategoryId = catchAsync(async (req, res) => {
+  const methodName = '/getBySubCategoryId';
+  try {
+    const bomDetail = await bomDetailService.getBySubCategoryId(
+      req.params.sub_category_id
+    );
+    res.send(bomDetail);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createBom,
   updateBom,
@@ -123,4 +135,5 @@ export {
   addBulkBom,
   getBomBySubCategoryIdAndBomType,
   getBomTotalBySubCategoryId,
+  getBySubCategoryId,
 };

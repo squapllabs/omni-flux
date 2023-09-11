@@ -9,7 +9,6 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
 import bomService from '../../service/bom-service';
 import CustomGroupButton from '../ui/CustomGroupButton';
-import BomLabours from './bomTables/bomLabours';
 import EditIcon from '../menu/icons/editIcon';
 import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
 import DeleteIcon from '../menu/icons/deleteIcon';
@@ -22,9 +21,14 @@ const BomItems = (props: {
   setSelectedSubCategory: any;
   selectedSubCategory: any;
   projectsId: any;
+  selectedBomConfig: any;
 }) => {
-  const { selectedCategory } = props;
-  const { data: getAllData } = getBycategoryIdInSub(selectedCategory);
+  const { selectedCategory, selectedBomConfig } = props;
+  const obj = {
+    selectedCategory: selectedCategory,
+    selectedBomConfig: selectedBomConfig,
+  };
+  const { data: getAllData } = getBycategoryIdInSub(obj);
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();
@@ -38,14 +42,13 @@ const BomItems = (props: {
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(null);
   const [tableData, setTableData] = useState();
-  const[istableLoader,setIsTableLoader] = useState(true);
+  const [istableLoader, setIsTableLoader] = useState(true);
   const [activeButton, setActiveButton] = useState<string | null>('RAWMT');
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'RAW MATERIAL', value: 'RAWMT' },
     { label: 'LABOUR', value: 'LABOR' },
     { label: 'MACHINERY', value: 'MCNRY' },
   ]);
-  // console.log('getAllData in bom itemss', getAllData);
 
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -84,16 +87,16 @@ const BomItems = (props: {
     setOpenSnack(false);
   };
   const handleGroupButtonClick = async (value: string) => {
+    setIsTableLoader(true);
     setActiveButton(value);
     const obj = {
       id: isExpanded,
       type: value,
-    }
+    };
     try {
       const getData = await bomService.getBOMbySubCatIDandType(obj);
-      // console.log('sample labour =====>', getData.data);
       setTableData(getData.data);
-      setIsTableLoader(false)
+      setIsTableLoader(false);
     } catch (error) {
       console.error('Error fetching data in handleGroupButtonClick :', error);
     }
@@ -109,11 +112,10 @@ const BomItems = (props: {
       setActiveButton('RAWMT');
     } else {
       const getData = await bomService.getBOMbySubCatIDandType(obj);
-      // console.log('sample data =====>', getData.data);
       setActiveButton('RAWMT');
       setTableData(getData.data);
       setIsExpanded(subCategoryId);
-      setIsTableLoader(false)
+      setIsTableLoader(false);
     }
   };
 
@@ -158,8 +160,9 @@ const BomItems = (props: {
                         />
                       </div>
                       <div>
-                      {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
-                        activeButton === 'RAWMT' ? (
+                        {istableLoader ? (
+                          <CustomLoader loading={istableLoader} size={25} />
+                        ) : activeButton === 'RAWMT' ? (
                           <table>
                             <thead>
                               <tr>
@@ -174,7 +177,7 @@ const BomItems = (props: {
                             <tbody>
                               {tableData && tableData.length > 0 ? (
                                 tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_id}>
+                                  <tr key={item.bom_detail_id}>
                                     <td>{index + 1}</td>
                                     <td>{item.item_data?.item_name}</td>
                                     <td>{item.uom_data?.name}</td>
@@ -196,10 +199,10 @@ const BomItems = (props: {
                           </table>
                         ) : (
                           ' '
-                        )
-                      )}
-                        {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
-                        activeButton === 'LABOR' ? (
+                        )}
+                        {istableLoader ? (
+                          <CustomLoader loading={istableLoader} size={25} />
+                        ) : activeButton === 'LABOR' ? (
                           <table>
                             <thead>
                               <tr>
@@ -214,7 +217,7 @@ const BomItems = (props: {
                             <tbody>
                               {tableData && tableData.length > 0 ? (
                                 tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_id}>
+                                  <tr key={item.bom_detail_id}>
                                     <td>{index + 1}</td>
                                     <td>{item.bom_name}</td>
                                     <td>{item.uom_data?.name}</td>
@@ -236,10 +239,10 @@ const BomItems = (props: {
                           </table>
                         ) : (
                           ' '
-                        )
                         )}
-                         {istableLoader ? (<CustomLoader loading={istableLoader} size={30} />) : (
-                        activeButton === 'MCNRY' ? (
+                        {istableLoader ? (
+                          <CustomLoader loading={istableLoader} size={25} />
+                        ) : activeButton === 'MCNRY' ? (
                           <table>
                             <thead>
                               <tr>
@@ -254,7 +257,7 @@ const BomItems = (props: {
                             <tbody>
                               {tableData && tableData.length > 0 ? (
                                 tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_id}>
+                                  <tr key={item.bom_detail_id}>
                                     <td>{index + 1}</td>
                                     <td>{item.bom_name}</td>
                                     <td>{item.uom_data?.name}</td>
@@ -276,8 +279,7 @@ const BomItems = (props: {
                           </table>
                         ) : (
                           ' '
-                        )
-                         )}
+                        )}
                       </div>
                     </div>
                   )}
@@ -286,9 +288,7 @@ const BomItems = (props: {
                   <div
                     className={Styles.addPlan}
                     onClick={() => {
-                      navigate(
-                        `/bom/${items?.sub_category_id}/${props.projectsId}`
-                      );
+                      navigate(`/bom/${items?.sub_category_id}`);
                     }}
                   >
                     <AddIcon style={{ height: '15px', width: '15px' }} />

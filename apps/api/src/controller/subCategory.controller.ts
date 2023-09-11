@@ -94,7 +94,8 @@ const getByCategoryId = catchAsync(async (req, res) => {
   const methodName = '/getByCategoryId';
   try {
     const subCategory = await subCategoryService.getByCategoryId(
-      req.params.category_id
+      req.params.category_id,
+      req.params.bom_configuration_id
     );
     res.send(subCategory);
   } catch (err) {

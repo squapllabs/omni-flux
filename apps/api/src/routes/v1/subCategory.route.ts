@@ -55,6 +55,10 @@ router.get('/get-all-inactive', authMiddleware, getAllInActiveSubCategories);
 
 router.post('/search', authMiddleware, searchSubCategory);
 
-router.get('/get-by-category-id/:category_id', authMiddleware, getByCategoryId);
+router.get(
+  '/get-by-category-id/:category_id/:bom_configuration_id',
+  authMiddleware,
+  getByCategoryId
+);
 
 export default router;
