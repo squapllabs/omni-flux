@@ -451,7 +451,7 @@ const searchProjectMemberAssociation = async (body) => {
         },
         {
           project_role_data: {
-            master_data_name: {
+            role_name: {
               contains: global_search,
               mode: 'insensitive',
             },
@@ -489,6 +489,57 @@ const searchProjectMemberAssociation = async (body) => {
   }
 };
 
+/**
+ * Method to get projectMemberAssociation By ProjectId and Role Name
+ * @param project_id
+ * @param role_name
+ * @returns
+ */
+const getByProjectIdAndRoleType = async (
+  project_id: number,
+  role_name: string
+) => {
+  try {
+    let result = null;
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+    const projectMemberAssociationData =
+      await projectMemberAssociationDao.getByProjectIdAndRoleType(
+        project_id,
+        role_name
+      );
+    if (projectMemberAssociationData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: projectMemberAssociationData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'No data found for this project_id and role_type',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectIdAndRoleType projectMemberAssociation service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProjectMemberAssociation,
   updateProjectMemberAssociation,
@@ -498,4 +549,5 @@ export {
   getByProjectIdAndUserId,
   getByProjectId,
   searchProjectMemberAssociation,
+  getByProjectIdAndRoleType,
 };

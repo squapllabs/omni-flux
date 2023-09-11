@@ -10,6 +10,7 @@ import {
   deleteByProjectMemberAssociationId,
   getAllProjectMemberAssociation,
   getByProjectId,
+  getByProjectIdAndRoleType,
   getByProjectIdAndUserId,
   getByProjectMemberAssociationId,
   search,
@@ -57,5 +58,11 @@ router.get(
 router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
 
 router.post('/search', authMiddleware, search);
+
+router.get(
+  '/get-by-project-id-and-role-name/:project_id/:role_name',
+  authMiddleware,
+  getByProjectIdAndRoleType
+);
 
 export default router;
