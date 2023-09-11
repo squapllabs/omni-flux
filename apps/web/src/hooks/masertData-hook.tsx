@@ -58,20 +58,6 @@ const getBymasertDataType = (value: String) => {
     }
   );
 };
-const getBymasertDataTypeDrop = (value: String) => {
-  return useQuery(
-    ['getBymasertDataTypeDrop', value],
-    () => masertDataService.getOnemasertDataByType(value),
-    {
-      select: (data) =>
-        data?.data?.map((option: any) => ({
-          value: option.master_data_id,
-          label: option.master_data_name,
-        })),
-      staleTime: Infinity,
-    }
-  );
-};
 
 const createmasertData = () => {
   const queryClient = useQueryClient();
@@ -164,6 +150,5 @@ export {
   useGetAllParentmasertDataDrop,
   useGetMasterCurency,
   getBymasertDataType,
-  useGetAllPaginatedMasterData,
-  getBymasertDataTypeDrop,
+  useGetAllPaginatedMasterData
 };

@@ -23,7 +23,6 @@ const CustomSubCategoryAdd = (props: {
   selectedCategoryId: any;
   selectedProject: any;
   selectedSubCategory: any;
-  selectedBomConfig:any;
   mode: any;
   setMode: any;
 }) => {
@@ -35,7 +34,6 @@ const CustomSubCategoryAdd = (props: {
     mode,
     selectedSubCategory,
     setMode,
-    selectedBomConfig,
   } = props;
   console.log('!!!!!!!!!!', selectedSubCategory);
 
@@ -72,7 +70,6 @@ const CustomSubCategoryAdd = (props: {
           category_id: data?.data?.category_id,
           project_id: data?.data?.project_id,
           sub_category_id: data?.data?.sub_category_id,
-          bom_configuration_id:selectedBomConfig
         });
       };
       fetchOne();
@@ -118,7 +115,6 @@ const CustomSubCategoryAdd = (props: {
           category_id: selectedCategoryId,
           start_date: values.start_date,
           end_date: values.end_date,
-          bom_configuration_id:selectedBomConfig
         };
         console.log('sub category added form ', Object);
         createNewSubCategory(Object, {
