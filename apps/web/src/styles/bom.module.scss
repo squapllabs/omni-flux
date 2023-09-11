@@ -2,6 +2,10 @@
   padding: 10px 10px 10px 10px;
   height: 100vh;
 }
+.headingcontainer {
+  // padding: 10px 10px 10px 10px;
+  // padding-left: 10px;
+}
 .subHeader {
   display: flex;
   justify-content: space-between;
@@ -239,4 +243,44 @@
   flex-direction: column;
   gap: 10px;
   padding-bottom: 10px;
+}
+
+.mainTextContent {
+  padding: 10px 5px 10px 10px;
+  display: flex;
+  align-items: center;
+}
+.textContent_1 {
+  width: 50%;
+}
+.textContent {
+  padding: 15px 10px 10px 20px;
+}
+.content {
+  font-size: 0.7rem;
+}
+.backButton {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
+
+.box {
+  position: relative;
+}
+
+.box::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 20;
+  left: 10;
+}
+
+.box:last-child::after {
+  display: none;
 }

@@ -22,8 +22,10 @@ const CustomAbstractAdd = (props: {
   setReload: any;
   mode: any;
   categoryId: any;
+  selectedBomConfig:any;
+
 }) => {
-  const { isVissible, onAction, selectedProject, setReload, mode, categoryId } =
+  const { isVissible, onAction, selectedProject, setReload, mode, categoryId,selectedBomConfig } =
     props;
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
   const { mutate: createNewAbstract } = createInstantCategory();
@@ -34,7 +36,8 @@ const CustomAbstractAdd = (props: {
     project_id: '',
     start_date: '',
     end_date: '',
-    category_id: ''
+    category_id: '',
+    selectedBomConfig:''
   });
 
   const dateFormat = (value: any) => {
@@ -80,6 +83,7 @@ const CustomAbstractAdd = (props: {
           start_date: values.start_date,
           end_date: values.end_date,
           category_id: values.category_id,
+          bom_configuration_id:selectedBomConfig
         };
         console.log('abstract from', Object);
         updateCategoryData(Object, {
@@ -102,6 +106,7 @@ const CustomAbstractAdd = (props: {
           budget: 0,
           start_date: values.start_date,
           end_date: values.end_date,
+          bom_configuration_id:selectedBomConfig
         };
         console.log('abstract from', Object);
         createNewAbstract(Object, {

@@ -54,7 +54,7 @@ const ProjectList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -129,7 +129,7 @@ const ProjectList = () => {
   const handleSnackBarClose = () => {
     setOpenDeleteSnack(false);
   };
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
       <div>
@@ -192,7 +192,7 @@ const ProjectList = () => {
                   size="small"
                   color="primary"
                   icon={<AddIcon />}
-                  onClick={() => navigate('/project-add')}
+                  onClick={() => navigate('/project')}
                 >
                   Add
                 </Button>
@@ -228,7 +228,7 @@ const ProjectList = () => {
                   )}
                   {getFilterData?.content?.map((data: any, index: number) => (
                     <tr key={data.user_id}>
-                      <td>{ startingIndex + index}</td>
+                      <td>{startingIndex + index}</td>
                       <td>{data.project_name}</td>
                       <td>{data.code}</td>
                       <td>

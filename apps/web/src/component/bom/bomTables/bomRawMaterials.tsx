@@ -18,7 +18,6 @@ import CustomDelete from '../../ui/customDeleteDialogBox';
 
 const BomRawMaterials: React.FC = (props: any) => {
   const navigate = useNavigate();
-
   const fieldWidth = '140px';
   let rowIndex = 0;
   const [bomList, setBomList] = useState<any>([]);
@@ -34,9 +33,6 @@ const BomRawMaterials: React.FC = (props: any) => {
         'decimal-validation',
         bomErrorMessages.ITEM_EXIST,
         async function (value: number, { parent }: Yup.TestContext) {
-          console.log('value', value);
-          console.log('parent.is_delete', parent.is_delete);
-          console.log('bomList', bomList);
           let isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
@@ -45,7 +41,6 @@ const BomRawMaterials: React.FC = (props: any) => {
                 obj.is_delete === isDelete
               );
             });
-            console.log('state', isValuePresent);
             if (isValuePresent === false) {
               return true;
             } else return false;
@@ -77,32 +72,8 @@ const BomRawMaterials: React.FC = (props: any) => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const obj = {
-        id: props?.subCategoryId,
-        type: props?.activeButton,
-      };
-      const getData = await BomService.getBOMbySubCatIDandType(obj);
-      if (getData?.status === true) {
-        setBomList(getData?.data);
-        rawMaterialTotalCalulate();
-      }
-    };
-    fetchData();
-  }, [reload]);
   const { data: getAllItemDrop } = useGetAllItemsDrops();
   const { data: getAllUomDrop } = getUomByType('RAWMT');
-  const { mutate: bulkBomData, data: responseData } = createBulkBom();
-  const rawMaterialTotalCalulate = async () => {
-    const sumOfRates = await bomList.reduce(
-      (accumulator: any, currentItem: any) => {
-        return accumulator + currentItem.total;
-      },
-      0
-    );
-  };
 
   const handleDeleteSiteExpense = (e: any, value: any) => {
     setBomValue(value);
@@ -125,20 +96,19 @@ const BomRawMaterials: React.FC = (props: any) => {
       event.target.name === 'rate'
     ) {
       tempObj = {
-        ...bomList[index],
+        ...props.bomList[index],
         [event.target.name]: Number(event.target.value),
       };
     } else {
       tempObj = {
-        ...bomList[index],
+        ...props.bomList[index],
         [event.target.name]: event.target.value,
       };
     }
 
-    let tempArry = [...bomList];
+    let tempArry = [...props.bomList];
     tempArry[index] = tempObj;
-    setBomList(tempArry);
-    rawMaterialTotalCalulate();
+    props.setBomList(tempArry);
   };
   const formik = useFormik({
     initialValues,
@@ -150,42 +120,26 @@ const BomRawMaterials: React.FC = (props: any) => {
       values['bom_type'] = props?.activeButton;
       values['quantity'] = Number(formik.values.quantity);
       values['rate'] = Number(formik.values.rate);
-      console.log('values', values);
+      values['bom_configuration_id'] = Number(props.bomId);
       let arr = [];
-      arr = [...bomList, values];
-      setBomList(arr);
+      arr = [...props.bomList, values];
+      props.setBomList(arr);
       resetForm();
-      rawMaterialTotalCalulate();
     },
   });
   const deleteBOM = () => {
-    const itemIndex = bomList.findIndex(
+    const itemIndex = props.bomList.findIndex(
       (item: any) =>
         item.item_id === bomValue?.item_id &&
         item.is_delete === bomValue?.is_delete
     );
-    bomList[itemIndex] = {
-      ...bomList[itemIndex],
+    props.bomList[itemIndex] = {
+      ...props.bomList[itemIndex],
       is_delete: true,
     };
-    setBomList([...bomList]);
+    props.setBomList([...props.bomList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
-  };
-  const handleBulkBomAdd = () => {
-    bulkBomData(bomList, {
-      onSuccess(data, variables, context) {
-        console.log('data', data);
-        if (data?.status === true) {
-          setMessage('BOM created successfully');
-          setOpenSnack(true);
-          props.setReload(!props.reload);
-          // setTimeout(() => {
-          //   navigate(`/bomlist/${props?.projectId}`);
-          // }, 3000);
-        }
-      },
-    });
   };
   return (
     <div>
@@ -205,8 +159,8 @@ const BomRawMaterials: React.FC = (props: any) => {
               </tr>
             </thead>
             <tbody>
-              {bomList?.map((items: any, index: any) => {
-                if (items.is_delete === false) {
+              {props.bomList?.map((items: any, index: any) => {
+                if (items.is_delete === false && items.bom_type === 'RAWMT') {
                   rowIndex = rowIndex + 1;
                   return (
                     <tr>
@@ -225,7 +179,9 @@ const BomRawMaterials: React.FC = (props: any) => {
                           width="250px"
                           name="uom_id"
                           mandatory={true}
-                          optionList={getAllUomDrop}
+                          optionList={
+                            getAllUomDrop != undefined ? getAllUomDrop : []
+                          }
                           value={items.uom_id}
                           onChange={(e) => handleListChange(e, index)}
                         />
@@ -366,7 +322,7 @@ const BomRawMaterials: React.FC = (props: any) => {
             </tbody>
           </table>
         </div>
-        <div className={Styles.saveButton}>
+        {/* <div className={Styles.saveButton}>
           <Button
             color="primary"
             shape="rectangle"
@@ -376,7 +332,7 @@ const BomRawMaterials: React.FC = (props: any) => {
           >
             SAVE
           </Button>
-        </div>
+        </div> */}
       </div>
       <CustomDelete
         open={openDelete}
