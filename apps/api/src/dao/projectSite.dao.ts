@@ -67,8 +67,24 @@ const getByProjectIdAndSiteId = async (
   }
 };
 
+const getByProjectId = async (project_id: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const projectSite = await transaction.project_site.findMany({
+      where: {
+        project_id: Number(project_id),
+      },
+    });
+    return projectSite;
+  } catch (error) {
+    console.log('Error occurred in projectSiteDao getByProjectId', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
   getByProjectIdAndSiteId,
+  getByProjectId,
 };
