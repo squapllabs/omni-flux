@@ -74,6 +74,10 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
       where: {
         project_id: Number(project_id),
       },
+      include: {
+        site_details: true,
+        project_details: true,
+      },
     });
     return projectSite;
   } catch (error) {
