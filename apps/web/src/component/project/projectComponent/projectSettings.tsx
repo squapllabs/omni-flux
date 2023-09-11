@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Styles from '../../../styles/projectSettings.module.scss'
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
@@ -7,9 +7,19 @@ import AddIcon from '../../menu/icons/addIcon';
 import SearchIcon from '../../menu/icons/search';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import DatePicker from '../../ui/CustomDatePicker';
+import CustomGroupButton from '../../ui/CustomGroupButton';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
-const ProjectSettings = () => {
+const ProjectSettings : React.FC = (props: any) => {
+    
+    const [buttonLabels, setButtonLabels] = useState([
+        { label: 'Active', value: 'AC' },
+        { label: 'Inactive', value: 'IN' },
+    ]);
+    const [activeButton, setActiveButton] = useState<string | null>('AC');
+    const routeParams = useParams();
+    console.log('routeParams', routeParams?.id);
 
     const formik = useFormik({
         initialValues: {
@@ -128,45 +138,164 @@ const ProjectSettings = () => {
                     </span>
                 </div>
                 <div className={Styles.searchField}>
-              <div className={Styles.inputFilter}>
-              
-                <AutoCompleteSelect
-                  name="parent_master_data_id"
-                  defaultLabel="Select Parent Name"
-                //   onChange={() => handleDropdownChange}
-                //   value={selectedValue}
-                  placeholder="User Name"
-                  width="260px"
-                  onSelect={(value) => {
-                    // setSelectedValue(value);
-                    // setIsResetDisabled(false);
-                  }}
-                //   optionList={
-                    // dropLoading === true ? [] : getAllmasterDataForDrop
-                //   }
-                />
-                <Button
-                  className={Styles.searchButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                //   onClick={handleSearch}
-                >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                //   disabled={isResetDisabled}
-                //   onClick={handleReset}
-                >
-                  Reset
-                </Button>
+                    <div className={Styles.inputFilter}>
+
+                        <AutoCompleteSelect
+                            name="parent_master_data_id"
+                            defaultLabel="Select Parent Name"
+                            //   onChange={() => handleDropdownChange}
+                            //   value={selectedValue}
+                            placeholder="User Name"
+                            width="260px"
+                            onSelect={(value) => {
+                                // setSelectedValue(value);
+                                // setIsResetDisabled(false);
+                            }}
+                        //   optionList={
+                        // dropLoading === true ? [] : getAllmasterDataForDrop
+                        //   }
+                        />
+                        <Button
+                            className={Styles.searchButton}
+                            shape="rectangle"
+                            justify="center"
+                            size="small"
+                        //   onClick={handleSearch}
+                        >
+                            Search
+                        </Button>
+                        <Button
+                            className={Styles.resetButton}
+                            shape="rectangle"
+                            justify="center"
+                            size="small"
+                        //   disabled={isResetDisabled}
+                        //   onClick={handleReset}
+                        >
+                            Reset
+                        </Button>
+                    </div>
+                    <div>
+                        <CustomGroupButton
+                            labels={buttonLabels}
+                            //   onClick={handleGroupButtonClick}
+                            activeButton={activeButton}
+                        />
+                    </div>
+                </div>
+                <div className={Styles.tableContainer}>
+              <div>
+                <table>
+                  <thead>
+                    <tr>
+                    <th>S NO</th>
+                      <th>Name</th>
+                      <th>Role</th>
+                      <th>Expiration Date</th>
+                      {activeButton === 'AC' && <th></th>}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            Velavan
+                        </td>
+                        <td>
+                            Site Engineer
+                        </td>
+                        <td>
+                            11-10-2023
+                        </td>
+                    </tr>
+                  </tbody>
+                  {/* <tbody>
+                    {dataShow ? (
+                      getFilterData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        getFilterData?.content?.map(
+                          (data: any, index: number) => (
+                            <tr key={data.hsn_code_id}>
+                          <td>{startingIndex + index}</td>
+                              <td>{data.code}</td>
+                              <td>
+                                <span
+                                  className={Styles.truncatedStyle}
+                                  title={data.description}
+                                >
+                                  {data.description?data.description.substring(0, 30): '-'}
+                                </span>
+                              </td>
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <EditIcon
+                                      onClick={() =>
+                                        editHscCodeHandler(data.hsn_code_id)
+                                      }
+                                    />
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deleteCategoryHandler(data.hsn_code_id)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
+                      )
+                    ) : initialData?.total_count === 0 ? (
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>No data found</td>
+                        {activeButton === 'AC' && <td></td>}
+                      </tr>
+                    ) : (
+                      initialData?.content?.map((data: any, index: number) => (
+                        <tr key={data.hsn_code_id}>
+                          <td>{startingIndex + index}</td>
+                          <td>{data.code}</td>
+                          <td>
+                            <span
+                              title={data.description}
+                            >
+                              {data.description?data.description.substring(0, 30): '-'}
+                            </span>
+                          </td>
+                          {activeButton === 'AC' && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() =>
+                                    editHscCodeHandler(data.hsn_code_id)
+                                  }
+                                />
+                                <DeleteIcon
+                                  onClick={() =>
+                                    deleteCategoryHandler(data.hsn_code_id)
+                                  }
+                                />
+                              </div>
+                            </td>
+                          )}
+                        </tr>
+                      ))
+                    )}
+                  </tbody> */}
+                </table>
               </div>
             </div>
-
 
             </div>
         </div>
