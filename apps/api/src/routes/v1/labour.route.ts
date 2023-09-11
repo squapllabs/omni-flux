@@ -5,6 +5,7 @@ import {
   labourUpdateValidator,
 } from '../../validations/labour';
 import {
+  checkDuplicateLabourType,
   createLabour,
   deleteByLabourId,
   getAllLabours,
@@ -39,5 +40,11 @@ router.get('/get/:labour_id', authMiddleware, getByLabourId);
 router.delete('/delete/:labour_id', authMiddleware, deleteByLabourId);
 
 router.post('/search', authMiddleware, searchLabour);
+
+router.get(
+  '/check-duplicate-labour-type/:labour_type',
+  authMiddleware,
+  checkDuplicateLabourType
+);
 
 export default router;
