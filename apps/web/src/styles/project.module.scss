@@ -152,3 +152,38 @@
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(196, 114, 212, 0.2);
 }
+
+.documentContainer {
+  padding: 10px 0px 0px 30px;
+  display: flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  gap: 30px;
+  align-items: center;
+}
+.documentOuterLayer {
+  width: 40%;
+  border: 1px dashed #475467;
+  border-radius: 5px;
+}
+
+.documentContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+}
+.documentSpan {
+  font-size: 0.65rem;
+}
+.viewFiles {
+  padding: 0px 0px 0px 50px;
+}
+.listStyles {
+  font-size: 0.85rem;
+}
+
+.errorStyles {
+  color: red;
+  font-size: 0.75rem;
+}

@@ -4,6 +4,7 @@ import {
   getByProject,
   useDeleteProjects,
   useGetAllProject,
+  getMemberBasedProject,
 } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -18,16 +19,20 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomLoader from '../ui/customLoader';
 import ViewIcon from '../menu/icons/viewIcon';
+import { store, RootState } from '../../redux/store';
+import { getToken } from '../../redux/reducer';
 
 const ProjectList = () => {
+  const state: RootState = store.getState();
+  let encryptedData = getToken(state, 'Data');
+  let userID: number = encryptedData.userId;
   const { isLoading: getAllLoading } = useGetAllProject();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getByProject();
+  } = getMemberBasedProject();
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
-
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -74,6 +79,7 @@ const ProjectList = () => {
       order_by_direction: 'desc',
       global_search: filterValues.search_by_name,
       status: activeButton,
+      user_id: userID,
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -89,6 +95,7 @@ const ProjectList = () => {
       order_by_direction: 'desc',
       global_search: '',
       status: 'AC',
+      user_id: userID,
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -226,44 +233,57 @@ const ProjectList = () => {
                   ) : (
                     ''
                   )}
-                  {getFilterData?.content?.map((data: any, index: number) => (
-                    <tr key={data.user_id}>
-                      <td>{startingIndex + index}</td>
-                      <td>{data.project_name}</td>
-                      <td>{data.code}</td>
-                      <td>
-                        {data.user?.first_name} {data.user?.last_name}
-                      </td>
-                      <td>{data.status}</td>
-                      <td>
-                        {format(new Date(data.date_started), 'MMM dd, yyyy')}
-                      </td>
-                      <td>
-                        {format(new Date(data.date_ended), 'MMM dd, yyyy')}
-                      </td>
-                      {activeButton === 'AC' && (
+                  {getFilterData?.content?.map((data: any, index: number) => {
+                    return (
+                      <tr key={data.user_id}>
+                        <td>{startingIndex + index}</td>
+                        <td>{data?.project_data.project_name}</td>
+                        <td>{data?.project_data.code}</td>
                         <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() =>
-                                navigate(`/project-edit/${data.project_id}`)
-                              }
-                            />
-                            <ViewIcon
-                              onClick={() =>
-                                navigate(`/project-info/${data.project_id}`)
-                              }
-                            />
-                            {/* <DeleteIcon
+                          {data?.user_data?.first_name}{' '}
+                          {data?.user_data?.last_name}
+                        </td>
+                        <td>{data?.project_data.status}</td>
+                        <td>
+                          {format(
+                            new Date(data?.project_data.date_started),
+                            'MMM dd, yyyy'
+                          )}
+                        </td>
+                        <td>
+                          {format(
+                            new Date(data?.project_data.date_ended),
+                            'MMM dd, yyyy'
+                          )}
+                        </td>
+                        {activeButton === 'AC' && (
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() =>
+                                  navigate(
+                                    `/project-edit/${data?.project_data.project_id}`
+                                  )
+                                }
+                              />
+                              <ViewIcon
+                                onClick={() =>
+                                  navigate(
+                                    `/project-info/${data?.project_data.project_id}`
+                                  )
+                                }
+                              />
+                              {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
                             }
                           /> */}
-                          </div>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

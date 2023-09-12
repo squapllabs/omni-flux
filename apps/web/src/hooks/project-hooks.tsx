@@ -65,6 +65,19 @@ const getByProject = () => {
     }
   );
 };
+const getMemberBasedProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ProjectService.filterProjectmemberBased(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
 
 const useDeleteProjects = () => {
   const queryClient = useQueryClient();
@@ -138,4 +151,5 @@ export {
   useGetMasterProjectParentType,
   useGetAllProjectManagers,
   useGetAllProjectDrop,
+  getMemberBasedProject,
 };
