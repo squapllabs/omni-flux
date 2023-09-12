@@ -10,6 +10,7 @@ import {
   deleteByStoreId,
   getAllStore,
   getByStoreId,
+  searchStore,
   updateStore,
 } from '../../controller/store.controller';
 
@@ -36,5 +37,7 @@ router.get('/get-all', authMiddleware, getAllStore);
 router.get('/get/:store_id', authMiddleware, getByStoreId);
 
 router.delete('/delete/:store_id', authMiddleware, deleteByStoreId);
+
+router.post('/search', authMiddleware, searchStore);
 
 export default router;

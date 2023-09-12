@@ -10,6 +10,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getByProjectId } from '../../hooks/project-hooks';
 import projectService from '../../service/project-service';
 import ProjectSettings from './projectComponent/projectSettings';
+import ProjectDocument from './projectComponent/projectDocument';
 const Project = () => {
   const routeParams = useParams();
 
@@ -18,6 +19,7 @@ const Project = () => {
     { label: 'Site Configuration', value: 'PSC' },
     { label: 'BOM configuration', value: 'PBC' },
     { label: 'Settings', value: 'PSG' },
+    { label: 'Document', value: 'PDT' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
@@ -104,6 +106,15 @@ const Project = () => {
                   setLoader={setLoader}
                   loader={loader}
                   projectData = {projectData}
+                  />
+                  ) : (
+                    ''
+                  )}
+              {activeButton === 'PDT' ? (
+                <ProjectDocument
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
                 />
               ) : (
                 ''

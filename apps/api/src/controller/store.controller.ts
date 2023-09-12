@@ -53,4 +53,21 @@ const deleteByStoreId = catchAsync(async (req, res) => {
   }
 });
 
-export { createStore, updateStore, getAllStore, getByStoreId, deleteByStoreId };
+const searchStore = catchAsync(async (req, res) => {
+  const methodName = '/searchStore';
+  try {
+    const store = await storeService.searchStore(req.body);
+    res.send(store);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+export {
+  createStore,
+  updateStore,
+  getAllStore,
+  getByStoreId,
+  deleteByStoreId,
+  searchStore,
+};
