@@ -102,7 +102,7 @@ const UserCreate = () => {
       };
       createNewusers(Object, {
         onSuccess: (data, variables, context) => {
-          if (data?.success) {
+          if (data?.message=== 'success') {
             setMessage('User created successfully');
             setOpenSnakBar(true);
             setTimeout(() => {
