@@ -321,6 +321,7 @@ const Tender: React.FC = (props: any) => {
                   label="Tender Type"
                   mandatory={true}
                   defaultLabel="Select a Tender"
+                  placeholder="Select from options"
                   value={formik.values.tender_type}
                   onChange={formik.handleChange}
                   error={
@@ -365,6 +366,7 @@ const Tender: React.FC = (props: any) => {
                   label="Industry/Sector"
                   mandatory={true}
                   defaultLabel="Select a Industry sector"
+                  placeholder="Select from options"
                   value={formik.values.industry_sector}
                   onChange={formik.handleChange}
                   error={
@@ -407,6 +409,7 @@ const Tender: React.FC = (props: any) => {
                   name="client_level"
                   label="Client Level"
                   defaultLabel="Select Client"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.client_level}
                   onChange={formik.handleChange}

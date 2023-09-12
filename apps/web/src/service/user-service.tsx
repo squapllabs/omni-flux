@@ -86,16 +86,18 @@ const deleteUser = async (id: number) => {
 
 const user_profile_upload = async (file: any) => {
   const formData = new FormData();
-  formData.append("storage", "s3");
-  formData.append("file", file);
+  formData.append('storage', 's3');
+  formData.append('file', file);
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/upload/file`, formData,
+      `${environment.apiUrl}/upload/file`,
+      formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
-        }
-      })
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log('Error in occur user_profile_upload :', error);
@@ -103,20 +105,22 @@ const user_profile_upload = async (file: any) => {
   }
 };
 
-const documentUpload = async (file: any,code:string) => {
+const documentUpload = async (file: any, code: string) => {
   const formData = new FormData();
-  formData.append("storage", "s3");
-  formData.append("file", file);
-  formData.append("folder", 'OmniFlux');
-  formData.append("code", code);
+  formData.append('storage', 's3');
+  formData.append('file', file);
+  formData.append('folder', 'OmniFlux');
+  formData.append('code', code);
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/upload/file`, formData,
+      `${environment.apiUrl}/upload/file`,
+      formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
-        }
-      })
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log('Error in occur documentUpload :', error);
@@ -129,13 +133,25 @@ const filterUser = async (values: JSON) => {
       `${environment.apiUrl}/user/search`,
       values
     );
-    
+
     return response.data;
   } catch (error) {
     console.log('Error in user search :', error);
     throw error;
   }
-}
+};
+
+const getuserByRoleType = async (value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/user/get-users-by-role-name/${value}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all users:', error);
+    throw error;
+  }
+};
 export default {
   getAllUsers,
   getOneUser,
@@ -146,5 +162,6 @@ export default {
   getAllInactiveUsers,
   user_profile_upload,
   filterUser,
-  documentUpload
+  documentUpload,
+  getuserByRoleType,
 };

@@ -1,0 +1,33 @@
+.box {
+    padding: 10px 0px 10px 10px;
+}
+.form {
+    display: flex;
+    flex-direction: row;
+    row-gap: 50px;
+    justify-content: center;
+}
+.formFields {
+    padding: 20px 10px 0px 20px;
+}
+.dividerStyle {
+    border-top: 2px solid #ccc;
+}
+.fieldRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+.budgetRow {
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.buttonFields {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 20px;
+}

@@ -481,14 +481,19 @@ const HsnCodeList = () => {
                         getFilterData?.content?.map(
                           (data: any, index: number) => (
                             <tr key={data.hsn_code_id}>
-                          <td>{startingIndex + index}</td>
+                              <td>{startingIndex + index}</td>
                               <td>{data.code}</td>
                               <td>
                                 <span
                                   className={Styles.truncatedStyle}
                                   title={data.description}
                                 >
-                                  {data.description?data.description.substring(0, 30): '-'}
+                                  {data.description
+                                    ? data.description.length > 30
+                                      ? data.description.substring(0, 30) +
+                                        '...'
+                                      : data.description
+                                    : '-'}
                                 </span>
                               </td>
                               {activeButton === 'AC' && (
@@ -525,9 +530,14 @@ const HsnCodeList = () => {
                           <td>{data.code}</td>
                           <td>
                             <span
+                              className={Styles.truncatedStyle}
                               title={data.description}
                             >
-                              {data.description?data.description.substring(0, 30): '-'}
+                              {data.description
+                                ? data.description.length > 30
+                                  ? data.description.substring(0, 30) + '...'
+                                  : data.description
+                                : '-'}
                             </span>
                           </td>
                           {activeButton === 'AC' && (

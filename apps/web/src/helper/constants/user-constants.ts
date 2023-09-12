@@ -98,7 +98,7 @@ export const getUsercreationYupschema = (yup: any) => {
         async(value:any) => {
           if(value) {
             const response = await userService.getOneUser(value);
-            if(response?.success === true) {
+            if(response?.status === true) {
               return false;
             } else {
               return true;
