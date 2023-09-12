@@ -165,6 +165,7 @@ const ProductAdd = () => {
                   formik.touched.item_type_id && formik.errors.item_type_id
                 }
                 disabled={disable}
+                placeholder="Select from options"
               >
                 {getAllItemTypeList?.map((option: any) => (
                   <option
