@@ -166,7 +166,6 @@ const deleteVendor = async (vendorId: number, connectionObj = null) => {
   }
 };
 
-
 const searchVendor = async (
   offset: number,
   limit: number,
@@ -194,17 +193,35 @@ const searchVendor = async (
 
     const globalSearch = global_search;
 
-    const propertiesToFilter = ['preferred_payment_method_data.master_data_name', 'vendor_category_data.master_data_name',
-      'notes', 'lead_time', 'currency', 'payment_terms', 'tax_id', 'contact_phone_no', 'contact_email', 'contact_person',
-      'bank_account_details.bank_name', 'bank_account_details.account_number', 'address.street', 'address.city',
-      'address.state', 'address.country', 'address.pin_code', 'bank_account_details.ifsc_code', 'vendor_name'];
+    const propertiesToFilter = [
+      'preferred_payment_method_data.master_data_name',
+      'vendor_category_data.master_data_name',
+      'notes',
+      'lead_time',
+      'currency',
+      'payment_terms',
+      'tax_id',
+      'contact_phone_no',
+      'contact_email',
+      'contact_person',
+      'bank_account_details.bank_name',
+      'bank_account_details.account_number',
+      'address.street',
+      'address.city',
+      'address.state',
+      'address.country',
+      'address.pin_code',
+      'bank_account_details.ifsc_code',
+      'vendor_name',
+    ];
 
-    const filteredVendors = CaseInsensitiveFilter(vendor, globalSearch, propertiesToFilter);
-    const vendorCount = filteredVendors.length;
-    const vendors = filteredVendors.slice(
-      offset,
-      offset + limit
+    const filteredVendors = CaseInsensitiveFilter(
+      vendor,
+      globalSearch,
+      propertiesToFilter
     );
+    const vendorCount = filteredVendors.length;
+    const vendors = filteredVendors.slice(offset, offset + limit);
     const vendorData = {
       count: vendorCount,
       data: vendors,
@@ -216,6 +233,24 @@ const searchVendor = async (
   }
 };
 
+const getByEmailId = async (contact_email: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const vendor = await transaction.vendor.findFirst({
+      where: {
+        contact_email: contact_email,
+      },
+      include: {
+        vendor_category_data: true,
+        preferred_payment_method_data: true,
+      },
+    });
+    return vendor;
+  } catch (error) {
+    console.log('Error occurred in vendor getByEmailId dao', error);
+    throw error;
+  }
+};
 
 export default {
   add,
@@ -224,4 +259,5 @@ export default {
   getAll,
   deleteVendor,
   searchVendor,
+  getByEmailId,
 };
