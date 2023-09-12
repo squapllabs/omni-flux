@@ -1,57 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import Styles from '../../styles/projectlist.module.scss';
-import {
-  getByProject,
-  useDeleteProjects,
-  useGetAllProject,
-  getMemberBasedProject,
-} from '../../hooks/project-hooks';
-import Input from '../ui/Input';
-import Button from '../ui/Button';
-import SearchIcon from '../menu/icons/search';
-import AddIcon from '../menu/icons/addIcon';
-import CustomGroupButton from '../ui/CustomGroupButton';
-import { format } from 'date-fns';
-import Pagination from '../menu/pagination';
-import EditIcon from '../menu/icons/editIcon';
+import Styles from '../../styles/machinery.module.scss';
+import { useNavigate } from 'react-router';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
-import { useNavigate } from 'react-router-dom';
+import Button from '../ui/Button';
 import CustomLoader from '../ui/customLoader';
-import ViewIcon from '../menu/icons/viewIcon';
-import CustomCard from '../ui/CustomCard';
-import { store, RootState } from '../../redux/store';
-import { getToken } from '../../redux/reducer';
+import Input from '../ui/Input';
+import SearchIcon from '../menu/icons/search';
+import Pagination from '../menu/pagination';
+import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import AddIcon from '../menu/icons/addIcon';
+import CustomGroupButton from '../ui/CustomGroupButton';
+import {
+  getByMachinery,
+  useDeleteMachinery,
+} from '../../hooks/machinery-hooks';
 
-const ProjectList = () => {
-  const state: RootState = store.getState();
-  let encryptedData = getToken(state, 'Data');
-  let userID: number = encryptedData.userId;
-  const { isLoading: getAllLoading } = useGetAllProject();
+const MachineryList = () => {
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getMemberBasedProject();
-  const { mutate: getDeleteProjectByID } = useDeleteProjects();
-  const [filterValues, setFilterValues] = useState({
-    search_by_name: '',
-  });
+  } = getByMachinery();
+
+  const { mutate: getDeleteMachineryByID } = useDeleteMachinery();
+
+  const navigate = useNavigate();
+
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
-  const [filter, setFilter] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
+  const [filterValues, setFilterValues] = useState({
+    search_by_name: '',
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
-  const navigate = useNavigate();
+  // const [filter, setFilter] = useState(false);
+
+  const machineryData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_by',
+    order_by_direction: 'desc',
+    global_search: '',
+    status: activeButton,
+  };
+
+
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
@@ -64,46 +71,40 @@ const ProjectList = () => {
       handleReset();
     }
   };
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
-  };
+
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
 
-  /* Function for searching a user in the table */
   const handleSearch = async () => {
-    const userData: any = {
+    const machineryData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
-      order_by_direction: 'desc',
+      order_by_direction: 'asc',
       global_search: filterValues.search_by_name,
       status: activeButton,
-      user_id: userID,
     };
-    postDataForFilter(userData);
-    setIsLoading(false);
-    setFilter(true);
+    postDataForFilter(machineryData);
+    // setIsLoading(false);
+    // setFilter(true);
   };
 
-  /* Function for reseting the table to its actual state after search */
   const handleReset = async () => {
-    const userData: any = {
+    const machineryData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_by',
-      order_by_direction: 'desc',
+      order_by_column: 'updated_date',
+      order_by_direction: 'asc',
       global_search: '',
       status: 'AC',
-      user_id: userID,
     };
-    postDataForFilter(userData);
-    setIsLoading(false);
-    setFilter(false);
+    postDataForFilter(machineryData);
+
     setFilterValues({
       search_by_name: '',
     });
+    // setIsLoading(false);
     setIsResetDisabled(true);
   };
 
@@ -118,13 +119,13 @@ const ProjectList = () => {
     setCurrentPage(1);
   };
 
-  const deleteProjectHandler = (id: any) => {
+  const deleteMachineryHandler = (id: any) => {
     setValue(id);
     setOpen(true);
   };
 
-  const deleteProject = () => {
-    getDeleteProjectByID(value);
+  const deleteMachinery = () => {
+    getDeleteMachineryByID(value);
     handleClose();
     setMessage('Successfully deleted');
     setOpenDeleteSnack(true);
@@ -133,32 +134,19 @@ const ProjectList = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleSnackBarClose = () => {
     setOpenDeleteSnack(false);
   };
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
   return (
     <div className={Styles.container}>
-      <div className={Styles.dashBoardcontainer}>
-        <CustomCard>
-          <div className={Styles.dashBoard}>
-            <h3>Dashboard Under Construction</h3>
-          </div>
-        </CustomCard>
-      </div>
       <div>
-        <CustomLoader
-          loading={isLoading === true ? getAllLoading : FilterLoading}
-          size={48}
-          color="#333C44"
-        >
+        <CustomLoader loading={FilterLoading} size={48} color="#333C44">
           <div className={Styles.text}>
             <div className={Styles.textStyle}>
-              <h3>List of Projects</h3>
-            </div>
-            <div className={Styles.textStyle}>
-              <h6>Project List</h6>
+              <h3>List of Machineries</h3>
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>
@@ -202,12 +190,12 @@ const ProjectList = () => {
               </div>
               <div>
                 <Button
+                  color="primary"
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  color="primary"
                   icon={<AddIcon />}
-                  onClick={() => navigate('/project')}
+                  onClick={() => navigate('/add-machinery')}
                 >
                   Add
                 </Button>
@@ -221,13 +209,11 @@ const ProjectList = () => {
                 <thead>
                   <tr>
                     <th>S. No</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Manager</th>
-                    <th>Status</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    {activeButton === 'AC' && <th></th>}
+                    <th>Machinery Name</th>
+                    <th>Rate</th>
+                    <th>UOM</th>
+                    <th>Operational Status</th>
+                    {activeButton === 'AC' && <th>Options</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -241,57 +227,31 @@ const ProjectList = () => {
                   ) : (
                     ''
                   )}
-                  {getFilterData?.content?.map((data: any, index: number) => {
-                    return (
-                      <tr key={data.user_id}>
-                        <td>{startingIndex + index}</td>
-                        <td>{data?.project_data.project_name}</td>
-                        <td>{data?.project_data.code}</td>
+                  {getFilterData?.content?.map((data: any, index: number) => (
+                    <tr key={data.machinery_id}>
+                      <td>{startingIndex + index}</td>
+                      <td>{data.machinery_name}</td>
+                      <td>{data.rate}</td>
+                      <td>{data.uom_data.name}</td>
+                      <td>{data.operational_status}</td>
+                      {activeButton === 'AC' && (
                         <td>
-                          {data?.user_data?.first_name}{' '}
-                          {data?.user_data?.last_name}
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                navigate(`/edit-machinery/${data.machinery_id}`)
+                              }
+                            />
+                            <DeleteIcon
+                              onClick={() =>
+                                deleteMachineryHandler(data.machinery_id)
+                              }
+                            />
+                          </div>
                         </td>
-                        <td>{data?.project_data.status}</td>
-                        <td>
-                          {format(
-                            new Date(data?.project_data.date_started),
-                            'MMM dd, yyyy'
-                          )}
-                        </td>
-                        <td>
-                          {format(
-                            new Date(data?.project_data.date_ended),
-                            'MMM dd, yyyy'
-                          )}
-                        </td>
-                        {activeButton === 'AC' && (
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/project-edit/${data?.project_data.project_id}`
-                                  )
-                                }
-                              />
-                              <ViewIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/project-info/${data?.project_data.project_id}`
-                                  )
-                                }
-                              />
-                              {/* <DeleteIcon
-                            onClick={() =>
-                              deleteProjectHandler(data.project_id)
-                            }
-                          /> */}
-                            </div>
-                          </td>
-                        )}
-                      </tr>
-                    );
-                  })}
+                      )}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -310,10 +270,10 @@ const ProjectList = () => {
         <CustomDelete
           open={open}
           handleClose={handleClose}
-          title="Delete Project "
-          contentLine1="Are you want to delete this Project?"
+          title="Delete Machinery"
+          contentLine1="Are you want to delete this Machinery ?"
           contentLine2=""
-          handleConfirm={deleteProject}
+          handleConfirm={deleteMachinery}
         />
         <CustomSnackBar
           open={openDeleteSnack}
@@ -327,4 +287,4 @@ const ProjectList = () => {
   );
 };
 
-export default ProjectList;
+export default MachineryList;

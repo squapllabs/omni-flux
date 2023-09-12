@@ -9,17 +9,19 @@ import CustomLoader from '../ui/customLoader';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getByProjectId } from '../../hooks/project-hooks';
 import projectService from '../../service/project-service';
+import ProjectSettings from './projectComponent/projectSettings';
+import ProjectDocument from './projectComponent/projectDocument';
 const Project = () => {
   const routeParams = useParams();
-
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'General settings', value: 'PGS' },
+    { label: 'Generic', value: 'PGS' },
+    { label: 'Settings', value: 'PSG' },
     { label: 'Site Configuration', value: 'PSC' },
     { label: 'BOM configuration', value: 'PBC' },
+    { label: 'Document', value: 'PDT' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
-  const [reload, setReload] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
   useEffect(() => {
     const fetchData = async () => {
@@ -89,6 +91,25 @@ const Project = () => {
               )}
               {activeButton === 'PSC' ? (
                 <ProjectSiteConfig
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
+              {activeButton === 'PSG' ? (
+                <ProjectSettings
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                  projectData={projectData}
+                />
+              ) : (
+                ''
+              )}
+              {activeButton === 'PDT' ? (
+                <ProjectDocument
                   setActiveButton={setActiveButton}
                   setLoader={setLoader}
                   loader={loader}

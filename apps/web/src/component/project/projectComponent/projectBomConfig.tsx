@@ -48,8 +48,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
       const getData = await projectService.getOneProjectById(
         Number(routeParams?.id)
       );
-      console.log('getData', getData);
-
       setProjectData(getData?.data);
       let arr: any = [];
       const bomConfigurationRows = getData?.data?.bom_configuration.map(
@@ -66,7 +64,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
             is_delete: `${items?.is_delete === false ? 'N' : 'Y'}`,
             bom_configuration_id: items?.bom_configuration_id,
           };
-          console.log('obj', obj);
           arr.push(obj);
         }
       );
@@ -92,7 +89,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 obj.is_delete === isDelete
               );
             });
-            console.log('state', isValuePresent);
             if (isValuePresent === false) {
               return true;
             } else return false;
@@ -114,7 +110,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
     if (routeParams?.id === undefined) {
       createNewProjectData(obj, {
         onSuccess: (data, variables, context) => {
-          console.log('datassss', data);
           if (data?.status === true) {
             setMessage('BOM created');
             setOpenSnack(true);
@@ -130,11 +125,9 @@ const ProjectBomConfig: React.FC = (props: any) => {
     } else {
       updateProjectData(obj, {
         onSuccess: (data, variables, context) => {
-          console.log('datassss', data);
           if (data?.status === true) {
             setMessage('BOM Updated');
             setOpenSnack(true);
-
             props.setLoader(!props.loader);
             setTimeout(() => {
               navigate(`/project-edit/${data?.data?.project?.project_id}`);
@@ -151,7 +144,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
     validationSchema: validateSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
-      console.log('values');
       let arr = [];
       arr = [...bomConfig, values];
       setBomConfig(arr);
@@ -175,7 +167,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
             </thead>
             <tbody>
               {bomConfig?.map((item: any, index: any) => {
-                console.log('bom_configuration_id', item?.bom_configuration_id);
                 rowIndex = rowIndex + 1;
                 return (
                   <>

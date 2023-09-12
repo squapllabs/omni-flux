@@ -79,6 +79,19 @@ const getByProject = () => {
     }
   );
 };
+const getMemberBasedProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ProjectService.filterProjectmemberBased(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
 
 const useDeleteProjects = () => {
   const queryClient = useQueryClient();
@@ -100,6 +113,22 @@ const getByProjectId = (id: number) => {
     () => ProjectService.getOneProjectById(id),
     {
       select: (data) => data.data,
+    }
+  );
+};
+const getUserDataProjectRolebased = (value: any) => {
+  return useQuery(
+    ['getUserDataroleAndProjectBased', value],
+    () => ProjectService.getUserDataRolebasedandProjectBased(value),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project?.user_data?.user_id,
+          label:
+            `${project?.user_data?.first_name}` +
+            ' ' +
+            `${project?.user_data?.last_name}`,
+        })),
     }
   );
 };
@@ -153,5 +182,7 @@ export {
   useGetMasterProjectParentType,
   useGetAllProjectManagers,
   useGetAllProjectDrop,
-  getSitesByProjectId
+  getSitesByProjectId,
+  getMemberBasedProject,
+  getUserDataProjectRolebased,
 };

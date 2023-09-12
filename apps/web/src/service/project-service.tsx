@@ -50,6 +50,18 @@ const filterProject = async (values: JSON) => {
     throw error;
   }
 };
+const filterProjectmemberBased = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/project-member-association/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in project search :', error);
+    throw error;
+  }
+};
 const deleteProject = async (id: number) => {
   try {
     const response = await axiosinterceptor.delete(
@@ -121,6 +133,17 @@ const getAllProjectManagers = async () => {
     throw error;
   }
 };
+const getUserDataRolebasedandProjectBased = async (value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project-member-association/get-by-project-id-and-role-name/${value?.projectID}/${value?.role}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all users:', error);
+    throw error;
+  }
+};
 export default {
   getAllProject,
   createProjectData,
@@ -131,5 +154,7 @@ export default {
   updateProjectData,
   getAllProjectParentType,
   getAllProjectManagers,
-  getSitesByProjectId
+  getSitesByProjectId,
+  filterProjectmemberBased,
+  getUserDataRolebasedandProjectBased,
 };

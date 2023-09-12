@@ -8,7 +8,11 @@ import DatePicker from '../../ui/CustomDatePicker';
 import AddIcon from '../../menu/icons/addIcon';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
-import { useGetAllUsersDrop, useGetAllUsers } from '../../../hooks/user-hooks';
+import {
+  useGetAllUsersDrop,
+  useGetAllUsers,
+  getUserbyRole,
+} from '../../../hooks/user-hooks';
 import { useGetAllSiteDrops } from '../../../hooks/site-hooks';
 import {
   createProject,
@@ -32,8 +36,6 @@ import {
 const ProjectGeneralDetails: React.FC = (props: any) => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  console.log('routeParams', routeParams?.id);
-
   const currentDate = new Date();
   const defaultEndDate = new Date();
   defaultEndDate.setDate(currentDate.getDate() + 90);
@@ -68,6 +70,8 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
+  const { data: getProjectManagerList = [] } = getUserbyRole('Project Manager');
+  const { data: getProjectApproverList = [] } = getUserbyRole('Approver');
   const { data: getAllProjectTypeDatadrop = [] } =
     useGetMasterProjectParentType();
   const { mutate: createNewProjectData } = createProject();
@@ -77,7 +81,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       const getData = await projectService.getOneProjectById(
         Number(routeParams?.id)
       );
-      console.log('getData', getData?.data);
       setInitialValues({
         project_name: getData?.data?.project_name,
         code: getData?.data?.code,
@@ -206,7 +209,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       routeParams?.id === undefined ? validateSchemaCreate : validateSchemaEdit,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log('values', values);
       const statusData = values.submitType === 'Draft' ? 'Draft' : 'Inprogress';
       const Object: any = {
         project_id: values.project_id,
@@ -227,15 +229,12 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         bom_configuration: bomConfig,
         status: statusData,
       };
-      console.log('Object', Object);
       if (routeParams?.id === undefined) {
         createNewProjectData(Object, {
           onSuccess: (data, variables, context) => {
-            console.log('datassss', data);
             if (data?.status === true) {
               setMessage('Project created');
               setOpenSnack(true);
-              console.log('saveddata', data);
               props.setLoader(!props.loader);
               if (data?.data?.project?.status === 'Draft') {
                 setTimeout(() => {
@@ -253,11 +252,9 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       } else {
         updateProjectData(Object, {
           onSuccess: (data, variables, context) => {
-            console.log('datassss', data);
             if (data?.status === true) {
               setMessage('Project updated');
               setOpenSnack(true);
-              console.log('saveddata', data);
               props.setLoader(!props.loader);
               if (data?.data?.project?.status === 'Draft') {
                 setTimeout(() => {
@@ -321,7 +318,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                   formik.setFieldValue('user_id', value);
                 }}
                 // disabled={disable}
-                optionList={getAllUsersDatadrop}
+                optionList={getProjectManagerList}
               />
             </div>
             <div style={{ width: '40%' }} className={Styles.client}>
@@ -391,6 +388,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                 onChange={formik.handleChange}
                 value={formik.values.project_type}
                 defaultLabel="Select from options"
+                placeholder="Select from options"
                 error={
                   formik.touched.project_type && formik.errors.project_type
                 }
@@ -416,7 +414,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                   formik.setFieldValue('approvar_id', value);
                 }}
                 // disabled={disable}
-                optionList={getAllUsersDatadrop}
+                optionList={getProjectApproverList}
               />
             </div>
           </div>

@@ -23,6 +23,7 @@ border-bottom: 1px solid black;
   flex-direction:column;
   flex-wrap: wrap;
   justify-content: space-around;
+  flex-wrap: wrap;
   gap: 10px;
 }
 .itemField1 {
@@ -35,9 +36,9 @@ border-bottom: 1px solid black;
 .buttonFields {
   display:flex;
   flex-direction:row;
-  gap:10px;
+  gap:30px;
   justify-content:flex-end;
-  padding-right:110px;
+  padding-right:50px;
 }
 
 
