@@ -1,0 +1,30 @@
+.box {
+    padding: 10px 0px 10px 10px;
+}
+.form {
+    justify-content: left;
+    padding-top: 20px;
+}
+.formFields {
+    padding: 10px 10px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.dividerStyle {
+    border-top: 2px solid #ccc;
+}
+.fieldRow {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 150px;
+}
+.buttonFields {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding-right: 16%;
+    gap: 30px;
+}

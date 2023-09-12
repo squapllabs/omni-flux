@@ -1,0 +1,17 @@
+.title {
+    padding-bottom: 10px;
+}
+
+.fieldContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.inputField {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 150px;
+}

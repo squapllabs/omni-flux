@@ -38,6 +38,20 @@ const useGetAllProjectDrop = () => {
   );
 };
 
+const getSitesByProjectId = (id:number) => {
+  return useQuery(
+    ['getSitesByProjectId',id],
+    () => ProjectService.getSitesByProjectId(id),
+    {
+      select: (data) =>
+      data?.data?.map((project: any) => ({
+        value: project.site_id,
+        label: project.site_details.name,
+      })),
+    }
+  );
+};
+
 const createProject = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -82,13 +96,14 @@ const useDeleteProjects = () => {
 
 const getByProjectId = (id: number) => {
   return useQuery(
-    ['getByuserID', id],
+    ['getByProjectID', id],
     () => ProjectService.getOneProjectById(id),
     {
       select: (data) => data.data,
     }
   );
 };
+
 
 const updateProject = () => {
   const queryClient = useQueryClient();
@@ -138,4 +153,5 @@ export {
   useGetMasterProjectParentType,
   useGetAllProjectManagers,
   useGetAllProjectDrop,
+  getSitesByProjectId
 };

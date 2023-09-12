@@ -128,7 +128,7 @@ const CategotyAdd: React.FC = (props: any) => {
     <div className={Styles.formContainer}>
       <div className={Styles.box}>
         <div>
-          <h3>Category Add/Edit</h3>
+          <h3>{routeParams.id ? 'Category Edit' : 'Category Add'}</h3>
         </div>
       </div>
       <div className={Styles.dividerStyle}></div>

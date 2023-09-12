@@ -74,6 +74,18 @@ const getOneProjectById = async (values: any) => {
   }
 };
 
+const getSitesByProjectId = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project-site/get-sites-by-project-id/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in get sites by project id :', error);
+    throw error;
+  }
+}
+
 const updateProjectData = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
@@ -119,4 +131,5 @@ export default {
   updateProjectData,
   getAllProjectParentType,
   getAllProjectManagers,
+  getSitesByProjectId
 };

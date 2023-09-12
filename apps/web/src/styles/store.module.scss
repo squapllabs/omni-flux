@@ -1,0 +1,107 @@
+.top {
+    padding: 10px 15px 0px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.textContent {
+    padding-left: 10px;
+}
+
+.dividerStyle {
+    border-bottom: 2px solid #ccc;
+    padding: 0px 1px 5px 1px;
+}
+
+.box {
+    position: relative;
+
+}
+
+.textContent1 {
+    padding: 15px 0px 10px 10px;
+}
+
+.searchField {
+    padding: 0px 15px 0px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.inputFilter {
+    display: flex;
+    gap: 10px;
+}
+
+.searchButton {
+    border-radius: 8px;
+    color: #6941c6;
+}
+
+.searchButton:hover {
+    background-color: #7f56d9;
+    color: #ffffff;
+}
+
+.resetButton [disabled] {
+    border-radius: 8px;
+    color: black;
+    background-color: #ccc;
+}
+
+.resetButton:not([disabled]):hover {
+    background-color: #c4c4c6;
+    color: #ffffff;
+}
+
+.tableContainer {
+    padding: 10px 15px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #f2f2f2;
+    padding: 8px;
+    text-align: left;
+}
+
+tr {
+    border-bottom: 1px solid #ccc;
+}
+
+td {
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+.tableIcon {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+  }
+
+.pagination {
+    display: flex;
+    justify-content: end;
+    padding-right: 15px;
+}
