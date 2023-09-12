@@ -13,17 +13,15 @@ import ProjectSettings from './projectComponent/projectSettings';
 import ProjectDocument from './projectComponent/projectDocument';
 const Project = () => {
   const routeParams = useParams();
-
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'General settings', value: 'PGS' },
+    { label: 'Generic', value: 'PGS' },
+    { label: 'Settings', value: 'PSG' },
     { label: 'Site Configuration', value: 'PSC' },
     { label: 'BOM configuration', value: 'PBC' },
-    { label: 'Settings', value: 'PSG' },
     { label: 'Document', value: 'PDT' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
-  const [reload, setReload] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
   useEffect(() => {
     const fetchData = async () => {
@@ -105,11 +103,11 @@ const Project = () => {
                   setActiveButton={setActiveButton}
                   setLoader={setLoader}
                   loader={loader}
-                  projectData = {projectData}
-                  />
-                  ) : (
-                    ''
-                  )}
+                  projectData={projectData}
+                />
+              ) : (
+                ''
+              )}
               {activeButton === 'PDT' ? (
                 <ProjectDocument
                   setActiveButton={setActiveButton}

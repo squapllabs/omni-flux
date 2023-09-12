@@ -102,6 +102,22 @@ const getByProjectId = (id: number) => {
     }
   );
 };
+const getUserDataProjectRolebased = (value: any) => {
+  return useQuery(
+    ['getUserDataroleAndProjectBased', value],
+    () => ProjectService.getUserDataRolebasedandProjectBased(value),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project?.user_data?.user_id,
+          label:
+            `${project?.user_data?.first_name}` +
+            ' ' +
+            `${project?.user_data?.last_name}`,
+        })),
+    }
+  );
+};
 
 const updateProject = () => {
   const queryClient = useQueryClient();
@@ -152,4 +168,5 @@ export {
   useGetAllProjectManagers,
   useGetAllProjectDrop,
   getMemberBasedProject,
+  getUserDataProjectRolebased,
 };
