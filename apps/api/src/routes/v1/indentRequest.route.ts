@@ -9,6 +9,7 @@ import {
   deleteByIndentRequestId,
   getAllIndentRequests,
   getByIndentRequestId,
+  getByProjectId,
   searchIndentRequest,
   updateIndentRequest,
 } from '../../controller/indentRequest.controller';
@@ -43,5 +44,7 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchIndentRequest);
+
+router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
 
 export default router;

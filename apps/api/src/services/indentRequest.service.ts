@@ -1,4 +1,5 @@
 import indentRequestDao from '../dao/indentRequest.dao';
+import projectDao from '../dao/project.dao';
 import userDao from '../dao/user.dao';
 import { indentRequestBody } from '../interfaces/indentRequest.interface';
 
@@ -24,6 +25,7 @@ const createIndentRequest = async (body: indentRequestBody) => {
       approvar_comments,
       created_by,
       indent_request_details,
+      project_id,
     } = body;
 
     if (requester_user_id) {
@@ -48,6 +50,17 @@ const createIndentRequest = async (body: indentRequestBody) => {
       }
     }
 
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const indentRequestDetails = await indentRequestDao.add(
       requester_user_id,
       requested_date,
@@ -62,7 +75,8 @@ const createIndentRequest = async (body: indentRequestBody) => {
       rejected_date,
       approvar_comments,
       created_by,
-      indent_request_details
+      indent_request_details,
+      project_id
     );
     const result = {
       message: 'success',
@@ -100,6 +114,7 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       updated_by,
       indent_request_details,
       indent_request_id,
+      project_id,
     } = body;
     let result = null;
     const indentRequestExist = await indentRequestDao.getById(
@@ -136,6 +151,17 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       }
     }
 
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const indentRequestDetails = await indentRequestDao.edit(
       requester_user_id,
       requested_date,
@@ -151,6 +177,7 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       approvar_comments,
       updated_by,
       indent_request_details,
+      project_id,
       indent_request_id
     );
     result = { message: 'success', status: true, data: indentRequestDetails };
@@ -266,16 +293,173 @@ const searchIndentRequest = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
-    const filterObj = {
-      filterIndentRequest: {
-        AND: [],
-        OR: [
-          { name: { contains: global_search, mode: 'insensitive' } },
-          { contact_details: { contains: global_search, mode: 'insensitive' } },
-        ],
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterIndentRequest = {
         is_delete: status === 'AC' ? false : true,
-      },
-    };
+      };
+    }
+
+    if (global_search) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.OR = filterObj.filterIndentRequest.OR || [];
+
+      filterObj.filterIndentRequest.OR.push(
+        {
+          request_status: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          approvar_status: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          description: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          priority: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          approvar_comments: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          requester_user_data: {
+            first_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          approvar_user_data: {
+            last_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          requester_user_data: {
+            first_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          approvar_user_data: {
+            last_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_data: {
+            project_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          indent_request_details: {
+            some: {
+              bom_detail_data: {
+                bom_name: {
+                  contains: global_search,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+        },
+        {
+          indent_request_details: {
+            some: {
+              bom_detail_data: {
+                uom_data: {
+                  name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          indent_request_details: {
+            some: {
+              bom_detail_data: {
+                sub_category_data: {
+                  name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          indent_request_details: {
+            some: {
+              bom_detail_data: {
+                item_data: {
+                  item_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          indent_request_details: {
+            some: {
+              bom_detail_data: {
+                machinery_data: {
+                  machinery_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          indent_request_details: {
+            some: {
+              bom_detail_data: {
+                labour_data: {
+                  labour_type: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+          },
+        }
+      );
+    }
 
     const result = await indentRequestDao.searchIndentRequest(
       offset,
@@ -305,6 +489,43 @@ const searchIndentRequest = async (body) => {
   }
 };
 
+/**
+ * Method to get IndentRequest By project_id
+ * @param project_id
+ * @returns
+ */
+const getByProjectId = async (project_id: number) => {
+  try {
+    let result = null;
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+    const indentRequestData = await indentRequestDao.getByProjectId(project_id);
+    if (indentRequestData.length > 0) {
+      result = { message: 'success', status: true, data: indentRequestData };
+      return result;
+    } else {
+      result = {
+        message: 'No data found related to this project_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectId indentRequest service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createIndentRequest,
   updateIndentRequest,
@@ -312,4 +533,5 @@ export {
   getById,
   deleteIndentRequest,
   searchIndentRequest,
+  getByProjectId,
 };

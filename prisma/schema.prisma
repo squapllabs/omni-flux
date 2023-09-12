@@ -228,6 +228,7 @@ model project {
   user_primary_project       user_primary_project[]
   project_member_association project_member_association[]
   store                      store[]
+  indent_request             indent_request[]
 }
 
 model project_expense {
@@ -760,6 +761,7 @@ model store {
 
 model indent_request {
   indent_request_id      Int                      @id @default(autoincrement())
+  project_id             Int?
   requester_user_id      Int
   requested_date         DateTime
   request_status         String?
@@ -779,6 +781,7 @@ model indent_request {
   updated_by             Int?
   requester_user_data    users                    @relation("indentRequesterUser", fields: [requester_user_id], references: [user_id])
   approvar_user_data     users?                   @relation("indentApprovarUser", fields: [approvar_user_id], references: [user_id])
+  project_data           project?                 @relation(fields: [project_id], references: [project_id])
   indent_request_details indent_request_details[]
 }
 

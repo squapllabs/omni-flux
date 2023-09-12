@@ -15,6 +15,7 @@ interface indentRequestBody {
   created_by: number;
   updated_by: number;
   indent_request_details: Array<indentRequestDetails>;
+  project_id: number;
 }
 
 interface indentRequestDetails {

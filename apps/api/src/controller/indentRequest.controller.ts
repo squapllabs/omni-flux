@@ -73,6 +73,18 @@ const searchIndentRequest = catchAsync(async (req, res) => {
   }
 });
 
+const getByProjectId = catchAsync(async (req, res) => {
+  const methodName = '/getByProjectId';
+  try {
+    const indentRequest = await indentRequestService.getByProjectId(
+      req.params.project_id
+    );
+    res.send(indentRequest);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createIndentRequest,
   updateIndentRequest,
@@ -80,4 +92,5 @@ export {
   getByIndentRequestId,
   deleteByIndentRequestId,
   searchIndentRequest,
+  getByProjectId,
 };

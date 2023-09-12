@@ -15,6 +15,7 @@ const add = async (
   approvar_comments: string,
   created_by: number,
   indent_request_details,
+  project_id: number,
   connectionObj = null
 ) => {
   try {
@@ -47,6 +48,7 @@ const add = async (
         approved_date: formatted_approved_date,
         rejected_date: formatted_rejected_date,
         approvar_comments,
+        project_id,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -107,6 +109,7 @@ const edit = async (
   approvar_comments: string,
   updated_by: number,
   indent_request_details,
+  project_id: number,
   indent_request_id: number,
   connectionObj = null
 ) => {
@@ -142,6 +145,7 @@ const edit = async (
         approved_date: formatted_approved_date,
         rejected_date: formatted_rejected_date,
         approvar_comments,
+        project_id,
         updated_by,
         updated_date: currentDate,
       },
@@ -220,9 +224,20 @@ const getById = async (indentRequestId: number, connectionObj = null) => {
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
         approvar_user_data: { select: { first_name: true, last_name: true } },
+        project_data: true,
         indent_request_details: {
           where: { is_delete: false },
-          include: { bom_detail_data: true },
+          include: {
+            bom_detail_data: {
+              include: {
+                uom_data: { select: { name: true } },
+                sub_category_data: { select: { name: true } },
+                item_data: true,
+                labour_data: true,
+                machinery_data: true,
+              },
+            },
+          },
           orderBy: [{ updated_date: 'desc' }],
         },
       },
@@ -244,9 +259,20 @@ const getAll = async (connectionObj = null) => {
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
         approvar_user_data: { select: { first_name: true, last_name: true } },
+        project_data: true,
         indent_request_details: {
           where: { is_delete: false },
-          include: { bom_detail_data: true },
+          include: {
+            bom_detail_data: {
+              include: {
+                uom_data: { select: { name: true } },
+                sub_category_data: { select: { name: true } },
+                item_data: true,
+                labour_data: true,
+                machinery_data: true,
+              },
+            },
+          },
           orderBy: [{ updated_date: 'desc' }],
         },
       },
@@ -300,6 +326,26 @@ const searchIndentRequest = async (
     const filter = filters.filterIndentRequest;
     const indentRequest = await transaction.indent_request.findMany({
       where: filter,
+      include: {
+        requester_user_data: { select: { first_name: true, last_name: true } },
+        approvar_user_data: { select: { first_name: true, last_name: true } },
+        project_data: true,
+        indent_request_details: {
+          where: { is_delete: false },
+          include: {
+            bom_detail_data: {
+              include: {
+                uom_data: { select: { name: true } },
+                sub_category_data: { select: { name: true } },
+                item_data: true,
+                labour_data: true,
+                machinery_data: true,
+              },
+            },
+          },
+          orderBy: [{ updated_date: 'desc' }],
+        },
+      },
       orderBy: [
         {
           [orderByColumn]: orderByDirection,
@@ -325,6 +371,42 @@ const searchIndentRequest = async (
   }
 };
 
+const getByProjectId = async (project_id: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const indentRequest = await transaction.indent_request.findMany({
+      where: {
+        project_id: Number(project_id),
+        is_delete: false,
+      },
+      include: {
+        requester_user_data: { select: { first_name: true, last_name: true } },
+        approvar_user_data: { select: { first_name: true, last_name: true } },
+        project_data: true,
+        indent_request_details: {
+          where: { is_delete: false },
+          include: {
+            bom_detail_data: {
+              include: {
+                uom_data: { select: { name: true } },
+                sub_category_data: { select: { name: true } },
+                item_data: true,
+                labour_data: true,
+                machinery_data: true,
+              },
+            },
+          },
+          orderBy: [{ updated_date: 'desc' }],
+        },
+      },
+    });
+    return indentRequest;
+  } catch (error) {
+    console.log('Error occurred in indentRequest getByProjectId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -332,4 +414,5 @@ export default {
   getAll,
   deleteIndentRequest,
   searchIndentRequest,
+  getByProjectId,
 };

@@ -63,3 +63,9 @@ constraint fk_inventory_store_id foreign key (store_id) references store(store_i
 constraint fk_inventory_item_id foreign key (item_id) references item(item_id),
 constraint fk_inventory_project_id foreign key (project_id) references project(project_id)
 )
+
+alter table indent_request 
+add column project_id int4;
+
+alter table indent_request 
+add constraint fk_indent_request_project_id foreign key (project_id) references project(project_id);
