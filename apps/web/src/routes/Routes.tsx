@@ -237,6 +237,7 @@ import ProductAdd from '../component/products/productAdd';
 import AddMachinery from '../component/machinery/addMachinery';
 import AddVendor from '../component/vendor/vendorAdd';
 import Project from '../component/project/project';
+import ViewProject from '../component/vendor/vendorView'
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -293,6 +294,7 @@ const AppRoutes = () => {
   const ProtectedMachineryAddPage = withLayoutAndProtection(AddMachinery);
   const ProtectedVendorAddPage = withLayoutAndProtection(AddVendor);
   const ProtectedProject = withLayoutAndProtection(Project);
+  const ProtectedVendorView = withLayoutAndProtection(ViewProject);
 
   return (
     <div>
@@ -358,7 +360,7 @@ const AppRoutes = () => {
         />
         <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />
-        <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} />
+        {/* <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} /> */}
         <Route path="/category-add" element={<ProtectedCategoryAdd />} />
         <Route path="/category-edit/:id" element={<ProtectedCategoryAdd />} />
         <Route path="/subcategory-add" element={<ProtectedSubCategoryAdd />} />
@@ -383,18 +385,20 @@ const AppRoutes = () => {
           path="/lead-info-tender/:id"
           element={<ProtectedLeadTenderView />}
         />
-        <Route path="/bomlist/:projectId" element={<ProtectedBomList />} />
         <Route
-          path="/bom/:subCategoryId/:projectId"
-          element={<ProtectedBom />}
+          path="/bomlist/:projectId/:bomconfigId"
+          element={<ProtectedBomList />}
         />
         <Route path="/add-machinery" element={<ProtectedMachineryAddPage />} />
         <Route path="/edit-machinery/:id" element={<ProtectedMachineryAddPage />} />
         <Route path="/vendor-add" element={<ProtectedVendorAddPage />} />
         <Route path="/vendor-edit/:id" element={<ProtectedVendorAddPage />} />
+        <Route path="/vendor-info/:id" element={<ProtectedVendorView />} />
+        <Route path="/bom/:subCategoryId" element={<ProtectedBom />} />
         <Route path="/product-add" element={<ProtectedProductAddPage />} />
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
         <Route path="/project" element={<ProtectedProject />} />
+        <Route path="/project-edit/:id" element={<ProtectedProject />} />
       </Routes>
     </div>
   );

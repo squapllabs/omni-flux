@@ -62,11 +62,24 @@ const filterVendor = async (values: JSON) => {
       console.log('Error in updateVendors edit:', error);
     }
   };
+
+  const getOneVendorEmail = async (values: any) => {
+    try {
+      const response = await axiosinterceptor.get(
+        `${environment.apiUrl}/vendor/get-by-email-id/${values}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in getOneVendorEmail :', error);
+      throw error;
+    }
+  };
   
 export default {
     filterVendor,
     deleteVendor,
     createVendor,
     getOneVendorById,
-    updateVendors
+    updateVendors,
+    getOneVendorEmail
 }

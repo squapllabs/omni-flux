@@ -1,3 +1,5 @@
+import vendorService from "../../service/vendor-service";
+
 export const vendorErrorMessages = {
   ENTER_VENDORNAME: 'Vendor name is required',
   ENTER_CONTACTPERSONNAME: 'Contact person name is required',

@@ -13,7 +13,7 @@ const Settings = () => {
     { label: 'Category', value: 'C' },
     { label: 'Master Data', value: 'M' },
     { label: 'User List', value: 'U' },
-    { label: 'Project List', value: 'PL' },
+    // { label: 'Project List', value: 'PL' },
     { label: 'Lead List', value: 'LL'},
     { label: 'Machinery List', value: 'ML'},
     { label: 'Vendor List', value: 'VL'},
@@ -39,7 +39,7 @@ const Settings = () => {
         {activeButton === 'C' && <Category />}
         {activeButton === 'M' && <MasterData />}
         {activeButton === 'U' && <UserList />}
-        {activeButton === 'PL' && <ProjectList />}
+        {/* {activeButton === 'PL' && <ProjectList />} */}
         {activeButton === 'LL' && <LeadList />}
         {activeButton === 'ML' && <MachineryList />}
         {activeButton === 'VL' && <VendorList />}

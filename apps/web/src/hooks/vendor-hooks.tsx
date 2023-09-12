@@ -68,10 +68,21 @@ const useGetAllPaginatedVendor = (data: any) => {
     );
   };
 
+  const getByVendorId = (id: number) => {
+    return useQuery(
+      ['getByuserID', id],
+      () => vendorService.getOneVendorById(id),
+      {
+        select: (data) => data.data,
+      }
+    );
+  };
+
   export {
     useGetAllPaginatedVendor,
     getByFilterVendor,
     useDeleteVendor,
     createVendor,
-    updateVendor
+    updateVendor,
+    getByVendorId
   }

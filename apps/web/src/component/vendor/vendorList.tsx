@@ -8,6 +8,7 @@ import SearchIcon from '../menu/icons/search';
 import Pagination from '../menu/pagination';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
+import ViewIcon from '../menu/icons/viewIcon';
 import AddIcon from '../menu/icons/addIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import Styles from '../../styles/vendor.module.scss';
@@ -268,6 +269,11 @@ const VendorList = () => {
                               <EditIcon
                                 onClick={() =>
                                   navigate(`/vendor-edit/${data.vendor_id}`)
+                                }
+                              />
+                              <ViewIcon
+                                onClick={() =>
+                                  navigate(`/vendor-info/${data.vendor_id}`)
                                 }
                               />
                               <DeleteIcon
