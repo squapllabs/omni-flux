@@ -11,11 +11,7 @@ const VendorView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const VendorId = Number(routeParams?.id);
-//   console.log('vendorId', VendorId);
-
   const { data: getOneVendor } = getByVendorId(VendorId);
-//   console.log('mmmm', getOneVendor);
-
   return (
     <div>
       <div className={Styles.title}>

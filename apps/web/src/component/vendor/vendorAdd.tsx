@@ -12,7 +12,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { useParams } from 'react-router-dom';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
 import Select from '../ui/selectNew';
-import { getvendorcreationYupschema } from '../../helper/constants/vendor-constants';
+import { getVendorCreationYupschema,getVendorEditYupschema } from '../../helper/constants/vendor-constants';
 import { createVendor, updateVendor } from '../../hooks/vendor-hooks';
 import vendorService from '../../service/vendor-service';
 
@@ -27,12 +27,9 @@ const AddVendor = () => {
   const { data: getAllPaymentTypeList = [] } = getBymasertDataType('PPM');
   const { data: getAllVendorTypeList = [] } = getBymasertDataType('VNC');
   const { data: getAllCurrencyTypeList = [] } = getBymasertDataType('CRTYP');
-
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-
-  const validationSchema = getvendorcreationYupschema(Yup);
-
+  const validationSchema = routeParams?.id ? getVendorEditYupschema(Yup) : getVendorCreationYupschema(Yup);
   const [initialValues, setInitialValues] = useState({
     vendor_id: '',
     vendor_name: '',
@@ -475,8 +472,8 @@ const AddVendor = () => {
               <div>
                 <Input
                   name="lead_time"
-                  label="Lead Time"
-                  placeholder="Enter Lead Time"
+                  label="Delivery Duration"
+                  placeholder="Enter Delivery Duration"
                   value={formik.values.lead_time}
                   onChange={formik.handleChange}
                   width="250px"
