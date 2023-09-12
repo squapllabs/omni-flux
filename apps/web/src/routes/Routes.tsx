@@ -234,6 +234,8 @@ import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
 import BomList from '../component/bom/bomList';
 import Bom from '../component/bom/bom';
 import ProductAdd from '../component/products/productAdd';
+import LabourList from '../component/labour/labourList';
+import LabourAdd from '../component/labour/labourAdd';
 import AddMachinery from '../component/machinery/addMachinery';
 import AddVendor from '../component/vendor/vendorAdd';
 import Project from '../component/project/project';
@@ -292,6 +294,8 @@ const AppRoutes = () => {
   const ProtectedBomList = withLayoutAndProtection(BomList);
   const ProtectedBom = withLayoutAndProtection(Bom);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
+  const ProtectedLabourListPage = withLayoutAndProtection(LabourList);
+  const ProtectedLabourAddPage = withLayoutAndProtection(LabourAdd);
   const ProtectedMachineryAddPage = withLayoutAndProtection(AddMachinery);
   const ProtectedVendorAddPage = withLayoutAndProtection(AddVendor);
   const ProtectedProject = withLayoutAndProtection(Project);
@@ -391,6 +395,15 @@ const AppRoutes = () => {
           path="/bomlist/:projectId/:bomconfigId"
           element={<ProtectedBomList />}
         />
+         <Route
+          path="/labour"
+          element={<ProtectedLabourListPage />}
+        />
+        <Route
+          path="/labour-add"
+          element={<ProtectedLabourAddPage />}
+        />
+        <Route path="/labour-edit/:id" element={<ProtectedLabourAddPage />} />
         <Route path="/add-machinery" element={<ProtectedMachineryAddPage />} />
         <Route path="/edit-machinery/:id" element={<ProtectedMachineryAddPage />} />
         <Route path="/vendor-add" element={<ProtectedVendorAddPage />} />

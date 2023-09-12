@@ -8,6 +8,7 @@ import ProjectList from "../project/projectList";
 import LeadList from "../leadEnquires/leadList";
 import MachineryList from "../machinery/machineryList";
 import VendorList from "../vendor/vendorList";
+import LabourList from '../labour/labourList';
 const Settings = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Category', value: 'C' },
@@ -15,8 +16,9 @@ const Settings = () => {
     { label: 'User List', value: 'U' },
     // { label: 'Project List', value: 'PL' },
     { label: 'Lead List', value: 'LL'},
-    { label: 'Machinery List', value: 'ML'},
+    // { label: 'Machinery List', value: 'ML'},
     { label: 'Vendor List', value: 'VL'},
+    { label: 'Labour List', value: 'LB'},
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('C');
   const handleGroupButtonClick = (value: string) => {
@@ -41,8 +43,9 @@ const Settings = () => {
         {activeButton === 'U' && <UserList />}
         {/* {activeButton === 'PL' && <ProjectList />} */}
         {activeButton === 'LL' && <LeadList />}
-        {activeButton === 'ML' && <MachineryList />}
+        {/* {activeButton === 'ML' && <MachineryList />} */}
         {activeButton === 'VL' && <VendorList />}
+        {activeButton === 'LB' && <LabourList />}
       </div>
     </div>
   );
