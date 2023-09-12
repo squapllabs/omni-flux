@@ -186,10 +186,6 @@ const ProjectSettings: React.FC = (props: any) => {
             // }, 1000);
             resetForm()
           }
-          // else if (data?.message === 'This project_id and user_id combination already exist') {
-          //   setMessage('This Project and User combination already exist');
-          //   setOpenSnack(true);
-          // }
         },
       });
     },
