@@ -388,6 +388,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                 onChange={formik.handleChange}
                 value={formik.values.project_type}
                 defaultLabel="Select from options"
+                placeholder="Select from options"
                 error={
                   formik.touched.project_type && formik.errors.project_type
                 }

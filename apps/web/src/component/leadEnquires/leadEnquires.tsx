@@ -53,7 +53,7 @@ const LeadEnquires = () => {
                 <SelectNew
                   label="Lead Type"
                   name="parent_master_data_id"
-                  defaultLabel="select the option"
+                  defaultLabel="select the options"
                   onChange={handleDropdownChange}
                   value={selectedValue}
                   helperText="Depending on selected Lead Type below form will change"
