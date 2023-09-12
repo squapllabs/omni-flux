@@ -3,6 +3,7 @@ import siteContractorDao from '../dao/siteContractor.dao';
 import storeDao from '../dao/store.dao';
 import userDao from '../dao/user.dao';
 import { storeBody } from '../interfaces/store.interface';
+import customQueryExecutor from '../dao/common/utils.dao';
 
 /**
  * Method to Create a New Store
@@ -232,4 +233,104 @@ const deleteStore = async (storeId: number) => {
   }
 };
 
-export { createStore, updateStore, getAllStore, getById, deleteStore };
+/**
+ * Method to search Store - Pagination API
+ * @returns
+ */
+const searchStore = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const is_delete = status === 'AC' ? false : true;
+
+    const query = `select
+      s.*,
+      jsonb_build_object('user_id', u.user_id, 'user_name', concat(u.first_name, ' ', u.last_name)) as store_manager_data,
+      jsonb_build_object('project_id', p.project_id, 'project_name', p.project_name) as project_data,
+      jsonb_build_object('site_id', sc.site_contractor_id, 'site_name', sc."name") as site_data
+      from
+      store s
+      left join users u on
+      u.user_id = s.store_manager_id
+      left join project p on
+      p.project_id = s.project_id
+      left join site_contractor sc on
+      sc.site_contractor_id = s.site_id
+      where
+      s.is_delete = ${is_delete}
+      and (
+      s.store_name ilike '%${global_search}%'
+      or s.contact_email ilike '%${global_search}%'
+      or s.contact_phone ilike '%${global_search}%'
+      or concat(u.first_name, ' ', u.last_name) ilike '%${global_search}%'
+      or p.project_name ilike '%${global_search}%'
+      or sc."name" ilike '%${global_search}%'
+      or s.address->> 'street' ilike '%${global_search}%' 
+      or s.address->> 'city' ilike '%${global_search}%'
+      or s.address->> 'state' ilike '%${global_search}%'
+      or s.address->> 'country' ilike '%${global_search}%'
+      or s.address->> 'pin_code' ilike '%${global_search}%'
+      )
+      order by
+      ${order_by_column} ${order_by_direction}
+      limit ${limit} offset ${offset}`;
+
+    const countQuery = `select
+        count(s.*)
+        from
+        store s
+        left join users u on
+        u.user_id = s.store_manager_id
+        left join project p on
+        p.project_id = s.project_id
+        left join site_contractor sc on
+        sc.site_contractor_id = s.site_id
+        where
+        s.is_delete = ${is_delete}
+        and (
+        s.store_name ilike '%${global_search}%'
+        or s.contact_email ilike '%${global_search}%'
+        or s.contact_phone ilike '%${global_search}%'
+        or concat(u.first_name, ' ', u.last_name) ilike '%${global_search}%'
+        or p.project_name ilike '%${global_search}%'
+        or sc."name" ilike '%${global_search}%'
+        or s.address->> 'street' ilike '%${global_search}%' 
+        or s.address->> 'city' ilike '%${global_search}%'
+        or s.address->> 'state' ilike '%${global_search}%'
+        or s.address->> 'country' ilike '%${global_search}%'
+        or s.address->> 'pin_code' ilike '%${global_search}%'
+        )`;
+
+    const data = await customQueryExecutor.customQueryExecutor(query);
+    const countData = await customQueryExecutor.customQueryExecutor(countQuery);
+    const count = Number(countData[0].count);
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempStoreData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_pages: total_pages,
+      content: data,
+    };
+    return tempStoreData;
+  } catch (error) {
+    console.log('Error occurred in searchStore Store service : ', error);
+    throw error;
+  }
+};
+
+export {
+  createStore,
+  updateStore,
+  getAllStore,
+  getById,
+  deleteStore,
+  searchStore,
+};
