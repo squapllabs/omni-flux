@@ -34,6 +34,7 @@ import userPrimaryProject from './userPrimaryProject.route';
 import projectMemberAssociation from './projectMemberAssociation.route';
 import store from './store.route';
 import projectSite from './projectSite.route';
+import indentRequest from './indentRequest.route';
 
 const router = express.Router();
 
@@ -177,6 +178,10 @@ const defaultRoutes = [
   {
     path: '/project-site',
     route: projectSite,
+  },
+  {
+    path: '/indent-request',
+    route: indentRequest,
   },
 ];
 
