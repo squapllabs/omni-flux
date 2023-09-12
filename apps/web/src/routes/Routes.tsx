@@ -238,6 +238,7 @@ import AddMachinery from '../component/machinery/addMachinery';
 import AddVendor from '../component/vendor/vendorAdd';
 import Project from '../component/project/project';
 import ViewProject from '../component/vendor/vendorView'
+import ProjectSettings from '../component/project/projectComponent/projectSettings';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -295,6 +296,7 @@ const AppRoutes = () => {
   const ProtectedVendorAddPage = withLayoutAndProtection(AddVendor);
   const ProtectedProject = withLayoutAndProtection(Project);
   const ProtectedVendorView = withLayoutAndProtection(ViewProject);
+  const ProtectedProjectSettings = withLayoutAndProtection(ProjectSettings);
 
   return (
     <div>
@@ -399,6 +401,7 @@ const AppRoutes = () => {
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
         <Route path="/project" element={<ProtectedProject />} />
         <Route path="/project-edit/:id" element={<ProtectedProject />} />
+        <Route path="/project-settings" element={<ProtectedProjectSettings />} />
       </Routes>
     </div>
   );

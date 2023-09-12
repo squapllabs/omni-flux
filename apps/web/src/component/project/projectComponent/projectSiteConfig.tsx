@@ -11,7 +11,11 @@ import DeleteIcon from '../../menu/icons/deleteIcon';
 import siteService from '../../../service/site-service';
 import CustomSiteAdd from '../../ui/CustomSiteAdd';
 import { useGetAllSiteDrops } from '../../../hooks/site-hooks';
-import { useGetAllUsersDrop, useGetAllUsers } from '../../../hooks/user-hooks';
+import {
+  useGetAllUsersDrop,
+  useGetAllUsers,
+  getUserbyRole,
+} from '../../../hooks/user-hooks';
 import AddIcon from '../../menu/icons/addIcon';
 import Input from '../../ui/Input';
 import {
@@ -54,6 +58,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
+  const { data: getProjectApproverList = [] } = getUserbyRole('Site Engineer');
   const addRow = async () => {
     setErrors({});
     const schema = yup.object().shape({
@@ -147,7 +152,6 @@ const ProjectSiteConfig: React.FC = (props: any) => {
       const getData = await projectService.getOneProjectById(
         Number(routeParams?.id)
       );
-      console.log('getData', getData);
       setProjectData(getData?.data);
       let arr: any = [];
       const siteConfigurationRows = getData?.data?.project_site.map(
@@ -196,21 +200,17 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   };
 
   const handleSubmit = () => {
-    console.log('projectData?.project_id', projectData?.project_id);
     const obj: any = {
       ...projectData,
       site_configuration: siteConfigData,
       bom_configuration: projectData?.bom_configuration,
     };
-    console.log('obj', obj);
     if (routeParams?.id === undefined) {
       createNewProjectData(obj, {
         onSuccess: (data, variables, context) => {
-          console.log('datassss', data);
           if (data?.status === true) {
             setMessage('Site created');
             setOpenSnack(true);
-            console.log('saveddata', data);
             props.setLoader(!props.loader);
             setTimeout(() => {
               navigate(`/project-edit/${data?.data?.project?.project_id}`);
@@ -223,11 +223,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
     } else {
       updateProjectData(obj, {
         onSuccess: (data, variables, context) => {
-          console.log('datassss', data);
           if (data?.status === true) {
             setMessage('Site Updated');
             setOpenSnack(true);
-            console.log('saveddata', data);
             props.setLoader(!props.loader);
             setTimeout(() => {
               navigate(`/project-edit/${data?.data?.project?.project_id}`);
@@ -258,8 +256,6 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </thead>
             <tbody>
               {siteConfigData.map((row, index) => {
-                console.log('row', row);
-
                 rowIndex = rowIndex + 1;
                 return (
                   <tr key={index}>
@@ -345,7 +341,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                             setValue({ ...value, ['approvar_id']: value });
                           }}
                           onChange={(e) => handleChangeExistItems(e, index)}
-                          optionList={getAllUsersDatadrop}
+                          optionList={getProjectApproverList}
                         />
                       </div>
                     </td>
@@ -475,7 +471,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                         onSelect={(datas) => {
                           setValue({ ...value, ['approvar_id']: datas });
                         }}
-                        optionList={getAllUsersDatadrop}
+                        optionList={getProjectApproverList}
                         error={errors?.approvar_id}
                       />
                     </div>
