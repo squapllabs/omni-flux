@@ -86,7 +86,7 @@ const Home = () => {
               onClick={() => {
                 console.log('getting started');
               }}
-              backgroundColor="#1A5D1A"
+              backgroundColor="#de0b19"
               width="24%"
               borderRadius={8}
             />
