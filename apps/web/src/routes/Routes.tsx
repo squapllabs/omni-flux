@@ -235,6 +235,7 @@ import BomList from '../component/bom/bomList';
 import Bom from '../component/bom/bom';
 import ProductAdd from '../component/products/productAdd';
 import Project from '../component/project/project';
+import ProjectSettings from '../component/project/projectComponent/projectSettings';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -289,6 +290,7 @@ const AppRoutes = () => {
   const ProtectedBom = withLayoutAndProtection(Bom);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
   const ProtectedProject = withLayoutAndProtection(Project);
+  const ProtectedProjectSettings = withLayoutAndProtection(ProjectSettings);
 
   return (
     <div>
@@ -388,6 +390,7 @@ const AppRoutes = () => {
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
         <Route path="/project" element={<ProtectedProject />} />
         <Route path="/project-edit/:id" element={<ProtectedProject />} />
+        <Route path="/project-settings" element={<ProtectedProjectSettings />} />
       </Routes>
     </div>
   );

@@ -19,6 +19,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomLoader from '../ui/customLoader';
 import ViewIcon from '../menu/icons/viewIcon';
+import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 
@@ -139,6 +140,13 @@ const ProjectList = () => {
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
+      <div className={Styles.dashBoardcontainer}>
+        <CustomCard>
+          <div className={Styles.dashBoard}>
+            <h3>Dashboard Under Construction</h3>
+          </div>
+        </CustomCard>
+      </div>
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}
