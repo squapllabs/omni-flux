@@ -9,6 +9,7 @@ import {
   createVendor,
   deleteByVendorId,
   getAllVendor,
+  getByEmailId,
   getByVendorId,
   searchVendor,
   updateVendor,
@@ -39,5 +40,7 @@ router.get('/get/:vendor_id', authMiddleware, getByVendorId);
 router.delete('/delete/:vendor_id', authMiddleware, deleteByVendorId);
 
 router.post('/search', authMiddleware, searchVendor);
+
+router.get('/get-by-email-id/:contact_email', authMiddleware, getByEmailId);
 
 export default router;

@@ -14,6 +14,7 @@ import {
 } from '../../hooks/labour-hooks';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
+import { formatBudgetValue } from '../../helper/common-function';
 
 const LabourList = () => {
 
@@ -158,7 +159,7 @@ const LabourList = () => {
         handleCloseDelete();
         setMessage('Successfully deleted');
         setOpenSnack(true);
-        handleSearch();
+        // handleSearch();
     };
 
     const startingIndex = (currentPage - 1) * rowsPerPage + 1;
@@ -240,7 +241,7 @@ const LabourList = () => {
                                             <th>Labour Type</th>
                                             <th>UOM Type</th>
                                             <th>Rate</th>
-                                            {activeButton === 'AC' && <th></th>}
+                                            {activeButton === 'AC' && <th>Action</th>}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -259,7 +260,7 @@ const LabourList = () => {
                                                             <td>{startingIndex + index}</td>
                                                             <td>{data.labour_type}</td>
                                                             <td>{data.uom?.name}</td>
-                                                            <td>{data.rate}</td>
+                                                            <td>{formatBudgetValue(data.rate)}</td>
                                                             {activeButton === 'AC' && (
                                                                 <td>
                                                                     <div className={Styles.tableIcon}>
@@ -292,7 +293,7 @@ const LabourList = () => {
                                                         <td>{startingIndex + index}</td>
                                                         <td>{item.labour_type}</td>
                                                         <td>{item.uom?.name}</td>
-                                                        <td>{item.rate}</td>
+                                                        <td>{formatBudgetValue(item.rate)}</td>
 
                                                         {activeButton === 'AC' && (
                                                             <td>
@@ -344,8 +345,8 @@ const LabourList = () => {
             </CustomLoader>
             <CustomDelete
                 open={openDelete}
-                title="Delete Category"
-                contentLine1="Are you sure you want to delete this Category ?"
+                title="Delete Labour"
+                contentLine1="Are you sure you want to delete this Labour ?"
                 contentLine2=""
                 handleClose={handleCloseDelete}
                 handleConfirm={deleteLabour}

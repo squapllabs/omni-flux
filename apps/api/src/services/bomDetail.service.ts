@@ -448,6 +448,45 @@ const getBomTotalBySubCategoryId = async (sub_category_id: number) => {
   }
 };
 
+/**
+ * Method to get Bom By Sub Category Id
+ * @param sub_category_id
+ * @returns
+ */
+const getBySubCategoryId = async (sub_category_id: number) => {
+  try {
+    let result = null;
+
+    const subCategoryExist = await subCategoryDao.getById(sub_category_id);
+    if (!subCategoryExist) {
+      return {
+        message: 'sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const bomData = await bomDetailDao.getBySubCategoryId(sub_category_id);
+    if (bomData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: bomData,
+      };
+    } else {
+      result = {
+        message: 'There is no bom data related to this sub_category_id',
+        status: false,
+        data: null,
+      };
+    }
+    return result;
+  } catch (error) {
+    console.log('Error occurred in bom service getBySubCategoryId ', error);
+    throw error;
+  }
+};
+
 export {
   createBom,
   updateBom,
@@ -459,4 +498,5 @@ export {
   addBulkBom,
   getBomBySubCategoryIdAndBomType,
   getBomTotalBySubCategoryId,
+  getBySubCategoryId,
 };
