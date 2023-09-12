@@ -23,8 +23,6 @@ const ProjectDocument: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const { mutate: updateProjectData } = updateProject();
-
-  console.log('projectDocs', projectDocs);
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -96,7 +94,6 @@ const ProjectDocument: React.FC = (props: any) => {
   };
   const deleteFileinList = (data: any) => {
     const objectIndex = projectDocs.findIndex((obj: any) => obj.path === data);
-    console.log('objectIndex', objectIndex);
     projectDocs[objectIndex] = {
       ...projectDocs[objectIndex],
       is_delete: 'Y',
@@ -114,7 +111,6 @@ const ProjectDocument: React.FC = (props: any) => {
       const getData = await projectService.getOneProjectById(
         Number(routeParams?.id)
       );
-      console.log('getData', getData);
       setProjectData(getData?.data);
       setProjectDocs(getData?.data?.project_documents);
     };
@@ -142,9 +138,7 @@ const ProjectDocument: React.FC = (props: any) => {
       selectedFiles,
       projectData.code.toUpperCase()
     );
-    console.log('selectedFiles', selectedFiles);
     let arr: any = [...projectDocs, ...s3UploadUrl];
-    console.log('arr', arr);
 
     const obj: any = {
       ...projectData,
@@ -251,7 +245,6 @@ const ProjectDocument: React.FC = (props: any) => {
             </tr>
             <tbody>
               {projectDocs?.map((files: any, index: any) => {
-                console.log('files', files);
                 if (files?.is_delete === 'N') {
                   rowindex = rowindex + 1;
                   return (
