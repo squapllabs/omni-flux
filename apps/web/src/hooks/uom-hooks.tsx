@@ -100,14 +100,28 @@ const useGetAllPaginatedUomData = (data: any) => {
   });
 };
 
-export {
-  useGetAlluom,
-  getByuserID,
-  createuom,
-  updateUom,
-  useDeleteUom,
-  useGetAllUomDrop,
-  getByUom,
-  useGetAllPaginatedUomData,
-  getUomByType,
+const getByUomType = () => {
+  return useQuery(
+    ['getOnemasertDataType'],
+    () => uomService.getOneUomByType(),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
 };
+
+
+export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom,useGetAllPaginatedUomData,getByUomType,getUomByType };
+
+// export {
+//   useGetAlluom,
+//   getByuserID,
+//   createuom,
+//   updateUom,
+//   useDeleteUom,
+//   useGetAllUomDrop,
+//   getByUom,
+//   useGetAllPaginatedUomData,
+//   getUomByType,
+// };
