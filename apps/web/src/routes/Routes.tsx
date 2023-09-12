@@ -234,7 +234,11 @@ import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
 import BomList from '../component/bom/bomList';
 import Bom from '../component/bom/bom';
 import ProductAdd from '../component/products/productAdd';
+import AddMachinery from '../component/machinery/addMachinery';
+import AddVendor from '../component/vendor/vendorAdd';
 import Project from '../component/project/project';
+import ViewProject from '../component/vendor/vendorView'
+import ProjectSettings from '../component/project/projectComponent/projectSettings';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -288,7 +292,11 @@ const AppRoutes = () => {
   const ProtectedBomList = withLayoutAndProtection(BomList);
   const ProtectedBom = withLayoutAndProtection(Bom);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
+  const ProtectedMachineryAddPage = withLayoutAndProtection(AddMachinery);
+  const ProtectedVendorAddPage = withLayoutAndProtection(AddVendor);
   const ProtectedProject = withLayoutAndProtection(Project);
+  const ProtectedVendorView = withLayoutAndProtection(ViewProject);
+  const ProtectedProjectSettings = withLayoutAndProtection(ProjectSettings);
 
   return (
     <div>
@@ -383,11 +391,17 @@ const AppRoutes = () => {
           path="/bomlist/:projectId/:bomconfigId"
           element={<ProtectedBomList />}
         />
+        <Route path="/add-machinery" element={<ProtectedMachineryAddPage />} />
+        <Route path="/edit-machinery/:id" element={<ProtectedMachineryAddPage />} />
+        <Route path="/vendor-add" element={<ProtectedVendorAddPage />} />
+        <Route path="/vendor-edit/:id" element={<ProtectedVendorAddPage />} />
+        <Route path="/vendor-info/:id" element={<ProtectedVendorView />} />
         <Route path="/bom/:subCategoryId" element={<ProtectedBom />} />
         <Route path="/product-add" element={<ProtectedProductAddPage />} />
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
         <Route path="/project" element={<ProtectedProject />} />
         <Route path="/project-edit/:id" element={<ProtectedProject />} />
+        <Route path="/project-settings" element={<ProtectedProjectSettings />} />
       </Routes>
     </div>
   );

@@ -59,7 +59,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   border: none;
   border-radius: 4px;
   outline: none;
-  border: 0px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   option {
     color: black;
     background: white;

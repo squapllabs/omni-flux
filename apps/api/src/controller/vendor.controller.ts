@@ -63,6 +63,16 @@ const searchVendor = catchAsync(async (req, res) => {
   }
 });
 
+const getByEmailId = catchAsync(async (req, res) => {
+  const methodName = '/getByEmailId';
+  try {
+    const vendor = await vendorService.getByEmailId(req.params.contact_email);
+    res.send(vendor);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createVendor,
   updateVendor,
@@ -70,4 +80,5 @@ export {
   getByVendorId,
   deleteByVendorId,
   searchVendor,
+  getByEmailId,
 };

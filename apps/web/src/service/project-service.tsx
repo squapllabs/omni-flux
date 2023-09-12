@@ -50,6 +50,18 @@ const filterProject = async (values: JSON) => {
     throw error;
   }
 };
+const filterProjectmemberBased = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/project-member-association/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in project search :', error);
+    throw error;
+  }
+};
 const deleteProject = async (id: number) => {
   try {
     const response = await axiosinterceptor.delete(
@@ -119,4 +131,5 @@ export default {
   updateProjectData,
   getAllProjectParentType,
   getAllProjectManagers,
+  filterProjectmemberBased,
 };
