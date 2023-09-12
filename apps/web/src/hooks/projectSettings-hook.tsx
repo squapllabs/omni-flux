@@ -10,7 +10,7 @@ const useGetRoleBasedUser = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllhsnCodeData']);
+        queryClient.invalidateQueries(['']);
       },
     }
   );

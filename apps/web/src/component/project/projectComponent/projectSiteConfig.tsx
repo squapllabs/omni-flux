@@ -22,6 +22,7 @@ import {
   createProject,
   useGetMasterProjectParentType,
   updateProject,
+  getUserDataProjectRolebased,
 } from '../../../hooks/project-hooks';
 
 const ProjectSiteConfig: React.FC = (props: any) => {
@@ -58,7 +59,12 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
-  const { data: getProjectApproverList = [] } = getUserbyRole('Site Engineer');
+  let Obj: any = {
+    projectID: Number(routeParams?.id),
+    role: 'Site Engineer',
+  };
+  const { data: getProjectApproverList = [] } =
+    getUserDataProjectRolebased(Obj);
   const addRow = async () => {
     setErrors({});
     const schema = yup.object().shape({
