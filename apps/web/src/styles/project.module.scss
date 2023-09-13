@@ -10,7 +10,7 @@
   padding: 10px;
 }
 .groupButton {
-  width: 50%;
+  width: 70%;
   display: flex;
   justify-content: flex-end;
   align-items: end;
@@ -39,7 +39,7 @@
   align-items: center;
 }
 .textContent_1 {
-  width: 50%;
+  width: 30%;
 }
 .textContent {
   padding: 15px 10px 10px 20px;
@@ -186,4 +186,21 @@
 .errorStyles {
   color: red;
   font-size: 0.75rem;
+}
+
+.headingContent {
+  display: flex;
+  justify-content: space-between;
+}
+.indent_container {
+  padding: 10px;
+}
+
+.formConatiner {
+  padding-top: 10px;
+}
+.buttons {
+  display: flex;
+  padding-top: 10px;
+  justify-content: flex-end;
 }

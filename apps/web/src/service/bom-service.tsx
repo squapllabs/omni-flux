@@ -62,10 +62,23 @@ const getCustomBomData = async (values: JSON) => {
     throw error;
   }
 };
+
+const getBOMbyProjectandType = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/bom/get-by-project-id-and-bom-type/${values.id}/${values.type}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in bom getBOMbyProjectandType :', error);
+    throw error;
+  }
+};
 export default {
   createBomData,
   getCustomBomData,
   createBulkBom,
   getBOMbySubCatIDandType,
   getBOMbySubCatID,
+  getBOMbyProjectandType,
 };

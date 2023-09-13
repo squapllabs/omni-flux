@@ -241,8 +241,9 @@ import LabourAdd from '../component/labour/labourAdd';
 import AddMachinery from '../component/machinery/addMachinery';
 import AddVendor from '../component/vendor/vendorAdd';
 import Project from '../component/project/project';
-import ViewProject from '../component/vendor/vendorView'
+import ViewProject from '../component/vendor/vendorView';
 import ProjectSettings from '../component/project/projectComponent/projectSettings';
+import IndentRequest from '../component/project/projectComponent/projectIndentRequest/indentRequest';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -306,6 +307,7 @@ const AppRoutes = () => {
   const ProtectedProject = withLayoutAndProtection(Project);
   const ProtectedVendorView = withLayoutAndProtection(ViewProject);
   const ProtectedProjectSettings = withLayoutAndProtection(ProjectSettings);
+  const ProtectedIndent = withLayoutAndProtection(IndentRequest);
 
   return (
     <div>
@@ -403,17 +405,14 @@ const AppRoutes = () => {
           path="/bomlist/:projectId/:bomconfigId"
           element={<ProtectedBomList />}
         />
-         <Route
-          path="/labour"
-          element={<ProtectedLabourListPage />}
-        />
-        <Route
-          path="/labour-add"
-          element={<ProtectedLabourAddPage />}
-        />
+        <Route path="/labour" element={<ProtectedLabourListPage />} />
+        <Route path="/labour-add" element={<ProtectedLabourAddPage />} />
         <Route path="/labour-edit/:id" element={<ProtectedLabourAddPage />} />
         <Route path="/add-machinery" element={<ProtectedMachineryAddPage />} />
-        <Route path="/edit-machinery/:id" element={<ProtectedMachineryAddPage />} />
+        <Route
+          path="/edit-machinery/:id"
+          element={<ProtectedMachineryAddPage />}
+        />
         <Route path="/vendor-add" element={<ProtectedVendorAddPage />} />
         <Route path="/vendor-edit/:id" element={<ProtectedVendorAddPage />} />
         <Route path="/vendor-info/:id" element={<ProtectedVendorView />} />
@@ -422,7 +421,11 @@ const AppRoutes = () => {
         <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
         <Route path="/project" element={<ProtectedProject />} />
         <Route path="/project-edit/:id" element={<ProtectedProject />} />
-        <Route path="/project-settings" element={<ProtectedProjectSettings />} />
+        <Route
+          path="/project-settings"
+          element={<ProtectedProjectSettings />}
+        />
+        <Route path="/indent/:id" element={<ProtectedIndent />} />
       </Routes>
     </div>
   );

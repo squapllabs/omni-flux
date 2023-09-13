@@ -33,4 +33,22 @@ const createBulkBom = () => {
   );
 };
 
-export { createBom, createBulkBom };
+const getBOMbyProjectandType = (value: any) => {
+  return useQuery(
+    ['getBOMbyProjectandType', value],
+    () => BomService.getBOMbyProjectandType(value),
+    {
+      select: (data) =>
+        data?.data?.map((option: any) => ({
+          value: option.bom_detail_id,
+          label: option.item_data?.item_name,
+          item_rate: option.item_data?.rate,
+          bom_rate: option.rate,
+          bom_quantity: option.quantity,
+          temp: option,
+        })),
+    }
+  );
+};
+
+export { createBom, createBulkBom, getBOMbyProjectandType };

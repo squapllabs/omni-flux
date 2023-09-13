@@ -11,6 +11,8 @@ import { getByProjectId } from '../../hooks/project-hooks';
 import projectService from '../../service/project-service';
 import ProjectSettings from './projectComponent/projectSettings';
 import ProjectDocument from './projectComponent/projectDocument';
+import IndentRequest from './projectComponent/projectIndentRequest/indentRequest';
+import ProjectIndentRequestList from './projectComponent/projectIndentRequest/projectIndentRequestList';
 const Project = () => {
   const routeParams = useParams();
   const [buttonLabels, setButtonLabels] = useState([
@@ -19,6 +21,7 @@ const Project = () => {
     { label: 'Site Configuration', value: 'PSC' },
     { label: 'BOM configuration', value: 'PBC' },
     { label: 'Document', value: 'PDT' },
+    { label: 'Indent', value: 'PIR' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
@@ -110,6 +113,15 @@ const Project = () => {
               )}
               {activeButton === 'PDT' ? (
                 <ProjectDocument
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
+              {activeButton === 'PIR' ? (
+                <ProjectIndentRequestList
                   setActiveButton={setActiveButton}
                   setLoader={setLoader}
                   loader={loader}
