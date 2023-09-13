@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import Styles from '../../styles/navbar.module.scss';
-import { Link, NavLink } from 'react-router-dom';
 import HomeIcon from './icons/homeIcon';
 import SettingIcon from './icons/settingIcon';
 import SearchBar from './searchBar';
 import Dropdown from './dropDown';
-import Button from './button';
 import AccountIcon from './icons/account';
 import DropdownIcon from './icons/dropDownButton';
 import BellIcon from './icons/bellIcon';
@@ -14,11 +12,28 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetAuth } from '../../redux/reducer';
 import authService from '../../service/auth-service';
+import LogoutIcon from './icons/logoutIcon'
+
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
   function handleListItems() {
     navigate('/products');
   }
@@ -28,15 +43,10 @@ const Navbar = () => {
   };
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
-    console.log(searchTerm);
   };
 
-  const handleNotificationsIconClick = () => {
-    console.log('Notifications icon clicked');
-  };
-
-  const handleAccountIconClick = () => {
-    console.log('Account icon clicked');
+  const toggleMenu = () => {
+    setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
   };
 
   const handleLogout = async () => {
@@ -46,6 +56,10 @@ const Navbar = () => {
       navigate('/');
     }
   };
+
+  const  handleNavigate = () => {
+    navigate('/settings');
+  }
 
   return (
     <div>
@@ -283,10 +297,6 @@ const Navbar = () => {
               </div>
             </div>
           </Dropdown>
-
-          <div>
-            <SettingIcon color="gray" className={Styles.navIcon} /> Setting
-          </div>
         </div>
         <div className={Styles.rightIcons}>
           <SearchBar onSearch={handleSearch} />
@@ -296,15 +306,32 @@ const Navbar = () => {
             color="gray"
             height={24}
             width={24}
-            onClick={handleNotificationsIconClick}
           />
-          <AccountIcon
-            className={Styles.navIcon}
-            color="gray"
-            height={24}
-            width={24}
-            onClick={() => handleLogout()}
-          />
+          <div ref={menuRef}>
+            <AccountIcon
+              className={Styles.navIcon}
+              color="gray"
+              height={24}
+              width={24}
+              onClick={toggleMenu}
+            />
+            {isMenuOpen && (
+              <ul className={Styles.menu}>
+                <li className={Styles.menuItem} onClick={() => handleNavigate()}>
+                  
+                  <SettingIcon />
+                  <span>Settings</span>
+                </li>
+                <li className={Styles.menuItem} onClick={() => handleLogout()}>
+                  <LogoutIcon style={{fontWeight:'bolder'}}/>
+                  <span>Logout</span>
+                </li>
+              </ul>
+            )}
+          </div>
+          <div>
+            
+          </div>
         </div>
       </nav>
     </div>

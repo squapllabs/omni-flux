@@ -113,6 +113,10 @@ const updateTwoFactorAuthentication = catchAsync(async (req, res) => {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 56c44521f15cc3f37d5f9f488e5a55a92f57603f
 const getAllSalesPersonUsers = catchAsync(async (req, res) => {
   const methodName = '/getAllSalesPersonUsers';
   try {

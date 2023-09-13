@@ -9,6 +9,7 @@ export const subSubErrorMessages = {
   MINIMUM_CHECK: 'Value must be greater than 0',
   MAXIMUM_CHECK: 'Value must be less then 100000',
   TYPE_ERROR: 'Only Number are allowed',
+  CHAR_ERROR: 'Only alphabets are allowed'
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -23,6 +24,7 @@ export const getCreateValidateyup = (yup: any) => {
       .trim()
       .typeError(subSubErrorMessages.ENTER_NAME)
       .required(subSubErrorMessages.ENTER_NAME)
+      .matches(/^[a-zA-Z\s]*$/,subSubErrorMessages.CHAR_ERROR)
       .test(
         'name-availability',
         subSubErrorMessages.ALREADY_EXIST,

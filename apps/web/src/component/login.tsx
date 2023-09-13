@@ -59,7 +59,8 @@ const Login = () => {
           user_password: values?.password,
           is_remember_me: rememberMe,
         };
-        loginData(data, {
+
+          loginData(data, {
           onSuccess: async (data) => {
             if (data?.status === true) {
               dispatch(setToken({ key: 'Data', value: data }));
@@ -75,15 +76,16 @@ const Login = () => {
                     }
                   },
                 });
-              }
-              else if (!userData?.data?.userData?.is_initial_login && userData?.data?.userData?.is_two_factor) {
+              } else if (
+                !userData?.data?.userData?.is_initial_login &&
+                userData?.data?.userData?.is_two_factor
+              ) {
                 const generateOtpObject = {
                   email_id: values?.email,
                 };
-                otpInstance(generateOtpObject)
+                otpInstance(generateOtpObject);
                 navigate('/generate-otp', { state: { email: values.email } });
-              }
-              else {
+              } else {
                 navigate('/home');
               }
             } else setMessage('Username & Password is Incorrect');
@@ -184,9 +186,9 @@ const Login = () => {
                     <Button
                       color="primary"
                       shape="rectangle"
-                      fullWidth
                       justify="center"
                       size="small"
+                      fullWidth
                       onClick={(e) => handleSubmit(e)}
                     >
                       Sign in
@@ -206,7 +208,6 @@ const Login = () => {
         </div>
       </div>
     </div>
-
   );
 };
 

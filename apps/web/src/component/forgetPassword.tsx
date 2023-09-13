@@ -1,11 +1,12 @@
 import React from 'react';
-import { Card } from '@mui/material';
 import Styles from '../styles/fortgetPassword.module.scss';
-import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { forgetPassword } from '../hooks/auth-hooks';
-import MySnackbar from './ui/MySnackbar';
-import Customs from './ui/custom';
+import CustomSnackBar from './ui/customSnackBar';
 import { useNavigate } from 'react-router';
+import CustomCard from './ui/CustomCard';
+import Input from './ui/Input';
+import Button from './ui/Button';
+import LockIcon from './menu/icons/lockicon';
 interface ValueObject {
   email: string;
 }
@@ -61,10 +62,10 @@ const ForgetPassword = () => {
       <div className={Styles.container}>
         <div className={Styles.header}></div>
         <div className={Styles.main}>
-          <Card className={Styles.mainCard}>
+          <CustomCard>
             <div className={Styles.content_card}>
-              <div>
-                <LockPersonIcon sx={{ opacity: 0.5 }} />
+              <div style={{paddingTop:'4px'}}>
+                <LockIcon />
               </div>
               <div className={Styles.content}>
                 <span>
@@ -74,32 +75,33 @@ const ForgetPassword = () => {
               </div>
             </div>
             <div>
-              <Customs.CustomTextField
+              <Input
                 name="email"
                 type="email"
                 label="Email"
-                size="small"
-                variant="outlined"
-                fullWidth
                 onChange={handleChange}
               />
             </div>
             <div>
-              <Customs.CustomButton
+              <Button
+                className={Styles.searchButton}
                 onClick={handleSubmit}
-                variant="outlined"
-                label="send"
-              />
+                shape="rectangle"
+                justify="center"
+                size="small"
+              >
+                Send
+              </Button>
             </div>
-          </Card>
+          </CustomCard>
         </div>
         <div className={Styles.footer}></div>
       </div>
-      <MySnackbar
+      <CustomSnackBar
         open={open}
         message={message}
         onClose={handleClose}
-        severity={isWarning === true ? 'error' : 'success'}
+        type={ isWarning === true ? "error": "success"}
         autoHideDuration={3000}
       />
     </div>

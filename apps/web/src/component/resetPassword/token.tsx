@@ -8,10 +8,10 @@ import {getByuserID} from '../../hooks/user-hooks'
 import {resetPassword,setTwoFA} from '../../hooks/auth-hooks'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router';
-import MySnackbar from '../ui/MySnackbar';
 import { IconButton, InputAdornment } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CustomSnackbar from '../ui/customSnackBar';
 const ResetPassword = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -100,15 +100,15 @@ const ResetPassword = () => {
               handleClick();
               const data: any = {
                 user_id: getuserData?.userData?.user_id,
-                is_two_factor: enableTwoFA
+                is_two_factor: enableTwoFA,
               };
               setTwofa(data, {
                 onSuccess: (data, variables, context) => {
                   if (data?.is_two_factor === true) {
                     setMessage('Two factor Authentication enabled');
                   }
-                }
-              })
+                },
+              });
               setInterval(() => {
                 navigate('/');
               }, 3000);
@@ -205,7 +205,11 @@ const ResetPassword = () => {
             <div>
               <span>Enable 2-factor authentication</span>
               <label className="switch">
-                <input type="checkbox" checked={enableTwoFA} onChange={handleTwoFAToggle} />
+                <input
+                  type="checkbox"
+                  checked={enableTwoFA}
+                  onChange={handleTwoFAToggle}
+                />
               </label>
             </div>
             <div>
@@ -225,12 +229,12 @@ const ResetPassword = () => {
         </div>
         <div className={Styles.footer}></div>
       </div>
-      <MySnackbar
+      <CustomSnackbar
         open={open}
         message={message}
         onClose={handleClose}
-        severity={waring === false ? 'success' : 'warning'}
         autoHideDuration={3000}
+        type={waring === false ? 'success' : 'error'}
       />
     </div>
   );

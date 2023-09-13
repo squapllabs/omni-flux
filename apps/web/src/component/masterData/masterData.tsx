@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getCreateValidateyup } from '../../helper/constants/master-constants';
-import MySnackbar from '../ui/MySnackbar';
+import CustomSnackBar from '../ui/customSnackBar';
 import {
   useGetAllmasertData,
   createmasertData,
@@ -13,12 +13,10 @@ import {
   useDeletemasertData,
   getBySearchmasterData,
 } from '../../hooks/masertData-hook';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '../menu/icons/editIcon';
 import SearchIcon from '../menu/icons/search';
-import CustomDialogBox from '../ui/cusotmDialogDelete';
-import CustomDialog from '../ui/customDialog';
+import CustomEditDialog from '../ui/customEditDialogBox';
+import CustomDelete from '../ui/customDeleteDialogBox';
 import MasterDataEditForm from './masterDataEditForm';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
@@ -49,8 +47,9 @@ const MaterData = () => {
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [disable, setDisable] = useState(true);
+  const [reload, setReload] = useState(false);
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -78,7 +77,7 @@ const MaterData = () => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
   const handleSearch = async () => {
-    let demo: any = {
+    const masterData: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
       order_by_column: 'updated_date',
@@ -87,7 +86,7 @@ const MaterData = () => {
       global_search: filterValues.search_by_name,
       parent_id: Number(selectedValue),
     };
-    await postDataForFilter(demo);
+    await postDataForFilter(masterData);
     setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
@@ -98,7 +97,7 @@ const MaterData = () => {
       search_by_name: '',
     });
     setSelectedValue('');
-    let demo: any = {
+    const masterData: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
       order_by_column: 'updated_date',
@@ -106,7 +105,7 @@ const MaterData = () => {
       status: 'AC',
       global_search: '',
     };
-    postDataForFilter(demo);
+    postDataForFilter(masterData);
     setIsLoading(false);
     setFilter(false);
     setIsLoading(false);
@@ -130,7 +129,7 @@ const MaterData = () => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         let object: any = {};
-        let num = 0;
+        const num = 0;
         if (Number(values.parent_master_data_id) === num) {
           object = {
             master_data_name: values.master_data_name,
@@ -146,7 +145,6 @@ const MaterData = () => {
             parent_master_data_id: Number(values.parent_master_data_id),
           };
         }
-        console.log('object', object);
 
         postMasterData(object, {
           onSuccess: (data, variables, context) => {
@@ -168,7 +166,7 @@ const MaterData = () => {
     setValue(id);
     setOpenDelete(true);
   };
-  const handleEdit = (event: React.FormEvent, value: any) => {
+  const handleEdit = (value: any) => {
     setMode('EDIT');
     setCategoryID(value);
     setOpen(true);
@@ -182,9 +180,7 @@ const MaterData = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -232,6 +228,7 @@ const MaterData = () => {
                       onChange={formik.handleChange}
                       value={formik.values.parent_master_data_id}
                       defaultLabel="Select from options"
+                      width='200px'
                       error={
                         formik.touched.parent_master_data_id &&
                         formik.errors.parent_master_data_id
@@ -258,6 +255,7 @@ const MaterData = () => {
                         formik.errors.master_data_description
                       }
                       rows={3}
+                      maxCharacterCount={120}
                     />
                   </div>
 
@@ -298,6 +296,7 @@ const MaterData = () => {
                   onChange={handleDropdownChange}
                   value={selectedValue}
                   defaultLabel="Select from options"
+                  width='200px'
                 >
                   {getAllmasterDataForDrop.map((option: any) => (
                     <option key={option.value} value={option.value}>
@@ -352,7 +351,7 @@ const MaterData = () => {
                       ''
                     )}
                     {getFilterData?.content?.map((item: any, index: number) => (
-                      <tr>
+                      <tr key={item.master_data_id}>
                         <td>{index + 1}</td>
                         <td>{item.master_data_name}</td>
                         <td>{item.master_data_description}</td>
@@ -363,11 +362,9 @@ const MaterData = () => {
                             : item?.parent?.master_data_name}
                         </td>
                         <td>
-                          <IconButton
-                            onClick={(e) => handleEdit(e, item.master_data_id)}
-                          >
-                            <EditIcon />
-                          </IconButton>
+                          <EditIcon
+                            onClick={() => handleEdit(item.master_data_id)}
+                          />
                         </td>
                       </tr>
                     ))}
@@ -386,28 +383,28 @@ const MaterData = () => {
             </div>
           </div>
         </div>
-        <MySnackbar
+        <CustomSnackBar
           open={openSnack}
           message={message}
           onClose={handleSnackBarClose}
-          severity={'success'}
           autoHideDuration={1000}
+          type="success"
         />
-        <CustomDialog
+        <CustomDelete
           open={openDelete}
           handleClose={handleCloseDelete}
           title="Delete Category"
-          content="Are you want to delete this Category?"
+          contentLine1="Are you want to delete this Category?"
+          contentLine2=""
           handleConfirm={deleteCategory}
         />
-        <CustomDialogBox
+        <CustomEditDialog
           open={open}
-          handleClose={handleClose}
-          title="Master Data Edit Form"
           content={
             <MasterDataEditForm
               setOpen={setOpen}
               open={open}
+              setReload={setReload}
               mode={mode}
               masterID={categoryId}
               setOpenSnack={setOpenSnack}

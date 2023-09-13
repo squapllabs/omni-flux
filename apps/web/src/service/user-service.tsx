@@ -84,24 +84,37 @@ const deleteUser = async (id: number) => {
   }
 };
 
-const user_profile_upload = async (file : any) => {
-    const formData = new FormData();
-    formData.append("storage", "s3");
-    formData.append("file", file);
-    try {
-      const response = await axiosinterceptor.post(
-        `${environment.apiUrl}/upload/file`,formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          }
-        })
-      return response.data;
-    } catch (error) {
-      console.log('Error in occur user_profile_upload :', error);
-      throw error;
-    }
-  };
+const user_profile_upload = async (file: any) => {
+  const formData = new FormData();
+  formData.append("storage", "s3");
+  formData.append("file", file);
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/upload/file`, formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur user_profile_upload :', error);
+    throw error;
+  }
+};
+const filterUser = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/user/search`,
+      values
+    );
+    
+    return response.data;
+  } catch (error) {
+    console.log('Error in user search :', error);
+    throw error;
+  }
+}
 export default {
   getAllUsers,
   getOneUser,
@@ -110,5 +123,6 @@ export default {
   updateUser,
   deleteUser,
   getAllInactiveUsers,
-  user_profile_upload
+  user_profile_upload,
+  filterUser
 };

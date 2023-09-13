@@ -87,13 +87,14 @@ export const getForgetPasswordYupSchema = (yup: any) => {
   });
 };
 
-export const getValidateOTPYupSchema = (yup : any) => {
+export const getValidateOTPYupSchema = (yup: any) => {
   return yup.object().shape({
-    otp : yup.string()
-    .typeError(userErrorMessages.ENTER_OTP)
-    .matches(/^\d{6}$/, userErrorMessages.ENTER_OTP_VALID)
-    .required(userErrorMessages.ENTER_OTP)
-  })
+    otp: yup
+      .string()
+      .typeError(userErrorMessages.ENTER_OTP)
+      .matches(/^\d{6}$/, userErrorMessages.ENTER_OTP_VALID)
+      .required(userErrorMessages.ENTER_OTP),
+  });
 };
 
 export const getUsercreationYupschema = (yup: any) => {

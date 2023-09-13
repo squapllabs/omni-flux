@@ -35,8 +35,6 @@ const ProductPage = () => {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
     };
-    // console.log(currentPage);
-    console.log(requestData.offset);
     try {
       const data = await items.getAllItems(requestData);
 
