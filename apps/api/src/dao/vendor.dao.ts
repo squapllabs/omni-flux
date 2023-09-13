@@ -1,5 +1,4 @@
 import prisma from '../utils/prisma';
-import { CaseInsensitiveFilter } from '../utils/caseSensitiveFilter';
 
 const add = async (
   vendor_name: string,
@@ -172,34 +171,43 @@ const searchVendor = async (
   limit: number,
   orderByColumn: string,
   orderByDirection: string,
-  filters,
   global_search,
+  status,
   connectionObj = null
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter = filters.filterVendor;
-    const vendor = await transaction.vendor.findMany({
-      where: filter,
-      include: {
-        vendor_category_data: true,
-        preferred_payment_method_data: true,
-      },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-    });
+    const is_delete = status === 'AC' ? false : true;
+    const order_by_column = orderByColumn;
+    const order_by_direction = orderByDirection;
 
-    const globalSearch = global_search;
+    const filteredVendors = await transaction.$queryRawUnsafe(`SELECT *,
+    CAST(created_by AS int) AS created_by,
+      CAST(updated_by AS int) AS updated_by
+    FROM vendor 
+    WHERE
+      (
+          vendor_name ILIKE '%' || '${global_search}' || '%' or
+          contact_person ILIKE '%' || '${global_search}' || '%' or
+          contact_email ILIKE '%' || '${global_search}' || '%' or
+          tax_id ILIKE '%' || '${global_search}' || '%' or
+          payment_terms ILIKE '%' || '${global_search}' || '%' or
+          currency ILIKE '%' || '${global_search}' || '%' or
+          lead_time ILIKE '%' || '${global_search}' || '%' or
+          notes ILIKE '%' || '${global_search}' || '%' or
+          address->>'street' ILIKE '%' || '${global_search}' || '%' OR
+          address->>'city' ILIKE '%' || '${global_search}' || '%' OR
+          address->>'state' ILIKE '%' || '${global_search}' || '%' OR
+          address->>'pin_code' ILIKE '%' || '${global_search}' || '%' OR
+          address->>'country' ILIKE '%' || '${global_search}' || '%'  or
+          bank_account_details->>'bank_name' ILIKE '%' || '${global_search}' || '%' or
+          bank_account_details->>'ifsc_code' ILIKE '%' || '${global_search}' || '%' or
+          bank_account_details->>'acc_holder_name' ILIKE '%' || '${global_search}' || '%' or
+          bank_account_details->>'account_number' ILIKE '%' || '${global_search}' || '%'
+      )
+      AND (is_delete = ${is_delete})
+      ORDER BY ${order_by_column} ${order_by_direction}`);
 
-    const propertiesToFilter = ['preferred_payment_method_data.master_data_name', 'vendor_category_data.master_data_name',
-      'notes', 'lead_time', 'currency', 'payment_terms', 'tax_id', 'contact_phone_no', 'contact_email', 'contact_person',
-      'bank_account_details.bank_name', 'bank_account_details.account_number', 'address.street', 'address.city',
-      'address.state', 'address.country', 'address.pin_code', 'bank_account_details.ifsc_code', 'vendor_name'];
-
-    const filteredVendors = CaseInsensitiveFilter(vendor, globalSearch, propertiesToFilter);
     const vendorCount = filteredVendors.length;
     const vendors = filteredVendors.slice(
       offset,

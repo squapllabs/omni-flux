@@ -1,5 +1,4 @@
 import prisma from '../utils/prisma';
-import { CaseInsensitiveFilter } from '../utils/caseSensitiveFilter';
 
 const add = async (
   name: string,
@@ -182,72 +181,52 @@ const deleteSiteContractor = async (
   }
 };
 
-/* const searchSiteContractor = async (
-  offset: number,
-  limit: number,
-  orderByColumn: string,
-  orderByDirection: string,
-  filters,
-  connectionObj = null
-) => {
-  try {
-    const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter = filters.filterSiteContractor;
-    const siteContractor = await transaction.site_contractor.findMany({
-      where: filter,
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
-    });
-    const siteContractorCount = await transaction.site_contractor.count({
-      where: filter,
-    });
-    const siteContractorData = {
-      count: siteContractorCount,
-      data: siteContractor,
-    };
-    return siteContractorData;
-  } catch (error) {
-    console.log(
-      'Error occurred in siteContractor dao : searchSiteContractor ',
-      error
-    );
-    throw error;
-  }
-}; */
-
 const searchSiteContractor = async (
   offset,
   limit,
   orderByColumn,
   orderByDirection,
-  filters,
   global_search,
+  type,
+  status,
   connectionObj = null
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter = filters.filterSiteContractor;
     const globalSearch = global_search.toLowerCase();
-    const allSiteContractors = await transaction.site_contractor.findMany({
-      where: filter,
-      orderBy: [{ [orderByColumn]: orderByDirection }],
-    });
+    const types = type;
+    const order_by_column = orderByColumn;
+    const order_by_direction = orderByDirection;
+    const is_delete = status === 'AC' ? false : true;
 
-    const propertiesToFilter = ['name', 'address.street', 'address.city', 'address.state', 'address.country', 'address.pin_code', 'description'];
+    const allSiteContractors = await transaction.$queryRawUnsafe(
+      `SELECT *,
+      CAST(created_by AS int) AS created_by,
+      CAST(updated_by AS int) AS updated_by
+      FROM site_contractor
+      WHERE
+      (
+      (type = '${types}') AND
+      (
+        name ILIKE '%' || '${globalSearch}' || '%' OR
+        description ILIKE '%' || '${globalSearch}' || '%' OR
+        address->>'street' ILIKE '%' || '${globalSearch}' || '%' OR
+        address->>'city' ILIKE '%' || '${globalSearch}' || '%' OR
+        address->>'state' ILIKE '%' || '${globalSearch}' || '%' OR
+        address->>'pin_code' ILIKE '%' || '${globalSearch}' || '%' OR
+        address->>'country' ILIKE '%' || '${globalSearch}' || '%'
+      )
+      )
+      AND (is_delete = ${is_delete})
+      ORDER BY ${order_by_column} ${order_by_direction}`
+    );
 
-    const filteredSiteContractors = CaseInsensitiveFilter(allSiteContractors, globalSearch, propertiesToFilter);
 
-    const siteContractorCount = filteredSiteContractors.length;
-    const pagedSiteContractors = filteredSiteContractors.slice(
+    const siteContractorCount = allSiteContractors.length;
+    const pagedSiteContractors = allSiteContractors.slice(
       offset,
       offset + limit
     );
-
     const siteContractorData = {
       count: siteContractorCount,
       data: pagedSiteContractors,

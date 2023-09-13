@@ -295,8 +295,8 @@ const addBulkBom = async (body) => {
         const updated_by = body[0].updated_by
           ? body[0].updated_by
           : body[0].created_by
-          ? body[0].created_by
-          : null;
+            ? body[0].created_by
+            : null;
 
         const subCategoryDetails = await subCategoryDao.updateBudget(
           subCategoryBudget,
@@ -448,6 +448,35 @@ const getBomTotalBySubCategoryId = async (sub_category_id: number) => {
   }
 };
 
+/**
+ * Method to getSumOfTotalDataBySubCategoryId bomDetails
+ * @param subCategoryId
+ */
+const getSumOfTotalDataBySubCategoryId = async (subCategoryId: number) => {
+  try {
+    let result = null;
+    const subCategoryExist = await subCategoryDao.getById(subCategoryId);
+    if (!subCategoryExist) {
+      result = {
+        message: 'sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
+    } else {
+      const bomEntireData = await bomDetailDao.getSumOfTotalBySubCategoryId(subCategoryId);
+      result = {
+        message: 'success',
+        status: true,
+        data: bomEntireData,
+      };
+    }
+    return result;
+  } catch (error) {
+    console.log('Error occurred in getSumOfTotalDataBySubCategoryId bomDetail.service', error);
+    throw error;
+  }
+};
+
 export {
   createBom,
   updateBom,
@@ -459,4 +488,5 @@ export {
   addBulkBom,
   getBomBySubCategoryIdAndBomType,
   getBomTotalBySubCategoryId,
+  getSumOfTotalDataBySubCategoryId,
 };
