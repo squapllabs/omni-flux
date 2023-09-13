@@ -64,7 +64,7 @@ const add = async (
       const quantity = indent_request_detail.quantity;
       const total = indent_request_detail.total;
       const is_delete = indent_request_detail.is_delete;
-      if (is_delete === 'N') {
+      if (is_delete === false) {
         const indentRequestDetails =
           await transaction.indent_request_details.create({
             data: {
@@ -161,7 +161,7 @@ const edit = async (
         indent_request_detail.indent_request_details_id;
 
       if (indent_request_details_id) {
-        if (is_delete === 'N') {
+        if (is_delete === false) {
           const indentRequestDetails =
             await transaction.indent_request_details.update({
               where: { indent_request_details_id: indent_request_details_id },
@@ -175,7 +175,7 @@ const edit = async (
               },
             });
           indentRequestDetailsData.push(indentRequestDetails);
-        } else if (is_delete === 'Y') {
+        } else if (is_delete === true) {
           await transaction.indent_request_details.update({
             where: { indent_request_details_id: indent_request_details_id },
             data: {
@@ -183,7 +183,7 @@ const edit = async (
             },
           });
         }
-      } else if (is_delete === 'N') {
+      } else if (is_delete === false) {
         const indentRequestDetails =
           await transaction.indent_request_details.create({
             data: {
