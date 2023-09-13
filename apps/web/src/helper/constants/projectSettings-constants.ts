@@ -1,18 +1,34 @@
+import ProjectSettingsService from "../../service/projectSettings-service";
 
 export const projectMemberErrorMessages = {
     ENTER_ROLE: 'Project Role is required',
     ENTER_USER: 'Project Member is required',
-
+    USER_EXIST: 'This Project and User combination already exist'
 };
 
 export const getProjectMemberCreationYupschema = (yup: any) => {
     return yup.object().shape({
+        project_id: yup.number(),
         project_role_id: yup
             .number()
             .required(projectMemberErrorMessages.ENTER_ROLE),
         user_id: yup
             .number()
-            .required(projectMemberErrorMessages.ENTER_USER),
+            .required(projectMemberErrorMessages.ENTER_USER)
+            .test('code-availability',
+                projectMemberErrorMessages.USER_EXIST,
+                 async(value: string | number | Date, { parent }: yup.TestContext) => {
+                    if (value ) {
+                        const projectId = parent.project_id;
+                        const response = await ProjectSettingsService.fetchProjectUser(value,projectId);                        
+                        if (response?.is_exist === true) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                }
+            ),
         access_start_date: yup.date(),
         access_end_date: yup
             .date()
