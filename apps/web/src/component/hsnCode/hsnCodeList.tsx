@@ -222,7 +222,7 @@ const HsnCodeList = () => {
     const sheetName = workbook.SheetNames[0];
     const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
     const userData = await userService.getOneUser(state.auth?.Data?.email);
-    const created_by = userData?.data?.userData?.user_id;
+    const created_by = userData?.data?.user_id;
     const jsonData = {
       created_by,
       items: sheetData.map((item: any) => ({
@@ -243,11 +243,14 @@ const HsnCodeList = () => {
         if (jsonData) {
           uploadJsonData(jsonData, {
             onSuccess: (data, variables, context) => {
-              if (data) {
+              if (data?.data?.successCount !== 0) {
                 setMessage('Data uploaded successfully!');
                 setOpenSnack(true);
                 setError(null);
                 setSelectedFile(null);
+              }
+              else {
+                setError('No data to upload. Please select a valid file.');
               }
             },
           });
@@ -481,14 +484,19 @@ const HsnCodeList = () => {
                         getFilterData?.content?.map(
                           (data: any, index: number) => (
                             <tr key={data.hsn_code_id}>
-                          <td>{startingIndex + index}</td>
+                              <td>{startingIndex + index}</td>
                               <td>{data.code}</td>
                               <td>
                                 <span
                                   className={Styles.truncatedStyle}
                                   title={data.description}
                                 >
-                                  {data.description?data.description.substring(0, 30): '-'}
+                                  {data.description
+                                    ? data.description.length > 30
+                                      ? data.description.substring(0, 30) +
+                                        '...'
+                                      : data.description
+                                    : '-'}
                                 </span>
                               </td>
                               {activeButton === 'AC' && (
@@ -525,9 +533,14 @@ const HsnCodeList = () => {
                           <td>{data.code}</td>
                           <td>
                             <span
+                              className={Styles.truncatedStyle}
                               title={data.description}
                             >
-                              {data.description?data.description.substring(0, 30): '-'}
+                              {data.description
+                                ? data.description.length > 30
+                                  ? data.description.substring(0, 30) + '...'
+                                  : data.description
+                                : '-'}
                             </span>
                           </td>
                           {activeButton === 'AC' && (

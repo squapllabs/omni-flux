@@ -12,6 +12,19 @@ const getAllCategory = async () => {
     throw error;
   }
 };
+const getAllCategoryByProjectId = async (values: any) => {
+  console.log("service api called",values);
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/category/get-by-project-id/${values.projectId}/${values.bomconfigId}`
+    );
+    console.log("service api return",response.data);
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all getAllCategoryByProjectId:', error);
+    throw error;
+  }
+};
 
 const getOneCategoryByID = async (values: any) => {
   try {
@@ -53,6 +66,8 @@ const deleteCategory = async (id: number) => {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/category/delete/${id}`
     );
+    console.log("delete",response.data);
+    
     return response.data;
   } catch (error) {
     console.log('Error in occur in delete category  :', error);
@@ -92,4 +107,5 @@ export default {
   deleteCategory,
   checkDublicateCategory,
   filterCategory,
+  getAllCategoryByProjectId
 };

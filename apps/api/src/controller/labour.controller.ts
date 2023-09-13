@@ -63,6 +63,18 @@ const searchLabour = catchAsync(async (req, res) => {
   }
 });
 
+const checkDuplicateLabourType = catchAsync(async (req, res) => {
+  const methodName = '/checkDuplicateLabourType';
+  try {
+    const labour = await labourService.checkDuplicateLabourType(
+      req.params.labour_type
+    );
+    res.send(labour);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createLabour,
   updateLabour,
@@ -70,4 +82,5 @@ export {
   getByLabourId,
   deleteByLabourId,
   searchLabour,
+  checkDuplicateLabourType,
 };

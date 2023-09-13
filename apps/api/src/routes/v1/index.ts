@@ -30,6 +30,13 @@ import bom from './bomDetail.route';
 import vendor from './vendor.route';
 import labour from './labour.route';
 import machinery from './machinery.route';
+import userPrimaryProject from './userPrimaryProject.route';
+import projectMemberAssociation from './projectMemberAssociation.route';
+import store from './store.route';
+import projectSite from './projectSite.route';
+import indentRequest from './indentRequest.route';
+import inventory from './inventory.route';
+import purchaseRequest from './purchaseRequest.route';
 
 const router = express.Router();
 
@@ -157,6 +164,34 @@ const defaultRoutes = [
   {
     path: '/machinery',
     route: machinery,
+  },
+  {
+    path: '/user-primary-project',
+    route: userPrimaryProject,
+  },
+  {
+    path: '/project-member-association',
+    route: projectMemberAssociation,
+  },
+  {
+    path: '/store',
+    route: store,
+  },
+  {
+    path: '/project-site',
+    route: projectSite,
+  },
+  {
+    path: '/indent-request',
+    route: indentRequest,
+  },
+  {
+    path: '/inventory',
+    route: inventory,
+  },
+  {
+    path: '/purchase-request',
+    route: purchaseRequest,
   },
 ];
 

@@ -71,6 +71,17 @@ const getOneUomByName = async (values: any) => {
     throw error;
   }
 };
+const getUomByType = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/uom/get-by-uom-type/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getUomByType uom :', error);
+    throw error;
+  }
+};
 const filterUom = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -84,6 +95,20 @@ const filterUom = async (values: JSON) => {
   }
 };
 
+const getOneUomByType = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/uom/get-by-uom-type/LABOR`
+    );
+    console.log(response.data);
+    
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOneUomaByType master-data :', error);
+    throw error;
+  }
+};
+
 export default {
   getAlluom,
   getOneUomByID,
@@ -91,5 +116,7 @@ export default {
   updateUom,
   deleteUom,
   getOneUomByName,
-  filterUom
+  filterUom,
+  getOneUomByType,
+  getUomByType,
 };

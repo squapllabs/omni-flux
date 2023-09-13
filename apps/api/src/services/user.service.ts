@@ -262,9 +262,7 @@ const getByEmailId = async (emailId: string) => {
     const userData = await userDao.getByEmailId(emailId);
 
     if (userData) {
-      const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
-      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
-      result = { message: 'success', status: true, data: dataToApi };
+      result = { message: 'success', status: true, data: userData };
       return result;
     } else {
       result = { message: 'user email not exist', status: false, data: null };
@@ -617,9 +615,32 @@ const applyFilter = async (filterObj, field_name, operator, field_value) => {
 };
 
 /**
- * Method to Get All Sales Person Users
+ * Method for updating is_two_factor by user_id
+ * @param body
  * @returns
  */
+const updateTwoFactorAuthentication = async (body) => {
+  try {
+    const { user_id, is_two_factor } = body;
+    const result = await userDao.updateTwoFactorAuthentication(
+      user_id,
+      is_two_factor
+    );
+    const userData = {
+      message: 'success',
+      status: true,
+      data: result,
+    };
+    return userData;
+  } catch (error) {
+    console.log(
+      'Error occurred in User Service : updateTwoFactorAuthentication Method',
+      error
+    );
+    throw error;
+  }
+};
+
 const getAllSalesPersonUsers = async () => {
   try {
     const result = await userDao.getAllSalesPersonUsers();
@@ -767,6 +788,7 @@ export {
   getDeletedUsers,
   customFilterUser,
   refreshAccessToken,
+  updateTwoFactorAuthentication,
   getAllSalesPersonUsers,
   getByRoleName,
   getChildUsersByParentUserId,

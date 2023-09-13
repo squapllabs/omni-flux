@@ -1,6 +1,7 @@
 import bomConfigurationDao from '../dao/bomConfiguration.dao';
 import bomDetailDao from '../dao/bomDetail.dao';
 import categoryDao from '../dao/category.dao';
+import projectDao from '../dao/project.dao';
 import subCategoryDao from '../dao/subCategory.dao';
 import { bomBody } from '../interfaces/bomDetail.interface';
 import prisma from '../utils/prisma';
@@ -449,6 +450,94 @@ const getBomTotalBySubCategoryId = async (sub_category_id: number) => {
 };
 
 /**
+ * Method to get Bom By Sub Category Id
+ * @param sub_category_id
+ * @returns
+ */
+const getBySubCategoryId = async (sub_category_id: number) => {
+  try {
+    let result = null;
+
+    const subCategoryExist = await subCategoryDao.getById(sub_category_id);
+    if (!subCategoryExist) {
+      return {
+        message: 'sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const bomData = await bomDetailDao.getBySubCategoryId(sub_category_id);
+    if (bomData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: bomData,
+      };
+    } else {
+      result = {
+        message: 'There is no bom data related to this sub_category_id',
+        status: false,
+        data: null,
+      };
+    }
+    return result;
+  } catch (error) {
+    console.log('Error occurred in bom service getBySubCategoryId ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to get Bom By ProjectId And BomType
+ * @param project_id
+ * @param bom_type
+ * @returns
+ */
+const getByProjectIdAndBomType = async (
+  project_id: number,
+  bom_type: string
+) => {
+  try {
+    let result = null;
+
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const bomData = await bomDetailDao.getByProjectIdAndBomType(
+      project_id,
+      bom_type
+    );
+    if (bomData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: bomData,
+      };
+    } else {
+      result = {
+        message: 'There is no bom data related to this project_id and bom_type',
+        status: false,
+        data: null,
+      };
+    }
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in bom service getByProjectIdAndBomType ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
  * Method to getSumOfTotalDataBySubCategoryId bomDetails
  * @param subCategoryId
  */
@@ -488,5 +577,7 @@ export {
   addBulkBom,
   getBomBySubCategoryIdAndBomType,
   getBomTotalBySubCategoryId,
+  getBySubCategoryId,
+  getByProjectIdAndBomType,
   getSumOfTotalDataBySubCategoryId,
 };

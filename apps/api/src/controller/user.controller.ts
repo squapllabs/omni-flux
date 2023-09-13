@@ -104,6 +104,15 @@ const customFilterUser = catchAsync(async (req, res) => {
   }
 });
 
+const updateTwoFactorAuthentication = catchAsync(async (req, res) => {
+  const methodName = '/updateTwoFactorAuthentication';
+  try {
+    const result = await userService.updateTwoFactorAuthentication(req.body);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
 const getAllSalesPersonUsers = catchAsync(async (req, res) => {
   const methodName = '/getAllSalesPersonUsers';
   try {
@@ -147,6 +156,7 @@ export {
   searchUser,
   getDeletedUsers,
   customFilterUser,
+  updateTwoFactorAuthentication,
   getAllSalesPersonUsers,
   getUserByRoleName,
   getChildUsersByParentUserId,

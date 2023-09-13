@@ -10,12 +10,10 @@ import SearchIcon from '../menu/icons/search';
 import ButtonOne from '../ui/Button';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
-import {
-  getByItem,
-  useGetAllPaginatedItemData,
-} from '../../hooks/add-product-hooks';
+import { getByItem } from '../../hooks/add-product-hooks';
 import EditIcon from '../menu/icons/editIcon';
 import { formatBudgetValue } from '../../helper/common-function';
+import addProduct from '../../service/add-product';
 
 const ProductPage = () => {
   const {
@@ -23,13 +21,10 @@ const ProductPage = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getByItem();
-  
+
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState(false);
-  const [dataShow, setDataShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -39,23 +34,9 @@ const ProductPage = () => {
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [isResetDisabled, setIsResetDisabled] = useState(true);
-  const itemData = {
-    limit: rowsPerPage,
-    offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
-    status: activeButton,
-    global_search: filterValues.search_by_name,
-  };
-
-  const {
-    isLoading: getAllLoadingPaginated,
-    data: initialData,
-    refetch,
-  } = useGetAllPaginatedItemData(itemData);
 
   useEffect(() => {
-    refetch();
+    handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,19 +61,21 @@ const ProductPage = () => {
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(itemData);
-    setDataShow(true);
-    setIsLoading(false);
-    setFilter(true);
   };
 
   const handleReset = async () => {
-    setDataShow(false);
-    setIsLoading(false);
-    setFilter(false);
+    const itemData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      global_search: '',
+    };
+    postDataForFilter(itemData);
     setFilterValues({
       search_by_name: '',
     });
-    setIsLoading(false);
     setIsResetDisabled(true);
   };
 
@@ -112,7 +95,7 @@ const ProductPage = () => {
   };
 
   const convertToCSV = (data: any[]) => {
-    const header = ['Code', 'Description', 'GST','Rate', 'HSN Code', 'UOM'];
+    const header = ['Code', 'Description', 'GST', 'Rate', 'HSN Code', 'UOM'];
     const csvRows = [header.join(',')];
     for (const item of data) {
       const rowData = [
@@ -128,8 +111,22 @@ const ProductPage = () => {
     return csvRows.join('\n');
   };
 
-  const handleDownload = () => {
-    const csvContent = convertToCSV(initialData.content);
+  const fetchAllData = async () => {
+    const itemData: any = {
+      limit: getFilterData.total_count,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: activeButton,
+      global_search: filterValues.search_by_name,
+    };
+    const response = await addProduct.filterItem(itemData);
+    return response.content;
+  };
+
+  const handleDownload = async () => {
+    const allData = await fetchAllData();
+    const csvContent = convertToCSV(allData);
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -147,11 +144,7 @@ const ProductPage = () => {
 
   return (
     <div className={Styles.container}>
-      <CustomLoader
-        loading={searchLoader ? searchLoader : getAllLoadingPaginated}
-        size={48}
-        color="#333C44"
-      >
+      <CustomLoader loading={searchLoader} size={48} color="#333C44">
         <div className={Styles.topContent}>
           <div className={Styles.leftContainer}>
             <h1>List of Items</h1>
@@ -228,15 +221,14 @@ const ProductPage = () => {
                 Reset
               </ButtonOne>
             </div>
-            </div>
-            <div className={Styles.groupButton}>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
-            </div>
-          
+          </div>
+          <div className={Styles.groupButton}>
+            <CustomGroupButton
+              labels={buttonLabels}
+              onClick={handleGroupButtonClick}
+              activeButton={activeButton}
+            />
+          </div>
         </div>
         <div>
           <table>
@@ -252,38 +244,7 @@ const ProductPage = () => {
               </tr>
             </thead>
             <tbody>
-              {dataShow ? (
-                getFilterData?.total_count === 0 ? (
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
-                    {activeButton === 'AC' && <td></td>}
-                  </tr>
-                ) : (
-                  getFilterData?.content?.map((data: any, index: any) => (
-                    <tr key={data.item_id}>
-                      <td>{startingIndex + index}</td>
-                      <td>{data.item_name}</td>
-                      <td>
-                        {data.item_type && data.item_type.master_data_name}
-                      </td>
-                      <td>{data.description}</td>
-                      <td>{data.gst.rate}</td>
-                      <td>{formatBudgetValue(data.rate || '-')}</td>
-                      {activeButton === 'AC' && (
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() => handleEdit(data.item_id)}
-                            />
-                          </div>
-                        </td>
-                      )}
-                    </tr>
-                  ))
-                )
-              ) : initialData?.total_count === 0 ? (
+              {getFilterData?.total_count === 0 ? (
                 <tr>
                   <td></td>
                   <td></td>
@@ -291,7 +252,7 @@ const ProductPage = () => {
                   {activeButton === 'AC' && <td></td>}
                 </tr>
               ) : (
-                initialData?.content?.map((data: any, index: any) => (
+                getFilterData?.content?.map((data: any, index: any) => (
                   <tr key={data.item_id}>
                     <td>{startingIndex + index}</td>
                     <td>{data.item_name}</td>
@@ -315,12 +276,8 @@ const ProductPage = () => {
         <div className={Styles.pagination}>
           <Pagination
             currentPage={currentPage}
-            totalPages={
-              dataShow ? getFilterData?.total_page : initialData?.total_page
-            }
-            totalCount={
-              dataShow ? getFilterData?.total_count : initialData?.total_count
-            }
+            totalPages={getFilterData?.total_page}
+            totalCount={getFilterData?.total_count}
             rowsPerPage={rowsPerPage}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleRowsPerPageChange}

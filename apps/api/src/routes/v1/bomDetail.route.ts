@@ -14,6 +14,8 @@ import {
   addBulkBom,
   getBomBySubCategoryIdAndBomType,
   getBomTotalBySubCategoryId,
+  getBySubCategoryId,
+  getByProjectIdAndBomType,
   fetchEntireTotalDataBySubCategoryId,
 } from '../../controller/bomDetail.controller';
 import authMiddleware from '../../middleware/auth';
@@ -50,6 +52,18 @@ router.get(
   '/get-bom-total-by-sub-cat-id/:sub_category_id',
   authMiddleware,
   getBomTotalBySubCategoryId
+);
+
+router.get(
+  '/get-by-sub-category-id/:sub_category_id',
+  authMiddleware,
+  getBySubCategoryId
+);
+
+router.get(
+  '/get-by-project-id-and-bom-type/:project_id/:bom_type',
+  authMiddleware,
+  getByProjectIdAndBomType
 );
 
 router.get('/get-sum-of-total-by-sub-category-id/:sub_category_id',

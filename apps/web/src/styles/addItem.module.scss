@@ -22,20 +22,22 @@ border-bottom: 1px solid black;
   display: flex;
   flex-direction:column;
   justify-content: space-around;
+  flex-wrap: wrap;
   gap: 10px;
 }
 .itemField1 {
   display: flex;
   flex-direction:row;
+  flex-wrap: wrap;
   justify-content: space-around;
 }
 
 .buttonFields {
   display:flex;
   flex-direction:row;
-  gap:10px;
+  gap:30px;
   justify-content:flex-end;
-  padding-right:110px;
+  padding-right:50px;
 }
 
 

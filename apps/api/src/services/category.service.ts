@@ -1,3 +1,4 @@
+import bomConfigurationDao from '../dao/bomConfiguration.dao';
 import categoryDao from '../dao/category.dao';
 import projectDao from '../dao/project.dao';
 import subCategoryDao from '../dao/subCategory.dao';
@@ -21,6 +22,7 @@ const createCategory = async (body: createCategoryBody) => {
       description,
       start_date,
       end_date,
+      bom_configuration_id,
     } = body;
     let result = null;
     if (project_id) {
@@ -46,6 +48,20 @@ const createCategory = async (body: createCategoryBody) => {
         return result;
       }
     }
+
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const categoryDetails = await categoryDao.add(
       name,
       project_id,
@@ -53,7 +69,8 @@ const createCategory = async (body: createCategoryBody) => {
       created_by,
       description,
       start_date,
-      end_date
+      end_date,
+      bom_configuration_id
     );
     result = {
       message: 'success',
@@ -83,6 +100,7 @@ const updateCategory = async (body: updateCategoryBody) => {
       description,
       start_date,
       end_date,
+      bom_configuration_id,
     } = body;
     let result = null;
 
@@ -119,6 +137,19 @@ const updateCategory = async (body: updateCategoryBody) => {
       }
     }
 
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const categoryDetails = await categoryDao.edit(
       name,
       project_id,
@@ -127,7 +158,8 @@ const updateCategory = async (body: updateCategoryBody) => {
       category_id,
       description,
       start_date,
-      end_date
+      end_date,
+      bom_configuration_id
     );
     result = {
       message: 'success',
@@ -348,7 +380,10 @@ const searchCategory = async (body) => {
  * @param project_id
  * @returns
  */
-const getByProjectId = async (project_id: number) => {
+const getByProjectId = async (
+  project_id: number,
+  bom_configuration_id: number
+) => {
   try {
     let result = null;
     const projectExist = await projectDao.getById(project_id);
@@ -360,13 +395,31 @@ const getByProjectId = async (project_id: number) => {
       };
       return result;
     }
-    const categoryData = await categoryDao.getByProjectId(project_id);
+
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const categoryData = await categoryDao.getByProjectId(
+      project_id,
+      bom_configuration_id
+    );
     if (categoryData.length > 0) {
       result = { message: 'success', status: true, data: categoryData };
       return result;
     } else {
       result = {
-        message: 'No category found related to this category',
+        message:
+          'No category found related to this project_id and bom configuration_id combo',
         status: false,
         data: null,
       };

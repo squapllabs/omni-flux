@@ -165,7 +165,6 @@ const deleteVendor = async (vendorId: number, connectionObj = null) => {
   }
 };
 
-
 const searchVendor = async (
   offset: number,
   limit: number,
@@ -209,10 +208,7 @@ const searchVendor = async (
       ORDER BY ${order_by_column} ${order_by_direction}`);
 
     const vendorCount = filteredVendors.length;
-    const vendors = filteredVendors.slice(
-      offset,
-      offset + limit
-    );
+    const vendors = filteredVendors.slice(offset, offset + limit);
     const vendorData = {
       count: vendorCount,
       data: vendors,
@@ -224,6 +220,24 @@ const searchVendor = async (
   }
 };
 
+const getByEmailId = async (contact_email: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const vendor = await transaction.vendor.findFirst({
+      where: {
+        contact_email: contact_email,
+      },
+      include: {
+        vendor_category_data: true,
+        preferred_payment_method_data: true,
+      },
+    });
+    return vendor;
+  } catch (error) {
+    console.log('Error occurred in vendor getByEmailId dao', error);
+    throw error;
+  }
+};
 
 export default {
   add,
@@ -232,4 +246,5 @@ export default {
   getAll,
   deleteVendor,
   searchVendor,
+  getByEmailId,
 };

@@ -51,6 +51,10 @@ router.get('/get-all-inactive', authMiddleware, getAllInActiveCategories);
 
 router.post('/search', authMiddleware, searchCategory);
 
-router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
+router.get(
+  '/get-by-project-id/:project_id/:bom_configuration_id',
+  authMiddleware,
+  getByProjectId
+);
 
 export default router;

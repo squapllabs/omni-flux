@@ -3,8 +3,6 @@ import { environment } from '../environment/environment';
 import axiosinterceptor from '../helper/custom_axios';
 
 const forgetPassword = async (values: any) => {
-  console.log('values', values);
-
   try {
     const response = await axios.post(
       `${environment.apiUrl}/auth/forgotPassword/`,
@@ -21,6 +19,24 @@ const forgetPassword = async (values: any) => {
     throw error;
   }
 };
+
+const generateOTP = async (values:any)=> {
+  try {
+    const response = await axios.post(
+      `${environment.apiUrl}/auth/generate-otp/`,
+      values,
+      {
+        headers: {
+          token: 'success',
+        },
+      }
+    );
+    return response.data;
+  }catch (error) {
+    console.log('Error in otpAuth :', error);
+    throw error;
+  }
+}
 
 const loginAuth = async (values: any) => {
   try {
@@ -65,6 +81,24 @@ const restePassword = async (values: string) => {
   }
 };
 
+const setTwoFA = async (values:JSON) => {
+  try {
+    const response = await axios.put(
+      `${environment.apiUrl}/user/update-two-factor`,
+      values,
+      {
+        headers: {
+          token: 'success',
+        },
+      }
+    );
+    return response.data;
+  } catch  (error) {
+    console.log('Error in set TwoFA auth :', error);
+    throw error;
+  }
+}
+
 const logout = async () => {
   try {
     const response = await axios.get(`${environment.apiUrl}/auth/logout`, {
@@ -85,17 +119,38 @@ const refreshTokenCall = async (values: JSON) => {
       `${environment.apiUrl}/auth/refreshToken`,
       values
     );
-    console.log("refresh token call----->", response.data)
     return response.data;
   } catch (error) {
     console.log('Error in refreshTokenCall :', error);
     throw error;
   }
 };
+
+const verifyOTP = async (values:JSON) => {
+  try {
+    const response = await axios.post(
+      `${environment.apiUrl}/auth/verify-otp/`,
+      values,
+      {
+        headers: {
+          token: 'success',
+        },
+      }
+    );
+    return response.data;
+  }catch (error) {
+    console.log('Error in verify otpAuth :', error);
+    throw error;
+  }
+}
+
 export default {
   forgetPassword,
   loginAuth,
   restePassword,
   logout,
-  refreshTokenCall
+  refreshTokenCall,
+  generateOTP,
+  verifyOTP,
+  setTwoFA
 };

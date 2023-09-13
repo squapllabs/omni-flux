@@ -516,17 +516,35 @@ const getBomTotalBySubCategoryId = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const result = await transaction.$queryRaw`select
-    SUM(case when bom_type = 'RAWMT' then total else 0 end) as raw_material,
-    SUM(case when bom_type = 'LABOR' then total else 0 end) as labour,
-    SUM(case when bom_type = 'MCNRY' then total else 0 end) as machinery
-  from
-    "bom_detail"
-  where
-    sub_category_id = ${sub_category_id}::integer and is_delete =false`;
-    return result;
+    const bom = await transaction.bom_detail.groupBy({
+      by: ['bom_type'],
+      where: {
+        sub_category_id: Number(sub_category_id),
+        is_delete: false,
+      },
+      _sum: {
+        total: true,
+      },
+    });
+
+    const formattedResult = {};
+    const typeMapping = {
+      RAWMT: 'raw_material',
+      LABOR: 'labour',
+      MCNRY: 'machinery',
+    };
+
+    bom.forEach((item) => {
+      const aliasName = typeMapping[item.bom_type] || item.bom_type;
+      formattedResult[aliasName] = item._sum.total;
+    });
+
+    return formattedResult;
   } catch (error) {
-    console.error('Error occurred in BomDao getById:', error);
+    console.error(
+      'Error occurred in BomDao getBomTotalBySubCategoryId:',
+      error
+    );
     throw error;
   }
 };
@@ -575,6 +593,86 @@ const getTotalByBomConfigurationId = async (
       'Error occurred in BomDao getTotalByBomConfigurationId :',
       error
     );
+    throw error;
+  }
+};
+
+const getBySubCategoryId = async (
+  sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const bom = await transaction.bom_detail.findMany({
+      where: {
+        sub_category_id: Number(sub_category_id),
+        is_delete: false,
+      },
+      include: {
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
+        uom_data: true,
+        category_data: true,
+        sub_category_data: true,
+        sub_sub_category_data: true,
+        item_data: true,
+        labour_data: true,
+        machinery_data: true,
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+
+    return bom;
+  } catch (error) {
+    console.error('Error occurred in BomDao getBySubCategoryId:', error);
+    throw error;
+  }
+};
+
+const getByProjectIdAndBomType = async (
+  project_id: number,
+  bom_type: string,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const bom = await transaction.bom_detail.findMany({
+      where: {
+        bom_type: bom_type,
+        is_delete: false,
+        bom_configuration_data: { project_id: Number(project_id) },
+      },
+      include: {
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
+        uom_data: true,
+        category_data: true,
+        sub_category_data: true,
+        sub_sub_category_data: true,
+        item_data: true,
+        labour_data: true,
+        machinery_data: true,
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+
+    return bom;
+  } catch (error) {
+    console.error('Error occurred in BomDao getByProjectIdAndBomType:', error);
     throw error;
   }
 };
@@ -631,5 +729,7 @@ export default {
   getBomTotalBySubCategoryId,
   getBomSumBySubCategoryId,
   getTotalByBomConfigurationId,
+  getBySubCategoryId,
+  getByProjectIdAndBomType,
   getSumOfTotalBySubCategoryId,
 };
