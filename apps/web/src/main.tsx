@@ -11,6 +11,7 @@ import Routes from './routes/Routes';
 
 const queryClient = new QueryClient();
 
+
 function ReduxProvider({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
