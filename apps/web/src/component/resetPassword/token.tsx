@@ -94,7 +94,7 @@ const ResetPassword = () => {
         };
         restPassword(data, {
           onSuccess: (data, variables, context) => {
-            if (data?.success === true) {
+            if (data?.status === true) {
               setwaring(false);
               setMessage('Password has reseted successfully');
               handleClick();
