@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import otpGenerator from '../utils/otpGenerator';
 import mailService from './mail.service';
-import { userExistBody } from '../interfaces/user.Interface';
 
 /**
  * Method for forget password url generate
@@ -55,7 +54,11 @@ const updatePassword = async (body: {
       result = await authDao.editPassword(email_id, md5(user_password));
       return (result = { message: 'success', status: true, data: result });
     } else {
-      return (result = { status: false, data: null, message: 'email_id does not exist' });
+      return (result = {
+        status: false,
+        data: null,
+        message: 'email_id does not exist',
+      });
     }
   } catch (error) {
     console.log('Error occurred in update password : ', error);
@@ -121,9 +124,7 @@ const verifyOTP = async (body: { email_id: string; otp_secret: number }) => {
     let result = null;
     const { email_id, otp_secret } = body;
 
-    const userCheckExist = (await userDao.getByEmailId(
-      email_id
-    )) as userExistBody;
+    const userCheckExist = await userDao.getByEmailId(email_id);
 
     if (userCheckExist) {
       const currentTimestamp = new Date();

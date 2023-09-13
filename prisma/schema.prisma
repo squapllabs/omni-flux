@@ -24,6 +24,10 @@ model users {
   department                 String?                      @db.VarChar(100)
   is_two_factor              Boolean                      @default(false) @db.Boolean
   parent_user_id             Int?
+  otp_secret                 Int?
+  otp_attempts               Int?
+  otp_expired_in             DateTime?
+  is_otp_verified            Boolean                      @default(false) @db.Boolean
   parent_data                users?                       @relation("childToParent", fields: [parent_user_id], references: [user_id])
   child_data                 users[]                      @relation("childToParent")
   projects                   project[]                    @relation("approvar_relation")
