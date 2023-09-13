@@ -12853,14 +12853,183 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/api/bom/get-by-sub-category-id/109",
+              "raw": "http://localhost:8080/api/bom/get-by-sub-category-id/121",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8080",
-              "path": ["api", "bom", "get-by-sub-category-id", "109"]
+              "path": ["api", "bom", "get-by-sub-category-id", "121"]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "API To Get Bom By sub category id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/bom/get-by-sub-category-id/121",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "bom", "get-by-sub-category-id", "121"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "5655"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1617-GbknF6uv/HfEBgiEAkWzJanF4w0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 13:24:41 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"bom_detail_id\": 199,\n            \"bom_name\": \"Item 122\",\n            \"quantity\": 2,\n            \"uom_id\": 47,\n            \"category_id\": null,\n            \"sub_category_id\": 121,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 170,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T08:20:26.488Z\",\n            \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 100,\n            \"total\": 200,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"bom_configuration_id\": 34,\n            \"bom_configuration_data\": {\n                \"bom_configuration_id\": 34,\n                \"bom_name\": \"Mech\",\n                \"bom_description\": \"Mech\",\n                \"bom_type_id\": 113,\n                \"project_id\": 137,\n                \"budget\": 2500,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T08:17:14.207Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"bom_type_data\": {\n                    \"master_data_name\": \"Mechanical\"\n                }\n            },\n            \"uom_data\": {\n                \"uom_id\": 47,\n                \"name\": \"Laptop\",\n                \"description\": \"Pieces\",\n                \"created_date\": \"2023-08-31T23:43:31.314Z\",\n                \"updated_date\": \"2023-08-31T23:43:31.314Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": \"RAWMT\",\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 121,\n                \"name\": \"Item No 1\",\n                \"category_id\": 155,\n                \"budget\": 2500,\n                \"created_date\": \"2023-09-12T08:18:50.136Z\",\n                \"updated_date\": \"2023-09-12T08:20:26.733Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"bom_configuration_id\": 34,\n                \"description\": \"Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion with B\",\n                \"project_id\": 137\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 170,\n                \"item_name\": \"Item 122\",\n                \"description\": \"test\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 20,\n                \"uom_id\": 50,\n                \"created_date\": \"2023-09-08T08:35:13.699Z\",\n                \"updated_date\": \"2023-09-08T08:35:13.699Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 6,\n                \"rate\": 123.02,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        },\n        {\n            \"bom_detail_id\": 200,\n            \"bom_name\": \"Labour nine\",\n            \"quantity\": 2,\n            \"uom_id\": 53,\n            \"category_id\": null,\n            \"sub_category_id\": 121,\n            \"sub_sub_category_id\": null,\n            \"item_id\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T08:20:26.488Z\",\n            \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 1000,\n            \"total\": 2000,\n            \"bom_type\": \"LABOR\",\n            \"machinery_id\": null,\n            \"labour_id\": 14,\n            \"bom_configuration_id\": 34,\n            \"bom_configuration_data\": {\n                \"bom_configuration_id\": 34,\n                \"bom_name\": \"Mech\",\n                \"bom_description\": \"Mech\",\n                \"bom_type_id\": 113,\n                \"project_id\": 137,\n                \"budget\": 2500,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T08:17:14.207Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"bom_type_data\": {\n                    \"master_data_name\": \"Mechanical\"\n                }\n            },\n            \"uom_data\": {\n                \"uom_id\": 53,\n                \"name\": \"Monthly Wise\",\n                \"description\": \"Monthly Wise\",\n                \"created_date\": \"2023-09-06T11:01:16.847Z\",\n                \"updated_date\": \"2023-09-06T11:01:16.847Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": \"LABOR\",\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 121,\n                \"name\": \"Item No 1\",\n                \"category_id\": 155,\n                \"budget\": 2500,\n                \"created_date\": \"2023-09-12T08:18:50.136Z\",\n                \"updated_date\": \"2023-09-12T08:20:26.733Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"bom_configuration_id\": 34,\n                \"description\": \"Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion with B\",\n                \"project_id\": 137\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": null,\n            \"labour_data\": {\n                \"labour_id\": 14,\n                \"labour_type\": \"Labour nine\",\n                \"rate\": 1000,\n                \"uom_id\": 53,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-08T06:46:57.569Z\",\n                \"updated_date\": \"2023-09-08T06:46:57.569Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            },\n            \"machinery_data\": null\n        },\n        {\n            \"bom_detail_id\": 201,\n            \"bom_name\": \"Earthmoving Equipment\",\n            \"quantity\": 2,\n            \"uom_id\": 53,\n            \"category_id\": null,\n            \"sub_category_id\": 121,\n            \"sub_sub_category_id\": null,\n            \"item_id\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T08:20:26.488Z\",\n            \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 150,\n            \"total\": 300,\n            \"bom_type\": \"MCNRY\",\n            \"machinery_id\": 5,\n            \"labour_id\": null,\n            \"bom_configuration_id\": 34,\n            \"bom_configuration_data\": {\n                \"bom_configuration_id\": 34,\n                \"bom_name\": \"Mech\",\n                \"bom_description\": \"Mech\",\n                \"bom_type_id\": 113,\n                \"project_id\": 137,\n                \"budget\": 2500,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T08:17:14.207Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"bom_type_data\": {\n                    \"master_data_name\": \"Mechanical\"\n                }\n            },\n            \"uom_data\": {\n                \"uom_id\": 53,\n                \"name\": \"Monthly Wise\",\n                \"description\": \"Monthly Wise\",\n                \"created_date\": \"2023-09-06T11:01:16.847Z\",\n                \"updated_date\": \"2023-09-06T11:01:16.847Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": \"LABOR\",\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 121,\n                \"name\": \"Item No 1\",\n                \"category_id\": 155,\n                \"budget\": 2500,\n                \"created_date\": \"2023-09-12T08:18:50.136Z\",\n                \"updated_date\": \"2023-09-12T08:20:26.733Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"bom_configuration_id\": 34,\n                \"description\": \"Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion with B\",\n                \"project_id\": 137\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": null,\n            \"labour_data\": null,\n            \"machinery_data\": {\n                \"machinery_id\": 5,\n                \"machinery_name\": \"Earthmoving Equipment\",\n                \"machinery_model\": \"ABC-123\",\n                \"machinery_type\": \"Heavy Equipment\",\n                \"manufacturer\": \"APV Machinery Co.\",\n                \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n                \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n                \"operational_status\": \"Non Operational\",\n                \"location\": \"Site sd\",\n                \"rate\": 150,\n                \"uom_id\": 53,\n                \"is_delete\": true,\n                \"created_date\": \"2023-09-06T12:39:23.172Z\",\n                \"updated_date\": \"2023-09-07T13:02:27.456Z\",\n                \"created_by\": 1,\n                \"updated_by\": 45\n            }\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Bom By Project Id And Bom Type",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/bom/get-by-project-id-and-bom-type/137/RAWMT",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": [
+                "api",
+                "bom",
+                "get-by-project-id-and-bom-type",
+                "137",
+                "RAWMT"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Bom By Project Id And Bom Type",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/bom/get-by-project-id-and-bom-type/137/RAWMT",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "bom",
+                    "get-by-project-id-and-bom-type",
+                    "137",
+                    "RAWMT"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1867"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"74b-noyQV0EK+qNJpAUlaSsYT4u0U1o\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 13:25:10 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"bom_detail_id\": 199,\n            \"bom_name\": \"Item 122\",\n            \"quantity\": 2,\n            \"uom_id\": 47,\n            \"category_id\": null,\n            \"sub_category_id\": 121,\n            \"sub_sub_category_id\": null,\n            \"item_id\": 170,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T08:20:26.488Z\",\n            \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"description\": \"\",\n            \"rate\": 100,\n            \"total\": 200,\n            \"bom_type\": \"RAWMT\",\n            \"machinery_id\": null,\n            \"labour_id\": null,\n            \"bom_configuration_id\": 34,\n            \"bom_configuration_data\": {\n                \"bom_configuration_id\": 34,\n                \"bom_name\": \"Mech\",\n                \"bom_description\": \"Mech\",\n                \"bom_type_id\": 113,\n                \"project_id\": 137,\n                \"budget\": 2500,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T08:17:14.207Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"bom_type_data\": {\n                    \"master_data_name\": \"Mechanical\"\n                }\n            },\n            \"uom_data\": {\n                \"uom_id\": 47,\n                \"name\": \"Laptop\",\n                \"description\": \"Pieces\",\n                \"created_date\": \"2023-08-31T23:43:31.314Z\",\n                \"updated_date\": \"2023-08-31T23:43:31.314Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"uom_type\": \"RAWMT\",\n                \"is_delete\": false\n            },\n            \"category_data\": null,\n            \"sub_category_data\": {\n                \"sub_category_id\": 121,\n                \"name\": \"Item No 1\",\n                \"category_id\": 155,\n                \"budget\": 2500,\n                \"created_date\": \"2023-09-12T08:18:50.136Z\",\n                \"updated_date\": \"2023-09-12T08:20:26.733Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"start_date\": null,\n                \"end_date\": null,\n                \"is_delete\": false,\n                \"bom_configuration_id\": 34,\n                \"description\": \"Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion with B\",\n                \"project_id\": 137\n            },\n            \"sub_sub_category_data\": null,\n            \"item_data\": {\n                \"item_id\": 170,\n                \"item_name\": \"Item 122\",\n                \"description\": \"test\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 20,\n                \"uom_id\": 50,\n                \"created_date\": \"2023-09-08T08:35:13.699Z\",\n                \"updated_date\": \"2023-09-08T08:35:13.699Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 6,\n                \"rate\": 123.02,\n                \"is_delete\": false\n            },\n            \"labour_data\": null,\n            \"machinery_data\": null\n        }\n    ]\n}"
+            }
+          ]
         }
       ]
     },
@@ -15767,14 +15936,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{API_URL}}/api/project-member-association/get-by-project-id-and-user-id/132/62",
+              "raw": "{{API_URL}}/api/project-member-association/get-by-project-id-and-user-id/137/101",
               "host": ["{{API_URL}}"],
               "path": [
                 "api",
                 "project-member-association",
                 "get-by-project-id-and-user-id",
-                "132",
-                "62"
+                "137",
+                "101"
               ]
             }
           },
@@ -16155,14 +16324,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{API_URL}}/api/project-member-association/get-by-project-id-and-role-name/132/Planning Engineer",
+              "raw": "{{API_URL}}/api/project-member-association/get-by-project-id-and-role-name/132/Site Engineer",
               "host": ["{{API_URL}}"],
               "path": [
                 "api",
                 "project-member-association",
                 "get-by-project-id-and-role-name",
                 "132",
-                "Planning Engineer"
+                "Site Engineer"
               ]
             }
           },
@@ -16846,6 +17015,674 @@
             }
           },
           "response": []
+        }
+      ]
+    },
+    {
+      "name": "Indent Request",
+      "item": [
+        {
+          "name": "API To Create Indent Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"requester_user_id\": 62,\r\n    \"requested_date\": \"2023-09-12\",\r\n    \"request_status\": \"Pending\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Sample Request 3\",\r\n    \"expected_delivery_date\": \"2023-09-20\",\r\n    \"total_cost\": 500.50,\r\n    \"approvar_user_id\": 1,\r\n    \"approvar_status\": \"Pending\",\r\n    \"approved_date\": null,\r\n    \"rejected_date\": null,\r\n    \"approvar_comments\": null,\r\n    \"created_by\": 1,\r\n    \"indent_request_details\": [\r\n        {\r\n            \"bom_detail_id\": 199,\r\n            \"quantity\": 10,\r\n            \"total\": 1000,\r\n            \"is_delete\": \"N\"\r\n        },\r\n        {\r\n            \"bom_detail_id\": 201,\r\n            \"quantity\": 1,\r\n            \"total\": 150,\r\n            \"is_delete\": \"N\"\r\n        }\r\n    ],\r\n    \"project_id\": 137\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/indent-request/",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "indent-request", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Create Indent Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"requester_user_id\": 62,\r\n    \"requested_date\": \"2023-09-12\",\r\n    \"request_status\": \"Pending\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Sample Request 3\",\r\n    \"expected_delivery_date\": \"2023-09-20\",\r\n    \"total_cost\": 500.50,\r\n    \"approvar_user_id\": 1,\r\n    \"approvar_status\": \"Pending\",\r\n    \"approved_date\": null,\r\n    \"rejected_date\": null,\r\n    \"approvar_comments\": null,\r\n    \"created_by\": 1,\r\n    \"indent_request_details\": [\r\n        {\r\n            \"bom_detail_id\": 199,\r\n            \"quantity\": 10,\r\n            \"total\": 1000,\r\n            \"is_delete\": \"N\"\r\n        },\r\n        {\r\n            \"bom_detail_id\": 201,\r\n            \"quantity\": 1,\r\n            \"total\": 150,\r\n            \"is_delete\": \"N\"\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/indent-request/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "indent-request", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1049"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"419-TFyQHtHpa+iOYiFSFaFCyo458w4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 12:51:29 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"indent_request\": {\n            \"indent_request_id\": 8,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 3\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:51:28.345Z\",\n            \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n            \"created_by\": 1,\n            \"updated_by\": null\n        },\n        \"indent_request_details\": [\n            {\n                \"indent_request_details_id\": 3,\n                \"indent_request_id\": 8,\n                \"bom_detail_id\": 199,\n                \"quantity\": 10,\n                \"total\": 1000,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T12:51:28.345Z\",\n                \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            },\n            {\n                \"indent_request_details_id\": 4,\n                \"indent_request_id\": 8,\n                \"bom_detail_id\": 201,\n                \"quantity\": 1,\n                \"total\": 150,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T12:51:28.345Z\",\n                \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Update Indent Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"requester_user_id\": 62,\r\n    \"requested_date\": \"2023-09-12\",\r\n    \"request_status\": \"Pending\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Sample Request 3\",\r\n    \"expected_delivery_date\": \"2023-09-20\",\r\n    \"total_cost\": 500.50,\r\n    \"approvar_user_id\": 1,\r\n    \"approvar_status\": \"Pending\",\r\n    \"approved_date\": null,\r\n    \"rejected_date\": null,\r\n    \"approvar_comments\": null,\r\n    \"updated_by\": 1,\r\n    \"indent_request_details\": [\r\n        {\r\n            \"indent_request_details_id\": 6,\r\n            \"bom_detail_id\": 199,\r\n            \"quantity\": 10,\r\n            \"total\": 1000,\r\n            \"is_delete\": \"N\"\r\n        },\r\n        {\r\n            \"indent_request_details_id\": 7,\r\n            \"bom_detail_id\": 201,\r\n            \"quantity\": 1,\r\n            \"total\": 150,\r\n            \"is_delete\": \"Y\"\r\n        },\r\n        {\r\n            \"bom_detail_id\": 201,\r\n            \"quantity\": 1,\r\n            \"total\": 150,\r\n            \"is_delete\": \"N\"\r\n        }\r\n    ],\r\n    \"indent_request_id\": 9\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/indent-request/",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "indent-request", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Update Indent Request",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"requester_user_id\": 62,\r\n    \"requested_date\": \"2023-09-12\",\r\n    \"request_status\": \"Pending\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Sample Request 3\",\r\n    \"expected_delivery_date\": \"2023-09-20\",\r\n    \"total_cost\": 500.50,\r\n    \"approvar_user_id\": 1,\r\n    \"approvar_status\": \"Pending\",\r\n    \"approved_date\": null,\r\n    \"rejected_date\": null,\r\n    \"approvar_comments\": null,\r\n    \"updated_by\": 1,\r\n    \"indent_request_details\": [\r\n        {\r\n            \"indent_request_details_id\": 1,\r\n            \"bom_detail_id\": 199,\r\n            \"quantity\": 10,\r\n            \"total\": 1000,\r\n            \"is_delete\": \"N\"\r\n        },\r\n        {\r\n            \"indent_request_details_id\": 2,\r\n            \"bom_detail_id\": 201,\r\n            \"quantity\": 1,\r\n            \"total\": 150,\r\n            \"is_delete\": \"Y\"\r\n        },\r\n        {\r\n            \"bom_detail_id\": 201,\r\n            \"quantity\": 1,\r\n            \"total\": 150,\r\n            \"is_delete\": \"N\"\r\n        }\r\n    ],\r\n    \"indent_request_id\": 7\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/indent-request/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "indent-request", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1043"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"413-VHFr73Y0Xur+kPjjCe5jqkVOHNg\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 13:00:08 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"indent_request\": {\n            \"indent_request_id\": 7,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 3\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:50:31.759Z\",\n            \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1\n        },\n        \"indent_request_details\": [\n            {\n                \"indent_request_details_id\": 1,\n                \"indent_request_id\": 7,\n                \"bom_detail_id\": 199,\n                \"quantity\": 10,\n                \"total\": 1000,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T12:48:06.290Z\",\n                \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            {\n                \"indent_request_details_id\": 5,\n                \"indent_request_id\": 7,\n                \"bom_detail_id\": 201,\n                \"quantity\": 1,\n                \"total\": 150,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T13:00:05.210Z\",\n                \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get All Indent Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/indent-request/get-all",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "indent-request", "get-all"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get All Indent Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/indent-request/get-all",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "indent-request", "get-all"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "6002"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1772-Dia3fjithD2m/al1o+/Tn+BKu2Y\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 13:03:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"indent_request_id\": 7,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 3\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:50:31.759Z\",\n            \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"approvar_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"indent_request_details\": [\n                {\n                    \"indent_request_details_id\": 1,\n                    \"indent_request_id\": 7,\n                    \"bom_detail_id\": 199,\n                    \"quantity\": 10,\n                    \"total\": 1000,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T12:48:06.290Z\",\n                    \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": 1,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 199,\n                        \"bom_name\": \"Item 122\",\n                        \"quantity\": 2,\n                        \"uom_id\": 47,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": 170,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 100,\n                        \"total\": 200,\n                        \"bom_type\": \"RAWMT\",\n                        \"machinery_id\": null,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34\n                    }\n                },\n                {\n                    \"indent_request_details_id\": 5,\n                    \"indent_request_id\": 7,\n                    \"bom_detail_id\": 201,\n                    \"quantity\": 1,\n                    \"total\": 150,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T13:00:05.210Z\",\n                    \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 201,\n                        \"bom_name\": \"Earthmoving Equipment\",\n                        \"quantity\": 2,\n                        \"uom_id\": 53,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": null,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 150,\n                        \"total\": 300,\n                        \"bom_type\": \"MCNRY\",\n                        \"machinery_id\": 5,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34\n                    }\n                }\n            ]\n        },\n        {\n            \"indent_request_id\": 8,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 3\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:51:28.345Z\",\n            \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"approvar_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"indent_request_details\": [\n                {\n                    \"indent_request_details_id\": 3,\n                    \"indent_request_id\": 8,\n                    \"bom_detail_id\": 199,\n                    \"quantity\": 10,\n                    \"total\": 1000,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T12:51:28.345Z\",\n                    \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 199,\n                        \"bom_name\": \"Item 122\",\n                        \"quantity\": 2,\n                        \"uom_id\": 47,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": 170,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 100,\n                        \"total\": 200,\n                        \"bom_type\": \"RAWMT\",\n                        \"machinery_id\": null,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34\n                    }\n                },\n                {\n                    \"indent_request_details_id\": 4,\n                    \"indent_request_id\": 8,\n                    \"bom_detail_id\": 201,\n                    \"quantity\": 1,\n                    \"total\": 150,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T12:51:28.345Z\",\n                    \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 201,\n                        \"bom_name\": \"Earthmoving Equipment\",\n                        \"quantity\": 2,\n                        \"uom_id\": 53,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": null,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 150,\n                        \"total\": 300,\n                        \"bom_type\": \"MCNRY\",\n                        \"machinery_id\": 5,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34\n                    }\n                }\n            ]\n        },\n        {\n            \"indent_request_id\": 6,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 1\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:48:06.290Z\",\n            \"updated_date\": \"2023-09-12T12:48:06.290Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"approvar_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"indent_request_details\": []\n        },\n        {\n            \"indent_request_id\": 5,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 1\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:47:25.994Z\",\n            \"updated_date\": \"2023-09-12T12:47:25.994Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"approvar_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"indent_request_details\": []\n        },\n        {\n            \"indent_request_id\": 4,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 1\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:45:39.072Z\",\n            \"updated_date\": \"2023-09-12T12:45:39.072Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"approvar_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"indent_request_details\": []\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Indent Request By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/indent-request/get/9",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "indent-request", "get", "9"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Indent Request By Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/indent-request/get/7",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "indent-request", "get", "7"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "2028"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"7ec-D6LrUQ52U0dwkMPJVVkttD2UgSs\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 13:03:38 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"indent_request_id\": 7,\n        \"requester_user_id\": 62,\n        \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n        \"request_status\": \"Pending\",\n        \"priority\": \"High\",\n        \"description\": \"Sample Request 3\",\n        \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n        \"total_cost\": 500.5,\n        \"approvar_user_id\": 1,\n        \"approvar_status\": \"Pending\",\n        \"approved_date\": null,\n        \"rejected_date\": null,\n        \"approvar_comments\": null,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-12T12:50:31.759Z\",\n        \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1,\n        \"requester_user_data\": {\n            \"first_name\": \"Vijay\",\n            \"last_name\": \"Perumalsamy\"\n        },\n        \"approvar_user_data\": {\n            \"first_name\": \"Vijay\",\n            \"last_name\": \"Perumalsamy\"\n        },\n        \"indent_request_details\": [\n            {\n                \"indent_request_details_id\": 1,\n                \"indent_request_id\": 7,\n                \"bom_detail_id\": 199,\n                \"quantity\": 10,\n                \"total\": 1000,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T12:48:06.290Z\",\n                \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"bom_detail_data\": {\n                    \"bom_detail_id\": 199,\n                    \"bom_name\": \"Item 122\",\n                    \"quantity\": 2,\n                    \"uom_id\": 47,\n                    \"category_id\": null,\n                    \"sub_category_id\": 121,\n                    \"sub_sub_category_id\": null,\n                    \"item_id\": 170,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                    \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"description\": \"\",\n                    \"rate\": 100,\n                    \"total\": 200,\n                    \"bom_type\": \"RAWMT\",\n                    \"machinery_id\": null,\n                    \"labour_id\": null,\n                    \"bom_configuration_id\": 34\n                }\n            },\n            {\n                \"indent_request_details_id\": 5,\n                \"indent_request_id\": 7,\n                \"bom_detail_id\": 201,\n                \"quantity\": 1,\n                \"total\": 150,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-12T13:00:05.210Z\",\n                \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"bom_detail_data\": {\n                    \"bom_detail_id\": 201,\n                    \"bom_name\": \"Earthmoving Equipment\",\n                    \"quantity\": 2,\n                    \"uom_id\": 53,\n                    \"category_id\": null,\n                    \"sub_category_id\": 121,\n                    \"sub_sub_category_id\": null,\n                    \"item_id\": null,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                    \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"description\": \"\",\n                    \"rate\": 150,\n                    \"total\": 300,\n                    \"bom_type\": \"MCNRY\",\n                    \"machinery_id\": 5,\n                    \"labour_id\": null,\n                    \"bom_configuration_id\": 34\n                }\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To delete Indent Request By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/indent-request/delete/1",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "indent-request", "delete", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To delete Indent Request By Id",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/indent-request/delete/1",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "indent-request", "delete", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "79"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4f-C+kR4Vv1kVkrU9LvMZe5/60UkME\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 12:29:42 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"IndentRequest Data Deleted Successfully\",\n    \"status\": true,\n    \"data\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Search Indent Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"pipe\",\r\n    \"status\": \"AC\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/indent-request/search",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "indent-request", "search"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Search Indent Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"equip\",\r\n    \"status\": \"AC\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/indent-request/search",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "indent-request", "search"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "6068"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"17b4-mmLZ/oLmIEjzI7D5nBlTxBhfnZU\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 13:57:35 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 2,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"indent_request_id\": 7,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 3\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:50:31.759Z\",\n            \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"approvar_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"indent_request_details\": [\n                {\n                    \"indent_request_details_id\": 1,\n                    \"indent_request_id\": 7,\n                    \"bom_detail_id\": 199,\n                    \"quantity\": 10,\n                    \"total\": 1000,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T12:48:06.290Z\",\n                    \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": 1,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 199,\n                        \"bom_name\": \"Item 122\",\n                        \"quantity\": 2,\n                        \"uom_id\": 47,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": 170,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 100,\n                        \"total\": 200,\n                        \"bom_type\": \"RAWMT\",\n                        \"machinery_id\": null,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34,\n                        \"uom_data\": {\n                            \"name\": \"Laptop\"\n                        },\n                        \"sub_category_data\": {\n                            \"name\": \"Item No 1\"\n                        },\n                        \"item_data\": {\n                            \"item_id\": 170,\n                            \"item_name\": \"Item 122\",\n                            \"description\": \"test\",\n                            \"hsn_code_id\": 367,\n                            \"gst_id\": 20,\n                            \"uom_id\": 50,\n                            \"created_date\": \"2023-09-08T08:35:13.699Z\",\n                            \"updated_date\": \"2023-09-08T08:35:13.699Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 108,\n                            \"brand_id\": 6,\n                            \"rate\": 123.02,\n                            \"is_delete\": false\n                        },\n                        \"labour_data\": null,\n                        \"machinery_data\": null\n                    }\n                },\n                {\n                    \"indent_request_details_id\": 5,\n                    \"indent_request_id\": 7,\n                    \"bom_detail_id\": 201,\n                    \"quantity\": 1,\n                    \"total\": 150,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T13:00:05.210Z\",\n                    \"updated_date\": \"2023-09-12T13:00:05.210Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 201,\n                        \"bom_name\": \"Earthmoving Equipment\",\n                        \"quantity\": 2,\n                        \"uom_id\": 53,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": null,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 150,\n                        \"total\": 300,\n                        \"bom_type\": \"MCNRY\",\n                        \"machinery_id\": 5,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34,\n                        \"uom_data\": {\n                            \"name\": \"Monthly Wise\"\n                        },\n                        \"sub_category_data\": {\n                            \"name\": \"Item No 1\"\n                        },\n                        \"item_data\": null,\n                        \"labour_data\": null,\n                        \"machinery_data\": {\n                            \"machinery_id\": 5,\n                            \"machinery_name\": \"Earthmoving Equipment\",\n                            \"machinery_model\": \"ABC-123\",\n                            \"machinery_type\": \"Heavy Equipment\",\n                            \"manufacturer\": \"APV Machinery Co.\",\n                            \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n                            \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n                            \"operational_status\": \"Non Operational\",\n                            \"location\": \"Site sd\",\n                            \"rate\": 150,\n                            \"uom_id\": 53,\n                            \"is_delete\": true,\n                            \"created_date\": \"2023-09-06T12:39:23.172Z\",\n                            \"updated_date\": \"2023-09-07T13:02:27.456Z\",\n                            \"created_by\": 1,\n                            \"updated_by\": 45\n                        }\n                    }\n                }\n            ]\n        },\n        {\n            \"indent_request_id\": 8,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 3\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T12:51:28.345Z\",\n            \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"approvar_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"indent_request_details\": [\n                {\n                    \"indent_request_details_id\": 3,\n                    \"indent_request_id\": 8,\n                    \"bom_detail_id\": 199,\n                    \"quantity\": 10,\n                    \"total\": 1000,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T12:51:28.345Z\",\n                    \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 199,\n                        \"bom_name\": \"Item 122\",\n                        \"quantity\": 2,\n                        \"uom_id\": 47,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": 170,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 100,\n                        \"total\": 200,\n                        \"bom_type\": \"RAWMT\",\n                        \"machinery_id\": null,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34,\n                        \"uom_data\": {\n                            \"name\": \"Laptop\"\n                        },\n                        \"sub_category_data\": {\n                            \"name\": \"Item No 1\"\n                        },\n                        \"item_data\": {\n                            \"item_id\": 170,\n                            \"item_name\": \"Item 122\",\n                            \"description\": \"test\",\n                            \"hsn_code_id\": 367,\n                            \"gst_id\": 20,\n                            \"uom_id\": 50,\n                            \"created_date\": \"2023-09-08T08:35:13.699Z\",\n                            \"updated_date\": \"2023-09-08T08:35:13.699Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 108,\n                            \"brand_id\": 6,\n                            \"rate\": 123.02,\n                            \"is_delete\": false\n                        },\n                        \"labour_data\": null,\n                        \"machinery_data\": null\n                    }\n                },\n                {\n                    \"indent_request_details_id\": 4,\n                    \"indent_request_id\": 8,\n                    \"bom_detail_id\": 201,\n                    \"quantity\": 1,\n                    \"total\": 150,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T12:51:28.345Z\",\n                    \"updated_date\": \"2023-09-12T12:51:28.345Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 201,\n                        \"bom_name\": \"Earthmoving Equipment\",\n                        \"quantity\": 2,\n                        \"uom_id\": 53,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": null,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 150,\n                        \"total\": 300,\n                        \"bom_type\": \"MCNRY\",\n                        \"machinery_id\": 5,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34,\n                        \"uom_data\": {\n                            \"name\": \"Monthly Wise\"\n                        },\n                        \"sub_category_data\": {\n                            \"name\": \"Item No 1\"\n                        },\n                        \"item_data\": null,\n                        \"labour_data\": null,\n                        \"machinery_data\": {\n                            \"machinery_id\": 5,\n                            \"machinery_name\": \"Earthmoving Equipment\",\n                            \"machinery_model\": \"ABC-123\",\n                            \"machinery_type\": \"Heavy Equipment\",\n                            \"manufacturer\": \"APV Machinery Co.\",\n                            \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n                            \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n                            \"operational_status\": \"Non Operational\",\n                            \"location\": \"Site sd\",\n                            \"rate\": 150,\n                            \"uom_id\": 53,\n                            \"is_delete\": true,\n                            \"created_date\": \"2023-09-06T12:39:23.172Z\",\n                            \"updated_date\": \"2023-09-07T13:02:27.456Z\",\n                            \"created_by\": 1,\n                            \"updated_by\": 45\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Indent Request By Project Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/indent-request/get-by-project-id/137",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "indent-request", "get-by-project-id", "137"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Indent Request By Project Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/indent-request/get-by-project-id/137",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "indent-request", "get-by-project-id", "137"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3814"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"ee6-fxUOYXv6R9v+GGKQkzg6WT/u8Hw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Sep 2023 14:08:56 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"indent_request_id\": 9,\n            \"project_id\": 137,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 3\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 500.5,\n            \"approvar_user_id\": 1,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T14:03:24.905Z\",\n            \"updated_date\": \"2023-09-12T14:05:02.184Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"approvar_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 73\n            },\n            \"indent_request_details\": [\n                {\n                    \"indent_request_details_id\": 6,\n                    \"indent_request_id\": 9,\n                    \"bom_detail_id\": 199,\n                    \"quantity\": 10,\n                    \"total\": 1000,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T14:03:24.905Z\",\n                    \"updated_date\": \"2023-09-12T14:05:02.184Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": 1,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 199,\n                        \"bom_name\": \"Item 122\",\n                        \"quantity\": 2,\n                        \"uom_id\": 47,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": 170,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 100,\n                        \"total\": 200,\n                        \"bom_type\": \"RAWMT\",\n                        \"machinery_id\": null,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34,\n                        \"uom_data\": {\n                            \"name\": \"Laptop\"\n                        },\n                        \"sub_category_data\": {\n                            \"name\": \"Item No 1\"\n                        },\n                        \"item_data\": {\n                            \"item_id\": 170,\n                            \"item_name\": \"Item 122\",\n                            \"description\": \"test\",\n                            \"hsn_code_id\": 367,\n                            \"gst_id\": 20,\n                            \"uom_id\": 50,\n                            \"created_date\": \"2023-09-08T08:35:13.699Z\",\n                            \"updated_date\": \"2023-09-08T08:35:13.699Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 108,\n                            \"brand_id\": 6,\n                            \"rate\": 123.02,\n                            \"is_delete\": false\n                        },\n                        \"labour_data\": null,\n                        \"machinery_data\": null\n                    }\n                },\n                {\n                    \"indent_request_details_id\": 8,\n                    \"indent_request_id\": 9,\n                    \"bom_detail_id\": 201,\n                    \"quantity\": 1,\n                    \"total\": 150,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-12T14:05:02.184Z\",\n                    \"updated_date\": \"2023-09-12T14:05:02.184Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"bom_detail_data\": {\n                        \"bom_detail_id\": 201,\n                        \"bom_name\": \"Earthmoving Equipment\",\n                        \"quantity\": 2,\n                        \"uom_id\": 53,\n                        \"category_id\": null,\n                        \"sub_category_id\": 121,\n                        \"sub_sub_category_id\": null,\n                        \"item_id\": null,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"updated_date\": \"2023-09-12T08:20:26.488Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"description\": \"\",\n                        \"rate\": 150,\n                        \"total\": 300,\n                        \"bom_type\": \"MCNRY\",\n                        \"machinery_id\": 5,\n                        \"labour_id\": null,\n                        \"bom_configuration_id\": 34,\n                        \"uom_data\": {\n                            \"name\": \"Monthly Wise\"\n                        },\n                        \"sub_category_data\": {\n                            \"name\": \"Item No 1\"\n                        },\n                        \"item_data\": null,\n                        \"labour_data\": null,\n                        \"machinery_data\": {\n                            \"machinery_id\": 5,\n                            \"machinery_name\": \"Earthmoving Equipment\",\n                            \"machinery_model\": \"ABC-123\",\n                            \"machinery_type\": \"Heavy Equipment\",\n                            \"manufacturer\": \"APV Machinery Co.\",\n                            \"date_of_purchase\": \"2023-11-24T00:00:00.000Z\",\n                            \"warranty_expired_on\": \"2025-01-24T00:00:00.000Z\",\n                            \"operational_status\": \"Non Operational\",\n                            \"location\": \"Site sd\",\n                            \"rate\": 150,\n                            \"uom_id\": 53,\n                            \"is_delete\": true,\n                            \"created_date\": \"2023-09-06T12:39:23.172Z\",\n                            \"updated_date\": \"2023-09-07T13:02:27.456Z\",\n                            \"created_by\": 1,\n                            \"updated_by\": 45\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}"
+            }
+          ]
         }
       ]
     }

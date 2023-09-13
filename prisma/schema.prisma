@@ -36,6 +36,8 @@ model users {
   user_primary_project       user_primary_project[]
   project_member_association project_member_association[]
   store                      store[]
+  indent_requester           indent_request[]             @relation("indentRequesterUser")
+  indent_approvar            indent_request[]             @relation("indentApprovarUser")
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -226,6 +228,7 @@ model project {
   user_primary_project       user_primary_project[]
   project_member_association project_member_association[]
   store                      store[]
+  indent_request             indent_request[]
 }
 
 model project_expense {
@@ -594,16 +597,16 @@ model permissions {
 }
 
 model bom_detail {
-  bom_detail_id          Int                @id @default(autoincrement())
-  bom_name               String             @db.VarChar(255)
+  bom_detail_id          Int                      @id @default(autoincrement())
+  bom_name               String                   @db.VarChar(255)
   quantity               Int?
   uom_id                 Int?
   category_id            Int?
   sub_category_id        Int?
   sub_sub_category_id    Int?
   item_id                Int?
-  is_delete              Boolean            @default(false)
-  created_date           DateTime           @default(now())
+  is_delete              Boolean                  @default(false)
+  created_date           DateTime                 @default(now())
   updated_date           DateTime
   created_by             Int?
   updated_by             Int?
@@ -614,14 +617,15 @@ model bom_detail {
   machinery_id           Int?
   labour_id              Int?
   bom_configuration_id   Int?
-  bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
-  uom_data               uom?               @relation(fields: [uom_id], references: [uom_id])
-  category_data          category?          @relation(fields: [category_id], references: [category_id])
-  sub_category_data      sub_category?      @relation(fields: [sub_category_id], references: [sub_category_id])
-  sub_sub_category_data  sub_sub_category?  @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
-  item_data              item?              @relation(fields: [item_id], references: [item_id])
-  labour_data            labour?            @relation(fields: [labour_id], references: [labour_id])
-  machinery_data         machinery?         @relation(fields: [machinery_id], references: [machinery_id])
+  bom_configuration_data bom_configuration?       @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
+  uom_data               uom?                     @relation(fields: [uom_id], references: [uom_id])
+  category_data          category?                @relation(fields: [category_id], references: [category_id])
+  sub_category_data      sub_category?            @relation(fields: [sub_category_id], references: [sub_category_id])
+  sub_sub_category_data  sub_sub_category?        @relation(fields: [sub_sub_category_id], references: [sub_sub_category_id])
+  item_data              item?                    @relation(fields: [item_id], references: [item_id])
+  labour_data            labour?                  @relation(fields: [labour_id], references: [labour_id])
+  machinery_data         machinery?               @relation(fields: [machinery_id], references: [machinery_id])
+  indent_request_details indent_request_details[]
 
   @@map("bom_detail")
 }
@@ -753,4 +757,45 @@ model store {
   store_manager_data users?           @relation(fields: [store_manager_id], references: [user_id])
   project_data       project?         @relation(fields: [project_id], references: [project_id])
   site_data          site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
+}
+
+model indent_request {
+  indent_request_id      Int                      @id @default(autoincrement())
+  project_id             Int?
+  requester_user_id      Int
+  requested_date         DateTime
+  request_status         String?
+  priority               String?
+  description            String?
+  expected_delivery_date DateTime?
+  total_cost             Float?
+  approvar_user_id       Int?
+  approvar_status        String?
+  approved_date          DateTime?
+  rejected_date          DateTime?
+  approvar_comments      String?
+  is_delete              Boolean                  @default(false)
+  created_date           DateTime                 @default(now())
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+  requester_user_data    users                    @relation("indentRequesterUser", fields: [requester_user_id], references: [user_id])
+  approvar_user_data     users?                   @relation("indentApprovarUser", fields: [approvar_user_id], references: [user_id])
+  project_data           project?                 @relation(fields: [project_id], references: [project_id])
+  indent_request_details indent_request_details[]
+}
+
+model indent_request_details {
+  indent_request_details_id Int            @id @default(autoincrement())
+  indent_request_id         Int
+  bom_detail_id             Int
+  quantity                  Int?
+  total                     Float?
+  is_delete                 Boolean        @default(false)
+  created_date              DateTime       @default(now())
+  updated_date              DateTime
+  created_by                Int?
+  updated_by                Int?
+  indent_request_data       indent_request @relation(fields: [indent_request_id], references: [indent_request_id])
+  bom_detail_data           bom_detail     @relation(fields: [bom_detail_id], references: [bom_detail_id])
 }

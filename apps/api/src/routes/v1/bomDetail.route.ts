@@ -15,6 +15,7 @@ import {
   getBomBySubCategoryIdAndBomType,
   getBomTotalBySubCategoryId,
   getBySubCategoryId,
+  getByProjectIdAndBomType,
 } from '../../controller/bomDetail.controller';
 import authMiddleware from '../../middleware/auth';
 import { runValidation } from '../../validations/index';
@@ -56,6 +57,12 @@ router.get(
   '/get-by-sub-category-id/:sub_category_id',
   authMiddleware,
   getBySubCategoryId
+);
+
+router.get(
+  '/get-by-project-id-and-bom-type/:project_id/:bom_type',
+  authMiddleware,
+  getByProjectIdAndBomType
 );
 
 export default router;
