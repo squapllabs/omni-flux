@@ -62,25 +62,25 @@ const Login = () => {
           is_remember_me: rememberMe,
         };
 
-          loginData(data, {
+        loginData(data, {
           onSuccess: async (data) => {
             if (data?.status === true) {
               dispatch(setToken({ key: 'Data', value: data }));
               const userData = await userService.getOneUser(values?.email);
-              if (userData?.data?.userData?.is_initial_login) {
+              if (userData?.data?.is_initial_login === true) {
                 const object: any = {
                   email_id: values?.email,
                 };
                 passwordInstance(object, {
                   onSuccess: (data, variables, context) => {
-                    if (data?.success === true) {
+                    if (data?.status === true) {
                       window.location.href = data?.link;
                     }
                   },
                 });
               } else if (
-                !userData?.data?.userData?.is_initial_login &&
-                userData?.data?.userData?.is_two_factor
+                !userData?.data?.is_initial_login &&
+                userData?.data?.is_two_factor
               ) {
                 const generateOtpObject = {
                   email_id: values?.email,
