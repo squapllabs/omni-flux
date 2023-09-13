@@ -78,7 +78,7 @@ const getByUserId = async (userId: number) => {
       return userRole;
     }
   } catch (error) {
-    console.log('Error occurred in userRole getByEmailId dao', error);
+    console.log('Error occurred in userRole getByUserId dao', error);
     throw error;
   }
 };

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Card, TextField } from '@mui/material';
 import Styles from '../../styles/fortgetPassword.module.scss';
 import * as yup from 'yup';
 import { getForgetPasswordYupSchema } from '../../helper/constants/user-constants';
 import {getByuserID} from '../../hooks/user-hooks'
-import {resetPassword} from '../../hooks/auth-hooks'
+import {resetPassword,setTwoFA} from '../../hooks/auth-hooks'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router';
 import { IconButton, InputAdornment } from '@mui/material';
@@ -18,10 +18,12 @@ const ResetPassword = () => {
   const userId = Number(routeParams?.id);
   const { data: getuserData } = getByuserID(userId);
   const { mutate: restPassword, isLoading } = resetPassword();
+  const { mutate: setTwofa } = setTwoFA();
   const errorObject: any = {};
   const valueObject: any = {
     new_password: '',
     confirm_password: '',
+    enableTwoFA: false,
   };
   const [values, setValues] = React.useState(valueObject);
   const [errors, setErrors] = React.useState(errorObject);
@@ -30,6 +32,11 @@ const ResetPassword = () => {
   const [open, setOpen] = React.useState(false);
   const [newPasswordShown, setNewPasswordShown] = React.useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = React.useState(false);
+  const [enableTwoFA, setEnableTwoFA] = useState(false);
+  const handleTwoFAToggle = () => {
+    setEnableTwoFA(!enableTwoFA);
+    console.log(enableTwoFA);
+  };
   const handleClick = () => {
     setOpen(true);
   };
@@ -40,7 +47,6 @@ const ResetPassword = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
   const handleMouseDownnewPassword = (
@@ -60,7 +66,18 @@ const ResetPassword = () => {
     setConfirmPasswordShown(!confirmPasswordShown);
   };
   const handleChange = (event: any) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    const { name, type, value, checked } = event.target;
+    if (type === 'checkbox') {
+      setValues((prevValues: any) => ({
+        ...prevValues,
+        [name]: checked,
+      }));
+    } else {
+      setValues((prevValues: any) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    }
   };
   interface CustomError extends Error {
     inner?: { path: string; message: string }[];
@@ -77,10 +94,21 @@ const ResetPassword = () => {
         };
         restPassword(data, {
           onSuccess: (data, variables, context) => {
-            if (data?.success === true) {
+            if (data?.status === true) {
               setwaring(false);
               setMessage('Password has reseted successfully');
               handleClick();
+              const data: any = {
+                user_id: getuserData?.userData?.user_id,
+                is_two_factor: enableTwoFA,
+              };
+              setTwofa(data, {
+                onSuccess: (data, variables, context) => {
+                  if (data?.is_two_factor === true) {
+                    setMessage('Two factor Authentication enabled');
+                  }
+                },
+              });
               setInterval(() => {
                 navigate('/');
               }, 3000);
@@ -176,6 +204,16 @@ const ResetPassword = () => {
               />
             </div>
             <div>
+              <span>Enable 2-factor authentication</span>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={enableTwoFA}
+                  onChange={handleTwoFAToggle}
+                />
+              </label>
+            </div>
+            <div>
               <Button
                 onClick={handleSubmit}
                 variant="contained"
@@ -202,5 +240,4 @@ const ResetPassword = () => {
     </div>
   );
 };
-
 export default ResetPassword;

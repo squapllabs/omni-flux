@@ -107,27 +107,12 @@ const getByEmailId = async (emailId: string) => {
           user_status: 'AC',
           is_delete: false,
         },
-        select: {
-          user_id: true,
-          first_name: true,
-          last_name: true,
-          user_password: true,
-          contact_no: true,
-          email_id: true,
-          user_status: true,
-          created_by: true,
-          created_date: true,
-          updated_by: true,
-          updated_date: true,
-          is_delete: true,
-          is_initial_login: true,
-          department: true,
-          is_two_factor: true,
-          parent_user_id: true,
+        include: {
           user_roles: {
             select: {
               role_data: {
                 select: {
+                  role_id: true,
                   role_name: true,
                 },
               },
@@ -381,6 +366,34 @@ const searchUser = async (
   }
 };
 
+const updateOTP = async (
+  otp_secret: number,
+  otp_attempts: number,
+  otp_expired_in: Date,
+  user_id: number,
+  is_otp_verified: boolean,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const user = await transaction.users.update({
+      where: { user_id },
+      data: {
+        otp_secret,
+        otp_attempts,
+        otp_expired_in,
+        is_otp_verified,
+        updated_date: currentDate,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log('Error occurred in userDao updateOTP dao', error);
+    throw error;
+  }
+};
 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
@@ -414,6 +427,31 @@ const getUserByRoleName = async (role_name: string, connectionObj = null) => {
   }
 };
 
+const updateTwoFactorAuthentication = async (
+  user_id: number,
+  is_two_factor: boolean,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const user = await transaction.users.update({
+      where: { user_id },
+      data: {
+        is_two_factor,
+        updated_date: currentDate,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log(
+      'Error occurred in userDao updateTwoFactorAuthentication dao',
+      error
+    );
+    throw error;
+  }
+};
 const getChildUsersByParentUserId = async (
   parent_user_id: number,
   connectionObj = null
@@ -458,6 +496,8 @@ export default {
   updateStatus,
   getDeletedUsers,
   customFilterUser,
+  updateOTP,
+  updateTwoFactorAuthentication,
   getByUniqueEmail,
   getAllSalesPersonUsers,
   searchUser,
