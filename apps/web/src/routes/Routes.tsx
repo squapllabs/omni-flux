@@ -205,8 +205,10 @@ import ClientList from '../component/client/clientList';
 import CategoryList from '../component/category/categoryList';
 import ProductPage from '../component/products/productPage';
 import Category from '../component/category/category';
-import ResetPassword from '../component/resetPassword/token';
 import MasterData from '../component/masterData/masterData';
+import GenerateOtp from '../component/generateOtp';
+import ResetPassword from '../component/resetPassword/token';
+// import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
 import ProjectWorkBreakDownForm from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
 import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownList';
 import ProjectWorkBreakDownEdit from '../component/projectWorkBreakDown/projectWorkBreakDownEdit';
@@ -260,6 +262,9 @@ const AppRoutes = () => {
   const ProtectedProductPage = withLayoutAndProtection(ProductPage);
   const ProtectedCategoryPage = withLayoutAndProtection(Category);
   const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
+  const ProtectedResetPasswordPage = withLayoutAndProtection(ResetPassword);
+  const ProtectedProjectWorkBreakDownPage = withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedSettings = withLayoutAndProtection(Settings)
   const ProtectedProjectWorkBreakDownFormPage = withLayoutAndProtection(
     ProjectWorkBreakDownForm
   );
@@ -276,13 +281,13 @@ const AppRoutes = () => {
   const ProtectedContractorEditFormPage =
     withLayoutAndProtection(contractorEdit);
   const ProtectedProjectFormPage = withLayoutAndProtection(projectForm);
-  const ProtectedSettings = withLayoutAndProtection(Settings);
+  // const ProtectedSettings = withLayoutAndProtection(Settings);
   const ProtectedProjectListPage = withLayoutAndProtection(projectList);
   const ProtectedProjectEdit = withLayoutAndProtection(projectEdit);
   const ProtectedLeadPage = withLayoutAndProtection(Lead);
   const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
-  const ProtectedProjectWorkBreakDownPage =
-    withLayoutAndProtection(ProjectWorkBreakDown);
+  // const ProtectedProjectWorkBreakDownPage =
+  //   withLayoutAndProtection(ProjectWorkBreakDown);
   const ProtectedCategoryAdd = withLayoutAndProtection(CategotyAdd);
   const ProtectedSubCategoryAdd = withLayoutAndProtection(SubCategoryAdd);
   const ProtectedSubSubCategoryAdd = withLayoutAndProtection(SubsubCategoryAdd);
@@ -324,6 +329,9 @@ const AppRoutes = () => {
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path="/category" element={<ProtectedCategoryPage />} />
         <Route path="/master-data" element={<ProtectedMasterDataPage />} />
+        <Route path="/generate-otp" element={<GenerateOtp />} />
+        <Route path="/reset-password/:id/:token" element={<ProtectedResetPasswordPage />} />
+        <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownPage />} />
         <Route
           path="/project-workbreakdown-add"
           element={<ProtectedProjectWorkBreakDownFormPage />}

@@ -91,30 +91,6 @@ const getById = async (subSubCategoryId: number, connectionObj = null) => {
   }
 };
 
-/* const getAll = async (connectionObj = null) => {
-  try {
-    const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subSubCategories = await transaction.sub_sub_category.findMany({
-      where: {
-        is_delete: false,
-      },
-      orderBy: [
-        {
-          updated_date: 'desc',
-        },
-      ],
-      include: {
-        sub_category: true,
-      },
-    });
-
-    return subSubCategories;
-  } catch (error) {
-    console.log('Error occurred in subSubCategory getAll dao', error);
-    throw error;
-  }
-}; */
-
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
@@ -136,12 +112,14 @@ const getAll = async (connectionObj = null) => {
         parent_data: true,
       },
     });
+
     return subSubCategories;
   } catch (error) {
     console.log('Error occurred in subSubCategory getAll dao', error);
     throw error;
   }
 };
+
 
 const deleteSubSubCategory = async (
   subSubCategoryId: number,

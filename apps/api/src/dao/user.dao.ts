@@ -327,6 +327,7 @@ const getByUniqueEmail = async (emailId: string) => {
   }
 };
 
+
 const getAllSalesPersonUsers = async () => {
   try {
     const user = await prisma.users.findMany({
@@ -381,6 +382,34 @@ const searchUser = async (
   }
 };
 
+const updateOTP = async (
+  otp_secret: number,
+  otp_attempts: number,
+  otp_expired_in: Date,
+  user_id: number,
+  is_otp_verified: boolean,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const user = await transaction.users.update({
+      where: { user_id },
+      data: {
+        otp_secret,
+        otp_attempts,
+        otp_expired_in,
+        is_otp_verified,
+        updated_date: currentDate,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log('Error occurred in userDao updateOTP dao', error);
+    throw error;
+  }
+};
 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
@@ -414,6 +443,31 @@ const getUserByRoleName = async (role_name: string, connectionObj = null) => {
   }
 };
 
+const updateTwoFactorAuthentication = async (
+  user_id: number,
+  is_two_factor: boolean,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const user = await transaction.users.update({
+      where: { user_id },
+      data: {
+        is_two_factor,
+        updated_date: currentDate,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log(
+      'Error occurred in userDao updateTwoFactorAuthentication dao',
+      error
+    );
+    throw error;
+  }
+};
 const getChildUsersByParentUserId = async (
   parent_user_id: number,
   connectionObj = null
@@ -458,6 +512,8 @@ export default {
   updateStatus,
   getDeletedUsers,
   customFilterUser,
+  updateOTP,
+  updateTwoFactorAuthentication,
   getByUniqueEmail,
   getAllSalesPersonUsers,
   searchUser,
