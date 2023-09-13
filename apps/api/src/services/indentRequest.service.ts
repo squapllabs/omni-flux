@@ -345,7 +345,7 @@ const searchIndentRequest = async (body) => {
           },
         },
         {
-          approvar_user_data: {
+          requester_user_data: {
             last_name: {
               contains: global_search,
               mode: 'insensitive',
@@ -353,7 +353,7 @@ const searchIndentRequest = async (body) => {
           },
         },
         {
-          requester_user_data: {
+          approvar_user_data: {
             first_name: {
               contains: global_search,
               mode: 'insensitive',

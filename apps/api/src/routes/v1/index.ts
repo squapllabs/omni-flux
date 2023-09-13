@@ -35,6 +35,7 @@ import projectMemberAssociation from './projectMemberAssociation.route';
 import store from './store.route';
 import projectSite from './projectSite.route';
 import indentRequest from './indentRequest.route';
+import inventory from './inventory.route';
 
 const router = express.Router();
 
@@ -182,6 +183,10 @@ const defaultRoutes = [
   {
     path: '/indent-request',
     route: indentRequest,
+  },
+  {
+    path: '/inventory',
+    route: inventory,
   },
 ];
 
