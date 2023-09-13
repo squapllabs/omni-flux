@@ -18290,6 +18290,611 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Purchase Request",
+      "item": [
+        {
+          "name": "API To Create Purchase Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\":\"2023-09-13\",\r\n    \"status\":\"Requested\",\r\n    \"vendor_selection_method\":\"Manual Selection\",\r\n    \"project_id\":137,\r\n    \"selected_vendor_id\":1,\r\n    \"total_cost\":241999.11,\r\n    \"created_by\":1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/purchase-request/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "purchase-request", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Create Purchase Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\":\"2023-09-13\",\r\n    \"status\":\"Requested\",\r\n    \"vendor_selection_method\":\"Manual Selection\",\r\n    \"project_id\":137,\r\n    \"selected_vendor_id\":1,\r\n    \"total_cost\":241999.11,\r\n    \"created_by\":1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/purchase-request/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "purchase-request", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "419"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1a3-ISNJHKn0wdmkB7OOL/BXrKH+4Lw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 13 Sep 2023 13:14:51 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_request_id\": 2,\n        \"indent_request_id\": 10,\n        \"requester_user_id\": 1,\n        \"request_date\": \"2023-09-13T00:00:00.000Z\",\n        \"status\": \"Requested\",\n        \"vendor_selection_method\": \"Manual Selection\",\n        \"project_id\": 137,\n        \"selected_vendor_id\": 1,\n        \"total_cost\": 241999.11,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-13T13:14:51.234Z\",\n        \"updated_date\": \"2023-09-13T13:14:51.234Z\",\n        \"created_by\": 1,\n        \"updated_by\": null\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Update Purchase Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"purchase_request_id\": 1,\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-13T00:00:00.000Z\",\r\n    \"status\": \"Approved\",\r\n    \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"selected_vendor_id\": 1,\r\n    \"total_cost\": 241999.11,\r\n    \"updated_by\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/purchase-request/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "purchase-request", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Update Purchase Request",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"purchase_request_id\": 2,\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-13T00:00:00.000Z\",\r\n    \"status\": \"Pending\",\r\n    \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"selected_vendor_id\": 1,\r\n    \"total_cost\": 241999.11,\r\n    \"updated_by\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/purchase-request/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "purchase-request", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "414"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"19e-MWGEZHBkHGRT1wmoz9o7hFqqHos\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 13 Sep 2023 13:18:33 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_request_id\": 2,\n        \"indent_request_id\": 10,\n        \"requester_user_id\": 1,\n        \"request_date\": \"2023-09-13T00:00:00.000Z\",\n        \"status\": \"Pending\",\n        \"vendor_selection_method\": \"Manual Selection\",\n        \"project_id\": 137,\n        \"selected_vendor_id\": 1,\n        \"total_cost\": 241999.11,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-13T13:14:51.234Z\",\n        \"updated_date\": \"2023-09-13T13:18:32.874Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get All Purchase Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/purchase-request/get-all",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "purchase-request", "get-all"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get All Purchase Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/purchase-request/get-all",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "purchase-request", "get-all"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3640"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"e38-SX7yezewA++PREyEFoWF3hZ7tp0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 13 Sep 2023 13:23:15 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"purchase_request_id\": 1,\n            \"indent_request_id\": 10,\n            \"requester_user_id\": 1,\n            \"request_date\": \"2023-09-13T00:00:00.000Z\",\n            \"status\": \"Approved\",\n            \"vendor_selection_method\": \"Manual Selection\",\n            \"project_id\": 137,\n            \"selected_vendor_id\": 1,\n            \"total_cost\": 241999.11,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-13T13:06:30.417Z\",\n            \"updated_date\": \"2023-09-13T13:19:30.678Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"indent_request_data\": {\n                \"indent_request_id\": 10,\n                \"project_id\": 137,\n                \"requester_user_id\": 62,\n                \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n                \"request_status\": \"Pending\",\n                \"priority\": \"High\",\n                \"description\": \"Sample Request 3\",\n                \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n                \"total_cost\": 1250,\n                \"approvar_user_id\": null,\n                \"approvar_status\": \"Pending\",\n                \"approved_date\": null,\n                \"rejected_date\": null,\n                \"approvar_comments\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-13T07:30:51.821Z\",\n                \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            },\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 73\n            },\n            \"selected_vendor_data\": {\n                \"vendor_name\": \"Vijay Enterprises\"\n            }\n        },\n        {\n            \"purchase_request_id\": 2,\n            \"indent_request_id\": 10,\n            \"requester_user_id\": 1,\n            \"request_date\": \"2023-09-13T00:00:00.000Z\",\n            \"status\": \"Pending\",\n            \"vendor_selection_method\": \"Manual Selection\",\n            \"project_id\": 137,\n            \"selected_vendor_id\": 1,\n            \"total_cost\": 241999.11,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-13T13:14:51.234Z\",\n            \"updated_date\": \"2023-09-13T13:18:32.874Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"indent_request_data\": {\n                \"indent_request_id\": 10,\n                \"project_id\": 137,\n                \"requester_user_id\": 62,\n                \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n                \"request_status\": \"Pending\",\n                \"priority\": \"High\",\n                \"description\": \"Sample Request 3\",\n                \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n                \"total_cost\": 1250,\n                \"approvar_user_id\": null,\n                \"approvar_status\": \"Pending\",\n                \"approved_date\": null,\n                \"rejected_date\": null,\n                \"approvar_comments\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-13T07:30:51.821Z\",\n                \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            },\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 73\n            },\n            \"selected_vendor_data\": {\n                \"vendor_name\": \"Vijay Enterprises\"\n            }\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Purchase Request By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/purchase-request/get/2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "purchase-request", "get", "2"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Purchase Request By Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/purchase-request/get/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "purchase-request", "get", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1842"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"732-F5pRdzuNA37tNkOCA5bMjnq9jVQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 13 Sep 2023 13:24:08 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_request_id\": 1,\n        \"indent_request_id\": 10,\n        \"requester_user_id\": 1,\n        \"request_date\": \"2023-09-13T00:00:00.000Z\",\n        \"status\": \"Approved\",\n        \"vendor_selection_method\": \"Manual Selection\",\n        \"project_id\": 137,\n        \"selected_vendor_id\": 1,\n        \"total_cost\": 241999.11,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-13T13:06:30.417Z\",\n        \"updated_date\": \"2023-09-13T13:19:30.678Z\",\n        \"created_by\": null,\n        \"updated_by\": 1,\n        \"indent_request_data\": {\n            \"indent_request_id\": 10,\n            \"project_id\": 137,\n            \"requester_user_id\": 62,\n            \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n            \"request_status\": \"Pending\",\n            \"priority\": \"High\",\n            \"description\": \"Sample Request 3\",\n            \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n            \"total_cost\": 1250,\n            \"approvar_user_id\": null,\n            \"approvar_status\": \"Pending\",\n            \"approved_date\": null,\n            \"rejected_date\": null,\n            \"approvar_comments\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-13T07:30:51.821Z\",\n            \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n            \"created_by\": 1,\n            \"updated_by\": null\n        },\n        \"requester_user_data\": {\n            \"first_name\": \"Vijay\",\n            \"last_name\": \"Perumalsamy\"\n        },\n        \"project_data\": {\n            \"project_id\": 137,\n            \"project_name\": \"Pipe line Project\",\n            \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n            \"user_id\": 106,\n            \"date_started\": \"2023-09-12T00:00:00.000Z\",\n            \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n            \"status\": \"Inprogress\",\n            \"client_id\": 1,\n            \"project_documents\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                    \"index\": 0,\n                    \"is_delete\": \"N\"\n                }\n            ],\n            \"created_date\": \"2023-09-12T08:14:29.393Z\",\n            \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"is_delete\": false,\n            \"project_notes\": \"\",\n            \"project_type\": \"Pipeline Laying\",\n            \"code\": \"PLP1\",\n            \"estimated_budget\": 20000,\n            \"actual_budget\": 0,\n            \"approvar_id\": 73\n        },\n        \"selected_vendor_data\": {\n            \"vendor_name\": \"Vijay Enterprises\"\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Delete Purchase Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/purchase-request/delete/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "purchase-request", "delete", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Delete Purchase Request",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/purchase-request/delete/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "purchase-request", "delete", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "81"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"51-d5LhqrXUUj9h0u8dHXQOYANWb3U\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 13 Sep 2023 13:24:49 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"PurchaseRequest Data Deleted Successfully\",\n    \"status\": true,\n    \"data\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Search Purchase Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"vIj\",\r\n    \"status\": \"AC\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/purchase-request/search",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "purchase-request", "search"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Search Purchase Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"vIj\",\r\n    \"status\": \"AC\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/purchase-request/search",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "purchase-request", "search"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3674"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"e5a-qrfcfsMXF9hbgVgbyKElV6MCKBY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 13 Sep 2023 13:35:42 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 2,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"purchase_request_id\": 1,\n            \"indent_request_id\": 10,\n            \"requester_user_id\": 1,\n            \"request_date\": \"2023-09-13T00:00:00.000Z\",\n            \"status\": \"Approved\",\n            \"vendor_selection_method\": \"Manual Selection\",\n            \"project_id\": 137,\n            \"selected_vendor_id\": 1,\n            \"total_cost\": 241999.11,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-13T13:06:30.417Z\",\n            \"updated_date\": \"2023-09-13T13:19:30.678Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"indent_request_data\": {\n                \"indent_request_id\": 10,\n                \"project_id\": 137,\n                \"requester_user_id\": 62,\n                \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n                \"request_status\": \"Pending\",\n                \"priority\": \"High\",\n                \"description\": \"Sample Request 3\",\n                \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n                \"total_cost\": 1250,\n                \"approvar_user_id\": null,\n                \"approvar_status\": \"Pending\",\n                \"approved_date\": null,\n                \"rejected_date\": null,\n                \"approvar_comments\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-13T07:30:51.821Z\",\n                \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            },\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 73\n            },\n            \"selected_vendor_data\": {\n                \"vendor_name\": \"Vijay Enterprises\"\n            }\n        },\n        {\n            \"purchase_request_id\": 2,\n            \"indent_request_id\": 10,\n            \"requester_user_id\": 1,\n            \"request_date\": \"2023-09-13T00:00:00.000Z\",\n            \"status\": \"Pending\",\n            \"vendor_selection_method\": \"Manual Selection\",\n            \"project_id\": 137,\n            \"selected_vendor_id\": 1,\n            \"total_cost\": 241999.11,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-13T13:14:51.234Z\",\n            \"updated_date\": \"2023-09-13T13:18:32.874Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"indent_request_data\": {\n                \"indent_request_id\": 10,\n                \"project_id\": 137,\n                \"requester_user_id\": 62,\n                \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n                \"request_status\": \"Pending\",\n                \"priority\": \"High\",\n                \"description\": \"Sample Request 3\",\n                \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n                \"total_cost\": 1250,\n                \"approvar_user_id\": null,\n                \"approvar_status\": \"Pending\",\n                \"approved_date\": null,\n                \"rejected_date\": null,\n                \"approvar_comments\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-13T07:30:51.821Z\",\n                \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            },\n            \"requester_user_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 73\n            },\n            \"selected_vendor_data\": {\n                \"vendor_name\": \"Vijay Enterprises\"\n            }\n        }\n    ]\n}"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
