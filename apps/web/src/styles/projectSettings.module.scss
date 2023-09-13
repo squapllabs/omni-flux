@@ -94,11 +94,7 @@
     background-color: #c4c4c6;
     color: #ffffff;
   }
-  .pagination {
-    display: flex;
-    justify-content: end;
-    padding: 0px 10px 10px 0px;
-  }
+
   
   .formContainer {
     width: 350px;
@@ -198,4 +194,10 @@
 
   .tableHeading{
     align-items: center;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: end;
+  
   }

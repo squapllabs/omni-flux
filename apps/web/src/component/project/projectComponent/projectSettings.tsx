@@ -21,13 +21,10 @@ import CustomDelete from '../../ui/customDeleteDialogBox';
 import CustomSnackBar from '../../ui/customSnackBar';
 import * as Yup from 'yup';
 import {
-  getProjectMemberCreationYupschema,
-
+  getProjectMemberCreationYupschema
 } from '../../../helper/constants/projectSettings-constants';
 
 const ProjectSettings: React.FC = (props: any) => {
-
-
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
@@ -47,13 +44,20 @@ const ProjectSettings: React.FC = (props: any) => {
   const [userData, setUserData] = useState()
   const { data: getAllRolesData = [], isLoading: dropLoading } = useGetAllRoles();
   const { mutate: getDeleteProjectMemberByID } = useDeleteProjectMember();
+
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
   ]);
   const [filter, setFilter] = useState(false);
-  const [userDropData, setUserDropData] = useState()
-
+  const [initialValues, setInitialValues] = useState({
+    project_role_id: '',
+    project_role_name: '',
+    user_id: '',
+    access_start_date: '',
+    access_end_date: '',
+    project_id:Number(routeParams?.id)
+  });
 
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
@@ -75,18 +79,6 @@ const ProjectSettings: React.FC = (props: any) => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
-  const fetchDropUser = () => {
-    let arr: any = [];
-    let userList = initialData?.data?.map((user: any, index: any) => {
-      let obj: any = {
-        value: user?.user_id,
-        label: user?.first_name + ' ' + user?.last_name
-      }
-      arr.push(obj)
-    })
-    setUserDropData(arr);
-  }
 
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -133,6 +125,7 @@ const ProjectSettings: React.FC = (props: any) => {
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
       status: 'AC',
+      project_id: Number(routeParams?.id),
       global_search: '',
     };
     postDataForFilter(demo);
@@ -167,24 +160,15 @@ const ProjectSettings: React.FC = (props: any) => {
 
   useEffect(() => {
     refetch()
-    fetchDropUser()
   }, [currentPage, rowsPerPage, activeButton])
 
   const validationSchema = getProjectMemberCreationYupschema(Yup)
 
   const formik = useFormik({
-    initialValues: {
-      project_role_id: '',
-      project_role_name: '',
-      user_id: '',
-      access_start_date: '',
-      access_end_date: ''
-    },
+    initialValues,
     validationSchema,
     enableReinitialize: true,
-
     onSubmit: (values, { resetForm }) => {
-
       const Object: any = {
         project_id: Number(routeParams?.id),
         project_role_id: values.project_role_id,
@@ -202,18 +186,10 @@ const ProjectSettings: React.FC = (props: any) => {
             // }, 1000);
             resetForm()
           }
-          else if (data?.message === 'This project_id and user_id combination already exist') {
-            setMessage('This Project and User combination already exist');
-            setOpenSnack(true);
-          }
         },
       });
     },
   });
-
-
-
-
 
   const fetchData = async (data: any) => {
     const roleObj = {
@@ -339,7 +315,7 @@ const ProjectSettings: React.FC = (props: any) => {
                     onChange={formik.handleChange}
                     width='350px'
                     value={formik.values.access_end_date}
-                  // mandatory
+                    // mandatory
                     error={formik.touched.access_end_date && formik.errors.access_end_date}
                   />
                 </div>
@@ -371,27 +347,20 @@ const ProjectSettings: React.FC = (props: any) => {
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
 
-              <AutoCompleteSelect
-                name="parent_master_data_id"
-                defaultLabel="Select Parent Name"
-                onChange={() => handleFilterChange}
-                value={filterValues.global_search}
-                placeholder="User Name"
+              <Input
                 width="260px"
-                onSelect={(value) => {
-                  // setSelectedValue(value);
-                  setIsResetDisabled(false);
-                }}
-              //   optionList={
-              // dropLoading === true ? [] : getAllmasterDataForDrop
-              //   }
+                prefixIcon={<SearchIcon />}
+                name="global_search"
+                value={filterValues.global_search}
+                onChange={(e) => handleFilterChange(e)}
+                placeholder="Search by Name and Role"
               />
               <Button
                 className={Styles.searchButton}
                 shape="rectangle"
                 justify="center"
                 size="small"
-              //   onClick={handleSearch}
+                onClick={handleSearch}
               >
                 Search
               </Button>
@@ -400,8 +369,8 @@ const ProjectSettings: React.FC = (props: any) => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-              //   disabled={isResetDisabled}
-              //   onClick={handleReset}
+                disabled={isResetDisabled}
+                onClick={handleReset}
               >
                 Reset
               </Button>
@@ -426,83 +395,64 @@ const ProjectSettings: React.FC = (props: any) => {
                     {activeButton === 'AC' && <th>Action</th>}
                   </tr>
                 </thead>
-                {/* <tbody>
-                <tr>
-                  <td>
-                    1
-                  </td>
-                  <td>
-                    Velavan
-                  </td>
-                  <td>
-                    Site Engineer
-                  </td>
-                  <td>
-                    11-10-2023
-                  </td>
-                </tr>
-              </tbody> */}
-                {/* <tbody>
-                    {dataShow ? (
-                      getFilterData?.total_count === 0 ? (
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td>No data found</td>
-                          {activeButton === 'AC' && <td></td>}
-                        </tr>
-                      ) : (
-                        getFilterData?.content?.map(
-                          (data: any, index: number) => (
-                            <tr key={data.hsn_code_id}>
-                          <td>{startingIndex + index}</td>
-                              <td>{data.code}</td>
-                              <td>
-                                <span
-                                  className={Styles.truncatedStyle}
-                                  title={data.description}
-                                >
-                                  {data.description?data.description.substring(0, 30): '-'}
-                                </span>
-                              </td>
-                              {activeButton === 'AC' && (
-                                <td>
-                                  <div className={Styles.tablerow}>
-                                    <EditIcon
-                                      onClick={() =>
-                                        editHscCodeHandler(data.hsn_code_id)
-                                      }
-                                    />
-                                    <DeleteIcon
-                                      onClick={() =>
-                                        deleteCategoryHandler(data.hsn_code_id)
-                                      }
-                                    />
-                                  </div>
-                                </td>
-                              )}
-                            </tr>
-                          )
-                        )
-                      )
-                    ) :
-                     initialData?.total_count === 0 ? (
+                <tbody>
+                  {dataShow ? (
+                    getFilterData?.total_count === 0 ? (
                       <tr>
                         <td></td>
                         <td></td>
                         <td>No data found</td>
                         {activeButton === 'AC' && <td></td>}
                       </tr>
-                    ) :  */}
-                <tbody>
-
-                  {initialData?.total_count === 0 ?
+                    ) : (
+                      getFilterData?.content?.map(
+                        (data: any, index: number) => (
+                          <tr key={data.project_member_association_id}>
+                            <td>{startingIndex + index}</td>
+                            <td>
+                              <div className={Styles.profileDetail}>
+                                <div>
+                                  <Avatar
+                                    firstName={data?.user_data?.first_name}
+                                    lastName={data?.user_data?.last_name}
+                                    size={40}
+                                  />
+                                </div>
+                                <div className={Styles.profileContents}>
+                                  <span className={Styles.profileName}>
+                                    {data?.user_data?.first_name} {data?.user_data?.last_name}
+                                  </span>
+                                  <span className={Styles.emailContent}>
+                                    {data?.user_data?.email_id}
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                            <td>{data?.project_role_data?.role_name}</td>
+                            <td>{data?.access_end_date == null ? "-" : format(new Date(data?.access_end_date), 'MMM dd, yyyy')}</td>
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tablerow}>
+                                  <DeleteIcon
+                                    onClick={() =>
+                                      deleteProjectMember(data?.project_member_association_id)
+                                    }
+                                  />
+                                </div>
+                              </td>
+                            )}
+                          </tr>
+                        )
+                      )
+                    )
+                  ) : initialData?.total_count === 0 ?
                     <tr>
                       <td></td>
                       <td></td>
                       <td>No data found</td>
                       {activeButton === 'AC' && <td></td>}
-                    </tr> : initialData?.content?.map((data: any, index: number) => (
+                    </tr> :
+                    initialData?.content?.map((data: any, index: number) => (
                       <tr key={data.project_member_association_id}>
                         <td>{startingIndex + index}</td>
                         <td>
@@ -529,11 +479,6 @@ const ProjectSettings: React.FC = (props: any) => {
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tablerow}>
-                              {/* <EditIcon
-                            onClick={() =>
-                              editHscCodeHandler(data.hsn_code_id)
-                            }
-                          /> */}
                               <DeleteIcon
                                 onClick={() =>
                                   deleteProjectMember(data?.project_member_association_id)
@@ -543,9 +488,7 @@ const ProjectSettings: React.FC = (props: any) => {
                           </td>
                         )}
                       </tr>
-                    ))
-                  }
-
+                    ))}
                 </tbody>
               </table>
             </div>
