@@ -229,6 +229,7 @@ model project {
   project_member_association project_member_association[]
   store                      store[]
   indent_request             indent_request[]
+  inventory                  inventory[]
 }
 
 model project_expense {
@@ -366,6 +367,7 @@ model item {
   brand                     brand?                      @relation(fields: [brand_id], references: [brand_id])
   lead_enquiry_product_item lead_enquiry_product_item[]
   bom_detail                bom_detail[]
+  inventory                 inventory[]
 
   @@map(name: "item")
 }
@@ -757,6 +759,7 @@ model store {
   store_manager_data users?           @relation(fields: [store_manager_id], references: [user_id])
   project_data       project?         @relation(fields: [project_id], references: [project_id])
   site_data          site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
+  inventory          inventory[]
 }
 
 model indent_request {
@@ -798,4 +801,23 @@ model indent_request_details {
   updated_by                Int?
   indent_request_data       indent_request @relation(fields: [indent_request_id], references: [indent_request_id])
   bom_detail_data           bom_detail     @relation(fields: [bom_detail_id], references: [bom_detail_id])
+}
+
+model inventory {
+  inventory_id       Int      @id @default(autoincrement())
+  item_id            Int
+  item_name          String?
+  item_category      String?
+  rate               Float?
+  available_quantity Int
+  store_id           Int
+  project_id         Int?
+  is_delete          Boolean  @default(false)
+  created_date       DateTime @default(now())
+  updated_date       DateTime
+  created_by         Int?
+  updated_by         Int?
+  item_data          item     @relation(fields: [item_id], references: [item_id])
+  store_data         store    @relation(fields: [store_id], references: [store_id])
+  project_data       project? @relation(fields: [project_id], references: [project_id])
 }
