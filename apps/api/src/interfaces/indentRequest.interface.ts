@@ -24,7 +24,7 @@ interface indentRequestDetails {
   bom_detail_id: number;
   quantity: number;
   total: number;
-  is_delete: string;
+  is_delete: boolean;
 }
 
 export { indentRequestBody };
