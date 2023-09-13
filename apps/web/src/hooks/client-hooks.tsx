@@ -8,6 +8,16 @@ const useGetAllClient = () => {
   });
 };
 
+const useGetAllClientDrop = () => {
+  return useQuery(['useGetAllClientDrop'], () => ClientService.getAllClient(), {
+    select: (data) =>
+      data?.data?.map((client: any) => ({
+        value: client.client_id,
+        label: client.name,
+      })),
+  });
+};
+
 const getByuserID = (id: number) => {
   return useQuery(
     ['getOneClientyID', id],
@@ -26,7 +36,21 @@ const createClient = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllClient']);
+        queryClient.invalidateQueries(['useGetAllClientData']);
+      },
+    }
+  );
+};
+
+const instantcreateClient = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ClientService.createClient(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllClientDrop']);
       },
     }
   );
@@ -40,7 +64,7 @@ const updateClient = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllClient']);
+        queryClient.invalidateQueries(['useGetAllClientData']);
       },
     }
   );
@@ -54,7 +78,7 @@ const useDeleteClient = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllClient']);
+        queryClient.invalidateQueries(['useGetAllClientData']);
       },
     }
   );
@@ -73,11 +97,25 @@ const getByClient = () => {
   );
 };
 
+const useGetAllPaginatedClient = (data: any) => {
+  return useQuery(
+    ['useGetAllClientData'],
+    () => ClientService.filterClient(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
 export {
   useGetAllClient,
   getByuserID,
   createClient,
   updateClient,
   useDeleteClient,
+  useGetAllClientDrop,
   getByClient,
+  instantcreateClient,
+  useGetAllPaginatedClient,
 };

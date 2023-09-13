@@ -7,7 +7,9 @@ import {
   getAllUser,
   getByEmailId,
   getByUserId,
+  getChildUsersByParentUserId,
   getDeletedUsers,
+  getUserByRoleName,
   searchUser,
   updateStatus,
   updateTwoFactorAuthentication,
@@ -52,5 +54,17 @@ router.post('/custom-filter', authMiddleware, customFilterUser);
 
 router.put('/update-two-factor', authMiddleware, updateTwoFactorAuthentication);
 router.get('/get-all-sales-persons', authMiddleware, getAllSalesPersonUsers);
+
+router.get(
+  '/get-users-by-role-name/:role_name',
+  authMiddleware,
+  getUserByRoleName
+);
+
+router.get(
+  '/get-child-users-by-parent-user-id/:parent_user_id',
+  authMiddleware,
+  getChildUsersByParentUserId
+);
 
 export default router;

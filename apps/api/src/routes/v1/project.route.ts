@@ -7,9 +7,10 @@ import {
 import {
   checkDuplicateCode,
   createProject,
-  deleteByPojectId,
+  deleteByProjectId,
   getAllProject,
   getByProjectId,
+  getByProjectIdAndSiteId,
   searchProject,
   updateProject,
 } from '../../controller/project.controller';
@@ -37,10 +38,12 @@ router.get('/getAll', authMiddleware, getAllProject);
 
 router.get('/get/:project_id', authMiddleware, getByProjectId);
 
-router.delete('/delete/:project_id', authMiddleware, deleteByPojectId);
+router.delete('/delete/:project_id', authMiddleware, deleteByProjectId);
 
 router.post('/search', authMiddleware, searchProject);
 
 router.get('/check-duplicate-code/:code', authMiddleware, checkDuplicateCode);
+
+router.post('/get-project-site', authMiddleware, getByProjectIdAndSiteId);
 
 export default router;

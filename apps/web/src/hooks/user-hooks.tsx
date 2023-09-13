@@ -8,6 +8,23 @@ const useGetAllUsers = () => {
   });
 };
 
+const useGetAllUsersDrop = () => {
+  return useQuery(['useGetAllUsersDrop'], () => userService.getAllUsers(), {
+    select: (data) =>
+      data?.data?.data?.map((user: any) => ({
+        value: user.user_id,
+        label: user.first_name + ' ' + user.last_name,
+      })),
+  });
+};
+
+const useGetAllPaginatedUser = (data: any) => {
+  return useQuery(['useGetAllUsers'], () => userService.filterUser(data), {
+    select: (data) => data,
+    staleTime: Infinity,
+  });
+};
+
 const useGetAllInactiveUsers = () => {
   return useQuery(
     ['useGetAllInactiveUsers'],
@@ -20,6 +37,20 @@ const useGetAllInactiveUsers = () => {
 
 const getByloginID = (id: string) => {
   return useQuery(['getByLoginID', id], () => userService.getOneUser(id));
+};
+const getUserbyRole = (type: string) => {
+  return useQuery(
+    ['getUserbyRole', type],
+    () => userService.getuserByRoleType(type),
+    {
+      select: (data) =>
+        data?.data?.map((user: any) => ({
+          value: user.user_id,
+          label: user.first_name + ' ' + user.last_name,
+        })),
+      // data.data,
+    }
+  );
 };
 const getByuserID = (id: number) => {
   return useQuery(['getByuserID', id], () => userService.getOneUserbyID(id), {
@@ -70,7 +101,7 @@ const useDeleteUsers = () => {
 const getByUser = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (data:any) => {
+    (data: any) => {
       return userService.filterUser(data);
     },
     {
@@ -78,8 +109,8 @@ const getByUser = () => {
         response;
       },
     }
-  )
-}
+  );
+};
 export {
   useGetAllUsers,
   getByloginID,
@@ -88,5 +119,8 @@ export {
   updateUser,
   useDeleteUsers,
   useGetAllInactiveUsers,
+  useGetAllUsersDrop,
   getByUser,
+  useGetAllPaginatedUser,
+  getUserbyRole,
 };

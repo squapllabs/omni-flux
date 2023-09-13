@@ -8,6 +8,20 @@ const useGetAllHsnCode = () => {
   });
 };
 
+const useGetAllHsnForDrop = () => {
+  return useQuery(
+      ['useGetAllHsnDrop'],
+      () => hsnCodeService.getAllHsnCode(),
+      {
+          select: (data) =>
+              data?.data?.map((hsn: any) => ({
+                  value:hsn.hsn_code_id,
+                  label:hsn.code,
+              })),
+      }
+  );
+};
+
 const useDeleteHsnCode = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -16,7 +30,7 @@ const useDeleteHsnCode = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllHsnCode']);
+        queryClient.invalidateQueries(['useGetAllhsnCodeData']);
       },
     }
   );
@@ -30,7 +44,7 @@ const createHsnCode = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllHsnCode']);
+        queryClient.invalidateQueries(['useGetAllhsnCodeData']);
       },
     }
   );
@@ -44,7 +58,7 @@ const uploadHsnCode = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllHsnCode']);
+        queryClient.invalidateQueries(['useGetAllhsnCodeData']);
       },
     }
   );
@@ -58,7 +72,7 @@ const updateHsnCode = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllHsnCode']);
+        queryClient.invalidateQueries(['useGetAllhsnCodeData']);
       },
     }
   );
@@ -78,4 +92,15 @@ const getByCode = () => {
   );
 };
 
-export { useGetAllHsnCode, useDeleteHsnCode, createHsnCode, updateHsnCode ,uploadHsnCode, getByCode};
+const useGetAllPaginatedHsnCodeData = (data: any) => {
+  return useQuery(
+    ['useGetAllhsnCodeData'],
+    () => hsnCodeService.filterHsn(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+export { useGetAllHsnCode, useDeleteHsnCode, createHsnCode, updateHsnCode ,uploadHsnCode, getByCode, useGetAllPaginatedHsnCodeData,useGetAllHsnForDrop};

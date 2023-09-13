@@ -4,8 +4,7 @@
   padding: 5px;
 }
 .tableContainer {
-  padding: 10px;
-  // height: 100vh;
+  padding: 10px 5px 10px 5px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -17,7 +16,10 @@
 }
 
 .textContent {
-  padding: 1px;
+  padding: 10px 0px 1px 10px;
+}
+.textContent1 {
+  padding: 10px 0px 1px 5px;
 }
 .content {
   font-size: 0.7rem;
@@ -32,7 +34,7 @@
   flex-wrap: wrap;
 }
 .searchField {
-  padding: 0px 10px 0px 10px;
+  padding: 0px 5px 0px 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -63,6 +65,14 @@
   position: relative;
 }
 
+.top {
+  padding: 0px 20px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: first baseline;
+}
+
 .box::after {
   content: '';
   display: block;
@@ -85,14 +95,15 @@
   gap: 8px;
   color: #6941c6;
 }
-.resetButton {
-  // padding: 12px 20px 12px 20px;
+.resetButton [disabled]{
+  padding: 12px 20px 12px 20px;
   border-radius: 8px;
   border: 1px;
   gap: 8px;
   color: #848289;
+  background-color: #ccc;
 }
-.resetButton:hover {
+.resetButton:not([disabled]):hover {
   background-color: #c4c4c6;
   color: #ffffff;
 }
@@ -161,7 +172,7 @@ tr:hover {
   padding: 10px 10px 1px 2op;
 }
 .dividerStyle {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
   padding: 5px 1px 5px 1px;
 }
 .header {
@@ -172,4 +183,7 @@ tr:hover {
 }
 .field {
   padding: 5px 20px 5px 20px;
+}
+.selectTab {
+  width: 20%;
 }

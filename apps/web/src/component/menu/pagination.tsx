@@ -6,16 +6,15 @@ import Styles from '../../styles/pagination.module.scss';
 import LastPageIcon from '../menu/icons/lastPageIcon';
 import Select from '../ui/selectNew';
 const options = [
-  { value: '3', label: '3 ' },
-  { value: '5', label: '5' },
-  { value: '10', label: '10' },
-  { value: '20', label: '20' },
+  { value: '5', label: 5 },
+  { value: '10', label: 10 },
+  { value: '20', label: 20 },
 ];
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
   rowsPerPage: number;
-
+  totalCount: number;
   onPageChange: (page: number) => void;
   onRowsPerPageChange: (rowsPerPage: number) => void;
 }
@@ -24,6 +23,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   rowsPerPage,
+  totalCount,
   onPageChange,
   onRowsPerPageChange,
 }) => {
@@ -38,6 +38,9 @@ const Pagination: React.FC<PaginationProps> = ({
     onRowsPerPageChange(newRowsPerPage);
   };
 
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  const endingIndex = Math.min(startingIndex + rowsPerPage - 1, totalCount);
+
   return (
     <div className={Styles.container}>
       <div className={Styles.rowPerPage}>
@@ -49,7 +52,7 @@ const Pagination: React.FC<PaginationProps> = ({
             onChange={handleRowsPerPageChange}
           >
             {options.map((option: any) => (
-              <option key={options.value} value={options.value}>
+              <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}
@@ -57,7 +60,8 @@ const Pagination: React.FC<PaginationProps> = ({
         </div>
       </div>
       <span className={Styles.pagesCount}>
-        {currentPage} - {rowsPerPage} of {totalPages}
+        {startingIndex} - {endingIndex} of {totalCount}
+        {/* {currentPage} - {totalPages} of {totalCount} */}
       </span>
 
       <div className={Styles.icons}>

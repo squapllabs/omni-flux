@@ -1,0 +1,286 @@
+.container {
+  padding: 10px 10px 10px 10px;
+  height: 100vh;
+}
+.headingcontainer {
+  // padding: 10px 10px 10px 10px;
+  // padding-left: 10px;
+}
+.subHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+// .abstractAdd{
+//   width:100%;
+//   // background-color: red;
+// }
+.subcontainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+  gap: 10px;
+}
+.submenu {
+  background-color: rgb(228, 226, 226);
+  width: 20%;
+  padding: 5px;
+  border-radius: 5px;
+}
+.mainContainer {
+  // background-color: rgb(243, 243, 243);
+  background-color: rgb(255, 242, 242);
+  width: 80%;
+  padding: 5px;
+  border-radius: 5px;
+}
+.side_menu {
+  ul {
+    list-style: none;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    li {
+      padding: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+}
+.selected {
+  display: flex;
+  justify-content: space-between;
+  background-color: #d0d5dd;
+  padding: 8px;
+  color: #667085;
+  width: 80%;
+}
+.primarylistContent {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.additional_content {
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+.mainHeading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: lavender;
+  padding: 10px;
+  // justify-content: space-around;
+}
+
+.mainLeftContent {
+  width: 45%;
+}
+
+.descriptionContent {
+  text-align: justify;
+  display: block;
+  font-size: small;
+}
+
+.descriptionContentOne {
+  text-align: justify;
+  display: block;
+  font-size: small;
+}
+
+.menu {
+  list-style: none;
+  position: absolute;
+  top: 60;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  font-weight: normal;
+  // box-shadow: 0px 4px 8px rgba(0, 0, 0.1, 0.1);
+  z-index: 100;
+  background-color: white;
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: column;
+  // padding: 5px;
+  // gap: 10px;
+}
+
+.topSideMenu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+}
+.topSideHeading {
+  font-weight: lighter;
+  font-size: 0.8rem;
+}
+.taskButton {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 10px 0px 0px;
+}
+
+.tableContainer {
+  padding: 10px;
+  width: 100%;
+  // height: 100%;
+  // overflow-x: auto;
+  // overflow-y: none;
+  max-width: 1150px; /* Adjust the maximum width as needed */
+  // max-height: 550px;
+  margin: 0 auto;
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
+.scrollable_table {
+  width: 100%;
+  border-collapse: collapse;
+  height: 100%;
+
+  th,
+  td {
+    border: 1px solid #000000;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+  }
+  thead {
+    tr {
+      th {
+        background-color: #f2f2f2;
+        text-transform: uppercase;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  td {
+    align-items: center;
+    text-align: center;
+  }
+  td:hover,
+  tr:hover {
+    background-color: rgb(239, 239, 239);
+  }
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.options:hover {
+  background-color: #ddd;
+}
+.saveButton {
+  display: flex;
+  justify-content: end;
+  padding-right: 10px;
+}
+.totalPanel {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #ccc;
+  padding: 10px;
+}
+.panelList {
+  width: 20%;
+  padding: 10px;
+}
+.panel {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  text-align: right;
+  align-items: end;
+}
+.panelTitle {
+  text-align: right;
+  align-items: end;
+  color: rgb(0, 0, 0);
+}
+
+.groupButton {
+  display: flex;
+  margin-top: 1%;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+.Secondcontainer {
+  height: 100vh;
+}
+
+.abstractButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 230px;
+}
+
+.bomcontainer {
+  padding: 10px 10px 10px 10px;
+  height: 100%;
+}
+
+.mainheader {
+  height: 30%;
+  // background-color: #0042d2;
+}
+.mainBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 10px;
+}
+
+.mainTextContent {
+  padding: 10px 5px 10px 10px;
+  display: flex;
+  align-items: center;
+}
+.textContent_1 {
+  width: 50%;
+}
+.textContent {
+  padding: 15px 10px 10px 20px;
+}
+.content {
+  font-size: 0.7rem;
+}
+.backButton {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
+
+.box {
+  position: relative;
+}
+
+.box::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 20;
+  left: 10;
+}
+
+.box:last-child::after {
+  display: none;
+}

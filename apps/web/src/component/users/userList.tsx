@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import { useGetAllUsers, useDeleteUsers, getByUser } from '../../hooks/user-hooks';
+import {
+  useGetAllUsers,
+  useDeleteUsers,
+  getByUser,
+  useGetAllPaginatedUser
+} from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
@@ -16,7 +21,7 @@ import AddIcon from '../menu/icons/addIcon';
 
 /* Function for User List */
 const UserList = () => {
-  const { isLoading: getAllLoading } = useGetAllUsers();
+  // const { isLoading: getAllLoading } = useGetAllUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
   const {
     mutate: postDataForFilter,
@@ -39,8 +44,22 @@ const UserList = () => {
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [dataShow, setDataShow] = useState(false);
   const navigate = useNavigate();
-
+  const userData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_by',
+    order_by_direction: 'desc',
+    global_search: '',
+    status: activeButton,
+  };
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedUser(userData);
   const deleteUserHandler = (id: any) => {
     setValue(id);
     setOpen(true);
@@ -65,14 +84,19 @@ const UserList = () => {
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
 
   useEffect(() => {
-    handleSearch();
+    refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
   /* Function for searching a user in the table */
@@ -80,33 +104,27 @@ const UserList = () => {
     const userData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: "updated_date",
-      order_by_direction: "desc",
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
       global_search: filterValues.search_by_name,
-      status: activeButton
+      status: activeButton,
     };
     postDataForFilter(userData);
+    setDataShow(true);
     setIsLoading(false);
     setFilter(true);
   };
 
   /* Function for reseting the table to its actual state after search */
   const handleReset = async () => {
-    const userData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_by',
-      order_by_direction: 'desc',
-      global_search: '',
-      status: "AC",
-    };
-    postDataForFilter(userData);
+    setDataShow(false);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
       search_by_name: '',
     });
     setIsLoading(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -119,31 +137,18 @@ const UserList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
   return (
     <div className={Styles.container}>
       <div>
         <CustomLoader
-          loading={isLoading === true ? getAllLoading : FilterLoading}
+          loading={FilterLoading ? FilterLoading : getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
           <div className={Styles.text}>
             <div className={Styles.textStyle}>
               <h3>List of Users</h3>
-            </div>
-            <div className={Styles.buttonStyle}>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon />}
-                onClick={() => navigate('/user-create')}
-              >
-                Add User
-              </Button>
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>
@@ -172,18 +177,34 @@ const UserList = () => {
                 justify="center"
                 size="small"
                 onClick={handleReset}
+                disabled={isResetDisabled}
               >
                 Reset
               </Button>
             </div>
-            <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
+            <div className={Styles.button}>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon />}
+                  onClick={() => navigate('/user-create')}
+                >
+                  Add
+                </Button>
+              </div>
             </div>
           </div>
+          <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>
               <table>
@@ -194,42 +215,83 @@ const UserList = () => {
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Contact Number</th>
-                    <th></th>
+                    {activeButton === 'AC' && <th></th>}
                   </tr>
                 </thead>
                 <tbody>
-                  {getFilterData?.total_count === 0 ? (
+                  {dataShow ? (
+                  getFilterData?.total_count === 0 ? (
                     <tr>
                       <td></td>
                       <td></td>
                       <td>No data found</td>
-                      <td></td>
+                      {activeButton === 'AC' && <td></td>}
                     </tr>
                   ) : (
-                    ''
-                  )}
-                  {getFilterData?.content?.map((data: any, index: number) => (
+                  getFilterData?.content?.map((data: any, index: number) => (
                     <tr key={data.user_id}>
-                      <td>{index + 1}</td>
+                      <td>{startingIndex + index}</td>
                       <td>{data.first_name}</td>
                       <td>{data.last_name}</td>
                       <td>{data.email_id}</td>
                       <td>{data.contact_no}</td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon onClick={() => navigate(`/user-edit/${data.user_id}`)} />
-                          <DeleteIcon onClick={() => deleteUserHandler(data.user_id)} />
-                        </div>
-                      </td>
+                      {activeButton === 'AC' && (
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                navigate(`/user-edit/${data.user_id}`)
+                              }
+                            />
+                            <DeleteIcon
+                              onClick={() => deleteUserHandler(data.user_id)}
+                            />
+                          </div>
+                        </td>
+                      )}
                     </tr>
-                  ))}
+                  )))
+                  ): initialData?.total_count === 0 ? (
+                    <tr>
+                    <td></td>
+                    <td></td>
+                    <td>No data found</td>
+                    {activeButton === 'AC' && <td></td>}
+                  </tr>
+                  ):(
+                    initialData?.content?.map((data: any, index: number) => (
+                      <tr key={data.user_id}>
+                        <td>{startingIndex + index}</td>
+                        <td>{data.first_name}</td>
+                        <td>{data.last_name}</td>
+                        <td>{data.email_id}</td>
+                        <td>{data.contact_no}</td>
+                        {activeButton === 'AC' && (
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() =>
+                                  navigate(`/user-edit/${data.user_id}`)
+                                }
+                              />
+                              <DeleteIcon
+                                onClick={() => deleteUserHandler(data.user_id)}
+                              />
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+  
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
             <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={getFilterData?.total_page}
+                totalPages={dataShow ? getFilterData?.total_page: initialData?.total_page}
+                totalCount={dataShow ? getFilterData?.total_count : initialData?.total_count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}

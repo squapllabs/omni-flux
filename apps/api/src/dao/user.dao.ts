@@ -9,6 +9,7 @@ const add = async (
   user_status: string,
   created_by: bigint,
   department: string,
+  parent_user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -33,6 +34,7 @@ const add = async (
         updated_date: currentDate,
         department,
         is_initial_login: isInitialLogin,
+        parent_user_id,
       },
     });
     return user;
@@ -49,6 +51,7 @@ const edit = async (
   user_id: number,
   department: string,
   is_two_factor: boolean,
+  parent_user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -64,6 +67,7 @@ const edit = async (
         updated_date: currentDate,
         department,
         is_two_factor,
+        parent_user_id,
       },
     });
     return user;
@@ -75,16 +79,17 @@ const edit = async (
 
 const getById = async (userId: number) => {
   try {
-    const user = await prisma.users.findUnique({
+    const user = await prisma.users.findFirst({
       where: {
         user_id: Number(userId),
+        is_delete: false,
       },
+      // include: {
+      //   parent_data: true,
+      // },
     });
-    if (user && user?.is_delete === true) {
-      return null;
-    } else {
-      return user;
-    }
+
+    return user;
   } catch (error) {
     console.log('Error occurred in user getById dao', error);
     throw error;
@@ -101,6 +106,33 @@ const getByEmailId = async (emailId: string) => {
           email_id: lowercasedEmailId,
           user_status: 'AC',
           is_delete: false,
+        },
+        select: {
+          user_id: true,
+          first_name: true,
+          last_name: true,
+          user_password: true,
+          contact_no: true,
+          email_id: true,
+          user_status: true,
+          created_by: true,
+          created_date: true,
+          updated_by: true,
+          updated_date: true,
+          is_delete: true,
+          is_initial_login: true,
+          department: true,
+          is_two_factor: true,
+          parent_user_id: true,
+          user_roles: {
+            select: {
+              role_data: {
+                select: {
+                  role_name: true,
+                },
+              },
+            },
+          },
         },
       });
 
@@ -123,6 +155,9 @@ const getAll = async (user_status) => {
       where: {
         user_status: user_status,
       },
+      // include: {
+      //   parent_data: true,
+      // },
     });
     const usersCount = await prisma.users.count({
       where: {
@@ -328,6 +363,9 @@ const searchUser = async (
       ],
       skip: offset,
       take: limit,
+      include: {
+        parent_data: true,
+      },
     });
     const userCount = await transaction.users.count({
       where: filter,
@@ -372,6 +410,38 @@ const updateOTP = async (
     throw error;
   }
 };
+const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const users = await transaction.users.findMany({
+      where: {
+        user_status: 'AC',
+        is_delete: false,
+        user_roles: {
+          some: {
+            role_data: {
+              role_name: role_name,
+            },
+          },
+        },
+      },
+      include: {
+        user_roles: {
+          include: {
+            role_data: {
+              select: { role_name: true },
+            },
+          },
+        },
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return users;
+  } catch (error) {
+    console.log('Error occurred in user getUserByRoleName dao', error);
+    throw error;
+  }
+};
 
 const updateTwoFactorAuthentication = async (
   user_id: number,
@@ -398,6 +468,38 @@ const updateTwoFactorAuthentication = async (
     throw error;
   }
 };
+const getChildUsersByParentUserId = async (
+  parent_user_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const users = await transaction.users.findMany({
+      where: {
+        user_status: 'AC',
+        is_delete: false,
+        parent_user_id: parent_user_id,
+      },
+      include: {
+        user_roles: {
+          include: {
+            role_data: {
+              select: { role_name: true },
+            },
+          },
+        },
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return users;
+  } catch (error) {
+    console.log(
+      'Error occurred in user getChildUsersByParentUserId dao',
+      error
+    );
+    throw error;
+  }
+};
 
 export default {
   add,
@@ -415,4 +517,6 @@ export default {
   getByUniqueEmail,
   getAllSalesPersonUsers,
   searchUser,
+  getUserByRoleName,
+  getChildUsersByParentUserId,
 };

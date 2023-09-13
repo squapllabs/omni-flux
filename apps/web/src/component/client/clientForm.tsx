@@ -45,7 +45,7 @@ const ClientForm: React.FC = (props: any) => {
         };
         createNewClient(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Client created');
@@ -61,7 +61,7 @@ const ClientForm: React.FC = (props: any) => {
         };
         updateClientDetails(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Client edited');
@@ -91,6 +91,7 @@ const ClientForm: React.FC = (props: any) => {
             placeholder="Enter client name"
             name="name"
             value={formik.values.name}
+            mandatory={true}
             onChange={formik.handleChange}
             error={formik.touched.name && formik.errors.name}
             width="100%"
@@ -101,6 +102,7 @@ const ClientForm: React.FC = (props: any) => {
             label="Contact Detail"
             placeholder="Enter client contact detail"
             name="contact_details"
+            mandatory={true}
             value={formik.values.contact_details}
             onChange={formik.handleChange}
             error={formik.touched.contact_details && formik.errors.contact_details}

@@ -1,5 +1,5 @@
 export const gstErrorMessages = {
-  ENTER_RATE: 'GST Rate is mandatory',
+  ENTER_RATE: 'GST Rate is required',
   TYPE_ERROR: 'Only Number are allowed',
   DECIMAL_CHECK: 'Decimal values are not allowed',
   MAXIMUM_CHECK: 'Number should be between 0 to 99',

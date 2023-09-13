@@ -13,6 +13,20 @@ const getByuserID = (id: number) => {
     select: (data) => data.data,
   });
 };
+const getUomByType = (type: any) => {
+  return useQuery(
+    ['getUomByTypeID', type],
+    () => uomService.getUomByType(type),
+    {
+      select: (data) =>
+        data?.data?.map((uom: any) => ({
+          value: uom.uom_id,
+          label: uom.name,
+          data: uom,
+        })),
+    }
+  );
+};
 
 const createuom = () => {
   const queryClient = useQueryClient();
@@ -22,7 +36,7 @@ const createuom = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAlluom']);
+        queryClient.invalidateQueries(['useGetAllUomData']);
       },
     }
   );
@@ -36,7 +50,7 @@ const updateUom = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAlluom']);
+        queryClient.invalidateQueries(['useGetAllUomData']);
       },
     }
   );
@@ -50,7 +64,7 @@ const useDeleteUom = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAlluom']);
+        queryClient.invalidateQueries(['useGetAllUomData']);
       },
     }
   );
@@ -69,4 +83,45 @@ const getByUom = () => {
   );
 };
 
-export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom ,getByUom};
+const useGetAllUomDrop = () => {
+  return useQuery(['useGetAlluom'], () => uomService.getAlluom(), {
+    select: (data) =>
+      data?.data?.map((uom: any) => ({
+        value: uom.uom_id,
+        label: uom.name,
+      })),
+  });
+};
+
+const useGetAllPaginatedUomData = (data: any) => {
+  return useQuery(['useGetAllUomData'], () => uomService.filterUom(data), {
+    select: (data) => data,
+    staleTime: Infinity,
+  });
+};
+
+const getByUomType = () => {
+  return useQuery(
+    ['getOnemasertDataType'],
+    () => uomService.getOneUomByType(),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+
+export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom,useGetAllPaginatedUomData,getByUomType,getUomByType };
+
+// export {
+//   useGetAlluom,
+//   getByuserID,
+//   createuom,
+//   updateUom,
+//   useDeleteUom,
+//   useGetAllUomDrop,
+//   getByUom,
+//   useGetAllPaginatedUomData,
+//   getUomByType,
+// };

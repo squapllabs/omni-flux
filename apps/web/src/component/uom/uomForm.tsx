@@ -51,7 +51,7 @@ const UomForm: React.FC = (props: any) => {
         };
         createNewuom(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('UOM created');
@@ -67,7 +67,7 @@ const UomForm: React.FC = (props: any) => {
         };
         updateuom(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('UOM edited');
@@ -96,6 +96,7 @@ const UomForm: React.FC = (props: any) => {
             name="name"
             label="Unit Of Measurement"
             placeholder="Enter unit of measurement"
+            mandatory={true}
             value={formik.values.name}
             onChange={formik.handleChange}
             error={formik.touched.name && formik.errors.name}
@@ -106,6 +107,7 @@ const UomForm: React.FC = (props: any) => {
             name="description"
             label="Description"
             placeholder="Enter description"
+            mandatory={true}
             value={formik.values.description}
             onChange={formik.handleChange}
             error={formik.touched.description && formik.errors.description}

@@ -1,4 +1,3 @@
-
 import { StrictMode, ReactNode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -12,12 +11,11 @@ import Routes from './routes/Routes';
 
 const queryClient = new QueryClient();
 
+
 function ReduxProvider({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        {children}
-      </PersistGate>
+      <PersistGate persistor={persistor}>{children}</PersistGate>
     </Provider>
   );
 }
@@ -28,7 +26,7 @@ function MainApp() {
       <Router>
         <ReduxProvider>
           <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools initialIsOpen={false} />
+            <ReactQueryDevtools initialIsOpen={true} />
             <Routes />
           </QueryClientProvider>
         </ReduxProvider>

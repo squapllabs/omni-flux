@@ -1,0 +1,26 @@
+.title{
+    padding: 15px 15px 0px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.cardContent{
+    padding: 15px 15px 15px 15px;
+}
+.dataRows {
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+}
+.leftData{
+    font-weight: bold;
+    width: 20%;
+    // margin-left: 10px;
+}
+.rightData{
+    margin-left: 20%;
+}
+.dividerStyle {
+    border-bottom: 1px solid black;
+    padding: 15px 15px 0px 10px;
+  }

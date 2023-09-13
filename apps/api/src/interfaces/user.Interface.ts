@@ -16,6 +16,7 @@ interface createUserBody {
   gender: string;
   additional_info: JSON;
   is_two_factor: boolean;
+  parent_user_id: number;
 }
 
 interface updateUserBody {
@@ -31,6 +32,7 @@ interface updateUserBody {
   gender: string;
   additional_info: JSON;
   is_two_factor: boolean;
+  parent_user_id: number;
 }
 
 interface userExistBody {

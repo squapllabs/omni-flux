@@ -17,7 +17,7 @@ const createGst = async (body: createGstBody) => {
       sgst_rate,
       created_by
     );
-    const result = { success: true, data: gstDetails };
+    const result = { message: 'success', status: true, data: gstDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in gst service Add: ', error);
@@ -44,10 +44,10 @@ const updateGst = async (body: updateGstBody) => {
         updated_by,
         gst_id
       );
-      result = { success: true, data: gstDetails };
+      result = { message: 'success', status: true, data: gstDetails };
       return result;
     } else {
-      result = { success: false, message: 'gst_id not exist' };
+      result = { message: 'gst_id not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -66,10 +66,10 @@ const getById = async (gstId: number) => {
     let result = null;
     const gstData = await gstDao.getById(gstId);
     if (gstData) {
-      result = { success: true, data: gstData };
+      result = { message: 'success', status: true, data: gstData };
       return result;
     } else {
-      result = { success: false, message: 'gst id not exist' };
+      result = { message: 'gst id not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -85,7 +85,7 @@ const getById = async (gstId: number) => {
 const getAllGst = async () => {
   try {
     const result = await gstDao.getAll();
-    const gstData = { success: true, data: result };
+    const gstData = { message: 'success', status: true, data: result };
     return gstData;
   } catch (error) {
     console.log('Error occurred in getAllGst gst service : ', error);
@@ -102,8 +102,8 @@ const deleteGst = async (gstId: number) => {
     const gstExist = await gstDao.getById(gstId);
     if (!gstExist) {
       const result = {
-        status: false,
         message: 'gst_id does not exist',
+        status: false,
         data: null,
       };
       return result;
@@ -112,8 +112,8 @@ const deleteGst = async (gstId: number) => {
     const gstExistInItem = await itemDao.getByGSTId(gstId);
     if (gstExistInItem) {
       const result = {
-        status: false,
         message: 'unable to delete.This gst_id is mapped in item table',
+        status: false,
         data: null,
       };
       return result;
@@ -121,15 +121,15 @@ const deleteGst = async (gstId: number) => {
     const data = await gstDao.deleteGst(gstId);
     if (data) {
       const result = {
-        status: true,
         message: 'Gst Data Deleted Successfully',
+        status: true,
         data: null,
       };
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this gst',
+        status: false,
         data: null,
       };
       return result;

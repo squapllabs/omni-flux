@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import { CaseInsensitiveFilter } from '../utils/caseSensitiveFilter';
 
 const add = async (
   name: string,
@@ -181,7 +182,7 @@ const deleteSiteContractor = async (
   }
 };
 
-const searchSiteContractor = async (
+/* const searchSiteContractor = async (
   offset: number,
   limit: number,
   orderByColumn: string,
@@ -217,6 +218,49 @@ const searchSiteContractor = async (
     );
     throw error;
   }
+}; */
+
+const searchSiteContractor = async (
+  offset,
+  limit,
+  orderByColumn,
+  orderByDirection,
+  filters,
+  global_search,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterSiteContractor;
+    const globalSearch = global_search.toLowerCase();
+    const allSiteContractors = await transaction.site_contractor.findMany({
+      where: filter,
+      orderBy: [{ [orderByColumn]: orderByDirection }],
+    });
+
+    const propertiesToFilter = ['name', 'address.street', 'address.city', 'address.state', 'address.country', 'address.pin_code', 'description'];
+
+    const filteredSiteContractors = CaseInsensitiveFilter(allSiteContractors, globalSearch, propertiesToFilter);
+
+    const siteContractorCount = filteredSiteContractors.length;
+    const pagedSiteContractors = filteredSiteContractors.slice(
+      offset,
+      offset + limit
+    );
+
+    const siteContractorData = {
+      count: siteContractorCount,
+      data: pagedSiteContractors,
+    };
+
+    return siteContractorData;
+  } catch (error) {
+    console.log(
+      'Error occurred in siteContractor dao: searchSiteContractor',
+      error
+    );
+    throw error;
+  }
 };
 
 const getByCode = async (code: string, connectionObj = null) => {
@@ -234,6 +278,24 @@ const getByCode = async (code: string, connectionObj = null) => {
   }
 };
 
+const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const siteContractor = await transaction.site_contractor.findFirst({
+      where: {
+        site_contractor_id: Number(getBySiteId),
+        type: 'Site',
+        is_delete: false,
+      },
+    });
+
+    return siteContractor;
+  } catch (error) {
+    console.log('Error occurred in siteContractor getBySiteId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -244,4 +306,5 @@ export default {
   getAllContractors,
   searchSiteContractor,
   getByCode,
+  getBySiteId,
 };

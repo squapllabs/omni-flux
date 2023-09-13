@@ -1,4 +1,4 @@
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/navbar.module.scss';
 import HomeIcon from './icons/homeIcon';
 import SettingIcon from './icons/settingIcon';
@@ -12,8 +12,10 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetAuth } from '../../redux/reducer';
 import authService from '../../service/auth-service';
-import LogoutIcon from './icons/logoutIcon'
-
+import LogoutIcon from './icons/logoutIcon';
+import Avatar from './AvatarComponent';
+import { store, RootState } from '../../redux/store';
+import { getToken } from '../../redux/reducer';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -21,6 +23,10 @@ const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const state: RootState = store.getState();
+  let encryptedData = getToken(state, 'Data');
+  let userData: any = encryptedData.userData;
+  console.log('userData', userData);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -36,6 +42,9 @@ const Navbar = () => {
 
   function handleListItems() {
     navigate('/products');
+  }
+  function handleLeadEnquires() {
+    navigate('/lead-enquires');
   }
 
   const handleHomeRoute = () => {
@@ -57,9 +66,9 @@ const Navbar = () => {
     }
   };
 
-  const  handleNavigate = () => {
+  const handleNavigate = () => {
     navigate('/settings');
-  }
+  };
 
   return (
     <div>
@@ -132,10 +141,13 @@ const Navbar = () => {
                 <p>Resources</p>
                 <div>
                   <div className={Styles.dropDwonContent}>
-                    <div className={Styles.dropDownItems}>
+                    <div
+                      className={Styles.dropDownItems}
+                      onClick={handleLeadEnquires}
+                    >
                       <div className={Styles.itemsTitle}>
                         <CheckIcon />
-                        <h2>Blog</h2>
+                        <h2>Lead-Enquires</h2>
                       </div>
                       <p>The latest industry news, updates and info.</p>
                     </div>
@@ -297,7 +309,15 @@ const Navbar = () => {
               </div>
             </div>
           </Dropdown>
+          <div
+            onClick={() => {
+              navigate('/project-list');
+            }}
+          >
+            Project
+          </div>
         </div>
+
         <div className={Styles.rightIcons}>
           <SearchBar onSearch={handleSearch} />
 
@@ -316,22 +336,52 @@ const Navbar = () => {
               onClick={toggleMenu}
             />
             {isMenuOpen && (
-              <ul className={Styles.menu}>
-                <li className={Styles.menuItem} onClick={() => handleNavigate()}>
-                  
-                  <SettingIcon />
-                  <span>Settings</span>
-                </li>
-                <li className={Styles.menuItem} onClick={() => handleLogout()}>
-                  <LogoutIcon style={{fontWeight:'bolder'}}/>
-                  <span>Logout</span>
-                </li>
-              </ul>
+              <div className={Styles.menu}>
+                <div className={Styles.box}>
+                  <div className={Styles.profileDetail}>
+                    <div>
+                      <Avatar
+                        firstName={userData?.first_name}
+                        lastName={userData?.last_name}
+                        size={40}
+                      />
+                    </div>
+                    <div className={Styles.profileContents}>
+                      <span className={Styles.profileName}>
+                        {userData?.first_name} {userData?.last_name}
+                      </span>
+                      <span className={Styles.profileRole}>
+                        {userData?.user_roles[0]?.role_data?.role_name}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.box}>
+                  <div>
+                    <div
+                      className={Styles.menubox}
+                      onClick={() => handleNavigate()}
+                    >
+                      <SettingIcon />
+                      <span>Settings</span>
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.box}>
+                  <div>
+                    <div
+                      className={Styles.menubox}
+                      onClick={() => handleLogout()}
+                    >
+                      <LogoutIcon style={{ fontWeight: 'bolder' }} />
+                      <span>Logout</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
-          <div>
-            
-          </div>
+          <div></div>
         </div>
       </nav>
     </div>

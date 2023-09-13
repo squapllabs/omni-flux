@@ -29,11 +29,27 @@ const createUser = async (body: createUserBody) => {
       date_of_birth,
       gender,
       additional_info,
+      parent_user_id,
     } = body;
 
     const userEmailExist = await userDao.getByUniqueEmail(email_id);
     if (userEmailExist) {
-      return (result = { success: false, message: 'email_id already exists' });
+      return (result = {
+        message: 'email_id already exists',
+        status: false,
+        data: null,
+      });
+    }
+
+    if (parent_user_id) {
+      const parentUserExist = await userDao.getById(parent_user_id);
+      if (!parentUserExist) {
+        return (result = {
+          message: 'parent_user_id does not exists',
+          status: false,
+          data: null,
+        });
+      }
     }
 
     const userDataWithRole = [];
@@ -48,6 +64,7 @@ const createUser = async (body: createUserBody) => {
           user_status,
           created_by,
           department,
+          parent_user_id,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });
@@ -79,7 +96,8 @@ const createUser = async (body: createUserBody) => {
       .then((data) => {
         console.log('Successfully User Data Returned ', data);
         const newUserData = {
-          success: true,
+          message: 'success',
+          status: true,
           data: data,
         };
         return newUserData;
@@ -116,11 +134,27 @@ const updateUser = async (body: updateUserBody) => {
       gender,
       additional_info,
       is_two_factor,
+      parent_user_id,
     } = body;
 
     const userExist = await userDao.getById(user_id);
     if (!userExist) {
-      return (result = { success: false, message: 'user id does not exists' });
+      return (result = {
+        message: 'user id does not exists',
+        status: false,
+        data: null,
+      });
+    }
+
+    if (parent_user_id) {
+      const parentUserExist = await userDao.getById(parent_user_id);
+      if (!parentUserExist) {
+        return (result = {
+          message: 'parent_user_id does not exists',
+          status: false,
+          data: null,
+        });
+      }
     }
 
     const existingUserRoleData = await userRoleDao.getByUserId(user_id);
@@ -136,6 +170,7 @@ const updateUser = async (body: updateUserBody) => {
           user_id,
           department,
           is_two_factor,
+          parent_user_id,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });
@@ -229,10 +264,10 @@ const getByEmailId = async (emailId: string) => {
     if (userData) {
       const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
       const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
-      result = { success: true, data: dataToApi };
+      result = { message: 'success', status: true, data: dataToApi };
       return result;
     } else {
-      result = { success: false, message: 'user email not exist' };
+      result = { message: 'user email not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -258,8 +293,9 @@ const userLogin = async (
     const dbUser = await userDao.getByEmailId(email_id);
     if (!dbUser || dbUser?.user_password !== md5(user_password)) {
       result = {
-        success: false,
         message: 'Email id and password Wrong',
+        status: false,
+        data: null,
       };
       return result;
     }
@@ -277,27 +313,33 @@ const userLogin = async (
     } catch (err) {
       console.log(' error occurred', err);
       return (result = {
-        success: false,
         message: 'Error! Something went wrong',
+        status: false,
+        data: null,
       });
     }
     const fullName = dbUser?.first_name + ' ' + dbUser?.last_name;
-    const loginResposne = {
+    const userId = dbUser?.user_id;
+    const userData = dbUser;
+    const loginResponse = {
       status: true,
       message: 'Success',
       token: `Bearer ${token}`,
       refreshToken: refreshToken,
       fullName: fullName,
       email: email_id,
+      userId: userId,
+      userData: userData,
     };
-    res.send(loginResposne);
+    res.send(loginResponse);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
-    const loginResposne = {
-      status: false,
+    const loginResponse = {
       message: 'something went wrong',
+      status: false,
+      data: null,
     };
-    return loginResposne;
+    return loginResponse;
   }
 };
 
@@ -334,7 +376,7 @@ const verifyToken = (token) => {
 const getAllUser = async (user_status = 'AC') => {
   try {
     const result = await userDao.getAll(user_status);
-    const userData = { success: true, data: result };
+    const userData = { message: 'success', status: true, data: result };
     return userData;
   } catch (error) {
     console.log('Error occurred in getAll user service : ', error);
@@ -351,18 +393,27 @@ const deleteUser = async (userId) => {
     const userExist = await userDao.getById(userId);
 
     if (!userExist) {
-      const result = { success: false, message: 'User Id Not Exist' };
+      const result = {
+        message: 'User Id Not Exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const data = await userDao.deleteUser(userId);
     if (data?.is_delete === true) {
       const result = {
-        success: true,
         message: 'User Data Deleted Successfully',
+        staus: true,
+        data: null,
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this user' };
+      const result = {
+        message: 'Failed to delete this user',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -381,7 +432,7 @@ const updateStatus = async (body) => {
     const { user_id, user_status } = body;
     const userExist = await userDao.getById(user_id);
     if (!userExist) {
-      const result = { success: false, message: 'User not exist' };
+      const result = { message: 'User not exist', status: false, data: null };
       return result;
     }
     const result = await userDao.updateStatus(user_id, user_status);
@@ -469,7 +520,7 @@ const updateStatus = async (body) => {
 const getDeletedUsers = async () => {
   try {
     const result = await userDao.getDeletedUsers();
-    const userData = { success: true, data: result };
+    const userData = { message: 'success', status: true, data: result };
     return userData;
   } catch (error) {
     console.log('Error occurred in User Service : getDeletedUsers Method');
@@ -660,6 +711,72 @@ const searchUser = async (body) => {
   }
 };
 
+/**
+ * Method to get User By Role Name
+ * @param role_name
+ * @returns
+ */
+const getByRoleName = async (role_name: string) => {
+  try {
+    let result = null;
+    const userData = await userDao.getUserByRoleName(role_name);
+    if (userData.length === 0) {
+      result = {
+        message: 'User data does not exist for this role',
+        status: false,
+        data: null,
+      };
+      return result;
+    } else {
+      result = { message: 'success', status: true, data: userData };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByRoleName user service : ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to get User By Parent User Id
+ * @param parent_user_id
+ * @returns
+ */
+const getChildUsersByParentUserId = async (parent_user_id: number) => {
+  try {
+    let result = null;
+    const parentUserExist = await userDao.getById(parent_user_id);
+    if (!parentUserExist) {
+      result = {
+        message: 'parent_user_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const userData = await userDao.getChildUsersByParentUserId(
+      Number(parent_user_id)
+    );
+    if (userData.length === 0) {
+      result = {
+        message: 'No child users exist for this parent_user_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    } else {
+      result = { message: 'success', status: true, data: userData };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getChildUsersByParentUserId user service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createUser,
   updateUser,
@@ -675,4 +792,6 @@ export {
   refreshAccessToken,
   updateTwoFactorAuthentication,
   getAllSalesPersonUsers,
+  getByRoleName,
+  getChildUsersByParentUserId,
 };

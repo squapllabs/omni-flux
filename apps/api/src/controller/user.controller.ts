@@ -123,6 +123,28 @@ const getAllSalesPersonUsers = catchAsync(async (req, res) => {
   }
 });
 
+const getUserByRoleName = catchAsync(async (req, res) => {
+  const methodName = '/getUserByRoleName';
+  try {
+    const result = await userService.getByRoleName(req.params.role_name);
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getChildUsersByParentUserId = catchAsync(async (req, res) => {
+  const methodName = '/getChildUsersByParentUserId';
+  try {
+    const result = await userService.getChildUsersByParentUserId(
+      req.params.parent_user_id
+    );
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createUser,
   updateUser,
@@ -136,4 +158,6 @@ export {
   customFilterUser,
   updateTwoFactorAuthentication,
   getAllSalesPersonUsers,
+  getUserByRoleName,
+  getChildUsersByParentUserId,
 };

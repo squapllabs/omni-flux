@@ -1,15 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 interface SelectProps {
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   value: string;
+  placeholder?: string;
   defaultLabel: string;
   width?: string;
   children: React.ReactNode;
   label?: string;
   name?: string;
   error?: boolean;
+  helperText?: string;
+  disabled?: boolean;
 }
 interface InputWrapperProps {
   width?: string;
@@ -18,6 +21,7 @@ interface StyledSelectProps {
   value: string;
   width?: string;
   error?: boolean;
+  disabled?: boolean;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -31,27 +35,31 @@ const SelectContainer = styled.div<StyledSelectProps>`
   align-items: center;
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
-  background-color: #f4f5f6;
+  background-color: ${(props) => (props.disabled ? '#f9f9f9' : '#f4f5f6')};
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+  opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   &:hover {
-    border-color: #888;
+    border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   }
   &:focus-within {
     outline: 0;
-    box-shadow: 0 0 0 2px #68717840;
+    box-shadow: ${(props) => (props.disabled ? 'none' : '0 0 0 2px #68717840')};
   }
 `;
 const StyledSelect = styled.select<StyledSelectProps>`
   appearance: none; // this is to remove default browser dropdown icon
   width: 100%;
-  height: 38px;
-  background: #f4f5f6;
-  color: ${(props) => (props.value === '' ? 'gray' : 'black')};
+  height: 35px;
+  background-color: ${(props) => (props.disabled ? 'white' : 'transparent')};
+  color: ${(props) => (props.disabled ? '#888' : 'inherit')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   padding: 6px 12px;
   font-size: 14px;
   border: none;
   border-radius: 4px;
   outline: none;
-  // border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   option {
     color: black;
     background: white;
@@ -62,7 +70,8 @@ const StyledSelect = styled.select<StyledSelectProps>`
   }
 
   &:hover {
-    cursor: pointer;
+    border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   }
 `;
 
@@ -95,32 +104,67 @@ const InputError = styled.span`
   margin-top: 2px;
   font-size: 0.75rem;
 `;
-const Select: FC<SelectProps> = ({
+
+const RequiredField = styled.span`
+  color: red;
+`;
+
+const HelperText = styled.span`
+  color: gray;
+  margin-top: 2px;
+  font-size: 0.75rem;
+`;
+const Select: FC<SelectProps & { mandatory?: boolean }> = ({
   onChange,
   label,
   value,
   defaultLabel,
+  placeholder,
   width,
   children,
   name,
   error,
+  disabled,
+  mandatory = false,
+  helperText = null,
 }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const shouldShowAsterisk = mandatory;
   return (
     <div>
       <InputWrapper width={width}>
-        {label && <StyledLabel>{label}</StyledLabel>}
-        <SelectContainer width={width}>
-          <StyledSelect
-            value={value}
-            name={name}
-            onChange={onChange}
-            error={!!error}
+        {label && (
+          <StyledLabel>
+            {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
+          </StyledLabel>
+        )}
+        <div onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          <SelectContainer
+            width={width}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            placeholder={placeholder}
           >
-            <option value="">{defaultLabel}</option>
-            {children}
-          </StyledSelect>
-          <DropdownArrow />
-        </SelectContainer>
+            <StyledSelect
+              value={value}
+              name={name}
+              onChange={onChange}
+              error={!!error}
+              disabled={disabled}
+              style={{
+                color: `${value === '' ? 'gray' : ''}`,
+              }}
+            >
+              {defaultLabel != null && <option value="">{placeholder}</option>}
+              {children}
+            </StyledSelect>
+            <DropdownArrow
+              onClick={() => {
+                setIsDropdownOpen(!isDropdownOpen);
+              }}
+            />
+          </SelectContainer>
+        </div>
+        <span>{helperText && <HelperText>Note:{helperText}</HelperText>}</span>
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}
         </ErrorMessageWrapper>

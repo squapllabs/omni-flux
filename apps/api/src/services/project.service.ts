@@ -5,6 +5,8 @@ import {
   createProjectBody,
   updateProjectBody,
 } from '../interfaces/project.Interface';
+import projectSiteDao from '../dao/projectSite.dao';
+import { processFileDeleteInS3 } from '../utils/fileUpload';
 
 /**
  * Method to Create a New Project
@@ -23,30 +25,51 @@ const createProject = async (body: createProjectBody) => {
       estimated_budget,
       actual_budget,
       code,
-      priority,
-      currency,
+      project_type,
       project_notes,
       client_id,
-      document_url,
+      project_documents,
       created_by,
       site_configuration,
+      approvar_id,
+      bom_configuration,
     } = body;
     let result = null;
 
-    const userExist = await userDao.getById(user_id);
-    if (!userExist) {
-      result = { message: 'user_id does not exist', status: false, data: null };
-      return result;
+    if (user_id) {
+      const userExist = await userDao.getById(user_id);
+      if (!userExist) {
+        result = {
+          message: 'user_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
     }
 
-    const clientExist = await clientDao.getById(client_id);
-    if (!clientExist) {
-      result = {
-        message: 'client_id does not exist',
-        status: false,
-        data: null,
-      };
-      return result;
+    if (client_id) {
+      const clientExist = await clientDao.getById(client_id);
+      if (!clientExist) {
+        result = {
+          message: 'client_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (approvar_id) {
+      const approvarExist = await userDao.getById(approvar_id);
+      if (!approvarExist) {
+        result = {
+          message: 'approvar_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
     }
 
     const projectDetails = await projectDao.add(
@@ -59,13 +82,14 @@ const createProject = async (body: createProjectBody) => {
       estimated_budget,
       actual_budget,
       code,
-      priority,
-      currency,
+      project_type,
       project_notes,
       client_id,
-      document_url,
+      project_documents,
       created_by,
-      site_configuration
+      site_configuration,
+      approvar_id,
+      bom_configuration
     );
     result = { message: 'success', status: true, data: projectDetails };
     return result;
@@ -92,14 +116,15 @@ const updateProject = async (body: updateProjectBody) => {
       estimated_budget,
       actual_budget,
       code,
-      priority,
-      currency,
+      project_type,
       project_notes,
       client_id,
-      document_url,
+      project_documents,
       updated_by,
       project_id,
       site_configuration,
+      approvar_id,
+      bom_configuration,
     } = body;
     let result = null;
 
@@ -126,6 +151,34 @@ const updateProject = async (body: updateProjectBody) => {
       }
     }
 
+    if (approvar_id) {
+      const approvarExist = await userDao.getById(approvar_id);
+      if (!approvarExist) {
+        result = {
+          message: 'approvar_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    const updatedProjectDocuments = [] as any;
+    if (project_documents) {
+      for (const doc of project_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === 'Y') {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedProjectDocuments.push(doc);
+        }
+      }
+    }
+
     const projectExist = await projectDao.getById(project_id);
 
     if (projectExist) {
@@ -139,14 +192,15 @@ const updateProject = async (body: updateProjectBody) => {
         estimated_budget,
         actual_budget,
         code,
-        priority,
-        currency,
+        project_type,
         project_notes,
         client_id,
-        document_url,
+        updatedProjectDocuments,
         updated_by,
         project_id,
-        site_configuration
+        site_configuration,
+        approvar_id,
+        bom_configuration
       );
       result = { message: 'success', status: true, data: projectDetails };
       return result;
@@ -275,8 +329,7 @@ const searchProject = async (body) => {
         { description: { contains: global_search, mode: 'insensitive' } },
         { status: { contains: global_search, mode: 'insensitive' } },
         { project_notes: { contains: global_search, mode: 'insensitive' } },
-        { priority: { contains: global_search, mode: 'insensitive' } },
-        { currency: { contains: global_search, mode: 'insensitive' } },
+        { project_type: { contains: global_search, mode: 'insensitive' } },
         { code: { contains: global_search, mode: 'insensitive' } },
         {
           client: {
@@ -389,6 +442,37 @@ const getByCode = async (code: string) => {
   }
 };
 
+/**
+ * Method to Get Project Site Estimation
+ * @returns
+ */
+const getByProjectIdAndSiteId = async (body) => {
+  try {
+    const { project_id, site_id } = body;
+    const result = await projectSiteDao.getByProjectIdAndSiteId(
+      project_id,
+      site_id
+    );
+    if (result) {
+      const projectData = { message: 'success', status: true, data: result };
+      return projectData;
+    } else {
+      const projectData = {
+        message: 'project_id and site_id combination does not exist',
+        status: false,
+        data: result,
+      };
+      return projectData;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectIdAndSiteId project service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProject,
   updateProject,
@@ -397,4 +481,5 @@ export {
   deleteProject,
   searchProject,
   getByCode,
+  getByProjectIdAndSiteId,
 };

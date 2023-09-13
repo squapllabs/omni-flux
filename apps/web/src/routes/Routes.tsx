@@ -184,7 +184,8 @@
 // export default AppRoutes;
 
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+// import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from '../component/login';
 import Home from '../component/home';
 import ForgetPassword from '../component/forgetPassword';
@@ -207,8 +208,41 @@ import Category from '../component/category/category';
 import MasterData from '../component/masterData/masterData';
 import GenerateOtp from '../component/generateOtp';
 import ResetPassword from '../component/resetPassword/token';
-import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
+// import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
+import ProjectWorkBreakDownForm from '../component/projectWorkBreakDown/projectWorkBreakDownForm';
+import ProjectWorkBreakDown from '../component/projectWorkBreakDown/projectWorkBreakDownList';
+import ProjectWorkBreakDownEdit from '../component/projectWorkBreakDown/projectWorkBreakDownEdit';
+import siteForm from '../component/site/siteForm';
+import siteList from '../component/site/siteList';
+import siteEdit from '../component/site/siteEdit';
+import contractorList from '../component/contractor/contractorList';
+import contractorForm from '../component/contractor/contractorForm';
+import contractorEdit from '../component/contractor/contractorEdit';
+import projectForm from '../component/project/projectForm';
+import Lead from '../component/leadEnquires/leadList';
+import leadEnquires from '../component/leadEnquires/leadEnquires';
 import Settings from '../component/settings/homeSetting';
+import ExpansesForm from '../component/expanses/expansesForm';
+import PopupExpanse from '../component/expanses/popupExpanse';
+import projectList from '../component/project/projectList';
+import projectEdit from '../component/project/projectEdit';
+import CategotyAdd from '../component/category/categoryAdd';
+import SubCategoryAdd from '../component/subCategory/subCategoryAdd';
+import SubsubCategoryAdd from '../component/subSubCategory/subsubcategoryAdd';
+// import SubCategoryAdd from '../component/subCategory/subCatAdd';
+import ProjectView from '../component/project/projectInfo';
+import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
+import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
+import BomList from '../component/bom/bomList';
+import Bom from '../component/bom/bom';
+import ProductAdd from '../component/products/productAdd';
+import LabourList from '../component/labour/labourList';
+import LabourAdd from '../component/labour/labourAdd';
+import AddMachinery from '../component/machinery/addMachinery';
+import AddVendor from '../component/vendor/vendorAdd';
+import Project from '../component/project/project';
+import ViewProject from '../component/vendor/vendorView'
+import ProjectSettings from '../component/project/projectComponent/projectSettings';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -231,6 +265,47 @@ const AppRoutes = () => {
   const ProtectedResetPasswordPage = withLayoutAndProtection(ResetPassword);
   const ProtectedProjectWorkBreakDownPage = withLayoutAndProtection(ProjectWorkBreakDown);
   const ProtectedSettings = withLayoutAndProtection(Settings)
+  const ProtectedProjectWorkBreakDownFormPage = withLayoutAndProtection(
+    ProjectWorkBreakDownForm
+  );
+  const ProtectedProjectWorkBreakDownListPage =
+    withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedProjectWorkBreakDownEditPage = withLayoutAndProtection(
+    ProjectWorkBreakDownEdit
+  );
+  const ProtectedSiteFormPage = withLayoutAndProtection(siteForm);
+  const ProtectedSitePage = withLayoutAndProtection(siteList);
+  const ProtectedSiteEditPage = withLayoutAndProtection(siteEdit);
+  const ProtectedContractorListPage = withLayoutAndProtection(contractorList);
+  const ProtectedContractorFormPage = withLayoutAndProtection(contractorForm);
+  const ProtectedContractorEditFormPage =
+    withLayoutAndProtection(contractorEdit);
+  const ProtectedProjectFormPage = withLayoutAndProtection(projectForm);
+  // const ProtectedSettings = withLayoutAndProtection(Settings);
+  const ProtectedProjectListPage = withLayoutAndProtection(projectList);
+  const ProtectedProjectEdit = withLayoutAndProtection(projectEdit);
+  const ProtectedLeadPage = withLayoutAndProtection(Lead);
+  const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
+  // const ProtectedProjectWorkBreakDownPage =
+  //   withLayoutAndProtection(ProjectWorkBreakDown);
+  const ProtectedCategoryAdd = withLayoutAndProtection(CategotyAdd);
+  const ProtectedSubCategoryAdd = withLayoutAndProtection(SubCategoryAdd);
+  const ProtectedSubSubCategoryAdd = withLayoutAndProtection(SubsubCategoryAdd);
+  const ProtectedExpanses = withLayoutAndProtection(ExpansesForm);
+  const ProtectedPopupExpanse = withLayoutAndProtection(PopupExpanse);
+  const ProtectedProjectView = withLayoutAndProtection(ProjectView);
+  const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
+  const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
+  const ProtectedBomList = withLayoutAndProtection(BomList);
+  const ProtectedBom = withLayoutAndProtection(Bom);
+  const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
+  const ProtectedLabourListPage = withLayoutAndProtection(LabourList);
+  const ProtectedLabourAddPage = withLayoutAndProtection(LabourAdd);
+  const ProtectedMachineryAddPage = withLayoutAndProtection(AddMachinery);
+  const ProtectedVendorAddPage = withLayoutAndProtection(AddVendor);
+  const ProtectedProject = withLayoutAndProtection(Project);
+  const ProtectedVendorView = withLayoutAndProtection(ViewProject);
+  const ProtectedProjectSettings = withLayoutAndProtection(ProjectSettings);
 
   return (
     <div>
@@ -257,7 +332,97 @@ const AppRoutes = () => {
         <Route path="/generate-otp" element={<GenerateOtp />} />
         <Route path="/reset-password/:id/:token" element={<ProtectedResetPasswordPage />} />
         <Route path="/project-workbreakdown" element={<ProtectedProjectWorkBreakDownPage />} />
+        <Route
+          path="/project-workbreakdown-add"
+          element={<ProtectedProjectWorkBreakDownFormPage />}
+        />
+        <Route
+          path="/project-workbreakdown"
+          element={<ProtectedProjectWorkBreakDownListPage />}
+        />
+        <Route
+          path="/project-workbreakdown-edit/:id"
+          element={<ProtectedProjectWorkBreakDownEditPage />}
+        />
+        <Route path="/site-add" element={<ProtectedSiteFormPage />} />
+        <Route path="/site" element={<ProtectedSitePage />} />
+        <Route path="/site-edit/:id" element={<ProtectedSiteEditPage />} />
+        <Route path="/contractor" element={<ProtectedContractorListPage />} />
+        <Route
+          path="/contractor-add"
+          element={<ProtectedContractorFormPage />}
+        />
+        <Route
+          path="/contractor-edit/:id"
+          element={<ProtectedContractorEditFormPage />}
+        />
+        <Route path="/project-add" element={<ProtectedProjectFormPage />} />
+        <Route path="/lead-enquires" element={<ProtectedLeadPage />} />
+        <Route path="/lead-add" element={<ProtectedLeadEnquiresPage />} />
+        <Route
+          path="/lead-edit/:id/:type"
+          element={<ProtectedLeadEnquiresPage />}
+        />
+        <Route
+          path="/project-workbreakdown"
+          element={<ProtectedProjectWorkBreakDownPage />}
+        />
         <Route path="/settings" element={<ProtectedSettings />} />
+        <Route
+          path="/expenses/:projectId/:siteId"
+          element={<ProtectedExpanses />}
+        />
+        <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />
+        <Route path="/project-list" element={<ProtectedProjectListPage />} />
+        {/* <Route path="/project-edit/:id" element={<ProtectedProjectEdit />} /> */}
+        <Route path="/category-add" element={<ProtectedCategoryAdd />} />
+        <Route path="/category-edit/:id" element={<ProtectedCategoryAdd />} />
+        <Route path="/subcategory-add" element={<ProtectedSubCategoryAdd />} />
+        <Route
+          path="/subcategory-edit/:id"
+          element={<ProtectedSubCategoryAdd />}
+        />
+        <Route
+          path="/subsubcategory-add"
+          element={<ProtectedSubSubCategoryAdd />}
+        />
+        <Route
+          path="/subsubcategory-edit/:id"
+          element={<ProtectedSubSubCategoryAdd />}
+        />
+        <Route path="/project-info/:id" element={<ProtectedProjectView />} />
+        <Route
+          path="/lead-info-product/:id"
+          element={<ProtectedLeadProductView />}
+        />
+        <Route
+          path="/lead-info-tender/:id"
+          element={<ProtectedLeadTenderView />}
+        />
+        <Route
+          path="/bomlist/:projectId/:bomconfigId"
+          element={<ProtectedBomList />}
+        />
+         <Route
+          path="/labour"
+          element={<ProtectedLabourListPage />}
+        />
+        <Route
+          path="/labour-add"
+          element={<ProtectedLabourAddPage />}
+        />
+        <Route path="/labour-edit/:id" element={<ProtectedLabourAddPage />} />
+        <Route path="/add-machinery" element={<ProtectedMachineryAddPage />} />
+        <Route path="/edit-machinery/:id" element={<ProtectedMachineryAddPage />} />
+        <Route path="/vendor-add" element={<ProtectedVendorAddPage />} />
+        <Route path="/vendor-edit/:id" element={<ProtectedVendorAddPage />} />
+        <Route path="/vendor-info/:id" element={<ProtectedVendorView />} />
+        <Route path="/bom/:subCategoryId" element={<ProtectedBom />} />
+        <Route path="/product-add" element={<ProtectedProductAddPage />} />
+        <Route path="/product-edit/:id" element={<ProtectedProductAddPage />} />
+        <Route path="/project" element={<ProtectedProject />} />
+        <Route path="/project-edit/:id" element={<ProtectedProject />} />
+        <Route path="/project-settings" element={<ProtectedProjectSettings />} />
       </Routes>
     </div>
   );

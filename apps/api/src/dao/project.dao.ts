@@ -10,13 +10,14 @@ const add = async (
   estimated_budget: number,
   actual_budget: number,
   code: string,
-  priority: string,
-  currency: string,
+  project_type: string,
   project_notes: string,
   client_id: number,
-  document_url: string,
+  project_documents: JSON,
   created_by: bigint,
   site_configuration,
+  approvar_id: number,
+  bom_configuration,
   connectionObj = null
 ) => {
   try {
@@ -25,6 +26,8 @@ const add = async (
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const formatted_date_started = date_started ? new Date(date_started) : null;
     const formatted_date_ended = date_ended ? new Date(date_ended) : null;
+
+    /* Project - Add */
 
     const project = await transaction.project.create({
       data: {
@@ -37,41 +40,81 @@ const add = async (
         estimated_budget,
         actual_budget,
         code,
-        priority,
-        currency,
+        project_type,
         project_notes,
         client_id,
-        document_url,
+        project_documents,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
+        approvar_id,
       },
     });
+
+    /*  Project Site - Add */
 
     const newProjectId = project.project_id;
 
     const projectSiteDetails = [];
-
     for (const site of site_configuration) {
       const site_id = site.site_id;
       const status = site.status;
-      const projectSite = await transaction.project_site.create({
-        data: {
-          project_id: newProjectId,
-          site_id,
-          status: status,
-          created_by,
-          created_date: currentDate,
-          updated_date: currentDate,
-        },
-      });
-      projectSiteDetails.push(projectSite);
+      const is_delete = site.is_delete;
+      const estimated_budget = site.estimated_budget;
+      const actual_budget = site.actual_budget;
+      const approvar_id = site.approvar_id;
+
+      if (is_delete === 'N') {
+        const projectSite = await transaction.project_site.create({
+          data: {
+            project_id: newProjectId,
+            site_id: site_id,
+            status: status,
+            estimated_budget: estimated_budget,
+            actual_budget: actual_budget,
+            created_by,
+            created_date: currentDate,
+            updated_date: currentDate,
+            approvar_id: approvar_id,
+          },
+        });
+        projectSiteDetails.push(projectSite);
+      }
+    }
+
+    /* BOM Configuration - Add */
+
+    const bomConfigurationDetails = [];
+    for (const bom of bom_configuration) {
+      const bom_name = bom.bom_name;
+      const bom_description = bom.bom_description;
+      const bom_type_id = bom.bom_type_id;
+      const budget = bom.budget ? bom.budget : 0;
+      const is_delete = bom.is_delete;
+
+      if (is_delete === 'N') {
+        const bomConfiguration = await transaction.bom_configuration.create({
+          data: {
+            bom_name,
+            bom_description,
+            bom_type_id,
+            project_id: newProjectId,
+            budget,
+            is_delete: false,
+            created_by,
+            created_date: currentDate,
+            updated_date: currentDate,
+          },
+        });
+        bomConfigurationDetails.push(bomConfiguration);
+      }
     }
 
     const result = {
       project: project,
       project_site: projectSiteDetails,
+      bom_configuration: bomConfigurationDetails,
     };
 
     return result;
@@ -91,19 +134,23 @@ const edit = async (
   estimated_budget: number,
   actual_budget: number,
   code: string,
-  priority: string,
-  currency: string,
+  project_type: string,
   project_notes: string,
   client_id: number,
-  document_url: string,
+  project_documents: JSON,
   updated_by: bigint,
   project_id: number,
   site_configuration,
+  approvar_id: number,
+  bom_configuration,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    /* Project - Edit */
+
     const formatted_date_started = date_started ? new Date(date_started) : null;
     const formatted_date_ended = date_ended ? new Date(date_ended) : null;
     const project = await transaction.project.update({
@@ -120,15 +167,17 @@ const edit = async (
         estimated_budget,
         actual_budget,
         code,
-        priority,
-        currency,
+        project_type,
         project_notes,
         client_id,
-        document_url,
+        project_documents,
         updated_by,
         updated_date: currentDate,
+        approvar_id,
       },
     });
+
+    /* Project Site - Edit */
 
     const projectSiteDetails = [];
 
@@ -136,8 +185,10 @@ const edit = async (
       const site_id = site.site_id;
       const status = site.status;
       const is_delete = site.is_delete;
-      const project_id = site.project_id;
       const project_site_id = site.project_site_id;
+      const estimated_budget = site.estimated_budget;
+      const actual_budget = site.actual_budget;
+      const approvar_id = site.approvar_id;
 
       if (project_site_id) {
         if (is_delete === 'Y') {
@@ -151,35 +202,94 @@ const edit = async (
               project_id: project_id,
               site_id: site_id,
               status: status,
+              estimated_budget: estimated_budget,
+              actual_budget: actual_budget,
               updated_by,
               updated_date: currentDate,
+              approvar_id: approvar_id,
             },
           });
           projectSiteDetails.push(projectSite);
         }
       } else {
-        const projectSite = await transaction.project_site.create({
-          data: {
-            project_id: project_id,
-            site_id: site_id,
-            status: status,
-            created_by: updated_by,
-            created_date: currentDate,
-            updated_date: currentDate,
-          },
-        });
-        projectSiteDetails.push(projectSite);
+        if (is_delete === 'N') {
+          const projectSite = await transaction.project_site.create({
+            data: {
+              project_id: project_id,
+              site_id: site_id,
+              status: status,
+              estimated_budget: estimated_budget,
+              actual_budget: actual_budget,
+              created_by: updated_by,
+              created_date: currentDate,
+              updated_date: currentDate,
+              approvar_id: approvar_id,
+            },
+          });
+          projectSiteDetails.push(projectSite);
+        }
+      }
+    }
+
+    /* BOM - Configuration Edit */
+
+    const bomConfigurationDetails = [];
+    for (const bom of bom_configuration) {
+      const bom_name = bom.bom_name;
+      const bom_description = bom.bom_description;
+      const bom_type_id = bom.bom_type_id;
+      const budget = bom.budget ? bom.budget : 0;
+      const is_delete = bom.is_delete;
+      const bom_configuration_id = bom.bom_configuration_id;
+
+      if (bom_configuration_id) {
+        if (is_delete === 'Y') {
+          await transaction.bom_configuration.update({
+            where: { bom_configuration_id: bom_configuration_id },
+            data: { is_delete: true },
+          });
+        } else {
+          const bomConfiguration = await transaction.bom_configuration.update({
+            where: { bom_configuration_id: bom_configuration_id },
+            data: {
+              bom_name,
+              bom_description,
+              bom_type_id,
+              project_id,
+              budget,
+              updated_by,
+              updated_date: currentDate,
+            },
+          });
+          bomConfigurationDetails.push(bomConfiguration);
+        }
+      } else {
+        if (is_delete === 'N') {
+          const bomConfiguration = await transaction.bom_configuration.create({
+            data: {
+              bom_name,
+              bom_description,
+              bom_type_id,
+              project_id,
+              budget,
+              is_delete: false,
+              created_by: updated_by,
+              created_date: currentDate,
+              updated_date: currentDate,
+            },
+          });
+          bomConfigurationDetails.push(bomConfiguration);
+        }
       }
     }
 
     const result = {
       project: project,
       project_site: projectSiteDetails,
+      bom_configuration: bomConfigurationDetails,
     };
 
     return result;
-
-    return project;
   } catch (error) {
     console.log('Error occurred in projectDao edit', error);
     throw error;
@@ -200,6 +310,19 @@ const getById = async (projectId: number, connectionObj = null) => {
             site_details: true,
           },
         },
+        bom_configuration: {
+          where: {
+            is_delete: false,
+          },
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+          orderBy: [{ updated_date: 'desc' }],
+        },
         user: {
           select: {
             first_name: true,
@@ -209,6 +332,12 @@ const getById = async (projectId: number, connectionObj = null) => {
         client: {
           select: {
             name: true,
+          },
+        },
+        approvar_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },
@@ -233,6 +362,19 @@ const getAll = async (connectionObj = null) => {
             site_details: true,
           },
         },
+        bom_configuration: {
+          where: {
+            is_delete: false,
+          },
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+          orderBy: [{ updated_date: 'desc' }],
+        },
         user: {
           select: {
             first_name: true,
@@ -242,6 +384,12 @@ const getAll = async (connectionObj = null) => {
         client: {
           select: {
             name: true,
+          },
+        },
+        approvar_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },
@@ -337,6 +485,12 @@ const searchProject = async (
         client: {
           select: {
             name: true,
+          },
+        },
+        approvar_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },

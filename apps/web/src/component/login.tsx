@@ -37,7 +37,9 @@ const Login = () => {
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    const fieldName = event.target.name;
+    setValues({ ...values, [fieldName]: event.target.value });
+    setErrors({ ...errors, [fieldName]: '' });
   };
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRememberMe(event.target.checked);
@@ -144,7 +146,7 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={togglePasswordVisibility}
-                      style={{ background: 'none', border: 'none' }}
+                      className={Styles.passToggle}
                     >
                       {passwordShown ? (
                         <BsFillEyeFill size={20} />
@@ -191,12 +193,12 @@ const Login = () => {
                       fullWidth
                       onClick={(e) => handleSubmit(e)}
                     >
-                      Sign in
+                      Sign In
                     </Button>
                   </div>
                   <div className={Styles.newAccounts}>
                     <p className={Styles.newAccounts_msg}>
-                      don't have any account? <a href="#">Sign in</a>
+                      Don't have any account? <a href="#">Sign Up</a>
                     </p>
                   </div>
                 </div>

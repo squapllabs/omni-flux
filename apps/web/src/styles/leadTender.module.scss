@@ -1,0 +1,215 @@
+.container {
+  padding: 10px 10px 10px 10px;
+}
+.main_body {
+  padding-top: 20px;
+}
+.textContent {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+}
+.content {
+  font-family: Inter;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.main_content {
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: bolder;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.box {
+  position: relative;
+  padding-bottom: 10px;
+}
+.box1 {
+  position: relative;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.box::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 20;
+  left: 10;
+}
+
+.box:last-child::after {
+  display: none;
+}
+.fields_container {
+  display: flex;
+  flex-direction: column;
+  //   gap: 20px;
+}
+.fields_container_1 {
+  display: flex;
+  gap: 10%;
+  padding-left: 20px;
+}
+
+.fieldStyle {
+  width: 40%;
+}
+
+.container_2 {
+  width: 90%;
+  padding-bottom: 10px;
+}
+.button_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 10px;
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 2%;
+}
+.FieldItemStyle {
+  width: 30%;
+}
+
+.tableContainer {
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #f2f2f2;
+  padding: 8px;
+  text-align: left;
+  font-weight: 800;
+}
+
+tr {
+  border-bottom: 1px solid #ccc;
+}
+
+td {
+  vertical-align: middle;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #e0e0e0;
+}
+.pagination {
+  display: flex;
+  justify-content: end;
+}
+
+.addContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+.addButton {
+  display: flex;
+}
+
+.searchField {
+  padding: 10px 10px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+.inputFilter {
+  display: flex;
+  gap: 10px;
+}
+.searchButton {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
+}
+.searchButton:hover {
+  background-color: #7f56d9;
+  color: #ffffff;
+}
+.resetButton [disabled]{
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: black;
+  background-color: #ccc;
+}
+.resetButton:not([disabled]):hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
+}
+
+.formContainer {
+  width: 350px;
+  // padding: 5px 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px 20px 10px 0px;
+}
+
+.field {
+  padding: 5px 20px 5px 20px;
+}
+
+.titleStyle {
+  padding: 10px 10px 1px 2op;
+}
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 1px 5px 1px;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px 5px 20px;
+}
+.cancelButton:hover {
+  background-color: #c4c4c6;
+  color: #070707;
+}
+.tablerow {
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
+  cursor: pointer;
+}

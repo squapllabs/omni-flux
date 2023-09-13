@@ -13,7 +13,7 @@ interface TextAreaProps
   width?: string;
   rows?: number;
   maxCharacterCount?: number;
-  value?:string;
+  value?: string;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -43,6 +43,12 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
     outline: none;
     box-shadow: 0 0 0 2px #68717840;
   }
+  position: relative;
+  padding: 10px 0px 0px 10px;
+  &::placeholder::before {
+    content: '';
+    display: block;
+  }
 `;
 
 const InputError = styled.span`
@@ -59,8 +65,11 @@ const CharacterCount = styled.div`
   font-size: 0.75rem;
   color: #888;
 `;
+const RequiredField = styled.span`
+  color: red;
+`;
 
-const TextArea: React.FC<TextAreaProps> = ({
+const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
   label,
   placeholder,
   error,
@@ -68,6 +77,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   rows,
   maxCharacterCount,
   value,
+  mandatory = false,
   ...props
 }) => {
   const [characterCount, setCharacterCount] = useState(maxCharacterCount || 40);
@@ -98,18 +108,34 @@ const TextArea: React.FC<TextAreaProps> = ({
       setCharacterCount(remainingCharacters);
     } else if (maxCharacterCount) {
       setCurrentValue(inputValue.slice(0, maxCharacterCount));
+      setCharacterCount(0);
     }
   };
+  const shouldShowAsterisk = mandatory;
   return (
     <InputWrapper width={width}>
-      {label && <StyledLabel>{label}</StyledLabel>}
-      <StyledTextArea
+      {label && (
+        <StyledLabel>
+          {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
+        </StyledLabel>
+      )}
+      {/* <StyledTextArea
         error={!!error}
         placeholder={placeholder}
         rows={rows}
         onChange={handleInputChange}
         value={currentValue}
-        readOnly={characterCount === 0}
+        // readOnly={characterCount === 0}
+        maxLength={maxCharacterCount}
+        {...props}
+      /> */}
+      <StyledTextArea
+        error={!!error}
+        placeholder={placeholder}
+        rows={rows}
+        onChange={props.onChange} // Delegate handling up to the parent
+        value={value} // Using value prop directly
+        maxLength={maxCharacterCount}
         {...props}
       />
       {maxCharacterCount && (

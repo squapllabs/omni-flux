@@ -12,7 +12,15 @@ import {
  */
 const createSubSubCategory = async (body: createSubSubCategoryBody) => {
   try {
-    const { name, sub_category_id, budget, created_by = null } = body;
+    const {
+      name,
+      sub_category_id,
+      budget,
+      created_by = null,
+      description,
+      project_id,
+      parent_sub_sub_category_id,
+    } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
     if (!subCategoryExist) {
@@ -41,9 +49,12 @@ const createSubSubCategory = async (body: createSubSubCategoryBody) => {
       name,
       sub_category_id,
       budget,
-      created_by
+      created_by,
+      description,
+      project_id,
+      parent_sub_sub_category_id
     );
-    result = { success: true, data: subSubCategoryDetails };
+    result = { message: 'success', status: true, data: subSubCategoryDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in subSubCategory service Add: ', error);
@@ -58,8 +69,16 @@ const createSubSubCategory = async (body: createSubSubCategoryBody) => {
  */
 const updateSubSubCategory = async (body: updateSubSubCategoryBody) => {
   try {
-    const { name, sub_category_id, budget, updated_by, sub_sub_category_id } =
-      body;
+    const {
+      name,
+      sub_category_id,
+      budget,
+      updated_by,
+      sub_sub_category_id,
+      description,
+      project_id,
+      parent_sub_sub_category_id,
+    } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
     if (!subCategoryExist) {
@@ -105,7 +124,10 @@ const updateSubSubCategory = async (body: updateSubSubCategoryBody) => {
       sub_category_id,
       budget,
       updated_by,
-      sub_sub_category_id
+      sub_sub_category_id,
+      description,
+      project_id,
+      parent_sub_sub_category_id
     );
     result = { message: 'success', status: true, data: subSubCategoryDetails };
     return result;
@@ -131,8 +153,9 @@ const getById = async (subSubCategoryId: number) => {
       return result;
     } else {
       result = {
-        success: false,
         message: 'sub_sub_category_id does not exist',
+        staus: false,
+        data: null
       };
       return result;
     }
@@ -176,8 +199,8 @@ const deleteSubSubCategory = async (subSubCategoryId: number) => {
 
     if (!subSubCategoryExist) {
       const result = {
-        status: false,
         message: 'sub_sub_category_id does Not Exist',
+        status: false,
         data: null,
       };
       return result;
@@ -186,15 +209,15 @@ const deleteSubSubCategory = async (subSubCategoryId: number) => {
     const data = await subSubCategoryDao.deleteSubSubCategory(subSubCategoryId);
     if (data) {
       const result = {
-        status: true,
         message: 'SubSubCategory Data Deleted Successfully',
+        status: true,
         data: null,
       };
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this subSubCategory',
+        status: false,
         data: null,
       };
       return result;
@@ -317,6 +340,14 @@ const searchSubSubCategory = async (body) => {
               },
             },
           },
+          {
+            parent_data: {
+              name: {
+                contains: name,
+                mode: 'insensitive',
+              },
+            },
+          },
         ],
         is_delete: status === 'IN' ? true : false,
       },
@@ -351,6 +382,123 @@ const searchSubSubCategory = async (body) => {
   }
 };
 
+/**
+ * Method to get SubSubCategory By subCategoryId
+ * @param subCategoryId
+ * @returns
+ */
+const getBySubCategoryId = async (subCategoryId: number) => {
+  try {
+    let result = null;
+    const subCategoryData = await subCategoryDao.getById(subCategoryId);
+    if (!subCategoryData) {
+      result = {
+        message: 'sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+
+    const subSubCategoryData = await subSubCategoryDao.getBySubCategoryId(
+      subCategoryId
+    );
+    if (subSubCategoryData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: subSubCategoryData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'sub_sub_category data not exist for this sub_category_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getBySubCategoryId subSubCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get All Parent SubSubCategory
+ * @returns
+ */
+const getAllParentData = async () => {
+  try {
+    let result = null;
+    const subSubCategoryData = await subSubCategoryDao.getAllParentData();
+    result = {
+      message: 'success',
+      status: true,
+      data: subSubCategoryData,
+    };
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllParentData subSubCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get Child Sub Sub Category By parent_sub_sub_category_id
+ * @returns
+ */
+const getChildDataByParentSubSubCatId = async (
+  parent_sub_sub_category_id: number
+) => {
+  try {
+    let result = null;
+
+    const subSubCategoryData = await subSubCategoryDao.getById(
+      parent_sub_sub_category_id
+    );
+    if (!subSubCategoryData) {
+      result = {
+        message: 'parent_sub_sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+    const childSubSubCategoryData =
+      await subSubCategoryDao.getChildDataByParentSubSubCatId(
+        parent_sub_sub_category_id
+      );
+    if (childSubSubCategoryData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: childSubSubCategoryData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'There is no child data related to this parent_sub_sub_category_id',
+        status: false,
+        data: childSubSubCategoryData,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getChildDataByParentSubSubCatId subSubCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSubSubCategory,
   updateSubSubCategory,
@@ -360,4 +508,7 @@ export {
   checkDuplicateSubSubCategoryName,
   getAllInActiveSubSubCategories,
   searchSubSubCategory,
+  getBySubCategoryId,
+  getAllParentData,
+  getChildDataByParentSubSubCatId,
 };

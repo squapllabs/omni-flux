@@ -48,6 +48,30 @@ const getBymasertDataID = (id: number) => {
     }
   );
 };
+const getBymasertDataType = (value: String) => {
+  return useQuery(
+    ['getOnemasertDataType', value],
+    () => masertDataService.getOnemasertDataByType(value),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+const getBymasertDataTypeDrop = (value: String) => {
+  return useQuery(
+    ['getBymasertDataTypeDrop', value],
+    () => masertDataService.getOnemasertDataByType(value),
+    {
+      select: (data) =>
+        data?.data?.map((option: any) => ({
+          value: option.master_data_id,
+          label: option.master_data_name,
+        })),
+      staleTime: Infinity,
+    }
+  );
+};
 
 const createmasertData = () => {
   const queryClient = useQueryClient();
@@ -57,7 +81,7 @@ const createmasertData = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllmasertData']);
+        queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
       },
     }
   );
@@ -71,7 +95,7 @@ const updatemasertData = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllmasertData']);
+        queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
       },
     }
   );
@@ -85,8 +109,22 @@ const useDeletemasertData = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllmasertData']);
+        queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
       },
+    }
+  );
+};
+
+const useGetMasterCurency = () => {
+  return useQuery(
+    ['useGetAllmasertData'],
+    () => masertDataService.getAllCurrencyData(),
+    {
+      select: (data) =>
+        data?.data?.map((currency: any) => ({
+          value: currency.master_data_name,
+          label: currency.master_data_name,
+        })),
     }
   );
 };
@@ -104,6 +142,17 @@ const getBySearchmasterData = () => {
     }
   );
 };
+//
+const useGetAllPaginatedMasterData = (data: any) => {
+  return useQuery(
+    ['useGetAllMasterPaginatedData'],
+    () => masertDataService.filtermasertData(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
 export {
   useGetAllmasertData,
   getBymasertDataID,
@@ -113,4 +162,8 @@ export {
   getBySearchmasterData,
   useGetAllmasertDataDrop,
   useGetAllParentmasertDataDrop,
+  useGetMasterCurency,
+  getBymasertDataType,
+  useGetAllPaginatedMasterData,
+  getBymasertDataTypeDrop,
 };

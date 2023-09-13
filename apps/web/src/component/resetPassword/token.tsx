@@ -164,7 +164,8 @@ const ResetPassword = () => {
                         ) : (
                           <VisibilityOff
                             onClick={togglePassword}
-                            style={{ color: '#BEBFC5' }}
+                            className={Styles.colour}
+                            
                           />
                         )}
                       </IconButton>
@@ -193,7 +194,7 @@ const ResetPassword = () => {
                         ) : (
                           <VisibilityOff
                             onClick={toggleconfirmPassword}
-                            style={{ color: '#BEBFC5' }}
+                            className={Styles.colour}
                           />
                         )}
                       </IconButton>

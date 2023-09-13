@@ -7,25 +7,18 @@ import {
 import CategoryForm from './categoryForm';
 import Button from '../ui/Button';
 import Input from '../../component/ui/Input';
-import { useFormik } from 'formik';
-import { getCreateValidateyup } from '../../helper/constants/category/category-constants';
-import { createCategory } from '../../hooks/category-hooks';
-import * as Yup from 'yup';
-import Select from '../ui/selectNew';
-import { useGetAllProject } from '../../hooks/project-hooks';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
-import { environment } from '../../environment/environment';
-
+import { useNavigate } from 'react-router-dom';
+import CustomBomAddPopup from '../ui/CustomBomAddPopup';
 /* Function for  CategoryList */
 const CategoryList = () => {
   const {
@@ -34,8 +27,7 @@ const CategoryList = () => {
     isLoading: FilterLoading,
   } = getBySearchCategroy();
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
-  const { mutate: createNewCategory } = createCategory();
-  const { data: getAllProjectList = [] } = useGetAllProject();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [categoryId, setCategoryID] = useState();
@@ -44,36 +36,33 @@ const CategoryList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
-  const validationSchema = getCreateValidateyup(Yup);
-  const [disable, setDisable] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
   const [filter, setFilter] = useState(false);
-  const [initialValues, setInitialValues] = useState({
-    category_id: '',
-    name: '',
-    budget: '',
-    project_id: '',
-  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [appendedValue, setAppendedValue] = useState('');
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
+  // const [showClientForm, setShowClientForm] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
-  const inputLabelNameFromEnv = `Budget (${environment.INPUTBUDGET})`;
-  const outputLableNameFromEnv = `Budget (${environment.OUTPUTBUDGET})`;
 
   /* Function for Filter Change */
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
 
   useEffect(() => {
@@ -93,7 +82,6 @@ const CategoryList = () => {
     postDataForFilter(demo);
     setIsLoading(false);
     setFilter(true);
-    setDisable(false);
   };
 
   /* Function for resting the search field and data to normal state */
@@ -113,7 +101,7 @@ const CategoryList = () => {
       search_by_name: '',
     });
     setIsLoading(false);
-    setDisable(false);
+    setIsResetDisabled(true);
   };
 
   /* Function for changing the table page */
@@ -140,10 +128,8 @@ const CategoryList = () => {
   };
 
   /* Function for editing the Category */
-  const handleEdit = (value: any) => {
-    setMode('EDIT');
-    setCategoryID(value);
-    setOpen(true);
+  const handleEdit = (id: any) => {
+    navigate(`/category-edit/${id}`);
   };
 
   /* Function for closing the snackbar */
@@ -159,126 +145,51 @@ const CategoryList = () => {
     setOpenSnack(true);
   };
 
-  /* Function for adding new category and submit form */
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      if (values) {
-        const Object: any = {
-          name: values.name,
-          budget: Number(values.budget),
-          project_id: Number(values.project_id),
-        };
-        createNewCategory(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.message === 'success') {
-              setMessage('Category created');
-              setOpenSnack(true);
-              resetForm();
-            }
-          },
-        });
-      }
-    },
-  });
-
-  /* Function for Duplicating the value of Budget into another field */
-  const handleBudgetChange = (event: any) => {
-    const budgetValue = event.target.value;
-    const data = formatBudgetValue(Number(budgetValue));
-    setAppendedValue(data);
-    formik.setFieldValue('budget', budgetValue);
-    formik.handleChange(event);
-  };
-
   /* Function for group button (Active and Inactive status) */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div>
-          <div className={Styles.box}>
+          <div className={Styles.top}>
             <div className={Styles.textContent}>
               <h3>Add New Categories</h3>
-              {/* <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span> */}
+              {/* <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon />}
+                onClick={() => {
+                 setShowClientForm(true);
+                }}
+              >
+                Items
+              </Button> */}
             </div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className={Styles.fields}>
-                <div>
-                  <Select
-                    label="Project"
-                    name="project_id"
-                    onChange={formik.handleChange}
-                    value={formik.values.project_id}
-                    defaultLabel="Select from options"
-                    error={
-                      formik.touched.project_id && formik.errors.project_id
-                    }
-                  >
-                    {getAllProjectList.map((option: any) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-                <div>
-                  <Input
-                    name="name"
-                    label="Category Name"
-                    placeholder="Enter category name"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    error={formik.touched.name && formik.errors.name}
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="budget"
-                    label={inputLabelNameFromEnv}
-                    placeholder="Enter budget"
-                    value={formik.values.budget}
-                    onChange={handleBudgetChange}
-                    error={formik.touched.budget && formik.errors.budget}
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="label_field"
-                    label={outputLableNameFromEnv}
-                    placeholder="Enter budget"
-                    value={appendedValue}
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon />}
-                  >
-                    Add New Category
-                  </Button>
-                </div>
-              </div>
-            </form>
+            <div>
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon />}
+                onClick={() => {
+                  navigate('/category-add');
+                }}
+              >
+                Add Category
+              </Button>
+            </div>
           </div>
+          <div className={Styles.dividerStyle}></div>
           <div className={Styles.box}>
             <div className={Styles.tableContainer}>
-              <div className={Styles.textContent}>
+              <div className={Styles.textContent1}>
                 <h3>List of Categories</h3>
-                {/* <span className={Styles.content}>
-                Manage your raw materials (Raw, Semi Furnished & Finished).
-              </span> */}
               </div>
               <div className={Styles.searchField}>
                 <div className={Styles.inputFilter}>
@@ -304,8 +215,8 @@ const CategoryList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
-                    disabled={disable}
                     onClick={handleReset}
+                    disabled={isResetDisabled}
                   >
                     Reset
                   </Button>
@@ -327,7 +238,8 @@ const CategoryList = () => {
                         <th>S No</th>
                         <th>Category Name</th>
                         <th>Budget</th>
-                        <th></th>
+                        <th>Description</th>
+                        {activeButton === 'AC' && <th></th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -335,7 +247,7 @@ const CategoryList = () => {
                         <tr>
                           <td></td>
                           <td>No data found</td>
-                          <td></td>
+                          {activeButton === 'AC' && <td></td>}
                         </tr>
                       ) : (
                         ''
@@ -343,25 +255,34 @@ const CategoryList = () => {
                       {getFilterData?.content?.map(
                         (item: any, index: number) => (
                           <tr key={item.category_id}>
-                            <td>{index + 1}</td>
+                            <td>{startingIndex + index}</td>
                             <td>{item.name}</td>
                             <td>{formatBudgetValue(item.budget)}</td>
                             <td>
-                              <div className={Styles.tableIcon}>
-                                <div>
-                                  <EditIcon
-                                    onClick={() => handleEdit(item.category_id)}
-                                  />
-                                </div>
-                                {/* <div>
-                              <DeleteIcon
-                                onClick={() =>
-                                  deleteCategoryHandler(item.category_id)
-                                }
-                              />
-                            </div> */}
-                              </div>
+                              <span title={item.description}>
+                                {item.description?item.description.substring(0, 20) : '-'}
+                              </span>
                             </td>
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tableIcon}>
+                                  <div>
+                                    <EditIcon
+                                      onClick={() =>
+                                        handleEdit(item.category_id)
+                                      }
+                                    />
+                                  </div>
+                                  {/* <div>
+                                        <DeleteIcon
+                                          onClick={() =>
+                                            deleteCategoryHandler(item.category_id)
+                                          }
+                                        />
+                                      </div> */}
+                                </div>
+                              </td>
+                            )}
                           </tr>
                         )
                       )}
@@ -371,7 +292,8 @@ const CategoryList = () => {
                 <div className={Styles.pagination}>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={getFilterData?.total_count}
+                    totalPages={getFilterData?.total_page}
+                    totalCount={getFilterData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
@@ -411,6 +333,10 @@ const CategoryList = () => {
         autoHideDuration={1000}
         type="success"
       />
+        {/* <CustomBomAddPopup
+          isVissible={showClientForm}
+          onAction={setShowClientForm}
+        /> */}
     </div>
   );
 };

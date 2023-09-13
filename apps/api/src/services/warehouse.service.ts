@@ -17,7 +17,7 @@ const createWarehouse = async (body: createWarehouseBody) => {
       location,
       created_by
     );
-    const result = { success: true, data: warehouseDetails };
+    const result = { message: 'success', status: true, data: warehouseDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in warehouse service Add: ', error);
@@ -42,10 +42,10 @@ const updateWarehouse = async (body: updateWarehouseBody) => {
         updated_by,
         warehouse_id
       );
-      result = { success: true, data: warehouseDetails };
+      result = { message: 'success', status: true, data: warehouseDetails };
       return result;
     } else {
-      result = { success: false, message: 'warehouse_id does not exist' };
+      result = { message: 'warehouse_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -64,10 +64,10 @@ const getById = async (warehouseId: number) => {
     let result = null;
     const warehouseData = await warehouseDao.getById(warehouseId);
     if (warehouseData) {
-      result = { success: true, data: warehouseData };
+      result = { message: 'success', status: true, data: warehouseData };
       return result;
     } else {
-      result = { success: false, message: 'warehouse_id does not exist' };
+      result = { message: 'warehouse_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -83,7 +83,7 @@ const getById = async (warehouseId: number) => {
 const getAllWarehouse = async () => {
   try {
     const result = await warehouseDao.getAll();
-    const warehouseData = { success: true, data: result };
+    const warehouseData = { message: 'success', status: true, data: result };
     return warehouseData;
   } catch (error) {
     console.log(
@@ -102,20 +102,24 @@ const deleteWarehouse = async (warehouseId: number) => {
   try {
     const warehouseExist = await warehouseDao.getById(warehouseId);
     if (!warehouseExist) {
-      const result = { success: false, message: 'warehouse_id Not Exist' };
+      const result = {
+        message: 'warehouse_id Not Exist', status: false,
+        data: null
+      };
       return result;
     }
     const data = await warehouseDao.deleteWarehouse(warehouseId);
     if (data) {
       const result = {
-        success: true,
-        message: 'Warehouse Data Deleted Successfully',
+        message: 'Warehouse Data Deleted Successfully', status: true,
+        data: null
       };
       return result;
     } else {
       const result = {
-        success: false,
         message: 'Failed to delete this warehouse',
+        status: false,
+        data: null
       };
       return result;
     }

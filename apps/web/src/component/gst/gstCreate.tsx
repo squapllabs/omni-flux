@@ -46,7 +46,7 @@ const GstCreate: React.FC = (props: any) => {
         };
         createNewGst(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Gst created successfully');
@@ -61,7 +61,7 @@ const GstCreate: React.FC = (props: any) => {
         };
         updateGstById(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Gst edited successfully');
@@ -90,6 +90,7 @@ const GstCreate: React.FC = (props: any) => {
             label="Gst Rate"
             placeholder="Enter gst rate"
             name="rate"
+            mandatory={true}
             value={formik.values.rate}
             onChange={formik.handleChange}
             error={formik.touched.rate && formik.errors.rate}
@@ -104,7 +105,7 @@ const GstCreate: React.FC = (props: any) => {
             </Button>
           </div>
           <div>
-            <Button color="primary" shape="rectangle" justify="center" size="small">
+            <Button color="primary" shape="rectangle" justify="center" size="small" type="submit">
               Submit
             </Button>
           </div>

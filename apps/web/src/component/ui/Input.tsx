@@ -9,6 +9,8 @@ interface StyledInputProps {
   error?: boolean;
   hasPrefixIcon?: boolean;
   hasSuffixIcon?: boolean;
+  transparent?: boolean;
+  disabled?: boolean;
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -18,6 +20,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   width?: string;
   prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
+  transparent?: boolean;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -44,13 +47,17 @@ const InputContainer = styled.div<StyledInputProps>`
     }`};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
-  background-color: #f4f5f6; 
+  background-color: ${(props) =>
+    props.transparent ? 'transaparent' : '#f4f5f6'};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   &:hover {
-    border-color: #888;
+    border-color: ${(props) => (props.disabled ? '#ccc' : '#888')};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   }
   &:focus-within {
     outline: 0;
-    box-shadow: 0 0 0 2px #68717840;
+    box-shadow: ${(props) => (props.disabled ? 'none' : '0 0 0 2px #68717840')};
   }
 `;
 
@@ -58,7 +65,9 @@ const StyledInput = styled.input<StyledInputProps>`
   height: 34px;
   padding: ${(props) => `6px ${props.hasSuffixIcon ? '32px' : '0'} 6px 0`};
   border: none;
-  background-color: transparent;
+  background-color: ${(props) => (props.disabled ? '#f9f9f9' : 'transparent')};
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+  color: ${(props) => (props.disabled ? '#888' : 'inherit')};
   flex-grow: 1;
   &:focus {
     outline: none;
@@ -86,38 +95,56 @@ const InputError = styled.span`
   font-size: 0.75rem;
 `;
 
+const RequiredField = styled.span`
+  color: red;
+`;
 const ErrorMessageWrapper = styled.div`
   min-height: 20px; // Change to the height of your error message
 `;
 
-const Input: React.FC<InputProps> = ({
+const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
   label,
   placeholder,
   error,
   width,
   prefixIcon,
   suffixIcon,
+  transparent,
+  disabled,
+  mandatory = false,
   ...props
 }) => {
+  const shouldShowAsterisk = mandatory;
   return (
     <InputWrapper width={width}>
-      {label && <StyledLabel>{label}</StyledLabel>}
+      {label && (
+        <StyledLabel>
+          {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}{' '}
+        </StyledLabel>
+      )}
       <InputContainer
         error={!!error}
         hasPrefixIcon={!!prefixIcon}
         hasSuffixIcon={!!suffixIcon}
+        transparent={transparent}
+        disabled={disabled}
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
         <StyledInput
           hasSuffixIcon={!!suffixIcon}
           placeholder={placeholder}
+          disabled={disabled}
           {...props}
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
-      <ErrorMessageWrapper>
-        {error && <InputError>{error}</InputError>}
-      </ErrorMessageWrapper>
+      {props.errorFree ? (
+        <></>
+      ) : (
+        <ErrorMessageWrapper>
+          {error && <InputError>{error}</InputError>}
+        </ErrorMessageWrapper>
+      )}
     </InputWrapper>
   );
 };

@@ -3,9 +3,9 @@ import Styles from '../../styles/userList.module.scss';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import {
-  useGetAllClient,
   useDeleteClient,
   getByClient,
+  useGetAllPaginatedClient,
 } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
 import CustomEditDialog from '../ui/customEditDialogBox';
@@ -25,12 +25,12 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 
 /* Function for Client List */
 const ClientList = () => {
-  const { isLoading: getAllLoading } = useGetAllClient();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
-    isLoading: FilterLoading,
+    isLoading: searchLoader,
   } = getByClient();
+
   const { mutate: getDeleteClientByID } = useDeleteClient();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -45,6 +45,8 @@ const ClientList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [value, setValue] = useState();
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [dataShow, setDataShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -60,9 +62,27 @@ const ClientList = () => {
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
 
+  const clientData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: filterValues.search_by_name,
+  };
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedClient(clientData);
+
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton]);
 
   /* Function for Closing the delete popup */
   const handleCloseDelete = () => {
@@ -103,7 +123,7 @@ const ClientList = () => {
         createNewClient(Object, {
           onSuccess: (data: { success: any }, variables: any, context: any) => {
             if (data?.success) {
-              setMessage('New Client has been successfully created');
+              setMessage('Client created');
               setOpenSnack(true);
               resetForm();
             } else {
@@ -117,15 +137,16 @@ const ClientList = () => {
   });
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
     });
+    setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
-
-  useEffect(() => {
-    handleSearch();
-  }, [currentPage, rowsPerPage, activeButton]);
 
   /* Function for Searching a client data from the list */
   const handleSearch = async () => {
@@ -138,26 +159,20 @@ const ClientList = () => {
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(clientData);
+    setDataShow(true);
     setIsLoading(false);
     setFilter(true);
   };
   /*Function for reseting the list to actual state after search*/
   const handleReset = async () => {
-    const clientData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      global_search: '',
-    };
-    postDataForFilter(clientData);
+    setDataShow(false);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
       search_by_name: '',
     });
     setIsLoading(false);
+    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -175,11 +190,13 @@ const ClientList = () => {
     setActiveButton(value);
   };
 
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+
   return (
     <div>
       <div>
         <CustomLoader
-          loading={isLoading === true ? getAllLoading : FilterLoading}
+          loading={searchLoader ? searchLoader : getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
@@ -197,6 +214,7 @@ const ClientList = () => {
                     label="Client Name"
                     placeholder="Enter client name"
                     name="name"
+                    mandatory={true}
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     error={formik.touched.name && formik.errors.name}
@@ -208,6 +226,7 @@ const ClientList = () => {
                     label="Contact Detail"
                     placeholder="Enter client contact detail"
                     name="contact_details"
+                    mandatory={true}
                     value={formik.values.contact_details}
                     onChange={formik.handleChange}
                     error={
@@ -217,7 +236,7 @@ const ClientList = () => {
                     width="100%"
                   />
                 </div>
-                <div style={{ paddingTop: '20px' }}>
+                <div className={Styles.addButton}>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -225,7 +244,7 @@ const ClientList = () => {
                     size="small"
                     icon={<AddIcon />}
                   >
-                    Add New Client
+                    Add
                   </Button>
                 </div>
               </div>
@@ -263,6 +282,7 @@ const ClientList = () => {
                   justify="center"
                   size="small"
                   onClick={handleReset}
+                  disabled={isResetDisabled}
                 >
                   Reset
                 </Button>
@@ -283,51 +303,93 @@ const ClientList = () => {
                       <th>S No</th>
                       <th>Client Name</th>
                       <th>Contact Details</th>
-                      <th></th>
+                      {activeButton === 'AC' && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
-                    {getFilterData?.total_count === 0 ? (
+                    {dataShow ? (
+                      getFilterData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        getFilterData?.content?.map(
+                          (data: any, index: number) => (
+                            <tr key={data.client_id}>
+                              <td>{startingIndex + index}</td>
+                              <td>{data.name}</td>
+                              <td>{data.contact_details}</td>
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <EditIcon
+                                      onClick={() => handleEdit(data.client_id)}
+                                    />
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deleteCategoryHandler(data.client_id)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
+                      )
+                    ) : initialData?.total_count === 0 ? (
                       <tr>
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        <td></td>
+                        {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
-                      ''
+                      initialData?.content?.map((data: any, index: number) => (
+                        <tr key={data.client_id}>
+                          {/* <td>{index + 1}</td> */}
+                          <td>{startingIndex + index}</td>
+                          <td>{data.name}</td>
+                          <td>{data.contact_details}</td>
+                          {activeButton === 'AC' && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() => handleEdit(data.client_id)}
+                                />
+                                <DeleteIcon
+                                  onClick={() =>
+                                    deleteCategoryHandler(data.client_id)
+                                  }
+                                />
+                              </div>
+                            </td>
+                          )}
+                        </tr>
+                      ))
                     )}
-                    {getFilterData?.content?.map((data: any, index: number) => (
-                      <tr key={data.client_id}>
-                        <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.contact_details}</td>
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() => handleEdit(data.client_id)}
-                            />
-                            <DeleteIcon
-                              onClick={() =>
-                                deleteCategoryHandler(data.client_id)
-                              }
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
                   </tbody>
                 </table>
               </div>
-              <div className={Styles.pagination}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_page}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
+            </div>
+            <div className={Styles.pagination}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={
+                  dataShow ? getFilterData?.total_page : initialData?.total_page
+                }
+                totalCount={
+                  dataShow
+                    ? getFilterData?.total_count
+                    : initialData?.total_count
+                }
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
             </div>
           </div>
         </CustomLoader>
