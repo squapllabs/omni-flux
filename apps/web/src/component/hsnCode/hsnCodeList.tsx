@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import MUIDataTable from 'mui-datatables';
 import Styles from '../../styles/gstList.module.scss';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import { useGetAllHsnCode, useDeleteHsnCode } from '../../hooks/hsnCode-hooks';
-import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
@@ -11,8 +9,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import HsnForm from './hsnCodeCreate';
+import Button from '../menu/button';
 
-const HscCodeList = () => {
+const HsnCodeList = () => {
   const { data: getAllHsnData, isLoading: loader } = useGetAllHsnCode();
   const { mutate: getDeleteHsnCodeByID } = useDeleteHsnCode();
   const [value, setValue] = useState(0);
@@ -157,14 +156,14 @@ const HscCodeList = () => {
   return (
     <div className={Styles.container}>
       <div className={Styles.buttonContainer}>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddCircleOutlinedIcon />}
+      <Button
+          text="Add"
+          backgroundColor="#7F56D9"
+          fontSize={14}
+          fontWeight={500}
+          width={100}
           onClick={(e) => handleAdd(e)}
-        >
-          Add
-        </Button>
+        />
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable
@@ -210,4 +209,4 @@ const HscCodeList = () => {
   );
 };
 
-export default HscCodeList;
+export default HsnCodeList;

@@ -1,5 +1,5 @@
 import siteExpenseDao from '../dao/siteExpense.dao';
-import siteDao from '../dao/site.dao';
+import siteDao from '../dao/siteContractor.dao';
 import {
   createSiteExpenseBody,
   updateSiteExpenseBody,

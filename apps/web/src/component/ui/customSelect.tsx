@@ -1,5 +1,5 @@
 import React from 'react';
-import { useField, FieldAttributes } from 'formik';
+import { FieldAttributes } from 'formik';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 interface Option {
@@ -10,15 +10,18 @@ interface Option {
 interface SelectFieldProps extends FieldAttributes<any> {
   label: string;
   options: Option[];
+  width?: string;
 }
 
 const CustomSelect: React.FC<SelectFieldProps> = ({
   label,
   options,
+  width,
+
   ...props
 }) => {
   return (
-    <FormControl>
+    <FormControl style={{ width }}>
       <InputLabel id="select-label">{label}</InputLabel>
       <Select labelId="select-label" id={props.name} {...props}>
         {options.map((option) => (

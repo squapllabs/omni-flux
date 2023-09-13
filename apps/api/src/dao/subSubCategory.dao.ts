@@ -106,6 +106,7 @@ const getAll = async (connectionObj = null) => {
   }
 };
 
+
 const deleteSubSubCategory = async (
   subSubCategoryId: number,
   connectionObj = null

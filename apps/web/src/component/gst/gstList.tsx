@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/gstList.module.scss';
 import MUIDataTable from 'mui-datatables';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import { useGetAllGst, useDeleteGst } from '../../hooks/gst-hooks';
-import { Button } from '@mui/material';
 import { Tooltip, IconButton } from '@mui/material';
 import CustomDialog from '../ui/customDialog';
 import MySnackbar from '../ui/MySnackbar';
@@ -11,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CustomDialogBox from '../ui/cusotmDialogDelete';
 import GstForm from './gstCreate';
+import Button from '../menu/button';
 
 const GstList = () => {
   const { data: getAllGstData, isLoading: loader } = useGetAllGst();
@@ -173,14 +172,14 @@ const GstList = () => {
   return (
     <div className={Styles.container}>
       <div className={Styles.buttonContainer}>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddCircleOutlinedIcon />}
+      <Button
+          text="Add"
+          backgroundColor="#7F56D9"
+          fontSize={14}
+          fontWeight={500}
+          width={100}
           onClick={(e) => handleAdd(e)}
-        >
-          Add
-        </Button>
+        />
       </div>
       <div className={Styles.tableContainer}>
         <MUIDataTable

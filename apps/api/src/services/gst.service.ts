@@ -1,5 +1,6 @@
 import gstDao from '../dao/gst.dao';
 import { createGstBody, updateGstBody } from '../interfaces/gst.Interface';
+import itemDao from '../dao/item.dao';
 
 /**
  * Method to Create a New Gst
@@ -100,18 +101,37 @@ const deleteGst = async (gstId: number) => {
   try {
     const gstExist = await gstDao.getById(gstId);
     if (!gstExist) {
-      const result = { success: false, message: 'Gst Id Not Exist' };
+      const result = {
+        status: false,
+        message: 'gst_id does not exist',
+        data: null,
+      };
+      return result;
+    }
+
+    const gstExistInItem = await itemDao.getByGSTId(gstId);
+    if (gstExistInItem) {
+      const result = {
+        status: false,
+        message: 'unable to delete.This gst_id is mapped in item table',
+        data: null,
+      };
       return result;
     }
     const data = await gstDao.deleteGst(gstId);
     if (data) {
       const result = {
-        success: true,
+        status: true,
         message: 'Gst Data Deleted Successfully',
+        data: null,
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this gst' };
+      const result = {
+        status: false,
+        message: 'Failed to delete this gst',
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -120,4 +140,57 @@ const deleteGst = async (gstId: number) => {
   }
 };
 
-export { createGst, updateGst, getAllGst, getById, deleteGst };
+/**
+ * Method to search Gst - Pagination API
+ * @returns
+ */
+const searchGst = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterGst: {
+        AND: [],
+        OR: [
+          { rate: global_search },
+          { cgst_rate: global_search },
+          { igst_rate: global_search },
+          { sgst_rate: global_search },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await gstDao.searchGST(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempGstData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempGstData;
+  } catch (error) {
+    console.log('Error occurred in searchGst Gst service : ', error);
+    throw error;
+  }
+};
+
+export { createGst, updateGst, getAllGst, getById, deleteGst, searchGst };

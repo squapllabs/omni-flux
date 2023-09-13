@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import prisma from '../utils/prisma';
 import { createUserBody, updateUserBody } from '../interfaces/user.Interface';
+import userProfileDao from '../dao/userProfile.dao';
 
 /**
  * Method to Create a New User
@@ -24,11 +25,15 @@ const createUser = async (body: createUserBody) => {
       created_by,
       role_id,
       department,
+      profile_image_url,
+      date_of_birth,
+      gender,
+      additional_info,
     } = body;
 
-    const userEmailExist = await userDao.getByEmailId(email_id);
+    const userEmailExist = await userDao.getByUniqueEmail(email_id);
     if (userEmailExist) {
-      return (result = { success: false, message: 'email id already exists' });
+      return (result = { success: false, message: 'email_id already exists' });
     }
 
     const userDataWithRole = [];
@@ -41,7 +46,6 @@ const createUser = async (body: createUserBody) => {
           first_name,
           last_name,
           user_status,
-          address,
           created_by,
           department,
           prisma
@@ -56,6 +60,19 @@ const createUser = async (body: createUserBody) => {
             prisma
           );
           userDataWithRole.push({ userRoleData: userRoleData });
+        }
+        if (userDetails) {
+          const userProfileData = await userProfileDao.add(
+            userDetails?.user_id,
+            profile_image_url,
+            date_of_birth,
+            gender,
+            address,
+            additional_info,
+            created_by,
+            prisma
+          );
+          userDataWithRole.push({ userProfileData: userProfileData });
         }
         return userDataWithRole;
       })
@@ -94,6 +111,11 @@ const updateUser = async (body: updateUserBody) => {
       role_id,
       department,
       user_id,
+      profile_image_url,
+      date_of_birth,
+      gender,
+      additional_info,
+      is_two_factor,
     } = body;
 
     const userExist = await userDao.getById(user_id);
@@ -102,6 +124,7 @@ const updateUser = async (body: updateUserBody) => {
     }
 
     const existingUserRoleData = await userRoleDao.getByUserId(user_id);
+    const existingUserProfileData = await userProfileDao.getByUserId(user_id);
 
     const userDataWithRole = [];
     result = await prisma
@@ -109,10 +132,10 @@ const updateUser = async (body: updateUserBody) => {
         const userDetails = await userDao.edit(
           first_name,
           last_name,
-          address,
           updated_by,
           user_id,
           department,
+          is_two_factor,
           prisma
         );
         userDataWithRole.push({ userData: userDetails });
@@ -126,6 +149,20 @@ const updateUser = async (body: updateUserBody) => {
             prisma
           );
           userDataWithRole.push({ userRoleData: userRoleData });
+        }
+
+        if (userDetails) {
+          const userProfileData = await userProfileDao.edit(
+            profile_image_url,
+            date_of_birth,
+            gender,
+            address,
+            additional_info,
+            updated_by,
+            existingUserProfileData?.user_profile_id,
+            prisma
+          );
+          userDataWithRole.push({ userProfileData: userProfileData });
         }
         return userDataWithRole;
       })
@@ -159,11 +196,18 @@ const getById = async (userId: number) => {
     const userData = await userDao.getById(userId);
     if (userData) {
       const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
-      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
-      result = { success: true, data: dataToApi };
+      const userProfileData = await userProfileDao.getByUserId(
+        userData?.user_id
+      );
+      const dataToApi = {
+        userData: userData,
+        roleId: userRoleData?.role_id,
+        userProfileData: userProfileData,
+      };
+      result = { message: 'success', status: true, data: dataToApi };
       return result;
     } else {
-      result = { success: false, message: 'user id not exist' };
+      result = { message: 'user_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -348,76 +392,74 @@ const updateStatus = async (body) => {
   }
 };
 
-/**
- * Method for Global Search API
- * @param body
- * @returns
- */
-const searchUser = async (body) => {
-  try {
-    const { size = 10, page = 0, sort = 'desc', global_filter } = body;
+// /**
+//  * Method for Global Search API
+//  * @param body
+//  * @returns
+//  */
+// const searchUser = async (body) => {
+//   try {
+//     const { size = 10, page = 0, sort = 'desc', global_filter, status } = body;
 
-    let query = null;
-    let countQuery = null;
+//     let query = null;
+//     let countQuery = null;
 
-    if (global_filter) {
-      query = prisma.users.findMany({
-        where: {
-          OR: [
-            { first_name: { contains: global_filter, mode: 'insensitive' } },
-            { last_name: { contains: global_filter, mode: 'insensitive' } },
-            { email_id: { contains: global_filter, mode: 'insensitive' } },
-            { contact_no: { contains: global_filter, mode: 'insensitive' } },
-            { address: { contains: global_filter, mode: 'insensitive' } },
-            { department: { contains: global_filter, mode: 'insensitive' } },
-          ],
-          is_delete: false,
-        },
-        orderBy: {
-          updated_date: sort,
-        },
-        take: size,
-        skip: page * size,
-      });
+//     if (global_filter) {
+//       query = prisma.users.findMany({
+//         where: {
+//           OR: [
+//             { first_name: { contains: global_filter, mode: 'insensitive' } },
+//             { last_name: { contains: global_filter, mode: 'insensitive' } },
+//             { email_id: { contains: global_filter, mode: 'insensitive' } },
+//             { contact_no: { contains: global_filter, mode: 'insensitive' } },
+//             { department: { contains: global_filter, mode: 'insensitive' } },
+//           ],
+//           is_delete: status === 'IN' ? true : false,
+//         },
+//         orderBy: {
+//           updated_date: sort,
+//         },
+//         take: size,
+//         skip: page * size,
+//       });
 
-      countQuery = prisma.users.count({
-        where: {
-          OR: [
-            { first_name: { contains: global_filter, mode: 'insensitive' } },
-            { last_name: { contains: global_filter, mode: 'insensitive' } },
-            { email_id: { contains: global_filter, mode: 'insensitive' } },
-            { contact_no: { contains: global_filter, mode: 'insensitive' } },
-            { address: { contains: global_filter, mode: 'insensitive' } },
-            { department: { contains: global_filter, mode: 'insensitive' } },
-          ],
-          is_delete: false,
-        },
-      });
-    }
+//       countQuery = prisma.users.count({
+//         where: {
+//           OR: [
+//             { first_name: { contains: global_filter, mode: 'insensitive' } },
+//             { last_name: { contains: global_filter, mode: 'insensitive' } },
+//             { email_id: { contains: global_filter, mode: 'insensitive' } },
+//             { contact_no: { contains: global_filter, mode: 'insensitive' } },
+//             { department: { contains: global_filter, mode: 'insensitive' } },
+//           ],
+//           is_delete: status === 'IN' ? true : false,
+//         },
+//       });
+//     }
 
-    const [data, count] = await Promise.all([query, countQuery]);
+//     const [data, count] = await Promise.all([query, countQuery]);
 
-    const total_count = count;
-    const total_pages = total_count < size ? 1 : Math.ceil(total_count / size);
+//     const total_count = count;
+//     const total_pages = total_count < size ? 1 : Math.ceil(total_count / size);
 
-    const userData = {
-      total_count: total_count,
-      total_page: total_pages,
-      size: size,
-      content: data,
-    };
+//     const userData = {
+//       total_count: total_count,
+//       total_page: total_pages,
+//       size: size,
+//       content: data,
+//     };
 
-    const result = {
-      message: 'success',
-      status: true,
-      data: userData,
-    };
-    return result;
-  } catch (error) {
-    console.log('Error occurred in searchUser user service:', error);
-    throw error;
-  }
-};
+//     const result = {
+//       message: 'success',
+//       status: true,
+//       data: userData,
+//     };
+//     return result;
+//   } catch (error) {
+//     console.log('Error occurred in searchUser user service:', error);
+//     throw error;
+//   }
+// };
 
 /**
  * Method for updating user_status by user_id
@@ -543,8 +585,77 @@ const updateTwoFactorAuthentication = async (body) => {
     return userData;
   } catch (error) {
     console.log(
-      'Error occurred in User Service : updateTwoFactorAuthentication Method'
+      'Error occurred in User Service : updateTwoFactorAuthentication Method',
+      error
+      );
+      throw error;
+    }
+  };
+
+const getAllSalesPersonUsers = async () => {
+  try {
+    const result = await userDao.getAllSalesPersonUsers();
+    const userData = { message: 'success', status: true, data: result };
+    return userData;
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllSalesPersonUsers user service : ',
+      error
     );
+    throw error;
+  }
+};
+
+/**
+ * Method to search User - Pagination API
+ * @returns
+ */
+const searchUser = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj = {
+      filterUser: {
+        AND: [],
+        OR: [
+          { first_name: { contains: global_search, mode: 'insensitive' } },
+          { last_name: { contains: global_search, mode: 'insensitive' } },
+          { email_id: { contains: global_search, mode: 'insensitive' } },
+          { contact_no: { contains: global_search, mode: 'insensitive' } },
+          { department: { contains: global_search, mode: 'insensitive' } },
+        ],
+        is_delete: status === 'AC' ? false : true,
+      },
+    };
+
+    const result = await userDao.searchUser(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempUserData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempUserData;
+  } catch (error) {
+    console.log('Error occurred in searchUser User service : ', error);
     throw error;
   }
 };
@@ -563,4 +674,5 @@ export {
   customFilterUser,
   refreshAccessToken,
   updateTwoFactorAuthentication,
+  getAllSalesPersonUsers,
 };

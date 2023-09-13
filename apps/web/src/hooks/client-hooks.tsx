@@ -4,6 +4,7 @@ import ClientService from '../service/client-service';
 const useGetAllClient = () => {
   return useQuery(['useGetAllClient'], () => ClientService.getAllClient(), {
     select: (data) => data.data,
+    staleTime: Infinity,
   });
 };
 

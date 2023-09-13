@@ -8,6 +8,7 @@ const add = async (
 ) => {
   try {
     const currentDate = new Date();
+    const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const hsnCode = await transaction.hsn_code.create({
       data: {
@@ -16,6 +17,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        is_delete: is_delete,
       },
     });
     return hsnCode;
@@ -56,9 +58,10 @@ const edit = async (
 const getById = async (hsnCodeId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const hsnCode = await transaction.hsn_code.findUnique({
+    const hsnCode = await transaction.hsn_code.findFirst({
       where: {
         hsn_code_id: Number(hsnCodeId),
+        is_delete: false,
       },
     });
     return hsnCode;
@@ -87,6 +90,9 @@ const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const hsnCode = await transaction.hsn_code.findMany({
+      where: {
+        is_delete: false,
+      },
       orderBy: [
         {
           updated_date: 'desc',
@@ -102,10 +108,15 @@ const getAll = async (connectionObj = null) => {
 
 const deleteHsnCode = async (hsnCodeId: number, connectionObj = null) => {
   try {
+    const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const hsnCode = await transaction.hsn_code.delete({
+    const hsnCode = await transaction.hsn_code.update({
       where: {
         hsn_code_id: Number(hsnCodeId),
+      },
+      data: {
+        is_delete: true,
+        updated_date: currentDate,
       },
     });
     return hsnCode;
@@ -154,6 +165,41 @@ const addBulk = async (hsnCodes, connectionObj = null) => {
   }
 };
 
+const searchHSNCode = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterHSNCode;
+    const hsnCode = await transaction.hsn_code.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const hsnCodeCount = await transaction.hsn_code.count({
+      where: filter,
+    });
+    const hsnCodeData = {
+      count: hsnCodeCount,
+      data: hsnCode,
+    };
+    return hsnCodeData;
+  } catch (error) {
+    console.log('Error occurred in hsnCode dao : searchHSNCode ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -162,4 +208,5 @@ export default {
   getAll,
   deleteHsnCode,
   addBulk,
+  searchHSNCode,
 };

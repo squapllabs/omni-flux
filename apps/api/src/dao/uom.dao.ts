@@ -8,6 +8,7 @@ const add = async (
 ) => {
   try {
     const currentDate = new Date();
+    const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const uom = await transaction.uom.create({
       data: {
@@ -16,6 +17,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        is_delete: is_delete,
       },
     });
     return uom;
@@ -56,9 +58,10 @@ const edit = async (
 const getById = async (uomId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const uom = await transaction.uom.findUnique({
+    const uom = await transaction.uom.findFirst({
       where: {
         uom_id: Number(uomId),
+        is_delete: false,
       },
     });
     return uom;
@@ -72,6 +75,9 @@ const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const uom = await transaction.uom.findMany({
+      where: {
+        is_delete: false,
+      },
       orderBy: [
         {
           updated_date: 'desc',
@@ -88,9 +94,12 @@ const getAll = async (connectionObj = null) => {
 const deleteUom = async (uomId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const uom = await transaction.uom.delete({
+    const uom = await transaction.uom.update({
       where: {
         uom_id: Number(uomId),
+      },
+      data: {
+        is_delete: true,
       },
     });
     return uom;
@@ -112,6 +121,41 @@ const getByName = async (name: string, connectionObj = null) => {
   }
 };
 
+const searchUOM = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterUom;
+    const uom = await transaction.uom.findMany({
+      where: filter,
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const uomCount = await transaction.uom.count({
+      where: filter,
+    });
+    const uomData = {
+      count: uomCount,
+      data: uom,
+    };
+    return uomData;
+  } catch (error) {
+    console.log('Error occurred in uom dao : searchUOM ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -119,4 +163,5 @@ export default {
   getAll,
   deleteUom,
   getByName,
+  searchUOM,
 };

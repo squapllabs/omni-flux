@@ -205,6 +205,8 @@ import CategoryList from '../component/category/categoryList';
 import ProductPage from '../component/products/productPage';
 import GenerateOtp from '../component/generateOtp';
 import ResetPassword from '../component/resetPassword/token';
+import Category from '../component/category/category';
+import MasterData from '../component/masterData/masterData';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -223,14 +225,18 @@ const AppRoutes = () => {
   const ProtectedAddProductPage = withLayoutAndProtection(AddProducts);
   const ProtectedProductPage = withLayoutAndProtection(ProductPage);
   const ProtectedResetPasswordPage = withLayoutAndProtection(ResetPassword);
+  const ProtectedCategoryPage = withLayoutAndProtection(Category);
+  const ProtectedMasterDataPage = withLayoutAndProtection(MasterData);
 
   return (
     <div>
       <Routes>
         <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
         <Route path="/add-products" element={<ProtectedAddProductPage />} />
         <Route path="/products" element={<ProtectedProductPage />} />
+
         <Route path="/home" element={<ProtectedHome />} />
         <Route path="/userList" element={<ProtectedUserList />} />
         <Route path="/userInfo/:id" element={<ProtectedUserInformation />} />
@@ -244,6 +250,8 @@ const AppRoutes = () => {
         <Route path="/category-list" element={<ProtectedCategoryList />} />
         <Route path = "/generate-otp" element={<GenerateOtp />} />
         <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
+        <Route path="/category" element={<ProtectedCategoryPage />} />
+        <Route path="/master-data" element={<ProtectedMasterDataPage />} />
       </Routes>
     </div>
   );

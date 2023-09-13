@@ -113,6 +113,15 @@ const updateTwoFactorAuthentication = catchAsync(async (req, res) => {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
 });
+const getAllSalesPersonUsers = catchAsync(async (req, res) => {
+  const methodName = '/getAllSalesPersonUsers';
+  try {
+    const result = await userService.getAllSalesPersonUsers();
+    res.send(result);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
 
 export {
   createUser,
@@ -126,4 +135,5 @@ export {
   getDeletedUsers,
   customFilterUser,
   updateTwoFactorAuthentication,
+  getAllSalesPersonUsers,
 };

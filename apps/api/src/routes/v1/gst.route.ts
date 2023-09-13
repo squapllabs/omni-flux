@@ -7,6 +7,7 @@ import {
   deleteByGstId,
   getAllGst,
   getByGstId,
+  searchGst,
   updateGst,
 } from '../../controller/gst.controller';
 const router = express.Router();
@@ -20,5 +21,7 @@ router.get('/getAll', authMiddleware, getAllGst);
 router.get('/get/:gst_id', authMiddleware, getByGstId);
 
 router.delete('/delete/:gst_id', authMiddleware, deleteByGstId);
+
+router.post('/search-gst', authMiddleware, searchGst);
 
 export default router;

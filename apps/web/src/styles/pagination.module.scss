@@ -1,0 +1,30 @@
+.container{
+  border: 1px solid var(--secondary-color);
+  width: fit-content;
+  padding: 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.rowPerPage{
+  display: flex;
+  align-items: center;
+}
+.pagesCount{
+  font-size: 14px;
+  font-weight:bold
+
+}
+.title{
+  font-size: 14px;
+  padding: 0 8px;
+}
+.icons{
+display: flex;
+align-items: center;
+gap: 40px;
+padding: 0 40px;
+
+
+}

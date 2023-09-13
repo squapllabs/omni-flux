@@ -13,14 +13,19 @@ import project from './project.route';
 import item from './item.route';
 import stock from './stock.route';
 import projectExpense from './projectExpense.route';
-import site from './site.route';
+import siteContractor from './siteContractor.route';
 import siteExpense from './siteExpense.route';
 import warehouse from './warehouse.route';
 import warehouseInventory from './warehouseInventory.route';
 import upload from './upload.route';
 import brand from './brand.route';
 import itemType from './itemType.routes';
+import masterData from './masterData.route';
+import leadEnquiry from './leadEnquiry.route';
+import projectWorkbreakDown from './projectWorkbreakDown.route';
+
 const router = express.Router();
+
 const defaultRoutes = [
   {
     path: '/user',
@@ -75,8 +80,8 @@ const defaultRoutes = [
     route: projectExpense,
   },
   {
-    path: '/site',
-    route: site,
+    path: '/site-contractor',
+    route: siteContractor,
   },
   {
     path: '/site-expense',
@@ -105,7 +110,20 @@ const defaultRoutes = [
   {
     path: '/itemType',
     route: itemType,
-  }, 
+  },
+  {
+    path: '/master-data',
+    route: masterData,
+  },
+  {
+    path: '/lead-enquiry',
+    route: leadEnquiry,
+  },
+
+  {
+    path: '/project-workbreak-down',
+    route: projectWorkbreakDown,
+  },
 ];
 
 defaultRoutes.forEach((r) => {

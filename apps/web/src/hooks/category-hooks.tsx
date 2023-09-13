@@ -7,6 +7,20 @@ const useGetAllCategory = () => {
     () => CategoryService.getAllCategory(),
     {
       select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+const useGetAllCategoryForDrop = () => {
+  return useQuery(
+    ['useGetAllCategoryDrop'],
+    () => CategoryService.getAllCategory(),
+    {
+      select: (data) =>
+        data?.data?.map((category: any) => ({
+          value: category.category_id,
+          label: category.name,
+        })),
     }
   );
 };
@@ -62,11 +76,25 @@ const useDeleteCategory = () => {
     }
   );
 };
-
+const getBySearchCategroy = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return CategoryService.filterCategory(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
 export {
   useGetAllCategory,
   getByCategoryID,
   createCategory,
   updateCategory,
   useDeleteCategory,
+  useGetAllCategoryForDrop,
+  getBySearchCategroy,
 };

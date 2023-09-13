@@ -4,6 +4,7 @@ import uomService from '../service/uom-service';
 const useGetAlluom = () => {
   return useQuery(['useGetAlluom'], () => uomService.getAlluom(), {
     select: (data) => data.data,
+    staleTime: Infinity,
   });
 };
 

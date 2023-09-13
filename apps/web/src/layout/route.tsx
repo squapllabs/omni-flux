@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Routes, RouteProps } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Login from '../component/login';
 import Home from '../component/home';
 import ForgetPassword from '../component/forgetPassword';
