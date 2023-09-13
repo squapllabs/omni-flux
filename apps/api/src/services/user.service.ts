@@ -262,9 +262,7 @@ const getByEmailId = async (emailId: string) => {
     const userData = await userDao.getByEmailId(emailId);
 
     if (userData) {
-      const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
-      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
-      result = { message: 'success', status: true, data: dataToApi };
+      result = { message: 'success', status: true, data: userData };
       return result;
     } else {
       result = { message: 'user email not exist', status: false, data: null };
@@ -638,10 +636,10 @@ const updateTwoFactorAuthentication = async (body) => {
     console.log(
       'Error occurred in User Service : updateTwoFactorAuthentication Method',
       error
-      );
-      throw error;
-    }
-  };
+    );
+    throw error;
+  }
+};
 
 const getAllSalesPersonUsers = async () => {
   try {
