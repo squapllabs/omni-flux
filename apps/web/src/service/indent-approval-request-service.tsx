@@ -9,7 +9,7 @@ const indentRaise = async (values: JSON) => {
       );
       return response.data;
     } catch (error) {
-      console.log('Error in project search :', error);
+      console.log('Error in indentRaise search :', error);
       throw error;
     }
   };
