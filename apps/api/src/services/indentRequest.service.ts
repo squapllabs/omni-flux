@@ -293,12 +293,46 @@ const searchIndentRequest = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_id = body.project_id;
+    const approvar_user_id = body.approvar_user_id;
+    const approvar_status = body.approvar_status;
+
     const filterObj: any = {};
 
     if (status) {
       filterObj.filterIndentRequest = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_id) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        project_id: project_id,
+      });
+    }
+
+    if (approvar_user_id) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        approvar_user_id: approvar_user_id,
+      });
+    }
+
+    if (approvar_status) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        approvar_status: approvar_status,
+      });
     }
 
     if (global_search) {

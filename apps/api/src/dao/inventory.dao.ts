@@ -1,7 +1,6 @@
 import prisma from '../utils/prisma';
 
 const add = async (
-  item_id: number,
   item_name: string,
   item_category: string,
   rate: number,
@@ -17,7 +16,6 @@ const add = async (
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const inventory = await transaction.inventory.create({
       data: {
-        item_id,
         item_name,
         item_category,
         rate,
@@ -38,7 +36,6 @@ const add = async (
 };
 
 const edit = async (
-  item_id: number,
   item_name: string,
   item_category: string,
   rate: number,
@@ -57,7 +54,6 @@ const edit = async (
         inventory_id: inventory_id,
       },
       data: {
-        item_id,
         item_name,
         item_category,
         rate,
@@ -84,7 +80,6 @@ const getById = async (inventoryId: number, connectionObj = null) => {
         is_delete: false,
       },
       include: {
-        item_data: true,
         store_data: {
           include: {
             store_manager_data: {
@@ -110,7 +105,6 @@ const getAll = async (connectionObj = null) => {
         is_delete: false,
       },
       include: {
-        item_data: true,
         store_data: {
           include: {
             store_manager_data: {
@@ -165,7 +159,6 @@ const searchInventory = async (
     const inventory = await transaction.inventory.findMany({
       where: filter,
       include: {
-        item_data: true,
         store_data: {
           include: {
             store_manager_data: {
