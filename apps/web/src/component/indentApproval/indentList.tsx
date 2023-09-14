@@ -8,13 +8,14 @@ import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import Pagination from '../menu/pagination';
-// import EditIcon from '../menu/icons/editIcon';
 import ViewIcon from '../menu/icons/viewIcon';
 import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router';
 
 const IndentList = () => {
+  const navigate = useNavigate();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
@@ -64,7 +65,7 @@ const IndentList = () => {
       order_by_direction: 'desc',
       global_search: filterValues.search_by_name,
       status: 'AC',
-      approver_status: activeButton,
+      approver_status: 'Pending',
       approver_user_id: userID,
     };
     postDataForFilter(userData);
@@ -129,13 +130,13 @@ const IndentList = () => {
                 Reset
               </Button>
             </div>
-            <div>
+            {/* <div>
               <CustomGroupButton
                 labels={buttonLabels}
                 onClick={handleGroupButtonClick}
                 activeButton={activeButton}
               />
-            </div>
+            </div> */}
           </div>
           <div className={Styles.dividerStyle}></div>
         </div>
@@ -187,11 +188,10 @@ const IndentList = () => {
                         <td>
                           <div className={Styles.tablerow}>
                             <ViewIcon
-                              onClick={
-                                () => alert('view')
-                                //   navigate(
-                                //     `/project-info/${data?.project_data.project_id}`
-                                //   )
+                              onClick={() =>
+                                navigate(
+                                  `/indent-detail/${data?.indent_request_id}`
+                                )
                               }
                             />
                           </div>

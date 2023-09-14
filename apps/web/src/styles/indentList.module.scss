@@ -90,3 +90,21 @@ table {
     display: flex;
     justify-content: end;
   }
+
+  .headingTop{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .backButton{
+    padding: 0px 10px 0px 0px
+  }
+
+  .approveButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    padding:10px 10px 0px 0px
+  }

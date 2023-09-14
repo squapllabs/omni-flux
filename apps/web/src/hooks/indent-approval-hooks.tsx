@@ -16,5 +16,29 @@ const getByUserRoleIndent = () => {
     );
   };
 
+  const useGetAllIndentRequestDetail = (data: any) => {
+    return useQuery(
+      ['useGetAllIndentRequestData'],
+      () => indentApprovalService.indentDetailData(data),
+      {
+        select: (data) => data,
+        staleTime: Infinity,
+      }
+    );
+  };
 
-  export { getByUserRoleIndent};
+  const updateIndentRequest = () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: any) => {
+        return indentApprovalService.updateIndentRequest(data);
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['useGetAllClientData']);
+        },
+      }
+    );
+  };
+
+  export { getByUserRoleIndent,useGetAllIndentRequestDetail,updateIndentRequest};

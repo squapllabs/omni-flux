@@ -14,7 +14,36 @@ const indentRaise = async (values: JSON) => {
     }
   };
 
+  const indentDetailData = async (values: JSON) => {
+    try {
+      const response = await axiosinterceptor.post(
+        `${environment.apiUrl}/indent-request-details/search`,
+        values
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in indentDetailData search :', error);
+      throw error;
+    }
+  };
+
+  
+  const updateIndentRequest = async (values: JSON) => {
+    try {
+      const response = await axiosinterceptor.put(
+        `${environment.apiUrl}/indent-request`,
+        values
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in updateIndentRequest :', error);
+      throw error;
+    }
+  };
+
   export default {
-    indentRaise
+    indentRaise,
+    indentDetailData,
+    updateIndentRequest
   };
   
