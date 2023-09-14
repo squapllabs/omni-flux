@@ -1,0 +1,48 @@
+.container {
+    width: 100%;
+  }
+  .box {
+    position: relative;
+  }
+  .textContent {
+    padding-left: 10px;
+    padding-top: 10px;
+  }
+  .content {
+    font-size: 0.7rem;
+  }
+  .searchField {
+    padding: 10px 10px 0px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+.inputFilter {
+    display: flex;
+    gap: 10px;
+  }
+  .searchButton {
+    padding: 12px 20px 12px 20px;
+    border-radius: 8px;
+    border: 1px;
+    gap: 8px;
+    color: #6941c6;
+  }
+  .searchButton:hover {
+    background-color: #7f56d9;
+    color: #ffffff;
+  }
+  .resetButton [disabled]{
+    padding: 12px 20px 12px 20px;
+    border-radius: 8px;
+    border: 1px;
+    gap: 8px;
+    color: #848289;
+    background-color: #ccc;
+  }
+  .resetButton:not([disabled]):hover {
+    background-color: #c4c4c6;
+    color: #ffffff;
+  }
