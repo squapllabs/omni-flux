@@ -41,7 +41,7 @@ model users {
   project_member_association project_member_association[]
   store                      store[]
   indent_requester           indent_request[]             @relation("indentRequesterUser")
-  indent_approvar            indent_request[]             @relation("indentApprovarUser")
+  indent_approvar            indent_request[]             @relation("indentApproverUser")
   purchase_request           purchase_request[]
 
   @@unique([email_id], name: "uk_users_email_id")
@@ -662,7 +662,7 @@ model vendor {
   vendor_category_data          master_data?       @relation("VendorCategoryRelation", fields: [vendor_category_id], references: [master_data_id])
   preferred_payment_method_data master_data?       @relation("PreferredPaymentMethodRelation", fields: [preferred_payment_method_id], references: [master_data_id])
   purchase_request              purchase_request[]
-  vendor_quotes_data            vendor_quotes[]
+  vendor_quotes                 vendor_quotes[]
 }
 
 model labour {
@@ -780,18 +780,18 @@ model indent_request {
   description            String?
   expected_delivery_date DateTime?
   total_cost             Float?
-  approvar_user_id       Int?
-  approvar_status        String?
+  approver_user_id       Int?
+  approver_status        String?
   approved_date          DateTime?
   rejected_date          DateTime?
-  approvar_comments      String?
+  approver_comments      String?
   is_delete              Boolean                  @default(false)
   created_date           DateTime                 @default(now())
   updated_date           DateTime
   created_by             Int?
   updated_by             Int?
   requester_user_data    users                    @relation("indentRequesterUser", fields: [requester_user_id], references: [user_id])
-  approvar_user_data     users?                   @relation("indentApprovarUser", fields: [approvar_user_id], references: [user_id])
+  approver_user_data     users?                   @relation("indentApproverUser", fields: [approver_user_id], references: [user_id])
   project_data           project?                 @relation(fields: [project_id], references: [project_id])
   indent_request_details indent_request_details[]
   purchase_request       purchase_request[]
@@ -814,7 +814,6 @@ model indent_request_details {
 
 model inventory {
   inventory_id       Int      @id @default(autoincrement())
-  item_id            Int
   item_name          String?
   item_category      String?
   rate               Float?
@@ -826,7 +825,6 @@ model inventory {
   updated_date       DateTime
   created_by         Int?
   updated_by         Int?
-  item_data          item     @relation(fields: [item_id], references: [item_id])
   store_data         store    @relation(fields: [store_id], references: [store_id])
   project_data       project? @relation(fields: [project_id], references: [project_id])
 }
@@ -850,7 +848,7 @@ model purchase_request {
   requester_user_data     users          @relation(fields: [requester_user_id], references: [user_id])
   project_data            project?       @relation(fields: [project_id], references: [project_id])
   selected_vendor_data    vendor?        @relation(fields: [selected_vendor_id], references: [vendor_id])
-  vendor_quotes_data     vendor_quotes[]
+  vendor_quotes           vendor_quotes[]
 }
 
 model vendor_quotes {
@@ -869,5 +867,4 @@ model vendor_quotes {
   updated_by               Int?
   purchase_request_data    purchase_request @relation(fields: [purchase_request_id], references: [purchase_request_id])
   vendor_data              vendor           @relation(fields: [vendor_id], references: [vendor_id])
-
 }

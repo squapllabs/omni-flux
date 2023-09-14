@@ -111,7 +111,7 @@ const getAll = async (connectionObj = null) => {
     }
 };
 
-const deletevendorQuotes = async (
+const deleteVendorQuotes = async (
     vendorQuotesId: number,
     connectionObj = null
 ) => {
@@ -135,7 +135,7 @@ const deletevendorQuotes = async (
     }
 };
 
-const searchvendorQuotes = async (
+const searchVendorQuotes = async (
     offset: number,
     limit: number,
     orderByColumn: string,
@@ -191,6 +191,6 @@ export default {
     edit,
     getById,
     getAll,
-    deletevendorQuotes,
-    searchvendorQuotes,
+    deleteVendorQuotes,
+    searchVendorQuotes,
 };

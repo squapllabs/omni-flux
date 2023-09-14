@@ -18,11 +18,11 @@ const createIndentRequest = async (body: indentRequestBody) => {
       description,
       expected_delivery_date,
       total_cost,
-      approvar_user_id,
-      approvar_status,
+      approver_user_id,
+      approver_status,
       approved_date,
       rejected_date,
-      approvar_comments,
+      approver_comments,
       created_by,
       indent_request_details,
       project_id,
@@ -39,11 +39,11 @@ const createIndentRequest = async (body: indentRequestBody) => {
       }
     }
 
-    if (approvar_user_id) {
-      const approvarUserExist = await userDao.getById(approvar_user_id);
+    if (approver_user_id) {
+      const approvarUserExist = await userDao.getById(approver_user_id);
       if (!approvarUserExist) {
         return {
-          message: 'approvar_user_id does not exist',
+          message: 'approver_user_id does not exist',
           status: false,
           data: null,
         };
@@ -69,11 +69,11 @@ const createIndentRequest = async (body: indentRequestBody) => {
       description,
       expected_delivery_date,
       total_cost,
-      approvar_user_id,
-      approvar_status,
+      approver_user_id,
+      approver_status,
       approved_date,
       rejected_date,
-      approvar_comments,
+      approver_comments,
       created_by,
       indent_request_details,
       project_id
@@ -106,11 +106,11 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       description,
       expected_delivery_date,
       total_cost,
-      approvar_user_id,
-      approvar_status,
+      approver_user_id,
+      approver_status,
       approved_date,
       rejected_date,
-      approvar_comments,
+      approver_comments,
       updated_by,
       indent_request_details,
       indent_request_id,
@@ -140,11 +140,11 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       }
     }
 
-    if (approvar_user_id) {
-      const approvarUserExist = await userDao.getById(approvar_user_id);
+    if (approver_user_id) {
+      const approvarUserExist = await userDao.getById(approver_user_id);
       if (!approvarUserExist) {
         return {
-          message: 'approvar_user_id does not exist',
+          message: 'approver_user_id does not exist',
           status: false,
           data: null,
         };
@@ -170,11 +170,11 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       description,
       expected_delivery_date,
       total_cost,
-      approvar_user_id,
-      approvar_status,
+      approver_user_id,
+      approver_status,
       approved_date,
       rejected_date,
-      approvar_comments,
+      approver_comments,
       updated_by,
       indent_request_details,
       project_id,
@@ -293,12 +293,46 @@ const searchIndentRequest = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_id = body.project_id;
+    const approver_user_id = body.approver_user_id;
+    const approver_status = body.approver_status;
+
     const filterObj: any = {};
 
     if (status) {
       filterObj.filterIndentRequest = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_id) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        project_id: project_id,
+      });
+    }
+
+    if (approver_user_id) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        approver_user_id: approver_user_id,
+      });
+    }
+
+    if (approver_status) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        approver_status: approver_status,
+      });
     }
 
     if (global_search) {
@@ -313,7 +347,7 @@ const searchIndentRequest = async (body) => {
           },
         },
         {
-          approvar_status: {
+          approver_status: {
             contains: global_search,
             mode: 'insensitive',
           },
@@ -331,7 +365,7 @@ const searchIndentRequest = async (body) => {
           },
         },
         {
-          approvar_comments: {
+          approver_comments: {
             contains: global_search,
             mode: 'insensitive',
           },
@@ -353,7 +387,7 @@ const searchIndentRequest = async (body) => {
           },
         },
         {
-          approvar_user_data: {
+          approver_user_data: {
             first_name: {
               contains: global_search,
               mode: 'insensitive',
@@ -361,7 +395,7 @@ const searchIndentRequest = async (body) => {
           },
         },
         {
-          approvar_user_data: {
+          approver_user_data: {
             last_name: {
               contains: global_search,
               mode: 'insensitive',

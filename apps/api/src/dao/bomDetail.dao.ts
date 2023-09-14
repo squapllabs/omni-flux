@@ -677,44 +677,6 @@ const getByProjectIdAndBomType = async (
   }
 };
 
-const getSumOfTotalBySubCategoryId = async (subCategoryId: number, connectionObj = null) => {
-  try {
-    const transaction = connectionObj !== null ? connectionObj : prisma;
-    const totalDetails = await transaction.bom_detail.groupBy({
-      by: ['bom_type'],
-      where: {
-        sub_category_id: Number(subCategoryId),
-        is_delete: false,
-      },
-      _sum: {
-        total: true,
-      },
-    });
-
-    const formattedResult = {};
-    totalDetails.forEach((item) => {
-      let aliasName = item.bom_type;
-      switch (item.bom_type) {
-        case "RAWMT":
-          aliasName = "raw_material";
-          break;
-        case "LABOR":
-          aliasName = "labour";
-          break;
-        case "MCNRY":
-          aliasName = "machinery";
-          break;
-      }
-      formattedResult[aliasName] = item._sum.total;
-    });
-    return formattedResult;
-
-  } catch (error) {
-    console.log('Error occurred in getSumOfTotalBySubCategoryId bomDetail dao', error);
-    throw error;
-  }
-};
-
 export default {
   add,
   getById,
@@ -731,5 +693,4 @@ export default {
   getTotalByBomConfigurationId,
   getBySubCategoryId,
   getByProjectIdAndBomType,
-  getSumOfTotalBySubCategoryId,
 };

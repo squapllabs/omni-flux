@@ -7,11 +7,11 @@ interface indentRequestBody {
   description: string;
   expected_delivery_date: Date;
   total_cost: number;
-  approvar_user_id: number;
-  approvar_status: string;
+  approver_user_id: number;
+  approver_status: string;
   approved_date: Date;
   rejected_date: Date;
-  approvar_comments: string;
+  approver_comments: string;
   created_by: number;
   updated_by: number;
   indent_request_details: Array<indentRequestDetails>;

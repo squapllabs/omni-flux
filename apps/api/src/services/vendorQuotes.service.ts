@@ -214,7 +214,7 @@ const deleteVendorQuotes = async (vendorQuotesId: number) => {
             return result;
         }
 
-        const data = await vendorQuotesDao.deletevendorQuotes(
+        const data = await vendorQuotesDao.deleteVendorQuotes(
             vendorQuotesId
         );
         if (data) {
@@ -257,7 +257,7 @@ const searchVendorQuotes = async (body) => {
         const global_search = body.global_search;
         const status = body.status;
 
-        const result = await vendorQuotesDao.searchvendorQuotes(
+        const result = await vendorQuotesDao.searchVendorQuotes(
             offset,
             limit,
             order_by_column,
