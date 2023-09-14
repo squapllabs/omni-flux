@@ -55,7 +55,7 @@ const IndentRequest: React.FC = (props: any) => {
       formik.setFieldValue('total_cost', sumOfRates);
       const obj: any = {
         ...values,
-        approvar_status: 'Pending',
+        approver_status: 'Pending',
         indent_request_details: indentRequestDetailsList,
       };
       posIndentData(obj, {
