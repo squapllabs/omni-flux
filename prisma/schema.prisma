@@ -778,18 +778,18 @@ model indent_request {
   description            String?
   expected_delivery_date DateTime?
   total_cost             Float?
-  approvar_user_id       Int?
-  approvar_status        String?
+  approver_user_id       Int?
+  approver_status        String?
   approved_date          DateTime?
   rejected_date          DateTime?
-  approvar_comments      String?
+  approver_comments      String?
   is_delete              Boolean                  @default(false)
   created_date           DateTime                 @default(now())
   updated_date           DateTime
   created_by             Int?
   updated_by             Int?
   requester_user_data    users                    @relation("indentRequesterUser", fields: [requester_user_id], references: [user_id])
-  approvar_user_data     users?                   @relation("indentApprovarUser", fields: [approvar_user_id], references: [user_id])
+  approvar_user_data     users?                   @relation("indentApprovarUser", fields: [approver_user_id], references: [user_id])
   project_data           project?                 @relation(fields: [project_id], references: [project_id])
   indent_request_details indent_request_details[]
   purchase_request       purchase_request[]
