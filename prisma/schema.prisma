@@ -41,7 +41,7 @@ model users {
   project_member_association project_member_association[]
   store                      store[]
   indent_requester           indent_request[]             @relation("indentRequesterUser")
-  indent_approvar            indent_request[]             @relation("indentApprovarUser")
+  indent_approvar            indent_request[]             @relation("indentApproverUser")
   purchase_request           purchase_request[]
 
   @@unique([email_id], name: "uk_users_email_id")
@@ -789,7 +789,7 @@ model indent_request {
   created_by             Int?
   updated_by             Int?
   requester_user_data    users                    @relation("indentRequesterUser", fields: [requester_user_id], references: [user_id])
-  approvar_user_data     users?                   @relation("indentApprovarUser", fields: [approver_user_id], references: [user_id])
+  approver_user_data     users?                   @relation("indentApproverUser", fields: [approver_user_id], references: [user_id])
   project_data           project?                 @relation(fields: [project_id], references: [project_id])
   indent_request_details indent_request_details[]
   purchase_request       purchase_request[]

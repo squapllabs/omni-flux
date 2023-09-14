@@ -223,7 +223,7 @@ const getById = async (indentRequestId: number, connectionObj = null) => {
       },
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
-        approvar_user_data: { select: { first_name: true, last_name: true } },
+        approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
         indent_request_details: {
           where: { is_delete: false },
@@ -258,7 +258,7 @@ const getAll = async (connectionObj = null) => {
       },
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
-        approvar_user_data: { select: { first_name: true, last_name: true } },
+        approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
         indent_request_details: {
           where: { is_delete: false },
@@ -328,7 +328,7 @@ const searchIndentRequest = async (
       where: filter,
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
-        approvar_user_data: { select: { first_name: true, last_name: true } },
+        approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
         indent_request_details: {
           where: { is_delete: false },
@@ -381,7 +381,7 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
       },
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
-        approvar_user_data: { select: { first_name: true, last_name: true } },
+        approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
         indent_request_details: {
           where: { is_delete: false },
