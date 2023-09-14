@@ -387,7 +387,7 @@ const searchIndentRequest = async (body) => {
           },
         },
         {
-          approvar_user_data: {
+          approver_user_data: {
             first_name: {
               contains: global_search,
               mode: 'insensitive',
@@ -395,7 +395,7 @@ const searchIndentRequest = async (body) => {
           },
         },
         {
-          approvar_user_data: {
+          approver_user_data: {
             last_name: {
               contains: global_search,
               mode: 'insensitive',
@@ -560,6 +560,56 @@ const getByProjectId = async (project_id: number) => {
   }
 };
 
+/**
+ * Method to Update Indent Request Status With Comments
+ * @param body
+ * @returns
+ */
+const updateStatus = async (body) => {
+  try {
+    const {
+      approver_status,
+      approved_date,
+      rejected_date,
+      approver_comments,
+      updated_by,
+      indent_request_id,
+    } = body;
+
+    const indentRequestExist = await indentRequestDao.getById(
+      indent_request_id
+    );
+    if (!indentRequestExist) {
+      return {
+        message: 'indent_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const indentRequest = await indentRequestDao.updateStatus(
+      indent_request_id,
+      approver_status,
+      approver_comments,
+      approved_date,
+      rejected_date,
+      updated_by
+    );
+
+    return {
+      message: 'success',
+      status: true,
+      data: indentRequest,
+    };
+  } catch (error) {
+    console.log(
+      'Error occurred in updateStatus indentRequest service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createIndentRequest,
   updateIndentRequest,
@@ -568,4 +618,5 @@ export {
   deleteIndentRequest,
   searchIndentRequest,
   getByProjectId,
+  updateStatus,
 };
