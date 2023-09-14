@@ -414,6 +414,7 @@ const updateStatus = async (
   approved_date: Date,
   rejected_date: Date,
   updated_by: number,
+  approver_user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -435,6 +436,7 @@ const updateStatus = async (
         approved_date: formatted_approved_date,
         rejected_date: formatted_rejected_date,
         updated_by,
+        approver_user_id,
         updated_date: currentDate,
       },
     });

@@ -275,11 +275,27 @@ const searchProjectMemberAssociation = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterProjectMemberAssociation;
+    const approver_status = filters.approver_status;
+
     const projectMemberAssociation =
       await transaction.project_member_association.findMany({
         where: filter,
         include: {
-          project_data: true,
+          project_data: {
+            include: {
+              indent_request: {
+                where: {
+                  project_id: {
+                    not: {
+                      equals: null,
+                    },
+                  },
+                  approver_status: approver_status,
+                  is_delete: false,
+                },
+              },
+            },
+          },
           user_data: {
             select: {
               first_name: true,
