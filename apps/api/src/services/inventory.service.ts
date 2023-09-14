@@ -9,7 +9,6 @@ import { inventoryBody } from '../interfaces/inventory.interface';
 const createInventory = async (body: inventoryBody) => {
   try {
     const {
-      item_id,
       item_name,
       item_category,
       rate,
@@ -19,7 +18,6 @@ const createInventory = async (body: inventoryBody) => {
       created_by,
     } = body;
     const inventoryDetails = await inventoryDao.add(
-      item_id,
       item_name,
       item_category,
       rate,
@@ -45,7 +43,6 @@ const createInventory = async (body: inventoryBody) => {
 const updateInventory = async (body: inventoryBody) => {
   try {
     const {
-      item_id,
       item_name,
       item_category,
       rate,
@@ -66,7 +63,6 @@ const updateInventory = async (body: inventoryBody) => {
       return result;
     } else {
       const inventoryDetails = await inventoryDao.edit(
-        item_id,
         item_name,
         item_category,
         rate,
@@ -226,14 +222,6 @@ const searchInventory = async (body) => {
         {
           project_data: {
             project_name: {
-              contains: global_search,
-              mode: 'insensitive',
-            },
-          },
-        },
-        {
-          item_data: {
-            item_name: {
               contains: global_search,
               mode: 'insensitive',
             },
