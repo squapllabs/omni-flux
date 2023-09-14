@@ -662,6 +662,7 @@ model vendor {
   vendor_category_data          master_data?       @relation("VendorCategoryRelation", fields: [vendor_category_id], references: [master_data_id])
   preferred_payment_method_data master_data?       @relation("PreferredPaymentMethodRelation", fields: [preferred_payment_method_id], references: [master_data_id])
   purchase_request              purchase_request[]
+  vendor_quotes_data            vendor_quotes[]
 }
 
 model labour {
@@ -849,4 +850,24 @@ model purchase_request {
   requester_user_data     users          @relation(fields: [requester_user_id], references: [user_id])
   project_data            project?       @relation(fields: [project_id], references: [project_id])
   selected_vendor_data    vendor?        @relation(fields: [selected_vendor_id], references: [vendor_id])
+  vendor_quotes_data     vendor_quotes[]
+}
+
+model vendor_quotes {
+  vendor_quotes_id         Int            @id @default(autoincrement())
+  vendor_id                Int
+  purchase_request_id      Int
+  quotation_date           DateTime?
+  quotation_status         String?
+  total_quotation_amount   Float?
+  remarks                  String?
+  quotation_details        Json?
+  is_delete                Boolean        @default(false)
+  created_date             DateTime       @default(now())
+  updated_date             DateTime
+  created_by               Int?
+  updated_by               Int?
+  purchase_request_data    purchase_request @relation(fields: [purchase_request_id], references: [purchase_request_id])
+  vendor_data              vendor           @relation(fields: [vendor_id], references: [vendor_id])
+
 }
