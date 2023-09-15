@@ -402,6 +402,8 @@ const searchProjectMemberAssociation = async (body) => {
     const status = body.status;
     const project_id = body.project_id;
     const user_id = body.user_id;
+    const project_role_id = body.project_role_id;
+    const approver_status = body.approver_status;
 
     const filterObj: any = {};
 
@@ -425,6 +427,18 @@ const searchProjectMemberAssociation = async (body) => {
       filterObj.filterProjectMemberAssociation.AND.push({
         user_id: user_id,
       });
+    }
+
+    if (project_role_id) {
+      filterObj.filterProjectMemberAssociation.AND =
+        filterObj.filterProjectMemberAssociation.AND || [];
+      filterObj.filterProjectMemberAssociation.AND.push({
+        project_role_id: project_role_id,
+      });
+    }
+
+    if (approver_status) {
+      filterObj.approver_status = approver_status;
     }
 
     if (global_search) {
@@ -549,6 +563,58 @@ const getByProjectIdAndRoleType = async (
   }
 };
 
+/**
+ * Method to get projectMemberAssociation By ProjectId And UserId
+ * @param user_id
+ * @param project_role_id
+ * @returns
+ */
+const getByUserIdAndProjectRoleId = async (
+  user_id: number,
+  project_role_id: number
+) => {
+  try {
+    let result = null;
+
+    if (user_id) {
+      const userExist = await userDao.getById(user_id);
+      if (!userExist) {
+        return {
+          message: 'user_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+    const projectMemberAssociationData =
+      await projectMemberAssociationDao.getByUserIdAndProjectRoleId(
+        user_id,
+        project_role_id
+      );
+    if (projectMemberAssociationData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: projectMemberAssociationData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This user_id and project_role_id combination does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByUserIdAndProjectRoleId projectMemberAssociation service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProjectMemberAssociation,
   updateProjectMemberAssociation,
@@ -559,4 +625,5 @@ export {
   getByProjectId,
   searchProjectMemberAssociation,
   getByProjectIdAndRoleType,
+  getByUserIdAndProjectRoleId,
 };

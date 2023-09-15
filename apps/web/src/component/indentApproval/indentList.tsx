@@ -1,33 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/indentList.module.scss';
-import Input from '../ui/Input';
 import Button from '../ui/Button';
-import SearchIcon from '../menu/icons/search';
-import CustomGroupButton from '../ui/CustomGroupButton';
+import Select from '../ui/selectNew';
 import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import Pagination from '../menu/pagination';
-// import EditIcon from '../menu/icons/editIcon';
 import ViewIcon from '../menu/icons/viewIcon';
 import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router';
+import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 
 const IndentList = () => {
+  const navigate = useNavigate();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
-
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Pending', value: 'Pending' },
-    { label: 'Approved', value: 'Approved' },
-    { label: 'Rejected', value: 'Rejected' },
-  ]);
-  const [activeButton, setActiveButton] = useState<string | null>('Pending');
-  const [filterValues, setFilterValues] = useState({
-    search_by_name: '',
-  });
+  const [selectedValueType, setSelectedValueType] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
@@ -36,24 +27,28 @@ const IndentList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
-  console.log('dta====>', getIndentData);
+  const { data: getPriorityType = [], isLoading: dropLoading } = getBymasertDataTypeDrop('PRTYPE');
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setFilterValues({
-      ...filterValues,
-      ['search_by_name']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
+  const SampleOption: any = [
+    { label: 'Low', value: 'Low' },
+    { label: 'Medium', value: 'Medium' },
+    { label: 'High', value: 'High' },
+  ];
+
   const handleReset = async () => {
-    setFilterValues({
-      search_by_name: '',
-    });
     setIsResetDisabled(true);
+    setSelectedValueType('');
+    const userData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      approver_status: 'Pending',
+      project_approver_id: userID,
+      priority: '',
+    };
+    postDataForFilter(userData);
   };
   /* Function for searching a user in the table */
   const handleSearch = async () => {
@@ -62,10 +57,10 @@ const IndentList = () => {
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
-      global_search: filterValues.search_by_name,
       status: 'AC',
-      approver_status: activeButton,
-      approver_user_id: userID,
+      approver_status: 'Pending',
+      project_approver_id: userID,
+      priority: selectedValueType,
     };
     postDataForFilter(userData);
   };
@@ -80,35 +75,48 @@ const IndentList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
+  const handleDropdownChangePriorityType = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const searchValue = event.target.value;
+    const selectedData = event.target.value;
+    setSelectedValueType(selectedData);
+    setIsResetDisabled(searchValue === '');
   };
 
   useEffect(() => {
     handleSearch();
-  }, [currentPage, rowsPerPage, activeButton]);
+  }, [currentPage, rowsPerPage]);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>Indent Raise List</h3>
+            <h3>Indent List</h3>
             <span className={Styles.content}>
-              Manage your project data across your application
+              Indent list based on projects.
             </span>
           </div>
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
-              <Input
-                width="260px"
-                prefixIcon={<SearchIcon />}
-                name="search_by_name"
-                value={filterValues.search_by_name}
-                onChange={(e) => handleFilterChange(e)}
-                placeholder="Search by name"
-              />
+              <div>
+                <Select
+                  width="200px"
+                  label="Project Type"
+                  name="project_type"
+                  onChange={handleDropdownChangePriorityType}
+                  value={selectedValueType}
+                  defaultLabel="Select from options"
+                  placeholder="Select from options"
+                >
+                  {SampleOption.map((option: any) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Select>
+              </div>
               <Button
                 className={Styles.searchButton}
                 shape="rectangle"
@@ -129,13 +137,6 @@ const IndentList = () => {
                 Reset
               </Button>
             </div>
-            <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
-            </div>
           </div>
           <div className={Styles.dividerStyle}></div>
         </div>
@@ -146,11 +147,10 @@ const IndentList = () => {
                 <tr>
                   <th>S No</th>
                   <th>Project Name</th>
-                  <th>Description </th>
-                  <th>Requester</th>
+                  <th>Priority</th>
                   <th>Expected Delivery Date</th>
                   <th>Total Cost</th>
-                  <th></th>
+                  <th>Options</th>
                 </tr>
               </thead>
               <tbody>
@@ -159,7 +159,6 @@ const IndentList = () => {
                     <td></td>
                     <td></td>
                     <td>No data found</td>
-                    {activeButton === 'Pending' && <td></td>}
                   </tr>
                 ) : (
                   ''
@@ -169,13 +168,7 @@ const IndentList = () => {
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data?.project_data?.project_name}</td>
-                      <td>{data?.description}</td>
-                      <td>
-                        {data?.requester_user_data?.first_name || ''}{' '}
-                        {data?.requester_user_data?.last_name
-                          ? data?.requester_user_data?.last_name
-                          : ''}
-                      </td>
+                      <td>{data?.priority}</td>
                       <td>
                         {format(
                           new Date(data?.expected_delivery_date),
@@ -183,20 +176,17 @@ const IndentList = () => {
                         )}
                       </td>
                       <td>{formatBudgetValue(data?.total_cost)}</td>
-                      {activeButton === 'Pending' && (
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <ViewIcon
-                              onClick={
-                                () => alert('view')
-                                //   navigate(
-                                //     `/project-info/${data?.project_data.project_id}`
-                                //   )
-                              }
-                            />
-                          </div>
-                        </td>
-                      )}
+                      <td>
+                        <div className={Styles.tablerow}>
+                          <ViewIcon
+                            onClick={() =>
+                              navigate(
+                                `/indent-detail/${data?.indent_request_id}`
+                              )
+                            }
+                          />
+                        </div>
+                      </td>
                     </tr>
                   );
                 })}

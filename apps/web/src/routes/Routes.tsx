@@ -247,6 +247,7 @@ import IndentRequest from '../component/project/projectComponent/projectIndentRe
 import IndentView from '../component/indentApproval/indentList';
 import PurchaseList from '../component/purchaseApproval/purchaseList';
 
+import IndentDetailView from '../component/indentApproval/indentView';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -313,6 +314,7 @@ const AppRoutes = () => {
   const ProtectedIndent = withLayoutAndProtection(IndentRequest);
   const ProtectedIndentList = withLayoutAndProtection(IndentView);
   const ProtectedPurchaseList = withLayoutAndProtection(PurchaseList);
+  const ProtectedIndentDetailView = withLayoutAndProtection(IndentDetailView);
 
   return (
     <div>
@@ -433,6 +435,7 @@ const AppRoutes = () => {
         <Route path="/indent/:id" element={<ProtectedIndent />} />
         <Route path="/indent-view" element={<ProtectedIndentList />} />
         <Route path="/purchase-view" element={<ProtectedPurchaseList />} />
+        <Route path="/indent-detail/:id" element={<ProtectedIndentDetailView />} />
       </Routes>
     </div>
   );
