@@ -40,6 +40,7 @@ const IndentRequest: React.FC = (props: any) => {
     created_by: userID,
     requested_date: new Date(),
     project_id: Number(routeParams?.id),
+    request_status: '',
   });
   const [indentRequestDetailsList, setIndentRequestDetailsList] = useState<any>(
     []
@@ -87,6 +88,11 @@ const IndentRequest: React.FC = (props: any) => {
     createIndentRequest();
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
     updateIndentRequest();
+
+  const handleDraft = () => {
+    formik.setFieldValue('request_status', 'Draft');
+    formik.submitForm();
+  };
   const validationSchema = yup.object().shape({
     priority: yup.string().required('Priority is required'),
     expected_delivery_date: yup
@@ -248,8 +254,21 @@ const IndentRequest: React.FC = (props: any) => {
                     display: 'flex',
                     justifyContent: 'flex-end',
                     paddingRight: '50px',
+                    gap: '20px',
                   }}
                 >
+                  <Button
+                    type="button"
+                    color="secondary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    onClick={(e) => {
+                      handleDraft(e);
+                    }}
+                  >
+                    Draft
+                  </Button>
                   <Button
                     type="button"
                     color="primary"

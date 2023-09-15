@@ -48,10 +48,23 @@ const updateIndentRequest = async (values: JSON) => {
     throw error;
   }
 };
+const filterIndnet = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/indent-request/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in Indent filter :', error);
+    throw error;
+  }
+};
 
 export default {
   getIndentByProjectID,
   createIndentRequest,
   getOneIndent,
   updateIndentRequest,
+  filterIndnet,
 };

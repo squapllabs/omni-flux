@@ -38,4 +38,23 @@ const updateIndentRequest = () => {
   );
 };
 
-export { getProjectBasedIndent, createIndentRequest, updateIndentRequest };
+const getBySearchIndent = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return IndentService.filterIndnet(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
+
+export {
+  getProjectBasedIndent,
+  createIndentRequest,
+  updateIndentRequest,
+  getBySearchIndent,
+};
