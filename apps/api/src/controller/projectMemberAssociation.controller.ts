@@ -120,6 +120,20 @@ const getByProjectIdAndRoleType = catchAsync(async (req, res) => {
   }
 });
 
+const getByUserIdAndProjectRoleId = catchAsync(async (req, res) => {
+  const methodName = '/getByUserIdAndProjectRoleId';
+  try {
+    const projectMemberAssociation =
+      await projectMemberAssociationService.getByUserIdAndProjectRoleId(
+        req.params.user_id,
+        req.params.project_role_id
+      );
+    res.send(projectMemberAssociation);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createProjectMemberAssociation,
   updateProjectMemberAssociation,
@@ -130,4 +144,5 @@ export {
   getByProjectId,
   search,
   getByProjectIdAndRoleType,
+  getByUserIdAndProjectRoleId,
 };

@@ -13,6 +13,7 @@ import {
   getByProjectIdAndRoleType,
   getByProjectIdAndUserId,
   getByProjectMemberAssociationId,
+  getByUserIdAndProjectRoleId,
   search,
   updateProjectMemberAssociation,
 } from '../../controller/projectMemberAssociation.controller';
@@ -63,6 +64,12 @@ router.get(
   '/get-by-project-id-and-role-name/:project_id/:role_name',
   authMiddleware,
   getByProjectIdAndRoleType
+);
+
+router.get(
+  '/get-by-user-id-and-project-role-id/:user_id/:project_role_id',
+  authMiddleware,
+  getByUserIdAndProjectRoleId
 );
 
 export default router;
