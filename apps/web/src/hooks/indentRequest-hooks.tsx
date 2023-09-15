@@ -24,5 +24,18 @@ const createIndentRequest = () => {
     }
   );
 };
+const updateIndentRequest = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return IndentService.updateIndentRequest(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getProjectBasedIndent']);
+      },
+    }
+  );
+};
 
-export { getProjectBasedIndent, createIndentRequest };
+export { getProjectBasedIndent, createIndentRequest, updateIndentRequest };
