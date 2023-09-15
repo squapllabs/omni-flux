@@ -117,7 +117,7 @@ const ProjectIndentRequestList = () => {
                     <td>{dateFormat(items?.requested_date)}</td>
                     <td>{dateFormat(items?.expected_delivery_date)}</td>
                     <td>{formatBudgetValue(items?.total_cost)}</td>
-                    <td>{items?.approvar_status}</td>
+                    <td>{items?.approver_status}</td>
                     <td>
                       <div
                         style={{

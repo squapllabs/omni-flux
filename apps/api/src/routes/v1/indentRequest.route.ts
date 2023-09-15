@@ -12,6 +12,7 @@ import {
   getByProjectId,
   searchIndentRequest,
   updateIndentRequest,
+  updateStatus,
 } from '../../controller/indentRequest.controller';
 import { runValidation } from '../../validations/index';
 
@@ -46,5 +47,7 @@ router.delete(
 router.post('/search', authMiddleware, searchIndentRequest);
 
 router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
+
+router.put('/update-status', authMiddleware, updateStatus);
 
 export default router;

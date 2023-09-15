@@ -8,11 +8,11 @@ const add = async (
   description: string,
   expected_delivery_date: Date,
   total_cost: number,
-  approvar_user_id: number,
-  approvar_status: string,
+  approver_user_id: number,
+  approver_status: string,
   approved_date: Date,
   rejected_date: Date,
-  approvar_comments: string,
+  approver_comments: string,
   created_by: number,
   indent_request_details,
   project_id: number,
@@ -43,11 +43,11 @@ const add = async (
         description,
         expected_delivery_date: formatted_expected_delivery_date,
         total_cost,
-        approvar_user_id,
-        approvar_status,
+        approver_user_id,
+        approver_status,
         approved_date: formatted_approved_date,
         rejected_date: formatted_rejected_date,
-        approvar_comments,
+        approver_comments,
         project_id,
         created_by,
         created_date: currentDate,
@@ -102,11 +102,11 @@ const edit = async (
   description: string,
   expected_delivery_date: Date,
   total_cost: number,
-  approvar_user_id: number,
-  approvar_status: string,
+  approver_user_id: number,
+  approver_status: string,
   approved_date: Date,
   rejected_date: Date,
-  approvar_comments: string,
+  approver_comments: string,
   updated_by: number,
   indent_request_details,
   project_id: number,
@@ -140,11 +140,11 @@ const edit = async (
         description,
         expected_delivery_date: formatted_expected_delivery_date,
         total_cost,
-        approvar_user_id,
-        approvar_status,
+        approver_user_id,
+        approver_status,
         approved_date: formatted_approved_date,
         rejected_date: formatted_rejected_date,
-        approvar_comments,
+        approver_comments,
         project_id,
         updated_by,
         updated_date: currentDate,
@@ -223,7 +223,7 @@ const getById = async (indentRequestId: number, connectionObj = null) => {
       },
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
-        approvar_user_data: { select: { first_name: true, last_name: true } },
+        approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
         indent_request_details: {
           where: { is_delete: false },
@@ -258,7 +258,7 @@ const getAll = async (connectionObj = null) => {
       },
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
-        approvar_user_data: { select: { first_name: true, last_name: true } },
+        approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
         indent_request_details: {
           where: { is_delete: false },
@@ -328,7 +328,7 @@ const searchIndentRequest = async (
       where: filter,
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
-        approvar_user_data: { select: { first_name: true, last_name: true } },
+        approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
         indent_request_details: {
           where: { is_delete: false },
@@ -381,7 +381,7 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
       },
       include: {
         requester_user_data: { select: { first_name: true, last_name: true } },
-        approvar_user_data: { select: { first_name: true, last_name: true } },
+        approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
         indent_request_details: {
           where: { is_delete: false },
@@ -407,6 +407,46 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
   }
 };
 
+const updateStatus = async (
+  indent_request_id: number,
+  approver_status: string,
+  approver_comments: string,
+  approved_date: Date,
+  rejected_date: Date,
+  updated_by: number,
+  approver_user_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const formatted_approved_date = approved_date
+      ? new Date(approved_date)
+      : null;
+    const formatted_rejected_date = rejected_date
+      ? new Date(rejected_date)
+      : null;
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const indentRequest = await transaction.indent_request.update({
+      where: {
+        indent_request_id: Number(indent_request_id),
+      },
+      data: {
+        approver_status,
+        approver_comments,
+        approved_date: formatted_approved_date,
+        rejected_date: formatted_rejected_date,
+        updated_by,
+        approver_user_id,
+        updated_date: currentDate,
+      },
+    });
+    return indentRequest;
+  } catch (error) {
+    console.log('Error occurred in indentRequest updateStatus dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -415,4 +455,5 @@ export default {
   deleteIndentRequest,
   searchIndentRequest,
   getByProjectId,
+  updateStatus,
 };

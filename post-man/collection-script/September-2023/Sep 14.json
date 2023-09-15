@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "8bd7a875-ce80-4c52-9ba9-c472c5cbe062",
+    "_postman_id": "7c5f8e02-89d8-4b6e-9cb3-c2f7e289e3b5",
     "name": "Omni-Flux-ERP - Sep 14",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "17122319"
@@ -12585,10 +12585,6 @@
               "originalRequest": {
                 "method": "GET",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": ""
-                },
                 "url": {
                   "raw": "{{API_URL}}/api/bom/get-by-sub-cat-id-and-bom-type/62/RAWMT",
                   "host": ["{{API_URL}}"],
@@ -17038,7 +17034,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"requester_user_id\": 62,\r\n    \"requested_date\": \"2023-09-12\",\r\n    \"request_status\": \"Pending\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Sample Request 3\",\r\n    \"expected_delivery_date\": \"2023-09-20\",\r\n    \"total_cost\": 500.50,\r\n    \"approvar_user_id\": 1,\r\n    \"approvar_status\": \"Pending\",\r\n    \"approved_date\": null,\r\n    \"rejected_date\": null,\r\n    \"approvar_comments\": null,\r\n    \"created_by\": 1,\r\n    \"indent_request_details\": [\r\n        {\r\n            \"bom_detail_id\": 199,\r\n            \"quantity\": 10,\r\n            \"total\": 1000,\r\n            \"is_delete\": \"N\"\r\n        },\r\n        {\r\n            \"bom_detail_id\": 201,\r\n            \"quantity\": 1,\r\n            \"total\": 150,\r\n            \"is_delete\": \"N\"\r\n        }\r\n    ],\r\n    \"project_id\": 137\r\n}",
+              "raw": "{\r\n    \"requester_user_id\": 62,\r\n    \"requested_date\": \"2023-09-12\",\r\n    \"request_status\": \"Pending\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Sample Request 3\",\r\n    \"expected_delivery_date\": \"2023-09-20\",\r\n    \"total_cost\": 500.50,\r\n    \"approver_user_id\": 1,\r\n    \"approver_status\": \"Pending\",\r\n    \"approved_date\": null,\r\n    \"rejected_date\": null,\r\n    \"approver_comments\": null,\r\n    \"created_by\": 1,\r\n    \"indent_request_details\": [\r\n        {\r\n            \"bom_detail_id\": 199,\r\n            \"quantity\": 10,\r\n            \"total\": 1000,\r\n            \"is_delete\": \"N\"\r\n        },\r\n        {\r\n            \"bom_detail_id\": 201,\r\n            \"quantity\": 1,\r\n            \"total\": 150,\r\n            \"is_delete\": \"N\"\r\n        }\r\n    ],\r\n    \"project_id\": 137\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -17143,7 +17139,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"requester_user_id\": 62,\r\n    \"requested_date\": \"2023-09-12\",\r\n    \"request_status\": \"Pending\",\r\n    // \"priority\": \"High\",\r\n    \"description\": \"Sample Request 3\",\r\n    \"expected_delivery_date\": \"2023-09-20\",\r\n    \"total_cost\": 500.50,\r\n    \"approvar_user_id\": 97,\r\n    \"approvar_status\": \"Approved\",\r\n    \"approved_date\": \"2023-09-14\",\r\n    \"rejected_date\": null,\r\n    \"approvar_comments\": \"Request Accepted\",\r\n    \"updated_by\": 1,\r\n    \"project_id\":137,\r\n    \"indent_request_details\": [\r\n        // {\r\n        //     \"indent_request_details_id\": 6,\r\n        //     \"bom_detail_id\": 199,\r\n        //     \"quantity\": 10,\r\n        //     \"total\": 1000,\r\n        //     \"is_delete\": \"N\"\r\n        // },\r\n        // {\r\n        //     \"indent_request_details_id\": 7,\r\n        //     \"bom_detail_id\": 201,\r\n        //     \"quantity\": 1,\r\n        //     \"total\": 150,\r\n        //     \"is_delete\": \"Y\"\r\n        // },\r\n        // {\r\n        //     \"bom_detail_id\": 201,\r\n        //     \"quantity\": 1,\r\n        //     \"total\": 150,\r\n        //     \"is_delete\": \"N\"\r\n        // }\r\n    ],\r\n    \"indent_request_id\": 11\r\n}",
+              "raw": "{\r\n    \"requester_user_id\": 62,\r\n    \"requested_date\": \"2023-09-12\",\r\n    \"request_status\": \"Pending\",\r\n    // \"priority\": \"High\",\r\n    \"description\": \"Sample Request 3\",\r\n    \"expected_delivery_date\": \"2023-09-20\",\r\n    \"total_cost\": 500.50,\r\n    \"approver_user_id\": 97,\r\n    \"approver_status\": \"Approved\",\r\n    \"approved_date\": \"2023-09-14\",\r\n    \"rejected_date\": null,\r\n    \"approver_comments\": \"Request Accepted\",\r\n    \"updated_by\": 1,\r\n    \"project_id\":137,\r\n    \"indent_request_details\": [\r\n        // {\r\n        //     \"indent_request_details_id\": 6,\r\n        //     \"bom_detail_id\": 199,\r\n        //     \"quantity\": 10,\r\n        //     \"total\": 1000,\r\n        //     \"is_delete\": \"N\"\r\n        // },\r\n        // {\r\n        //     \"indent_request_details_id\": 7,\r\n        //     \"bom_detail_id\": 201,\r\n        //     \"quantity\": 1,\r\n        //     \"total\": 150,\r\n        //     \"is_delete\": \"Y\"\r\n        // },\r\n        // {\r\n        //     \"bom_detail_id\": 201,\r\n        //     \"quantity\": 1,\r\n        //     \"total\": 150,\r\n        //     \"is_delete\": \"N\"\r\n        // }\r\n    ],\r\n    \"indent_request_id\": 11\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -17509,7 +17505,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"pipe\",\r\n    \"project_id\": 137,\r\n    \"approvar_user_id\": 97,\r\n    \"approvar_status\": \"Approved\",\r\n    \"status\": \"AC\"\r\n}",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"pipe\",\r\n    \"project_id\": 137,\r\n    \"approver_user_id\": 97,\r\n    \"approver_status\": \"Approved\",\r\n    \"status\": \"AC\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
