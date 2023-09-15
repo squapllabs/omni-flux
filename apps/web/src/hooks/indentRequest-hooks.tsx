@@ -24,5 +24,37 @@ const createIndentRequest = () => {
     }
   );
 };
+const updateIndentRequest = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return IndentService.updateIndentRequest(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getProjectBasedIndent']);
+      },
+    }
+  );
+};
 
-export { getProjectBasedIndent, createIndentRequest };
+const getBySearchIndent = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return IndentService.filterIndnet(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
+
+export {
+  getProjectBasedIndent,
+  createIndentRequest,
+  updateIndentRequest,
+  getBySearchIndent,
+};
