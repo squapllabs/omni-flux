@@ -22,6 +22,7 @@ import * as yup from 'yup';
 import PageDisabled from '../../../ui/pageDisableComponent';
 import BackArrow from '../../../menu/icons/backArrow';
 import { formatBudgetValue } from '../../../../helper/common-function';
+import CustomSnackBar from '../../../ui/customSnackBar';
 
 const IndentRequest: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -46,6 +47,11 @@ const IndentRequest: React.FC = (props: any) => {
     []
   );
   const [disabled, setDisabled] = useState(false);
+  const [message, setMessage] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
@@ -57,7 +63,7 @@ const IndentRequest: React.FC = (props: any) => {
         Number(routeParams?.indentid)
       );
       console.log('indentData', indentData?.data);
-      if (indentData?.data?.approvar_status === 'Rejected') {
+      if (indentData?.data?.approver_status === 'Rejected') {
         setDisabled(false);
       } else {
         setDisabled(true);
@@ -124,7 +130,11 @@ const IndentRequest: React.FC = (props: any) => {
         updateIndentData(obj, {
           onSuccess(data, variables, context) {
             if (data?.status === true) {
-              navigate(`/project-edit/${routeParams?.id}`);
+              setMessage('Indent Updated successfully');
+              setOpenSnack(true);
+              setTimeout(() => {
+                navigate(`/project-edit/${routeParams?.id}`);
+              }, 2000);
             }
           },
         });
@@ -132,7 +142,11 @@ const IndentRequest: React.FC = (props: any) => {
         postIndentData(obj, {
           onSuccess(data, variables, context) {
             if (data?.status === true) {
-              navigate(`/project-edit/${routeParams?.id}`);
+              setMessage('Indent created successfully');
+              setOpenSnack(true);
+              setTimeout(() => {
+                navigate(`/project-edit/${routeParams?.id}`);
+              }, 2000);
             }
           },
         });
@@ -284,6 +298,13 @@ const IndentRequest: React.FC = (props: any) => {
             </div>
           </div>
         </PageDisabled>
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
       </div>
     </div>
   );

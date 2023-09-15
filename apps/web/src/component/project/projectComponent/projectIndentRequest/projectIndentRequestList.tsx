@@ -103,34 +103,36 @@ const ProjectIndentRequestList = () => {
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
-        <div className={Styles.headingContent}>
-          <div className={Styles.textContent_1}>
-            <h3>Indent Request</h3>
-            <span className={Styles.content}>Add Indent Request</span>
-          </div>
-          <div>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-              icon={<AddIcon width={20} color="white" />}
-              onClick={(e) => {
-                navigate(`/indent/${routeParams?.id}`);
-              }}
-            >
-              Add
-            </Button>
+        <div className={Styles.box}>
+          <div className={Styles.headingContent}>
+            <div className={Styles.textContent_1}>
+              <h3>Indent Request</h3>
+              <span className={Styles.content}>Add Indent Request</span>
+            </div>
+            <div>
+              <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<AddIcon width={20} color="white" />}
+                onClick={(e) => {
+                  navigate(`/indent/${routeParams?.id}`);
+                }}
+              >
+                Add
+              </Button>
+            </div>
           </div>
         </div>
+
         <div className={Styles.searchField}>
           <div className={Styles.inputFilter}>
             <div className={Styles.filterSelect}>
               <Select
                 label="Indent Status"
                 name="approver_status"
-                mandatory={true}
                 value={filterValues.approver_status}
                 onChange={(e) => handleFilterChange(e)}
                 defaultLabel="Select from options"
