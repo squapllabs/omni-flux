@@ -13,10 +13,15 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
 import CustomRejectPopup from '../ui/CustomRejectCommentPopup';
+import { store, RootState } from '../../redux/store';
+import { getToken } from '../../redux/reducer';
 
 const IndentView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
+  const state: RootState = store.getState();
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [message, setMessage] = useState('');
@@ -44,6 +49,8 @@ const IndentView = () => {
       approver_status: 'Approved',
       approved_date: date,
       rejected_date: null,
+      updated_by:userID,
+      approver_user_id:userID
     };
     console.log('obj', obj);
     updateIndentRequestData(obj, {

@@ -13,13 +13,19 @@ import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
+import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const IndentList = () => {
   const navigate = useNavigate();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
+  console.log("store data=====>",encryptedData.userData.user_roles[0].role_data.role_id);
+  
   const userID: number = encryptedData.userId;
-
+  const roleID:number = encryptedData.userData.user_roles[0].role_data.role_id;
+  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValueType, setSelectedValueType] = useState('');
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Pending', value: 'Pending' },
     { label: 'Approved', value: 'Approved' },
@@ -38,23 +44,15 @@ const IndentList = () => {
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
   console.log('dta====>', getIndentData);
+  const { data: getPriorityType = [], isLoading: dropLoading } = getBymasertDataTypeDrop('PRTYPE');
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setFilterValues({
-      ...filterValues,
-      ['search_by_name']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
+
   const handleReset = async () => {
     setFilterValues({
       search_by_name: '',
     });
     setIsResetDisabled(true);
+    setSelectedValueType('')
   };
   /* Function for searching a user in the table */
   const handleSearch = async () => {
@@ -63,10 +61,11 @@ const IndentList = () => {
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
-      global_search: filterValues.search_by_name,
+    //   global_search: filterValues.search_by_name,
       status: 'AC',
       approver_status: 'Pending',
-      approver_user_id: userID,
+      user_id: userID,
+      project_role_id:roleID
     };
     postDataForFilter(userData);
   };
@@ -86,6 +85,26 @@ const IndentList = () => {
     setActiveButton(value);
   };
 
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const searchValue = event.target.value;
+    const selectedData = event.target.value;
+    setSelectedValue(selectedData);
+    setIsResetDisabled(searchValue === '');
+  };
+
+  const handleDropdownChangePriorityType = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const searchValue = event.target.value;
+    const selectedData = event.target.value;
+    setSelectedValueType(selectedData);
+    setIsResetDisabled(searchValue === '');
+  };
+
+
+
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
@@ -95,21 +114,49 @@ const IndentList = () => {
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>Indent Raise List</h3>
+            <h3>Indent List</h3>
             <span className={Styles.content}>
-              Manage your project data across your application
+              Indent list based on projects.
             </span>
           </div>
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
-              <Input
+              {/* <Input
                 width="260px"
                 prefixIcon={<SearchIcon />}
                 name="search_by_name"
                 value={filterValues.search_by_name}
                 onChange={(e) => handleFilterChange(e)}
                 placeholder="Search by name"
-              />
+              /> */}
+              <AutoCompleteSelect
+                  name="parent_master_data_id"
+                  defaultLabel="Select Project Name"
+                  onChange={() => handleDropdownChange}
+                  value={selectedValue}
+                  placeholder="Project Name"
+                  width="220px"
+                  onSelect={(value) => {
+                    setSelectedValue(value);
+                    setIsResetDisabled(false);
+                  }}
+                //   optionList={
+                //     dropLoading === true ? [] : getAllmasterDataForDrop
+                //   }
+                />
+                 <AutoCompleteSelect
+                  name="parent_master_data_id"
+                  defaultLabel="Select Project Name"
+                  onChange={() => handleDropdownChangePriorityType}
+                  value={selectedValueType}
+                  placeholder="Priority Type"
+                  width="220px"
+                  onSelect={(value) => {
+                    setSelectedValueType(value);
+                    setIsResetDisabled(false);
+                  }}
+                    optionList={  dropLoading === true ? [] : getPriorityType}
+                />
               <Button
                 className={Styles.searchButton}
                 shape="rectangle"
@@ -147,7 +194,7 @@ const IndentList = () => {
                 <tr>
                   <th>S No</th>
                   <th>Project Name</th>
-                  <th>Requester</th>
+                  {/* <th>Requester</th> */}
                   <th>Expected Delivery Date</th>
                   <th>Total Cost</th>
                   <th></th>
@@ -167,22 +214,16 @@ const IndentList = () => {
                 {getIndentData?.content?.map((data: any, index: number) => {
                   return (
                     <tr key={data.indent_request_id}>
-                      <td>{startingIndex + index}</td>
-                      <td>{data?.project_data?.project_name}</td>
-                      <td>
-                        {data?.requester_user_data?.first_name || ''}{' '}
-                        {data?.requester_user_data?.last_name
-                          ? data?.requester_user_data?.last_name
-                          : ''}
-                      </td>
-                      <td>
+                      {/* <td>{startingIndex + index}</td> */}
+                      {/* <td>{data?.project_data?.project_name}</td> */}
+                      {/* <td>
                         {format(
                           new Date(data?.expected_delivery_date),
                           'MMM dd, yyyy'
                         )}
-                      </td>
-                      <td>{formatBudgetValue(data?.total_cost)}</td>
-                      {activeButton === 'Pending' && (
+                      </td> */}
+                      {/* <td>{formatBudgetValue(data?.total_cost)}</td> */}
+                      {/* {activeButton === 'Pending' && (
                         <td>
                           <div className={Styles.tablerow}>
                             <ViewIcon
@@ -194,7 +235,7 @@ const IndentList = () => {
                             />
                           </div>
                         </td>
-                      )}
+                      )} */}
                     </tr>
                   );
                 })}

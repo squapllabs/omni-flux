@@ -11,6 +11,8 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { format } from 'date-fns';
 import { updateIndentRequest } from '../../hooks/indent-approval-hooks';
 import { useNavigate } from 'react-router-dom';
+import { store, RootState } from '../../redux/store';
+import { getToken } from '../../redux/reducer';
 
 const CustomRejectIndentPopup = (props: {
   isVissible: any;
@@ -22,6 +24,9 @@ const CustomRejectIndentPopup = (props: {
     props;
     
   const navigate = useNavigate();
+  const state: RootState = store.getState();
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
   const validationSchemaIndent = getIndentRejectValidateyup(Yup);
   const { mutate: updateIndent } = updateIndentRequest();
   const [clientinitialValues, setclientInitialValues] = useState({
@@ -43,8 +48,9 @@ const CustomRejectIndentPopup = (props: {
             indent_request_id:selectedIndentId,
             approver_status: 'Rejected',
             approved_date: null,
-            rejected_date:date
-
+            rejected_date:date,
+            updated_by:userID,
+            approver_user_id:userID
         };
         console.log('reject from', Object);
         updateIndent(Object, {
