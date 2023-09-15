@@ -85,6 +85,16 @@ const getByProjectId = catchAsync(async (req, res) => {
   }
 });
 
+const updateStatus = catchAsync(async (req, res) => {
+  const methodName = '/getByProjectId';
+  try {
+    const indentRequest = await indentRequestService.updateStatus(req.body);
+    res.send(indentRequest);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createIndentRequest,
   updateIndentRequest,
@@ -93,4 +103,5 @@ export {
   deleteByIndentRequestId,
   searchIndentRequest,
   getByProjectId,
+  updateStatus,
 };

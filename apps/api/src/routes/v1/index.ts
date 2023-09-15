@@ -36,6 +36,10 @@ import store from './store.route';
 import projectSite from './projectSite.route';
 import indentRequest from './indentRequest.route';
 import inventory from './inventory.route';
+import purchaseRequest from './purchaseRequest.route';
+import indentRequestDetails from './indentRequestDetails.route';
+import purchaseOrder from './purchaseOrder.route';
+import purchaseOrderItem from './purchaseOrderItem.route';
 
 const router = express.Router();
 
@@ -187,6 +191,22 @@ const defaultRoutes = [
   {
     path: '/inventory',
     route: inventory,
+  },
+  {
+    path: '/purchase-request',
+    route: purchaseRequest,
+  },
+  {
+    path: '/indent-request-details',
+    route: indentRequestDetails,
+  },
+  {
+    path: '/purchase-order',
+    route: purchaseOrder,
+  },
+  {
+    path: '/purchase-order-item',
+    route: purchaseOrderItem,
   },
 ];
 

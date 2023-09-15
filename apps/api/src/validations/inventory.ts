@@ -1,7 +1,6 @@
 import { check } from 'express-validator';
 
 export const inventoryCreateValidator = [
-  check('item_id').not().isEmpty().withMessage('item_id is required'),
   check('available_quantity')
     .not()
     .isEmpty()
