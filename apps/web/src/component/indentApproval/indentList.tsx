@@ -61,11 +61,10 @@ const IndentList = () => {
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
-    //   global_search: filterValues.search_by_name,
       status: 'AC',
       approver_status: 'Pending',
-      user_id: userID,
-      project_role_id:roleID
+      project_approver_id: userID,
+      priority:''
     };
     postDataForFilter(userData);
   };
@@ -194,7 +193,7 @@ const IndentList = () => {
                 <tr>
                   <th>S No</th>
                   <th>Project Name</th>
-                  {/* <th>Requester</th> */}
+                  <th>Priority</th>
                   <th>Expected Delivery Date</th>
                   <th>Total Cost</th>
                   <th></th>
@@ -214,16 +213,17 @@ const IndentList = () => {
                 {getIndentData?.content?.map((data: any, index: number) => {
                   return (
                     <tr key={data.indent_request_id}>
-                      {/* <td>{startingIndex + index}</td> */}
-                      {/* <td>{data?.project_data?.project_name}</td> */}
-                      {/* <td>
+                      <td>{startingIndex + index}</td>
+                      <td>{data?.project_data?.project_name}</td>
+                      <td>{data?.priority}</td>
+                      <td>
                         {format(
                           new Date(data?.expected_delivery_date),
                           'MMM dd, yyyy'
                         )}
-                      </td> */}
-                      {/* <td>{formatBudgetValue(data?.total_cost)}</td> */}
-                      {/* {activeButton === 'Pending' && (
+                      </td>
+                      <td>{formatBudgetValue(data?.total_cost)}</td>
+                      {activeButton === 'Pending' && (
                         <td>
                           <div className={Styles.tablerow}>
                             <ViewIcon
@@ -235,7 +235,7 @@ const IndentList = () => {
                             />
                           </div>
                         </td>
-                      )} */}
+                      )}
                     </tr>
                   );
                 })}
