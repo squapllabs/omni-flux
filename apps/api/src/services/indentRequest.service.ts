@@ -297,6 +297,7 @@ const searchIndentRequest = async (body) => {
     const approver_user_id = body.approver_user_id;
     const approver_status = body.approver_status;
     const priority = body.priority;
+    const project_approver_id = body.project_approver_id;
 
     const filterObj: any = {};
 
@@ -344,6 +345,18 @@ const searchIndentRequest = async (body) => {
       filterObj.filterIndentRequest.AND.push({
         priority: {
           equals: priority,
+        },
+      });
+    }
+
+    if (project_approver_id) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        project_data: {
+          approvar_id: project_approver_id,
         },
       });
     }
@@ -518,6 +531,20 @@ const searchIndentRequest = async (body) => {
 
     const count = result.count;
     const data = result.data;
+    const priorityMap = {
+      High: 1,
+      Medium: 2,
+      Low: 3,
+    };
+
+    data.sort(
+      (a: { priority: string | number }, b: { priority: string | number }) => {
+        const priorityA = priorityMap[a.priority] || 999;
+        const priorityB = priorityMap[b.priority] || 999;
+
+        return priorityA - priorityB;
+      }
+    );
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
     const tempIndentRequestData = {
       message: 'success',
