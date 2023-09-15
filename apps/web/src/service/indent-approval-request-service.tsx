@@ -31,7 +31,7 @@ const indentRaise = async (values: JSON) => {
   const updateIndentRequest = async (values: JSON) => {
     try {
       const response = await axiosinterceptor.put(
-        `${environment.apiUrl}/indent-request`,
+        `${environment.apiUrl}/indent-request/update-status`,
         values
       );
       return response.data;

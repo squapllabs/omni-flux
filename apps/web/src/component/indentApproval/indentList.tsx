@@ -147,7 +147,6 @@ const IndentList = () => {
                 <tr>
                   <th>S No</th>
                   <th>Project Name</th>
-                  <th>Description </th>
                   <th>Requester</th>
                   <th>Expected Delivery Date</th>
                   <th>Total Cost</th>
@@ -170,7 +169,6 @@ const IndentList = () => {
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data?.project_data?.project_name}</td>
-                      <td>{data?.description}</td>
                       <td>
                         {data?.requester_user_data?.first_name || ''}{' '}
                         {data?.requester_user_data?.last_name
