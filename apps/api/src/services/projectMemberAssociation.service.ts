@@ -402,6 +402,8 @@ const searchProjectMemberAssociation = async (body) => {
     const status = body.status;
     const project_id = body.project_id;
     const user_id = body.user_id;
+    const project_role_id = body.project_role_id;
+    const approver_status = body.approver_status;
 
     const filterObj: any = {};
 
@@ -425,6 +427,34 @@ const searchProjectMemberAssociation = async (body) => {
       filterObj.filterProjectMemberAssociation.AND.push({
         user_id: user_id,
       });
+    }
+
+    if (project_role_id) {
+      filterObj.filterProjectMemberAssociation.AND =
+        filterObj.filterProjectMemberAssociation.AND || [];
+      filterObj.filterProjectMemberAssociation.AND.push({
+        project_role_id: project_role_id,
+      });
+    }
+    /* 
+    if (approver_status) {
+      filterObj.filterProjectMemberAssociation.AND =
+        filterObj.filterProjectMemberAssociation.AND || [];
+      filterObj.filterProjectMemberAssociation.AND.push({
+        project_data: {
+          indent_request: {
+            some: {
+              approver_status: {
+                equals: 'Approved',
+              },
+            },
+          },
+        },
+      });
+    } */
+
+    if (approver_status) {
+      filterObj.approver_status = approver_status;
     }
 
     if (global_search) {
