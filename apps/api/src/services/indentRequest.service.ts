@@ -531,7 +531,7 @@ const searchIndentRequest = async (body) => {
 
     const count = result.count;
     const data = result.data;
-    const priorityMap = {
+    /*     const priorityMap = {
       High: 1,
       Medium: 2,
       Low: 3,
@@ -544,7 +544,7 @@ const searchIndentRequest = async (body) => {
 
         return priorityA - priorityB;
       }
-    );
+    ); */
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
     const tempIndentRequestData = {
       message: 'success',
