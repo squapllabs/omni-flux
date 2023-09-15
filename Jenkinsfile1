@@ -34,11 +34,11 @@ pipeline {
              // sh 'sh /var/lib/jenkins/workspace/docker_deploy/deployment_trigger.sh'
            }
        }
- stage('emailnotification') {
-            steps {
-              emailext (attachLog: true, body: 'pipeline has beed completed', subject: 'Omniflux_application_pipeline  status', to: 'anbarasan.mathesh@aalamsoft.com')
-        }
-      }
+// stage('emailnotification') {
+         //   steps {
+            //  emailext (attachLog: true, body: 'pipeline has beed completed', subject: 'Omniflux_application_pipeline  status', to: 'anbarasan.mathesh@aalamsoft.com')
+    //    }
+    //  }
     }     
 }
 
