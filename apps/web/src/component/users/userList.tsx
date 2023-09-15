@@ -4,7 +4,7 @@ import {
   useGetAllUsers,
   useDeleteUsers,
   getByUser,
-  useGetAllPaginatedUser
+  useGetAllPaginatedUser,
 } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import CustomDelete from '../ui/customDeleteDialogBox';
@@ -135,7 +135,7 @@ const UserList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
       <div>
@@ -218,7 +218,43 @@ const UserList = () => {
                 </thead>
                 <tbody>
                   {dataShow ? (
-                  getFilterData?.total_count === 0 ? (
+                    getFilterData?.total_count === 0 ? (
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>No data found</td>
+                        {activeButton === 'AC' && <td></td>}
+                      </tr>
+                    ) : (
+                      getFilterData?.content?.map(
+                        (data: any, index: number) => (
+                          <tr key={data.user_id}>
+                            <td>{startingIndex + index}</td>
+                            <td>{data.first_name}</td>
+                            <td>{data.last_name}</td>
+                            <td>{data.email_id}</td>
+                            <td>{data.contact_no}</td>
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tablerow}>
+                                  <EditIcon
+                                    onClick={() =>
+                                      navigate(`/user-edit/${data.user_id}`)
+                                    }
+                                  />
+                                  <DeleteIcon
+                                    onClick={() =>
+                                      deleteUserHandler(data.user_id)
+                                    }
+                                  />
+                                </div>
+                              </td>
+                            )}
+                          </tr>
+                        )
+                      )
+                    )
+                  ) : initialData?.total_count === 0 ? (
                     <tr>
                       <td></td>
                       <td></td>
@@ -226,37 +262,6 @@ const UserList = () => {
                       {activeButton === 'AC' && <td></td>}
                     </tr>
                   ) : (
-                  getFilterData?.content?.map((data: any, index: number) => (
-                    <tr key={data.user_id}>
-                      <td>{startingIndex + index}</td>
-                      <td>{data.first_name}</td>
-                      <td>{data.last_name}</td>
-                      <td>{data.email_id}</td>
-                      <td>{data.contact_no}</td>
-                      {activeButton === 'AC' && (
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() =>
-                                navigate(`/user-edit/${data.user_id}`)
-                              }
-                            />
-                            <DeleteIcon
-                              onClick={() => deleteUserHandler(data.user_id)}
-                            />
-                          </div>
-                        </td>
-                      )}
-                    </tr>
-                  )))
-                  ): initialData?.total_count === 0 ? (
-                    <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
-                    {activeButton === 'AC' && <td></td>}
-                  </tr>
-                  ):(
                     initialData?.content?.map((data: any, index: number) => (
                       <tr key={data.user_id}>
                         <td>{startingIndex + index}</td>
@@ -279,7 +284,6 @@ const UserList = () => {
                           </td>
                         )}
                       </tr>
-  
                     ))
                   )}
                 </tbody>
@@ -288,8 +292,14 @@ const UserList = () => {
             <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={dataShow ? getFilterData?.total_page: initialData?.total_page}
-                totalCount={dataShow ? getFilterData?.total_count : initialData?.total_count}
+                totalPages={
+                  dataShow ? getFilterData?.total_page : initialData?.total_page
+                }
+                totalCount={
+                  dataShow
+                    ? getFilterData?.total_count
+                    : initialData?.total_count
+                }
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
@@ -301,7 +311,7 @@ const UserList = () => {
           open={open}
           handleClose={handleClose}
           title="Delete User"
-          contentLine1="Are you want to delete this User?"
+          contentLine1="Are you sure you want to delete this User?"
           contentLine2=""
           handleConfirm={deleteUser}
         />

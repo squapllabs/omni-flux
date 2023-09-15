@@ -189,8 +189,8 @@ const ClientList = () => {
     setActiveButton(value);
   };
 
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
-  console.log("page index==>",startingIndex)
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  console.log('page index==>', startingIndex);
   return (
     <div>
       <div>
