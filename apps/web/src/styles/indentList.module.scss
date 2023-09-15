@@ -79,7 +79,7 @@ table {
     background-color: #e0e0e0;
   }
   .tableContainer {
-    padding: 10px 10px 0px 30px;
+    padding: 10px 10px 0px 10px;
     // height: 100vh;
     display: flex;
     flex-direction: column;
@@ -89,4 +89,10 @@ table {
     padding: 10px 10px 10px 0px;
     display: flex;
     justify-content: end;
+  }
+  .buttonStyle {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
   }
