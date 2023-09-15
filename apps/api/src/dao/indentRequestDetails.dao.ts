@@ -24,6 +24,7 @@ const searchIndentRequestDetails = async (
               machinery_data: true,
             },
           },
+          indent_request_data: { include: { project_data: true } },
         },
         orderBy: [
           {

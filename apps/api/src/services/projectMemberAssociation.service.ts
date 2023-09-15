@@ -436,22 +436,6 @@ const searchProjectMemberAssociation = async (body) => {
         project_role_id: project_role_id,
       });
     }
-    /* 
-    if (approver_status) {
-      filterObj.filterProjectMemberAssociation.AND =
-        filterObj.filterProjectMemberAssociation.AND || [];
-      filterObj.filterProjectMemberAssociation.AND.push({
-        project_data: {
-          indent_request: {
-            some: {
-              approver_status: {
-                equals: 'Approved',
-              },
-            },
-          },
-        },
-      });
-    } */
 
     if (approver_status) {
       filterObj.approver_status = approver_status;
