@@ -6,10 +6,16 @@ const add = async (
   budget: number,
   created_by: bigint,
   description: string,
+  project_id: number,
+  start_date: Date,
+  end_date: Date,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
+    const formatted_start_date = start_date ? new Date(start_date) : null;
+    const formatted_end_date = end_date ? new Date(end_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const is_delete = false;
     const subCategory = await transaction.sub_category.create({
@@ -22,6 +28,10 @@ const add = async (
         updated_date: currentDate,
         is_delete: is_delete,
         description,
+        project_id,
+        start_date: formatted_start_date,
+        end_date: formatted_end_date,
+        bom_configuration_id,
       },
     });
     return subCategory;
@@ -38,10 +48,16 @@ const edit = async (
   updated_by: bigint,
   sub_category_id: number,
   description: string,
+  project_id: number,
+  start_date: Date,
+  end_date: Date,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
+    const formatted_start_date = start_date ? new Date(start_date) : null;
+    const formatted_end_date = end_date ? new Date(end_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const subCategory = await transaction.sub_category.update({
       where: {
@@ -54,6 +70,10 @@ const edit = async (
         updated_by,
         updated_date: currentDate,
         description,
+        project_id,
+        start_date: formatted_start_date,
+        end_date: formatted_end_date,
+        bom_configuration_id,
       },
     });
     return subCategory;
@@ -73,6 +93,21 @@ const getById = async (subCategoryId: number, connectionObj = null) => {
       },
       include: {
         category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
     });
     return subCategory;
@@ -96,6 +131,21 @@ const getAll = async (connectionObj = null) => {
       ],
       include: {
         category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
     });
     return subCategories;
@@ -150,12 +200,12 @@ const getBySubCategoryNameAndCategoryId = async (
 const getAllInActiveSubCategories = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const SubCategory = await transaction.sub_category.findMany({
+    const subCategory = await transaction.sub_category.findMany({
       where: {
         is_delete: true,
       },
     });
-    return SubCategory;
+    return subCategory;
   } catch (error) {
     console.log(
       'Error occurred in subCategory getAllInActiveSubCategories dao',
@@ -185,6 +235,21 @@ const searchSubCategory = async (
       ],
       include: {
         category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
       skip: offset,
       take: limit,
@@ -206,18 +271,131 @@ const searchSubCategory = async (
   }
 };
 
-const getByCategoryId = async (categoryId: number, connectionObj = null) => {
+const getByCategoryId = async (category_id: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subCategory = await transaction.sub_category.findFirst({
+    const subCategory = await transaction.sub_category.findMany({
       where: {
-        category_id: Number(categoryId),
+        category_id: Number(category_id),
         is_delete: false,
+      },
+      include: {
+        category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
     });
     return subCategory;
   } catch (error) {
     console.log('Error occurred in subCategory getByCategoryId dao', error);
+    throw error;
+  }
+};
+
+const getByCategoryIdAndBomConfigurationId = async (
+  category_id: number,
+  bom_configuration_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.findMany({
+      where: {
+        category_id: Number(category_id),
+        bom_configuration_id: Number(bom_configuration_id),
+        is_delete: false,
+      },
+      include: {
+        category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log(
+      'Error occurred in subCategory getByCategoryIdAndBomConfigurationId dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const updateBudget = async (
+  budget: number,
+  sub_category_id: number,
+  updated_by: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj ? connectionObj : prisma;
+    const currentDate = new Date();
+    const subCategoryDetails = await transaction.sub_category.update({
+      where: {
+        sub_category_id: sub_category_id,
+      },
+      data: {
+        budget: budget,
+        updated_date: currentDate,
+        updated_by,
+      },
+    });
+
+    return subCategoryDetails;
+  } catch (error) {
+    console.log('Error occurred in sub category dao updateBudget', error);
+    throw error;
+  }
+};
+
+const getSumOfBudgetByCategoryId = async (
+  category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.aggregate({
+      where: {
+        category_id: Number(category_id),
+        is_delete: false,
+      },
+      _sum: {
+        budget: true,
+      },
+    });
+
+    return subCategory._sum.budget || 0;
+  } catch (error) {
+    console.error(
+      'Error occurred in sub category dao getSumOfBudgetByCategoryId:',
+      error
+    );
     throw error;
   }
 };
@@ -232,4 +410,7 @@ export default {
   getAllInActiveSubCategories,
   searchSubCategory,
   getByCategoryId,
+  updateBudget,
+  getSumOfBudgetByCategoryId,
+  getByCategoryIdAndBomConfigurationId,
 };

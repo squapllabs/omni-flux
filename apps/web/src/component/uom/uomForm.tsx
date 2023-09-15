@@ -51,7 +51,7 @@ const UomForm: React.FC = (props: any) => {
         };
         createNewuom(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('UOM created');
@@ -67,7 +67,7 @@ const UomForm: React.FC = (props: any) => {
         };
         updateuom(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.success) {
+            if (data?.message === 'success') {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('UOM edited');

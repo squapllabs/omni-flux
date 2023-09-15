@@ -509,38 +509,38 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
     const leadEnquiryExist = await leadEnquiryDao.getById(leadEnquiryId);
     if (!leadEnquiryExist) {
       const result = {
-        status: false,
         message: 'lead_enquiry_id does not exist',
+        status: false,
         data: null,
       };
       return result;
     }
 
-    if (leadEnquiryExist.lead_enquiry_product.length === 0) {
+    if (leadEnquiryExist.lead_enquiry_product.length > 0) {
       const result = {
-        status: false,
         message:
           'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_product table',
+        status: false,
         data: null,
       };
       return result;
     }
 
-    if (leadEnquiryExist.lead_enquiry_tenders.length === 0) {
+    if (leadEnquiryExist.lead_enquiry_tenders.length > 0) {
       const result = {
-        status: false,
         message:
           'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_tender table',
+        status: false,
         data: null,
       };
       return result;
     }
 
-    if (leadEnquiryExist.lead_enquiry_product_item.length === 0) {
+    if (leadEnquiryExist.lead_enquiry_product_item.length > 0) {
       const result = {
-        status: false,
         message:
           'Unable to delete.The lead_enquiry_id is mapped in lead_enquiry_product_item table',
+        status: false,
         data: null,
       };
       return result;
@@ -556,8 +556,8 @@ const deleteLeadEnquiry = async (leadEnquiryId: number) => {
       return result;
     } else {
       const result = {
-        status: false,
         message: 'Failed to delete this leadEnquiry',
+        status: false,
         data: null,
       };
       return result;

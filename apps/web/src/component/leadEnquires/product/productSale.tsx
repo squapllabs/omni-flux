@@ -105,7 +105,7 @@ const ProductSale: React.FC = (props: any) => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      let data = await LeadEnquiresServices.getOneleadEnquiryByID(
+      const data = await LeadEnquiresServices.getOneleadEnquiryByID(
         props.leadEnquireId
       );
 
@@ -131,7 +131,7 @@ const ProductSale: React.FC = (props: any) => {
         created_by: data?.data?.created_by,
         lead_product_id: data?.data?.lead_enquiry_product[0]?.lead_product_id,
       });
-      let product: {
+      const product: {
         product_name: any;
         product_id: any;
         quantity: any;
@@ -140,7 +140,7 @@ const ProductSale: React.FC = (props: any) => {
       }[] = [];
       data.data.lead_enquiry_product[0]?.lead_enquiry_product_item.map(
         (item: any) => {
-          let Obj = {
+          const Obj = {
             lead_enquiry_product_item_id: item?.lead_enquiry_product_item_id,
             product_name: item?.product?.item_name,
             product_id: item?.product_id,
@@ -188,9 +188,9 @@ const ProductSale: React.FC = (props: any) => {
           'product-availability',
           'Selected product is already present',
           async function (value, { parent }: Yup.TestContext) {
-            let isDelete = parent.is_delete;
-            let product = value.split('+');
-            let productName = product[1];
+            const isDelete = parent.is_delete;
+            const product = value.split('+');
+            const productName = product[1];
             try {
               const isValuePresent = productItems.some((obj) => {
                 return (
@@ -214,7 +214,7 @@ const ProductSale: React.FC = (props: any) => {
     await schema
       .validate(value, { abortEarly: false })
       .then(async () => {
-        let productName = value.product_id.split('+');
+        const productName = value.product_id.split('+');
         value.product_id = Number(productName[0]);
         value.product_name = productName[1];
         value.quantity = Number(value.quantity);
@@ -223,7 +223,7 @@ const ProductSale: React.FC = (props: any) => {
         setValue(valueObject);
       })
       .catch((e) => {
-        let errorObj: any = {};
+        const errorObj: any = {};
         e.inner.map((errors: any) => {
           return (errorObj[errors.path] = errors.message);
         });
@@ -238,8 +238,8 @@ const ProductSale: React.FC = (props: any) => {
   };
   const handleProductEdit = (e: any, value: any) => {
     setOpen(true);
-    let fileterValue = value.product_name;
-    let data = productItems.filter(
+    const fileterValue = value.product_name;
+    const data = productItems.filter(
       (element) => element?.product_name === fileterValue
     );
     setEditProduct(data[0]);
@@ -253,7 +253,7 @@ const ProductSale: React.FC = (props: any) => {
     formik.handleChange(event);
   };
 
-  const outputLableNameFromEnv = `Approx value (${environment.OUTPUTBUDGET})`;
+  const outputLableNameFromEnv = `Approx Value (${environment.OUTPUTBUDGET})`;
 
   const formik = useFormik({
     initialValues,
@@ -262,7 +262,7 @@ const ProductSale: React.FC = (props: any) => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         if (props?.leadEnquireId === undefined) {
-          let object: any = {
+          const object: any = {
             lead_type: props.leadType,
             client: Number(values.client),
             client_level: Number(values.client_level),
@@ -283,7 +283,7 @@ const ProductSale: React.FC = (props: any) => {
           };
           postleadEnquiry(object, {
             onSuccess(data, variables, context) {
-              resetForm;
+              resetForm();
               setMessage('Product sale created');
               setOpenSnack(true);
               setTimeout(() => {
@@ -292,7 +292,7 @@ const ProductSale: React.FC = (props: any) => {
             },
           });
         } else {
-          let object: any = {
+          const object: any = {
             lead_enquiry_id: Number(props.leadEnquireId),
             lead_type: props.leadType,
             lead_product_id: Number(values.lead_product_id),
@@ -349,6 +349,7 @@ const ProductSale: React.FC = (props: any) => {
                   name="client"
                   label="Client"
                   defaultLabel="Select Client"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
@@ -517,7 +518,6 @@ const ProductSale: React.FC = (props: any) => {
                     if (item?.is_delete === 'N') {
                       rowIndex = rowIndex + 1;
                       return (
-                        <>
                           <tr key={index}>
                             <td>{rowIndex}</td>
                             <td>{item.product_name}</td>
@@ -533,7 +533,6 @@ const ProductSale: React.FC = (props: any) => {
                               />
                             </td>
                           </tr>
-                        </>
                       );
                     }
                   })}
@@ -548,7 +547,7 @@ const ProductSale: React.FC = (props: any) => {
               <div className={Styles.fieldStyle}>
                 <div className={Styles.tableData}>
                   <Input
-                    label="Approx value"
+                    label="Approx Value"
                     name="approx_value"
                     mandatory={true}
                     value={formik.values.approx_value}
@@ -567,8 +566,9 @@ const ProductSale: React.FC = (props: any) => {
               <div className={Styles.fieldStyle}>
                 <AutoCompleteSelect
                   name="sales_person_name"
-                  label="Sales person Name"
+                  label="Sales Person Name"
                   defaultLabel="Select Sales Person"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.sales_person_name}
                   onChange={formik.handleChange}

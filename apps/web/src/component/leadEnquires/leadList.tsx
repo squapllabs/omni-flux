@@ -47,7 +47,6 @@ const LeadList = () => {
     postleadEnquiry(demo);
     setIsLoading(false);
     setFilter(true);
-    setDisable(false);
   };
   const handleReset = async () => {
     const demo: any = {
@@ -91,6 +90,9 @@ const LeadList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if(searchValue=== ''){
+      handleReset();
+    }
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -183,6 +185,7 @@ const LeadList = () => {
                 <tbody>
                   {filterData?.total_count === 0 ? (
                     <tr>
+                      <td></td>
                       <td></td>
                       <td>No data found</td>
                       <td></td>

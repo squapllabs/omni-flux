@@ -19,7 +19,7 @@ const createProjectExpense = async (body: createProjectExpenseBody) => {
     if (project_id) {
       const projectExist = await projectDao.getById(project_id);
       if (!projectExist) {
-        result = { success: false, message: 'project_id does not exist' };
+        result = { message: 'project_id does not exist', status: false, data: null };
         return result;
       }
     }
@@ -32,7 +32,7 @@ const createProjectExpense = async (body: createProjectExpenseBody) => {
       document_url,
       created_by
     );
-    result = { success: true, data: projectExpenseDetails };
+    result = { message: 'success', status: true, data: projectExpenseDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in projectExpense service Add: ', error);
@@ -61,7 +61,7 @@ const updateProjectExpense = async (body: updateProjectExpenseBody) => {
     if (project_id) {
       const projectExist = await projectDao.getById(project_id);
       if (!projectExist) {
-        result = { success: false, message: 'project_id does not exist' };
+        result = { message: 'project_id does not exist', status: false, data: null };
         return result;
       }
     }
@@ -79,10 +79,10 @@ const updateProjectExpense = async (body: updateProjectExpenseBody) => {
         updated_by,
         project_expense_id
       );
-      result = { success: true, data: projectExpenseDetails };
+      result = { message: 'success', status: true, data: projectExpenseDetails };
       return result;
     } else {
-      result = { success: false, message: 'project_expense_id does not exist' };
+      result = { message: 'project_expense_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -103,10 +103,10 @@ const getById = async (projectExpenseId: number) => {
       projectExpenseId
     );
     if (projectExpenseData) {
-      result = { success: true, data: projectExpenseData };
+      result = { message: 'success', status: true, data: projectExpenseData };
       return result;
     } else {
-      result = { success: false, message: 'project_expense_id does not exist' };
+      result = { message: 'project_expense_id does not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -122,7 +122,7 @@ const getById = async (projectExpenseId: number) => {
 const getAllProjectExpense = async () => {
   try {
     const result = await projectExpenseDao.getAll();
-    const projectExpenseData = { success: true, data: result };
+    const projectExpenseData = { message: 'success', status: true, data: result };
     return projectExpenseData;
   } catch (error) {
     console.log(
@@ -144,22 +144,25 @@ const deleteProjectExpense = async (projectExpenseId: number) => {
     );
     if (!projectExpenseExist) {
       const result = {
-        success: false,
         message: 'project_expense_id does not exist',
+        status: false,
+        data: null
       };
       return result;
     }
     const data = await projectExpenseDao.deleteProjectExpense(projectExpenseId);
     if (data) {
       const result = {
-        success: true,
         message: 'ProjectExpense Data Deleted Successfully',
+        status: true,
+        data: null,
       };
       return result;
     } else {
       const result = {
-        success: false,
         message: 'Failed to delete this projectExpense',
+        status: false,
+        data: null
       };
       return result;
     }

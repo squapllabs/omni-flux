@@ -96,7 +96,8 @@ const createUser = async (body: createUserBody) => {
       .then((data) => {
         console.log('Successfully User Data Returned ', data);
         const newUserData = {
-          success: true,
+          message: 'success',
+          status: true,
           data: data,
         };
         return newUserData;
@@ -138,7 +139,11 @@ const updateUser = async (body: updateUserBody) => {
 
     const userExist = await userDao.getById(user_id);
     if (!userExist) {
-      return (result = { success: false, message: 'user id does not exists' });
+      return (result = {
+        message: 'user id does not exists',
+        status: false,
+        data: null,
+      });
     }
 
     if (parent_user_id) {
@@ -257,12 +262,10 @@ const getByEmailId = async (emailId: string) => {
     const userData = await userDao.getByEmailId(emailId);
 
     if (userData) {
-      const userRoleData = await userRoleDao.getByUserId(userData?.user_id);
-      const dataToApi = { userData: userData, roleId: userRoleData?.role_id };
-      result = { success: true, data: dataToApi };
+      result = { message: 'success', status: true, data: userData };
       return result;
     } else {
-      result = { success: false, message: 'user email not exist' };
+      result = { message: 'user email not exist', status: false, data: null };
       return result;
     }
   } catch (error) {
@@ -288,8 +291,9 @@ const userLogin = async (
     const dbUser = await userDao.getByEmailId(email_id);
     if (!dbUser || dbUser?.user_password !== md5(user_password)) {
       result = {
-        success: false,
         message: 'Email id and password Wrong',
+        status: false,
+        data: null,
       };
       return result;
     }
@@ -307,12 +311,14 @@ const userLogin = async (
     } catch (err) {
       console.log(' error occurred', err);
       return (result = {
-        success: false,
         message: 'Error! Something went wrong',
+        status: false,
+        data: null,
       });
     }
     const fullName = dbUser?.first_name + ' ' + dbUser?.last_name;
     const userId = dbUser?.user_id;
+    const userData = dbUser;
     const loginResponse = {
       status: true,
       message: 'Success',
@@ -321,13 +327,15 @@ const userLogin = async (
       fullName: fullName,
       email: email_id,
       userId: userId,
+      userData: userData,
     };
     res.send(loginResponse);
   } catch (error) {
     console.log('Error occurred in userLogin user service : ', error);
     const loginResponse = {
-      status: false,
       message: 'something went wrong',
+      status: false,
+      data: null,
     };
     return loginResponse;
   }
@@ -366,7 +374,7 @@ const verifyToken = (token) => {
 const getAllUser = async (user_status = 'AC') => {
   try {
     const result = await userDao.getAll(user_status);
-    const userData = { success: true, data: result };
+    const userData = { message: 'success', status: true, data: result };
     return userData;
   } catch (error) {
     console.log('Error occurred in getAll user service : ', error);
@@ -383,18 +391,27 @@ const deleteUser = async (userId) => {
     const userExist = await userDao.getById(userId);
 
     if (!userExist) {
-      const result = { success: false, message: 'User Id Not Exist' };
+      const result = {
+        message: 'User Id Not Exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const data = await userDao.deleteUser(userId);
     if (data?.is_delete === true) {
       const result = {
-        success: true,
         message: 'User Data Deleted Successfully',
+        staus: true,
+        data: null,
       };
       return result;
     } else {
-      const result = { success: false, message: 'Failed to delete this user' };
+      const result = {
+        message: 'Failed to delete this user',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -413,7 +430,7 @@ const updateStatus = async (body) => {
     const { user_id, user_status } = body;
     const userExist = await userDao.getById(user_id);
     if (!userExist) {
-      const result = { success: false, message: 'User not exist' };
+      const result = { message: 'User not exist', status: false, data: null };
       return result;
     }
     const result = await userDao.updateStatus(user_id, user_status);
@@ -501,7 +518,7 @@ const updateStatus = async (body) => {
 const getDeletedUsers = async () => {
   try {
     const result = await userDao.getDeletedUsers();
-    const userData = { success: true, data: result };
+    const userData = { message: 'success', status: true, data: result };
     return userData;
   } catch (error) {
     console.log('Error occurred in User Service : getDeletedUsers Method');
@@ -598,9 +615,32 @@ const applyFilter = async (filterObj, field_name, operator, field_value) => {
 };
 
 /**
- * Method to Get All Sales Person Users
+ * Method for updating is_two_factor by user_id
+ * @param body
  * @returns
  */
+const updateTwoFactorAuthentication = async (body) => {
+  try {
+    const { user_id, is_two_factor } = body;
+    const result = await userDao.updateTwoFactorAuthentication(
+      user_id,
+      is_two_factor
+    );
+    const userData = {
+      message: 'success',
+      status: true,
+      data: result,
+    };
+    return userData;
+  } catch (error) {
+    console.log(
+      'Error occurred in User Service : updateTwoFactorAuthentication Method',
+      error
+    );
+    throw error;
+  }
+};
+
 const getAllSalesPersonUsers = async () => {
   try {
     const result = await userDao.getAllSalesPersonUsers();
@@ -748,6 +788,7 @@ export {
   getDeletedUsers,
   customFilterUser,
   refreshAccessToken,
+  updateTwoFactorAuthentication,
   getAllSalesPersonUsers,
   getByRoleName,
   getChildUsersByParentUserId,

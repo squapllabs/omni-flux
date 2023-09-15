@@ -52,10 +52,6 @@ const UomList = () => {
   const [value, setValue] = useState();
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IN' },
-  ]);
   const [initialValues, setInitialValues] = useState({
     uom_id: '',
     name: '',
@@ -64,14 +60,12 @@ const UomList = () => {
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
-  const [activeButton, setActiveButton] = useState<string | null>('AC');
   const validationSchema = getuomCreateValidateyup(Yup);
   const uomData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
     order_by_column: 'updated_date',
     order_by_direction: 'desc',
-    status: activeButton,
     global_search: filterValues.search_by_name,
   };
   const {
@@ -79,7 +73,6 @@ const UomList = () => {
     data: initialData,
     refetch,
   } = useGetAllPaginatedUomData(uomData);
-  // console.log('uom search data==>', initialData);
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -137,12 +130,15 @@ const UomList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if (searchValue === '') {
+      handleReset();
+    }
   };
 
   useEffect(() => {
     // handleSearch();
     refetch();
-  }, [currentPage, rowsPerPage, activeButton]);
+  }, [currentPage, rowsPerPage]);
 
   /* Function for searching data in the UOM Table */
   const handleSearch = async () => {
@@ -151,7 +147,6 @@ const UomList = () => {
       offset: (currentPage - 1) * rowsPerPage,
       order_by_column: 'updated_by',
       order_by_direction: 'desc',
-      status: activeButton,
       global_search: filterValues.search_by_name,
     };
     postDataForFilter(uomData);
@@ -162,22 +157,13 @@ const UomList = () => {
   /* Function for resting the table to its actual state after search */
   const handleReset = async () => {
     setDataShow(false);
-    // const uomData: any = {
-    //   limit: rowsPerPage,
-    //   offset: (currentPage - 1) * rowsPerPage,
-    //   order_by_column: 'updated_by',
-    //   order_by_direction: 'desc',
-    //   status: 'AC',
-    //   global_search: '',
-    // };
-    // postDataForFilter(uomData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
       search_by_name: '',
     });
-    setIsLoading(false);
     setIsResetDisabled(true);
+    setIsLoading(false);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -191,9 +177,6 @@ const UomList = () => {
     setCurrentPage(1);
   };
 
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
-  };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
@@ -290,13 +273,6 @@ const UomList = () => {
                   Reset
                 </Button>
               </div>
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div>
             </div>
             <div className={Styles.tableContainer}>
               <div>
@@ -306,7 +282,7 @@ const UomList = () => {
                       <th>S No</th>
                       <th>UOM Name</th>
                       <th>Description</th>
-                      {activeButton === 'AC' && <th></th>}
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -316,7 +292,7 @@ const UomList = () => {
                           <td></td>
                           <td></td>
                           <td>No data found</td>
-                          {activeButton === 'AC' && <td></td>}
+                          <td></td>
                         </tr>
                       ) : (
                         getFilterData?.content?.map(
@@ -325,20 +301,19 @@ const UomList = () => {
                               <td>{startingIndex + index}</td>
                               <td>{data.name}</td>
                               <td>{data.description}</td>
-                              {activeButton === 'AC' && (
-                                <td>
-                                  <div className={Styles.tablerow}>
-                                    <EditIcon
-                                      onClick={() => handleEdit(data.uom_id)}
-                                    />
-                                    <DeleteIcon
-                                      onClick={() =>
-                                        deleteCategoryHandler(data.uom_id)
-                                      }
-                                    />
-                                  </div>
-                                </td>
-                              )}
+
+                              <td>
+                                <div className={Styles.tablerow}>
+                                  <EditIcon
+                                    onClick={() => handleEdit(data.uom_id)}
+                                  />
+                                  <DeleteIcon
+                                    onClick={() =>
+                                      deleteCategoryHandler(data.uom_id)
+                                    }
+                                  />
+                                </div>
+                              </td>
                             </tr>
                           )
                         )
@@ -348,7 +323,7 @@ const UomList = () => {
                         <td></td>
                         <td></td>
                         <td>No data found</td>
-                        {activeButton === 'AC' && <td></td>}
+                        <td></td>
                       </tr>
                     ) : (
                       initialData?.content?.map((data: any, index: number) => (
@@ -356,20 +331,19 @@ const UomList = () => {
                           <td>{startingIndex + index}</td>
                           <td>{data.name}</td>
                           <td>{data.description}</td>
-                          {activeButton === 'AC' && (
-                            <td>
-                              <div className={Styles.tablerow}>
-                                <EditIcon
-                                  onClick={() => handleEdit(data.uom_id)}
-                                />
-                                <DeleteIcon
-                                  onClick={() =>
-                                    deleteCategoryHandler(data.uom_id)
-                                  }
-                                />
-                              </div>
-                            </td>
-                          )}
+
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() => handleEdit(data.uom_id)}
+                              />
+                              <DeleteIcon
+                                onClick={() =>
+                                  deleteCategoryHandler(data.uom_id)
+                                }
+                              />
+                            </div>
+                          </td>
                         </tr>
                       ))
                     )}

@@ -6,6 +6,8 @@ const add = async (
   budget: number,
   created_by: bigint,
   description: string,
+  project_id: number,
+  parent_sub_sub_category_id: number,
   connectionObj = null
 ) => {
   try {
@@ -22,6 +24,8 @@ const add = async (
         updated_date: currentDate,
         is_delete: is_delete,
         description,
+        project_id,
+        parent_sub_sub_category_id,
       },
     });
     return subSubCategory;
@@ -38,6 +42,8 @@ const edit = async (
   updated_by: bigint,
   sub_sub_category_id: number,
   description: string,
+  project_id: number,
+  parent_sub_sub_category_id: number,
   connectionObj = null
 ) => {
   try {
@@ -54,6 +60,8 @@ const edit = async (
         updated_by,
         updated_date: currentDate,
         description,
+        project_id,
+        parent_sub_sub_category_id,
       },
     });
     return subSubCategory;
@@ -73,6 +81,7 @@ const getById = async (subSubCategoryId: number, connectionObj = null) => {
       },
       include: {
         sub_category: true,
+        parent_data: true,
       },
     });
     return subSubCategory;
@@ -81,30 +90,6 @@ const getById = async (subSubCategoryId: number, connectionObj = null) => {
     throw error;
   }
 };
-
-/* const getAll = async (connectionObj = null) => {
-  try {
-    const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subSubCategories = await transaction.sub_sub_category.findMany({
-      where: {
-        is_delete: false,
-      },
-      orderBy: [
-        {
-          updated_date: 'desc',
-        },
-      ],
-      include: {
-        sub_category: true,
-      },
-    });
-
-    return subSubCategories;
-  } catch (error) {
-    console.log('Error occurred in subSubCategory getAll dao', error);
-    throw error;
-  }
-}; */
 
 const getAll = async (connectionObj = null) => {
   try {
@@ -124,14 +109,17 @@ const getAll = async (connectionObj = null) => {
             category: true,
           },
         },
+        parent_data: true,
       },
     });
+
     return subSubCategories;
   } catch (error) {
     console.log('Error occurred in subSubCategory getAll dao', error);
     throw error;
   }
 };
+
 
 const deleteSubSubCategory = async (
   subSubCategoryId: number,
@@ -220,6 +208,7 @@ const searchSubSubCategory = async (
             category: true,
           },
         },
+        parent_data: true,
       },
       skip: offset,
       take: limit,
@@ -247,15 +236,82 @@ const getBySubCategoryId = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const subCategory = await transaction.sub_sub_category.findFirst({
+    const subCategory = await transaction.sub_sub_category.findMany({
       where: {
         sub_category_id: Number(subCategoryId),
         is_delete: false,
       },
+      include: {
+        sub_category: {
+          include: {
+            category: true,
+          },
+        },
+        parent_data: true,
+      },
     });
     return subCategory;
   } catch (error) {
-    console.log('Error occurred in subCategory getBySubCategoryId dao', error);
+    console.log(
+      'Error occurred in subSubCategory getBySubCategoryId dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const getAllParentData = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_sub_category.findMany({
+      where: {
+        parent_sub_sub_category_id: null,
+        is_delete: false,
+      },
+      include: {
+        sub_category: {
+          include: {
+            category: true,
+          },
+        },
+        parent_data: true,
+        child_data: true,
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log('Error occurred in subSubCategory getAllParentData dao', error);
+    throw error;
+  }
+};
+
+const getChildDataByParentSubSubCatId = async (
+  parent_sub_sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_sub_category.findMany({
+      where: {
+        parent_sub_sub_category_id: Number(parent_sub_sub_category_id),
+        is_delete: false,
+      },
+      include: {
+        sub_category: {
+          include: {
+            category: true,
+          },
+        },
+        parent_data: true,
+        child_data: true,
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log(
+      'Error occurred in subSubCategory getChildDataByParentSubSubCatId dao',
+      error
+    );
     throw error;
   }
 };
@@ -270,4 +326,6 @@ export default {
   getAllInActiveSubSubCategories,
   searchSubSubCategory,
   getBySubCategoryId,
+  getAllParentData,
+  getChildDataByParentSubSubCatId,
 };

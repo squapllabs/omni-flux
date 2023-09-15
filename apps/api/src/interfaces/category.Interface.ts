@@ -4,6 +4,9 @@ interface createCategoryBody {
   budget: number;
   created_by: bigint;
   description: string;
+  start_date: Date;
+  end_date: Date;
+  bom_configuration_id: number;
 }
 
 interface updateCategoryBody {
@@ -13,6 +16,9 @@ interface updateCategoryBody {
   updated_by: bigint;
   category_id: number;
   description: string;
+  start_date: Date;
+  end_date: Date;
+  bom_configuration_id: number;
 }
 
 export { createCategoryBody, updateCategoryBody };

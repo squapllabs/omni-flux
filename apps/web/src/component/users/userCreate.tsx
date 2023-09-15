@@ -4,13 +4,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
 import { createUser } from '../../hooks/user-hooks';
-import { useGetAllRoles } from '../../hooks/userRole-hooks';
+import { useGetAllRole } from '../../hooks/userRole-hooks';
 import { useNavigate } from 'react-router';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import { BsFillEyeSlashFill, BsFillEyeFill } from 'react-icons/bs';
 import { FaLock } from 'react-icons/fa6';
-import Select from '../ui/Select';
+import Select from '../ui/selectNew';
 import userService from '../../service/user-service';
 import AddIcon from '../menu/icons/addIcon';
 import CustomSnackbar from '../ui/customSnackBar';
@@ -55,22 +55,9 @@ const UserCreate = () => {
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
-  const handleDropdownChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedRoleId = event.target.value;
-    setSelectedValue(selectedRoleId);
-  };
-
-  const handleDropdownGenderChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedGender = event.target.value;
-    setSelectedGenderValue(selectedGender);
-  };
 
   const { mutate: createNewusers } = createUser();
-  const { data: getAllRoles = [] } = useGetAllRoles();
+  const { data: getAllRoles = [] } = useGetAllRole();
 
   const options = [
     { value: 'male', label: 'Male' },
@@ -100,7 +87,7 @@ const UserCreate = () => {
         email_id: values.email_id,
         user_status: 'AC',
         contact_no: values.contact_no,
-        role_id: Number(selectedValue),
+        role_id: Number(values.role_id),
         department: values.department,
         gender: selectedGenderValue,
         date_of_birth: values.date_of_birth,
@@ -115,7 +102,7 @@ const UserCreate = () => {
       };
       createNewusers(Object, {
         onSuccess: (data, variables, context) => {
-          if (data?.success) {
+          if (data?.message=== 'success') {
             setMessage('User created successfully');
             setOpenSnakBar(true);
             setTimeout(() => {
@@ -123,7 +110,7 @@ const UserCreate = () => {
             }, 3000);
           } else {
             setIsWarning(true);
-            setMessage(data?.message);
+            setMessage('Error occured in creating a User !');
             setOpenSnakBar(true);
           }
         },
@@ -224,27 +211,37 @@ const UserCreate = () => {
             />
           </div>
           <div className={Styles.inputField}>
-            <span className={Styles.projectHeading}>Role</span>
             <Select
-              options={getAllRoles}
-              onChange={handleDropdownChange}
-              value={selectedValue}
-              defaultLabel="Select from options"
-              width="100%"
-            />
-            {formik.touched.role_id && formik.errors.role_id && (
-              <div className={Styles.error}>{formik.errors.role_id}</div>
-            )}
+              name="role_id"
+              label="Role"
+              defaultLabel="Select from Options"
+              mandatory={true}
+              value={formik.values.role_id}
+              onChange={formik.handleChange}
+              error={formik.touched.role_id && formik.errors.role_id}
+            >
+              {getAllRoles?.map((option: any) => (
+                <option key={option.role_id} value={option.role_id}>
+                  {option.role_name}
+                </option>
+              ))}
+            </Select>
           </div>
           <div className={Styles.inputField}>
-            <span className={Styles.projectHeading}>Gender</span>
             <Select
-              options={options}
-              onChange={handleDropdownGenderChange}
-              value={selectedGenderValue}
-              defaultLabel="Select from options"
-              width="100%"
-            />
+              name="gender"
+              label="Gender"
+              defaultLabel="Select from Options"
+              value={formik.values.gender}
+              onChange={formik.handleChange}
+              error={formik.touched.gender && formik.errors.gender}
+            >
+              {options?.map((option: any) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
           </div>
         </div>
         <div className={Styles.fieldsOne}>

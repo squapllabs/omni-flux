@@ -73,7 +73,8 @@ const edit = async (
 
 const getAll = async (connectionObj = null) => {
   try {
-    const transaction = connectionObj ? connectionObj : prisma;
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    console.log('Value of transaction:');
     const permission = await transaction.permissions.findMany({
       where: {
         is_delete: false,
@@ -215,7 +216,35 @@ const searchPermission = async (
   }
 };
 
+const getByUserId = async (User_id: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj ? connectionObj : prisma;
+    const permission = await transaction.permissions.findMany({
+      where: {
+        role_data: {
+          user_roles: {
+            some: {
+              user_data: {
+                user_id: Number(User_id),
+              }
+            }
+          }
+        },
+        capability_data: {
+          permission_type: 'project'
+        }
+      }
+    });
+    console.log(permission);
+    return permission;
+  } catch (error) {
+    console.log('Error occurred in permission dao : getById', error);
+    throw error;
+  }
+};
+
 export default {
+  getByUserId,
   add,
   edit,
   getAll,

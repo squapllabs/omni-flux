@@ -6,12 +6,17 @@ const add = async (
   budget: number,
   created_by: bigint,
   description: string,
+  start_date: Date,
+  end_date: Date,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const is_delete = false;
+    const formatted_start_date = start_date ? new Date(start_date) : null;
+    const formatted_end_date = end_date ? new Date(end_date) : null;
     const category = await transaction.category.create({
       data: {
         name,
@@ -22,6 +27,9 @@ const add = async (
         updated_date: currentDate,
         is_delete: is_delete,
         description,
+        start_date: formatted_start_date,
+        end_date: formatted_end_date,
+        bom_configuration_id,
       },
     });
     return category;
@@ -38,10 +46,15 @@ const edit = async (
   updated_by: bigint,
   category_id: number,
   description: string,
+  start_date: Date,
+  end_date: Date,
+  bom_configuration_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
+    const formatted_start_date = start_date ? new Date(start_date) : null;
+    const formatted_end_date = end_date ? new Date(end_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const category = await transaction.category.update({
       where: {
@@ -54,6 +67,9 @@ const edit = async (
         updated_by,
         updated_date: currentDate,
         description,
+        start_date: formatted_start_date,
+        end_date: formatted_end_date,
+        bom_configuration_id,
       },
     });
     return category;
@@ -73,6 +89,15 @@ const getById = async (categoryId: number, connectionObj = null) => {
       },
       include: {
         project: true,
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
     });
     return category;
@@ -96,6 +121,15 @@ const getAll = async (connectionObj = null) => {
       ],
       include: {
         project: true,
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
     });
     return category;
@@ -182,6 +216,15 @@ const searchCategory = async (
       ],
       include: {
         project: true,
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
       },
       skip: offset,
       take: limit,
@@ -200,6 +243,66 @@ const searchCategory = async (
   }
 };
 
+const getByProjectId = async (
+  project_id: number,
+  bom_configuration_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const category = await transaction.category.findMany({
+      where: {
+        project_id: Number(project_id),
+        bom_configuration_id: Number(bom_configuration_id),
+        is_delete: false,
+      },
+      orderBy: [{ updated_date: 'desc' }],
+      include: {
+        project: true,
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return category;
+  } catch (error) {
+    console.log('Error occurred in category getByProjectId dao', error);
+    throw error;
+  }
+};
+
+const updateBudget = async (
+  budget: number,
+  category_id: number,
+  updated_by: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj ? connectionObj : prisma;
+    const currentDate = new Date();
+    const subCategoryDetails = await transaction.category.update({
+      where: {
+        category_id: category_id,
+      },
+      data: {
+        budget: budget,
+        updated_date: currentDate,
+        updated_by,
+      },
+    });
+    return subCategoryDetails;
+  } catch (error) {
+    console.log('Error occurred in category dao updateBudget', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -209,4 +312,6 @@ export default {
   getByCategoryNameAndProjectId,
   getAllInActiveCategories,
   searchCategory,
+  getByProjectId,
+  updateBudget,
 };

@@ -6,23 +6,19 @@ import UserList from '../users/userList';
 import MasterData from '../masterData/masterData';
 import ProjectList from '../project/projectList';
 import LeadList from '../leadEnquires/leadList';
-import Submenunav from '../ui/SubmenuNav';
-import CategoryList from '../category/categoryList';
-import SubCategoryList from '../subCategory/subCategoryList';
-import SubSubCategoryList from '../subSubCategory/subSubList';
-import GstList from '../gst/gstList';
-import HsnCodeList from '../hsnCode/hsnCodeList';
-import UomList from '../uom/uomList';
-import ClientList from '../client/clientList';
-import RoleFeature from '../roleFeature/userList';
+import MachineryList from '../machinery/machineryList';
+import VendorList from '../vendor/vendorList';
+import LabourList from '../labour/labourList';
 const Settings = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Master Data', value: 'M' },
     { label: 'Category', value: 'C' },
     { label: 'User List', value: 'U' },
-    { label: 'Project List', value: 'PL' },
+    // { label: 'Project List', value: 'PL' },
     { label: 'Lead List', value: 'LL' },
-    { label: 'Role Feature', value: 'RL' },
+    // { label: 'Machinery List', value: 'ML'},
+    { label: 'Vendor List', value: 'VL' },
+    { label: 'Labour List', value: 'LB' },
   ]);
 
   const [selectedItem, setSelectedItem] = useState<number>(1);
@@ -99,9 +95,11 @@ const Settings = () => {
         {activeButton === 'C' && <Category selectedItem={selectedItem} />}
         {activeButton === 'M' && <MasterData />}
         {activeButton === 'U' && <UserList />}
-        {activeButton === 'PL' && <ProjectList />}
+        {/* {activeButton === 'PL' && <ProjectList />} */}
         {activeButton === 'LL' && <LeadList />}
-        {activeButton === 'RL' && <RoleFeature />}
+        {/* {activeButton === 'ML' && <MachineryList />} */}
+        {activeButton === 'VL' && <VendorList />}
+        {activeButton === 'LB' && <LabourList />}
       </div>
     </div>
   );

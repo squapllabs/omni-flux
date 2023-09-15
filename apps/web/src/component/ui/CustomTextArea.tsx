@@ -66,7 +66,7 @@ const CharacterCount = styled.div`
   color: #888;
 `;
 const RequiredField = styled.span`
-color:red;
+  color: red;
 `;
 
 const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
@@ -111,17 +111,30 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
       setCharacterCount(0);
     }
   };
-  const shouldShowAsterisk = mandatory ;
+  const shouldShowAsterisk = mandatory;
   return (
     <InputWrapper width={width}>
-      {label && <StyledLabel>{label}  {shouldShowAsterisk && <RequiredField>*</RequiredField>}</StyledLabel>}
-      <StyledTextArea
+      {label && (
+        <StyledLabel>
+          {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
+        </StyledLabel>
+      )}
+      {/* <StyledTextArea
         error={!!error}
         placeholder={placeholder}
         rows={rows}
         onChange={handleInputChange}
         value={currentValue}
         // readOnly={characterCount === 0}
+        maxLength={maxCharacterCount}
+        {...props}
+      /> */}
+      <StyledTextArea
+        error={!!error}
+        placeholder={placeholder}
+        rows={rows}
+        onChange={props.onChange} // Delegate handling up to the parent
+        value={value} // Using value prop directly
         maxLength={maxCharacterCount}
         {...props}
       />

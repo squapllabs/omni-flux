@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 interface SelectProps {
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   value: string;
+  placeholder?: string;
   defaultLabel: string;
   width?: string;
   children: React.ReactNode;
@@ -49,7 +50,7 @@ const SelectContainer = styled.div<StyledSelectProps>`
 const StyledSelect = styled.select<StyledSelectProps>`
   appearance: none; // this is to remove default browser dropdown icon
   width: 100%;
-  height: 38px;
+  height: 35px;
   background-color: ${(props) => (props.disabled ? 'white' : 'transparent')};
   color: ${(props) => (props.disabled ? '#888' : 'inherit')};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
@@ -118,6 +119,7 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
   label,
   value,
   defaultLabel,
+  placeholder,
   width,
   children,
   name,
@@ -126,6 +128,7 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
   mandatory = false,
   helperText = null,
 }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const shouldShowAsterisk = mandatory;
   return (
     <div>
@@ -135,19 +138,32 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
             {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
           </StyledLabel>
         )}
-        <SelectContainer width={width}>
-          <StyledSelect
-            value={value}
-            name={name}
-            onChange={onChange}
-            error={!!error}
-            disabled={disabled}
+        <div onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          <SelectContainer
+            width={width}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            placeholder={placeholder}
           >
-            {defaultLabel != null && <option value="">{defaultLabel}</option>}
-            {children}
-          </StyledSelect>
-          <DropdownArrow />
-        </SelectContainer>
+            <StyledSelect
+              value={value}
+              name={name}
+              onChange={onChange}
+              error={!!error}
+              disabled={disabled}
+              style={{
+                color: `${value === '' ? 'gray' : ''}`,
+              }}
+            >
+              {defaultLabel != null && <option value="">{placeholder}</option>}
+              {children}
+            </StyledSelect>
+            <DropdownArrow
+              onClick={() => {
+                setIsDropdownOpen(!isDropdownOpen);
+              }}
+            />
+          </SelectContainer>
+        </div>
         <span>{helperText && <HelperText>Note:{helperText}</HelperText>}</span>
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}

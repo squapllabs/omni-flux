@@ -30,12 +30,13 @@ import CustomClientAdd from '../ui/CustomClientAdd';
 import CustomSiteAdd from '../ui/CustomSiteAdd';
 import MoreIcon from '../menu/icons/moreHorizontalIcon';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+import CustomLoader from '../ui/customLoader';
 const ProjectEdit = () => {
   const routeParams = useParams();
   const { data: getOneProjectData, isLoading } = getByProjectId(
     Number(routeParams?.id)
   );
-
+  const isStatusInProgress = getOneProjectData?.status === 'Inprogress';
 
   const [message, setMessage] = useState('');
   const { mutate: updateProjectData } = updateProject();
@@ -501,136 +502,136 @@ const ProjectEdit = () => {
     navigate(`/expenses/${projectSiteId}/${siteId}`);
   };
 
-  // const handleBom = (data:any) => {
-  //   const siteId = data.site_id
-  //   const projectSiteId = data.project_site_id
-    // }
+  const handleBom = () => {
+    const projectSiteId = Number(routeParams?.id);
+    navigate(`/bomlist/${projectSiteId}`);
+  };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
   return (
     <div className={Styles.container}>
-      <div className={Styles.containerMain}>
-        <div className={Styles.textContent}>
-          <h3>Edit - Project</h3>
-          <span className={Styles.content}>Edit your project</span>
+      <CustomLoader loading={isLoading} size={48} color="#333C44">
+        <div className={Styles.containerMain}>
+          <div className={Styles.textContent}>
+            <h3>Edit - Project</h3>
+            <span className={Styles.content}>Edit your project</span>
+          </div>
+          <div className={Styles.backButton}>
+            <Button
+              color="primary"
+              shape="rectangle"
+              justify="center"
+              size="small"
+              icon={<BackArrow />}
+              onClick={() => navigate('/settings')}
+            >
+              Back
+            </Button>
+          </div>
         </div>
-        <div className={Styles.backButton}>
-          <Button
-            color="primary"
-            shape="rectangle"
-            justify="center"
-            size="small"
-            icon={<BackArrow />}
-            onClick={() => navigate('/settings')}
-          >
-            Back
-          </Button>
-        </div>
-      </div>
-      <form onSubmit={formik.handleSubmit}>
-        <div className={Styles.inputFieldMain}>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <Input
-                label="Name"
-                placeholder="Enter project name"
-                name="project_name"
-                mandatory={true}
-                value={formik.values.project_name}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.project_name && formik.errors.project_name
-                }
-              />
+        <form onSubmit={formik.handleSubmit}>
+          <div className={Styles.inputFieldMain}>
+            <div className={Styles.inputFields}>
+              <div style={{ width: '40%' }}>
+                <Input
+                  label="Name"
+                  placeholder="Enter project name"
+                  name="project_name"
+                  mandatory={true}
+                  value={formik.values.project_name}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.project_name && formik.errors.project_name
+                  }
+                />
+              </div>
+              <div style={{ width: '40%' }}>
+                <Input
+                  label="Code"
+                  placeholder="Enter project code"
+                  name="code"
+                  mandatory={true}
+                  value={formik.values.code}
+                  onChange={formik.handleChange}
+                  error={formik.touched.code && formik.errors.code}
+                  disabled
+                />
+              </div>
             </div>
-            <div style={{ width: '40%' }}>
-              <Input
-                label="Code"
-                placeholder="Enter project code"
-                name="code"
-                mandatory={true}
-                value={formik.values.code}
-                onChange={formik.handleChange}
-                error={formik.touched.code && formik.errors.code}
-                disabled
-              />
+            <div className={Styles.inputFields}>
+              <div style={{ width: '40%' }}>
+                <AutoCompleteSelect
+                  name="user_id"
+                  label="Project Manager"
+                  defaultLabel="Select from options"
+                  placeholder="Select from options"
+                  mandatory={true}
+                  value={formik.values.user_id}
+                  onChange={formik.handleChange}
+                  error={formik.touched.user_id && formik.errors.user_id}
+                  onSelect={(value) => {
+                    formik.setFieldValue('user_id', value);
+                  }}
+                  disabled
+                  optionList={getAllUsersDatadrop}
+                />
+              </div>
+              <div style={{ width: '40%' }}>
+                <AutoCompleteSelect
+                  name="client_id"
+                  label="Client / Customer"
+                  defaultLabel="Select from options"
+                  placeholder="Select from options"
+                  mandatory={true}
+                  value={formik.values.client_id}
+                  onChange={formik.handleChange}
+                  error={formik.touched.client_id && formik.errors.client_id}
+                  onSelect={(value) => {
+                    formik.setFieldValue('client_id', value);
+                  }}
+                  disabled
+                  optionList={getAllClientDatadrop}
+                />
+              </div>
             </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <AutoCompleteSelect
-                name="user_id"
-                label="Project Manager"
-                defaultLabel="Select from options"
-                mandatory={true}
-                value={formik.values.user_id}
-                onChange={formik.handleChange}
-                error={formik.touched.user_id && formik.errors.user_id}
-                onSelect={(value) => {
-                  formik.setFieldValue('user_id', value);
-                }}
-                // disabled={disable}
-                optionList={getAllUsersDatadrop}
-              />
+            <div className={Styles.inputFields}>
+              <div style={{ width: '40%' }}>
+                <DatePicker
+                  label="Start Date"
+                  name="date_started"
+                  mandatory={true}
+                  value={formik.values.date_started}
+                  onChange={formik.handleChange}
+                  InputProps={{
+                    inputProps: {
+                      min: '1930-01-01',
+                      max: `${new Date().toISOString().slice(0, 10)}`,
+                    },
+                  }}
+                  error={
+                    formik.touched.date_started && formik.errors.date_started
+                  }
+                />
+              </div>
+              <div style={{ width: '40%' }}>
+                <DatePicker
+                  label="End Date"
+                  name="date_ended"
+                  mandatory={true}
+                  value={formik.values.date_ended}
+                  onChange={formik.handleChange}
+                  InputProps={{
+                    inputProps: {
+                      min: '1930-01-01',
+                      max: `${new Date().toISOString().slice(0, 10)}`,
+                    },
+                  }}
+                  error={formik.touched.date_ended && formik.errors.date_ended}
+                />
+              </div>
             </div>
-            <div style={{ width: '40%' }}>
-              <AutoCompleteSelect
-                name="client_id"
-                label="Client / Customer"
-                defaultLabel="Select from options"
-                mandatory={true}
-                value={formik.values.client_id}
-                onChange={formik.handleChange}
-                error={formik.touched.client_id && formik.errors.client_id}
-                onSelect={(value) => {
-                  formik.setFieldValue('client_id', value);
-                }}
-                // disabled={disable}
-                optionList={getAllClientDatadrop}
-              />
-            </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <DatePicker
-                label="Start Date"
-                name="date_started"
-                mandatory={true}
-                value={formik.values.date_started}
-                onChange={formik.handleChange}
-                InputProps={{
-                  inputProps: {
-                    min: '1930-01-01',
-                    max: `${new Date().toISOString().slice(0, 10)}`,
-                  },
-                }}
-                error={
-                  formik.touched.date_started && formik.errors.date_started
-                }
-              />
-            </div>
-            <div style={{ width: '40%' }}>
-              <DatePicker
-                label="End Date"
-                name="date_ended"
-                mandatory={true}
-                value={formik.values.date_ended}
-                onChange={formik.handleChange}
-                InputProps={{
-                  inputProps: {
-                    min: '1930-01-01',
-                    max: `${new Date().toISOString().slice(0, 10)}`,
-                  },
-                }}
-                error={formik.touched.date_ended && formik.errors.date_ended}
-              />
-            </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              {/* <AutoCompleteSelect
+            <div className={Styles.inputFields}>
+              <div style={{ width: '40%' }}>
+                {/* <AutoCompleteSelect
                 name="project_type"
                 label="Project Type"
                 defaultLabel="Select from options"
@@ -646,173 +647,325 @@ const ProjectEdit = () => {
                 optionList={getAllProjectTypeDatadrop}
                 // disabled
               /> */}
-              <Select
-                label="Project Type"
-                name="project_type"
-                mandatory={true}
-                onChange={formik.handleChange}
-                value={formik.values.project_type}
-                defaultLabel="Select from options"
-                error={
-                  formik.touched.project_type && formik.errors.project_type
-                }
-              >
-                {getAllProjectTypeDatadrop.map((option: any) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+                <Select
+                  label="Project Type"
+                  name="project_type"
+                  mandatory={true}
+                  onChange={formik.handleChange}
+                  value={formik.values.project_type}
+                  defaultLabel="Select from options"
+                  error={
+                    formik.touched.project_type && formik.errors.project_type
+                  }
+                >
+                  {getAllProjectTypeDatadrop.map((option: any) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+              <div style={{ width: '40%' }}>
+                <AutoCompleteSelect
+                  name="approvar_id"
+                  label="Approver"
+                  defaultLabel="Select from options"
+                  placeholder="Select from options"
+                  mandatory={true}
+                  value={formik.values.approvar_id}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.approvar_id && formik.errors.approvar_id
+                  }
+                  onSelect={(value) => {
+                    formik.setFieldValue('approvar_id', value);
+                  }}
+                  optionList={getAllUsersDatadrop}
+                />
+              </div>
             </div>
-            <div style={{ width: '40%' }}>
-              <AutoCompleteSelect
-                name="approvar_id"
-                label="Approver"
-                defaultLabel="Select from options"
-                mandatory={true}
-                value={formik.values.approvar_id}
-                onChange={formik.handleChange}
-                error={formik.touched.approvar_id && formik.errors.approvar_id}
-                onSelect={(value) => {
-                  formik.setFieldValue('approvar_id', value);
-                }}
-                optionList={getAllUsersDatadrop}
-              />
+            <div className={Styles.inputFields}>
+              <div style={{ width: '40%' }}>
+                <Input
+                  label="Estimated Budget"
+                  placeholder="Enter rate"
+                  name="project_estimated_budget"
+                  mandatory={true}
+                  onChange={formik.handleChange}
+                  value={formik.values.project_estimated_budget}
+                  error={
+                    formik.touched.project_estimated_budget &&
+                    formik.errors.project_estimated_budget
+                  }
+                />
+              </div>
+              <div style={{ width: '40%' }}>
+                <Input
+                  label="Actual Budget"
+                  placeholder="Enter rate"
+                  name="actual_budget"
+                  onChange={formik.handleChange}
+                  value={formik.values.actual_budget}
+                  error={
+                    formik.touched.actual_budget && formik.errors.actual_budget
+                  }
+                />
+              </div>
             </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <Input
-                label="Estimated Budget"
-                placeholder="Enter rate"
-                name="project_estimated_budget"
-                mandatory={true}
-                onChange={formik.handleChange}
-                value={formik.values.project_estimated_budget}
-                error={
-                  formik.touched.project_estimated_budget &&
-                  formik.errors.project_estimated_budget
-                }
-              />
+            <div className={Styles.inputFields}>
+              <div style={{ width: '40%' }}>
+                <TextArea
+                  name="description"
+                  label="Project Description"
+                  placeholder="Enter project description"
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  rows={4}
+                  maxCharacterCount={100}
+                />
+              </div>
+              <div style={{ width: '40%' }}>
+                <TextArea
+                  name="project_notes"
+                  label="Project Notes"
+                  placeholder="Enter project notes"
+                  value={formik.values.project_notes}
+                  onChange={formik.handleChange}
+                  rows={4}
+                  maxCharacterCount={100}
+                />
+              </div>
             </div>
-            <div style={{ width: '40%' }}>
-              <Input
-                label="Actual Budget"
-                placeholder="Enter rate"
-                name="actual_budget"
-                onChange={formik.handleChange}
-                value={formik.values.actual_budget}
-                error={
-                  formik.touched.actual_budget && formik.errors.actual_budget
-                }
-              />
+            <div className={Styles.siteHeading}>
+              <h4>Site Configuration</h4>
             </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <TextArea
-                name="description"
-                label="Project Description"
-                placeholder="Enter project description"
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                rows={4}
-                maxCharacterCount={100}
-              />
-            </div>
-            <div style={{ width: '40%' }}>
-              <TextArea
-                name="project_notes"
-                label="Project Notes"
-                placeholder="Enter project notes"
-                value={formik.values.project_notes}
-                onChange={formik.handleChange}
-                rows={4}
-                maxCharacterCount={100}
-              />
-            </div>
-          </div>
-          <div className={Styles.siteHeading}>
-            <h4>Site Configuration</h4>
-          </div>
-          <div className={Styles.tableContainer}>
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    <th className={Styles.tableHeading}>S No</th>
-                    <th className={Styles.tableHeadingSite}>Site</th>
-                    <th className={Styles.tableHeading}>Site Address</th>
-                    <th className={Styles.tableHeading}>Status</th>
-                    <th className={Styles.tableHeading}>Estimate Budget</th>
-                    <th className={Styles.tableHeading}>Actual Budget</th>
-                    <th className={Styles.tableHeading}>Approver</th>
-                    <th className={Styles.tableHeading}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {siteConfigData.map((row, index) => {
-                    rowIndex = rowIndex + 1;
-                    return (
-                      <tr key={index}>
-                        <td>{rowIndex}</td>
-                        <td>
-                          <div className={Styles.selectedProjectName}>
-                            <div className={Styles.siteField}>
+            <div className={Styles.tableContainer}>
+              <div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th className={Styles.tableHeading}>S No</th>
+                      <th className={Styles.tableHeadingSite}>Site</th>
+                      <th className={Styles.tableHeading}>Site Address</th>
+                      <th className={Styles.tableHeading}>Status</th>
+                      <th className={Styles.tableHeading}>Estimate Budget</th>
+                      <th className={Styles.tableHeading}>Actual Budget</th>
+                      <th className={Styles.tableHeading}>Approver</th>
+                      <th className={Styles.tableHeading}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {siteConfigData.map((row, index) => {
+                      rowIndex = rowIndex + 1;
+                      return (
+                        <tr key={index}>
+                          <td>{rowIndex}</td>
+                          <td>
+                            <div className={Styles.selectedProjectName}>
+                              <div className={Styles.siteField}>
+                                <AutoCompleteSelect
+                                  width="200px"
+                                  name="site_id"
+                                  defaultLabel="Select Site"
+                                  placeholder="Select from options"
+                                  value={row?.site_id}
+                                  onSelect={(value) => {
+                                    setValue({
+                                      ...siteConfigData,
+                                      ['site_id']: Number(value),
+                                    });
+                                  }}
+                                  optionList={getAllSite}
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <span>
+                                {row.siteData ? (
+                                  <>
+                                    {row.siteData.address.street}{' '}
+                                    {row.siteData.address.city},{' '}
+                                    {row.siteData.address.state},
+                                  </>
+                                ) : (
+                                  <>
+                                    {row.address.street} {row.address.city},{' '}
+                                    {row.address.state},
+                                  </>
+                                )}
+                              </span>
+                              <span>
+                                {row.siteData ? (
+                                  <>
+                                    {row.siteData.address.pin_code},{' '}
+                                    {row.siteData.address.country}
+                                  </>
+                                ) : (
+                                  <>
+                                    {row.address.pin_code},{' '}
+                                    {row.address.country}
+                                  </>
+                                )}
+                              </span>
+                            </div>
+                          </td>
+                          <td>
+                            <div className={Styles.siteEstimation}>
+                              <Select
+                                width="140px"
+                                name="status"
+                                onChange={(e) =>
+                                  handleChangeExistItems(e, index)
+                                }
+                                value={row.status}
+                                defaultLabel="Select from options"
+                              >
+                                {getAllSiteStatus.map((option: any) => (
+                                  <option
+                                    key={option.value}
+                                    value={`${option.value}`}
+                                  >
+                                    {option.name}
+                                  </option>
+                                ))}
+                              </Select>
+                            </div>
+                          </td>
+                          <td>
+                            <div className={Styles.siteEstimation}>
+                              <Input
+                                width="140px"
+                                placeholder="Enter budget"
+                                name="estimated_budget"
+                                onChange={(e) =>
+                                  handleChangeExistItems(e, index)
+                                }
+                                value={row?.estimated_budget}
+                                // error={errors?.estimated_budget}
+                              />
+                            </div>
+                          </td>
+                          <td>
+                            <div className={Styles.siteEstimation}>
+                              <Input
+                                width="140px"
+                                placeholder="Enter budget"
+                                name="actual_budget"
+                                onChange={(e) =>
+                                  handleChangeExistItems(e, index)
+                                }
+                                value={row.actual_budget}
+                              />
+                            </div>
+                          </td>
+
+                          <td>
+                            <div className={Styles.siteEstimation}>
                               <AutoCompleteSelect
-                                width="200px"
-                                name="site_id"
-                                defaultLabel="Select Site"
-                                value={row?.site_id}
+                                name="approvar_id"
+                                value={row?.approvar_id}
+                                placeholder="Select from options"
+                                defaultLabel="Select Approver"
                                 onSelect={(value) => {
                                   setValue({
                                     ...siteConfigData,
-                                    ['site_id']: Number(value),
+                                    ['approvar_id']: Number(value),
                                   });
                                 }}
-                                optionList={getAllSite}
+                                onChange={(e) =>
+                                  handleChangeExistItems(e, index)
+                                }
+                                optionList={getAllUsersDatadrop}
                               />
                             </div>
+                          </td>
+                          <td>
+                            <div ref={menuRef.current[index]}>
+                              <MoreIcon onClick={() => handleDropdown(index)} />
+                              {openDropdowns === index && (
+                                <ul className={Styles.menu}>
+                                  <li
+                                    className={Styles.menuItem}
+                                    onClick={() => handleBom()}
+                                  >
+                                    <span>Add Bom</span>
+                                  </li>
+                                  <li
+                                    className={Styles.menuItem}
+                                    onClick={() => handleExpenses(row)}
+                                  >
+                                    <span>Add Expenses</span>
+                                  </li>
+                                </ul>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    <tr>
+                      <td>{rowIndex + 1}</td>
+                      <td>
+                        <div className={Styles.selectedProjectName}>
+                          <div className={Styles.siteField}>
+                            <AutoCompleteSelect
+                              width="200px"
+                              name="site_id"
+                              defaultLabel="Select Site"
+                              placeholder="Select from options"
+                              value={value.site_id}
+                              onSelect={(datas) => {
+                                setValue((prevValue: any) => {
+                                  const updatedValue = {
+                                    ...prevValue,
+                                    site_id: datas,
+                                  };
+                                  addressSet(updatedValue.site_id);
+                                  return updatedValue;
+                                });
+                              }}
+                              error={errors?.site_id}
+                              optionList={getAllSite}
+                            />
                           </div>
-                        </td>
-                        <td>
+                          <div
+                            className={Styles.instantAdd}
+                            onClick={handelOpenSiteForm}
+                          >
+                            <AddIcon
+                              style={{ height: '15px', width: '15px' }}
+                            />
+                            <h4 className={Styles.addtext}> Add Site</h4>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        {' '}
+                        {value.site_id && (
                           <div>
                             <span>
-                              {row.siteData ? (
-                                <>
-                                  {row.siteData.address.street}{' '}
-                                  {row.siteData.address.city},{' '}
-                                  {row.siteData.address.state},
-                                </>
-                              ) : (
-                                <>
-                                  {row.address.street} {row.address.city},{' '}
-                                  {row.address.state},
-                                </>
-                              )}
+                              {viewAddress.address?.street}{' '}
+                              {viewAddress.address?.city},{' '}
+                              {viewAddress.address?.state},
                             </span>
                             <span>
-                              {row.siteData ? (
-                                <>
-                                  {row.siteData.address.pin_code},{' '}
-                                  {row.siteData.address.country}
-                                </>
-                              ) : (
-                                <>
-                                  {row.address.pin_code}, {row.address.country}
-                                </>
-                              )}
+                              {viewAddress.address?.pin_code},
+                              {viewAddress.address?.country}
                             </span>
                           </div>
-                        </td>
-                        <td>
+                        )}
+                      </td>
+                      <td>
+                        {value.site_id ? (
                           <div className={Styles.siteEstimation}>
                             <Select
                               width="140px"
                               name="status"
-                              onChange={(e) => handleChangeExistItems(e, index)}
-                              value={row.status}
-                              defaultLabel="Select from options"
+                              onChange={handleChangeItems}
+                              value={value.status}
+                              defaultLabel="Select Status"
                             >
                               {getAllSiteStatus.map((option: any) => (
                                 <option
@@ -824,329 +977,198 @@ const ProjectEdit = () => {
                               ))}
                             </Select>
                           </div>
-                        </td>
-                        <td>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td>
+                        {value.site_id ? (
                           <div className={Styles.siteEstimation}>
                             <Input
                               width="140px"
                               placeholder="Enter budget"
                               name="estimated_budget"
-                              onChange={(e) => handleChangeExistItems(e, index)}
-                              value={row?.estimated_budget}
-                              // error={errors?.estimated_budget}
+                              onChange={handleChangeItems}
+                              value={value.estimated_budget}
+                              error={errors?.estimated_budget}
                             />
                           </div>
-                        </td>
-                        <td>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td>
+                        {value.site_id ? (
                           <div className={Styles.siteEstimation}>
                             <Input
                               width="140px"
                               placeholder="Enter budget"
                               name="actual_budget"
-                              onChange={(e) => handleChangeExistItems(e, index)}
-                              value={row.actual_budget}
+                              onChange={handleChangeItems}
+                              value={value.actual_budget}
+                              error={errors?.actual_budget}
                             />
                           </div>
-                        </td>
-
-                        <td>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td>
+                        {value.site_id ? (
                           <div className={Styles.siteEstimation}>
                             <AutoCompleteSelect
                               name="approvar_id"
-                              value={row?.approvar_id}
                               defaultLabel="Select Approver"
-                              onSelect={(value) => {
-                                setValue({
-                                  ...siteConfigData,
-                                  ['approvar_id']: Number(value),
-                                });
+                              placeholder="Select from options"
+                              value={value.approvar_id}
+                              onSelect={(datas) => {
+                                setValue({ ...value, ['approvar_id']: datas });
                               }}
-                              onChange={(e) => handleChangeExistItems(e, index)}
                               optionList={getAllUsersDatadrop}
+                              error={errors?.approvar_id}
                             />
                           </div>
-                        </td>
-                        <td>
-                          <div ref={menuRef.current[index]}>
-                            <MoreIcon onClick={() => handleDropdown(index)} />
-                            {openDropdowns === index && (
-                              <ul className={Styles.menu}>
-                                <li
-                                  className={Styles.menuItem}
-                                  // onClick={() => handleBom(row)}
-                                >
-                                  <span>Add Bom</span>
-                                </li>
-                                <li
-                                  className={Styles.menuItem}
-                                  onClick={() => handleExpenses(row)}
-                                >
-                                  <span>Add Expenses</span>
-                                </li>
-                              </ul>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  <tr>
-                    <td>{rowIndex + 1}</td>
-                    <td>
-                      <div className={Styles.selectedProjectName}>
-                        <div className={Styles.siteField}>
-                          <AutoCompleteSelect
-                            width="200px"
-                            name="site_id"
-                            defaultLabel="Select Site"
-                            value={value.site_id}
-                            onSelect={(datas) => {
-                              setValue((prevValue: any) => {
-                                const updatedValue = {
-                                  ...prevValue,
-                                  site_id: datas,
-                                };
-                                addressSet(updatedValue.site_id);
-                                return updatedValue;
-                              });
-                            }}
-                            error={errors?.site_id}
-                            optionList={getAllSite}
-                          />
-                        </div>
-                        <div
-                          className={Styles.instantAdd}
-                          onClick={handelOpenSiteForm}
-                        >
-                          <AddIcon style={{ height: '15px', width: '15px' }} />
-                          <h4 className={Styles.addtext}> Add Site</h4>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      {' '}
-                      {value.site_id && (
-                        <div>
-                          <span>
-                            {viewAddress.address?.street}{' '}
-                            {viewAddress.address?.city},{' '}
-                            {viewAddress.address?.state},
-                          </span>
-                          <span>
-                            {viewAddress.address?.pin_code},
-                            {viewAddress.address?.country}
-                          </span>
-                        </div>
-                      )}
-                    </td>
-                    <td>
-                      {value.site_id ? (
-                        <div className={Styles.siteEstimation}>
-                          <Select
-                            width="140px"
-                            name="status"
-                            onChange={handleChangeItems}
-                            value={value.status}
-                            defaultLabel="Select Status"
-                          >
-                            {getAllSiteStatus.map((option: any) => (
-                              <option
-                                key={option.value}
-                                value={`${option.value}`}
-                              >
-                                {option.name}
-                              </option>
-                            ))}
-                          </Select>
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                    </td>
-                    <td>
-                      {value.site_id ? (
-                        <div className={Styles.siteEstimation}>
-                          <Input
-                            width="140px"
-                            placeholder="Enter budget"
-                            name="estimated_budget"
-                            onChange={handleChangeItems}
-                            value={value.estimated_budget}
-                            error={errors?.estimated_budget}
-                          />
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                    </td>
-                    <td>
-                      {value.site_id ? (
-                        <div className={Styles.siteEstimation}>
-                          <Input
-                            width="140px"
-                            placeholder="Enter budget"
-                            name="actual_budget"
-                            onChange={handleChangeItems}
-                            value={value.actual_budget}
-                            error={errors?.actual_budget}
-                          />
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                    </td>
-                    <td>
-                      {value.site_id ? (
-                        <div className={Styles.siteEstimation}>
-                          <AutoCompleteSelect
-                            name="approvar_id"
-                            defaultLabel="Select Approver"
-                            value={value.approvar_id}
-                            onSelect={(datas) => {
-                              setValue({ ...value, ['approvar_id']: datas });
-                            }}
-                            optionList={getAllUsersDatadrop}
-                            error={errors?.approvar_id}
-                          />
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className={Styles.buttonContent}>
-                <Button
-                  type="button"
-                  color="primary"
-                  shape="rectangle"
-                  size="small"
-                  justify="center"
-                  icon={<AddIcon />}
-                  onClick={addRow}
-                >
-                  Add
-                </Button>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className={Styles.buttonContent}>
+                  <Button
+                    type="button"
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    icon={<AddIcon />}
+                    onClick={addRow}
+                  >
+                    Add
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={Styles.siteHeading}>
-            <h4>Project Documents</h4>
-          </div>
-          <div className={Styles.documentContainer}>
-            <div className={Styles.documentOuterLayer}>
-              <div className={Styles.documentContent}>
-                <div>
-                  <UploadIcon />
+            <div className={Styles.siteHeading}>
+              <h4>Project Documents</h4>
+            </div>
+            <div className={Styles.documentContainer}>
+              <div className={Styles.documentOuterLayer}>
+                <div className={Styles.documentContent}>
+                  <div>
+                    <UploadIcon />
+                  </div>
+                  <div
+                    id="drop-area"
+                    onDrop={(e) => handleDrop(e)}
+                    onDragOver={(e) => e.preventDefault()}
+                  >
+                    <h6>Select a file or drag and drop here</h6>
+                    <span className={Styles.documentSpan}>
+                      JPG,PNG or PDF, file size no more than 10MB
+                    </span>
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    id="upload-photo"
+                    name="upload_photo"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={handleFileSelect}
+                    multiple
+                  />
+                  <Button
+                    onClick={onButtonClick}
+                    type="button"
+                    shape="rectangle"
+                    size="small"
+                  >
+                    Add Files
+                  </Button>
                 </div>
-                <div
-                  id="drop-area"
-                  onDrop={(e) => handleDrop(e)}
-                  onDragOver={(e) => e.preventDefault()}
-                >
-                  <h6>Select a file or drag and drop here</h6>
-                  <span className={Styles.documentSpan}>
-                    JPG,PNG or PDF, file size no more than 10MB
-                  </span>
-                </div>
-                <input
-                  ref={fileInputRef}
-                  id="upload-photo"
-                  name="upload_photo"
-                  type="file"
-                  style={{ display: 'none' }}
-                  onChange={handleFileSelect}
-                  multiple
-                />
-                <Button
-                  onClick={onButtonClick}
-                  type="button"
-                  shape="rectangle"
-                  size="small"
-                >
-                  Add Files
-                </Button>
               </div>
             </div>
-          </div>
-          <div className={Styles.viewFiles}>
-            <span>
-              <ol className={Styles.listStyles}>
-                {existingFileName?.map((a: any, index: number) => (
-                  <li key={index}>
-                    {a}{' '}
-                    <CloseIcon
-                      width={5}
-                      height={10}
-                      onClick={() => deleteExistFile(index)}
-                    />
-                  </li>
-                ))}
+            <div className={Styles.viewFiles}>
+              <span>
+                <ol className={Styles.listStyles}>
+                  {existingFileName?.map((a: any, index: number) => (
+                    <li key={index}>
+                      {a}{' '}
+                      <CloseIcon
+                        width={5}
+                        height={10}
+                        onClick={() => deleteExistFile(index)}
+                      />
+                    </li>
+                  ))}
 
-                {selectedFileName.map((fileName, index) => (
-                  <li key={index}>
-                    {fileName} {'    '}
-                    <CloseIcon
-                      width={5}
-                      height={10}
-                      onClick={() => deleteFile(index)}
-                    />
-                  </li>
-                ))}
-              </ol>
-            </span>
-            <span>
-              {' '}
-              <p className={Styles.errorStyles}>{fileSizeError}</p>
-            </span>
+                  {selectedFileName.map((fileName, index) => (
+                    <li key={index}>
+                      {fileName} {'    '}
+                      <CloseIcon
+                        width={5}
+                        height={10}
+                        onClick={() => deleteFile(index)}
+                      />
+                    </li>
+                  ))}
+                </ol>
+              </span>
+              <span>
+                {' '}
+                <p className={Styles.errorStyles}>{fileSizeError}</p>
+              </span>
+            </div>
+            <div className={Styles.submitButton}>
+              <Button
+                className={Styles.resetButton}
+                type="button"
+                shape="rectangle"
+                justify="center"
+                onClick={() => drafthandler()}
+                disabled={isStatusInProgress}
+              >
+                Draft
+              </Button>
+              <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                onClick={() => submitHandler()}
+              >
+                Submit
+              </Button>
+            </div>
           </div>
-          <div className={Styles.submitButton}>
-            <Button
-              className={Styles.resetButton}
-              type="button"
-              shape="rectangle"
-              justify="center"
-              onClick={() => drafthandler()}
-            >
-              Draft
-            </Button>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              justify="center"
-              onClick={() => submitHandler()}
-            >
-              Submit
-            </Button>
-          </div>
+        </form>
+        <div>
+          <CustomClientAdd
+            isVissible={showClientForm}
+            onAction={setShowClientForm}
+          />
+          <CustomSiteAdd
+            isVissiblesite={showSiteForm}
+            onActionsite={setShowSiteForm}
+          />
         </div>
-      </form>
-      <div>
-        <CustomClientAdd
-          isVissible={showClientForm}
-          onAction={setShowClientForm}
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
         />
-        <CustomSiteAdd
-          isVissiblesite={showSiteForm}
-          onActionsite={setShowSiteForm}
+        <CustomConfirm
+          open={openConfirm}
+          title="Confirm Submit"
+          contentLine1="If you confirmed this project it will move to the review process"
+          handleClose={handleCloseConfirm}
+          handleConfirm={handleConfirmForm}
         />
-      </div>
-      <CustomSnackBar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        autoHideDuration={1000}
-        type="success"
-      />
-      <CustomConfirm
-        open={openConfirm}
-        title="Confirm Submit"
-        contentLine1="If you confirmed this project it will move to the review process"
-        handleClose={handleCloseConfirm}
-        handleConfirm={handleConfirmForm}
-      />
+      </CustomLoader>
     </div>
   );
 };

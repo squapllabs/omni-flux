@@ -4,11 +4,15 @@ import SelectNew from '../ui/selectNew';
 import ProductSale from './product/productSale';
 import Tender from './tender/tender';
 import { useParams } from 'react-router-dom';
-const leadEnquires = () => {
+import Button from '../ui/Button';
+import KeyboardBackspaceIcon from '../menu/icons/backArrow';
+import { useNavigate } from 'react-router-dom';
+const LeadEnquires = () => {
   const routeprops = useParams();
   const [selectedValue, setSelectedValue] = useState(
     routeprops.type != undefined ? routeprops.type : 'Product'
   );
+  const navigate = useNavigate();
   const leadType = [
     { value: 'Product', label: 'Product Sale' },
     { value: 'Tender', label: 'Tender' },
@@ -22,10 +26,24 @@ const leadEnquires = () => {
   return (
     <div>
       <div className={Styles.container}>
-        <div className={Styles.box}>
+        <div className={Styles.box1}>
           <div className={Styles.textContent}>
             <span className={Styles.main_content}>Add - Lead/Enquiry</span>
             <span className={Styles.content}>Add your Lead & Enquiries</span>
+          </div>
+          <div>
+            <Button
+              onClick={() => {
+                navigate('/settings');
+              }}
+              shape="rectangle"
+              size="small"
+              justify="center"
+              color="primary"
+              icon={<KeyboardBackspaceIcon />}
+            >
+              Back
+            </Button>
           </div>
         </div>
         <div className={Styles.box}>
@@ -35,7 +53,7 @@ const leadEnquires = () => {
                 <SelectNew
                   label="Lead Type"
                   name="parent_master_data_id"
-                  defaultLabel="select the option"
+                  defaultLabel="select the options"
                   onChange={handleDropdownChange}
                   value={selectedValue}
                   helperText="Depending on selected Lead Type below form will change"
@@ -66,4 +84,4 @@ const leadEnquires = () => {
   );
 };
 
-export default leadEnquires;
+export default LeadEnquires;

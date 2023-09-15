@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import ItemService from '../service/item-service';
 
 const useGetAllItems = () => {
@@ -14,8 +14,9 @@ const useGetAllItemsDrops = () => {
       data?.data?.map((product: any) => ({
         value: product.item_id,
         label: product.item_name,
+        temp: product,
       })),
   });
 };
 
-export { useGetAllItems,useGetAllItemsDrops };
+export { useGetAllItems, useGetAllItemsDrops };

@@ -464,6 +464,7 @@ const ProjectForm = () => {
                 name="user_id"
                 label="Project Manager"
                 defaultLabel="Select from options"
+                placeholder="Select from options"
                 mandatory={true}
                 value={formik.values.user_id}
                 onChange={formik.handleChange}
@@ -480,6 +481,7 @@ const ProjectForm = () => {
                 name="client_id"
                 label="Client / Customer"
                 defaultLabel="Select from options"
+                placeholder="Select from options"
                 mandatory={true}
                 value={formik.values.client_id}
                 onChange={formik.handleChange}
@@ -573,6 +575,7 @@ const ProjectForm = () => {
                 name="approvar_id"
                 label="Approver"
                 defaultLabel="Select from options"
+                placeholder="Select from options"
                 mandatory={true}
                 value={formik.values.approvar_id}
                 onChange={formik.handleChange}
@@ -668,6 +671,7 @@ const ProjectForm = () => {
                                 name="site_id"
                                 width="200px"
                                 defaultLabel="Select Site"
+                                placeholder="Select from options"
                                 value={row?.site_id}
                                 onChange={(e) =>
                                   handleChangeExistItems(e, index)
@@ -724,6 +728,7 @@ const ProjectForm = () => {
                               name="approvar_id"
                               value={row?.approvar_id}
                               defaultLabel="Select Approver"
+                              placeholder="Select from options"
                               onSelect={(value) => {
                                 setValue({ ...value, ['approvar_id']: value });
                               }}
@@ -749,6 +754,7 @@ const ProjectForm = () => {
                             width="200px"
                             name="site_id"
                             defaultLabel="Select Site"
+                            placeholder="Select from options"
                             value={value.site_id}
                             onSelect={(datas) => {
                               setValue((prevValue: any) => {
@@ -833,6 +839,7 @@ const ProjectForm = () => {
                           <AutoCompleteSelect
                             name="approvar_id"
                             defaultLabel="Select Approver"
+                            placeholder="Select from options"
                             value={value.approvar_id}
                             onSelect={(datas) => {
                               setValue({ ...value, ['approvar_id']: datas });

@@ -70,13 +70,11 @@ const ClientList = () => {
     status: activeButton,
     global_search: filterValues.search_by_name,
   };
-  // console.log('offset in input==>', clientData);
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
     refetch,
   } = useGetAllPaginatedClient(clientData);
-  // console.log('sample data====>', sample?.content);
 
   const handleClose = () => {
     setOpen(false);
@@ -125,7 +123,7 @@ const ClientList = () => {
         createNewClient(Object, {
           onSuccess: (data: { success: any }, variables: any, context: any) => {
             if (data?.success) {
-              setMessage('New Client has been successfully created');
+              setMessage('Client created');
               setOpenSnack(true);
               resetForm();
             } else {
@@ -145,6 +143,9 @@ const ClientList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if (searchValue === '') {
+      handleReset();
+    }
   };
 
   /* Function for Searching a client data from the list */
@@ -190,7 +191,7 @@ const ClientList = () => {
   };
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-  console.log('page index==>', startingIndex);
+
   return (
     <div>
       <div>

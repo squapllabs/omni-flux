@@ -5,6 +5,8 @@ import {
   updateSubCategoryBody,
 } from '../interfaces/subCategory.Interface';
 import subSubCategoryDao from '../dao/subSubCategory.dao';
+import projectDao from '../dao/project.dao';
+import bomConfigurationDao from '../dao/bomConfiguration.dao';
 
 /**
  * Method to Create a New SubCategory
@@ -13,13 +15,38 @@ import subSubCategoryDao from '../dao/subSubCategory.dao';
  */
 const createSubCategory = async (body: createSubCategoryBody) => {
   try {
-    const { name, category_id, budget, created_by = null, description } = body;
+    const {
+      name,
+      category_id,
+      budget,
+      created_by = null,
+      description,
+      project_id,
+      start_date,
+      end_date,
+      bom_configuration_id,
+    } = body;
     let result = null;
     const categoryExist = await categoryDao.getById(category_id);
     if (!categoryExist) {
-      result = { success: false, message: 'category_id does not exist' };
+      result = {
+        message: 'category_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const checkDuplicate =
       await subCategoryDao.getBySubCategoryNameAndCategoryId(
         name,
@@ -33,14 +60,32 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       };
       return result;
     }
+
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const subCategoryDetails = await subCategoryDao.add(
       name,
       category_id,
       budget,
       created_by,
-      description
+      description,
+      project_id,
+      start_date,
+      end_date,
+      bom_configuration_id
     );
-    result = { success: true, data: subCategoryDetails };
+    result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in subCategory service Add: ', error);
@@ -62,16 +107,54 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       updated_by,
       sub_category_id,
       description,
+      project_id,
+      start_date,
+      end_date,
+      bom_configuration_id,
     } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
+
     if (!subCategoryExist) {
-      result = { success: false, message: 'sub_category_id does not exist' };
+      result = {
+        message: 'sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
+
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const categoryExist = await categoryDao.getById(category_id);
     if (!categoryExist) {
-      result = { success: false, message: 'category_id does not exist' };
+      result = {
+        message: 'category_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
     const checkDuplicate =
@@ -93,9 +176,13 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       budget,
       updated_by,
       sub_category_id,
-      description
+      description,
+      project_id,
+      start_date,
+      end_date,
+      bom_configuration_id
     );
-    result = { success: true, data: subCategoryDetails };
+    result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
   } catch (error) {
     console.log('Error occurred in subCategory service Edit: ', error);
@@ -116,7 +203,11 @@ const getById = async (subCategoryId: number) => {
       result = { message: 'success', status: true, data: subCategoryData };
       return result;
     } else {
-      result = { success: false, message: 'sub_category_id does not exist' };
+      result = {
+        status: false,
+        data: null,
+        message: 'sub_category_id does not exist',
+      };
       return result;
     }
   } catch (error) {
@@ -162,7 +253,7 @@ const deleteSubCategory = async (subCategoryId: number) => {
       return result;
     }
 
-    if (subSubCategoryExistForThisSubCategory) {
+    if (subSubCategoryExistForThisSubCategory.length > 0) {
       const result = {
         status: false,
         message:
@@ -296,6 +387,14 @@ const searchSubCategory = async (body) => {
               },
             },
           },
+          {
+            project_data: {
+              project_name: {
+                contains: name,
+                mode: 'insensitive',
+              },
+            },
+          },
         ],
         is_delete: status === 'IN' ? true : false,
       },
@@ -330,6 +429,69 @@ const searchSubCategory = async (body) => {
   }
 };
 
+/**
+ * Method to get SubCategory By categoryId
+ * @param categoryId
+ * @returns
+ */
+const getByCategoryId = async (
+  category_id: number,
+  bom_configuration_id: number
+) => {
+  try {
+    let result = null;
+    const categoryData = await categoryDao.getById(category_id);
+    if (!categoryData) {
+      result = {
+        message: 'category_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+
+    if (bom_configuration_id) {
+      const bomConfigurationExist = await bomConfigurationDao.getById(
+        bom_configuration_id
+      );
+      if (!bomConfigurationExist) {
+        return {
+          message: 'bom_configuration_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const subCategoryData =
+      await subCategoryDao.getByCategoryIdAndBomConfigurationId(
+        category_id,
+        bom_configuration_id
+      );
+    if (subCategoryData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: subCategoryData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'sub_category data not exist for this category_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByCategoryId subCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSubCategory,
   updateSubCategory,
@@ -339,4 +501,5 @@ export {
   checkDuplicateSubCategoryName,
   getAllInActiveSubCategories,
   searchSubCategory,
+  getByCategoryId,
 };

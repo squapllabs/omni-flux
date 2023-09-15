@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/masterdata.module.scss';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -71,6 +71,9 @@ const MaterData = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
+    if (searchValue === '') {
+      handleReset();
+    }
   };
   const [dataShow, setDataShow] = useState(false);
   const masterData = {
@@ -86,7 +89,6 @@ const MaterData = () => {
     data: initialData,
     refetch,
   } = useGetAllPaginatedMasterData(masterData);
-  // console.log("master data===>",initialData);
 
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -119,15 +121,6 @@ const MaterData = () => {
     setFilterValues({
       search_by_name: '',
     });
-    // const masterData: any = {
-    //   offset: (currentPage - 1) * rowsPerPage,
-    //   limit: rowsPerPage,
-    //   order_by_column: 'updated_date',
-    //   order_by_direction: 'asc',
-    //   status: 'AC',
-    //   global_search: '',
-    // };
-    // postDataForFilter(masterData);
     setSelectedValue('');
     setDataShow(false);
     setIsLoading(false);
@@ -420,13 +413,21 @@ const MaterData = () => {
                         <tr key={data.uom_id}>
                           <td>{startingIndex + index}</td>
                           <td>{data.master_data_name}</td>
-                          {/* <td>{data.master_data_description}</td> */}
                           <td>
-                                <span title={data?.master_data_description}>
-                                  {data?.master_data_description
-                                    ? data?.master_data_description.substring(0,30): '-'}
-                                </span>
-                              </td>
+                            <span
+                              title={data?.master_data_description}
+                              className={Styles.truncatedStyle}
+                            >
+                              {data.master_data_description
+                                ? data.master_data_description.length > 20
+                                  ? data.master_data_description.substring(
+                                      0,
+                                      20
+                                    ) + '...'
+                                  : data.master_data_description
+                                : '-'}
+                            </span>
+                          </td>
                           <td>{data.master_data_type}</td>
                           <td>
                             {data?.parent?.master_data_name === undefined

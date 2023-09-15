@@ -26,6 +26,20 @@ import projectWorkbreakDown from './projectWorkbreakDown.route';
 import siteExpenseDetails from './siteExpenseDetail.route';
 import capability from './capability.route';
 import permission from './permissions.route';
+import bom from './bomDetail.route';
+import vendor from './vendor.route';
+import labour from './labour.route';
+import machinery from './machinery.route';
+import userPrimaryProject from './userPrimaryProject.route';
+import projectMemberAssociation from './projectMemberAssociation.route';
+import store from './store.route';
+import projectSite from './projectSite.route';
+import indentRequest from './indentRequest.route';
+import inventory from './inventory.route';
+import purchaseRequest from './purchaseRequest.route';
+import indentRequestDetails from './indentRequestDetails.route';
+import purchaseOrder from './purchaseOrder.route';
+import purchaseOrderItem from './purchaseOrderItem.route';
 
 const router = express.Router();
 
@@ -137,6 +151,62 @@ const defaultRoutes = [
   {
     path: '/permission',
     route: permission,
+  },
+  {
+    path: '/bom',
+    route: bom,
+  },
+  {
+    path: '/vendor',
+    route: vendor,
+  },
+  {
+    path: '/labour',
+    route: labour,
+  },
+  {
+    path: '/machinery',
+    route: machinery,
+  },
+  {
+    path: '/user-primary-project',
+    route: userPrimaryProject,
+  },
+  {
+    path: '/project-member-association',
+    route: projectMemberAssociation,
+  },
+  {
+    path: '/store',
+    route: store,
+  },
+  {
+    path: '/project-site',
+    route: projectSite,
+  },
+  {
+    path: '/indent-request',
+    route: indentRequest,
+  },
+  {
+    path: '/inventory',
+    route: inventory,
+  },
+  {
+    path: '/purchase-request',
+    route: purchaseRequest,
+  },
+  {
+    path: '/indent-request-details',
+    route: indentRequestDetails,
+  },
+  {
+    path: '/purchase-order',
+    route: purchaseOrder,
+  },
+  {
+    path: '/purchase-order-item',
+    route: purchaseOrderItem,
   },
 ];
 

@@ -6,7 +6,6 @@ const getAllSiteDrop = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/site-contractor/get-all-sites/`
     );
-    console.log("site",response.data);
     return response.data;
   } catch (error) {
     console.log('Error in getting site values:', error);

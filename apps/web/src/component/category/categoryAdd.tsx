@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  createCategory,
-  updateCategory,
-  getByCategoryID,
-} from '../../hooks/category-hooks';
-import {
-  useGetAllProject,
-  useGetAllProjectDrop,
-} from '../../hooks/project-hooks';
+import { createCategory, updateCategory } from '../../hooks/category-hooks';
+import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import { formatBudgetValue } from '../../helper/common-function';
 import { environment } from '../../environment/environment';
 import { useNavigate } from 'react-router-dom';
@@ -29,8 +22,7 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 const CategotyAdd: React.FC = (props: any) => {
   const { mutate: createNewCategory } = createCategory();
   const { mutate: updateOneCategory } = updateCategory();
-  const { data: getAllProjectList = [] } =
-    useGetAllProjectDrop();
+  const { data: getAllProjectList = [] } = useGetAllProjectDrop();
 
   const routeParams = useParams();
   const validationSchema =
@@ -164,6 +156,7 @@ const CategotyAdd: React.FC = (props: any) => {
                   name="project_id"
                   label="Project"
                   defaultLabel="Select from options"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.project_id}
                   onChange={formik.handleChange}
@@ -209,7 +202,7 @@ const CategotyAdd: React.FC = (props: any) => {
                 onChange={formik.handleChange}
                 rows={4}
                 width="600px"
-                maxCharacterCount={100}
+                maxCharacterCount={600}
                 mandatory={true}
                 error={formik.touched.description && formik.errors.description}
               />

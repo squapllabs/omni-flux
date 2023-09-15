@@ -517,6 +517,23 @@ const checkDuplicateCode = async (
   }
 };
 
+const getByUomId = async (uomId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const projectWorkBreakDown =
+      await transaction.project_workbreak_down.findFirst({
+        where: {
+          uom_id: Number(uomId),
+        },
+      });
+
+    return projectWorkBreakDown;
+  } catch (error) {
+    console.log('Error occurred in projectWorkBreakDown getByUomId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -530,4 +547,5 @@ export default {
   searchProjectWorkbreakDown,
   getAllParentProjectWorkbreakDownData,
   checkDuplicateCode,
+  getByUomId,
 };

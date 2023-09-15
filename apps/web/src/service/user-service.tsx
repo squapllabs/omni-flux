@@ -140,6 +140,18 @@ const filterUser = async (values: JSON) => {
     throw error;
   }
 };
+
+const getuserByRoleType = async (value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/user/get-users-by-role-name/${value}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all users:', error);
+    throw error;
+  }
+};
 export default {
   getAllUsers,
   getOneUser,
@@ -151,4 +163,5 @@ export default {
   user_profile_upload,
   filterUser,
   documentUpload,
+  getuserByRoleType,
 };

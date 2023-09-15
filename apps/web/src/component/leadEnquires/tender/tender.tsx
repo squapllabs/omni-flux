@@ -76,7 +76,7 @@ const Tender: React.FC = (props: any) => {
   };
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
-    let formattedDate = format(currentDate, 'yyyy-MM-dd');
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
 
@@ -91,7 +91,7 @@ const Tender: React.FC = (props: any) => {
   const outputLableNameFromEnv = `Estimate Value (${environment.OUTPUTBUDGET})`;
   useEffect(() => {
     const fetchData = async () => {
-      let data = await LeadEnquiresServices.getOneleadEnquiryByID(
+      const data = await LeadEnquiresServices.getOneleadEnquiryByID(
         props.leadEnquireId
       );
 
@@ -145,7 +145,7 @@ const Tender: React.FC = (props: any) => {
     onSubmit: (values, { resetForm }) => {
       if (values) {
         if (props.leadEnquireId === undefined) {
-          let object: any = {
+          const object: any = {
             lead_type: props.leadType,
             client: Number(values.client),
             client_level: Number(values.client_level),
@@ -173,7 +173,7 @@ const Tender: React.FC = (props: any) => {
           };
           postleadEnquiry(object, {
             onSuccess(data, variables, context) {
-              resetForm;
+              resetForm();
               setMessage('Lead Tender created');
               setOpenSnack(true);
               setTimeout(() => {
@@ -182,7 +182,7 @@ const Tender: React.FC = (props: any) => {
             },
           });
         } else {
-          let object: any = {
+          const object: any = {
             lead_type: props.leadType,
             client: Number(values.client),
             client_level: Number(values.client_level),
@@ -321,6 +321,7 @@ const Tender: React.FC = (props: any) => {
                   label="Tender Type"
                   mandatory={true}
                   defaultLabel="Select a Tender"
+                  placeholder="Select from options"
                   value={formik.values.tender_type}
                   onChange={formik.handleChange}
                   error={
@@ -365,6 +366,7 @@ const Tender: React.FC = (props: any) => {
                   label="Industry/Sector"
                   mandatory={true}
                   defaultLabel="Select a Industry sector"
+                  placeholder="Select from options"
                   value={formik.values.industry_sector}
                   onChange={formik.handleChange}
                   error={
@@ -390,6 +392,7 @@ const Tender: React.FC = (props: any) => {
                   name="client"
                   label="Client"
                   defaultLabel="Select Client"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.client}
                   onChange={formik.handleChange}
@@ -406,6 +409,7 @@ const Tender: React.FC = (props: any) => {
                   name="client_level"
                   label="Client Level"
                   defaultLabel="Select Client"
+                  placeholder="Select from options"
                   mandatory={true}
                   value={formik.values.client_level}
                   onChange={formik.handleChange}

@@ -87,6 +87,29 @@ const filterSubSubCategory = async (values: JSON) => {
   }
 };
 
+const getOneSubSubCatListbySubCatID = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/sub-sub-category/get-by-sub-category-id/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in get sub sub category  list:', error);
+    throw error;
+  }
+};
+const getChildbyParentID = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/sub-sub-category/get-child-data-by-parent-id/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in get sub sub category  list:', error);
+    throw error;
+  }
+};
+
 export default {
   getAllSubSubcategory,
   getOneSubSubcategoryByID,
@@ -95,4 +118,6 @@ export default {
   deleteSubSubcategory,
   checkDublicateSubSubCategory,
   filterSubSubCategory,
+  getOneSubSubCatListbySubCatID,
+  getChildbyParentID,
 };

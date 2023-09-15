@@ -2,13 +2,12 @@ import React, { useState, ChangeEvent } from 'react';
 import Styles from '../styles/login.module.scss';
 import * as yup from 'yup';
 import { getLoginYupSchema } from '../helper/constants/user-constants';
-import { loginAuth, forgetPassword } from '../hooks/auth-hooks';
+import { loginAuth, forgetPassword, generateOTP } from '../hooks/auth-hooks';
 import userService from '../service/user-service';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/reducer';
 import Input from './ui/Input';
-
 import { FaUser, FaLock } from 'react-icons/fa6';
 import { BsFillEyeSlashFill, BsFillEyeFill } from 'react-icons/bs';
 import Button from './ui/Button';
@@ -30,13 +29,11 @@ const Login = () => {
   const [message, setMessage] = React.useState('');
   const [rememberMe, setRememberMe] = useState(valueObject?.is_remember_me);
   const [checked, setChecked] = React.useState(false);
-
   const { mutate: passwordInstance } = forgetPassword();
-
+  const { mutate: otpInstance } = generateOTP();
   interface CustomError extends Error {
     inner?: { path: string; message: string }[];
   }
-
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -44,17 +41,14 @@ const Login = () => {
     setValues({ ...values, [fieldName]: event.target.value });
     setErrors({ ...errors, [fieldName]: '' });
   };
-
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRememberMe(event.target.checked);
     const CheckboxValue = event.target.checked;
     setValues({ ...values, [event.target.name]: CheckboxValue });
   };
-
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
-
   const handleSubmit = async (event: React.FormEvent) => {
     setMessage('');
     const schema = getLoginYupSchema(yup);
@@ -68,23 +62,33 @@ const Login = () => {
           is_remember_me: rememberMe,
         };
 
-          loginData(data, {
+        loginData(data, {
           onSuccess: async (data) => {
             if (data?.status === true) {
               dispatch(setToken({ key: 'Data', value: data }));
-              navigate('/home');
               const userData = await userService.getOneUser(values?.email);
-              if (userData?.data?.userData?.is_initial_login) {
+              if (userData?.data?.is_initial_login === true) {
                 const object: any = {
                   email_id: values?.email,
                 };
                 passwordInstance(object, {
                   onSuccess: (data, variables, context) => {
-                    if (data?.success === true) {
+                    if (data?.status === true) {
                       window.location.href = data?.link;
                     }
                   },
                 });
+              } else if (
+                !userData?.data?.is_initial_login &&
+                userData?.data?.is_two_factor
+              ) {
+                const generateOtpObject = {
+                  email_id: values?.email,
+                };
+                otpInstance(generateOtpObject);
+                navigate('/generate-otp', { state: { email: values.email } });
+              } else {
+                navigate('/home');
               }
             } else setMessage('Username & Password is Incorrect');
           },
@@ -102,7 +106,6 @@ const Login = () => {
         });
       });
   };
-
   return (
     <div>
       <div>
@@ -130,7 +133,6 @@ const Login = () => {
                   prefixIcon={<FaUser />}
                   width="100%"
                 />
-
                 <Input
                   label="Password"
                   placeholder="Enter password"
@@ -155,7 +157,6 @@ const Login = () => {
                   }
                   width="100%"
                 />
-
                 <div className={Styles.errormessage}>
                   <span>{message}</span>
                 </div>
@@ -168,14 +169,13 @@ const Login = () => {
                       onChange={() => setChecked(!checked)}
                       label="Remember me"
                     />
-
                     {/* <Checkbox
-        name="is_remember_me"
-        checked={checked}
-        onChange={(e) => handleCheckbox(e)}
-        label="Remember me"
-        disabled={false}
-      /> */}
+                        name="is_remember_me"
+                        checked={checked}
+                        onChange={(e) => handleCheckbox(e)}
+                        label="Remember me"
+                        disabled={false}
+                      /> */}
                   </div>
                   <div className={Styles.forgetPassword}>
                     <a href="/forget-password">
@@ -193,13 +193,12 @@ const Login = () => {
                       fullWidth
                       onClick={(e) => handleSubmit(e)}
                     >
-                      Sign in
+                      Sign In
                     </Button>
                   </div>
-
                   <div className={Styles.newAccounts}>
                     <p className={Styles.newAccounts_msg}>
-                      don't have any account? <a href="#">Sign in</a>
+                      Don't have any account? <a href="#">Sign Up</a>
                     </p>
                   </div>
                 </div>
