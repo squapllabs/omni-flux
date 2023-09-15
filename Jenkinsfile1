@@ -33,20 +33,28 @@ pipeline {
                 sh 'sh /var/lib/jenkins/workspace/Clean_script.sh'
              // sh 'sh /var/lib/jenkins/workspace/docker_deploy/deployment_trigger.sh'
            }
-   post {
-        always {
-            emailext subject: 'Pipeline Status: ${currentBuild.result}',
-                body: 'The pipeline has completed with result: ${currentBuild.result}.',
-                to: 'anbarasan.mathesh@aalamsoft.com',
-                attachLog: true
-        }
-    }
+  // post {
+    //    always {
+          //  emailext subject: 'Pipeline Status: ${currentBuild.result}',
+          //      body: 'The pipeline has completed with result: ${currentBuild.result}.',
+           //     to: 'anbarasan.mathesh@aalamsoft.com',
+           //     attachLog: true
+      //  }
+  //  }
 }
-// stage('emailnotification') {
-         //   steps {
+ stage('emailnotification') {
+          steps {
             //  emailext (attachLog: true, body: 'pipeline has beed completed', subject: 'Omniflux_application_pipeline  status', to: 'anbarasan.mathesh@aalamsoft.com')
-    //    }
-    //  }
-    }     
+       }
+         post {
+       always {
+           emailext subject: 'Pipeline Status: ${currentBuild.result}',
+              body: 'The pipeline has completed with result: ${currentBuild.result}.',
+              to: 'anbarasan.mathesh@aalamsoft.com',
+               attachLog: true
+        }
+       }
+     }
+   }     
 }
 
