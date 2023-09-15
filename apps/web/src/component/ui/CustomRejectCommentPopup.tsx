@@ -52,7 +52,6 @@ const CustomRejectIndentPopup = (props: {
             updated_by:userID,
             approver_user_id:userID
         };
-        console.log('reject from', Object);
         updateIndent(Object, {
           onSuccess: (data,variables,context) => {
             console.log('samlpe data==>', data);

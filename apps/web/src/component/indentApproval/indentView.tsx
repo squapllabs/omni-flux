@@ -52,10 +52,8 @@ const IndentView = () => {
       updated_by:userID,
       approver_user_id:userID
     };
-    console.log('obj', obj);
     updateIndentRequestData(obj, {
       onSuccess: (data, variables, context) => {
-        console.log('datemmmmm', data);
         if (data?.status === true) {
           setMessage('Approved Successfully');
           setOpenSnack(true);
@@ -107,7 +105,6 @@ const IndentView = () => {
                 <thead>
                   <tr>
                     <th>S No</th>
-                    <th>Bom Name</th>
                     <th>Item Name </th>
                     <th>UOM</th>
                     <th>Quantity</th>
@@ -119,7 +116,6 @@ const IndentView = () => {
                     return (
                       <tr key={data.indent_request_id}>
                         <td>{startingIndex + index}</td>
-                        <td>{data?.bom_detail_data?.bom_name}</td>
                         <td>{data?.bom_detail_data?.item_data?.item_name}</td>
                         <td>{data?.bom_detail_data?.uom_data?.name}</td>
                         <td>{data?.quantity}</td>
@@ -137,6 +133,7 @@ const IndentView = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
+                color='primary'
                 onClick={() => handleApprove()}
               >
                 Approve
@@ -147,6 +144,7 @@ const IndentView = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
+                color='secondary'
                 onClick={() => handleReject()}
               >
                 Reject

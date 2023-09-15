@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/indentList.module.scss';
-import Input from '../ui/Input';
 import Button from '../ui/Button';
-import SearchIcon from '../menu/icons/search';
-import CustomGroupButton from '../ui/CustomGroupButton';
+import Select from '../ui/selectNew';
 import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -14,27 +12,13 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
-import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const IndentList = () => {
   const navigate = useNavigate();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
-  console.log("store data=====>",encryptedData.userData.user_roles[0].role_data.role_id);
-  
   const userID: number = encryptedData.userId;
-  const roleID:number = encryptedData.userData.user_roles[0].role_data.role_id;
-  const [selectedValue, setSelectedValue] = useState('');
   const [selectedValueType, setSelectedValueType] = useState('');
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Pending', value: 'Pending' },
-    { label: 'Approved', value: 'Approved' },
-    { label: 'Rejected', value: 'Rejected' },
-  ]);
-  const [activeButton, setActiveButton] = useState<string | null>('Pending');
-  const [filterValues, setFilterValues] = useState({
-    search_by_name: '',
-  });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
@@ -43,16 +27,28 @@ const IndentList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
-  console.log('dta====>', getIndentData);
   const { data: getPriorityType = [], isLoading: dropLoading } = getBymasertDataTypeDrop('PRTYPE');
 
+  const SampleOption: any = [
+    { label: 'Low', value: 'Low' },
+    { label: 'Medium', value: 'Medium' },
+    { label: 'High', value: 'High' },
+  ];
 
   const handleReset = async () => {
-    setFilterValues({
-      search_by_name: '',
-    });
     setIsResetDisabled(true);
-    setSelectedValueType('')
+    setSelectedValueType('');
+    const userData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      approver_status: 'Pending',
+      project_approver_id: userID,
+      priority: '',
+    };
+    postDataForFilter(userData);
   };
   /* Function for searching a user in the table */
   const handleSearch = async () => {
@@ -64,7 +60,7 @@ const IndentList = () => {
       status: 'AC',
       approver_status: 'Pending',
       project_approver_id: userID,
-      priority:''
+      priority: selectedValueType,
     };
     postDataForFilter(userData);
   };
@@ -79,20 +75,6 @@ const IndentList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
-  };
-
-  const handleDropdownChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const searchValue = event.target.value;
-    const selectedData = event.target.value;
-    setSelectedValue(selectedData);
-    setIsResetDisabled(searchValue === '');
-  };
-
   const handleDropdownChangePriorityType = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -102,11 +84,9 @@ const IndentList = () => {
     setIsResetDisabled(searchValue === '');
   };
 
-
-
   useEffect(() => {
     handleSearch();
-  }, [currentPage, rowsPerPage, activeButton]);
+  }, [currentPage, rowsPerPage]);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
@@ -120,42 +100,23 @@ const IndentList = () => {
           </div>
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
-              {/* <Input
-                width="260px"
-                prefixIcon={<SearchIcon />}
-                name="search_by_name"
-                value={filterValues.search_by_name}
-                onChange={(e) => handleFilterChange(e)}
-                placeholder="Search by name"
-              /> */}
-              <AutoCompleteSelect
-                  name="parent_master_data_id"
-                  defaultLabel="Select Project Name"
-                  onChange={() => handleDropdownChange}
-                  value={selectedValue}
-                  placeholder="Project Name"
-                  width="220px"
-                  onSelect={(value) => {
-                    setSelectedValue(value);
-                    setIsResetDisabled(false);
-                  }}
-                //   optionList={
-                //     dropLoading === true ? [] : getAllmasterDataForDrop
-                //   }
-                />
-                 <AutoCompleteSelect
-                  name="parent_master_data_id"
-                  defaultLabel="Select Project Name"
-                  onChange={() => handleDropdownChangePriorityType}
+              <div>
+                <Select
+                  width="200px"
+                  label="Project Type"
+                  name="project_type"
+                  onChange={handleDropdownChangePriorityType}
                   value={selectedValueType}
-                  placeholder="Priority Type"
-                  width="220px"
-                  onSelect={(value) => {
-                    setSelectedValueType(value);
-                    setIsResetDisabled(false);
-                  }}
-                    optionList={  dropLoading === true ? [] : getPriorityType}
-                />
+                  defaultLabel="Select from options"
+                  placeholder="Select from options"
+                >
+                  {SampleOption.map((option: any) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Select>
+              </div>
               <Button
                 className={Styles.searchButton}
                 shape="rectangle"
@@ -176,13 +137,6 @@ const IndentList = () => {
                 Reset
               </Button>
             </div>
-            {/* <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
-            </div> */}
           </div>
           <div className={Styles.dividerStyle}></div>
         </div>
@@ -196,7 +150,7 @@ const IndentList = () => {
                   <th>Priority</th>
                   <th>Expected Delivery Date</th>
                   <th>Total Cost</th>
-                  <th></th>
+                  <th>Options</th>
                 </tr>
               </thead>
               <tbody>
@@ -205,7 +159,6 @@ const IndentList = () => {
                     <td></td>
                     <td></td>
                     <td>No data found</td>
-                    {activeButton === 'Pending' && <td></td>}
                   </tr>
                 ) : (
                   ''
@@ -223,19 +176,17 @@ const IndentList = () => {
                         )}
                       </td>
                       <td>{formatBudgetValue(data?.total_cost)}</td>
-                      {activeButton === 'Pending' && (
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <ViewIcon
-                              onClick={() =>
-                                navigate(
-                                  `/indent-detail/${data?.indent_request_id}`
-                                )
-                              }
-                            />
-                          </div>
-                        </td>
-                      )}
+                      <td>
+                        <div className={Styles.tablerow}>
+                          <ViewIcon
+                            onClick={() =>
+                              navigate(
+                                `/indent-detail/${data?.indent_request_id}`
+                              )
+                            }
+                          />
+                        </div>
+                      </td>
                     </tr>
                   );
                 })}
