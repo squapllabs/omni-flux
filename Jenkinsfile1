@@ -44,6 +44,7 @@ pipeline {
 }
  stage('emailnotification') {
           steps {
+              echo'your pipepline status'
             //  emailext (attachLog: true, body: 'pipeline has beed completed', subject: 'Omniflux_application_pipeline  status', to: 'anbarasan.mathesh@aalamsoft.com')
        }
          post {
