@@ -2,22 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
-import CustomSnackBar from '../ui/customSnackBar';
 import BackArrowIcon from '../menu/icons/backArrow';
-import {
-  useGetAllIndentRequestDetail,
-  updateIndentRequest,
-} from '../../hooks/indent-approval-hooks';
-import Styles from '../../styles/indentList.module.scss';
+import Styles from '../../styles/purchaseView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
-import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
-import CustomRejectPopup from '../ui/CustomRejectCommentPopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import indentApprovalService from '../../service/indent-approval-request-service';
+import AddIcon from '../menu/icons/addIcon';
+import purchaseRequestService from '../../service/purchaseRequest-service';
+import EditIcon from '../menu/icons/editIcon';
+import CustomEditDialog from '../ui/customEditDialogBox';
+import PurchaseRequestEdit from './purchaseRequestEdit';
 
-const IndentView = () => {
+const PurchaseView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const state: RootState = store.getState();
@@ -25,12 +23,15 @@ const IndentView = () => {
   const userID: number = encryptedData.userId;
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-  const [message, setMessage] = useState('');
-  const [openSnack, setOpenSnack] = useState(false);
-  const [showRejectForm, setShowRejectForm] = useState(false);
-  const IndentId = Number(routeParams?.id);
   const [tableData, setTableData] = useState([]);
+  const [purchaseTableData, setPurchaseTableData] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
+  const [Id, setID] = useState();
+  const [mode, setMode] = useState('');
+  const [open, setOpen] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
+  const IndentId = Number(routeParams?.id);
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -38,10 +39,8 @@ const IndentView = () => {
     order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
-    indent_request_id: Number(routeParams?.id),
+    indent_request_id: IndentId,
   };
-  // const {  isLoading: dataLoading } =
-  //   useGetAllIndentRequestDetail(masterData);
 
   useEffect(() => {
     const getAllData = async () => {
@@ -58,39 +57,38 @@ const IndentView = () => {
     getAllData();
   }, []);
 
-  const { mutate: updateIndentRequestData } = updateIndentRequest();
-  const handleApprove = () => {
-    const date = format(new Date(), 'yyyy/MM/dd');
-    const obj = {
-      indent_request_id: IndentId,
-      approver_status: 'Approved',
-      approved_date: date,
-      rejected_date: null,
-      updated_by: userID,
-      approver_user_id: userID,
+  const purchaseData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: 'AC',
+    global_search: '',
+    indent_request_id: IndentId,
+  };
+
+  useEffect(() => {
+    const getAllPurchaseData = async () => {
+      const data = await purchaseRequestService.purchaseDetailData(
+        purchaseData
+      );
+      console.log('pdata', data);
+
+      if (data.message === 'success') {
+        setPurchaseTableData(data.content);
+      }
     };
-    updateIndentRequestData(obj, {
-      onSuccess: (data, variables, context) => {
-        if (data?.status === true) {
-          setMessage('Approved Successfully');
-          setOpenSnack(true);
-          setTimeout(() => {
-            navigate('/indent-view');
-          }, 1000);
-        }
-      },
-    });
-  };
+    getAllPurchaseData();
+  }, []);
 
-  const handleReject = () => {
-    setShowRejectForm(true);
-  };
-
-  const handleSnackBarClose = () => {
-    setOpenSnack(false);
+  const handleEdit = (value: any) => {
+    setMode('EDIT');
+    setID(value);
+    setOpen(true);
   };
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
@@ -109,14 +107,18 @@ const IndentView = () => {
                 size="small"
                 color="primary"
                 icon={<BackArrowIcon />}
-                onClick={() => navigate('/indent-view')}
+                onClick={() => navigate('/purchase-view')}
               >
                 Back
               </Button>
             </div>
           </div>
+          <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>
+              <div className={Styles.tableText}>
+                <h3>Indent Detail Table</h3>
+              </div>
               <table>
                 <thead>
                   <tr>
@@ -143,46 +145,74 @@ const IndentView = () => {
               </table>
             </div>
           </div>
-          <div className={Styles.approveButtons}>
+          <div className={Styles.approveButton}>
             <div>
               <Button
                 shape="rectangle"
                 justify="center"
                 size="small"
                 color="primary"
-                onClick={() => handleApprove()}
+                // onClick={() => handleApprove()}
               >
-                Approve
-              </Button>
-            </div>
-            <div>
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color="secondary"
-                onClick={() => handleReject()}
-              >
-                Reject
+                <AddIcon />
+                Create PR
               </Button>
             </div>
           </div>
         </div>
-        <CustomRejectPopup
-          isVissible={showRejectForm}
-          onAction={setShowRejectForm}
-          selectedIndentId={IndentId}
-        />
-        <CustomSnackBar
-          open={openSnack}
-          message={message}
-          onClose={handleSnackBarClose}
-          autoHideDuration={1000}
-          type="success"
-        />
       </CustomLoader>
+      <div className={Styles.bottomTable}>
+        <div className={Styles.tableContainer}>
+          <div>
+            <div className={Styles.tableText}>
+              <h3>Purchase Request Table</h3>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>S No</th>
+                  <th>Vendor Name </th>
+                  <th>Budget</th>
+                  <th>No of Items</th>
+                  <th>Quotation Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {purchaseTableData?.map((data: any, index: number) => {
+                  return (
+                    <tr key={data.purchase_request_id}>
+                      <td>{startingIndex + index}</td>
+                      <td>{data?.selected_vendor_data?.vendor_name}</td>
+                      <td>{formatBudgetValue(data?.total_cost)}</td>
+                      <td></td>
+                      <td>{data?.status}</td>
+                      <td>{
+                        <EditIcon onClick={() => handleEdit(data.purchase_request_id)}/>
+                        }</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <CustomEditDialog
+          open={open}
+          content={
+            <PurchaseRequestEdit
+              setOpen={setOpen}
+              open={open}
+              mode={mode}
+              purchaseID={Id}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+            />
+          }
+        />
     </div>
   );
 };
 
-export default IndentView;
+export default PurchaseView;

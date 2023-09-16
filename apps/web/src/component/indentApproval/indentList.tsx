@@ -149,6 +149,7 @@ const IndentList = () => {
                   <th>Project Name</th>
                   <th>Priority</th>
                   <th>Expected Delivery Date</th>
+                  <th>Des</th>
                   <th>Total Cost</th>
                   <th>Options</th>
                 </tr>
@@ -175,6 +176,7 @@ const IndentList = () => {
                           'MMM dd, yyyy'
                         )}
                       </td>
+                      <td>{data?.description}</td>
                       <td>{formatBudgetValue(data?.total_cost)}</td>
                       <td>
                         <div className={Styles.tablerow}>
