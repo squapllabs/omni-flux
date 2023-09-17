@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Styles from '../../styles/homeSettings.module.scss';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import Category from '../category/category';
+import SubCategoryList from '../subCategory/subCategoryList';
 import UserList from '../users/userList';
 import MasterData from '../masterData/masterData';
 import ProjectList from '../project/projectList';
@@ -9,6 +10,13 @@ import LeadList from '../leadEnquires/leadList';
 import MachineryList from '../machinery/machineryList';
 import VendorList from '../vendor/vendorList';
 import LabourList from '../labour/labourList';
+import CategoryList from '../category/categoryList';
+import SubSubCategoryList from '../subSubCategory/subSubList';
+import GstList from '../gst/gstList';
+import UomList from '../uom/uomList';
+import ClientList from '../client/clientList';
+import HsnCodeList from '../hsnCode/hsnCodeList';
+import SideNav from '../ui/SubmenuNav';
 const Settings = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Master Data', value: 'M' },
@@ -82,7 +90,7 @@ const Settings = () => {
             activeButton={activeButton}
           />
           {activeButton == 'C' && (
-            <Submenunav
+            <SideNav
               menuItems={menuItems}
               selectedItem={selectedItem}
               handleMenuItemClick={handleMenuItemClick}
