@@ -830,25 +830,27 @@ model inventory {
 }
 
 model purchase_request {
-  purchase_request_id     Int              @id @default(autoincrement())
-  indent_request_id       Int
-  requester_user_id       Int
-  request_date            DateTime?
-  status                  String?
-  vendor_selection_method String?
-  project_id              Int?
-  selected_vendor_id      Int?
-  total_cost              Float?
-  is_delete               Boolean          @default(false)
-  created_date            DateTime         @default(now())
-  updated_date            DateTime
-  created_by              Int?
-  updated_by              Int?
-  indent_request_data     indent_request   @relation(fields: [indent_request_id], references: [indent_request_id])
-  requester_user_data     users            @relation(fields: [requester_user_id], references: [user_id])
-  project_data            project?         @relation(fields: [project_id], references: [project_id])
-  selected_vendor_data    vendor?          @relation(fields: [selected_vendor_id], references: [vendor_id])
-  purchase_order          purchase_order[]
+  purchase_request_id        Int              @id @default(autoincrement())
+  indent_request_id          Int
+  requester_user_id          Int
+  request_date               DateTime?
+  status                     String?
+  vendor_selection_method    String?
+  project_id                 Int?
+  selected_vendor_id         Int?
+  total_cost                 Float?
+  purchase_request_details   Json?
+  purchase_request_documents Json?
+  is_delete                  Boolean          @default(false)
+  created_date               DateTime         @default(now())
+  updated_date               DateTime
+  created_by                 Int?
+  updated_by                 Int?
+  indent_request_data        indent_request   @relation(fields: [indent_request_id], references: [indent_request_id])
+  requester_user_data        users            @relation(fields: [requester_user_id], references: [user_id])
+  project_data               project?         @relation(fields: [project_id], references: [project_id])
+  selected_vendor_data       vendor?          @relation(fields: [selected_vendor_id], references: [vendor_id])
+  purchase_order             purchase_order[]
 }
 
 model purchase_order {

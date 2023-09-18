@@ -13,7 +13,18 @@ import {
   updatePurchaseRequest,
 } from '../../controller/purchaseRequest.controller';
 import { runValidation } from '../../validations/index';
-
+import multer from 'multer';
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadPath = 'tmp/';
+    cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + '-' + file.originalname);
+  },
+});
+const upload = multer({ storage });
 const router = express.Router();
 
 router.post(
@@ -27,6 +38,12 @@ router.post(
 router.put(
   '/',
   authMiddleware,
+  upload.fields([
+    {
+      name: 'purchase_request_documents',
+      maxCount: Number(process.env.MAX_COUNT_FOR_PURCHASE_REQUEST_DOC),
+    },
+  ]),
   purchaseRequestUpdateValidator,
   runValidation,
   updatePurchaseRequest
