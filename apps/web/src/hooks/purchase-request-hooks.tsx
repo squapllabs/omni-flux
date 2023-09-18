@@ -10,4 +10,27 @@ const useGetOnePurchaseRequest = (id : any)  => {
     });
   };
 
-  export { useGetOnePurchaseRequest };
+  const purchaseOrderRequest = () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: any) => {
+        return purchaseRequestService.createPurchaseOrderItem(data);
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['useGetOrderPurchaseRequest']);
+        },
+      }
+    );
+  };
+
+  
+const useGetOneOrderPurchaseRequest = (id : any)  => {
+  return useQuery(['useGetOrderPurchaseRequest',id], () => purchaseRequestService.getOneOrderPurchaseRequest(id), {
+    select: (data) => data.data,
+    staleTime: Infinity,
+  });
+};
+  
+
+  export { useGetOnePurchaseRequest,purchaseOrderRequest,useGetOneOrderPurchaseRequest };

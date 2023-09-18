@@ -2,26 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
-import BackArrowIcon from '../menu/icons/backArrow';
-import { useGetOnePurchaseRequest } from '../../hooks/purchase-request-hooks';
+import CustomSnackBar from '../ui/customSnackBar';
+import { useGetOnePurchaseRequest,purchaseOrderRequest } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
 
-const IndentView = () => {
+const PurchaseView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   console.log('routeParams?.id)', routeParams?.id);
-  const [purchaseOrderData, setPurchaseOrderData] = useState({
-    purchase_request_id: '',
-    vendor_id: '',
-    order_date: format(new Date(), 'yyyy-MM-dd'),
-    status: 'Pending',
-    total_cost: '',
-    order_remark: 'Order Requested',
-    purchase_order_item: [],
-  });
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
   const PurchaseId = Number(routeParams?.id);
   const {
     data: getAllData,
@@ -29,7 +22,9 @@ const IndentView = () => {
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
   console.log('llllllllll', getAllData);
-
+  const {
+    mutate: postDataForFilter,
+  } = purchaseOrderRequest();
   const constructPurchaseOrder = () => {
     const purchaseOrderItems = [];
     getAllData?.purchase_request_details?.forEach((data: any) => {
@@ -50,11 +45,23 @@ const IndentView = () => {
       purchase_order_item: purchaseOrderItems,
     };
     console.log('sampel', purchaseOrderData);
+    postDataForFilter(purchaseOrderData, {
+        onSuccess: (data, variables, context) => {
+          if (data?.message === 'success') {
+            setMessage('Purchase Order Create Successfull');
+            setOpenSnack(true);
+            navigate(`/purchaseOrder/${PurchaseId}`);
+          }
+        },
+      });
   };
 
   const handleConvertToPo = () => {
     constructPurchaseOrder();
-    // console.log('Purchase Order Data:', purchaseOrderData);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
   };
   useEffect(() => {
     refetch();
@@ -158,7 +165,6 @@ const IndentView = () => {
                 size="small"
                 color="primary"
                 onClick={handleConvertToPo}
-                // onClick={() => handleApprove()}
                 // disabled={getAllData?.total_count === 0 ? true : false}
               >
                 Convert To Po
@@ -166,9 +172,16 @@ const IndentView = () => {
             </div>
           </div>
         </div>
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
       </CustomLoader>
     </div>
   );
 };
 
-export default IndentView;
+export default PurchaseView;

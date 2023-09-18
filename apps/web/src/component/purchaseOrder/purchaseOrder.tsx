@@ -3,32 +3,24 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import BackArrowIcon from '../menu/icons/backArrow';
-import { useGetOnePurchaseRequest } from '../../hooks/purchase-request-hooks';
+import { useGetOneOrderPurchaseRequest } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
 
-const IndentView = () => {
+const OrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  console.log('routeParams?.id)', routeParams?.id);
-  const [purchaseOrderData, setPurchaseOrderData] = useState({
-    purchase_request_id: '',
-    vendor_id: '',
-    order_date: format(new Date(), 'yyyy-MM-dd'),
-    status: 'Pending',
-    total_cost: '',
-    order_remark: 'Order Requested',
-    purchase_order_item: [],
-  });
+  console.log('Purchase Request?.id)', routeParams?.id);
+
   const PurchaseId = Number(routeParams?.id);
   const {
     data: getAllData,
     isLoading: dataLoading,
     refetch,
-  } = useGetOnePurchaseRequest(PurchaseId);
-  console.log('llllllllll', getAllData);
+  } = useGetOneOrderPurchaseRequest(PurchaseId);
+  console.log('##############', getAllData);
 
   useEffect(() => {
     refetch();
@@ -62,18 +54,17 @@ const IndentView = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* {getAllData?.purchase_request_details?.map(
+                {getAllData?.purchase_request_details?.map(
                   (data: any, index: number) => {
                     return (
                       <tr key={data.indent_request_id}>
                         <td>{index + 1}</td>
-                        <td>{getAllData?.selected_vendor_data?.vendor_name}</td>
                         <td>{data.item_name}</td>
                         <td>{data.quantity}</td>
                       </tr>
                     );
                   }
-                )} */}
+                )}
               </tbody>
             </table>
           </div>
@@ -83,4 +74,4 @@ const IndentView = () => {
   );
 };
 
-export default IndentView;
+export default OrderView;
