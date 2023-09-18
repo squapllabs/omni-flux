@@ -2,6 +2,8 @@ import axiosinterceptor from '../helper/custom_axios';
 import { environment } from '../environment/environment';
 
 const getOnePurchaseRequest = async (id: number) => {
+  console.log("servive onnnnnn");
+  
   try {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/purchase-request/get/${id}`

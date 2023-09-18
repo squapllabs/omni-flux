@@ -4,7 +4,7 @@ import purchaseRequestService from '../service/purchase-request.service';
 
 
 const useGetOnePurchaseRequest = (id : any)  => {
-    return useQuery(['useGetAll',id], () => purchaseRequestService.getOnePurchaseRequest(id), {
+    return useQuery(['useGetPurchaseRequest',id], () => purchaseRequestService.getOnePurchaseRequest(id), {
       select: (data) => data.data,
       staleTime: Infinity,
     });
