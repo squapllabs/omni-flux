@@ -275,13 +275,15 @@ const getByPurchaseRequestId = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const purchaseOrder = await transaction.purchase_order.findMany({
+    const purchaseOrder = await transaction.purchase_order.findFirst({
       where: {
         purchase_request_id: Number(purchaseRequestId),
         is_delete: false,
       },
       include: {
-        purchase_request_data: { include: { indent_request_data: true } },
+        purchase_request_data: {
+          include: { indent_request_data: true, project_data: true },
+        },
         vendor_data: true,
         purchase_order_item: {
           where: { is_delete: false },

@@ -406,7 +406,7 @@ const getByPurchaseRequestId = async (purchaseRequestId: number) => {
     const purchaseOrderData = await purchaseOrderDao.getByPurchaseRequestId(
       purchaseRequestId
     );
-    if (purchaseOrderData.length > 0) {
+    if (purchaseOrderData) {
       result = { message: 'success', status: true, data: purchaseOrderData };
       return result;
     } else {
