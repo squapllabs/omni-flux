@@ -872,16 +872,17 @@ model purchase_order {
 }
 
 model purchase_order_item {
-  purchase_order_item_id Int            @id @default(autoincrement())
-  purchase_order_id      Int
-  item_id                Int?
-  order_quantity         Int?
-  unit_price             Float?
-  is_delete              Boolean        @default(false)
-  created_date           DateTime       @default(now())
-  updated_date           DateTime
-  created_by             Int?
-  updated_by             Int?
-  purchase_order_data    purchase_order @relation(fields: [purchase_order_id], references: [purchase_order_id])
-  item_data              item?          @relation(fields: [item_id], references: [item_id])
+  purchase_order_item_id        Int            @id @default(autoincrement())
+  purchase_order_id             Int
+  item_id                       Int?
+  order_quantity                Int?
+  unit_price                    Float?
+  purchase_order_item_documents Json?
+  is_delete                     Boolean        @default(false)
+  created_date                  DateTime       @default(now())
+  updated_date                  DateTime
+  created_by                    Int?
+  updated_by                    Int?
+  purchase_order_data           purchase_order @relation(fields: [purchase_order_id], references: [purchase_order_id])
+  item_data                     item?          @relation(fields: [item_id], references: [item_id])
 }
