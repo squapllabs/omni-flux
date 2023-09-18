@@ -26,6 +26,7 @@ const IndentView = () => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [showRejectForm, setShowRejectForm] = useState(false);
   const IndentId = Number(routeParams?.id);
   const masterData = {
@@ -37,7 +38,7 @@ const IndentView = () => {
     global_search: '',
     indent_request_id: IndentId,
   };
-  const { data: getAllData, isLoading: dataLoading } =
+  const { data: getAllData, isLoading: dataLoading,refetch } =
     useGetAllIndentRequestDetail(masterData);
   const { mutate: updateIndentRequestData } = updateIndentRequest();
   console.log('oooooooo', getAllData);
@@ -73,6 +74,9 @@ const IndentView = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
@@ -112,6 +116,15 @@ const IndentView = () => {
                   </tr>
                 </thead>
                 <tbody>
+                {getAllData?.total_count === 0 ? (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>No data found</td>
+                  </tr>
+                ) : (
+                  ''
+                )}
                   {getAllData?.content?.map((data: any, index: number) => {
                     return (
                       <tr key={data.indent_request_id}>
@@ -135,6 +148,7 @@ const IndentView = () => {
                 size="small"
                 color='primary'
                 onClick={() => handleApprove()}
+                disabled={getAllData?.total_count === 0 ? true : false}
               >
                 Approve
               </Button>
@@ -146,6 +160,7 @@ const IndentView = () => {
                 size="small"
                 color='secondary'
                 onClick={() => handleReject()}
+                disabled={getAllData?.total_count === 0 ? true : false}
               >
                 Reject
               </Button>
