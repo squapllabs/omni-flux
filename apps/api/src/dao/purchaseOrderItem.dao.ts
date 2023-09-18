@@ -6,6 +6,7 @@ const add = async (
   order_quantity: number,
   unit_price: number,
   created_by: number,
+  purchase_order_item_documents: JSON,
   connectionObj = null
 ) => {
   try {
@@ -18,6 +19,7 @@ const add = async (
         item_id,
         order_quantity,
         unit_price,
+        purchase_order_item_documents,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -37,6 +39,7 @@ const edit = async (
   order_quantity: number,
   unit_price: number,
   updated_by: number,
+  purchase_order_item_documents,
   purchase_order_item_id: number,
   connectionObj = null
 ) => {
@@ -53,6 +56,7 @@ const edit = async (
         order_quantity,
         unit_price,
         updated_by,
+        purchase_order_item_documents,
         updated_date: currentDate,
       },
     });

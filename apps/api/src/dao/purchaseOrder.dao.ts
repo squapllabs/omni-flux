@@ -183,6 +183,107 @@ const searchPurchaseOrder = async (
   }
 };
 
+const createPurchaseOrderWithItem = async (
+  purchase_request_id: number,
+  vendor_id: number,
+  order_date: Date,
+  status: string,
+  total_cost: number,
+  order_remark: string,
+  created_by: number,
+  purchase_order_item,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const is_delete = false;
+    const formatted_order_date = order_date ? new Date(order_date) : null;
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseOrder = await transaction.purchase_order.create({
+      data: {
+        purchase_request_id,
+        vendor_id,
+        order_date: formatted_order_date,
+        status,
+        total_cost,
+        order_remark,
+        created_by,
+        created_date: currentDate,
+        updated_date: currentDate,
+        is_delete: is_delete,
+      },
+    });
+
+    const new_purchase_order_id = purchaseOrder?.purchase_order_id;
+    const purchaseOrderItemDetails = [];
+    if (purchase_order_item.length > 0) {
+      for (const value of purchase_order_item) {
+        const item_id = value.item_id;
+        const order_quantity = value.order_quantity;
+        const unit_price = value.unit_price;
+
+        const purchaseOrderItem = await transaction.purchase_order_item.create({
+          data: {
+            purchase_order_id: new_purchase_order_id,
+            item_id,
+            order_quantity,
+            unit_price,
+            created_by,
+            created_date: currentDate,
+            updated_date: currentDate,
+            is_delete: is_delete,
+          },
+        });
+        purchaseOrderItemDetails.push(purchaseOrderItem);
+      }
+    }
+
+    const purchaseOrderData = {
+      purchase_order: purchaseOrder,
+      purchase_order_item: purchaseOrderItemDetails,
+    };
+
+    return purchaseOrderData;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrderDao createPurchaseOrderWithItem',
+      error
+    );
+    throw error;
+  }
+};
+
+const getByPurchaseRequestId = async (
+  purchaseRequestId: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseOrder = await transaction.purchase_order.findMany({
+      where: {
+        purchase_request_id: Number(purchaseRequestId),
+        is_delete: false,
+      },
+      include: {
+        purchase_request_data: { include: { indent_request_data: true } },
+        vendor_data: true,
+        purchase_order_item: {
+          where: { is_delete: false },
+          orderBy: [{ updated_date: 'desc' }],
+        },
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return purchaseOrder;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrder getByPurchaseRequestId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -190,4 +291,6 @@ export default {
   getAll,
   deletePurchaseOrder,
   searchPurchaseOrder,
+  createPurchaseOrderWithItem,
+  getByPurchaseRequestId,
 };

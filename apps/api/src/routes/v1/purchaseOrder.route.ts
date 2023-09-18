@@ -6,9 +6,11 @@ import {
 } from '../../validations/purchaseOrder';
 import {
   createPurchaseOrder,
+  createPurchaseOrderWithItem,
   deleteByPurchaseOrderId,
   getAllPurchaseOrders,
   getByPurchaseOrderId,
+  getByPurchaseRequestId,
   searchPurchaseOrder,
   updatePurchaseOrder,
 } from '../../controller/purchaseOrder.controller';
@@ -43,5 +45,19 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchPurchaseOrder);
+
+router.post(
+  '/purchase-order-with-item',
+  authMiddleware,
+  purchaseOrderCreateValidator,
+  runValidation,
+  createPurchaseOrderWithItem
+);
+
+router.get(
+  '/get-by-purchase-request-id/:purchase_request_id',
+  authMiddleware,
+  getByPurchaseRequestId
+);
 
 export default router;

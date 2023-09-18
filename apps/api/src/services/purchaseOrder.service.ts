@@ -316,6 +316,116 @@ const searchPurchaseOrder = async (body) => {
   }
 };
 
+/**
+ * Method to Create a New PurchaseOrder With Purchase Order Item Details
+ * @param body
+ * @returns
+ */
+const createPurchaseOrderWithItem = async (body: purchaseOrderBody) => {
+  try {
+    const {
+      purchase_request_id,
+      vendor_id,
+      order_date,
+      status,
+      total_cost,
+      order_remark,
+      created_by,
+      purchase_order_item,
+    } = body;
+
+    if (purchase_request_id) {
+      const purchaseRequestExist = await purchaseRequestDao.getById(
+        purchase_request_id
+      );
+      if (!purchaseRequestExist) {
+        return {
+          message: 'purchase_request_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    if (vendor_id) {
+      const vendorExist = await vendorDao.getById(vendor_id);
+      if (!vendorExist) {
+        return {
+          message: 'vendor_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const purchaseOrderDetails =
+      await purchaseOrderDao.createPurchaseOrderWithItem(
+        purchase_request_id,
+        vendor_id,
+        order_date,
+        status,
+        total_cost,
+        order_remark,
+        created_by,
+        purchase_order_item
+      );
+    const result = {
+      message: 'success',
+      status: true,
+      data: purchaseOrderDetails,
+    };
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrder service createPurchaseOrderWithItem: ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get PurchaseOrder By PurchaseRequestId
+ * @param purchaseRequestId
+ * @returns
+ */
+const getByPurchaseRequestId = async (purchaseRequestId: number) => {
+  try {
+    let result = null;
+    const purchaseRequestExist = await purchaseRequestDao.getById(
+      purchaseRequestId
+    );
+    if (!purchaseRequestExist) {
+      return {
+        message: 'purchase_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const purchaseOrderData = await purchaseOrderDao.getByPurchaseRequestId(
+      purchaseRequestId
+    );
+    if (purchaseOrderData.length > 0) {
+      result = { message: 'success', status: true, data: purchaseOrderData };
+      return result;
+    } else {
+      result = {
+        message: 'No data found for this purchase_request_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByPurchaseRequestId purchaseOrder service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -323,4 +433,6 @@ export {
   getById,
   deletePurchaseOrder,
   searchPurchaseOrder,
+  createPurchaseOrderWithItem,
+  getByPurchaseRequestId,
 };
