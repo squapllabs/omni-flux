@@ -8,6 +8,7 @@ const add = async (
   total_cost: number,
   order_remark: string,
   created_by: number,
+  purchase_order_documents,
   connectionObj = null
 ) => {
   try {
@@ -23,6 +24,7 @@ const add = async (
         status,
         total_cost,
         order_remark,
+        purchase_order_documents,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -44,6 +46,7 @@ const edit = async (
   total_cost: number,
   order_remark: string,
   updated_by: number,
+  purchase_order_documents,
   purchase_order_id: number,
   connectionObj = null
 ) => {
@@ -62,6 +65,7 @@ const edit = async (
         status,
         total_cost,
         order_remark,
+        purchase_order_documents,
         updated_by,
         updated_date: currentDate,
       },

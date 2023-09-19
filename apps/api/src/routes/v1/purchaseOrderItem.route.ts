@@ -13,18 +13,6 @@ import {
   updatePurchaseOrderItem,
 } from '../../controller/purchaseOrderItem.controller';
 import { runValidation } from '../../validations/index';
-import multer from 'multer';
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = 'tmp/';
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + '-' + file.originalname);
-  },
-});
-const upload = multer({ storage });
 const router = express.Router();
 
 router.post(
@@ -38,12 +26,6 @@ router.post(
 router.put(
   '/',
   authMiddleware,
-  upload.fields([
-    {
-      name: 'purchase_order_item_documents',
-      maxCount: Number(process.env.MAX_COUNT_FOR_PURCHASE_REQUEST_DOC),
-    },
-  ]),
   purchaseOrderItemUpdateValidator,
   runValidation,
   updatePurchaseOrderItem

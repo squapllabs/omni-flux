@@ -362,12 +362,22 @@ const searchPurchaseRequest = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const indent_request_id = body.indent_request_id;
     const filterObj: any = {};
 
     if (status) {
       filterObj.filterPurchaseRequest = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (indent_request_id) {
+      filterObj.filterPurchaseRequest = filterObj.filterPurchaseRequest || {};
+      filterObj.filterPurchaseRequest.AND =
+        filterObj.filterPurchaseRequest.AND || [];
+      filterObj.filterPurchaseRequest.AND.push({
+        indent_request_id: indent_request_id,
+      });
     }
 
     if (global_search) {

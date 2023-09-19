@@ -2,8 +2,6 @@ import itemDao from '../dao/item.dao';
 import purchaseOrderDao from '../dao/purchaseOrder.dao';
 import purchaseOrderItemDao from '../dao/purchaseOrderItem.dao';
 import { purchaseOrderItemBody } from '../interfaces/purchaseOrderItem.interface';
-import s3 from '../utils/s3';
-import fs from 'fs';
 
 /**
  * Method to Create a New PurchaseOrderItem
@@ -18,7 +16,6 @@ const createPurchaseOrderItem = async (body: purchaseOrderItemBody) => {
       order_quantity,
       unit_price,
       created_by,
-      purchase_order_item_documents,
     } = body;
 
     if (purchase_order_id) {
@@ -50,8 +47,7 @@ const createPurchaseOrderItem = async (body: purchaseOrderItemBody) => {
       item_id,
       order_quantity,
       unit_price,
-      created_by,
-      purchase_order_item_documents
+      created_by
     );
     const result = {
       message: 'success',
@@ -74,7 +70,6 @@ const createPurchaseOrderItem = async (body: purchaseOrderItemBody) => {
 const updatePurchaseOrderItem = async (req) => {
   try {
     const body = req.body;
-    const files = req?.files?.purchase_order_item_documents;
     const {
       purchase_order_id,
       item_id,
@@ -120,58 +115,12 @@ const updatePurchaseOrderItem = async (req) => {
       }
     }
 
-    /* Purchase Order Item Document File Handling */
-
-    const purchaseOrderItemDocuments = [];
-    let index = 0;
-    if (files) {
-      const existingDocument =
-        purchaseOrderItemExist?.purchase_order_item_documents;
-
-      if (existingDocument?.length > 0) {
-        for (const doc of existingDocument) {
-          const existingDocPath = doc.path;
-          await s3.deleteFileFromS3UsingPath(existingDocPath);
-          console.log('Existing File deleted successfully.');
-        }
-      }
-
-      for (const file of files) {
-        const code = `purchase-order-item-${purchase_order_item_id}-${index}`;
-        const localUploadedFilePath = file.path;
-        const fileData = await s3.uploadFileInS3(
-          file,
-          code,
-          'purchase-order-item'
-        );
-
-        const s3FilePath = fileData.path;
-
-        fs.unlink(localUploadedFilePath, (err) => {
-          if (err) {
-            console.error('Error deleting the local file:', err);
-          } else {
-            console.log('Local File deleted successfully.');
-          }
-        });
-
-        purchaseOrderItemDocuments.push({
-          index,
-          path: s3FilePath,
-          folder: 'purchase-order-item',
-          code: code,
-        });
-        index++;
-      }
-    }
-
     const purchaseOrderItemDetails = await purchaseOrderItemDao.edit(
       Number(purchase_order_id),
       Number(item_id),
       Number(order_quantity),
       Number(unit_price),
       Number(updated_by),
-      purchaseOrderItemDocuments,
       Number(purchase_order_item_id)
     );
     result = {
