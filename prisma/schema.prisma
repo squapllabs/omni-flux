@@ -852,6 +852,7 @@ model purchase_request {
   project_data               project?         @relation(fields: [project_id], references: [project_id])
   selected_vendor_data       vendor?          @relation(fields: [selected_vendor_id], references: [vendor_id])
   purchase_order             purchase_order[]
+  vendor_quotes              vendor_quotes[]
 }
 
 model purchase_order {
@@ -888,41 +889,20 @@ model purchase_order_item {
   item_data              item?          @relation(fields: [item_id], references: [item_id])
 }
 
-  purchase_request_id     Int            @id @default(autoincrement())
-  indent_request_id       Int
-  requester_user_id       Int
-  request_date            DateTime?
-  status                  String?
-  vendor_selection_method String?
-  project_id              Int?
-  selected_vendor_id      Int?
-  total_cost              Float?
-  is_delete               Boolean        @default(false)
-  created_date            DateTime       @default(now())
-  updated_date            DateTime
-  created_by              Int?
-  updated_by              Int?
-  indent_request_data     indent_request @relation(fields: [indent_request_id], references: [indent_request_id])
-  requester_user_data     users          @relation(fields: [requester_user_id], references: [user_id])
-  project_data            project?       @relation(fields: [project_id], references: [project_id])
-  selected_vendor_data    vendor?        @relation(fields: [selected_vendor_id], references: [vendor_id])
-  vendor_quotes           vendor_quotes[]
-}
-
 model vendor_quotes {
-  vendor_quotes_id         Int            @id @default(autoincrement())
-  vendor_id                Int
-  purchase_request_id      Int
-  quotation_date           DateTime?
-  quotation_status         String?
-  total_quotation_amount   Float?
-  remarks                  String?
-  quotation_details        Json?
-  is_delete                Boolean        @default(false)
-  created_date             DateTime       @default(now())
-  updated_date             DateTime
-  created_by               Int?
-  updated_by               Int?
-  purchase_request_data    purchase_request @relation(fields: [purchase_request_id], references: [purchase_request_id])
-  vendor_data              vendor           @relation(fields: [vendor_id], references: [vendor_id])
+  vendor_quotes_id       Int              @id @default(autoincrement())
+  vendor_id              Int
+  purchase_request_id    Int
+  quotation_date         DateTime?
+  quotation_status       String?
+  total_quotation_amount Float?
+  remarks                String?
+  quotation_details      Json?
+  is_delete              Boolean          @default(false)
+  created_date           DateTime         @default(now())
+  updated_date           DateTime
+  created_by             Int?
+  updated_by             Int?
+  purchase_request_data  purchase_request @relation(fields: [purchase_request_id], references: [purchase_request_id])
+  vendor_data            vendor           @relation(fields: [vendor_id], references: [vendor_id])
 }
