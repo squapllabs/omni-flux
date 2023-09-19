@@ -13,6 +13,7 @@ import {
   getByPurchaseRequestId,
   searchPurchaseOrder,
   updatePurchaseOrder,
+  updateStatusAndDocument,
 } from '../../controller/purchaseOrder.controller';
 import { runValidation } from '../../validations/index';
 
@@ -58,6 +59,14 @@ router.get(
   '/get-by-purchase-request-id/:purchase_request_id',
   authMiddleware,
   getByPurchaseRequestId
+);
+
+router.put(
+  '/update-status-and-document',
+  authMiddleware,
+  purchaseOrderUpdateValidator,
+  runValidation,
+  updateStatusAndDocument
 );
 
 export default router;

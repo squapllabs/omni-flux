@@ -96,6 +96,18 @@ const getByPurchaseRequestId = catchAsync(async (req, res) => {
   }
 });
 
+const updateStatusAndDocument = catchAsync(async (req, res) => {
+  const methodName = '/updateStatusAndDocument';
+  try {
+    const purchaseOrder = await purchaseOrderService.updateStatusAndDocument(
+      req.body
+    );
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -105,4 +117,5 @@ export {
   searchPurchaseOrder,
   createPurchaseOrderWithItem,
   getByPurchaseRequestId,
+  updateStatusAndDocument,
 };

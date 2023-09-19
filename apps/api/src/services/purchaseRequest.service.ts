@@ -25,6 +25,7 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
       selected_vendor_id,
       total_cost,
       created_by,
+      vendor_ids,
       purchase_request_details,
       purchase_request_documents,
     } = body;
@@ -86,6 +87,7 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
           selected_vendor_id,
           total_cost,
           created_by,
+          vendor_ids,
           purchase_request_details,
           purchase_request_documents,
           tx
