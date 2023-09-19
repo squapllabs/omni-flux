@@ -49,7 +49,7 @@ router.get('/get-all-sites', authMiddleware, getAllSites);
 
 router.get('/get-all-contractors', authMiddleware, getAllContractors);
 
-router.post('/search', searchSiteContractor);
+router.post('/search', authMiddleware, searchSiteContractor);
 
 router.get('/check-duplicate-code/:code', authMiddleware, getByCode);
 

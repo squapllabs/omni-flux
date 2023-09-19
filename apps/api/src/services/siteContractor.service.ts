@@ -235,47 +235,16 @@ const searchSiteContractor = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
-    const type = body.type;
-    const filterObj = {
-      filterSiteContractor: {
-        AND: type ? [{ type: type }] : [],
-        /* OR: [
-          {
-            name: { contains: global_search, mode: 'insensitive' },
-          },
-          {
-            description: {
-              contains: global_search,
-              mode: 'insensitive',
-            },
-          },
-          {
-            address: {
-              path: ['street'],
-              string_contains: global_search,
-            },
-          }, */
-        /*  {
-            address: {
-              street: { contains: global_search, mode: 'insensitive' },
-              city: { contains: global_search, mode: 'insensitive' },
-              state: { contains: global_search, mode: 'insensitive' },
-              pin_code: { contains: global_search, mode: 'insensitive' },
-              country: { contains: global_search, mode: 'insensitive' },
-            },
-          }, */
-        /* ], */
-        is_delete: status === 'AC' ? false : true,
-      },
-    };
-
+    let type = true;
+    type = body.type;
     const result = await siteContractorDao.searchSiteContractor(
       offset,
       limit,
       order_by_column,
       order_by_direction,
-      filterObj,
-      global_search
+      global_search,
+      type,
+      status,
     );
 
     const count = result.count;
@@ -288,6 +257,7 @@ const searchSiteContractor = async (body) => {
       total_page: total_pages,
       content: data,
     };
+
     return tempSiteContractorData;
   } catch (error) {
     console.log(

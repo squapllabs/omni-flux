@@ -203,9 +203,7 @@ const searchVendor = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
-    const is_delete = status === 'AC' ? false : true;
-
-    /*     const filterObj = {
+    const filterObj = {
       filterVendor: {
         AND: [],
         // OR: [
@@ -239,7 +237,7 @@ const searchVendor = async (body) => {
         // ],
         is_delete: status === 'AC' ? false : true,
       },
-    }; */
+    };
 
     const result = await vendorDao.searchVendor(
       offset,
