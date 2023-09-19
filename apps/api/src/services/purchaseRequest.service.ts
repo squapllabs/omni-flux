@@ -4,6 +4,7 @@ import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import userDao from '../dao/user.dao';
 import vendorDao from '../dao/vendor.dao';
 import { purchaseRequestBody } from '../interfaces/purchaseRequest.interface';
+import prisma from '../utils/prisma';
 import s3 from '../utils/s3';
 import fs from 'fs';
 
@@ -73,25 +74,37 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
         };
       }
     }
-
-    const purchaseRequestDetails = await purchaseRequestDao.add(
-      indent_request_id,
-      requester_user_id,
-      request_date,
-      status,
-      vendor_selection_method,
-      project_id,
-      selected_vendor_id,
-      total_cost,
-      created_by,
-      purchase_request_details,
-      purchase_request_documents
-    );
-    const result = {
-      message: 'success',
-      status: true,
-      data: purchaseRequestDetails,
-    };
+    const result = await prisma
+      .$transaction(async (tx) => {
+        const purchaseRequestDetails = await purchaseRequestDao.add(
+          indent_request_id,
+          requester_user_id,
+          request_date,
+          status,
+          vendor_selection_method,
+          project_id,
+          selected_vendor_id,
+          total_cost,
+          created_by,
+          purchase_request_details,
+          purchase_request_documents,
+          tx
+        );
+        const result = {
+          message: 'success',
+          status: true,
+          data: purchaseRequestDetails,
+        };
+        return result;
+      })
+      .then((data) => {
+        console.log('Successfully Purchase Request Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
     return result;
   } catch (error) {
     console.log('Error occurred in purchaseRequest service Add: ', error);
