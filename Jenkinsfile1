@@ -39,7 +39,7 @@ pipeline {
                 def buildStatus = currentBuild.resultIsBetterOrEqualTo('FAILURE') ? 'FAILURE' : 'SUCCESS'
                   
                 emailext subject: "Pipeline: ${PIPELINE_NAME} - Build ${BUILD_ID} - ${BUILD_STATUS}",
-                              body: "Pipeline Name: ${PIPELINE_NAME} - Build ID: ${BUILD_ID}\nBuild Status: ${BUILD_STATUS}",
+                              body: "Pipeline: ${PIPELINE_NAME} - Build ID: ${BUILD_ID}\nBuild Status: ${BUILD_STATUS}",
                               to: 'recipient@example.com',
                               attachLog: true
                
