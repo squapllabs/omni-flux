@@ -40,7 +40,7 @@ pipeline {
               
                  emailext subject: "Pipeline: ${JOB_NAME} - Build ${currentBuild.number} - ${buildStatus}",
                           body: "Pipeline Name: ${JOB_NAME} - Build ID: ${currentBuild.id}\nBuild Status: ${buildStatus}",
-                          to: 'anbarasan.mathesh@aalamsoft.com',
+                          to: 'dev-team@aalamsoft.com',
                           attachLog: true
               
       }
