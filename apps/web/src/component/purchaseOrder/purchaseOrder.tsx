@@ -59,9 +59,11 @@ const OrderView = () => {
                     return (
                       <tr key={data.indent_request_id}>
                         <td>{index + 1}</td>
-                        <td>{data.item_name}</td>
-                        <td>{data.order_quantity}</td>
-                        <td>ssssss</td>
+                        <td>{data?.item_data?.item_name}</td>
+                        <td>{data.order_quantity}</td>  
+                        <td>{data.order_quantity}</td>    
+                        <td>{data.status}</td>  
+                        <td>{getAllData.status}</td>  
                       </tr>
                     );
                   }

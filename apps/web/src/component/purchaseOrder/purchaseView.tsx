@@ -39,7 +39,7 @@ const PurchaseView = () => {
       purchase_request_id: PurchaseId,
       vendor_id: getAllData?.selected_vendor_id,
       order_date: format(new Date(), 'yyyy-MM-dd'),
-      status: 'Pending',
+      status: 'Processing',
       total_cost: getAllData?.total_cost || 0,
       order_remark: 'Order Requested',
       purchase_order_item: purchaseOrderItems,
@@ -155,7 +155,7 @@ const PurchaseView = () => {
                 justify="center"
                 size="small"
                 color="secondary"
-                // onClick={() => handleReject()}
+                // onClick={() => ()}
               >
                 Back
               </Button>
@@ -167,7 +167,6 @@ const PurchaseView = () => {
                 size="small"
                 color="primary"
                 onClick={handleConvertToPo}
-                // disabled={getAllData?.total_count === 0 ? true : false}
               >
                 Convert To Po
               </Button>
