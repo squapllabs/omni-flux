@@ -35,12 +35,15 @@ pipeline {
            }
    post {
        always {
-           emailext subject: 'Pipeline Status: ${currentBuild.result}',
-              body: 'The pipeline has completed with result: ${currentBuild.result}.',
-               to: 'anbarasan.mathesh@aalamsoft.com',
-               attachLog: true
+              script {
+                currentBuild.result = currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'SUCCESS' : 'FAILURE'
+                emailext subject: 'Pipeline Status: ${currentBuild.result}',
+                body: 'The pipeline has completed with result: ${currentBuild.result}.',
+                to: 'anbarasan.mathesh@aalamsoft.com',
+                attachLog: true
         }
      }
+   }
 }
 // stage('emailnotification') {
         //  steps {
