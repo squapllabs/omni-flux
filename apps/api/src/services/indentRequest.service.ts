@@ -296,6 +296,8 @@ const searchIndentRequest = async (body) => {
     const project_id = body.project_id;
     const approver_user_id = body.approver_user_id;
     const approver_status = body.approver_status;
+    const priority = body.priority;
+    const project_approver_id = body.project_approver_id;
 
     const filterObj: any = {};
 
@@ -332,6 +334,30 @@ const searchIndentRequest = async (body) => {
 
       filterObj.filterIndentRequest.AND.push({
         approver_status: approver_status,
+      });
+    }
+
+    if (priority) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        priority: {
+          equals: priority,
+        },
+      });
+    }
+
+    if (project_approver_id) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        project_data: {
+          approvar_id: project_approver_id,
+        },
       });
     }
 
@@ -505,6 +531,20 @@ const searchIndentRequest = async (body) => {
 
     const count = result.count;
     const data = result.data;
+    /*     const priorityMap = {
+      High: 1,
+      Medium: 2,
+      Low: 3,
+    };
+
+    data.sort(
+      (a: { priority: string | number }, b: { priority: string | number }) => {
+        const priorityA = priorityMap[a.priority] || 999;
+        const priorityB = priorityMap[b.priority] || 999;
+
+        return priorityA - priorityB;
+      }
+    ); */
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
     const tempIndentRequestData = {
       message: 'success',
@@ -560,6 +600,58 @@ const getByProjectId = async (project_id: number) => {
   }
 };
 
+/**
+ * Method to Update Indent Request Status With Comments
+ * @param body
+ * @returns
+ */
+const updateStatus = async (body) => {
+  try {
+    const {
+      approver_status,
+      approved_date,
+      rejected_date,
+      approver_comments,
+      updated_by,
+      indent_request_id,
+      approver_user_id,
+    } = body;
+
+    const indentRequestExist = await indentRequestDao.getById(
+      indent_request_id
+    );
+    if (!indentRequestExist) {
+      return {
+        message: 'indent_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const indentRequest = await indentRequestDao.updateStatus(
+      indent_request_id,
+      approver_status,
+      approver_comments,
+      approved_date,
+      rejected_date,
+      updated_by,
+      approver_user_id
+    );
+
+    return {
+      message: 'success',
+      status: true,
+      data: indentRequest,
+    };
+  } catch (error) {
+    console.log(
+      'Error occurred in updateStatus indentRequest service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createIndentRequest,
   updateIndentRequest,
@@ -568,4 +660,5 @@ export {
   deleteIndentRequest,
   searchIndentRequest,
   getByProjectId,
+  updateStatus,
 };

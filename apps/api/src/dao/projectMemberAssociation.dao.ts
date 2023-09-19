@@ -275,11 +275,27 @@ const searchProjectMemberAssociation = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterProjectMemberAssociation;
+    const approver_status = filters.approver_status;
+
     const projectMemberAssociation =
       await transaction.project_member_association.findMany({
         where: filter,
         include: {
-          project_data: true,
+          project_data: {
+            include: {
+              indent_request: {
+                where: {
+                  project_id: {
+                    not: {
+                      equals: null,
+                    },
+                  },
+                  approver_status: approver_status,
+                  is_delete: false,
+                },
+              },
+            },
+          },
           user_data: {
             select: {
               first_name: true,
@@ -368,6 +384,48 @@ const getByProjectIdAndRoleType = async (
   }
 };
 
+const getByUserIdAndProjectRoleId = async (
+  user_id: number,
+  project_role_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const projectMemberAssociation =
+      await transaction.project_member_association.findMany({
+        where: {
+          user_id: Number(user_id),
+          project_role_id: Number(project_role_id),
+          is_delete: false,
+        },
+        include: {
+          project_data: true,
+          user_data: {
+            select: {
+              first_name: true,
+              last_name: true,
+              email_id: true,
+              user_profiles: {
+                select: {
+                  profile_image_url: true,
+                },
+              },
+            },
+          },
+          project_role_data: { select: { role_name: true } },
+        },
+        orderBy: [{ updated_date: 'desc' }],
+      });
+    return projectMemberAssociation;
+  } catch (error) {
+    console.log(
+      'Error occurred in projectMemberAssociation getByUserIdAndProjectRoleId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -378,4 +436,5 @@ export default {
   getByProjectId,
   searchProjectMemberAssociation,
   getByProjectIdAndRoleType,
+  getByUserIdAndProjectRoleId,
 };

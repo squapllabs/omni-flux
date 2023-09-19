@@ -10,6 +10,8 @@ const add = async (
   selected_vendor_id: number,
   total_cost: number,
   created_by: number,
+  purchase_request_details: JSON,
+  purchase_request_documents,
   connectionObj = null
 ) => {
   try {
@@ -28,6 +30,8 @@ const add = async (
         selected_vendor_id,
         total_cost,
         created_by,
+        purchase_request_details,
+        purchase_request_documents,
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
@@ -50,11 +54,14 @@ const edit = async (
   selected_vendor_id: number,
   total_cost: number,
   updated_by: number,
+  purchase_request_details: JSON,
+  purchase_request_documents,
   purchase_request_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
+    // const parsed_purchase_request_details = purchase_request_details? JSON.parse(purchase_request_details) : null
     const formatted_request_date = request_date ? new Date(request_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const purchaseRequest = await transaction.purchase_request.update({
@@ -71,6 +78,8 @@ const edit = async (
         selected_vendor_id,
         total_cost,
         updated_by,
+        purchase_request_details,
+        purchase_request_documents,
         updated_date: currentDate,
       },
     });

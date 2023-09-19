@@ -12,6 +12,17 @@ const getIndentByProjectID = async (values: number) => {
     throw error;
   }
 };
+const getOneIndent = async (values: number) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/indent-request/get/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in get one Indent  :', error);
+    throw error;
+  }
+};
 
 const createIndentRequest = async (values: JSON) => {
   try {
@@ -25,5 +36,35 @@ const createIndentRequest = async (values: JSON) => {
     throw error;
   }
 };
+const updateIndentRequest = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/indent-request/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in createIndentRequest  api :', error);
+    throw error;
+  }
+};
+const filterIndnet = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/indent-request/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in Indent filter :', error);
+    throw error;
+  }
+};
 
-export default { getIndentByProjectID, createIndentRequest };
+export default {
+  getIndentByProjectID,
+  createIndentRequest,
+  getOneIndent,
+  updateIndentRequest,
+  filterIndnet,
+};

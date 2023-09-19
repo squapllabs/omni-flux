@@ -1,17 +1,17 @@
 import express from 'express';
 import authMiddleware from '../../middleware/auth';
 import {
-  purchaseRequestCreateValidator,
-  purchaseRequestUpdateValidator,
-} from '../../validations/purchaseRequest';
+  purchaseOrderItemCreateValidator,
+  purchaseOrderItemUpdateValidator,
+} from '../../validations/purchaseOrderItem';
 import {
-  createPurchaseRequest,
-  deleteByPurchaseRequestId,
-  getAllPurchaseRequests,
-  getByPurchaseRequestId,
-  searchPurchaseRequest,
-  updatePurchaseRequest,
-} from '../../controller/purchaseRequest.controller';
+  createPurchaseOrderItem,
+  deleteByPurchaseOrderItemId,
+  getAllPurchaseOrderItems,
+  getByPurchaseOrderItemId,
+  searchPurchaseOrderItem,
+  updatePurchaseOrderItem,
+} from '../../controller/purchaseOrderItem.controller';
 import { runValidation } from '../../validations/index';
 import multer from 'multer';
 const storage = multer.diskStorage({
@@ -30,9 +30,9 @@ const router = express.Router();
 router.post(
   '/',
   authMiddleware,
-  purchaseRequestCreateValidator,
+  purchaseOrderItemCreateValidator,
   runValidation,
-  createPurchaseRequest
+  createPurchaseOrderItem
 );
 
 router.put(
@@ -40,25 +40,29 @@ router.put(
   authMiddleware,
   upload.fields([
     {
-      name: 'purchase_request_documents',
+      name: 'purchase_order_item_documents',
       maxCount: Number(process.env.MAX_COUNT_FOR_PURCHASE_REQUEST_DOC),
     },
   ]),
-  purchaseRequestUpdateValidator,
+  purchaseOrderItemUpdateValidator,
   runValidation,
-  updatePurchaseRequest
+  updatePurchaseOrderItem
 );
 
-router.get('/get-all', authMiddleware, getAllPurchaseRequests);
+router.get('/get-all', authMiddleware, getAllPurchaseOrderItems);
 
-router.get('/get/:purchase_request_id', authMiddleware, getByPurchaseRequestId);
+router.get(
+  '/get/:purchase_order_item_id',
+  authMiddleware,
+  getByPurchaseOrderItemId
+);
 
 router.delete(
-  '/delete/:purchase_request_id',
+  '/delete/:purchase_order_item_id',
   authMiddleware,
-  deleteByPurchaseRequestId
+  deleteByPurchaseOrderItemId
 );
 
-router.post('/search', authMiddleware, searchPurchaseRequest);
+router.post('/search', authMiddleware, searchPurchaseOrderItem);
 
 export default router;

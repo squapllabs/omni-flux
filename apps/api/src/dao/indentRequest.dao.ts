@@ -34,59 +34,73 @@ const add = async (
       ? new Date(rejected_date)
       : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const indentRequest = await transaction.indent_request.create({
-      data: {
-        requester_user_id,
-        requested_date: formatted_requested_date,
-        request_status,
-        priority,
-        description,
-        expected_delivery_date: formatted_expected_delivery_date,
-        total_cost,
-        approver_user_id,
-        approver_status,
-        approved_date: formatted_approved_date,
-        rejected_date: formatted_rejected_date,
-        approver_comments,
-        project_id,
-        created_by,
-        created_date: currentDate,
-        updated_date: currentDate,
-        is_delete: is_delete,
-      },
-    });
 
-    const new_indent_request_id = indentRequest?.indent_request_id;
-    const indentRequestDetailsData = [];
+    const result = await transaction
+      .$transaction(async (tx) => {
+        const indentRequest = await tx.indent_request.create({
+          data: {
+            requester_user_id,
+            requested_date: formatted_requested_date,
+            request_status,
+            priority,
+            description,
+            expected_delivery_date: formatted_expected_delivery_date,
+            total_cost,
+            approver_user_id,
+            approver_status,
+            approved_date: formatted_approved_date,
+            rejected_date: formatted_rejected_date,
+            approver_comments,
+            project_id,
+            created_by,
+            created_date: currentDate,
+            updated_date: currentDate,
+            is_delete: is_delete,
+          },
+        });
 
-    for (const indent_request_detail of indent_request_details) {
-      const bom_detail_id = indent_request_detail.bom_detail_id;
-      const quantity = indent_request_detail.quantity;
-      const total = indent_request_detail.total;
-      const is_delete = indent_request_detail.is_delete;
-      if (is_delete === false) {
-        const indentRequestDetails =
-          await transaction.indent_request_details.create({
-            data: {
-              indent_request_id: new_indent_request_id,
-              bom_detail_id,
-              quantity,
-              total,
-              created_by,
-              created_date: currentDate,
-              updated_date: currentDate,
-              is_delete: false,
-            },
-          });
-        indentRequestDetailsData.push(indentRequestDetails);
-      }
-    }
+        const new_indent_request_id = indentRequest?.indent_request_id;
+        const indentRequestDetailsData = [];
 
-    const result = {
-      indent_request: indentRequest,
-      indent_request_details: indentRequestDetailsData,
-    };
+        for (const indent_request_detail of indent_request_details) {
+          const bom_detail_id = indent_request_detail.bom_detail_id;
+          const quantity = indent_request_detail.quantity;
+          const total = indent_request_detail.total;
+          const is_delete = indent_request_detail.is_delete;
+          if (is_delete === false) {
+            const indentRequestDetails = await tx.indent_request_details.create(
+              {
+                data: {
+                  indent_request_id: new_indent_request_id,
+                  bom_detail_id,
+                  quantity,
+                  total,
+                  created_by,
+                  created_date: currentDate,
+                  updated_date: currentDate,
+                  is_delete: false,
+                },
+              }
+            );
+            indentRequestDetailsData.push(indentRequestDetails);
+          }
+        }
 
+        const result = {
+          indent_request: indentRequest,
+          indent_request_details: indentRequestDetailsData,
+        };
+
+        return result;
+      })
+      .then((data) => {
+        console.log('Successfully Indent Request Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
     return result;
   } catch (error) {
     console.log('Error occurred in indentRequestDao add', error);
@@ -128,84 +142,100 @@ const edit = async (
       ? new Date(rejected_date)
       : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const indentRequest = await transaction.indent_request.update({
-      where: {
-        indent_request_id: indent_request_id,
-      },
-      data: {
-        requester_user_id,
-        requested_date: formatted_requested_date,
-        request_status,
-        priority,
-        description,
-        expected_delivery_date: formatted_expected_delivery_date,
-        total_cost,
-        approver_user_id,
-        approver_status,
-        approved_date: formatted_approved_date,
-        rejected_date: formatted_rejected_date,
-        approver_comments,
-        project_id,
-        updated_by,
-        updated_date: currentDate,
-      },
-    });
-    const indentRequestDetailsData = [];
 
-    for (const indent_request_detail of indent_request_details) {
-      const bom_detail_id = indent_request_detail.bom_detail_id;
-      const quantity = indent_request_detail.quantity;
-      const total = indent_request_detail.total;
-      const is_delete = indent_request_detail.is_delete;
-      const indent_request_details_id =
-        indent_request_detail.indent_request_details_id;
+    const result = await transaction
+      .$transaction(async (tx) => {
+        const indentRequest = await tx.indent_request.update({
+          where: {
+            indent_request_id: indent_request_id,
+          },
+          data: {
+            requester_user_id,
+            requested_date: formatted_requested_date,
+            request_status,
+            priority,
+            description,
+            expected_delivery_date: formatted_expected_delivery_date,
+            total_cost,
+            approver_user_id,
+            approver_status,
+            approved_date: formatted_approved_date,
+            rejected_date: formatted_rejected_date,
+            approver_comments,
+            project_id,
+            updated_by,
+            updated_date: currentDate,
+          },
+        });
+        const indentRequestDetailsData = [];
 
-      if (indent_request_details_id) {
-        if (is_delete === false) {
-          const indentRequestDetails =
-            await transaction.indent_request_details.update({
-              where: { indent_request_details_id: indent_request_details_id },
-              data: {
-                indent_request_id,
-                bom_detail_id,
-                quantity,
-                total,
-                updated_by,
-                updated_date: currentDate,
-              },
-            });
-          indentRequestDetailsData.push(indentRequestDetails);
-        } else if (is_delete === true) {
-          await transaction.indent_request_details.update({
-            where: { indent_request_details_id: indent_request_details_id },
-            data: {
-              is_delete: true,
-            },
-          });
+        for (const indent_request_detail of indent_request_details) {
+          const bom_detail_id = indent_request_detail.bom_detail_id;
+          const quantity = indent_request_detail.quantity;
+          const total = indent_request_detail.total;
+          const is_delete = indent_request_detail.is_delete;
+          const indent_request_details_id =
+            indent_request_detail.indent_request_details_id;
+
+          if (indent_request_details_id) {
+            if (is_delete === false) {
+              const indentRequestDetails =
+                await tx.indent_request_details.update({
+                  where: {
+                    indent_request_details_id: indent_request_details_id,
+                  },
+                  data: {
+                    indent_request_id,
+                    bom_detail_id,
+                    quantity,
+                    total,
+                    updated_by,
+                    updated_date: currentDate,
+                  },
+                });
+              indentRequestDetailsData.push(indentRequestDetails);
+            } else if (is_delete === true) {
+              await tx.indent_request_details.update({
+                where: { indent_request_details_id: indent_request_details_id },
+                data: {
+                  is_delete: true,
+                },
+              });
+            }
+          } else if (is_delete === false) {
+            const indentRequestDetails = await tx.indent_request_details.create(
+              {
+                data: {
+                  indent_request_id,
+                  bom_detail_id,
+                  quantity,
+                  total,
+                  created_by: updated_by,
+                  created_date: currentDate,
+                  updated_date: currentDate,
+                  is_delete: false,
+                },
+              }
+            );
+            indentRequestDetailsData.push(indentRequestDetails);
+          }
         }
-      } else if (is_delete === false) {
-        const indentRequestDetails =
-          await transaction.indent_request_details.create({
-            data: {
-              indent_request_id,
-              bom_detail_id,
-              quantity,
-              total,
-              created_by: updated_by,
-              created_date: currentDate,
-              updated_date: currentDate,
-              is_delete: false,
-            },
-          });
-        indentRequestDetailsData.push(indentRequestDetails);
-      }
-    }
 
-    const result = {
-      indent_request: indentRequest,
-      indent_request_details: indentRequestDetailsData,
-    };
+        const result = {
+          indent_request: indentRequest,
+          indent_request_details: indentRequestDetailsData,
+        };
 
+        return result;
+      })
+      .then((data) => {
+        console.log('Successfully Indent Request Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
     return result;
   } catch (error) {
     console.log('Error occurred in indentRequestDao edit', error);
@@ -407,6 +437,46 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
   }
 };
 
+const updateStatus = async (
+  indent_request_id: number,
+  approver_status: string,
+  approver_comments: string,
+  approved_date: Date,
+  rejected_date: Date,
+  updated_by: number,
+  approver_user_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const formatted_approved_date = approved_date
+      ? new Date(approved_date)
+      : null;
+    const formatted_rejected_date = rejected_date
+      ? new Date(rejected_date)
+      : null;
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const indentRequest = await transaction.indent_request.update({
+      where: {
+        indent_request_id: Number(indent_request_id),
+      },
+      data: {
+        approver_status,
+        approver_comments,
+        approved_date: formatted_approved_date,
+        rejected_date: formatted_rejected_date,
+        updated_by,
+        approver_user_id,
+        updated_date: currentDate,
+      },
+    });
+    return indentRequest;
+  } catch (error) {
+    console.log('Error occurred in indentRequest updateStatus dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -415,4 +485,5 @@ export default {
   deleteIndentRequest,
   searchIndentRequest,
   getByProjectId,
+  updateStatus,
 };

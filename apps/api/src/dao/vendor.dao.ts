@@ -1,4 +1,6 @@
 import prisma from '../utils/prisma';
+// import { CaseInsensitiveFilter } from '../utils/caseSensitiveFilter';
+import customQueryExecutor from './common/utils.dao';
 
 const add = async (
   vendor_name: string,
@@ -170,83 +172,261 @@ const searchVendor = async (
   limit: number,
   orderByColumn: string,
   orderByDirection: string,
-  global_search,
-  status,
-  connectionObj = null
+  is_delete,
+  global_search
+  // connectionObj = null
 ) => {
   try {
-    const transaction = connectionObj !== null ? connectionObj : prisma;
-    const is_delete = status === 'AC' ? false : true;
-    const order_by_column = orderByColumn;
-    const order_by_direction = orderByDirection;
-    const globalSearch = global_search;
+    // const transaction = connectionObj !== null ? connectionObj : prisma;
 
-    const allVendors = await transaction.$queryRawUnsafe(`
-      SELECT *,
-        CAST(created_by AS int) AS created_by,
-        CAST(updated_by AS int) AS updated_by
-      FROM vendor
-        WHERE
-        (
-          vendor_name ILIKE '%' || '${globalSearch}' || '%' OR
-          contact_email ILIKE '%' || '${globalSearch}' || '%' OR
-          tax_id ILIKE '%' || '${globalSearch}' || '%' OR
-          payment_terms ILIKE '%' || '${globalSearch}' || '%' OR
-          notes ILIKE '%' || '${globalSearch}' || '%' OR
-          lead_time ILIKE '%' || '${globalSearch}' || '%' OR
-          currency ILIKE '%' || '${globalSearch}' || '%' OR
-          address->>'street' ILIKE '%' || '${globalSearch}' || '%' OR
-          address->>'city' ILIKE '%' || '${globalSearch}' || '%' OR
-          address->>'state' ILIKE '%' || '${globalSearch}' || '%' OR
-          address->>'pin_code' ILIKE '%' || '${globalSearch}' || '%' OR
-          address->>'country' ILIKE '%' || '${globalSearch}' || '%'  OR
-          bank_account_details->>'bank_name' ILIKE '%' || '${globalSearch}' || '%' OR
-          bank_account_details->>'ifsc_code' ILIKE '%' || '${globalSearch}' || '%' OR
-          bank_account_details->>'acc_holder_name' ILIKE '%' || '${globalSearch}' || '%'
-        )
-        AND (is_delete = ${is_delete})
-        ORDER BY ${order_by_column} ${order_by_direction}
-        LIMIT ${limit}
-        OFFSET ${offset}`
-    );
+    const query = `
+      SELECT *
+      FROM vendor v
+      LEFT JOIN master_data md ON md.master_data_id = v.preferred_payment_method_id
+      LEFT JOIN master_data md2 ON md2.master_data_id = v.vendor_category_id
+      WHERE v.is_delete = ${is_delete}
+      AND (
+        v.vendor_name ILIKE '%${global_search}%'
+        OR v.contact_person ILIKE '%${global_search}%' 
+        OR v.contact_email ILIKE '%${global_search}%'
+        OR v.contact_phone_no ILIKE '%${global_search}%'
+        OR v.address ->> 'street' ILIKE '%${global_search}%'
+        OR v.address ->> 'city' ILIKE '%${global_search}%'
+        OR v.address ->> 'state' ILIKE '%${global_search}%'
+        OR v.address ->> 'country' ILIKE '%${global_search}%'
+        OR v.address ->> 'pin_code' ILIKE '%${global_search}%'
+        OR v.tax_id ILIKE '%${global_search}%'
+        OR v.payment_terms ILIKE '%${global_search}%'
+        OR md.master_data_name ILIKE '%${global_search}%'
+        OR v.bank_account_details ->> 'bank_name' ILIKE '%${global_search}%'
+        OR v.bank_account_details ->> 'ifsc_code' ILIKE '%${global_search}%'
+        OR v.bank_account_details ->> 'account_no' ILIKE '%${global_search}%'
+        OR v.bank_account_details ->> 'acc_holder_name' ILIKE '%${global_search}%'
+        OR v.currency ILIKE '%${global_search}%'
+        OR md2.master_data_name ILIKE '%${global_search}%'
+        OR v.lead_time ILIKE '%${global_search}%'
+        OR v.notes ILIKE '%${global_search}%'
+      )
+      ORDER BY v.${orderByColumn} ${orderByDirection}
+      LIMIT ${limit}
+      OFFSET ${offset}`;
 
-    const countQuery = await transaction.$queryRaw`
-        SELECT *,
-        CAST(created_by AS int) AS created_by,
-        CAST(updated_by AS int) AS updated_by
-        FROM vendor
-        WHERE
-          (
-            vendor_name ILIKE '%' || ${globalSearch} || '%' OR
-            contact_person ILIKE '%' || ${globalSearch} || '%' OR
-            contact_email ILIKE '%' || ${globalSearch} || '%' OR
-            tax_id ILIKE '%' || ${globalSearch} || '%' OR
-            payment_terms ILIKE '%' || ${globalSearch} || '%' OR
-            notes ILIKE '%' || ${globalSearch} || '%' OR
-            lead_time ILIKE '%' || ${globalSearch} || '%' OR
-            currency ILIKE '%' || ${globalSearch} || '%' OR
-            address->>'street' ILIKE '%' || ${globalSearch} || '%' OR
-            address->>'city' ILIKE '%' || ${globalSearch} || '%' OR
-            address->>'state' ILIKE '%' || ${globalSearch} || '%' OR
-            address->>'pin_code' ILIKE '%' || ${globalSearch} || '%' OR
-            address->>'country' ILIKE '%' || ${globalSearch} || '%'  OR
-            bank_account_details->>'bank_name' ILIKE '%' || ${globalSearch} || '%' OR
-            bank_account_details->>'ifsc_code' ILIKE '%' || ${globalSearch} || '%' OR
-            bank_account_details->>'acc_holder_name' ILIKE '%' || ${globalSearch} || '%'
-          )
-          AND (is_delete = ${is_delete})`;
+    const countQuery = `    SELECT count(*)
+      FROM vendor v
+      LEFT JOIN master_data md ON md.master_data_id = v.preferred_payment_method_id
+      LEFT JOIN master_data md2 ON md2.master_data_id = v.vendor_category_id
+      WHERE v.is_delete = ${is_delete}
+      AND (
+        v.vendor_name ILIKE '%${global_search}%'
+        OR v.contact_person ILIKE '%${global_search}%' 
+        OR v.contact_email ILIKE '%${global_search}%'
+        OR v.contact_phone_no ILIKE '%${global_search}%'
+        OR v.address ->> 'street' ILIKE '%${global_search}%'
+        OR v.address ->> 'city' ILIKE '%${global_search}%'
+        OR v.address ->> 'state' ILIKE '%${global_search}%'
+        OR v.address ->> 'country' ILIKE '%${global_search}%'
+        OR v.address ->> 'pin_code' ILIKE '%${global_search}%'
+        OR v.tax_id ILIKE '%${global_search}%'
+        OR v.payment_terms ILIKE '%${global_search}%'
+        OR md.master_data_name ILIKE '%${global_search}%'
+        OR v.bank_account_details ->> 'bank_name' ILIKE '%${global_search}%'
+        OR v.bank_account_details ->> 'ifsc_code' ILIKE '%${global_search}%'
+        OR v.bank_account_details ->> 'account_no' ILIKE '%${global_search}%'
+        OR v.bank_account_details ->> 'acc_holder_name' ILIKE '%${global_search}%'
+        OR v.currency ILIKE '%${global_search}%'
+        OR md2.master_data_name ILIKE '%${global_search}%'
+        OR v.lead_time ILIKE '%${global_search}%'
+        OR v.notes ILIKE '%${global_search}%'
+      )`;
 
-    const countResult = countQuery.length;
-    const vendorData = {
-      count: countResult,
-      data: allVendors,
-    };
+    const result = await customQueryExecutor.customQueryExecutor(query);
+    const count = await customQueryExecutor.customQueryExecutor(countQuery);
+
+    const vendorData = { count: Number(count[0].count), data: result };
     return vendorData;
+
+    // const result = await transaction.$queryRaw`      SELECT *
+    // FROM vendor v
+    // LEFT JOIN master_data md ON md.master_data_id = v.preferred_payment_method_id
+    // LEFT JOIN master_data md2 ON md2.master_data_id = v.vendor_category_id
+    // WHERE v.is_delete = true
+    // AND (
+    //   v.vendor_name ILIKE '%' || ${global_search} || '%'
+    //   OR v.contact_person ILIKE '%' || ${global_search} || '%'
+    //   OR v.contact_email ILIKE '%' || ${global_search} || '%'
+    //   OR v.contact_phone_no ILIKE '%' || ${global_search} || '%'
+    //   OR v.address ->> 'street' ILIKE '%' || ${global_search} || '%'
+    //   OR v.address ->> 'city' ILIKE '%' || ${global_search} || '%'
+    //   OR v.address ->> 'state' ILIKE '%' || ${global_search} || '%'
+    //   OR v.address ->> 'country' ILIKE '%' || ${global_search} || '%'
+    //   OR v.address ->> 'pin_code' ILIKE '%' || ${global_search} || '%'
+    //   OR v.tax_id ILIKE '%' || ${global_search} || '%'
+    //   OR v.payment_terms ILIKE '%' || ${global_search} || '%'
+    //   OR md.master_data_name ILIKE '%' || ${global_search} || '%'
+    //   OR v.bank_account_details ->> 'bank_name' ILIKE '%' || ${global_search} || '%'
+    //   OR v.bank_account_details ->> 'ifsc_code' ILIKE '%' || ${global_search} || '%'
+    //   OR v.bank_account_details ->> 'account_no' ILIKE '%' || ${global_search} || '%'
+    //   OR v.bank_account_details ->> 'acc_holder_name' ILIKE '%' || ${global_search} || '%'
+    //   OR v.currency ILIKE '%' || ${global_search} || '%'
+    //   OR md2.master_data_name ILIKE '%' || ${global_search} || '%'
+    //   OR v.lead_time ILIKE '%' || ${global_search} || '%'
+    //   OR v.notes ILIKE '%' || ${global_search} || '%'
+    // )
+    // ORDER BY ${orderByColumn} desc
+    // LIMIT ${limit}
+    // OFFSET ${offset}`;
+
+    // return result;
   } catch (error) {
-    console.log('Error occurred in vendor dao : searchVendor ', error);
+    console.error('Error occurred in vendor dao: searchVendor', error);
     throw error;
   }
 };
+
+// const searchVendor = async (
+//   offset: number,
+//   limit: number,
+//   orderByColumn: string,
+//   orderByDirection: string,
+//   filters,
+//   global_search,
+//   connectionObj = null
+// ) => {
+//   try {
+//     const transaction = connectionObj !== null ? connectionObj : prisma;
+
+//     const query = `select
+//     *
+//   from
+//     vendor v
+//   left join master_data md on
+//     md.master_data_id = v.preferred_payment_method_id
+//   left join master_data md2 on
+//     md2.master_data_id = v.vendor_category_id
+//   where
+//     v.is_delete = true
+//     and
+//   (
+//     v.vendor_name ilike '%' || ${global_search}|| '%'
+//     or v.contact_person ilike '%' || ${global_search}|| '%'
+//     or v.contact_email ilike '%' || ${global_search}|| '%'
+//     or v.contact_phone_no ilike '%' || ${global_search}|| '%'
+//     or v.address ->>'street' ilike '%' || ${global_search}|| '%'
+//     or v.address ->>'city' ilike '%' || ${global_search}|| '%'
+//     or v.address ->>'state' ilike '%' || ${global_search}|| '%'
+//     or v.address ->>'country' ilike '%' || ${global_search}|| '%'
+//     or v.address ->>'pin_code' ilike '%' || ${global_search}|| '%'
+//     or v.tax_id ilike '%' || ${global_search}|| '%'
+//     or v.payment_terms ilike '%' || ${global_search}|| '%'
+//     or md.master_data_name ilike '%' || ${global_search}|| '%'
+//     or v.bank_account_details ->>'bank_name' ilike '%' || ${global_search}|| '%'
+//     or v.bank_account_details ->>'ifsc_code' ilike '%' || ${global_search}|| '%'
+//     or v.bank_account_details ->>'account_no' ilike '%' || ${global_search}|| '%'
+//     or v.bank_account_details ->>'acc_holder_name' ilike '%' || ${global_search}|| '%'
+//     or v.currency ilike '%' || ${global_search}|| '%'
+//     or md2.master_data_name ilike '%' || ${global_search}|| '%'
+//     or v.lead_time ilike '%' || ${global_search}|| '%'
+//     or v.notes ilike '%' || ${global_search}|| '%'
+//     )
+//   order by
+//     ${orderByColumn} ${orderByDirection}`;
+
+//     console.log('query ', query);
+
+//     const vendor = await transaction.$queryRaw`select
+//       *
+//     from
+//       vendor v
+//     left join master_data md on
+//       md.master_data_id = v.preferred_payment_method_id
+//     left join master_data md2 on
+//       md2.master_data_id = v.vendor_category_id
+//     where
+//       v.is_delete = true
+//       and
+//     (
+//       v.vendor_name ilike '%' || ${global_search}|| '%'
+//       or v.contact_person ilike '%' || ${global_search}|| '%'
+//       or v.contact_email ilike '%' || ${global_search}|| '%'
+//       or v.contact_phone_no ilike '%' || ${global_search}|| '%'
+//       or v.address ->>'street' ilike '%' || ${global_search}|| '%'
+//       or v.address ->>'city' ilike '%' || ${global_search}|| '%'
+//       or v.address ->>'state' ilike '%' || ${global_search}|| '%'
+//       or v.address ->>'country' ilike '%' || ${global_search}|| '%'
+//       or v.address ->>'pin_code' ilike '%' || ${global_search}|| '%'
+//       or v.tax_id ilike '%' || ${global_search}|| '%'
+//       or v.payment_terms ilike '%' || ${global_search}|| '%'
+//       or md.master_data_name ilike '%' || ${global_search}|| '%'
+//       or v.bank_account_details ->>'bank_name' ilike '%' || ${global_search}|| '%'
+//       or v.bank_account_details ->>'ifsc_code' ilike '%' || ${global_search}|| '%'
+//       or v.bank_account_details ->>'account_no' ilike '%' || ${global_search}|| '%'
+//       or v.bank_account_details ->>'acc_holder_name' ilike '%' || ${global_search}|| '%'
+//       or v.currency ilike '%' || ${global_search}|| '%'
+//       or md2.master_data_name ilike '%' || ${global_search}|| '%'
+//       or v.lead_time ilike '%' || ${global_search}|| '%'
+//       or v.notes ilike '%' || ${global_search}|| '%'
+//       )
+//     order by
+//       ${orderByColumn} ${orderByDirection}`;
+
+//     return vendor;
+
+//     /* const filter = filters.filterVendor; */
+
+//     /*     const vendor = await transaction.vendor.findMany({
+//       where: filter,
+//       include: {
+//         vendor_category_data: true,
+//         preferred_payment_method_data: true,
+//       },
+//       orderBy: [
+//         {
+//           [orderByColumn]: orderByDirection,
+//         },
+//       ],
+//     });
+
+//     const globalSearch = global_search;
+
+//     const propertiesToFilter = [
+//       'preferred_payment_method_data.master_data_name',
+//       'vendor_category_data.master_data_name',
+//       'notes',
+//       'lead_time',
+//       'currency',
+//       'payment_terms',
+//       'tax_id',
+//       'contact_phone_no',
+//       'contact_email',
+//       'contact_person',
+//       'bank_account_details.bank_name',
+//       'bank_account_details.account_number',
+//       'address.street',
+//       'address.city',
+//       'address.state',
+//       'address.country',
+//       'address.pin_code',
+//       'bank_account_details.ifsc_code',
+//       'vendor_name',
+//     ];
+
+//     const filteredVendors = CaseInsensitiveFilter(
+//       vendor,
+//       globalSearch,
+//       propertiesToFilter
+//     );
+//     const vendorCount = filteredVendors.length;
+//     const vendors = filteredVendors.slice(offset, offset + limit);
+//     const vendorData = {
+//       count: vendorCount,
+//       data: vendors,
+//     };
+//     return vendorData; */
+//   } catch (error) {
+//     console.log('Error occurred in vendor dao : searchVendor ', error);
+//     throw error;
+//   }
+// };
 
 const getByEmailId = async (contact_email: string, connectionObj = null) => {
   try {
