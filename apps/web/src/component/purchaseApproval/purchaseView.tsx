@@ -204,7 +204,7 @@ const PurchaseView = () => {
                       <td>{data?.status}</td>
                       <td>{
                         // <EditIcon onClick={() => handleEdit(data.purchase_request_id)}/>
-                        <ViewIcon onClick={() => navigate('/vendor-select/$(data.purchase_request_id)')} />
+                        <ViewIcon onClick={() => navigate(`/vendor-select/${data?.purchase_request_id}`)} />
                         }</td>
                     </tr>
                   );

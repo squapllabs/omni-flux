@@ -159,7 +159,9 @@ const searchPurchaseOrder = async (
     const purchaseOrder = await transaction.purchase_order.findMany({
       where: filter,
       include: {
-        purchase_request_data: { include: { indent_request_data: true } },
+        purchase_request_data: {
+          include: { indent_request_data: true, project_data: true },
+        },
         vendor_data: true,
       },
       orderBy: [
@@ -307,6 +309,37 @@ const getByPurchaseRequestId = async (
   }
 };
 
+const updateStatusAndDocument = async (
+  status: string,
+  updated_by: number,
+  purchase_order_documents,
+  purchase_order_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseOrder = await transaction.purchase_order.update({
+      where: {
+        purchase_order_id: purchase_order_id,
+      },
+      data: {
+        status,
+        purchase_order_documents,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+    return purchaseOrder;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrderDao updateStatusAndDocument',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -316,4 +349,5 @@ export default {
   searchPurchaseOrder,
   createPurchaseOrderWithItem,
   getByPurchaseRequestId,
+  updateStatusAndDocument,
 };

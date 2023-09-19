@@ -27,7 +27,7 @@ const VendorSelect = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(50);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const vendorData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -35,16 +35,16 @@ const VendorSelect = () => {
     order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
-    // indent_request_id: prID,
+    purchase_request_id: prID,
   };
   useEffect(() => {
     const getAllData = async () => {
       try {
         setDataLoading(true);
       } finally {
-        const result = await vendorQuotesService.vendorQotesData(vendorData);
-        console.log("vdata",result);
-        
+        const result = await vendorQuotesService.vendorQuotesData(vendorData);
+        console.log('vdata', result);
+
         if (result.message === 'success') {
           setTableData(result.content);
           setDataLoading(false);
@@ -53,6 +53,8 @@ const VendorSelect = () => {
     };
     getAllData();
   }, []);
+
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
       <div className={Styles.textContent}>
@@ -73,7 +75,25 @@ const VendorSelect = () => {
               <th>Options</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {tableData?.map((data: any, index: number) => {
+              const totalQuantity = data.quotation_details.reduce(
+                (total:any, item:any) => total + item.quantity,
+                0
+              );
+              return (
+                <tr key={data.vendor_quotes_id}>
+                  <td>{startingIndex + index}</td>
+                  <td>{data.vendor_name}</td>
+                  <td>{totalQuantity}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </div>
