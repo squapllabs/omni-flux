@@ -38,9 +38,8 @@ pipeline {
               script {
                 currentBuild.result = currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'SUCCESS' : 'FAILURE'
                 emailext subject:  "Pipeline: ${JOB_NAME} - Build ${currentBuild.number} - ${currentBuild.result}",
-                body: "Pipeline: ${JOB_NAME} - 
-                Build ID: ${currentBuild.id}
-                 \nBuild Status: ${currentBuild.result}",
+                body: "Pipeline Name: ${JOB_NAME}",
+                body: "Build ID: ${currentBuild.id}\nBuild Status: ${currentBuild.result}",
                 to: 'anbarasan.mathesh@aalamsoft.com',
                 attachLog: true
         }
