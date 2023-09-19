@@ -38,18 +38,11 @@ pipeline {
             script {
                 def buildStatus = currentBuild.resultIsBetterOrEqualTo('FAILURE') ? 'SUCCESS' : 'FAILURE'
               
-              withCredentials([string(credentialsId: 'your-pipeline-name-secret', variable: 'PIPELINE_NAME'),
-                                 string(credentialsId: 'your-build-id-secret', variable: 'BUILD_ID'),
-                                 string(credentialsId: 'your-build-status-secret', variable: 'BUILD_STATUS')]) {
-                    emailext subject: "Pipeline: ${PIPELINE_NAME} - Build ${BUILD_ID} - ${BUILD_STATUS}",
-                              body: "Pipeline Name: ${PIPELINE_NAME} - Build ID: ${BUILD_ID}\nBuild Status: ${BUILD_STATUS}",
-                              to: 'recipient@example.com',
-                              attachLog: true    
-              //  emailext subject: "Pipeline: ${JOB_NAME} - Build ${currentBuild.number} - ${buildStatus}",
-              //            body: "Pipeline Name: ${JOB_NAME} - Build ID: ${currentBuild.id}\nBuild Status: ${buildStatus}",
-               //           to: 'anbarasan.mathesh@aalamsoft.com',
-               //           attachLog: true
-          }     
+                 emailext subject: "Pipeline: ${JOB_NAME} - Build ${currentBuild.number} - ${buildStatus}",
+                          body: "Pipeline Name: ${JOB_NAME} - Build ID: ${currentBuild.id}\nBuild Status: ${buildStatus}",
+                          to: 'anbarasan.mathesh@aalamsoft.com',
+                          attachLog: true
+              
       }
     }
   }
