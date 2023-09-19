@@ -1,0 +1,71 @@
+.documentContainer {
+    padding: 10px 0px 0px 30px;
+}
+
+.documentOuterLayer {
+    width: 40%;
+    border: 1px dashed #475467;
+    border-radius: 5px;
+}
+
+.documentContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.documentSpan {
+    font-size: 0.65rem;
+}
+
+.viewFiles {
+    padding: 0px 0px 0px 50px;
+}
+
+.listStyles {
+    font-size: 0.85rem;
+}
+
+.formContainer {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+.titleStyle {
+    padding: 10px 10px 1px 2op;
+}
+
+.dividerStyle {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 1px 5px 1px;
+}
+
+.field {
+    padding: 5px 20px 5px 20px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 20px 5px 20px;
+}
+
+.field {
+    padding: 5px 20px 5px 20px;
+}
+
+.formButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    padding:10px 20px 10px 0px ;
+  }
+
+.cancelButton:hover {
+    background-color: #c4c4c6;
+    color: #070707;
+}

@@ -13,11 +13,11 @@ priority varchar(50),
 description text,
 expected_delivery_date date,
 total_cost double precision,
-approvar_user_id int4 ,
-approvar_status varchar(50),
+approver_user_id int4 ,
+approver_status varchar(50),
 approved_date date,
 rejected_date date,
-approvar_comments text,
+approver_comments text,
 is_delete boolean not null default false,
 created_date timestamptz not null default now(),
 updated_date timestamptz not null,
@@ -25,7 +25,7 @@ created_by int4,
 updated_by int4,
 constraint pk_indent_request primary key (indent_request_id),
 constraint fk_indent_request_requester_user_id foreign key (requester_user_id) references users(user_id),
-constraint fk_indent_request_approvar_user_id foreign key (approvar_user_id) references users(user_id)
+constraint fk_indent_request_approvar_user_id foreign key (approver_user_id) references users(user_id)
 )
 
 create table indent_request_details(
