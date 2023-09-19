@@ -288,6 +288,7 @@ const getByPurchaseRequestId = async (
         purchase_order_item: {
           where: { is_delete: false },
           orderBy: [{ updated_date: 'desc' }],
+          include: { item_data: true },
         },
       },
       orderBy: [{ updated_date: 'desc' }],
