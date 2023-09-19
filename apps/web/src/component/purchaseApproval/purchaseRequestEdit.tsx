@@ -13,7 +13,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-
+  let PR_;
   const [initialValues, setInitialValues] = useState({
     purchase_request_id: '',
     total_cost: '',
@@ -96,6 +96,30 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
     }
   };
 
+  const handleDocuments = async (
+    files: File[],
+    purchase_request_id: string
+  ) => {
+    try {
+      const uploadPromises = files.map(async (file) => {
+        const response = await userService.documentUpload(
+          file,
+          purchase_request_id
+        );
+        return response.data;
+      });
+      const uploadResponses = await Promise.all(uploadPromises);
+      const modifiedArray = uploadResponses.flatMap((response) => response);
+      const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
+        ...obj,
+        is_delete: 'N',
+      }));
+      return modifiedArrayWithDeleteFlag;
+    } catch (error) {
+      console.log('Error in occur purchase document upload:', error);
+    }
+  };
+
   const deleteFile = (index: number) => {
     const newFiles = [...selectedFiles];
     const newFileNames = [...selectedFileName];
@@ -110,6 +134,21 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
       fileInputRef.current.click();
     }
   };
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit: async (values) => {
+      const s3UploadUrl = await handleDocuments(
+        selectedFiles,
+        'PR_'+'values.purchase_request_id'
+      );
+      const Object: any = {
+        purchase_request_id: values.purchase_request_id,
+        total_cost: values.total_cost,
+        purchase_request_documents: s3UploadUrl,
+      };
+    },
+  });
 
   return (
     <div className={Styles.formContainer}>
@@ -178,7 +217,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
             <span>
               <ol className={Styles.listStyles}>
                 {selectedFileName.map((fileName, index) => (
-                  <li key={index} style={{paddingTop:'5px'}}>
+                  <li key={index} style={{ paddingTop: '5px' }}>
                     {fileName} {'    '}
                     <CancelIcon
                       // width={10}

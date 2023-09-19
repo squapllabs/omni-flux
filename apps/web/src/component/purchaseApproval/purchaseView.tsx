@@ -14,6 +14,7 @@ import purchaseRequestService from '../../service/purchaseRequest-service';
 import EditIcon from '../menu/icons/editIcon';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import PurchaseRequestEdit from './purchaseRequestEdit';
+import ViewIcon from '../menu/icons/viewIcon';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -25,6 +26,7 @@ const PurchaseView = () => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [tableData, setTableData] = useState([]);
   const [purchaseTableData, setPurchaseTableData] = useState([]);
+  const [dataCount,setDataCount] = useState(0);
   const [dataLoading, setDataLoading] = useState(false);
   const [Id, setID] = useState();
   const [mode, setMode] = useState('');
@@ -76,6 +78,7 @@ const PurchaseView = () => {
 
       if (data.message === 'success') {
         setPurchaseTableData(data.content);
+        setDataCount(data.total_count);
       }
     };
     getAllPurchaseData();
@@ -171,24 +174,37 @@ const PurchaseView = () => {
               <thead>
                 <tr>
                   <th>S No</th>
+                  <th>Purchase Request</th>
                   <th>Vendor Name </th>
-                  <th>Budget</th>
+                  {/* <th>Budget</th> */}
                   <th>No of Items</th>
                   <th>Quotation Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
+                {dataCount===0 ? (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>No data found</td>
+                    <td></td>
+                  </tr>
+                ) : (
+                  ''
+                )}
                 {purchaseTableData?.map((data: any, index: number) => {
                   return (
                     <tr key={data.purchase_request_id}>
                       <td>{startingIndex + index}</td>
+                      <td>{data.indent_request_data.description}</td>
                       <td>{data?.selected_vendor_data?.vendor_name}</td>
-                      <td>{formatBudgetValue(data?.total_cost)}</td>
+                      {/* <td>{formatBudgetValue(data?.total_cost)}</td> */}
                       <td></td>
                       <td>{data?.status}</td>
                       <td>{
-                        <EditIcon onClick={() => handleEdit(data.purchase_request_id)}/>
+                        // <EditIcon onClick={() => handleEdit(data.purchase_request_id)}/>
+                        <ViewIcon onClick={() => navigate('/vendor-select/$(data.purchase_request_id)')} />
                         }</td>
                     </tr>
                   );

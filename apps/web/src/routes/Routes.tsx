@@ -245,8 +245,8 @@ import IndentRequest from '../component/project/projectComponent/projectIndentRe
 import IndentView from '../component/indentApproval/indentList';
 import PurchaseList from '../component/purchaseApproval/purchaseList';
 import PurchaseView from '../component/purchaseApproval/purchaseView';
-
 import IndentDetailView from '../component/indentApproval/indentView';
+import VendorSelect from '../component/purchaseApproval/vendorSelect';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -312,6 +312,7 @@ const AppRoutes = () => {
   const ProtectedPurchaseList = withLayoutAndProtection(PurchaseList);
   const ProtectedIndentDetailView = withLayoutAndProtection(IndentDetailView);
   const ProtectedPurchaseDetailView = withLayoutAndProtection(PurchaseView);
+  const ProtectedVendorSelect = withLayoutAndProtection(VendorSelect);
 
   return (
     <div>
@@ -429,9 +430,16 @@ const AppRoutes = () => {
         <Route path="/indent/:id" element={<ProtectedIndent />} />
         <Route path="/indent-view" element={<ProtectedIndentList />} />
         <Route path="/purchase-view" element={<ProtectedPurchaseList />} />
-        <Route path="/indent-detail/:id" element={<ProtectedIndentDetailView />} />
-        <Route path="/purchase-detail/:id" element={<ProtectedPurchaseDetailView />} />
+        <Route
+          path="/indent-detail/:id"
+          element={<ProtectedIndentDetailView />}
+        />
+        <Route
+          path="/purchase-detail/:id"
+          element={<ProtectedPurchaseDetailView />}
+        />
         <Route path="/indent/:id/:indentid" element={<ProtectedIndent />} />
+        <Route path="/vendor-select/:id" element={<ProtectedVendorSelect />} />
       </Routes>
     </div>
   );

@@ -2,31 +2,12 @@
     width: 100%;
 }
 
-.box {
-    position: relative;
-}
 .content {
     font-size: 0.7rem;
 }
 
-.headingTop {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 10px;
-}
-
 .content {
     font-size: 0.7rem;
-}
-
-.backButton {
-    padding: 0px 10px 0px 0px
-}
-
-.tableText {
-    color: #848289;
-    padding-bottom: 10px;
 }
 
 .dividerStyle {
@@ -73,16 +54,4 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #e0e0e0;
-}
-
-.approveButton {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 20px 10px 0px 0px
-}
-
-.bottomTable {
-    padding: 20px 10px 10px 10px;
 }
