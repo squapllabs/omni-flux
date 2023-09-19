@@ -2,6 +2,7 @@ import vendorQuotesDao from '../dao/vendorQuotes.dao';
 import vendorDao from '../dao/vendor.dao';
 import { vendorQuotesBody } from '../interfaces/vendorQuotes.interface';
 import purchaseRequestDao from '../dao/purchaseRequest.dao';
+import { processFileDeleteInS3 } from '../utils/fileUpload';
 
 /**
  * Method to Create a New VendorQuotes
@@ -19,6 +20,7 @@ const createVendorQuotes = async (body: vendorQuotesBody) => {
       remarks,
       quotation_details,
       created_by,
+      vendor_quotes_documents,
     } = body;
 
     if (purchase_request_id) {
@@ -53,6 +55,7 @@ const createVendorQuotes = async (body: vendorQuotesBody) => {
       total_quotation_amount,
       remarks,
       quotation_details,
+      vendor_quotes_documents,
       created_by
     );
     const result = {
@@ -84,6 +87,7 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
       total_quotation_amount,
       remarks,
       quotation_details,
+      vendor_quotes_documents,
       updated_by,
     } = body;
     let result = null;
@@ -121,6 +125,22 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
       }
     }
 
+    const updatedVendorQuotesDocuments = [];
+    if (vendor_quotes_documents) {
+      for (const doc of vendor_quotes_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === true) {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedVendorQuotesDocuments.push(doc);
+        }
+      }
+    }
+
     const vendorQuotesDetails = await vendorQuotesDao.edit(
       vendor_quotes_id,
       vendor_id,
@@ -130,7 +150,8 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
       total_quotation_amount,
       remarks,
       quotation_details,
-      updated_by
+      updated_by,
+      updatedVendorQuotesDocuments
     );
     result = {
       message: 'success',
@@ -281,6 +302,68 @@ const searchVendorQuotes = async (body) => {
   }
 };
 
+/**
+ * Method to Update an Existing Status And Document
+ * @param body
+ * @returns
+ */
+
+const updateStatusAndDocument = async (body: vendorQuotesBody) => {
+  try {
+    const {
+      vendor_quotes_id,
+      quotation_status,
+      vendor_quotes_documents,
+      updated_by,
+    } = body;
+    let result = null;
+    const vendorQuotesExist = await vendorQuotesDao.getById(vendor_quotes_id);
+    if (!vendorQuotesExist) {
+      result = {
+        message: 'vendor_quotes_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+
+    const updatedVendorQuotesDocuments = [];
+    if (vendor_quotes_documents) {
+      for (const doc of vendor_quotes_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === true) {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedVendorQuotesDocuments.push(doc);
+        }
+      }
+    }
+
+    const vendorQuotesDetails = await vendorQuotesDao.updateStatusAndDocument(
+      vendor_quotes_id,
+      quotation_status,
+      updated_by,
+      updatedVendorQuotesDocuments
+    );
+    result = {
+      message: 'success',
+      status: true,
+      data: vendorQuotesDetails,
+    };
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in VendorQuotes service updateStatusAndDocument: ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createVendorQuotes,
   updateVendorQuotes,
@@ -288,4 +371,5 @@ export {
   getById,
   deleteVendorQuotes,
   searchVendorQuotes,
+  updateStatusAndDocument,
 };

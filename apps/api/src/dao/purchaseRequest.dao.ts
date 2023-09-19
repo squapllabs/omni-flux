@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import customQueryExecutor from './common/utils.dao';
 
 const add = async (
   indent_request_id: number,
@@ -42,9 +43,13 @@ const add = async (
     const new_purchase_request_id = purchaseRequest?.purchase_request_id;
 
     const vendorQuotesDetails = [];
+    const quotationIdGeneratorQuery = `select concat('VQUO',DATE_PART('year', CURRENT_DATE),'00',nextval('vendor_quotation_sequence')::text) as vendor_quotation_sequence`;
 
     for (const vendor of vendor_ids) {
       const vendor_id = vendor;
+      const quotation_id = await customQueryExecutor.customQueryExecutor(
+        quotationIdGeneratorQuery
+      );
 
       const vendorQuotes = await transaction.vendor_quotes.create({
         data: {
@@ -55,6 +60,7 @@ const add = async (
           total_quotation_amount: 0,
           remarks: null,
           quotation_details: purchase_request_details,
+          quotation_id: quotation_id[0].vendor_quotation_sequence,
           created_by,
           created_date: currentDate,
           updated_date: currentDate,
