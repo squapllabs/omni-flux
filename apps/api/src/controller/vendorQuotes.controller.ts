@@ -67,6 +67,18 @@ const searchVendorQuotes = catchAsync(async (req, res) => {
   }
 });
 
+const updateStatusAndDocument = catchAsync(async (req, res) => {
+  const methodName = '/updateStatusAndDocument';
+  try {
+    const vendorQuotes = await vendorQuotesService.updateStatusAndDocument(
+      req.body
+    );
+    res.send(vendorQuotes);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createVendorQuotes,
   getAllVendorQuotes,
@@ -74,4 +86,5 @@ export {
   deleteByVendorQuotesId,
   searchVendorQuotes,
   updateVendorQuotes,
+  updateStatusAndDocument,
 };

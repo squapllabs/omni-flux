@@ -9,6 +9,7 @@ const add = async (
   total_quotation_amount: number,
   remarks: string,
   quotation_details: JSON,
+  vendor_quotes_documents,
   created_by: number,
   connectionObj = null
 ) => {
@@ -16,6 +17,13 @@ const add = async (
     const currentDate = new Date();
     const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const quotationIdGeneratorQuery = `select concat('VQUO',DATE_PART('year', CURRENT_DATE),'00',nextval('vendor_quotation_sequence')::text) as vendor_quotation_sequence`;
+
+    const quotation_id = await customQueryExecutor.customQueryExecutor(
+      quotationIdGeneratorQuery
+    );
+
     const vendorQuotes = await transaction.vendor_quotes.create({
       data: {
         vendor_id,
@@ -25,6 +33,8 @@ const add = async (
         total_quotation_amount,
         remarks,
         quotation_details,
+        quotation_id: quotation_id[0].vendor_quotation_sequence,
+        vendor_quotes_documents,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -48,6 +58,7 @@ const edit = async (
   remarks: string,
   quotation_details: JSON,
   updated_by: number,
+  vendor_quotes_documents,
   connectionObj = null
 ) => {
   try {
@@ -66,6 +77,7 @@ const edit = async (
         remarks,
         quotation_details,
         updated_by,
+        vendor_quotes_documents,
         updated_date: currentDate,
       },
     });
@@ -155,6 +167,7 @@ const searchVendorQuotes = async (
                     (v.vendor_name ilike '%${global_search}%'
                         or vq.quotation_status ilike '%${global_search}%'
                         or vq.remarks ilike '%${global_search}%'
+                        or vq.quotation_id ilike '%${global_search}%'
                         or vq.quotation_details ->>'item_name' ilike '%${global_search}%' )
                     and (vq.is_delete = ${is_delete} and vq.purchase_request_id =${purchase_request_id})
                 order by
@@ -171,6 +184,7 @@ const searchVendorQuotes = async (
                     (v.vendor_name ilike '%${global_search}%'
                         or vq.quotation_status ilike '%${global_search}%'
                         or vq.remarks ilike '%${global_search}%'
+                        or vq.quotation_id ilike '%${global_search}%'
                         or vq.quotation_details ->>'item_name' ilike '%${global_search}%' )
                     and (vq.is_delete = ${is_delete} and vq.purchase_request_id =${purchase_request_id})`;
 
@@ -191,6 +205,37 @@ const searchVendorQuotes = async (
   }
 };
 
+const updateStatusAndDocument = async (
+  vendor_quotes_id: number,
+  quotation_status: string,
+  updated_by: number,
+  vendor_quotes_documents,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const vendorQuotes = await transaction.vendor_quotes.update({
+      where: {
+        vendor_quotes_id: Number(vendor_quotes_id),
+      },
+      data: {
+        quotation_status,
+        updated_by,
+        vendor_quotes_documents,
+        updated_date: currentDate,
+      },
+    });
+    return vendorQuotes;
+  } catch (error) {
+    console.log(
+      'Error occurred in vendorQuotesDao updateStatusAndDocument',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -198,4 +243,5 @@ export default {
   getAll,
   deleteVendorQuotes,
   searchVendorQuotes,
+  updateStatusAndDocument,
 };

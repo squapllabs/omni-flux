@@ -890,19 +890,21 @@ model purchase_order_item {
 }
 
 model vendor_quotes {
-  vendor_quotes_id       Int              @id @default(autoincrement())
-  vendor_id              Int
-  purchase_request_id    Int
-  quotation_date         DateTime?
-  quotation_status       String?
-  total_quotation_amount Float?
-  remarks                String?
-  quotation_details      Json?
-  is_delete              Boolean          @default(false)
-  created_date           DateTime         @default(now())
-  updated_date           DateTime
-  created_by             Int?
-  updated_by             Int?
-  purchase_request_data  purchase_request @relation(fields: [purchase_request_id], references: [purchase_request_id])
-  vendor_data            vendor           @relation(fields: [vendor_id], references: [vendor_id])
+  vendor_quotes_id        Int              @id @default(autoincrement())
+  vendor_id               Int
+  purchase_request_id     Int
+  quotation_date          DateTime?
+  quotation_status        String?
+  total_quotation_amount  Float?
+  remarks                 String?
+  quotation_details       Json?
+  quotation_id            String
+  vendor_quotes_documents Json?
+  is_delete               Boolean          @default(false)
+  created_date            DateTime         @default(now())
+  updated_date            DateTime
+  created_by              Int?
+  updated_by              Int?
+  purchase_request_data   purchase_request @relation(fields: [purchase_request_id], references: [purchase_request_id])
+  vendor_data             vendor           @relation(fields: [vendor_id], references: [vendor_id])
 }
