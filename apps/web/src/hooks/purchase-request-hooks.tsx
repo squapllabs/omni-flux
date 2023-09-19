@@ -26,11 +26,48 @@ const useGetOnePurchaseRequest = (id : any)  => {
 
   
 const useGetOneOrderPurchaseRequest = (id : any)  => {
-  return useQuery(['useGetOrderPurchaseRequest',id], () => purchaseRequestService.getOneOrderPurchaseRequest(id), {
+  return useQuery(['useGetOrderPurchaseRequestSample',id], () => purchaseRequestService.getOneOrderPurchaseRequest(id), {
     select: (data) => data.data,
     staleTime: Infinity,
   });
 };
   
+const useGetMasterBillStatusParentType = () => {
+  return useQuery(
+    ['useGetAllBillStatusType'],
+    () => purchaseRequestService.getAllBillStatusParentType(),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project.master_data_name,
+          label: project.master_data_name,
+        })),
+    }
+  );
+};
 
-  export { useGetOnePurchaseRequest,purchaseOrderRequest,useGetOneOrderPurchaseRequest };
+const updatePurchseOrderBillStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return purchaseRequestService.updatePoBillStatus(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
+      },
+    }
+  );
+};
+
+const useGetAllPurchaseOrderData = (data: any) => {
+  return useQuery(
+    ['useGetAllPOPaginatedData'],
+    () => purchaseRequestService.getPoData(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+  export { useGetOnePurchaseRequest,purchaseOrderRequest,useGetOneOrderPurchaseRequest,useGetMasterBillStatusParentType,updatePurchseOrderBillStatus,useGetAllPurchaseOrderData };

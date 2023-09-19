@@ -430,7 +430,7 @@ const AppRoutes = () => {
         <Route path="/indent-detail/:id" element={<ProtectedIndentDetailView />} />
         <Route path="/indent/:id/:indentid" element={<ProtectedIndent />} />
         <Route path="/purchase-request/:id" element={<ProtectedPurchaseOrderView />} />
-        <Route path="/purchaseOrder/:id" element={<ProtectedPurchaseViewByvendor />} />
+        <Route path="/purchase-order" element={<ProtectedPurchaseViewByvendor />} />
       </Routes>
     </div>
   );

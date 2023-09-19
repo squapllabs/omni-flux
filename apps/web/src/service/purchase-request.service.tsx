@@ -38,8 +38,61 @@ const getOneOrderPurchaseRequest = async (id: number) => {
   }
 };
 
+const getAllBillStatusParentType = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/master-data/get-by-type/BSCTY`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting getAllBillStatusParentType:', error);
+    throw error;
+  }
+};
+
+const getOnePurchaseOrderDataByID = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/purchase-order/get/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOnePurchaseOrderDataByID :', error);
+    throw error;
+  }
+};
+
+const updatePoBillStatus = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/purchase-order/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in updatePoBillStatus:', error);
+  }
+};
+
+const getPoData = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/purchase-order/search`,
+      values
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log('Error in getPoData filter :', error);
+    throw error;
+  }
+};
 export default {
     getOnePurchaseRequest,
     createPurchaseOrderItem,
-    getOneOrderPurchaseRequest
+    getOneOrderPurchaseRequest,
+    getAllBillStatusParentType,
+    getOnePurchaseOrderDataByID,
+    updatePoBillStatus,
+    getPoData
 };

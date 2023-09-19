@@ -51,7 +51,7 @@ const PurchaseView = () => {
             setMessage('Purchase Order Create Successfull');
             setOpenSnack(true);
             setTimeout(() => {
-              navigate(`/purchaseOrder/${PurchaseId}`);
+              navigate(`/purchase-order`);
             }, 1000);
           }
         },
@@ -106,7 +106,7 @@ const PurchaseView = () => {
                         <td>{data.item_name}</td>
                         <td>{data.quantity}</td>
                       </tr>
-                    );
+                    )
                   }
                 )}
               </tbody>
