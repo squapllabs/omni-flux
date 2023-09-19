@@ -50,7 +50,9 @@ const PurchaseView = () => {
           if (data?.message === 'success') {
             setMessage('Purchase Order Create Successfull');
             setOpenSnack(true);
-            navigate(`/purchaseOrder/${PurchaseId}`);
+            setTimeout(() => {
+              navigate(`/purchaseOrder/${PurchaseId}`);
+            }, 1000);
           }
         },
       });

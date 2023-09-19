@@ -31,9 +31,9 @@ const OrderView = () => {
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
         <div className={Styles.headingTop}>
           <div className={Styles.textContent}>
-            <h3>{getAllData?.project_data?.project_name}</h3>
+            <h3>{getAllData?.purchase_request_data?.project_data?.project_name}</h3>
             <span className={Styles.content}>
-              {getAllData?.project_data?.description}
+              {getAllData?.purchase_request_data?.project_data?.description}
             </span>
           </div>
         </div>
@@ -54,13 +54,14 @@ const OrderView = () => {
                 </tr>
               </thead>
               <tbody>
-                {getAllData?.purchase_request_details?.map(
+                {getAllData?.purchase_order_item?.map(
                   (data: any, index: number) => {
                     return (
                       <tr key={data.indent_request_id}>
                         <td>{index + 1}</td>
                         <td>{data.item_name}</td>
-                        <td>{data.quantity}</td>
+                        <td>{data.order_quantity}</td>
+                        <td>ssssss</td>
                       </tr>
                     );
                   }
