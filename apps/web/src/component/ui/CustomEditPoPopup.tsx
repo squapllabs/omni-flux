@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import Button from '../ui/Button';
 import Styles from '../../styles/customEditPopup.module.scss';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
-import { getBomValidateyup } from '../../helper/constants/bom-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
   useGetMasterBillStatusParentType,
   updatePurchseOrderBillStatus,
 } from '../../hooks/purchase-request-hooks';
 import Select from '../ui/selectNew';
-import purchaseRequestService from '../../service/purchase-request.service';
+import PurchaseRequestService from '../../service/purchase-request.service';
 
 const CustomEditPoPopup = (props: {
   isVissible: any;
@@ -26,8 +24,7 @@ const CustomEditPoPopup = (props: {
     useGetMasterBillStatusParentType();
   const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
   const [initialValues, setInitialValues] = useState({
-    bill_status: '',
-    bill_document: '',
+    bill_status: '',    
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -37,18 +34,14 @@ const CustomEditPoPopup = (props: {
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
   const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
   const [docErrorMsg,setDocErrorMsg] = useState('');
-  console.log('sssssss', selectedFileName);
-  console.log('eeeeee', existingFileName);
-  console.log('uuuuuuuuu', existingFileUrl);
 
   useEffect(() => {
     const fetchOne = async () => {
-      const data = await purchaseRequestService.getOnePurchaseOrderDataByID(
+      const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(
         Number(selectedPurchaseOrder)
       );
       setInitialValues({
         bill_status: data?.data?.status,
-        bill_document: data?.data?.purchase_order_documents,
       });
       const existingFileNames = data?.data?.purchase_order_documents.map(
         (document: any) => {
@@ -61,7 +54,6 @@ const CustomEditPoPopup = (props: {
           return fileName;
         }
       );
-      console.log('inner e name', existingFileNames);
       setExistingFileName(existingFileNames);
       setExistingFileUrl(data?.data?.purchase_order_documents);
     };
@@ -74,7 +66,7 @@ const CustomEditPoPopup = (props: {
   ) => {
     try {
       const uploadPromises = files.map(async (file) => {
-        const response = await purchaseRequestService.documentUpload(
+        const response = await PurchaseRequestService.documentUpload(
           file,
           code,
           folder
@@ -87,21 +79,18 @@ const CustomEditPoPopup = (props: {
         ...obj,
         is_delete: false,
       }));
-      console.log('existingFileUrl', existingFileUrl);
-      console.log('modifiedArrayWithDeleteFlag', modifiedArrayWithDeleteFlag);
-      if (existingFileUrl.length > 0) {
-        console.log("lllllllllllllllllllllll");
+      if (existingFileUrl.length > 0 && selectedFiles.length>0) {
         existingFileUrl.forEach((item) => {
           item.is_delete = true;
         });
         const combinedArray =
           modifiedArrayWithDeleteFlag.concat(existingFileUrl);
-        console.log("lllllllllllllllllllllll",combinedArray);
         return combinedArray;
-      } else {
-        console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-        console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",modifiedArrayWithDeleteFlag);
-        
+      }
+      else if(existingFileUrl.length > 0) {
+        return existingFileUrl
+      }
+       else {
         return modifiedArrayWithDeleteFlag;
       }
     } catch (error) {
@@ -125,9 +114,6 @@ const CustomEditPoPopup = (props: {
         purchase_order_id: Number(selectedPurchaseOrder),
         updated_by: 1,
       };
-      console.log("Qs3UploadUrl",s3UploadUrl);
-      console.log("QexistingFileUrl",existingFileUrl);
-      
       if (Object.status === 'Completed' || Object.status === 'Invoice' || Object.status === 'Payment Completed') {
         if(Object.purchase_order_documents?.length>0){
             updatePoBillStatus(Object, {
@@ -257,7 +243,6 @@ const CustomEditPoPopup = (props: {
                       label="Bill Status"
                       name="bill_status"
                       placeholder="Select the Status"
-                      //   mandatory={true}
                       width="250px"
                       onChange={formik.handleChange}
                       value={formik.values.bill_status}
