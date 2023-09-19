@@ -296,8 +296,8 @@ const addBulkBom = async (body) => {
         const updated_by = body[0].updated_by
           ? body[0].updated_by
           : body[0].created_by
-            ? body[0].created_by
-            : null;
+          ? body[0].created_by
+          : null;
 
         const subCategoryDetails = await subCategoryDao.updateBudget(
           subCategoryBudget,
@@ -537,6 +537,51 @@ const getByProjectIdAndBomType = async (
   }
 };
 
+/**
+ * Method to get Bom By Sub Category Id
+ * @param project_id
+ * @returns
+ */
+const getAllItemsInBomDetailsByProjectId = async (project_id: number) => {
+  try {
+    let result = null;
+
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const bomData = await bomDetailDao.getAllItemsInBomDetailsByProjectId(
+      project_id
+    );
+    if (bomData.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: bomData,
+      };
+    } else {
+      result = {
+        message:
+          'There is no items available in bom data related to this project_id',
+        status: false,
+        data: null,
+      };
+    }
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in bom service getAllItemsInBomDetailsByProjectId ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createBom,
   updateBom,
@@ -550,4 +595,5 @@ export {
   getBomTotalBySubCategoryId,
   getBySubCategoryId,
   getByProjectIdAndBomType,
+  getAllItemsInBomDetailsByProjectId,
 };

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import BackArrowIcon from '../menu/icons/backArrow';
-import { useGetOneOrderPurchaseRequest,useGetAllPurchaseOrderData } from '../../hooks/purchase-request-hooks';
+import {useGetAllPurchaseOrderData } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
-import { formatBudgetValue } from '../../helper/common-function';
-import { format } from 'date-fns';
+// import { formatBudgetValue } from '../../helper/common-function';
+// import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
 import EditIcon from '../menu/icons/editIcon';
 import CustomEditPoPopup from '../ui/CustomEditPoPopup';
@@ -52,15 +51,12 @@ const OrderView = () => {
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
         <div className={Styles.headingTop}>
           <div className={Styles.textContent}>
-            <h3>
-              {/* {getAllData?.purchase_request_data?.project_data?.project_name} */}
-            </h3>
-            <span className={Styles.content}>
-              {/* {getAllData?.purchase_request_data?.project_data?.description} */}
-            </span>
+            <h5>
+              Manage purchase order your entire organisation
+            </h5>
           </div>
         </div>
-        <div className={Styles.dividerStyle}></div>
+        {/* <div className={Styles.dividerStyle}></div> */}
         <div className={Styles.tableContainer}>
           <div>
             <table>
@@ -83,7 +79,7 @@ const OrderView = () => {
                       <tr>
                         <td>{index + 1}</td>
                         <td>{data?.vendor_data?.vendor_name}</td>
-                        <td>{data?.purchase_request_data?.indent_request_data?.project_id}</td>
+                        <td>{data?.purchase_request_data?.project_data?.project_name}</td>
                         <td>{data?.total_cost}</td>
                         <td>
                           <div>

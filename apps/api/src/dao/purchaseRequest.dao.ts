@@ -10,7 +10,8 @@ const add = async (
   selected_vendor_id: number,
   total_cost: number,
   created_by: number,
-  purchase_request_details: JSON,
+  vendor_ids: Array<number>,
+  purchase_request_details,
   purchase_request_documents,
   connectionObj = null
 ) => {
@@ -37,7 +38,38 @@ const add = async (
         is_delete: is_delete,
       },
     });
-    return purchaseRequest;
+
+    const new_purchase_request_id = purchaseRequest?.purchase_request_id;
+
+    const vendorQuotesDetails = [];
+
+    for (const vendor of vendor_ids) {
+      const vendor_id = vendor;
+
+      const vendorQuotes = await transaction.vendor_quotes.create({
+        data: {
+          vendor_id: vendor_id,
+          purchase_request_id: new_purchase_request_id,
+          quotation_date: formatted_request_date,
+          quotation_status: 'Pending',
+          total_quotation_amount: 0,
+          remarks: null,
+          quotation_details: purchase_request_details,
+          created_by,
+          created_date: currentDate,
+          updated_date: currentDate,
+          is_delete: is_delete,
+        },
+      });
+      vendorQuotesDetails.push(vendorQuotes);
+    }
+
+    const purchaseRequestData = {
+      purchase_request: purchaseRequest,
+      vendor_quotes: vendorQuotesDetails,
+    };
+
+    return purchaseRequestData;
   } catch (error) {
     console.log('Error occurred in purchaseRequestDao add', error);
     throw error;
@@ -61,7 +93,6 @@ const edit = async (
 ) => {
   try {
     const currentDate = new Date();
-    // const parsed_purchase_request_details = purchase_request_details? JSON.parse(purchase_request_details) : null
     const formatted_request_date = request_date ? new Date(request_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const purchaseRequest = await transaction.purchase_request.update({

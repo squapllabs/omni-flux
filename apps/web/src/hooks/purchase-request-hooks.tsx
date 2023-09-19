@@ -54,7 +54,7 @@ const updatePurchseOrderBillStatus = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
+        queryClient.invalidateQueries(['useGetAllPOPaginatedData']);
       },
     }
   );

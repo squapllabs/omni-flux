@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Button from '../ui/Button';
@@ -21,8 +21,6 @@ const CustomEditPoPopup = (props: {
   selectedPurchaseOrder: any;
 }) => {
   const { isVissible, onAction, selectedPurchaseOrder } = props;
-  console.log('id props', selectedPurchaseOrder);
-  console.log('id type', typeof selectedPurchaseOrder);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
     useGetMasterBillStatusParentType();
@@ -33,46 +31,138 @@ const CustomEditPoPopup = (props: {
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
+  const [fileSizeError, setFileSizeError] = useState<string>('');
+  const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [existingFileName, setExistingFileName] = useState<string[]>([]);
+  const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
+  const [docErrorMsg,setDocErrorMsg] = useState('');
+  console.log('sssssss', selectedFileName);
+  console.log('eeeeee', existingFileName);
+  console.log('uuuuuuuuu', existingFileUrl);
 
   useEffect(() => {
     const fetchOne = async () => {
       const data = await purchaseRequestService.getOnePurchaseOrderDataByID(
         Number(selectedPurchaseOrder)
       );
-      console.log('@@@@@@@@@@@', data.status);
       setInitialValues({
         bill_status: data?.data?.status,
         bill_document: data?.data?.purchase_order_documents,
       });
+      const existingFileNames = data?.data?.purchase_order_documents.map(
+        (document: any) => {
+          const pathParts = document.path.split('/');
+          const fileName = pathParts[pathParts.length - 1];
+          const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
+          if (originalFileNameMatches) {
+            return originalFileNameMatches[1];
+          }
+          return fileName;
+        }
+      );
+      console.log('inner e name', existingFileNames);
+      setExistingFileName(existingFileNames);
+      setExistingFileUrl(data?.data?.purchase_order_documents);
     };
     fetchOne();
   }, [selectedPurchaseOrder]);
+  const handleDocuments = async (
+    files: File[],
+    code: string,
+    folder: string
+  ) => {
+    try {
+      const uploadPromises = files.map(async (file) => {
+        const response = await purchaseRequestService.documentUpload(
+          file,
+          code,
+          folder
+        );
+        return response.data;
+      });
+      const uploadResponses = await Promise.all(uploadPromises);
+      const modifiedArray = uploadResponses.flatMap((response) => response);
+      const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
+        ...obj,
+        is_delete: false,
+      }));
+      console.log('existingFileUrl', existingFileUrl);
+      console.log('modifiedArrayWithDeleteFlag', modifiedArrayWithDeleteFlag);
+      if (existingFileUrl.length > 0) {
+        console.log("lllllllllllllllllllllll");
+        existingFileUrl.forEach((item) => {
+          item.is_delete = true;
+        });
+        const combinedArray =
+          modifiedArrayWithDeleteFlag.concat(existingFileUrl);
+        console.log("lllllllllllllllllllllll",combinedArray);
+        return combinedArray;
+      } else {
+        console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+        console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",modifiedArrayWithDeleteFlag);
+        
+        return modifiedArrayWithDeleteFlag;
+      }
+    } catch (error) {
+      console.log('Error in occur project document upload:', error);
+    }
+  };
 
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
+      const s3UploadUrl = await handleDocuments(
+        selectedFiles,
+        'purchase-order-item-1',
+        'purchase-order-item'
+      );
       const Object: any = {
-        bill_status: values.bill_status,
-        bill_document: '',
+        status: values.bill_status,
+        purchase_order_documents:
+          s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
+        purchase_order_id: Number(selectedPurchaseOrder),
+        updated_by: 1,
       };
-      //   updateCategoryData(Object, {
-      //     onSuccess: (data,variables,context) => {
-      //       console.log('samlpe data==>', data);
-      //       if (data?.status === true) {
-      //         setMessage('Abstract edited');
-      //         setOpenSnack(true);
-      //         handleCloseForm();
-      //         resetForm();
-      //       }
-      //     }
-      //   })
-      console.log('+++++++++++++++', Object);
+      console.log("Qs3UploadUrl",s3UploadUrl);
+      console.log("QexistingFileUrl",existingFileUrl);
+      
+      if (Object.status === 'Completed' || Object.status === 'Invoice' || Object.status === 'Payment Completed') {
+        if(Object.purchase_order_documents?.length>0){
+            updatePoBillStatus(Object, {
+                onSuccess: (data, variables, context) => {
+                  if (data?.status === true) {
+                    setMessage('Purchase order edited');
+                    setOpenSnack(true);
+                    handleCloseForm();
+                    resetForm();
+                  }
+                },
+              });
+        }
+        else{
+            setDocErrorMsg('Document is mandatory for the above status')
+        }
+      } else {
+        updatePoBillStatus(Object, {
+          onSuccess: (data, variables, context) => {
+            if (data?.status === true) {
+              setMessage('Purchase order edited');
+              setOpenSnack(true);
+              handleCloseForm();
+              resetForm();
+            }
+          },
+        });
+      }
     },
   });
 
   const handleCloseForm = () => {
     onAction(false);
+    setSelectedFileName([]);
+    setFileSizeError('');
     formik.resetForm();
   };
 
@@ -84,64 +174,65 @@ const CustomEditPoPopup = (props: {
       fileInputRef.current.click();
     }
   };
-  
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    // e.preventDefault();
-    // e.stopPropagation();
-    // const files = e.dataTransfer.files;
-    // const fileList = Array.from(files);
-    // const oversizedFiles = fileList.filter(
-    //   (file) => file.size > 10 * 1024 * 1024
-    // );
-    // if (oversizedFiles.length > 0) {
-    //   const oversizedFileNames = oversizedFiles
-    //     .map((file) => file.name)
-    //     .join(', ');
-    //   const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
-    // //   setFileSizeError(errorMessage);
-    // } else {
-    //   const selectedFilesArray: File[] = [];
-    //   const selectedFileNamesArray: string[] = [];
 
-    //   fileList.forEach((file) => {
-    //     selectedFilesArray.push(file);
-    //     const originalFileNameMatch = file.name.match(/-(\d+-\d+-.*)$/);
-    //     const originalFileName = originalFileNameMatch
-    //       ? originalFileNameMatch[1]
-    //       : file.name;
-    //     selectedFileNamesArray.push(originalFileName);
-    //   });
-    //   setSelectedFiles(selectedFilesArray);
-    //   setSelectedFileName(selectedFileNamesArray);
-    //   setFileSizeError('');
-    // }
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const files = e.dataTransfer.files;
+    const fileList = Array.from(files);
+    const oversizedFiles = fileList.filter(
+      (file) => file.size > 10 * 1024 * 1024
+    );
+    if (oversizedFiles.length > 0) {
+      const oversizedFileNames = oversizedFiles
+        .map((file) => file.name)
+        .join(', ');
+      const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
+      setFileSizeError(errorMessage);
+    } else {
+      const selectedFilesArray: File[] = [];
+      const selectedFileNamesArray: string[] = [];
+      fileList.forEach((file) => {
+        selectedFilesArray.push(file);
+        const originalFileNameMatch = file.name.match(/-(\d+-\d+-.*)$/);
+        const originalFileName = originalFileNameMatch
+          ? originalFileNameMatch[1]
+          : file.name;
+        selectedFileNamesArray.push(originalFileName);
+      });
+      setSelectedFiles(selectedFilesArray);
+      setSelectedFileName(selectedFileNamesArray);
+      setFileSizeError('');
+      setDocErrorMsg('')
+    }
   };
 
   const handleFileSelect = (e: any) => {
     const files = e.target.files;
-    // if (files.length > 0) {
-    //   const fileList: File[] = Array.from(files);
-    //   const oversizedFiles = fileList.filter(
-    //     (file) => file.size > 10 * 1024 * 1024
-    //   );
-    //   if (oversizedFiles.length > 0) {
-    //     const oversizedFileNames = oversizedFiles
-    //       .map((file) => file.name)
-    //       .join(', ');
-    //     const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
-    //     setFileSizeError(errorMessage);
-    //   } else {
-    //     const selectedFilesArray: File[] = [];
-    //     const selectedFileNamesArray: string[] = [];
-    //     fileList.forEach((file) => {
-    //       selectedFilesArray.push(file);
-    //       selectedFileNamesArray.push(file.name);
-    //     });
-    //     setSelectedFiles(selectedFilesArray);
-    //     setSelectedFileName(selectedFileNamesArray);
-    //     setFileSizeError('');
-    //   }
-    // }
+    if (files.length > 0) {
+      const fileList: File[] = Array.from(files);
+      const oversizedFiles = fileList.filter(
+        (file) => file.size > 10 * 1024 * 1024
+      );
+      if (oversizedFiles.length > 0) {
+        const oversizedFileNames = oversizedFiles
+          .map((file) => file.name)
+          .join(', ');
+        const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
+        setFileSizeError(errorMessage);
+      } else {
+        const selectedFilesArray: File[] = [];
+        const selectedFileNamesArray: string[] = [];
+        fileList.forEach((file) => {
+          selectedFilesArray.push(file);
+          selectedFileNamesArray.push(file.name);
+        });
+        setSelectedFiles(selectedFilesArray);
+        setSelectedFileName(selectedFileNamesArray);
+        setFileSizeError('');
+        setDocErrorMsg('')
+      }
+    }
   };
 
   return (
@@ -166,7 +257,7 @@ const CustomEditPoPopup = (props: {
                       label="Bill Status"
                       name="bill_status"
                       placeholder="Select the Status"
-                    //   mandatory={true}
+                      //   mandatory={true}
                       width="250px"
                       onChange={formik.handleChange}
                       value={formik.values.bill_status}
@@ -181,7 +272,9 @@ const CustomEditPoPopup = (props: {
                   </div>
                 </div>
                 <div className={Styles.topDocumnetLayer}>
-                    <p className={Styles.documentheading}>Bill (If the bill status is invoice or completed *)</p>
+                  <p className={Styles.documentheading}>
+                    Bill (If the bill status is invoice or completed *)
+                  </p>
                   <div className={Styles.documentOuterLayer}>
                     <div className={Styles.documentContent}>
                       <div>
@@ -204,7 +297,7 @@ const CustomEditPoPopup = (props: {
                         type="file"
                         style={{ display: 'none' }}
                         onChange={handleFileSelect}
-                        multiple
+                        // multiple
                       />
                       <Button
                         onClick={onButtonClick}
@@ -215,6 +308,30 @@ const CustomEditPoPopup = (props: {
                         Add Files
                       </Button>
                     </div>
+                  </div>
+                  <div>
+                    {selectedFileName?.length === 0 ? (
+                      <span>
+                        <ol className={Styles.listStyles}>
+                          {existingFileName?.map((fileName, index) => (
+                            <ol key={index}>{fileName}</ol>
+                          ))}
+                        </ol>
+                      </span>
+                    ) : (
+                      <span>
+                        <ol className={Styles.listStyles}>
+                          {selectedFileName?.map((fileName, index) => (
+                            <ol key={index}>{fileName}</ol>
+                          ))}
+                        </ol>
+                      </span>
+                    )}
+                    <span>
+                      {' '}
+                      <p className={Styles.errorStyles}>{fileSizeError}</p>
+                      <p className={Styles.errorStyles}>{docErrorMsg}</p>
+                    </span>
                   </div>
                 </div>
                 <div className={Styles.dividerStyleOne}></div>
