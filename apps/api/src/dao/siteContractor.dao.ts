@@ -218,20 +218,33 @@ const searchSiteContractor = async (
       )
       )
       AND (is_delete = ${is_delete})
-      ORDER BY ${order_by_column} ${order_by_direction}`
+      ORDER BY ${order_by_column} ${order_by_direction}
+      LIMIT ${limit}
+      OFFSET ${offset}`
     );
 
+    const countQuery = await transaction.$queryRaw`
+    SELECT count(*)
+    FROM site_contractor
+    WHERE
+    (
+    (type = ${types}) AND
+    (
+      name ILIKE '%' || ${globalSearch} || '%' OR
+      description ILIKE '%' || ${globalSearch} || '%' OR
+      address->>'street' ILIKE '%' || ${globalSearch} || '%' OR
+      address->>'city' ILIKE '%' || ${globalSearch} || '%' OR
+      address->>'state' ILIKE '%' || ${globalSearch} || '%' OR
+      address->>'pin_code' ILIKE '%' || ${globalSearch} || '%' OR
+      address->>'country' ILIKE '%' || ${globalSearch} || '%'
+    )
+    )
+    AND (is_delete = ${is_delete})`;
 
-    const siteContractorCount = allSiteContractors.length;
-    const pagedSiteContractors = allSiteContractors.slice(
-      offset,
-      offset + limit
-    );
     const siteContractorData = {
-      count: siteContractorCount,
-      data: pagedSiteContractors,
+      count: Number(countQuery[0].count),
+      data: allSiteContractors,
     };
-
     return siteContractorData;
   } catch (error) {
     console.log(

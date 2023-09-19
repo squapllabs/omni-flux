@@ -38,13 +38,6 @@ import indentRequest from './indentRequest.route';
 import inventory from './inventory.route';
 import purchaseRequest from './purchaseRequest.route';
 import indentRequestDetails from './indentRequestDetails.route';
-import userPrimaryProject from './userPrimaryProject.route';
-import projectMemberAssociation from './projectMemberAssociation.route';
-import store from './store.route';
-import projectSite from './projectSite.route';
-import indentRequest from './indentRequest.route';
-import inventory from './inventory.route';
-import purchaseRequest from './purchaseRequest.route';
 import vendorQuotes from './vendorQuotes.route';
 
 const router = express.Router();

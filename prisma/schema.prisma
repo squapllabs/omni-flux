@@ -373,7 +373,6 @@ model item {
   brand                     brand?                      @relation(fields: [brand_id], references: [brand_id])
   lead_enquiry_product_item lead_enquiry_product_item[]
   bom_detail                bom_detail[]
-  inventory                 inventory[]
 
   @@map(name: "item")
 }

@@ -176,54 +176,70 @@ const searchVendor = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter = filters.filterVendor;
-    const vendor = await transaction.vendor.findMany({
-      where: filter,
-      include: {
-        vendor_category_data: true,
-        preferred_payment_method_data: true,
-      },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-    });
-
+    const is_delete = status === 'AC' ? false : true;
+    const order_by_column = orderByColumn;
+    const order_by_direction = orderByDirection;
     const globalSearch = global_search;
 
-    const propertiesToFilter = [
-      'preferred_payment_method_data.master_data_name',
-      'vendor_category_data.master_data_name',
-      'notes',
-      'lead_time',
-      'currency',
-      'payment_terms',
-      'tax_id',
-      'contact_phone_no',
-      'contact_email',
-      'contact_person',
-      'bank_account_details.bank_name',
-      'bank_account_details.account_number',
-      'address.street',
-      'address.city',
-      'address.state',
-      'address.country',
-      'address.pin_code',
-      'bank_account_details.ifsc_code',
-      'vendor_name',
-    ];
-
-    const filteredVendors = CaseInsensitiveFilter(
-      vendor,
-      globalSearch,
-      propertiesToFilter
+    const allVendors = await transaction.$queryRawUnsafe(`
+      SELECT *,
+        CAST(created_by AS int) AS created_by,
+        CAST(updated_by AS int) AS updated_by
+      FROM vendor
+        WHERE
+        (
+          vendor_name ILIKE '%' || '${globalSearch}' || '%' OR
+          contact_email ILIKE '%' || '${globalSearch}' || '%' OR
+          tax_id ILIKE '%' || '${globalSearch}' || '%' OR
+          payment_terms ILIKE '%' || '${globalSearch}' || '%' OR
+          notes ILIKE '%' || '${globalSearch}' || '%' OR
+          lead_time ILIKE '%' || '${globalSearch}' || '%' OR
+          currency ILIKE '%' || '${globalSearch}' || '%' OR
+          address->>'street' ILIKE '%' || '${globalSearch}' || '%' OR
+          address->>'city' ILIKE '%' || '${globalSearch}' || '%' OR
+          address->>'state' ILIKE '%' || '${globalSearch}' || '%' OR
+          address->>'pin_code' ILIKE '%' || '${globalSearch}' || '%' OR
+          address->>'country' ILIKE '%' || '${globalSearch}' || '%'  OR
+          bank_account_details->>'bank_name' ILIKE '%' || '${globalSearch}' || '%' OR
+          bank_account_details->>'ifsc_code' ILIKE '%' || '${globalSearch}' || '%' OR
+          bank_account_details->>'acc_holder_name' ILIKE '%' || '${globalSearch}' || '%'
+        )
+        AND (is_delete = ${is_delete})
+        ORDER BY ${order_by_column} ${order_by_direction}
+        LIMIT ${limit}
+        OFFSET ${offset}`
     );
-    const vendorCount = filteredVendors.length;
-    const vendors = filteredVendors.slice(offset, offset + limit);
+
+    const countQuery = await transaction.$queryRaw`
+        SELECT *,
+        CAST(created_by AS int) AS created_by,
+        CAST(updated_by AS int) AS updated_by
+        FROM vendor
+        WHERE
+          (
+            vendor_name ILIKE '%' || ${globalSearch} || '%' OR
+            contact_person ILIKE '%' || ${globalSearch} || '%' OR
+            contact_email ILIKE '%' || ${globalSearch} || '%' OR
+            tax_id ILIKE '%' || ${globalSearch} || '%' OR
+            payment_terms ILIKE '%' || ${globalSearch} || '%' OR
+            notes ILIKE '%' || ${globalSearch} || '%' OR
+            lead_time ILIKE '%' || ${globalSearch} || '%' OR
+            currency ILIKE '%' || ${globalSearch} || '%' OR
+            address->>'street' ILIKE '%' || ${globalSearch} || '%' OR
+            address->>'city' ILIKE '%' || ${globalSearch} || '%' OR
+            address->>'state' ILIKE '%' || ${globalSearch} || '%' OR
+            address->>'pin_code' ILIKE '%' || ${globalSearch} || '%' OR
+            address->>'country' ILIKE '%' || ${globalSearch} || '%'  OR
+            bank_account_details->>'bank_name' ILIKE '%' || ${globalSearch} || '%' OR
+            bank_account_details->>'ifsc_code' ILIKE '%' || ${globalSearch} || '%' OR
+            bank_account_details->>'acc_holder_name' ILIKE '%' || ${globalSearch} || '%'
+          )
+          AND (is_delete = ${is_delete})`;
+
+    const countResult = countQuery.length;
     const vendorData = {
-      count: vendorCount,
-      data: vendors,
+      count: countResult,
+      data: allVendors,
     };
     return vendorData;
   } catch (error) {

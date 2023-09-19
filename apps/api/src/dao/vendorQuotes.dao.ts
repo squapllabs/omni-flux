@@ -151,8 +151,7 @@ const searchVendorQuotes = async (
         const order_by_direction = orderByDirection;
         const is_delete = status === 'AC' ? false : true;
 
-        const getAllVendorQuotes = await transaction.$queryRawUnsafe(
-            `SELECT *,
+        const getAllVendorQuotes = await transaction.$queryRawUnsafe(`SELECT *,
                 CAST(created_by AS int) AS created_by,
                 CAST(updated_by AS int) AS updated_by
                 FROM vendor_quotes
@@ -163,18 +162,25 @@ const searchVendorQuotes = async (
                     quotation_details->>'item_name' ILIKE '%' || '${globalSearch}' || '%'
                 )
                 AND (is_delete = ${is_delete})
-                ORDER BY ${order_by_column} ${order_by_direction}`
+                ORDER BY ${order_by_column} ${order_by_direction}
+                limit ${limit}
+                offset ${offset}`
         );
 
+        const countVendorQuotes = await transaction.$queryRaw`SELECT count(*)
+                FROM vendor_quotes
+            WHERE
+                (
+                    remarks ILIKE '%' || ${globalSearch} || '%' OR
+                    quotation_status ILIKE '%' || ${globalSearch} || '%' OR
+                    quotation_details->>'item_name' ILIKE '%' || ${globalSearch} || '%'
+                )
+                AND (is_delete = ${is_delete})`
+            ;
 
-        const vendorQuotesCount = getAllVendorQuotes.length;
-        const pagedVendorQuotes = getAllVendorQuotes.slice(
-            offset,
-            offset + limit
-        );
         const vendorQuotesData = {
-            count: vendorQuotesCount,
-            data: pagedVendorQuotes,
+            count: Number(countVendorQuotes[0].count),
+            data: getAllVendorQuotes,
         };
         return vendorQuotesData;
     } catch (error) {
