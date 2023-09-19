@@ -296,8 +296,8 @@ const addBulkBom = async (body) => {
         const updated_by = body[0].updated_by
           ? body[0].updated_by
           : body[0].created_by
-          ? body[0].created_by
-          : null;
+            ? body[0].created_by
+            : null;
 
         const subCategoryDetails = await subCategoryDao.updateBudget(
           subCategoryBudget,

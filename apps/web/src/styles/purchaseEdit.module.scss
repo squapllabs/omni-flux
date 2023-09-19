@@ -1,9 +1,9 @@
 .documentContainer {
-    padding: 10px 0px 0px 30px;
+    // padding: 10px 0px 0px 30px;
 }
 
 .documentOuterLayer {
-    width: 40%;
+    width: 100%;
     border: 1px dashed #475467;
     border-radius: 5px;
 }
@@ -11,8 +11,7 @@
 .documentContent {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 20px;
+    padding: 10px;
 }
 
 .documentSpan {

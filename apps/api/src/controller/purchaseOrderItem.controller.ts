@@ -18,7 +18,7 @@ const updatePurchaseOrderItem = catchAsync(async (req, res) => {
   const methodName = '/updatePurchaseOrderItem';
   try {
     const purchaseOrderItem =
-      await purchaseOrderItemService.updatePurchaseOrderItem(req.body);
+      await purchaseOrderItemService.updatePurchaseOrderItem(req);
     res.send(purchaseOrderItem);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);

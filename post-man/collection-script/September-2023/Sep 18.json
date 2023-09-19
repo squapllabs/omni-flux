@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "7c5f8e02-89d8-4b6e-9cb3-c2f7e289e3b5",
-    "name": "Omni-Flux-ERP - Sep 15",
+    "name": "Omni-Flux-ERP - Sep 18",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "17122319"
   },
@@ -13520,7 +13520,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"877\",\r\n    \"status\": \"AC\"\r\n}",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"asc\",\r\n    \"global_search\": \"638000\",\r\n    \"status\": \"AC\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -18511,7 +18511,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-13\",\r\n    \"status\": \"Requested\",\r\n    \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"selected_vendor_id\": 1,\r\n    \"total_cost\": 241999.11,\r\n    \"created_by\": 1,\r\n    \"purchase_request_details\": {\r\n        \"item_name\": \"Gadget B\",\r\n        \"quantity\": 5,\r\n        \"unit_price\": 50.0,\r\n        \"total_price\": 250.0\r\n    }\r\n}",
+              "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-18\",\r\n    \"status\": \"Waiting For Quotation\",\r\n    \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"selected_vendor_id\": 1,\r\n    \"total_cost\": 1000000,\r\n    \"created_by\": 1,\r\n    \"purchase_request_details\": [\r\n        {\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\"\r\n        },\r\n        {\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Pipe\"\r\n        }\r\n    ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -18600,6 +18600,80 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_request_id\": 2,\n        \"indent_request_id\": 10,\n        \"requester_user_id\": 1,\n        \"request_date\": \"2023-09-13T00:00:00.000Z\",\n        \"status\": \"Requested\",\n        \"vendor_selection_method\": \"Manual Selection\",\n        \"project_id\": 137,\n        \"selected_vendor_id\": 1,\n        \"total_cost\": 241999.11,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-13T13:14:51.234Z\",\n        \"updated_date\": \"2023-09-13T13:14:51.234Z\",\n        \"created_by\": 1,\n        \"updated_by\": null\n    }\n}"
+            },
+            {
+              "name": "API To Create Purchase Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-18\",\r\n    \"status\": \"Waiting For Quotation\",\r\n    \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"selected_vendor_id\": 1,\r\n    \"total_cost\": 1000000,\r\n    \"created_by\": 1,\r\n    \"purchase_request_details\": [\r\n        {\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\"\r\n        },\r\n        {\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Pipe\"\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/purchase-request/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "purchase-request", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "564"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"234-vt2o/V9CuqCUyP5twBluaJhtcGc\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 18 Sep 2023 06:18:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_request_id\": 4,\n        \"indent_request_id\": 10,\n        \"requester_user_id\": 1,\n        \"request_date\": \"2023-09-18T00:00:00.000Z\",\n        \"status\": \"Waiting For Quotation\",\n        \"vendor_selection_method\": \"Manual Selection\",\n        \"project_id\": 137,\n        \"selected_vendor_id\": 1,\n        \"total_cost\": 1000000,\n        \"purchase_request_details\": [\n            {\n                \"quantity\": 20,\n                \"item_name\": \"Cement\"\n            },\n            {\n                \"quantity\": 20,\n                \"item_name\": \"Pipe\"\n            }\n        ],\n        \"purchase_request_documents\": null,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-18T06:18:53.918Z\",\n        \"updated_date\": \"2023-09-18T06:18:53.918Z\",\n        \"created_by\": 1,\n        \"updated_by\": null\n    }\n}"
             }
           ]
         },
@@ -18623,7 +18697,7 @@
               "formdata": [
                 {
                   "key": "purchase_request_id",
-                  "value": "1",
+                  "value": "4",
                   "type": "text"
                 },
                 {
@@ -18681,7 +18755,7 @@
                 },
                 {
                   "key": "purchase_request_details",
-                  "value": " {\"item_name\": \"Gadget B\",      \"quantity\": 5,      \"unit_price\": 50.0,      \"total_price\": 250.0}",
+                  "value": "[ {\"quantity\": 20,        \"item_name\": \"Cement\"   ,\"item_id\": 165    },        {            \"quantity\": 20,            \"item_name\": \"Pipe\" ,\"item_id\":166     }    ]",
                   "type": "text"
                 }
               ]
@@ -19011,11 +19085,11 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/api/purchase-request/get/2",
+              "raw": "http://localhost:8080/api/purchase-request/get/4",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8080",
-              "path": ["api", "purchase-request", "get", "2"]
+              "path": ["api", "purchase-request", "get", "4"]
             }
           },
           "response": [
@@ -19976,6 +20050,208 @@
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"purchase_order_id\": 1,\n            \"purchase_request_id\": 2,\n            \"vendor_id\": 1,\n            \"order_date\": \"2023-09-14T00:00:00.000Z\",\n            \"status\": \"Pending\",\n            \"total_cost\": 101201.0301,\n            \"order_remark\": \"Order Requested\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-14T09:37:48.995Z\",\n            \"updated_date\": \"2023-09-14T09:40:20.312Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 2,\n                \"indent_request_id\": 10,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-09-13T00:00:00.000Z\",\n                \"status\": \"Pending\",\n                \"vendor_selection_method\": \"Manual Selection\",\n                \"project_id\": 137,\n                \"selected_vendor_id\": 1,\n                \"total_cost\": 241999.11,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-13T13:14:51.234Z\",\n                \"updated_date\": \"2023-09-13T13:18:32.874Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"indent_request_data\": {\n                    \"indent_request_id\": 10,\n                    \"project_id\": 137,\n                    \"requester_user_id\": 62,\n                    \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n                    \"request_status\": \"Pending\",\n                    \"priority\": \"High\",\n                    \"description\": \"Sample Request 3\",\n                    \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n                    \"total_cost\": 1250,\n                    \"approver_user_id\": null,\n                    \"approver_status\": \"Pending\",\n                    \"approved_date\": null,\n                    \"rejected_date\": null,\n                    \"approver_comments\": null,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-13T07:30:51.821Z\",\n                    \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null\n                }\n            },\n            \"vendor_data\": {\n                \"vendor_id\": 1,\n                \"vendor_name\": \"Vijay Enterprises\",\n                \"contact_person\": \"Perumalsamy\",\n                \"contact_email\": \"vijay.perumalsamy@aalamsoft.com\",\n                \"contact_phone_no\": \"8776881092\",\n                \"address\": {\n                    \"city\": \"Chennai\",\n                    \"state\": \"Tamilnadu\",\n                    \"street\": \"12, Eswari Ammal Street\",\n                    \"country\": \"India\",\n                    \"pin_code\": \"638000\"\n                },\n                \"tax_id\": \"IN123456789\",\n                \"payment_terms\": \"Net 30 Days\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"State Bank of India\",\n                    \"ifsc_code\": \"HJGYU67\",\n                    \"account_no\": \"34567\",\n                    \"acc_holder_name\": \"srini\"\n                },\n                \"currency\": \"INR\",\n                \"vendor_category_id\": 101,\n                \"lead_time\": \"10 days\",\n                \"minimum_order_quantity\": 100,\n                \"notes\": \"Supplier of raw materials\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-08-31T08:01:14.198Z\",\n                \"updated_date\": \"2023-08-31T08:01:14.198Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            }\n        }\n    ]\n}"
             }
           ]
+        },
+        {
+          "name": "API To Create Purchase Order Along With Purchase Order Item",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"purchase_request_id\": 2,\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-09-18\",\r\n    \"status\": \"Processing\",\r\n    \"total_cost\": 180923,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"purchase_order_item\": [\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"unit_price\": 10000\r\n        },\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"unit_price\": 10000\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/purchase-order/purchase-order-with-item",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "purchase-order", "purchase-order-with-item"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Create Purchase Order Along With Purchase Order Item",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"purchase_request_id\": 2,\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-09-18\",\r\n    \"status\": \"Processing\",\r\n    \"total_cost\": 180923,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"purchase_order_item\": [\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"unit_price\": 10000\r\n        },\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"unit_price\": 10000\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/purchase-order/purchase-order-with-item",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "purchase-order", "purchase-order-with-item"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "884"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"374-wCC0akQotw0MlNRToolnXZ2xKnI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 18 Sep 2023 10:55:01 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_order\": {\n            \"purchase_order_id\": 4,\n            \"purchase_request_id\": 2,\n            \"vendor_id\": 1,\n            \"order_date\": \"2023-09-18T00:00:00.000Z\",\n            \"status\": \"Processing\",\n            \"total_cost\": 180923,\n            \"order_remark\": \"Order Requested\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-18T10:54:59.203Z\",\n            \"updated_date\": \"2023-09-18T10:54:59.203Z\",\n            \"created_by\": null,\n            \"updated_by\": null\n        },\n        \"purchase_order_item\": [\n            {\n                \"purchase_order_item_id\": 3,\n                \"purchase_order_id\": 4,\n                \"item_id\": 124,\n                \"order_quantity\": 10,\n                \"unit_price\": 10000,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-18T10:54:59.203Z\",\n                \"updated_date\": \"2023-09-18T10:54:59.203Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            },\n            {\n                \"purchase_order_item_id\": 4,\n                \"purchase_order_id\": 4,\n                \"item_id\": 124,\n                \"order_quantity\": 10,\n                \"unit_price\": 10000,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-18T10:54:59.203Z\",\n                \"updated_date\": \"2023-09-18T10:54:59.203Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Purchase Order By Purchase Request Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/purchase-order/get-by-purchase-request-id/2",
+              "host": ["{{API_URL}}"],
+              "path": [
+                "api",
+                "purchase-order",
+                "get-by-purchase-request-id",
+                "2"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Purchase Order By Purchase Request Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/purchase-order/get-by-purchase-request-id/2",
+                  "host": ["{{API_URL}}"],
+                  "path": [
+                    "api",
+                    "purchase-order",
+                    "get-by-purchase-request-id",
+                    "2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "9113"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2399-SZf+eMUtRG1v1gaouyfyM7yogSo\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 18 Sep 2023 11:06:40 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"purchase_order_id\": 4,\n            \"purchase_request_id\": 2,\n            \"vendor_id\": 1,\n            \"order_date\": \"2023-09-18T00:00:00.000Z\",\n            \"status\": \"Processing\",\n            \"total_cost\": 180923,\n            \"order_remark\": \"Order Requested\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-18T10:54:59.203Z\",\n            \"updated_date\": \"2023-09-18T10:54:59.203Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 2,\n                \"indent_request_id\": 10,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-09-13T00:00:00.000Z\",\n                \"status\": \"Approved\",\n                \"vendor_selection_method\": \"Manual Selection\",\n                \"project_id\": 137,\n                \"selected_vendor_id\": 1,\n                \"total_cost\": 122334,\n                \"purchase_request_details\": {\n                    \"quantity\": 5,\n                    \"item_name\": \"Gadget B\",\n                    \"unit_price\": 50,\n                    \"total_price\": 250\n                },\n                \"purchase_request_documents\": [\n                    {\n                        \"code\": \"purchase-request-2-0\",\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-request/purchase-request-2-0/purchase_request_documents-1694778955420-794885520-file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4 (1).png\",\n                        \"index\": 0,\n                        \"folder\": \"purchase-request\"\n                    },\n                    {\n                        \"code\": \"purchase-request-2-1\",\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-request/purchase-request-2-1/purchase_request_documents-1694778955420-79128686-file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4.png\",\n                        \"index\": 1,\n                        \"folder\": \"purchase-request\"\n                    }\n                ],\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-13T13:14:51.234Z\",\n                \"updated_date\": \"2023-09-15T11:56:03.616Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"indent_request_data\": {\n                    \"indent_request_id\": 10,\n                    \"project_id\": 137,\n                    \"requester_user_id\": 62,\n                    \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n                    \"request_status\": \"Pending\",\n                    \"priority\": \"High\",\n                    \"description\": \"Sample Request 3\",\n                    \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n                    \"total_cost\": 1250,\n                    \"approver_user_id\": null,\n                    \"approver_status\": \"Pending\",\n                    \"approved_date\": null,\n                    \"rejected_date\": null,\n                    \"approver_comments\": null,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-13T07:30:51.821Z\",\n                    \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null\n                }\n            },\n            \"vendor_data\": {\n                \"vendor_id\": 1,\n                \"vendor_name\": \"Vijay Enterprises\",\n                \"contact_person\": \"Perumalsamy\",\n                \"contact_email\": \"vijay.perumalsamy@aalamsoft.com\",\n                \"contact_phone_no\": \"8776881092\",\n                \"address\": {\n                    \"city\": \"Chennai\",\n                    \"state\": \"Tamilnadu\",\n                    \"street\": \"12, Eswari Ammal Street\",\n                    \"country\": \"India\",\n                    \"pin_code\": \"638000\"\n                },\n                \"tax_id\": \"IN123456789\",\n                \"payment_terms\": \"Net 30 Days\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"State Bank of India\",\n                    \"ifsc_code\": \"HJGYU67\",\n                    \"account_no\": \"34567\",\n                    \"acc_holder_name\": \"srini\"\n                },\n                \"currency\": \"INR\",\n                \"vendor_category_id\": 101,\n                \"lead_time\": \"10 days\",\n                \"minimum_order_quantity\": 100,\n                \"notes\": \"Supplier of raw materials\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-08-31T08:01:14.198Z\",\n                \"updated_date\": \"2023-08-31T08:01:14.198Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            },\n            \"purchase_order_item\": [\n                {\n                    \"purchase_order_item_id\": 3,\n                    \"purchase_order_id\": 4,\n                    \"item_id\": 124,\n                    \"order_quantity\": 10,\n                    \"unit_price\": 10000,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-18T10:54:59.203Z\",\n                    \"updated_date\": \"2023-09-18T10:54:59.203Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null\n                },\n                {\n                    \"purchase_order_item_id\": 4,\n                    \"purchase_order_id\": 4,\n                    \"item_id\": 124,\n                    \"order_quantity\": 10,\n                    \"unit_price\": 10000,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-18T10:54:59.203Z\",\n                    \"updated_date\": \"2023-09-18T10:54:59.203Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null\n                }\n            ]\n        },\n        {\n            \"purchase_order_id\": 3,\n            \"purchase_request_id\": 2,\n            \"vendor_id\": 1,\n            \"order_date\": \"2023-09-18T00:00:00.000Z\",\n            \"status\": \"Processing\",\n            \"total_cost\": 180923,\n            \"order_remark\": \"Order Requested\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-18T10:53:26.627Z\",\n            \"updated_date\": \"2023-09-18T10:53:26.627Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 2,\n                \"indent_request_id\": 10,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-09-13T00:00:00.000Z\",\n                \"status\": \"Approved\",\n                \"vendor_selection_method\": \"Manual Selection\",\n                \"project_id\": 137,\n                \"selected_vendor_id\": 1,\n                \"total_cost\": 122334,\n                \"purchase_request_details\": {\n                    \"quantity\": 5,\n                    \"item_name\": \"Gadget B\",\n                    \"unit_price\": 50,\n                    \"total_price\": 250\n                },\n                \"purchase_request_documents\": [\n                    {\n                        \"code\": \"purchase-request-2-0\",\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-request/purchase-request-2-0/purchase_request_documents-1694778955420-794885520-file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4 (1).png\",\n                        \"index\": 0,\n                        \"folder\": \"purchase-request\"\n                    },\n                    {\n                        \"code\": \"purchase-request-2-1\",\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-request/purchase-request-2-1/purchase_request_documents-1694778955420-79128686-file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4.png\",\n                        \"index\": 1,\n                        \"folder\": \"purchase-request\"\n                    }\n                ],\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-13T13:14:51.234Z\",\n                \"updated_date\": \"2023-09-15T11:56:03.616Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"indent_request_data\": {\n                    \"indent_request_id\": 10,\n                    \"project_id\": 137,\n                    \"requester_user_id\": 62,\n                    \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n                    \"request_status\": \"Pending\",\n                    \"priority\": \"High\",\n                    \"description\": \"Sample Request 3\",\n                    \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n                    \"total_cost\": 1250,\n                    \"approver_user_id\": null,\n                    \"approver_status\": \"Pending\",\n                    \"approved_date\": null,\n                    \"rejected_date\": null,\n                    \"approver_comments\": null,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-13T07:30:51.821Z\",\n                    \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null\n                }\n            },\n            \"vendor_data\": {\n                \"vendor_id\": 1,\n                \"vendor_name\": \"Vijay Enterprises\",\n                \"contact_person\": \"Perumalsamy\",\n                \"contact_email\": \"vijay.perumalsamy@aalamsoft.com\",\n                \"contact_phone_no\": \"8776881092\",\n                \"address\": {\n                    \"city\": \"Chennai\",\n                    \"state\": \"Tamilnadu\",\n                    \"street\": \"12, Eswari Ammal Street\",\n                    \"country\": \"India\",\n                    \"pin_code\": \"638000\"\n                },\n                \"tax_id\": \"IN123456789\",\n                \"payment_terms\": \"Net 30 Days\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"State Bank of India\",\n                    \"ifsc_code\": \"HJGYU67\",\n                    \"account_no\": \"34567\",\n                    \"acc_holder_name\": \"srini\"\n                },\n                \"currency\": \"INR\",\n                \"vendor_category_id\": 101,\n                \"lead_time\": \"10 days\",\n                \"minimum_order_quantity\": 100,\n                \"notes\": \"Supplier of raw materials\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-08-31T08:01:14.198Z\",\n                \"updated_date\": \"2023-08-31T08:01:14.198Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            },\n            \"purchase_order_item\": []\n        },\n        {\n            \"purchase_order_id\": 1,\n            \"purchase_request_id\": 2,\n            \"vendor_id\": 1,\n            \"order_date\": \"2023-09-14T00:00:00.000Z\",\n            \"status\": \"Pending\",\n            \"total_cost\": 101201.0301,\n            \"order_remark\": \"Order Requested\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-14T09:37:48.995Z\",\n            \"updated_date\": \"2023-09-14T09:40:20.312Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 2,\n                \"indent_request_id\": 10,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-09-13T00:00:00.000Z\",\n                \"status\": \"Approved\",\n                \"vendor_selection_method\": \"Manual Selection\",\n                \"project_id\": 137,\n                \"selected_vendor_id\": 1,\n                \"total_cost\": 122334,\n                \"purchase_request_details\": {\n                    \"quantity\": 5,\n                    \"item_name\": \"Gadget B\",\n                    \"unit_price\": 50,\n                    \"total_price\": 250\n                },\n                \"purchase_request_documents\": [\n                    {\n                        \"code\": \"purchase-request-2-0\",\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-request/purchase-request-2-0/purchase_request_documents-1694778955420-794885520-file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4 (1).png\",\n                        \"index\": 0,\n                        \"folder\": \"purchase-request\"\n                    },\n                    {\n                        \"code\": \"purchase-request-2-1\",\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-request/purchase-request-2-1/purchase_request_documents-1694778955420-79128686-file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4.png\",\n                        \"index\": 1,\n                        \"folder\": \"purchase-request\"\n                    }\n                ],\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-13T13:14:51.234Z\",\n                \"updated_date\": \"2023-09-15T11:56:03.616Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"indent_request_data\": {\n                    \"indent_request_id\": 10,\n                    \"project_id\": 137,\n                    \"requester_user_id\": 62,\n                    \"requested_date\": \"2023-09-12T00:00:00.000Z\",\n                    \"request_status\": \"Pending\",\n                    \"priority\": \"High\",\n                    \"description\": \"Sample Request 3\",\n                    \"expected_delivery_date\": \"2023-09-20T00:00:00.000Z\",\n                    \"total_cost\": 1250,\n                    \"approver_user_id\": null,\n                    \"approver_status\": \"Pending\",\n                    \"approved_date\": null,\n                    \"rejected_date\": null,\n                    \"approver_comments\": null,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-13T07:30:51.821Z\",\n                    \"updated_date\": \"2023-09-13T12:09:16.034Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null\n                }\n            },\n            \"vendor_data\": {\n                \"vendor_id\": 1,\n                \"vendor_name\": \"Vijay Enterprises\",\n                \"contact_person\": \"Perumalsamy\",\n                \"contact_email\": \"vijay.perumalsamy@aalamsoft.com\",\n                \"contact_phone_no\": \"8776881092\",\n                \"address\": {\n                    \"city\": \"Chennai\",\n                    \"state\": \"Tamilnadu\",\n                    \"street\": \"12, Eswari Ammal Street\",\n                    \"country\": \"India\",\n                    \"pin_code\": \"638000\"\n                },\n                \"tax_id\": \"IN123456789\",\n                \"payment_terms\": \"Net 30 Days\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"State Bank of India\",\n                    \"ifsc_code\": \"HJGYU67\",\n                    \"account_no\": \"34567\",\n                    \"acc_holder_name\": \"srini\"\n                },\n                \"currency\": \"INR\",\n                \"vendor_category_id\": 101,\n                \"lead_time\": \"10 days\",\n                \"minimum_order_quantity\": 100,\n                \"notes\": \"Supplier of raw materials\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-08-31T08:01:14.198Z\",\n                \"updated_date\": \"2023-08-31T08:01:14.198Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            },\n            \"purchase_order_item\": [\n                {\n                    \"purchase_order_item_id\": 1,\n                    \"purchase_order_id\": 1,\n                    \"item_id\": 167,\n                    \"order_quantity\": 10,\n                    \"unit_price\": 10000,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-14T10:33:59.604Z\",\n                    \"updated_date\": \"2023-09-14T10:33:59.604Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null\n                }\n            ]\n        }\n    ]\n}"
+            }
+          ]
         }
       ]
     },
@@ -20103,13 +20379,44 @@
             "method": "PUT",
             "header": [],
             "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"purchase_order_id\": 1,\r\n    \"item_id\": 124,\r\n    \"order_quantity\": 10,\r\n    \"unit_price\": 10000,\r\n    \"updated_by\":1,\r\n    \"purchase_order_item_id\":2\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "purchase_order_id",
+                  "value": "5",
+                  "type": "text"
+                },
+                {
+                  "key": "item_id",
+                  "value": "167",
+                  "type": "text"
+                },
+                {
+                  "key": "order_quantity",
+                  "value": "50",
+                  "type": "text"
+                },
+                {
+                  "key": "unit_price",
+                  "value": "484",
+                  "type": "text"
+                },
+                {
+                  "key": "updated_by",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "purchase_order_item_id",
+                  "value": "6",
+                  "type": "text"
+                },
+                {
+                  "key": "purchase_order_item_documents",
+                  "type": "file",
+                  "src": "/C:/Users/0065/Downloads/Aalam-Image.png"
                 }
-              }
+              ]
             },
             "url": {
               "raw": "{{API_URL}}/api/purchase-order-item/",
@@ -20189,6 +20496,112 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_order_item_id\": 2,\n        \"purchase_order_id\": 1,\n        \"item_id\": 124,\n        \"order_quantity\": 10,\n        \"unit_price\": 10000,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-14T10:34:13.152Z\",\n        \"updated_date\": \"2023-09-14T10:36:06.452Z\",\n        \"created_by\": null,\n        \"updated_by\": 1\n    }\n}"
+            },
+            {
+              "name": "API To Update Purchase Order Item",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "purchase_order_id",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "item_id",
+                      "value": "167",
+                      "type": "text"
+                    },
+                    {
+                      "key": "order_quantity",
+                      "value": "50",
+                      "type": "text"
+                    },
+                    {
+                      "key": "unit_price",
+                      "value": "484",
+                      "type": "text"
+                    },
+                    {
+                      "key": "updated_by",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "purchase_order_item_id",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "purchase_order_item_documents",
+                      "type": "file",
+                      "src": [
+                        "/C:/Users/0065/Downloads/Aalam Image.png",
+                        "/C:/Users/0065/Downloads/Aalam Icon.png"
+                      ]
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/purchase-order-item/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "purchase-order-item", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "834"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"342-mNLzJYx+dGHbmT6cfBoe5kVDmaw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 18 Sep 2023 11:25:41 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_order_item_id\": 1,\n        \"purchase_order_id\": 1,\n        \"item_id\": 167,\n        \"order_quantity\": 50,\n        \"unit_price\": 484,\n        \"purchase_order_item_documents\": [\n            {\n                \"code\": \"purchase-order-item-1-0\",\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\n                \"index\": 0,\n                \"folder\": \"purchase-order-item\"\n            },\n            {\n                \"code\": \"purchase-order-item-1-1\",\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\n                \"index\": 1,\n                \"folder\": \"purchase-order-item\"\n            }\n        ],\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-14T10:33:59.604Z\",\n        \"updated_date\": \"2023-09-18T11:25:41.121Z\",\n        \"created_by\": null,\n        \"updated_by\": 1\n    }\n}"
             }
           ]
         },

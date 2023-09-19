@@ -4,6 +4,8 @@ import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import userDao from '../dao/user.dao';
 import vendorDao from '../dao/vendor.dao';
 import { purchaseRequestBody } from '../interfaces/purchaseRequest.interface';
+import s3 from '../utils/s3';
+import fs from 'fs';
 
 /**
  * Method to Create a New PurchaseRequest
@@ -22,6 +24,8 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
       selected_vendor_id,
       total_cost,
       created_by,
+      purchase_request_details,
+      purchase_request_documents,
     } = body;
 
     if (indent_request_id) {
@@ -79,7 +83,9 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
       project_id,
       selected_vendor_id,
       total_cost,
-      created_by
+      created_by,
+      purchase_request_details,
+      purchase_request_documents
     );
     const result = {
       message: 'success',
@@ -99,8 +105,10 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
  * @returns
  */
 
-const updatePurchaseRequest = async (body: purchaseRequestBody) => {
+const updatePurchaseRequest = async (req) => {
   try {
+    const body = req.body;
+    const files = req.files.purchase_request_documents;
     const {
       indent_request_id,
       requester_user_id,
@@ -111,6 +119,7 @@ const updatePurchaseRequest = async (body: purchaseRequestBody) => {
       selected_vendor_id,
       total_cost,
       updated_by,
+      purchase_request_details,
       purchase_request_id,
     } = body;
     let result = null;
@@ -172,17 +181,63 @@ const updatePurchaseRequest = async (body: purchaseRequestBody) => {
       }
     }
 
+    /* Purchase Request Document File Handling */
+
+    const purchaseRequestDocuments = [];
+    let index = 0;
+    if (files) {
+      const existingDocument = purchaseRequestExist?.purchase_request_documents;
+
+      if (existingDocument?.length > 0) {
+        for (const doc of existingDocument) {
+          const existingDocPath = doc.path;
+          await s3.deleteFileFromS3UsingPath(existingDocPath);
+          console.log('Existing File deleted successfully.');
+        }
+      }
+
+      for (const file of files) {
+        const code = `purchase-request-${purchase_request_id}-${index}`;
+        const localUploadedFilePath = file.path;
+        const fileData = await s3.uploadFileInS3(
+          file,
+          code,
+          'purchase-request'
+        );
+
+        const s3FilePath = fileData.path;
+
+        fs.unlink(localUploadedFilePath, (err) => {
+          if (err) {
+            console.error('Error deleting the local file:', err);
+          } else {
+            console.log('Local File deleted successfully.');
+          }
+        });
+
+        purchaseRequestDocuments.push({
+          index,
+          path: s3FilePath,
+          folder: 'purchase-request',
+          code: code,
+        });
+        index++;
+      }
+    }
+
     const purchaseRequestDetails = await purchaseRequestDao.edit(
-      indent_request_id,
-      requester_user_id,
+      Number(indent_request_id),
+      Number(requester_user_id),
       request_date,
       status,
       vendor_selection_method,
-      project_id,
-      selected_vendor_id,
-      total_cost,
-      updated_by,
-      purchase_request_id
+      Number(project_id),
+      Number(selected_vendor_id),
+      Number(total_cost),
+      Number(updated_by),
+      JSON.parse(purchase_request_details),
+      purchaseRequestDocuments,
+      Number(purchase_request_id)
     );
     result = {
       message: 'success',
@@ -307,12 +362,22 @@ const searchPurchaseRequest = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const indent_request_id = body.indent_request_id;
     const filterObj: any = {};
 
     if (status) {
       filterObj.filterPurchaseRequest = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (indent_request_id) {
+      filterObj.filterPurchaseRequest = filterObj.filterPurchaseRequest || {};
+      filterObj.filterPurchaseRequest.AND =
+        filterObj.filterPurchaseRequest.AND || [];
+      filterObj.filterPurchaseRequest.AND.push({
+        indent_request_id: indent_request_id,
+      });
     }
 
     if (global_search) {

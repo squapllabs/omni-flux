@@ -244,9 +244,11 @@ const searchVendor = async (body) => {
       limit,
       order_by_column,
       order_by_direction,
-      filterObj,
+      is_delete,
       global_search
     );
+
+    // return result;
 
     const count = result.count;
     const data = result.data;
