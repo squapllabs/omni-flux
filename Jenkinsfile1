@@ -34,17 +34,21 @@ pipeline {
              // sh 'sh /var/lib/jenkins/workspace/docker_deploy/deployment_trigger.sh'
            }
    post {
-       always {
-              script {
+        always {
+            script {
                 currentBuild.result = currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'SUCCESS' : 'FAILURE'
-                emailext subject:  "Pipeline: ${JOB_NAME} - Build ${currentBuild.number} - ${currentBuild.result}",
-                body: "Pipeline Name: ${JOB_NAME}",
-                body: "Build ID: ${currentBuild.id}\nBuild Status: ${currentBuild.result}",
-                to: 'anbarasan.mathesh@aalamsoft.com',
-                attachLog: true
+
+                withCredentials([string(credentialsId: 'your-pipeline-name-secret', variable: 'PIPELINE_NAME'),
+                                 string(credentialsId: 'your-build-id-secret', variable: 'BUILD_ID'),
+                                 string(credentialsId: 'your-build-status-secret', variable: 'BUILD_STATUS')]) {
+                emailext subject: "Pipeline: ${JOB_NAME} - Build ${currentBuild.number} - ${currentBuild.result}",
+                          body: "Pipeline Name: ${JOB_NAME} - Build ID: ${currentBuild.id}\nBuild Status: ${currentBuild.result}",
+                          to: 'anbarasan.mathesh@aalamsoft.com',
+                          attachLog: true
         }
      }
    }
+ }
 }
 // stage('emailnotification') {
         //  steps {
