@@ -28,7 +28,7 @@ pipeline {
     //   }
  stage('File copy and remove') {
             steps {
-              sh 'docker save omniflux_application_frontend omniflux_application_backend | gzip > /var/lib/jenkins/workspace/docker_compressed-images/omniflux_application_images.tar'
+             // sh 'docker save omniflux_application_frontend omniflux_application_backend | gzip > /var/lib/jenkins/workspace/docker_compressed-images/omniflux_application_images.tar'
             //  sh 'scp /var/lib/jenkins/workspace/docker_compressed-images/omniflux_application_images.tar root@192.168.2.25:/root/docker_compressed_images'
                 sh 'sh /var/lib/jenkins/workspace/Clean_script.sh'
              // sh 'sh /var/lib/jenkins/workspace/docker_deploy/deployment_trigger.sh'
