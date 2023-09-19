@@ -2,6 +2,7 @@ import purchaseOrderDao from '../dao/purchaseOrder.dao';
 import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import vendorDao from '../dao/vendor.dao';
 import { purchaseOrderBody } from '../interfaces/purchaseOrder.interface';
+import { processFileDeleteInS3 } from '../utils/fileUpload';
 
 /**
  * Method to Create a New PurchaseOrder
@@ -18,6 +19,7 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       total_cost,
       order_remark,
       created_by,
+      purchase_order_documents,
     } = body;
 
     if (purchase_request_id) {
@@ -51,7 +53,8 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       status,
       total_cost,
       order_remark,
-      created_by
+      created_by,
+      purchase_order_documents
     );
     const result = {
       message: 'success',
@@ -81,6 +84,7 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       total_cost,
       order_remark,
       updated_by,
+      purchase_order_documents,
       purchase_order_id,
     } = body;
     let result = null;
@@ -120,6 +124,22 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       }
     }
 
+    const updatedPurchaseOrderDocuments = [];
+    if (purchase_order_documents) {
+      for (const doc of purchase_order_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === true) {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedPurchaseOrderDocuments.push(doc);
+        }
+      }
+    }
+
     const purchaseOrderDetails = await purchaseOrderDao.edit(
       purchase_request_id,
       vendor_id,
@@ -128,6 +148,7 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       total_cost,
       order_remark,
       updated_by,
+      updatedPurchaseOrderDocuments,
       purchase_order_id
     );
     result = { message: 'success', status: true, data: purchaseOrderDetails };

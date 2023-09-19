@@ -9,6 +9,7 @@ interface purchaseOrderBody {
   created_by: number;
   updated_by: number;
   purchase_order_item: Array<PurchaseOrderItem>;
+  purchase_order_documents: Array<PurchaseOrderDocuments>;
 }
 
 interface PurchaseOrderItem {
@@ -19,6 +20,12 @@ interface PurchaseOrderItem {
   unit_price: number;
   created_by: number;
   updated_by: number;
+}
+
+interface PurchaseOrderDocuments {
+  is_delete: boolean;
+  path: string;
+  index: number;
 }
 
 export { purchaseOrderBody };
