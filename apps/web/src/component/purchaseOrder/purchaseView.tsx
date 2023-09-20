@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import CustomSnackBar from '../ui/customSnackBar';
-import { useGetOnePurchaseRequest,purchaseOrderRequest } from '../../hooks/purchase-request-hooks';
+import {
+  useGetOnePurchaseRequest,
+  purchaseOrderRequest,
+} from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
 import { log } from 'console';
-
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -22,10 +24,8 @@ const PurchaseView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
-  console.log("getAllData===>",getAllData)
-  const {
-    mutate: postDataForFilter,
-  } = purchaseOrderRequest();
+  console.log('getAllData !!!!!!!===>', getAllData);
+  const { mutate: postDataForFilter } = purchaseOrderRequest();
   const constructPurchaseOrder = () => {
     const purchaseOrderItems = [];
     getAllData?.purchase_request_details?.forEach((data: any) => {
@@ -47,16 +47,16 @@ const PurchaseView = () => {
     };
     console.log('sampel', purchaseOrderData);
     postDataForFilter(purchaseOrderData, {
-        onSuccess: (data, variables, context) => {
-          if (data?.message === 'success') {
-            setMessage('Purchase Order Create Successfull');
-            setOpenSnack(true);
-            setTimeout(() => {
-              navigate(`/purchase-order`);
-            }, 1000);
-          }
-        },
-      });
+      onSuccess: (data, variables, context) => {
+        if (data?.message === 'success') {
+          setMessage('Purchase Order Create Successfull');
+          setOpenSnack(true);
+          setTimeout(() => {
+            navigate(`/purchase-order`);
+          }, 1000);
+        }
+      },
+    });
   };
 
   const handleConvertToPo = () => {
@@ -107,7 +107,7 @@ const PurchaseView = () => {
                         <td>{data.item_name}</td>
                         <td>{data.quantity}</td>
                       </tr>
-                    )
+                    );
                   }
                 )}
               </tbody>
@@ -156,7 +156,7 @@ const PurchaseView = () => {
                 justify="center"
                 size="small"
                 color="secondary"
-                // onClick={() => ()}
+                onClick={() => navigate('/purchase-view')}
               >
                 Back
               </Button>

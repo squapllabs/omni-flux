@@ -7,6 +7,7 @@ import MasterData from "../masterData/masterData";
 import LeadList from "../leadEnquires/leadList";
 import VendorList from "../vendor/vendorList";
 import LabourList from '../labour/labourList';
+import PurchaseList from '../purchaseApproval/purchaseList';
 import PlanEngApproval from '../indentApproval/indentList';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -26,6 +27,9 @@ const Settings = () => {
 
   if (roleName === 'Planning Engineer') {
     menuItems.push({ label: 'Indent Approval', value: 'IA' });
+  }
+  if (roleName === 'Purchase Manager') {
+    menuItems.push({ label: 'Purchase List', value: 'PL' });
   }
   const [buttonLabels, setButtonLabels] = useState(menuItems);
   const [activeButton, setActiveButton] = useState<string | null>('C');
@@ -53,6 +57,7 @@ const Settings = () => {
         {activeButton === 'VL' && <VendorList />}
         {activeButton === 'LB' && <LabourList />}
         {activeButton === 'IA' && <PlanEngApproval />}
+        {activeButton === 'PL' && <PurchaseList />}
       </div>
     </div>
   );

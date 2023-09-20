@@ -17,6 +17,7 @@ import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
 import PurchaseRequestEdit from './purchaseRequestEdit';
 import ViewIcon from '../menu/icons/viewIcon';
 import StarIcon from '../menu/icons/starIcon';
+import CustomMenu from '../ui/CustomMenu';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -38,6 +39,15 @@ const PurchaseView = () => {
   const [onAction, setOnAction] = useState(false);
   const [showPurchaseRequestForm, setShowPurchaseRequestForm] = useState(false);
   const [reload, setReload] = useState(false);
+  const [menuAnchor, setMenuAnchor] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setMenuAnchor(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchor(null);
+  };
 
   const indentId = Number(routeParams?.id);
   const location = useLocation();
@@ -185,7 +195,7 @@ const PurchaseView = () => {
                   <th>S No</th>
                   <th>Purchase Request</th>
                   <th>Vendor Name </th>
-                  {/* <th>Budget</th> */}
+                  <th>Budget</th>
                   <th>No of Items</th>
                   <th>Quotation Status</th>
                   <th>Action</th>
@@ -203,17 +213,37 @@ const PurchaseView = () => {
                   ''
                 )}
                 {purchaseTableData?.map((data: any, index: number) => {
+                  const isStatusApproved = data?.status === 'Approved';
+                  const isMarkEnabled = isStatusApproved;
+                  const actions = [
+                    {
+                      label: 'View',
+                      onClick: () => {
+                        navigate(`/vendor-select/${data?.purchase_request_id}`);
+                      },
+                    },
+                    {
+                      label: 'Move to PO',
+                      onClick: () => {
+                        if (isMarkEnabled) {
+                          navigate(
+                            `/purchase-request/${data?.purchase_request_id}`
+                          );
+                        }
+                      },
+                      disabled: !isMarkEnabled,
+                    },
+                  ];
                   return (
                     <tr key={data.purchase_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data.indent_request_data.description}</td>
                       <td>{data?.selected_vendor_data?.vendor_name}</td>
-                      {/* <td>{formatBudgetValue(data?.total_cost)}</td> */}
+                      <td>{data?.total_cost}</td>
                       <td>{data?.purchase_request_details.length}</td>
                       <td>{data?.status}</td>
-                      <td>
+                      {/* <td>
                         {
-                          // <EditIcon onClick={() => handleEdit(data.purchase_request_id)}/>
                           <ViewIcon
                             onClick={() =>
                               navigate(
@@ -231,6 +261,9 @@ const PurchaseView = () => {
                             }
                           />
                         }
+                      </td> */}
+                      <td>
+                        <CustomMenu actions={actions} />
                       </td>
                     </tr>
                   );

@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import purchaseRequestService from '../../service/purchaseRequest-service';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import { useFormik } from 'formik';
@@ -8,9 +7,10 @@ import Button from '../ui/Button';
 import CancelIcon from '../menu/icons/closeIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import Styles from '../../styles/purchaseEdit.module.scss';
-import userService from '../../service/user-service';
 import vendorQuotesService from '../../service/vendorQuotes-service';
 import { updateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
+import * as Yup from 'yup';
+import { getCreateValidateyup } from '../../helper/constants/vendorSelect-constants';
 
 const PurchaseRequestEdit: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -32,6 +32,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
     quotation_status:'',
 
   });
+  const validationSchema = getCreateValidateyup(Yup);
   useEffect(() => {
     const fetchOne = async () => {
       const data = await vendorQuotesService.getOneVendorQuotesById(
@@ -145,7 +146,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
       }));
       if (existingFileUrl.length > 0 && selectedFiles.length>0) {
         existingFileUrl.forEach((item) => {
-          item.is_delete = true;
+          item.is_delete = false;
         });
         const combinedArray =
           modifiedArrayWithDeleteFlag.concat(existingFileUrl);
@@ -169,6 +170,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
 
   const formik = useFormik({
     initialValues,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
       const s3UploadUrl = await handleDocuments(
@@ -222,6 +224,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
             value={formik.values.total_quotation_amount}
             onChange={formik.handleChange}
             width="100%"
+            error={formik.touched.total_quotation_amount && formik.errors.total_quotation_amount}
           />
         </div>
         <div className={Styles.field}>

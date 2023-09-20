@@ -15,6 +15,7 @@ import PurchaseRequestEdit from './purchaseRequestEdit';
 import StarIcon from '../menu/icons/starIcon';
 import { updateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 import BackArrowIcon from '../menu/icons/backArrow';
+import CustomMenu from '../ui/CustomMenu';
 // import purchaseRequestService from '../../service/purchaseRequest-service';
 // import { updatePurchaseRequest } from '../../hooks/purchase-request-hooks';
 
@@ -36,7 +37,7 @@ const VendorSelect = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [reload, setReload] = useState(false);
-  
+  const [isAnyRowApproved, setIsAnyRowApproved] = useState(false);
 
   const vendorData = {
     limit: rowsPerPage,
@@ -51,12 +52,20 @@ const VendorSelect = () => {
     const getAllData = async () => {
       try {
         setDataLoading(true);
+        setIsAnyRowApproved(false);
       } finally {
         const result = await vendorQuotesService.vendorQuotesData(vendorData);
         console.log('vdata', result);
 
         if (result.message === 'success') {
           setTableData(result.content);
+          if (
+            result.content.some(
+              (data: any) => data.quotation_status === 'Approved'
+            )
+          ) {
+            setIsAnyRowApproved(true);
+          }
           setDataLoading(false);
         }
       }
@@ -86,6 +95,7 @@ const VendorSelect = () => {
         vendor_id: data?.data?.vendor_id,
         quotation_status: 'Approved',
         updated_by: userID,
+        vendor_quotes_documents: data?.data?.vendor_quotes_documents,
       };
       updateOneVendorQuotes(obj, {
         onSuccess: (data, variables, context) => {
@@ -95,7 +105,7 @@ const VendorSelect = () => {
         },
       });
     } catch {
-      console.log('data');
+      console.log('Error');
     }
   };
 
@@ -125,8 +135,29 @@ const VendorSelect = () => {
             <tbody>
               {tableData?.map((data: any, index: number) => {
                 const isQuotationPending = data.quotation_status === 'Pending';
-                const isQuotationApproved =
-                  data.quotation_status === 'Approved';
+                const actions = [
+                  {
+                    label: 'Edit',
+                    onClick: () => {
+                      if (!isAnyRowApproved) {
+                        handleEdit(data.vendor_quotes_id);
+                      }
+                    },
+                    disabled: isAnyRowApproved,
+                  },
+                  {
+                    label: 'Approve',
+                    onClick: () => {
+                      if (!isQuotationPending && !isAnyRowApproved) {
+                        handleApprove(data.vendor_quotes_id);
+                      }
+                    },
+                    disabled: isQuotationPending || isAnyRowApproved,
+                  },
+                ];
+                const isAnyActionEnabled = actions.some(
+                  (action) => !action.disabled
+                );
                 return (
                   <tr key={data.vendor_quotes_id}>
                     <td>{startingIndex + index}</td>
@@ -150,24 +181,26 @@ const VendorSelect = () => {
                       )}
                     </td>
                     <td>
-                      {isQuotationApproved ? (
+                      {isAnyActionEnabled && <CustomMenu actions={actions} />}
+                    </td>
+                    {/* <td>
+                      {isAnyRowApproved === true ? (
                         ''
                       ) : (
                         <EditIcon
                           onClick={() => handleEdit(data.vendor_quotes_id)}
                         />
                       )}
-                       {isQuotationPending ? (
-                        '' 
-                      ) : isQuotationApproved ? (
-                        <StarIcon style={{ cursor: 'not-allowed' }} />
+                      {isQuotationPending === true ? (
+                        ''
+                      ) : isAnyRowApproved === true ? (
+                        ''
                       ) : (
                         <StarIcon
                           onClick={() => handleApprove(data.vendor_quotes_id)}
                         />
                       )}
-                    </td>
-                    
+                    </td> */}
                   </tr>
                 );
               })}
