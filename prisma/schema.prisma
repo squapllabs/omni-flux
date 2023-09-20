@@ -236,6 +236,7 @@ model project {
   indent_request             indent_request[]
   inventory                  inventory[]
   purchase_request           purchase_request[]
+  project_inventory          project_inventory[]
 }
 
 model project_expense {
@@ -374,6 +375,7 @@ model item {
   lead_enquiry_product_item lead_enquiry_product_item[]
   bom_detail                bom_detail[]
   purchase_order_item       purchase_order_item[]
+  project_inventory         project_inventory[]
 
   @@map(name: "item")
 }
@@ -860,6 +862,7 @@ model purchase_order {
   purchase_request_id      Int?
   vendor_id                Int?
   order_date               DateTime?
+  order_id                 String
   status                   String?
   total_cost               Float?
   order_remark             String?
@@ -907,4 +910,20 @@ model vendor_quotes {
   updated_by              Int?
   purchase_request_data   purchase_request @relation(fields: [purchase_request_id], references: [purchase_request_id])
   vendor_data             vendor           @relation(fields: [vendor_id], references: [vendor_id])
+}
+
+model project_inventory {
+  project_inventory_id Int      @id @default(autoincrement())
+  project_id           Int
+  item_id              Int?
+  rate                 Float?
+  available_quantity   Int?
+  total_cost           Float?
+  is_delete            Boolean  @default(false)
+  created_date         DateTime @default(now())
+  updated_date         DateTime
+  created_by           Int?
+  updated_by           Int?
+  project_data         project? @relation(fields: [project_id], references: [project_id])
+  item_data            item?    @relation(fields: [item_id], references: [item_id])
 }

@@ -41,6 +41,7 @@ import indentRequestDetails from './indentRequestDetails.route';
 import purchaseOrder from './purchaseOrder.route';
 import purchaseOrderItem from './purchaseOrderItem.route';
 import vendorQuotes from './vendorQuotes.route';
+import projectInventory from './projectInventory.route';
 
 const router = express.Router();
 
@@ -212,6 +213,10 @@ const defaultRoutes = [
   {
     path: '/vendor-quotes',
     route: vendorQuotes,
+  },
+  {
+    path: '/project-inventory',
+    route: projectInventory,
   },
 ];
 
