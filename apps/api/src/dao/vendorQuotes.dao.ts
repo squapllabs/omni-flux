@@ -236,6 +236,30 @@ const updateStatusAndDocument = async (
   }
 };
 
+const getByPurchaseRequestIdAndVendorId = async (
+  purchase_request_id: number,
+  vendor_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const vendorQuotes = await transaction.vendor_quotes.findFirst({
+      where: {
+        purchase_request_id: Number(purchase_request_id),
+        vendor_id: Number(vendor_id),
+        is_delete: false,
+      },
+    });
+    return vendorQuotes;
+  } catch (error) {
+    console.log(
+      'Error occurred in vendorQuotes getByPurchaseRequestIdAndVendorId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -244,4 +268,5 @@ export default {
   deleteVendorQuotes,
   searchVendorQuotes,
   updateStatusAndDocument,
+  getByPurchaseRequestIdAndVendorId,
 };

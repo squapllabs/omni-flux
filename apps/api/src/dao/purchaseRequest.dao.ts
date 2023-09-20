@@ -51,23 +51,39 @@ const add = async (
         quotationIdGeneratorQuery
       );
 
-      const vendorQuotes = await transaction.vendor_quotes.create({
-        data: {
-          vendor_id: vendor_id,
-          purchase_request_id: new_purchase_request_id,
-          quotation_date: formatted_request_date,
-          quotation_status: 'Pending',
-          total_quotation_amount: 0,
-          remarks: null,
-          quotation_details: purchase_request_details,
-          quotation_id: quotation_id[0].vendor_quotation_sequence,
-          created_by,
-          created_date: currentDate,
-          updated_date: currentDate,
-          is_delete: is_delete,
-        },
-      });
-      vendorQuotesDetails.push(vendorQuotes);
+      const vendorExistForThisPurchaseRequest =
+        await transaction.vendor_quotes.findFirst({
+          where: {
+            purchase_request_id: new_purchase_request_id,
+            vendor_id: vendor_id,
+            is_delete: false,
+          },
+        });
+      if (!vendorExistForThisPurchaseRequest) {
+        const vendorQuotes = await transaction.vendor_quotes.create({
+          data: {
+            vendor_id: vendor_id,
+            purchase_request_id: new_purchase_request_id,
+            quotation_date: formatted_request_date,
+            quotation_status: 'Pending',
+            total_quotation_amount: 0,
+            remarks: null,
+            quotation_details: purchase_request_details,
+            quotation_id: quotation_id[0].vendor_quotation_sequence,
+            created_by,
+            created_date: currentDate,
+            updated_date: currentDate,
+            is_delete: is_delete,
+          },
+        });
+        vendorQuotesDetails.push(vendorQuotes);
+      } else {
+        vendorQuotesDetails.push({
+          message: `This vendor_id - ${vendor_id} is already exists for this Purchase Request`,
+          status: false,
+          existing_data: vendorExistForThisPurchaseRequest,
+        });
+      }
     }
 
     const purchaseRequestData = {
@@ -247,6 +263,7 @@ const updateVendor = async (
   status: string,
   selected_vendor_id: number,
   updated_by: number,
+  total_cost: number,
   purchase_request_id: number,
   connectionObj = null
 ) => {
@@ -260,6 +277,7 @@ const updateVendor = async (
       data: {
         status,
         selected_vendor_id,
+        total_cost,
         updated_by,
         updated_date: currentDate,
       },
