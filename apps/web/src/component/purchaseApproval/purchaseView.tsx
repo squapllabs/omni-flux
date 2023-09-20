@@ -208,7 +208,7 @@ const PurchaseView = () => {
                       <td>{data.indent_request_data.description}</td>
                       <td>{data?.selected_vendor_data?.vendor_name}</td>
                       {/* <td>{formatBudgetValue(data?.total_cost)}</td> */}
-                      <td></td>
+                      <td>{data?.purchase_request_details.length}</td>
                       <td>{data?.status}</td>
                       <td>
                         {

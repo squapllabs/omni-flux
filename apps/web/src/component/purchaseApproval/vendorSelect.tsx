@@ -14,6 +14,7 @@ import EditIcon from '../menu/icons/editIcon';
 import PurchaseRequestEdit from './purchaseRequestEdit';
 import StarIcon from '../menu/icons/starIcon';
 import { updateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
+import BackArrowIcon from '../menu/icons/backArrow';
 // import purchaseRequestService from '../../service/purchaseRequest-service';
 // import { updatePurchaseRequest } from '../../hooks/purchase-request-hooks';
 
@@ -35,6 +36,7 @@ const VendorSelect = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [reload, setReload] = useState(false);
+  
 
   const vendorData = {
     limit: rowsPerPage,
@@ -116,27 +118,21 @@ const VendorSelect = () => {
                 <th>Budget</th>
                 <th>Quotation Status</th>
                 <th>Document</th>
-                <th>Options</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {tableData?.map((data: any, index: number) => {
-                const totalQuantity = data.quotation_details.reduce(
-                  (total: any, item: any) => total + item.quantity,
-                  0
-                );
-                const rowClass =
-                  data.quotation_status === 'Approved'
-                    ? 'active-row'
-                    : 'inactive-row';
-
-                const isApproved = data.quotation_status === 'Approved';
+                const isQuotationPending = data.quotation_status === 'Pending';
+                const isQuotationApproved =
+                  data.quotation_status === 'Approved';
                 return (
-                  <tr key={data.vendor_quotes_id} className={rowClass}>
+                  <tr key={data.vendor_quotes_id}>
                     <td>{startingIndex + index}</td>
                     <td>{data.vendor_name}</td>
-                    <td>{isApproved ? 'Disabled' : totalQuantity}</td>
-                    <td>{isApproved ? 'Disabled' : data.total_quotation_amount}</td>
+                    <td>{data?.quotation_details?.length}</td>
+                    <td>{data.total_quotation_amount}</td>
                     <td>{data.quotation_status}</td>
                     <td>
                       {data.vendor_quotes_documents?.map(
@@ -154,20 +150,41 @@ const VendorSelect = () => {
                       )}
                     </td>
                     <td>
-                      <div>
+                      {isQuotationApproved ? (
+                        ''
+                      ) : (
                         <EditIcon
                           onClick={() => handleEdit(data.vendor_quotes_id)}
                         />
+                      )}
+                       {isQuotationPending ? (
+                        '' 
+                      ) : isQuotationApproved ? (
+                        <StarIcon style={{ cursor: 'not-allowed' }} />
+                      ) : (
                         <StarIcon
                           onClick={() => handleApprove(data.vendor_quotes_id)}
                         />
-                      </div>
+                      )}
                     </td>
+                    
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          <div className={Styles.button}>
+            <Button
+              shape="rectangle"
+              justify="center"
+              size="small"
+              color="primary"
+              icon={<BackArrowIcon />}
+              onClick={() => navigate('/purchase-view')}
+            >
+              Back
+            </Button>
+          </div>
         </div>
         <CustomEditDialog
           open={open}
