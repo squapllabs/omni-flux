@@ -89,7 +89,10 @@ const VendorSelect = () => {
         quotation_status: 'Approved',
         updated_by: userID,
         vendor_quotes_documents: data?.data?.vendor_quotes_documents,
+        total_quotation_amount: data?.data?.total_quotation_amount,
       };
+      console.log("OBJ",obj);
+      
       updateOneVendorQuotes(obj, {
         onSuccess: (data, variables, context) => {
           if (data?.message === 'success') {

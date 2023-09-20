@@ -65,13 +65,13 @@ tr:hover {
 .customMenu {
     position: relative;
     display: inline-block;
-  }
-  
-  .menuText {
+}
+
+.menuText {
     color: blue;
-  }
-  
-  .menuDropdown {
+}
+
+.menuDropdown {
     position: absolute;
     top: 100%;
     left: 0;
@@ -81,59 +81,20 @@ tr:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
     z-index: 1;
-  }
-  
-  .menuDropdown div {
+}
+
+.menuDropdown div {
     padding: 8px 12px;
     white-space: nowrap;
-  }
-  
-  .menuDropdown .disabled {
+    cursor: pointer; 
+}
+
+.menuDropdown div:disabled:hover {
     cursor: not-allowed;
     color: #999;
-  }
-  
-  .menuDropdown div:not(.disabled):hover {
-    background-color: #f0f0f0;
-    cursor: pointer;
-    color: blue;
-  }
+}
 
-//   .customMenu {
-//     position: relative;
-//     display: inline-block;
-//   }
-  
-//   .menuText {
-//     color: blue;
-//   }
-  
-//   .menuDropdown {
-//     position: absolute;
-//     top: 100%;
-//     left: 0;
-//     display: flex;
-//     flex-direction: column;
-//     background-color: white;
-//     border: 1px solid #ccc;
-//     border-radius: 4px;
-//     z-index: 1;
-//   }
-  
-//   .menuDropdown div {
-//     padding: 8px 12px;
-//     white-space: nowrap;
-//     cursor: pointer; 
-//   }
-  
-//   .menuDropdown .disabled {
-//     cursor: not-allowed;
-//     color: #999; 
-//     pointer-events: none; 
-//   }
-  
-//   .menuDropdown div:not(.disabled):hover {
-//     background-color: #f0f0f0;
-//   }
-  
-  
+.menuDropdown div:not(.disabled):hover {
+    background-color: #f0f0f0;
+    color: blue;
+}
