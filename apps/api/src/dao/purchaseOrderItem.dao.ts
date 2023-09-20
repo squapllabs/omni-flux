@@ -173,6 +173,32 @@ const searchPurchaseOrderItem = async (
   }
 };
 
+const getByPurchaseOrderId = async (
+  purchaseOrderId: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseOrderItem = await transaction.purchase_order_item.findMany({
+      where: {
+        purchase_order_id: Number(purchaseOrderId),
+        is_delete: false,
+      },
+      include: {
+        purchase_order_data: true,
+        item_data: true,
+      },
+    });
+    return purchaseOrderItem;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrderItem getByPurchaseOrderId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -180,4 +206,5 @@ export default {
   getAll,
   deletePurchaseOrderItem,
   searchPurchaseOrderItem,
+  getByPurchaseOrderId,
 };

@@ -4,22 +4,34 @@ import CustomGroupButton from "../ui/CustomGroupButton";
 import Category from "../category/category";
 import UserList from "../users/userList";
 import MasterData from "../masterData/masterData";
-import ProjectList from "../project/projectList";
 import LeadList from "../leadEnquires/leadList";
-import MachineryList from "../machinery/machineryList";
 import VendorList from "../vendor/vendorList";
 import LabourList from '../labour/labourList';
+import PurchaseList from '../purchaseApproval/purchaseList';
+import PlanEngApproval from '../indentApproval/indentList';
+import { store, RootState } from '../../redux/store';
+import { getToken } from '../../redux/reducer';
 const Settings = () => {
-  const [buttonLabels, setButtonLabels] = useState([
+  const state: RootState = store.getState();
+  const encryptedData = getToken(state, 'Data');
+  const roleName = encryptedData?.userData?.user_roles[0]?.role_data?.role_name
+
+  const menuItems = [
     { label: 'Category', value: 'C' },
     { label: 'Master Data', value: 'M' },
     { label: 'User List', value: 'U' },
-    // { label: 'Project List', value: 'PL' },
-    { label: 'Lead List', value: 'LL'},
-    // { label: 'Machinery List', value: 'ML'},
-    { label: 'Vendor List', value: 'VL'},
-    { label: 'Labour List', value: 'LB'},
-  ]);
+    { label: 'Lead List', value: 'LL' },
+    { label: 'Vendor List', value: 'VL' },
+    { label: 'Labour List', value: 'LB' },
+  ];
+
+  if (roleName === 'Planning Engineer') {
+    menuItems.push({ label: 'Indent Approval', value: 'IA' });
+  }
+  if (roleName === 'Purchase Manager') {
+    menuItems.push({ label: 'Purchase List', value: 'PL' });
+  }
+  const [buttonLabels, setButtonLabels] = useState(menuItems);
   const [activeButton, setActiveButton] = useState<string | null>('C');
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -41,11 +53,11 @@ const Settings = () => {
         {activeButton === 'C' && <Category />}
         {activeButton === 'M' && <MasterData />}
         {activeButton === 'U' && <UserList />}
-        {/* {activeButton === 'PL' && <ProjectList />} */}
         {activeButton === 'LL' && <LeadList />}
-        {/* {activeButton === 'ML' && <MachineryList />} */}
         {activeButton === 'VL' && <VendorList />}
         {activeButton === 'LB' && <LabourList />}
+        {activeButton === 'IA' && <PlanEngApproval />}
+        {activeButton === 'PL' && <PurchaseList />}
       </div>
     </div>
   );

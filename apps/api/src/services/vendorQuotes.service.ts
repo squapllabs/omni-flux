@@ -3,6 +3,7 @@ import vendorDao from '../dao/vendor.dao';
 import { vendorQuotesBody } from '../interfaces/vendorQuotes.interface';
 import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import { processFileDeleteInS3 } from '../utils/fileUpload';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New VendorQuotes
@@ -140,25 +141,50 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
         }
       }
     }
+    const vendorQuotesData = await prisma
+      .$transaction(async (tx) => {
+        const vendorQuotesDetails = await vendorQuotesDao.edit(
+          vendor_quotes_id,
+          vendor_id,
+          purchase_request_id,
+          quotation_date,
+          quotation_status,
+          total_quotation_amount,
+          remarks,
+          quotation_details,
+          updated_by,
+          updatedVendorQuotesDocuments,
+          tx
+        );
 
-    const vendorQuotesDetails = await vendorQuotesDao.edit(
-      vendor_quotes_id,
-      vendor_id,
-      purchase_request_id,
-      quotation_date,
-      quotation_status,
-      total_quotation_amount,
-      remarks,
-      quotation_details,
-      updated_by,
-      updatedVendorQuotesDocuments
-    );
-    result = {
-      message: 'success',
-      status: true,
-      data: vendorQuotesDetails,
-    };
-    return result;
+        if (quotation_status === 'Approved') {
+          await purchaseRequestDao.updateVendor(
+            quotation_status,
+            vendor_id,
+            updated_by,
+            total_quotation_amount,
+            updatedVendorQuotesDocuments,
+            purchase_request_id,
+            tx
+          );
+        }
+
+        result = {
+          message: 'success',
+          status: true,
+          data: vendorQuotesDetails,
+        };
+        return result;
+      })
+      .then((data) => {
+        console.log('Successfully Purchase Order Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return vendorQuotesData;
   } catch (error) {
     console.log('Error occurred in VendorQuotes service Edit: ', error);
     throw error;
@@ -364,6 +390,71 @@ const updateStatusAndDocument = async (body: vendorQuotesBody) => {
   }
 };
 
+/**
+ * Method to get VendorQuotes By PurchaseRequest Id And Vendor Id
+ * @param purchase_request_id
+ * @param vendor_id
+ * @returns
+ */
+const getByPurchaseRequestIdAndVendorId = async (
+  purchase_request_id: number,
+  vendor_id: number
+) => {
+  try {
+    let result = null;
+
+    const purchaseRequestExist = await purchaseRequestDao.getById(
+      purchase_request_id
+    );
+    if (!purchaseRequestExist) {
+      return {
+        message: 'purchase_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const vendorExist = await vendorDao.getById(vendor_id);
+    if (!vendorExist) {
+      return {
+        message: 'vendor_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const vendorQuotesData =
+      await vendorQuotesDao.getByPurchaseRequestIdAndVendorId(
+        purchase_request_id,
+        vendor_id
+      );
+    if (vendorQuotesData) {
+      result = {
+        message: 'success',
+        status: true,
+        is_exist: true,
+        data: vendorQuotesData,
+      };
+      return result;
+    } else {
+      result = {
+        message:
+          'No data found for this purchase_request_id and vendor_id combo',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByPurchaseRequestIdAndVendorId VendorQuotes service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createVendorQuotes,
   updateVendorQuotes,
@@ -372,4 +463,5 @@ export {
   deleteVendorQuotes,
   searchVendorQuotes,
   updateStatusAndDocument,
+  getByPurchaseRequestIdAndVendorId,
 };
