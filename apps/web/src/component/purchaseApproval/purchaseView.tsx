@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import BackArrowIcon from '../menu/icons/backArrow';
@@ -13,6 +13,7 @@ import AddIcon from '../menu/icons/addIcon';
 import purchaseRequestService from '../../service/purchaseRequest-service';
 import EditIcon from '../menu/icons/editIcon';
 import CustomEditDialog from '../ui/customEditDialogBox';
+import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
 import PurchaseRequestEdit from './purchaseRequestEdit';
 import ViewIcon from '../menu/icons/viewIcon';
 
@@ -26,14 +27,21 @@ const PurchaseView = () => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [tableData, setTableData] = useState([]);
   const [purchaseTableData, setPurchaseTableData] = useState([]);
-  const [dataCount,setDataCount] = useState(0);
+  const [dataCount, setDataCount] = useState(0);
   const [dataLoading, setDataLoading] = useState(false);
   const [Id, setID] = useState();
   const [mode, setMode] = useState('');
   const [open, setOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const IndentId = Number(routeParams?.id);
+  const [onAction, setOnAction] = useState(false);
+  const [showPurchaseRequestForm, setShowPurchaseRequestForm] = useState(false);
+  const [reload, setReload] = useState(false);
+
+  const indentId = Number(routeParams?.id);
+  const location = useLocation();
+  const projectId = location.state.project_id;
+
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -41,7 +49,7 @@ const PurchaseView = () => {
     order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
-    indent_request_id: IndentId,
+    indent_request_id: indentId,
   };
 
   useEffect(() => {
@@ -66,7 +74,7 @@ const PurchaseView = () => {
     order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
-    indent_request_id: IndentId,
+    indent_request_id: indentId,
   };
 
   useEffect(() => {
@@ -82,7 +90,7 @@ const PurchaseView = () => {
       }
     };
     getAllPurchaseData();
-  }, []);
+  }, [reload]);
 
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -155,7 +163,7 @@ const PurchaseView = () => {
                 justify="center"
                 size="small"
                 color="primary"
-                // onClick={() => handleApprove()}
+                onClick={() => setShowPurchaseRequestForm(true)}
               >
                 <AddIcon />
                 Create PR
@@ -183,7 +191,7 @@ const PurchaseView = () => {
                 </tr>
               </thead>
               <tbody>
-                {dataCount===0 ? (
+                {dataCount === 0 ? (
                   <tr>
                     <td></td>
                     <td></td>
@@ -202,10 +210,18 @@ const PurchaseView = () => {
                       {/* <td>{formatBudgetValue(data?.total_cost)}</td> */}
                       <td></td>
                       <td>{data?.status}</td>
-                      <td>{
-                        // <EditIcon onClick={() => handleEdit(data.purchase_request_id)}/>
-                        <ViewIcon onClick={() => navigate(`/vendor-select/${data?.purchase_request_id}`)} />
-                        }</td>
+                      <td>
+                        {
+                          // <EditIcon onClick={() => handleEdit(data.purchase_request_id)}/>
+                          <ViewIcon
+                            onClick={() =>
+                              navigate(
+                                `/vendor-select/${data?.purchase_request_id}`
+                              )
+                            }
+                          />
+                        }
+                      </td>
                     </tr>
                   );
                 })}
@@ -214,19 +230,26 @@ const PurchaseView = () => {
           </div>
         </div>
       </div>
+      <CustomPurchaseRequest
+        isVissible={showPurchaseRequestForm}
+        setReload={setReload}
+        onAction={setShowPurchaseRequestForm}
+        indentId={indentId}
+        projectId={projectId}
+      ></CustomPurchaseRequest>
       <CustomEditDialog
-          open={open}
-          content={
-            <PurchaseRequestEdit
-              setOpen={setOpen}
-              open={open}
-              mode={mode}
-              purchaseID={Id}
-              setOpenSnack={setOpenSnack}
-              setMessage={setMessage}
-            />
-          }
-        />
+        open={open}
+        content={
+          <PurchaseRequestEdit
+            setOpen={setOpen}
+            open={open}
+            mode={mode}
+            purchaseID={Id}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+          />
+        }
+      />
     </div>
   );
 };

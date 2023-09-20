@@ -28,6 +28,7 @@ const PurchaseList = () => {
   const [priorityValue, setPriorityValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [projectId, setProjectId] = useState();
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const {
     mutate: postDataForFilter,
@@ -77,6 +78,14 @@ const PurchaseList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+
+  const handleView = (indentId: any, projectId: any) => {
+    navigate(`/purchase-detail/${indentId}`, {
+      state: { project_id: projectId },
+    });
+  };
+
+  console.log('pid', projectId);
 
   const options: any = [
     { value: 'Low', label: 'Low' },
@@ -223,8 +232,9 @@ const PurchaseList = () => {
                         <div className={Styles.tablerow}>
                           <ViewIcon
                             onClick={() =>
-                              navigate(
-                                `/purchase-detail/${data?.indent_request_id}`
+                              handleView(
+                                data?.indent_request_id,
+                                data?.project_id
                               )
                             }
                           />
