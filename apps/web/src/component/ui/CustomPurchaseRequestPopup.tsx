@@ -19,6 +19,7 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
     const [itemValues, setItemsValues] = useState([]);
     let rowIndex = 0;
     const [itemsData, setItemsData] = useState()
+    const [dropDisable, setDropDisable] = useState(false);
     const [purchaseRequestData, setPurchaseRequestData] = useState<any>([]);
     const [initialValues, setInitialValues] = useState({
         vendor_id: '',
@@ -26,7 +27,7 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
         quantity: '',
         item_name: ''
     })
-    console.log("pr", purchaseRequestData);
+
 
     const { data: getAllVendorsData = [], isLoading: dropLoading } = useGetAllVendors();
     const { mutate: createNewPurchaseRequest } = createPurchaseRequest();
@@ -36,17 +37,18 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
         // validationSchema,
         enableReinitialize: true,
         onSubmit: (values, { resetForm }) => {
-            console.log("values", values);
             let arr = [];
             arr = [...purchaseRequestData, values]
             setPurchaseRequestData(arr);
-
+            resetForm()
+            setDropDisable(true);
         },
     });
 
     const handleCloseForm = () => {
-        onAction(false);
-        formik.resetForm();
+        onAction(false)
+        setPurchaseRequestData([])
+        setDropDisable(false)
     };
 
     const handleDropChange = async (obj: any) => {
@@ -61,50 +63,34 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
             arr.push(obj)
         })
         setItemsValues(arr);
-        if (!formik.values.item_id) {
-            formik.values.quantity = ''
-        }
     }
 
     const deletePurchaseRequest = (index: number) => {
-        console.log("i", index);
-
         purchaseRequestData.splice(index, 1)
         setPurchaseRequestData([...purchaseRequestData])
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = () => {       
+        const requestBody = {
+            indent_request_id: 10,
+            requester_user_id: 1,
+            request_date: new Date(),
+            status: "Waiting For Quotation",
+            project_id: 137,
+            purchase_request_details: purchaseRequestData.map((item: any) => ({
+                item_id: item.item_id,
+                quantity: Number(item.quantity),
+                item_name: item.item_name,
+            })),
+            vendor_ids: purchaseRequestData.reduce((vendorIds: number[], item: any) => {
+                const itemVendorIds = Array.isArray(item.vendor_id) // Check if it's an array
+                    ? item.vendor_id.map((vendor: any) => vendor.value).filter(Boolean) // Filter out empty values
+                    : [];
+                return [...vendorIds, ...itemVendorIds];
+            }, [])
+        };
 
-        let data = purchaseRequestData?.map((data: any) => {
-            let vendorId = data?.vendor_id?.map((vendor: any) => vendor.value)
-            console.log("v", vendorId);
-            // return vendorId
-      
-        console.log("vvvv",data.vendorId);
-        
-            let object = {
-                indent_request_id: 10,
-                "requester_user_id": 1,
-                // "request_date": "2023-09-19",
-                status: "Waiting For Quotation",
-                "project_id": 137,
-                vendor_ids: vendorId,
-                // "total_cost": 1000000,
-                // "created_by": 1,
-                purchase_request_details: [
-                    {
-                        "item_id": data?.item_id,
-                        "quantity": Number(data?.quantity),
-                        "item_name": data?.item_name
-                    }
-                ]
-            }
-            // return object;
-            console.log("obj",object);
-       
-      
-        
-        createNewPurchaseRequest(object, {
+        createNewPurchaseRequest(requestBody, {
             onSuccess: (data, variables, context) => {
                 if (data?.message === 'success') {
                     // setMessage('Labour created');
@@ -115,8 +101,10 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                 }
             },
         });
-    })
-        console.log("purchaseRequestData", purchaseRequestData)
+       
+        onAction(false);
+        setPurchaseRequestData('')
+      
     }
 
 
@@ -157,17 +145,15 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                                 width="350px"
                                                 onSelect={(value) => {
                                                     formik.setFieldValue('vendor_id', value);
-                                                    console.log("value", value);
                                                 }}
                                                 optionList={getAllVendorsData}
+                                                disabled={dropDisable}
                                             // error={
                                             //   formik.touched.user_id &&
                                             //   formik.errors.user_id
                                             // }
                                             />
                                         </div>
-
-
                                     </div>
                                     <div className={Styles.fields_container_2}>
                                         <div>
@@ -193,8 +179,6 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                                         'item_name',
                                                         matchingObjects[0]?.item_data?.item_name
                                                     );
-                                                    console.log("matchingObjects[0]?.item_name", matchingObjects);
-
 
                                                 }}
                                                 optionList={itemValues}
@@ -229,18 +213,16 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                             >
                                                 Add
                                             </Button>
-
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className={Styles.tableContainer}>
                                     <div>
                                         <table className={Styles.scrollable_table}>
                                             <thead>
                                                 <tr>
                                                     <th className={Styles.tableHeading}>S NO</th>
-                                                    <th className={Styles.tableHeading}>Vendor Name</th>
+                                                    {/* <th className={Styles.tableHeading}>Vendor Name</th> */}
                                                     <th className={Styles.tableHeading}>Item</th>
                                                     <th className={Styles.tableHeading}>Quantity</th>
                                                     <th className={Styles.tableHeading}>Action</th>
@@ -250,21 +232,17 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                                 {purchaseRequestData?.length === 0 ?
 
                                                     (<tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>No data found</td>
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td colspan="5">No data found</td>
                                                     </tr>) :
 
                                                     purchaseRequestData?.map((item: any, index: any) => {
-                                                        let vendorName = item?.vendor_id?.map((vendor: any) => vendor.label).join(', ')
+                                                        // let vendorName = item?.vendor_id?.map((vendor: any) => vendor.label).join(', ')
                                                         rowIndex = rowIndex + 1;
                                                         return (
                                                             <>
                                                                 <tr>
                                                                     <td>{rowIndex}</td>
-                                                                    <td>{vendorName}</td>
+                                                                    {/* <td>{vendorName}</td> */}
                                                                     <td>{item.item_name}</td>
                                                                     <td>{item.quantity}</td>
                                                                     <td>
@@ -306,7 +284,6 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                         shape="rectangle"
                                         justify="center"
                                         size="small"
-                                        // type="submit"
                                         onClick={handleSubmit}
                                         icon={<AddIcon />}
                                     >

@@ -242,7 +242,6 @@ import Project from '../component/project/project';
 import ViewProject from '../component/vendor/vendorView';
 import ProjectSettings from '../component/project/projectComponent/projectSettings';
 import IndentRequest from '../component/project/projectComponent/projectIndentRequest/indentRequest';
-import PurchaseRequest from '../component/purchaseRequest';
 import IndentView from '../component/indentApproval/indentList';
 import PurchaseList from '../component/purchaseApproval/purchaseList';
 import PurchaseView from '../component/purchaseApproval/purchaseView';
@@ -309,7 +308,6 @@ const AppRoutes = () => {
   const ProtectedVendorView = withLayoutAndProtection(ViewProject);
   const ProtectedProjectSettings = withLayoutAndProtection(ProjectSettings);
   const ProtectedIndent = withLayoutAndProtection(IndentRequest);
-  const ProtectedPurchaseRequest = withLayoutAndProtection(PurchaseRequest);
   const ProtectedIndentList = withLayoutAndProtection(IndentView);
   const ProtectedPurchaseList = withLayoutAndProtection(PurchaseList);
   const ProtectedIndentDetailView = withLayoutAndProtection(IndentDetailView);
@@ -429,7 +427,6 @@ const AppRoutes = () => {
           element={<ProtectedProjectSettings />}
         />
         <Route path="/indent/:id" element={<ProtectedIndent />} />
-        <Route path="/purchase-request" element={<ProtectedPurchaseRequest />} />
         <Route path="/indent-view" element={<ProtectedIndentList />} />
         <Route path="/purchase-view" element={<ProtectedPurchaseList />} />
         <Route path="/indent-detail/:id" element={<ProtectedIndentDetailView />} />

@@ -151,6 +151,7 @@ const ErrorMessageWrapper = styled.div`
 
 
 const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
+    
   label,
   placeholder,
   error,
@@ -272,8 +273,6 @@ useEffect(() => {
           disabled={disabled}
           readOnly
           value={selectedOptions}
-          // selectedValue={selectedValue.j}
-          // value={}
           onKeyDown={(e) => handleBackspace(e)}
           {...props}
           onChange={(e) => handleChange(e)}
