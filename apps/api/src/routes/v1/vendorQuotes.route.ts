@@ -8,6 +8,7 @@ import {
   createVendorQuotes,
   deleteByVendorQuotesId,
   getAllVendorQuotes,
+  getByPurchaseRequestIdAndVendorId,
   getByVendorQuotesId,
   searchVendorQuotes,
   updateStatusAndDocument,
@@ -49,6 +50,12 @@ router.put(
   '/update-status-and-document',
   authMiddleware,
   updateStatusAndDocument
+);
+
+router.get(
+  '/check-duplicate-vendor-by-purchase-request-id/:purchase_request_id/:vendor_id',
+  authMiddleware,
+  getByPurchaseRequestIdAndVendorId
 );
 
 export default router;

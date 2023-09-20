@@ -162,6 +162,7 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
             quotation_status,
             vendor_id,
             updated_by,
+            total_quotation_amount,
             purchase_request_id,
             tx
           );
@@ -388,6 +389,71 @@ const updateStatusAndDocument = async (body: vendorQuotesBody) => {
   }
 };
 
+/**
+ * Method to get VendorQuotes By PurchaseRequest Id And Vendor Id
+ * @param purchase_request_id
+ * @param vendor_id
+ * @returns
+ */
+const getByPurchaseRequestIdAndVendorId = async (
+  purchase_request_id: number,
+  vendor_id: number
+) => {
+  try {
+    let result = null;
+
+    const purchaseRequestExist = await purchaseRequestDao.getById(
+      purchase_request_id
+    );
+    if (!purchaseRequestExist) {
+      return {
+        message: 'purchase_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const vendorExist = await vendorDao.getById(vendor_id);
+    if (!vendorExist) {
+      return {
+        message: 'vendor_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const vendorQuotesData =
+      await vendorQuotesDao.getByPurchaseRequestIdAndVendorId(
+        purchase_request_id,
+        vendor_id
+      );
+    if (vendorQuotesData) {
+      result = {
+        message: 'success',
+        status: true,
+        is_exist: true,
+        data: vendorQuotesData,
+      };
+      return result;
+    } else {
+      result = {
+        message:
+          'No data found for this purchase_request_id and vendor_id combo',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByPurchaseRequestIdAndVendorId VendorQuotes service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createVendorQuotes,
   updateVendorQuotes,
@@ -396,4 +462,5 @@ export {
   deleteVendorQuotes,
   searchVendorQuotes,
   updateStatusAndDocument,
+  getByPurchaseRequestIdAndVendorId,
 };
