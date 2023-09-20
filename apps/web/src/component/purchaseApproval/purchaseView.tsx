@@ -16,6 +16,7 @@ import CustomEditDialog from '../ui/customEditDialogBox';
 import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
 import PurchaseRequestEdit from './purchaseRequestEdit';
 import ViewIcon from '../menu/icons/viewIcon';
+import StarIcon from '../menu/icons/starIcon';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -217,6 +218,15 @@ const PurchaseView = () => {
                             onClick={() =>
                               navigate(
                                 `/vendor-select/${data?.purchase_request_id}`
+                              )
+                            }
+                          />
+                        }
+                        {
+                          <StarIcon
+                            onClick={() =>
+                              navigate(
+                                `/purchase-request/${data?.purchase_request_id}`
                               )
                             }
                           />

@@ -15,7 +15,6 @@ import CustomLoader from '../ui/customLoader';
 import CustomRejectPopup from '../ui/CustomRejectCommentPopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import indentApprovalService from '../../service/indent-approval-request-service';
 
 const IndentView = () => {
   const routeParams = useParams();
@@ -27,10 +26,9 @@ const IndentView = () => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [showRejectForm, setShowRejectForm] = useState(false);
   const IndentId = Number(routeParams?.id);
-  const [tableData, setTableData] = useState([]);
-  const [dataLoading, setDataLoading] = useState(false);
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -38,27 +36,12 @@ const IndentView = () => {
     order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
-    indent_request_id: Number(routeParams?.id),
+    indent_request_id: IndentId,
   };
-  // const {  isLoading: dataLoading } =
-  //   useGetAllIndentRequestDetail(masterData);
-
-  useEffect(() => {
-    const getAllData = async () => {
-      try {
-        setDataLoading(true);
-      } finally {
-        const result = await indentApprovalService.indentDetailData(masterData);
-        if (result.message === 'success') {
-          setTableData(result.content);
-          setDataLoading(false);
-        }
-      }
-    };
-    getAllData();
-  }, []);
-
+  const { data: getAllData, isLoading: dataLoading,refetch } =
+    useGetAllIndentRequestDetail(masterData);
   const { mutate: updateIndentRequestData } = updateIndentRequest();
+
   const handleApprove = () => {
     const date = format(new Date(), 'yyyy/MM/dd');
     const obj = {
@@ -66,8 +49,8 @@ const IndentView = () => {
       approver_status: 'Approved',
       approved_date: date,
       rejected_date: null,
-      updated_by: userID,
-      approver_user_id: userID,
+      updated_by:userID,
+      approver_user_id:userID
     };
     updateIndentRequestData(obj, {
       onSuccess: (data, variables, context) => {
@@ -89,6 +72,9 @@ const IndentView = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
@@ -128,7 +114,16 @@ const IndentView = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData?.map((data: any, index: number) => {
+                {getAllData?.total_count === 0 ? (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>No data found</td>
+                  </tr>
+                ) : (
+                  ''
+                )}
+                  {getAllData?.content?.map((data: any, index: number) => {
                     return (
                       <tr key={data.indent_request_id}>
                         <td>{startingIndex + index}</td>
@@ -149,8 +144,9 @@ const IndentView = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-                color="primary"
+                color='primary'
                 onClick={() => handleApprove()}
+                disabled={getAllData?.total_count === 0 ? true : false}
               >
                 Approve
               </Button>
@@ -160,8 +156,9 @@ const IndentView = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-                color="secondary"
+                color='secondary'
                 onClick={() => handleReject()}
+                disabled={getAllData?.total_count === 0 ? true : false}
               >
                 Reject
               </Button>

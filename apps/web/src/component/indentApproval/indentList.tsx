@@ -169,7 +169,7 @@ const IndentList = () => {
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data?.project_data?.project_name}</td>
-                      <td>{data?.priority}</td>
+                      <td >{data?.priority}</td>
                       <td>
                         {format(
                           new Date(data?.expected_delivery_date),
