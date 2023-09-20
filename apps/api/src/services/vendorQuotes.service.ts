@@ -163,6 +163,7 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
             vendor_id,
             updated_by,
             total_quotation_amount,
+            updatedVendorQuotesDocuments,
             purchase_request_id,
             tx
           );

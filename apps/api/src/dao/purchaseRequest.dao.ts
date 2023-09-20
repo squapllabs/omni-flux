@@ -264,6 +264,7 @@ const updateVendor = async (
   selected_vendor_id: number,
   updated_by: number,
   total_cost: number,
+  purchase_request_documents,
   purchase_request_id: number,
   connectionObj = null
 ) => {
@@ -278,6 +279,7 @@ const updateVendor = async (
         status,
         selected_vendor_id,
         total_cost,
+        purchase_request_documents,
         updated_by,
         updated_date: currentDate,
       },
