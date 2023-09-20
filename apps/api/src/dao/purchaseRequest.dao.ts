@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import customQueryExecutor from './common/utils.dao';
 
 const add = async (
   indent_request_id: number,
@@ -10,6 +11,9 @@ const add = async (
   selected_vendor_id: number,
   total_cost: number,
   created_by: number,
+  vendor_ids: Array<number>,
+  purchase_request_details,
+  purchase_request_documents,
   connectionObj = null
 ) => {
   try {
@@ -28,12 +32,50 @@ const add = async (
         selected_vendor_id,
         total_cost,
         created_by,
+        purchase_request_details,
+        purchase_request_documents,
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
       },
     });
-    return purchaseRequest;
+
+    const new_purchase_request_id = purchaseRequest?.purchase_request_id;
+
+    const vendorQuotesDetails = [];
+    const quotationIdGeneratorQuery = `select concat('VQUO',DATE_PART('year', CURRENT_DATE),'00',nextval('vendor_quotation_sequence')::text) as vendor_quotation_sequence`;
+
+    for (const vendor of vendor_ids) {
+      const vendor_id = vendor;
+      const quotation_id = await customQueryExecutor.customQueryExecutor(
+        quotationIdGeneratorQuery
+      );
+
+      const vendorQuotes = await transaction.vendor_quotes.create({
+        data: {
+          vendor_id: vendor_id,
+          purchase_request_id: new_purchase_request_id,
+          quotation_date: formatted_request_date,
+          quotation_status: 'Pending',
+          total_quotation_amount: 0,
+          remarks: null,
+          quotation_details: purchase_request_details,
+          quotation_id: quotation_id[0].vendor_quotation_sequence,
+          created_by,
+          created_date: currentDate,
+          updated_date: currentDate,
+          is_delete: is_delete,
+        },
+      });
+      vendorQuotesDetails.push(vendorQuotes);
+    }
+
+    const purchaseRequestData = {
+      purchase_request: purchaseRequest,
+      vendor_quotes: vendorQuotesDetails,
+    };
+
+    return purchaseRequestData;
   } catch (error) {
     console.log('Error occurred in purchaseRequestDao add', error);
     throw error;
@@ -50,6 +92,8 @@ const edit = async (
   selected_vendor_id: number,
   total_cost: number,
   updated_by: number,
+  purchase_request_details: JSON,
+  purchase_request_documents,
   purchase_request_id: number,
   connectionObj = null
 ) => {
@@ -71,6 +115,8 @@ const edit = async (
         selected_vendor_id,
         total_cost,
         updated_by,
+        purchase_request_details,
+        purchase_request_documents,
         updated_date: currentDate,
       },
     });

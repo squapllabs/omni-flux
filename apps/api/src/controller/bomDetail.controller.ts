@@ -137,6 +137,18 @@ const getByProjectIdAndBomType = catchAsync(async (req, res) => {
   }
 });
 
+const getAllItemsInBomDetailsByProjectId = catchAsync(async (req, res) => {
+  const methodName = '/getAllItemsInBomDetailsByProjectId';
+  try {
+    const bomDetail = await bomDetailService.getAllItemsInBomDetailsByProjectId(
+      req.params.project_id
+    );
+    res.send(bomDetail);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createBom,
   updateBom,
@@ -150,4 +162,5 @@ export {
   getBomTotalBySubCategoryId,
   getBySubCategoryId,
   getByProjectIdAndBomType,
+  getAllItemsInBomDetailsByProjectId,
 };

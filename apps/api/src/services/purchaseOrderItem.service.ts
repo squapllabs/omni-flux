@@ -24,7 +24,7 @@ const createPurchaseOrderItem = async (body: purchaseOrderItemBody) => {
       );
       if (!purchaseOrderExist) {
         return {
-          message: 'purchase_request_id does not exist',
+          message: 'purchase_order_id does not exist',
           status: false,
           data: null,
         };
@@ -67,8 +67,9 @@ const createPurchaseOrderItem = async (body: purchaseOrderItemBody) => {
  * @returns
  */
 
-const updatePurchaseOrderItem = async (body: purchaseOrderItemBody) => {
+const updatePurchaseOrderItem = async (req) => {
   try {
+    const body = req.body;
     const {
       purchase_order_id,
       item_id,
@@ -83,7 +84,7 @@ const updatePurchaseOrderItem = async (body: purchaseOrderItemBody) => {
     );
     if (!purchaseOrderItemExist) {
       result = {
-        message: 'purchase_order_id does not exist',
+        message: 'purchase_order_item_id does not exist',
         status: false,
         data: null,
       };
@@ -96,7 +97,7 @@ const updatePurchaseOrderItem = async (body: purchaseOrderItemBody) => {
       );
       if (!purchaseOrderExist) {
         return {
-          message: 'purchase_request_id does not exist',
+          message: 'purchase_order_id does not exist',
           status: false,
           data: null,
         };
@@ -115,12 +116,12 @@ const updatePurchaseOrderItem = async (body: purchaseOrderItemBody) => {
     }
 
     const purchaseOrderItemDetails = await purchaseOrderItemDao.edit(
-      purchase_order_id,
-      item_id,
-      order_quantity,
-      unit_price,
-      updated_by,
-      purchase_order_item_id
+      Number(purchase_order_id),
+      Number(item_id),
+      Number(order_quantity),
+      Number(unit_price),
+      Number(updated_by),
+      Number(purchase_order_item_id)
     );
     result = {
       message: 'success',

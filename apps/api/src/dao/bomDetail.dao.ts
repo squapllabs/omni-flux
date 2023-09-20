@@ -48,7 +48,7 @@ const add = async (
     });
     return bom;
   } catch (error) {
-    console.error('Error occurred in BomDao add', error);
+    console.error('Error occurred in BomDetailDao add', error);
     throw error;
   }
 };
@@ -98,7 +98,7 @@ const edit = async (
     });
     return bom;
   } catch (error) {
-    console.error('Error occurred in BomDao edit', error);
+    console.error('Error occurred in BomDetailDao edit', error);
     throw error;
   }
 };
@@ -166,7 +166,7 @@ const getById = async (bom_detail_id: number, connectionObj = null) => {
     });
     return bom;
   } catch (error) {
-    console.error('Error occurred in BomDao getById:', error);
+    console.error('Error occurred in BomDetailDao getById:', error);
     throw error;
   }
 };
@@ -542,7 +542,7 @@ const getBomTotalBySubCategoryId = async (
     return formattedResult;
   } catch (error) {
     console.error(
-      'Error occurred in BomDao getBomTotalBySubCategoryId:',
+      'Error occurred in BomDetailDao getBomTotalBySubCategoryId:',
       error
     );
     throw error;
@@ -567,7 +567,10 @@ const getBomSumBySubCategoryId = async (
 
     return bom._sum.total || 0;
   } catch (error) {
-    console.error('Error occurred in BomDao getBomSumBySubCategoryId:', error);
+    console.error(
+      'Error occurred in BomDetailDao getBomSumBySubCategoryId:',
+      error
+    );
     throw error;
   }
 };
@@ -590,7 +593,7 @@ const getTotalByBomConfigurationId = async (
     return bom._sum.total || 0;
   } catch (error) {
     console.error(
-      'Error occurred in BomDao getTotalByBomConfigurationId :',
+      'Error occurred in BomDetailDao getTotalByBomConfigurationId :',
       error
     );
     throw error;
@@ -631,7 +634,7 @@ const getBySubCategoryId = async (
 
     return bom;
   } catch (error) {
-    console.error('Error occurred in BomDao getBySubCategoryId:', error);
+    console.error('Error occurred in BomDetailDao getBySubCategoryId:', error);
     throw error;
   }
 };
@@ -672,7 +675,40 @@ const getByProjectIdAndBomType = async (
 
     return bom;
   } catch (error) {
-    console.error('Error occurred in BomDao getByProjectIdAndBomType:', error);
+    console.error(
+      'Error occurred in BomDetailDao getByProjectIdAndBomType:',
+      error
+    );
+    throw error;
+  }
+};
+
+const getAllItemsInBomDetailsByProjectId = async (
+  project_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const bom = await transaction.bom_detail.findMany({
+      where: {
+        bom_configuration_data: { project_id: Number(project_id) },
+        is_delete: false,
+        item_id: {
+          not: {
+            equals: null,
+          },
+        },
+      },
+      include: {
+        item_data: true,
+      },
+    });
+    return bom;
+  } catch (error) {
+    console.error(
+      'Error occurred in BomDetailDao getAllItemsInBomDetailsByProjectId:',
+      error
+    );
     throw error;
   }
 };
@@ -693,4 +729,5 @@ export default {
   getTotalByBomConfigurationId,
   getBySubCategoryId,
   getByProjectIdAndBomType,
+  getAllItemsInBomDetailsByProjectId,
 };
