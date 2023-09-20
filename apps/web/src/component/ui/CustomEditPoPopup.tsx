@@ -37,9 +37,7 @@ const CustomEditPoPopup = (props: {
 
   useEffect(() => {
     const fetchOne = async () => {
-      const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(
-        Number(selectedPurchaseOrder)
-      );
+      const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(Number(selectedPurchaseOrder))
       setInitialValues({
         bill_status: data?.data?.status,
       });
@@ -59,6 +57,7 @@ const CustomEditPoPopup = (props: {
     };
     fetchOne();
   }, [selectedPurchaseOrder]);
+  
   const handleDocuments = async (
     files: File[],
     code: string,
@@ -104,8 +103,8 @@ const CustomEditPoPopup = (props: {
     onSubmit: async (values, { resetForm }) => {
       const s3UploadUrl = await handleDocuments(
         selectedFiles,
-        'purchase-order-item-1',
-        'purchase-order-item'
+        `purchase-order-item-${selectedPurchaseOrder}`,
+        'purchase-order-item',
       );
       const Object: any = {
         status: values.bill_status,

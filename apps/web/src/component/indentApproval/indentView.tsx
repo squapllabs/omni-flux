@@ -41,7 +41,6 @@ const IndentView = () => {
   const { data: getAllData, isLoading: dataLoading,refetch } =
     useGetAllIndentRequestDetail(masterData);
   const { mutate: updateIndentRequestData } = updateIndentRequest();
-  console.log('oooooooo', getAllData);
 
   const handleApprove = () => {
     const date = format(new Date(), 'yyyy/MM/dd');
@@ -67,7 +66,6 @@ const IndentView = () => {
   };
 
   const handleReject = () => {
-    console.log('reject in');
     setShowRejectForm(true);
   };
 

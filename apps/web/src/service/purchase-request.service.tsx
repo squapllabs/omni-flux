@@ -50,7 +50,7 @@ const getAllBillStatusParentType = async () => {
   }
 };
 
-const getOnePurchaseOrderDataByID = async (values: any) => {
+const getOnePurchaseOrderDataByID = async (values: number) => {
   try {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/purchase-order/get/${values}`

@@ -9,10 +9,10 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
 
+
 const PurchaseView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  console.log('routeParams?.id)', routeParams?.id);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const PurchaseId = Number(routeParams?.id);
@@ -21,7 +21,6 @@ const PurchaseView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
-  console.log('llllllllll', getAllData);
   const {
     mutate: postDataForFilter,
   } = purchaseOrderRequest();
