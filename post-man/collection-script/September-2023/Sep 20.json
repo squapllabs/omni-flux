@@ -18602,7 +18602,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-19\",\r\n    \"status\": \"Waiting For Quotation\",\r\n    // \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"vendor_ids\":[1,10],\r\n    // \"selected_vendor_id\": 1,\r\n    \"total_cost\": 1000000,\r\n    \"created_by\": 1,\r\n    // \"purchase_request_details\": [\r\n    //     {\r\n    //         \"quantity\": 20,\r\n    //         \"item_name\": \"Cement\"\r\n    //     },\r\n    //     {\r\n    //         \"quantity\": 20,\r\n    //         \"item_name\": \"Pipe\"\r\n    //     }\r\n    // ]\r\n    \"purchase_request_details\": [\r\n        {\r\n            \"item_id\": 165,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\"\r\n        }\r\n    ]\r\n}",
+              "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-19\",\r\n    \"status\": \"Waiting For Quotation\",\r\n    // \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"vendor_ids\": [\r\n        1,\r\n        10,\r\n        1,\r\n        10\r\n    ],\r\n    // \"selected_vendor_id\": 1,\r\n    \"total_cost\": 1000000,\r\n    \"created_by\": 1,\r\n    // \"purchase_request_details\": [\r\n    //     {\r\n    //         \"quantity\": 20,\r\n    //         \"item_name\": \"Cement\"\r\n    //     },\r\n    //     {\r\n    //         \"quantity\": 20,\r\n    //         \"item_name\": \"Pipe\"\r\n    //     }\r\n    // ]\r\n    \"purchase_request_details\": [\r\n        {\r\n            \"item_id\": 165,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\"\r\n        }\r\n    ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -20231,7 +20231,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"purchase_request_id\": 2,\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-09-18\",\r\n    \"status\": \"Processing\",\r\n    \"total_cost\": 180923,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"purchase_order_item\": [\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"unit_price\": 10000\r\n        },\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"unit_price\": 10000\r\n        }\r\n    ]\r\n}",
+              "raw": "{\r\n    \"purchase_request_id\": 32,\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-09-18\",\r\n    \"status\": \"Processing\",\r\n    \"total_cost\": 180923,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"purchase_order_item\": [\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"unit_price\": 10000\r\n        },\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"unit_price\": 10000\r\n        }\r\n    ]\r\n}\r\n// {\r\n//     \"purchase_request_id\": 32,\r\n//     \"vendor_id\": 8,\r\n//     \"order_date\": \"2023-09-20\",\r\n//     \"status\": \"Processing\",\r\n//     \"total_cost\": 0,\r\n//     \"order_remark\": \"Order Requested\",\r\n//     \"purchase_order_item\": [\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 166,\r\n//             \"order_quantity\": 5\r\n//         },\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 167,\r\n//             \"order_quantity\": 1\r\n//         },\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 165,\r\n//             \"order_quantity\": 2\r\n//         }\r\n//     ]\r\n// }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -21450,7 +21450,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"vendor_id\": 1,\r\n    \"purchase_request_id\": 15,\r\n    \"quotation_date\": \"2023-09-19T00:00:00.000Z\",\r\n    \"quotation_status\": \"Approved\",\r\n    \"total_quotation_amount\": 0,\r\n    \"remarks\": null,\r\n    \"quotation_details\": [\r\n        {\r\n            \"item_id\": 165,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\",\r\n            \"vendor_id\": 1,\r\n            \"vendor_name\": \"Vijay\"\r\n        },\r\n        {\r\n            \"item_id\": 165,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\",\r\n            \"vendor_id\": 10,\r\n            \"vendor_name\": \"Velavan\"\r\n        }\r\n    ],\r\n    \"vendor_quotes_documents\": [\r\n        {\r\n            \"code\": \"purchase-order-item-1-0\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\r\n            \"index\": 0,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"code\": \"purchase-order-item-1-1\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\r\n            \"index\": 1,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": true\r\n        }\r\n    ],\r\n    \"updated_by\": 1,\r\n    \"vendor_quotes_id\": 15\r\n}",
+              "raw": "{\r\n    \"vendor_id\": 1,\r\n    \"purchase_request_id\": 15,\r\n    \"quotation_date\": \"2023-09-19T00:00:00.000Z\",\r\n    \"quotation_status\": \"Approved\",\r\n    \"total_quotation_amount\": 1000,\r\n    \"remarks\": null,\r\n    \"quotation_details\": [\r\n        {\r\n            \"item_id\": 165,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\",\r\n            \"vendor_id\": 1,\r\n            \"vendor_name\": \"Vijay\"\r\n        },\r\n        {\r\n            \"item_id\": 165,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\",\r\n            \"vendor_id\": 10,\r\n            \"vendor_name\": \"Velavan\"\r\n        }\r\n    ],\r\n    \"vendor_quotes_documents\": [\r\n        {\r\n            \"code\": \"purchase-order-item-1-0\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\r\n            \"index\": 0,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"code\": \"purchase-order-item-1-1\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\r\n            \"index\": 1,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": true\r\n        }\r\n    ],\r\n    \"updated_by\": 1,\r\n    \"vendor_quotes_id\": 15\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -22032,6 +22032,109 @@
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"vendor_quotes_id\": 15,\n        \"vendor_id\": 1,\n        \"purchase_request_id\": 10,\n        \"quotation_date\": \"2023-09-19T00:00:00.000Z\",\n        \"quotation_status\": \"Processing\",\n        \"total_quotation_amount\": 0,\n        \"remarks\": null,\n        \"quotation_details\": [\n            {\n                \"item_id\": 165,\n                \"quantity\": 20,\n                \"item_name\": \"Cement\",\n                \"vendor_id\": 1,\n                \"vendor_name\": \"Vijay\"\n            },\n            {\n                \"item_id\": 165,\n                \"quantity\": 20,\n                \"item_name\": \"Cement\",\n                \"vendor_id\": 10,\n                \"vendor_name\": \"Velavan\"\n            }\n        ],\n        \"quotation_id\": \"VQUO2023007\",\n        \"vendor_quotes_documents\": [\n            {\n                \"code\": \"purchase-order-item-1-0\",\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\n                \"index\": 0,\n                \"folder\": \"purchase-order-item\",\n                \"is_delete\": false\n            }\n        ],\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-19T12:52:02.196Z\",\n        \"updated_date\": \"2023-09-19T12:56:48.250Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
             }
           ]
+        },
+        {
+          "name": "API To Check Duplicate Vendor for the Purchase Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/vendor-quotes/check-duplicate-vendor-by-purchase-request-id/23/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": [
+                "api",
+                "vendor-quotes",
+                "check-duplicate-vendor-by-purchase-request-id",
+                "23",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Check Duplicate Vendor for the Purchase Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/vendor-quotes/check-duplicate-vendor-by-purchase-request-id/23/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "vendor-quotes",
+                    "check-duplicate-vendor-by-purchase-request-id",
+                    "23",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "619"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"26b-BasUm/c6VVQNuCsLApZghjIiiiM\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 20 Sep 2023 10:25:42 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"is_exist\": true,\n    \"data\": {\n        \"vendor_quotes_id\": 35,\n        \"vendor_id\": 1,\n        \"purchase_request_id\": 23,\n        \"quotation_date\": \"2023-09-20T00:00:00.000Z\",\n        \"quotation_status\": \"Pending\",\n        \"total_quotation_amount\": 0,\n        \"remarks\": null,\n        \"quotation_details\": [\n            {\n                \"item_id\": 170,\n                \"quantity\": 200,\n                \"item_name\": \"Item 122\"\n            },\n            {\n                \"item_id\": 159,\n                \"quantity\": 2000,\n                \"item_name\": \"Item 6\"\n            },\n            {\n                \"item_id\": 170,\n                \"quantity\": 2990,\n                \"item_name\": \"Item 122\"\n            }\n        ],\n        \"quotation_id\": \"VQUO20230027\",\n        \"vendor_quotes_documents\": null,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-20T04:59:22.707Z\",\n        \"updated_date\": \"2023-09-20T04:59:22.707Z\",\n        \"created_by\": null,\n        \"updated_by\": null\n    }\n}"
+            }
+          ]
         }
       ]
     },
@@ -22611,6 +22714,587 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"project_inventory_id\": 1,\n            \"project_id\": 137,\n            \"item_id\": 167,\n            \"rate\": 100,\n            \"available_quantity\": 123,\n            \"total_cost\": 12300,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T06:11:44.771Z\",\n            \"updated_date\": \"2023-09-20T06:11:44.771Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 102\n            },\n            \"item_data\": {\n                \"item_id\": 167,\n                \"item_name\": \"TMT Rod\",\n                \"description\": \"Steel for concrete\",\n                \"hsn_code_id\": 368,\n                \"gst_id\": 53,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 5,\n                \"rate\": 1000,\n                \"is_delete\": false\n            }\n        }\n    ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stock Outward",
+      "item": [
+        {
+          "name": "API To Create Stock Outward",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"site_engineer_id\": 1,\r\n    \"item_count\": 2,\r\n    \"stock_outward_date\": \"2023-09-20\",\r\n    \"created_by\": 1,\r\n    \"stock_outward_details\": [\r\n        {\r\n            \"item_id\": 167,\r\n            \"outward_quantity\": 50,\r\n            \"uom_id\": 4,\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"item_id\": 163,\r\n            \"outward_quantity\": 25,\r\n            \"uom_id\": 6,\r\n            \"is_delete\": false\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/stock-outward",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-outward"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Create Stock Outward",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"site_engineer_id\": 1,\r\n    \"item_count\": 2,\r\n    \"stock_outward_date\": \"2023-09-20\",\r\n    \"created_by\": 1,\r\n    \"stock_outward_details\": [\r\n        {\r\n            \"item_id\": 167,\r\n            \"outward_quantity\": 50,\r\n            \"uom_id\": 4,\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"item_id\": 163,\r\n            \"outward_quantity\": 25,\r\n            \"uom_id\": 6,\r\n            \"is_delete\": false\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-outward",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-outward"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "852"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"354-B9WAovXnvlvEFtvBrvyisnw79JM\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 20 Sep 2023 12:50:55 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"stock_outward\": {\n            \"stock_outward_id\": 4,\n            \"outward_id\": \"STO2023001\",\n            \"project_id\": 137,\n            \"site_id\": 17,\n            \"site_engineer_id\": 1,\n            \"item_count\": 2,\n            \"stock_outward_date\": \"2023-09-20T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T12:50:53.733Z\",\n            \"updated_date\": \"2023-09-20T12:50:53.733Z\",\n            \"created_by\": 1,\n            \"updated_by\": null\n        },\n        \"stock_outward_details\": [\n            {\n                \"stock_outward_details_id\": 1,\n                \"stock_outward_id\": 4,\n                \"item_id\": 167,\n                \"outward_quantity\": 50,\n                \"uom_id\": 4,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-20T12:50:53.733Z\",\n                \"updated_date\": \"2023-09-20T12:50:53.733Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            },\n            {\n                \"stock_outward_details_id\": 2,\n                \"stock_outward_id\": 4,\n                \"item_id\": 163,\n                \"outward_quantity\": 25,\n                \"uom_id\": 6,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-20T12:50:53.733Z\",\n                \"updated_date\": \"2023-09-20T12:50:53.733Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Update Stock Outward",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"site_engineer_id\": 1,\r\n    \"item_count\": 2,\r\n    \"stock_outward_date\": \"2023-09-20\",\r\n    \"updated_by\": 1,\r\n    \"stock_outward_details\": [\r\n        {\r\n            \"item_id\": 167,\r\n            \"outward_quantity\": 51,\r\n            \"uom_id\": 4,\r\n            \"is_delete\": false,\r\n            \"stock_outward_details_id\": 1\r\n        },\r\n        {\r\n            \"item_id\": 163,\r\n            \"outward_quantity\": 25,\r\n            \"uom_id\": 6,\r\n            \"is_delete\": true,\r\n            \"stock_outward_details_id\": 2\r\n        },\r\n        {\r\n            \"item_id\": 163,\r\n            \"outward_quantity\": 25,\r\n            \"uom_id\": 6,\r\n            \"is_delete\": false,\r\n            \"stock_outward_details_id\": null\r\n        }\r\n    ],\r\n    \"stock_outward_id\": 4\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/stock-outward",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-outward"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Update Stock Outward",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"site_engineer_id\": 1,\r\n    \"item_count\": 2,\r\n    \"stock_outward_date\": \"2023-09-20\",\r\n    \"updated_by\": 1,\r\n    \"stock_outward_details\": [\r\n        {\r\n            \"item_id\": 167,\r\n            \"outward_quantity\": 51,\r\n            \"uom_id\": 4,\r\n            \"is_delete\": false,\r\n            \"stock_outward_details_id\": 1\r\n        },\r\n        {\r\n            \"item_id\": 163,\r\n            \"outward_quantity\": 25,\r\n            \"uom_id\": 6,\r\n            \"is_delete\": true,\r\n            \"stock_outward_details_id\": 2\r\n        },\r\n        {\r\n            \"item_id\": 163,\r\n            \"outward_quantity\": 25,\r\n            \"uom_id\": 6,\r\n            \"is_delete\": false,\r\n            \"stock_outward_details_id\": null\r\n        }\r\n    ],\r\n    \"stock_outward_id\": 4\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-outward",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-outward"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "846"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"34e-DfDXzau6to9SIMeVidcGPeG2C54\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 20 Sep 2023 12:55:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"stock_outward\": {\n            \"stock_outward_id\": 4,\n            \"outward_id\": \"STO2023001\",\n            \"project_id\": 137,\n            \"site_id\": 17,\n            \"site_engineer_id\": 1,\n            \"item_count\": 2,\n            \"stock_outward_date\": \"2023-09-20T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T12:50:53.733Z\",\n            \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1\n        },\n        \"stock_outward_details\": [\n            {\n                \"stock_outward_details_id\": 1,\n                \"stock_outward_id\": 4,\n                \"item_id\": 167,\n                \"outward_quantity\": 51,\n                \"uom_id\": 4,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-20T12:50:53.733Z\",\n                \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            {\n                \"stock_outward_details_id\": 4,\n                \"stock_outward_id\": 4,\n                \"item_id\": 163,\n                \"outward_quantity\": 25,\n                \"uom_id\": 6,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-20T12:55:53.237Z\",\n                \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Stock Outward By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/stock-outward/get/4",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-outward", "get", "4"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Stock Outward By Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-outward/get/4",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-outward", "get", "4"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3370"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"d2a-oCxJYRoWxQDHhhhmTgGEVT1lGgs\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 20 Sep 2023 13:12:14 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"stock_outward_id\": 4,\n        \"outward_id\": \"STO2023001\",\n        \"project_id\": 137,\n        \"site_id\": 17,\n        \"site_engineer_id\": 1,\n        \"item_count\": 2,\n        \"stock_outward_date\": \"2023-09-20T00:00:00.000Z\",\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-20T12:50:53.733Z\",\n        \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1,\n        \"project_data\": {\n            \"project_id\": 137,\n            \"project_name\": \"Pipe line Project\",\n            \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n            \"user_id\": 106,\n            \"date_started\": \"2023-09-12T00:00:00.000Z\",\n            \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n            \"status\": \"Inprogress\",\n            \"client_id\": 1,\n            \"project_documents\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                    \"index\": 0,\n                    \"is_delete\": \"N\"\n                }\n            ],\n            \"created_date\": \"2023-09-12T08:14:29.393Z\",\n            \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"is_delete\": false,\n            \"project_notes\": \"\",\n            \"project_type\": \"Pipeline Laying\",\n            \"code\": \"PLP1\",\n            \"estimated_budget\": 20000,\n            \"actual_budget\": 0,\n            \"approvar_id\": 102\n        },\n        \"site_data\": {\n            \"site_contractor_id\": 17,\n            \"name\": \"Anna Nagar East Site\",\n            \"type\": \"Site\",\n            \"mobile_number\": \"+91 8667604201\",\n            \"contact_number\": \"+91 8667604201\",\n            \"address\": {\n                \"street\": \"12 Sasthiri Street\",\n                \"city\": \"Erode\",\n                \"state\": \"Tamil Nadu\",\n                \"pin_code\": \"638054\",\n                \"country\": \"India\"\n            },\n            \"description\": \"This is a site for a construction project\",\n            \"created_date\": \"2023-08-07T04:31:43.130Z\",\n            \"updated_date\": \"2023-09-01T14:12:05.776Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"is_delete\": false,\n            \"code\": \"ST011\"\n        },\n        \"site_engineer_data\": {\n            \"first_name\": \"Vijay\",\n            \"last_name\": \"Perumalsamy\"\n        },\n        \"stock_outward_details\": [\n            {\n                \"stock_outward_details_id\": 1,\n                \"stock_outward_id\": 4,\n                \"item_id\": 167,\n                \"outward_quantity\": 51,\n                \"uom_id\": 4,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-20T12:50:53.733Z\",\n                \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"item_data\": {\n                    \"item_id\": 167,\n                    \"item_name\": \"TMT Rod\",\n                    \"description\": \"Steel for concrete\",\n                    \"hsn_code_id\": 368,\n                    \"gst_id\": 53,\n                    \"uom_id\": 4,\n                    \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                    \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"item_type_id\": 108,\n                    \"brand_id\": 5,\n                    \"rate\": 1000,\n                    \"is_delete\": false\n                },\n                \"uom_data\": {\n                    \"name\": \"Meter\"\n                }\n            },\n            {\n                \"stock_outward_details_id\": 4,\n                \"stock_outward_id\": 4,\n                \"item_id\": 163,\n                \"outward_quantity\": 25,\n                \"uom_id\": 6,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-20T12:55:53.237Z\",\n                \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"item_data\": {\n                    \"item_id\": 163,\n                    \"item_name\": \"Paint\",\n                    \"description\": \"Item 10 Desc\",\n                    \"hsn_code_id\": 196,\n                    \"gst_id\": 53,\n                    \"uom_id\": 6,\n                    \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                    \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"item_type_id\": 109,\n                    \"brand_id\": 3,\n                    \"rate\": 500.5,\n                    \"is_delete\": false\n                },\n                \"uom_data\": {\n                    \"name\": \"Kilogram\"\n                }\n            },\n            {\n                \"stock_outward_details_id\": 3,\n                \"stock_outward_id\": 4,\n                \"item_id\": 163,\n                \"outward_quantity\": 25,\n                \"uom_id\": 6,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-20T12:55:08.923Z\",\n                \"updated_date\": \"2023-09-20T12:55:08.923Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_data\": {\n                    \"item_id\": 163,\n                    \"item_name\": \"Paint\",\n                    \"description\": \"Item 10 Desc\",\n                    \"hsn_code_id\": 196,\n                    \"gst_id\": 53,\n                    \"uom_id\": 6,\n                    \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                    \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"item_type_id\": 109,\n                    \"brand_id\": 3,\n                    \"rate\": 500.5,\n                    \"is_delete\": false\n                },\n                \"uom_data\": {\n                    \"name\": \"Kilogram\"\n                }\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get All Stock Outward",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/stock-outward/get-all",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-outward", "get-all"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get All Stock Outward",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-outward/get-all",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-outward", "get-all"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3372"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"d2c-OJFiQsZ8TzuvelI1Hm5RURUSZpA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 20 Sep 2023 13:14:14 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"stock_outward_id\": 4,\n            \"outward_id\": \"STO2023001\",\n            \"project_id\": 137,\n            \"site_id\": 17,\n            \"site_engineer_id\": 1,\n            \"item_count\": 2,\n            \"stock_outward_date\": \"2023-09-20T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T12:50:53.733Z\",\n            \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 102\n            },\n            \"site_data\": {\n                \"site_contractor_id\": 17,\n                \"name\": \"Anna Nagar East Site\",\n                \"type\": \"Site\",\n                \"mobile_number\": \"+91 8667604201\",\n                \"contact_number\": \"+91 8667604201\",\n                \"address\": {\n                    \"street\": \"12 Sasthiri Street\",\n                    \"city\": \"Erode\",\n                    \"state\": \"Tamil Nadu\",\n                    \"pin_code\": \"638054\",\n                    \"country\": \"India\"\n                },\n                \"description\": \"This is a site for a construction project\",\n                \"created_date\": \"2023-08-07T04:31:43.130Z\",\n                \"updated_date\": \"2023-09-01T14:12:05.776Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"code\": \"ST011\"\n            },\n            \"site_engineer_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"stock_outward_details\": [\n                {\n                    \"stock_outward_details_id\": 1,\n                    \"stock_outward_id\": 4,\n                    \"item_id\": 167,\n                    \"outward_quantity\": 51,\n                    \"uom_id\": 4,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-20T12:50:53.733Z\",\n                    \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": 1,\n                    \"item_data\": {\n                        \"item_id\": 167,\n                        \"item_name\": \"TMT Rod\",\n                        \"description\": \"Steel for concrete\",\n                        \"hsn_code_id\": 368,\n                        \"gst_id\": 53,\n                        \"uom_id\": 4,\n                        \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                        \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null,\n                        \"item_type_id\": 108,\n                        \"brand_id\": 5,\n                        \"rate\": 1000,\n                        \"is_delete\": false\n                    },\n                    \"uom_data\": {\n                        \"name\": \"Meter\"\n                    }\n                },\n                {\n                    \"stock_outward_details_id\": 4,\n                    \"stock_outward_id\": 4,\n                    \"item_id\": 163,\n                    \"outward_quantity\": 25,\n                    \"uom_id\": 6,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-20T12:55:53.237Z\",\n                    \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"item_data\": {\n                        \"item_id\": 163,\n                        \"item_name\": \"Paint\",\n                        \"description\": \"Item 10 Desc\",\n                        \"hsn_code_id\": 196,\n                        \"gst_id\": 53,\n                        \"uom_id\": 6,\n                        \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                        \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null,\n                        \"item_type_id\": 109,\n                        \"brand_id\": 3,\n                        \"rate\": 500.5,\n                        \"is_delete\": false\n                    },\n                    \"uom_data\": {\n                        \"name\": \"Kilogram\"\n                    }\n                },\n                {\n                    \"stock_outward_details_id\": 3,\n                    \"stock_outward_id\": 4,\n                    \"item_id\": 163,\n                    \"outward_quantity\": 25,\n                    \"uom_id\": 6,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-20T12:55:08.923Z\",\n                    \"updated_date\": \"2023-09-20T12:55:08.923Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"item_data\": {\n                        \"item_id\": 163,\n                        \"item_name\": \"Paint\",\n                        \"description\": \"Item 10 Desc\",\n                        \"hsn_code_id\": 196,\n                        \"gst_id\": 53,\n                        \"uom_id\": 6,\n                        \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                        \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null,\n                        \"item_type_id\": 109,\n                        \"brand_id\": 3,\n                        \"rate\": 500.5,\n                        \"is_delete\": false\n                    },\n                    \"uom_data\": {\n                        \"name\": \"Kilogram\"\n                    }\n                }\n            ]\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Delete Stock Outward",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/stock-outward/delete/4",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-outward", "delete", "4"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Delete Stock Outward",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-outward/delete/4",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-outward", "delete", "4"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "78"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4e-cR4CLgaSAqY3KOTdQ6vcQEvfG7o\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 20 Sep 2023 13:15:13 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"StockOutward Data Deleted Successfully\",\n    \"status\": true,\n    \"data\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Search Stock Outward",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"global_search\":\"paint\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/stock-outward/search",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-outward", "search"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Search Stock Outward",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"global_search\":\"paint\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-outward/search",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-outward", "search"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3406"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"d4e-atPkXauiaNrV2WEL+2KUEbcKhWQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 20 Sep 2023 13:24:58 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"stock_outward_id\": 4,\n            \"outward_id\": \"STO2023001\",\n            \"project_id\": 137,\n            \"site_id\": 17,\n            \"site_engineer_id\": 1,\n            \"item_count\": 2,\n            \"stock_outward_date\": \"2023-09-20T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T12:50:53.733Z\",\n            \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 102\n            },\n            \"site_data\": {\n                \"site_contractor_id\": 17,\n                \"name\": \"Anna Nagar East Site\",\n                \"type\": \"Site\",\n                \"mobile_number\": \"+91 8667604201\",\n                \"contact_number\": \"+91 8667604201\",\n                \"address\": {\n                    \"street\": \"12 Sasthiri Street\",\n                    \"city\": \"Erode\",\n                    \"state\": \"Tamil Nadu\",\n                    \"pin_code\": \"638054\",\n                    \"country\": \"India\"\n                },\n                \"description\": \"This is a site for a construction project\",\n                \"created_date\": \"2023-08-07T04:31:43.130Z\",\n                \"updated_date\": \"2023-09-01T14:12:05.776Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"code\": \"ST011\"\n            },\n            \"site_engineer_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"stock_outward_details\": [\n                {\n                    \"stock_outward_details_id\": 1,\n                    \"stock_outward_id\": 4,\n                    \"item_id\": 167,\n                    \"outward_quantity\": 51,\n                    \"uom_id\": 4,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-20T12:50:53.733Z\",\n                    \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": 1,\n                    \"item_data\": {\n                        \"item_id\": 167,\n                        \"item_name\": \"TMT Rod\",\n                        \"description\": \"Steel for concrete\",\n                        \"hsn_code_id\": 368,\n                        \"gst_id\": 53,\n                        \"uom_id\": 4,\n                        \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                        \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null,\n                        \"item_type_id\": 108,\n                        \"brand_id\": 5,\n                        \"rate\": 1000,\n                        \"is_delete\": false\n                    },\n                    \"uom_data\": {\n                        \"name\": \"Meter\"\n                    }\n                },\n                {\n                    \"stock_outward_details_id\": 4,\n                    \"stock_outward_id\": 4,\n                    \"item_id\": 163,\n                    \"outward_quantity\": 25,\n                    \"uom_id\": 6,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-20T12:55:53.237Z\",\n                    \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"item_data\": {\n                        \"item_id\": 163,\n                        \"item_name\": \"Paint\",\n                        \"description\": \"Item 10 Desc\",\n                        \"hsn_code_id\": 196,\n                        \"gst_id\": 53,\n                        \"uom_id\": 6,\n                        \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                        \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null,\n                        \"item_type_id\": 109,\n                        \"brand_id\": 3,\n                        \"rate\": 500.5,\n                        \"is_delete\": false\n                    },\n                    \"uom_data\": {\n                        \"name\": \"Kilogram\"\n                    }\n                },\n                {\n                    \"stock_outward_details_id\": 3,\n                    \"stock_outward_id\": 4,\n                    \"item_id\": 163,\n                    \"outward_quantity\": 25,\n                    \"uom_id\": 6,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-20T12:55:08.923Z\",\n                    \"updated_date\": \"2023-09-20T12:55:08.923Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"item_data\": {\n                        \"item_id\": 163,\n                        \"item_name\": \"Paint\",\n                        \"description\": \"Item 10 Desc\",\n                        \"hsn_code_id\": 196,\n                        \"gst_id\": 53,\n                        \"uom_id\": 6,\n                        \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                        \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null,\n                        \"item_type_id\": 109,\n                        \"brand_id\": 3,\n                        \"rate\": 500.5,\n                        \"is_delete\": false\n                    },\n                    \"uom_data\": {\n                        \"name\": \"Kilogram\"\n                    }\n                }\n            ]\n        }\n    ]\n}"
             }
           ]
         }

@@ -43,6 +43,7 @@ model users {
   indent_requester           indent_request[]             @relation("indentRequesterUser")
   indent_approvar            indent_request[]             @relation("indentApproverUser")
   purchase_request           purchase_request[]
+  stock_outward              stock_outward[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -105,6 +106,7 @@ model uom {
   project_workbreak_down project_workbreak_down[]
   labour                 labour[]
   machinery              machinery[]
+  stock_outward_details  stock_outward_details[]
 
   @@map(name: "uom")
 }
@@ -237,6 +239,7 @@ model project {
   inventory                  inventory[]
   purchase_request           purchase_request[]
   project_inventory          project_inventory[]
+  stock_outward              stock_outward[]
 }
 
 model project_expense {
@@ -272,6 +275,7 @@ model site_contractor {
   project_site           project_site[]
   site_expense           site_expense[]
   store                  store[]
+  stock_outward          stock_outward[]
 
   @@map("site_contractor")
 }
@@ -376,6 +380,7 @@ model item {
   bom_detail                bom_detail[]
   purchase_order_item       purchase_order_item[]
   project_inventory         project_inventory[]
+  stock_outward_details     stock_outward_details[]
 
   @@map(name: "item")
 }
@@ -926,4 +931,39 @@ model project_inventory {
   updated_by           Int?
   project_data         project? @relation(fields: [project_id], references: [project_id])
   item_data            item?    @relation(fields: [item_id], references: [item_id])
+}
+
+model stock_outward {
+  stock_outward_id      Int                     @id @default(autoincrement())
+  outward_id            String
+  project_id            Int?
+  site_id               Int?
+  site_engineer_id      Int?
+  item_count            Int?
+  stock_outward_date    DateTime?
+  is_delete             Boolean                 @default(false)
+  created_date          DateTime                @default(now())
+  updated_date          DateTime
+  created_by            Int?
+  updated_by            Int?
+  project_data          project?                @relation(fields: [project_id], references: [project_id])
+  site_data             site_contractor?        @relation(fields: [site_id], references: [site_contractor_id])
+  site_engineer_data    users?                  @relation(fields: [site_engineer_id], references: [user_id])
+  stock_outward_details stock_outward_details[]
+}
+
+model stock_outward_details {
+  stock_outward_details_id Int            @id @default(autoincrement())
+  stock_outward_id         Int
+  item_id                  Int?
+  outward_quantity         Int?
+  uom_id                   Int?
+  is_delete                Boolean        @default(false)
+  created_date             DateTime       @default(now())
+  updated_date             DateTime
+  created_by               Int?
+  updated_by               Int?
+  stock_outward_data       stock_outward? @relation(fields: [stock_outward_id], references: [stock_outward_id])
+  item_data                item?          @relation(fields: [item_id], references: [item_id])
+  uom_data                 uom?           @relation(fields: [uom_id], references: [uom_id])
 }
