@@ -243,6 +243,34 @@ const searchPurchaseRequest = async (
   }
 };
 
+const updateVendor = async (
+  status: string,
+  selected_vendor_id: number,
+  updated_by: number,
+  purchase_request_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseRequest = await transaction.purchase_request.update({
+      where: {
+        purchase_request_id: purchase_request_id,
+      },
+      data: {
+        status,
+        selected_vendor_id,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+    return purchaseRequest;
+  } catch (error) {
+    console.log('Error occurred in purchaseRequestDao updateVendor', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -250,4 +278,5 @@ export default {
   getAll,
   deletePurchaseRequest,
   searchPurchaseRequest,
+  updateVendor,
 };

@@ -1,8 +1,12 @@
+import itemDao from '../dao/item.dao';
+import projectInventoryDao from '../dao/projectInventory.dao';
 import purchaseOrderDao from '../dao/purchaseOrder.dao';
+import purchaseOrderItemDao from '../dao/purchaseOrderItem.dao';
 import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import vendorDao from '../dao/vendor.dao';
 import { purchaseOrderBody } from '../interfaces/purchaseOrder.interface';
 import { processFileDeleteInS3 } from '../utils/fileUpload';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New PurchaseOrder
@@ -470,6 +474,8 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
       return result;
     }
 
+    const project_id = purchaseOrderExist?.purchase_request_data?.project_id;
+
     const updatedPurchaseOrderDocuments = [];
     if (purchase_order_documents) {
       for (const doc of purchase_order_documents) {
@@ -486,14 +492,93 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
       }
     }
 
-    const purchaseOrderDetails = await purchaseOrderDao.updateStatusAndDocument(
-      status,
-      updated_by,
-      updatedPurchaseOrderDocuments,
-      purchase_order_id
-    );
-    result = { message: 'success', status: true, data: purchaseOrderDetails };
-    return result;
+    const purchaseOrderData = await prisma
+      .$transaction(async (tx) => {
+        const purchaseOrderDetails =
+          await purchaseOrderDao.updateStatusAndDocument(
+            status,
+            updated_by,
+            updatedPurchaseOrderDocuments,
+            purchase_order_id,
+            tx
+          );
+
+        const projectInventoryDetails = [];
+
+        /* Function to update or create Project Inventory based on status */
+
+        if (status === 'Product Received') {
+          const purchaseOrderItemDetails =
+            await purchaseOrderItemDao.getByPurchaseOrderId(purchase_order_id);
+
+          for (const purchaseOrderItemDetail of purchaseOrderItemDetails) {
+            const item_id = purchaseOrderItemDetail.item_id;
+            const order_quantity = purchaseOrderItemDetail.order_quantity;
+
+            const projectItemExistInProjectInventory =
+              await projectInventoryDao.getByProjectIdAndItemId(
+                project_id,
+                item_id,
+                tx
+              );
+
+            if (projectItemExistInProjectInventory) {
+              const rate = projectItemExistInProjectInventory?.rate;
+
+              const updated_available_quantity =
+                projectItemExistInProjectInventory?.available_quantity +
+                order_quantity;
+              const total_cost = rate * updated_available_quantity;
+
+              const updatedProjectInventory =
+                await projectInventoryDao.updateQuantityByProjectInventoryId(
+                  updated_available_quantity,
+                  updated_by,
+                  total_cost,
+                  projectItemExistInProjectInventory?.project_inventory_id,
+                  tx
+                );
+              projectInventoryDetails.push(updatedProjectInventory);
+            } else {
+              const itemData = await itemDao.getById(item_id, tx);
+              const rate = itemData?.rate;
+              const total_cost = rate * order_quantity;
+
+              const newProjectInventory = await projectInventoryDao.add(
+                project_id,
+                item_id,
+                rate,
+                order_quantity,
+                total_cost,
+                updated_by,
+                tx
+              );
+              projectInventoryDetails.push(newProjectInventory);
+            }
+          }
+        }
+
+        const purchaseOrderDetailsData = {
+          purchase_order: purchaseOrderDetails,
+          project_inventory: projectInventoryDetails,
+        };
+
+        result = {
+          message: 'success',
+          status: true,
+          data: purchaseOrderDetailsData,
+        };
+        return result;
+      })
+      .then((data) => {
+        console.log('Successfully Purchase Order Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return purchaseOrderData;
   } catch (error) {
     console.log(
       'Error occurred in purchaseOrder service updateStatusAndDocument: ',

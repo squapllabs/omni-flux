@@ -3,6 +3,7 @@ import vendorDao from '../dao/vendor.dao';
 import { vendorQuotesBody } from '../interfaces/vendorQuotes.interface';
 import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import { processFileDeleteInS3 } from '../utils/fileUpload';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New VendorQuotes
@@ -140,25 +141,48 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
         }
       }
     }
+    const vendorQuotesData = await prisma
+      .$transaction(async (tx) => {
+        const vendorQuotesDetails = await vendorQuotesDao.edit(
+          vendor_quotes_id,
+          vendor_id,
+          purchase_request_id,
+          quotation_date,
+          quotation_status,
+          total_quotation_amount,
+          remarks,
+          quotation_details,
+          updated_by,
+          updatedVendorQuotesDocuments,
+          tx
+        );
 
-    const vendorQuotesDetails = await vendorQuotesDao.edit(
-      vendor_quotes_id,
-      vendor_id,
-      purchase_request_id,
-      quotation_date,
-      quotation_status,
-      total_quotation_amount,
-      remarks,
-      quotation_details,
-      updated_by,
-      updatedVendorQuotesDocuments
-    );
-    result = {
-      message: 'success',
-      status: true,
-      data: vendorQuotesDetails,
-    };
-    return result;
+        if (quotation_status === 'Approved') {
+          await purchaseRequestDao.updateVendor(
+            quotation_status,
+            vendor_id,
+            updated_by,
+            purchase_request_id,
+            tx
+          );
+        }
+
+        result = {
+          message: 'success',
+          status: true,
+          data: vendorQuotesDetails,
+        };
+        return result;
+      })
+      .then((data) => {
+        console.log('Successfully Purchase Order Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return vendorQuotesData;
   } catch (error) {
     console.log('Error occurred in VendorQuotes service Edit: ', error);
     throw error;

@@ -10,6 +10,7 @@ interface purchaseOrderBody {
   updated_by: number;
   purchase_order_item: Array<PurchaseOrderItem>;
   purchase_order_documents: Array<PurchaseOrderDocuments>;
+  order_id: string;
 }
 
 interface PurchaseOrderItem {
