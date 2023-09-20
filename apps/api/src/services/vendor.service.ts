@@ -204,41 +204,6 @@ const searchVendor = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const is_delete = status === 'AC' ? false : true;
-    // const filterObj = {
-    //   filterVendor: {
-    //     AND: [],
-    //     // OR: [
-    //     //   { vendor_name: { contains: global_search, mode: 'insensitive' } },
-    //     //   { contact_person: { contains: global_search, mode: 'insensitive' } },
-    //     //   { contact_email: { contains: global_search, mode: 'insensitive' } },
-    //     //   {
-    //     //     contact_phone_no: { contains: global_search, mode: 'insensitive' },
-    //     //   },
-    //     //   { tax_id: { contains: global_search, mode: 'insensitive' } },
-    //     //   { payment_terms: { contains: global_search, mode: 'insensitive' } },
-    //     //   { currency: { contains: global_search, mode: 'insensitive' } },
-    //     //   { lead_time: { contains: global_search, mode: 'insensitive' } },
-    //     //   { notes: { contains: global_search, mode: 'insensitive' } },
-    //     //   {
-    //     //     vendor_category_data: {
-    //     //       master_data_name: {
-    //     //         contains: global_search,
-    //     //         mode: 'insensitive',
-    //     //       },
-    //     //     },
-    //     //   },
-    //     //   {
-    //     //     preferred_payment_method_data: {
-    //     //       master_data_name: {
-    //     //         contains: global_search,
-    //     //         mode: 'insensitive',
-    //     //       },
-    //     //     },
-    //     //   },
-    //     // ],
-    //     is_delete: status === 'AC' ? false : true,
-    //   },
-    // };
 
     const result = await vendorDao.searchVendor(
       offset,
@@ -248,8 +213,6 @@ const searchVendor = async (body) => {
       is_delete,
       global_search
     );
-
-    // return result;
 
     const count = result.count;
     const data = result.data;

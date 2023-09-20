@@ -447,6 +447,62 @@ const getByPurchaseRequestId = async (purchaseRequestId: number) => {
   }
 };
 
+/**
+ * Method to Update an Existing PurchaseOrder Status And Document
+ * @param body
+ * @returns
+ */
+
+const updateStatusAndDocument = async (body: purchaseOrderBody) => {
+  try {
+    const { status, updated_by, purchase_order_documents, purchase_order_id } =
+      body;
+    let result = null;
+    const purchaseOrderExist = await purchaseOrderDao.getById(
+      purchase_order_id
+    );
+    if (!purchaseOrderExist) {
+      result = {
+        message: 'purchase_order_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+
+    const updatedPurchaseOrderDocuments = [];
+    if (purchase_order_documents) {
+      for (const doc of purchase_order_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === true) {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedPurchaseOrderDocuments.push(doc);
+        }
+      }
+    }
+
+    const purchaseOrderDetails = await purchaseOrderDao.updateStatusAndDocument(
+      status,
+      updated_by,
+      updatedPurchaseOrderDocuments,
+      purchase_order_id
+    );
+    result = { message: 'success', status: true, data: purchaseOrderDetails };
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrder service updateStatusAndDocument: ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -456,4 +512,5 @@ export {
   searchPurchaseOrder,
   createPurchaseOrderWithItem,
   getByPurchaseRequestId,
+  updateStatusAndDocument,
 };

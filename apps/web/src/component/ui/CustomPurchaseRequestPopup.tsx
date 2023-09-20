@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../ui/Button';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
@@ -10,18 +10,26 @@ import AutoCompleteSelect from './AutoCompleteSelect';
 import AutoCompleteMultiSelect from './AutoCompleteMultiSelect';
 import AddIcon from '../menu/icons/addIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
-import { useGetAllVendors }  from '../../hooks/vendor-hooks';
+import { useGetAllVendors } from '../../hooks/vendor-hooks';
+import { createPurchaseRequest } from '../../hooks/purchaseRequest-hooks';
+import PurchaseRequestService from '../../service/purchaseRequest-service';
 
 const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) => {
     const { isVissible, onAction } = props
+    const [itemValues, setItemsValues] = useState([]);
+    let rowIndex = 0;
+    const [itemsData, setItemsData] = useState()
+    const [purchaseRequestData, setPurchaseRequestData] = useState<any>([]);
     const [initialValues, setInitialValues] = useState({
         vendor_id: '',
-        description: ''
+        item_id: '',
+        quantity: '',
+        item_name: ''
     })
-    const [selectedValue, setSelectedValue] = useState([]);
-    const optionList: any =
-        [{ value: "2", label: "Manual" }, { value: "1", label: "Based on Quotation" }, { value: "3", label: "example" }]
+    console.log("pr", purchaseRequestData);
+
     const { data: getAllVendorsData = [], isLoading: dropLoading } = useGetAllVendors();
+    const { mutate: createNewPurchaseRequest } = createPurchaseRequest();
 
     const formik = useFormik({
         initialValues,
@@ -29,22 +37,92 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
         enableReinitialize: true,
         onSubmit: (values, { resetForm }) => {
             console.log("values", values);
+            let arr = [];
+            arr = [...purchaseRequestData, values]
+            setPurchaseRequestData(arr);
+
         },
     });
 
-    console.log("formik",formik.values);
-    // console.log("getAllVendorsData",getAllVendorsData);
-
-    
     const handleCloseForm = () => {
         onAction(false);
         formik.resetForm();
     };
 
-    const handleDropChange = (e) => {
-
+    const handleDropChange = async (obj: any) => {
+        const itemsData = await PurchaseRequestService.getProjectItems(137)
+        let arr: any = [];
+        setItemsData(itemsData.data)
+        let items = itemsData?.data?.map((items: any, index: any) => {
+            let obj: any = {
+                value: items?.item_id,
+                label: items?.item_data?.item_name
+            }
+            arr.push(obj)
+        })
+        setItemsValues(arr);
+        if (!formik.values.item_id) {
+            formik.values.quantity = ''
+        }
     }
 
+    const deletePurchaseRequest = (index: number) => {
+        console.log("i", index);
+
+        purchaseRequestData.splice(index, 1)
+        setPurchaseRequestData([...purchaseRequestData])
+    }
+
+    const handleSubmit = () => {
+
+        let data = purchaseRequestData?.map((data: any) => {
+            let vendorId = data?.vendor_id?.map((vendor: any) => vendor.value)
+            console.log("v", vendorId);
+            // return vendorId
+      
+        console.log("vvvv",data.vendorId);
+        
+            let object = {
+                indent_request_id: 10,
+                "requester_user_id": 1,
+                // "request_date": "2023-09-19",
+                status: "Waiting For Quotation",
+                "project_id": 137,
+                vendor_ids: vendorId,
+                // "total_cost": 1000000,
+                // "created_by": 1,
+                purchase_request_details: [
+                    {
+                        "item_id": data?.item_id,
+                        "quantity": Number(data?.quantity),
+                        "item_name": data?.item_name
+                    }
+                ]
+            }
+            // return object;
+            console.log("obj",object);
+       
+      
+        
+        createNewPurchaseRequest(object, {
+            onSuccess: (data, variables, context) => {
+                if (data?.message === 'success') {
+                    // setMessage('Labour created');
+                    // setOpenSnack(true);
+                    setTimeout(() => {
+                        //   navigate('/labour');
+                    }, 1000);
+                }
+            },
+        });
+    })
+        console.log("purchaseRequestData", purchaseRequestData)
+    }
+
+
+    useEffect(() => {
+        handleDropChange()
+    }, [initialValues])
 
     return (
         <div>
@@ -78,13 +156,10 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                                 mandatory
                                                 width="350px"
                                                 onSelect={(value) => {
-                                                    // alert(value);
                                                     formik.setFieldValue('vendor_id', value);
-                                                    console.log("value",value);
-                                                    
-                                                    
+                                                    console.log("value", value);
                                                 }}
-                                            optionList={getAllVendorsData}
+                                                optionList={getAllVendorsData}
                                             // error={
                                             //   formik.touched.user_id &&
                                             //   formik.errors.user_id
@@ -98,16 +173,31 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                         <div>
                                             <AutoCompleteSelect
                                                 label="Items"
-                                                name="user_id"
+                                                name="item_id"
                                                 onChange={formik.handleChange}
-                                                // value={formik.values.user_id}
+                                                value={formik.values.item_id}
                                                 placeholder="Select from options"
                                                 mandatory
                                                 width="350px"
                                                 onSelect={(value) => {
-                                                    formik.setFieldValue('user_id', value);
+                                                    formik.setFieldValue('item_id', value);
+
+                                                    const matchingObjects = itemsData?.filter(
+                                                        (obj: any) => Number(obj.item_id) === Number(value)
+                                                    );
+                                                    formik.setFieldValue(
+                                                        'quantity',
+                                                        matchingObjects[0]?.quantity
+                                                    );
+                                                    formik.setFieldValue(
+                                                        'item_name',
+                                                        matchingObjects[0]?.item_data?.item_name
+                                                    );
+                                                    console.log("matchingObjects[0]?.item_name", matchingObjects);
+
+
                                                 }}
-                                            // optionList={userData}
+                                                optionList={itemValues}
                                             // error={
                                             //   formik.touched.user_id &&
                                             //   formik.errors.user_id
@@ -117,19 +207,14 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                         <div>
                                             <Input
                                                 label="Quantity"
-                                                name="user_id"
-                                                onChange={formik.handleChange}
-                                                // value={formik.values.user_id}
-                                                // placeholder="Select from options"
-                                                // mandatory
+                                                placeholder="Enter Quantity"
+                                                name="quantity"
+                                                mandatory={true}
                                                 width="350px"
-                                                onSelect={(value) => {
-                                                    formik.setFieldValue('user_id', value);
-                                                }}
-                                            // optionList={userData}
+                                                value={formik.values.quantity}
+                                                onChange={formik.handleChange}
                                             // error={
-                                            //   formik.touched.user_id &&
-                                            //   formik.errors.user_id
+                                            //     formik.touched.quantity && formik.errors.quantity
                                             // }
                                             />
                                         </div>
@@ -162,52 +247,74 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>sample</td>
-                                                    <td>data</td>
-                                                    <td>100</td>
-                                                    <td>
-                                                        <div className={Styles.tablerow}>
-                                                            <DeleteIcon
-                                                            // onClick={() =>
-                                                            //     deleteProjectMember(data?.project_member_association_id)
-                                                            // }
-                                                            />
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                {purchaseRequestData?.length === 0 ?
+
+                                                    (<tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>No data found</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>) :
+
+                                                    purchaseRequestData?.map((item: any, index: any) => {
+                                                        let vendorName = item?.vendor_id?.map((vendor: any) => vendor.label).join(', ')
+                                                        rowIndex = rowIndex + 1;
+                                                        return (
+                                                            <>
+                                                                <tr>
+                                                                    <td>{rowIndex}</td>
+                                                                    <td>{vendorName}</td>
+                                                                    <td>{item.item_name}</td>
+                                                                    <td>{item.quantity}</td>
+                                                                    <td>
+                                                                        <div className={Styles.tablerow}>
+                                                                            <DeleteIcon
+                                                                                onClick={() =>
+                                                                                    deletePurchaseRequest(index)
+                                                                                }
+                                                                            />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </>
+                                                        )
+
+                                                    })}
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <div className={Styles.dividerStyle}></div>
-                                <div className={Styles.formButton}>
-                                    <div>
-                                        <Button
-                                            className={Styles.cancelButton}
-                                            shape="rectangle"
-                                            justify="center"
-                                            size="small"
-                                            onClick={handleCloseForm}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </div>
-                                    <div>
-                                        <Button
-                                            color="primary"
-                                            shape="rectangle"
-                                            justify="center"
-                                            size="small"
-                                            type="submit"
-                                            icon={<AddIcon/>}
-                                        >
-                                            Raise Purchase Request
-                                        </Button>
-                                    </div>
-                                </div>
                             </form>
+                            <div className={Styles.dividerStyle}></div>
+                            <div className={Styles.formButton}>
+                                <div>
+                                    <Button
+                                        className={Styles.cancelButton}
+                                        shape="rectangle"
+                                        justify="center"
+                                        size="small"
+                                        onClick={handleCloseForm}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </div>
+                                <div>
+                                    <Button
+                                        color="primary"
+                                        shape="rectangle"
+                                        justify="center"
+                                        size="small"
+                                        // type="submit"
+                                        onClick={handleSubmit}
+                                        icon={<AddIcon />}
+                                    >
+                                        Raise Purchase Request
+                                    </Button>
+                                </div>
+                            </div>
+
                         </div>
                     </CustomPopup>)
                 }
@@ -215,5 +322,4 @@ const CustomPurchaseRequestPopup = (props: { isVissible: any, onAction: any }) =
         </div>
     )
 }
-
 export default CustomPurchaseRequestPopup

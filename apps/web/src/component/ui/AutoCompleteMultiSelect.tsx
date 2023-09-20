@@ -4,7 +4,6 @@ import DropdownIcon from '../menu/icons/dropDownButton';
 import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
 import CloseIcon from '../menu/icons/closeIcon';
 import ClearIcon from '../menu/icons/closeIcon';
-import { log } from 'console';
 
 interface InputWrapperProps {
   width?: string;
@@ -176,6 +175,7 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
   const [inputValue, setInputValue] = useState('');
   const [combinedValue, setCombinedValue] = useState<string>('');
   const [open, setOpen] = useState(false);
+  const [selectedOptions,setSelectedOptions]=useState<string[]>([]);
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -216,16 +216,13 @@ useEffect(() => {
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, [open, selectedValues]);
+  }, [open, selectedValues,selectedOptions]);
   
   
-  
-console.log("selectedva",selectedValues);
-
-
 
   const handleSelect = (option: Option) => {
     if (!selectedValues.includes(option.label)) {
+        setSelectedOptions([...selectedOptions,option.label])
       setSelectedValues([...selectedValues, option]);
       onSelect([...selectedValues,option])
     }
@@ -237,8 +234,10 @@ console.log("selectedva",selectedValues);
 //     }
 //   };
 
-  const handleDeselect = (label: string) => {
-    const updatedValues = selectedValues.filter((value) => value !== label);
+  const handleDeselect = (label: string,option:string) => {
+    const updatedOptions = selectedOptions.filter((value) => value !== label);
+    const updatedValues = selectedValues.filter((option) => option.label !== label);
+    setSelectedOptions(updatedOptions);
     setSelectedValues(updatedValues);
     onSelect(updatedValues);
   };
@@ -272,7 +271,7 @@ console.log("selectedva",selectedValues);
           placeholder={placeholder}
           disabled={disabled}
           readOnly
-          value={selectedValues}
+          value={selectedOptions}
           // selectedValue={selectedValue.j}
           // value={}
           onKeyDown={(e) => handleBackspace(e)}
@@ -312,17 +311,19 @@ console.log("selectedva",selectedValues);
               <li
                 key={option.value}
                 onClick={() => {
-                  if (selectedValues.includes(option.label)) {
+                  if (selectedOptions.includes(option.label)) {
                     // If the option is already selected, deselect it
-                    handleDeselect(option.label);
+                    handleDeselect(option.label,option);
+                    // handleDeselect(option)
                   } else {
                     // If the option is not selected, select it
                     handleSelect(option);
+                    // selectedOptions(option.label)
                     // onSelect(option);
                   }
                 }}
                 style={{
-                  backgroundColor: selectedValues.includes(option.label)
+                  backgroundColor: selectedOptions.includes(option.label)
                     ? '#EFF5F5'
                     : '',
                 }}

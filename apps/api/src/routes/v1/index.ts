@@ -209,6 +209,10 @@ const defaultRoutes = [
     path: '/purchase-order-item',
     route: purchaseOrderItem,
   },
+  {
+    path: '/vendor-quotes',
+    route: vendorQuotes,
+  },
 ];
 
 defaultRoutes.forEach((r) => {

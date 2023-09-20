@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import ProjectSettingsService from '../service/projectSettings-service';
-import projectSettingsService from '../service/projectSettings-service';
 
 const useGetRoleBasedUser = () => {
   const queryClient = useQueryClient();
