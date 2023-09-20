@@ -149,7 +149,7 @@ const IndentList = () => {
                   <th>Project Name</th>
                   <th>Priority</th>
                   <th>Expected Delivery Date</th>
-                  <th>Des</th>
+                  <th>Description</th>
                   <th>Total Cost</th>
                   <th>Options</th>
                 </tr>

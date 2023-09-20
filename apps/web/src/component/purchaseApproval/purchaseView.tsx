@@ -93,8 +93,6 @@ const PurchaseView = () => {
       const data = await purchaseRequestService.purchaseDetailData(
         purchaseData
       );
-      console.log('pdata', data);
-
       if (data.message === 'success') {
         setPurchaseTableData(data.content);
         setDataCount(data.total_count);
@@ -242,26 +240,6 @@ const PurchaseView = () => {
                       <td>{data?.total_cost}</td>
                       <td>{data?.purchase_request_details.length}</td>
                       <td>{data?.status}</td>
-                      {/* <td>
-                        {
-                          <ViewIcon
-                            onClick={() =>
-                              navigate(
-                                `/vendor-select/${data?.purchase_request_id}`
-                              )
-                            }
-                          />
-                        }
-                        {
-                          <StarIcon
-                            onClick={() =>
-                              navigate(
-                                `/purchase-request/${data?.purchase_request_id}`
-                              )
-                            }
-                          />
-                        }
-                      </td> */}
                       <td>
                         <CustomMenu actions={actions} />
                       </td>

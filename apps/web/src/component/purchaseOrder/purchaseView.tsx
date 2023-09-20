@@ -11,7 +11,6 @@ import Styles from '../../styles/purchaseRequestView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
-import { log } from 'console';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -24,7 +23,6 @@ const PurchaseView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
-  console.log('getAllData !!!!!!!===>', getAllData);
   const { mutate: postDataForFilter } = purchaseOrderRequest();
   const constructPurchaseOrder = () => {
     const purchaseOrderItems = [];
@@ -45,7 +43,6 @@ const PurchaseView = () => {
       order_remark: 'Order Requested',
       purchase_order_item: purchaseOrderItems,
     };
-    console.log('sampel', purchaseOrderData);
     postDataForFilter(purchaseOrderData, {
       onSuccess: (data, variables, context) => {
         if (data?.message === 'success') {

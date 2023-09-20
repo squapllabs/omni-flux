@@ -38,7 +38,6 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
       const data = await vendorQuotesService.getOneVendorQuotesById(
         props.vendorID
       );
-      console.log('data', data);
       setInitialValues({
         vendor_quotes_id: data?.data?.vendor_quotes_id,
         total_quotation_amount: data?.data?.total_quotation_amount,
@@ -62,8 +61,6 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
     };
     fetchOne();
   }, [props.vendorID]);
-
-  console.log('initialValues', initialValues);
 
   const handleClose = () => {
     props.setOpen(false);
@@ -187,12 +184,9 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
         vendor_quotes_documents: s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
         updated_by: userID
       };
-      console.log('Object', Object);
 
       updateOneVendorQuotes(Object, {
         onSuccess: (data, variables, context) => {
-          console.log(data);
-
           if (data?.message === 'success') {
             props.setMessage('Vendor Quotation added');
             props.setOpenSnack(true);

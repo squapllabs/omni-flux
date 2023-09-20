@@ -35,7 +35,6 @@ const PurchaseList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
-  console.log('dta====>', getIndentData);
 
   const handleReset = async () => {
     const userData: any = {
@@ -84,8 +83,6 @@ const PurchaseList = () => {
       state: { project_id: projectId },
     });
   };
-
-  console.log('pid', projectId);
 
   const options: any = [
     { value: 'Low', label: 'Low' },

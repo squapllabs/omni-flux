@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import Button from '../ui/Button';
-import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
@@ -10,14 +9,10 @@ import { useParams } from 'react-router-dom';
 import Styles from '../../styles/vendorSelect.module.scss';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import vendorQuotesService from '../../service/vendorQuotes-service';
-import EditIcon from '../menu/icons/editIcon';
 import PurchaseRequestEdit from './purchaseRequestEdit';
-import StarIcon from '../menu/icons/starIcon';
 import { updateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 import BackArrowIcon from '../menu/icons/backArrow';
 import CustomMenu from '../ui/CustomMenu';
-// import purchaseRequestService from '../../service/purchaseRequest-service';
-// import { updatePurchaseRequest } from '../../hooks/purchase-request-hooks';
 
 const VendorSelect = () => {
   const routeParams = useParams();
@@ -55,7 +50,6 @@ const VendorSelect = () => {
         setIsAnyRowApproved(false);
       } finally {
         const result = await vendorQuotesService.vendorQuotesData(vendorData);
-        console.log('vdata', result);
 
         if (result.message === 'success') {
           setTableData(result.content);
@@ -88,7 +82,6 @@ const VendorSelect = () => {
   const handleSubmit = async (id: any) => {
     try {
       const data = await vendorQuotesService.getOneVendorQuotesById(id);
-      console.log('data', data);
       const obj = {
         vendor_quotes_id: data?.data?.vendor_quotes_id,
         purchase_request_id: data?.data?.purchase_request_id,
@@ -128,8 +121,7 @@ const VendorSelect = () => {
                 <th>Budget</th>
                 <th>Quotation Status</th>
                 <th>Document</th>
-                <th></th>
-                <th></th>
+                <th>Options</th>
               </tr>
             </thead>
             <tbody>
@@ -163,7 +155,7 @@ const VendorSelect = () => {
                     <td>{startingIndex + index}</td>
                     <td>{data.vendor_name}</td>
                     <td>{data?.quotation_details?.length}</td>
-                    <td>{data.total_quotation_amount}</td>
+                    <td>{formatBudgetValue(data.total_quotation_amount)}</td>
                     <td>{data.quotation_status}</td>
                     <td>
                       {data.vendor_quotes_documents?.map(
