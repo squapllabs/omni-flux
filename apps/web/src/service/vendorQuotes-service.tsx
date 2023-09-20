@@ -7,7 +7,7 @@ const vendorQuotesData = async (values: JSON) => {
         `${environment.apiUrl}/vendor-quotes/search`,
         values
       );
-      console.log("response.data",response.data);
+      // console.log("response.data",response.data);
       return response.data;
     } catch (error) {
       console.log('Error in vendor-quotes search :', error);
@@ -30,15 +30,40 @@ const vendorQuotesData = async (values: JSON) => {
   const updateVendorQuotes = async (values: JSON) => {
     try {
       const response = await axiosinterceptor.put(
-        `${environment.apiUrl}/vendor-quotes/update`,
+        `${environment.apiUrl}/vendor-quotes/`,
         values
       );
+      console.log("response.data",response.data);
+      
       return response.data;
     } catch (error) {
       console.log('Error in vendor-quotes edit:', error);
     }
   };
 
+  const documentUpload = async (file: any, code: string,folder:string) => {
+    const formData = new FormData();
+    formData.append('storage', 's3');
+    formData.append('file', file);
+    formData.append('folder', folder);
+    formData.append('code', code);
+    try {
+      const response = await axiosinterceptor.post(
+        `${environment.apiUrl}/upload/file`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in occur documentUpload :', error);
+      throw error;
+    }
+  };
 
 
-  export default {vendorQuotesData,getOneVendorQuotesById,updateVendorQuotes};
+
+  export default {vendorQuotesData,getOneVendorQuotesById,updateVendorQuotes,documentUpload};

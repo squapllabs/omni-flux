@@ -26,7 +26,22 @@ const purchaseDetailData = async (values: JSON) => {
     }
   };
 
+  const updatePurchaseRequest = async (values: JSON) => {
+    try {
+      const response = await axiosinterceptor.put(
+        `${environment.apiUrl}/purchase-request/`,
+        values
+      );
+      console.log("response.data",response.data);
+      
+      return response.data;
+    } catch (error) {
+      console.log('Error in purchase-request edit:', error);
+    }
+  };
+
   export default {
     purchaseDetailData,
-    getOneProjectRequestById
+    getOneProjectRequestById,
+    updatePurchaseRequest
   };

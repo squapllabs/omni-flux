@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import purchaseRequestService from '../../service/purchaseRequest-service';
+import { store, RootState } from '../../redux/store';
+import { getToken } from '../../redux/reducer';
 import { useFormik } from 'formik';
 import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
@@ -7,31 +9,60 @@ import CancelIcon from '../menu/icons/closeIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import Styles from '../../styles/purchaseEdit.module.scss';
 import userService from '../../service/user-service';
+import vendorQuotesService from '../../service/vendorQuotes-service';
+import { updateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 
 const PurchaseRequestEdit: React.FC = (props: any) => {
+  const state: RootState = store.getState();
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileSizeError, setFileSizeError] = useState<string>('');
+  const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  let PR_;
+  const [existingFileName, setExistingFileName] = useState<string[]>([]);
+  const [docErrorMsg, setDocErrorMsg] = useState('');
+  const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
   const [initialValues, setInitialValues] = useState({
+    vendor_quotes_id: '',
+    total_quotation_amount: '',
     purchase_request_id: '',
-    total_cost: '',
-    purchase_request_documents: '',
+    vendor_id: '',
+    quotation_status:'',
+
   });
   useEffect(() => {
     const fetchOne = async () => {
-      const data = await purchaseRequestService.getOneProjectRequestById(
-        props.purchaseID
+      const data = await vendorQuotesService.getOneVendorQuotesById(
+        props.vendorID
       );
+      console.log('data', data);
       setInitialValues({
+        vendor_quotes_id: data?.data?.vendor_quotes_id,
+        total_quotation_amount: data?.data?.total_quotation_amount,
         purchase_request_id: data?.data?.purchase_request_id,
-        total_cost: data?.data?.total_cost,
-        purchase_request_documents: data?.data?.purchase_request_documents,
+        vendor_id: data?.data?.vendor_id,
+        quotation_status: data?.data?.quotation_status
       });
+      const existingFileNames = data?.data?.vendor_quotes_documents.map(
+        (document: any) => {
+          const pathParts = document.path.split('/');
+          const fileName = pathParts[pathParts.length - 1];
+          const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
+          if (originalFileNameMatches) {
+            return originalFileNameMatches[1];
+          }
+          return fileName;
+        }
+      );
+      setExistingFileName(existingFileNames);
+      setExistingFileUrl(data?.data?.vendor_quotes_documents);
     };
     fetchOne();
-  }, []);
+  }, [props.vendorID]);
+
+  console.log('initialValues', initialValues);
 
   const handleClose = () => {
     props.setOpen(false);
@@ -96,15 +127,13 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
     }
   };
 
-  const handleDocuments = async (
-    files: File[],
-    purchase_request_id: string
-  ) => {
+  const handleDocuments = async (files: File[], code: string, folder: string) => {
     try {
       const uploadPromises = files.map(async (file) => {
-        const response = await userService.documentUpload(
+        const response = await vendorQuotesService.documentUpload(
           file,
-          purchase_request_id
+          code,
+          folder
         );
         return response.data;
       });
@@ -112,23 +141,26 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
       const modifiedArray = uploadResponses.flatMap((response) => response);
       const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
         ...obj,
-        is_delete: 'N',
+        is_delete: false,
       }));
-      return modifiedArrayWithDeleteFlag;
+      if (existingFileUrl.length > 0 && selectedFiles.length>0) {
+        existingFileUrl.forEach((item) => {
+          item.is_delete = true;
+        });
+        const combinedArray =
+          modifiedArrayWithDeleteFlag.concat(existingFileUrl);
+        return combinedArray;
+      }
+      else if(existingFileUrl.length > 0) {
+        return existingFileUrl
+      }
+       else {
+        return modifiedArrayWithDeleteFlag;
+      }
     } catch (error) {
       console.log('Error in occur purchase document upload:', error);
     }
   };
-
-  const deleteFile = (index: number) => {
-    const newFiles = [...selectedFiles];
-    const newFileNames = [...selectedFileName];
-    newFiles.splice(index, 1);
-    newFileNames.splice(index, 1);
-    setSelectedFiles(newFiles);
-    setSelectedFileName(newFileNames);
-  };
-
   const onButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -137,22 +169,42 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
 
   const formik = useFormik({
     initialValues,
+    enableReinitialize: true,
     onSubmit: async (values) => {
       const s3UploadUrl = await handleDocuments(
         selectedFiles,
-        'PR_'+'values.purchase_request_id'
+        `purchase-request-${props.vendorID}`,
+        'project-1-purchase-request-1'
       );
       const Object: any = {
+        vendor_quotes_id: values.vendor_quotes_id,
+        total_quotation_amount: Number(values.total_quotation_amount),
         purchase_request_id: values.purchase_request_id,
-        total_cost: values.total_cost,
-        purchase_request_documents: s3UploadUrl,
+        vendor_id: values.vendor_id,
+        quotation_status:'Quotation Recieved',
+        vendor_quotes_documents: s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
+        updated_by: userID
       };
+      console.log('Object', Object);
+
+      updateOneVendorQuotes(Object, {
+        onSuccess: (data, variables, context) => {
+          console.log(data);
+
+          if (data?.message === 'success') {
+            props.setMessage('Vendor Quotation added');
+            props.setOpenSnack(true);
+            props.setOpen(false);
+            props.setReload(true);
+          }
+        },
+      });
     },
   });
 
   return (
     <div className={Styles.formContainer}>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <div className={Styles.header}>
           <div>
             <h4 className={Styles.titleStyle}>Edit Purchase Request</h4>
@@ -164,14 +216,11 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.field}>
           <Input
-            name="total_cost"
+            name="total_quotation_amount"
             label="Budget"
             placeholder="Enter Budget"
-            // value={formik.values.total_cost}
-            // onChange={formik.handleChange}
-            // error={
-            //   formik.touched.total_cost && formik.errors.total_cost
-            // }
+            value={formik.values.total_quotation_amount}
+            onChange={formik.handleChange}
             width="100%"
           />
         </div>
@@ -199,7 +248,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
                   type="file"
                   style={{ display: 'none' }}
                   onChange={handleFileSelect}
-                  multiple
+                  // multiple
                   width={'100%'}
                 />
                 <Button
@@ -214,7 +263,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
             </div>
           </div>
           <div className={Styles.viewFiles}>
-            <span>
+            {/* <span>
               <ol className={Styles.listStyles}>
                 {selectedFileName.map((fileName, index) => (
                   <li key={index} style={{ paddingTop: '5px' }}>
@@ -231,6 +280,28 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
             <span>
               {' '}
               <p className={Styles.errorStyles}>{fileSizeError}</p>
+            </span> */}
+            {selectedFileName?.length === 0 ? (
+              <span>
+                <ol className={Styles.listStyles}>
+                  {existingFileName?.map((fileName, index) => (
+                    <ol key={index}>{fileName}</ol>
+                  ))}
+                </ol>
+              </span>
+            ) : (
+              <span>
+                <ol className={Styles.listStyles}>
+                  {selectedFileName?.map((fileName, index) => (
+                    <ol key={index}>{fileName}</ol>
+                  ))}
+                </ol>
+              </span>
+            )}
+            <span>
+              {' '}
+              <p className={Styles.errorStyles}>{fileSizeError}</p>
+              <p className={Styles.errorStyles}>{docErrorMsg}</p>
             </span>
           </div>
         </div>
