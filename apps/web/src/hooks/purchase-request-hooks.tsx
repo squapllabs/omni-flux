@@ -69,4 +69,18 @@ const useGetAllPurchaseOrderData = (data: any) => {
     }
   );
 };
-  export { useGetOnePurchaseRequest,purchaseOrderRequest,useGetOneOrderPurchaseRequest,useGetMasterBillStatusParentType,updatePurchseOrderBillStatus,useGetAllPurchaseOrderData };
+
+const getBySearchPoData = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return purchaseRequestService.getPoData(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
+      },
+    }
+  );
+};
+  export { useGetOnePurchaseRequest,purchaseOrderRequest,useGetOneOrderPurchaseRequest,useGetMasterBillStatusParentType,updatePurchseOrderBillStatus,useGetAllPurchaseOrderData,getBySearchPoData };

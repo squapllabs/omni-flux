@@ -47,8 +47,11 @@ const IndentList = () => {
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
       status: 'AC',
-      global_search: 'Paint',
+      global_search: '',
+      site_id: "",
+      project_id:selectedValue
     };
+    console.log("selectedValue",selectedValue);
     postDataForFilter(stockData);
   };
 
@@ -158,6 +161,8 @@ const IndentList = () => {
               <tbody>
                 {getStockData?.total_count === 0 ? (
                   <tr>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td>No data found</td>
