@@ -17195,9 +17195,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{API_URL}}/api/project-site/get-sites-by-project-id/86",
+              "raw": "{{API_URL}}/api/project-site/get-sites-by-project-id/137",
               "host": ["{{API_URL}}"],
-              "path": ["api", "project-site", "get-sites-by-project-id", "86"]
+              "path": ["api", "project-site", "get-sites-by-project-id", "137"]
             }
           },
           "response": []
@@ -23210,7 +23210,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"global_search\":\"paint\"\r\n}",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"global_search\": \"\",\r\n    \"site_id\": 17\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -23397,6 +23397,587 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"stock_outward_details_id\": 1,\n            \"stock_outward_id\": 4,\n            \"item_id\": 167,\n            \"outward_quantity\": 51,\n            \"uom_id\": 4,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T12:50:53.733Z\",\n            \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"item_data\": {\n                \"item_id\": 167,\n                \"item_name\": \"TMT Rod\",\n                \"description\": \"Steel for concrete\",\n                \"hsn_code_id\": 368,\n                \"gst_id\": 53,\n                \"uom_id\": 4,\n                \"created_date\": \"2023-09-04T13:05:43.515Z\",\n                \"updated_date\": \"2023-09-04T13:11:52.332Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 5,\n                \"rate\": 1000,\n                \"is_delete\": false\n            },\n            \"uom_data\": {\n                \"name\": \"Meter\"\n            }\n        },\n        {\n            \"stock_outward_details_id\": 4,\n            \"stock_outward_id\": 4,\n            \"item_id\": 163,\n            \"outward_quantity\": 25,\n            \"uom_id\": 6,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T12:55:53.237Z\",\n            \"updated_date\": \"2023-09-20T12:55:53.237Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"item_data\": {\n                \"item_id\": 163,\n                \"item_name\": \"Paint\",\n                \"description\": \"Item 10 Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 500.5,\n                \"is_delete\": false\n            },\n            \"uom_data\": {\n                \"name\": \"Kilogram\"\n            }\n        },\n        {\n            \"stock_outward_details_id\": 3,\n            \"stock_outward_id\": 4,\n            \"item_id\": 163,\n            \"outward_quantity\": 25,\n            \"uom_id\": 6,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T12:55:08.923Z\",\n            \"updated_date\": \"2023-09-20T12:55:08.923Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"item_data\": {\n                \"item_id\": 163,\n                \"item_name\": \"Paint\",\n                \"description\": \"Item 10 Desc\",\n                \"hsn_code_id\": 196,\n                \"gst_id\": 53,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-04T06:13:46.748Z\",\n                \"updated_date\": \"2023-09-04T06:13:46.748Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 3,\n                \"rate\": 500.5,\n                \"is_delete\": false\n            },\n            \"uom_data\": {\n                \"name\": \"Kilogram\"\n            }\n        }\n    ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stock Audit",
+      "item": [
+        {
+          "name": "API To Create Stock Audit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"stock_audit_date\": \"2023-09-21\",\r\n    \"item_details\": [\r\n        {\r\n            \"item_name\": \"Cement\",\r\n            \"quantity\": 23\r\n        },\r\n        {\r\n            \"item_name\": \"Sand\",\r\n            \"quantity\": 20\r\n        },\r\n        {\r\n            \"item_name\": \"M-Sand\",\r\n            \"quantity\": 50\r\n        }\r\n    ],\r\n    \"created_by\":1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/stock-audit/",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-audit", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Create Stock Audit",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"stock_audit_date\": \"2023-09-21\",\r\n    \"item_details\": [\r\n        {\r\n            \"item_name\": \"Cement\",\r\n            \"quantity\": 23\r\n        },\r\n        {\r\n            \"item_name\": \"Sand\",\r\n            \"quantity\": 20\r\n        },\r\n        {\r\n            \"item_name\": \"M-Sand\",\r\n            \"quantity\": 50\r\n        }\r\n    ],\r\n    \"created_by\":1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-audit/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-audit", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "400"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"190-aQlar/mOyNVA1bfaHWFRqXwrAqw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 21 Sep 2023 08:09:12 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"stock_audit_id\": 2,\n        \"project_id\": 137,\n        \"site_id\": 17,\n        \"stock_audit_date\": \"2023-09-21T00:00:00.000Z\",\n        \"item_details\": [\n            {\n                \"quantity\": 23,\n                \"item_name\": \"Cement\"\n            },\n            {\n                \"quantity\": 20,\n                \"item_name\": \"Sand\"\n            },\n            {\n                \"quantity\": 50,\n                \"item_name\": \"M-Sand\"\n            }\n        ],\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-21T08:09:11.897Z\",\n        \"updated_date\": \"2023-09-21T08:09:11.897Z\",\n        \"created_by\": 1,\n        \"updated_by\": null\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Update Stock Audit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"stock_audit_date\": \"2023-09-21\",\r\n    \"item_details\": [\r\n        {\r\n            \"item_name\": \"Cement\",\r\n            \"quantity\": 21\r\n        },\r\n        {\r\n            \"item_name\": \"Sand\",\r\n            \"quantity\": 9\r\n        },\r\n        {\r\n            \"item_name\": \"M-Sand\",\r\n            \"quantity\": 23\r\n        }\r\n    ],\r\n    \"updated_by\": 1,\r\n    \"stock_audit_id\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/stock-audit/",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-audit", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Update Stock Audit",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"stock_audit_date\": \"2023-09-21\",\r\n    \"item_details\": [\r\n        {\r\n            \"item_name\": \"Cement\",\r\n            \"quantity\": 21\r\n        },\r\n        {\r\n            \"item_name\": \"Sand\",\r\n            \"quantity\": 9\r\n        },\r\n        {\r\n            \"item_name\": \"M-Sand\",\r\n            \"quantity\": 23\r\n        }\r\n    ],\r\n    \"updated_by\": 1,\r\n    \"stock_audit_id\": 2\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-audit/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-audit", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "396"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"18c-dzI3B1fh4OJAq6kA01JzXqoQY+Y\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 21 Sep 2023 08:11:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"stock_audit_id\": 2,\n        \"project_id\": 137,\n        \"site_id\": 17,\n        \"stock_audit_date\": \"2023-09-21T00:00:00.000Z\",\n        \"item_details\": [\n            {\n                \"quantity\": 21,\n                \"item_name\": \"Cement\"\n            },\n            {\n                \"quantity\": 9,\n                \"item_name\": \"Sand\"\n            },\n            {\n                \"quantity\": 23,\n                \"item_name\": \"M-Sand\"\n            }\n        ],\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-21T08:09:11.897Z\",\n        \"updated_date\": \"2023-09-21T08:11:46.884Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get All Stock Audit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/stock-audit/get-all",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-audit", "get-all"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get All Stock Audit",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-audit/get-all",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-audit", "get-all"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3226"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c9a-lqnw/yRzk8sxM2fQqSQeDG4ntgY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 21 Sep 2023 08:12:19 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"stock_audit_id\": 2,\n            \"project_id\": 137,\n            \"site_id\": 17,\n            \"stock_audit_date\": \"2023-09-21T00:00:00.000Z\",\n            \"item_details\": [\n                {\n                    \"quantity\": 21,\n                    \"item_name\": \"Cement\"\n                },\n                {\n                    \"quantity\": 9,\n                    \"item_name\": \"Sand\"\n                },\n                {\n                    \"quantity\": 23,\n                    \"item_name\": \"M-Sand\"\n                }\n            ],\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-21T08:09:11.897Z\",\n            \"updated_date\": \"2023-09-21T08:11:46.884Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 102\n            },\n            \"site_data\": {\n                \"site_contractor_id\": 17,\n                \"name\": \"Anna Nagar East Site\",\n                \"type\": \"Site\",\n                \"mobile_number\": \"+91 8667604201\",\n                \"contact_number\": \"+91 8667604201\",\n                \"address\": {\n                    \"street\": \"12 Sasthiri Street\",\n                    \"city\": \"Erode\",\n                    \"state\": \"Tamil Nadu\",\n                    \"pin_code\": \"638054\",\n                    \"country\": \"India\"\n                },\n                \"description\": \"This is a site for a construction project\",\n                \"created_date\": \"2023-08-07T04:31:43.130Z\",\n                \"updated_date\": \"2023-09-01T14:12:05.776Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"code\": \"ST011\"\n            }\n        },\n        {\n            \"stock_audit_id\": 1,\n            \"project_id\": 137,\n            \"site_id\": 17,\n            \"stock_audit_date\": \"2023-09-21T00:00:00.000Z\",\n            \"item_details\": [\n                {\n                    \"quantity\": 23,\n                    \"item_name\": \"Cement\"\n                },\n                {\n                    \"quantity\": 20,\n                    \"item_name\": \"Sand\"\n                },\n                {\n                    \"quantity\": 50,\n                    \"item_name\": \"M-Sand\"\n                }\n            ],\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-21T08:07:39.942Z\",\n            \"updated_date\": \"2023-09-21T08:07:39.942Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 102\n            },\n            \"site_data\": {\n                \"site_contractor_id\": 17,\n                \"name\": \"Anna Nagar East Site\",\n                \"type\": \"Site\",\n                \"mobile_number\": \"+91 8667604201\",\n                \"contact_number\": \"+91 8667604201\",\n                \"address\": {\n                    \"street\": \"12 Sasthiri Street\",\n                    \"city\": \"Erode\",\n                    \"state\": \"Tamil Nadu\",\n                    \"pin_code\": \"638054\",\n                    \"country\": \"India\"\n                },\n                \"description\": \"This is a site for a construction project\",\n                \"created_date\": \"2023-08-07T04:31:43.130Z\",\n                \"updated_date\": \"2023-09-01T14:12:05.776Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"code\": \"ST011\"\n            }\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Stock Audit By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/stock-audit/get/1",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-audit", "get", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Stock Audit By Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-audit/get/1",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-audit", "get", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1635"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"663-qsCha9heGFLul8sj+SUNlsU8n9I\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 21 Sep 2023 08:13:09 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"stock_audit_id\": 1,\n        \"project_id\": 137,\n        \"site_id\": 17,\n        \"stock_audit_date\": \"2023-09-21T00:00:00.000Z\",\n        \"item_details\": [\n            {\n                \"quantity\": 23,\n                \"item_name\": \"Cement\"\n            },\n            {\n                \"quantity\": 20,\n                \"item_name\": \"Sand\"\n            },\n            {\n                \"quantity\": 50,\n                \"item_name\": \"M-Sand\"\n            }\n        ],\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-21T08:07:39.942Z\",\n        \"updated_date\": \"2023-09-21T08:07:39.942Z\",\n        \"created_by\": 1,\n        \"updated_by\": null,\n        \"project_data\": {\n            \"project_id\": 137,\n            \"project_name\": \"Pipe line Project\",\n            \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n            \"user_id\": 106,\n            \"date_started\": \"2023-09-12T00:00:00.000Z\",\n            \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n            \"status\": \"Inprogress\",\n            \"client_id\": 1,\n            \"project_documents\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                    \"index\": 0,\n                    \"is_delete\": \"N\"\n                }\n            ],\n            \"created_date\": \"2023-09-12T08:14:29.393Z\",\n            \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"is_delete\": false,\n            \"project_notes\": \"\",\n            \"project_type\": \"Pipeline Laying\",\n            \"code\": \"PLP1\",\n            \"estimated_budget\": 20000,\n            \"actual_budget\": 0,\n            \"approvar_id\": 102\n        },\n        \"site_data\": {\n            \"site_contractor_id\": 17,\n            \"name\": \"Anna Nagar East Site\",\n            \"type\": \"Site\",\n            \"mobile_number\": \"+91 8667604201\",\n            \"contact_number\": \"+91 8667604201\",\n            \"address\": {\n                \"street\": \"12 Sasthiri Street\",\n                \"city\": \"Erode\",\n                \"state\": \"Tamil Nadu\",\n                \"pin_code\": \"638054\",\n                \"country\": \"India\"\n            },\n            \"description\": \"This is a site for a construction project\",\n            \"created_date\": \"2023-08-07T04:31:43.130Z\",\n            \"updated_date\": \"2023-09-01T14:12:05.776Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"is_delete\": false,\n            \"code\": \"ST011\"\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Delete Stock Audit By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/stock-audit/delete/2",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-audit", "delete", "2"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Delete Stock Audit By Id",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-audit/delete/2",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-audit", "delete", "2"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "76"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4c-sHKYoTmeZhbdEffbcOf2TzlrAz0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 21 Sep 2023 08:13:51 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"StockAudit Data Deleted Successfully\",\n    \"status\": true,\n    \"data\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Search Stock Audit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"global_search\": \"anNa\",\r\n    \"status\": \"AC\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/stock-audit/search",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "stock-audit", "search"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Search Stock Audit",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"global_search\": \"anNa\",\r\n    \"status\": \"AC\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/stock-audit/search",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "stock-audit", "search"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1671"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"687-/RNtl6oHbfjLQtuVPMp1zaBxDMs\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 21 Sep 2023 08:19:14 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"stock_audit_id\": 1,\n            \"project_id\": 137,\n            \"site_id\": 17,\n            \"stock_audit_date\": \"2023-09-21T00:00:00.000Z\",\n            \"item_details\": [\n                {\n                    \"quantity\": 23,\n                    \"item_name\": \"Cement\"\n                },\n                {\n                    \"quantity\": 20,\n                    \"item_name\": \"Sand\"\n                },\n                {\n                    \"quantity\": 50,\n                    \"item_name\": \"M-Sand\"\n                }\n            ],\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-21T08:07:39.942Z\",\n            \"updated_date\": \"2023-09-21T08:07:39.942Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 102\n            },\n            \"site_data\": {\n                \"site_contractor_id\": 17,\n                \"name\": \"Anna Nagar East Site\",\n                \"type\": \"Site\",\n                \"mobile_number\": \"+91 8667604201\",\n                \"contact_number\": \"+91 8667604201\",\n                \"address\": {\n                    \"street\": \"12 Sasthiri Street\",\n                    \"city\": \"Erode\",\n                    \"state\": \"Tamil Nadu\",\n                    \"pin_code\": \"638054\",\n                    \"country\": \"India\"\n                },\n                \"description\": \"This is a site for a construction project\",\n                \"created_date\": \"2023-08-07T04:31:43.130Z\",\n                \"updated_date\": \"2023-09-01T14:12:05.776Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"code\": \"ST011\"\n            }\n        }\n    ]\n}"
             }
           ]
         }
