@@ -3,6 +3,7 @@ import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import Button from '../ui/Button';
 import CustomLoader from '../ui/customLoader';
+import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -33,6 +34,8 @@ const VendorSelect = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [reload, setReload] = useState(false);
   const [isAnyRowApproved, setIsAnyRowApproved] = useState(false);
+
+  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
 
   const vendorData = {
     limit: rowsPerPage,
@@ -91,8 +94,8 @@ const VendorSelect = () => {
         vendor_quotes_documents: data?.data?.vendor_quotes_documents,
         total_quotation_amount: data?.data?.total_quotation_amount,
       };
-      console.log("OBJ",obj);
-      
+      console.log('OBJ', obj);
+
       updateOneVendorQuotes(obj, {
         onSuccess: (data, variables, context) => {
           if (data?.message === 'success') {
@@ -119,6 +122,7 @@ const VendorSelect = () => {
             <thead>
               <tr>
                 <th>S No</th>
+                <th>Vendor ID</th>
                 <th>Vendor Name </th>
                 <th>No of Items</th>
                 <th>Budget</th>
@@ -156,10 +160,11 @@ const VendorSelect = () => {
                 return (
                   <tr key={data.vendor_quotes_id}>
                     <td>{startingIndex + index}</td>
-                    <td>{data.vendor_name}</td>
-                    <td>{data?.quotation_details?.length}</td>
-                    <td>{formatBudgetValue(data.total_quotation_amount)}</td>
-                    <td>{data.quotation_status}</td>
+                    <td>{data.vendor_id || nullLableNameFromEnv}</td>
+                    <td>{data.vendor_name || nullLableNameFromEnv}</td>
+                    <td>{data?.quotation_details?.length || nullLableNameFromEnv}</td>
+                    <td>{formatBudgetValue(data.total_quotation_amount) || nullLableNameFromEnv}</td>
+                    <td>{data.quotation_status || nullLableNameFromEnv}</td>
                     <td>
                       {data.vendor_quotes_documents?.map(
                         (document: any, index: any) => (
@@ -173,29 +178,11 @@ const VendorSelect = () => {
                             </a>
                           </li>
                         )
-                      )}
+                      ) || nullLableNameFromEnv}
                     </td>
                     <td>
                       {isAnyActionEnabled && <CustomMenu actions={actions} />}
                     </td>
-                    {/* <td>
-                      {isAnyRowApproved === true ? (
-                        ''
-                      ) : (
-                        <EditIcon
-                          onClick={() => handleEdit(data.vendor_quotes_id)}
-                        />
-                      )}
-                      {isQuotationPending === true ? (
-                        ''
-                      ) : isAnyRowApproved === true ? (
-                        ''
-                      ) : (
-                        <StarIcon
-                          onClick={() => handleApprove(data.vendor_quotes_id)}
-                        />
-                      )}
-                    </td> */}
                   </tr>
                 );
               })}

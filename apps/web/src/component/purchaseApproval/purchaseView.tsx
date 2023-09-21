@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import BackArrowIcon from '../menu/icons/backArrow';
 import Styles from '../../styles/purchaseView.module.scss';
+import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import { store, RootState } from '../../redux/store';
@@ -107,6 +108,8 @@ const PurchaseView = () => {
     setOpen(true);
   };
 
+  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
@@ -150,7 +153,7 @@ const PurchaseView = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData?.map((data: any, index: number) => {
+                  {/* {tableData?.map((data: any, index: number) => {
                     return (
                       <tr key={data.indent_request_id}>
                         <td>{startingIndex + index}</td>
@@ -160,7 +163,22 @@ const PurchaseView = () => {
                         <td>{formatBudgetValue(data?.total)}</td>
                       </tr>
                     );
-                  })}
+                  })} */}
+                  {tableData.length === 0 ? (
+                    <tr>
+                      <td colSpan="5">NA</td>
+                    </tr>
+                  ) : (
+                    tableData?.map((data: any, index: number) => (
+                      <tr key={data.indent_request_id}>
+                        <td>{startingIndex + index}</td>
+                        <td>{data?.bom_detail_data?.item_data?.item_name}</td>
+                        <td>{data?.bom_detail_data?.uom_data?.name}</td>
+                        <td>{data?.quantity}</td>
+                        <td>{formatBudgetValue(data?.total)}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -235,11 +253,11 @@ const PurchaseView = () => {
                   return (
                     <tr key={data.purchase_request_id}>
                       <td>{startingIndex + index}</td>
-                      <td>{data.indent_request_data.description}</td>
-                      <td>{data?.selected_vendor_data?.vendor_name}</td>
-                      <td>{data?.total_cost}</td>
-                      <td>{data?.purchase_request_details.length}</td>
-                      <td>{data?.status}</td>
+                      <td>{data.indent_request_data.description || nullLableNameFromEnv}</td>
+                      <td>{data?.selected_vendor_data?.vendor_name || nullLableNameFromEnv}</td>
+                      <td>{data?.total_cost ? formatBudgetValue(data?.total_cost): nullLableNameFromEnv}</td>
+                      <td>{data?.purchase_request_details.length || nullLableNameFromEnv}</td>
+                      <td>{data?.status || 'N.A'}</td>
                       <td>
                         <CustomMenu actions={actions} />
                       </td>

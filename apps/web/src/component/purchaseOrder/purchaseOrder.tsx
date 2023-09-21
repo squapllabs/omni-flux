@@ -53,6 +53,7 @@ const OrderView = () => {
               <thead>
                 <tr>
                   <th>S No</th>
+                  <th>Order ID</th>
                   <th>Vendor Name</th>
                   <th>Project Name </th>
                   <th>Budget</th>
@@ -68,6 +69,7 @@ const OrderView = () => {
                     return (
                       <tr>
                         <td>{index + 1}</td>
+                        <td>{data?.order_id}</td>
                         <td>{data?.vendor_data?.vendor_name}</td>
                         <td>{data?.purchase_request_data?.project_data?.project_name}</td>
                         <td>{formatBudgetValue(data?.total_cost)}</td>
