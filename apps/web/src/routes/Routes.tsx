@@ -250,6 +250,7 @@ import VendorSelect from '../component/purchaseApproval/vendorSelect';
 import PurchaseRequest from '../component/purchaseOrder/purchaseView';
 import PurchaseOrderView from '../component/purchaseOrder/purchaseOrder';
 import ProjectStockAdd from '../component/project/projectComponent/projectStockAdd';
+import StoreOutwardList from '../component/storeOutward/storeOutwardList';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -320,6 +321,7 @@ const AppRoutes = () => {
   const ProtectedPurchaseViewByvendor =
     withLayoutAndProtection(PurchaseOrderView);
   const ProtectedProjectStockAdd = withLayoutAndProtection(ProjectStockAdd);
+  const ProtectedStoreOutwardList = withLayoutAndProtection(StoreOutwardList);
 
   return (
     <div>
@@ -464,6 +466,7 @@ const AppRoutes = () => {
           path="/project-stockadd/:id"
           element={<ProtectedProjectStockAdd />}
         />
+        <Route path="/store-outward" element={<ProtectedStoreOutwardList />} />
       </Routes>
     </div>
   );
