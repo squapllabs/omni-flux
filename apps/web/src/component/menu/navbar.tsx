@@ -93,7 +93,7 @@ const Navbar = () => {
               <div className={Styles.dropDownContainer}>
                 <p>Use cases</p>
                 <div>
-                  <div className={Styles.dropDwonContent}>
+                  <div className={Styles.dropDownContent}>
                     <div className={Styles.dropDownItems}>
                       <div className={Styles.itemsTitle}>
                         <CheckIcon />
@@ -140,7 +140,7 @@ const Navbar = () => {
               <div className={Styles.dropDownContainer}>
                 <p>Resources</p>
                 <div>
-                  <div className={Styles.dropDwonContent}>
+                  <div className={Styles.dropDownContent}>
                     <div
                       className={Styles.dropDownItems}
                       onClick={handleLeadEnquires}
@@ -177,7 +177,7 @@ const Navbar = () => {
               <div className={Styles.dropDownContainer}>
                 <p>Company</p>
                 <div>
-                  <div className={Styles.dropDwonContent}>
+                  <div className={Styles.dropDownContent}>
                     <div className={Styles.dropDownItems}>
                       <div className={Styles.itemsTitle}>
                         <CheckIcon />
@@ -236,7 +236,7 @@ const Navbar = () => {
               <div className={Styles.dropDownContainer}>
                 <p>Resources</p>
                 <div>
-                  <div className={Styles.dropDwonContent}>
+                  <div className={Styles.dropDownContent}>
                     <div className={Styles.dropDownItems}>
                       <div className={Styles.itemsTitle}>
                         <CheckIcon />
@@ -271,7 +271,7 @@ const Navbar = () => {
               <div className={Styles.dropDownContainer}>
                 <p>Company</p>
                 <div>
-                  <div className={Styles.dropDwonContent}>
+                  <div className={Styles.dropDownContent}>
                     <div className={Styles.dropDownItems}>
                       <div className={Styles.itemsTitle}>
                         <CheckIcon />
