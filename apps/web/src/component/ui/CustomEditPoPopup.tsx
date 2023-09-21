@@ -24,7 +24,7 @@ const CustomEditPoPopup = (props: {
     useGetMasterBillStatusParentType();
   const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
   const [initialValues, setInitialValues] = useState({
-    bill_status: '',    
+    bill_status: '',
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -33,13 +33,16 @@ const CustomEditPoPopup = (props: {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
   const [existingFileUrl, setExistingFileUrl] = useState<string[]>([]);
-  const [docErrorMsg,setDocErrorMsg] = useState('');
+  const [docErrorMsg, setDocErrorMsg] = useState('');
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchOne = async () => {
-      const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(Number(selectedPurchaseOrder))
+      const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(
+        Number(selectedPurchaseOrder)
+      );
       setInitialValues({
-        bill_status: data?.data?.status,
+        bill_status: data.data?.status,
       });
       const existingFileNames = data?.data?.purchase_order_documents.map(
         (document: any) => {
@@ -56,8 +59,9 @@ const CustomEditPoPopup = (props: {
       setExistingFileUrl(data?.data?.purchase_order_documents);
     };
     fetchOne();
-  }, [selectedPurchaseOrder]);
+  }, [selectedPurchaseOrder,isFormSubmitted]);
   
+
   const handleDocuments = async (
     files: File[],
     code: string,
@@ -78,18 +82,16 @@ const CustomEditPoPopup = (props: {
         ...obj,
         is_delete: false,
       }));
-      if (existingFileUrl.length > 0 && selectedFiles.length>0) {
+      if (existingFileUrl?.length > 0 && selectedFiles?.length > 0) {
         existingFileUrl.forEach((item) => {
           item.is_delete = true;
         });
         const combinedArray =
           modifiedArrayWithDeleteFlag.concat(existingFileUrl);
         return combinedArray;
-      }
-      else if(existingFileUrl.length > 0) {
-        return existingFileUrl
-      }
-       else {
+      } else if (existingFileUrl?.length > 0) {
+        return existingFileUrl;
+      } else {
         return modifiedArrayWithDeleteFlag;
       }
     } catch (error) {
@@ -104,7 +106,7 @@ const CustomEditPoPopup = (props: {
       const s3UploadUrl = await handleDocuments(
         selectedFiles,
         `purchase-order-item-${selectedPurchaseOrder}`,
-        'purchase-order-item',
+        'purchase-order-item'
       );
       const Object: any = {
         status: values.bill_status,
@@ -113,21 +115,25 @@ const CustomEditPoPopup = (props: {
         purchase_order_id: Number(selectedPurchaseOrder),
         updated_by: 1,
       };
-      if (Object.status === 'Completed' || Object.status === 'Invoice' || Object.status === 'Payment Completed') {
-        if(Object.purchase_order_documents?.length>0){
-            updatePoBillStatus(Object, {
-                onSuccess: (data, variables, context) => {
-                  if (data?.status === true) {
-                    setMessage('Purchase order edited');
-                    setOpenSnack(true);
-                    handleCloseForm();
-                    resetForm();
-                  }
-                },
-              });
-        }
-        else{
-            setDocErrorMsg('Document is mandatory for the above status')
+      if (
+        Object.status === 'Completed' ||
+        Object.status === 'Invoice' ||
+        Object.status === 'Payment Completed'
+      ) {
+        if (Object.purchase_order_documents?.length > 0) {
+          updatePoBillStatus(Object, {
+            onSuccess: (data, variables, context) => {
+              if (data?.status === true) {
+                setMessage('Purchase order edited');
+                setOpenSnack(true);
+                setIsFormSubmitted(true);
+                handleCloseForm();
+                resetForm();
+              }
+            },
+          });
+        } else {
+          setDocErrorMsg('Document is mandatory for the above status');
         }
       } else {
         updatePoBillStatus(Object, {
@@ -135,6 +141,7 @@ const CustomEditPoPopup = (props: {
             if (data?.status === true) {
               setMessage('Purchase order edited');
               setOpenSnack(true);
+              setIsFormSubmitted(true);
               handleCloseForm();
               resetForm();
             }
@@ -188,7 +195,7 @@ const CustomEditPoPopup = (props: {
       setSelectedFiles(selectedFilesArray);
       setSelectedFileName(selectedFileNamesArray);
       setFileSizeError('');
-      setDocErrorMsg('')
+      setDocErrorMsg('');
     }
   };
 
@@ -215,7 +222,7 @@ const CustomEditPoPopup = (props: {
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
-        setDocErrorMsg('')
+        setDocErrorMsg('');
       }
     }
   };
@@ -226,7 +233,7 @@ const CustomEditPoPopup = (props: {
         {isVissible && (
           <CustomPopup className="sample">
             <div className={Styles.popupContent}>
-              <form onSubmit={formik.handleSubmit}>
+              <form  onSubmit={formik.handleSubmit}>
                 <div className={Styles.header}>
                   <div>
                     <h4>Edit PO</h4>
