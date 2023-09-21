@@ -157,6 +157,20 @@ const useGetAllProjectManagers = () => {
     }
   );
 };
+
+const getProjectSite = (id: number) => {
+  return useQuery(
+    ['getProjectSite', id],
+    () => ProjectService.getOneProjectSite(id),
+    {
+      select: (data) =>
+        data?.data?.map((options: any) => ({
+          value: options.site_id,
+          label: options.site_details.name,
+        })),
+    }
+  );
+};
 export {
   useGetAllProject,
   createProject,
@@ -169,4 +183,5 @@ export {
   useGetAllProjectDrop,
   getMemberBasedProject,
   getUserDataProjectRolebased,
+  getProjectSite,
 };
