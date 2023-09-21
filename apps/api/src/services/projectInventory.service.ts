@@ -245,6 +245,7 @@ const searchProjectInventory = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_id = body.project_id;
 
     const filterObj: any = {};
 
@@ -252,6 +253,15 @@ const searchProjectInventory = async (body) => {
       filterObj.filterProjectInventory = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_id) {
+      filterObj.filterProjectInventory = filterObj.filterProjectInventory || {};
+      filterObj.filterProjectInventory.AND =
+        filterObj.filterProjectInventory.AND || [];
+      filterObj.filterProjectInventory.AND.push({
+        project_id: project_id,
+      });
     }
 
     if (global_search) {

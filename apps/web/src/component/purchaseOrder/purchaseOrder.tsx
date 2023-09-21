@@ -6,6 +6,7 @@ import CustomLoader from '../ui/customLoader';
 import EditIcon from '../menu/icons/editIcon';
 import CustomEditPoPopup from '../ui/CustomEditPoPopup';
 import { formatBudgetValue } from '../../helper/common-function';
+import Pagination from '../menu/pagination';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -33,9 +34,22 @@ const OrderView = () => {
     setShowEditPopUp(true);
   };
 
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+
+
   useEffect(() => {
     refetch();
-  }, []);
+  }, [currentPage, rowsPerPage]);
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
     <div className={Styles.container}>
@@ -67,7 +81,7 @@ const OrderView = () => {
                   (data: any, index: number) => {
                     return (
                       <tr>
-                        <td>{index + 1}</td>
+                        <td>{startingIndex + index}</td>
                         <td>{data?.vendor_data?.vendor_name}</td>
                         <td>{data?.purchase_request_data?.project_data?.project_name}</td>
                         <td>{formatBudgetValue(data?.total_cost)}</td>
@@ -131,6 +145,16 @@ const OrderView = () => {
             isVissible={showEditPopUp}
             onAction={setShowEditPopUp}
             selectedPurchaseOrder={purchaseId}
+          />
+        </div>
+        <div className={Styles.pagination}>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={getAllData?.total_page}
+            totalCount={getAllData?.total_count}
+            rowsPerPage={rowsPerPage}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
           />
         </div>
       </CustomLoader>
