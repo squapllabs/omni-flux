@@ -387,6 +387,41 @@ const searchStockOutward = async (body) => {
   }
 };
 
+/**
+ * Method to get StockOutward By project_id
+ * @param project_id
+ * @returns
+ */
+const getByProjectId = async (project_id: number) => {
+  try {
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const stockOutwardData = await stockOutwardDao.getByProjectId(project_id);
+    if (stockOutwardData) {
+      return { message: 'success', status: true, data: stockOutwardData };
+    } else {
+      return {
+        message: 'stock_outward_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectId stockOutward service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createStockOutward,
   updateStockOutward,
@@ -394,4 +429,5 @@ export {
   getById,
   deleteStockOutward,
   searchStockOutward,
+  getByProjectId,
 };

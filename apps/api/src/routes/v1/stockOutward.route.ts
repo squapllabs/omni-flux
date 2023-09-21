@@ -8,6 +8,7 @@ import {
   createStockOutward,
   deleteByStockOutwardId,
   getAllStockOutwards,
+  getByProjectId,
   getByStockOutwardId,
   searchStockOutward,
   updateStockOutward,
@@ -43,5 +44,7 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchStockOutward);
+
+router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
 
 export default router;

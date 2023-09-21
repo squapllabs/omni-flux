@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const storage = req.body.storage;
     const uploadPath =
-      storage === 'local' ? process.env.FILE_UPLOAD_LOCAL_PATH : 'tmp/';
+      storage === 'local' ? process.env.FILE_UPLOAD_LOCAL_PATH : 'temp-file/';
     cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
