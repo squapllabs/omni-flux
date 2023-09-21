@@ -10,7 +10,7 @@ import AddIcon from '../menu/icons/addIcon';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
-const IndentList = () => {
+const StockOutwardList = () => {
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -211,4 +211,4 @@ const IndentList = () => {
   );
 };
 
-export default IndentList;
+export default StockOutwardList;
