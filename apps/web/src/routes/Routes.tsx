@@ -249,6 +249,7 @@ import IndentDetailView from '../component/indentApproval/indentView';
 import VendorSelect from '../component/purchaseApproval/vendorSelect';
 import PurchaseRequest from '../component/purchaseOrder/purchaseView';
 import PurchaseOrderView from '../component/purchaseOrder/purchaseOrder';
+import StoreOutWardAdd from '../component/storeOutward/storeOutwardAdd';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -316,8 +317,8 @@ const AppRoutes = () => {
   const ProtectedPurchaseDetailView = withLayoutAndProtection(PurchaseView);
   const ProtectedVendorSelect = withLayoutAndProtection(VendorSelect);
   const ProtectedPurchaseOrderView = withLayoutAndProtection(PurchaseRequest);
-  const ProtectedPurchaseViewByvendor =
-    withLayoutAndProtection(PurchaseOrderView);
+  const ProtectedPurchaseViewByvendor = withLayoutAndProtection(PurchaseOrderView);
+  const ProtectedStoreOutWardAdd = withLayoutAndProtection(StoreOutWardAdd);
 
   return (
     <div>
@@ -457,6 +458,10 @@ const AppRoutes = () => {
         <Route
           path="/purchase-order"
           element={<ProtectedPurchaseViewByvendor />}
+        />
+      <Route
+          path="/stockoutward-add"
+          element={<ProtectedStoreOutWardAdd />}
         />
       </Routes>
     </div>
