@@ -271,6 +271,7 @@ const searchStockOutward = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const site_id = body.site_id;
+    const project_id = body.project_id;
 
     const filterObj: any = {};
 
@@ -285,6 +286,14 @@ const searchStockOutward = async (body) => {
       filterObj.filterStockOutward.AND = filterObj.filterStockOutward.AND || [];
       filterObj.filterStockOutward.AND.push({
         site_id: site_id,
+      });
+    }
+
+    if (project_id) {
+      filterObj.filterStockOutward = filterObj.filterStockOutward || {};
+      filterObj.filterStockOutward.AND = filterObj.filterStockOutward.AND || [];
+      filterObj.filterStockOutward.AND.push({
+        project_id: project_id,
       });
     }
 
