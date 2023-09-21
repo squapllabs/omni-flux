@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/homeSettings.module.scss';
-import CustomGroupButton from '../ui/CustomGroupButton';
-import Category from '../category/category';
-import UserList from '../users/userList';
-import MasterData from '../masterData/masterData';
-import LeadList from '../leadEnquires/leadList';
-import VendorList from '../vendor/vendorList';
+import CustomGroupButton from "../ui/CustomGroupButton";
+import Category from "../category/category";
+import UserList from "../users/userList";
+import MasterData from "../masterData/masterData";
+import LeadList from "../leadEnquires/leadList";
+import VendorList from "../vendor/vendorList";
 import LabourList from '../labour/labourList';
 import PurchaseList from '../purchaseApproval/purchaseList';
 import PlanEngApproval from '../indentApproval/indentList';
@@ -14,7 +14,7 @@ import { getToken } from '../../redux/reducer';
 const Settings = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
-  const roleName = encryptedData?.userData?.user_roles[0]?.role_data?.role_name;
+  const roleName = encryptedData?.userData?.user_roles[0]?.role_data?.role_name
 
   const menuItems = [
     { label: 'Category', value: 'C' },
