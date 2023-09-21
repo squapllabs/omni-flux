@@ -268,6 +268,7 @@ const searchPurchaseOrder = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_id = body.project_id;
 
     const filterObj: any = {};
 
@@ -275,6 +276,18 @@ const searchPurchaseOrder = async (body) => {
       filterObj.filterPurchaseOrder = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_id) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        purchase_request_data: {
+          project_id: project_id,
+        },
+      });
     }
 
     if (global_search) {

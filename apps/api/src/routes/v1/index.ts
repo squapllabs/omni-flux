@@ -43,6 +43,8 @@ import purchaseOrderItem from './purchaseOrderItem.route';
 import vendorQuotes from './vendorQuotes.route';
 import projectInventory from './projectInventory.route';
 import stockOutward from './stockOutward.route';
+import stockOutwardDetails from './stockOutwardDetails.route';
+import stockAudit from './stockAudit.route';
 
 const router = express.Router();
 
@@ -222,6 +224,14 @@ const defaultRoutes = [
   {
     path: '/stock-outward',
     route: stockOutward,
+  },
+  {
+    path: '/stock-outward-details',
+    route: stockOutwardDetails,
+  },
+  {
+    path: '/stock-audit',
+    route: stockAudit,
   },
 ];
 

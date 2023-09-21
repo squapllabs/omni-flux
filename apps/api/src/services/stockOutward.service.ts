@@ -270,6 +270,8 @@ const searchStockOutward = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const site_id = body.site_id;
+    const project_id = body.project_id;
 
     const filterObj: any = {};
 
@@ -277,6 +279,22 @@ const searchStockOutward = async (body) => {
       filterObj.filterStockOutward = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (site_id) {
+      filterObj.filterStockOutward = filterObj.filterStockOutward || {};
+      filterObj.filterStockOutward.AND = filterObj.filterStockOutward.AND || [];
+      filterObj.filterStockOutward.AND.push({
+        site_id: site_id,
+      });
+    }
+
+    if (project_id) {
+      filterObj.filterStockOutward = filterObj.filterStockOutward || {};
+      filterObj.filterStockOutward.AND = filterObj.filterStockOutward.AND || [];
+      filterObj.filterStockOutward.AND.push({
+        project_id: project_id,
+      });
     }
 
     if (global_search) {
@@ -323,24 +341,23 @@ const searchStockOutward = async (body) => {
           },
         }
       );
-    }
-
-    filterObj.filterStockOutward.OR.push({
-      OR: [
-        {
-          stock_outward_details: {
-            some: {
-              item_data: {
-                item_name: {
-                  contains: global_search,
-                  mode: 'insensitive',
+      filterObj.filterStockOutward.OR.push({
+        OR: [
+          {
+            stock_outward_details: {
+              some: {
+                item_data: {
+                  item_name: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
                 },
               },
             },
           },
-        },
-      ],
-    });
+        ],
+      });
+    }
 
     const result = await stockOutwardDao.searchStockOutward(
       offset,
