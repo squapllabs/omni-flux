@@ -14,6 +14,7 @@ import PurchaseRequestEdit from './purchaseRequestEdit';
 import { updateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 import BackArrowIcon from '../menu/icons/backArrow';
 import CustomMenu from '../ui/CustomMenu';
+import CustomSnackBar from '../ui/customSnackBar';
 
 const VendorSelect = () => {
   const routeParams = useParams();
@@ -77,6 +78,10 @@ const VendorSelect = () => {
     setReload(false);
   };
 
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+
   const handleApprove = (value: any) => {
     setID(value);
     handleSubmit(value);
@@ -94,17 +99,17 @@ const VendorSelect = () => {
         vendor_quotes_documents: data?.data?.vendor_quotes_documents,
         total_quotation_amount: data?.data?.total_quotation_amount,
       };
-      console.log('OBJ', obj);
-
       updateOneVendorQuotes(obj, {
         onSuccess: (data, variables, context) => {
           if (data?.message === 'success') {
+            setMessage('Vendor Approved');
+            setOpenSnack(true);
             navigate('/purchase-view');
           }
         },
       });
     } catch {
-      console.log('Error');
+      console.log('Error occured in vendor select ');
     }
   };
 
@@ -162,13 +167,18 @@ const VendorSelect = () => {
                     <td>{startingIndex + index}</td>
                     <td>{data.vendor_id || nullLableNameFromEnv}</td>
                     <td>{data.vendor_name || nullLableNameFromEnv}</td>
-                    <td>{data?.quotation_details?.length || nullLableNameFromEnv}</td>
-                    <td>{formatBudgetValue(data.total_quotation_amount) || nullLableNameFromEnv}</td>
+                    <td>
+                      {data?.quotation_details?.length || nullLableNameFromEnv}
+                    </td>
+                    <td>
+                      {formatBudgetValue(data.total_quotation_amount) ||
+                        nullLableNameFromEnv}
+                    </td>
                     <td>{data.quotation_status || nullLableNameFromEnv}</td>
                     <td>
                       {data.vendor_quotes_documents?.map(
                         (document: any, index: any) => (
-                          <li key={index}>
+                          <ol key={index}>
                             <a
                               href={document.path}
                               target="_blank"
@@ -176,7 +186,7 @@ const VendorSelect = () => {
                             >
                               Document {index + 1}
                             </a>
-                          </li>
+                          </ol>
                         )
                       ) || nullLableNameFromEnv}
                     </td>
@@ -201,6 +211,13 @@ const VendorSelect = () => {
             </Button>
           </div>
         </div>
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
         <CustomEditDialog
           open={open}
           content={

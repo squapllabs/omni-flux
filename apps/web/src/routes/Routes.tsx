@@ -249,6 +249,7 @@ import IndentDetailView from '../component/indentApproval/indentView';
 import VendorSelect from '../component/purchaseApproval/vendorSelect';
 import PurchaseRequest from '../component/purchaseOrder/purchaseView';
 import PurchaseOrderView from '../component/purchaseOrder/purchaseOrder';
+import ProjectInventory from '../component/project/project-inventory';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -318,6 +319,7 @@ const AppRoutes = () => {
   const ProtectedPurchaseOrderView = withLayoutAndProtection(PurchaseRequest);
   const ProtectedPurchaseViewByvendor =
     withLayoutAndProtection(PurchaseOrderView);
+  const ProtectedProjectInventory = withLayoutAndProtection(ProjectInventory);
 
   return (
     <div>
@@ -458,6 +460,7 @@ const AppRoutes = () => {
           path="/purchase-order"
           element={<ProtectedPurchaseViewByvendor />}
         />
+        <Route path="/project-inventory/:id" element={<ProtectedProjectInventory />} />
       </Routes>
     </div>
   );
