@@ -309,6 +309,35 @@ const searchStockOutward = async (
   }
 };
 
+const getByProjectId = async (project_id: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const stockOutward = await transaction.stock_outward.findFirst({
+      where: {
+        project_id: Number(project_id),
+        is_delete: false,
+      },
+      include: {
+        project_data: true,
+        site_data: true,
+        site_engineer_data: { select: { first_name: true, last_name: true } },
+        stock_outward_details: {
+          where: { is_delete: false },
+          include: {
+            item_data: true,
+            uom_data: { select: { name: true } },
+          },
+          orderBy: [{ updated_date: 'desc' }],
+        },
+      },
+    });
+    return stockOutward;
+  } catch (error) {
+    console.log('Error occurred in stockOutward getByProjectId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -316,4 +345,5 @@ export default {
   getAll,
   deleteStockOutward,
   searchStockOutward,
+  getByProjectId,
 };

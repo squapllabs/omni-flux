@@ -1,6 +1,11 @@
 import stockOutwardDao from '../dao/stockOutward.dao';
 import stockOutwardDetailsDao from '../dao/stockOutwardDetails.dao';
 
+/**
+ * Method to get Stock outward details by stock_outward_id
+ * @param stockOutwardId
+ * @returns
+ */
 const getByStockOutwardId = async (stockOutwardId: number) => {
   try {
     const stockOutwardExist = await stockOutwardDao.getById(stockOutwardId);
