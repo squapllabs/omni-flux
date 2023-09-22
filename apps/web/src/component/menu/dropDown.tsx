@@ -15,7 +15,6 @@ const Dropdown: React.FC<DropdownProps> = ({ label, children }) => {
   };
 
   const handleDropdownClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // event.stopPropagation();
     toggleDropdown();
   };
 

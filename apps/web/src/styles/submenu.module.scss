@@ -1,0 +1,36 @@
+
+
+
+
+.Container {
+  width: fit-content;
+  height: fit-content;
+  background-color: #d9d9d933;
+
+}
+.menu {
+  ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    display: flex;
+    li {
+      padding: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      &:hover {
+        background-color: #f0f0f0;
+      }
+
+      &.selected {
+        background-color: #d0d5dd;
+        padding: 8px, 12px, 8px, 12px;
+        color: #667085;
+        border-radius: 6px;
+      }
+    }
+  }
+}
+
+
