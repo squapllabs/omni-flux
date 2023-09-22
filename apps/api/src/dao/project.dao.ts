@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import db from '../utils/db';
 
 const add = async (
   project_name: string,
@@ -406,6 +407,71 @@ const getAll = async (connectionObj = null) => {
   }
 };
 
+const getAllDashboard = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    let query = `select
+    status.total_projects,
+    status.active_projects,
+    status.inactive_projects,
+    status.inprogress_projects,
+    status.completed_projects,
+    status.not_started_projects,
+    vendor_list.vendor_count,
+    project_list.top_projects
+  from
+    (
+    select
+      count(*) as total_projects,
+      count(p.is_delete)filter (
+    where
+      is_delete = false)as active_projects,
+      count(p.is_delete)filter (
+    where
+      is_delete = true)as inactive_projects,
+      count(status)filter (
+    where
+      status = 'Inprogress')as inprogress_projects,
+      count(status)filter (
+    where
+      status = 'Completed')as completed_projects,
+      count(status)filter (
+    where
+      status = 'Not Started')as not_started_projects
+    from
+      project p)status
+  join (
+    select
+      count(vendor_id) as vendor_count
+    from
+      vendor v )vendor_list on
+    true
+  join (
+    select
+      jsonb_agg(top_five.top_five_projects) as top_projects
+    from
+      (
+      select
+        jsonb_build_object('start date',
+        p.date_started,
+    'project name',
+        p.project_name,
+    'budget',
+        p.actual_budget) as top_five_projects
+      from
+        project p
+      order by
+        p.actual_budget desc
+      limit 5) top_five)project_list on
+    true`;
+    let result = await transaction.oneOrNone(query, []);
+    return result;
+  } catch (error) {
+    console.log('Error occurred in getAllDashboard dao', error);
+    throw error;
+  }
+};
+
 const deleteProject = async (projectId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
@@ -527,4 +593,5 @@ export default {
   getByClientId,
   getByCode,
   searchProject,
+  getAllDashboard,
 };
