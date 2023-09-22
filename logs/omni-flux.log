@@ -4836,3 +4836,4 @@ D:\Vijay\OmniFluxERP\Main\August\Aug-28\omni-flux\apps\api\src\dao\projectInvent
 
 Unknown field `uom_name` for select statement on model uom. Available options are listed in green. Did you mean `uom_type`?
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/processFileUpload << ERRSTRING >>TypeError: files.file is not iterable
