@@ -211,7 +211,7 @@ const VendorSelect = () => {
               justify="center"
               size="small"
               color="primary"
-              icon={<BackArrowIcon />}
+              // icon={<BackArrowIcon />}
               onClick={() => navigate('/purchase-view')}
             >
               Back
