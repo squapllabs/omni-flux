@@ -1,36 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useGetAllPurchaseOrderData } from '../../hooks/purchase-request-hooks';
+import {
+  useGetAllPurchaseOrderData,
+  getBySearchPoData,
+} from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
 import EditIcon from '../menu/icons/editIcon';
 import CustomEditPoPopup from '../ui/CustomEditPoPopup';
 import { formatBudgetValue } from '../../helper/common-function';
 import Pagination from '../menu/pagination';
+import Button from '../ui/Button';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+import { useGetAllProject } from '../../hooks/project-hooks';
 
 const OrderView = () => {
   const navigate = useNavigate();
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [purchaseId,setPurchaseId] = useState();
-
+  const [purchaseId, setPurchaseId] = useState();
+  const [selectedValue, setSelectedValue] = useState('');
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [dataShow, setDataShow] = useState(false);
   const getPoData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
     order_by_column: 'updated_date',
     order_by_direction: 'desc',
     status: 'AC',
-    global_search:'',
+    global_search: '',
+    project_id: selectedValue,
   };
   const {
     isLoading: dataLoading,
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
+  const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
+    useGetAllProject();
+  const {
+    mutate: postDataForFilter,
+    data: getFilterData,
+    isLoading: searchLoader,
+  } = getBySearchPoData();
+  console.log('getFilterData---->', getFilterData);
 
   const handleEdit = (value: any) => {
-    setPurchaseId(value)
+    setPurchaseId(value);
     setShowEditPopUp(true);
   };
 
@@ -45,6 +62,35 @@ const OrderView = () => {
     setCurrentPage(1);
   };
 
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const searchValue = event.target.value;
+    const selectedProjectId = event.target.value;
+    setSelectedValue(selectedProjectId);
+    setIsResetDisabled(searchValue === '');
+  };
+
+  const handleSearch = async () => {
+    const poData: any = {
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'asc',
+      status: 'AC',
+      global_search: '',
+      project_id: Number(selectedValue),
+    };
+    postDataForFilter(poData);
+    setDataShow(true);
+  };
+
+  const handleReset = async () => {
+    setSelectedValue('');
+    setDataShow(false);
+    setSelectedValue('');
+    setIsResetDisabled(true);
+  };
 
   useEffect(() => {
     refetch();
@@ -53,12 +99,58 @@ const OrderView = () => {
 
   return (
     <div className={Styles.container}>
-      <CustomLoader loading={dataLoading} size={48} color="#333C44">
-        <div className={Styles.headingTop}>
+      <CustomLoader
+        loading={searchLoader ? searchLoader : dataLoading}
+        size={48}
+        color="#333C44"
+      >
+        <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h5>
-              Manage purchase order your entire organisation
-            </h5>
+            <h3>Purchase Order</h3>
+            <span className={Styles.content}>
+              Manage purchase order here your entire organization.
+            </span>
+          </div>
+          <div className={Styles.dividerStyleTop}></div>
+          <div className={Styles.searchField}>
+            <div className={Styles.inputFilter}>
+              <div>
+                <AutoCompleteSelect
+                  name="parent_master_data_id"
+                  defaultLabel="Select Project Name"
+                  onChange={() => handleDropdownChange}
+                  value={selectedValue}
+                  placeholder="Select Project Name"
+                  width="260px"
+                  onSelect={(value) => {
+                    setSelectedValue(value);
+                    setIsResetDisabled(false);
+                  }}
+                  optionList={
+                    dropLoading === true ? [] : getAllProjectDataForDrop
+                  }
+                />
+              </div>
+              <Button
+                className={Styles.searchButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleSearch}
+              >
+                Search
+              </Button>
+              <Button
+                className={Styles.resetButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                disabled={isResetDisabled}
+                onClick={handleReset}
+              >
+                Reset
+              </Button>
+            </div>
           </div>
         </div>
         <div className={Styles.tableContainer}>
@@ -77,67 +169,139 @@ const OrderView = () => {
                 </tr>
               </thead>
               <tbody>
-                {getAllData?.content?.map(
-                  (data: any, index: number) => {
-                    return (
-                      <tr>
-                        <td>{startingIndex + index}</td>
-                        <td>{data?.vendor_data?.vendor_name}</td>
-                        <td>{data?.purchase_request_data?.project_data?.project_name}</td>
-                        <td>{formatBudgetValue(data?.total_cost)}</td>
-                        <td>  
-                          <div>
-                            {data?.purchase_request_data
-                              ?.purchase_request_documents?.length > 0 ? (
-                              data?.purchase_request_data?.purchase_request_documents.map(
-                                (document: any, index: number) => (
-                                  <div key={document.code}>
-                                    <a
-                                      href={document.path}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      Uploaded Document
-                                    </a>
-                                  </div>
-                                )
+                {dataShow ? 
+                 getFilterData?.content?.map((data: any, index: number) => {
+                  return (
+                    <tr>
+                      <td>{startingIndex + index}</td>
+                      <td>{data?.vendor_data?.vendor_name}</td>
+                      <td>
+                        {
+                          data?.purchase_request_data?.project_data
+                            ?.project_name
+                        }
+                      </td>
+                      <td>{formatBudgetValue(data?.total_cost)}</td>
+                      <td>
+                        <div>
+                          {data?.purchase_request_data
+                            ?.purchase_request_documents?.length > 0 ? (
+                            data?.purchase_request_data?.purchase_request_documents.map(
+                              (document: any, index: number) => (
+                                <div key={document.code}>
+                                  <a
+                                    href={document.path}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Uploaded Document
+                                  </a>
+                                </div>
                               )
-                            ) : (
-                              <div>-</div>
-                            )}
-                          </div>
-                        </td>
-                        <td>{data.status}</td>
-                        <td>
-                          <div>
-                            {data?.purchase_order_documents?.length > 0 ? (
-                              data?.purchase_order_documents.map(
-                                (document: any, index: number) => (
-                                  <div key={document.code}>
-                                    <a
-                                      href={document.path}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      Uploaded Document
-                                    </a>
-                                  </div>
-                                )
+                            )
+                          ) : (
+                            <div>-</div>
+                          )}
+                        </div>
+                      </td>
+                      <td>{data.status}</td>
+                      <td>
+                        <div>
+                          {data?.purchase_order_documents?.length > 0 ? (
+                            data?.purchase_order_documents.map(
+                              (document: any, index: number) => (
+                                <div key={document.code}>
+                                  <a
+                                    href={document.path}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Uploaded Document
+                                  </a>
+                                </div>
                               )
-                            ) : (
-                              <div>-</div>
-                            )}
-                          </div>
-                        </td>	
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon onClick={() => handleEdit(data.purchase_order_id)} />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
+                            )
+                          ) : (
+                            <div>-</div>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <div className={Styles.tablerow}>
+                          <EditIcon
+                            onClick={() => handleEdit(data.purchase_order_id)}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }) : 
+                getAllData?.content?.map((data: any, index: number) => {
+                  return (
+                    <tr>
+                      <td>{startingIndex + index}</td>
+                      <td>{data?.vendor_data?.vendor_name}</td>
+                      <td>
+                        {
+                          data?.purchase_request_data?.project_data
+                            ?.project_name
+                        }
+                      </td>
+                      <td>{formatBudgetValue(data?.total_cost)}</td>
+                      <td>
+                        <div>
+                          {data?.purchase_request_data
+                            ?.purchase_request_documents?.length > 0 ? (
+                            data?.purchase_request_data?.purchase_request_documents.map(
+                              (document: any, index: number) => (
+                                <div key={document.code}>
+                                  <a
+                                    href={document.path}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Uploaded Document
+                                  </a>
+                                </div>
+                              )
+                            )
+                          ) : (
+                            <div>-</div>
+                          )}
+                        </div>
+                      </td>
+                      <td>{data.status}</td>
+                      <td>
+                        <div>
+                          {data?.purchase_order_documents?.length > 0 ? (
+                            data?.purchase_order_documents.map(
+                              (document: any, index: number) => (
+                                <div key={document.code}>
+                                  <a
+                                    href={document.path}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Uploaded Document
+                                  </a>
+                                </div>
+                              )
+                            )
+                          ) : (
+                            <div>-</div>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <div className={Styles.tablerow}>
+                          <EditIcon
+                            onClick={() => handleEdit(data.purchase_order_id)}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -150,8 +314,8 @@ const OrderView = () => {
         <div className={Styles.pagination}>
           <Pagination
             currentPage={currentPage}
-            totalPages={getAllData?.total_page}
-            totalCount={getAllData?.total_count}
+            totalPages={ dataShow ? getFilterData?.total_page : getAllData?.total_page}
+            totalCount={ dataShow ? getFilterData?.total_count : getAllData?.total_count}
             rowsPerPage={rowsPerPage}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleRowsPerPageChange}
