@@ -249,9 +249,15 @@ import IndentDetailView from '../component/indentApproval/indentView';
 import VendorSelect from '../component/purchaseApproval/vendorSelect';
 import PurchaseRequest from '../component/purchaseOrder/purchaseView';
 import PurchaseOrderView from '../component/purchaseOrder/purchaseOrder';
+import StockOutWardAdd from '../component/stockOutward/stockOutwardAdd';
+import ProjectStockAdd from '../component/project/projectComponent/projectStockAdd';
+import StockOutwardList from '../component/stockOutward/stockOutwardList';
 import ProjectInventory from '../component/project/project-inventory';
 import VendorDetailsItemView from '../component/purchaseApproval/vendorDetailsItemView';
 import PurchaseRequestAdd from '../component/purchaseApproval/purchaseRequestAdd';
+import StockOutWardView from '../component/stockOutward/stockOutwardView';
+import StockOutwardEdit from '../component/stockOutward/stockOutwardEdit';
+import ProjectStockAuditView from '../component/project/projectComponent/projectStockAuditView';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -319,11 +325,22 @@ const AppRoutes = () => {
   const ProtectedPurchaseDetailView = withLayoutAndProtection(PurchaseView);
   const ProtectedVendorSelect = withLayoutAndProtection(VendorSelect);
   const ProtectedPurchaseOrderView = withLayoutAndProtection(PurchaseRequest);
-  const ProtectedPurchaseViewByvendor =
-    withLayoutAndProtection(PurchaseOrderView);
+  const ProtectedPurchaseViewByvendor = withLayoutAndProtection(PurchaseOrderView);
+  const ProtectedStockOutWardAdd = withLayoutAndProtection(StockOutWardAdd);
+
+  const ProtectedStockOutwardList = withLayoutAndProtection(StockOutwardList);
   const ProtectedProjectInventory = withLayoutAndProtection(ProjectInventory);
   const ProtectedVendorDetailsItemView = withLayoutAndProtection(VendorDetailsItemView);
   const ProtectedPurchaseReuestAdd = withLayoutAndProtection(PurchaseRequestAdd);
+  const ProtectedStockOutWardView = withLayoutAndProtection(StockOutWardView);
+  const ProtectedStockOutwardEdit = withLayoutAndProtection(StockOutwardEdit);
+
+  const ProtectedProjectStockAdd = withLayoutAndProtection(ProjectStockAdd);
+  const ProtectedStoreOutwardList = withLayoutAndProtection(StockOutwardList);
+  const ProtectedProjectStockAuditView = withLayoutAndProtection(
+    ProjectStockAuditView
+  );
+ 
 
   return (
     <div>
@@ -464,9 +481,29 @@ const AppRoutes = () => {
           path="/purchase-order"
           element={<ProtectedPurchaseViewByvendor />}
         />
+      <Route
+          path="/stockoutward-add"
+          element={<ProtectedStockOutWardAdd />}
+        />
+        <Route
+          path="/project-stockadd/:id"
+          element={<ProtectedProjectStockAdd />}
+        />
+        <Route path="/stockoutward" element={<ProtectedStockOutwardList />} />
         <Route path="/project-inventory/:id" element={<ProtectedProjectInventory />} />
         <Route path="/vendor-view-items/:id" element={<ProtectedVendorDetailsItemView />} />
         <Route path="/purchase-request-add" element={<ProtectedPurchaseReuestAdd />} />
+        <Route path="/stockoutward-view/:id" element={<ProtectedStockOutWardView />} />
+        <Route path="/stockoutward-edit/:id" element={<ProtectedStockOutwardEdit />} />
+        <Route path="/store-outward" element={<ProtectedStoreOutwardList />} />
+        <Route
+          path="/project-stockView/:id"
+          element={<ProtectedProjectStockAuditView />}
+        />
+        <Route
+          path="/project-inventory/:id"
+          element={<ProtectedProjectInventory />}
+        />
       </Routes>
     </div>
   );

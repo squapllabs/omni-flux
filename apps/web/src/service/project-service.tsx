@@ -132,6 +132,17 @@ const getUserDataRolebasedandProjectBased = async (value: any) => {
     throw error;
   }
 };
+const getOneProjectSite = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project-site/get-sites-by-project-id/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne project Site', error);
+    throw error;
+  }
+};
 export default {
   getAllProject,
   createProjectData,
@@ -144,4 +155,5 @@ export default {
   getAllProjectManagers,
   filterProjectmemberBased,
   getUserDataRolebasedandProjectBased,
+  getOneProjectSite,
 };
