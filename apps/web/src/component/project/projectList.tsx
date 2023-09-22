@@ -22,6 +22,7 @@ import ViewIcon from '../menu/icons/viewIcon';
 import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
+import StoreIcon from '../menu/icons/storeIcon';
 
 const ProjectList = () => {
   const state: RootState = store.getState();
@@ -281,6 +282,7 @@ const ProjectList = () => {
                                   )
                                 }
                               />
+                              <StoreIcon onClick={() => navigate(`/project-inventory/${data?.project_data.project_id}`)}/>
                               {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import BackArrowIcon from '../menu/icons/backArrow';
 import Styles from '../../styles/purchaseView.module.scss';
+import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import { store, RootState } from '../../redux/store';
@@ -11,13 +12,9 @@ import { getToken } from '../../redux/reducer';
 import indentApprovalService from '../../service/indent-approval-request-service';
 import AddIcon from '../menu/icons/addIcon';
 import purchaseRequestService from '../../service/purchaseRequest-service';
-import EditIcon from '../menu/icons/editIcon';
-import CustomEditDialog from '../ui/customEditDialogBox';
 import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
-import PurchaseRequestEdit from './purchaseRequestEdit';
-import ViewIcon from '../menu/icons/viewIcon';
-import StarIcon from '../menu/icons/starIcon';
 import CustomMenu from '../ui/CustomMenu';
+import CustomSnackBar from '../ui/customSnackBar';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -31,24 +28,11 @@ const PurchaseView = () => {
   const [purchaseTableData, setPurchaseTableData] = useState([]);
   const [dataCount, setDataCount] = useState(0);
   const [dataLoading, setDataLoading] = useState(false);
-  const [Id, setID] = useState();
-  const [mode, setMode] = useState('');
-  const [open, setOpen] = useState(false);
-  const [openSnack, setOpenSnack] = useState(false);
-  const [message, setMessage] = useState('');
-  const [onAction, setOnAction] = useState(false);
   const [showPurchaseRequestForm, setShowPurchaseRequestForm] = useState(false);
   const [reload, setReload] = useState(false);
-  const [menuAnchor, setMenuAnchor] = useState(null);
-
-  const handleMenuOpen = (event) => {
-    setMenuAnchor(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setMenuAnchor(null);
-  };
-
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
+  
   const indentId = Number(routeParams?.id);
   const location = useLocation();
   const projectId = location.state.project_id;
@@ -101,11 +85,11 @@ const PurchaseView = () => {
     getAllPurchaseData();
   }, [reload]);
 
-  const handleEdit = (value: any) => {
-    setMode('EDIT');
-    setID(value);
-    setOpen(true);
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
   };
+
+  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -150,17 +134,15 @@ const PurchaseView = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData?.map((data: any, index: number) => {
-                    return (
-                      <tr key={data.indent_request_id}>
-                        <td>{startingIndex + index}</td>
-                        <td>{data?.bom_detail_data?.item_data?.item_name}</td>
-                        <td>{data?.bom_detail_data?.uom_data?.name}</td>
-                        <td>{data?.quantity}</td>
-                        <td>{formatBudgetValue(data?.total)}</td>
-                      </tr>
-                    );
-                  })}
+                  {tableData?.map((data: any, index: number) => (
+                    <tr key={data.indent_request_id}>
+                      <td>{startingIndex + index}</td>
+                      <td>{data?.bom_detail_data?.item_data?.item_name}</td>
+                      <td>{data?.bom_detail_data?.uom_data?.name}</td>
+                      <td>{data?.quantity}</td>
+                      <td>{formatBudgetValue(data?.total)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -235,11 +217,24 @@ const PurchaseView = () => {
                   return (
                     <tr key={data.purchase_request_id}>
                       <td>{startingIndex + index}</td>
-                      <td>{data.indent_request_data.description}</td>
-                      <td>{data?.selected_vendor_data?.vendor_name}</td>
-                      <td>{data?.total_cost}</td>
-                      <td>{data?.purchase_request_details.length}</td>
-                      <td>{data?.status}</td>
+                      <td>
+                        {data.indent_request_data.description ||
+                          nullLableNameFromEnv}
+                      </td>
+                      <td>
+                        {data?.selected_vendor_data?.vendor_name ||
+                          nullLableNameFromEnv}
+                      </td>
+                      <td>
+                        {data?.total_cost
+                          ? formatBudgetValue(data?.total_cost)
+                          : nullLableNameFromEnv}
+                      </td>
+                      <td>
+                        {data?.purchase_request_details.length ||
+                          nullLableNameFromEnv}
+                      </td>
+                      <td>{data?.status || 'N.A'}</td>
                       <td>
                         <CustomMenu actions={actions} />
                       </td>
@@ -257,19 +252,15 @@ const PurchaseView = () => {
         onAction={setShowPurchaseRequestForm}
         indentId={indentId}
         projectId={projectId}
+        setOpenSnack={setOpenSnack}
+        setMessage={setMessage}
       ></CustomPurchaseRequest>
-      <CustomEditDialog
-        open={open}
-        content={
-          <PurchaseRequestEdit
-            setOpen={setOpen}
-            open={open}
-            mode={mode}
-            purchaseID={Id}
-            setOpenSnack={setOpenSnack}
-            setMessage={setMessage}
-          />
-        }
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={2000}
+        type="success"
       />
     </div>
   );

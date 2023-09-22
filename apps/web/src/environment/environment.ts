@@ -8,5 +8,6 @@ export const environment = {
     LOCALE:'en-IN',   //country format
     CURRENCY:'INR',   // currency symbol
     INPUTBUDGET:'INR',  //input budget (label)
-    OUTPUTBUDGET:'INR'  //output budget (label)
+    OUTPUTBUDGET:'INR',  //output budget (label)
+    NULLVALUE:'N/A' // null value (label)
 };
