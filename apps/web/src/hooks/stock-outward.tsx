@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import stockOutwardService from '../service/store-outward-service';
+import stockOutwardService from '../service/stock-outward-service';
 
 
 const getAllStockOutwardData = () => {

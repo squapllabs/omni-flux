@@ -2,75 +2,85 @@
     padding: 10px 10px 0px 5px;
     display: flex;
     flex-direction: column;
-  }
-  .textStyle {
+}
+
+.textStyle {
     padding-left: 5px;
     padding-top: 5px;
-  }
+}
 
-  .container {
+.container {
     width: 100%;
     padding-top: 0px;
     padding-bottom: 10px;
     // padding-left: 20px;
-  }
-  .secondButtonField{
+}
+
+.secondButtonField {
     display: flex;
     justify-content: flex-end;
     background-color: #000000;
-  }
-  
-  .textContent {
+}
+
+.textContent {
     padding-left: 10px;
     padding-top: 10px;
-  }
-  .content {
+}
+
+.content {
     font-size: 0.7rem;
-  }
-  .box {
+}
+
+.box {
     position: relative;
-  }
-  .projectField {
+}
+
+.projectField {
     margin-top: -18px;
-  }
-  .projectHeading {
+}
+
+.projectHeading {
     font-size: 0.8rem;
-  }
-  .fields_container {
+}
+
+.fields_container {
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 20px;
-  }
-  .fields_container_1 {
+}
+
+.fields_container_1 {
     display: flex;
     justify-content: flex-start;
     width: 100%;
     gap: 20px;
-  }
-  .fields_container_2 {
+}
+
+.fields_container_2 {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     width: 100%;
     gap: 20px;
-  }
-  .fields_container_3 {
+}
+
+.fields_container_3 {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 42.5%;
+    width: 40.2%;
     gap: 20px;
-  }
-  .secondHeader{
+}
+
+.secondHeader {
+    padding: 10px 5px 10px 5px;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    padding-top: 10px;
-    // background-color: #6941c6;
-  }
+}
 
-  .box::after {
+.box::after {
     content: '';
     display: block;
     width: 100%;
@@ -79,158 +89,190 @@
     position: absolute;
     bottom: 20;
     left: 10;
-  }
-  
-  .box:last-child::after {
+}
+
+.box:last-child::after {
     display: none;
-  }
-  
-  .tableContainer {
+}
+
+.tableContainer {
     // padding: 0px 10px 0px 0px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     // width: 100%;
     gap: 10px;
-  }
-  .searchField {
+}
+
+.searchField {
     padding: 10px 10px 0px 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 10px;
-  }
-  .inputFilter {
+}
+
+.inputFilter {
     display: flex;
     gap: 10px;
-  }
-  .searchButton {
+}
+
+.searchButton {
     padding: 12px 20px 12px 20px;
     border-radius: 8px;
     border: 1px;
     gap: 8px;
     color: #6941c6;
-  }
-  .searchButton:hover {
+}
+
+.searchButton:hover {
     background-color: #7f56d9;
     color: #ffffff;
-  }
-  .resetButton [disabled]{
+}
+
+.resetButton [disabled] {
     padding: 12px 20px 12px 20px;
     border-radius: 8px;
     border: 1px;
     gap: 8px;
     color: #848289;
     background-color: #ccc;
-  }
-  .resetButton:not([disabled]):hover {
+}
+
+.resetButton:not([disabled]):hover {
     background-color: #c4c4c6;
     color: #ffffff;
-  }
+}
 
-  
-  .formContainer {
+
+.formContainer {
     width: 350px;
     display: flex;
     flex-direction: column;
-  }
-  
-  .formButton {
+}
+
+.formButton {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     gap: 10px;
-    padding:10px 20px 10px 0px ;
-  }
-  .cancelButton:hover {
+    padding: 10px 20px 10px 0px;
+}
+
+.cancelButton:hover {
     background-color: #c4c4c6;
     color: #070707;
-  }
-  .titleStyle {
+}
+
+.titleStyle {
     padding: 10px 10px 1px 2op;
-  }
-  .dividerStyle {
+}
+
+.dividerStyle {
     border-bottom: 1px solid #ccc;
     padding: 5px 1px 5px 1px;
-  }
-  .field {
+}
+
+.field {
     padding: 5px 20px 5px 20px;
-  }
-  .header {
+}
+
+.header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 20px 20px 5px 20px;
-  }
-  .inputField {
-    width: 30%;
-  }
-  .tablerow {
-    cursor: pointer;
-  }
-  
-  .fieldStyle {
-    width: 18%;
-  }
+}
 
-  .profileDetail {
+.inputField {
+    width: 30%;
+}
+
+.tablerow {
+    cursor: pointer;
+}
+
+.fieldStyle {
+    width: 18%;
+}
+
+.profileDetail {
     display: flex;
     gap: 10px;
     align-items: center;
-  }
-  .profileContents {
-    
+}
+
+.profileContents {
+
     display: flex;
     text-align: left;
     flex-direction: column;
     gap: 1px;
-  }
-  .profileName {
-    align-items: center;
-  }
-  
-  .emailContent{
-   font-size:x-small
-  }
+}
 
-  .scrollable_table {
-    // width: 100%;
+.profileName {
+    align-items: center;
+}
+
+.emailContent {
+    font-size: x-small
+}
+
+.scrollable_table {
+    width: 100%;
     border-collapse: collapse;
     height: 100%;
-  
+
     th,
     td {
-      border: 1px solid #000000;
-      text-align: center;
-      font-weight: 600;
-      font-size: 11px;
-      
+        border: 1px solid #000000;
+        text-align: center;
+        font-weight: 600;
+        font-size: 11px;
+
     }
+
     thead {
-      tr {
-        th {
-          background-color: #f2f2f2;
-          text-transform: uppercase;
-          margin-top: 10px;
+        tr {
+            th {
+                background-color: #f2f2f2;
+                text-transform: uppercase;
+                margin-top: 10px;
+            }
         }
-      }
     }
-  
+
     td {
-      align-items: center;
+        align-items: center;
     }
+
     td:hover,
     tr:hover {
-      background-color: rgb(239, 239, 239);
+        background-color: rgb(239, 239, 239);
     }
-  }
+}
 
-  .tableHeading{
+.tableHeading {
     align-items: center;
-  }
+}
 
-  .pagination {
+.pagination {
     display: flex;
     justify-content: end;
-  
-  }
+
+}
+
+.buttonFields {
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.checkBox {
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+    color: #333c44;
+    font-weight: 600;
+}

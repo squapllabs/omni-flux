@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/stockOutwardList.module.scss';
 import Button from '../ui/Button';
-import { getAllStockOutwardData } from '../../hooks/store-outward';
+import { getAllStockOutwardData } from '../../hooks/stock-outward';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
 import { format } from 'date-fns';

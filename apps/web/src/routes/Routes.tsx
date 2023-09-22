@@ -249,9 +249,9 @@ import IndentDetailView from '../component/indentApproval/indentView';
 import VendorSelect from '../component/purchaseApproval/vendorSelect';
 import PurchaseRequest from '../component/purchaseOrder/purchaseView';
 import PurchaseOrderView from '../component/purchaseOrder/purchaseOrder';
-import StoreOutWardAdd from '../component/storeOutward/storeOutwardAdd';
+import StockOutWardAdd from '../component/stockOutward/stockOutwardAdd';
 import ProjectStockAdd from '../component/project/projectComponent/projectStockAdd';
-import StoreOutwardList from '../component/storeOutward/storeOutwardList';
+import StockOutwardList from '../component/stockOutward/stockOutwardList';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -320,9 +320,9 @@ const AppRoutes = () => {
   const ProtectedVendorSelect = withLayoutAndProtection(VendorSelect);
   const ProtectedPurchaseOrderView = withLayoutAndProtection(PurchaseRequest);
   const ProtectedPurchaseViewByvendor = withLayoutAndProtection(PurchaseOrderView);
-  const ProtectedStoreOutWardAdd = withLayoutAndProtection(StoreOutWardAdd);
+  const ProtectedStockOutWardAdd = withLayoutAndProtection(StockOutWardAdd);
   const ProtectedProjectStockAdd = withLayoutAndProtection(ProjectStockAdd);
-  const ProtectedStoreOutwardList = withLayoutAndProtection(StoreOutwardList);
+  const ProtectedStockOutwardList = withLayoutAndProtection(StockOutwardList);
 
   return (
     <div>
@@ -465,13 +465,13 @@ const AppRoutes = () => {
         />
       <Route
           path="/stockoutward-add"
-          element={<ProtectedStoreOutWardAdd />}
+          element={<ProtectedStockOutWardAdd />}
         />
         <Route
           path="/project-stockadd/:id"
           element={<ProtectedProjectStockAdd />}
         />
-        <Route path="/store-outward" element={<ProtectedStoreOutwardList />} />
+        <Route path="/stockoutward" element={<ProtectedStockOutwardList />} />
       </Routes>
     </div>
   );
