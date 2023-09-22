@@ -8,6 +8,7 @@ import {
   createProjectInventory,
   deleteByProjectInventoryId,
   getAllProjectInventorys,
+  getByProjectId,
   getByProjectInventoryId,
   searchProjectInventory,
   updateProjectInventory,
@@ -47,5 +48,7 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchProjectInventory);
+
+router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
 
 export default router;

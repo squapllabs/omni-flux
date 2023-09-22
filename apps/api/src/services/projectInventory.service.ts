@@ -338,7 +338,7 @@ const getByProjectId = async (project_id: number) => {
     const projectInventoryData = await projectInventoryDao.getByProjectId(
       project_id
     );
-    if (projectInventoryData) {
+    if (projectInventoryData.length > 0) {
       result = { message: 'success', status: true, data: projectInventoryData };
       return result;
     } else {
