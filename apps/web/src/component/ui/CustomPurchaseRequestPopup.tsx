@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Button from '../ui/Button';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
-import TextArea from '../ui/CustomTextArea';
 import Styles from '../../styles/purchaseRequestPopup.module.scss';
 import { useFormik } from 'formik';
 import Input from '../ui/Input';

@@ -1,0 +1,119 @@
+.tableContainer {
+  padding: 10px 10px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.content {
+  font-size: 0.7rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 24px 16px 10px;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+}
+
+.inputFields {
+  padding: 5px 20px 1px 20px;
+}
+
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 20px;
+  padding: 10px 10px 10px 0px;
+}
+
+.cancelButton:hover {
+  background-color: #c4c4c6;
+  color: #070707;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.fields_container {
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 20px;
+}
+
+.fields_container_1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.fields_container_2 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.scrollable_table {
+  width: 100%;
+  border-collapse: collapse;
+  height: 100%;
+
+  th,
+  td {
+    border: 1px solid #000000;
+    text-align: center;
+    font-weight: 600;
+    font-size: 11px;
+  }
+
+  thead {
+    tr {
+      th {
+        background-color: #f2f2f2;
+        text-transform: uppercase;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  td {
+    align-items: center;
+    text-align: center;
+  }
+
+  td:hover,
+  tr:hover {
+    background-color: rgb(239, 239, 239);
+  }
+}
+
+.tableHeading {
+  align-items: center;
+}
+
+.tablerow {
+  cursor: pointer;
+}
+
+.instantAdd {
+  color: cadetblue;
+  font-weight: lighter;
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: flex-start;
+  cursor: pointer;
+  padding: 5px 0px 5px 0px;
+}
