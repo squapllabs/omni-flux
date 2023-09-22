@@ -376,7 +376,6 @@ const ItemDetailsTable: React.FC = (props: {
 
     useEffect(() => {
         if(getOneStockOutWardData){
-            
             const transformedStockOutwardDetails = getOneStockOutWardData?.stock_outward_details?.map((item: any) => ({
                 item_id: item.item_id,
                 outward_quantity: Number(item.outward_quantity),
@@ -385,9 +384,7 @@ const ItemDetailsTable: React.FC = (props: {
             }))
             console.log("use",transformedStockOutwardDetails);
             setStockData(transformedStockOutwardDetails)
-
         }
-
         fetchProjectInventoryItem();
     }, [getOneStockOutWardData])
 

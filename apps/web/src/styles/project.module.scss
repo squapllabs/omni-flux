@@ -90,6 +90,10 @@
   color: #848289;
   cursor: not-allowed;
 }
+.stock_Container {
+  padding: 10px;
+  margin: 0 auto;
+}
 
 .tableContainer {
   padding: 10px;
@@ -259,4 +263,16 @@
   padding-top: 10px;
   display: flex;
   justify-content: end;
+}
+
+//view Screen
+
+.container {
+  padding: 10px;
+}
+.content_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
 }

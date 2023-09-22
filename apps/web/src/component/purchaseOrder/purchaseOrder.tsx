@@ -44,7 +44,7 @@ const OrderView = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getBySearchPoData();
-  // console.log('getFilterData---->', getFilterData);
+  console.log('getFilterData---->', getFilterData);
 
   const handleEdit = (value: any) => {
     setPurchaseId(value);
