@@ -15,4 +15,13 @@ const updateVendorQuotes = () => {
     );
   };
 
-  export {updateVendorQuotes};
+  const getByQuoteVendorId = (id: number) => {
+    return useQuery(
+      ['getByuserID', id],
+      () => vendorQuotesService.getOneVendorQuotesById(id),
+      {
+        select: (data) => data.data,
+      }
+    );
+  };
+  export {updateVendorQuotes,getByQuoteVendorId};

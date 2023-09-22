@@ -169,13 +169,6 @@ const Login = () => {
                       onChange={() => setChecked(!checked)}
                       label="Remember me"
                     />
-                    {/* <Checkbox
-                        name="is_remember_me"
-                        checked={checked}
-                        onChange={(e) => handleCheckbox(e)}
-                        label="Remember me"
-                        disabled={false}
-                      /> */}
                   </div>
                   <div className={Styles.forgetPassword}>
                     <a href="/forget-password">

@@ -290,7 +290,7 @@ const MaterData = () => {
                       shape="rectangle"
                       justify="center"
                       size="small"
-                      icon={<AddIcon />}
+                      icon={<AddIcon color="white"/>}
                     >
                       Add
                     </Button>
@@ -362,7 +362,7 @@ const MaterData = () => {
                       <th>Description</th>
                       <th>Code</th>
                       <th>Parent Name</th>
-                      {activeButton === 'AC' && <th></th>}
+                      {activeButton === 'AC' && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>

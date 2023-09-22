@@ -156,7 +156,7 @@ const PurchaseView = () => {
                 color="primary"
                 onClick={() => setShowPurchaseRequestForm(true)}
               >
-                <AddIcon />
+                <AddIcon color='white' />
                 Create PR
               </Button>
             </div>

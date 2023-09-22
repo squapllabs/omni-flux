@@ -189,7 +189,7 @@ const VendorList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  icon={<AddIcon />}
+                  icon={<AddIcon color="white"/>}
                   onClick={() => navigate('/vendor-add')}
                 >
                   Add
@@ -207,7 +207,7 @@ const VendorList = () => {
                     <th>Vendor Name</th>
                     <th>Contact Person Name</th>
                     <th>Phone Number</th>
-                    {activeButton === 'AC' && <th>Options</th>}
+                    {activeButton === 'AC' && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>

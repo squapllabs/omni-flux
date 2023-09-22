@@ -7,7 +7,7 @@ import DatePicker from '../../../ui/CustomDatePicker';
 import TextArea from '../../../ui/CustomTextArea';
 import Button from '../../../ui/Button';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
-import { getBOMbyProjectandType } from 'apps/web/src/hooks/bom-hooks';
+import { getBOMbyProjectandType } from '../../../../hooks/bom-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import IndentRequestDetails from './indentRequestDetails';
 import { store, RootState } from '../../../../redux/store';
@@ -16,7 +16,7 @@ import {
   createIndentRequest,
   updateIndentRequest,
 } from '../../../../hooks/indentRequest-hooks';
-import IndentRequestService from 'apps/web/src/service/indentRequest-service';
+import IndentRequestService from '../../../../service/indentRequest-service';
 import { format } from 'date-fns';
 import * as yup from 'yup';
 import PageDisabled from '../../../ui/pageDisableComponent';
@@ -26,8 +26,8 @@ import CustomSnackBar from '../../../ui/customSnackBar';
 
 const IndentRequest: React.FC = (props: any) => {
   const state: RootState = store.getState();
-  let encryptedData = getToken(state, 'Data');
-  let userID: number = encryptedData.userId;
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
   const routeParams = useParams();
   const navigate = useNavigate();
   const [totalCost, setTotalCost] = useState(0);
@@ -62,7 +62,6 @@ const IndentRequest: React.FC = (props: any) => {
       const indentData = await IndentRequestService.getOneIndent(
         Number(routeParams?.indentid)
       );
-      console.log('indentData', indentData?.data);
       if (indentData?.data?.approver_status === 'Rejected') {
         setDisabled(false);
       } else {
@@ -160,7 +159,7 @@ const IndentRequest: React.FC = (props: any) => {
           <div className={Styles.mainTextContent}>
             <div className={Styles.textContent_1}>
               <h3>Indent Request</h3>
-              <span className={Styles.content}>Rise Indent Request</span>
+              <span className={Styles.content}>Raise Indent Request</span>
             </div>
             <div className={Styles.backButton}>
               <Button

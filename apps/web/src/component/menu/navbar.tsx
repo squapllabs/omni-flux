@@ -318,9 +318,10 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className={Styles.rightIcons}>
+        <div className={Styles.rightSearch}>
           <SearchBar onSearch={handleSearch} />
-
+        </div>
+        <div className={Styles.rightIcons}>
           <BellIcon
             className={Styles.navIcon}
             color="gray"
@@ -381,8 +382,8 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <div></div>
         </div>
+        {/* <div></div> */}
       </nav>
     </div>
   );
