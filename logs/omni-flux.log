@@ -4789,3 +4789,50 @@ type stock_outward_details {
 
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/searchStockOutward << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'push')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/processFileUpload << ERRSTRING >>TypeError: files.file is not iterable
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.findMany()` invocation in
+D:\Vijay\OmniFluxERP\Main\August\Aug-28\omni-flux\apps\api\src\dao\projectInventory.dao.ts:242:66
+
+  239 const getByProjectId = async (project_id: number, connectionObj = null) => {
+  240   try {
+  241     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 242     const projectInventory = await transaction.project_inventory.findMany({
+            where: {
+              project_id: 137,
+              is_delete: false
+            },
+            include: {
+              project_data: true,
+              item_data: {
+                include: {
+                  uom: {
+                    select: {
+                      uom_name: true
+                    },
+                    include: {
+          ?           uom_id?: true,
+          ?           name?: true,
+          ?           description?: true,
+          ?           created_date?: true,
+          ?           updated_date?: true,
+          ?           created_by?: true,
+          ?           updated_by?: true,
+          ?           uom_type?: true,
+          ?           is_delete?: true,
+          ?           item?: true,
+          ?           bom_detail?: true,
+          ?           project_workbreak_down?: true,
+          ?           labour?: true,
+          ?           machinery?: true,
+          ?           stock_outward_details?: true,
+          ?           _count?: true
+                    }
+                  }
+                }
+              }
+            }
+          })
+
+
+Unknown field `uom_name` for select statement on model uom. Available options are listed in green. Did you mean `uom_type`?
+
