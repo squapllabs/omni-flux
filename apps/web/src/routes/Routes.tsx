@@ -250,6 +250,7 @@ import VendorSelect from '../component/purchaseApproval/vendorSelect';
 import PurchaseRequest from '../component/purchaseOrder/purchaseView';
 import PurchaseOrderView from '../component/purchaseOrder/purchaseOrder';
 import ProjectInventory from '../component/project/project-inventory';
+import PurchaseRequestAdd from '../component/purchaseApproval/purchaseRequestAdd';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -320,6 +321,7 @@ const AppRoutes = () => {
   const ProtectedPurchaseViewByvendor =
     withLayoutAndProtection(PurchaseOrderView);
   const ProtectedProjectInventory = withLayoutAndProtection(ProjectInventory);
+  const ProtectedPurchaseReuestAdd = withLayoutAndProtection(PurchaseRequestAdd);
 
   return (
     <div>
@@ -461,6 +463,7 @@ const AppRoutes = () => {
           element={<ProtectedPurchaseViewByvendor />}
         />
         <Route path="/project-inventory/:id" element={<ProtectedProjectInventory />} />
+        <Route path="/purchase-request-add" element={<ProtectedPurchaseReuestAdd />} />
       </Routes>
     </div>
   );
