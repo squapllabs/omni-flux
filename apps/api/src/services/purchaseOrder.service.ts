@@ -1,7 +1,12 @@
+import itemDao from '../dao/item.dao';
+import projectInventoryDao from '../dao/projectInventory.dao';
 import purchaseOrderDao from '../dao/purchaseOrder.dao';
+import purchaseOrderItemDao from '../dao/purchaseOrderItem.dao';
 import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import vendorDao from '../dao/vendor.dao';
 import { purchaseOrderBody } from '../interfaces/purchaseOrder.interface';
+import { processFileDeleteInS3 } from '../utils/fileUpload';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New PurchaseOrder
@@ -18,6 +23,7 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       total_cost,
       order_remark,
       created_by,
+      purchase_order_documents,
     } = body;
 
     if (purchase_request_id) {
@@ -51,7 +57,8 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       status,
       total_cost,
       order_remark,
-      created_by
+      created_by,
+      purchase_order_documents
     );
     const result = {
       message: 'success',
@@ -81,6 +88,7 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       total_cost,
       order_remark,
       updated_by,
+      purchase_order_documents,
       purchase_order_id,
     } = body;
     let result = null;
@@ -120,6 +128,22 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       }
     }
 
+    const updatedPurchaseOrderDocuments = [];
+    if (purchase_order_documents) {
+      for (const doc of purchase_order_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === true) {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedPurchaseOrderDocuments.push(doc);
+        }
+      }
+    }
+
     const purchaseOrderDetails = await purchaseOrderDao.edit(
       purchase_request_id,
       vendor_id,
@@ -128,6 +152,7 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       total_cost,
       order_remark,
       updated_by,
+      updatedPurchaseOrderDocuments,
       purchase_order_id
     );
     result = { message: 'success', status: true, data: purchaseOrderDetails };
@@ -243,6 +268,7 @@ const searchPurchaseOrder = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_id = body.project_id;
 
     const filterObj: any = {};
 
@@ -250,6 +276,18 @@ const searchPurchaseOrder = async (body) => {
       filterObj.filterPurchaseOrder = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_id) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        purchase_request_data: {
+          project_id: project_id,
+        },
+      });
     }
 
     if (global_search) {
@@ -316,6 +354,253 @@ const searchPurchaseOrder = async (body) => {
   }
 };
 
+/**
+ * Method to Create a New PurchaseOrder With Purchase Order Item Details
+ * @param body
+ * @returns
+ */
+const createPurchaseOrderWithItem = async (body: purchaseOrderBody) => {
+  try {
+    const {
+      purchase_request_id,
+      vendor_id,
+      order_date,
+      status,
+      total_cost,
+      order_remark,
+      created_by,
+      purchase_order_item,
+    } = body;
+
+    if (purchase_request_id) {
+      const purchaseRequestExist = await purchaseRequestDao.getById(
+        purchase_request_id
+      );
+      if (!purchaseRequestExist) {
+        return {
+          message: 'purchase_request_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    if (vendor_id) {
+      const vendorExist = await vendorDao.getById(vendor_id);
+      if (!vendorExist) {
+        return {
+          message: 'vendor_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const purchaseOrderDetails =
+      await purchaseOrderDao.createPurchaseOrderWithItem(
+        purchase_request_id,
+        vendor_id,
+        order_date,
+        status,
+        total_cost,
+        order_remark,
+        created_by,
+        purchase_order_item
+      );
+    const result = {
+      message: 'success',
+      status: true,
+      data: purchaseOrderDetails,
+    };
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrder service createPurchaseOrderWithItem: ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get PurchaseOrder By PurchaseRequestId
+ * @param purchaseRequestId
+ * @returns
+ */
+const getByPurchaseRequestId = async (purchaseRequestId: number) => {
+  try {
+    let result = null;
+    const purchaseRequestExist = await purchaseRequestDao.getById(
+      purchaseRequestId
+    );
+    if (!purchaseRequestExist) {
+      return {
+        message: 'purchase_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const purchaseOrderData = await purchaseOrderDao.getByPurchaseRequestId(
+      purchaseRequestId
+    );
+    if (purchaseOrderData) {
+      result = { message: 'success', status: true, data: purchaseOrderData };
+      return result;
+    } else {
+      result = {
+        message: 'No data found for this purchase_request_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByPurchaseRequestId purchaseOrder service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to Update an Existing PurchaseOrder Status And Document
+ * @param body
+ * @returns
+ */
+
+const updateStatusAndDocument = async (body: purchaseOrderBody) => {
+  try {
+    const { status, updated_by, purchase_order_documents, purchase_order_id } =
+      body;
+    let result = null;
+    const purchaseOrderExist = await purchaseOrderDao.getById(
+      purchase_order_id
+    );
+    if (!purchaseOrderExist) {
+      result = {
+        message: 'purchase_order_id does not exist',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+
+    const project_id = purchaseOrderExist?.purchase_request_data?.project_id;
+
+    const updatedPurchaseOrderDocuments = [];
+    if (purchase_order_documents) {
+      for (const doc of purchase_order_documents) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === true) {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedPurchaseOrderDocuments.push(doc);
+        }
+      }
+    }
+
+    const purchaseOrderData = await prisma
+      .$transaction(async (tx) => {
+        const purchaseOrderDetails =
+          await purchaseOrderDao.updateStatusAndDocument(
+            status,
+            updated_by,
+            updatedPurchaseOrderDocuments,
+            purchase_order_id,
+            tx
+          );
+
+        const projectInventoryDetails = [];
+
+        /* Function to update or create Project Inventory based on status */
+
+        if (status === 'Product Received') {
+          const purchaseOrderItemDetails =
+            await purchaseOrderItemDao.getByPurchaseOrderId(purchase_order_id);
+
+          for (const purchaseOrderItemDetail of purchaseOrderItemDetails) {
+            const item_id = purchaseOrderItemDetail.item_id;
+            const order_quantity = purchaseOrderItemDetail.order_quantity;
+
+            const projectItemExistInProjectInventory =
+              await projectInventoryDao.getByProjectIdAndItemId(
+                project_id,
+                item_id,
+                tx
+              );
+
+            if (projectItemExistInProjectInventory) {
+              const rate = projectItemExistInProjectInventory?.rate;
+
+              const updated_available_quantity =
+                projectItemExistInProjectInventory?.available_quantity +
+                order_quantity;
+              const total_cost = rate * updated_available_quantity;
+
+              const updatedProjectInventory =
+                await projectInventoryDao.updateQuantityByProjectInventoryId(
+                  updated_available_quantity,
+                  updated_by,
+                  total_cost,
+                  projectItemExistInProjectInventory?.project_inventory_id,
+                  tx
+                );
+              projectInventoryDetails.push(updatedProjectInventory);
+            } else {
+              const itemData = await itemDao.getById(item_id, tx);
+              const rate = itemData?.rate;
+              const total_cost = rate * order_quantity;
+
+              const newProjectInventory = await projectInventoryDao.add(
+                project_id,
+                item_id,
+                rate,
+                order_quantity,
+                total_cost,
+                updated_by,
+                tx
+              );
+              projectInventoryDetails.push(newProjectInventory);
+            }
+          }
+        }
+
+        const purchaseOrderDetailsData = {
+          purchase_order: purchaseOrderDetails,
+          project_inventory: projectInventoryDetails,
+        };
+
+        result = {
+          message: 'success',
+          status: true,
+          data: purchaseOrderDetailsData,
+        };
+        return result;
+      })
+      .then((data) => {
+        console.log('Successfully Purchase Order Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return purchaseOrderData;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrder service updateStatusAndDocument: ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -323,4 +608,7 @@ export {
   getById,
   deletePurchaseOrder,
   searchPurchaseOrder,
+  createPurchaseOrderWithItem,
+  getByPurchaseRequestId,
+  updateStatusAndDocument,
 };

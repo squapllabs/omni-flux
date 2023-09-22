@@ -55,54 +55,69 @@ const MasterDataEditForm: React.FC = (props: any) => {
 
   const handleClose = () => {
     props.setOpen(false);
-  }
+  };
 
   return (
     <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-      <div className={Styles.header}>
-          <div><h4 className={Styles.titleStyle}>Edit Master Data</h4></div>
-          <div> <CancelIcon onClick={handleClose} /></div>
+        <div className={Styles.header}>
+          <div>
+            <h4 className={Styles.titleStyle}>Edit Master Data</h4>
+          </div>
+          <div>
+            <CancelIcon onClick={handleClose} />
+          </div>
         </div>
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.field}>
-            <Input
-              name="master_data_name"
-              label="Name"
-              placeholder="Enter name"
-              value={formik.values.master_data_name}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.master_data_name &&
-                formik.errors.master_data_name
-              }
-              width='100%'
-            />
-          </div>
-          <div className={Styles.field}>
-            <TextArea
-              name="master_data_description"
-              label="Description"
-              placeholder="Enter Description"
-              value={formik.values.master_data_description}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.master_data_description &&
-                formik.errors.master_data_description
-              }
-              rows={3}
-              maxCharacterCount={100}
-            />
-          </div>
-          <div className={Styles.dividerStyle}></div>
-          <div className={Styles.formButton}>
+          <Input
+            name="master_data_name"
+            label="Name"
+            placeholder="Enter name"
+            value={formik.values.master_data_name}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.master_data_name && formik.errors.master_data_name
+            }
+            width="100%"
+          />
+        </div>
+        <div className={Styles.field}>
+          <TextArea
+            name="master_data_description"
+            label="Description"
+            placeholder="Enter Description"
+            value={formik.values.master_data_description}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.master_data_description &&
+              formik.errors.master_data_description
+            }
+            rows={3}
+            maxCharacterCount={100}
+          />
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.formButton}>
           <div>
-            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
+            <Button
+              className={Styles.cancelButton}
+              shape="rectangle"
+              justify="center"
+              size="small"
+              onClick={handleClose}
+            >
               Cancel
             </Button>
           </div>
           <div>
-            <Button type='submit' color="primary" shape="rectangle" justify="center" size="small">
+            <Button
+              type="submit"
+              color="primary"
+              shape="rectangle"
+              justify="center"
+              size="small"
+            >
               Submit
             </Button>
           </div>

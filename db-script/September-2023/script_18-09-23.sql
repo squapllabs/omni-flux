@@ -1,0 +1,2 @@
+alter table purchase_order_item 
+add column purchase_order_item_documents jsonb;

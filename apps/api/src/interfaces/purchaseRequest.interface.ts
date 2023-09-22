@@ -11,6 +11,9 @@ interface purchaseRequestBody {
   is_delete: boolean;
   created_by: number;
   updated_by: number;
+  purchase_request_details: JSON;
+  purchase_request_documents: JSON;
+  vendor_ids: Array<number>;
 }
 
 export { purchaseRequestBody };
