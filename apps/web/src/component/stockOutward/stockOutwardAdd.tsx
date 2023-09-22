@@ -11,6 +11,7 @@ import Checkbox from '../ui/Checkbox';
 import { format } from 'date-fns';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import ProjectService from '../../service/project-service';
+import StockOutWardService from '../../service/stock-outward-service';
 import { getUserDataProjectRolebased, getByProjectId } from '../../hooks/project-hooks'
 import { useNavigate } from 'react-router-dom';
 import {
@@ -33,17 +34,16 @@ const StoreOutwardAdd = () => {
     const [initialValues, setInitialValues] = useState({
         site_id: '',
         // site_engineer_id: Number(siteEngineerId),
-        site_engineer_id:'',
+        site_engineer_id: '',
         stock_outward_date: format(new Date(), 'yyyy-MM-dd'),
     });
     const [checked, setChecked] = useState(false)
     const [siteChecked, setSiteChecked] = useState(false)
     const [stockData, setStockData] = useState<any>([]);
     const [disable, setDisable] = useState(true)
+    const [stockOutWardData, setStockOutWardData] = useState<any>([]);
     const [siteData, setSiteData] = useState();
     const [buttonDisable, setButtonDisable] = useState(false);
-
-
 
 
     const navigate = useNavigate();
@@ -66,10 +66,18 @@ const StoreOutwardAdd = () => {
         onSubmit: (values, { resetForm }) => {
             console.log("valu", values);
             let arr = [];
-            arr = [...stockData, values];
-            setStockData(arr);
+            // let site_data: any = values;
+            const outerObject = {
+                items: [...stockData],      // Add the items array
+                site_details: values, // Add the site details object
+            };
+            // arr = [...outerObject];
+            arr.push(outerObject)
+            setStockOutWardData(arr);
         }
     });
+
+    console.log("stockData", stockOutWardData);
 
 
     const handleCheckBoxChange = (e: any) => {
@@ -97,8 +105,9 @@ const StoreOutwardAdd = () => {
     }
 
 
+
     useEffect(() => {
-        fetchProjectSite()
+        fetchProjectSite();
     }, [])
 
     return (
@@ -156,7 +165,7 @@ const StoreOutwardAdd = () => {
                                         label="Site Engineer Name"
                                         name="site_engineer_id"
                                         onChange={formik.handleChange}
-                                        value={formik.values.site_engineer_id }
+                                        value={formik.values.site_engineer_id}
                                         placeholder="Select from options"
                                         mandatory
                                         // disabled={siteChecked === false ? true : false}
@@ -280,13 +289,34 @@ const ItemDetailsTable: React.FC = (props: {
     let rowIndex = 0;
     const [initialValues, setInitialValues] = useState({
         item_id: '',
+        item_name: '',
         outward_quantity: '',
-        available_quantity: '100',
-        name: 'Meter'
+        available_quantity: '',
+        name: '',
+        uom_id: ''
     });
-
+    const [itemData, setItemData] = useState<any>([]);
+    const [itemDetails, setItemDetails] = useState();
     const validationSchema = getStockOutwardItemCreationYupschema(Yup);
-    const itemData: any = [{ value: "169", label: "Item 121" }, { value: "159", label: "Item 6" }]
+
+    const fetchProjectInventoryItem = async () => {
+        const itemData = await StockOutWardService.getProjectInventoryItem(137)
+        // console.log("i", itemData);
+        setItemDetails(itemData?.data)
+        let arr: any = [];
+        let itemValues = itemData?.data?.map((item: any) => {
+            let obj: any = {
+                value: item?.item_id,
+                label: item?.item_data?.item_name
+            }
+            arr.push(obj)
+        })
+        setItemData(arr)
+    }
+
+    useEffect(() => {
+        fetchProjectInventoryItem();
+    }, [])
 
     // const handleChange = (
     //     event: React.ChangeEvent<HTMLInputElement>,
@@ -307,12 +337,16 @@ const ItemDetailsTable: React.FC = (props: {
         validationSchema,
         enableReinitialize: true,
         onSubmit: (values, { resetForm }) => {
-            console.log("values", values);
+            // console.log("values", values);
             setStockData([...stockData, values])
             resetForm()
         }
     });
 
+    const handleDelete = (index: number) => {
+        stockData.splice(index, 1);
+        setStockData([...stockData]);
+    }
 
 
     return (
@@ -353,10 +387,24 @@ const ItemDetailsTable: React.FC = (props: {
                             return (
                                 <tr>
                                     <td>{rowIndex}</td>
-                                    <td>{items.item_id}</td>
+                                    <td>{items.item_name}</td>
                                     <td>{items.outward_quantity}</td>
                                     <td>{items.available_quantity}</td>
                                     <td>{items.name}</td>
+                                    <td>
+                                        <div
+                                            style={{
+                                                cursor: 'pointer',
+                                                // paddingBottom: '20px',
+                                            }}
+                                        >
+                                            <div >
+                                                <DeleteIcon
+                                                    onClick={() => handleDelete(index)}
+                                                />
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             );
                         })}
@@ -373,6 +421,23 @@ const ItemDetailsTable: React.FC = (props: {
                                     onChange={formik.handleChange}
                                     onSelect={(value) => {
                                         formik.setFieldValue('item_id', value);
+                                        const matchingObjects = itemDetails?.filter(
+                                            (obj: any) => Number(obj.item_id) === Number(value)
+                                        );
+                                        console.log("m", matchingObjects);
+
+                                        formik.setFieldValue(
+                                            'available_quantity',
+                                            matchingObjects[0]?.available_quantity
+                                        );
+                                        formik.setFieldValue(
+                                            'uom_id',
+                                            matchingObjects[0]?.item_data?.uom_id
+                                        );
+                                        formik.setFieldValue(
+                                            'item_name',
+                                            matchingObjects[0]?.item_data?.item_name
+                                        );
                                     }}
 
                                     error={

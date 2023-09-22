@@ -22,8 +22,10 @@ const CustomPurchaseRequestPopup = (props: {
   indentId: any;
   projectId: any;
   setReload: any;
+  setOpenSnack:any;
+  setMessage:any;
 }) => {
-  const { isVissible, onAction, indentId, projectId, setReload } = props;
+  const { isVissible, onAction, indentId, projectId, setReload ,setOpenSnack,setMessage} = props;
   const [itemValues, setItemsValues] = useState([]);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -107,12 +109,9 @@ const CustomPurchaseRequestPopup = (props: {
     createNewPurchaseRequest(requestBody, {
       onSuccess: (data, variables, context) => {
         if (data?.message === 'success') {
-          // setMessage('Labour created');
-          // setOpenSnack(true);
+          setMessage('Purchase Request created');
+          setOpenSnack(true);
           setReload(true);
-          setTimeout(() => {
-            //   navigate('/labour');
-          }, 1000);
         }
       },
     });

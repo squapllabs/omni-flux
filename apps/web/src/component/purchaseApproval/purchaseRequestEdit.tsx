@@ -143,7 +143,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
       }));
       if (existingFileUrl.length > 0 && selectedFiles.length>0) {
         existingFileUrl.forEach((item) => {
-          item.is_delete = false;
+          item.is_delete = true;
         });
         const combinedArray =
           modifiedArrayWithDeleteFlag.concat(existingFileUrl);
@@ -192,6 +192,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
             props.setOpenSnack(true);
             props.setOpen(false);
             props.setReload(true);
+            props.setOpenSnack(true);
           }
         },
       });

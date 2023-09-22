@@ -18,7 +18,7 @@ const getStockOutWardData = async (values: JSON) => {
 const getProjectInventoryItem = async (data: any) => {
   try {
     const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/user/get-users-by-role-name/${data?.role}`
+      `${environment.apiUrl}/project-inventory/get-by-project-id/${data}`
     );
     return response.data;
   } catch (error) {
