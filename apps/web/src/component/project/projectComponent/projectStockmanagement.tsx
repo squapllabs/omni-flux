@@ -9,6 +9,10 @@ import {
 } from '../../../hooks/stockAudit-hooks';
 import CustomLoader from '../../ui/customLoader';
 import { format } from 'date-fns';
+import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
+import { getProjectSite } from '../../../hooks/project-hooks';
+import Pagination from '../../menu/pagination';
+import ViewIcon from '../../menu/icons/viewIcon';
 
 const ProjectStockmanagement = () => {
   const routeParams = useParams();
@@ -19,9 +23,12 @@ const ProjectStockmanagement = () => {
     data: getStockAuditList,
     isLoading: fetchLoader,
   } = getByFilterStockAudit();
-  console.log('getStockAuditList', getStockAuditList?.content);
+  console.log('getStockAuditList', getStockAuditList);
+
+  const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [filterValue, setFilterValue] = useState<any>({});
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
@@ -30,6 +37,19 @@ const ProjectStockmanagement = () => {
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage]);
+
+  /* Function for changing the table page */
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  /* Function for changing no of rows in pagination */
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
 
   /* Function for search */
   const handleSearch = async () => {
@@ -40,13 +60,14 @@ const ProjectStockmanagement = () => {
       order_by_direction: 'desc',
       status: 'AC',
       project_id: Number(routeParams?.id),
-      site_id: '',
+      ...filterValue,
     };
     postDataForFilter(demo);
   };
 
   /* Function for resting the search field and data to normal state */
   const handleReset = async () => {
+    setFilterValue('');
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
@@ -54,6 +75,8 @@ const ProjectStockmanagement = () => {
       order_by_direction: 'desc',
       status: 'AC',
       global_search: '',
+      project_id: Number(routeParams?.id),
+      site_id: '',
     };
     postDataForFilter(demo);
   };
@@ -76,6 +99,46 @@ const ProjectStockmanagement = () => {
           </Button>
         </div>
         <div className={Styles.tableContainer}>
+          <div className={Styles.searchField}>
+            <div className={Styles.inputFilter}>
+              <div className={Styles.filterSelect}>
+                <AutoCompleteSelect
+                  name="site_id"
+                  label="Site"
+                  mandatory={true}
+                  optionList={getSiteList}
+                  value={filterValue.site_id}
+                  onSelect={(value) => {
+                    setFilterValue({ ...filterValue, ['site_id']: value });
+                  }}
+                />
+              </div>
+              <div className={Styles.filterButton}>
+                <Button
+                  className={Styles.searchButton}
+                  type="button"
+                  color="primary"
+                  shape="rectangle"
+                  size="small"
+                  justify="center"
+                  onClick={(e) => handleSearch(e)}
+                >
+                  Search
+                </Button>
+                <Button
+                  className={Styles.resetButton}
+                  type="button"
+                  color="secondary"
+                  shape="rectangle"
+                  size="small"
+                  justify="center"
+                  onClick={(e) => handleReset(e)}
+                >
+                  Reset
+                </Button>
+              </div>
+            </div>
+          </div>
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>
@@ -95,12 +158,33 @@ const ProjectStockmanagement = () => {
                     <td>{items?.site_data?.name}</td>
                     <td>{dateFormat(items?.stock_audit_date)}</td>
                     <td>{items?.item_details?.length}</td>
-                    <td></td>
+                    <td>
+                      <div
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          navigate(
+                            `/project-stockView/${items?.stock_audit_id}`
+                          );
+                        }}
+                      >
+                        <ViewIcon />
+                      </div>
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          <div className={Styles.pagination}>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={getStockAuditList?.total_page}
+              totalCount={getStockAuditList?.total_count}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+            />
+          </div>
         </div>
       </CustomLoader>
     </div>

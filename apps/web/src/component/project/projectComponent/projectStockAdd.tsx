@@ -64,8 +64,27 @@ const ProjectStockAdd = () => {
   });
 
   return (
-    <div className={Styles.Container}>
+    <div className={Styles.stock_Container}>
       <form onSubmit={formik.handleSubmit}>
+        <div className={Styles.box}>
+          <div className={Styles.mainTextContent}>
+            <div className={Styles.textContent_1}>
+              <h3>Stock Audit Add</h3>
+              <span className={Styles.content}>
+                Add your Stock audit in day basis
+              </span>
+            </div>
+            <div
+              style={{
+                width: '70%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <h3>Project Name :{getProjectData?.project_name}</h3>
+            </div>
+          </div>
+        </div>
         <div
           style={{
             display: 'flex',
@@ -74,13 +93,6 @@ const ProjectStockAdd = () => {
             padding: '10px',
           }}
         >
-          <div style={{ width: '30%' }}>
-            <Input
-              label="Project Name"
-              value={getProjectData?.project_name}
-              disabled={true}
-            />
-          </div>
           <div style={{ width: '30%' }}>
             <AutoCompleteSelect
               name="site_id"
@@ -112,13 +124,17 @@ const ProjectStockAdd = () => {
                 checked={check}
                 onChange={() => {
                   setChecked(!check);
+                  formik.setFieldValue(
+                    'stock_audit_date',
+                    dateFormat(new Date())
+                  );
                 }}
               />
-              <span style={{ fontSize: 'small' }}>To audit for past date</span>
+              <span style={{ fontSize: 'small' }}>Edit stock date</span>
             </div>
           </div>
         </div>
-        <div className={Styles.tableContainer}>
+        <div>
           <ItemsTable setItemsList={setItemsList} itemsList={itemsList} />
           <div className={Styles.buttons}>
             <Button
