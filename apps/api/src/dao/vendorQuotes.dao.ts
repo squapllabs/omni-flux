@@ -96,6 +96,10 @@ const getById = async (vendorQuotesId: number, connectionObj = null) => {
         vendor_quotes_id: Number(vendorQuotesId),
         is_delete: false,
       },
+      include: {
+        vendor_data: true,
+        purchase_request_data: true,
+      },
     });
     return vendorQuotes;
   } catch (error) {
