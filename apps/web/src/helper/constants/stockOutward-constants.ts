@@ -31,6 +31,6 @@ export const getStockOutwardItemCreationYupschema = (yup: any) => {
             .max(yup.ref('available_quantity'), 'quantity must be less than or equal to available quantity'),
         available_quantity: yup
             .number()
-            .required()
+            // .required()
     });
 };

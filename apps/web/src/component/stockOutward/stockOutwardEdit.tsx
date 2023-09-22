@@ -13,7 +13,7 @@ import DeleteIcon from '../menu/icons/deleteIcon';
 import ProjectService from '../../service/project-service';
 import StockOutWardService from '../../service/stock-outward-service';
 import { getUserDataProjectRolebased, getByProjectId } from '../../hooks/project-hooks'
-import { createStockOutWard } from '../../hooks/stock-outward'
+import { createStockOutWard, getByStockOutWardId } from '../../hooks/stock-outward'
 import { useNavigate } from 'react-router-dom';
 import {
     getStockOutwardCreationYupschema,
@@ -22,31 +22,62 @@ import {
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
+import { useParams } from 'react-router-dom';
 
 
 
-const StoreOutwardAdd = () => {
+
+
+const StoreOutwardEdit = () => {
+    const routeParams = useParams();
     const state: RootState = store.getState();
     const encryptedData = getToken(state, 'Data');
     const userData: any = encryptedData.userData;
     const siteEngineerName: any = userData.first_name + " " + userData.last_name
     const siteEngineerId: any = userData.user_id;
 
+
+    const { data: getOneStockOutWardData, isLoading } = getByStockOutWardId(
+        Number(routeParams?.id)
+    );
+
+
+    console.log("getOneStockOutWardData--->", getOneStockOutWardData);
     const [initialValues, setInitialValues] = useState({
         site_id: '',
+        outward_id: '',
         // site_engineer_id: Number(siteEngineerId),
         site_engineer_id: '',
         stock_outward_date: format(new Date(), 'yyyy-MM-dd'),
-    });
+    })
     const [checked, setChecked] = useState(false)
     const [siteChecked, setSiteChecked] = useState(false)
     const [stockData, setStockData] = useState<any>([]);
     const [disable, setDisable] = useState(true)
-    const [siteData, setSiteData] = useState();
+    const [siteData, setSiteData] = useState('');
     const [openSnack, setOpenSnack] = useState(false);
     const [message, setMessage] = useState('');
     const [open, setOpen] = useState(false);
 
+    useEffect(() => {
+        if (getOneStockOutWardData) {
+            const stockDate = getOneStockOutWardData?.stock_outward_date;
+            let formattedDate = '';
+            if (stockDate) {
+                const currentDate = new Date(stockDate);
+                formattedDate = format(currentDate, 'yyyy-MM-dd');
+            }
+
+            setInitialValues({
+                site_id: getOneStockOutWardData?.site_id || '',
+                outward_id: getOneStockOutWardData?.outward_id || '',
+                // site_engineer_id: Number(siteEngineerId),
+                site_engineer_id: getOneStockOutWardData?.site_engineer_id || '',
+                stock_outward_date: formattedDate || format(new Date(), 'yyyy-MM-dd'),
+            });
+        }
+        fetchProjectSite();
+    }, [getOneStockOutWardData])
 
     const navigate = useNavigate();
     let rowIndex = 0;
@@ -127,9 +158,7 @@ const StoreOutwardAdd = () => {
 
 
 
-    useEffect(() => {
-        fetchProjectSite();
-    }, [])
+
 
     return (
         <div>
@@ -150,12 +179,12 @@ const StoreOutwardAdd = () => {
                                 <div>
                                     <Input
                                         label="OutWardID"
-                                        placeholder="STO-YYYY-"
-                                        name="quantity"
+                                        // placeholder="STO-YYYY-"
+                                        name="outward_id"
                                         // mandatory={true}
                                         disabled={true}
                                         width="350px"
-                                        // value={formik.values.quantity}
+                                        value={formik.values.outward_id}
                                         onChange={formik.handleChange}
                                     // error={
                                     //     formik.touched.quantity && formik.errors.quantity
@@ -258,7 +287,7 @@ const StoreOutwardAdd = () => {
                             <div className={Styles.dividerStyle}></div>
                             <div className={Styles.tableContainer}>
 
-                                <ItemDetailsTable stockData={stockData} setStockData={setStockData} />
+                                <ItemDetailsTable stockData={stockData} setStockData={setStockData} stockOutWardId ={routeParams?.id}/>
                             </div>
                         </div>
                         <div className={Styles.buttonFields}>
@@ -279,6 +308,7 @@ const StoreOutwardAdd = () => {
                             <div>
                                 <Button
                                     color="primary"
+                                    type='button'
                                     shape="rectangle"
                                     justify="center"
                                     size="small"
@@ -302,14 +332,15 @@ const StoreOutwardAdd = () => {
     )
 }
 
-export default StoreOutwardAdd
+export default StoreOutwardEdit
 
 
 const ItemDetailsTable: React.FC = (props: {
     stockData: any;
     setStockData: any;
+    stockOutWardId:any;
 }) => {
-    const { stockData, setStockData } = props;
+    const { stockData, setStockData,stockOutWardId } = props;
 
     let rowIndex = 0;
     const [initialValues, setInitialValues] = useState({
@@ -323,7 +354,12 @@ const ItemDetailsTable: React.FC = (props: {
     const [itemData, setItemData] = useState<any>([]);
     const [itemDetails, setItemDetails] = useState();
     const validationSchema = getStockOutwardItemCreationYupschema(Yup);
+    const { data: getOneStockOutWardData, isLoading } = getByStockOutWardId(
+        Number(stockOutWardId)
+    );
 
+    console.log("getOneStockOutWardData ==>",getOneStockOutWardData);
+    
     const fetchProjectInventoryItem = async () => {
         const itemData = await StockOutWardService.getProjectInventoryItem(137)
         setItemDetails(itemData?.data)
@@ -339,8 +375,21 @@ const ItemDetailsTable: React.FC = (props: {
     }
 
     useEffect(() => {
+        if(getOneStockOutWardData){
+            
+            const transformedStockOutwardDetails = getOneStockOutWardData?.stock_outward_details?.map((item: any) => ({
+                item_id: item.item_id,
+                outward_quantity: Number(item.outward_quantity),
+                uom_id: item.uom_id,
+                // is_delete: false
+            }))
+            console.log("use",transformedStockOutwardDetails);
+            setStockData(transformedStockOutwardDetails)
+
+        }
+
         fetchProjectInventoryItem();
-    }, [])
+    }, [getOneStockOutWardData])
 
     // const handleChange = (
     //     event: React.ChangeEvent<HTMLInputElement>,
@@ -387,7 +436,7 @@ const ItemDetailsTable: React.FC = (props: {
                             justify="center"
                             size="small"
                             onClick={() => formik.handleSubmit()}
-                            icon={<AddIcon color='white'/>}
+                            icon={<AddIcon color='white' />}
                         >
                             Add
                         </Button>
