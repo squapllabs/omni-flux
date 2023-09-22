@@ -99,8 +99,48 @@ tr:hover {
   gap: 20px;
 }
 .dashBoardcontainer{
-  padding: 10px 10px 10px 10px;
+  padding: 2px;
 }
 .dashBoard {
   height: 300px;
+}
+
+// For Cards in Dashboard
+.card {
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: 23%;
+  border-radius: 2px;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.graphCard {
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: 47%;
+  column-gap: 50px;
+  border-radius: 2px;
+}
+
+.graphCard:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.cardContainer {
+  padding: 15px 2px;
+} 
+
+.cardDiv {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.chart {
+  width: 100%;
+  padding: 20px 50px;
 }

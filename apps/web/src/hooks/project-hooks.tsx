@@ -10,6 +10,10 @@ const useGetAllProject = () => {
       })),
   });
 };
+
+const useGetAllProjectStatus = () => {
+  return useQuery(['useGetAllProjectStatus'], () => ProjectService.getAllProjectStatus())
+}
 // const useGetAllProjectDrop = () => {
 //   return useQuery(
 //     ['useGetAllProjectDrop'],
@@ -159,6 +163,7 @@ const useGetAllProjectManagers = () => {
 };
 export {
   useGetAllProject,
+  useGetAllProjectStatus,
   createProject,
   getByProject,
   useDeleteProjects,

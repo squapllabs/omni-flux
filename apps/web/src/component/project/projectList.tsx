@@ -4,6 +4,7 @@ import {
   getByProject,
   useDeleteProjects,
   useGetAllProject,
+  useGetAllProjectStatus,
   getMemberBasedProject,
 } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
@@ -22,12 +23,17 @@ import ViewIcon from '../menu/icons/viewIcon';
 import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
+import { Chart } from "react-google-charts";
+
 
 const ProjectList = () => {
   const state: RootState = store.getState();
   let encryptedData = getToken(state, 'Data');
   let userID: number = encryptedData.userId;
   const { isLoading: getAllLoading } = useGetAllProject();
+  const {data: projectStatus} = useGetAllProjectStatus();
+  console.log("Project Status ==> ", projectStatus);
+  
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -138,15 +144,98 @@ const ProjectList = () => {
     setOpenDeleteSnack(false);
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
+  const chartOptions1 = {
+    chart: {
+      title: "Project Status",
+      subtitle: "Estimated Days, Completed Days",    
+    } 
+  };
+  const chartOptions2 = {
+    chart: {
+      title: "Top Projects",
+      subtitle: "Top Projects Based on Budget",    
+    } 
+  };
+  const projectStatusData = [
+      ["Projects", "Estimated Days", "Completed Days"],
+      ["Project 1", 1000, 200],
+      ["Project 2", 1170, 650],
+      ["Project 3",  1120, 300],
+      ["Project 4", 540, 350],
+  ];
+
+  const topProjectsData = [
+      ["Projects", "Budget"],
+      ["Project 1", 120000],
+      ["Project 2", 150000],
+      ["Project 3", 60000],
+      ["Project 4", 40000],
+    ];
+  
   return (
     <div className={Styles.container}>
       <div className={Styles.dashBoardcontainer}>
         <CustomCard>
-          <div className={Styles.dashBoard}>
-            <h3>Dashboard Under Construction</h3>
-          </div>
+            <div className={Styles.cardDiv}>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                    <div className={Styles.textStyle}>
+                      <h3><b>Total Projects</b></h3> 
+                      <p>55</p> 
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                    <div className={Styles.textStyle}>
+                        <h3><b>Active Projects</b></h3> 
+                        <p>605</p> 
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                  <div className={Styles.textStyle}>
+                      <h3><b>In-active Projects</b></h3> 
+                      <p>605</p> 
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                  <div className={Styles.textStyle}>
+                      <h3><b>Total Vendors</b></h3> 
+                      <p>{projectStatus}</p> 
+                  </div>
+                  </div>
+              </div>
+            </div>
+            <div className={Styles.cardDiv}>
+              <div className={Styles.graphCard}>
+                <div className={Styles.chart}>
+                  <Chart
+                  chartType="Bar"
+                  height="400px"
+                  data={projectStatusData}
+                  options={chartOptions1}
+                  />
+                </div>
+              </div>
+              <div className={Styles.graphCard}>
+                <div className={Styles.chart}>
+                  <Chart
+                  chartType="Bar"
+                  height="400px"
+                  data={topProjectsData}
+                  options={chartOptions2}                 
+                  />
+                </div>
+              </div>
+            </div>
         </CustomCard>
       </div>
+      
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}

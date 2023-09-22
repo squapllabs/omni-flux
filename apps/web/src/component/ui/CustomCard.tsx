@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const CardWrapper = styled.div`
   background-color: #fff;
   border: 1px solid black;
-  border-radius: 10px;
+  // border-radius: 10px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(2,6, 2, 2);
 `;

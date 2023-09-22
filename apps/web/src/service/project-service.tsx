@@ -13,6 +13,22 @@ const getAllProject = async () => {
   }
 };
 
+const getAllProjectStatus = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project/getAll`
+    );
+    console.log("Response in Service ==>", response); 
+    console.log("Response Data ==>", response.data); 
+    console.log("Response Data2 ==>", response.data.data[0].approvar_id); 
+    return response.data.data[0].approvar_id;
+  }
+  catch (error) {
+    console.log("Error in getAllProjectStatus() SERVICE", error);
+    throw error;
+  }
+}
+
 const createProjectData = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -134,6 +150,7 @@ const getUserDataRolebasedandProjectBased = async (value: any) => {
 };
 export default {
   getAllProject,
+  getAllProjectStatus,
   createProjectData,
   checkProjectCodeDuplicate,
   filterProject,
