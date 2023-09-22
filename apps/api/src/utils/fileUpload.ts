@@ -2,6 +2,7 @@ import s3Access from './s3';
 import fs from 'fs';
 
 const processFileUpload = async (req) => {
+  console.log("service call:",)
   const storage = req.body.storage;
   const code = req.body.code;
   const folder = req.body.folder;
@@ -13,19 +14,20 @@ const processFileUpload = async (req) => {
   if (storage === 's3') {
     for (const file of files.file) {
       data = await s3Access.uploadFileInS3(file, code, folder);
+      console.log("Check uploaded data:", data)
       const uploadedFile = file;
       const filePath = uploadedFile.path;
       const s3FilePath = data.path;
 
       allFilePath.push({ index, path: s3FilePath });
-
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.error('Error deleting the local file:', err);
-        } else {
-          console.log('Local File deleted successfully.');
-        }
-      });
+      console.log("test 1:", filePath)
+      // fs.unlink(filePath, (err) => {
+      //   if (err) {
+      //     console.error('Error deleting the local file:', err);
+      //   } else {
+      //     console.log('Local File deleted successfully.');
+      //   }
+      // });
 
       index++;
     }

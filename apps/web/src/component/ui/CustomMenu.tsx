@@ -2,13 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/vendorSelect.module.scss';
 import MoreHorizIcon from '../menu/icons/moreHorizontalIcon';
 
-const CustomMenu = ({ actions }) => {
+const CustomMenu = ({ actions }:any) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleItemClick = (action: any) => {
+    if (!action.disabled) {
+      action.onClick();
+      setIsOpen(false); 
+    }
+  };
+
 
   useEffect(() => {
     const handleClickOutside = (event:any) => {
@@ -32,8 +40,9 @@ const CustomMenu = ({ actions }) => {
           {actions.map((action:any, index:any) => (
             <div
             key={index}
-            onClick={action.disabled ? null : action.onClick}
-            className={action.disabled ? 'disabled' : ''}
+            // onClick={action.disabled ? null : action.onClick}
+            onClick={() => handleItemClick(action)}
+            className={`${Styles.menuItem} ${action.disabled ? Styles.disabled : ''}`}
           >
               {action.label}
             </div>

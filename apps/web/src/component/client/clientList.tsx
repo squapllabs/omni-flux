@@ -143,7 +143,7 @@ const ClientList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -190,7 +190,7 @@ const ClientList = () => {
     setActiveButton(value);
   };
 
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
     <div>

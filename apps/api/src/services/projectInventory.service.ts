@@ -317,6 +317,47 @@ const searchProjectInventory = async (body) => {
   }
 };
 
+/**
+ * Method to get ProjectInventory By Project Id
+ * @param project_id
+ * @returns
+ */
+const getByProjectId = async (project_id: number) => {
+  try {
+    let result = null;
+
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const projectInventoryData = await projectInventoryDao.getByProjectId(
+      project_id
+    );
+    if (projectInventoryData.length > 0) {
+      result = { message: 'success', status: true, data: projectInventoryData };
+      return result;
+    } else {
+      result = {
+        message: 'No data found for this project_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectId projectInventory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProjectInventory,
   updateProjectInventory,
@@ -324,4 +365,5 @@ export {
   getById,
   deleteProjectInventory,
   searchProjectInventory,
+  getByProjectId,
 };
