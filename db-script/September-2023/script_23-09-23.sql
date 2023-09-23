@@ -57,3 +57,6 @@ start 1
 increment 1;
 
 select concat('EXP',DATE_PART('year', CURRENT_DATE),'00',nextval('expence_code_sequence')::text) as expence_code_sequence;
+
+alter table expense_details 
+add column bill_number varchar(20);
