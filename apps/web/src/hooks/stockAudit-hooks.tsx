@@ -95,6 +95,16 @@ const useGetAllStockAudits = () => {
   );
 };
 
+const getItemByProjectAndSite = (values : any) => {
+  return useQuery(
+    ['getItems', values],
+    () => StockAuditService.getItems(values),
+    {
+      select: (data) => data.data,
+    }
+  );
+};
+
 export {
   useGetAllPaginatedStockAudit,
   getByFilterStockAudit,
@@ -103,4 +113,5 @@ export {
   updateStockAudit,
   getByStockAuditId,
   useGetAllStockAudits,
+  getItemByProjectAndSite
 };

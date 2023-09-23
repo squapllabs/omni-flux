@@ -275,6 +275,13 @@
 .container {
   padding: 10px;
 }
+.content_container_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+  font-weight: bold;
+}
 .content_container {
   display: flex;
   flex-direction: column;
