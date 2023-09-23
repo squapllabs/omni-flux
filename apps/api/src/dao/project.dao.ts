@@ -456,7 +456,7 @@ const getAllDashboard = async (connectionObj = null) => {
         (p.date_ended - p.date_started),
         'days_completed',
         (current_date - date_started ),
-        'project name',
+        'project_name',
         p.project_name,
        'total_budget',
         p.actual_budget) as top_five_projects
