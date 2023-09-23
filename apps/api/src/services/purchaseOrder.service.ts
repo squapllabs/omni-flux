@@ -534,7 +534,10 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
 
         if (status === 'Product Received') {
           const purchaseOrderItemDetails =
-            await purchaseOrderItemDao.getByPurchaseOrderId(purchase_order_id);
+            await purchaseOrderItemDao.getByPurchaseOrderId(
+              purchase_order_id,
+              tx
+            );
 
           for (const purchaseOrderItemDetail of purchaseOrderItemDetails) {
             const item_id = purchaseOrderItemDetail.item_id;
