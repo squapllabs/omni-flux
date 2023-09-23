@@ -11,6 +11,7 @@ import PurchaseList from '../purchaseApproval/purchaseList';
 import PlanEngApproval from '../indentApproval/indentList';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
+import SideNav from '../ui/SubmenuNav';
 const Settings = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -25,16 +26,52 @@ const Settings = () => {
     { label: 'Labour List', value: 'LB' },
   ];
 
+ const menuItemsCategory = [
+    {
+      id: 1,
+      name: 'Category',
+    },
+    {
+      id: 2,
+      name: 'Sub Category',
+    },
+    {
+      id: 3,
+      name: 'Sub Sub Category',
+    },
+
+    {
+      id: 4,
+      name: 'GST',
+    },
+    {
+      id: 5,
+      name: 'UOM',
+    },
+    {
+      id: 6,
+      name: 'Client',
+    },
+    {
+      id: 7,
+      name: 'HSN Code',
+    },
+  ];
   if (roleName === 'Planning Engineer') {
     menuItems.push({ label: 'Indent Approval', value: 'IA' });
   }
   if (roleName === 'Purchase Manager') {
     menuItems.push({ label: 'Purchase List', value: 'PL' });
   }
+ 
+  const [selectedItem, setSelectedItem] = useState<number>(1);
   const [buttonLabels, setButtonLabels] = useState(menuItems);
   const [activeButton, setActiveButton] = useState<string | null>('C');
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
+  };
+   const handleMenuItemClick = (id: number) => {
+    setSelectedItem(id);
   };
   return (
     <div>
@@ -46,11 +83,18 @@ const Settings = () => {
             onClick={handleGroupButtonClick}
             activeButton={activeButton}
           />
+		    {activeButton == 'C' && (
+            <SideNav
+              menuItemsCategory={menuItemsCategory}
+              selectedItem={selectedItem}
+              handleMenuItemClick={handleMenuItemClick}
+            />
+          )}
         </div>
       </div>
       <div className={Styles.dividerLine}></div>
       <div>
-        {activeButton === 'C' && <Category />}
+        {activeButton === 'C' && <Category selectedItem={selectedItem}  />}
         {activeButton === 'M' && <MasterData />}
         {activeButton === 'U' && <UserList />}
         {activeButton === 'LL' && <LeadList />}

@@ -269,6 +269,7 @@ const searchPurchaseOrder = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const project_id = body.project_id;
+    const bill_status = body.bill_status;
 
     const filterObj: any = {};
 
@@ -287,6 +288,16 @@ const searchPurchaseOrder = async (body) => {
         purchase_request_data: {
           project_id: project_id,
         },
+      });
+    }
+
+    if (bill_status) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        status: bill_status,
       });
     }
 
