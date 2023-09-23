@@ -370,7 +370,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                                 : 'auto',
                           }}
                         >
-                          <AddIcon style={{ height: '15px', width: '15px' }} />
+                          <AddIcon style={{ height: '15px', width: '15px'}} />
                           <p className={Styles.addText}>Add Site Expense</p>
                         </div>
                       </div>
@@ -507,7 +507,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
               shape="rectangle"
               size="small"
               justify="center"
-              icon={<AddIcon />}
+              icon={<AddIcon color="white"/>}
               onClick={(e) => {
                 handleSubmit(e);
               }}

@@ -8,13 +8,13 @@ interface MenuItem {
 }
 
 interface SideNavProps {
-  menuItems: MenuItem[];
+  menuItemsCategory: MenuItem[];
   selectedItem: number; // Add the new prop for selectedItem
   handleMenuItemClick: (id: number) => void;
 }
 
 const SideNav: React.FC<SideNavProps> = ({
-  menuItems,
+  menuItemsCategory,
   selectedItem, // Receive selectedItem from props
   handleMenuItemClick,
 }) => {
@@ -25,7 +25,7 @@ const SideNav: React.FC<SideNavProps> = ({
     <div className={Styles.Container}>
       <div className={Styles.menu}>
         <ul>
-          {menuItems.map((item) => (
+          {menuItemsCategory.map((item) => (
             <li
               key={item.id}
               className={selectedItem === item.id ? Styles.selected : ''}

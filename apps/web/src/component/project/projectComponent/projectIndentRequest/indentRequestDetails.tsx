@@ -27,6 +27,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     quantity: 0,
     total: 0,
     is_delete: false,
+    uom_name: '',
   });
   const [indentDetails, setIndentDetails] = useState<any>();
   const [openDelete, setOpenDelete] = useState(false);
@@ -74,6 +75,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     };
     const tempArry = [...props.indentRequestDetailsList];
     tempArry[index] = tempObj;
+    
     props.setIndentRequestDetailsList(tempArry);
   };
   const validationSchema = yup.object().shape({
@@ -141,6 +143,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
             <tr>
               <th className={Styles.tableHeading}>S No</th>
               <th className={Styles.tableHeadingSite}>BOM</th>
+              {/* <th className={Styles.tableHeadingSite}>UOM</th> */}
               <th className={Styles.tableHeading}>Quantity</th>
               <th className={Styles.tableHeading}>Cost</th>
               <th className={Styles.tableHeading}>Action</th>
@@ -148,6 +151,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
           </thead>
           <tbody>
             {props.indentRequestDetailsList?.map((items: any, index: any) => {
+              console.log("props",items);
               if (items?.is_delete === false) {
                 rowIndex = rowIndex + 1;
                 return (
@@ -164,6 +168,15 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         value={items?.bom_detail_id}
                       />
                     </td>
+                    {/* <td>
+                      <Input
+                        name="uom_name"
+                        mandatory={true}
+                        value={items?.uom_name}
+                        onChange={formik?.handleChange}
+                        disabled={props.disabled}
+                      />
+                    </td> */}
                     <td>
                       <Input
                         name="quantity"
@@ -200,7 +213,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
               }
             })}
             <tr>
-              <td></td>
+              <td>{rowIndex + 1}</td>
               <td>
                 <AutoCompleteSelect
                   name="bom_detail_id"
@@ -220,6 +233,14 @@ const IndentRequestDetails: React.FC = (props: any) => {
                       'quantity',
                       matchingObjects[0]?.bom_quantity
                     );
+                    console.log(
+                      'matchingObjects[0]',
+                      matchingObjects[0]?.temp?.uom_data?.name
+                    );
+                    formik.setFieldValue(
+                      'uom_name',
+                      matchingObjects[0]?.temp?.uom_data?.name
+                    );
                     formik.setFieldValue(
                       'total',
                       matchingObjects[0]?.bom_rate /
@@ -232,6 +253,16 @@ const IndentRequestDetails: React.FC = (props: any) => {
                   }
                 />
               </td>
+              {/* <td>
+                {' '}
+                <Input
+                  name="uom_name"
+                  mandatory={true}
+                  value={formik?.values?.uom_name}
+                  onChange={formik?.handleChange}
+                  disabled={true}
+                />
+              </td> */}
               <td>
                 <Input
                   name="quantity"

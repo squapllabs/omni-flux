@@ -13,6 +13,8 @@ import ProjectSettings from './projectComponent/projectSettings';
 import ProjectDocument from './projectComponent/projectDocument';
 import IndentRequest from './projectComponent/projectIndentRequest/indentRequest';
 import ProjectIndentRequestList from './projectComponent/projectIndentRequest/projectIndentRequestList';
+import ProjectStockmanagement from './projectComponent/projectStockmanagement';
+import ProjectStockOutward from '../stockOutward/stockOutwardList';
 const Project = () => {
   const routeParams = useParams();
   const [buttonLabels, setButtonLabels] = useState([
@@ -22,6 +24,8 @@ const Project = () => {
     { label: 'BOM configuration', value: 'PBC' },
     { label: 'Document', value: 'PDT' },
     { label: 'Indent', value: 'PIR' },
+    { label: 'Stock Audit', value: 'PSM' },
+    { label: 'Stock Outward', value: 'PSO' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
@@ -122,6 +126,24 @@ const Project = () => {
               )}
               {activeButton === 'PIR' ? (
                 <ProjectIndentRequestList
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
+              {activeButton === 'PSM' ? (
+                <ProjectStockmanagement
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
+              {activeButton === 'PSO' ? (
+                <ProjectStockOutward
                   setActiveButton={setActiveButton}
                   setLoader={setLoader}
                   loader={loader}

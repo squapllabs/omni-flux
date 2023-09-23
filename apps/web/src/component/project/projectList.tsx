@@ -207,7 +207,7 @@ const ProjectList = () => {
                   justify="center"
                   size="small"
                   color="primary"
-                  icon={<AddIcon />}
+                  icon={<AddIcon color='white'/>}
                   onClick={() => navigate('/project')}
                 >
                   Add
@@ -221,14 +221,14 @@ const ProjectList = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>S. No</th>
+                    <th>S No</th>
                     <th>Name</th>
                     <th>Code</th>
                     <th>Manager</th>
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    {activeButton === 'AC' && <th></th>}
+                    {activeButton === 'AC' && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>

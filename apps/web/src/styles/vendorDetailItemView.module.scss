@@ -1,0 +1,23 @@
+
+.dividerStyle {
+    border-bottom: 1px solid #ccc;
+    padding: 1px 1px 1px 1px;
+  }
+  .title{
+    padding: 0px 15px 0px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    // background-color: aquamarine;
+    height: 45px;
+}
+
+.tableContainer {
+    padding: 15px 15px 0px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width:50%
+  }
