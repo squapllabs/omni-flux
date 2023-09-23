@@ -65,6 +65,7 @@ const add = async (
       const comments = expenseDetail.comments;
       const progressed_date = expenseDetail.progressed_date;
       const progressed_by = expenseDetail.progressed_by;
+      const bill_number = expenseDetail.bill_number;
 
       if (is_delete === false) {
         const newExpenseDetail = await transaction.expense_details.create({
@@ -81,6 +82,7 @@ const add = async (
             comments,
             progressed_date,
             progressed_by,
+            bill_number,
           },
         });
 
@@ -154,6 +156,7 @@ const edit = async (
       const comments = expenseDetail.comments;
       const progressed_date = expenseDetail.progressed_date;
       const progressed_by = expenseDetail.progressed_by;
+      const bill_number = expenseDetail.bill_number;
 
       if (expense_details_id) {
         if (is_delete === true) {
@@ -179,6 +182,7 @@ const edit = async (
               comments,
               progressed_date,
               progressed_by,
+              bill_number,
             },
           });
 
@@ -200,6 +204,7 @@ const edit = async (
               comments,
               progressed_date,
               progressed_by,
+              bill_number,
             },
           });
 

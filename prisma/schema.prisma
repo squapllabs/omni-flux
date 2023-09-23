@@ -1025,6 +1025,7 @@ model expense_details {
   expense_data_id     Int?
   total               Float?
   bill_details        Json?
+  bill_number         String?
   created_date        DateTime
   updated_date        DateTime
   created_by          Int?
