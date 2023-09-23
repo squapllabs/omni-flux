@@ -75,6 +75,18 @@ const getAllStockAudits = async () => {
   }
 };
 
+const getItems = async (values : any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project-inventory/get-by-project-id-and-site-id/${values?.projectId}/${values?.siteId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getItems data :', error);
+    throw error;
+  }
+};
+
 export default {
   filterStockAudit,
   deleteStockAudit,
@@ -82,4 +94,5 @@ export default {
   getOneStockAuditById,
   updateStockAudits,
   getAllStockAudits,
+  getItems
 };

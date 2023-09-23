@@ -145,6 +145,21 @@ const ProjectStockmanagement = () => {
                 </Button>
               </div>
             </div>
+            <div className={Styles.buttons}>
+              <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<AddIcon width={20} color="white" />}
+                onClick={() => {
+                  navigate(`/project-stockadd/${routeParams?.id}`);
+                }}
+              >
+                Add
+              </Button>
+            </div>
           </div>
           <table className={Styles.scrollable_table}>
             <thead>

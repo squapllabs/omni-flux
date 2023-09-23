@@ -71,19 +71,29 @@ const ProjectInventory = () => {
                 </tr>
               </thead>
               <tbody>
-                {tableData?.map((data: any, index: number) => (
-                  <tr key={data.indent_request_id}>
-                    <td>{startingIndex + index}</td>
-                    <td>
-                      {data?.item_data?.item_name || nullLableNameFromEnv}
-                    </td>
-                    <td>{data.available_quantity || nullLableNameFromEnv}</td>
-                    <td>
-                      { data?.item_data?.rate ? formatBudgetValue(data?.item_data?.rate) :
-                        nullLableNameFromEnv}
-                    </td>
+                {tableData && tableData.length > 0 ? (
+                  tableData.map((data: any, index: number) => (
+                    <tr key={data.indent_request_id}>
+                      <td>{startingIndex + index}</td>
+                      <td>
+                        {data?.item_data?.item_name || nullLableNameFromEnv}
+                      </td>
+                      <td>{data.available_quantity || nullLableNameFromEnv}</td>
+                      <td>
+                        {data?.item_data?.rate
+                          ? formatBudgetValue(data?.item_data?.rate)
+                          : nullLableNameFromEnv}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>No data available</td>
+                    <td></td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

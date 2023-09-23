@@ -160,6 +160,6 @@ export const getEditValidateyup = (yup: any) => {
 export const getProjectStockAuditValidate = (yup: any) => {
   return yup.object().shape({
     site_id: yup.string().trim().required(ProjectMessages.SELECT_SITE),
-    site_audit_date: yup.date().required('Site Audit Date id required'),
+    // site_audit_date: yup.date().required('Site Audit Date id required'),
   });
 };
