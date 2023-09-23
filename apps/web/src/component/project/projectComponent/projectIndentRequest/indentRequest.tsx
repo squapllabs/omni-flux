@@ -6,7 +6,7 @@ import Select from '../../../ui/selectNew';
 import DatePicker from '../../../ui/CustomDatePicker';
 import TextArea from '../../../ui/CustomTextArea';
 import Button from '../../../ui/Button';
-import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
+// import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { getBOMbyProjectandType } from '../../../../hooks/bom-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import IndentRequestDetails from './indentRequestDetails';
@@ -75,13 +75,25 @@ const IndentRequest: React.FC = (props: any) => {
           indentData?.data?.expected_delivery_date
         ),
       };
-      console.log('obj', obj);
+      // console.log('obj', obj);
       setInitialValues({
         ...indentData?.data,
         expected_delivery_date: dateFormat(
           indentData?.data?.expected_delivery_date
         ),
       });
+      // console.log('indentData?.data?', indentData?.data);
+      // const uomDataNames = indentData?.data?.indent_request_details.map(
+      //   (detail: any) => detail?.bom_detail_data?.uom_data?.name
+      // );
+      // console.log('uomDataNames', uomDataNames);
+      // const uomNames = indentData?.data?.map((item : any) => item?.bom_detail_data?.uom_data?.name);
+      // console.log("uomNames",uomNames);
+
+      // console.log(
+      //   'indentData?.data?.indent_request_details',
+      //   indentData?.data?.indent_request_details
+      // );
       setIndentRequestDetailsList(indentData?.data?.indent_request_details);
     };
     if (routeParams?.indentid != undefined) fetchData();
@@ -98,8 +110,6 @@ const IndentRequest: React.FC = (props: any) => {
   const { data: getAllProjectSiteDatadrop = [] } = getProjectSite(
     Number(routeParams?.id)
   );
-  console.log('..............', getAllProjectSiteDatadrop);
-
   const handleDraft = () => {
     formik.setFieldValue('request_status', 'Draft');
     formik.submitForm();
@@ -131,6 +141,7 @@ const IndentRequest: React.FC = (props: any) => {
         ...values,
         approver_status: 'Pending',
         indent_request_details: indentRequestDetailsList,
+        site_id: Number(formik.values.site_id),
       };
       if (routeParams?.indentid != undefined) {
         updateIndentData(obj, {

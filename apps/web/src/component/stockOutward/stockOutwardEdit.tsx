@@ -288,7 +288,7 @@ const StoreOutwardEdit = () => {
                                     shape="rectangle"
                                     justify="center"
                                     size="small"
-                                    disabled={stockData?.length === 0 ? true : false}
+                                    // disabled={stockData?.length === 0 ? true : false}
                                     onClick={() => {
                                         navigate(`/project-edit/${projectId}`);
                                     }}

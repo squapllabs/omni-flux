@@ -75,6 +75,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     };
     const tempArry = [...props.indentRequestDetailsList];
     tempArry[index] = tempObj;
+    
     props.setIndentRequestDetailsList(tempArry);
   };
   const validationSchema = yup.object().shape({
@@ -142,7 +143,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
             <tr>
               <th className={Styles.tableHeading}>S No</th>
               <th className={Styles.tableHeadingSite}>BOM</th>
-              <th className={Styles.tableHeadingSite}>UOM</th>
+              {/* <th className={Styles.tableHeadingSite}>UOM</th> */}
               <th className={Styles.tableHeading}>Quantity</th>
               <th className={Styles.tableHeading}>Cost</th>
               <th className={Styles.tableHeading}>Action</th>
@@ -150,6 +151,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
           </thead>
           <tbody>
             {props.indentRequestDetailsList?.map((items: any, index: any) => {
+              console.log("props",items);
               if (items?.is_delete === false) {
                 rowIndex = rowIndex + 1;
                 return (
@@ -166,7 +168,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         value={items?.bom_detail_id}
                       />
                     </td>
-                    <td>
+                    {/* <td>
                       <Input
                         name="uom_name"
                         mandatory={true}
@@ -174,7 +176,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         onChange={formik?.handleChange}
                         disabled={props.disabled}
                       />
-                    </td>
+                    </td> */}
                     <td>
                       <Input
                         name="quantity"
@@ -251,7 +253,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                   }
                 />
               </td>
-              <td>
+              {/* <td>
                 {' '}
                 <Input
                   name="uom_name"
@@ -260,7 +262,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                   onChange={formik?.handleChange}
                   disabled={true}
                 />
-              </td>
+              </td> */}
               <td>
                 <Input
                   name="quantity"
