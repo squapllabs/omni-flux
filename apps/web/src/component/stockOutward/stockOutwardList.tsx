@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/stockOutwardList.module.scss';
 import Button from '../ui/Button';
-import { getAllStockOutwardData } from '../../hooks/store-outward';
+import { getAllStockOutwardData } from '../../hooks/stock-outward';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
 import { format } from 'date-fns';
@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router';
 import AddIcon from '../menu/icons/addIcon';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+import ViewIcon from '../menu/icons/viewIcon';
+import EditIcon from '../menu/icons/editIcon';
+
 
 const StockOutwardList = () => {
   const navigate = useNavigate();
@@ -49,9 +52,9 @@ const StockOutwardList = () => {
       status: 'AC',
       global_search: '',
       site_id: "",
-      project_id:selectedValue
+      project_id: selectedValue
     };
-    console.log("selectedValue",selectedValue);
+    console.log("selectedValue", selectedValue);
     postDataForFilter(stockData);
   };
 
@@ -83,9 +86,9 @@ const StockOutwardList = () => {
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>Store Outward</h3>
+            <h3>Stock Outward</h3>
             <span className={Styles.content}>
-              Store Outward manage your entire organization.
+              Stock Outward manage your entire organization.
             </span>
           </div>
           <div className={Styles.dividerStyleTop}></div>
@@ -134,8 +137,8 @@ const StockOutwardList = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-                icon={<AddIcon />}
-                onClick={() => alert('Navigate')}
+                icon={<AddIcon color='white' />}
+                onClick={() => navigate('/stockoutward-add')}
               >
                 Add
               </Button>
@@ -155,7 +158,7 @@ const StockOutwardList = () => {
                   <th>Site Engineer</th>
                   <th>Item Count</th>
                   <th>Delivery Date</th>
-                  <th>Options</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -188,6 +191,12 @@ const StockOutwardList = () => {
                           new Date(data?.stock_outward_date),
                           'dd-MMM-yyyy'
                         )}
+                      </td>
+                      <td>
+                        <div className={Styles.tablerow}>
+                          {/* <EditIcon onClick={() => navigate(`/stockoutward-edit/${data?.stock_outward_id}`)} /> */}
+                          <ViewIcon onClick={() => navigate(`/stockoutward-view/${data?.stock_outward_id}`)} />
+                        </div>
                       </td>
                     </tr>
                   );

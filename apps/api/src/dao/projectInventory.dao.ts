@@ -246,7 +246,7 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
       },
       include: {
         project_data: true,
-        item_data: true,
+        item_data: { include: { uom: { select: { name: true } } } },
       },
     });
     return projectInventory;
