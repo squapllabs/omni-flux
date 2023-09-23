@@ -233,7 +233,6 @@ const ProjectSettings: React.FC = (props: any) => {
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
-
     <div className={Styles.conatiner}>
       <CustomLoader loading={FilterLoading ? FilterLoading : getAllLoadingProjectMemberData} size={48} color="#333C44">
         <div className={Styles.box}>
@@ -327,7 +326,7 @@ const ProjectSettings: React.FC = (props: any) => {
                       shape="rectangle"
                       justify="center"
                       size="small"
-                      icon={<AddIcon />}
+                      icon={<AddIcon color="white"/>}
                     >
                       Add To Project
                     </Button>

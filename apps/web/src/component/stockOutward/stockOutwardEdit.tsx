@@ -13,7 +13,7 @@ import DeleteIcon from '../menu/icons/deleteIcon';
 import ProjectService from '../../service/project-service';
 import StockOutWardService from '../../service/stock-outward-service';
 import { getUserDataProjectRolebased, getByProjectId } from '../../hooks/project-hooks'
-import { createStockOutWard, getByStockOutWardId } from '../../hooks/stock-outward'
+import { updateStockOutWard, getByStockOutWardId } from '../../hooks/stock-outward'
 import { useNavigate } from 'react-router-dom';
 import {
     getStockOutwardCreationYupschema,
@@ -23,73 +23,82 @@ import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useParams } from 'react-router-dom';
-
-
-
-
+import { useLocation } from 'react-router-dom';
 
 const StoreOutwardEdit = () => {
     const routeParams = useParams();
     const state: RootState = store.getState();
     const encryptedData = getToken(state, 'Data');
-    const userData: any = encryptedData.userData;
-    const siteEngineerName: any = userData.first_name + " " + userData.last_name
-    const siteEngineerId: any = userData.user_id;
+    const userData: any = encryptedData?.userData;
+    const siteEngineerName: any = userData?.first_name + " " + userData?.last_name
+    const siteEngineerId: any = userData?.user_id;
+    const location = useLocation();
+    const projectId = location.state?.projectId;
+
+    const fetchData = async () => {
+        const stockOutWardData = await StockOutWardService.getOneStockOutWardId(Number(routeParams?.id))
+        const stockDate = stockOutWardData?.data?.stock_outward_date;
+        let formattedDate = '';
+        if (stockDate) {
+            const currentDate = new Date(stockDate);
+            formattedDate = format(currentDate, 'yyyy-MM-dd');
+        }
+        setInitialValues({
+            site_id: stockOutWardData?.data?.site_id || '',
+            outward_id: stockOutWardData?.data?.outward_id || '',
+            // site_engineer_id: Number(siteEngineerId),
+            site_engineer_id: stockOutWardData?.data?.site_engineer_id || '',
+            stock_outward_date: formattedDate || format(new Date(), 'yyyy-MM-dd'),
+            stock_outward_id: stockOutWardData?.data?.stock_outward_id
+        });
+    }
 
 
-    const { data: getOneStockOutWardData, isLoading } = getByStockOutWardId(
-        Number(routeParams?.id)
-    );
+    const fetchProjectSite = async () => {
+        const siteData = await ProjectService.getOneProjectSite(projectId)
+        let arr: any = [];
+        let siteValues = siteData?.data?.map((site: any) => {
+            let obj: any = {
+                value: site?.site_id,
+                label: site?.site_details?.name
+            }
+            arr.push(obj)
+        })
+        setSiteData(arr)
+    }
 
-
-    console.log("getOneStockOutWardData--->", getOneStockOutWardData);
     const [initialValues, setInitialValues] = useState({
         site_id: '',
         outward_id: '',
         // site_engineer_id: Number(siteEngineerId),
         site_engineer_id: '',
         stock_outward_date: format(new Date(), 'yyyy-MM-dd'),
+        stock_outward_id: ''
     })
     const [checked, setChecked] = useState(false)
     const [siteChecked, setSiteChecked] = useState(false)
     const [stockData, setStockData] = useState<any>([]);
     const [disable, setDisable] = useState(true)
-    const [siteData, setSiteData] = useState('');
+    const [siteData, setSiteData] = useState<any>([]);
     const [openSnack, setOpenSnack] = useState(false);
     const [message, setMessage] = useState('');
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (getOneStockOutWardData) {
-            const stockDate = getOneStockOutWardData?.stock_outward_date;
-            let formattedDate = '';
-            if (stockDate) {
-                const currentDate = new Date(stockDate);
-                formattedDate = format(currentDate, 'yyyy-MM-dd');
-            }
-
-            setInitialValues({
-                site_id: getOneStockOutWardData?.site_id || '',
-                outward_id: getOneStockOutWardData?.outward_id || '',
-                // site_engineer_id: Number(siteEngineerId),
-                site_engineer_id: getOneStockOutWardData?.site_engineer_id || '',
-                stock_outward_date: formattedDate || format(new Date(), 'yyyy-MM-dd'),
-            });
-        }
         fetchProjectSite();
-    }, [getOneStockOutWardData])
+        fetchData()
+    }, [])
 
     const navigate = useNavigate();
     let rowIndex = 0;
     let Obj: any = {
-        projectID: 137,
+        projectID: projectId,
         role: 'Site Engineer',
     };
-    const { data: getSiteEngineerData = [] } =
-        getUserDataProjectRolebased(Obj);
-    const { data: getProjectData } = getByProjectId(137);
-    const { mutate: createNewStockOutWard } = createStockOutWard();
 
+    const { data: getSiteEngineerData } = getUserDataProjectRolebased(Obj);
+    const { data: getProjectData } = getByProjectId(projectId);
+    const { mutate: updateOneStockOutWard } = updateStockOutWard();
     const validationSchema = getStockOutwardCreationYupschema(Yup);
 
     const formik = useFormik({
@@ -98,7 +107,8 @@ const StoreOutwardEdit = () => {
         enableReinitialize: true,
         onSubmit: (values, { resetForm }) => {
             let object: any = {
-                project_id: 137,
+                stock_outward_id: values.stock_outward_id,
+                project_id: Number(projectId),
                 site_id: values.site_id,
                 site_engineer_id: values.site_engineer_id,
                 item_count: stockData?.length,
@@ -108,16 +118,18 @@ const StoreOutwardEdit = () => {
                     item_id: item.item_id,
                     outward_quantity: Number(item.outward_quantity),
                     uom_id: item.uom_id,
-                    is_delete: false
+                    is_delete: false,
+                    stock_outward_details_id: item?.stock_outward_details_id || ''
                 })),
             }
-            createNewStockOutWard(object, {
+
+            updateOneStockOutWard(object, {
                 onSuccess: (data, variables, context) => {
                     if (data?.message === 'success') {
-                        setMessage('Stock OutWard created');
+                        setMessage('Stock OutWard Updated');
                         setOpenSnack(true);
                         setTimeout(() => {
-                            navigate('/stockoutward');
+                            navigate(`/project-edit/${projectId}`);
                         }, 1000);
                         resetForm();
                     }
@@ -137,34 +149,16 @@ const StoreOutwardEdit = () => {
         setOpenSnack(false);
     };
 
-
     const handleCheckBoxSiteChange = (e: any) => {
         const CheckboxValue = e.target.checked;
         setSiteChecked(CheckboxValue);
     }
 
-    const fetchProjectSite = async () => {
-        const siteData = await ProjectService.getOneProjectSite(137)
-        let arr: any = [];
-        let siteValues = siteData?.data?.map((site: any) => {
-            let obj: any = {
-                value: site?.site_id,
-                label: site?.site_details?.name
-            }
-            arr.push(obj)
-        })
-        setSiteData(arr)
-    }
-
-
-
-
-
     return (
         <div>
             <div className={Styles.text}>
                 <div className={Styles.textStyle}>
-                    <h3>Stock OutWard Add</h3>
+                    <h3>Stock OutWard Edit</h3>
                 </div>
                 <div className={Styles.textStyle}>
                     <h6>Stock OutWard...</h6>
@@ -184,7 +178,7 @@ const StoreOutwardEdit = () => {
                                         // mandatory={true}
                                         disabled={true}
                                         width="350px"
-                                        value={formik.values.outward_id}
+                                        value={formik.values?.outward_id}
                                         onChange={formik.handleChange}
                                     // error={
                                     //     formik.touched.quantity && formik.errors.quantity
@@ -196,14 +190,14 @@ const StoreOutwardEdit = () => {
                                         label="Site"
                                         name="site_id"
                                         onChange={formik.handleChange}
-                                        value={formik.values.site_id}
+                                        value={formik.values?.site_id}
                                         placeholder="Select from options"
                                         mandatory
                                         width="350px"
                                         onSelect={(value) => {
                                             formik.setFieldValue('site_id', value);
                                         }}
-                                        optionList={siteData}
+                                        optionList={siteData != undefined ? siteData : []}
                                         error={
                                             formik.touched.site_id &&
                                             formik.errors.site_id
@@ -215,7 +209,7 @@ const StoreOutwardEdit = () => {
                                         label="Site Engineer Name"
                                         name="site_engineer_id"
                                         onChange={formik.handleChange}
-                                        value={formik.values.site_engineer_id}
+                                        value={formik.values?.site_engineer_id}
                                         placeholder="Select from options"
                                         mandatory
                                         // disabled={siteChecked === false ? true : false}
@@ -224,7 +218,7 @@ const StoreOutwardEdit = () => {
                                             formik.setFieldValue('site_engineer_id', value);
                                         }}
 
-                                        optionList={getSiteEngineerData}
+                                        optionList={getSiteEngineerData != undefined ? getSiteEngineerData : []}
                                         error={
                                             formik.touched.site_engineer_id &&
                                             formik.errors.site_engineer_id
@@ -266,11 +260,10 @@ const StoreOutwardEdit = () => {
                                         mandatory
                                         disabled={disable}
                                         width='350px'
-                                        value={formik.values.stock_outward_date}
+                                        value={formik.values?.stock_outward_date}
                                     // error={formik.touched.access_start_date && formik.errors.access_start_date}
                                     />
                                 </div>
-
                             </div>
                             <div className={Styles.fields_container_3}>
                                 <div>
@@ -282,12 +275,10 @@ const StoreOutwardEdit = () => {
                                     />
                                     <span className={Styles.checkBox}>  Edit OutWard Date</span>
                                 </div>
-
                             </div>
                             <div className={Styles.dividerStyle}></div>
                             <div className={Styles.tableContainer}>
-
-                                <ItemDetailsTable stockData={stockData} setStockData={setStockData} stockOutWardId ={routeParams?.id}/>
+                                <ItemDetailsTable stockData={stockData} setStockData={setStockData} stockOutWardId={routeParams?.id} projectId={projectId} />
                             </div>
                         </div>
                         <div className={Styles.buttonFields}>
@@ -297,9 +288,9 @@ const StoreOutwardEdit = () => {
                                     shape="rectangle"
                                     justify="center"
                                     size="small"
-                                    disabled={stockData.length === 0 ? true : false}
+                                    disabled={stockData?.length === 0 ? true : false}
                                     onClick={() => {
-                                        // navigate('/labour');
+                                        navigate(`/project-edit/${projectId}`);
                                     }}
                                 >
                                     Back
@@ -312,7 +303,8 @@ const StoreOutwardEdit = () => {
                                     shape="rectangle"
                                     justify="center"
                                     size="small"
-                                    disabled={stockData.length === 0 ? true : false}
+                                    disabled={stockData?.length === 0 ? true : false}
+                                    onClick={() => formik.handleSubmit()}
                                 >
                                     Save
                                 </Button>
@@ -331,16 +323,16 @@ const StoreOutwardEdit = () => {
         </div>
     )
 }
-
 export default StoreOutwardEdit
 
 
 const ItemDetailsTable: React.FC = (props: {
     stockData: any;
     setStockData: any;
-    stockOutWardId:any;
+    stockOutWardId: any;
+    projectId: any
 }) => {
-    const { stockData, setStockData,stockOutWardId } = props;
+    const { stockData, setStockData, stockOutWardId, projectId } = props;
 
     let rowIndex = 0;
     const [initialValues, setInitialValues] = useState({
@@ -354,14 +346,11 @@ const ItemDetailsTable: React.FC = (props: {
     const [itemData, setItemData] = useState<any>([]);
     const [itemDetails, setItemDetails] = useState();
     const validationSchema = getStockOutwardItemCreationYupschema(Yup);
-    const { data: getOneStockOutWardData, isLoading } = getByStockOutWardId(
-        Number(stockOutWardId)
-    );
 
-    console.log("getOneStockOutWardData ==>",getOneStockOutWardData);
-    
+
+
     const fetchProjectInventoryItem = async () => {
-        const itemData = await StockOutWardService.getProjectInventoryItem(137)
+        const itemData = await StockOutWardService.getProjectInventoryItem(projectId)
         setItemDetails(itemData?.data)
         let arr: any = [];
         let itemValues = itemData?.data?.map((item: any) => {
@@ -374,33 +363,23 @@ const ItemDetailsTable: React.FC = (props: {
         setItemData(arr)
     }
 
-    useEffect(() => {
-        if(getOneStockOutWardData){
-            const transformedStockOutwardDetails = getOneStockOutWardData?.stock_outward_details?.map((item: any) => ({
-                item_id: item.item_id,
-                outward_quantity: Number(item.outward_quantity),
-                uom_id: item.uom_id,
-                // is_delete: false
-            }))
-            console.log("use",transformedStockOutwardDetails);
-            setStockData(transformedStockOutwardDetails)
-        }
-        fetchProjectInventoryItem();
-    }, [getOneStockOutWardData])
+    const fetchData = async () => {
+        const stockOutWardData = await StockOutWardService.getOneStockOutWardId(Number(stockOutWardId))
+        const transformedStockOutwardDetails = stockOutWardData?.data?.stock_outward_details?.map((item: any) => ({
+            item_id: item?.item_id,
+            item_name: item?.item_data?.item_name,
+            outward_quantity: Number(item?.outward_quantity),
+            uom_id: item?.uom_id,
+            uom_name: item?.uom_data?.name,
+            stock_outward_details_id: item?.stock_outward_details_id
+        }))
+        setStockData(transformedStockOutwardDetails)
+    }
 
-    // const handleChange = (
-    //     event: React.ChangeEvent<HTMLInputElement>,
-    //     index: number
-    // ) => {
-    //     let tempObj: any = {};
-    //     tempObj = {
-    //         ...stockData[index],
-    //         [event.target.name]: event.target.value,
-    //     };
-    //     const tempArry = [...stockData];
-    //     tempArry[index] = tempObj;
-    //     setStockData(tempArry);
-    // };
+    useEffect(() => {
+        fetchData()
+        fetchProjectInventoryItem();
+    }, [])
 
     const formik = useFormik({
         initialValues,
@@ -454,13 +433,26 @@ const ItemDetailsTable: React.FC = (props: {
                         {stockData?.map((items: any, index: any) => {
                             rowIndex = rowIndex + 1;
                             return (
-                                <tr>
+                                <tr key={items?.stock_outward_details_id}>
                                     <td>{rowIndex}</td>
-                                    <td>{items.item_name}</td>
-                                    <td>{items.outward_quantity}</td>
-                                    <td>{items.available_quantity}</td>
-                                    <td>{items.uom_name}</td>
-                                    <td>
+                                    <td>{items?.item_name}</td>
+                                    <td>{items?.outward_quantity}</td>
+                                    <td>{items?.available_quantity === undefined ? "-" : items?.available_quantity}</td>
+                                    <td>{items?.uom_name}</td>
+                                    <td>{items?.stock_outward_details_id === undefined ? <div
+                                        style={{
+                                            cursor: 'pointer',
+                                            // paddingBottom: '20px',
+                                        }}
+                                    >
+                                        <div >
+                                            <DeleteIcon
+                                                onClick={() => handleDelete(index)}
+                                            />
+                                        </div>
+                                    </div> : ''}</td>
+
+                                    {/* <td>
                                         <div
                                             style={{
                                                 cursor: 'pointer',
@@ -469,11 +461,11 @@ const ItemDetailsTable: React.FC = (props: {
                                         >
                                             <div >
                                                 <DeleteIcon
-                                                    onClick={() => handleDelete(index)}
+                                                    onClick={() => handleDelete(items?.stock_outward_details_id)}
                                                 />
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             );
                         })}
@@ -492,6 +484,7 @@ const ItemDetailsTable: React.FC = (props: {
                                         formik.setFieldValue('item_id', value);
                                         const matchingObjects = itemDetails?.filter(
                                             (obj: any) => Number(obj.item_id) === Number(value)
+
                                         );
                                         formik.setFieldValue(
                                             'available_quantity',
@@ -510,12 +503,10 @@ const ItemDetailsTable: React.FC = (props: {
                                             matchingObjects[0]?.item_data?.item_name
                                         );
                                     }}
-
                                     error={
                                         formik.touched.item_id && formik.errors.item_id
                                     }
                                 />
-
                             </td>
                             <td>
                                 <Input
@@ -558,9 +549,9 @@ const ItemDetailsTable: React.FC = (props: {
                                         // paddingBottom: '20px',
                                     }}
                                 >
-                                    <div >
-                                        <DeleteIcon />
-                                    </div>
+                                    {/* <div >
+                                        <DeleteIcon onClick={() => handleDelete(rowIndex)} />
+                                    </div> */}
                                 </div>
                             </td>
                         </tr>

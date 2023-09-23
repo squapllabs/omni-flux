@@ -18,10 +18,10 @@
 // }
 
 .textContent {
-  padding: 10px 0px 1px 20px;
+  padding: 10px 0px 1px 10px;
 }
 .textContent1 {
-  padding: 10px 0px 1px 5px;
+  padding: 10px 0px 1px 20px;
 }
 .content {
   font-size: 0.7rem;
@@ -123,6 +123,7 @@ tr:hover {
 .inputFilter {
   display: flex;
   gap: 10px;
+  height: 40px;
 }
 
 .tableIcon {

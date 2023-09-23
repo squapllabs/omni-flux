@@ -200,7 +200,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
               }
             })}
             <tr>
-              <td></td>
+              <td>{rowIndex + 1}</td>
               <td>
                 <AutoCompleteSelect
                   name="bom_detail_id"

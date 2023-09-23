@@ -116,7 +116,7 @@ const LeadList = () => {
                   justify="center"
                   size="small"
                   color="primary"
-                  icon={<AddIcon />}
+                  icon={<AddIcon color="white"/>}
                   onClick={handleAdd}
                 >
                   Lead
@@ -179,7 +179,7 @@ const LeadList = () => {
                     <th>Lead Code</th>
                     <th>Client Name</th>
                     <th>Client Level</th>
-                    {activeButton === 'AC' && <th></th>}
+                    {activeButton === 'AC' && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>

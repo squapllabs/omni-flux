@@ -71,7 +71,8 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getProjectManagerList = [] } = getUserbyRole('Project Manager');
-  const { data: getProjectApproverList = [] } = getUserbyRole('Planning Engineer');
+  const { data: getProjectApproverList = [] } =
+    getUserbyRole('Planning Engineer');
   const { data: getAllProjectTypeDatadrop = [] } =
     useGetMasterProjectParentType();
   const { mutate: createNewProjectData } = createProject();

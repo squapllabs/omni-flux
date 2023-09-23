@@ -6,6 +6,7 @@ export const stockOutwardErrorMessages = {
     ENTER_ITEM: 'Item Name is required',
     ENTER_QUANTITY: 'Quantity is required',
     TYPE_ERROR: 'Only Number are allowed',
+    ITEM_EXIST: 'This Item already exist'
 };
 
 export const getStockOutwardCreationYupschema = (yup: any) => {
@@ -31,6 +32,6 @@ export const getStockOutwardItemCreationYupschema = (yup: any) => {
             .max(yup.ref('available_quantity'), 'quantity must be less than or equal to available quantity'),
         available_quantity: yup
             .number()
-            // .required()
+        // .required()
     });
 };
