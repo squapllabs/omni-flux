@@ -1,3 +1,4 @@
+
 .Container {
   width: 100%;
   padding-bottom: 10px;
@@ -102,9 +103,9 @@
   // height: 100%;
   // overflow-x: auto;
   // overflow-y: none;
-  max-width: 1150px; /* Adjust the maximum width as needed */
+  /* Adjust the maximum width as needed */
   // max-height: 550px;
-  margin: 0 auto;
+  margin: 2rem auto;
   &::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -116,12 +117,19 @@
   border-collapse: collapse;
   height: 100%;
 
-  th,
-  td {
-    border: 1px solid #000000;
+  th{
+    border: 1px solid #c7c3c3a9;
     text-align: center;
     font-weight: 600;
+    font-size: 12px;
+    padding: 1rem;
+  }
+  td {
+    border: 1px solid #c7c3c3a9;
+    text-align: center;
+    font-weight: 500;
     font-size: 11px;
+    padding: .5rem;
   }
   thead {
     tr {
@@ -135,7 +143,8 @@
 
   td {
     align-items: center;
-    text-align: center;
+    text-align: left;
+    justify-content: center;
   }
   td:hover,
   tr:hover {
@@ -149,6 +158,7 @@
   padding-top: 10px;
   display: flex;
   justify-content: flex-end;
+  gap: 1rem;
 }
 .addPlan {
   color: #7f56d9;
@@ -156,9 +166,8 @@
   font-size: x-small;
   cursor: pointer;
 }
-.addPlan:hover {
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(196, 114, 212, 0.2);
+.addPlan:hover .addText{
+  opacity: .5;
 }
 
 .documentContainer {
