@@ -53,33 +53,33 @@ const createExpense = async (body: expenseBody) => {
     }
     result = await prisma
       .$transaction(async (prisma) => {
-        let expenseExist = null;
+        /*  let expenseExist = null; */
         let expenseDetails = null;
-        if (project_id && site_id) {
+        /*   if (project_id && site_id) {
           expenseExist = await expenseDao.getByProjectIdAndSiteId(
             project_id,
             site_id,
             prisma
           );
         }
-        if (!expenseExist) {
-          expenseDetails = await expenseDao.add(
-            site_id,
-            project_id,
-            employee_name,
-            employee_id,
-            employee_phone,
-            purpose,
-            department,
-            designation,
-            start_date,
-            end_date,
-            bill_details,
-            created_by,
-            expense_details,
-            prisma
-          );
-        } else {
+        if (!expenseExist) { */
+        expenseDetails = await expenseDao.add(
+          site_id,
+          project_id,
+          employee_name,
+          employee_id,
+          employee_phone,
+          purpose,
+          department,
+          designation,
+          start_date,
+          end_date,
+          bill_details,
+          created_by,
+          expense_details,
+          prisma
+        );
+        /* } else {
           expenseDetails = await expenseDao.edit(
             site_id,
             project_id,
@@ -97,7 +97,7 @@ const createExpense = async (body: expenseBody) => {
             expense_details,
             prisma
           );
-        }
+        } */
         result = { message: 'success', status: true, data: expenseDetails };
         return result;
       })
