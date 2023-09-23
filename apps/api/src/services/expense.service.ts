@@ -315,6 +315,8 @@ const searchExpense = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_id = body.project_id;
+    const site_id = body.site_id;
 
     const filterObj: any = {};
 
@@ -322,6 +324,24 @@ const searchExpense = async (body) => {
       filterObj.filterExpense = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_id) {
+      filterObj.filterExpense = filterObj.filterExpense || {};
+      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+      filterObj.filterExpense.AND.push({
+        project_id: project_id,
+      });
+    }
+
+    if (site_id) {
+      filterObj.filterExpense = filterObj.filterExpense || {};
+      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+      filterObj.filterExpense.AND.push({
+        site_id: site_id,
+      });
     }
 
     if (global_search) {
