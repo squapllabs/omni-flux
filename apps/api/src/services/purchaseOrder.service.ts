@@ -269,6 +269,7 @@ const searchPurchaseOrder = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const project_id = body.project_id;
+    const bill_status = body.bill_status;
 
     const filterObj: any = {};
 
@@ -287,6 +288,16 @@ const searchPurchaseOrder = async (body) => {
         purchase_request_data: {
           project_id: project_id,
         },
+      });
+    }
+
+    if (bill_status) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        status: bill_status,
       });
     }
 
@@ -488,6 +499,7 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
     }
 
     const project_id = purchaseOrderExist?.purchase_request_data?.project_id;
+    const site_id = purchaseOrderExist?.purchase_request_data?.site_id;
 
     const updatedPurchaseOrderDocuments = [];
     if (purchase_order_documents) {
@@ -522,7 +534,10 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
 
         if (status === 'Product Received') {
           const purchaseOrderItemDetails =
-            await purchaseOrderItemDao.getByPurchaseOrderId(purchase_order_id);
+            await purchaseOrderItemDao.getByPurchaseOrderId(
+              purchase_order_id,
+              tx
+            );
 
           for (const purchaseOrderItemDetail of purchaseOrderItemDetails) {
             const item_id = purchaseOrderItemDetail.item_id;
@@ -564,6 +579,7 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
                 order_quantity,
                 total_cost,
                 updated_by,
+                site_id,
                 tx
               );
               projectInventoryDetails.push(newProjectInventory);
