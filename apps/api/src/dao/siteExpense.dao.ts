@@ -447,7 +447,7 @@ const getByProjectIdAndSiteId = async (
 const getSiteExpenseDeatilsBySiteExpenceId = async (
   siteExpenseId: number,
   status: string,
-  connectionObj = null,
+  connectionObj = null
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
