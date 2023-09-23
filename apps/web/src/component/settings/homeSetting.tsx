@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/homeSettings.module.scss';
-<<<<<<< HEAD
 import CustomGroupButton from '../ui/CustomGroupButton';
 import Category from '../category/category';
 import SubCategoryList from '../subCategory/subCategoryList';
@@ -10,14 +9,6 @@ import ProjectList from '../project/projectList';
 import LeadList from '../leadEnquires/leadList';
 import MachineryList from '../machinery/machineryList';
 import VendorList from '../vendor/vendorList';
-=======
-import CustomGroupButton from "../ui/CustomGroupButton";
-import Category from "../category/category";
-import UserList from "../users/userList";
-import MasterData from "../masterData/masterData";
-import LeadList from "../leadEnquires/leadList";
-import VendorList from "../vendor/vendorList";
->>>>>>> 66446aef0ebc447f9009b6c0b99ca3b3221afcee
 import LabourList from '../labour/labourList';
 import CategoryList from '../category/categoryList';
 import SubSubCategoryList from '../subSubCategory/subSubList';
@@ -27,16 +18,7 @@ import ClientList from '../client/clientList';
 import HsnCodeList from '../hsnCode/hsnCodeList';
 import SideNav from '../ui/SubmenuNav';
 const Settings = () => {
-<<<<<<< HEAD
   const [buttonLabels, setButtonLabels] = useState([
-=======
-  const state: RootState = store.getState();
-  const encryptedData = getToken(state, 'Data');
-  const roleName = encryptedData?.userData?.user_roles[0]?.role_data?.role_name
-
-  const menuItems = [
-    { label: 'Category', value: 'C' },
->>>>>>> 66446aef0ebc447f9009b6c0b99ca3b3221afcee
     { label: 'Master Data', value: 'M' },
     { label: 'Category', value: 'C' },
     { label: 'User List', value: 'U' },
