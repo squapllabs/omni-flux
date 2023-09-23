@@ -23,13 +23,13 @@ const processFileUpload = async (req) => {
 
       allFilePath.push({ index, path: s3FilePath });
       console.log('test 1:', filePath);
-      // fs.unlink(filePath, (err) => {
-      //   if (err) {
-      //     console.error('Error deleting the local file:', err);
-      //   } else {
-      //     console.log('Local File deleted successfully.');
-      //   }
-      // });
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Error deleting the local file:', err);
+        } else {
+          console.log('Local File deleted successfully.');
+        }
+      });
 
       index++;
     }
