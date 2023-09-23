@@ -564,6 +564,7 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
                 order_quantity,
                 total_cost,
                 updated_by,
+                null,
                 tx
               );
               projectInventoryDetails.push(newProjectInventory);

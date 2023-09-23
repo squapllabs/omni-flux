@@ -1,6 +1,7 @@
 import itemDao from '../dao/item.dao';
 import projectDao from '../dao/project.dao';
 import projectInventoryDao from '../dao/projectInventory.dao';
+import siteContractorDao from '../dao/siteContractor.dao';
 import { projectInventoryBody } from '../interfaces/projectInventory.interface';
 
 /**
@@ -17,6 +18,7 @@ const createProjectInventory = async (body: projectInventoryBody) => {
       available_quantity,
       total_cost,
       created_by,
+      site_id,
     } = body;
 
     if (project_id) {
@@ -47,7 +49,8 @@ const createProjectInventory = async (body: projectInventoryBody) => {
       rate,
       available_quantity,
       total_cost,
-      created_by
+      created_by,
+      site_id
     );
     const result = {
       message: 'success',
@@ -76,6 +79,7 @@ const updateProjectInventory = async (body: projectInventoryBody) => {
       available_quantity,
       total_cost,
       updated_by,
+      site_id,
       project_inventory_id,
     } = body;
     let result = null;
@@ -120,6 +124,7 @@ const updateProjectInventory = async (body: projectInventoryBody) => {
       available_quantity,
       total_cost,
       updated_by,
+      site_id,
       project_inventory_id
     );
     result = {
@@ -246,7 +251,7 @@ const searchProjectInventory = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const project_id = body.project_id;
-
+    const site_id = body.site_id;
     const filterObj: any = {};
 
     if (status) {
@@ -261,6 +266,15 @@ const searchProjectInventory = async (body) => {
         filterObj.filterProjectInventory.AND || [];
       filterObj.filterProjectInventory.AND.push({
         project_id: project_id,
+      });
+    }
+
+    if (site_id) {
+      filterObj.filterProjectInventory = filterObj.filterProjectInventory || {};
+      filterObj.filterProjectInventory.AND =
+        filterObj.filterProjectInventory.AND || [];
+      filterObj.filterProjectInventory.AND.push({
+        site_id: site_id,
       });
     }
 
@@ -281,6 +295,14 @@ const searchProjectInventory = async (body) => {
         {
           item_data: {
             item_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          site_data: {
+            name: {
               contains: global_search,
               mode: 'insensitive',
             },
@@ -358,6 +380,56 @@ const getByProjectId = async (project_id: number) => {
   }
 };
 
+/**
+ * Method to get ProjectInventory By Project Id And Site Id
+ * @param project_id
+ * @param site_id
+ * @returns
+ */
+const getByProjectIdAndSiteId = async (project_id: number, site_id: number) => {
+  try {
+    let result = null;
+
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const siteExist = await siteContractorDao.getBySiteId(site_id);
+    if (!siteExist) {
+      return {
+        message: 'site_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const projectInventoryData =
+      await projectInventoryDao.getByProjectIdAndSiteId(project_id, site_id);
+    if (projectInventoryData.length > 0) {
+      result = { message: 'success', status: true, data: projectInventoryData };
+      return result;
+    } else {
+      result = {
+        message: 'No data found for this project_id and site_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectIdAndSiteId projectInventory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProjectInventory,
   updateProjectInventory,
@@ -366,4 +438,5 @@ export {
   deleteProjectInventory,
   searchProjectInventory,
   getByProjectId,
+  getByProjectIdAndSiteId,
 };
