@@ -9,4 +9,5 @@ export const environment = {
   CURRENCY: 'INR', // currency symbol
   INPUTBUDGET: 'INR', //input budget (label)
   OUTPUTBUDGET: 'INR', //output budget (label)
+  NULLVALUE: 'N/A', // null value (label)
 };
