@@ -15,6 +15,7 @@ const add = async (
   end_date: Date,
   bill_details: JSON,
   created_by: number,
+  status: string,
   expense_details: Array<expenseDetailsBody>,
   connectionObj = null
 ) => {
@@ -44,6 +45,7 @@ const add = async (
         department,
         designation,
         bill_details,
+        status,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
         is_delete: is_delete,
@@ -114,6 +116,7 @@ const edit = async (
   end_date: Date,
   bill_details: JSON,
   updated_by: number,
+  status: string,
   expense_id: number,
   expense_details: Array<expenseDetailsBody>,
   connectionObj = null
@@ -137,6 +140,7 @@ const edit = async (
         department,
         designation,
         bill_details,
+        status,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
         updated_by,

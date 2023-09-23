@@ -283,6 +283,8 @@ model site_contractor {
   stock_audit            stock_audit[]
   project_inventory      project_inventory[]
   expense                expense[]
+  indent_request         indent_request[]
+  purchase_request       purchase_request[]
 
   @@map("site_contractor")
 }
@@ -789,6 +791,7 @@ model store {
 model indent_request {
   indent_request_id      Int                      @id @default(autoincrement())
   project_id             Int?
+  site_id                Int?
   requester_user_id      Int
   requested_date         DateTime
   request_status         String?
@@ -809,6 +812,7 @@ model indent_request {
   requester_user_data    users                    @relation("indentRequesterUser", fields: [requester_user_id], references: [user_id])
   approver_user_data     users?                   @relation("indentApproverUser", fields: [approver_user_id], references: [user_id])
   project_data           project?                 @relation(fields: [project_id], references: [project_id])
+  site_data              site_contractor?         @relation(fields: [site_id], references: [site_contractor_id])
   indent_request_details indent_request_details[]
   purchase_request       purchase_request[]
 }
@@ -853,6 +857,7 @@ model purchase_request {
   status                     String?
   vendor_selection_method    String?
   project_id                 Int?
+  site_id                    Int?
   selected_vendor_id         Int?
   total_cost                 Float?
   purchase_request_details   Json?
@@ -866,6 +871,7 @@ model purchase_request {
   requester_user_data        users            @relation(fields: [requester_user_id], references: [user_id])
   project_data               project?         @relation(fields: [project_id], references: [project_id])
   selected_vendor_data       vendor?          @relation(fields: [selected_vendor_id], references: [vendor_id])
+  site_data                  site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
   purchase_order             purchase_order[]
   vendor_quotes              vendor_quotes[]
 }
@@ -1007,6 +1013,7 @@ model expense {
   start_date      DateTime?
   end_date        DateTime?
   bill_details    Json?
+  status          String?
   is_delete       Boolean           @default(false)
   created_date    DateTime          @default(now())
   updated_date    DateTime

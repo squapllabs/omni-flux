@@ -14,6 +14,7 @@ interface purchaseRequestBody {
   purchase_request_details: JSON;
   purchase_request_documents: JSON;
   vendor_ids: Array<number>;
+  site_id: number;
 }
 
 export { purchaseRequestBody };

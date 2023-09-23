@@ -499,6 +499,7 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
     }
 
     const project_id = purchaseOrderExist?.purchase_request_data?.project_id;
+    const site_id = purchaseOrderExist?.purchase_request_data?.site_id;
 
     const updatedPurchaseOrderDocuments = [];
     if (purchase_order_documents) {
@@ -575,7 +576,7 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
                 order_quantity,
                 total_cost,
                 updated_by,
-                null,
+                site_id,
                 tx
               );
               projectInventoryDetails.push(newProjectInventory);

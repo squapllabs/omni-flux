@@ -60,3 +60,18 @@ select concat('EXP',DATE_PART('year', CURRENT_DATE),'00',nextval('expence_code_s
 
 alter table expense_details 
 add column bill_number varchar(20);
+
+alter table indent_request 
+add column site_id int4;
+
+alter table indent_request 
+add constraint fk_indent_request_site_id foreign key (site_id) references site_contractor(site_contractor_id);
+
+alter table purchase_request 
+add column site_id int4;
+
+alter table purchase_request 
+add constraint fk_purchase_request_site_id foreign key (site_id) references site_contractor(site_contractor_id);
+
+alter table expense 
+add column status varchar(20);
