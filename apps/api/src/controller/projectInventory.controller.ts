@@ -84,6 +84,20 @@ const getByProjectId = catchAsync(async (req, res) => {
   }
 });
 
+const getByProjectIdAndSiteId = catchAsync(async (req, res) => {
+  const methodName = '/getByProjectIdAndSiteId';
+  try {
+    const projectInventory =
+      await projectInventoryService.getByProjectIdAndSiteId(
+        req.params.project_id,
+        req.params.site_id
+      );
+    res.send(projectInventory);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createProjectInventory,
   updateProjectInventory,
@@ -92,4 +106,5 @@ export {
   deleteByProjectInventoryId,
   searchProjectInventory,
   getByProjectId,
+  getByProjectIdAndSiteId,
 };

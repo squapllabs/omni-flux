@@ -23,6 +23,7 @@ const createCategory = async (body: createCategoryBody) => {
       start_date,
       end_date,
       bom_configuration_id,
+      progress_status,
     } = body;
     let result = null;
     if (project_id) {
@@ -70,7 +71,8 @@ const createCategory = async (body: createCategoryBody) => {
       description,
       start_date,
       end_date,
-      bom_configuration_id
+      bom_configuration_id,
+      progress_status
     );
     result = {
       message: 'success',
@@ -101,6 +103,7 @@ const updateCategory = async (body: updateCategoryBody) => {
       start_date,
       end_date,
       bom_configuration_id,
+      progress_status,
     } = body;
     let result = null;
 
@@ -159,7 +162,8 @@ const updateCategory = async (body: updateCategoryBody) => {
       description,
       start_date,
       end_date,
-      bom_configuration_id
+      bom_configuration_id,
+      progress_status
     );
     result = {
       message: 'success',
@@ -338,16 +342,56 @@ const searchCategory = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const name = body.search_by_name;
     const status = body.status;
-    const filterObj = {
-      filterCategory: {
-        AND: [],
-        name: {
-          contains: name,
-          mode: 'insensitive',
-        },
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterCategory = {
         is_delete: status === 'AC' ? false : true,
-      },
-    };
+      };
+    }
+
+    if (name) {
+      filterObj.filterCategory = filterObj.filterCategory || {};
+      filterObj.filterCategory.OR = filterObj.filterCategory.OR || [];
+
+      filterObj.filterCategory.OR.push(
+        {
+          name: {
+            contains: name,
+            mode: 'insensitive',
+          },
+        },
+        {
+          description: {
+            contains: name,
+            mode: 'insensitive',
+          },
+        },
+        {
+          progress_status: {
+            contains: name,
+            mode: 'insensitive',
+          },
+        },
+        {
+          project: {
+            project_name: {
+              contains: name,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          bom_configuration_data: {
+            bom_name: {
+              contains: name,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
+    }
 
     const result = await categoryDao.searchCategory(
       offset,

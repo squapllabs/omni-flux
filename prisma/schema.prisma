@@ -149,6 +149,7 @@ model category {
   created_by             Int?
   updated_by             Int?
   bom_configuration_id   Int?
+  progress_status        String?
   bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
   project                project?           @relation(fields: [project_id], references: [project_id])
   is_delete              Boolean            @default(false) @db.Boolean
@@ -278,6 +279,7 @@ model site_contractor {
   store                  store[]
   stock_outward          stock_outward[]
   stock_audit            stock_audit[]
+  project_inventory      project_inventory[]
 
   @@map("site_contractor")
 }
@@ -920,19 +922,21 @@ model vendor_quotes {
 }
 
 model project_inventory {
-  project_inventory_id Int      @id @default(autoincrement())
+  project_inventory_id Int              @id @default(autoincrement())
   project_id           Int
   item_id              Int?
   rate                 Float?
   available_quantity   Int?
   total_cost           Float?
-  is_delete            Boolean  @default(false)
-  created_date         DateTime @default(now())
+  site_id              Int?
+  is_delete            Boolean          @default(false)
+  created_date         DateTime         @default(now())
   updated_date         DateTime
   created_by           Int?
   updated_by           Int?
-  project_data         project? @relation(fields: [project_id], references: [project_id])
-  item_data            item?    @relation(fields: [item_id], references: [item_id])
+  project_data         project?         @relation(fields: [project_id], references: [project_id])
+  item_data            item?            @relation(fields: [item_id], references: [item_id])
+  site_data            site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
 }
 
 model stock_outward {
