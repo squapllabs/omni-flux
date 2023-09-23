@@ -49,5 +49,4 @@ router.post('/get-project-site', authMiddleware, getByProjectIdAndSiteId);
 
 router.get('/get-dashboard', authMiddleware, getAllDashboard);
 
-
 export default router;

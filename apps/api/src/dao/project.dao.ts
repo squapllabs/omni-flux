@@ -452,11 +452,13 @@ const getAllDashboard = async (connectionObj = null) => {
     from
       (
       select
-        jsonb_build_object('start date',
-        p.date_started,
-    'project name',
+        jsonb_build_object('project_total_days',
+        (p.date_ended - p.date_started),
+        'days_completed',
+        (current_date - date_started ),
+        'project name',
         p.project_name,
-    'budget',
+       'total_budget',
         p.actual_budget) as top_five_projects
       from
         project p
