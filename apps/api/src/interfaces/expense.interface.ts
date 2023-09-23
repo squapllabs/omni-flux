@@ -30,6 +30,7 @@ interface expenseDetailsBody {
   progressed_date: Date;
   progressed_by: number;
   is_delete: boolean;
+  bill_number: string;
 }
 
 export { expenseBody, expenseDetailsBody };
