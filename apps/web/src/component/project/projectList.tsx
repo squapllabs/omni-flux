@@ -31,9 +31,10 @@ const ProjectList = () => {
   let encryptedData = getToken(state, 'Data');
   let userID: number = encryptedData.userId;
   const { isLoading: getAllLoading } = useGetAllProject();
-  const {data: projectStatus} = useGetAllProjectStatus();
-  console.log("Project Status ==> ", projectStatus);
-  
+  const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus();                                                //To Get Data for Dashboard
+  console.log("Loading Status ==> ", getAllProjectStatusLoading);
+  console.log("Response ==> ", projectStatus);
+
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -148,94 +149,101 @@ const ProjectList = () => {
   const chartOptions1 = {
     chart: {
       title: "Project Status",
-      subtitle: "Estimated Days, Completed Days",    
-    } 
+      subtitle: "Estimated Days, Completed Days",
+    }
   };
   const chartOptions2 = {
     chart: {
       title: "Top Projects",
-      subtitle: "Top Projects Based on Budget",    
-    } 
+      subtitle: "Top Projects Based on Budget",
+    }
   };
   const projectStatusData = [
-      ["Projects", "Estimated Days", "Completed Days"],
-      ["Project 1", 1000, 200],
-      ["Project 2", 1170, 650],
-      ["Project 3",  1120, 300],
-      ["Project 4", 540, 350],
+    ["Projects", "Estimated Days", "Completed Days"],
+    [{projectStatus.top_projects[0].project name    }, 1000, 200],
+    ["Project 2", 1170, 650],
+    ["Project 3", 1120, 300],
+    ["Project 4", 540, 350],
   ];
 
   const topProjectsData = [
-      ["Projects", "Budget"],
-      ["Project 1", 120000],
-      ["Project 2", 150000],
-      ["Project 3", 60000],
-      ["Project 4", 40000],
-    ];
-  
+    ["Projects", "Budget"],
+    ["Project 1", 120000],
+    ["Project 2", 150000],
+    ["Project 3", 60000],
+    ["Project 4", 40000],
+  ];
+
   return (
     <div className={Styles.container}>
-      <div className={Styles.dashBoardcontainer}>
-        <CustomCard>
-            <div className={Styles.cardDiv}>
+      <div>
+        <CustomLoader
+          loading = {getAllProjectStatusLoading === false ? getAllProjectStatusLoading : projectStatus}
+          size={48}
+          color="#333C44"
+        >
+          <div className={Styles.dashBoardcontainer}>
+            <CustomCard>
+              <div className={Styles.cardDiv}>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
-                      <h3><b>Total Projects</b></h3> 
-                      <p>55</p> 
+                      <h3><b>Total Projects</b></h3>
+                      <p>{projectStatus?.total_projects}</p>
                     </div>
                   </div>
                 </div>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
-                        <h3><b>Active Projects</b></h3> 
-                        <p>605</p> 
+                      <h3><b>Active Projects</b></h3>
+                      <p>{projectStatus?.active_projects}</p >
                     </div>
                   </div>
                 </div>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
-                  <div className={Styles.textStyle}>
-                      <h3><b>In-active Projects</b></h3> 
-                      <p>605</p> 
+                    <div className={Styles.textStyle}>
+                      <h3><b>Completed Projects</b></h3>
+                      <p>{projectStatus?.completed_projects}</p> 
                     </div>
                   </div>
                 </div>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
-                  <div className={Styles.textStyle}>
-                      <h3><b>Total Vendors</b></h3> 
-                      <p>{projectStatus}</p> 
+                    <div className={Styles.textStyle}>
+                      <h3><b>In-progress Projects</b></h3>
+                      <p>{projectStatus?.inprogress_projects}</p> 
+                    </div>
                   </div>
-                  </div>
-              </div>
-            </div>
-            <div className={Styles.cardDiv}>
-              <div className={Styles.graphCard}>
-                <div className={Styles.chart}>
-                  <Chart
-                  chartType="Bar"
-                  height="400px"
-                  data={projectStatusData}
-                  options={chartOptions1}
-                  />
                 </div>
               </div>
-              <div className={Styles.graphCard}>
-                <div className={Styles.chart}>
-                  <Chart
-                  chartType="Bar"
-                  height="400px"
-                  data={topProjectsData}
-                  options={chartOptions2}                 
-                  />
+              <div className={Styles.cardDiv}>
+                <div className={Styles.graphCard}>
+                  <div className={Styles.chart}>
+                    <Chart
+                      chartType="Bar"
+                      height="400px"
+                      data={projectStatusData}
+                      options={chartOptions1}
+                    />
+                  </div>
+                </div>
+                <div className={Styles.graphCard}>
+                  <div className={Styles.chart}>
+                    <Chart
+                      chartType="Bar"
+                      height="400px"
+                      data={topProjectsData}
+                      options={chartOptions2}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-        </CustomCard>
+            </CustomCard>
+          </div>
+        </CustomLoader>
       </div>
-      
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}

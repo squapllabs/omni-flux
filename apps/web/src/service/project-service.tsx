@@ -16,12 +16,10 @@ const getAllProject = async () => {
 const getAllProjectStatus = async () => {
   try {
     const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/project/getAll`
+      `${environment.apiUrl}/project/get-dashboard`
     );
-    console.log("Response in Service ==>", response); 
-    console.log("Response Data ==>", response.data); 
-    console.log("Response Data2 ==>", response.data.data[0].approvar_id); 
-    return response.data.data[0].approvar_id;
+    console.log("Response Data ==>", response.data.data);
+    return response.data.data; 
   }
   catch (error) {
     console.log("Error in getAllProjectStatus() SERVICE", error);
