@@ -102,7 +102,7 @@ const createExpense = async (body: expenseBody) => {
         return result;
       })
       .then((data) => {
-        console.log('Successfully Expense Returned ');
+        console.log('Successfully Expense Data Returned ');
         return data;
       })
       .catch((error: string) => {
