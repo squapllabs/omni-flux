@@ -17,7 +17,6 @@ const StockOutWardView = () => {
     const fetchData = async () => {
         const stockOutWardData = await stockOutwardService.getOneStockOutWardId(stockOutWardId)
         setStockOutWardData(stockOutWardData?.data);
-        console.log("stockOutWardData",stockOutWardData.data);
         
         const stockOutwardDate = stockOutWardData?.data?.stock_outward_date;
         if (stockOutwardDate) {

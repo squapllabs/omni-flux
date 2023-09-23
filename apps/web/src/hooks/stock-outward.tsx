@@ -42,4 +42,18 @@ const getByStockOutWardId = (id: number) => {
   );
 };
 
-export { getAllStockOutwardData, createStockOutWard, getByStockOutWardId }
+const updateStockOutWard = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return stockOutwardService.updateStockOutWard(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['']);
+      },
+    }
+  );
+};
+
+export { getAllStockOutwardData, createStockOutWard, getByStockOutWardId,updateStockOutWard }

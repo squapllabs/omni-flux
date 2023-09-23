@@ -22,12 +22,16 @@ import {
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
+import { useLocation } from 'react-router-dom';
+
 
 
 
 const StoreOutwardAdd = () => {
     const state: RootState = store.getState();
     const encryptedData = getToken(state, 'Data');
+    const location = useLocation();
+    const projectId = location.state?.projectId;
     const userData: any = encryptedData.userData;
     const siteEngineerName: any = userData.first_name + " " + userData.last_name
     const siteEngineerId: any = userData.user_id;
@@ -51,12 +55,12 @@ const StoreOutwardAdd = () => {
     const navigate = useNavigate();
     let rowIndex = 0;
     let Obj: any = {
-        projectID: 137,
+        projectID: projectId,
         role: 'Site Engineer',
     };
     const { data: getSiteEngineerData = [] } =
         getUserDataProjectRolebased(Obj);
-    const { data: getProjectData } = getByProjectId(137);
+    const { data: getProjectData } = getByProjectId(projectId);
     const { mutate: createNewStockOutWard } = createStockOutWard();
 
     const validationSchema = getStockOutwardCreationYupschema(Yup);
@@ -67,7 +71,7 @@ const StoreOutwardAdd = () => {
         enableReinitialize: true,
         onSubmit: (values, { resetForm }) => {
             let object: any = {
-                project_id: 137,
+                project_id: Number(projectId),
                 site_id: values.site_id,
                 site_engineer_id: values.site_engineer_id,
                 item_count: stockData?.length,
@@ -83,10 +87,10 @@ const StoreOutwardAdd = () => {
             createNewStockOutWard(object, {
                 onSuccess: (data, variables, context) => {
                     if (data?.message === 'success') {
-                        setMessage('Stock OutWard created');
+                        setMessage('Stock OutWard Created');
                         setOpenSnack(true);
                         setTimeout(() => {
-                            navigate('/stockoutward');
+                            navigate(`/project-edit/${projectId}`);
                         }, 1000);
                         resetForm();
                     }
@@ -113,7 +117,7 @@ const StoreOutwardAdd = () => {
     }
 
     const fetchProjectSite = async () => {
-        const siteData = await ProjectService.getOneProjectSite(137)
+        const siteData = await ProjectService.getOneProjectSite(projectId)
         let arr: any = [];
         let siteValues = siteData?.data?.map((site: any) => {
             let obj: any = {
@@ -258,7 +262,7 @@ const StoreOutwardAdd = () => {
                             <div className={Styles.dividerStyle}></div>
                             <div className={Styles.tableContainer}>
 
-                                <ItemDetailsTable stockData={stockData} setStockData={setStockData} />
+                                <ItemDetailsTable stockData={stockData} setStockData={setStockData} projectId={projectId} />
                             </div>
                         </div>
                         <div className={Styles.buttonFields}>
@@ -270,7 +274,7 @@ const StoreOutwardAdd = () => {
                                     size="small"
                                     disabled={stockData.length === 0 ? true : false}
                                     onClick={() => {
-                                        // navigate('/labour');
+                                        navigate(`/project-edit/${projectId}`);
                                     }}
                                 >
                                     Back
@@ -279,10 +283,12 @@ const StoreOutwardAdd = () => {
                             <div>
                                 <Button
                                     color="primary"
+                                    type='button'
                                     shape="rectangle"
                                     justify="center"
                                     size="small"
                                     disabled={stockData.length === 0 ? true : false}
+                                    onClick={() => formik.handleSubmit()}
                                 >
                                     Save
                                 </Button>
@@ -308,8 +314,9 @@ export default StoreOutwardAdd
 const ItemDetailsTable: React.FC = (props: {
     stockData: any;
     setStockData: any;
+    projectId: any;
 }) => {
-    const { stockData, setStockData } = props;
+    const { stockData, setStockData, projectId } = props;
 
     let rowIndex = 0;
     const [initialValues, setInitialValues] = useState({
@@ -325,7 +332,7 @@ const ItemDetailsTable: React.FC = (props: {
     const validationSchema = getStockOutwardItemCreationYupschema(Yup);
 
     const fetchProjectInventoryItem = async () => {
-        const itemData = await StockOutWardService.getProjectInventoryItem(137)
+        const itemData = await StockOutWardService.getProjectInventoryItem(projectId)
         setItemDetails(itemData?.data)
         let arr: any = [];
         let itemValues = itemData?.data?.map((item: any) => {
@@ -387,7 +394,7 @@ const ItemDetailsTable: React.FC = (props: {
                             justify="center"
                             size="small"
                             onClick={() => formik.handleSubmit()}
-                            icon={<AddIcon color='white'/>}
+                            icon={<AddIcon color='white' />}
                         >
                             Add
                         </Button>
@@ -513,7 +520,7 @@ const ItemDetailsTable: React.FC = (props: {
                                     }}
                                 >
                                     <div >
-                                        <DeleteIcon />
+                                        {/* <DeleteIcon /> */}
                                     </div>
                                 </div>
                             </td>

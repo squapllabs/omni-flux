@@ -53,10 +53,24 @@ const getOneStockOutWardId = async (id: number) => {
   }
 }
 
+const updateStockOutWard = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/stock-outward/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in updateStockOutWard :', error);
+    throw error;
+  }
+};
+
 
 export default {
   getStockOutWardData,
   getProjectInventoryItem,
   addStockOutWard,
-  getOneStockOutWardId
+  getOneStockOutWardId,
+  updateStockOutWard
 };

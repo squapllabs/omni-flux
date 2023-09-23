@@ -11,10 +11,13 @@ import { useGetAllProject } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import ViewIcon from '../menu/icons/viewIcon';
 import EditIcon from '../menu/icons/editIcon';
+import { useParams } from 'react-router-dom';
 
 
 const StockOutwardList = () => {
   const navigate = useNavigate();
+  const routeParams = useParams();
+
   const [selectedValue, setSelectedValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -26,8 +29,7 @@ const StockOutwardList = () => {
   } = getAllStockOutwardData();
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProject();
-  console.log('getAllProjectDataForDrop', getAllProjectDataForDrop);
-  console.log('getAllStockOutwardData', getStockData);
+
 
   const handleReset = async () => {
     setIsResetDisabled(true);
@@ -54,7 +56,6 @@ const StockOutwardList = () => {
       site_id: "",
       project_id: selectedValue
     };
-    console.log("selectedValue", selectedValue);
     postDataForFilter(stockData);
   };
 
@@ -138,7 +139,7 @@ const StockOutwardList = () => {
                 justify="center"
                 size="small"
                 icon={<AddIcon color='white' />}
-                onClick={() => navigate('/stockoutward-add')}
+                onClick={() => navigate('/stockoutward-add', { state: { projectId: routeParams?.id } })}
               >
                 Add
               </Button>
@@ -194,7 +195,7 @@ const StockOutwardList = () => {
                       </td>
                       <td>
                         <div className={Styles.tablerow}>
-                          {/* <EditIcon onClick={() => navigate(`/stockoutward-edit/${data?.stock_outward_id}`)} /> */}
+                          <EditIcon onClick={() => navigate(`/stockoutward-edit/${data?.stock_outward_id}`, { state: { projectId: routeParams?.id } })} />
                           <ViewIcon onClick={() => navigate(`/stockoutward-view/${data?.stock_outward_id}`)} />
                         </div>
                       </td>
