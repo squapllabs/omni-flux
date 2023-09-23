@@ -258,6 +258,8 @@ import PurchaseRequestAdd from '../component/purchaseApproval/purchaseRequestAdd
 import StockOutWardView from '../component/stockOutward/stockOutwardView';
 import StockOutwardEdit from '../component/stockOutward/stockOutwardEdit';
 import ProjectStockAuditView from '../component/project/projectComponent/projectStockAuditView';
+import FinanceInvoiceView  from '../component/finance/invoiceView';
+
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -340,7 +342,7 @@ const AppRoutes = () => {
   const ProtectedProjectStockAuditView = withLayoutAndProtection(
     ProjectStockAuditView
   );
- 
+  const ProtectedFinanceInvoiceList = withLayoutAndProtection(FinanceInvoiceView);
 
   return (
     <div>
@@ -504,6 +506,7 @@ const AppRoutes = () => {
           path="/project-inventory/:id"
           element={<ProtectedProjectInventory />}
         />
+        <Route path="/finance-view" element={<ProtectedFinanceInvoiceList />} />
       </Routes>
     </div>
   );

@@ -45,7 +45,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
         vendor_id: data?.data?.vendor_id,
         quotation_status: data?.data?.quotation_status
       });
-      const existingFileNames = data?.data?.vendor_quotes_documents.map(
+      const existingFileNames = data?.data?.vendor_quotes_documents?.map(
         (document: any) => {
           const pathParts = document.path.split('/');
           const fileName = pathParts[pathParts.length - 1];
@@ -141,7 +141,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
         ...obj,
         is_delete: false,
       }));
-      if (existingFileUrl.length > 0 && selectedFiles.length>0) {
+      if (existingFileUrl?.length > 0 && selectedFiles?.length>0) {
         existingFileUrl.forEach((item) => {
           item.is_delete = true;
         });
@@ -149,7 +149,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
           modifiedArrayWithDeleteFlag.concat(existingFileUrl);
         return combinedArray;
       }
-      else if(existingFileUrl.length > 0) {
+      else if(existingFileUrl?.length > 0) {
         return existingFileUrl
       }
        else {

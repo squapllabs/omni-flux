@@ -61,7 +61,6 @@ const ProjectStockAdd = () => {
         quantity: '',
       }));
       setItemData(initialArray);
-      // console.log('finalData', itemsData);
     } catch (err) {
       console.log('error in list : ', err);
     }
@@ -86,15 +85,14 @@ const ProjectStockAdd = () => {
         item_details: itemsList,
         created_by: 1,
       };
-      // console.log('qqqqqqqqqqqqqqqq', obj);
       postStockData(obj, {
         onSuccess(data, variables, context) {
           // resetForm();
           setMessage('Stock audited successfully');
           setOpenSnack(true);
-          // setTimeout(() => {
-          //   navigate(`/project-edit/${routeParams?.id}`);
-          // }, 2000);
+          setTimeout(() => {
+            navigate(`/project-edit/${routeParams?.id}`);
+          }, 2000);
         },
       });
     },

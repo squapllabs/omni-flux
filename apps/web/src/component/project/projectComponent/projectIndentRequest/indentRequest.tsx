@@ -23,6 +23,7 @@ import PageDisabled from '../../../ui/pageDisableComponent';
 import BackArrow from '../../../menu/icons/backArrow';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
+import { getProjectSite } from '../../../../hooks/project-hooks';
 
 const IndentRequest: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -41,6 +42,7 @@ const IndentRequest: React.FC = (props: any) => {
     created_by: userID,
     requested_date: new Date(),
     project_id: Number(routeParams?.id),
+    site_id: '',
     request_status: '',
   });
   const [indentRequestDetailsList, setIndentRequestDetailsList] = useState<any>(
@@ -93,6 +95,10 @@ const IndentRequest: React.FC = (props: any) => {
     createIndentRequest();
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
     updateIndentRequest();
+  const { data: getAllProjectSiteDatadrop = [] } = getProjectSite(
+    Number(routeParams?.id)
+  );
+  console.log('..............', getAllProjectSiteDatadrop);
 
   const handleDraft = () => {
     formik.setFieldValue('request_status', 'Draft');
@@ -105,6 +111,7 @@ const IndentRequest: React.FC = (props: any) => {
       .min(new Date(), 'Date must be greater than or equal to the current date')
       .required(' Expected Date is required'),
     description: yup.string().required('Description is required'),
+    site_id: yup.string().required('Site is required'),
   });
   const formik = useFormik({
     initialValues,
@@ -225,6 +232,30 @@ const IndentRequest: React.FC = (props: any) => {
                         }
                       />
                     </div>
+
+                    <div style={{ width: '40%' }}>
+                      <Select
+                        label="Site"
+                        name="site_id"
+                        mandatory={true}
+                        onChange={formik.handleChange}
+                        value={formik.values.site_id}
+                        defaultLabel="Select from options"
+                        placeholder="Select from options"
+                        error={formik.touched.site_id && formik.errors.site_id}
+                        disabled={disabled}
+                      >
+                        {getAllProjectSiteDatadrop?.map(
+                          (items: any, index: any) => {
+                            return (
+                              <option key={items.value} value={items.value}>
+                                {items.label}
+                              </option>
+                            );
+                          }
+                        )}
+                      </Select>
+                    </div>
                     <div style={{ width: '40%' }}>
                       <Input
                         label="Total Cost"
@@ -235,10 +266,13 @@ const IndentRequest: React.FC = (props: any) => {
                         disabled={true}
                       />
                     </div>
-                    <div style={{ width: '40%' }}>
+                  </div>
+                  <div style={{ marginLeft: '2.5%' }}>
+                    <div style={{ width: '41%' }}>
                       <TextArea
                         name="description"
                         label="Indent Description"
+                        mandatory={true}
                         placeholder="Enter project description"
                         value={formik.values.description}
                         onChange={formik.handleChange}
