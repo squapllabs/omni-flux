@@ -14,6 +14,7 @@ interface expenseBody {
   bill_details: JSON;
   created_by: number;
   updated_by: number;
+  status: string;
   expense_details: Array<expenseDetailsBody>;
 }
 

@@ -25,6 +25,7 @@ const createExpense = async (body: expenseBody) => {
       created_by,
       expense_details,
       bill_details,
+      status,
     } = body;
     let result = null;
 
@@ -53,33 +54,34 @@ const createExpense = async (body: expenseBody) => {
     }
     result = await prisma
       .$transaction(async (prisma) => {
-        let expenseExist = null;
+        /*  let expenseExist = null; */
         let expenseDetails = null;
-        if (project_id && site_id) {
+        /*   if (project_id && site_id) {
           expenseExist = await expenseDao.getByProjectIdAndSiteId(
             project_id,
             site_id,
             prisma
           );
         }
-        if (!expenseExist) {
-          expenseDetails = await expenseDao.add(
-            site_id,
-            project_id,
-            employee_name,
-            employee_id,
-            employee_phone,
-            purpose,
-            department,
-            designation,
-            start_date,
-            end_date,
-            bill_details,
-            created_by,
-            expense_details,
-            prisma
-          );
-        } else {
+        if (!expenseExist) { */
+        expenseDetails = await expenseDao.add(
+          site_id,
+          project_id,
+          employee_name,
+          employee_id,
+          employee_phone,
+          purpose,
+          department,
+          designation,
+          start_date,
+          end_date,
+          bill_details,
+          created_by,
+          status,
+          expense_details,
+          prisma
+        );
+        /* } else {
           expenseDetails = await expenseDao.edit(
             site_id,
             project_id,
@@ -97,7 +99,7 @@ const createExpense = async (body: expenseBody) => {
             expense_details,
             prisma
           );
-        }
+        } */
         result = { message: 'success', status: true, data: expenseDetails };
         return result;
       })
@@ -135,6 +137,7 @@ const updateExpense = async (body: expenseBody) => {
       start_date,
       end_date,
       updated_by,
+      status,
       expense_id,
       expense_details,
       bill_details,
@@ -189,6 +192,7 @@ const updateExpense = async (body: expenseBody) => {
           end_date,
           bill_details,
           updated_by,
+          status,
           expense_id,
           expense_details,
           prisma
@@ -315,6 +319,8 @@ const searchExpense = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_id = body.project_id;
+    const site_id = body.site_id;
 
     const filterObj: any = {};
 
@@ -322,6 +328,24 @@ const searchExpense = async (body) => {
       filterObj.filterExpense = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_id) {
+      filterObj.filterExpense = filterObj.filterExpense || {};
+      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+      filterObj.filterExpense.AND.push({
+        project_id: project_id,
+      });
+    }
+
+    if (site_id) {
+      filterObj.filterExpense = filterObj.filterExpense || {};
+      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+      filterObj.filterExpense.AND.push({
+        site_id: site_id,
+      });
     }
 
     if (global_search) {
