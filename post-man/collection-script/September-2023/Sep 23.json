@@ -24328,6 +24328,714 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Expense",
+      "item": [
+        {
+          "name": "API To Create Expense Along with Expense Details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"employee_name\": \"Vijay Perumalsamy \",\r\n    \"employee_id\": \"ALM0065\",\r\n    \"employee_phone\": \"+91 8667604201\",\r\n    \"purpose\": \"Site Expenses\",\r\n    \"department\": \"Accountant\",\r\n    \"designation\": \"Manager\",\r\n    \"start_date\": \"2023-08-10\",\r\n    \"end_date\": \"2023-08-31\",\r\n    \"created_by\": 1,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"expense_details\": [\r\n        {\r\n            \"expense_data_id\": 136,\r\n            \"total\": 1000,\r\n            \"bill_details\": [\r\n                {\r\n                    \"index\": 0,\r\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n                }\r\n            ],\r\n            \"is_delete\": false\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/expense/",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "expense", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Create Expense Along with Expense Details",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"employee_name\": \"Vijay Perumalsamy \",\r\n    \"employee_id\": \"ALM0065\",\r\n    \"employee_phone\": \"+91 8667604201\",\r\n    \"purpose\": \"Site Expenses\",\r\n    \"department\": \"Accountant\",\r\n    \"designation\": \"Manager\",\r\n    \"start_date\": \"2023-08-10\",\r\n    \"end_date\": \"2023-08-31\",\r\n    \"created_by\": 1,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"expense_details\": [\r\n        {\r\n            \"expense_data_id\": 136,\r\n            \"total\": 1000,\r\n            \"bill_details\": [\r\n                {\r\n                    \"index\": 0,\r\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n                }\r\n            ],\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"description\": \"Courier\",\r\n            \"air_transport\": 200.00,\r\n            \"fuel\": 0.00,\r\n            \"labour_advance\": 0.00,\r\n            \"phone_stationary\": 1000,\r\n            \"food_snacks\": 0.00,\r\n            \"purchase_service\": 0.00,\r\n            \"others\": 0.00,\r\n            \"total\": 1200.00,\r\n            \"bill_details\": [\r\n                {\r\n                    \"index\": 0,\r\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/expense/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "expense", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1155"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"483-DTmbjlH/UYVizBkr0OetZfkkk7w\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 Sep 2023 07:32:32 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense\": {\n            \"expense_id\": 1,\n            \"expense_code\": \"EXP2023002\",\n            \"site_id\": 17,\n            \"project_id\": 137,\n            \"employee_name\": \"Vijay Perumalsamy \",\n            \"employee_id\": \"ALM0065\",\n            \"employee_phone\": \"+91 8667604201\",\n            \"purpose\": \"Site Expenses\",\n            \"department\": \"Accountant\",\n            \"designation\": \"Manager\",\n            \"start_date\": \"2023-08-10T00:00:00.000Z\",\n            \"end_date\": \"2023-08-31T00:00:00.000Z\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T07:32:30.518Z\",\n            \"updated_date\": \"2023-09-23T07:32:30.518Z\",\n            \"created_by\": 1,\n            \"updated_by\": null\n        },\n        \"expense_details\": [\n            {\n                \"expense_details_id\": 1,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"created_date\": \"2023-09-23T07:32:30.518Z\",\n                \"updated_date\": \"2023-09-23T07:32:30.518Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"status\": null,\n                \"comments\": null,\n                \"progressed_date\": null,\n                \"progressed_by\": null,\n                \"is_delete\": false\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Update Expense",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"employee_name\": \"Vijay Perumalsamy \",\r\n    \"employee_id\": \"ALM0065\",\r\n    \"employee_phone\": \"+91 8667604201\",\r\n    \"purpose\": \" Updated Site Expenses\",\r\n    \"department\": \"Accountant\",\r\n    \"designation\": \"Manager\",\r\n    \"start_date\": \"2023-08-10\",\r\n    \"end_date\": \"2023-08-31\",\r\n    \"updated_by\": 1,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"expense_details\": [\r\n        {\r\n            \"expense_details_id\":2,\r\n            \"expense_data_id\": 137,\r\n            \"total\": 1000,\r\n            \"bill_details\": [\r\n                {\r\n                    \"index\": 0,\r\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n                }\r\n            ],\r\n            \"is_delete\": false\r\n        }\r\n    ],\r\n    \"expense_id\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/expense/",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "expense", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Update Expense",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"employee_name\": \"Vijay Perumalsamy \",\r\n    \"employee_id\": \"ALM0065\",\r\n    \"employee_phone\": \"+91 8667604201\",\r\n    \"purpose\": \" Updated Site Expenses\",\r\n    \"department\": \"Accountant\",\r\n    \"designation\": \"Manager\",\r\n    \"start_date\": \"2023-08-10\",\r\n    \"end_date\": \"2023-08-31\",\r\n    \"updated_by\": 1,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"expense_details\": [\r\n        {\r\n            \"expense_details_id\":2,\r\n            \"expense_data_id\": 137,\r\n            \"total\": 1000,\r\n            \"bill_details\": [\r\n                {\r\n                    \"index\": 0,\r\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n                }\r\n            ],\r\n            \"is_delete\": false\r\n        }\r\n    ],\r\n    \"expense_id\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/expense/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "expense", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1161"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"489-zFujp90eSD2ZZdaphCo/mVEsrCk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 Sep 2023 07:37:33 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense\": {\n            \"expense_id\": 1,\n            \"expense_code\": \"EXP2023002\",\n            \"site_id\": 17,\n            \"project_id\": 137,\n            \"employee_name\": \"Vijay Perumalsamy \",\n            \"employee_id\": \"ALM0065\",\n            \"employee_phone\": \"+91 8667604201\",\n            \"purpose\": \" Updated Site Expenses\",\n            \"department\": \"Accountant\",\n            \"designation\": \"Manager\",\n            \"start_date\": \"2023-08-10T00:00:00.000Z\",\n            \"end_date\": \"2023-08-31T00:00:00.000Z\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T07:32:30.518Z\",\n            \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1\n        },\n        \"expense_details\": [\n            {\n                \"expense_details_id\": 2,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"status\": null,\n                \"comments\": null,\n                \"progressed_date\": null,\n                \"progressed_by\": null,\n                \"is_delete\": false\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get All Expense",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/expense/get-all",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "expense", "get-all"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get All Expense",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/expense/get-all",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "expense", "get-all"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3191"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c77-/oSeoGYZ4ktHU4GFsj4F1eCjeYI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 Sep 2023 07:38:16 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"expense_id\": 1,\n            \"expense_code\": \"EXP2023002\",\n            \"site_id\": 17,\n            \"project_id\": 137,\n            \"employee_name\": \"Vijay Perumalsamy \",\n            \"employee_id\": \"ALM0065\",\n            \"employee_phone\": \"+91 8667604201\",\n            \"purpose\": \" Updated Site Expenses\",\n            \"department\": \"Accountant\",\n            \"designation\": \"Manager\",\n            \"start_date\": \"2023-08-10T00:00:00.000Z\",\n            \"end_date\": \"2023-08-31T00:00:00.000Z\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T07:32:30.518Z\",\n            \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"expense_details\": [\n                {\n                    \"expense_details_id\": 1,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 136,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:32:30.518Z\",\n                    \"updated_date\": \"2023-09-23T07:32:30.518Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 136,\n                        \"master_data_name\": \"Food Snacks\",\n                        \"master_data_description\": \"Food Snacks\",\n                        \"master_data_type\": \"SIEFS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:37:45.033Z\",\n                        \"updated_date\": \"2023-09-23T05:37:45.033Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                },\n                {\n                    \"expense_details_id\": 3,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 137,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"updated_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 137,\n                        \"master_data_name\": \"Purchase Service\",\n                        \"master_data_description\": \"Purchase Service\",\n                        \"master_data_type\": \"SIEPPCS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"updated_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                },\n                {\n                    \"expense_details_id\": 2,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 137,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n                    \"created_by\": null,\n                    \"updated_by\": 1,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 137,\n                        \"master_data_name\": \"Purchase Service\",\n                        \"master_data_description\": \"Purchase Service\",\n                        \"master_data_type\": \"SIEPPCS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"updated_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                }\n            ],\n            \"site_data\": {\n                \"name\": \"Anna Nagar East Site\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Pipe line Project\"\n            }\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Expense By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/expense/get/1",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "expense", "get", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Expense By Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/expense/get/1",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "expense", "get", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3189"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c75-yMS5tyco8+0bfxOlcgx8nzX6O+k\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 Sep 2023 07:44:15 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense_id\": 1,\n        \"expense_code\": \"EXP2023002\",\n        \"site_id\": 17,\n        \"project_id\": 137,\n        \"employee_name\": \"Vijay Perumalsamy \",\n        \"employee_id\": \"ALM0065\",\n        \"employee_phone\": \"+91 8667604201\",\n        \"purpose\": \" Updated Site Expenses\",\n        \"department\": \"Accountant\",\n        \"designation\": \"Manager\",\n        \"start_date\": \"2023-08-10T00:00:00.000Z\",\n        \"end_date\": \"2023-08-31T00:00:00.000Z\",\n        \"bill_details\": [\n            {\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                \"index\": 0\n            }\n        ],\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-23T07:32:30.518Z\",\n        \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1,\n        \"expense_details\": [\n            {\n                \"expense_details_id\": 1,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"created_date\": \"2023-09-23T07:32:30.518Z\",\n                \"updated_date\": \"2023-09-23T07:32:30.518Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"status\": null,\n                \"comments\": null,\n                \"progressed_date\": null,\n                \"progressed_by\": null,\n                \"is_delete\": false,\n                \"progressed_by_data\": null,\n                \"expense_master_data\": {\n                    \"master_data_id\": 136,\n                    \"master_data_name\": \"Food Snacks\",\n                    \"master_data_description\": \"Food Snacks\",\n                    \"master_data_type\": \"SIEFS\",\n                    \"parent_master_data_id\": 131,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-23T05:37:45.033Z\",\n                    \"updated_date\": \"2023-09-23T05:37:45.033Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null\n                }\n            },\n            {\n                \"expense_details_id\": 3,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-23T07:35:00.572Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"status\": null,\n                \"comments\": null,\n                \"progressed_date\": null,\n                \"progressed_by\": null,\n                \"is_delete\": false,\n                \"progressed_by_data\": null,\n                \"expense_master_data\": {\n                    \"master_data_id\": 137,\n                    \"master_data_name\": \"Purchase Service\",\n                    \"master_data_description\": \"Purchase Service\",\n                    \"master_data_type\": \"SIEPPCS\",\n                    \"parent_master_data_id\": 131,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-23T05:39:13.661Z\",\n                    \"updated_date\": \"2023-09-23T05:39:13.661Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null\n                }\n            },\n            {\n                \"expense_details_id\": 2,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"status\": null,\n                \"comments\": null,\n                \"progressed_date\": null,\n                \"progressed_by\": null,\n                \"is_delete\": false,\n                \"progressed_by_data\": null,\n                \"expense_master_data\": {\n                    \"master_data_id\": 137,\n                    \"master_data_name\": \"Purchase Service\",\n                    \"master_data_description\": \"Purchase Service\",\n                    \"master_data_type\": \"SIEPPCS\",\n                    \"parent_master_data_id\": 131,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-23T05:39:13.661Z\",\n                    \"updated_date\": \"2023-09-23T05:39:13.661Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null\n                }\n            }\n        ],\n        \"site_data\": {\n            \"name\": \"Anna Nagar East Site\"\n        },\n        \"project_data\": {\n            \"project_name\": \"Pipe line Project\"\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Delete Expense",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/expense/delete/1",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "expense", "delete", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Delete Expense",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/expense/delete/1",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "expense", "delete", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "106"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"6a-zCJtJDX4lLuNde/b0bALNtw+Fo8\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 Sep 2023 07:45:09 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Unable to delete this.The expense_id is mapped on expense_details\",\n    \"status\": false,\n    \"data\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Expense By Project Id and Site Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/expense/get-by-project-id-and-site-id/137/17",
+              "host": ["{{API_URL}}"],
+              "path": [
+                "api",
+                "expense",
+                "get-by-project-id-and-site-id",
+                "137",
+                "17"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Expense By Project Id and Site Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/expense/get-by-project-id-and-site-id/137/17",
+                  "host": ["{{API_URL}}"],
+                  "path": [
+                    "api",
+                    "expense",
+                    "get-by-project-id-and-site-id",
+                    "137",
+                    "17"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "2232"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"8b8-WlyuKg/7bbSZJfikXqHa+dNrFDw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 Sep 2023 07:47:41 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense_id\": 1,\n        \"expense_code\": \"EXP2023002\",\n        \"site_id\": 17,\n        \"project_id\": 137,\n        \"employee_name\": \"Vijay Perumalsamy \",\n        \"employee_id\": \"ALM0065\",\n        \"employee_phone\": \"+91 8667604201\",\n        \"purpose\": \" Updated Site Expenses\",\n        \"department\": \"Accountant\",\n        \"designation\": \"Manager\",\n        \"start_date\": \"2023-08-10T00:00:00.000Z\",\n        \"end_date\": \"2023-08-31T00:00:00.000Z\",\n        \"bill_details\": [\n            {\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                \"index\": 0\n            }\n        ],\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-23T07:32:30.518Z\",\n        \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1,\n        \"expense_details\": [\n            {\n                \"expense_details_id\": 1,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"created_date\": \"2023-09-23T07:32:30.518Z\",\n                \"updated_date\": \"2023-09-23T07:32:30.518Z\",\n                \"created_by\": 1,\n                \"updated_by\": null,\n                \"status\": null,\n                \"comments\": null,\n                \"progressed_date\": null,\n                \"progressed_by\": null,\n                \"is_delete\": false,\n                \"progressed_by_data\": null\n            },\n            {\n                \"expense_details_id\": 3,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-23T07:35:00.572Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"status\": null,\n                \"comments\": null,\n                \"progressed_date\": null,\n                \"progressed_by\": null,\n                \"is_delete\": false,\n                \"progressed_by_data\": null\n            },\n            {\n                \"expense_details_id\": 2,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"status\": null,\n                \"comments\": null,\n                \"progressed_date\": null,\n                \"progressed_by\": null,\n                \"is_delete\": false,\n                \"progressed_by_data\": null\n            }\n        ],\n        \"site_data\": {\n            \"name\": \"Anna Nagar East Site\"\n        },\n        \"project_data\": {\n            \"project_name\": \"Pipe line Project\"\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Expense Details By Expense Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/expense/get-expense-details-by-expense-id/1",
+              "host": ["{{API_URL}}"],
+              "path": [
+                "api",
+                "expense",
+                "get-expense-details-by-expense-id",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API To Search Expense",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"status\": \"AC\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/expense/search",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "expense", "search"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Search Expense",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"status\": \"AC\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/expense/search",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "expense", "search"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3225"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c99-LzwBfeF/WBY5kEIX7bZsbsXqNXs\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 Sep 2023 08:08:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"expense_id\": 1,\n            \"expense_code\": \"EXP2023002\",\n            \"site_id\": 17,\n            \"project_id\": 137,\n            \"employee_name\": \"Vijay Perumalsamy \",\n            \"employee_id\": \"ALM0065\",\n            \"employee_phone\": \"+91 8667604201\",\n            \"purpose\": \" Updated Site Expenses\",\n            \"department\": \"Accountant\",\n            \"designation\": \"Manager\",\n            \"start_date\": \"2023-08-10T00:00:00.000Z\",\n            \"end_date\": \"2023-08-31T00:00:00.000Z\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T07:32:30.518Z\",\n            \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"expense_details\": [\n                {\n                    \"expense_details_id\": 1,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 136,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:32:30.518Z\",\n                    \"updated_date\": \"2023-09-23T07:32:30.518Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 136,\n                        \"master_data_name\": \"Food Snacks\",\n                        \"master_data_description\": \"Food Snacks\",\n                        \"master_data_type\": \"SIEFS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:37:45.033Z\",\n                        \"updated_date\": \"2023-09-23T05:37:45.033Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                },\n                {\n                    \"expense_details_id\": 3,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 137,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"updated_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 137,\n                        \"master_data_name\": \"Purchase Service\",\n                        \"master_data_description\": \"Purchase Service\",\n                        \"master_data_type\": \"SIEPPCS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"updated_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                },\n                {\n                    \"expense_details_id\": 2,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 137,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n                    \"created_by\": null,\n                    \"updated_by\": 1,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 137,\n                        \"master_data_name\": \"Purchase Service\",\n                        \"master_data_description\": \"Purchase Service\",\n                        \"master_data_type\": \"SIEPPCS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"updated_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                }\n            ],\n            \"site_data\": {\n                \"name\": \"Anna Nagar East Site\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Pipe line Project\"\n            }\n        }\n    ]\n}"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

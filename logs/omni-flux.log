@@ -4837,3 +4837,247 @@ D:\Vijay\OmniFluxERP\Main\August\Aug-28\omni-flux\apps\api\src\dao\projectInvent
 Unknown field `uom_name` for select statement on model uom. Available options are listed in green. Did you mean `uom_type`?
 
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/processFileUpload << ERRSTRING >>TypeError: files.file is not iterable
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findFirst()` invocation in
+D:\Vijay\OmniFluxERP\Main\August\Aug-28\omni-flux\apps\api\src\dao\expense.dao.ts:389:47
+
+  386 ) => {
+  387   try {
+  388     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 389     const expense = await transaction.expense.findFirst({
+            where: {
+              project_id: 137,
+              site_id: 17,
+              is_delete: false
+            },
+            include: {
+              expense_details: {
+                where: {
+                  is_delete: false
+                },
+                include: {
+                  progressed_by_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true
+                    },
+                    expense_master_data: true
+                    ~~~~~~~~~~~~~~~~~~~
+                  }
+                }
+              },
+              site_data: {
+                select: {
+                  name: true
+                }
+              },
+              project_data: {
+                select: {
+                  project_name: true
+                }
+              }
+            }
+          })
+
+Unknown arg `expense_master_data` in include.expense_details.include.progressed_by_data.expense_master_data for type users. Did you mean `select`? Available args:
+type progressed_by_data {
+
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findFirst()` invocation in
+D:\Vijay\OmniFluxERP\Main\August\Aug-28\omni-flux\apps\api\src\dao\expense.dao.ts:389:47
+
+  386 ) => {
+  387   try {
+  388     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 389     const expense = await transaction.expense.findFirst({
+            where: {
+              project_id: 137,
+              site_id: 17,
+              is_delete: false
+            },
+            include: {
+              expense_details: {
+                where: {
+                  is_delete: false
+                },
+                include: {
+                  progressed_by_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true
+                    },
+                    expense_master_data: true
+                    ~~~~~~~~~~~~~~~~~~~
+                  }
+                }
+              },
+              site_data: {
+                select: {
+                  name: true
+                }
+              },
+              project_data: {
+                select: {
+                  project_name: true
+                }
+              }
+            }
+          })
+
+Unknown arg `expense_master_data` in include.expense_details.include.progressed_by_data.expense_master_data for type users. Did you mean `select`? Available args:
+type progressed_by_data {
+
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findFirst()` invocation in
+D:\Vijay\OmniFluxERP\Main\August\Aug-28\omni-flux\apps\api\src\dao\expense.dao.ts:389:47
+
+  386 ) => {
+  387   try {
+  388     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 389     const expense = await transaction.expense.findFirst({
+            where: {
+              project_id: 137,
+              site_id: 17,
+              is_delete: false
+            },
+            include: {
+              expense_details: {
+                where: {
+                  is_delete: false
+                },
+                include: {
+                  progressed_by_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true
+                    },
+                    expense_master_data: true
+                    ~~~~~~~~~~~~~~~~~~~
+                  }
+                }
+              },
+              site_data: {
+                select: {
+                  name: true
+                }
+              },
+              project_data: {
+                select: {
+                  project_name: true
+                }
+              }
+            }
+          })
+
+Unknown arg `expense_master_data` in include.expense_details.include.progressed_by_data.expense_master_data for type users. Did you mean `select`? Available args:
+type progressed_by_data {
+
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\Vijay\OmniFluxERP\Main\August\Aug-28\omni-flux\apps\api\src\dao\expense.dao.ts:314:47
+
+  311 try {
+  312   const transaction = connectionObj !== null ? connectionObj : prisma;
+  313   const filter = filters.filterExpense;
+→ 314   const expense = await transaction.expense.findMany({
+          where: {
+            is_delete: false
+          },
+          include: {
+            expense_details: {
+              include: {
+                progressed_by_data: {
+                  select: {
+                    first_name: true,
+                    last_name: true
+                  },
+                  expense_master_data: true
+                  ~~~~~~~~~~~~~~~~~~~
+                }
+              }
+            },
+            site_data: {
+              select: {
+                name: true
+              }
+            },
+            project_data: {
+              select: {
+                project_name: true
+              }
+            }
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 5
+        })
+
+Unknown arg `expense_master_data` in include.expense_details.include.progressed_by_data.expense_master_data for type users. Did you mean `select`? Available args:
+type progressed_by_data {
+
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\Vijay\OmniFluxERP\Main\August\Aug-28\omni-flux\apps\api\src\dao\expense.dao.ts:322:47
+
+  319 try {
+  320   const transaction = connectionObj !== null ? connectionObj : prisma;
+  321   const filter = filters.filterExpense;
+→ 322   const expense = await transaction.expense.findMany({
+          where: {
+            is_delete: false
+          },
+          include: {
+            expense_details: {
+              include: {
+                progressed_by_data: {
+                  select: {
+                    first_name: true,
+                    last_name: true
+                  },
+                  expense_master_data: true
+                  ~~~~~~~~~~~~~~~~~~~
+                }
+              }
+            },
+            site_data: {
+              select: {
+                name: true
+              }
+            },
+            project_data: {
+              select: {
+                project_name: true
+              }
+            }
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 5
+        })
+
+Unknown arg `expense_master_data` in include.expense_details.include.progressed_by_data.expense_master_data for type users. Did you mean `select`? Available args:
+type progressed_by_data {
+
+}
+
+
