@@ -253,6 +253,7 @@ import ProjectStockAdd from '../component/project/projectComponent/projectStockA
 import StoreOutwardList from '../component/storeOutward/storeOutwardList';
 import ProjectStockAuditView from '../component/project/projectComponent/projectStockAuditView';
 import ProjectInventory from '../component/project/project-inventory';
+import SiteExpensesForm from '../component/expanses/siteEapensesForm';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -328,6 +329,7 @@ const AppRoutes = () => {
     ProjectStockAuditView
   );
   const ProtectedProjectInventory = withLayoutAndProtection(ProjectInventory);
+  const ProtectedSiteExpensesForm = withLayoutAndProtection(SiteExpensesForm);
 
   return (
     <div>
@@ -387,9 +389,13 @@ const AppRoutes = () => {
           element={<ProtectedProjectWorkBreakDownPage />}
         />
         <Route path="/settings" element={<ProtectedSettings />} />
-        <Route
+        {/* <Route
           path="/expenses/:projectId/:siteId"
           element={<ProtectedExpanses />}
+        /> */}
+        <Route
+          path="/expenses/:projectId/:siteId"
+          element={<ProtectedSiteExpensesForm />}
         />
         <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />
         <Route path="/project-list" element={<ProtectedProjectListPage />} />

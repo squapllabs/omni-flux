@@ -81,8 +81,8 @@
   }
 
   td {
-    align-items: center;
-    text-align: center;
+    // align-items: center;
+    // text-align: center;
   }
   td:hover,
   tr:hover {
@@ -117,4 +117,11 @@
   flex-direction: row;
   justify-content: space-between;
   padding-right: 10px;
+}
+
+.siteExpenseField {
+  display: flex;
+  padding-left: 20px;
+  align-items: center;
+  gap: 20px;
 }
