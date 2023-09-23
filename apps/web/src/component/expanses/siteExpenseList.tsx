@@ -1,44 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import Styles from '../../../styles/project.module.scss';
-import Button from '../../ui/Button';
-import AddIcon from '../../menu/icons/addIcon';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  useGetAllStockAudits,
-  getByFilterStockAudit,
-} from '../../../hooks/stockAudit-hooks';
-import CustomLoader from '../../ui/customLoader';
+import Button from '../ui/Button';
+import AddIcon from '../menu/icons/addIcon';
+import Styles from '../../styles/project.module.scss';
+import Pagination from '../menu/pagination';
+import { getBySearchsiteExpense } from '../../hooks/expense-hook';
+import { getProjectSite } from '../../hooks/project-hooks';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { format } from 'date-fns';
-import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
-import { getProjectSite } from '../../../hooks/project-hooks';
-import Pagination from '../../menu/pagination';
-import ViewIcon from '../../menu/icons/viewIcon';
+import CustomLoader from '../ui/customLoader';
+import EditIcon from '../menu/icons/editIcon';
 
-const ProjectStockmanagement = () => {
+const SiteExpenseList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   let rowIndex = 0;
   const {
     mutate: postDataForFilter,
-    data: getStockAuditList,
+    data: getExpenseList,
     isLoading: fetchLoader,
-  } = getByFilterStockAudit();
-  console.log('getStockAuditList', getStockAuditList);
+  } = getBySearchsiteExpense();
+  console.log('getExpenseList', getExpenseList?.content);
 
   const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState<any>({});
+
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
+
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage]);
 
-  /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
@@ -83,25 +81,27 @@ const ProjectStockmanagement = () => {
   return (
     <div>
       <CustomLoader loading={fetchLoader}>
-        <div className={Styles.headingContent}>
-          <div className={Styles.textContent_1}>
-            <h3>Stock Audit</h3>
-            <span className={Styles.content}>Project Stock auditing</span>
-          </div>
-          <div className={Styles.buttons}>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-              icon={<AddIcon width={20} color="white" />}
-              onClick={() => {
-                navigate(`/project-stockadd/${routeParams?.id}`);
-              }}
-            >
-              Add
-            </Button>
+        <div>
+          <div className={Styles.headingContent}>
+            <div className={Styles.textContent_1}>
+              <h3>Site Expense</h3>
+              <span className={Styles.content}>Project site expense</span>
+            </div>
+            <div className={Styles.buttons}>
+              <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<AddIcon width={20} color="white" />}
+                onClick={() => {
+                  navigate(`/expenses/${routeParams?.id}`);
+                }}
+              >
+                Add
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -145,63 +145,74 @@ const ProjectStockmanagement = () => {
                 </Button>
               </div>
             </div>
-            <div className={Styles.buttons}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<AddIcon width={20} color="white" />}
-                onClick={() => {
-                  navigate(`/project-stockadd/${routeParams?.id}`);
-                }}
-              >
-                Add
-              </Button>
-            </div>
           </div>
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>
                 <th>S.No</th>
                 <th>Site</th>
-                <th>Audit Date</th>
-                <th>Item count</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Amount</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {getStockAuditList?.content?.map((items: any, index: any) => {
-                rowIndex = rowIndex + 1;
-                return (
-                  <tr>
-                    <td>{rowIndex}</td>
-                    <td>{items?.site_data?.name}</td>
-                    <td>{dateFormat(items?.stock_audit_date)}</td>
-                    <td>{items?.item_details?.length}</td>
-                    <td>
-                      <div
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          navigate(
-                            `/project-stockView/${items?.stock_audit_id}`
-                          );
-                        }}
-                      >
-                        <ViewIcon />
-                      </div>
-                    </td>
-                  </tr>
-                );
+              {getExpenseList?.content?.length === 0 ? (
+                <tr>
+                  <td></td>
+                  <td>No data</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              ) : (
+                ''
+              )}
+              {getExpenseList?.content?.map((items: any, index: any) => {
+                if (items.is_delete != true) {
+                  rowIndex = rowIndex + 1;
+                  console.log('items', items);
+                  const sumOfRates = items?.expense_details.reduce(
+                    (accumulator: any, currentItem: any) => {
+                      return accumulator + currentItem.total;
+                    },
+                    0
+                  );
+                  return (
+                    <tr>
+                      <td>{rowIndex}</td>
+                      <td>{items?.site_data?.name}</td>
+                      <td>{dateFormat(items?.start_date)}</td>
+                      <td>{dateFormat(items?.end_date)}</td>
+                      <td>{sumOfRates}</td>
+                      <td>{items?.status}</td>
+                      <td>
+                        <div
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            navigate(
+                              `/expenses-edit/${routeParams?.id}/${items.expense_id}`
+                            );
+                          }}
+                        >
+                          <EditIcon />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
               })}
             </tbody>
           </table>
           <div className={Styles.pagination}>
             <Pagination
               currentPage={currentPage}
-              totalPages={getStockAuditList?.total_page}
-              totalCount={getStockAuditList?.total_count}
+              totalPages={getExpenseList?.total_page}
+              totalCount={getExpenseList?.total_count}
               rowsPerPage={rowsPerPage}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
@@ -213,4 +224,4 @@ const ProjectStockmanagement = () => {
   );
 };
 
-export default ProjectStockmanagement;
+export default SiteExpenseList;
