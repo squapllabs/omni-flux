@@ -9,21 +9,51 @@ import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Checkbox from '../ui/Checkbox';
+import DeleteIcon from '../menu/icons/deleteIcon';
+import CustomDelete from '../ui/customDeleteDialogBox';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
+  console.log('props.expenseList', props.expenseList);
+
   let rowIndex = 0;
   const [initialValues, setInitialValues] = useState({
-    site_expense: '',
+    expense_data_id: '',
     site_expense_name: '',
-    bill_no: '',
-    amount: '',
-    is_delete: 'N',
+    bill_number: '',
+    total: '',
+    is_delete: false,
   });
+  const [ExpenseValue, setExpenseValue] = useState<any>({});
   const [checked, setChecked] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const deleteSiteExpense = (e: any, values: any) => {
+    console.log('ExpenseValue', ExpenseValue);
+
+    const itemIndex = props.expenseList.findIndex(
+      (item: any) =>
+        item.expense_data_id === ExpenseValue?.expense_data_id &&
+        item.is_delete === ExpenseValue?.is_delete
+    );
+    console.log('itemIndex', itemIndex);
+
+    props.expenseList[itemIndex] = {
+      ...props.expenseList[itemIndex],
+      is_delete: true,
+    };
+    props.setExpenseList([...props.expenseList]);
+    rowIndex = rowIndex - 1;
+    setOpenDelete(false);
+    props.setMessage('Site expanse details has been deleted');
+    props.setOpenSnack(true);
+  };
   const validationSchema = Yup.object().shape({
     is_delete: Yup.string().required(),
-    site_expense: Yup.string()
+    expense_data_id: Yup.string()
       .typeError('Site Expense is required')
       .required('Site Expense is required')
       .test(
@@ -31,9 +61,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         'Site Expense is already present',
         async function (value, { parent }: Yup.TestContext) {
           const isDelete = parent.is_delete;
-          console.log('isDelete', isDelete);
-          console.log('value', value);
-
           try {
             const isValuePresent = props.expenseList.some((obj) => {
               console.log('obj', obj);
@@ -53,7 +80,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
           }
         }
       ),
-    amount: Yup.number()
+    total: Yup.number()
       .min(1, 'Amount must be more then 0')
       .max(100000, 'Amount must be less then 100000')
       .typeError('Amount is required')
@@ -65,6 +92,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       console.log('values', values);
+      values['total'] = Number(values.total);
       props.setExpenseList([...props.expenseList, values]);
       setChecked(false);
       resetForm();
@@ -75,17 +103,17 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       <form>
         <div className={Styles.fields_container}>
           <div className={Styles.siteExpenseField}>
-            <div style={{ width: '25%' }}>
+            <div style={{ width: '30%' }}>
               <AutoCompleteSelect
-                name="site_expense"
+                name="expense_data_id"
                 label="Site Expense"
                 defaultLabel="Select from options"
                 placeholder="Select from options"
                 onChange={formik.handleChange}
-                value={formik.values.site_expense}
+                value={formik.values.expense_data_id}
                 optionList={getSiteExpense}
                 onSelect={(value) => {
-                  formik.setFieldValue('site_expense', value);
+                  formik.setFieldValue('expense_data_id', value);
                   const matchingObjects = getSiteExpense.filter(
                     (obj: any) => Number(obj.value) === Number(value)
                   );
@@ -95,35 +123,39 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                   );
                 }}
                 error={
-                  formik.touched.site_expense && formik.errors.site_expense
+                  formik.touched.expense_data_id &&
+                  formik.errors.expense_data_id
                 }
               />
             </div>
-            <div>
-              <Checkbox
-                checked={checked}
-                onChange={() => {
-                  setChecked(!checked);
-                }}
-              />
-              <span>Is bill available ?</span>
-            </div>
-            <div style={{ width: '25%' }}>
+
+            <div style={{ width: '27%', paddingTop: '20px' }}>
               <Input
-                name="bill_no"
+                name="bill_number"
                 label="Bill No"
-                value={formik.values.bill_no}
+                value={formik.values.bill_number}
                 onChange={formik.handleChange}
                 disabled={checked === true ? false : true}
               />
+              <div
+                style={{ display: 'flex', gap: '10px', alignItems: 'center' }}
+              >
+                <Checkbox
+                  checked={checked}
+                  onChange={() => {
+                    setChecked(!checked);
+                  }}
+                />
+                <span style={{ fontSize: '70%' }}>Is bill available ?</span>
+              </div>
             </div>
-            <div style={{ width: '20%' }}>
+            <div style={{ width: '25%' }}>
               <Input
-                name="amount"
+                name="total"
                 label="Amount"
-                value={formik.values.amount}
+                value={formik.values.total}
                 onChange={formik.handleChange}
-                error={formik.touched.amount && formik.errors.amount}
+                error={formik.touched.total && formik.errors.total}
               />
             </div>
             <div style={{ width: '10%' }}>
@@ -151,21 +183,58 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             <th>Action</th>
           </thead>
           <tbody>
+            {props.expenseList?.length === 0 ? (
+              <tr>
+                <td></td>
+                <td>No data</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            ) : (
+              ''
+            )}
             {props.expenseList?.map((item: any, index: any) => {
-              rowIndex = rowIndex + 1;
-              return (
-                <tr>
-                  <td>{rowIndex}</td>
-                  <td>{item.site_expense_name}</td>
-                  <td>{item.bill_no}</td>
-                  <td>{item.amount}</td>
-                  <td></td>
-                </tr>
-              );
+              console.log('item', item);
+
+              if (item.is_delete === false) {
+                rowIndex = rowIndex + 1;
+                return (
+                  <tr>
+                    <td>{rowIndex}</td>
+                    <td>
+                      {item?.site_expense_name === undefined
+                        ? item?.expense_master_data?.master_data_name
+                        : item?.site_expense_name}
+                    </td>
+                    <td>{item.bill_number}</td>
+                    <td>{item.total}</td>
+                    <td>
+                      <div
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          setExpenseValue(item);
+                          setOpenDelete(true);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              }
             })}
           </tbody>
         </table>
       </div>
+      <CustomDelete
+        open={openDelete}
+        title="Delete Site Expense"
+        contentLine1="Are you sure you want to delete this Expense ?"
+        contentLine2=""
+        handleClose={handleCloseDelete}
+        handleConfirm={deleteSiteExpense}
+      />
     </div>
   );
 };

@@ -253,7 +253,7 @@ import StockOutWardAdd from '../component/stockOutward/stockOutwardAdd';
 import ProjectStockAdd from '../component/project/projectComponent/projectStockAdd';
 import StockOutwardList from '../component/stockOutward/stockOutwardList';
 import ProjectInventory from '../component/project/project-inventory';
-import SiteExpensesForm from '../component/expanses/siteEapensesForm';
+import SiteExpensesForm from '../component/expanses/siteExpensesForm';
 import StockOutWardView from '../component/stockOutward/stockOutwardView';
 import StockOutwardEdit from '../component/stockOutward/stockOutwardEdit';
 import ProjectStockAuditView from '../component/project/projectComponent/projectStockAuditView';
@@ -329,7 +329,7 @@ const AppRoutes = () => {
   const ProtectedStockOutWardAdd = withLayoutAndProtection(StockOutWardAdd);
 
   const ProtectedStockOutwardList = withLayoutAndProtection(StockOutwardList);
-  const ProtectedProjectInventory = withLayoutAndProtection(ProjectInventory);
+  // const ProtectedProjectInventory = withLayoutAndProtection(ProjectInventory);
   const ProtectedStockOutWardView = withLayoutAndProtection(StockOutWardView);
   const ProtectedStockOutwardEdit = withLayoutAndProtection(StockOutwardEdit);
 
@@ -399,12 +399,12 @@ const AppRoutes = () => {
           element={<ProtectedProjectWorkBreakDownPage />}
         />
         <Route path="/settings" element={<ProtectedSettings />} />
-        {/* <Route
-          path="/expenses/:projectId/:siteId"
-          element={<ProtectedExpanses />}
-        /> */}
         <Route
-          path="/expenses/:projectId/:siteId"
+          path="/expenses-edit/:projectId/:id"
+          element={<ProtectedSiteExpensesForm />}
+        />
+        <Route
+          path="/expenses/:projectId"
           element={<ProtectedSiteExpensesForm />}
         />
         <Route path="/expenses-popup" element={<ProtectedPopupExpanse />} />

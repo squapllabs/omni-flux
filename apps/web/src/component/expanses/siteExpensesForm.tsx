@@ -6,16 +6,16 @@ import DatePicker from '../ui/CustomDatePicker';
 import Button from '../ui/Button';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useFormik } from 'formik';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import {
+  getBymasertDataType,
+  getBymasertDataTypeDrop,
+} from '../../hooks/masertData-hook';
 import PopupExpense from './popupExpanse';
 import CustomDelete from '../ui/customDeleteDialogBox';
-import {
-  createsiteExpense,
-  updatesiteExpense,
-} from '../../hooks/siteExpanse-hooks';
+import { createsiteExpense, updatesiteExpense } from '../../hooks/expense-hook';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import siteExpenseService from '../../service/siteExpanse-service';
+import siteExpenseService from '../../service/expense-service';
 import { format } from 'date-fns';
 import * as Yup from 'yup';
 import { getCreateValidateyup } from '../../helper/constants/siteExpanse-constants';
@@ -24,12 +24,16 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '../menu/icons/backArrow';
 import SiteExpensesDetails from './siteExpensesDetails';
-
+import { getProjectSite } from '../../hooks/project-hooks';
+import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+import SiteExpenseBill from './SiteExpensBill';
+import CustomConfirm from '../ui/CustomConfirmDialogBox';
 const SiteExpensesForm = () => {
   const params = useParams();
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const siteId = Number(params?.siteId);
+  const { data: getSiteList } = getProjectSite(Number(projectId));
   const validationSchema = getCreateValidateyup(Yup);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -44,6 +48,8 @@ const SiteExpensesForm = () => {
   const [errors, setErrors] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [expenseBill, setExpenseBill] = useState<any>([]);
   const [initialValues, setInitialValues] = useState({
     employee_name: '',
     employee_id: '',
@@ -54,7 +60,13 @@ const SiteExpensesForm = () => {
     department: '',
     designation: '',
     site_expense_id: '',
+    site_id: '',
+    expense_id: '',
+    submitType: '',
   });
+  const handleCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
@@ -65,10 +77,16 @@ const SiteExpensesForm = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const drafthandler = () => {
+    formik.setFieldValue('submitType', 'Draft');
+    formik.submitForm();
+  };
   const { data: getAllDiscription } = getBymasertDataType('SEDT');
   const { data: getAllSiteDepartment } = getBymasertDataType('SITD');
   const { data: getAllpurpose } = getBymasertDataType('SITP');
   const { data: getAlldesignation } = getBymasertDataType('SITDG');
+  const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
     createsiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
@@ -85,10 +103,13 @@ const SiteExpensesForm = () => {
         projectId: projectId,
         siteId: siteId,
       };
-      const datas = await siteExpenseService.getSiteExpenseByProjectandSiteID(
-        postIds
+      const datas = await siteExpenseService.getOnesiteExpenseByID(params?.id);
+      console.log('datas', datas);
+      const arry: any = [];
+      setExpenseBill(
+        datas?.data?.bill_details === null ? [] : datas?.data?.bill_details
       );
-
+      setExpenseList(datas?.data?.expense_details);
       setInitialValues({
         employee_name: datas?.data?.employee_name,
         employee_id: datas?.data?.employee_id,
@@ -99,48 +120,40 @@ const SiteExpensesForm = () => {
         department: datas?.data?.department,
         designation: datas?.data?.designation,
         site_expense_id: datas?.data?.site_expense_id,
+        expense_id: datas?.data?.expense_id,
+        site_id: datas?.data?.site_id,
+        submitType: datas?.data?.status,
       });
-      const arry: any = [];
-      datas?.data?.site_expense_details.map((items: any) => {
-        items.is_delete = 'N';
-        const demo = {
-          site_expense_details_id: items.site_expense_details_id,
-          description: items.description,
-          is_delete: 'N',
-          air_transport: items.air_transport,
-          fuel: items.fuel,
-          labour_advance: items.labour_advance,
-          phone_stationary: items.phone_stationary,
-          food_snacks: items.food_snacks,
-          purchase_service: items.purchase_service,
-          others: items.others,
-          total: items.total,
-        };
-
-        arry.push(demo);
-      });
-      setExpenseList(arry);
     };
-    fetchData();
+    if (params?.id != undefined) fetchData();
   }, [reload]);
 
+  const submitHandler = () => {
+    setOpenConfirm(true);
+  };
+  const handleConfirmForm = () => {
+    formik.setFieldValue('submitType', 'Pending');
+    formik.submitForm();
+    setOpenConfirm(false);
+  };
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
+      const statusData = values.submitType === 'Draft' ? 'Draft' : 'Pending';
       let count = 0;
       for (let i = 0; i < expenseList.length; i++) {
-        if (expenseList[i].is_delete === 'N') {
+        if (expenseList[i].is_delete === false) {
           count++;
         }
       }
       if (count === 0) {
         setOpenDialog(true);
       } else {
-        if (values.site_expense_id === '') {
+        if (values.expense_id === '') {
           const object: any = {
-            site_id: siteId,
+            site_id: values.site_id,
             project_id: projectId,
             employee_name: values.employee_name,
             employee_id: values.employee_id,
@@ -150,11 +163,15 @@ const SiteExpensesForm = () => {
             purpose: values.purpose,
             department: values.department,
             designation: values.designation,
-            site_expense_details: expenseList,
+            expense_details: expenseList,
             created_by: encryptedData?.userId,
+            bill_details: expenseBill,
+            status: statusData,
           };
+          console.log('objectpost', object);
           postSiteExpenseData(object, {
             onSuccess(data, variables, context) {
+              console.log('data', data);
               if (data?.status === true) {
                 setMessage('Site Expense has been added successfully !');
                 setOpenSnack(true);
@@ -166,7 +183,7 @@ const SiteExpensesForm = () => {
           });
         } else {
           const object: any = {
-            site_id: siteId,
+            site_id: values.site_id,
             project_id: projectId,
             employee_name: values.employee_name,
             employee_id: values.employee_id,
@@ -176,10 +193,12 @@ const SiteExpensesForm = () => {
             purpose: values.purpose,
             department: values.department,
             designation: values.designation,
-            site_expense_details: expenseList,
+            expense_details: expenseList,
             created_by: encryptedData?.userId,
             updated_by: encryptedData?.userId,
-            site_expense_id: values.site_expense_id,
+            expense_id: values.expense_id,
+            bill_details: expenseBill,
+            status: statusData,
           };
           updateSiteExpenseData(object, {
             onSuccess(data, variables, context) {
@@ -204,24 +223,29 @@ const SiteExpensesForm = () => {
             <h3>Add Site Expense</h3>
             <span className={Styles.content}>Add your site expense.</span>
           </div>
-          <div>
-            <Button
-              shape="rectangle"
-              size="small"
-              justify="center"
-              color="primary"
-              icon={<KeyboardBackspaceIcon />}
-              onClick={() => {
-                navigate('/settings');
-              }}
-            >
-              Back
-            </Button>
-          </div>
         </div>
       </div>
       <form>
         <div className={Styles.box}>
+          <div className={Styles.fields_container}>
+            <div className={Styles.fields_container_1}>
+              <div className={Styles.fieldStyle}>
+                <AutoCompleteSelect
+                  name="site_id"
+                  label="Site"
+                  mandatory={true}
+                  optionList={getSiteList != undefined ? getSiteList : []}
+                  value={formik.values.site_id}
+                  onChange={formik.handleChange}
+                  onSelect={(value) => {
+                    formik.setFieldValue('site_id', value);
+                  }}
+                  error={formik.touched.site_id && formik.errors.site_id}
+                  disabled={params?.id ? true : false}
+                />
+              </div>
+            </div>
+          </div>
           <div className={Styles.fields_container}>
             <div className={Styles.fields_container_1}>
               <div className={Styles.fieldStyle}>
@@ -266,6 +290,7 @@ const SiteExpensesForm = () => {
                 <Select
                   label="Purpose"
                   defaultLabel="Select a Purpose"
+                  placeholder="Select a Purpose"
                   name="purpose"
                   onChange={formik.handleChange}
                   value={formik.values.purpose}
@@ -288,6 +313,7 @@ const SiteExpensesForm = () => {
                 <Select
                   label="Department"
                   defaultLabel="Select a Department"
+                  placeholder="Select a Department"
                   name="department"
                   onChange={formik.handleChange}
                   value={formik.values.department}
@@ -309,6 +335,7 @@ const SiteExpensesForm = () => {
                   label="Designation"
                   name="designation"
                   defaultLabel="Select a Designation"
+                  placeholder="Select a Designation"
                   onChange={formik.handleChange}
                   value={formik.values.designation}
                   error={
@@ -359,20 +386,45 @@ const SiteExpensesForm = () => {
             <SiteExpensesDetails
               setExpenseList={setExpenseList}
               expenseList={expenseList}
+              setMessage={setMessage}
+              setOpenSnack={setOpenSnack}
             />
           </div>
-          <div className={Styles.submitButton}>
-            <Button
-              color="primary"
-              shape="rectangle"
-              justify="center"
-              size="small"
-              type="button"
-              onClick={formik.handleSubmit}
-            >
-              Submit
-            </Button>
+        </div>
+        <div>
+          <div className={Styles.textContent}>
+            <h3>Expense Bill</h3>
+            <span className={Styles.content}>Add your expense bill.</span>
           </div>
+          <div>
+            <SiteExpenseBill
+              projectId={projectId}
+              setExpenseBill={setExpenseBill}
+              expenseBill={expenseBill}
+            />
+          </div>
+        </div>
+        <div className={Styles.submitButton} style={{ gap: '50px' }}>
+          <Button
+            className={Styles.resetButton}
+            type="button"
+            shape="rectangle"
+            size="small"
+            justify="center"
+            onClick={() => drafthandler()}
+          >
+            Draft
+          </Button>
+          <Button
+            color="primary"
+            shape="rectangle"
+            justify="center"
+            size="small"
+            type="button"
+            onClick={() => submitHandler()}
+          >
+            Submit
+          </Button>
         </div>
       </form>
       {/* <CustomDelete
@@ -383,7 +435,13 @@ const SiteExpensesForm = () => {
         handleClose={handleCloseDelete}
         handleConfirm={deleteSiteExpense}
       /> */}
-
+      <CustomConfirm
+        open={openConfirm}
+        title="Confirm Submit"
+        contentLine1="If you confirmed this site expense  will move to the review process"
+        handleClose={handleCloseConfirm}
+        handleConfirm={handleConfirmForm}
+      />
       <CustomDialogBox
         open={openDialog}
         title="Warning"
