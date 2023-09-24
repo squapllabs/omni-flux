@@ -184,11 +184,12 @@ const ProjectStockmanagement = () => {
                 })
               ) : (
                 <tr>
+                  <td colSpan="5">No data found</td>
+                  {/* <td></td>
                   <td></td>
+                  <td>No data avassssdsdilable</td>
                   <td></td>
-                  <td>No data available</td>
-                  <td></td>
-                  <td></td>
+                  <td></td> */}
                 </tr>
               )}
             </tbody>

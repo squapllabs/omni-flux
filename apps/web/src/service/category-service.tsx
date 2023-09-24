@@ -99,6 +99,18 @@ const filterCategory = async (values: JSON) => {
     throw error;
   }
 };
+
+const getAllAbstractStatusParentType = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/master-data/get-by-type/APSTYP`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting getAllAbstractStatusParentType:', error);
+    throw error;
+  }
+};
 export default {
   getAllCategory,
   getOneCategoryByID,
@@ -107,5 +119,6 @@ export default {
   deleteCategory,
   checkDublicateCategory,
   filterCategory,
-  getAllCategoryByProjectId
+  getAllCategoryByProjectId,
+  getAllAbstractStatusParentType
 };

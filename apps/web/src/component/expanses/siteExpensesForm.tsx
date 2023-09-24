@@ -28,6 +28,7 @@ import { getProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import SiteExpenseBill from './SiteExpensBill';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
+import BackArrow from '../menu/icons/backArrow';
 const SiteExpensesForm = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -223,6 +224,21 @@ const SiteExpensesForm = () => {
             <h3>Add Site Expense</h3>
             <span className={Styles.content}>Add your site expense.</span>
           </div>
+          <div className={Styles.backButton}>
+              <Button
+                type="button"
+                color="secondary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<BackArrow />}
+                onClick={(e) => {
+                  navigate(`/project-edit/${projectId}`);
+                }}
+              >
+                Back
+              </Button>
+            </div>
         </div>
       </div>
       <form>

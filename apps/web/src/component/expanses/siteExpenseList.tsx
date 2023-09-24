@@ -161,13 +161,14 @@ const SiteExpenseList = () => {
             <tbody>
               {getExpenseList?.content?.length === 0 ? (
                 <tr>
-                  <td></td>
+                  <td colSpan="7">No data found</td>
+                  {/* <td></td>
                   <td>No data</td>
                   <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
+                  <td></td> */}
                 </tr>
               ) : (
                 ''
