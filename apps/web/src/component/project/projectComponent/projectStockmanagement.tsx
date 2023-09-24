@@ -83,28 +83,29 @@ const ProjectStockmanagement = () => {
   return (
     <div>
       <CustomLoader loading={fetchLoader}>
-        <div className={Styles.headingContent}>
-          <div className={Styles.textContent_1}>
-            <h3>Stock Audit</h3>
-            <span className={Styles.content}>Project Stock auditing</span>
-          </div>
-          <div className={Styles.buttons}>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-              icon={<AddIcon width={20} color="white" />}
-              onClick={() => {
-                navigate(`/project-stockadd/${routeParams?.id}`);
-              }}
-            >
-              Add
-            </Button>
+        <div className={Styles.box}>
+          <div className={Styles.headingContent}>
+            <div className={Styles.textContent_1}>
+              <h3>Stock Audit</h3>
+              <span className={Styles.content}>Project Stock auditing</span>
+            </div>
+            <div>
+              <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<AddIcon width={20} color="white" />}
+                onClick={(e) => {
+                  navigate(`/project-stockadd/${routeParams?.id}`);
+                }}
+              >
+                Add
+              </Button>
+            </div>
           </div>
         </div>
-
         <div className={Styles.tableContainer}>
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
@@ -145,21 +146,6 @@ const ProjectStockmanagement = () => {
                 </Button>
               </div>
             </div>
-            <div className={Styles.buttons}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<AddIcon width={20} color="white" />}
-                onClick={() => {
-                  navigate(`/project-stockadd/${routeParams?.id}`);
-                }}
-              >
-                Add
-              </Button>
-            </div>
           </div>
           <table className={Styles.scrollable_table}>
             <thead>
@@ -172,29 +158,39 @@ const ProjectStockmanagement = () => {
               </tr>
             </thead>
             <tbody>
-              {getStockAuditList?.content?.map((items: any, index: any) => {
-                rowIndex = rowIndex + 1;
-                return (
-                  <tr>
-                    <td>{rowIndex}</td>
-                    <td>{items?.site_data?.name}</td>
-                    <td>{dateFormat(items?.stock_audit_date)}</td>
-                    <td>{items?.item_details?.length}</td>
-                    <td>
-                      <div
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          navigate(
-                            `/project-stockView/${items?.stock_audit_id}`
-                          );
-                        }}
-                      >
-                        <ViewIcon />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {getStockAuditList?.content?.length > 0 ? (
+                getStockAuditList.content.map((items: any, index: any) => {
+                  rowIndex = rowIndex + 1;
+                  return (
+                    <tr key={index}>
+                      <td>{rowIndex}</td>
+                      <td>{items?.site_data?.name}</td>
+                      <td>{dateFormat(items?.stock_audit_date)}</td>
+                      <td>{items?.item_details?.length}</td>
+                      <td>
+                        <div
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            navigate(
+                              `/project-stockView/${items?.stock_audit_id}`
+                            );
+                          }}
+                        >
+                          <ViewIcon />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td>No data available</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              )}
             </tbody>
           </table>
           <div className={Styles.pagination}>

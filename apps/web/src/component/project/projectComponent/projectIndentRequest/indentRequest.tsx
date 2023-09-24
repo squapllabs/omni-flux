@@ -83,17 +83,18 @@ const IndentRequest: React.FC = (props: any) => {
         ),
       });
       // console.log('indentData?.data?', indentData?.data);
-      // const uomDataNames = indentData?.data?.indent_request_details.map(
-      //   (detail: any) => detail?.bom_detail_data?.uom_data?.name
-      // );
-      // console.log('uomDataNames', uomDataNames);
-      // const uomNames = indentData?.data?.map((item : any) => item?.bom_detail_data?.uom_data?.name);
+      const uomNames = indentData?.data?.indent_request_details?.map((item : any) => item?.bom_detail_data?.uom_data?.name);
       // console.log("uomNames",uomNames);
-
       // console.log(
       //   'indentData?.data?.indent_request_details',
       //   indentData?.data?.indent_request_details
       // );
+      const tempArray = indentData?.data?.indent_request_details
+      // console.log("tempArray---->",tempArray)
+      tempArray.forEach((obj : any, index : number) => {
+        obj.uom_name = uomNames[index];
+    });
+    // console.log(" new newtempArray---->",tempArray)
       setIndentRequestDetailsList(indentData?.data?.indent_request_details);
     };
     if (routeParams?.indentid != undefined) fetchData();
