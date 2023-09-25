@@ -23,7 +23,7 @@ const ProjectView = () => {
           fontSize={14}
           fontWeight={500}
           width={100}
-          onClick={() => navigate('/settings')}
+          onClick={() => navigate('/project-list')}
         />
       </div>
       <div className={Styles.cardContent}>

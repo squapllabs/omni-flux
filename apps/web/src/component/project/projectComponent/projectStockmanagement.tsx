@@ -23,7 +23,7 @@ const ProjectStockmanagement = () => {
     data: getStockAuditList,
     isLoading: fetchLoader,
   } = getByFilterStockAudit();
-  console.log('getStockAuditList', getStockAuditList);
+  // console.log('getStockAuditList', getStockAuditList);
 
   const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
   const [currentPage, setCurrentPage] = useState(1);

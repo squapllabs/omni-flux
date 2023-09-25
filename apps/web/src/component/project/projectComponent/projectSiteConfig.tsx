@@ -282,7 +282,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </thead>
             <tbody>
               {siteConfigData.map((row, index) => {
-                console.log('row', row);
+                // console.log('row', row);
 
                 rowIndex = rowIndex + 1;
                 return (

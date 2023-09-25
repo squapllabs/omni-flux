@@ -30,10 +30,10 @@ const BomList = () => {
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const bomconfigId = Number(params?.bomconfigId);
-  console.log('oooo', params);
+  // console.log('oooo', params);
   // const projectId = Number(params?.projectId);
   const { data: projectData } = getByProjectId(projectId);
-  console.log('projectData', projectData);
+  // console.log('projectData', projectData);
 
   const [projectsId, setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState();

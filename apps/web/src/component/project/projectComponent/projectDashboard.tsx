@@ -91,12 +91,12 @@ const ProjectDashboard = () => {
                     <div className={Styles.card1}>
                         <div className={Styles.cardContainer1}>
                             <div className={Styles.textStyle}>
-                                <h3><b>Estimated Budjet</b></h3>
+                                <h3><b>Estimated Budget</b></h3>
                                 <p>{formatBudgetValue(30000)}</p>
                             </div>
                        
                             <div className={Styles.textStyle}>
-                                <h3><b>Actual Budjet</b></h3>
+                                <h3><b>Actual Budget</b></h3>
                                 <p>{formatBudgetValue(30000)}</p>
                             </div>
                         </div>

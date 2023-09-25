@@ -149,7 +149,6 @@ const ProjectList = () => {
 
   return (
     <div className={Styles.container}>
-
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}

@@ -20,6 +20,7 @@ const ProjectDocument: React.FC = (props: any) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [projectDocs, setProjectDocs] = useState<any>([]);
   const [projectData, setProjectData] = useState<any>({});
+  const [dataCount,setDataCount] = useState(0);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const { mutate: updateProjectData } = updateProject();
@@ -113,6 +114,7 @@ const ProjectDocument: React.FC = (props: any) => {
       );
       setProjectData(getData?.data);
       setProjectDocs(getData?.data?.project_documents);
+      setDataCount(getData?.data?.project_documents.length)
     };
     if (routeParams?.id != undefined) fetchData();
   }, []);
@@ -133,6 +135,7 @@ const ProjectDocument: React.FC = (props: any) => {
       console.log('Error in occur project document upload:', error);
     }
   };
+  
   const handleSubmit = async () => {
     const s3UploadUrl: any = await handleDocuments(
       selectedFiles,
@@ -234,7 +237,7 @@ const ProjectDocument: React.FC = (props: any) => {
         </span>
       </div>
       <div
-        style={{ width: '40%', display: 'flex', justifyContent: 'flex-start' }}
+        style={{ width: '40%', display: 'flex', justifyContent: 'flex-start',marginLeft:'2%' }}
       >
         <div className={Styles.tableContainer}>
           <table className={Styles.scrollable_table}>
@@ -244,7 +247,14 @@ const ProjectDocument: React.FC = (props: any) => {
               <th>Action</th>
             </tr>
             <tbody>
-              {projectDocs?.map((files: any, index: any) => {
+              {dataCount === 0 ? (
+                <tr>
+                <td></td>
+                <td>No Documents found</td>
+                <td></td>
+              </tr>
+              )
+              : projectDocs?.map((files: any, index: any) => {
                 if (files?.is_delete === 'N') {
                   rowindex = rowindex + 1;
                   return (

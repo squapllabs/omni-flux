@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import Checkbox from '../ui/Checkbox';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
+import AddIcon from '../menu/icons/addIcon';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
   console.log('props.expenseList', props.expenseList);
@@ -165,6 +166,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                 shape="rectangle"
                 size="small"
                 justify="center"
+                icon={<AddIcon color="white" />}
                 onClick={formik.handleSubmit}
               >
                 Add
@@ -185,9 +187,10 @@ const SiteExpensesDetails: React.FC = (props: any) => {
           <tbody>
             {props.expenseList?.length === 0 ? (
               <tr>
+                {/* <td colSpan="5">No data found</td> */}
+                <td></td>
                 <td></td>
                 <td>No data</td>
-                <td></td>
                 <td></td>
                 <td></td>
               </tr>

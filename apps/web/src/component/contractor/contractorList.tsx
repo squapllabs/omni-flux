@@ -181,7 +181,7 @@ const ContractorList = () => {
                       <th>Code</th>
                       <th>Mobile Number</th>
                       <th>Description</th>
-                      {activeButton === 'AC' && <th></th>}
+                      {activeButton === 'AC' && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
