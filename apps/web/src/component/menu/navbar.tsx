@@ -26,7 +26,7 @@ const Navbar = () => {
   const state: RootState = store.getState();
   let encryptedData = getToken(state, 'Data');
   let userData: any = encryptedData.userData;
-  console.log('userData', userData);
+  // console.log('userData', userData);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
