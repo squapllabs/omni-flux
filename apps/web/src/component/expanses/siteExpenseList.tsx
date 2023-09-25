@@ -81,13 +81,13 @@ const SiteExpenseList = () => {
   return (
     <div>
       <CustomLoader loading={fetchLoader}>
-        <div>
+        <div className={Styles.box}>
           <div className={Styles.headingContent}>
             <div className={Styles.textContent_1}>
-              <h3>Site Expense</h3>
-              <span className={Styles.content}>Project site expense</span>
+              <h3>Stock Audit</h3>
+              <span className={Styles.content}>Project Stock auditing</span>
             </div>
-            <div className={Styles.buttons}>
+            <div>
               <Button
                 type="button"
                 color="primary"
@@ -95,7 +95,7 @@ const SiteExpenseList = () => {
                 size="small"
                 justify="center"
                 icon={<AddIcon width={20} color="white" />}
-                onClick={() => {
+                onClick={(e) => {
                   navigate(`/expenses/${routeParams?.id}`);
                 }}
               >
@@ -161,13 +161,14 @@ const SiteExpenseList = () => {
             <tbody>
               {getExpenseList?.content?.length === 0 ? (
                 <tr>
-                  <td></td>
+                  <td colSpan="7">No data found</td>
+                  {/* <td></td>
                   <td>No data</td>
                   <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
+                  <td></td> */}
                 </tr>
               ) : (
                 ''

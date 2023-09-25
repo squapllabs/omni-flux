@@ -143,7 +143,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
             <tr>
               <th className={Styles.tableHeading}>S No</th>
               <th className={Styles.tableHeadingSite}>BOM</th>
-              {/* <th className={Styles.tableHeadingSite}>UOM</th> */}
+              <th className={Styles.tableHeadingSite}>UOM</th>
               <th className={Styles.tableHeading}>Quantity</th>
               <th className={Styles.tableHeading}>Cost</th>
               <th className={Styles.tableHeading}>Action</th>
@@ -168,7 +168,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         value={items?.bom_detail_id}
                       />
                     </td>
-                    {/* <td>
+                    <td>
                       <Input
                         name="uom_name"
                         mandatory={true}
@@ -176,7 +176,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         onChange={formik?.handleChange}
                         disabled={props.disabled}
                       />
-                    </td> */}
+                    </td>
                     <td>
                       <Input
                         name="quantity"
@@ -253,8 +253,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                   }
                 />
               </td>
-              {/* <td>
-                {' '}
+              <td>
                 <Input
                   name="uom_name"
                   mandatory={true}
@@ -262,7 +261,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                   onChange={formik?.handleChange}
                   disabled={true}
                 />
-              </td> */}
+              </td>
               <td>
                 <Input
                   name="quantity"

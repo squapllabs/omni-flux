@@ -25,7 +25,7 @@ const Project = () => {
     { label: 'BOM configuration', value: 'PBC' },
     { label: 'Document', value: 'PDT' },
     { label: 'Indent', value: 'PIR' },
-    { label: 'Stock Auidt', value: 'PSM' },
+    { label: 'Stock Audit', value: 'PSM' },
     { label: 'Site Expense', value: 'PSE' },
     { label: 'Stock Outward', value: 'PSO' },
   ]);
