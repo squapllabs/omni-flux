@@ -158,9 +158,9 @@ const ProjectBomConfig: React.FC = (props: any) => {
             <thead>
               <tr>
                 <th className={Styles.tableHeading}>S No</th>
-                <th className={Styles.tableHeadingSite}>BOM Name</th>
-                <th className={Styles.tableHeading}>BOM Description</th>
-                <th className={Styles.tableHeading}>BOM Type</th>
+                <th className={Styles.tableHeadingSite}>BOQ Name</th>
+                <th className={Styles.tableHeading}>BOQ Description</th>
+                <th className={Styles.tableHeading}>BOQ Type</th>
                 <th className={Styles.tableHeading}>Budget</th>
                 <th className={Styles.tableHeading}>Action</th>
               </tr>
@@ -192,7 +192,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                           }}
                         >
                           <AddIcon style={{ height: '15px', width: '15px' }} />
-                          <p className={Styles.addText}>Add BOM</p>
+                          <p className={Styles.addText}>Add BOQ</p>
                         </div>
                       </td>
                     </tr>

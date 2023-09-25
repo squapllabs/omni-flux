@@ -149,7 +149,7 @@ const BomList = () => {
             <div className={Styles.backButton}>
               <div>
                 <Button
-                  color="secondary"
+                  color="primary"
                   shape="rectangle"
                   justify="center"
                   size="small"
@@ -167,7 +167,7 @@ const BomList = () => {
       </div>
       <div className={Styles.box}></div>
       {isloading ? (
-        <CustomLoader loading={isloading} size={30} />
+        <CustomLoader loading={isloading} size={48} />
       ) : (
         <div className={Styles.container}>
           {categories ? (
@@ -180,11 +180,11 @@ const BomList = () => {
                         <h3>BOQ Creator</h3>
                       </div>
                       <Button
-                        color="secondary"
+                        color="primary"
                         shape="rectangle"
                         justify="center"
                         size="small"
-                        icon={<AddIcon width={20} />}
+                        icon={<AddIcon width={20} color="white"/>}
                         onClick={() => {
                           setShowAbstractForm(true);
                         }}
@@ -299,11 +299,11 @@ const BomList = () => {
                       <div>
                         <div className={Styles.taskButton}>
                           <Button
-                            color="secondary"
+                            color="primary"
                             shape="rectangle"
                             justify="center"
                             size="small"
-                            icon={<AddIcon width={20} />}
+                            icon={<AddIcon width={20} color="white"/>}
                             onClick={() => {
                               setShowSubCategoryForm(true);
                             }}

@@ -24,7 +24,7 @@ const Project = () => {
     { label: 'Generic', value: 'PGS' },
     { label: 'Settings', value: 'PSG' },
     { label: 'Site Configuration', value: 'PSC' },
-    { label: 'BOM configuration', value: 'PBC' },
+    { label: 'BOQ Configuration', value: 'PBC' },
     { label: 'Document', value: 'PDT' },
     { label: 'Indent', value: 'PIR' },
     { label: 'Stock Audit', value: 'PSM' },
@@ -51,7 +51,7 @@ const Project = () => {
     }
   };
   return (
-    <CustomLoader loading={loader} size={20}>
+    <CustomLoader loading={loader} size={48}>
       <div className={Styles.Container}>
         <div className={Styles.Container_main}>
           <div className={Styles.box}>

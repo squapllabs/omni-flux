@@ -122,10 +122,10 @@ const SiteExpenseBill: React.FC = (props: any) => {
       selectedFiles,
       code.toUpperCase()
     );
-    console.log('s3UploadUrl', s3UploadUrl);
+    // console.log('s3UploadUrl', s3UploadUrl);
     props.setExpenseBill([...props.expenseBill, ...s3UploadUrl]);
   };
-  console.log('props.expenseBill', props.expenseBill);
+  // console.log('props.expenseBill', props.expenseBill);
 
   return (
     <div style={{ display: 'flex' }}>
@@ -218,9 +218,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
               <tbody>
                 {props.expenseBill?.length === 0 ? (
                   <tr>
-                    <td></td>
-                    <td>No data</td>
-                    <td></td>
+                    <td colSpan="4" style={{ textAlign: 'center' }}>No document found</td>
                   </tr>
                 ) : (
                   ''
