@@ -237,7 +237,12 @@ const ProjectDocument: React.FC = (props: any) => {
         </span>
       </div>
       <div
-        style={{ width: '40%', display: 'flex', justifyContent: 'flex-start',marginLeft:'2%' }}
+        style={{
+          width: '40%',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          marginLeft: '2%',
+        }}
       >
         <div className={Styles.tableContainer}>
           <table className={Styles.scrollable_table}>
@@ -247,34 +252,33 @@ const ProjectDocument: React.FC = (props: any) => {
               <th>Action</th>
             </tr>
             <tbody>
-              {dataCount === 0 ? (
+              {projectDocs?.length > 0 ? (
+                projectDocs.map((files: any, index: any) => {
+                  if (files?.is_delete === 'N') {
+                    rowindex = rowindex + 1;
+                    return (
+                      <tr>
+                        <td>{rowindex}</td>
+                        <td>
+                          <a href={files.path}>Document {rowindex}</a>
+                        </td>
+                        <td>
+                          {' '}
+                          <DeleteIcon
+                            width={20}
+                            height={15}
+                            onClick={() => deleteFileinList(files.path)}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  }
+                })
+              ) : (
                 <tr>
-                <td></td>
-                <td>No Documents found</td>
-                <td></td>
-              </tr>
-              )
-              : projectDocs?.map((files: any, index: any) => {
-                if (files?.is_delete === 'N') {
-                  rowindex = rowindex + 1;
-                  return (
-                    <tr>
-                      <td>{rowindex}</td>
-                      <td>
-                        <a href={files.path}>Document {rowindex}</a>
-                      </td>
-                      <td>
-                        {' '}
-                        <DeleteIcon
-                          width={20}
-                          height={15}
-                          onClick={() => deleteFileinList(files.path)}
-                        />
-                      </td>
-                    </tr>
-                  );
-                }
-              })}
+                  <td colSpan="3" style={{textAlign:'center'}}>No documents found</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

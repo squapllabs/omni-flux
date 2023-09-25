@@ -165,11 +165,7 @@ const StockOutwardList = () => {
               <tbody>
                 {getStockData?.total_count === 0 ? (
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
+                    <td colSpan="4" style={{ textAlign: 'center' }}>No data found</td>
                   </tr>
                 ) : (
                   ''

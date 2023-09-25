@@ -3,6 +3,7 @@
   padding: 0;
   border: 0;
 }
+
 .navbar {
   display: flex;
   align-items: center;
@@ -25,9 +26,16 @@
   margin-right: auto;
   cursor: pointer;
 }
+
 .navIcon {
   padding: 0 4px;
 }
+
+.navIcon1 {
+  padding: 0 4px;
+  margin-right: 20px;
+}
+
 .icon {
   vertical-align: middle;
   color: grey;
@@ -37,56 +45,67 @@
 .rightSearch {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 
 }
-.rightIcons{
+
+.rightIcons {
   display: flex;
   flex-direction: row;
   gap: 15px;
   // background-color: lawngreen;
 }
+
 .sequencesRow {
   display: flex;
   align-items: center;
 }
+
 .sequencesRow h2 {
   font-size: 16px;
   font-weight: 400;
   color: gray;
   padding: 0 10px;
 }
+
 .sequenceNames {
   padding: 0 10px;
   font-size: 15px;
 }
+
 .Secondarynavbar {
   display: flex;
   align-items: center;
   // padding:  0 24px;
 }
+
 .SecondaryNaVlinks {
   display: flex;
   align-items: center;
   padding: 0 10px;
   font-size: 15px;
 }
+
 .SecondaryNaVlinks div {
   padding: 0 10px;
 }
+
 .activeLink {
   color: #1b92eb;
 }
+
 .toggleButton {
   padding: 0 10px;
   display: flex;
   align-items: center;
 }
+
 .toggleText {
   font-size: 18px;
   font-weight: 500;
   padding: 0 10px;
 }
+
 .actionDiv {
   display: flex;
   align-items: center;
@@ -96,12 +115,18 @@
   width: 100%;
   justify-content: space-around;
 }
+
 .Ctabuttons {
   display: flex;
 }
+
 .container {
-  display: flex;
-  gap: .5rem;
+  width: 100%;
+  height: 100vh;
+}
+.container1 {
+  width: 100%;
+  height: 100vh;
 }
 
 .dropdownContainer {
@@ -109,6 +134,7 @@
   gap: 1rem;
 
 }
+
 .dropdowntitle {
   display: flex;
   flex-direction: row;
@@ -148,45 +174,52 @@
   height: 20px;
   fill: #333;
 }
+
 .container {
   display: flex;
   gap: 10px;
   // width:fit-content;
   padding: 1rem;
 }
-.dropDownContainer{
 
-}
+// .dropDownContainer {}
+
 .dropDownContainer p {
   font-size: 14px;
   color: #7f56d9;
 }
+
 .dropDownContent {
   display: flex;
   flex-direction: column;
   padding: 8px;
   gap: 1rem;
 }
+
 .itemsTitle {
   display: flex;
   align-items: center;
   gap: 5px;
 }
-.dropDownItems{
+
+.dropDownItems {
   display: flex;
   flex-direction: column;
   gap: .2rem;
   min-width: 250px;
 
 }
+
 .dropDownItems p {
   font-size: 12px;
   color: #475467;
   padding: 2px
 }
+
 .itemsTitle h2 {
   font-size: 14px;
 }
+
 .menu {
   list-style: none;
   margin-top: 15px;
@@ -205,28 +238,34 @@
   padding: 5px;
 
 }
+
 .menuItem:hover {
   background-color: #ece5e5;
 }
+
 .menuItem {
-  background-color:white;
+  background-color: white;
   display: flex;
   flex-direction: row;
   padding: 5px;
   gap: 10px;
 }
+
 .menubox {
   padding: 10px;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
 }
+
 .menubox:hover {
   background-color: #ddd;
 }
+
 .box {
   position: relative;
 }
+
 .box::after {
   content: '';
   display: block;
@@ -247,11 +286,13 @@
   padding: 10px;
   gap: 20px;
 }
+
 .profileContents {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
+
 .profileName {
   font-weight: bolder;
 }
@@ -287,6 +328,6 @@
   text-transform: uppercase;
   font-size: medium;
 }
-.icons{
 
-}
+// .icons {}
+

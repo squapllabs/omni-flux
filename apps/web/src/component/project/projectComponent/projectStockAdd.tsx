@@ -224,9 +224,9 @@ const ProjectStockAdd = () => {
                 ))
               ) : (
                 <tr>
-                  <td></td>
-                  <td>No data available</td>
-                  <td></td>
+                  <td colSpan="4" style={{ textAlign: 'center' }}>
+                    No data found
+                  </td>
                 </tr>
               )}
             </tbody>
