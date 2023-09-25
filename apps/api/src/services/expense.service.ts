@@ -342,6 +342,8 @@ const searchExpense = async (body) => {
     const status = body.status;
     const project_id = body.project_id;
     const site_id = body.site_id;
+    const user_id = body.user_id;
+    const expense_status = body.expense_status;
 
     const filterObj: any = {};
 
@@ -366,6 +368,30 @@ const searchExpense = async (body) => {
 
       filterObj.filterExpense.AND.push({
         site_id: site_id,
+      });
+    }
+
+    if (expense_status) {
+      filterObj.filterExpense = filterObj.filterExpense || {};
+      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+      filterObj.filterExpense.AND.push({
+        status: expense_status,
+      });
+    }
+
+    if (user_id) {
+      filterObj.filterExpense = filterObj.filterExpense || {};
+      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+      filterObj.filterExpense.AND.push({
+        project_data: {
+          project_member_association: {
+            some: {
+              user_id: user_id,
+            },
+          },
+        },
       });
     }
 

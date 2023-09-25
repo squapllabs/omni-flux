@@ -14,6 +14,8 @@ import { getToken } from '../../redux/reducer';
 import SideNav from '../ui/SubmenuNav';
 import PurchaseOrderList from '../purchaseOrder/purchaseOrder';
 import FinanceInvoiceView from '../finance/invoiceView';
+import ExpenseApprove from '../expanses/siteExpenseApprove';
+
 const Settings = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -72,6 +74,10 @@ const Settings = () => {
     menuItems.push({ label: 'Invoice', value: 'FMV' });
   }
 
+  if (roleName === 'Project Manager') {
+    menuItems.push({ label: 'Expense Approve', value: 'EA' });
+  }
+ 
   const [selectedItem, setSelectedItem] = useState<number>(1);
   const [buttonLabels, setButtonLabels] = useState(menuItems);
   const [activeButton, setActiveButton] = useState<string | null>('C');
@@ -112,6 +118,7 @@ const Settings = () => {
         {activeButton === 'PL' && <PurchaseList />}
         {activeButton === 'PO' && <PurchaseOrderList />}
         {activeButton === 'FMV' && <FinanceInvoiceView />}
+        {activeButton === 'EA' && <ExpenseApprove />}
       </div>
     </div>
   );
