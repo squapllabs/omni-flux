@@ -5,6 +5,7 @@ const add = async (
   master_data_description: string,
   master_data_type: string,
   parent_master_data_id: number,
+  project_id: number,
   created_by: bigint,
   connectionObj = null
 ) => {
@@ -18,6 +19,7 @@ const add = async (
         master_data_description,
         master_data_type,
         parent_master_data_id,
+        project_id,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -35,6 +37,7 @@ const edit = async (
   master_data_name: string,
   master_data_description: string,
   master_data_type: string,
+  project_id: number,
   updated_by: bigint,
   master_data_id: number,
   connectionObj = null
@@ -50,6 +53,7 @@ const edit = async (
         master_data_name,
         master_data_description,
         master_data_type,
+        project_id,
         updated_by,
         updated_date: currentDate,
       },
@@ -163,6 +167,7 @@ const getAllParentMasterData = async (connectionObj = null) => {
     const masterData = await transaction.master_data.findMany({
       where: {
         parent_master_data_id: null,
+        project_id: null,
         is_delete: false,
       },
       include: {
@@ -310,6 +315,63 @@ const getByParentType = async (
   }
 };
 
+const getByProjectId = async (project_id: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const masterData = await transaction.master_data.findMany({
+      where: {
+        project_id: Number(project_id),
+        is_delete: false,
+      },
+      include: {
+        parent: true,
+        children: true,
+      },
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
+    });
+    return masterData;
+  } catch (error) {
+    console.log('Error occurred in masterData getByProjectId dao', error);
+    throw error;
+  }
+};
+
+const getAllProjectMasterData = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const masterData = await transaction.master_data.findMany({
+      where: {
+        project_id: {
+          not: {
+            equals: null,
+          },
+        },
+        is_delete: false,
+      },
+      include: {
+        parent: true,
+        children: true,
+      },
+      orderBy: [
+        {
+          updated_date: 'desc',
+        },
+      ],
+    });
+    return masterData;
+  } catch (error) {
+    console.log(
+      'Error occurred in masterData getAllProjectMasterData dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -322,4 +384,6 @@ export default {
   getByParentMasterDataIdAndType,
   searchMasterData,
   getByParentType,
+  getByProjectId,
+  getAllProjectMasterData,
 };
