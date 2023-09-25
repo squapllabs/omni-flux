@@ -26,7 +26,8 @@ import CustomDelete from '../../ui/customDeleteDialogBox';
 import CustomSnackBar from '../../ui/customSnackBar';
 import * as Yup from 'yup';
 import {
-  getProjectMemberCreationYupschema
+  getProjectMemberCreationYupschema,
+  getCreateMasterValidateyup
 } from '../../../helper/constants/projectSettings-constants';
 import TextArea from '../../ui/CustomTextArea';
 import {
@@ -239,6 +240,7 @@ const ProjectSettings: React.FC = (props: any) => {
     setOpenSnack(true);
     handleSearch();
   };
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
@@ -441,9 +443,9 @@ const ProjectSettings: React.FC = (props: any) => {
                               {data?.access_end_date == null
                                 ? '-'
                                 : format(
-                                    new Date(data?.access_end_date),
-                                    'MMM dd, yyyy'
-                                  )}
+                                  new Date(data?.access_end_date),
+                                  'MMM dd, yyyy'
+                                )}
                             </td>
                             {activeButton === 'AC' && (
                               <td>
@@ -498,9 +500,9 @@ const ProjectSettings: React.FC = (props: any) => {
                           {data?.access_end_date == null
                             ? '-'
                             : format(
-                                new Date(data?.access_end_date),
-                                'MMM dd, yyyy'
-                              )}
+                              new Date(data?.access_end_date),
+                              'MMM dd, yyyy'
+                            )}
                         </td>
                         {activeButton === 'AC' && (
                           <td>
@@ -577,6 +579,7 @@ const MasterData: React.FC = (props: {
     master_data_description: '',
     master_data_type: '',
     parent_master_data_id: '',
+    project_id:projectId
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
@@ -604,18 +607,36 @@ const MasterData: React.FC = (props: {
   } = useGetAllPaginatedMasterData(masterData);
   const { mutate: postMasterData } = createmasertData();
   const { data: getProjectData } = getByProjectId(projectId);
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
+
 
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
+  
+  /* Function for changing the table page */
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  /* Function for changing no of rows in pagination */
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  const  validationSchema = getCreateMasterValidateyup(Yup)
+
   const formik = useFormik({
     initialValues,
-    // validationSchema,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       const object = {
@@ -624,18 +645,17 @@ const MasterData: React.FC = (props: {
         master_data_type: values.master_data_type,
         project_id: projectId,
       };
-      console.log("obje",object);
-      
+
       postMasterData(object, {
         onSuccess: (data, variables, context) => {
           if (data?.message === 'success') {
             setMessage('Master Data created');
             setOpenSnack(true);
             resetForm();
+            refetch()
           }
         },
       });
-      console.log("values", values);
     }
   });
 
@@ -744,34 +764,47 @@ const MasterData: React.FC = (props: {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
-                    <td></td>
-                    {/* {activeButton === 'AC' && <td></td>} */}
-                  </tr>
+
+                  {initialData?.total_count === 0 ?
+                    (<tr>
+                      <td colSpan="4">No data found</td>
+                    </tr>) : 
+                     (initialData?.content?.map((item: any, index: number) => {
+
+                      return(
+                      <tr>
+                        <td>{startingIndex + index}</td>
+                        <td>{item?.master_data_name}</td>
+                        <td>{item?.master_data_description}</td>
+                        <td>{item?.master_data_type}</td>
+                      </tr>
+                      )
+                    })) 
+                  }
                 </tbody>
               </table>
             </div>
           </div>
-          <div className={Styles.pagination}>
-            {/* <Pagination
+         
+        </div>
+        {/* <div className={Styles.pagination}>
+            <Pagination
                 currentPage={currentPage}
                 totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
+                  // dataShow ? getFilterData?.total_page : 
+                  initialData?.total_page
                 }
                 totalCount={
-                  dataShow
-                    ? getFilterData?.total_count
-                    : initialData?.total_count
+                  // dataShow
+                  //   ? getFilterData?.total_count
+                  //   : 
+                    initialData?.total_count
                 }
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
-              /> */}
-          </div>
-        </div>
+              />
+          </div> */}
       </div>
       <CustomSnackBar
         open={openSnack}

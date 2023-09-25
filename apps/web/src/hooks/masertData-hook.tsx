@@ -73,12 +73,25 @@ const getBymasertDataTypeDrop = (value: String) => {
   );
 };
 
+const getByMasterDataProjectIdDrop = (value: String) => {
+  return useQuery(
+    ['getByMasterDataProjectIdDrop', value],
+    () => masertDataService.getOneMasterDataByProjectId(value),
+    {
+      select: (data) =>
+        data?.data?.map((option: any) => ({
+          value: option.master_data_id,
+          label: option.master_data_name,
+        })),
+      staleTime: Infinity,
+    }
+  );
+};
+
 const createmasertData = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (data: any) => {
-      console.log("data hook",data);
-      
+    (data: any) => {      
       return masertDataService.createmasertData(data);
     },
     {
@@ -168,4 +181,5 @@ export {
   getBymasertDataType,
   useGetAllPaginatedMasterData,
   getBymasertDataTypeDrop,
+  getByMasterDataProjectIdDrop
 };
