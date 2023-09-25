@@ -3,9 +3,8 @@ import Styles from '../../styles/projectlist.module.scss';
 import {
   getByProject,
   useDeleteProjects,
-  useGetAllProject,
-  useGetAllProjectStatus,
   getMemberBasedProject,
+  useGetAllProject,
 } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -31,8 +30,6 @@ const ProjectList = () => {
   let encryptedData = getToken(state, 'Data');
   let userID: number = encryptedData.userId;
   const { isLoading: getAllLoading } = useGetAllProject();
-  const { data: projectStatus, isLoading: getAllProjectStatusLoading } =
-    useGetAllProjectStatus();
 
   const {
     mutate: postDataForFilter,
@@ -145,125 +142,8 @@ const ProjectList = () => {
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
-  const chartOptions1 = {
-    chart: {
-      title: 'Project Status',
-      subtitle: 'Estimated Days, Completed Days',
-    },
-  };
-  const chartOptions2 = {
-    chart: {
-      title: 'Top Projects',
-      subtitle: 'Top Projects Based on Budget',
-    },
-  };
-
-  const projectStatusData: any = [['Projects', 'Total Days', 'So Far']];
-  projectStatus?.top_projects?.map(async (val: any) => {
-    await projectStatusData.push([
-      val.project_name,
-      val.project_total_days,
-      val.days_completed,
-    ]);
-  });
-
-  const topProjectsData: any = [['Projects', 'Budget']];
-  projectStatus?.top_projects?.map(async (val: any) => {
-    await topProjectsData.push([val.project_name, val.total_budget]);
-  });
-
   return (
     <div className={Styles.container}>
-      <div>
-        <CustomLoader
-          loading={
-            getAllProjectStatusLoading === false
-              ? getAllProjectStatusLoading
-              : projectStatus
-          }
-          size={48}
-          color="#333C44"
-        >
-          <div className={Styles.dashBoardcontainer}>
-            <CustomCard>
-              <div className={Styles.cardDiv}>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.cardTextStyle}>
-                      <h3>
-                        <b>Total Projects</b>
-                      </h3>
-                      <p>{projectStatus?.total_projects}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.cardTextStyle}>
-                      <h3>
-                        <b>Active Projects</b>
-                      </h3>
-                      <p>{projectStatus?.active_projects}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.cardTextStyle}>
-                      <h3>
-                        <b>Completed Projects</b>
-                      </h3>
-                      <p>{projectStatus?.completed_projects}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.cardTextStyle}>
-                      <h3>
-                        <b>In-progress Projects</b>
-                      </h3>
-                      <p>{projectStatus?.inprogress_projects}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.cardTextStyle}>
-                      <h3>
-                        <b>Not Started Projects</b>
-                      </h3>
-                      <p>{projectStatus?.not_started_projects}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={Styles.barCarddDiv}>
-                <div className={Styles.graphCard}>
-                  <div className={Styles.chart}>
-                    <Chart
-                      chartType="Bar"
-                      height="400px"
-                      data={projectStatusData}
-                      options={chartOptions1}
-                    />
-                  </div>
-                </div>
-                <div className={Styles.graphCard}>
-                  <div className={Styles.chart}>
-                    <Chart
-                      chartType="Bar"
-                      height="400px"
-                      data={topProjectsData}
-                      options={chartOptions2}
-                    />
-                  </div>
-                </div>
-              </div>
-            </CustomCard>
-          </div>
-        </CustomLoader>
-      </div>
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}
@@ -350,17 +230,17 @@ const ProjectList = () => {
                 <tbody>
                   {getFilterData?.total_count === 0 ? (
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td>No data found</td>
+                      {/* <td></td>
+                      <td></td> */}
+                      <td colSpan="7" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
                       {activeButton === 'AC' && <td></td>}
                     </tr>
                   ) : (
                     ''
                   )}
                   {getFilterData?.content?.map((data: any, index: number) => {
-                    console.log('getFilterData project naeee', getFilterData);
-
                     return (
                       <tr key={data.user_id}>
                         <td>{startingIndex + index}</td>
@@ -370,10 +250,6 @@ const ProjectList = () => {
                           {data?.project_data?.user?.first_name}{' '}
                           {data?.project_data?.user?.last_name}
                         </td>
-                        {/* <td>
-                          {data?.user_data?.first_name}{' '}
-                          {data?.user_data?.last_name}
-                        </td> */}
                         <td>{data?.project_data.status}</td>
                         <td>
                           {format(
