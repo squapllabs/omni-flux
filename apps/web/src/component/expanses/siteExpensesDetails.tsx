@@ -187,19 +187,14 @@ const SiteExpensesDetails: React.FC = (props: any) => {
           <tbody>
             {props.expenseList?.length === 0 ? (
               <tr>
-                {/* <td colSpan="5">No data found</td> */}
-                <td></td>
-                <td></td>
-                <td>No data</td>
-                <td></td>
-                <td></td>
+                <td colSpan="5" style={{ textAlign: 'center' }}>
+                  No data found
+                </td>
               </tr>
             ) : (
               ''
             )}
             {props.expenseList?.map((item: any, index: any) => {
-              console.log('item', item);
-
               if (item.is_delete === false) {
                 rowIndex = rowIndex + 1;
                 return (

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import Styles from '../../../styles/projectSettings.module.scss'
+import React, { useEffect, useState } from 'react';
+import Styles from '../../../styles/projectSettings.module.scss';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
 import { useFormik } from 'formik';
@@ -10,7 +10,12 @@ import DatePicker from '../../ui/CustomDatePicker';
 import CustomGroupButton from '../../ui/CustomGroupButton';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetAllRoles } from '../../../hooks/userRole-hooks';
-import { createProjectMember, getBySearchProjectMembers, useGetAllPaginatedProjectMember, useDeleteProjectMember } from '../../../hooks/projectSettings-hook';
+import {
+  createProjectMember,
+  getBySearchProjectMembers,
+  useGetAllPaginatedProjectMember,
+  useDeleteProjectMember,
+} from '../../../hooks/projectSettings-hook';
 import ProjectSettingsService from '../../../service/projectSettings-service';
 import { format } from 'date-fns';
 import Avatar from '../../menu/AvatarComponent';
@@ -48,8 +53,9 @@ const ProjectSettings: React.FC = (props: any) => {
   const { mutate: createNewProjectMember } = createProjectMember();
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const routeParams = useParams();
-  const [userData, setUserData] = useState()
-  const { data: getAllRolesData = [], isLoading: dropLoading } = useGetAllRoles();
+  const [userData, setUserData] = useState();
+  const { data: getAllRolesData = [], isLoading: dropLoading } =
+    useGetAllRoles();
   const { mutate: getDeleteProjectMemberByID } = useDeleteProjectMember();
 
   const [buttonLabels, setButtonLabels] = useState([
@@ -76,7 +82,6 @@ const ProjectSettings: React.FC = (props: any) => {
     status: activeButton,
     project_id: Number(routeParams?.id),
     global_search: filterValues.global_search,
-
   };
 
   const {
@@ -101,7 +106,6 @@ const ProjectSettings: React.FC = (props: any) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
 
   const {
     mutate: postDataForFilter,
@@ -168,10 +172,10 @@ const ProjectSettings: React.FC = (props: any) => {
   };
 
   useEffect(() => {
-    refetch()
-  }, [currentPage, rowsPerPage, activeButton])
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton]);
 
-  const validationSchema = getProjectMemberCreationYupschema(Yup)
+  const validationSchema = getProjectMemberCreationYupschema(Yup);
 
   const formik = useFormik({
     initialValues,
@@ -183,7 +187,7 @@ const ProjectSettings: React.FC = (props: any) => {
         project_role_id: values.project_role_id,
         user_id: values.user_id,
         access_start_date: values.access_start_date,
-        access_end_date: values.access_end_date
+        access_end_date: values.access_end_date,
       };
       createNewProjectMember(Object, {
         onSuccess: (data, variables, context) => {
@@ -193,7 +197,7 @@ const ProjectSettings: React.FC = (props: any) => {
             // setTimeout(() => {
             //   navigate('/settings');
             // }, 1000);
-            resetForm()
+            resetForm();
           }
         },
       });
@@ -204,27 +208,23 @@ const ProjectSettings: React.FC = (props: any) => {
     const roleObj = {
       id: Number(routeParams?.id),
       role: data,
-    }
-    const getData = await ProjectSettingsService.fetchRoleBasedUser(
-      roleObj
-    );
+    };
+    const getData = await ProjectSettingsService.fetchRoleBasedUser(roleObj);
     let arr: any = [];
     let userList = getData?.data?.map((user: any, index: any) => {
-
       let obj: any = {
         value: user?.user_id,
-        label: user?.first_name + ' ' + user?.last_name
-      }
-      arr.push(obj)
-    })
+        label: user?.first_name + ' ' + user?.last_name,
+      };
+      arr.push(obj);
+    });
     setUserData(arr);
-  }
-
+  };
 
   const deleteProjectMember = (id: any) => {
     setValue(id);
     setOpenDelete(true);
-  }
+  };
 
   /* Function for closing the delete popup */
   const handleCloseDelete = () => {
@@ -243,11 +243,14 @@ const ProjectSettings: React.FC = (props: any) => {
 
   return (
     <div className={Styles.conatiner}>
-      <CustomLoader loading={FilterLoading ? FilterLoading : getAllLoadingProjectMemberData} size={48} color="#333C44">
+      <CustomLoader
+        loading={FilterLoading ? FilterLoading : getAllLoadingProjectMemberData}
+        size={48}
+        color="#333C44"
+      >
         <div className={Styles.box}>
           <div className={Styles.textContent}>
             <h3>Invite Member</h3>
-
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className={Styles.fields_container}>
@@ -270,11 +273,9 @@ const ProjectSettings: React.FC = (props: any) => {
                         'project_role_name',
                         matchingObjects[0]?.label
                       );
-                      fetchData(matchingObjects[0]?.label)
+                      fetchData(matchingObjects[0]?.label);
                     }}
-                    optionList={
-                      dropLoading === true ? [] : getAllRolesData
-                    }
+                    optionList={dropLoading === true ? [] : getAllRolesData}
                     error={
                       formik.touched.project_role_id &&
                       formik.errors.project_role_id
@@ -294,26 +295,23 @@ const ProjectSettings: React.FC = (props: any) => {
                       formik.setFieldValue('user_id', value);
                     }}
                     optionList={userData}
-                    error={
-                      formik.touched.user_id &&
-                      formik.errors.user_id
-                    }
+                    error={formik.touched.user_id && formik.errors.user_id}
                   />
                 </div>
-
-
-
               </div>
 
               <div className={Styles.fields_container_2}>
-                <div >
+                <div>
                   <DatePicker
                     label="Access Start Date"
                     name="access_start_date"
                     onChange={formik.handleChange}
-                    width='350px'
+                    width="350px"
                     value={formik.values.access_start_date}
-                    error={formik.touched.access_start_date && formik.errors.access_start_date}
+                    error={
+                      formik.touched.access_start_date &&
+                      formik.errors.access_start_date
+                    }
                   />
                 </div>
                 <div>
@@ -321,14 +319,16 @@ const ProjectSettings: React.FC = (props: any) => {
                     label="Access Expiration Date"
                     name="access_end_date"
                     onChange={formik.handleChange}
-                    width='350px'
+                    width="350px"
                     value={formik.values.access_end_date}
                     // mandatory
-                    error={formik.touched.access_end_date && formik.errors.access_end_date}
+                    error={
+                      formik.touched.access_end_date &&
+                      formik.errors.access_end_date
+                    }
                   />
                 </div>
                 <div className={Styles.inputField}>
-
                   <div>
                     <Button
                       color="primary"
@@ -354,7 +354,6 @@ const ProjectSettings: React.FC = (props: any) => {
           </div>
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
-
               <Input
                 width="260px"
                 prefixIcon={<SearchIcon />}
@@ -396,10 +395,10 @@ const ProjectSettings: React.FC = (props: any) => {
               <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th className={Styles.tableHeading}>S NO</th>
-                    <th className={Styles.tableHeadingSite}>Name</th>
-                    <th className={Styles.tableHeading}>Role</th>
-                    <th className={Styles.tableHeading}>Expiration Date</th>
+                    <th>S NO</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Expiration Date</th>
                     {activeButton === 'AC' && <th>Action</th>}
                   </tr>
                 </thead>
@@ -407,9 +406,9 @@ const ProjectSettings: React.FC = (props: any) => {
                   {dataShow ? (
                     getFilterData?.total_count === 0 ? (
                       <tr>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
+                        <td colSpan="4" style={{ textAlign: 'center' }}>
+                          No data found
+                        </td>
                         {activeButton === 'AC' && <td></td>}
                       </tr>
                     ) : (
@@ -428,7 +427,8 @@ const ProjectSettings: React.FC = (props: any) => {
                                 </div>
                                 <div className={Styles.profileContents}>
                                   <span className={Styles.profileName}>
-                                    {data?.user_data?.first_name} {data?.user_data?.last_name}
+                                    {data?.user_data?.first_name}{' '}
+                                    {data?.user_data?.last_name}
                                   </span>
                                   <span className={Styles.emailContent}>
                                     {data?.user_data?.email_id}
@@ -437,13 +437,22 @@ const ProjectSettings: React.FC = (props: any) => {
                               </div>
                             </td>
                             <td>{data?.project_role_data?.role_name}</td>
-                            <td>{data?.access_end_date == null ? "-" : format(new Date(data?.access_end_date), 'MMM dd, yyyy')}</td>
+                            <td>
+                              {data?.access_end_date == null
+                                ? '-'
+                                : format(
+                                    new Date(data?.access_end_date),
+                                    'MMM dd, yyyy'
+                                  )}
+                            </td>
                             {activeButton === 'AC' && (
                               <td>
                                 <div className={Styles.tablerow}>
                                   <DeleteIcon
                                     onClick={() =>
-                                      deleteProjectMember(data?.project_member_association_id)
+                                      deleteProjectMember(
+                                        data?.project_member_association_id
+                                      )
                                     }
                                   />
                                 </div>
@@ -453,13 +462,14 @@ const ProjectSettings: React.FC = (props: any) => {
                         )
                       )
                     )
-                  ) : initialData?.total_count === 0 ?
+                  ) : initialData?.total_count === 0 ? (
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td>No data found</td>
+                      <td colSpan="4" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
                       {activeButton === 'AC' && <td></td>}
-                    </tr> :
+                    </tr>
+                  ) : (
                     initialData?.content?.map((data: any, index: number) => (
                       <tr key={data.project_member_association_id}>
                         <td>{startingIndex + index}</td>
@@ -474,7 +484,8 @@ const ProjectSettings: React.FC = (props: any) => {
                             </div>
                             <div className={Styles.profileContents}>
                               <span className={Styles.profileName}>
-                                {data?.user_data?.first_name} {data?.user_data?.last_name}
+                                {data?.user_data?.first_name}{' '}
+                                {data?.user_data?.last_name}
                               </span>
                               <span className={Styles.emailContent}>
                                 {data?.user_data?.email_id}
@@ -483,20 +494,30 @@ const ProjectSettings: React.FC = (props: any) => {
                           </div>
                         </td>
                         <td>{data?.project_role_data?.role_name}</td>
-                        <td>{data?.access_end_date == null ? "-" : format(new Date(data?.access_end_date), 'MMM dd, yyyy')}</td>
+                        <td>
+                          {data?.access_end_date == null
+                            ? '-'
+                            : format(
+                                new Date(data?.access_end_date),
+                                'MMM dd, yyyy'
+                              )}
+                        </td>
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tablerow}>
                               <DeleteIcon
                                 onClick={() =>
-                                  deleteProjectMember(data?.project_member_association_id)
+                                  deleteProjectMember(
+                                    data?.project_member_association_id
+                                  )
                                 }
                               />
                             </div>
                           </td>
                         )}
                       </tr>
-                    ))}
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -516,11 +537,9 @@ const ProjectSettings: React.FC = (props: any) => {
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
               />
-
             </div>
             <MasterData projectId={projectId} />
           </div>
-
         </div>
       </CustomLoader>
       <CustomDelete
@@ -539,8 +558,8 @@ const ProjectSettings: React.FC = (props: any) => {
         type="success"
       />
     </div>
-  )
-}
+  );
+};
 
 export default ProjectSettings
 

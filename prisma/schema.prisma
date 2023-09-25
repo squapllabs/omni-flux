@@ -45,6 +45,7 @@ model users {
   purchase_request           purchase_request[]
   stock_outward              stock_outward[]
   expense_details            expense_details[]
+  expense                    expense[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -244,6 +245,7 @@ model project {
   stock_outward              stock_outward[]
   stock_audit                stock_audit[]
   expense                    expense[]
+  master_data                master_data[]
 }
 
 model project_expense {
@@ -453,6 +455,7 @@ model master_data {
   master_data_description            String?                @db.VarChar(250)
   master_data_type                   String                 @db.VarChar(20)
   parent_master_data_id              Int?
+  project_id                         Int?
   is_delete                          Boolean                @default(false)
   created_date                       DateTime
   updated_date                       DateTime
@@ -460,6 +463,7 @@ model master_data {
   updated_by                         Int?
   parent                             master_data?           @relation("ChildToParent", fields: [parent_master_data_id], references: [master_data_id])
   children                           master_data[]          @relation("ChildToParent")
+  project_data                       project?               @relation(fields: [project_id], references: [project_id])
   leadEnquiries                      lead_enquiry[]
   lead_enquiry_product               lead_enquiry_product[]
   lead_enquiry_tender                lead_enquiry_tender[]
@@ -1000,27 +1004,32 @@ model stock_audit {
 }
 
 model expense {
-  expense_id      Int               @id @default(autoincrement())
-  expense_code    String
-  site_id         Int?
-  project_id      Int?
-  employee_name   String?
-  employee_id     String?
-  employee_phone  String?
-  purpose         String?
-  department      String?
-  designation     String?
-  start_date      DateTime?
-  end_date        DateTime?
-  bill_details    Json?
-  status          String?
-  is_delete       Boolean           @default(false)
-  created_date    DateTime          @default(now())
-  updated_date    DateTime
-  created_by      Int?
-  updated_by      Int?
-  site_data       site_contractor?  @relation(fields: [site_id], references: [site_contractor_id])
-  project_data    project?          @relation(fields: [project_id], references: [project_id])
+  expense_id         Int              @id @default(autoincrement())
+  expense_code       String
+  site_id            Int?
+  project_id         Int?
+  employee_name      String?
+  employee_id        String?
+  employee_phone     String?
+  purpose            String?
+  department         String?
+  designation        String?
+  start_date         DateTime?
+  end_date           DateTime?
+  bill_details       Json?
+  status             String?
+  comments           String?
+  progressed_date    DateTime?
+  progressed_by      Int?
+  is_delete          Boolean          @default(false)
+  created_date       DateTime         @default(now())
+  updated_date       DateTime
+  created_by         Int?
+  updated_by         Int?
+  site_data          site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
+  project_data       project?         @relation(fields: [project_id], references: [project_id])
+  progressed_by_data users?           @relation(fields: [progressed_by], references: [user_id])
+
   expense_details expense_details[]
 
   @@unique([expense_code], name: "uk_expense_expense_code")

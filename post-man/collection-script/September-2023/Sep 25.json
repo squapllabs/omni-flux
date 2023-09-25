@@ -72,8 +72,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/auth/login",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/auth/login",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "auth", "login"]
                 }
               },
@@ -130,8 +132,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/auth/verify-otp",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/auth/verify-otp",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "auth", "verify-otp"]
                 }
               },
@@ -235,8 +239,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/auth/generate-otp",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/auth/generate-otp",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "auth", "generate-otp"]
                 }
               },
@@ -345,8 +351,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/user/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/user/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "user", ""]
                 }
               },
@@ -556,8 +564,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/user/update-two-factor",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/user/update-two-factor",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "user", "update-two-factor"]
                 }
               },
@@ -661,8 +671,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/user/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/user/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "user", ""]
                 }
               },
@@ -748,8 +760,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/user/get-all-sales-persons/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/user/get-all-sales-persons/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "user", "get-all-sales-persons", ""]
                 }
               },
@@ -944,8 +958,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/user/get-users-by-role-name/Admin",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/user/get-users-by-role-name/Admin",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "user", "get-users-by-role-name", "Admin"]
                 }
               },
@@ -1031,8 +1047,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/user/get-child-users-by-parent-user-id/1",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/user/get-child-users-by-parent-user-id/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": [
                     "api",
                     "user",
@@ -1146,8 +1164,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/role/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/role/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "role", ""]
                 }
               },
@@ -7626,7 +7646,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"master_data_name\": \"Oil & Gas\",\r\n    \"master_data_description\": \"Oil & Gas\",\r\n    \"master_data_type\": \"INOAG\",\r\n    \"parent_master_data_id\":50,\r\n    \"created_by\":1\r\n}",
+              "raw": "{\r\n    \"master_data_name\": \"Electrical\",\r\n    \"master_data_description\": \"Electrical\",\r\n    \"master_data_type\": \"ECTRL\",\r\n    \"parent_master_data_id\":null,\r\n    \"created_by\":1,\r\n    \"project_id\":137\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -7639,7 +7659,80 @@
               "path": ["api", "master-data", ""]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "To Create Master Data API",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"master_data_name\": \"Electrical\",\r\n    \"master_data_description\": \"Electrical\",\r\n    \"master_data_type\": \"ECTRL\",\r\n    \"parent_master_data_id\":null,\r\n    \"created_by\":1,\r\n    \"project_id\":137\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/master-data/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "master-data", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "344"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"158-9QvIhb1++thMr9oA+7xhDZJrUQA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 11:24:11 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"master_data_id\": 145,\n        \"master_data_name\": \"Electrical\",\n        \"master_data_description\": \"Electrical\",\n        \"master_data_type\": \"ECTRL\",\n        \"parent_master_data_id\": null,\n        \"project_id\": 137,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-25T11:24:11.593Z\",\n        \"updated_date\": \"2023-09-25T11:24:11.593Z\",\n        \"created_by\": 1,\n        \"updated_by\": null\n    }\n}"
+            }
+          ]
         },
         {
           "name": "To Update Master Data API",
@@ -7658,7 +7751,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"master_data_name\": \"Lead Source\",\r\n    \"master_data_description\": \"Lead Source\",\r\n    \"master_data_type\": \"SORCE\",\r\n    \"created_by\": 1,\r\n    \"master_data_id\": 10\r\n}",
+              "raw": "{\r\n    \"master_data_name\": \"Electrical\",\r\n    \"master_data_description\": \"Electrical\",\r\n    \"master_data_type\": \"ECTRL\",\r\n    \"parent_master_data_id\":null,\r\n    \"updated_by\":1,\r\n    \"project_id\":137,\r\n    \"master_data_id\":145\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -7671,7 +7764,80 @@
               "path": ["api", "master-data", ""]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "To Update Master Data API",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"master_data_name\": \"Electrical\",\r\n    \"master_data_description\": \"Electrical\",\r\n    \"master_data_type\": \"ECTRL\",\r\n    \"parent_master_data_id\":null,\r\n    \"updated_by\":1,\r\n    \"project_id\":137,\r\n    \"master_data_id\":145\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{API_URL}}/api/master-data/",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "master-data", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "341"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"155-pS7uITWRhOV1wAjT+Uw8eLzCmHA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 11:24:48 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"master_data_id\": 145,\n        \"master_data_name\": \"Electrical\",\n        \"master_data_description\": \"Electrical\",\n        \"master_data_type\": \"ECTRL\",\n        \"parent_master_data_id\": null,\n        \"project_id\": 137,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-25T11:24:11.593Z\",\n        \"updated_date\": \"2023-09-25T11:24:47.716Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
+            }
+          ]
         },
         {
           "name": "To get All Master Data",
@@ -7805,7 +7971,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"parent_master_data_id\",\r\n    \"order_by_direction\": \"asc\",\r\n    \"global_search\": \"\",\r\n    \"parent_id\":null,\r\n    \"status\": \"AC\"\r\n}",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"parent_id\": null,\r\n    \"status\": \"AC\",\r\n    \"project_master_data\":false,\r\n    \"project_id\":137\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -7977,6 +8143,279 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"master_data_id\": 51,\n            \"master_data_name\": \"Construction\",\n            \"master_data_description\": \"Construction\",\n            \"master_data_type\": \"INCON\",\n            \"parent_master_data_id\": 50,\n            \"is_delete\": false,\n            \"created_date\": \"2023-08-01T12:48:42.960Z\",\n            \"updated_date\": \"2023-08-01T12:48:42.960Z\",\n            \"created_by\": 1,\n            \"updated_by\": null\n        },\n        {\n            \"master_data_id\": 52,\n            \"master_data_name\": \"Infrastructure\",\n            \"master_data_description\": \"Infrastructure\",\n            \"master_data_type\": \"INIFR\",\n            \"parent_master_data_id\": 50,\n            \"is_delete\": false,\n            \"created_date\": \"2023-08-01T12:49:10.114Z\",\n            \"updated_date\": \"2023-08-01T12:49:10.114Z\",\n            \"created_by\": 1,\n            \"updated_by\": null\n        },\n        {\n            \"master_data_id\": 53,\n            \"master_data_name\": \"Oil & Gas\",\n            \"master_data_description\": \"Oil & Gas\",\n            \"master_data_type\": \"INOAG\",\n            \"parent_master_data_id\": 50,\n            \"is_delete\": false,\n            \"created_date\": \"2023-08-01T12:49:30.507Z\",\n            \"updated_date\": \"2023-08-01T12:49:30.507Z\",\n            \"created_by\": 1,\n            \"updated_by\": null\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To get Master Data By Project Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/master-data/get-by-project-id/137",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "master-data", "get-by-project-id", "137"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To get Master Data By Project Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/master-data/get-by-project-id/137",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "master-data", "get-by-project-id", "137"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1021"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3fd-/jL9mPKTTwr/ktY1zwCRB/psZqQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 11:37:03 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"master_data_id\": 145,\n            \"master_data_name\": \"Electrical\",\n            \"master_data_description\": \"Electrical\",\n            \"master_data_type\": \"ECTRL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:24:11.593Z\",\n            \"updated_date\": \"2023-09-25T11:24:47.716Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"parent\": null,\n            \"children\": []\n        },\n        {\n            \"master_data_id\": 144,\n            \"master_data_name\": \"Mechanical\",\n            \"master_data_description\": \"Mechanical\",\n            \"master_data_type\": \"MCHNL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:23:59.076Z\",\n            \"updated_date\": \"2023-09-25T11:23:59.076Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"parent\": null,\n            \"children\": []\n        },\n        {\n            \"master_data_id\": 143,\n            \"master_data_name\": \"Civil\",\n            \"master_data_description\": \"Civil\",\n            \"master_data_type\": \"CIVIL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:23:06.109Z\",\n            \"updated_date\": \"2023-09-25T11:23:06.109Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"parent\": null,\n            \"children\": []\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get All Master Data Related to Project",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/master-data/get-all-project-master-data",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "master-data", "get-all-project-master-data"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get All Master Data Related to Project",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/master-data/get-all-project-master-data",
+                  "host": ["{{API_URL}}"],
+                  "path": ["api", "master-data", "get-all-project-master-data"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1021"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3fd-/jL9mPKTTwr/ktY1zwCRB/psZqQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 11:52:38 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"master_data_id\": 145,\n            \"master_data_name\": \"Electrical\",\n            \"master_data_description\": \"Electrical\",\n            \"master_data_type\": \"ECTRL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:24:11.593Z\",\n            \"updated_date\": \"2023-09-25T11:24:47.716Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"parent\": null,\n            \"children\": []\n        },\n        {\n            \"master_data_id\": 144,\n            \"master_data_name\": \"Mechanical\",\n            \"master_data_description\": \"Mechanical\",\n            \"master_data_type\": \"MCHNL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:23:59.076Z\",\n            \"updated_date\": \"2023-09-25T11:23:59.076Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"parent\": null,\n            \"children\": []\n        },\n        {\n            \"master_data_id\": 143,\n            \"master_data_name\": \"Civil\",\n            \"master_data_description\": \"Civil\",\n            \"master_data_type\": \"CIVIL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:23:06.109Z\",\n            \"updated_date\": \"2023-09-25T11:23:06.109Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"parent\": null,\n            \"children\": []\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Get Master Data By Project Id And Master Data Type",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/master-data/get-by-project-id-and-type/137/CIVIL",
+              "host": ["{{API_URL}}"],
+              "path": [
+                "api",
+                "master-data",
+                "get-by-project-id-and-type",
+                "137",
+                "CIVIL"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Master Data By Project Id And Master Data Type",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/master-data/get-by-project-id-and-type/137/CIVIL",
+                  "host": ["{{API_URL}}"],
+                  "path": [
+                    "api",
+                    "master-data",
+                    "get-by-project-id-and-type",
+                    "137",
+                    "CIVIL"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "429"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1ad-0B1m1jNsBQuKOEbTp7Y6kjBloCI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 13:07:52 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"This master_data_type is already exist for this project_id\",\n    \"status\": true,\n    \"is_exist\": true,\n    \"data\": {\n        \"master_data_id\": 143,\n        \"master_data_name\": \"Civil\",\n        \"master_data_description\": \"Civil\",\n        \"master_data_type\": \"CIVIL\",\n        \"parent_master_data_id\": null,\n        \"project_id\": 137,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-25T11:23:06.109Z\",\n        \"updated_date\": \"2023-09-25T11:23:06.109Z\",\n        \"created_by\": 1,\n        \"updated_by\": null,\n        \"parent\": null,\n        \"children\": []\n    }\n}"
             }
           ]
         }
@@ -16307,7 +16746,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"user_id\": 1,\r\n    \"project_role_id\": 1,\r\n    \"approver_status\": \"Rejected\",\r\n    \"status\": \"AC\"\r\n}",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"user_id\": 102,\r\n    // \"project_role_id\": 1,\r\n    // \"approver_status\": \"Rejected\",\r\n    \"status\": \"AC\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -19795,8 +20234,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order", ""]
                 }
               },
@@ -19882,8 +20323,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order/get-all",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order/get-all",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order", "get-all"]
                 }
               },
@@ -19969,8 +20412,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order/get/1",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order/get/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order", "get", "1"]
                 }
               },
@@ -20056,8 +20501,10 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order/delete/2",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order/delete/2",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order", "delete", "2"]
                 }
               },
@@ -20161,8 +20608,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order/search",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order/search",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order", "search"]
                 }
               },
@@ -20266,8 +20715,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order/purchase-order-with-item",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order/purchase-order-with-item",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order", "purchase-order-with-item"]
                 }
               },
@@ -20358,8 +20809,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order/get-by-purchase-request-id/2",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order/get-by-purchase-request-id/2",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": [
                     "api",
                     "purchase-order",
@@ -20468,8 +20921,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order/update-status-and-document",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order/update-status-and-document",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": [
                     "api",
                     "purchase-order",
@@ -20658,8 +21113,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order-item/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order-item/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order-item", ""]
                 }
               },
@@ -20794,8 +21251,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order-item/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order-item/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order-item", ""]
                 }
               },
@@ -20987,8 +21446,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order-item/get-all",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order-item/get-all",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order-item", "get-all"]
                 }
               },
@@ -21074,8 +21535,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order-item/get/1",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order-item/get/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order-item", "get", "1"]
                 }
               },
@@ -21161,8 +21624,10 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order-item/delete/2",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order-item/delete/2",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order-item", "delete", "2"]
                 }
               },
@@ -21266,8 +21731,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/purchase-order-item/search",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/purchase-order-item/search",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "purchase-order-item", "search"]
                 }
               },
@@ -24384,8 +24851,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/expense/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/expense/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "expense", ""]
                 }
               },
@@ -24489,8 +24958,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/expense/",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/expense/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "expense", ""]
                 }
               },
@@ -24576,8 +25047,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/expense/get-all",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/expense/get-all",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "expense", "get-all"]
                 }
               },
@@ -24663,8 +25136,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/expense/get/1",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/expense/get/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "expense", "get", "1"]
                 }
               },
@@ -24750,8 +25225,10 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/expense/delete/1",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/expense/delete/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "expense", "delete", "1"]
                 }
               },
@@ -24843,8 +25320,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{API_URL}}/api/expense/get-by-project-id-and-site-id/137/17",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/expense/get-by-project-id-and-site-id/137/17",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": [
                     "api",
                     "expense",
@@ -24934,7 +25413,76 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "API To Get Expense Details By Expense Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/expense/get-expense-details-by-expense-id/1",
+                  "host": ["{{API_URL}}"],
+                  "path": [
+                    "api",
+                    "expense",
+                    "get-expense-details-by-expense-id",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "847"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"34f-oRmSg2wVaNcXPZW3xaxKG1OCiEg\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 10:11:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense_id\": 1,\n        \"expense_code\": \"EXP2023002\",\n        \"site_id\": 17,\n        \"project_id\": 137,\n        \"employee_name\": \"Vijay Perumalsamy \",\n        \"employee_id\": \"ALM0065\",\n        \"employee_phone\": \"+91 8667604201\",\n        \"purpose\": \" Updated Site Expenses\",\n        \"department\": \"Accountant\",\n        \"designation\": \"Manager\",\n        \"start_date\": \"2023-08-10T00:00:00.000Z\",\n        \"end_date\": \"2023-08-31T00:00:00.000Z\",\n        \"bill_details\": [\n            {\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                \"index\": 1,\n                \"is_delete\": \"N\"\n            }\n        ],\n        \"status\": \"Approved\",\n        \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n        \"progressed_date\": \"2023-09-25T07:02:47.253Z\",\n        \"progressed_by\": 1,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-23T07:32:30.518Z\",\n        \"updated_date\": \"2023-09-25T07:02:47.253Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1,\n        \"expense_details\": []\n    }\n}"
+            }
+          ]
         },
         {
           "name": "API To Search Expense",
@@ -24953,7 +25501,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"status\": \"AC\",\r\n    \"project_id\": 137,\r\n    \"site_id\": 17\r\n}",
+              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"status\": \"AC\",\r\n    // \"project_id\": 137,\r\n    // \"site_id\": 17\r\n    \"user_id\": 1,\r\n    \"expense_status\": \"Pending\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -24982,8 +25530,10 @@
                   }
                 },
                 "url": {
-                  "raw": "{{API_URL}}/api/expense/search",
-                  "host": ["{{API_URL}}"],
+                  "raw": "http://localhost:8080/api/expense/search",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
                   "path": ["api", "expense", "search"]
                 }
               },
@@ -25038,6 +25588,225 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"expense_id\": 1,\n            \"expense_code\": \"EXP2023002\",\n            \"site_id\": 17,\n            \"project_id\": 137,\n            \"employee_name\": \"Vijay Perumalsamy \",\n            \"employee_id\": \"ALM0065\",\n            \"employee_phone\": \"+91 8667604201\",\n            \"purpose\": \" Updated Site Expenses\",\n            \"department\": \"Accountant\",\n            \"designation\": \"Manager\",\n            \"start_date\": \"2023-08-10T00:00:00.000Z\",\n            \"end_date\": \"2023-08-31T00:00:00.000Z\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T07:32:30.518Z\",\n            \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"expense_details\": [\n                {\n                    \"expense_details_id\": 1,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 136,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:32:30.518Z\",\n                    \"updated_date\": \"2023-09-23T07:32:30.518Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 136,\n                        \"master_data_name\": \"Food Snacks\",\n                        \"master_data_description\": \"Food Snacks\",\n                        \"master_data_type\": \"SIEFS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:37:45.033Z\",\n                        \"updated_date\": \"2023-09-23T05:37:45.033Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                },\n                {\n                    \"expense_details_id\": 3,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 137,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"updated_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 137,\n                        \"master_data_name\": \"Purchase Service\",\n                        \"master_data_description\": \"Purchase Service\",\n                        \"master_data_type\": \"SIEPPCS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"updated_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                },\n                {\n                    \"expense_details_id\": 2,\n                    \"expense_id\": 1,\n                    \"expense_data_id\": 137,\n                    \"total\": 1000,\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                            \"index\": 0\n                        }\n                    ],\n                    \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                    \"updated_date\": \"2023-09-23T07:37:32.105Z\",\n                    \"created_by\": null,\n                    \"updated_by\": 1,\n                    \"status\": null,\n                    \"comments\": null,\n                    \"progressed_date\": null,\n                    \"progressed_by\": null,\n                    \"is_delete\": false,\n                    \"progressed_by_data\": null,\n                    \"expense_master_data\": {\n                        \"master_data_id\": 137,\n                        \"master_data_name\": \"Purchase Service\",\n                        \"master_data_description\": \"Purchase Service\",\n                        \"master_data_type\": \"SIEPPCS\",\n                        \"parent_master_data_id\": 131,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"updated_date\": \"2023-09-23T05:39:13.661Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null\n                    }\n                }\n            ],\n            \"site_data\": {\n                \"name\": \"Anna Nagar East Site\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Pipe line Project\"\n            }\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "API To Update the Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"expense_id\": 1,\r\n    \"status\": \"Approved\",\r\n    \"comments\": \"Expense Approved By Vijay Perumalsamy\",\r\n    \"progressed_by\": 1,\r\n    \"updated_by\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/expense/update-status",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "expense", "update-status"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Update the Status",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"expense_id\": 1,\r\n    \"status\": \"Approved\",\r\n    \"comments\": \"Expense Approved By Vijay Perumalsamy\",\r\n    \"progressed_by\": 1,\r\n    \"updated_by\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/expense/update-status",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "expense", "update-status"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3357"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"d1d-Qi885mNbXR3uOq1qiMG4kqrUUJs\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 07:02:48 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense\": {\n            \"expense_id\": 1,\n            \"expense_code\": \"EXP2023002\",\n            \"site_id\": 17,\n            \"project_id\": 137,\n            \"employee_name\": \"Vijay Perumalsamy \",\n            \"employee_id\": \"ALM0065\",\n            \"employee_phone\": \"+91 8667604201\",\n            \"purpose\": \" Updated Site Expenses\",\n            \"department\": \"Accountant\",\n            \"designation\": \"Manager\",\n            \"start_date\": \"2023-08-10T00:00:00.000Z\",\n            \"end_date\": \"2023-08-31T00:00:00.000Z\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 1,\n                    \"is_delete\": \"N\"\n                }\n            ],\n            \"status\": \"Approved\",\n            \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n            \"progressed_date\": \"2023-09-25T07:02:47.253Z\",\n            \"progressed_by\": 1,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T07:32:30.518Z\",\n            \"updated_date\": \"2023-09-25T07:02:47.253Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1\n        },\n        \"expense_details\": [\n            {\n                \"expense_details_id\": 1,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"bill_number\": null,\n                \"created_date\": \"2023-09-23T07:32:30.518Z\",\n                \"updated_date\": \"2023-09-25T07:02:47.541Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:47.541Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            },\n            {\n                \"expense_details_id\": 3,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"bill_number\": null,\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-25T07:02:47.744Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:47.744Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            },\n            {\n                \"expense_details_id\": 4,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"bill_number\": null,\n                \"created_date\": \"2023-09-23T08:21:18.264Z\",\n                \"updated_date\": \"2023-09-25T07:02:47.953Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:47.953Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            },\n            {\n                \"expense_details_id\": 5,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"bill_number\": \"1\",\n                \"created_date\": \"2023-09-23T09:20:32.449Z\",\n                \"updated_date\": \"2023-09-25T07:02:48.211Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:48.211Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            },\n            {\n                \"expense_details_id\": 2,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [],\n                \"bill_number\": null,\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-25T07:02:48.415Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:48.415Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            }\n        ]\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Expense Details",
+      "item": [
+        {
+          "name": "API To Update the Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"expense_details_id\": 20,\r\n    \"status\": \"Approved\",\r\n    \"comments\": \"Progressed By Vijay Perumalsamy\",\r\n    \"progressed_by\": 1,\r\n    \"updated_by\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/expense-details/update-status",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "expense-details", "update-status"]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Update the Status",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"expense_details_id\": 20,\r\n    \"status\": \"Approved\",\r\n    \"comments\": \"Progressed By Vijay Perumalsamy\",\r\n    \"progressed_by\": 1,\r\n    \"updated_by\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/expense-details/update-status",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "expense-details", "update-status"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1566"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"61e-dLNRLMzfmXI12+doFlSR3SpJyWE\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 07:49:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense_details\": {\n            \"expense_details_id\": 20,\n            \"expense_id\": 17,\n            \"expense_data_id\": 134,\n            \"total\": 22,\n            \"bill_details\": [],\n            \"bill_number\": \"\",\n            \"created_date\": \"2023-09-23T15:35:07.704Z\",\n            \"updated_date\": \"2023-09-25T07:49:52.615Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"status\": \"Approved\",\n            \"comments\": \"Progressed By Vijay Perumalsamy\",\n            \"progressed_date\": \"2023-09-25T07:49:52.615Z\",\n            \"progressed_by\": 1,\n            \"is_delete\": false\n        },\n        \"expense\": {\n            \"expense_id\": 17,\n            \"expense_code\": \"EXP20230018\",\n            \"site_id\": 17,\n            \"project_id\": 141,\n            \"employee_name\": \"Jegan\",\n            \"employee_id\": \"AALAM0084\",\n            \"employee_phone\": \"9750726210\",\n            \"purpose\": \"Site Expenses\",\n            \"department\": \"Accountant\",\n            \"designation\": \"Manager\",\n            \"start_date\": \"2023-09-21T00:00:00.000Z\",\n            \"end_date\": \"2023-09-22T00:00:00.000Z\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/SITEEXPENSE141/file-1695483220307-673965207-INDEF Agenda Itanagar.pdf\",\n                    \"index\": 0,\n                    \"is_delete\": \"N\"\n                },\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/SITEEXPENSE141/file-1695483220306-100418952-download-20230801073418 (1)je.pdf\",\n                    \"index\": 0,\n                    \"is_delete\": \"N\"\n                },\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/SITEEXPENSE141/file-1695483284482-158253386-BOQ- 7 -50 .pdf.pdf\",\n                    \"index\": 0,\n                    \"is_delete\": \"N\"\n                }\n            ],\n            \"status\": \"Approved\",\n            \"comments\": \"Progressed By Vijay Perumalsamy\",\n            \"progressed_date\": \"2023-09-25T07:49:53.678Z\",\n            \"progressed_by\": 1,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T15:33:46.159Z\",\n            \"updated_date\": \"2023-09-25T07:49:53.678Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1\n        }\n    }\n}"
             }
           ]
         }

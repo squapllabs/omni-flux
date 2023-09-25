@@ -161,7 +161,7 @@ const BomItems = (props: {
                       </div>
                       <div>
                         {istableLoader ? (
-                          <CustomLoader loading={istableLoader} size={25} />
+                          <CustomLoader loading={istableLoader} size={48} />
                         ) : activeButton === 'RAWMT' ? (
                           <table>
                             <thead>
@@ -201,7 +201,7 @@ const BomItems = (props: {
                           ' '
                         )}
                         {istableLoader ? (
-                          <CustomLoader loading={istableLoader} size={25} />
+                          <CustomLoader loading={istableLoader} size={48} />
                         ) : activeButton === 'LABOR' ? (
                           <table>
                             <thead>
@@ -241,7 +241,7 @@ const BomItems = (props: {
                           ' '
                         )}
                         {istableLoader ? (
-                          <CustomLoader loading={istableLoader} size={25} />
+                          <CustomLoader loading={istableLoader} size={48} />
                         ) : activeButton === 'MCNRY' ? (
                           <table>
                             <thead>
@@ -291,7 +291,7 @@ const BomItems = (props: {
                       navigate(`/bom/${items?.sub_category_id}`);
                     }}
                   >
-                    <AddIcon style={{ height: '15px', width: '15px' }} />
+                    <AddIcon style={{ height: '15px', width: '15px'}} />
                     <p className={Styles.addText}>Add Plan</p>
                   </div>
                   <div

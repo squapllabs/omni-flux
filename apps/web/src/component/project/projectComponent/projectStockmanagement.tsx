@@ -82,7 +82,7 @@ const ProjectStockmanagement = () => {
   };
   return (
     <div>
-      <CustomLoader loading={fetchLoader}>
+      <CustomLoader loading={fetchLoader} size={48}>
         <div className={Styles.box}>
           <div className={Styles.headingContent}>
             <div className={Styles.textContent_1}>
@@ -197,12 +197,7 @@ const ProjectStockmanagement = () => {
                 })
               ) : (
                 <tr>
-                  <td colSpan="5">No data found</td>
-                  {/* <td></td>
-                  <td></td>
-                  <td>No data avassssdsdilable</td>
-                  <td></td>
-                  <td></td> */}
+                  <td colSpan="5" style={{textAlign:'center'}}>No data found</td>
                 </tr>
               )}
             </tbody>

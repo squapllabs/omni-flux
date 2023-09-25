@@ -4,7 +4,7 @@ import {
   getByProject,
   useDeleteProjects,
   getMemberBasedProject,
-  useGetAllProject
+  useGetAllProject,
 } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -23,8 +23,7 @@ import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import StoreIcon from '../menu/icons/storeIcon';
-import { Chart } from "react-google-charts";
-
+import { Chart } from 'react-google-charts';
 
 const ProjectList = () => {
   const state: RootState = store.getState();
@@ -143,10 +142,6 @@ const ProjectList = () => {
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
-
-
-
-
   return (
     <div className={Styles.container}>
       <div>
@@ -208,7 +203,7 @@ const ProjectList = () => {
                   justify="center"
                   size="small"
                   color="primary"
-                  icon={<AddIcon color='white' />}
+                  icon={<AddIcon color="white" />}
                   onClick={() => navigate('/project')}
                 >
                   Add
@@ -235,9 +230,9 @@ const ProjectList = () => {
                 <tbody>
                   {getFilterData?.total_count === 0 ? (
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td>No data found</td>
+                      <td colSpan="7" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
                       {activeButton === 'AC' && <td></td>}
                     </tr>
                   ) : (
@@ -250,8 +245,8 @@ const ProjectList = () => {
                         <td>{data?.project_data.project_name}</td>
                         <td>{data?.project_data.code}</td>
                         <td>
-                          {data?.user_data?.first_name}{' '}
-                          {data?.user_data?.last_name}
+                          {data?.project_data?.user?.first_name}{' '}
+                          {data?.project_data?.user?.last_name}
                         </td>
                         <td>{data?.project_data.status}</td>
                         <td>
@@ -283,7 +278,13 @@ const ProjectList = () => {
                                   )
                                 }
                               />
-                              <StoreIcon onClick={() => navigate(`/project-inventory/${data?.project_data.project_id}`)} />
+                              <StoreIcon
+                                onClick={() =>
+                                  navigate(
+                                    `/project-inventory/${data?.project_data.project_id}`
+                                  )
+                                }
+                              />
                               {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
