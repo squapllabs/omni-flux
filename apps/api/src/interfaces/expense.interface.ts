@@ -15,6 +15,9 @@ interface expenseBody {
   created_by: number;
   updated_by: number;
   status: string;
+  comments: string;
+  progressed_date: Date;
+  progressed_by: number;
   expense_details: Array<expenseDetailsBody>;
 }
 

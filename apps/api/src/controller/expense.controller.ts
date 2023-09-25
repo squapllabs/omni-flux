@@ -87,6 +87,17 @@ const getExpenseDetailsByExpenseId = catchAsync(async (req, res) => {
     handleError(new ErrorHandler(errorText, methodName, err), res);
   }
 });
+
+const updateStatus = catchAsync(async (req, res) => {
+  const methodName = '/updateStatus';
+  try {
+    const expense = await expenseService.updateStatus(req.body);
+    res.send(expense);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createExpense,
   updateExpense,
@@ -96,4 +107,5 @@ export {
   searchExpense,
   getByProjectIdAndSiteId,
   getExpenseDetailsByExpenseId,
+  updateStatus,
 };
