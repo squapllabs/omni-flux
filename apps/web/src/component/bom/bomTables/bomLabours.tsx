@@ -171,7 +171,7 @@ const BomLabours: React.FC = (props: any) => {
                       return (
                         <tr key={index}>
                           <td>{rowIndex}</td>
-                          <td>{items.bom_name}</td>
+                          <td style={{textAlign:'left'}}>{items.bom_name}</td>
                           {/* <td>
                       <Input
                         name="description"

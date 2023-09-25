@@ -134,7 +134,7 @@ const Bom: React.FC = (props: any) => {
           <div className={Styles.backButton}>
             <div>
               <Button
-                color="secondary"
+                color="primary"
                 shape="rectangle"
                 justify="center"
                 size="small"
