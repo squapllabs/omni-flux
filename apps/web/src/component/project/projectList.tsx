@@ -34,6 +34,7 @@ const ProjectList = () => {
   const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus();                                                //To Get Data for Dashboard
   console.log("Loading Status ==> ", getAllProjectStatusLoading);
   console.log("Response ==> ", projectStatus);
+  console.log("Response top projects ==> ", projectStatus?.top_projects);
 
   const {
     mutate: postDataForFilter,
@@ -150,7 +151,13 @@ const ProjectList = () => {
     chart: {
       title: "Project Status",
       subtitle: "Estimated Days, Completed Days",
-    }
+      // hAxis: {
+      //    textStyle: {
+      //       fontSize: 2,
+      //       color: "Red"
+      //    },
+      // }
+    },
   };
   const chartOptions2 = {
     chart: {
@@ -158,25 +165,31 @@ const ProjectList = () => {
       subtitle: "Top Projects Based on Budget",
     }
   };
-  const projectStatusData = [
-    ["Projects", "Estimated Days", "Completed Days"],
-    [{projectStatus.top_projects[0].project name    }, 1000, 200],
-    ["Project 2", 1170, 650],
-    ["Project 3", 1120, 300],
-    ["Project 4", 540, 350],
-  ];
 
-  const topProjectsData = [
-    ["Projects", "Budget"],
-    ["Project 1", 120000],
-    ["Project 2", 150000],
-    ["Project 3", 60000],
-    ["Project 4", 40000],
-  ];
+  const projectStatusData: any = [["Projects", "Total Days", "So Far"]];
+  projectStatus?.top_projects?.map(async(val: any) => {
+    await projectStatusData.push([val.project_name, val.project_total_days, val.days_completed])
+    // console.log("projectStatusData ==> ", projectStatusData);
+  });
+
+  const topProjectsData: any = [["Projects", "Budget"]];
+  projectStatus?.top_projects?.map (async(val: any) => {
+    await topProjectsData.push([val.project_name, val.total_budget])
+    // console.log("topProjectsData ==> ", topProjectsData);
+  });
 
   return (
     <div className={Styles.container}>
       <div>
+        {/* <div>
+          {
+            projectStatus?.top_projects?.map((val: any) => {
+              return (
+                <p>{val.project_name}</p>
+              )
+            })
+          }
+        </div> */}
         <CustomLoader
           loading = {getAllProjectStatusLoading === false ? getAllProjectStatusLoading : projectStatus}
           size={48}
@@ -217,8 +230,16 @@ const ProjectList = () => {
                     </div>
                   </div>
                 </div>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                    <div className={Styles.textStyle}>
+                      <h3><b>Not Started Projects</b></h3>
+                      <p>{projectStatus?.not_started_projects}</p> 
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className={Styles.cardDiv}>
+              <div className={Styles.barCarddDiv}>
                 <div className={Styles.graphCard}>
                   <div className={Styles.chart}>
                     <Chart
