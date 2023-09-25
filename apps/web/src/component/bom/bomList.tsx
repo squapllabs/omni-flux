@@ -25,6 +25,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import { getByProjectId } from '../../hooks/project-hooks';
 import BackArrow from '../menu/icons/backArrow';
+
 const BomList = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -137,6 +138,9 @@ const BomList = () => {
     };
   }, []);
 
+
+  
+
   return (
     <div>
       <div className={Styles.headingcontainer}>
@@ -192,8 +196,9 @@ const BomList = () => {
                         Add Abstract
                       </Button>
                     </div>
+                    
 
-                    {categories?.map((items: any, index: any) => {
+                    {categories?.map((items: any, index: any) => {                      
                       return (
                         <ul key={index}>
                           <li>
@@ -215,7 +220,8 @@ const BomList = () => {
                                   setCategoryId(items.category_id);
                                 }}
                               >
-                                {items?.name}
+                               <div>{items?.name}<span className={Styles.smallred}>{items?.progress_status}</span></div>
+                            
                               </div>
                               <div>
                                 {/* category add  */}
