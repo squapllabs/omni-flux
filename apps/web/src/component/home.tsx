@@ -42,7 +42,7 @@ const Home = () => {
   const chartOptions1 = {
     chart: {
       title: 'Project Status',
-      subtitle: 'Total Days vs. So Far',
+      subtitle: '(Estimated Days / Completed Days)',
     },
     hAxis: {
       title: 'Days',
@@ -56,8 +56,8 @@ const Home = () => {
 
   const chartOptions2 = {
     chart: {
-      title: 'Top Projects by Budget',
-      subtitle: 'Budget per Project',
+      title: 'High Budget Projects',
+      subtitle: '(Budget per Project)',
     },
     hAxis: {
       title: 'Budget',
