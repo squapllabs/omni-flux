@@ -80,12 +80,12 @@ const SiteExpenseList = () => {
   };
   return (
     <div>
-      <CustomLoader loading={fetchLoader}>
+      <CustomLoader loading={fetchLoader} size={48}>
         <div className={Styles.box}>
           <div className={Styles.headingContent}>
             <div className={Styles.textContent_1}>
-              <h3>Stock Audit</h3>
-              <span className={Styles.content}>Project Stock auditing</span>
+              <h3>Site Expenses</h3>
+              <span className={Styles.content}>Manage your site expenses</span>
             </div>
             <div>
               <Button
@@ -161,14 +161,7 @@ const SiteExpenseList = () => {
             <tbody>
               {getExpenseList?.content?.length === 0 ? (
                 <tr>
-                  <td colSpan="7">No data found</td>
-                  {/* <td></td>
-                  <td>No data</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td> */}
+                  <td colSpan="7" style={{textAlign:'center'}}>No data found</td>
                 </tr>
               ) : (
                 ''

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 interface InputWrapperProps {
   width?: string;
+  height?: string;
 }
 
 interface TextAreaProps
@@ -11,6 +12,7 @@ interface TextAreaProps
   placeholder?: string;
   error?: string;
   width?: string;
+  height?: string;
   rows?: number;
   maxCharacterCount?: number;
   value?: string;
@@ -19,7 +21,7 @@ interface TextAreaProps
 const InputWrapper = styled.div<InputWrapperProps>`
   display: flex;
   flex-direction: column;
-  height: 100px;
+  height: ${(props) => props.height || '100%'};
   width: ${(props) => props.width || '100%'};
 `;
 
@@ -74,6 +76,7 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
   placeholder,
   error,
   width,
+  height,
   rows,
   maxCharacterCount,
   value,
@@ -113,7 +116,7 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
   };
   const shouldShowAsterisk = mandatory;
   return (
-    <InputWrapper width={width}>
+    <InputWrapper width={width} height={height}>
       {label && (
         <StyledLabel>
           {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}

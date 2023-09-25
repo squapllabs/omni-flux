@@ -79,7 +79,7 @@ const Navbar = () => {
             <HomeIcon color="gray" className={Styles.navIcon} /> Home
           </div>
 
-          <div>Dashboard</div>
+          {/* <div>Dashboard</div>   */}
 
           <Dropdown
             label={
@@ -279,15 +279,15 @@ const Navbar = () => {
           <SearchBar onSearch={handleSearch} />
         </div>
         <div className={Styles.rightIcons}>
-          <BellIcon
+          {/* <BellIcon
             className={Styles.navIcon}
             color="gray"
             height={24}
             width={24}
-          />
+          /> */}
           <div ref={menuRef}>
             <AccountIcon
-              className={Styles.navIcon}
+              className={Styles.navIcon1}
               color="gray"
               height={24}
               width={24}

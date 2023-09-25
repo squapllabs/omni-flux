@@ -142,7 +142,7 @@ const StoreOutwardAdd = () => {
                     <h3>Stock OutWard Add</h3>
                 </div>
                 <div className={Styles.textStyle}>
-                    <h6>Stock OutWard...</h6>
+                    <h6>Manage your stock outward</h6>
                 </div>
             </div>
             <div className={Styles.dividerStyle}></div>

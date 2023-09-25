@@ -25,6 +25,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import { getByProjectId } from '../../hooks/project-hooks';
 import BackArrow from '../menu/icons/backArrow';
+
 const BomList = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -137,6 +138,9 @@ const BomList = () => {
     };
   }, []);
 
+
+  
+
   return (
     <div>
       <div className={Styles.headingcontainer}>
@@ -149,7 +153,7 @@ const BomList = () => {
             <div className={Styles.backButton}>
               <div>
                 <Button
-                  color="secondary"
+                  color="primary"
                   shape="rectangle"
                   justify="center"
                   size="small"
@@ -167,7 +171,7 @@ const BomList = () => {
       </div>
       <div className={Styles.box}></div>
       {isloading ? (
-        <CustomLoader loading={isloading} size={30} />
+        <CustomLoader loading={isloading} size={48} />
       ) : (
         <div className={Styles.container}>
           {categories ? (
@@ -180,20 +184,22 @@ const BomList = () => {
                         <h3>BOQ Creator</h3>
                       </div>
                       <Button
-                        color="secondary"
+                        color="primary"
                         shape="rectangle"
                         justify="center"
                         size="small"
-                        icon={<AddIcon width={20} />}
+                        icon={<AddIcon width={20} color="white"/>}
                         onClick={() => {
                           setShowAbstractForm(true);
+                          setMode('Add')
                         }}
                       >
                         Add Abstract
                       </Button>
                     </div>
+                    
 
-                    {categories?.map((items: any, index: any) => {
+                    {categories?.map((items: any, index: any) => {                      
                       return (
                         <ul key={index}>
                           <li>
@@ -215,7 +221,8 @@ const BomList = () => {
                                   setCategoryId(items.category_id);
                                 }}
                               >
-                                {items?.name}
+                               <div>{items?.name}<span className={Styles.smallred}>{items?.progress_status}</span></div>
+                            
                               </div>
                               <div>
                                 {/* category add  */}
@@ -299,11 +306,11 @@ const BomList = () => {
                       <div>
                         <div className={Styles.taskButton}>
                           <Button
-                            color="secondary"
+                            color="primary"
                             shape="rectangle"
                             justify="center"
                             size="small"
-                            icon={<AddIcon width={20} />}
+                            icon={<AddIcon width={20} color="white"/>}
                             onClick={() => {
                               setShowSubCategoryForm(true);
                             }}
@@ -351,6 +358,7 @@ const BomList = () => {
         selectedBomConfig={bomconfigId}
         setReload={setReload}
         mode={mode}
+        setMode={setMode}
         categoryId={categoryId}
       />
       <CustomSubCategoryAddPopup
