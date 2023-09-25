@@ -15,6 +15,7 @@ import { updateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 import BackArrowIcon from '../menu/icons/backArrow';
 import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
+import { Link } from 'react-router-dom';
 
 const VendorSelect = () => {
   const routeParams = useParams();
@@ -131,6 +132,7 @@ const VendorSelect = () => {
                 <th>Vendor Name </th>
                 <th>No of Items</th>
                 <th>Budget</th>
+                <th>Quotation Id</th>
                 <th>Quotation Status</th>
                 <th>Document</th>
                 <th>Options</th>
@@ -174,6 +176,11 @@ const VendorSelect = () => {
                       {formatBudgetValue(data.total_quotation_amount) ||
                         nullLableNameFromEnv}
                     </td>
+                    <td>
+                      <Link to={`/vendor-view-items/${data.vendor_quotes_id}`}>
+                        {data.quotation_id}
+                      </Link>
+                    </td>
                     <td>{data.quotation_status || nullLableNameFromEnv}</td>
                     <td>
                       {data.vendor_quotes_documents?.map(
@@ -204,7 +211,7 @@ const VendorSelect = () => {
               justify="center"
               size="small"
               color="primary"
-              icon={<BackArrowIcon />}
+              // icon={<BackArrowIcon />}
               onClick={() => navigate('/purchase-view')}
             >
               Back

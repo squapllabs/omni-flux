@@ -354,7 +354,7 @@ const HsnCodeList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
-                    icon={<AddIcon />}
+                    icon={<AddIcon color='white'/>}
                   >
                     Add
                   </Button>

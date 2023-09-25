@@ -5,20 +5,25 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import TextArea from '../ui/CustomTextArea';
 import Styles from '../../styles/vendor.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
-import { useParams } from 'react-router-dom';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
 import Select from '../ui/selectNew';
-import { getVendorCreationYupschema,getVendorEditYupschema } from '../../helper/constants/vendor-constants';
+import {
+  getVendorCreationYupschema,
+  getVendorEditYupschema,
+} from '../../helper/constants/vendor-constants';
 import { createVendor, updateVendor } from '../../hooks/vendor-hooks';
 import vendorService from '../../service/vendor-service';
 
 const AddVendor = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
+  const location = useLocation();
+  const projectId = location.state.project_id;
+  const indentId = location.state.indent_id;
   const { mutate: createNewVendor } = createVendor();
   const { mutate: updateVendors } = updateVendor();
   const state: RootState = store.getState();
@@ -29,7 +34,9 @@ const AddVendor = () => {
   const { data: getAllCurrencyTypeList = [] } = getBymasertDataType('CRTYP');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const validationSchema = routeParams?.id ? getVendorEditYupschema(Yup) : getVendorCreationYupschema(Yup);
+  const validationSchema = routeParams?.id
+    ? getVendorEditYupschema(Yup)
+    : getVendorCreationYupschema(Yup);
   const [initialValues, setInitialValues] = useState({
     vendor_id: '',
     vendor_name: '',
@@ -138,7 +145,7 @@ const AddVendor = () => {
         notes: values.notes,
         created_by: userData.user_id,
         tax_id: values.tax_id,
-        vendor_id: Number(routeParams?.id) ?  Number(routeParams?.id) : ''
+        vendor_id: Number(routeParams?.id) ? Number(routeParams?.id) : '',
       };
       if (Number(routeParams?.id)) {
         updateVendors(Object, {
@@ -158,9 +165,15 @@ const AddVendor = () => {
             if (data?.status === true) {
               setMessage('Vendor created');
               setOpenSnack(true);
-              setTimeout(() => {
-                navigate('/settings');
-              }, 1000);
+              if (projectId !== null) {
+                navigate('/purchase-request-add', {
+                  state: { project_id: projectId, indent_id: indentId },
+                });
+              } else {
+                setTimeout(() => {
+                  navigate('/settings');
+                }, 1000);
+              }
             }
           },
         });
@@ -525,7 +538,34 @@ const AddVendor = () => {
           </div>
           <div className={Styles.buttonFields}>
             <div>
-              <Button
+              {projectId !== null ? (
+                <Button
+                  color="secondary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={() => {
+                    navigate('/purchase-request-add', {
+                      state: { project_id: projectId, indent_id: indentId },
+                    });
+                  }}
+                >
+                  Back
+                </Button>
+              ) : (
+                <Button
+                  color="secondary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={() => {
+                    navigate('/settings');
+                  }}
+                >
+                  Back
+                </Button>
+              )}
+              {/* <Button
                 color="secondary"
                 shape="rectangle"
                 justify="center"
@@ -535,7 +575,7 @@ const AddVendor = () => {
                 }}
               >
                 Back
-              </Button>
+              </Button> */}
             </div>
             <div>
               {routeParams.id ? (

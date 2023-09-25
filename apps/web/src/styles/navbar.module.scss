@@ -34,13 +34,18 @@
   padding: 5px;
 }
 
-.rightIcons {
+.rightSearch {
   display: flex;
   align-items: center;
   gap: 10px;
 
 }
-
+.rightIcons{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  // background-color: lawngreen;
+}
 .sequencesRow {
   display: flex;
   align-items: center;

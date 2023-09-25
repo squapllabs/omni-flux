@@ -196,7 +196,7 @@ const UserList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  icon={<AddIcon />}
+                  icon={<AddIcon color="white"/>}
                   onClick={() => navigate('/user-create')}
                 >
                   Add
@@ -210,12 +210,12 @@ const UserList = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>S. No</th>
+                    <th>S No</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Contact Number</th>
-                    {activeButton === 'AC' && <th></th>}
+                    {activeButton === 'AC' && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>

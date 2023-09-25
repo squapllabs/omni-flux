@@ -126,7 +126,6 @@ const ProjectIndentRequestList = () => {
             </div>
           </div>
         </div>
-
         <div className={Styles.searchField}>
           <div className={Styles.inputFilter}>
             <div className={Styles.filterSelect}>
