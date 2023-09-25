@@ -8319,6 +8319,105 @@
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"master_data_id\": 145,\n            \"master_data_name\": \"Electrical\",\n            \"master_data_description\": \"Electrical\",\n            \"master_data_type\": \"ECTRL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:24:11.593Z\",\n            \"updated_date\": \"2023-09-25T11:24:47.716Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"parent\": null,\n            \"children\": []\n        },\n        {\n            \"master_data_id\": 144,\n            \"master_data_name\": \"Mechanical\",\n            \"master_data_description\": \"Mechanical\",\n            \"master_data_type\": \"MCHNL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:23:59.076Z\",\n            \"updated_date\": \"2023-09-25T11:23:59.076Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"parent\": null,\n            \"children\": []\n        },\n        {\n            \"master_data_id\": 143,\n            \"master_data_name\": \"Civil\",\n            \"master_data_description\": \"Civil\",\n            \"master_data_type\": \"CIVIL\",\n            \"parent_master_data_id\": null,\n            \"project_id\": 137,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T11:23:06.109Z\",\n            \"updated_date\": \"2023-09-25T11:23:06.109Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"parent\": null,\n            \"children\": []\n        }\n    ]\n}"
             }
           ]
+        },
+        {
+          "name": "API To Get Master Data By Project Id And Master Data Type",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/master-data/get-by-project-id-and-type/137/CIVIL",
+              "host": ["{{API_URL}}"],
+              "path": [
+                "api",
+                "master-data",
+                "get-by-project-id-and-type",
+                "137",
+                "CIVIL"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Master Data By Project Id And Master Data Type",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/master-data/get-by-project-id-and-type/137/CIVIL",
+                  "host": ["{{API_URL}}"],
+                  "path": [
+                    "api",
+                    "master-data",
+                    "get-by-project-id-and-type",
+                    "137",
+                    "CIVIL"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "429"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1ad-0B1m1jNsBQuKOEbTp7Y6kjBloCI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 25 Sep 2023 13:07:52 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"This master_data_type is already exist for this project_id\",\n    \"status\": true,\n    \"is_exist\": true,\n    \"data\": {\n        \"master_data_id\": 143,\n        \"master_data_name\": \"Civil\",\n        \"master_data_description\": \"Civil\",\n        \"master_data_type\": \"CIVIL\",\n        \"parent_master_data_id\": null,\n        \"project_id\": 137,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-25T11:23:06.109Z\",\n        \"updated_date\": \"2023-09-25T11:23:06.109Z\",\n        \"created_by\": 1,\n        \"updated_by\": null,\n        \"parent\": null,\n        \"children\": []\n    }\n}"
+            }
+          ]
         }
       ]
     },

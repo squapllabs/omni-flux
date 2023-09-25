@@ -14,6 +14,7 @@ import {
   getByParentMasterDataType,
   getByParentType,
   getByProjectId,
+  getByProjectIdAndType,
   searchMasterData,
   updateMasterData,
 } from '../../controller/masterData.controller';
@@ -65,6 +66,12 @@ router.get(
   '/get-all-project-master-data',
   authMiddleware,
   getAllProjectMasterData
+);
+
+router.get(
+  '/get-by-project-id-and-type/:project_id/:master_data_type',
+  authMiddleware,
+  getByProjectIdAndType
 );
 
 export default router;

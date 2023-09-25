@@ -25,7 +25,17 @@ import Pagination from '../../menu/pagination';
 import CustomDelete from '../../ui/customDeleteDialogBox';
 import CustomSnackBar from '../../ui/customSnackBar';
 import * as Yup from 'yup';
-import { getProjectMemberCreationYupschema } from '../../../helper/constants/projectSettings-constants';
+import {
+  getProjectMemberCreationYupschema,
+  getCreateMasterValidateyup
+} from '../../../helper/constants/projectSettings-constants';
+import TextArea from '../../ui/CustomTextArea';
+import {
+  useGetAllmasertData,
+  createmasertData,
+  useGetAllPaginatedMasterData,
+} from '../../../hooks/masertData-hook';
+import { getByProjectId } from '../../../hooks/project-hooks'
 
 const ProjectSettings: React.FC = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,13 +64,15 @@ const ProjectSettings: React.FC = (props: any) => {
     { label: 'Inactive', value: 'IN' },
   ]);
   const [filter, setFilter] = useState(false);
+  const [projectId, setProjectId] = useState(Number(routeParams?.id))
+
   const [initialValues, setInitialValues] = useState({
     project_role_id: '',
     project_role_name: '',
     user_id: '',
     access_start_date: '',
     access_end_date: '',
-    project_id: Number(routeParams?.id),
+    project_id: Number(routeParams?.id)
   });
 
   const object: any = {
@@ -228,6 +240,7 @@ const ProjectSettings: React.FC = (props: any) => {
     setOpenSnack(true);
     handleSearch();
   };
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
@@ -430,9 +443,9 @@ const ProjectSettings: React.FC = (props: any) => {
                               {data?.access_end_date == null
                                 ? '-'
                                 : format(
-                                    new Date(data?.access_end_date),
-                                    'MMM dd, yyyy'
-                                  )}
+                                  new Date(data?.access_end_date),
+                                  'MMM dd, yyyy'
+                                )}
                             </td>
                             {activeButton === 'AC' && (
                               <td>
@@ -487,9 +500,9 @@ const ProjectSettings: React.FC = (props: any) => {
                           {data?.access_end_date == null
                             ? '-'
                             : format(
-                                new Date(data?.access_end_date),
-                                'MMM dd, yyyy'
-                              )}
+                              new Date(data?.access_end_date),
+                              'MMM dd, yyyy'
+                            )}
                         </td>
                         {activeButton === 'AC' && (
                           <td>
@@ -511,6 +524,7 @@ const ProjectSettings: React.FC = (props: any) => {
               </table>
             </div>
             <div className={Styles.pagination}>
+
               <Pagination
                 currentPage={currentPage}
                 totalPages={
@@ -526,6 +540,7 @@ const ProjectSettings: React.FC = (props: any) => {
                 onRowsPerPageChange={handleRowsPerPageChange}
               />
             </div>
+            <MasterData projectId={projectId} />
           </div>
         </div>
       </CustomLoader>
@@ -548,4 +563,258 @@ const ProjectSettings: React.FC = (props: any) => {
   );
 };
 
-export default ProjectSettings;
+export default ProjectSettings
+
+
+const MasterData: React.FC = (props: {
+
+  projectId: any;
+
+}) => {
+  const { projectId } = props;
+
+  const [initialValues, setInitialValues] = useState({
+    master_data_id: '',
+    master_data_name: '',
+    master_data_description: '',
+    master_data_type: '',
+    parent_master_data_id: '',
+    project_id:projectId
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const masterData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: '',
+    project_id: projectId,
+    parent_id: null,
+    project_master_data: false,
+  };
+
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedMasterData(masterData);
+  const { mutate: postMasterData } = createmasertData();
+  const { data: getProjectData } = getByProjectId(projectId);
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
+
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton]);
+
+  
+  /* Function for changing the table page */
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  /* Function for changing no of rows in pagination */
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+  const  validationSchema = getCreateMasterValidateyup(Yup)
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
+      const object = {
+        master_data_name: values.master_data_name,
+        master_data_description: values.master_data_description,
+        master_data_type: values.master_data_type,
+        project_id: projectId,
+      };
+
+      postMasterData(object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.message === 'success') {
+            setMessage('Master Data created');
+            setOpenSnack(true);
+            resetForm();
+            refetch()
+          }
+        },
+      });
+    }
+  });
+
+
+  return (
+    <div>
+      <div className={Styles.dividerStyle}></div>
+      <div className={Styles.conatiner}>
+
+        <div className={Styles.box}>
+          <div className={Styles.textContent}>
+            <h3>Add New Master Data Against Your Project</h3>
+            <span className={Styles.content}>
+              Manage your master data across your application
+            </span>
+          </div>
+          <form onSubmit={formik.handleSubmit}>
+            <div className={Styles.fields_container}>
+              <div className={Styles.fields_container_1}>
+                <div className={Styles.inputField}>
+                  <Input
+                    name="master_data_name"
+                    label="Name"
+                    placeholder="Enter master name"
+                    value={formik.values.master_data_name}
+                    onChange={formik.handleChange}
+                    mandatory={true}
+                    error={
+                      formik.touched.master_data_name &&
+                      formik.errors.master_data_name
+                    }
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    name="master_data_type"
+                    label="Code"
+                    placeholder="Enter code"
+                    value={formik.values.master_data_type}
+                    onChange={formik.handleChange}
+                    mandatory={true}
+                    error={
+                      formik.touched.master_data_type &&
+                      formik.errors.master_data_type
+                    }
+                  />
+                </div>
+              </div>
+              <div className={Styles.fields_container_2}>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Project"
+                    width="350px"
+                    value={getProjectData?.project_name}
+                    disabled={true}
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <TextArea
+                    name="master_data_description"
+                    label="Description"
+                    placeholder="Enter description"
+                    value={formik.values.master_data_description}
+                    onChange={formik.handleChange}
+                    mandatory={true}
+                    error={
+                      formik.touched.master_data_description &&
+                      formik.errors.master_data_description
+                    }
+                    rows={3}
+                    maxCharacterCount={120}
+                  />
+                </div>
+                <div >
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                  >
+                    Add
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className={Styles.box}>
+          <div className={Styles.textContent}>
+            <h3>List of Master Data</h3>
+            <span className={Styles.content}>
+              Manage your master data across your application
+            </span>
+          </div>
+
+          <div className={Styles.tableContainer}>
+            <div>
+              <table className={Styles.scrollable_table}>
+                <thead>
+                  <tr>
+                    <th className={Styles.tableHeading}>S No</th>
+                    <th className={Styles.tableHeading}>Name</th>
+                    <th className={Styles.tableHeading}>Description</th>
+                    <th className={Styles.tableHeading}>Code</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {initialData?.total_count === 0 ?
+                    (<tr>
+                      <td colSpan="4">No data found</td>
+                    </tr>) : 
+                     (initialData?.content?.map((item: any, index: number) => {
+
+                      return(
+                      <tr>
+                        <td>{startingIndex + index}</td>
+                        <td>{item?.master_data_name}</td>
+                        <td>{item?.master_data_description}</td>
+                        <td>{item?.master_data_type}</td>
+                      </tr>
+                      )
+                    })) 
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+         
+        </div>
+        {/* <div className={Styles.pagination}>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={
+                  // dataShow ? getFilterData?.total_page : 
+                  initialData?.total_page
+                }
+                totalCount={
+                  // dataShow
+                  //   ? getFilterData?.total_count
+                  //   : 
+                    initialData?.total_count
+                }
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
+          </div> */}
+      </div>
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
+      />
+    </div>
+  )
+}
+
+
