@@ -1,4 +1,5 @@
 import masterDataDao from '../dao/masterData.dao';
+import projectDao from '../dao/project.dao';
 import {
   createMasterDataBody,
   updateMasterDataBody,
@@ -16,6 +17,7 @@ const createMasterData = async (body: createMasterDataBody) => {
       master_data_description,
       master_data_type,
       parent_master_data_id,
+      project_id,
       created_by,
     } = body;
 
@@ -46,11 +48,24 @@ const createMasterData = async (body: createMasterDataBody) => {
       };
       return result;
     }
+
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const masterDataDetails = await masterDataDao.add(
       master_data_name,
       master_data_description,
       master_data_type,
       parent_master_data_id,
+      project_id,
       created_by
     );
     result = {
@@ -76,6 +91,7 @@ const updateMasterData = async (body: updateMasterDataBody) => {
       master_data_name,
       master_data_description,
       master_data_type,
+      project_id,
       updated_by,
       master_data_id,
     } = body;
@@ -87,6 +103,7 @@ const updateMasterData = async (body: updateMasterDataBody) => {
         master_data_name,
         master_data_description,
         master_data_type,
+        project_id,
         updated_by,
         master_data_id
       );
@@ -283,7 +300,81 @@ const searchMasterData = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const parent_master_data_id = body.parent_id;
-    const filterObj = {
+    const project_master_data = body.project_master_data
+      ? body.project_master_data
+      : false;
+    const project_id = body.project_id;
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterMasterData = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+    if (parent_master_data_id) {
+      filterObj.filterMasterData = filterObj.filterMasterData || {};
+      filterObj.filterMasterData.AND = filterObj.filterMasterData.AND || [];
+
+      filterObj.filterMasterData.AND.push({
+        parent_master_data_id: parent_master_data_id,
+      });
+    }
+
+    if (project_master_data === true) {
+      filterObj.filterMasterData = filterObj.filterMasterData || {};
+      filterObj.filterMasterData.AND = filterObj.filterMasterData.AND || [];
+
+      filterObj.filterMasterData.AND.push({
+        project_id: {
+          not: {
+            equals: null,
+          },
+        },
+      });
+    }
+
+    if (project_master_data === false) {
+      if (project_id) {
+        filterObj.filterMasterData = filterObj.filterMasterData || {};
+        filterObj.filterMasterData.AND = filterObj.filterMasterData.AND || [];
+
+        filterObj.filterMasterData.AND.push({
+          project_id: project_id,
+        });
+      } else {
+        filterObj.filterMasterData = filterObj.filterMasterData || {};
+        filterObj.filterMasterData.AND = filterObj.filterMasterData.AND || [];
+
+        filterObj.filterMasterData.AND.push({
+          project_id: {
+            equals: null,
+          },
+        });
+      }
+    }
+
+    if (global_search) {
+      filterObj.filterMasterData = filterObj.filterMasterData || {};
+      filterObj.filterMasterData.OR = filterObj.filterMasterData.OR || [];
+
+      filterObj.filterMasterData.OR.push(
+        {
+          master_data_name: { contains: global_search, mode: 'insensitive' },
+        },
+        {
+          master_data_description: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          master_data_type: { contains: global_search, mode: 'insensitive' },
+        }
+      );
+    }
+
+    /*     const filterObj = {
       filterMasterData: {
         AND: parent_master_data_id
           ? [{ parent_master_data_id: parent_master_data_id }]
@@ -304,7 +395,7 @@ const searchMasterData = async (body) => {
         ],
         is_delete: status === 'AC' ? false : true,
       },
-    };
+    }; */
 
     const result = await masterDataDao.searchMasterData(
       offset,
@@ -354,7 +445,8 @@ const getByParentType = async (masterDataType: string) => {
       return result;
     } else {
       result = {
-        message: 'Invalid input: The specified master_data_type does not exist as a parent. Please provide a valid master_data_type.',
+        message:
+          'Invalid input: The specified master_data_type does not exist as a parent. Please provide a valid master_data_type.',
         status: false,
         data: null,
       };
@@ -363,6 +455,78 @@ const getByParentType = async (masterDataType: string) => {
   } catch (error) {
     console.log(
       'Error occurred in getByParentType masterData service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get MasterData By Project Id
+ * @param project_id
+ * @returns
+ */
+const getByProjectId = async (project_id: number) => {
+  try {
+    let result = null;
+
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const masterDataDetails = await masterDataDao.getByProjectId(project_id);
+    if (masterDataDetails.length > 0) {
+      result = {
+        message: 'success',
+        status: true,
+        data: masterDataDetails,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'No data found for this project_id',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectId masterData service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get All Project Related MasterData
+ * @returns
+ */
+const getAllProjectMasterData = async () => {
+  try {
+    const masterDataDetails = await masterDataDao.getAllProjectMasterData();
+    if (masterDataDetails.length > 0) {
+      return {
+        message: 'success',
+        status: true,
+        data: masterDataDetails,
+      };
+    } else {
+      return {
+        message: 'No data found related to Project.',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllProjectMasterData masterData service : ',
       error
     );
     throw error;
@@ -379,4 +543,6 @@ export {
   getByParentMasterDataType,
   searchMasterData,
   getByParentType,
+  getByProjectId,
+  getAllProjectMasterData,
 };
