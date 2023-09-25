@@ -237,7 +237,7 @@ const ProjectDocument: React.FC = (props: any) => {
         </span>
       </div>
       <div
-        style={{ width: '40%', display: 'flex', justifyContent: 'flex-start' }}
+        style={{ width: '40%', display: 'flex', justifyContent: 'flex-start',marginLeft:'2%' }}
       >
         <div className={Styles.tableContainer}>
           <table className={Styles.scrollable_table}>

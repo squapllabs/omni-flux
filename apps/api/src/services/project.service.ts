@@ -260,6 +260,21 @@ const getAllProject = async () => {
 };
 
 /**
+ * Method to get dashboard data
+ * @returns
+ */
+const getAllDashboard = async () => {
+  try {
+    const result = await projectDao.getAllDashboard();
+    const dashboardData = { message: 'success', status: true, data: result };
+    return dashboardData;
+  } catch (error) {
+    console.log('Error occurred in getdashboardData service : ', error);
+    throw error;
+  }
+};
+
+/**
  * Method to delete project
  * @param projectId
  */
@@ -482,4 +497,5 @@ export {
   searchProject,
   getByCode,
   getByProjectIdAndSiteId,
+  getAllDashboard,
 };

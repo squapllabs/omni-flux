@@ -33,7 +33,7 @@ const ProjectIndentRequestList = () => {
     data: getFilterData,
     isLoading: FilterLoading,
   } = getBySearchIndent();
-  console.log('getFilterData', getFilterData);
+  // console.log('getFilterData', getFilterData);
 
   useEffect(() => {
     handleSearch();
@@ -49,7 +49,7 @@ const ProjectIndentRequestList = () => {
       project_id: Number(routeParams?.id),
       ...filterValues,
     };
-    console.log('demo', demo);
+    // console.log('demo', demo);
     postDataForFilter(demo);
     // setIsLoading(false);
     // setFilter(true);
