@@ -533,6 +533,58 @@ const getAllProjectMasterData = async () => {
   }
 };
 
+/**
+ * Method to get MasterData By Project Id and Master Data Type
+ * @param project_id
+ * @param master_data_type
+ * @returns
+ */
+const getByProjectIdAndType = async (
+  project_id: number,
+  master_data_type: string
+) => {
+  try {
+    let result = null;
+
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const masterDataDetails = await masterDataDao.getByProjectIdAndType(
+      project_id,
+      master_data_type
+    );
+    if (masterDataDetails) {
+      result = {
+        message: 'This master_data_type is already exist for this project_id',
+        status: true,
+        is_exist: true,
+        data: masterDataDetails,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This master_data_type does not exist for this project_id',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByProjectIdAndType masterData service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createMasterData,
   updateMasterData,
@@ -545,4 +597,5 @@ export {
   getByParentType,
   getByProjectId,
   getAllProjectMasterData,
+  getByProjectIdAndType,
 };
