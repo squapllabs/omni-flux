@@ -31,7 +31,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
       };
       createNewClient(Object, {
         onSuccess: (data, variables, context) => {
-          if (data?.success) {
+          if (data?.message === 'success') {
             setMessage('Client created');
             setOpenSnack(true);
             handleCloseForm();

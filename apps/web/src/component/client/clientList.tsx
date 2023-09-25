@@ -303,7 +303,7 @@ const ClientList = () => {
                       <th>S No</th>
                       <th>Client Name</th>
                       <th>Contact Details</th>
-                      {activeButton === 'AC' && <th></th>}
+                      {activeButton === 'AC' && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>

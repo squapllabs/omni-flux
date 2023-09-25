@@ -165,7 +165,7 @@ const CategoryList = () => {
 
     {
       field: 'edit',
-      label: 'Edit',
+      label: 'Actions',
       render: (value: any, row: any) => (
         <div className={Styles.tableIcon}>
           <div>
