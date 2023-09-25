@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Button from '../ui/button';
+import Button from '../ui/Button';
 import Styles from '../../styles/projectInfo.module.scss';
 import CustomCard from '../ui/CustomCard';
 import { getByProjectId } from '../../hooks/project-hooks';
