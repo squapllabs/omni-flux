@@ -262,6 +262,8 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </thead>
             <tbody>
               {siteConfigData.map((row, index) => {
+                console.log('row', row);
+
                 rowIndex = rowIndex + 1;
                 return (
                   <tr key={index}>
@@ -357,7 +359,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                           className={Styles.addPlan}
                           onClick={() => {
                             navigate(
-                              `/expenses/${routeParams.id}/${row?.project_site_id}`
+                              `/expenses/${routeParams.id}/${row?.site_id}`
                             );
                             // navigate(
                             //   `/bomlist/${routeParams.id}/${row?.bom_configuration_id}`

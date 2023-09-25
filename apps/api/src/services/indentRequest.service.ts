@@ -1,5 +1,6 @@
 import indentRequestDao from '../dao/indentRequest.dao';
 import projectDao from '../dao/project.dao';
+import siteContractorDao from '../dao/siteContractor.dao';
 import userDao from '../dao/user.dao';
 import { indentRequestBody } from '../interfaces/indentRequest.interface';
 
@@ -26,6 +27,7 @@ const createIndentRequest = async (body: indentRequestBody) => {
       created_by,
       indent_request_details,
       project_id,
+      site_id,
     } = body;
 
     if (requester_user_id) {
@@ -61,6 +63,17 @@ const createIndentRequest = async (body: indentRequestBody) => {
       }
     }
 
+    if (site_id) {
+      const siteExist = await siteContractorDao.getBySiteId(site_id);
+      if (!siteExist) {
+        return {
+          message: 'site_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const indentRequestDetails = await indentRequestDao.add(
       requester_user_id,
       requested_date,
@@ -75,6 +88,7 @@ const createIndentRequest = async (body: indentRequestBody) => {
       rejected_date,
       approver_comments,
       created_by,
+      site_id,
       indent_request_details,
       project_id
     );
@@ -115,6 +129,7 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       indent_request_details,
       indent_request_id,
       project_id,
+      site_id,
     } = body;
     let result = null;
     const indentRequestExist = await indentRequestDao.getById(
@@ -162,6 +177,17 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       }
     }
 
+    if (site_id) {
+      const siteExist = await siteContractorDao.getBySiteId(site_id);
+      if (!siteExist) {
+        return {
+          message: 'site_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const indentRequestDetails = await indentRequestDao.edit(
       requester_user_id,
       requested_date,
@@ -178,6 +204,7 @@ const updateIndentRequest = async (body: indentRequestBody) => {
       updated_by,
       indent_request_details,
       project_id,
+      site_id,
       indent_request_id
     );
     result = { message: 'success', status: true, data: indentRequestDetails };
@@ -431,6 +458,14 @@ const searchIndentRequest = async (body) => {
         {
           project_data: {
             project_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          site_data: {
+            name: {
               contains: global_search,
               mode: 'insensitive',
             },

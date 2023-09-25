@@ -9,6 +9,7 @@ const add = async (
   start_date: Date,
   end_date: Date,
   bom_configuration_id: number,
+  progress_status: string,
   connectionObj = null
 ) => {
   try {
@@ -30,6 +31,7 @@ const add = async (
         start_date: formatted_start_date,
         end_date: formatted_end_date,
         bom_configuration_id,
+        progress_status,
       },
     });
     return category;
@@ -49,6 +51,7 @@ const edit = async (
   start_date: Date,
   end_date: Date,
   bom_configuration_id: number,
+  progress_status: string,
   connectionObj = null
 ) => {
   try {
@@ -70,6 +73,7 @@ const edit = async (
         start_date: formatted_start_date,
         end_date: formatted_end_date,
         bom_configuration_id,
+        progress_status,
       },
     });
     return category;

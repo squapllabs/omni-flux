@@ -44,7 +44,7 @@ const CustomEditPoPopup = (props: {
       setInitialValues({
         bill_status: data.data?.status,
       });
-      const existingFileNames = data?.data?.purchase_order_documents.map(
+      const existingFileNames = data?.data?.purchase_order_documents?.map(
         (document: any) => {
           const pathParts = document.path.split('/');
           const fileName = pathParts[pathParts.length - 1];
@@ -78,7 +78,7 @@ const CustomEditPoPopup = (props: {
       });
       const uploadResponses = await Promise.all(uploadPromises);
       const modifiedArray = uploadResponses.flatMap((response) => response);
-      const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
+      const modifiedArrayWithDeleteFlag = modifiedArray?.map((obj) => ({
         ...obj,
         is_delete: false,
       }));

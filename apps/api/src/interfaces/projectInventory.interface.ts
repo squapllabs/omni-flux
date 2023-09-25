@@ -7,6 +7,7 @@ interface projectInventoryBody {
   total_cost: number;
   created_by: number;
   updated_by: number;
+  site_id: number;
 }
 
 export { projectInventoryBody };

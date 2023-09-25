@@ -196,7 +196,7 @@ const StockOutwardList = () => {
                       <td>
                         <div className={Styles.tablerow}>
                           <EditIcon onClick={() => navigate(`/stockoutward-edit/${data?.stock_outward_id}`, { state: { projectId: routeParams?.id } })} />
-                          <ViewIcon onClick={() => navigate(`/stockoutward-view/${data?.stock_outward_id}`)} />
+                          <ViewIcon onClick={() => navigate(`/stockoutward-view/${data?.stock_outward_id}`,{ state: { projectId: routeParams?.id } })} />
                         </div>
                       </td>
                     </tr>

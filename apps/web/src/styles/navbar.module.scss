@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: .8rem;
   background-color: #f0f0f0;
 }
 
@@ -38,7 +38,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 0 24px;
+
 }
 .rightIcons{
   display: flex;
@@ -101,6 +101,7 @@
 }
 .container {
   display: flex;
+  gap: .5rem;
 }
 
 .dropdownContainer {
@@ -114,7 +115,7 @@
 }
 
 .searchInputContainer {
-  position: relative; // Add this
+  position: relative;
   transition: width 0.5s;
   overflow: hidden;
   width: 150px;
@@ -150,25 +151,33 @@
 .container {
   display: flex;
   gap: 10px;
-  width: max-content;
-
+  // width:fit-content;
+  padding: 1rem;
+}
+.dropDownContainer{
 
 }
 .dropDownContainer p {
   font-size: 14px;
   color: #7f56d9;
 }
-.dropDwonContent {
+.dropDownContent {
   display: flex;
   flex-direction: column;
-  max-width: 290px;
-  padding: 16px;
-  gap: 10px;
+  padding: 8px;
+  gap: 1rem;
 }
 .itemsTitle {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+.dropDownItems{
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  min-width: 250px;
+
 }
 .dropDownItems p {
   font-size: 12px;
@@ -184,26 +193,23 @@
   position: absolute;
   z-index: 1500;
   gap: 10px;
-  top: 45px;
+  top: 40px;
   right: 0px;
-  width: 20%;
-  background-color: #f2f2f2;
+  width: 16%;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0.1, 0.1);
-  overflow-y: auto;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 2px;
   max-height: 250px;
   padding: 5px;
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
+
 }
 .menuItem:hover {
-  background-color: #ddd;
+  background-color: #ece5e5;
 }
 .menuItem {
-  // background-color: #333;
+  background-color:white;
   display: flex;
   flex-direction: row;
   padding: 5px;
@@ -280,4 +286,7 @@
   font-weight: bold;
   text-transform: uppercase;
   font-size: medium;
+}
+.icons{
+
 }

@@ -1,5 +1,6 @@
 import prisma from '../utils/prisma';
-import { siteExpenseDetails } from '../interfaces/siteExpense.Interface';
+import { expenseDetailsBody } from '../interfaces/expense.interface';
+import common from './common/utils.dao';
 
 const add = async (
   site_id: number,
@@ -12,8 +13,10 @@ const add = async (
   designation: string,
   start_date: Date,
   end_date: Date,
-  created_by: bigint,
-  site_expense_details: Array<siteExpenseDetails>,
+  bill_details: JSON,
+  created_by: number,
+  status: string,
+  expense_details: Array<expenseDetailsBody>,
   connectionObj = null
 ) => {
   try {
@@ -23,8 +26,16 @@ const add = async (
     const formatted_start_date = start_date ? new Date(start_date) : null;
     const formatted_end_date = end_date ? new Date(end_date) : null;
 
-    const siteExpense = await transaction.site_expense.create({
+    const expenseCodeGeneratorQuery = `select
+	concat('EXP', DATE_PART('year', CURRENT_DATE), '00', nextval('expence_code_sequence')::text) as expence_code_sequence`;
+
+    const expenseCode = await common.customQueryExecutor(
+      expenseCodeGeneratorQuery
+    );
+
+    const expense = await transaction.expense.create({
       data: {
+        expense_code: expenseCode[0].expence_code_sequence,
         site_id,
         project_id,
         employee_name,
@@ -33,6 +44,8 @@ const add = async (
         purpose,
         department,
         designation,
+        bill_details: bill_details ? bill_details : [],
+        status,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
         is_delete: is_delete,
@@ -42,54 +55,50 @@ const add = async (
       },
     });
 
-    const newSiteExpenseId = siteExpense.site_expense_id;
-    const siteExpenseDetailsData = [];
+    const newExpenseId = expense.expense_id;
+    const expenseDetailsData = [];
 
-    for (const siteExpenseDetail of site_expense_details) {
-      const description = siteExpenseDetail.description;
-      const air_transport = siteExpenseDetail.air_transport;
-      const fuel = siteExpenseDetail.fuel;
-      const labour_advance = siteExpenseDetail.labour_advance;
-      const phone_stationary = siteExpenseDetail.phone_stationary;
-      const food_snacks = siteExpenseDetail.food_snacks;
-      const purchase_service = siteExpenseDetail.purchase_service;
-      const others = siteExpenseDetail.others;
-      const total = siteExpenseDetail.total;
-      const bill_details = siteExpenseDetail.bill_details;
-      const status = 'Open';
+    for (const expenseDetail of expense_details) {
+      const expense_data_id = expenseDetail.expense_data_id;
+      const total = expenseDetail.total;
+      const bill_details = expenseDetail.bill_details;
+      const is_delete = expenseDetail.is_delete;
+      const status = expenseDetail.status;
+      const comments = expenseDetail.comments;
+      const progressed_date = expenseDetail.progressed_date;
+      const progressed_by = expenseDetail.progressed_by;
+      const bill_number = expenseDetail.bill_number;
 
-      const newSiteExpenseDetail =
-        await transaction.site_expense_details.create({
+      if (is_delete === false) {
+        const newExpenseDetail = await transaction.expense_details.create({
           data: {
-            site_expense_id: newSiteExpenseId,
-            description,
-            air_transport,
-            fuel,
-            labour_advance,
-            phone_stationary,
-            food_snacks,
-            purchase_service,
-            others,
+            expense_id: newExpenseId,
+            expense_data_id,
             total,
-            bill_details,
+            bill_details: bill_details ? bill_details : [],
             created_by,
             created_date: currentDate,
             updated_date: currentDate,
+            is_delete: false,
             status,
-            is_delete: is_delete,
+            comments,
+            progressed_date,
+            progressed_by,
+            bill_number,
           },
         });
 
-      siteExpenseDetailsData.push(newSiteExpenseDetail);
+        expenseDetailsData.push(newExpenseDetail);
+      }
     }
 
     const result = {
-      site_expense: siteExpense,
-      site_expense_details: siteExpenseDetailsData,
+      expense: expense,
+      expense_details: expenseDetailsData,
     };
     return result;
   } catch (error) {
-    console.log('Error occurred in siteExpenseDao add', error);
+    console.log('Error occurred in expenseDao add', error);
     throw error;
   }
 };
@@ -105,9 +114,11 @@ const edit = async (
   designation: string,
   start_date: Date,
   end_date: Date,
-  updated_by: bigint,
-  site_expense_id: number,
-  site_expense_details: Array<siteExpenseDetails>,
+  bill_details: JSON,
+  updated_by: number,
+  status: string,
+  expense_id: number,
+  expense_details: Array<expenseDetailsBody>,
   connectionObj = null
 ) => {
   try {
@@ -115,9 +126,9 @@ const edit = async (
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const formatted_start_date = start_date ? new Date(start_date) : null;
     const formatted_end_date = end_date ? new Date(end_date) : null;
-    const siteExpense = await transaction.site_expense.update({
+    const expense = await transaction.expense.update({
       where: {
-        site_expense_id: site_expense_id,
+        expense_id: expense_id,
       },
       data: {
         site_id,
@@ -128,6 +139,8 @@ const edit = async (
         purpose,
         department,
         designation,
+        bill_details: bill_details ? bill_details : [],
+        status,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
         updated_by,
@@ -135,108 +148,97 @@ const edit = async (
       },
     });
 
-    const siteExpenseDetailsData = [];
+    const expenseDetailsData = [];
 
-    for (const siteExpenseDetail of site_expense_details) {
-      const description = siteExpenseDetail.description;
-      const air_transport = siteExpenseDetail.air_transport;
-      const fuel = siteExpenseDetail.fuel;
-      const labour_advance = siteExpenseDetail.labour_advance;
-      const phone_stationary = siteExpenseDetail.phone_stationary;
-      const food_snacks = siteExpenseDetail.food_snacks;
-      const purchase_service = siteExpenseDetail.purchase_service;
-      const others = siteExpenseDetail.others;
-      const total = siteExpenseDetail.total;
-      const bill_details = siteExpenseDetail.bill_details;
-      const site_expense_details_id = siteExpenseDetail.site_expense_details_id;
-      const is_delete = siteExpenseDetail.is_delete;
-      const status = 'Open';
+    for (const expenseDetail of expense_details) {
+      const expense_details_id = expenseDetail.expense_details_id;
+      const expense_data_id = expenseDetail.expense_data_id;
+      const total = expenseDetail.total;
+      const bill_details = expenseDetail.bill_details;
+      const is_delete = expenseDetail.is_delete;
+      const status = expenseDetail.status;
+      const comments = expenseDetail.comments;
+      const progressed_date = expenseDetail.progressed_date;
+      const progressed_by = expenseDetail.progressed_by;
+      const bill_number = expenseDetail.bill_number;
 
-      if (site_expense_details_id) {
-        if (is_delete === 'Y') {
-          await transaction.site_expense_details.update({
+      if (expense_details_id) {
+        if (is_delete === true) {
+          await transaction.expense_details.update({
             where: {
-              site_expense_details_id: site_expense_details_id,
+              expense_details_id: Number(expense_details_id),
             },
             data: {
               is_delete: true,
             },
           });
         } else {
-          const newSiteExpenseDetail =
-            await transaction.site_expense_details.update({
-              where: {
-                site_expense_details_id: site_expense_details_id,
-              },
-              data: {
-                description,
-                air_transport,
-                fuel,
-                labour_advance,
-                phone_stationary,
-                food_snacks,
-                purchase_service,
-                others,
-                total,
-                bill_details,
-                updated_by,
-                updated_date: currentDate,
-                status,
-              },
-            });
-
-          siteExpenseDetailsData.push(newSiteExpenseDetail);
-        }
-      } else {
-        const newSiteExpenseDetail =
-          await transaction.site_expense_details.create({
+          const newExpenseDetail = await transaction.expense_details.update({
+            where: { expense_details_id: Number(expense_details_id) },
             data: {
-              site_expense_id: site_expense_id,
-              description,
-              air_transport,
-              fuel,
-              labour_advance,
-              phone_stationary,
-              food_snacks,
-              purchase_service,
-              others,
+              expense_id: expense_id,
+              expense_data_id,
               total,
-              bill_details,
-              created_by: updated_by,
-              created_date: currentDate,
+              bill_details: bill_details ? bill_details : [],
+              updated_by,
               updated_date: currentDate,
               status,
-              is_delete: false,
+              comments,
+              progressed_date,
+              progressed_by,
+              bill_number,
             },
           });
 
-        siteExpenseDetailsData.push(newSiteExpenseDetail);
+          expenseDetailsData.push(newExpenseDetail);
+        }
+      } else {
+        if (is_delete === false) {
+          const newExpenseDetail = await transaction.expense_details.create({
+            data: {
+              expense_id: expense_id,
+              expense_data_id,
+              total,
+              bill_details: bill_details ? bill_details : [],
+              created_by: updated_by,
+              created_date: currentDate,
+              updated_date: currentDate,
+              is_delete: false,
+              status,
+              comments,
+              progressed_date,
+              progressed_by,
+              bill_number,
+            },
+          });
+
+          expenseDetailsData.push(newExpenseDetail);
+        }
       }
     }
-
     const result = {
-      site_expense: siteExpense,
-      site_expense_details: siteExpenseDetailsData,
+      expense: expense,
+      expense_details: expenseDetailsData,
     };
     return result;
 
-    return siteExpense;
+    return expense;
   } catch (error) {
-    console.log('Error occurred in siteExpenseDao edit', error);
+    console.log('Error occurred in expenseDao edit', error);
     throw error;
   }
 };
 
-const getById = async (siteExpenseId: number, connectionObj = null) => {
+const getById = async (expenseId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const siteExpense = await transaction.site_expense.findFirst({
+    const expense = await transaction.expense.findFirst({
       where: {
-        site_expense_id: Number(siteExpenseId),
+        expense_id: Number(expenseId),
         is_delete: false,
       },
       include: {
-        site_expense_details: {
+        expense_details: {
           include: {
             progressed_by_data: {
               select: {
@@ -244,6 +246,7 @@ const getById = async (siteExpenseId: number, connectionObj = null) => {
                 last_name: true,
               },
             },
+            expense_master_data: true,
           },
         },
         site_data: {
@@ -258,14 +261,9 @@ const getById = async (siteExpenseId: number, connectionObj = null) => {
         },
       },
     });
-    if (siteExpense) {
-      siteExpense.site_expense_details.forEach((detail) => {
-        detail.is_delete = 'N';
-      });
-    }
-    return siteExpense;
+    return expense;
   } catch (error) {
-    console.log('Error occurred in siteExpense getById dao', error);
+    console.log('Error occurred in expense getById dao', error);
     throw error;
   }
 };
@@ -273,12 +271,12 @@ const getById = async (siteExpenseId: number, connectionObj = null) => {
 const getAll = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const siteExpense = await transaction.site_expense.findMany({
+    const expense = await transaction.expense.findMany({
       where: {
         is_delete: false,
       },
       include: {
-        site_expense_details: {
+        expense_details: {
           include: {
             progressed_by_data: {
               select: {
@@ -286,6 +284,7 @@ const getAll = async (connectionObj = null) => {
                 last_name: true,
               },
             },
+            expense_master_data: true,
           },
         },
         site_data: {
@@ -305,35 +304,32 @@ const getAll = async (connectionObj = null) => {
         },
       ],
     });
-    return siteExpense;
+    return expense;
   } catch (error) {
-    console.log('Error occurred in siteExpense getAll dao', error);
+    console.log('Error occurred in expense getAll dao', error);
     throw error;
   }
 };
 
-const deleteSiteExpense = async (
-  siteExpenseId: number,
-  connectionObj = null
-) => {
+const deleteExpense = async (expenseId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const siteExpense = await transaction.site_expense.update({
+    const expense = await transaction.expense.update({
       where: {
-        site_expense_id: Number(siteExpenseId),
+        expense_id: Number(expenseId),
       },
       data: {
         is_delete: true,
       },
     });
-    return siteExpense;
+    return expense;
   } catch (error) {
-    console.log('Error occurred in siteExpense deleteSiteExpense dao', error);
+    console.log('Error occurred in expense deleteExpense dao', error);
     throw error;
   }
 };
 
-const searchSiteExpense = async (
+const searchExpense = async (
   offset: number,
   limit: number,
   orderByColumn: string,
@@ -343,11 +339,11 @@ const searchSiteExpense = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const filter = filters.filterSiteExpense;
-    const siteExpense = await transaction.site_expense.findMany({
+    const filter = filters.filterExpense;
+    const expense = await transaction.expense.findMany({
       where: filter,
       include: {
-        site_expense_details: {
+        expense_details: {
           include: {
             progressed_by_data: {
               select: {
@@ -355,6 +351,7 @@ const searchSiteExpense = async (
                 last_name: true,
               },
             },
+            expense_master_data: true,
           },
         },
         site_data: {
@@ -377,19 +374,16 @@ const searchSiteExpense = async (
       take: limit,
     });
 
-    const siteExpenseCount = await transaction.site_expense.count({
+    const expenseCount = await transaction.expense.count({
       where: filter,
     });
-    const siteExpenseData = {
-      count: siteExpenseCount,
-      data: siteExpense,
+    const expenseData = {
+      count: expenseCount,
+      data: expense,
     };
-    return siteExpenseData;
+    return expenseData;
   } catch (error) {
-    console.log(
-      'Error occurred in Site Expense dao : searchSiteExpense ',
-      error
-    );
+    console.log('Error occurred in Site Expense dao : searchExpense ', error);
     throw error;
   }
 };
@@ -401,14 +395,14 @@ const getByProjectIdAndSiteId = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const siteExpense = await transaction.site_expense.findFirst({
+    const expense = await transaction.expense.findFirst({
       where: {
         project_id: Number(projectId),
         site_id: Number(siteId),
         is_delete: false,
       },
       include: {
-        site_expense_details: {
+        expense_details: {
           where: {
             is_delete: false,
           },
@@ -419,6 +413,7 @@ const getByProjectIdAndSiteId = async (
                 last_name: true,
               },
             },
+            expense_master_data: true,
           },
         },
         site_data: {
@@ -434,30 +429,27 @@ const getByProjectIdAndSiteId = async (
       },
     });
 
-    return siteExpense;
+    return expense;
   } catch (error) {
-    console.log(
-      'Error occurred in siteExpense getByProjectIdAndSiteId dao',
-      error
-    );
+    console.log('Error occurred in expense getByProjectIdAndSiteId dao', error);
     throw error;
   }
 };
 
-const getSiteExpenseDetailsBySiteExpenceId = async (
-  siteExpenseId: number,
+const getExpenseDetailsByExpenceId = async (
+  expenseId: number,
   status: string,
   connectionObj = null
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const siteExpenseDetails = await transaction.site_expense.findFirst({
+    const expenseDetails = await transaction.expense.findFirst({
       where: {
-        site_expense_id: Number(siteExpenseId),
+        expense_id: Number(expenseId),
         is_delete: false,
       },
       include: {
-        site_expense_details: {
+        expense_details: {
           where: {
             status: String(status),
           },
@@ -465,12 +457,9 @@ const getSiteExpenseDetailsBySiteExpenceId = async (
       },
     });
 
-    return siteExpenseDetails;
+    return expenseDetails;
   } catch (error) {
-    console.log(
-      'Error occurred in siteExpense getByProjectIdAndSiteId dao',
-      error
-    );
+    console.log('Error occurred in expense getByProjectIdAndSiteId dao', error);
     throw error;
   }
 };
@@ -480,8 +469,8 @@ export default {
   edit,
   getById,
   getAll,
-  deleteSiteExpense,
-  searchSiteExpense,
+  deleteExpense,
+  searchExpense,
   getByProjectIdAndSiteId,
-  getSiteExpenseDetailsBySiteExpenceId,
+  getExpenseDetailsByExpenceId,
 };

@@ -9,6 +9,7 @@ import {
   deleteByProjectInventoryId,
   getAllProjectInventorys,
   getByProjectId,
+  getByProjectIdAndSiteId,
   getByProjectInventoryId,
   searchProjectInventory,
   updateProjectInventory,
@@ -50,5 +51,11 @@ router.delete(
 router.post('/search', authMiddleware, searchProjectInventory);
 
 router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
+
+router.get(
+  '/get-by-project-id-and-site-id/:project_id/:site_id',
+  authMiddleware,
+  getByProjectIdAndSiteId
+);
 
 export default router;
