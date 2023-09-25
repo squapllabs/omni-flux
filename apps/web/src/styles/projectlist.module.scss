@@ -110,7 +110,7 @@ tr:hover {
   display: flex;
   justify-content: center;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  width: 23%;
+  width: 19%;
   border-radius: 2px;
 }
 .card:hover {
@@ -121,7 +121,7 @@ tr:hover {
   display: flex;
   justify-content: center;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  width: 47%;
+  width: 50%;
   column-gap: 50px;
   border-radius: 2px;
 }
@@ -137,10 +137,18 @@ tr:hover {
 .cardDiv {
   display: flex;
   justify-content: space-evenly;
-  padding: 10px;
+  padding: 10px 0px 10px 5px;
+}
+
+.barCarddDiv {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0px 10px 5px;
+
 }
 
 .chart {
   width: 100%;
-  padding: 20px 50px;
+  // font-size: xx-small;
+  padding: 20px 40px;
 }
