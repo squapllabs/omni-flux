@@ -184,8 +184,8 @@ const CustomSubCategoryAdd = (props: {
                       error={
                         formik.touched.description && formik.errors.description
                       }
-                      rows={5}
-                      maxCharacterCount={150}
+                      rows={10}
+                      maxCharacterCount={1000}
                     />
                   </div>
                   <div className={Styles.dateField}>

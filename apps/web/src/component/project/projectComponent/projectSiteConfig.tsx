@@ -270,14 +270,14 @@ const ProjectSiteConfig: React.FC = (props: any) => {
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th className={Styles.tableHeading}>S No</th>
-                <th className={Styles.tableHeadingSite}>Site</th>
-                <th className={Styles.tableHeading}>Site Address</th>
-                <th className={Styles.tableHeading}>Status</th>
-                <th className={Styles.tableHeading}>Estimated Budget</th>
-                <th className={Styles.tableHeading}>Actual Budget</th>
-                <th className={Styles.tableHeading}>Approver</th>
-                <th className={Styles.tableHeading}>Action</th>
+                <th>S No</th>
+                <th>Site</th>
+                <th>Site Address</th>
+                <th>Status</th>
+                <th>Estimated Budget</th>
+                <th>Actual Budget</th>
+                <th>Approver</th>
+                {/* <th className={Styles.tableHeading}>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -313,22 +313,22 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                       {row?.siteData?.site_contractor_id === undefined ? (
                         <div>
                           <span>
-                            {row.address?.street} {row.address?.city},{' '}
-                            {row.address?.state},
+                            {row.address?.street} {row.address?.city}{' '}
+                            {row.address?.state}{' '}
                           </span>
                           <span>
-                            {row.address?.country},{row.address?.pin_code}
+                            {row.address?.country} {row.address?.pin_code}
                           </span>
                         </div>
                       ) : (
                         <div>
                           <span>
                             {row.siteData.address?.street}{' '}
-                            {row.siteData.address?.city},{' '}
-                            {row.siteData.address?.state},
+                            {row.siteData.address?.city}{' '}
+                            {row.siteData.address?.state}
                           </span>
                           <span>
-                            {row.siteData.address?.country},
+                            {row.siteData.address?.country}{' '}
                             {row.siteData.address?.pin_code}
                           </span>
                         </div>
@@ -376,7 +376,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                         />
                       </div>
                     </td>
-                    <td>
+                    {/* <td>
                       <div className={Styles.actionIcon}>
                         <div
                           className={Styles.addPlan}
@@ -398,7 +398,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                           <p className={Styles.addText}> + Add Site Expense</p>
                         </div>
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}
