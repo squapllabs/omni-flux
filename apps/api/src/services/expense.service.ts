@@ -3,6 +3,7 @@ import siteDao from '../dao/siteContractor.dao';
 import projectDao from '../dao/project.dao';
 import { expenseBody } from '../interfaces/expense.interface';
 import prisma from '../utils/prisma';
+import { processFileDeleteInS3 } from '../utils/fileUpload';
 
 /**
  * Method to Create a New expense
@@ -177,6 +178,24 @@ const updateExpense = async (body: expenseBody) => {
       };
     }
 
+    const updatedBillDetails = [] as any;
+    let billDetails = [] as any;
+    if (bill_details) {
+      billDetails = bill_details;
+      for (const doc of billDetails) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === 'Y') {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedBillDetails.push(doc);
+        }
+      }
+    }
+
     result = await prisma
       .$transaction(async (prisma) => {
         const expenseDetails = await expenseDao.edit(
@@ -190,7 +209,7 @@ const updateExpense = async (body: expenseBody) => {
           designation,
           start_date,
           end_date,
-          bill_details,
+          updatedBillDetails,
           updated_by,
           status,
           expense_id,
