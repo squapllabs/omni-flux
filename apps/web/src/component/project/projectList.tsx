@@ -230,8 +230,6 @@ const ProjectList = () => {
                 <tbody>
                   {getFilterData?.total_count === 0 ? (
                     <tr>
-                      {/* <td></td>
-                      <td></td> */}
                       <td colSpan="7" style={{ textAlign: 'center' }}>
                         No data found
                       </td>

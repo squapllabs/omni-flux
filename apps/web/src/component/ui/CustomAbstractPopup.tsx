@@ -29,6 +29,7 @@ const CustomAbstractAdd = (props: {
   mode: any;
   categoryId: any;
   selectedBomConfig: any;
+  setMode:any;
 }) => {
   const {
     isVissible,
@@ -38,7 +39,10 @@ const CustomAbstractAdd = (props: {
     mode,
     categoryId,
     selectedBomConfig,
+    setMode,
   } = props;
+  console.log("props.mode---->",mode);
+  
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
   const { mutate: createNewAbstract } = createInstantCategory();
   const { mutate: updateCategoryData } = updateCategory();
@@ -67,7 +71,7 @@ const CustomAbstractAdd = (props: {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   useEffect(() => {
-    if (props.mode === 'EDIT') {
+    if (mode === 'EDIT') {
       const fetchOne = async () => {
         const data = await CategoryService.getOneCategoryByID(props.categoryId);
         setclientInitialValues({
@@ -90,7 +94,7 @@ const CustomAbstractAdd = (props: {
     validationSchema: validationSchemaAbstract,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      if (props.mode === 'EDIT') {
+      if (mode === 'EDIT') {
         const Object: any = {
           name: values.name,
           description: values.description,
@@ -107,9 +111,10 @@ const CustomAbstractAdd = (props: {
             if (data?.status === true) {
               setMessage('Abstract edited');
               setOpenSnack(true);
+              resetForm();
+              setclientInitialValues({})
               setReload(true);
               handleCloseForm();
-              resetForm();
             }
           },
         });
@@ -129,9 +134,9 @@ const CustomAbstractAdd = (props: {
             if (data?.status === true) {
               setMessage('Abstract created');
               setOpenSnack(true);
+              resetForm();
               setReload(true);
               handleCloseForm();
-              resetForm();
             }
           },
         });
@@ -140,8 +145,9 @@ const CustomAbstractAdd = (props: {
   });
 
   const handleCloseForm = () => {
-    onAction(false);
     formik.resetForm();
+    setclientInitialValues({})
+    onAction(false);
   };
 
   const handleSnackBarClose = () => {
@@ -157,7 +163,7 @@ const CustomAbstractAdd = (props: {
               <form onSubmit={formik.handleSubmit}>
                 <div className={Styles.header}>
                   <div>
-                    <h4>Add Abstract</h4>
+                    <h4> {mode === 'EDIT' ? 'Edit Abstract' : 'Add Abstract'}</h4>
                   </div>
                   <div>
                     <CloseIcon onClick={handleCloseForm} />
@@ -176,7 +182,7 @@ const CustomAbstractAdd = (props: {
                       error={formik.touched.name && formik.errors.name}
                     />
                   </div>
-                  {props.mode === 'EDIT' ? (
+                  {mode === 'EDIT' ? (
                     <div>
                       <Select
                         label="Status"

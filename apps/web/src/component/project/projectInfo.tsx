@@ -1,11 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Button from '../menu/button';
+import Button from '../ui/button';
 import Styles from '../../styles/projectInfo.module.scss';
 import CustomCard from '../ui/CustomCard';
 import { getByProjectId } from '../../hooks/project-hooks';
 import { format } from 'date-fns';
+import BackArrow from '../menu/icons/backArrow';
 
 const ProjectView = () => {
   const routeParams = useParams();
@@ -17,14 +18,26 @@ const ProjectView = () => {
     <div>
       <div className={Styles.title}>
         <h2>Project Information</h2>
-        <Button
+        {/* <Button
           text="Back"
           backgroundColor="#7F56D9"
           fontSize={14}
           fontWeight={500}
           width={100}
+          icon={<BackArrow />}
           onClick={() => navigate('/project-list')}
-        />
+        /> */}
+        <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<BackArrow />}
+                onClick={() => navigate('/project-list')}
+              >
+                Back
+              </Button>
       </div>
       <div className={Styles.cardContent}>
         <CustomCard>

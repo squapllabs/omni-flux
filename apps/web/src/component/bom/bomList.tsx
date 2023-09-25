@@ -187,6 +187,7 @@ const BomList = () => {
                         icon={<AddIcon width={20} color="white"/>}
                         onClick={() => {
                           setShowAbstractForm(true);
+                          setMode('Add')
                         }}
                       >
                         Add Abstract
@@ -351,6 +352,7 @@ const BomList = () => {
         selectedBomConfig={bomconfigId}
         setReload={setReload}
         mode={mode}
+        setMode={setMode}
         categoryId={categoryId}
       />
       <CustomSubCategoryAddPopup
