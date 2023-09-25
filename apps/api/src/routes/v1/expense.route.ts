@@ -10,6 +10,7 @@ import {
   searchExpense,
   updateExpense,
   getExpenseDetailsByExpenseId,
+  updateStatus,
 } from '../../controller/expense.controller';
 import { runValidation } from '../../validations/index';
 
@@ -41,7 +42,16 @@ router.get(
 
 router.get(
   '/get-expense-details-by-expense-id/:expense_id',
+  authMiddleware,
   getExpenseDetailsByExpenseId
+);
+
+router.put(
+  '/update-status',
+  expenseUpdateValidator,
+  runValidation,
+  authMiddleware,
+  updateStatus
 );
 
 export default router;

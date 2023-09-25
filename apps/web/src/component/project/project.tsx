@@ -31,7 +31,7 @@ const Project = () => {
     { label: 'Site Expense', value: 'PSE' },
     { label: 'Stock Outward', value: 'PSO' },
   ]);
-  const [activeButton, setActiveButton] = useState<string | null>('PDB');
+  const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
   useEffect(() => {
@@ -47,7 +47,7 @@ const Project = () => {
     if (routeParams?.id != undefined) {
       setActiveButton(value);
     } else {
-      setActiveButton('PDB');
+      setActiveButton('PGS');
     }
   };
   return (

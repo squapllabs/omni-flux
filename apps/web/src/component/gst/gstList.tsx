@@ -143,7 +143,7 @@ const GstList = () => {
                     <tr>
                       <th>S No</th>
                       <th>GST Rate</th>
-                      <th></th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>

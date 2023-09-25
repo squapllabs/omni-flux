@@ -294,6 +294,12 @@ const searchProjectMemberAssociation = async (
                   is_delete: false,
                 },
               },
+              user: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                },
+              },
             },
           },
           user_data: {

@@ -221,8 +221,6 @@ const edit = async (
       expense_details: expenseDetailsData,
     };
     return result;
-
-    return expense;
   } catch (error) {
     console.log('Error occurred in expenseDao edit', error);
     throw error;
@@ -464,6 +462,38 @@ const getExpenseDetailsByExpenceId = async (
   }
 };
 
+const updateStatus = async (
+  status: string,
+  comments: string,
+  progressed_by: number,
+  updated_by: number,
+  expense_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const expense = await transaction.expense.update({
+      where: {
+        expense_id: Number(expense_id),
+      },
+      data: {
+        status,
+        comments,
+        progressed_date: currentDate,
+        progressed_by,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+
+    return expense;
+  } catch (error) {
+    console.log('Error occurred in expenseDao updateStatus', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -473,4 +503,5 @@ export default {
   searchExpense,
   getByProjectIdAndSiteId,
   getExpenseDetailsByExpenceId,
+  updateStatus,
 };

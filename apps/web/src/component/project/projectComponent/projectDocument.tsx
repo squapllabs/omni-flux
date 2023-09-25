@@ -20,6 +20,7 @@ const ProjectDocument: React.FC = (props: any) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [projectDocs, setProjectDocs] = useState<any>([]);
   const [projectData, setProjectData] = useState<any>({});
+  const [dataCount,setDataCount] = useState(0);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const { mutate: updateProjectData } = updateProject();
@@ -113,6 +114,7 @@ const ProjectDocument: React.FC = (props: any) => {
       );
       setProjectData(getData?.data);
       setProjectDocs(getData?.data?.project_documents);
+      setDataCount(getData?.data?.project_documents.length)
     };
     if (routeParams?.id != undefined) fetchData();
   }, []);
@@ -133,6 +135,7 @@ const ProjectDocument: React.FC = (props: any) => {
       console.log('Error in occur project document upload:', error);
     }
   };
+  
   const handleSubmit = async () => {
     const s3UploadUrl: any = await handleDocuments(
       selectedFiles,

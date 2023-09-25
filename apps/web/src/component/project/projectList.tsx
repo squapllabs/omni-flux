@@ -24,15 +24,15 @@ import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import StoreIcon from '../menu/icons/storeIcon';
-import { Chart } from "react-google-charts";
-
+import { Chart } from 'react-google-charts';
 
 const ProjectList = () => {
   const state: RootState = store.getState();
   let encryptedData = getToken(state, 'Data');
   let userID: number = encryptedData.userId;
   const { isLoading: getAllLoading } = useGetAllProject();
-  const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus(); 
+  const { data: projectStatus, isLoading: getAllProjectStatusLoading } =
+    useGetAllProjectStatus();
 
   const {
     mutate: postDataForFilter,
@@ -147,32 +147,40 @@ const ProjectList = () => {
 
   const chartOptions1 = {
     chart: {
-      title: "Project Status",
-      subtitle: "Estimated Days, Completed Days",
+      title: 'Project Status',
+      subtitle: 'Estimated Days, Completed Days',
     },
   };
   const chartOptions2 = {
     chart: {
-      title: "Top Projects",
-      subtitle: "Top Projects Based on Budget",
-    }
+      title: 'Top Projects',
+      subtitle: 'Top Projects Based on Budget',
+    },
   };
 
-  const projectStatusData: any = [["Projects", "Total Days", "So Far"]];
-  projectStatus?.top_projects?.map(async(val: any) => {
-    await projectStatusData.push([val.project_name, val.project_total_days, val.days_completed])
+  const projectStatusData: any = [['Projects', 'Total Days', 'So Far']];
+  projectStatus?.top_projects?.map(async (val: any) => {
+    await projectStatusData.push([
+      val.project_name,
+      val.project_total_days,
+      val.days_completed,
+    ]);
   });
 
-  const topProjectsData: any = [["Projects", "Budget"]];
-  projectStatus?.top_projects?.map (async(val: any) => {
-    await topProjectsData.push([val.project_name, val.total_budget])
+  const topProjectsData: any = [['Projects', 'Budget']];
+  projectStatus?.top_projects?.map(async (val: any) => {
+    await topProjectsData.push([val.project_name, val.total_budget]);
   });
 
   return (
     <div className={Styles.container}>
       <div>
         <CustomLoader
-          loading = {getAllProjectStatusLoading === false ? getAllProjectStatusLoading : projectStatus}
+          loading={
+            getAllProjectStatusLoading === false
+              ? getAllProjectStatusLoading
+              : projectStatus
+          }
           size={48}
           color="#333C44"
         >
@@ -182,7 +190,9 @@ const ProjectList = () => {
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.cardTextStyle}>
-                      <h3><b>Total Projects</b></h3>
+                      <h3>
+                        <b>Total Projects</b>
+                      </h3>
                       <p>{projectStatus?.total_projects}</p>
                     </div>
                   </div>
@@ -190,32 +200,40 @@ const ProjectList = () => {
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.cardTextStyle}>
-                      <h3><b>Active Projects</b></h3>
-                      <p>{projectStatus?.active_projects}</p >
+                      <h3>
+                        <b>Active Projects</b>
+                      </h3>
+                      <p>{projectStatus?.active_projects}</p>
                     </div>
                   </div>
                 </div>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.cardTextStyle}>
-                      <h3><b>Completed Projects</b></h3>
-                      <p>{projectStatus?.completed_projects}</p> 
+                      <h3>
+                        <b>Completed Projects</b>
+                      </h3>
+                      <p>{projectStatus?.completed_projects}</p>
                     </div>
                   </div>
                 </div>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.cardTextStyle}>
-                      <h3><b>In-progress Projects</b></h3>
-                      <p>{projectStatus?.inprogress_projects}</p> 
+                      <h3>
+                        <b>In-progress Projects</b>
+                      </h3>
+                      <p>{projectStatus?.inprogress_projects}</p>
                     </div>
                   </div>
                 </div>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.cardTextStyle}>
-                      <h3><b>Not Started Projects</b></h3>
-                      <p>{projectStatus?.not_started_projects}</p> 
+                      <h3>
+                        <b>Not Started Projects</b>
+                      </h3>
+                      <p>{projectStatus?.not_started_projects}</p>
                     </div>
                   </div>
                 </div>
@@ -305,7 +323,7 @@ const ProjectList = () => {
                   justify="center"
                   size="small"
                   color="primary"
-                  icon={<AddIcon color='white'/>}
+                  icon={<AddIcon color="white" />}
                   onClick={() => navigate('/project')}
                 >
                   Add
@@ -341,15 +359,21 @@ const ProjectList = () => {
                     ''
                   )}
                   {getFilterData?.content?.map((data: any, index: number) => {
+                    console.log('getFilterData project naeee', getFilterData);
+
                     return (
                       <tr key={data.user_id}>
                         <td>{startingIndex + index}</td>
                         <td>{data?.project_data.project_name}</td>
                         <td>{data?.project_data.code}</td>
                         <td>
+                          {data?.project_data?.user?.first_name}{' '}
+                          {data?.project_data?.user?.last_name}
+                        </td>
+                        {/* <td>
                           {data?.user_data?.first_name}{' '}
                           {data?.user_data?.last_name}
-                        </td>
+                        </td> */}
                         <td>{data?.project_data.status}</td>
                         <td>
                           {format(
@@ -380,7 +404,13 @@ const ProjectList = () => {
                                   )
                                 }
                               />
-                              <StoreIcon onClick={() => navigate(`/project-inventory/${data?.project_data.project_id}`)}/>
+                              <StoreIcon
+                                onClick={() =>
+                                  navigate(
+                                    `/project-inventory/${data?.project_data.project_id}`
+                                  )
+                                }
+                              />
                               {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)

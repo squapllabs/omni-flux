@@ -4,6 +4,8 @@ import projectDao from '../dao/project.dao';
 import { expenseBody } from '../interfaces/expense.interface';
 import prisma from '../utils/prisma';
 import { processFileDeleteInS3 } from '../utils/fileUpload';
+import userDao from '../dao/user.dao';
+import expenseDetailsDao from '../dao/expenseDetails.dao';
 
 /**
  * Method to Create a New expense
@@ -557,6 +559,95 @@ const getExpenseDetailsByExpenseId = async (expense_id: number) => {
   }
 };
 
+/**
+ * Method to Update an Existing expense's Status
+ * @param body
+ * @returns
+ */
+
+const updateStatus = async (body: expenseBody) => {
+  try {
+    const { status, comments, progressed_by, updated_by, expense_id } = body;
+
+    const expenseExist = await expenseDao.getById(expense_id);
+    if (!expenseExist) {
+      return {
+        message: 'expense_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    if (progressed_by) {
+      const progressedByUserExist = await userDao.getById(progressed_by);
+      if (!progressedByUserExist) {
+        return {
+          message: 'progressed_by id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const result = await prisma
+      .$transaction(async (prisma) => {
+        const expenseData = await expenseDao.updateStatus(
+          status,
+          comments,
+          progressed_by,
+          updated_by,
+          expense_id,
+          prisma
+        );
+
+        const expenseDetailsByExpenseId =
+          await expenseDetailsDao.getByExpenseId(expense_id, prisma);
+
+        const expenseDetailsUpdatedData = [];
+        for (const expenseDetails of expenseDetailsByExpenseId) {
+          const expense_details_id = expenseDetails?.expense_details_id;
+
+          const expenseDetailsData = await expenseDetailsDao.updateStatus(
+            status,
+            comments,
+            progressed_by,
+            updated_by,
+            expense_details_id,
+            prisma
+          );
+
+          expenseDetailsUpdatedData.push(expenseDetailsData);
+        }
+
+        const expenseDataWithDetails = {
+          expense: expenseData,
+          expense_details: expenseDetailsUpdatedData,
+        };
+
+        return {
+          message: 'success',
+          status: true,
+          data: expenseDataWithDetails,
+        };
+      })
+      .then((data) => {
+        console.log('Successfully Expense Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in expenseDetails service updateStatus: ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createExpense,
   updateExpense,
@@ -566,4 +657,5 @@ export {
   searchExpense,
   getByProjectIdAndSiteId,
   getExpenseDetailsByExpenseId,
+  updateStatus,
 };

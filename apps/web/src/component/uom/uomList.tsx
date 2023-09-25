@@ -282,7 +282,7 @@ const UomList = () => {
                       <th>S No</th>
                       <th>UOM Name</th>
                       <th>Description</th>
-                      <th></th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
