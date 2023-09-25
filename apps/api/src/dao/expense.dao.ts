@@ -358,8 +358,8 @@ const searchExpense = async (
           },
         },
         project_data: {
-          select: {
-            project_name: true,
+          include: {
+            project_member_association: true,
           },
         },
       },
