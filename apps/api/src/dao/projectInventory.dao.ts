@@ -7,6 +7,7 @@ const add = async (
   available_quantity: number,
   total_cost: number,
   created_by: number,
+  site_id: number,
   connectionObj = null
 ) => {
   try {
@@ -20,6 +21,7 @@ const add = async (
         rate,
         available_quantity,
         total_cost,
+        site_id,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -40,6 +42,7 @@ const edit = async (
   available_quantity: number,
   total_cost: number,
   updated_by: number,
+  site_id: number,
   project_inventory_id: number,
   connectionObj = null
 ) => {
@@ -57,6 +60,7 @@ const edit = async (
         available_quantity,
         total_cost,
         updated_by,
+        site_id,
         updated_date: currentDate,
       },
     });
@@ -78,6 +82,7 @@ const getById = async (projectInventoryId: number, connectionObj = null) => {
       include: {
         project_data: true,
         item_data: true,
+        site_data: true,
       },
     });
     return projectInventory;
@@ -97,6 +102,7 @@ const getAll = async (connectionObj = null) => {
       include: {
         project_data: true,
         item_data: true,
+        site_data: true,
       },
       orderBy: [
         {
@@ -151,6 +157,7 @@ const searchProjectInventory = async (
       include: {
         project_data: true,
         item_data: true,
+        site_data: true,
       },
       orderBy: [
         {
@@ -193,6 +200,7 @@ const getByProjectIdAndItemId = async (
       include: {
         project_data: true,
         item_data: true,
+        site_data: true,
       },
     });
     return projectInventory;
@@ -247,11 +255,42 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
       include: {
         project_data: true,
         item_data: { include: { uom: { select: { name: true } } } },
+        site_data: true,
       },
     });
     return projectInventory;
   } catch (error) {
     console.log('Error occurred in projectInventory getByProjectId dao', error);
+    throw error;
+  }
+};
+
+const getByProjectIdAndSiteId = async (
+  project_id: number,
+  site_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const projectInventory = await transaction.project_inventory.findMany({
+      where: {
+        project_id: Number(project_id),
+        site_id: Number(site_id),
+        is_delete: false,
+      },
+      include: {
+        project_data: true,
+        item_data: { include: { uom: { select: { name: true } } } },
+        site_data: true,
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return projectInventory;
+  } catch (error) {
+    console.log(
+      'Error occurred in projectInventory getByProjectIdAndSiteId dao',
+      error
+    );
     throw error;
   }
 };
@@ -266,4 +305,5 @@ export default {
   getByProjectIdAndItemId,
   updateQuantityByProjectInventoryId,
   getByProjectId,
+  getByProjectIdAndSiteId,
 };

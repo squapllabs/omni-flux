@@ -89,23 +89,27 @@ export const getCreateValidateyup = (yup: any) => {
       .of(
         yup.object().shape({
           approvar_id: yup.string().trim().required('Approver is required'), // Validate approvar_id
-          estimation: yup.number().required('Estimation is required')
-          .typeError('Only numbers are allowed') 
-          .test('site-budget', 'Site budget is greater than estimated budget', 
-          function(estimation: any,{ parent }: yup.TestContext) {
-            const estimated_budget = parent;
-            console.log("estimated_budget =>",estimated_budget);
-            console.log("estimation -->",estimation);
-            console.log("estimation type =>",typeof(estimation));
-            if (estimation > estimated_budget) {
-              return false; // Site budget is greater than estimated budget
-            }
-            return true;
-          }
-          ),
+          estimation: yup
+            .number()
+            .required('Estimation is required')
+            .typeError('Only numbers are allowed')
+            .test(
+              'site-budget',
+              'Site budget is greater than estimated budget',
+              function (estimation: any, { parent }: yup.TestContext) {
+                const estimated_budget = parent;
+                console.log('estimated_budget =>', estimated_budget);
+                console.log('estimation -->', estimation);
+                console.log('estimation type =>', typeof estimation);
+                if (estimation > estimated_budget) {
+                  return false; // Site budget is greater than estimated budget
+                }
+                return true;
+              }
+            ),
         })
       ),
-  }); 
+  });
 };
 
 export const getEditValidateyup = (yup: any) => {
@@ -150,5 +154,12 @@ export const getEditValidateyup = (yup: any) => {
           return true; // No duplicate site_id found
         }
       ),
+  });
+};
+
+export const getProjectStockAuditValidate = (yup: any) => {
+  return yup.object().shape({
+    site_id: yup.string().trim().required(ProjectMessages.SELECT_SITE),
+    // site_audit_date: yup.date().required('Site Audit Date id required'),
   });
 };

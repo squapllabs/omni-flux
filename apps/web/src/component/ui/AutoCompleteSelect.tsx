@@ -72,6 +72,7 @@ const OptionList = styled.ul`
   padding: 0;
   margin: 0;
   list-style: none;
+  text-align: left;
   li {
     padding: 8px 12px;
     cursor: pointer;

@@ -231,7 +231,7 @@ const PurchaseRequestAdd = () => {
                   justify="center"
                   size="small"
                   type="submit"
-                  icon={<AddIcon />}
+                  icon={<AddIcon color='white'/>}
                 >
                   Add
                 </Button>
@@ -305,7 +305,7 @@ const PurchaseRequestAdd = () => {
               justify="center"
               size="small"
               onClick={handleSubmit}
-              icon={<AddIcon />}
+              icon={<AddIcon color='white'/>}
             >
               Raise Purchase Request
             </Button>

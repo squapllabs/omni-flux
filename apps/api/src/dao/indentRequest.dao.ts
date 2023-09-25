@@ -14,6 +14,7 @@ const add = async (
   rejected_date: Date,
   approver_comments: string,
   created_by: number,
+  site_id: number,
   indent_request_details,
   project_id: number,
   connectionObj = null
@@ -53,6 +54,7 @@ const add = async (
             approver_comments,
             project_id,
             created_by,
+            site_id,
             created_date: currentDate,
             updated_date: currentDate,
             is_delete: is_delete,
@@ -124,6 +126,7 @@ const edit = async (
   updated_by: number,
   indent_request_details,
   project_id: number,
+  site_id: number,
   indent_request_id: number,
   connectionObj = null
 ) => {
@@ -163,6 +166,7 @@ const edit = async (
             rejected_date: formatted_rejected_date,
             approver_comments,
             project_id,
+            site_id,
             updated_by,
             updated_date: currentDate,
           },
@@ -255,6 +259,7 @@ const getById = async (indentRequestId: number, connectionObj = null) => {
         requester_user_data: { select: { first_name: true, last_name: true } },
         approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
+        site_data: true,
         indent_request_details: {
           where: { is_delete: false },
           include: {
@@ -290,6 +295,7 @@ const getAll = async (connectionObj = null) => {
         requester_user_data: { select: { first_name: true, last_name: true } },
         approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
+        site_data: true,
         indent_request_details: {
           where: { is_delete: false },
           include: {
@@ -360,6 +366,7 @@ const searchIndentRequest = async (
         requester_user_data: { select: { first_name: true, last_name: true } },
         approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
+        site_data: true,
         indent_request_details: {
           where: { is_delete: false },
           include: {
@@ -413,6 +420,7 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
         requester_user_data: { select: { first_name: true, last_name: true } },
         approver_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
+        site_data: true,
         indent_request_details: {
           where: { is_delete: false },
           include: {

@@ -156,7 +156,7 @@ const PurchaseView = () => {
                 color="primary"
                 onClick={() => {navigate('/purchase-request-add',{state:{project_id: projectId,indent_id:indentId}})}}
               >
-                <AddIcon />
+                <AddIcon color='white' />
                 Create PR
               </Button>
             </div>

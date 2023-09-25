@@ -169,7 +169,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
               {bomConfig?.map((item: any, index: any) => {
                 rowIndex = rowIndex + 1;
                 return (
-                  <>
+                  // <>
                     <tr>
                       <td>{rowIndex}</td>
                       <td>{item?.bom_name}</td>
@@ -196,7 +196,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                         </div>
                       </td>
                     </tr>
-                  </>
+                  // </>
                 );
               })}
               <tr>

@@ -484,7 +484,7 @@ const ProductSale: React.FC = (props: any) => {
                 justify="center"
                 size="small"
                 color="primary"
-                icon={<AddIcon width={20} />}
+                icon={<AddIcon width={20} color='white'/>}
                 type="button"
                 onClick={handleAddItems}
               >

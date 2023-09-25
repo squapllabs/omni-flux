@@ -181,6 +181,26 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const handelOpenSiteForm = () => {
     setShowSiteForm(true);
   };
+  const handleChangeNewRowItems = async (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ) => {
+    const { name, value } = event.target;
+    const updatedSiteConfigData = [...siteConfigData];
+    updatedSiteConfigData[index][name] = value;
+
+    // Update the address when a site is selected
+    if (name === 'site_id') {
+      const siteId = value;
+      const siteData = await siteService.getOneSiteById(siteId);
+      updatedSiteConfigData[index].address = siteData?.data?.address;
+    }
+
+    setSiteConfigData(updatedSiteConfigData);
+  };
+  const addEmptyRow = () => {
+    setSiteConfigData([...siteConfigData, {}]); // Add an empty object
+  };
   const handleChangeItems = async (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -262,6 +282,8 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </thead>
             <tbody>
               {siteConfigData.map((row, index) => {
+                console.log('row', row);
+
                 rowIndex = rowIndex + 1;
                 return (
                   <tr key={index}>
@@ -275,9 +297,12 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                             defaultLabel="Select Site"
                             placeholder="Select from options"
                             value={row?.site_id}
-                            onChange={(e) => handleChangeExistItems(e, index)}
+                            onChange={(e) => handleChangeNewRowItems(e, index)} // Use handleChangeNewRowItems here
                             onSelect={(value) => {
-                              setValue({ ...value, ['site_id']: value });
+                              handleChangeNewRowItems(
+                                { target: { name: 'site_id', value } },
+                                index
+                              ); // Use handleChangeNewRowItems here
                             }}
                             optionList={getAllSite}
                           />
@@ -357,7 +382,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                           className={Styles.addPlan}
                           onClick={() => {
                             navigate(
-                              `/expenses/${routeParams.id}/${row?.project_site_id}`
+                              `/expenses/${routeParams.id}/${row?.site_id}`
                             );
                             // navigate(
                             //   `/bomlist/${routeParams.id}/${row?.bom_configuration_id}`
@@ -370,15 +395,14 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                                 : 'auto',
                           }}
                         >
-                          <AddIcon style={{ height: '15px', width: '15px' }} />
-                          <p className={Styles.addText}>Add Site Expense</p>
+                          <p className={Styles.addText}> + Add Site Expense</p>
                         </div>
                       </div>
                     </td>
                   </tr>
                 );
               })}
-              <tr>
+              {/* <tr>
                 <td>{rowIndex + 1}</td>
                 <td>
                   <div className={Styles.selectedProjectName}>
@@ -497,7 +521,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                     </div>
                   </div>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
           <div className={Styles.buttonContent}>
@@ -507,7 +531,18 @@ const ProjectSiteConfig: React.FC = (props: any) => {
               shape="rectangle"
               size="small"
               justify="center"
-              icon={<AddIcon />}
+              icon={<AddIcon color="white" />}
+              onClick={addEmptyRow}
+            >
+              Add Site
+            </Button>
+            <Button
+              type="button"
+              color="primary"
+              shape="rectangle"
+              size="small"
+              justify="center"
+              icon={<AddIcon color="white" />}
               onClick={(e) => {
                 handleSubmit(e);
               }}

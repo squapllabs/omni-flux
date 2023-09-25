@@ -30,10 +30,9 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
       purchase_request_documents,
     } = body;
 
+    let indentRequestExist = null;
     if (indent_request_id) {
-      const indentRequestExist = await indentRequestDao.getById(
-        indent_request_id
-      );
+      indentRequestExist = await indentRequestDao.getById(indent_request_id);
       if (!indentRequestExist) {
         return {
           message: 'indent_request_id does not exist',
@@ -84,6 +83,7 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
           status,
           vendor_selection_method,
           project_id,
+          indentRequestExist?.site_id,
           selected_vendor_id,
           total_cost,
           created_by,
@@ -150,10 +150,9 @@ const updatePurchaseRequest = async (req) => {
       return result;
     }
 
+    let indentRequestExist = null;
     if (indent_request_id) {
-      const indentRequestExist = await indentRequestDao.getById(
-        indent_request_id
-      );
+      indentRequestExist = await indentRequestDao.getById(indent_request_id);
       if (!indentRequestExist) {
         return {
           message: 'indent_request_id does not exist',
@@ -247,6 +246,7 @@ const updatePurchaseRequest = async (req) => {
       status,
       vendor_selection_method,
       Number(project_id),
+      indentRequestExist?.site_id,
       Number(selected_vendor_id),
       Number(total_cost),
       Number(updated_by),
