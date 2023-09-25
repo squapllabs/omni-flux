@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/homeSettings.module.scss';
-import CustomGroupButton from "../ui/CustomGroupButton";
-import Category from "../category/category";
-import UserList from "../users/userList";
-import MasterData from "../masterData/masterData";
-import LeadList from "../leadEnquires/leadList";
-import VendorList from "../vendor/vendorList";
+import CustomGroupButton from '../ui/CustomGroupButton';
+import Category from '../category/category';
+import UserList from '../users/userList';
+import MasterData from '../masterData/masterData';
+import LeadList from '../leadEnquires/leadList';
+import VendorList from '../vendor/vendorList';
 import LabourList from '../labour/labourList';
 import PurchaseList from '../purchaseApproval/purchaseList';
 import PlanEngApproval from '../indentApproval/indentList';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import SideNav from '../ui/SubmenuNav';
+import PurchaseOrderList from '../purchaseOrder/purchaseOrder';
+import FinanceInvoiceView from '../finance/invoiceView';
 const Settings = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
-  const roleName = encryptedData?.userData?.user_roles[0]?.role_data?.role_name
+  const roleName = encryptedData?.userData?.user_roles[0]?.role_data?.role_name;
 
   const menuItems = [
     { label: 'Category', value: 'C' },
@@ -26,7 +28,7 @@ const Settings = () => {
     { label: 'Labour List', value: 'LB' },
   ];
 
- const menuItemsCategory = [
+  const menuItemsCategory = [
     {
       id: 1,
       name: 'Category',
@@ -61,16 +63,22 @@ const Settings = () => {
     menuItems.push({ label: 'Indent Approval', value: 'IA' });
   }
   if (roleName === 'Purchase Manager') {
-    menuItems.push({ label: 'Purchase List', value: 'PL' });
+    menuItems.push(
+      { label: 'Purchase List', value: 'PL' },
+      { label: 'Purchase Order', value: 'PO' }
+    );
   }
- 
+  if (roleName === 'Finance Manager') {
+    menuItems.push({ label: 'Invoice', value: 'FMV' });
+  }
+
   const [selectedItem, setSelectedItem] = useState<number>(1);
   const [buttonLabels, setButtonLabels] = useState(menuItems);
   const [activeButton, setActiveButton] = useState<string | null>('C');
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-   const handleMenuItemClick = (id: number) => {
+  const handleMenuItemClick = (id: number) => {
     setSelectedItem(id);
   };
   return (
@@ -83,7 +91,7 @@ const Settings = () => {
             onClick={handleGroupButtonClick}
             activeButton={activeButton}
           />
-		    {activeButton == 'C' && (
+          {activeButton == 'C' && (
             <SideNav
               menuItemsCategory={menuItemsCategory}
               selectedItem={selectedItem}
@@ -94,7 +102,7 @@ const Settings = () => {
       </div>
       <div className={Styles.dividerLine}></div>
       <div>
-        {activeButton === 'C' && <Category selectedItem={selectedItem}  />}
+        {activeButton === 'C' && <Category selectedItem={selectedItem} />}
         {activeButton === 'M' && <MasterData />}
         {activeButton === 'U' && <UserList />}
         {activeButton === 'LL' && <LeadList />}
@@ -102,6 +110,8 @@ const Settings = () => {
         {activeButton === 'LB' && <LabourList />}
         {activeButton === 'IA' && <PlanEngApproval />}
         {activeButton === 'PL' && <PurchaseList />}
+        {activeButton === 'PO' && <PurchaseOrderList />}
+        {activeButton === 'FMV' && <FinanceInvoiceView />}
       </div>
     </div>
   );
