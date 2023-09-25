@@ -37,7 +37,7 @@ const CustomSubCategoryAdd = (props: {
     setMode,
     selectedBomConfig,
   } = props;
-  console.log('!!!!!!!!!!', selectedSubCategory);
+  // console.log('!!!!!!!!!!', selectedSubCategory);
 
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = createInstantSubcategory();

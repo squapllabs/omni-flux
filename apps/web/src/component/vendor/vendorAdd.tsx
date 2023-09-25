@@ -22,8 +22,9 @@ const AddVendor = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
   const location = useLocation();
-  const projectId = location.state.project_id;
-  const indentId = location.state.indent_id;
+  const locationState = location.state || {};
+  const projectId = locationState.project_id || null;
+  const indentId = locationState.indent_id || null;
   const { mutate: createNewVendor } = createVendor();
   const { mutate: updateVendors } = updateVendor();
   const state: RootState = store.getState();
@@ -565,17 +566,6 @@ const AddVendor = () => {
                   Back
                 </Button>
               )}
-              {/* <Button
-                color="secondary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={() => {
-                  navigate('/settings');
-                }}
-              >
-                Back
-              </Button> */}
             </div>
             <div>
               {routeParams.id ? (

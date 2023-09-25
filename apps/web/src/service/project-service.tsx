@@ -13,6 +13,19 @@ const getAllProject = async () => {
   }
 };
 
+const getAllProjectStatus = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project/get-dashboard`
+    );
+    return response.data.data; 
+  }
+  catch (error) {
+    console.log("Error in getAllProjectStatus() SERVICE", error);
+    throw error;
+  }
+}
+
 const createProjectData = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -145,6 +158,7 @@ const getOneProjectSite = async (values: any) => {
 };
 export default {
   getAllProject,
+  getAllProjectStatus,
   createProjectData,
   checkProjectCodeDuplicate,
   filterProject,

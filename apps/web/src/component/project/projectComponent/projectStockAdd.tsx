@@ -113,7 +113,7 @@ const ProjectStockAdd = () => {
             <div className={Styles.backButton}>
               <Button
                 type="button"
-                color="secondary"
+                color="primary"
                 shape="rectangle"
                 size="small"
                 justify="center"

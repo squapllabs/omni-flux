@@ -4,6 +4,7 @@ import {
   getByProject,
   useDeleteProjects,
   useGetAllProject,
+  useGetAllProjectStatus,
   getMemberBasedProject,
 } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
@@ -23,12 +24,16 @@ import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import StoreIcon from '../menu/icons/storeIcon';
+import { Chart } from "react-google-charts";
+
 
 const ProjectList = () => {
   const state: RootState = store.getState();
   let encryptedData = getToken(state, 'Data');
   let userID: number = encryptedData.userId;
   const { isLoading: getAllLoading } = useGetAllProject();
+  const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus(); 
+
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -139,14 +144,107 @@ const ProjectList = () => {
     setOpenDeleteSnack(false);
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
+  const chartOptions1 = {
+    chart: {
+      title: "Project Status",
+      subtitle: "Estimated Days, Completed Days",
+    },
+  };
+  const chartOptions2 = {
+    chart: {
+      title: "Top Projects",
+      subtitle: "Top Projects Based on Budget",
+    }
+  };
+
+  const projectStatusData: any = [["Projects", "Total Days", "So Far"]];
+  projectStatus?.top_projects?.map(async(val: any) => {
+    await projectStatusData.push([val.project_name, val.project_total_days, val.days_completed])
+  });
+
+  const topProjectsData: any = [["Projects", "Budget"]];
+  projectStatus?.top_projects?.map (async(val: any) => {
+    await topProjectsData.push([val.project_name, val.total_budget])
+  });
+
   return (
     <div className={Styles.container}>
-      <div className={Styles.dashBoardcontainer}>
-        <CustomCard>
-          <div className={Styles.dashBoard}>
-            <h3>Dashboard Under Construction</h3>
+      <div>
+        <CustomLoader
+          loading = {getAllProjectStatusLoading === false ? getAllProjectStatusLoading : projectStatus}
+          size={48}
+          color="#333C44"
+        >
+          <div className={Styles.dashBoardcontainer}>
+            <CustomCard>
+              <div className={Styles.cardDiv}>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                    <div className={Styles.cardTextStyle}>
+                      <h3><b>Total Projects</b></h3>
+                      <p>{projectStatus?.total_projects}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                    <div className={Styles.cardTextStyle}>
+                      <h3><b>Active Projects</b></h3>
+                      <p>{projectStatus?.active_projects}</p >
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                    <div className={Styles.cardTextStyle}>
+                      <h3><b>Completed Projects</b></h3>
+                      <p>{projectStatus?.completed_projects}</p> 
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                    <div className={Styles.cardTextStyle}>
+                      <h3><b>In-progress Projects</b></h3>
+                      <p>{projectStatus?.inprogress_projects}</p> 
+                    </div>
+                  </div>
+                </div>
+                <div className={Styles.card}>
+                  <div className={Styles.cardContainer}>
+                    <div className={Styles.cardTextStyle}>
+                      <h3><b>Not Started Projects</b></h3>
+                      <p>{projectStatus?.not_started_projects}</p> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={Styles.barCarddDiv}>
+                <div className={Styles.graphCard}>
+                  <div className={Styles.chart}>
+                    <Chart
+                      chartType="Bar"
+                      height="400px"
+                      data={projectStatusData}
+                      options={chartOptions1}
+                    />
+                  </div>
+                </div>
+                <div className={Styles.graphCard}>
+                  <div className={Styles.chart}>
+                    <Chart
+                      chartType="Bar"
+                      height="400px"
+                      data={topProjectsData}
+                      options={chartOptions2}
+                    />
+                  </div>
+                </div>
+              </div>
+            </CustomCard>
           </div>
-        </CustomCard>
+        </CustomLoader>
       </div>
       <div>
         <CustomLoader
