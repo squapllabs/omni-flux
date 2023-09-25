@@ -77,6 +77,8 @@ const createmasertData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
+      console.log("data hook",data);
+      
       return masertDataService.createmasertData(data);
     },
     {

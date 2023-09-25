@@ -104,6 +104,19 @@ const ProjectStockmanagement = () => {
                 Add
               </Button>
             </div>
+            <div>
+              <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<AddIcon width={20} color="white" />}
+                
+              >
+                Site Expance
+              </Button>
+            </div>
           </div>
         </div>
         <div className={Styles.tableContainer}>

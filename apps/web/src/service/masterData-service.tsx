@@ -49,6 +49,8 @@ const getOnemasertDataByType = async (values: any) => {
 
 const createmasertData = async (values: JSON) => {
   try {
+    console.log("data service",values);
+    
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/master-data/`,
       values
