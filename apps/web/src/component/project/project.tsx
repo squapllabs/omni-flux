@@ -3,6 +3,7 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import Button from '../ui/Button';
 import Styles from '../../styles/project.module.scss';
 import ProjectGeneralDetails from './projectComponent/projectGeneralDetails';
+import ProjectDashboard from './projectComponent/projectDashboard';
 import ProjectBomConfig from './projectComponent/projectBomConfig';
 import ProjectSiteConfig from './projectComponent/projectSiteConfig';
 import CustomLoader from '../ui/customLoader';
@@ -19,6 +20,7 @@ import ProjectStockOutward from '../stockOutward/stockOutwardList';
 const Project = () => {
   const routeParams = useParams();
   const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Dashboard', value: 'PDB' },
     { label: 'Generic', value: 'PGS' },
     { label: 'Settings', value: 'PSG' },
     { label: 'Site Configuration', value: 'PSC' },
@@ -29,7 +31,7 @@ const Project = () => {
     { label: 'Site Expense', value: 'PSE' },
     { label: 'Stock Outward', value: 'PSO' },
   ]);
-  const [activeButton, setActiveButton] = useState<string | null>('PGS');
+  const [activeButton, setActiveButton] = useState<string | null>('PDB');
   const [loader, setLoader] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
   useEffect(() => {
@@ -45,7 +47,7 @@ const Project = () => {
     if (routeParams?.id != undefined) {
       setActiveButton(value);
     } else {
-      setActiveButton('PGS');
+      setActiveButton('PDB');
     }
   };
   return (
@@ -80,6 +82,15 @@ const Project = () => {
           </div>
           <div className={Styles.box}>
             <div className={Styles.mainBody}>
+              {activeButton === 'PDB' ? (
+                <ProjectDashboard
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
               {activeButton === 'PGS' ? (
                 <ProjectGeneralDetails
                   setActiveButton={setActiveButton}

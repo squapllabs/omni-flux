@@ -33,6 +33,16 @@ const getAllProject = catchAsync(async (req, res) => {
   }
 });
 
+const getAllDashboard = catchAsync(async (req, res) => {
+  const methodName = '/getDashboard';
+  try {
+    const project = await projectService.getAllDashboard();
+    res.send(project);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 const getByProjectId = catchAsync(async (req, res) => {
   const methodName = '/getByProjectId';
   try {
@@ -92,4 +102,5 @@ export {
   searchProject,
   checkDuplicateCode,
   getByProjectIdAndSiteId,
+  getAllDashboard
 };
