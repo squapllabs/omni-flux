@@ -18,6 +18,7 @@ import CheckIcon from '../../menu/icons/checkIcon';
 import CustomSnackBar from '../../ui/customSnackBar';
 import { getProjectStockAuditValidate } from '../../../helper/constants/project-constants';
 import StockAuditService from '../../../service/stockaudit-service';
+import BackArrow from '../../menu/icons/backArrow';
 
 const ProjectStockAdd = () => {
   const routeParams = useParams();
@@ -104,20 +105,35 @@ const ProjectStockAdd = () => {
         <div className={Styles.box}>
           <div className={Styles.mainTextContent}>
             <div className={Styles.textContent_1}>
-              <h3>Stock Audit Add</h3>
+              <h3>Project Name :{getProjectData?.project_name}</h3>
               <span className={Styles.content}>
                 Add your Stock audit in day basis
               </span>
             </div>
-            <div
+            <div className={Styles.backButton}>
+              <Button
+                type="button"
+                color="secondary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<BackArrow />}
+                onClick={(e) => {
+                  navigate(`/project-edit/${routeParams?.id}`);
+                }}
+              >
+                Back
+              </Button>
+            </div>
+            {/* <div
               style={{
                 width: '70%',
                 display: 'flex',
                 justifyContent: 'flex-end',
               }}
             >
-              <h3>Project Name :{getProjectData?.project_name}</h3>
-            </div>
+              <p>back button</p>
+            </div> */}
           </div>
         </div>
         <div

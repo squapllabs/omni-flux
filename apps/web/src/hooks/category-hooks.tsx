@@ -114,6 +114,19 @@ const getBySearchCategroy = () => {
     }
   );
 };
+const useGetMasterAbstractStatusParentType = () => {
+  return useQuery(
+    ['useGetAllAbstractStatusType'],
+    () => CategoryService.getAllAbstractStatusParentType(),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project.master_data_name,
+          label: project.master_data_name,
+        })),
+    }
+  );
+};
 export {
   useGetAllCategory,
   getByCategoryID,
@@ -123,5 +136,6 @@ export {
   useGetAllCategoryForDrop,
   getBySearchCategroy,
   useGetAllCategoryByProjectId,
-  createInstantCategory
+  createInstantCategory,
+  useGetMasterAbstractStatusParentType
 };
