@@ -8,6 +8,7 @@ import {
   checkDuplicateCode,
   createProject,
   deleteByProjectId,
+  getAllDashboard,
   getAllProject,
   getByProjectId,
   getByProjectIdAndSiteId,
@@ -45,5 +46,7 @@ router.post('/search', authMiddleware, searchProject);
 router.get('/check-duplicate-code/:code', authMiddleware, checkDuplicateCode);
 
 router.post('/get-project-site', authMiddleware, getByProjectIdAndSiteId);
+
+router.get('/get-dashboard', authMiddleware, getAllDashboard);
 
 export default router;

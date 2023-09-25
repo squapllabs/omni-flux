@@ -222,12 +222,12 @@ const SiteExpensesForm = () => {
         <div className={Styles.top}>
           <div className={Styles.textContent}>
             <h3>Add Site Expense</h3>
-            <span className={Styles.content}>Add your site expense.</span>
+            <span className={Styles.content}>Add your site expense</span>
           </div>
           <div className={Styles.backButton}>
               <Button
                 type="button"
-                color="secondary"
+                color="primary"
                 shape="rectangle"
                 size="small"
                 justify="center"

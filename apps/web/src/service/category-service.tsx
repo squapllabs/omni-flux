@@ -13,12 +13,12 @@ const getAllCategory = async () => {
   }
 };
 const getAllCategoryByProjectId = async (values: any) => {
-  console.log("service api called",values);
+  // console.log("service api called",values);
   try {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/category/get-by-project-id/${values.projectId}/${values.bomconfigId}`
     );
-    console.log("service api return",response.data);
+    // console.log("service api return",response.data);
     return response.data;
   } catch (error) {
     console.log('Error in getting all getAllCategoryByProjectId:', error);

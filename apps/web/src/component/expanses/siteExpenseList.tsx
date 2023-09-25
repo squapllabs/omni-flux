@@ -20,7 +20,7 @@ const SiteExpenseList = () => {
     data: getExpenseList,
     isLoading: fetchLoader,
   } = getBySearchsiteExpense();
-  console.log('getExpenseList', getExpenseList?.content);
+  // console.log('getExpenseList', getExpenseList?.content);
 
   const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
   const [currentPage, setCurrentPage] = useState(1);
