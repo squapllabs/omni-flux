@@ -123,6 +123,20 @@ const getUserDataProjectRolebased = (value: any) => {
   );
 };
 
+const getUserIDProjectRolebased = (value: any) => {
+  return useQuery(
+    ['getUserIdroleAndProjectBased', value],
+    () => ProjectService.getProjectDataBasedOnUserandRole(value),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project?.project_data?.project_id,
+          label: project?.project_data?.project_name,
+        })),
+    }
+  );
+};
+
 const updateProject = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -190,4 +204,5 @@ export {
   getMemberBasedProject,
   getUserDataProjectRolebased,
   getProjectSite,
+  getUserIDProjectRolebased
 };

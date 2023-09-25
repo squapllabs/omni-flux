@@ -12,6 +12,8 @@ import PlanEngApproval from '../indentApproval/indentList';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import SideNav from '../ui/SubmenuNav';
+import ExpenseApprove from '../expanses/siteExpenseApprove';
+
 const Settings = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -63,6 +65,9 @@ const Settings = () => {
   if (roleName === 'Purchase Manager') {
     menuItems.push({ label: 'Purchase List', value: 'PL' });
   }
+  if (roleName === 'Project Manager') {
+    menuItems.push({ label: 'Expense Approve', value: 'EA' });
+  }
  
   const [selectedItem, setSelectedItem] = useState<number>(1);
   const [buttonLabels, setButtonLabels] = useState(menuItems);
@@ -102,6 +107,7 @@ const Settings = () => {
         {activeButton === 'LB' && <LabourList />}
         {activeButton === 'IA' && <PlanEngApproval />}
         {activeButton === 'PL' && <PurchaseList />}
+        {activeButton === 'EA' && <ExpenseApprove />}
       </div>
     </div>
   );
