@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../ui/Button';
 import CancelIcon from '../menu/icons/closeIcon';
 import RejectIcon from '../menu/icons/cancelIcon';
+import Input from './Input';
 
 interface DialogBoxProps {
   title: string;
   open: boolean;
   handleClose: () => void;
-  handleConfirm: () => void;
   contentLine1: string;
   contentLine2: string;
+  onReject: (comments: string) => void;
 }
 
-const RejectDialogBox: React.FC<DialogBoxProps> = ({
+const RejectDialogBox: React.FC<DialogBoxProps> & { onReject: (comments: string) => void } = ({
   title,
   open,
   handleClose,
-  handleConfirm,
   contentLine1,
   contentLine2,
+  onReject,
 }) => {
+  const [comments, setComments] = useState('');
+  
   if (!open) return null;
 
   const dialogStyle: React.CSSProperties = {
@@ -74,12 +77,12 @@ const RejectDialogBox: React.FC<DialogBoxProps> = ({
   };
 
   const mainContentStyle: React.CSSProperties = {
-    display: 'flex', 
-    flexDirection: 'row'
+    display: 'flex',
+    flexDirection: 'row',
   };
 
   const iconContentStyle: React.CSSProperties = {
-    padding: '15px'
+    padding: '15px',
   };
 
   return (
@@ -87,12 +90,19 @@ const RejectDialogBox: React.FC<DialogBoxProps> = ({
       <div style={boxStyle}>
         <div style={mainContentStyle}>
           <div style={iconContentStyle}>
-              <RejectIcon color="red"/>
+            <RejectIcon color="red" />
           </div>
           <div>
             <h4 style={titleStyle}>{title}</h4>
             <p style={contentStyle}>{contentLine1}</p>
             <p style={contentStyle}>{contentLine2}</p>
+            <Input
+                name="comments"
+                label="Comments"
+                placeholder="Enter comments"
+                value={comments}
+                onChange={(e) => setComments(e.target.value)}
+              />
           </div>
           <div style={iconContentStyle}>
             <CancelIcon onClick={handleClose} />
@@ -119,7 +129,9 @@ const RejectDialogBox: React.FC<DialogBoxProps> = ({
             shape="rectangle"
             justify="center"
             size="small"
-            onClick={handleConfirm}
+            onClick={() => {
+              onReject(comments); 
+            }}
           >
             Reject
           </Button>

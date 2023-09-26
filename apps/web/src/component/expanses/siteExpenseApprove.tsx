@@ -53,6 +53,7 @@ const ExpenseApprove = () => {
   const [expenseList, setExpenseList] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [comments, setComments] = useState('');
 
   const [initialValues, setInitialValues] = useState({
     employee_name: '',
@@ -68,6 +69,8 @@ const ExpenseApprove = () => {
     expense_id: '',
     comments: '',
     status: '',
+    progressed_by:'',
+    updated_by: '',
   });
 
   const handleSearch = async () => {
@@ -131,6 +134,8 @@ const ExpenseApprove = () => {
         site_id: datas?.data?.site_id,
         comments: datas?.data?.comments,
         status: datas?.data?.status,
+        progressed_by: datas?.data?.progressed_by,
+        updated_by: datas?.data?.updated_by
       });
     };
     if (value !== undefined) fetchData();
@@ -182,6 +187,7 @@ const ExpenseApprove = () => {
       expense_id: initialValues.expense_id,
       bill_details: expenseBill,
       status: 'Approved',
+      progressed_by: userID,
     };
     updateSiteExpenseData(object, {
       onSuccess(data, variables, context) {
@@ -214,8 +220,9 @@ const ExpenseApprove = () => {
       updated_by: encryptedData?.userId,
       expense_id: initialValues.expense_id,
       bill_details: expenseBill,
-      comments:'No Proper Listings',
+      comments:comments,
       status: 'Rejected',
+      progressed_by: userID,
     };
     updateSiteExpenseData(object, {
       onSuccess(data, variables, context) {
@@ -236,6 +243,43 @@ const ExpenseApprove = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const handleRejectWithComments = (comments: string) => {
+    console.log('Rejected with comments:', comments);
+    const object: any = {
+      site_id: initialValues.site_id,
+      employee_name: initialValues.employee_name,
+      employee_id: initialValues.employee_id,
+      employee_phone: initialValues.employee_phone,
+      end_date: initialValues.end_date,
+      start_date: initialValues.start_date,
+      purpose: initialValues.purpose,
+      department: initialValues.department,
+      designation: initialValues.designation,
+      expense_details: expenseList,
+      updated_by: encryptedData?.userId,
+      expense_id: initialValues.expense_id,
+      bill_details: expenseBill,
+      comments:comments,
+      status: 'Rejected',
+      progressed_by: userID,
+    };
+    updateSiteExpenseData(object, {
+      onSuccess(data, variables, context) {
+        if (data?.status === true) {
+          setMessage('Site Expense has been Rejected');
+          setOpenSnack(true);
+          setReload(true);
+          handleCloseReject();
+          handleReset();
+          setTimeout(() => {
+            navigate('/settings');
+          }, 3000);
+        }
+      },
+    });
+  };
+
 
   return (
     <div className={Styles.container}>
@@ -330,7 +374,7 @@ const ExpenseApprove = () => {
                       <td>{items?.status}</td>
                       <td>
                         <div className={Styles.tableIcon}>
-                          {/* <InfoIcon /> */}
+                          <InfoIcon onClick={() => navigate(`/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`)}/>
                           <TickIcon
                             onClick={() => approveHandler(items.expense_id)}
                           />
@@ -369,7 +413,8 @@ const ExpenseApprove = () => {
         contentLine1="Are you sure want to reject this expense ?"
         contentLine2=""
         handleClose={handleCloseReject}
-        handleConfirm={rejectSite}
+        // handleConfirm={rejectSite}
+        onReject={handleRejectWithComments}
       />
       <CustomSnackBar
         open={openSnack}
