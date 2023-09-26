@@ -145,6 +145,17 @@ const getUserDataRolebasedandProjectBased = async (value: any) => {
     throw error;
   }
 };
+const getProjectDataBasedOnUserandRole = async (value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project-member-association/get-by-user-id-and-project-role-id/${value?.userID}/${value?.roleID}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all users:', error);
+    throw error;
+  }
+}
 const getOneProjectSite = async (values: any) => {
   try {
     const response = await axiosinterceptor.get(
@@ -170,4 +181,5 @@ export default {
   filterProjectmemberBased,
   getUserDataRolebasedandProjectBased,
   getOneProjectSite,
+  getProjectDataBasedOnUserandRole,
 };

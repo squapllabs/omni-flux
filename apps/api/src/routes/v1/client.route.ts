@@ -9,6 +9,7 @@ import {
   deleteByClientId,
   getAllClients,
   getByClientId,
+  getByName,
   searchClient,
   updateClient,
 } from '../../controller/client.controller';
@@ -39,5 +40,7 @@ router.get('/get/:client_id', authMiddleware, getByClientId);
 router.delete('/delete/:client_id', authMiddleware, deleteByClientId);
 
 router.post('/search-client', authMiddleware, searchClient);
+
+router.get('/check-duplicate-name/:name', authMiddleware, getByName);
 
 export default router;

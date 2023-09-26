@@ -260,6 +260,7 @@ import StockOutWardView from '../component/stockOutward/stockOutwardView';
 import StockOutwardEdit from '../component/stockOutward/stockOutwardEdit';
 import ProjectStockAuditView from '../component/project/projectComponent/projectStockAuditView';
 import FinanceInvoiceView from '../component/finance/invoiceView';
+import ExpenseApprove from '../component/expanses/siteExpenseApprove';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -351,6 +352,7 @@ const AppRoutes = () => {
   const ProtectedSiteExpensesForm = withLayoutAndProtection(SiteExpensesForm);
   const ProtectedFinanceInvoiceList =
     withLayoutAndProtection(FinanceInvoiceView);
+  const ProtectedSiteExpensesApprove = withLayoutAndProtection(ExpenseApprove);
 
   return (
     <div>
@@ -546,6 +548,7 @@ const AppRoutes = () => {
           element={<ProtectedProjectInventory />}
         />
         <Route path="/finance-view" element={<ProtectedFinanceInvoiceList />} />
+        <Route path="/site-expense-approve" element={<ProtectedSiteExpensesApprove />} />
       </Routes>
     </div>
   );

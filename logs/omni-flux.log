@@ -9109,6 +9109,7 @@ type master_dataWhereInput {
 }
 
 
+<<<<<<< HEAD
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
 Invalid `transaction.master_data.findFirst()` invocation in
 D:\ERP\project\omni-flux\apps\api\src\dao\masterData.dao.ts:289:56
@@ -9464,3 +9465,182 @@ D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
 Can't reach database server at `3.108.30.2`:`5432`
 
 Please make sure your database server is running at `3.108.30.2`:`5432`.
+=======
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany({
+          where: {
+            is_delete: false,
+            AND: [
+              {
+                project_id: 137
+                ~~~~~~~~~~
+              }
+            ]
+          },
+          include: {
+            parent: true,
+            children: true
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 5
+        })
+
+Unknown arg `project_id` in where.AND.0.project_id for type master_dataWhereInput. Available args:
+
+type master_dataWhereInput {
+  AND?: master_dataWhereInput | List<master_dataWhereInput>
+  OR?: List<master_dataWhereInput>
+  NOT?: master_dataWhereInput | List<master_dataWhereInput>
+  master_data_id?: IntFilter | Int
+  master_data_name?: StringFilter | String
+  master_data_description?: StringNullableFilter | String | Null
+  master_data_type?: StringFilter | String
+  parent_master_data_id?: IntNullableFilter | Int | Null
+  is_delete?: BoolFilter | Boolean
+  created_date?: DateTimeFilter | DateTime
+  updated_date?: DateTimeFilter | DateTime
+  created_by?: IntNullableFilter | Int | Null
+  updated_by?: IntNullableFilter | Int | Null
+  parent?: Master_dataRelationFilter | master_dataWhereInput | Null
+  children?: Master_dataListRelationFilter
+  leadEnquiries?: Lead_enquiryListRelationFilter
+  lead_enquiry_product?: Lead_enquiry_productListRelationFilter
+  lead_enquiry_tender?: Lead_enquiry_tenderListRelationFilter
+  vendor_as_vendor_category?: VendorListRelationFilter
+  vendor_as_preferred_payment_method?: VendorListRelationFilter
+  item?: ItemListRelationFilter
+  bom_configuration?: Bom_configurationListRelationFilter
+  expense_details?: Expense_detailsListRelationFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany({
+          where: {
+            is_delete: false,
+            AND: [
+              {
+                project_id: 137
+                ~~~~~~~~~~
+              }
+            ]
+          },
+          include: {
+            parent: true,
+            children: true
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 5
+        })
+
+Unknown arg `project_id` in where.AND.0.project_id for type master_dataWhereInput. Available args:
+
+type master_dataWhereInput {
+  AND?: master_dataWhereInput | List<master_dataWhereInput>
+  OR?: List<master_dataWhereInput>
+  NOT?: master_dataWhereInput | List<master_dataWhereInput>
+  master_data_id?: IntFilter | Int
+  master_data_name?: StringFilter | String
+  master_data_description?: StringNullableFilter | String | Null
+  master_data_type?: StringFilter | String
+  parent_master_data_id?: IntNullableFilter | Int | Null
+  is_delete?: BoolFilter | Boolean
+  created_date?: DateTimeFilter | DateTime
+  updated_date?: DateTimeFilter | DateTime
+  created_by?: IntNullableFilter | Int | Null
+  updated_by?: IntNullableFilter | Int | Null
+  parent?: Master_dataRelationFilter | master_dataWhereInput | Null
+  children?: Master_dataListRelationFilter
+  leadEnquiries?: Lead_enquiryListRelationFilter
+  lead_enquiry_product?: Lead_enquiry_productListRelationFilter
+  lead_enquiry_tender?: Lead_enquiry_tenderListRelationFilter
+  vendor_as_vendor_category?: VendorListRelationFilter
+  vendor_as_preferred_payment_method?: VendorListRelationFilter
+  item?: ItemListRelationFilter
+  bom_configuration?: Bom_configurationListRelationFilter
+  expense_details?: Expense_detailsListRelationFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany({
+          where: {
+            is_delete: false,
+            AND: [
+              {
+                project_id: 137
+                ~~~~~~~~~~
+              }
+            ]
+          },
+          include: {
+            parent: true,
+            children: true
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 5
+        })
+
+Unknown arg `project_id` in where.AND.0.project_id for type master_dataWhereInput. Available args:
+
+type master_dataWhereInput {
+  AND?: master_dataWhereInput | List<master_dataWhereInput>
+  OR?: List<master_dataWhereInput>
+  NOT?: master_dataWhereInput | List<master_dataWhereInput>
+  master_data_id?: IntFilter | Int
+  master_data_name?: StringFilter | String
+  master_data_description?: StringNullableFilter | String | Null
+  master_data_type?: StringFilter | String
+  parent_master_data_id?: IntNullableFilter | Int | Null
+  is_delete?: BoolFilter | Boolean
+  created_date?: DateTimeFilter | DateTime
+  updated_date?: DateTimeFilter | DateTime
+  created_by?: IntNullableFilter | Int | Null
+  updated_by?: IntNullableFilter | Int | Null
+  parent?: Master_dataRelationFilter | master_dataWhereInput | Null
+  children?: Master_dataListRelationFilter
+  leadEnquiries?: Lead_enquiryListRelationFilter
+  lead_enquiry_product?: Lead_enquiry_productListRelationFilter
+  lead_enquiry_tender?: Lead_enquiry_tenderListRelationFilter
+  vendor_as_vendor_category?: VendorListRelationFilter
+  vendor_as_preferred_payment_method?: VendorListRelationFilter
+  item?: ItemListRelationFilter
+  bom_configuration?: Bom_configurationListRelationFilter
+  expense_details?: Expense_detailsListRelationFilter
+}
+
+
+>>>>>>> fdf52a1269904e75380eb2e9fe81c59ea6a3b8b8

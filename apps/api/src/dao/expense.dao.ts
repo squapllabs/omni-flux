@@ -381,7 +381,7 @@ const searchExpense = async (
     };
     return expenseData;
   } catch (error) {
-    console.log('Error occurred in Site Expense dao : searchExpense ', error);
+    console.log('Error occurred in Expense dao : searchExpense ', error);
     throw error;
   }
 };

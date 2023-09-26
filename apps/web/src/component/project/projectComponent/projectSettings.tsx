@@ -594,6 +594,7 @@ const MasterData: React.FC = (props: {
     project_id: projectId
   });
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [openSnack, setOpenSnack] = useState(false);
