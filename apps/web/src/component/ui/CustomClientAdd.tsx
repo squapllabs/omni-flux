@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Input from '../ui/Input';
@@ -24,7 +24,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
     initialValues: clientinitialValues,
     validationSchema: validationSchemaClient,
     enableReinitialize: true,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       const Object: any = {
         name: values.name,
         contact_details: values.contact_details,
@@ -35,6 +35,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
             setMessage('Client created');
             setOpenSnack(true);
             handleCloseForm();
+            resetForm();
           }
         },
       });
@@ -43,6 +44,7 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
 
   const handleCloseForm = () => {
     onAction(false);
+    formikOne.resetForm();
   };
 
   const handleSnackBarClose = () => {
@@ -85,8 +87,8 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                 </div>
                 <div className={Styles1.field}>
                   <Input
-                    label="Contact Detail"
-                    placeholder="Enter client contact detail"
+                    label="Contact Number"
+                    placeholder="Enter client contact number"
                     name="contact_details"
                     value={formikOne.values.contact_details}
                     onChange={formikOne.handleChange}

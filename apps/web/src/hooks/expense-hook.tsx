@@ -50,6 +50,20 @@ const updatesiteExpense = () => {
   );
 };
 
+const updatesiteExpenseDetail = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return siteExpenseService.updatesiteExpenseDetail(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllsiteExpense']);
+      },
+    }
+  );
+};
+
 const useDeletesiteExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -98,4 +112,5 @@ export {
   useDeletesiteExpense,
   getBySearchsiteExpense,
   useBulkuploadSiteExpanse,
+  updatesiteExpenseDetail,
 };

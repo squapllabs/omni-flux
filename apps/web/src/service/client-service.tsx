@@ -71,6 +71,19 @@ const filterClient = async (values: JSON) => {
     throw error;
   }
 };
+
+const getOneClientByName = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/client/check-duplicate-name/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne client name  :', error);
+    throw error;
+  }
+};
+
 export default {
   getAllClient,
   getOneClientByID,
@@ -78,4 +91,5 @@ export default {
   updateClient,
   deleteClient,
   filterClient,
+  getOneClientByName
 };
