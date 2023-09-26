@@ -8,6 +8,13 @@
   padding-left: 10px;
   padding-top: 10px;
 }
+.textContent1 {
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+}
 .content {
   font-size: 0.7rem;
 }
@@ -35,6 +42,13 @@
 .fields_container_2 {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+.fields_container_3 {
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   gap: 20px;
@@ -132,6 +146,9 @@
   width: 30%;
 }
 .tablerow {
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
   cursor: pointer;
 }
 
@@ -167,7 +184,7 @@
   td {
     border: 1px solid #000000;
     text-align: left;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 11px;
   }
   thead {
@@ -176,6 +193,7 @@
         background-color: #f2f2f2;
         text-transform: uppercase;
         margin-top: 10px;
+        font-weight: 700;
       }
     }
   }
@@ -196,5 +214,22 @@
 
 .pagination {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
+
+.pagination1 {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.addPlan {
+  color: #7f56d9;
+  font-weight: lighter;
+  font-size: small;
+  cursor: pointer;
+}
+.addPlan:hover .addText{
+  opacity: .5;
+}
+

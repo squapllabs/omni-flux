@@ -25,7 +25,21 @@ import Pagination from '../../menu/pagination';
 import CustomDelete from '../../ui/customDeleteDialogBox';
 import CustomSnackBar from '../../ui/customSnackBar';
 import * as Yup from 'yup';
-import { getProjectMemberCreationYupschema } from '../../../helper/constants/projectSettings-constants';
+import {
+  getProjectMemberCreationYupschema,
+  getCreateMasterValidateyup
+} from '../../../helper/constants/projectSettings-constants';
+import TextArea from '../../ui/CustomTextArea';
+import {
+  useGetAllmasertData,
+  createmasertData,
+  useGetAllPaginatedMasterData,
+  useDeletemasertData,
+} from '../../../hooks/masertData-hook';
+import { getByProjectId } from '../../../hooks/project-hooks'
+import EditIcon from '../../menu/icons/editIcon';
+import CustomEditDialog from '../../ui/customEditDialogBox';
+import ProjectMasterDataEditForm from './projectMasterDataEdit'
 
 const ProjectSettings: React.FC = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,6 +52,7 @@ const ProjectSettings: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [dataShow, setDataShow] = useState(false);
+  const [componentShow, setComponentShow] = useState(false)
   const [filterValues, setFilterValues] = useState({
     global_search: '',
   });
@@ -54,13 +69,15 @@ const ProjectSettings: React.FC = (props: any) => {
     { label: 'Inactive', value: 'IN' },
   ]);
   const [filter, setFilter] = useState(false);
+  const [projectId, setProjectId] = useState(Number(routeParams?.id))
+
   const [initialValues, setInitialValues] = useState({
     project_role_id: '',
     project_role_name: '',
     user_id: '',
     access_start_date: '',
     access_end_date: '',
-    project_id: Number(routeParams?.id),
+    project_id: Number(routeParams?.id)
   });
 
   const object: any = {
@@ -187,6 +204,7 @@ const ProjectSettings: React.FC = (props: any) => {
             //   navigate('/settings');
             // }, 1000);
             resetForm();
+            refetch();
           }
         },
       });
@@ -226,8 +244,10 @@ const ProjectSettings: React.FC = (props: any) => {
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
-    handleSearch();
+    refetch();
   };
+
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
@@ -430,9 +450,9 @@ const ProjectSettings: React.FC = (props: any) => {
                               {data?.access_end_date == null
                                 ? '-'
                                 : format(
-                                    new Date(data?.access_end_date),
-                                    'MMM dd, yyyy'
-                                  )}
+                                  new Date(data?.access_end_date),
+                                  'MMM dd, yyyy'
+                                )}
                             </td>
                             {activeButton === 'AC' && (
                               <td>
@@ -487,9 +507,9 @@ const ProjectSettings: React.FC = (props: any) => {
                           {data?.access_end_date == null
                             ? '-'
                             : format(
-                                new Date(data?.access_end_date),
-                                'MMM dd, yyyy'
-                              )}
+                              new Date(data?.access_end_date),
+                              'MMM dd, yyyy'
+                            )}
                         </td>
                         {activeButton === 'AC' && (
                           <td>
@@ -510,22 +530,32 @@ const ProjectSettings: React.FC = (props: any) => {
                 </tbody>
               </table>
             </div>
+
             <div className={Styles.pagination}>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
-                }
-                totalCount={
-                  dataShow
-                    ? getFilterData?.total_count
-                    : initialData?.total_count
-                }
-                rowsPerPage={rowsPerPage}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-              />
+              {/* <div className={Styles.addPlan} onClick={() => setComponentShow(true)}>
+                <div className={Styles.addText}>Click here for create new Master Data
+                  against your Project
+                </div>
+              </div> */}
+              <div>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={
+                    dataShow ? getFilterData?.total_page : initialData?.total_page
+                  }
+                  totalCount={
+                    dataShow
+                      ? getFilterData?.total_count
+                      : initialData?.total_count
+                  }
+                  rowsPerPage={rowsPerPage}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                />
+              </div>
             </div>
+            {/* {componentShow ? <MasterData projectId={projectId} /> : ""} */}
+            <MasterData projectId={projectId} />
           </div>
         </div>
       </CustomLoader>
@@ -548,4 +578,334 @@ const ProjectSettings: React.FC = (props: any) => {
   );
 };
 
-export default ProjectSettings;
+export default ProjectSettings
+
+
+const MasterData: React.FC = (props: {
+  projectId: any;
+}) => {
+  const { projectId } = props;
+  const [initialValues, setInitialValues] = useState({
+    master_data_id: '',
+    master_data_name: '',
+    master_data_description: '',
+    master_data_type: '',
+    parent_master_data_id: '',
+    project_id: projectId
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [message, setMessage] = useState('');
+  const [reload, setReload] = useState(false);
+  const { mutate: postMasterData } = createmasertData();
+  const { data: getProjectData } = getByProjectId(projectId);
+  const { mutate: getDeleteMasterDataID } = useDeletemasertData();
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  const [value, setValue] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IN' },
+  ]);
+  const [masterDataId, setMasterDataId] = useState();
+  const [mode, setMode] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const masterData = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: '',
+    project_id: projectId,
+    parent_id: null,
+    project_master_data: false,
+  };
+
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedMasterData(masterData);
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton]);
+
+
+  /* Function for changing the table page */
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  /* Function for group button (Active and Inactive status) */
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
+
+  /* Function for changing no of rows in pagination */
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+
+
+  const deleteMasterData = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+
+  /* Function for closing the delete popup */
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  /* Function for deleting a category */
+  const deleteMasterDataId = () => {
+    getDeleteMasterDataID(value);
+    handleCloseDelete();
+    setMessage('Successfully Deleted');
+    setOpenSnack(true);
+    refetch();
+  };
+
+  const handleEdit = (value: any) => {
+    setMode('EDIT');
+    setMasterDataId(value);
+    setOpen(true);
+  };
+
+  const validationSchema = getCreateMasterValidateyup(Yup)
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
+      const object = {
+        master_data_name: values.master_data_name,
+        master_data_description: values.master_data_description,
+        master_data_type: values.master_data_type,
+        project_id: projectId,
+      };
+
+      postMasterData(object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.message === 'success') {
+            setMessage('Master Data created');
+            setOpenSnack(true);
+            resetForm();
+            refetch();
+          }
+        },
+      });
+    }
+  });
+
+
+  return (
+    <>
+      <div className={Styles.dividerStyle}></div>
+      <div className={Styles.conatiner}>
+
+        <div className={Styles.box}>
+          <div className={Styles.textContent}>
+            <h3>Add New Master Data Against Your Project</h3>
+            <span className={Styles.content}>
+              Manage your master data across your application
+            </span>
+          </div>
+          <form onSubmit={formik.handleSubmit}>
+            <div className={Styles.fields_container}>
+              <div className={Styles.fields_container_1}>
+                <div className={Styles.inputField}>
+                  <Input
+                    name="master_data_name"
+                    label="Name"
+                    placeholder="Enter master name"
+                    value={formik.values.master_data_name}
+                    onChange={formik.handleChange}
+                    mandatory={true}
+                    error={
+                      formik.touched.master_data_name &&
+                      formik.errors.master_data_name
+                    }
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    name="master_data_type"
+                    label="Code"
+                    placeholder="Enter code"
+                    value={formik.values.master_data_type}
+                    onChange={formik.handleChange}
+                    mandatory={true}
+                    error={
+                      formik.touched.master_data_type &&
+                      formik.errors.master_data_type
+                    }
+                  />
+                </div>
+              </div>
+              <div className={Styles.fields_container_2}>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Project"
+                    width="350px"
+                    value={getProjectData?.project_name}
+                    disabled={true}
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <TextArea
+                    name="master_data_description"
+                    label="Description"
+                    placeholder="Enter description"
+                    value={formik.values.master_data_description}
+                    onChange={formik.handleChange}
+                    mandatory={true}
+                    error={
+                      formik.touched.master_data_description &&
+                      formik.errors.master_data_description
+                    }
+                    rows={3}
+                    maxCharacterCount={120}
+                  />
+                </div>
+                <div >
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                  >
+                    Add
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className={Styles.box}>
+          <div className={Styles.textContent1}>
+            <h3>List of Master Data</h3>
+
+            <CustomGroupButton
+              labels={buttonLabels}
+              onClick={handleGroupButtonClick}
+              activeButton={activeButton}
+            />
+          </div>
+          <div className={Styles.tableContainer}>
+            <div>
+              <table className={Styles.scrollable_table}>
+                <thead>
+                  <tr>
+                    <th className={Styles.tableHeading}>S No</th>
+                    <th className={Styles.tableHeading}>Name</th>
+                    <th className={Styles.tableHeading}>Description</th>
+                    <th className={Styles.tableHeading}>Code</th>
+                    {activeButton === 'AC' && <th>Action</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {initialData?.total_count === 0 ?
+                    (<tr>
+                      <td colSpan="5" style={{textAlign:"center"}}>No data found</td>
+                    </tr>) :
+                    (initialData?.content?.map((item: any, index: number) => {
+
+                      return (
+                        <tr key={item?.master_data_id}>
+                          <td>{startingIndex + index}</td>
+                          <td>{item?.master_data_name}</td>
+                          <td>{item?.master_data_description}</td>
+                          <td>{item?.master_data_type}</td>
+                          {activeButton === 'AC' && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() =>
+                                    handleEdit(item?.master_data_id)
+                                  }
+                                />
+                                {/* <DeleteIcon
+                                  onClick={() =>
+                                    deleteMasterData(
+                                      item?.master_data_id
+                                    )
+                                  }
+                                /> */}
+                              </div>
+                            </td>
+                          )}
+
+                        </tr>
+                      )
+                    }))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={Styles.pagination1}>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={
+                initialData?.total_page
+              }
+              totalCount={
+                initialData?.total_count
+              }
+              rowsPerPage={rowsPerPage}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+            />
+          </div>
+        </div>
+        <CustomDelete
+          open={openDelete}
+          title="Delete Master Data"
+          contentLine1="Are you sure you want to delete this master data ?"
+          contentLine2=""
+          handleClose={handleCloseDelete}
+          handleConfirm={deleteMasterDataId}
+        />
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
+        <CustomEditDialog
+          open={open}
+          content={
+            <ProjectMasterDataEditForm
+              setOpen={setOpen}
+              open={open}
+              setReload={setReload}
+              mode={mode}
+              masterID={masterDataId}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+            />
+          }
+        />
+      </div>
+    </>
+  )
+}
+
+

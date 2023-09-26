@@ -27,8 +27,13 @@ import { Chart } from 'react-google-charts';
 
 const ProjectList = () => {
   const state: RootState = store.getState();
-  let encryptedData = getToken(state, 'Data');
-  let userID: number = encryptedData.userId;
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
+  const roleName =
+    encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
+  // console.log('roleNAme', roleName);
+  const isProjectCreate = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN';
+  const isProjectEdit = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' || roleName === 'SITE ENGINEER' || roleName === 'PLANNING ENGINEER';
   const { isLoading: getAllLoading } = useGetAllProject();
 
   const {
@@ -154,8 +159,10 @@ const ProjectList = () => {
             <div className={Styles.textStyle}>
               <h3>List of Projects</h3>
             </div>
-            <div className={Styles.textStyle}>
-              <h6>Project List</h6>
+            <div className={Styles.textStyleDescription}>
+              <span>
+                Manage your entire project throught out the organization
+              </span>
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>
@@ -197,18 +204,20 @@ const ProjectList = () => {
                   activeButton={activeButton}
                 />
               </div>
-              <div>
-                <Button
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  color="primary"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => navigate('/project')}
-                >
-                  Add
-                </Button>
-              </div>
+              {isProjectCreate && (
+                <div>
+                  <Button
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    color="primary"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/project')}
+                  >
+                    Add
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>
@@ -264,13 +273,18 @@ const ProjectList = () => {
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/project-edit/${data?.project_data.project_id}`
-                                  )
-                                }
-                              />
+                            {isProjectEdit && (
+                              <div>
+                                {' '}
+                                <EditIcon
+                                  onClick={() =>
+                                    navigate(
+                                      `/project-edit/${data?.project_data.project_id}`
+                                    )
+                                  }
+                                />
+                              </div>
+                            )}
                               <ViewIcon
                                 onClick={() =>
                                   navigate(

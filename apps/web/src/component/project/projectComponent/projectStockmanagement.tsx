@@ -89,7 +89,18 @@ const ProjectStockmanagement = () => {
               <h3>Stock Audit</h3>
               <span className={Styles.content}>Project Stock auditing</span>
             </div>
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+              <div>
+                <Button
+                  type="button"
+                  color="primary"
+                  shape="rectangle"
+                  size="small"
+                  justify="center"
+                >
+                  Stock Adjustment
+                </Button>
+              </div>
               <Button
                 type="button"
                 color="primary"
@@ -184,7 +195,9 @@ const ProjectStockmanagement = () => {
                 })
               ) : (
                 <tr>
-                  <td colSpan="5" style={{textAlign:'center'}}>No data found</td>
+                  <td colSpan="5" style={{ textAlign: 'center' }}>
+                    No data found
+                  </td>
                 </tr>
               )}
             </tbody>

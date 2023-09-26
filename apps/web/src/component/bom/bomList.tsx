@@ -338,7 +338,7 @@ const BomList = () => {
                   color="primary"
                   shape="rectangle"
                   size="small"
-                  icon={<AddIcon width={20} />}
+                  icon={<AddIcon width={20}  color='white'/>}
                   onClick={() => {
                     setShowAbstractForm(true);
                   }}
