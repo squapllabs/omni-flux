@@ -181,26 +181,6 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const handelOpenSiteForm = () => {
     setShowSiteForm(true);
   };
-  const handleChangeNewRowItems = async (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ) => {
-    const { name, value } = event.target;
-    const updatedSiteConfigData = [...siteConfigData];
-    updatedSiteConfigData[index][name] = value;
-
-    // Update the address when a site is selected
-    if (name === 'site_id') {
-      const siteId = value;
-      const siteData = await siteService.getOneSiteById(siteId);
-      updatedSiteConfigData[index].address = siteData?.data?.address;
-    }
-
-    setSiteConfigData(updatedSiteConfigData);
-  };
-  const addEmptyRow = () => {
-    setSiteConfigData([...siteConfigData, {}]); // Add an empty object
-  };
   const handleChangeItems = async (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -225,6 +205,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
     });
   };
 
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
   const handleSubmit = () => {
     const obj: any = {
       ...projectData,
@@ -270,20 +253,18 @@ const ProjectSiteConfig: React.FC = (props: any) => {
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th>S No</th>
-                <th>Site</th>
-                <th>Site Address</th>
-                <th>Status</th>
-                <th>Estimated Budget</th>
-                <th>Actual Budget</th>
-                <th>Approver</th>
-                {/* <th className={Styles.tableHeading}>Action</th> */}
+                <th className={Styles.tableHeading}>S No</th>
+                <th className={Styles.tableHeadingSite}>Site</th>
+                <th className={Styles.tableHeading}>Site Address</th>
+                <th className={Styles.tableHeading}>Status</th>
+                <th className={Styles.tableHeading}>Estimated Budget</th>
+                <th className={Styles.tableHeading}>Actual Budget</th>
+                <th className={Styles.tableHeading}>Approver</th>
+                <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
             <tbody>
               {siteConfigData.map((row, index) => {
-                // console.log('row', row);
-
                 rowIndex = rowIndex + 1;
                 return (
                   <tr key={index}>
@@ -297,12 +278,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                             defaultLabel="Select Site"
                             placeholder="Select from options"
                             value={row?.site_id}
-                            onChange={(e) => handleChangeNewRowItems(e, index)} // Use handleChangeNewRowItems here
+                            onChange={(e) => handleChangeExistItems(e, index)}
                             onSelect={(value) => {
-                              handleChangeNewRowItems(
-                                { target: { name: 'site_id', value } },
-                                index
-                              ); // Use handleChangeNewRowItems here
+                              setValue({ ...value, ['site_id']: value });
                             }}
                             optionList={getAllSite}
                           />
@@ -313,22 +291,22 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                       {row?.siteData?.site_contractor_id === undefined ? (
                         <div>
                           <span>
-                            {row.address?.street} {row.address?.city}{' '}
-                            {row.address?.state}{' '}
+                            {row.address?.street} {row.address?.city},{' '}
+                            {row.address?.state},
                           </span>
                           <span>
-                            {row.address?.country} {row.address?.pin_code}
+                            {row.address?.country},{row.address?.pin_code}
                           </span>
                         </div>
                       ) : (
                         <div>
                           <span>
                             {row.siteData.address?.street}{' '}
-                            {row.siteData.address?.city}{' '}
-                            {row.siteData.address?.state}
+                            {row.siteData.address?.city},{' '}
+                            {row.siteData.address?.state},
                           </span>
                           <span>
-                            {row.siteData.address?.country}{' '}
+                            {row.siteData.address?.country},
                             {row.siteData.address?.pin_code}
                           </span>
                         </div>
@@ -376,13 +354,15 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                         />
                       </div>
                     </td>
-                    {/* <td>
-                      <div className={Styles.actionIcon}>
+                    <td>
+                    {/* <DeleteIcon /> */}
+                      {/* <p>sample</p> */}
+                      {/* <div className={Styles.actionIcon}>
                         <div
                           className={Styles.addPlan}
                           onClick={() => {
                             navigate(
-                              `/expenses/${routeParams.id}/${row?.site_id}`
+                              `/expenses/${routeParams.id}/${row?.project_site_id}`
                             );
                             // navigate(
                             //   `/bomlist/${routeParams.id}/${row?.bom_configuration_id}`
@@ -395,14 +375,15 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                                 : 'auto',
                           }}
                         >
-                          <p className={Styles.addText}> + Add Site Expense</p>
+                          <AddIcon style={{ height: '15px', width: '15px'}} />
+                          <p className={Styles.addText}>Add Site Expense</p>
                         </div>
-                      </div>
-                    </td> */}
+                      </div> */}
+                    </td>
                   </tr>
                 );
               })}
-              {/* <tr>
+              <tr>
                 <td>{rowIndex + 1}</td>
                 <td>
                   <div className={Styles.selectedProjectName}>
@@ -521,7 +502,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                     </div>
                   </div>
                 </td>
-              </tr> */}
+              </tr>
             </tbody>
           </table>
           <div className={Styles.buttonContent}>
@@ -531,18 +512,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
               shape="rectangle"
               size="small"
               justify="center"
-              icon={<AddIcon color="white" />}
-              onClick={addEmptyRow}
-            >
-              Add Site
-            </Button>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-              icon={<AddIcon color="white" />}
+              icon={<AddIcon color="white"/>}
               onClick={(e) => {
                 handleSubmit(e);
               }}
@@ -556,6 +526,13 @@ const ProjectSiteConfig: React.FC = (props: any) => {
         isVissiblesite={showSiteForm}
         onActionsite={setShowSiteForm}
       />
+      <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
     </div>
   );
 };

@@ -142,7 +142,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
           <thead>
             <tr>
               <th className={Styles.tableHeading}>S No</th>
-              <th className={Styles.tableHeadingSite}>BOM</th>
+              <th className={Styles.tableHeadingSite}>Item</th>
               <th className={Styles.tableHeadingSite}>UOM</th>
               <th className={Styles.tableHeading}>Quantity</th>
               <th className={Styles.tableHeading}>Cost</th>
@@ -152,6 +152,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
           <tbody>
             {props.indentRequestDetailsList?.map((items: any, index: any) => {
               console.log("props",items);
+              console.log("props.indentRequestDetailsList",props.indentRequestDetailsList);
               if (items?.is_delete === false) {
                 rowIndex = rowIndex + 1;
                 return (
@@ -163,7 +164,8 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         defaultLabel="Select from options"
                         placeholder="Select from options"
                         mandatory={true}
-                        optionList={getBOMList}
+                        optionList={getBOMList != undefined ? getBOMList : []}
+                        // optionList={getBOMList}
                         disabled
                         value={items?.bom_detail_id}
                       />
@@ -220,7 +222,8 @@ const IndentRequestDetails: React.FC = (props: any) => {
                   defaultLabel="Select from options"
                   placeholder="Select from options"
                   mandatory={true}
-                  optionList={getBOMList}
+                  optionList={getBOMList != undefined ? getBOMList : []}
+                  // optionList={getBOMList}
                   value={formik.values.bom_detail_id}
                   disabled={props.disabled}
                   onSelect={(value) => {

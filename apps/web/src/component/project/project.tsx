@@ -23,8 +23,8 @@ const Project = () => {
     { label: 'Dashboard', value: 'PDB' },
     { label: 'Generic', value: 'PGS' },
     { label: 'Settings', value: 'PSG' },
-    { label: 'Site Configuration', value: 'PSC' },
-    { label: 'BOQ Configuration', value: 'PBC' },
+    { label: 'Site', value: 'PSC' },
+    { label: 'BOQ', value: 'PBC' },
     { label: 'Document', value: 'PDT' },
     { label: 'Indent', value: 'PIR' },
     { label: 'Stock Audit', value: 'PSM' },
@@ -76,7 +76,7 @@ const Project = () => {
             ) : (
               <div className={Styles.textContent}>
                 <h3>Add - Project</h3>
-                <span className={Styles.content}>Add your project</span>
+                {/* <span className={Styles.content}>Add your project</span> */}
               </div>
             )}
           </div>

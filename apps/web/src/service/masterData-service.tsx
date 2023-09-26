@@ -47,8 +47,20 @@ const getOnemasertDataByType = async (values: any) => {
   }
 };
 
-const createmasertData = async (values: JSON) => {
+const getOneMasterDataByProjectId = async (values: any) => {
   try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/master-data/get-by-project-id/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOneMasterDataByProjectId:', error);
+    throw error;
+  }
+};
+
+const createmasertData = async (values: JSON) => {
+  try {    
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/master-data/`,
       values
@@ -126,6 +138,19 @@ const getAllCurrencyData = async () => {
     throw error;
   }
 };
+
+const checkDublicateProjectMasertData = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/master-data/get-by-project-id-and-type/${values.id}/${values.type}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in checkDublicateProjectMasertData:', error);
+    throw error;
+  }
+};
+
 export default {
   getAllmasertData,
   getOnemasertDataByID,
@@ -137,4 +162,6 @@ export default {
   getAllParentMasterData,
   getAllCurrencyData,
   getOnemasertDataByType,
+  checkDublicateProjectMasertData,
+  getOneMasterDataByProjectId
 };

@@ -7,6 +7,7 @@ import Select from '../../ui/selectNew';
 import {
   getBymasertDataType,
   getBymasertDataTypeDrop,
+  getByMasterDataProjectIdDrop
 } from '../../../hooks/masertData-hook';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
@@ -40,7 +41,9 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
-  const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
+  // const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
+  const { data: getBomType = [] } = getByMasterDataProjectIdDrop(Number(routeParams?.id));
+
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
   useEffect(() => {
@@ -192,7 +195,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                           }}
                         >
                           <AddIcon style={{ height: '15px', width: '15px' }} />
-                          <p className={Styles.addText}>Add BOQ</p>
+                          <p className={Styles.addText}>Create Abstract</p>
                         </div>
                       </td>
                     </tr>
