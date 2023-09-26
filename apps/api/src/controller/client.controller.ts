@@ -63,6 +63,16 @@ const searchClient = catchAsync(async (req, res) => {
   }
 });
 
+const getByName = catchAsync(async (req, res) => {
+  const methodName = '/getByName';
+  try {
+    const client = await clientService.getByName(req.params.name);
+    res.send(client);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createClient,
   updateClient,
@@ -70,4 +80,5 @@ export {
   getByClientId,
   deleteByClientId,
   searchClient,
+  getByName,
 };

@@ -144,6 +144,18 @@ const searchClient = async (
   }
 };
 
+const getByName = async (name: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const client =
+      await transaction.$queryRaw`select * from client c where lower(c."name")=lower(${name})`;
+    return client;
+  } catch (error) {
+    console.log('Error occurred in client getById dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -151,4 +163,5 @@ export default {
   getAll,
   deleteClient,
   searchClient,
+  getByName,
 };

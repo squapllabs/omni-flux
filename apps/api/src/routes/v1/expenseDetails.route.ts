@@ -3,6 +3,7 @@ import authMiddleware from '../../middleware/auth';
 import { expenseDetailsUpdateValidator } from '../../validations/expenseDetails';
 import {
   getById,
+  searchExpenseDetails,
   updateStatus,
 } from '../../controller/expenseDetails.controller';
 import { runValidation } from '../../validations/index';
@@ -18,5 +19,7 @@ router.put(
 );
 
 router.get('/get/:expense_details_id', authMiddleware, getById);
+
+router.post('/search', authMiddleware, searchExpenseDetails);
 
 export default router;
