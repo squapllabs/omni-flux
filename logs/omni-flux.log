@@ -9109,3 +9109,358 @@ type master_dataWhereInput {
 }
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\masterData.dao.ts:289:56
+
+  286 ) => {
+  287   try {
+  288     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 289     const masterDataId = await transaction.master_data.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllRoles << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.role.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\role.dao.ts:74:41
+
+  71 const getAll = async (connectionObj = null) => {
+  72   try {
+  73     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 74     const role = await transaction.role.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\masterData.dao.ts:301:52
+
+  298 const masterDataIdOfType = masterDataId?.master_data_id;
+  299 
+  300 if (masterDataIdOfType) {
+→ 301   const result = await transaction.master_data.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/search << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project_member_association.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectMemberAssociation.dao.ts:281:52
+
+  278 const approver_status = filters.approver_status;
+  279 
+  280 const projectMemberAssociation =
+→ 281   await transaction.project_member_association.findMany(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/deleteByProjectMemberAssociationId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project_member_association.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectMemberAssociation.dao.ts:167:52
+
+  164 try {
+  165   const transaction = connectionObj !== null ? connectionObj : prisma;
+  166   const projectMemberAssociation =
+→ 167     await transaction.project_member_association.update(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/search << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project_member_association.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectMemberAssociation.dao.ts:281:52
+
+  278 const approver_status = filters.approver_status;
+  279 
+  280 const projectMemberAssociation =
+→ 281   await transaction.project_member_association.findMany(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndBomType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\masterData.dao.ts:289:56
+
+  286 ) => {
+  287   try {
+  288     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 289     const masterDataId = await transaction.master_data.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndBomType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndBomType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndBomType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\masterData.dao.ts:289:56
+
+  286 ) => {
+  287   try {
+  288     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 289     const masterDataId = await transaction.master_data.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndBomType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.

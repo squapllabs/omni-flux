@@ -105,7 +105,7 @@ const ProjectStockAdd = () => {
         <div className={Styles.box}>
           <div className={Styles.mainTextContent}>
             <div className={Styles.textContent_1}>
-              <h3>Project Name :{getProjectData?.project_name}</h3>
+              <h3>{getProjectData?.project_name}</h3>
               <span className={Styles.content}>
                 Add your Stock audit in day basis
               </span>
@@ -140,8 +140,9 @@ const ProjectStockAdd = () => {
           style={{
             display: 'flex',
             gap: '10px',
-            alignItems: 'center',
-            padding: '10px',
+            justifyContent: 'center',
+            padding: '20px',
+            // marginLeft:"30px"
           }}
         >
           <div style={{ width: '30%' }}>
@@ -159,7 +160,7 @@ const ProjectStockAdd = () => {
               error={formik.touched.site_id && formik.errors.site_id}
             />
           </div>
-          <div style={{ width: '30%', paddingTop: '20px' }}>
+          <div style={{ width: '30%' }}>
             <DatePicker
               name="stock_audit_date"
               label="Stock Date"
@@ -182,7 +183,7 @@ const ProjectStockAdd = () => {
                   );
                 }}
               />
-              <span style={{ fontSize: 'small' }}>Edit stock date</span>
+              <span style={{ fontSize: 'small' }}>  Edit stock date</span>
             </div>
           </div>
         </div>
@@ -192,46 +193,48 @@ const ProjectStockAdd = () => {
             itemsList={itemsList}
             itemData={itemData}
           /> */}
-          <table className={Styles.scrollable_table}>
-            <thead>
-              <tr>
-                <th>S.No</th>
-                <th>Item</th>
-                <th>Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {itemData && itemData.length > 0 ? (
-                itemData.map((item: any, index: any) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>
-                      <Input
-                        width="50%"
-                        name="item_name"
-                        value={item.item_name}
-                        readOnly
-                      />
-                    </td>
-                    <td>
-                      <Input
-                        width="50%"
-                        name="quantity"
-                        onChange={(e) => updateQuantity(e, index)}
-                      />
+          <div className={Styles.table_container}>
+            <table className={Styles.scrollable_table_stock_add}>
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Item</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {itemData && itemData.length > 0 ? (
+                  itemData.map((item: any, index: any) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <Input
+                          width="50%"
+                          name="item_name"
+                          value={item.item_name}
+                          readOnly
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          width="30%"
+                          name="quantity"
+                          onChange={(e) => updateQuantity(e, index)}
+                        />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: 'center' }}>
+                      No data found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4" style={{ textAlign: 'center' }}>
-                    No data found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-          <div className={Styles.buttons}>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className={Styles.indent_button}>
             <Button
               type="button"
               color="primary"

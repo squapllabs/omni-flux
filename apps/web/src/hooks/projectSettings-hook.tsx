@@ -24,7 +24,7 @@ const createProjectMember = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllInitialProjectMember']);
+        queryClient.invalidateQueries(['useGetAllProjectPaginatedData']);
       },
     }
   );
@@ -45,30 +45,31 @@ const getBySearchProjectMembers = () => {
   );
 };
 
+const useDeleteProjectMember = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ProjectSettingsService.deleteProjectMember(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllProjectPaginatedData']);
+      },
+    }
+  );
+};
+
+
 const useGetAllPaginatedProjectMember = (data: any) => {
   return useQuery(
-    ['useGetAllInitialProjectMember'],
+    ['useGetAllProjectPaginatedData'],
     () => ProjectSettingsService.filterProjectMember(data),
     {
       select: (data) => data,
       staleTime: Infinity,
     }
   );
-};
 
-const useDeleteProjectMember = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return projectSettingsService.deleteProjectMember(data);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllInitialProjectMember']);
-      },
-    }
-  );
 };
-
 
 export { useGetRoleBasedUser, createProjectMember, getBySearchProjectMembers, useGetAllPaginatedProjectMember, useDeleteProjectMember };
