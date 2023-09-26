@@ -34,8 +34,12 @@ import {
   useGetAllmasertData,
   createmasertData,
   useGetAllPaginatedMasterData,
+  useDeletemasertData,
 } from '../../../hooks/masertData-hook';
 import { getByProjectId } from '../../../hooks/project-hooks'
+import EditIcon from '../../menu/icons/editIcon';
+import CustomEditDialog from '../../ui/customEditDialogBox';
+import ProjectMasterDataEditForm from './projectMasterDataEdit'
 
 const ProjectSettings: React.FC = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +52,7 @@ const ProjectSettings: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [dataShow, setDataShow] = useState(false);
+  const [componentShow, setComponentShow] = useState(false)
   const [filterValues, setFilterValues] = useState({
     global_search: '',
   });
@@ -199,6 +204,7 @@ const ProjectSettings: React.FC = (props: any) => {
             //   navigate('/settings');
             // }, 1000);
             resetForm();
+            refetch();
           }
         },
       });
@@ -238,8 +244,9 @@ const ProjectSettings: React.FC = (props: any) => {
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
-    handleSearch();
+    refetch();
   };
+
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -523,23 +530,31 @@ const ProjectSettings: React.FC = (props: any) => {
                 </tbody>
               </table>
             </div>
-            <div className={Styles.pagination}>
 
-              <Pagination
-                currentPage={currentPage}
-                totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
-                }
-                totalCount={
-                  dataShow
-                    ? getFilterData?.total_count
-                    : initialData?.total_count
-                }
-                rowsPerPage={rowsPerPage}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-              />
+            <div className={Styles.pagination}>
+              {/* <div className={Styles.addPlan} onClick={() => setComponentShow(true)}>
+                <div className={Styles.addText}>Click here for create new Master Data
+                  against your Project
+                </div>
+              </div> */}
+              <div>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={
+                    dataShow ? getFilterData?.total_page : initialData?.total_page
+                  }
+                  totalCount={
+                    dataShow
+                      ? getFilterData?.total_count
+                      : initialData?.total_count
+                  }
+                  rowsPerPage={rowsPerPage}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                />
+              </div>
             </div>
+            {/* {componentShow ? <MasterData projectId={projectId} /> : ""} */}
             <MasterData projectId={projectId} />
           </div>
         </div>
@@ -567,19 +582,16 @@ export default ProjectSettings
 
 
 const MasterData: React.FC = (props: {
-
   projectId: any;
-
 }) => {
   const { projectId } = props;
-
   const [initialValues, setInitialValues] = useState({
     master_data_id: '',
     master_data_name: '',
     master_data_description: '',
     master_data_type: '',
     parent_master_data_id: '',
-    project_id:projectId
+    project_id: projectId
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
@@ -587,6 +599,20 @@ const MasterData: React.FC = (props: {
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [reload, setReload] = useState(false);
+  const { mutate: postMasterData } = createmasertData();
+  const { data: getProjectData } = getByProjectId(projectId);
+  const { mutate: getDeleteMasterDataID } = useDeletemasertData();
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  const [value, setValue] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Active', value: 'AC' },
+    { label: 'Inactive', value: 'IN' },
+  ]);
+  const [masterDataId, setMasterDataId] = useState();
+  const [mode, setMode] = useState('');
+  const [open, setOpen] = useState(false);
 
   const masterData = {
     limit: rowsPerPage,
@@ -605,20 +631,20 @@ const MasterData: React.FC = (props: {
     data: initialData,
     refetch,
   } = useGetAllPaginatedMasterData(masterData);
-  const { mutate: postMasterData } = createmasertData();
-  const { data: getProjectData } = getByProjectId(projectId);
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-
-
 
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
-  
+
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
+  };
+
+  /* Function for group button (Active and Inactive status) */
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
   };
 
   /* Function for changing no of rows in pagination */
@@ -632,7 +658,34 @@ const MasterData: React.FC = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const  validationSchema = getCreateMasterValidateyup(Yup)
+
+
+  const deleteMasterData = (id: any) => {
+    setValue(id);
+    setOpenDelete(true);
+  };
+
+  /* Function for closing the delete popup */
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  /* Function for deleting a category */
+  const deleteMasterDataId = () => {
+    getDeleteMasterDataID(value);
+    handleCloseDelete();
+    setMessage('Successfully Deleted');
+    setOpenSnack(true);
+    refetch();
+  };
+
+  const handleEdit = (value: any) => {
+    setMode('EDIT');
+    setMasterDataId(value);
+    setOpen(true);
+  };
+
+  const validationSchema = getCreateMasterValidateyup(Yup)
 
   const formik = useFormik({
     initialValues,
@@ -652,7 +705,7 @@ const MasterData: React.FC = (props: {
             setMessage('Master Data created');
             setOpenSnack(true);
             resetForm();
-            refetch()
+            refetch();
           }
         },
       });
@@ -661,7 +714,7 @@ const MasterData: React.FC = (props: {
 
 
   return (
-    <div>
+    <>
       <div className={Styles.dividerStyle}></div>
       <div className={Styles.conatiner}>
 
@@ -745,13 +798,15 @@ const MasterData: React.FC = (props: {
           </form>
         </div>
         <div className={Styles.box}>
-          <div className={Styles.textContent}>
+          <div className={Styles.textContent1}>
             <h3>List of Master Data</h3>
-            <span className={Styles.content}>
-              Manage your master data across your application
-            </span>
-          </div>
 
+            <CustomGroupButton
+              labels={buttonLabels}
+              onClick={handleGroupButtonClick}
+              activeButton={activeButton}
+            />
+          </div>
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>
@@ -761,59 +816,95 @@ const MasterData: React.FC = (props: {
                     <th className={Styles.tableHeading}>Name</th>
                     <th className={Styles.tableHeading}>Description</th>
                     <th className={Styles.tableHeading}>Code</th>
+                    {activeButton === 'AC' && <th>Action</th>}
                   </tr>
                 </thead>
                 <tbody>
-
                   {initialData?.total_count === 0 ?
                     (<tr>
-                      <td colSpan="4">No data found</td>
-                    </tr>) : 
-                     (initialData?.content?.map((item: any, index: number) => {
+                      <td colSpan="5" style={{textAlign:"center"}}>No data found</td>
+                    </tr>) :
+                    (initialData?.content?.map((item: any, index: number) => {
 
-                      return(
-                      <tr>
-                        <td>{startingIndex + index}</td>
-                        <td>{item?.master_data_name}</td>
-                        <td>{item?.master_data_description}</td>
-                        <td>{item?.master_data_type}</td>
-                      </tr>
+                      return (
+                        <tr key={item?.master_data_id}>
+                          <td>{startingIndex + index}</td>
+                          <td>{item?.master_data_name}</td>
+                          <td>{item?.master_data_description}</td>
+                          <td>{item?.master_data_type}</td>
+                          {activeButton === 'AC' && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() =>
+                                    handleEdit(item?.master_data_id)
+                                  }
+                                />
+                                {/* <DeleteIcon
+                                  onClick={() =>
+                                    deleteMasterData(
+                                      item?.master_data_id
+                                    )
+                                  }
+                                /> */}
+                              </div>
+                            </td>
+                          )}
+
+                        </tr>
                       )
-                    })) 
+                    }))
                   }
                 </tbody>
               </table>
             </div>
           </div>
-         
-        </div>
-        {/* <div className={Styles.pagination}>
+          <div className={Styles.pagination1}>
             <Pagination
-                currentPage={currentPage}
-                totalPages={
-                  // dataShow ? getFilterData?.total_page : 
-                  initialData?.total_page
-                }
-                totalCount={
-                  // dataShow
-                  //   ? getFilterData?.total_count
-                  //   : 
-                    initialData?.total_count
-                }
-                rowsPerPage={rowsPerPage}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-              />
-          </div> */}
+              currentPage={currentPage}
+              totalPages={
+                initialData?.total_page
+              }
+              totalCount={
+                initialData?.total_count
+              }
+              rowsPerPage={rowsPerPage}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+            />
+          </div>
+        </div>
+        <CustomDelete
+          open={openDelete}
+          title="Delete Master Data"
+          contentLine1="Are you sure you want to delete this master data ?"
+          contentLine2=""
+          handleClose={handleCloseDelete}
+          handleConfirm={deleteMasterDataId}
+        />
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
+        <CustomEditDialog
+          open={open}
+          content={
+            <ProjectMasterDataEditForm
+              setOpen={setOpen}
+              open={open}
+              setReload={setReload}
+              mode={mode}
+              masterID={masterDataId}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+            />
+          }
+        />
       </div>
-      <CustomSnackBar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        autoHideDuration={1000}
-        type="success"
-      />
-    </div>
+    </>
   )
 }
 
