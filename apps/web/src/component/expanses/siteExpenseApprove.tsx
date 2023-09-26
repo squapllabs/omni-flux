@@ -205,47 +205,11 @@ const ExpenseApprove = () => {
     });
   };
 
-  const rejectSite = async () => {
-    const object: any = {
-      site_id: initialValues.site_id,
-      employee_name: initialValues.employee_name,
-      employee_id: initialValues.employee_id,
-      employee_phone: initialValues.employee_phone,
-      end_date: initialValues.end_date,
-      start_date: initialValues.start_date,
-      purpose: initialValues.purpose,
-      department: initialValues.department,
-      designation: initialValues.designation,
-      expense_details: expenseList,
-      updated_by: encryptedData?.userId,
-      expense_id: initialValues.expense_id,
-      bill_details: expenseBill,
-      comments:comments,
-      status: 'Rejected',
-      progressed_by: userID,
-    };
-    updateSiteExpenseData(object, {
-      onSuccess(data, variables, context) {
-        if (data?.status === true) {
-          setMessage('Site Expense has been Rejected');
-          setOpenSnack(true);
-          setReload(true);
-          handleCloseReject();
-          handleReset();
-          setTimeout(() => {
-            navigate('/settings');
-          }, 3000);
-        }
-      },
-    });
-  };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
 
   const handleRejectWithComments = (comments: string) => {
-    console.log('Rejected with comments:', comments);
     const object: any = {
       site_id: initialValues.site_id,
       employee_name: initialValues.employee_name,
@@ -413,7 +377,6 @@ const ExpenseApprove = () => {
         contentLine1="Are you sure want to reject this expense ?"
         contentLine2=""
         handleClose={handleCloseReject}
-        // handleConfirm={rejectSite}
         onReject={handleRejectWithComments}
       />
       <CustomSnackBar

@@ -116,7 +116,7 @@ tr:hover {
 .tableIcon {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 5px;
 }
 
 //EXPENSE DETAIL
@@ -157,4 +157,14 @@ tr:hover {
 .siteList {
     list-style: none;
     display: inline;
+}
+
+.disabledIcon {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.tableContainerBottom {
+    padding: 10px 10px 50px 10px;
 }

@@ -87,8 +87,8 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                 </div>
                 <div className={Styles1.field}>
                   <Input
-                    label="Contact Detail"
-                    placeholder="Enter client contact detail"
+                    label="Contact Number"
+                    placeholder="Enter client contact number"
                     name="contact_details"
                     value={formikOne.values.contact_details}
                     onChange={formikOne.handleChange}
