@@ -13,4 +13,28 @@ const updateStatus = catchAsync(async (req, res) => {
   }
 });
 
-export { updateStatus };
+const getById = catchAsync(async (req, res) => {
+  const methodName = '/getById';
+  try {
+    const expenseDetails = await expenseDetailsService.getById(
+      req.params.expense_details_id
+    );
+    res.send(expenseDetails);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const searchExpenseDetails = catchAsync(async (req, res) => {
+  const methodName = '/searchExpenseDetails';
+  try {
+    const expenseDetails = await expenseDetailsService.searchExpenseDetails(
+      req.body
+    );
+    res.send(expenseDetails);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+export { updateStatus, getById, searchExpenseDetails };

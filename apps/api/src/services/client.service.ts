@@ -39,7 +39,11 @@ const updateClient = async (body: updateClientBody) => {
     let result = null;
     const clientExist = await clientDao.getById(client_id);
     if (!clientExist) {
-      result = { message: 'client_id does not exist', status: false, data: null };
+      result = {
+        message: 'client_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     } else {
       const clientDetails = await clientDao.edit(
@@ -70,7 +74,11 @@ const getById = async (clientId: number) => {
       result = { message: 'success', status: true, data: clientData };
       return result;
     } else {
-      result = { message: 'client_id does not exist', status: false, data: null };
+      result = {
+        message: 'client_id does not exist',
+        status: false,
+        data: null,
+      };
       return result;
     }
   } catch (error) {
@@ -126,7 +134,8 @@ const deleteClient = async (clientId: number) => {
 
     if (clientExistInLeadEnquiry) {
       const result = {
-        message: 'Unable to delete.This client_id is mapped in lead_enquiry table',
+        message:
+          'Unable to delete.This client_id is mapped in lead_enquiry table',
         status: false,
         data: null,
       };
@@ -206,6 +215,38 @@ const searchClient = async (body) => {
   }
 };
 
+/**
+ * Method to get Client By name
+ * @param name
+ * @returns
+ */
+const getByName = async (name: string) => {
+  try {
+    let result = null;
+    const clientData = await clientDao.getByName(name);
+    if (clientData.length > 0) {
+      result = {
+        message: 'This name is already exist',
+        status: true,
+        is_exist: true,
+        data: clientData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'This name does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByName client service : ', error);
+    throw error;
+  }
+};
+
 export {
   createClient,
   updateClient,
@@ -213,4 +254,5 @@ export {
   getById,
   deleteClient,
   searchClient,
+  getByName,
 };

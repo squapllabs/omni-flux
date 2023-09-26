@@ -37,8 +37,17 @@ const getById = async (expense_details_id: number, connectionObj = null) => {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const expenseDetails = await transaction.expense_details.findFirst({
       where: {
-        expense_details_id: expense_details_id,
+        expense_details_id: Number(expense_details_id),
         is_delete: false,
+      },
+      include: {
+        progressed_by_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        expense_master_data: true,
       },
     });
     return expenseDetails;
@@ -64,8 +73,57 @@ const getByExpenseId = async (expense_id: number, connectionObj = null) => {
   }
 };
 
+const searchExpenseDetails = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterExpenseDetails;
+    const expense = await transaction.expense_details.findMany({
+      where: filter,
+      include: {
+        progressed_by_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        expense_master_data: true,
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+
+    const expenseCount = await transaction.expense_details.count({
+      where: filter,
+    });
+    const expenseData = {
+      count: expenseCount,
+      data: expense,
+    };
+    return expenseData;
+  } catch (error) {
+    console.log(
+      'Error occurred in Expense details dao : searchExpenseDetails ',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   updateStatus,
   getById,
   getByExpenseId,
+  searchExpenseDetails,
 };
