@@ -118,4 +118,34 @@ const updateStatus = async (body: expenseDetailsBody) => {
   }
 };
 
-export { updateStatus };
+/**
+ * Method to get expenseDetails By Id
+ * @param expense_details_id
+ * @returns
+ */
+
+const getById = async (expense_details_id: number) => {
+  try {
+    const expenseDetailsExist = await expenseDetailsDao.getById(
+      expense_details_id
+    );
+    if (expenseDetailsExist) {
+      return {
+        message: 'success',
+        status: true,
+        data: expenseDetailsExist,
+      };
+    } else {
+      return {
+        message: 'expense_details_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log('Error occurred in expenseDetails service getById: ', error);
+    throw error;
+  }
+};
+
+export { updateStatus, getById };
