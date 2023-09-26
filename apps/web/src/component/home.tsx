@@ -57,7 +57,7 @@ const Home = () => {
   const chartOptions2 = {
     chart: {
       title: 'High Budget Projects',
-      subtitle: '(Budget per Project)',
+      subtitle: '(Budget Per Project)',
     },
     hAxis: {
       title: 'Budget',

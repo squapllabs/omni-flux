@@ -105,7 +105,7 @@ const ProjectStockAdd = () => {
         <div className={Styles.box}>
           <div className={Styles.mainTextContent}>
             <div className={Styles.textContent_1}>
-              <h3>Project Name :{getProjectData?.project_name}</h3>
+              <h3>{getProjectData?.project_name}</h3>
               <span className={Styles.content}>
                 Add your Stock audit in day basis
               </span>

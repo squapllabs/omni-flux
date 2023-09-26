@@ -32,6 +32,7 @@ const CustomGroupButton: React.FC<GroupButtonProps> = ({
             color: activeButton === value ? 'Black' : 'black',
             border: '1px solid #D0D5DD',
             padding: '10px, 16px, 10px, 16px',
+            fontSize:'0.75rem'
           }}
           justify="center"
           size="small"

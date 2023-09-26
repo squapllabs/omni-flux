@@ -19,16 +19,22 @@ import ExpenseApprove from '../expanses/siteExpenseApprove';
 const Settings = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
-  const roleName = encryptedData?.userData?.user_roles[0]?.role_data?.role_name;
+  const roleName = encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
+  const [selectedItem, setSelectedItem] = useState<number>(1);
+  const [activeButton, setActiveButton] = useState<string | null>(()=>{
+    let type=null
+    if(roleName=== 'ADMIN')
+    type='C'
+    else if(roleName=== 'PLANNING ENGINEER' || roleName=== 'PROJECT MANAGER')
+    type='IA'
+    else if(roleName=== 'PURCHASE MANAGER')
+    type='PL'
+    else if(roleName=== 'FINANCE MANAGER')
+    type='FMV'
+    return type;
+  });
 
-  const menuItems = [
-    { label: 'Category', value: 'C' },
-    { label: 'Master Data', value: 'M' },
-    { label: 'User List', value: 'U' },
-    { label: 'Lead List', value: 'LL' },
-    { label: 'Vendor List', value: 'VL' },
-    { label: 'Labour List', value: 'LB' },
-  ];
+  const menuItems = [];
 
   const menuItemsCategory = [
     {
@@ -61,26 +67,51 @@ const Settings = () => {
       name: 'HSN Code',
     },
   ];
-  if (roleName === 'Planning Engineer') {
-    menuItems.push({ label: 'Indent Approval', value: 'IA' });
-  }
-  if (roleName === 'Purchase Manager') {
+  if (roleName === 'ADMIN') {
     menuItems.push(
-      { label: 'Purchase List', value: 'PL' },
-      { label: 'Purchase Order', value: 'PO' }
+      { label: 'Category', value: 'C' },
+      { label: 'Master Data', value: 'M' },
+      { label: 'Users', value: 'U' },
+      // { label: 'Lead List', value: 'LL' },
+      { label: 'Vendors', value: 'VL' },
+      { label: 'Labours', value: 'LB' },
+      { label: 'Indent Approval', value: 'IA' },
+      { label: 'Purchase Request', value: 'PL' },
+      { label: 'Purchase Order', value: 'PO' },
+      { label: 'Expense Approve', value: 'EA' },
+      { label: 'Invoice', value: 'FMV' }
     );
+
   }
-  if (roleName === 'Finance Manager') {
+  if (roleName === 'PLANNING ENGINEER') {
+    menuItems.push({ label: 'Indent Approval', value: 'IA' });
+
+  }
+  if (roleName === 'PURCHASE MANAGER') {
+    menuItems.push(
+      { label: 'Purchase Request', value: 'PL' },
+      { label: 'Purchase Order', value: 'PO' },
+      { label: 'Vendors', value: 'VL' },
+    );
+
+  }
+  if (roleName === 'FINANCE MANAGER') {
     menuItems.push({ label: 'Invoice', value: 'FMV' });
+
   }
 
-  if (roleName === 'Project Manager') {
-    menuItems.push({ label: 'Expense Approve', value: 'EA' });
+  if (roleName === 'PROJECT MANAGER') {
+    menuItems.push(
+    { label: 'Indent Approval', value: 'IA' },
+    { label: 'Purchase Request', value: 'PL' },
+    { label: 'Purchase Order', value: 'PO' },
+    { label: 'Expense Approve', value: 'EA' },
+    { label: 'Invoice', value: 'FMV' }
+    );
   }
- 
-  const [selectedItem, setSelectedItem] = useState<number>(1);
+  
   const [buttonLabels, setButtonLabels] = useState(menuItems);
-  const [activeButton, setActiveButton] = useState<string | null>('C');
+
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
@@ -97,7 +128,7 @@ const Settings = () => {
             onClick={handleGroupButtonClick}
             activeButton={activeButton}
           />
-          {activeButton == 'C' && (
+          {roleName === 'ADMIN' && activeButton === 'C' && (
             <SideNav
               menuItemsCategory={menuItemsCategory}
               selectedItem={selectedItem}
