@@ -242,6 +242,7 @@ import Project from '../component/project/project';
 import ViewProject from '../component/vendor/vendorView';
 import ProjectSettings from '../component/project/projectComponent/projectSettings';
 import IndentRequest from '../component/project/projectComponent/projectIndentRequest/indentRequest';
+import EcoProduction from '../component/ecoProduction/ecoProduction';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -303,6 +304,7 @@ const AppRoutes = () => {
   const ProtectedVendorView = withLayoutAndProtection(ViewProject);
   const ProtectedProjectSettings = withLayoutAndProtection(ProjectSettings);
   const ProtectedIndent = withLayoutAndProtection(IndentRequest);
+  // const ProtectedEcoProduction = withLayoutAndProtection(EcoProduction);
 
   return (
     <div>
@@ -419,6 +421,7 @@ const AppRoutes = () => {
         />
         <Route path="/indent/:id" element={<ProtectedIndent />} />
         <Route path="/indent/:id/:indentid" element={<ProtectedIndent />} />
+        <Route path="/ecoProduction" element={<EcoProduction/>}/>
       </Routes>
     </div>
   );

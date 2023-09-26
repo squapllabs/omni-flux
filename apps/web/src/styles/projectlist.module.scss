@@ -108,9 +108,9 @@ tr:hover {
 .card {
   display: flex;
   justify-content: center;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  width: 20%;
-  border-radius: 2px;
+  box-shadow: 0 4px 8px rgba(66, 66, 66, 0.2);
+  width: 19%;
+  border-radius: 10px;
 }
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -119,10 +119,10 @@ tr:hover {
 .graphCard {
   display: flex;
   justify-content: center;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(66, 66, 66, 0.2);
+  width: 49%;
   column-gap: 50px;
-  border-radius: 2px;
+  border-radius: 10px;
 }
 
 .graphCard:hover {
@@ -130,7 +130,7 @@ tr:hover {
 }
 
 .cardContainer {
-  padding: 15px 2px;
+  padding: 15px 0px;
 } 
 
 .cardDiv {
@@ -150,3 +150,14 @@ tr:hover {
   width: 100%;
   padding: 20px 40px;
 }
+
+.values {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+
+
+
+
+

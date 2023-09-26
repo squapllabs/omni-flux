@@ -176,13 +176,13 @@ const ProjectList = () => {
           color="#333C44"
         >
           <div className={Styles.dashBoardcontainer}>
-            <CustomCard>
+            {/* <CustomCard> */}
               <div className={Styles.cardDiv}>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>Total Projects</b></h3>
-                      <p>{projectStatus?.total_projects}</p>
+                      <p className={Styles.values}>{projectStatus?.total_projects}</p>
                     </div>
                   </div>
                 </div>
@@ -190,7 +190,7 @@ const ProjectList = () => {
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>Active Projects</b></h3>
-                      <p>{projectStatus?.active_projects}</p >
+                      <p className={Styles.values}>{projectStatus?.active_projects}</p >
                     </div>
                   </div>
                 </div>
@@ -198,7 +198,7 @@ const ProjectList = () => {
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>Completed Projects</b></h3>
-                      <p>{projectStatus?.completed_projects}</p> 
+                      <p className={Styles.values}>{projectStatus?.completed_projects}</p> 
                     </div>
                   </div>
                 </div>
@@ -206,7 +206,7 @@ const ProjectList = () => {
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>In-progress Projects</b></h3>
-                      <p>{projectStatus?.inprogress_projects}</p> 
+                      <p className={Styles.values}>{projectStatus?.inprogress_projects}</p> 
                     </div>
                   </div>
                 </div>
@@ -214,7 +214,7 @@ const ProjectList = () => {
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>Not Started Projects</b></h3>
-                      <p>{projectStatus?.not_started_projects}</p> 
+                      <p className={Styles.values}>{projectStatus?.not_started_projects}</p> 
                     </div>
                   </div>
                 </div>
@@ -241,7 +241,7 @@ const ProjectList = () => {
                   </div>
                 </div>
               </div>
-            </CustomCard>
+            {/* </CustomCard> */}
           </div>
         </CustomLoader>
       </div>
