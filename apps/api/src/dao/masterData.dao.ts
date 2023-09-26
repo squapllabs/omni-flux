@@ -372,6 +372,34 @@ const getAllProjectMasterData = async (connectionObj = null) => {
   }
 };
 
+const getByProjectIdAndType = async (
+  project_id: number,
+  masterDataType: string,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const masterData = await transaction.master_data.findFirst({
+      where: {
+        project_id: Number(project_id),
+        master_data_type: masterDataType,
+        is_delete: false,
+      },
+      include: {
+        parent: true,
+        children: true,
+      },
+    });
+    return masterData;
+  } catch (error) {
+    console.log(
+      'Error occurred in masterData getByProjectIdAndType dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -386,4 +414,5 @@ export default {
   getByParentType,
   getByProjectId,
   getAllProjectMasterData,
+  getByProjectIdAndType,
 };

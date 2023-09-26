@@ -124,6 +124,19 @@ const getAllProjectMasterData = catchAsync(async (req, res) => {
   }
 });
 
+const getByProjectIdAndType = catchAsync(async (req, res) => {
+  const methodName = '/getByProjectIdAndType';
+  try {
+    const masterData = await masterDataService.getByProjectIdAndType(
+      req.params.project_id,
+      req.params.master_data_type
+    );
+    res.send(masterData);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createMasterData,
   updateMasterData,
@@ -136,4 +149,5 @@ export {
   getByParentType,
   getByProjectId,
   getAllProjectMasterData,
+  getByProjectIdAndType,
 };
