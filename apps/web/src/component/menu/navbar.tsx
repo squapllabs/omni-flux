@@ -24,8 +24,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const state: RootState = store.getState();
-  let encryptedData = getToken(state, 'Data');
-  let userData: any = encryptedData.userData;
+  const encryptedData = getToken(state, 'Data');
+  const userData: any = encryptedData.userData;
   // console.log('userData', userData);
 
   useEffect(() => {
