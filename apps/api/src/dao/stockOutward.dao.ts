@@ -1,5 +1,6 @@
 import prisma from '../utils/prisma';
 import common from './common/utils.dao';
+import projectInventoryDao from './projectInventory.dao';
 
 const add = async (
   project_id: number,
@@ -43,6 +44,7 @@ const add = async (
     const new_stock_outward_id = stockOutward?.stock_outward_id;
 
     const stockOutwardDetailsData = [];
+    const projectInventoryData = [];
 
     for (const stock_outward_detail of stock_outward_details) {
       const item_id = stock_outward_detail?.item_id;
@@ -65,12 +67,34 @@ const add = async (
             },
           });
         stockOutwardDetailsData.push(stockOutwardDetails);
+
+        const projectInventoryExist =
+          await projectInventoryDao.getByProjectSiteItem(
+            project_id,
+            site_id,
+            item_id
+          );
+
+        const available_quantity =
+          projectInventoryExist?.available_quantity - outward_quantity;
+        const total_cost = available_quantity * projectInventoryExist?.rate;
+
+        const projectInventoryQuantityUpdate =
+          await projectInventoryDao.updateQuantityByProjectInventoryId(
+            available_quantity,
+            created_by,
+            total_cost,
+            projectInventoryExist?.project_inventory_id
+          );
+
+        projectInventoryData.push(projectInventoryQuantityUpdate);
       }
     }
 
     const stockOutwardData = {
       stock_outward: stockOutward,
       stock_outward_details: stockOutwardDetailsData,
+      project_inventory: projectInventoryData,
     };
 
     return stockOutwardData;
