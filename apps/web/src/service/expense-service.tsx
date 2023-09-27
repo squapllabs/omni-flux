@@ -25,6 +25,19 @@ const getOnesiteExpenseByID = async (values: any) => {
   }
 };
 
+const getOnesiteExpenseDetailByID = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/expense-details/get/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne expense detail :', error);
+    throw error;
+  }
+};
+
+
 const createsiteExpense = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -40,12 +53,23 @@ const createsiteExpense = async (values: JSON) => {
 const updatesiteExpense = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
-      `${environment.apiUrl}/expense/`,
+      `${environment.apiUrl}/expense/update-status`,
       values
     );
     return response.data;
   } catch (error) {
     console.log('Error in expense edit:', error);
+  }
+};
+const updatesiteExpenseDetail = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/expense-details/update-status`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in expense detail edit:', error);
   }
 };
 const deletesiteExpense = async (id: number) => {
@@ -109,4 +133,6 @@ export default {
   filtersiteExpense,
   bulkUploadSiteExpanse,
   getSiteExpenseByProjectandSiteID,
+  updatesiteExpenseDetail,
+  getOnesiteExpenseDetailByID
 };

@@ -11,10 +11,8 @@ const VendorDetailItemView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const VendorId = Number(routeParams?.id);
-  // console.log('vendor id', VendorId);
   const { data: getOneVendor, isLoading: dataLoading } =
     getByQuoteVendorId(VendorId);
-  // console.log('getOneVendor==>', getOneVendor);
 
   return (
     <div>

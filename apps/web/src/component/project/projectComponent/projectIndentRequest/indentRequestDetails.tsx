@@ -124,7 +124,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
   });
   return (
     <div>
-      <div className={Styles.tableContainer}>
+      <div className={Styles.tableContainerIndent}>
         <div className={Styles.buttons}>
           <Button
             type="button"
@@ -151,8 +151,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
           </thead>
           <tbody>
             {props.indentRequestDetailsList?.map((items: any, index: any) => {
-              console.log("props",items);
-              console.log("props.indentRequestDetailsList",props.indentRequestDetailsList);
               if (items?.is_delete === false) {
                 rowIndex = rowIndex + 1;
                 return (
@@ -236,10 +234,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                       'quantity',
                       matchingObjects[0]?.bom_quantity
                     );
-                    console.log(
-                      'matchingObjects[0]',
-                      matchingObjects[0]?.temp?.uom_data?.name
-                    );
                     formik.setFieldValue(
                       'uom_name',
                       matchingObjects[0]?.temp?.uom_data?.name
@@ -260,6 +254,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                 <Input
                   name="uom_name"
                   mandatory={true}
+                  width='180px'
                   value={formik?.values?.uom_name}
                   onChange={formik?.handleChange}
                   disabled={true}
@@ -269,6 +264,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                 <Input
                   name="quantity"
                   mandatory={true}
+                  width='180px'
                   value={formik?.values?.quantity}
                   onChange={formik?.handleChange}
                   error={formik.touched.quantity && formik.errors.quantity}

@@ -312,7 +312,7 @@ const IndentRequest: React.FC = (props: any) => {
                   style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    paddingRight: '50px',
+                    paddingRight: '32px',
                     gap: '20px',
                   }}
                 >

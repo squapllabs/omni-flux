@@ -1,25 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../ui/Button';
 import CancelIcon from '../menu/icons/closeIcon';
-import RejectIcon from '../menu/icons/cancelIcon';
+import TextArea from './CustomTextArea';
 
 interface DialogBoxProps {
   title: string;
   open: boolean;
   handleClose: () => void;
-  handleConfirm: () => void;
   contentLine1: string;
   contentLine2: string;
+  onReject: (comments: string) => void;
 }
 
-const RejectDialogBox: React.FC<DialogBoxProps> = ({
-  title,
-  open,
-  handleClose,
-  handleConfirm,
-  contentLine1,
-  contentLine2,
-}) => {
+const RejectDialogBox: React.FC<DialogBoxProps> & {
+  onReject: (comments: string) => void;
+} = ({ title, open, handleClose, contentLine1, contentLine2, onReject }) => {
+  const [comments, setComments] = useState('');
+
   if (!open) return null;
 
   const dialogStyle: React.CSSProperties = {
@@ -36,7 +33,7 @@ const RejectDialogBox: React.FC<DialogBoxProps> = ({
 
   const boxStyle: React.CSSProperties = {
     backgroundColor: '#fff',
-    padding: '20px',
+    padding: '5px',
     borderRadius: '4px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
     maxWidth: '400px',
@@ -49,14 +46,17 @@ const RejectDialogBox: React.FC<DialogBoxProps> = ({
   };
 
   const contentStyle: React.CSSProperties = {
-    padding: '8px',
+    padding: '10px',
+    fontSize: 'smaller',
+  };
+
+  const textStyle: React.CSSProperties = {
+    padding: '5px',
     fontSize: 'smaller',
   };
 
   const buttonStyle: React.CSSProperties = {
-    margin: '10px',
-    padding: '6px 12px',
-    border: 'none',
+    margin: '15px',
     borderRadius: '4px',
     cursor: 'pointer',
   };
@@ -74,30 +74,51 @@ const RejectDialogBox: React.FC<DialogBoxProps> = ({
   };
 
   const mainContentStyle: React.CSSProperties = {
-    display: 'flex', 
-    flexDirection: 'row'
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: '5px',
   };
 
   const iconContentStyle: React.CSSProperties = {
-    padding: '15px'
+    padding: '15px',
+  };
+
+  const bodyContent: React.CSSProperties = {
+    padding: '10px',
+  };
+
+  const dividerStyle: React.CSSProperties = {
+    borderTop: '2px solid #ccc',
   };
 
   return (
     <div style={dialogStyle}>
       <div style={boxStyle}>
         <div style={mainContentStyle}>
-          <div style={iconContentStyle}>
-              <RejectIcon color="red"/>
-          </div>
           <div>
             <h4 style={titleStyle}>{title}</h4>
-            <p style={contentStyle}>{contentLine1}</p>
-            <p style={contentStyle}>{contentLine2}</p>
           </div>
           <div style={iconContentStyle}>
             <CancelIcon onClick={handleClose} />
           </div>
         </div>
+        <div style={dividerStyle}></div>
+        <div style={bodyContent}>
+          <p style={contentStyle}>{contentLine1}</p>
+          <p style={contentStyle}>{contentLine2}</p>
+          <div style={textStyle}>
+            <TextArea
+              name="comments"
+              label="Comments"
+              placeholder="Enter comments"
+              value={comments}
+              rows={3}
+              onChange={(e) => setComments(e.target.value)}
+            />
+          </div>
+        </div>
+        <div style={dividerStyle}></div>
         <div
           style={{
             display: 'flex',
@@ -119,7 +140,9 @@ const RejectDialogBox: React.FC<DialogBoxProps> = ({
             shape="rectangle"
             justify="center"
             size="small"
-            onClick={handleConfirm}
+            onClick={() => {
+              onReject(comments);
+            }}
           >
             Reject
           </Button>
