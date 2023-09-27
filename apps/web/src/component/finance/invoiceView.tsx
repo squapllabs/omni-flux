@@ -215,7 +215,6 @@ const OrderView = () => {
                   <th>Project Name </th>
                   <th>Budget</th>
                   <th>Quotation </th>
-                  <th>Bill Status</th>
                   <th>Bill</th>
                   <th>Actions</th>
                 </tr>
@@ -258,7 +257,6 @@ const OrderView = () => {
                               )}
                             </div>
                           </td>
-                          <td>{data.status}</td>
                           <td>
                             <div>
                               {data?.purchase_order_documents?.length > 0 ? (
@@ -340,7 +338,6 @@ const OrderView = () => {
                               )}
                             </div>
                           </td>
-                          <td>{data.status}</td>
                           <td>
                             <div>
                               {data?.purchase_order_documents?.length > 0 ? (
