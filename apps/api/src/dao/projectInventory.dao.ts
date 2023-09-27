@@ -295,6 +295,37 @@ const getByProjectIdAndSiteId = async (
   }
 };
 
+const getByProjectSiteItem = async (
+  project_id: number,
+  site_id: number,
+  item_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const projectInventory = await transaction.project_inventory.findFirst({
+      where: {
+        project_id: Number(project_id),
+        site_id: Number(site_id),
+        item_id: Number(item_id),
+        is_delete: false,
+      },
+      include: {
+        project_data: true,
+        item_data: true,
+        site_data: true,
+      },
+    });
+    return projectInventory;
+  } catch (error) {
+    console.log(
+      'Error occurred in projectInventory getByProjectSiteItem dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -306,4 +337,5 @@ export default {
   updateQuantityByProjectInventoryId,
   getByProjectId,
   getByProjectIdAndSiteId,
+  getByProjectSiteItem,
 };

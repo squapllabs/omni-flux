@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, file.fieldname + '-' + uniqueSuffix + '-' + file.originalname);
+    // cb(null, 'Pipe Line Project' + '-' + 'Aalam' + '-' + file.originalname);
   },
 });
 const upload = multer({ storage });

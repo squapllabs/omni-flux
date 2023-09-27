@@ -238,6 +238,7 @@ import LabourList from '../component/labour/labourList';
 import LabourAdd from '../component/labour/labourAdd';
 import AddMachinery from '../component/machinery/addMachinery';
 import AddVendor from '../component/vendor/vendorAdd';
+import ListVendor from '../component/vendor/vendorList';
 import Project from '../component/project/project';
 import ViewProject from '../component/vendor/vendorView';
 import ProjectSettings from '../component/project/projectComponent/projectSettings';
@@ -263,6 +264,7 @@ import FinanceInvoiceView from '../component/finance/invoiceView';
 import ExpenseApprove from '../component/expanses/siteExpenseApprove';
 import ExpenseDetailApprove from '../component/expanses/expanseDetailApprove';
 import BillView from '../component/finance/invoiceBillView';
+import EcoProduction from '../component/ecoProduction/ecoProduction';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -333,6 +335,7 @@ const AppRoutes = () => {
   const ProtectedPurchaseViewByvendor =
     withLayoutAndProtection(PurchaseOrderView);
   const ProtectedStockOutWardAdd = withLayoutAndProtection(StockOutWardAdd);
+  // const ProtectedEcoProduction = withLayoutAndProtection(EcoProduction);
 
   const ProtectedStockOutwardList = withLayoutAndProtection(StockOutwardList);
   // const ProtectedProjectInventory = withLayoutAndProtection(ProjectInventory);
@@ -358,6 +361,7 @@ const AppRoutes = () => {
   const ProtectedExpenseDetailApprove = withLayoutAndProtection(ExpenseDetailApprove);
   const ProtectedBillView = withLayoutAndProtection(BillView);
 
+  const ProtectedListVendor = withLayoutAndProtection(ListVendor);
   return (
     <div>
       <Routes>
@@ -555,6 +559,8 @@ const AppRoutes = () => {
         <Route path="/site-expense-approve" element={<ProtectedSiteExpensesApprove />} />
         <Route path="/expense-detail-approve/:projectId/:id" element={<ProtectedExpenseDetailApprove />} />
         <Route path="/invoice-view/:id" element={<ProtectedBillView />} />
+        <Route path="/eco-protection" element={<EcoProduction/>}/>
+        <Route path="/vendor-list" element={<ProtectedListVendor/>}/>
       </Routes>
     </div>
   );

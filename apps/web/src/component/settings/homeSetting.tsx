@@ -103,8 +103,8 @@ const Settings = () => {
   if (roleName === 'PROJECT MANAGER') {
     menuItems.push(
     { label: 'Indent Approval', value: 'IA' },
-    { label: 'Purchase Request', value: 'PL' },
     { label: 'Purchase Order', value: 'PO' },
+    { label: 'Purchase Request', value: 'PL' },
     { label: 'Expense Approve', value: 'EA' },
     { label: 'Invoice', value: 'FMV' }
     );
@@ -121,7 +121,7 @@ const Settings = () => {
   return (
     <div>
       <div className={Styles.container}>
-        <div className={Styles.heading}>Settings</div>
+        {/* <div className={Styles.heading}>Settings</div> */}
         <div className={Styles.button}>
           <CustomGroupButton
             labels={buttonLabels}
