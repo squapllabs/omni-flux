@@ -57,7 +57,8 @@ const CustomAbstractAdd = (props: {
     end_date: '',
     category_id: '',
     selectedBomConfig: '',
-    progress_status:''
+    progress_status:'',
+    budget: '',
   });
 
   const dateFormat = (value: any) => {
@@ -81,7 +82,8 @@ const CustomAbstractAdd = (props: {
           start_date: dateFormat(data?.data?.start_date),
           end_date: dateFormat(data?.data?.end_date),
           category_id: data?.data?.category_id,
-          progress_status:data?.data?.progress_status
+          progress_status:data?.data?.progress_status,
+          budget:data?.data?.budget,
         });
         // console.log('dataaaa', data);
       };
@@ -99,7 +101,7 @@ const CustomAbstractAdd = (props: {
           name: values.name,
           description: values.description,
           project_id: selectedProject,
-          budget: 0,
+          budget: clientinitialValues.budget,
           start_date: values.start_date,
           end_date: values.end_date,
           category_id: values.category_id,
