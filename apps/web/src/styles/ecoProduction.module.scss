@@ -12,11 +12,16 @@ a {
     cursor: pointer;
 }
 
-a:hover {
-    color: #7f56d9;
-}
+// a:hover {
+//     color: #7f56d9;
+// }
 
-Button:hover {
+// Button:hover {
+//     background-color: #7f56d9;
+//     color: white;
+// }
+
+.btn:hover {
     background-color: #7f56d9;
     color: white;
 }

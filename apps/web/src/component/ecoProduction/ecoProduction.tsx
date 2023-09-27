@@ -35,6 +35,7 @@ const EcoProduction = () => {
             size="medium"
             color="outlined"
             onClick={() => navigate('/')}
+            className={Styles.btn}
           >
             Login
           </Button>

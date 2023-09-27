@@ -7,12 +7,14 @@ import {
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
 import EditIcon from '../menu/icons/editIcon';
-import CustomEditPoPopup from '../ui/CustomEditPoPopup';
+import CustomEditInvoicePopup from '../ui/CustomEditInvoicePopup';
 import { formatBudgetValue } from '../../helper/common-function';
 import Pagination from '../menu/pagination';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
+import CustomGroupButton from '../ui/CustomGroupButton';
+import ViewIcon from '../menu/icons/viewIcon';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -23,6 +25,14 @@ const OrderView = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'To be paid', value: 'Invoice' },
+    { label: 'Paid', value: 'Completed' },
+  ]);
+  const [activeButton, setActiveButton] = useState<string | null>('Invoice');
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
   const getPoData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -30,7 +40,7 @@ const OrderView = () => {
     order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
-    bill_status:'Invoice',
+    bill_status: activeButton,
     project_id: selectedValue,
   };
   const {
@@ -80,7 +90,7 @@ const OrderView = () => {
       order_by_direction: 'asc',
       status: 'AC',
       global_search: '',
-      bill_status:'Invoice',
+      bill_status: activeButton,
       project_id: Number(selectedValue),
     };
     postDataForFilter(poData);
@@ -88,6 +98,17 @@ const OrderView = () => {
   };
 
   const handleReset = async () => {
+    const poData: any = {
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'asc',
+      status: 'AC',
+      global_search: '',
+      bill_status: 'Invoice',
+      project_id: Number(selectedValue),
+    };
+    postDataForFilter(poData);
     setSelectedValue('');
     setDataShow(false);
     setSelectedValue('');
@@ -96,8 +117,30 @@ const OrderView = () => {
 
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage]);
+  }, [currentPage, rowsPerPage, activeButton]);
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
+  const generateCustomBillName = (data:any) => {
+    if (data) {
+      const vendorName = data.vendor_data?.vendor_name || '';
+      const projectName = data.purchase_request_data?.project_data?.project_name || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-${projectName.substring(0, 3)}-${vendorName.substring(0, 3)}-${year}`;
+      return customBillName.toUpperCase();;
+    }
+    return '';
+  };
+
+  const generateCustomQuotationName = (data:any) => {
+    if (data) {
+      const vendorName = data.vendor_data?.vendor_name || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-${vendorName.substring(0, 5)}-${year}`;
+      return customBillName.toUpperCase();;
+    }
+    return '';
+  };
 
   return (
     <div className={Styles.container}>
@@ -108,9 +151,9 @@ const OrderView = () => {
       >
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>Purchase Order Invoice Details</h3>
+            <h3>Invoice and Payments</h3>
             <span className={Styles.content}>
-              Manage invoice here your entire organization.
+              Manage invoice and payment of the orders.
             </span>
           </div>
           <div className={Styles.dividerStyleTop}></div>
@@ -153,6 +196,13 @@ const OrderView = () => {
                 Reset
               </Button>
             </div>
+            <div>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
           </div>
         </div>
         <div className={Styles.tableContainer}>
@@ -165,165 +215,198 @@ const OrderView = () => {
                   <th>Project Name </th>
                   <th>Budget</th>
                   <th>Quotation </th>
-                  <th>Bill Status</th>
                   <th>Bill</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {dataShow ? 
-                 getFilterData?.content?.map((data: any, index: number) => {
-                  return (
-                    <tr>
-                      <td>{startingIndex + index}</td>
-                      <td>{data?.vendor_data?.vendor_name}</td>
-                      <td>
-                        {
-                          data?.purchase_request_data?.project_data
-                            ?.project_name
-                        }
-                      </td>
-                      <td>{formatBudgetValue(data?.total_cost)}</td>
-                      <td>
-                        <div>
-                          {data?.purchase_request_data
-                            ?.purchase_request_documents?.length > 0 ? (
-                            data?.purchase_request_data?.purchase_request_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Uploaded Document
-                                  </a>
-                                </div>
-                              )
-                            )
+                {dataShow
+                  ? getFilterData?.content?.map((data: any, index: number) => {
+                    const customBillName = generateCustomBillName(data);
+                    const customQuotationName = generateCustomQuotationName(data);
+                      return (
+                        <tr>
+                          <td>{startingIndex + index}</td>
+                          <td>{data?.vendor_data?.vendor_name}</td>
+                          <td>
+                            {
+                              data?.purchase_request_data?.project_data
+                                ?.project_name
+                            }
+                          </td>
+                          <td>{formatBudgetValue(data?.total_cost)}</td>
+                          <td>
+                            <div>
+                              {data?.purchase_request_data
+                                ?.purchase_request_documents?.length > 0 ? (
+                                data?.purchase_request_data?.purchase_request_documents.map(
+                                  (document: any, index: number) => (
+                                    <div key={document.code}>
+                                      <a
+                                        href={document.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {customQuotationName}
+                                      </a>
+                                    </div>
+                                  )
+                                )
+                              ) : (
+                                <div>-</div>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              {data?.purchase_order_documents?.length > 0 ? (
+                                data?.purchase_order_documents.map(
+                                  (document: any, index: number) => (
+                                    <div key={document.code}>
+                                      <a
+                                        href={document.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {customBillName}
+                                      </a>
+                                    </div>
+                                  )
+                                )
+                              ) : (
+                                <div>-</div>
+                              )}
+                            </div>
+                          </td>
+                          {activeButton === 'Invoice' ? (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() =>
+                                    handleEdit(data.purchase_order_id)
+                                  }
+                                />
+                              </div>
+                            </td>
                           ) : (
-                            <div>-</div>
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <ViewIcon
+                                  onClick={() =>
+                                    navigate(`/invoice-view/${data.purchase_order_id}`)
+                                  }
+                                />
+                              </div>
+                            </td>
                           )}
-                        </div>
-                      </td>
-                      <td>{data.status}</td>
-                      <td>
-                        <div>
-                          {data?.purchase_order_documents?.length > 0 ? (
-                            data?.purchase_order_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Uploaded Document
-                                  </a>
-                                </div>
-                              )
-                            )
+                        </tr>
+                      );
+                    })
+                  : getAllData?.content?.map((data: any, index: number) => {
+                    const customBillName = generateCustomBillName(data);
+                    const customQuotationName = generateCustomQuotationName(data);
+                      return (
+                        <tr>
+                          <td>{startingIndex + index}</td>
+                          <td>{data?.vendor_data?.vendor_name}</td>
+                          <td>
+                            {
+                              data?.purchase_request_data?.project_data
+                                ?.project_name
+                            }
+                          </td>
+                          <td>{formatBudgetValue(data?.total_cost)}</td>
+                          <td>
+                            <div>
+                              {data?.purchase_request_data
+                                ?.purchase_request_documents?.length > 0 ? (
+                                data?.purchase_request_data?.purchase_request_documents.map(
+                                  (document: any, index: number) => (
+                                    <div key={document.code}>
+                                      <a
+                                        href={document.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                         {customQuotationName}
+                                      </a>
+                                    </div>
+                                  )
+                                )
+                              ) : (
+                                <div>-</div>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              {data?.purchase_order_documents?.length > 0 ? (
+                                data?.purchase_order_documents.map(
+                                  (document: any, index: number) => (
+                                    <div key={document.code}>
+                                      <a
+                                        href={document.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {customBillName}
+                                      </a>
+                                    </div>
+                                  )
+                                )
+                              ) : (
+                                <div>-</div>
+                              )}
+                            </div>
+                          </td>
+                          {activeButton === 'Invoice' ? (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() =>
+                                    handleEdit(data.purchase_order_id)
+                                  }
+                                />
+                              </div>
+                            </td>
                           ) : (
-                            <div>-</div>
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <ViewIcon
+                                  onClick={() =>
+                                    navigate(`/invoice-view/${data.purchase_order_id}`)   
+                                  }
+                                />
+                              </div>
+                            </td>
                           )}
-                        </div>
-                      </td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon
-                            onClick={() => handleEdit(data.purchase_order_id)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                }) : 
-                getAllData?.content?.map((data: any, index: number) => {
-                  return (
-                    <tr>
-                      <td>{startingIndex + index}</td>
-                      <td>{data?.vendor_data?.vendor_name}</td>
-                      <td>
-                        {
-                          data?.purchase_request_data?.project_data
-                            ?.project_name
-                        }
-                      </td>
-                      <td>{formatBudgetValue(data?.total_cost)}</td>
-                      <td>
-                        <div>
-                          {data?.purchase_request_data
-                            ?.purchase_request_documents?.length > 0 ? (
-                            data?.purchase_request_data?.purchase_request_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Uploaded Document
-                                  </a>
-                                </div>
-                              )
-                            )
-                          ) : (
-                            <div>-</div>
-                          )}
-                        </div>
-                      </td>
-                      <td>{data.status}</td>
-                      <td>
-                        <div>
-                          {data?.purchase_order_documents?.length > 0 ? (
-                            data?.purchase_order_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Uploaded Document
-                                  </a>
-                                </div>
-                              )
-                            )
-                          ) : (
-                            <div>-</div>
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon
-                            onClick={() => handleEdit(data.purchase_order_id)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        </tr>
+                      );
+                    })}
               </tbody>
             </table>
           </div>
-          <CustomEditPoPopup
-            isVissible={showEditPopUp}
-            onAction={setShowEditPopUp}
-            selectedPurchaseOrder={purchaseId}
-          />
         </div>
         <div className={Styles.pagination}>
           <Pagination
             currentPage={currentPage}
-            totalPages={ dataShow ? getFilterData?.total_page : getAllData?.total_page}
-            totalCount={ dataShow ? getFilterData?.total_count : getAllData?.total_count}
+            totalPages={
+              dataShow ? getFilterData?.total_page : getAllData?.total_page
+            }
+            totalCount={
+              dataShow ? getFilterData?.total_count : getAllData?.total_count
+            }
             rowsPerPage={rowsPerPage}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleRowsPerPageChange}
           />
         </div>
       </CustomLoader>
+      <CustomEditInvoicePopup
+        isVissible={showEditPopUp}
+        onAction={setShowEditPopUp}
+        selectedPurchaseOrder={purchaseId}
+      />
     </div>
   );
 };
