@@ -84,50 +84,49 @@ const Navbar = () => {
           <Dropdown
             label={
               <div>
-                Materials Management
+                Purchase
                 <DropdownIcon color="gray" className={Styles.navIcon} />
               </div>
             }
           >
             <div className={Styles.container}>
               <div className={Styles.dropDownContainer}>
-                <p>Use cases</p>
+                <p>Purchase</p>
                 <div>
                   <div className={Styles.dropDownContent}>
                     <div className={Styles.dropDownItems}>
                       <div className={Styles.itemsTitle}>
                         <CheckIcon />
-                        <h2>BBQ-Bill of Quantities</h2>
+                        <h2>Indent Approval</h2>
                       </div>
-
-                      <p>
-                        It's a document used in tendering in the construction
-                        industry in which materials, parts, and labor are
-                        itemized.
-                      </p>
+                      <p>Manage your project indent.</p>
                     </div>
-                    <div onClick={handleListItems}>
+                    {/* <div onClick={handleListItems}> */}
+                    <div>
                       <div className={Styles.dropDownItems}>
                         <div className={Styles.itemsTitle}>
                           <CheckIcon />
-                          <h2>Items</h2>
+                          <h2>Purchase Order</h2>
                         </div>
-                        <p>
-                          This would likely refer to the direct materials or
-                          components that are used in the execution of a
-                          project.
-                        </p>
+                        <p>Manage your purchase order.</p>
                       </div>
                     </div>
                     <div>
                       <div className={Styles.dropDownItems}>
                         <div className={Styles.itemsTitle}>
                           <CheckIcon />
-                          <h2>Stocks</h2>
+                          <h2>Purchase Request</h2>
                         </div>
-                        <p>
-                          Find retention drivers and make your customers smile.
-                        </p>
+                        <p>Manage your purchase request.</p>
+                      </div>
+                    </div>
+                    <div>
+                      <div className={Styles.dropDownItems}>
+                        <div className={Styles.itemsTitle}>
+                          <CheckIcon />
+                          <h2>Vendors</h2>
+                        </div>
+                        <p>Manage your approved vendor.</p>
                       </div>
                     </div>
                   </div>
@@ -135,39 +134,37 @@ const Navbar = () => {
               </div>
 
               <div className={Styles.dropDownContainer}>
-                <p>Resources</p>
+                <p>Invoice</p>
                 <div>
                   <div className={Styles.dropDownContent}>
                     <div
                       className={Styles.dropDownItems}
-                      onClick={handleLeadEnquires}
+                      // onClick={handleLeadEnquires}
                     >
                       <div className={Styles.itemsTitle}>
                         <CheckIcon />
-                        <h2>Lead-Enquires</h2>
+                        <h2>Expenses-Approval</h2>
                       </div>
-                      <p>The latest industry news, updates and info.</p>
+                      <p>Manage your expenses approval</p>
                     </div>
                     <div>
                       <div className={Styles.dropDownItems}>
                         <div className={Styles.itemsTitle}>
                           <CheckIcon />
-                          <h2>Customer stories</h2>
+                          <h2>Invoice</h2>
                         </div>
-                        <p>Learn how our customers are making big changes.</p>
+                        <p>Manage your invoice and reporting</p>
                       </div>
                     </div>
-                    <div>
+                    {/* <div>
                       <div className={Styles.dropDownItems}>
                         <div className={Styles.itemsTitle}>
                           <CheckIcon />
                           <h2>Video tutorial</h2>
                         </div>
-                        <p>
-                          Get up and running on new features and techniques.
-                        </p>
+                        <p>Get up and running on new features.</p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

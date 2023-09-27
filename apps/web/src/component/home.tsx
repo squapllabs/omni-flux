@@ -109,7 +109,7 @@ const Home = () => {
               <div className={Styles.card}>
                 <div className={Styles.cardContainer}>
                   <div className={Styles.cardTextStyle}>
-                    <h3><b>In-progress Projects</b></h3>
+                    <h3><b>In-Progress Projects</b></h3>
                     <p>{projectStatus?.inprogress_projects}</p>
                   </div>
                 </div>
@@ -117,7 +117,7 @@ const Home = () => {
               <div className={Styles.card}>
                 <div className={Styles.cardContainer}>
                   <div className={Styles.cardTextStyle}>
-                    <h3><b>Not Started Projects</b></h3>
+                    <h3><b>Yet To Start</b></h3>
                     <p><b>{projectStatus?.not_started_projects}</b></p>
                   </div>
                 </div>
