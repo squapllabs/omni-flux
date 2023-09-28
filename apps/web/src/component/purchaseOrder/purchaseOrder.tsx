@@ -13,6 +13,8 @@ import Pagination from '../menu/pagination';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
+import ReportGenerator from '../ui/reportGenerator';
+import AddIcon from '../menu/icons/addIcon';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -297,6 +299,10 @@ const OrderView = () => {
                           <EditIcon
                             onClick={() => handleEdit(data.purchase_order_id)}
                           />
+                          <AddIcon
+                           onClick={() => {<ReportGenerator/>}}
+                          />
+
                         </div>
                       </td>
                     </tr>

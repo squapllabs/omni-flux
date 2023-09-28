@@ -9644,3 +9644,3280 @@ type master_dataWhereInput {
 
 
 >>>>>>> fdf52a1269904e75380eb2e9fe81c59ea6a3b8b8
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T07:46:50.428Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T07:46:56.553Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T07:49:47.537Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T07:49:47.566Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T07:49:59.469Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:01:28.715Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:01:32.328Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:01:46.359Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:01:55.804Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:30.371Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:32.988Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:33.692Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:33.937Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:34.053Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:34.213Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:34.384Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:34.556Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:34.708Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:34.879Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:35.028Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:35.205Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:35.355Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:35.512Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:35.684Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:35.838Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:35.995Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:36.169Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:36.291Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:36.450Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:36.622Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:36.773Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:36.950Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:37.102Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:37.258Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:37.405Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:37.579Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:37.757Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:37.880Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:38.088Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:38.520Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:38.707Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:38.878Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:38.994Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:39.212Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:02:47.354Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:03:25.957Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:03:35.222Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:03:39.145Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:12.725Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:15.221Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:15.378Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:15.652Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:15.800Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:15.852Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:16.001Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:16.214Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:22.711Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:23.113Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:23.165Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:23.357Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:23.448Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:23.560Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:23.611Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:23.774Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:23.946Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:24.096Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:24.260Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:24.429Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:24.584Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:24.745Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:24.905Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:25.078Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:25.187Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:25.397Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:04:38.821Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:04.337Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:05.909Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:06.506Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:06.629Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:06.930Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:07.045Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:07.125Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:07.297Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:07.468Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:07.620Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:07.772Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:07.920Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:08.086Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:08.208Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:08.416Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:16.420Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:16.592Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:16.673Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:16.752Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:16.950Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:17.083Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:17.161Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:17.279Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:17.430Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:17.585Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:17.753Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:17.909Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:18.079Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:18.248Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:18.398Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:18.578Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:18.736Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:18.855Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-09-27T08:06:19.090Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:89:60
+
+  86 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const purchaseOrder = await transaction.purchase_order.findFirst({
+           where: {
+             purchase_order_id: NaN,
+                                ~~~
+             is_delete: false
+           },
+           include: {
+             purchase_request_data: {
+               include: {
+                 indent_request_data: true
+               }
+             },
+             vendor_data: true
+           }
+         })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+

@@ -262,6 +262,7 @@ import ProjectStockAuditView from '../component/project/projectComponent/project
 import FinanceInvoiceView from '../component/finance/invoiceView';
 import ExpenseApprove from '../component/expanses/siteExpenseApprove';
 import ExpenseDetailApprove from '../component/expanses/expanseDetailApprove';
+import ReportGenerator from '../component/reportGenerator/invoice';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -355,6 +356,7 @@ const AppRoutes = () => {
     withLayoutAndProtection(FinanceInvoiceView);
   const ProtectedSiteExpensesApprove = withLayoutAndProtection(ExpenseApprove);
   const ProtectedExpenseDetailApprove = withLayoutAndProtection(ExpenseDetailApprove);
+  const ProtectedReportGenerator = withLayoutAndProtection(ReportGenerator);
   return (
     <div>
       <Routes>
@@ -551,6 +553,7 @@ const AppRoutes = () => {
         <Route path="/finance-view" element={<ProtectedFinanceInvoiceList />} />
         <Route path="/site-expense-approve" element={<ProtectedSiteExpensesApprove />} />
         <Route path="/expense-detail-approve/:projectId/:id" element={<ProtectedExpenseDetailApprove />} />
+        <Route path="/report" element={<ProtectedReportGenerator />} />
       </Routes>
     </div>
   );
