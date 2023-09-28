@@ -15,6 +15,8 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import ViewIcon from '../menu/icons/viewIcon';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/invoice'
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -61,6 +63,14 @@ const OrderView = () => {
     setPurchaseId(value);
     setShowEditPopUp(true);
   };
+
+  const handleReportGenerator = () =>{  
+    const data:any ={
+      title:"Invoice and Payments"
+    }  
+    ReportGenerator(data)
+  }
+
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -286,6 +296,7 @@ const OrderView = () => {
                                     handleEdit(data.purchase_order_id)
                                   }
                                 />
+                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                               </div>
                             </td>
                           ) : (
@@ -296,6 +307,7 @@ const OrderView = () => {
                                     navigate(`/invoice-view/${data.purchase_order_id}`)
                                   }
                                 />
+                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                               </div>
                             </td>
                           )}
@@ -367,6 +379,7 @@ const OrderView = () => {
                                     handleEdit(data.purchase_order_id)
                                   }
                                 />
+                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                               </div>
                             </td>
                           ) : (
@@ -377,6 +390,7 @@ const OrderView = () => {
                                     navigate(`/invoice-view/${data.purchase_order_id}`)   
                                   }
                                 />
+                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                               </div>
                             </td>
                           )}
