@@ -7,6 +7,7 @@ import { purchaseRequestBody } from '../interfaces/purchaseRequest.interface';
 import prisma from '../utils/prisma';
 import s3 from '../utils/s3';
 import fs from 'fs';
+import mailService from './mail.service';
 
 /**
  * Method to Create a New PurchaseRequest
@@ -99,8 +100,23 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
         };
         return result;
       })
-      .then((data) => {
+      .then(async (data) => {
         console.log('Successfully Purchase Request Data Returned ', data);
+        const emailData = [];
+        for (const vendor of vendor_ids) {
+          const vendor_id = vendor;
+          const vendorDetails = await vendorDao.getById(vendor_id);
+
+          const vendorEmailBody = {
+            purchase_request_details: purchase_request_details,
+            vendor_name: vendorDetails.vendor_name,
+            to_email_id: vendorDetails.contact_email,
+          };
+          emailData.push(vendorEmailBody);
+        }
+        for (const email of emailData) {
+          await mailService.purchaseRequestEmailForVendor(email);
+        }
         return data;
       })
       .catch((error: string) => {

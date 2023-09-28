@@ -6,7 +6,6 @@ const errorText = 'Error';
 const processFileUpload = catchAsync(async (req, res) => {
   const methodName = '/processFileUpload';
   try {
-    console.log("controller call:",)
     const file = await fileUpload.processFileUpload(req);
     res.send(file);
   } catch (err) {

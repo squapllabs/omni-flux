@@ -46,7 +46,7 @@ const OrderView = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getBySearchPoData();
-  console.log('getFilterData---->', getFilterData);
+ 
 
   const handleEdit = (value: any) => {
     setPurchaseId(value);
@@ -171,163 +171,167 @@ const OrderView = () => {
                 </tr>
               </thead>
               <tbody>
-                {dataShow ? 
-                 getFilterData?.content?.map((data: any, index: number) => {
-                  return (
-                    <tr>
-                      <td>{startingIndex + index}</td>
-                      <td>{data?.vendor_data?.vendor_name}</td>
-                      <td>
-                        {
-                          data?.purchase_request_data?.project_data
-                            ?.project_name
-                        }
-                      </td>
-                      <td>{formatBudgetValue(data?.total_cost)}</td>
-                      <td>
-                        <div>
-                          {data?.purchase_request_data
-                            ?.purchase_request_documents?.length > 0 ? (
-                            data?.purchase_request_data?.purchase_request_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Uploaded Document
-                                  </a>
-                                </div>
-                              )
-                            )
-                          ) : (
-                            <div>-</div>
-                          )}
-                        </div>
-                      </td>
-                      <td>{data.status}</td>
-                      <td>
-                        <div>
-                          {data?.purchase_order_documents?.length > 0 ? (
-                            data?.purchase_order_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Uploaded Document
-                                  </a>
-                                </div>
-                              )
-                            )
-                          ) : (
-                            <div>-</div>
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon
-                            onClick={() => handleEdit(data.purchase_order_id)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                }) : 
-                getAllData?.content?.map((data: any, index: number) => {
-                  return (
-                    <tr>
-                      <td>{startingIndex + index}</td>
-                      <td>{data?.vendor_data?.vendor_name}</td>
-                      <td>
-                        {
-                          data?.purchase_request_data?.project_data
-                            ?.project_name
-                        }
-                      </td>
-                      <td>{formatBudgetValue(data?.total_cost)}</td>
-                      <td>
-                        <div>
-                          {data?.purchase_request_data
-                            ?.purchase_request_documents?.length > 0 ? (
-                            data?.purchase_request_data?.purchase_request_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Uploaded Document
-                                  </a>
-                                </div>
-                              )
-                            )
-                          ) : (
-                            <div>-</div>
-                          )}
-                        </div>
-                      </td>
-                      <td>{data.status}</td>
-                      <td>
-                        <div>
-                          {data?.purchase_order_documents?.length > 0 ? (
-                            data?.purchase_order_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Uploaded Document
-                                  </a>
-                                </div>
-                              )
-                            )
-                          ) : (
-                            <div>-</div>
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon
-                            onClick={() => handleEdit(data.purchase_order_id)}
-                          />
-                          <AddIcon
-                           onClick={() => {<ReportGenerator/>}}
-                          />
-
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                {dataShow
+                  ? getFilterData?.content?.map((data: any, index: number) => {
+                      return (
+                        <tr>
+                          <td>{startingIndex + index}</td>
+                          <td>{data?.vendor_data?.vendor_name}</td>
+                          <td>
+                            {
+                              data?.purchase_request_data?.project_data
+                                ?.project_name
+                            }
+                          </td>
+                          <td>{formatBudgetValue(data?.total_cost)}</td>
+                          <td>
+                            <div>
+                              {data?.purchase_request_data
+                                ?.purchase_request_documents?.length > 0 ? (
+                                data?.purchase_request_data?.purchase_request_documents.map(
+                                  (document: any, index: number) => (
+                                    <div key={document.code}>
+                                      <a
+                                        href={document.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        Uploaded Document
+                                      </a>
+                                    </div>
+                                  )
+                                )
+                              ) : (
+                                <div>-</div>
+                              )}
+                            </div>
+                          </td>
+                          <td>{data.status}</td>
+                          <td>
+                            <div>
+                              {data?.purchase_order_documents?.length > 0 ? (
+                                data?.purchase_order_documents.map(
+                                  (document: any, index: number) => (
+                                    <div key={document.code}>
+                                      <a
+                                        href={document.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        Uploaded Document
+                                      </a>
+                                    </div>
+                                  )
+                                )
+                              ) : (
+                                <div>-</div>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() =>
+                                  handleEdit(data.purchase_order_id)
+                                }
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  : getAllData?.content?.map((data: any, index: number) => {
+                      return (
+                        <tr>
+                          <td>{startingIndex + index}</td>
+                          <td>{data?.vendor_data?.vendor_name}</td>
+                          <td>
+                            {
+                              data?.purchase_request_data?.project_data
+                                ?.project_name
+                            }
+                          </td>
+                          <td>{formatBudgetValue(data?.total_cost)}</td>
+                          <td>
+                            <div>
+                              {data?.purchase_request_data
+                                ?.purchase_request_documents?.length > 0 ? (
+                                data?.purchase_request_data?.purchase_request_documents.map(
+                                  (document: any, index: number) => (
+                                    <div key={document.code}>
+                                      <a
+                                        href={document.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        Uploaded Document
+                                      </a>
+                                    </div>
+                                  )
+                                )
+                              ) : (
+                                <div>-</div>
+                              )}
+                            </div>
+                          </td>
+                          <td>{data.status}</td>
+                          <td>
+                            <div>
+                              {data?.purchase_order_documents?.length > 0 ? (
+                                data?.purchase_order_documents.map(
+                                  (document: any, index: number) => (
+                                    <div key={document.code}>
+                                      <a
+                                        href={document.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        Uploaded Document
+                                      </a>
+                                    </div>
+                                  )
+                                )
+                              ) : (
+                                <div>-</div>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon
+                                onClick={() =>
+                                  handleEdit(data.purchase_order_id)
+                                }
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
               </tbody>
             </table>
           </div>
-          <CustomEditPoPopup
-            isVissible={showEditPopUp}
-            onAction={setShowEditPopUp}
-            selectedPurchaseOrder={purchaseId}
-          />
         </div>
         <div className={Styles.pagination}>
           <Pagination
             currentPage={currentPage}
-            totalPages={ dataShow ? getFilterData?.total_page : getAllData?.total_page}
-            totalCount={ dataShow ? getFilterData?.total_count : getAllData?.total_count}
+            totalPages={
+              dataShow ? getFilterData?.total_page : getAllData?.total_page
+            }
+            totalCount={
+              dataShow ? getFilterData?.total_count : getAllData?.total_count
+            }
             rowsPerPage={rowsPerPage}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleRowsPerPageChange}
           />
         </div>
       </CustomLoader>
+      <CustomEditPoPopup
+        isVissible={showEditPopUp}
+        onAction={setShowEditPopUp}
+        selectedPurchaseOrder={purchaseId}
+      />
     </div>
   );
 };

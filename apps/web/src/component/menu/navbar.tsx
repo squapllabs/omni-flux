@@ -24,9 +24,11 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const state: RootState = store.getState();
-  let encryptedData = getToken(state, 'Data');
-  let userData: any = encryptedData.userData;
-  // console.log('userData', userData);
+  const encryptedData = getToken(state, 'Data');
+  const userData: any = encryptedData.userData;
+  const roleName =
+    encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
+  // console.log('roleName', roleName);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -49,6 +51,24 @@ const Navbar = () => {
 
   const handleHomeRoute = () => {
     navigate('/home');
+  };
+  const handleIndentapproval = () => {
+    navigate('/indent-view');
+  };
+  const handlePurchaseOrder = () => {
+    navigate('/purchase-order');
+  };
+  const handlePurchaseRequest = () => {
+    navigate('/purchase-view');
+  };
+  const handleVendorList = () => {
+    navigate('/vendor-list');
+  };
+  const handleExpenseApproval = () => {
+    navigate('/site-expense-approve');
+  };
+  const handleFinanceView = () => {
+    navigate('/finance-view');
   };
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -84,90 +104,111 @@ const Navbar = () => {
           <Dropdown
             label={
               <div>
-                Materials Management
+                {roleName === 'FINANCE MANAGER'
+                  ? 'Invoice '
+                  : roleName === 'PLANNING ENGINEER'
+                  ? 'Indent'
+                  : 'Purchase'}
                 <DropdownIcon color="gray" className={Styles.navIcon} />
               </div>
             }
           >
             <div className={Styles.container}>
               <div className={Styles.dropDownContainer}>
-                <p>Use cases</p>
+                <p>
+                  {roleName === 'FINANCE MANAGER'
+                    ? 'Payment'
+                    : roleName === 'PLANNING ENGINEER'
+                    ? 'Indent Approval'
+                    : 'Purchase'}
+                </p>
                 <div>
                   <div className={Styles.dropDownContent}>
-                    <div className={Styles.dropDownItems}>
-                      <div className={Styles.itemsTitle}>
-                        <CheckIcon />
-                        <h2>BBQ-Bill of Quantities</h2>
+                    {roleName === 'PLANNING ENGINEER' ||
+                    roleName === 'PROJECT MANAGER' ||
+                    roleName === 'ADMIN' ? (
+                      <div
+                        className={Styles.dropDownItems}
+                        onClick={handleIndentapproval}
+                      >
+                        <div className={Styles.itemsTitle}>
+                          <CheckIcon />
+                          <h2>Indent Approval</h2>
+                        </div>
+                        <p>Manage your project indent.</p>
                       </div>
+                    ) : null}
 
-                      <p>
-                        It's a document used in tendering in the construction
-                        industry in which materials, parts, and labor are
-                        itemized.
-                      </p>
-                    </div>
-                    <div onClick={handleListItems}>
-                      <div className={Styles.dropDownItems}>
+                    {roleName === 'PURCHASE MANAGER' ||
+                    roleName === 'PROJECT MANAGER' ||
+                    roleName === 'ADMIN' ? (
+                      <div
+                        className={Styles.dropDownItems}
+                        onClick={handlePurchaseOrder}
+                      >
                         <div className={Styles.itemsTitle}>
                           <CheckIcon />
-                          <h2>Items</h2>
+                          <h2>Purchase Order</h2>
                         </div>
-                        <p>
-                          This would likely refer to the direct materials or
-                          components that are used in the execution of a
-                          project.
-                        </p>
+                        <p>Manage your purchase order.</p>
                       </div>
-                    </div>
-                    <div>
-                      <div className={Styles.dropDownItems}>
-                        <div className={Styles.itemsTitle}>
-                          <CheckIcon />
-                          <h2>Stocks</h2>
-                        </div>
-                        <p>
-                          Find retention drivers and make your customers smile.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    ) : null}
 
-              <div className={Styles.dropDownContainer}>
-                <p>Resources</p>
-                <div>
-                  <div className={Styles.dropDownContent}>
-                    <div
-                      className={Styles.dropDownItems}
-                      onClick={handleLeadEnquires}
-                    >
-                      <div className={Styles.itemsTitle}>
-                        <CheckIcon />
-                        <h2>Lead-Enquires</h2>
-                      </div>
-                      <p>The latest industry news, updates and info.</p>
-                    </div>
-                    <div>
-                      <div className={Styles.dropDownItems}>
+                    {roleName === 'PURCHASE MANAGER' ||
+                    roleName === 'PROJECT MANAGER' ||
+                    roleName === 'ADMIN' ? (
+                      <div
+                        className={Styles.dropDownItems}
+                        onClick={handlePurchaseRequest}
+                      >
                         <div className={Styles.itemsTitle}>
                           <CheckIcon />
-                          <h2>Customer stories</h2>
+                          <h2>Purchase Request</h2>
                         </div>
-                        <p>Learn how our customers are making big changes.</p>
+                        <p>Manage your purchase request.</p>
                       </div>
-                    </div>
-                    <div>
-                      <div className={Styles.dropDownItems}>
+                    ) : null}
+
+                    {roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' ? (
+                      <div
+                        className={Styles.dropDownItems}
+                        onClick={handleExpenseApproval}
+                      >
                         <div className={Styles.itemsTitle}>
                           <CheckIcon />
-                          <h2>Video tutorial</h2>
+                          <h2>Expenses-Approval</h2>
                         </div>
-                        <p>
-                          Get up and running on new features and techniques.
-                        </p>
+                        <p>Manage your expenses approval.</p>
                       </div>
-                    </div>
+                    ) : null}
+
+                    {roleName === 'FINANCE MANAGER' ||
+                    roleName === 'PROJECT MANAGER' ||
+                    roleName === 'ADMIN' ? (
+                      <div
+                        className={Styles.dropDownItems}
+                        onClick={handleFinanceView}
+                      >
+                        <div className={Styles.itemsTitle}>
+                          <CheckIcon />
+                          <h2>Invoice</h2>
+                        </div>
+                        <p>Manage your invoice and payments</p>
+                      </div>
+                    ) : null}
+
+                    {roleName === 'PURCHASE MANAGER' || roleName === 'ADMIN' ? (
+                      <div
+                        className={Styles.dropDownItems}
+                        onClick={handleVendorList}
+                      >
+                        <div className={Styles.itemsTitle}>
+                          <CheckIcon />
+                          <h2>Vendors</h2>
+                        </div>
+                        <p>Manage your approved vendor.</p>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -314,17 +355,21 @@ const Navbar = () => {
                     </div>
                   </div>
                 </div>
-                <div className={Styles.box}>
-                  <div>
-                    <div
-                      className={Styles.menubox}
-                      onClick={() => handleNavigate()}
-                    >
-                      <SettingIcon />
-                      <span>Settings</span>
+                {roleName === 'ADMIN' ? (
+                  <div className={Styles.box}>
+                    <div>
+                      <div
+                        className={Styles.menubox}
+                        onClick={() => handleNavigate()}
+                      >
+                        <SettingIcon />
+                        <span>Settings</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  ''
+                )}
                 <div className={Styles.box}>
                   <div>
                     <div

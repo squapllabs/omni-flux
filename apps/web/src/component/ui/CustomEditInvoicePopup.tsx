@@ -11,7 +11,7 @@ import Select from '../ui/selectNew';
 import PurchaseRequestService from '../../service/purchase-request.service';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
 
-const CustomEditPoPopup = (props: {
+const CustomEditInvoicePopup = (props: {
   isVissible: any;
   onAction: any;
   selectedPurchaseOrder: any;
@@ -19,7 +19,7 @@ const CustomEditPoPopup = (props: {
   const { isVissible, onAction, selectedPurchaseOrder } = props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
-    getBymasertDataType('POS');
+    getBymasertDataType('PYS');
 
   const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
   const [initialValues, setInitialValues] = useState({
@@ -363,4 +363,4 @@ const CustomEditPoPopup = (props: {
   );
 };
 
-export default CustomEditPoPopup;
+export default CustomEditInvoicePopup;

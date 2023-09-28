@@ -9,6 +9,13 @@ const useGetOnePurchaseRequest = (id : any)  => {
     });
   };
 
+  const useGetOnePurchaseOrder = (id : any)  => {
+    return useQuery(['useGetPurchaseOrder',id], () => purchaseRequestService.getOnePurchaseOrderDataByID(id), {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    });
+  };
+
   const purchaseOrderRequest = () => {
     const queryClient = useQueryClient();
     return useMutation(
@@ -83,4 +90,4 @@ const getBySearchPoData = () => {
     }
   );
 };
-  export { useGetOnePurchaseRequest,purchaseOrderRequest,useGetOneOrderPurchaseRequest,useGetMasterBillStatusParentType,updatePurchseOrderBillStatus,useGetAllPurchaseOrderData,getBySearchPoData };
+  export { useGetOnePurchaseRequest,purchaseOrderRequest,useGetOneOrderPurchaseRequest,useGetMasterBillStatusParentType,updatePurchseOrderBillStatus,useGetAllPurchaseOrderData,getBySearchPoData,useGetOnePurchaseOrder };
