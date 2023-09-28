@@ -355,17 +355,21 @@ const Navbar = () => {
                     </div>
                   </div>
                 </div>
-                <div className={Styles.box}>
-                  <div>
-                    <div
-                      className={Styles.menubox}
-                      onClick={() => handleNavigate()}
-                    >
-                      <SettingIcon />
-                      <span>Settings</span>
+                {roleName === 'ADMIN' ? (
+                  <div className={Styles.box}>
+                    <div>
+                      <div
+                        className={Styles.menubox}
+                        onClick={() => handleNavigate()}
+                      >
+                        <SettingIcon />
+                        <span>Settings</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  ''
+                )}
                 <div className={Styles.box}>
                   <div>
                     <div
