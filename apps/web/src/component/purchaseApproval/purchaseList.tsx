@@ -118,8 +118,8 @@ const PurchaseList = () => {
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>Purchase List</h3>
-            <span className={Styles.content}>Purchase List based on Project</span>
+            <h3>Purchase Request List</h3>
+            <span className={Styles.content}>Purchase Request List based on Project</span>
           </div>
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
