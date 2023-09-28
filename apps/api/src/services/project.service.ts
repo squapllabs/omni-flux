@@ -326,6 +326,8 @@ const searchProject = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_manager_id = body.project_manager_id;
+    const project_status = body.project_status;
 
     const filterObj: any = {};
 
@@ -333,6 +335,22 @@ const searchProject = async (body) => {
       filterObj.filterProject = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_manager_id) {
+      filterObj.filterProject = filterObj.filterProject || {};
+      filterObj.filterProject.AND = filterObj.filterProject.AND || [];
+      filterObj.filterProject.AND.push({
+        user_id: project_manager_id,
+      });
+    }
+
+    if (project_status) {
+      filterObj.filterProject = filterObj.filterProject || {};
+      filterObj.filterProject.AND = filterObj.filterProject.AND || [];
+      filterObj.filterProject.AND.push({
+        status: project_status,
+      });
     }
 
     if (global_search) {

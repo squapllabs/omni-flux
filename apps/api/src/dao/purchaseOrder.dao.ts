@@ -336,11 +336,14 @@ const updateStatusAndDocument = async (
   updated_by: number,
   purchase_order_documents,
   purchase_order_id: number,
+  payment_mode: string,
+  payment_date: Date,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const formatted_payment_date = payment_date ? new Date(payment_date) : null;
     const purchaseOrder = await transaction.purchase_order.update({
       where: {
         purchase_order_id: purchase_order_id,
@@ -349,6 +352,8 @@ const updateStatusAndDocument = async (
         status,
         purchase_order_documents,
         updated_by,
+        payment_mode,
+        payment_date: formatted_payment_date,
         updated_date: currentDate,
       },
     });

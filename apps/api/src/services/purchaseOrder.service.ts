@@ -491,8 +491,14 @@ const getByPurchaseRequestId = async (purchaseRequestId: number) => {
 
 const updateStatusAndDocument = async (body: purchaseOrderBody) => {
   try {
-    const { status, updated_by, purchase_order_documents, purchase_order_id } =
-      body;
+    const {
+      status,
+      updated_by,
+      purchase_order_documents,
+      purchase_order_id,
+      payment_mode,
+      payment_date,
+    } = body;
     let result = null;
     const purchaseOrderExist = await purchaseOrderDao.getById(
       purchase_order_id
@@ -533,6 +539,8 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
             updated_by,
             updatedPurchaseOrderDocuments,
             purchase_order_id,
+            payment_mode,
+            payment_date ? payment_date : purchaseOrderExist?.payment_date,
             tx
           );
 
