@@ -615,6 +615,306 @@ const getByUserIdAndProjectRoleId = async (
   }
 };
 
+/**
+ * Method to search Project Member Association - Pagination API
+ * @returns
+ */
+const searchByUserId = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const project_status = body.project_status;
+    const user_id = body.user_id;
+    let result = null;
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterProjectMemberAssociation = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (user_id) {
+      filterObj.filterProjectMemberAssociation.AND =
+        filterObj.filterProjectMemberAssociation.AND || [];
+      filterObj.filterProjectMemberAssociation.AND.push({
+        user_id: user_id,
+      });
+    }
+
+    if (project_status) {
+      filterObj.filterProjectMemberAssociation.AND =
+        filterObj.filterProjectMemberAssociation.AND || [];
+      filterObj.filterProjectMemberAssociation.AND.push({
+        project_data: { status: project_status },
+      });
+    }
+
+    if (global_search) {
+      filterObj.filterProjectMemberAssociation =
+        filterObj.filterProjectMemberAssociation || {};
+      filterObj.filterProjectMemberAssociation.OR =
+        filterObj.filterProjectMemberAssociation.OR || [];
+
+      filterObj.filterProjectMemberAssociation.OR.push(
+        {
+          project_data: {
+            project_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          user_data: {
+            first_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          user_data: {
+            last_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_role_data: {
+            role_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
+
+      filterObj.filterProjectMemberAssociation.OR.push(
+        {
+          project_data: {
+            project_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_data: {
+            description: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_data: {
+            status: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_data: {
+            code: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_data: {
+            project_notes: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_data: {
+            project_type: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_data: {
+            client: {
+              name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+        {
+          project_data: {
+            client: {
+              name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+        {
+          project_data: {
+            user: {
+              first_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+        {
+          project_data: {
+            user: {
+              last_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        }
+      );
+    }
+
+    if (!user_id) {
+      const filterObj: any = {};
+
+      if (project_status) {
+        filterObj.filterProject = filterObj.filterProject || {};
+        filterObj.filterProject.AND = filterObj.filterProject.AND || [];
+        filterObj.filterProject.AND.push({
+          status: project_status,
+        });
+      }
+
+      if (global_search) {
+        filterObj.filterProject = filterObj.filterProject || {};
+        filterObj.filterProject.OR = filterObj.filterProject.OR || [];
+
+        filterObj.filterProject.OR.push(
+          { project_name: { contains: global_search, mode: 'insensitive' } },
+          { description: { contains: global_search, mode: 'insensitive' } },
+          { status: { contains: global_search, mode: 'insensitive' } },
+          { project_notes: { contains: global_search, mode: 'insensitive' } },
+          { project_type: { contains: global_search, mode: 'insensitive' } },
+          { code: { contains: global_search, mode: 'insensitive' } },
+          {
+            client: {
+              name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            user: {
+              first_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            user: {
+              last_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          }
+        );
+
+        filterObj.filterProject.OR.push({
+          OR: [
+            {
+              project_site: {
+                some: {
+                  status: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+            {
+              project_site: {
+                some: {
+                  site_details: {
+                    name: {
+                      contains: global_search,
+                      mode: 'insensitive',
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        });
+      }
+
+      result = await projectDao.searchProject(
+        offset,
+        limit,
+        order_by_column,
+        order_by_direction,
+        filterObj
+      );
+    } else {
+      const data =
+        await projectMemberAssociationDao.searchProjectMemberAssociation(
+          offset,
+          limit,
+          order_by_column,
+          order_by_direction,
+          filterObj
+        );
+
+      const project_data = [];
+
+      await data.data.map((data) => {
+        const project = data.project_data;
+
+        project_data.push(project);
+      });
+
+      result = { count: data?.count, data: project_data };
+    }
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempProjectData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempProjectData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchByUserId ProjectMemberAssociation service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createProjectMemberAssociation,
   updateProjectMemberAssociation,
@@ -626,4 +926,5 @@ export {
   searchProjectMemberAssociation,
   getByProjectIdAndRoleType,
   getByUserIdAndProjectRoleId,
+  searchByUserId,
 };

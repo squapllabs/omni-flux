@@ -11,6 +11,8 @@ interface purchaseOrderBody {
   purchase_order_item: Array<PurchaseOrderItem>;
   purchase_order_documents: Array<PurchaseOrderDocuments>;
   order_id: string;
+  payment_mode: string;
+  payment_date: Date;
 }
 
 interface PurchaseOrderItem {
