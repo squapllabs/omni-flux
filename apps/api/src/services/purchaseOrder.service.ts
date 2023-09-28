@@ -24,6 +24,8 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       order_remark,
       created_by,
       purchase_order_documents,
+      payment_mode,
+      payment_date,
     } = body;
 
     if (purchase_request_id) {
@@ -58,7 +60,9 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       total_cost,
       order_remark,
       created_by,
-      purchase_order_documents
+      purchase_order_documents,
+      payment_mode,
+      payment_date
     );
     const result = {
       message: 'success',
@@ -89,6 +93,8 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       order_remark,
       updated_by,
       purchase_order_documents,
+      payment_mode,
+      payment_date,
       purchase_order_id,
     } = body;
     let result = null;
@@ -153,6 +159,8 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       order_remark,
       updated_by,
       updatedPurchaseOrderDocuments,
+      payment_mode,
+      payment_date ? payment_date : purchaseOrderExist?.payment_date,
       purchase_order_id
     );
     result = { message: 'success', status: true, data: purchaseOrderDetails };

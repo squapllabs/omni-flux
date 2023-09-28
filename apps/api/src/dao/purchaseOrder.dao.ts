@@ -10,12 +10,16 @@ const add = async (
   order_remark: string,
   created_by: number,
   purchase_order_documents,
+  payment_mode: string,
+  payment_date: Date,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const is_delete = false;
     const formatted_order_date = order_date ? new Date(order_date) : null;
+    const formatted_payment_date = payment_date ? new Date(payment_date) : null;
+
     const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
     const order_id = await customQueryExecutor.customQueryExecutor(
       orderIdGeneratorQuery
@@ -31,6 +35,8 @@ const add = async (
         order_remark,
         purchase_order_documents,
         order_id: order_id[0].order_id_sequence,
+        payment_mode,
+        payment_date: formatted_payment_date,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -53,12 +59,15 @@ const edit = async (
   order_remark: string,
   updated_by: number,
   purchase_order_documents,
+  payment_mode: string,
+  payment_date: Date,
   purchase_order_id: number,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const formatted_order_date = order_date ? new Date(order_date) : null;
+    const formatted_payment_date = payment_date ? new Date(payment_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const purchaseOrder = await transaction.purchase_order.update({
       where: {
@@ -72,6 +81,8 @@ const edit = async (
         total_cost,
         order_remark,
         purchase_order_documents,
+        payment_mode,
+        payment_date: formatted_payment_date,
         updated_by,
         updated_date: currentDate,
       },

@@ -9,6 +9,7 @@ const add = async (
   project_id: number,
   start_date: Date,
   end_date: Date,
+  progress_status: string,
   bom_configuration_id: number,
   connectionObj = null
 ) => {
@@ -32,6 +33,7 @@ const add = async (
         start_date: formatted_start_date,
         end_date: formatted_end_date,
         bom_configuration_id,
+        progress_status,
       },
     });
     return subCategory;
@@ -51,6 +53,7 @@ const edit = async (
   project_id: number,
   start_date: Date,
   end_date: Date,
+  progress_status: string,
   bom_configuration_id: number,
   connectionObj = null
 ) => {
@@ -74,6 +77,7 @@ const edit = async (
         start_date: formatted_start_date,
         end_date: formatted_end_date,
         bom_configuration_id,
+        progress_status,
       },
     });
     return subCategory;
