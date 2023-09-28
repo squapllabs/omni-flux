@@ -14,7 +14,8 @@ import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../ui/customSnackBar';
-
+import { getPurchaseRequestCreateValidateyup } from '../../helper/constants/purchaseRequestAdd-constants';
+import * as yup from 'yup';
 const PurchaseRequestAdd = () => {
   const [itemValues, setItemsValues] = useState([]);
   const state: RootState = store.getState();
@@ -40,10 +41,10 @@ const PurchaseRequestAdd = () => {
   const { data: getAllVendorsData = [], isLoading: dropLoading } =
     useGetAllVendors();
   const { mutate: createNewPurchaseRequest } = createPurchaseRequest();
-
+  const validationSchema = getPurchaseRequestCreateValidateyup(yup);
   const formik = useFormik({
     initialValues,
-    // validationSchema,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       let arr = [];
@@ -204,10 +205,7 @@ const PurchaseRequestAdd = () => {
                     );
                   }}
                   optionList={itemValues}
-                  // error={
-                  //   formik.touched.user_id &&
-                  //   formik.errors.user_id
-                  // }
+                  error={formik.touched.item_name && formik.errors.item_name}
                 />
               </div>
               <div>
@@ -219,9 +217,9 @@ const PurchaseRequestAdd = () => {
                   width="350px"
                   value={formik.values.quantity}
                   onChange={formik.handleChange}
-                  // error={
-                  //     formik.touched.quantity && formik.errors.quantity
-                  // }
+                  error={
+                      formik.touched.quantity && formik.errors.quantity
+                  }
                 />
               </div>
               <div>
@@ -231,7 +229,7 @@ const PurchaseRequestAdd = () => {
                   justify="center"
                   size="small"
                   type="submit"
-                  icon={<AddIcon color='white'/>}
+                  icon={<AddIcon color="white" />}
                 >
                   Add
                 </Button>
@@ -305,7 +303,7 @@ const PurchaseRequestAdd = () => {
               justify="center"
               size="small"
               onClick={handleSubmit}
-              icon={<AddIcon color='white'/>}
+              icon={<AddIcon color="white" />}
             >
               Raise Purchase Request
             </Button>

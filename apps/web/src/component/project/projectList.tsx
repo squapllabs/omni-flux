@@ -33,7 +33,7 @@ const ProjectList = () => {
     encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
   // console.log('roleNAme', roleName);
   const isProjectCreate = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN';
-  const isProjectEdit = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' || roleName === 'SITE ENGINEER' || roleName === 'PLANNING ENGINEER';
+  const isProjectEdit = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' || roleName === 'SITE MANAGER' || roleName === 'PLANNING ENGINEER';
   const { isLoading: getAllLoading } = useGetAllProject();
 
   const {

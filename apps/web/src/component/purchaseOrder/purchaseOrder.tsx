@@ -97,6 +97,29 @@ const OrderView = () => {
   }, [currentPage, rowsPerPage]);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
+  const generateCustomQuotationName = (data: any) => {
+    if (data) {
+      const vendorName = data.vendor_data?.vendor_name || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-${vendorName.substring(0, 5)}-${year}`;
+      return customBillName.toUpperCase();
+    }
+    return '';
+  };
+  const generateCustomBillName = (data: any) => {
+    if (data) {
+      const vendorName = data.vendor_data?.vendor_name || '';
+      const projectName =
+        data.purchase_request_data?.project_data?.project_name || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-${projectName.substring(
+        0,
+        3
+      )}-${vendorName.substring(0, 3)}-${year}`;
+      return customBillName.toUpperCase();
+    }
+    return '';
+  };
   return (
     <div className={Styles.container}>
       <CustomLoader
@@ -161,7 +184,7 @@ const OrderView = () => {
                   <th>S No</th>
                   <th>Vendor Name</th>
                   <th>Project Name </th>
-                  <th>Budget</th>
+                  <th>Amount</th>
                   <th>Quotation </th>
                   <th>Bill Status</th>
                   <th>Bill</th>
@@ -171,6 +194,9 @@ const OrderView = () => {
               <tbody>
                 {dataShow
                   ? getFilterData?.content?.map((data: any, index: number) => {
+                      const customBillName = generateCustomBillName(data);
+                      const customQuotationName =
+                        generateCustomQuotationName(data);
                       return (
                         <tr>
                           <td>{startingIndex + index}</td>
@@ -194,7 +220,8 @@ const OrderView = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
-                                        Uploaded Document
+                                        {customQuotationName}
+                                        {/* Uploaded Document */}
                                       </a>
                                     </div>
                                   )
@@ -216,7 +243,8 @@ const OrderView = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
-                                        Uploaded Document
+                                        {customBillName}
+                                        {/* Uploaded Document */}
                                       </a>
                                     </div>
                                   )
@@ -239,6 +267,9 @@ const OrderView = () => {
                       );
                     })
                   : getAllData?.content?.map((data: any, index: number) => {
+                      const customBillName = generateCustomBillName(data);
+                      const customQuotationName =
+                        generateCustomQuotationName(data);
                       return (
                         <tr>
                           <td>{startingIndex + index}</td>
@@ -262,7 +293,8 @@ const OrderView = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
-                                        Uploaded Document
+                                        {customQuotationName}
+                                        {/* Uploaded Document */}
                                       </a>
                                     </div>
                                   )
@@ -284,7 +316,8 @@ const OrderView = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
-                                        Uploaded Document
+                                        {customBillName}
+                                        {/* Uploaded Document */}
                                       </a>
                                     </div>
                                   )

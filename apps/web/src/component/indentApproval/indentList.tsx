@@ -27,7 +27,8 @@ const IndentList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
-  const { data: getPriorityType = [], isLoading: dropLoading } = getBymasertDataTypeDrop('PRTYPE');
+  const { data: getPriorityType = [], isLoading: dropLoading } =
+    getBymasertDataTypeDrop('PRTYPE');
 
   const SampleOption: any = [
     { label: 'Low', value: 'Low' },
@@ -157,9 +158,9 @@ const IndentList = () => {
               <tbody>
                 {getIndentData?.total_count === 0 ? (
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
+                    <td colSpan="7" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
                   </tr>
                 ) : (
                   ''
@@ -169,7 +170,7 @@ const IndentList = () => {
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data?.project_data?.project_name}</td>
-                      <td >{data?.priority}</td>
+                      <td>{data?.priority}</td>
                       <td>
                         {format(
                           new Date(data?.expected_delivery_date),
