@@ -12,6 +12,8 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/invoice'
 
 const IndentList = () => {
   const navigate = useNavigate();
@@ -84,6 +86,13 @@ const IndentList = () => {
     setSelectedValueType(selectedData);
     setIsResetDisabled(searchValue === '');
   };
+  const handleReportGenerator = () =>{  
+    const data:any ={
+      title:"Indent Request"
+    }  
+    ReportGenerator(data)
+  }
+
 
   useEffect(() => {
     handleSearch();
@@ -188,6 +197,7 @@ const IndentList = () => {
                               )
                             }
                           />
+                            <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                         </div>
                       </td>
                     </tr>

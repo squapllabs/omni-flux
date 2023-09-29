@@ -7,16 +7,21 @@ import {
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
 import EditIcon from '../menu/icons/editIcon';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import CustomEditPoPopup from '../ui/CustomEditPoPopup';
 import { formatBudgetValue } from '../../helper/common-function';
 import Pagination from '../menu/pagination';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
+import ReportGenerator from '../ui/reportGenerator';
+import AddIcon from '../menu/icons/addIcon';
+import PurchaseOrderReport from '../reportGenerator/report'
 
 const OrderView = () => {
   const navigate = useNavigate();
   const [showEditPopUp, setShowEditPopUp] = useState(false);
+  const [pdfDownload, setPdfDownload] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [purchaseId, setPurchaseId] = useState();
@@ -69,6 +74,10 @@ const OrderView = () => {
     setSelectedValue(selectedProjectId);
     setIsResetDisabled(searchValue === '');
   };
+
+  const handleReportGenerator = async (data: any) => {
+    await PurchaseOrderReport(data)
+  }
 
   const handleSearch = async () => {
     const poData: any = {
@@ -247,24 +256,26 @@ const OrderView = () => {
                                       </a>
                                     </div>
                                   )
-                                )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() =>
-                                  handleEdit(data.purchase_order_id)
-                                }
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
+
+                              )
+                            ) : (
+                              <div>-</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                handleEdit(data.purchase_order_id)
+                              }
+                            />
+                            <PdfDownloadIcon onClick={() => handleReportGenerator(data)} />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
                   : getAllData?.content?.map((data: any, index: number) => {
                       const customBillName = generateCustomBillName(data);
                       const customQuotationName =
@@ -333,6 +344,7 @@ const OrderView = () => {
                                   handleEdit(Number(data.purchase_order_id))
                                 }
                               />
+                               <PdfDownloadIcon onClick={() => handleReportGenerator(data)} />
                             </div>
                           </td>
                         </tr>
@@ -362,6 +374,9 @@ const OrderView = () => {
         onAction={setShowEditPopUp}
         selectedPurchaseOrder={purchaseId}
       />
+      {
+        pdfDownload ? <ReportGenerator /> : ""
+      }
     </div>
   );
 };
