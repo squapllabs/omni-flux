@@ -8,6 +8,7 @@ import { useGetOnePurchaseOrder } from '../../hooks/purchase-request-hooks';
 import { getByProjectId } from '../../hooks/project-hooks';
 import Styles from '../../styles/billView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
+import { format } from 'date-fns';
 
 const BillView = () => {
   const routeParams = useParams();
@@ -34,9 +35,7 @@ const BillView = () => {
     )}-${vendorName.substring(0, 3)}-${year}`;
     return customBillName.toUpperCase();
   };
-  const cost = formatBudgetValue(Number(getOneBillDetail?.total_cost))
-  console.log('getOneBillDetail', getOneBillDetail);
-  console.log('getOneProject', getOneProject);
+  const cost = formatBudgetValue(Number(getOneBillDetail?.total_cost));
 
   return (
     <div>
@@ -81,9 +80,7 @@ const BillView = () => {
               <div className={Styles.leftData}>Cost</div>
               <div className={Styles.rightData}>
                 {' '}
-                {getOneBillDetail?.total_cost
-                  ? cost
-                  : 'Not Provided'}
+                {getOneBillDetail?.total_cost ? cost : 'Not Provided'}
               </div>
             </div>
             <div className={Styles.dividerStyle}></div>
@@ -98,28 +95,25 @@ const BillView = () => {
             </div>
             <div className={Styles.dividerStyle}></div>
             <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>Quotation</div>
+              <div className={Styles.leftData}>Paymet Mode</div>
               <div className={Styles.rightData}>
-                <ol className={Styles.siteList}>
-                  {getOneBillDetail?.purchase_request_data
-                    ?.purchase_request_documents?.length > 0 ? (
-                    getOneBillDetail?.purchase_request_data?.purchase_request_documents.map(
-                      (document: any, index: any) => (
-                        <li key={index}>
-                          <a
-                            href={document.path}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {generateCustomQuotationName()}
-                          </a>
-                        </li>
-                      )
-                    )
-                  ) : (
-                    <li>-</li>
-                  )}
-                </ol>
+                {' '}
+                {getOneBillDetail?.payment_mode
+                  ? `${getOneBillDetail?.payment_mode}`
+                  : 'Not Provided'}
+              </div>
+            </div>
+            <div className={Styles.dividerStyle}></div>
+            <div className={Styles.dataRows}>
+              <div className={Styles.leftData}>Paymet Date</div>
+              <div className={Styles.rightData}>
+                {' '}
+                {getOneBillDetail?.payment_date
+                  ? `${format(
+                      new Date(getOneBillDetail?.payment_date),
+                      'MMM dd, yyyy'
+                    )}`
+                  : 'Not Provided'}
               </div>
             </div>
             <div className={Styles.dividerStyle}></div>

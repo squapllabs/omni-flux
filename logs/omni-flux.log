@@ -21272,3 +21272,2529 @@ D:\2023\September\20\erp\omni-flux\apps\api\src\dao\projectMemberAssociation.dao
   280 const projectMemberAssociation =
 → 281   await transaction.project_member_association.findMany(
 Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>Error: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst({
+            where: {
+              project_id: NaN,
+                          ~~~
+              is_delete: false
+            },
+            include: {
+              project_site: {
+                include: {
+                  site_details: true
+                }
+              },
+              bom_configuration: {
+                where: {
+                  is_delete: false
+                },
+                include: {
+                  bom_type_data: {
+                    select: {
+                      master_data_name: true
+                    }
+                  }
+                },
+                orderBy: [
+                  {
+                    updated_date: 'desc'
+                  }
+                ]
+              },
+              user: {
+                select: {
+                  first_name: true,
+                  last_name: true
+                }
+              },
+              client: {
+                select: {
+                  name: true
+                }
+              },
+              approvar_data: {
+                select: {
+                  first_name: true,
+                  last_name: true
+                }
+              }
+            }
+          })
+
+Argument project_id: Got invalid value NaN on prisma.findFirstproject. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:289:56
+
+  286 ) => {
+  287   try {
+  288     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 289     const masterDataId = await transaction.master_data.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByPurchaseOrderId << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:100:60
+
+   97 const getById = async (purchaseOrderId: number, connectionObj = null) => {
+   98   try {
+   99     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 100     const purchaseOrder = await transaction.purchase_order.findFirst({
+            where: {
+              purchase_order_id: NaN,
+                                 ~~~
+              is_delete: false
+            },
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: true
+                }
+              },
+              vendor_data: true
+            }
+          })
+
+Argument purchase_order_id: Got invalid value NaN on prisma.findFirstpurchase_order. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+

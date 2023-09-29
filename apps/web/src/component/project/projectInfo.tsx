@@ -18,26 +18,17 @@ const ProjectView = () => {
     <div>
       <div className={Styles.title}>
         <h2>Project Information</h2>
-        {/* <Button
-          text="Back"
-          backgroundColor="#7F56D9"
-          fontSize={14}
-          fontWeight={500}
-          width={100}
+        <Button
+          type="button"
+          color="primary"
+          shape="rectangle"
+          size="small"
+          justify="center"
           icon={<BackArrow />}
           onClick={() => navigate('/project-list')}
-        /> */}
-        <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<BackArrow />}
-                onClick={() => navigate('/project-list')}
-              >
-                Back
-              </Button>
+        >
+          Back
+        </Button>
       </div>
       <div className={Styles.cardContent}>
         <CustomCard>
