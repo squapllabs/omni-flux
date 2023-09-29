@@ -295,6 +295,32 @@ const updateVendor = async (
   }
 };
 
+const getAllPurchaseRequestProjectsByStatus = async (
+  status: string,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseRequest = await transaction.purchase_request.findMany({
+      where: {
+        status: status,
+        is_delete: false,
+      },
+      distinct: ['project_id'],
+      select: {
+        project_data: true,
+      },
+    });
+    return purchaseRequest;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseRequest getAllPurchaseRequestProjectsByStatus dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -303,4 +329,5 @@ export default {
   deletePurchaseRequest,
   searchPurchaseRequest,
   updateVendor,
+  getAllPurchaseRequestProjectsByStatus,
 };
