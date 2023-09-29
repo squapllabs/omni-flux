@@ -31,10 +31,7 @@ const ProjectList = () => {
   let encryptedData = getToken(state, 'Data');
   let userID: number = encryptedData.userId;
   const { isLoading: getAllLoading } = useGetAllProject();
-  const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus();                                                //To Get Data for Dashboard
-  console.log("Loading Status ==> ", getAllProjectStatusLoading);
-  console.log("Response ==> ", projectStatus);
-  console.log("Response top projects ==> ", projectStatus?.top_projects);
+  const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus(); 
 
   const {
     mutate: postDataForFilter,
@@ -151,12 +148,6 @@ const ProjectList = () => {
     chart: {
       title: "Project Status",
       subtitle: "Estimated Days, Completed Days",
-      // hAxis: {
-      //    textStyle: {
-      //       fontSize: 2,
-      //       color: "Red"
-      //    },
-      // }
     },
   };
   const chartOptions2 = {
@@ -169,40 +160,29 @@ const ProjectList = () => {
   const projectStatusData: any = [["Projects", "Total Days", "So Far"]];
   projectStatus?.top_projects?.map(async(val: any) => {
     await projectStatusData.push([val.project_name, val.project_total_days, val.days_completed])
-    // console.log("projectStatusData ==> ", projectStatusData);
   });
 
   const topProjectsData: any = [["Projects", "Budget"]];
   projectStatus?.top_projects?.map (async(val: any) => {
     await topProjectsData.push([val.project_name, val.total_budget])
-    // console.log("topProjectsData ==> ", topProjectsData);
   });
 
   return (
     <div className={Styles.container}>
       <div>
-        {/* <div>
-          {
-            projectStatus?.top_projects?.map((val: any) => {
-              return (
-                <p>{val.project_name}</p>
-              )
-            })
-          }
-        </div> */}
         <CustomLoader
           loading = {getAllProjectStatusLoading === false ? getAllProjectStatusLoading : projectStatus}
           size={48}
           color="#333C44"
         >
           <div className={Styles.dashBoardcontainer}>
-            <CustomCard>
+            {/* <CustomCard> */}
               <div className={Styles.cardDiv}>
                 <div className={Styles.card}>
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>Total Projects</b></h3>
-                      <p>{projectStatus?.total_projects}</p>
+                      <p className={Styles.values}>{projectStatus?.total_projects}</p>
                     </div>
                   </div>
                 </div>
@@ -210,7 +190,7 @@ const ProjectList = () => {
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>Active Projects</b></h3>
-                      <p>{projectStatus?.active_projects}</p >
+                      <p className={Styles.values}>{projectStatus?.active_projects}</p >
                     </div>
                   </div>
                 </div>
@@ -218,7 +198,7 @@ const ProjectList = () => {
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>Completed Projects</b></h3>
-                      <p>{projectStatus?.completed_projects}</p> 
+                      <p className={Styles.values}>{projectStatus?.completed_projects}</p> 
                     </div>
                   </div>
                 </div>
@@ -226,7 +206,7 @@ const ProjectList = () => {
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>In-progress Projects</b></h3>
-                      <p>{projectStatus?.inprogress_projects}</p> 
+                      <p className={Styles.values}>{projectStatus?.inprogress_projects}</p> 
                     </div>
                   </div>
                 </div>
@@ -234,7 +214,7 @@ const ProjectList = () => {
                   <div className={Styles.cardContainer}>
                     <div className={Styles.textStyle}>
                       <h3><b>Not Started Projects</b></h3>
-                      <p>{projectStatus?.not_started_projects}</p> 
+                      <p className={Styles.values}>{projectStatus?.not_started_projects}</p> 
                     </div>
                   </div>
                 </div>
@@ -261,7 +241,7 @@ const ProjectList = () => {
                   </div>
                 </div>
               </div>
-            </CustomCard>
+            {/* </CustomCard> */}
           </div>
         </CustomLoader>
       </div>
