@@ -394,6 +394,8 @@ const searchPurchaseRequest = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const indent_request_id = body.indent_request_id;
+    const purchase_request_status = body.purchase_request_status;
+
     const filterObj: any = {};
 
     if (status) {
@@ -408,6 +410,15 @@ const searchPurchaseRequest = async (body) => {
         filterObj.filterPurchaseRequest.AND || [];
       filterObj.filterPurchaseRequest.AND.push({
         indent_request_id: indent_request_id,
+      });
+    }
+
+    if (purchase_request_status) {
+      filterObj.filterPurchaseRequest = filterObj.filterPurchaseRequest || {};
+      filterObj.filterPurchaseRequest.AND =
+        filterObj.filterPurchaseRequest.AND || [];
+      filterObj.filterPurchaseRequest.AND.push({
+        status: purchase_request_status,
       });
     }
 
@@ -502,6 +513,36 @@ const searchPurchaseRequest = async (body) => {
   }
 };
 
+/**
+ * Method to get All Purchase Request Projects By Status
+ * @param status
+ * @returns
+ */
+const getAllPurchaseRequestProjectsByStatus = async (status: string) => {
+  try {
+    let result = null;
+    const purchaseRequestData =
+      await purchaseRequestDao.getAllPurchaseRequestProjectsByStatus(status);
+    if (purchaseRequestData.length > 0) {
+      result = { message: 'success', status: true, data: purchaseRequestData };
+      return result;
+    } else {
+      result = {
+        message: 'No projects found under this status',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getAllPurchaseRequestProjectsByStatus purchaseRequest service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseRequest,
   updatePurchaseRequest,
@@ -509,4 +550,5 @@ export {
   getById,
   deletePurchaseRequest,
   searchPurchaseRequest,
+  getAllPurchaseRequestProjectsByStatus,
 };
