@@ -12,14 +12,15 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const storage = req.body.storage;
-    const uploadPath =
-      storage === 'local' ? process.env.FILE_UPLOAD_LOCAL_PATH : 'tmp/';
-    cb(null, uploadPath);
+    // const storage = req.body.storage;
+    // const uploadPath = 'uploads/';
+    // storage === 'local' ? process.env.FILE_UPLOAD_LOCAL_PATH : 'temp-file/';
+    cb(null, 'apps/');
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, file.fieldname + '-' + uniqueSuffix + '-' + file.originalname);
+    // cb(null, 'Pipe Line Project' + '-' + 'Aalam' + '-' + file.originalname);
   },
 });
 const upload = multer({ storage });

@@ -27,6 +27,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     quantity: 0,
     total: 0,
     is_delete: false,
+    uom_name: '',
   });
   const [indentDetails, setIndentDetails] = useState<any>();
   const [openDelete, setOpenDelete] = useState(false);
@@ -74,6 +75,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     };
     const tempArry = [...props.indentRequestDetailsList];
     tempArry[index] = tempObj;
+    
     props.setIndentRequestDetailsList(tempArry);
   };
   const validationSchema = yup.object().shape({
@@ -122,7 +124,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
   });
   return (
     <div>
-      <div className={Styles.tableContainer}>
+      <div className={Styles.tableContainerIndent}>
         <div className={Styles.buttons}>
           <Button
             type="button"
@@ -140,7 +142,8 @@ const IndentRequestDetails: React.FC = (props: any) => {
           <thead>
             <tr>
               <th className={Styles.tableHeading}>S No</th>
-              <th className={Styles.tableHeadingSite}>BOM</th>
+              <th className={Styles.tableHeadingSite}>Item</th>
+              <th className={Styles.tableHeadingSite}>UOM</th>
               <th className={Styles.tableHeading}>Quantity</th>
               <th className={Styles.tableHeading}>Cost</th>
               <th className={Styles.tableHeading}>Action</th>
@@ -159,9 +162,19 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         defaultLabel="Select from options"
                         placeholder="Select from options"
                         mandatory={true}
-                        optionList={getBOMList}
+                        optionList={getBOMList != undefined ? getBOMList : []}
+                        // optionList={getBOMList}
                         disabled
                         value={items?.bom_detail_id}
+                      />
+                    </td>
+                    <td>
+                      <Input
+                        name="uom_name"
+                        mandatory={true}
+                        value={items?.uom_name}
+                        onChange={formik?.handleChange}
+                        disabled={props.disabled}
                       />
                     </td>
                     <td>
@@ -200,14 +213,15 @@ const IndentRequestDetails: React.FC = (props: any) => {
               }
             })}
             <tr>
-              <td></td>
+              <td>{rowIndex + 1}</td>
               <td>
                 <AutoCompleteSelect
                   name="bom_detail_id"
                   defaultLabel="Select from options"
                   placeholder="Select from options"
                   mandatory={true}
-                  optionList={getBOMList}
+                  optionList={getBOMList != undefined ? getBOMList : []}
+                  // optionList={getBOMList}
                   value={formik.values.bom_detail_id}
                   disabled={props.disabled}
                   onSelect={(value) => {
@@ -219,6 +233,10 @@ const IndentRequestDetails: React.FC = (props: any) => {
                     formik.setFieldValue(
                       'quantity',
                       matchingObjects[0]?.bom_quantity
+                    );
+                    formik.setFieldValue(
+                      'uom_name',
+                      matchingObjects[0]?.temp?.uom_data?.name
                     );
                     formik.setFieldValue(
                       'total',
@@ -234,8 +252,19 @@ const IndentRequestDetails: React.FC = (props: any) => {
               </td>
               <td>
                 <Input
+                  name="uom_name"
+                  mandatory={true}
+                  width='180px'
+                  value={formik?.values?.uom_name}
+                  onChange={formik?.handleChange}
+                  disabled={true}
+                />
+              </td>
+              <td>
+                <Input
                   name="quantity"
                   mandatory={true}
+                  width='180px'
                   value={formik?.values?.quantity}
                   onChange={formik?.handleChange}
                   error={formik.touched.quantity && formik.errors.quantity}

@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import customQueryExecutor from './common/utils.dao';
 
 const add = async (
   purchase_request_id: number,
@@ -8,12 +9,17 @@ const add = async (
   total_cost: number,
   order_remark: string,
   created_by: number,
+  purchase_order_documents,
   connectionObj = null
 ) => {
   try {
     const currentDate = new Date();
     const is_delete = false;
     const formatted_order_date = order_date ? new Date(order_date) : null;
+    const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
+    const order_id = await customQueryExecutor.customQueryExecutor(
+      orderIdGeneratorQuery
+    );
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const purchaseOrder = await transaction.purchase_order.create({
       data: {
@@ -23,6 +29,8 @@ const add = async (
         status,
         total_cost,
         order_remark,
+        purchase_order_documents,
+        order_id: order_id[0].order_id_sequence,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -44,6 +52,7 @@ const edit = async (
   total_cost: number,
   order_remark: string,
   updated_by: number,
+  purchase_order_documents,
   purchase_order_id: number,
   connectionObj = null
 ) => {
@@ -62,6 +71,7 @@ const edit = async (
         status,
         total_cost,
         order_remark,
+        purchase_order_documents,
         updated_by,
         updated_date: currentDate,
       },
@@ -155,7 +165,9 @@ const searchPurchaseOrder = async (
     const purchaseOrder = await transaction.purchase_order.findMany({
       where: filter,
       include: {
-        purchase_request_data: { include: { indent_request_data: true } },
+        purchase_request_data: {
+          include: { indent_request_data: true, project_data: true },
+        },
         vendor_data: true,
       },
       orderBy: [
@@ -183,6 +195,162 @@ const searchPurchaseOrder = async (
   }
 };
 
+const createPurchaseOrderWithItem = async (
+  purchase_request_id: number,
+  vendor_id: number,
+  order_date: Date,
+  status: string,
+  total_cost: number,
+  order_remark: string,
+  created_by: number,
+  purchase_order_item,
+  connectionObj = null
+) => {
+  let transaction;
+  try {
+    const currentDate = new Date();
+    const is_delete = false;
+    const formatted_order_date = order_date ? new Date(order_date) : null;
+    transaction = connectionObj !== null ? connectionObj : prisma;
+    const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
+    const order_id = await customQueryExecutor.customQueryExecutor(
+      orderIdGeneratorQuery
+    );
+
+    const result = await transaction
+      .$transaction(async (tx) => {
+        const purchaseOrder = await tx.purchase_order.create({
+          data: {
+            purchase_request_id,
+            vendor_id,
+            order_date: formatted_order_date,
+            status,
+            total_cost,
+            order_remark,
+            created_by,
+            order_id: order_id[0]?.order_id_sequence,
+            created_date: currentDate,
+            updated_date: currentDate,
+            is_delete: is_delete,
+          },
+        });
+
+        const new_purchase_order_id = purchaseOrder?.purchase_order_id;
+        const purchaseOrderItemDetails = [];
+
+        if (purchase_order_item.length > 0) {
+          for (const value of purchase_order_item) {
+            const item_id = value.item_id;
+            const order_quantity = value.order_quantity;
+            const unit_price = value.unit_price;
+
+            const purchaseOrderItem = await tx.purchase_order_item.create({
+              data: {
+                purchase_order_id: new_purchase_order_id,
+                item_id,
+                order_quantity,
+                unit_price,
+                created_by,
+                created_date: currentDate,
+                updated_date: currentDate,
+                is_delete: is_delete,
+              },
+            });
+            purchaseOrderItemDetails.push(purchaseOrderItem);
+          }
+        }
+
+        const purchaseOrderData = {
+          purchase_order: purchaseOrder,
+          purchase_order_item: purchaseOrderItemDetails,
+        };
+
+        return purchaseOrderData;
+      })
+      .then((data) => {
+        console.log('Successfully Purchase Order Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrderDao createPurchaseOrderWithItem',
+      error
+    );
+
+    throw error;
+  }
+};
+
+const getByPurchaseRequestId = async (
+  purchaseRequestId: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseOrder = await transaction.purchase_order.findFirst({
+      where: {
+        purchase_request_id: Number(purchaseRequestId),
+        is_delete: false,
+      },
+      include: {
+        purchase_request_data: {
+          include: { indent_request_data: true, project_data: true },
+        },
+        vendor_data: true,
+        purchase_order_item: {
+          where: { is_delete: false },
+          orderBy: [{ updated_date: 'desc' }],
+          include: { item_data: true },
+        },
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return purchaseOrder;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrder getByPurchaseRequestId dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const updateStatusAndDocument = async (
+  status: string,
+  updated_by: number,
+  purchase_order_documents,
+  purchase_order_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseOrder = await transaction.purchase_order.update({
+      where: {
+        purchase_order_id: purchase_order_id,
+      },
+      data: {
+        status,
+        purchase_order_documents,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+    return purchaseOrder;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrderDao updateStatusAndDocument',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -190,4 +358,7 @@ export default {
   getAll,
   deletePurchaseOrder,
   searchPurchaseOrder,
+  createPurchaseOrderWithItem,
+  getByPurchaseRequestId,
+  updateStatusAndDocument,
 };

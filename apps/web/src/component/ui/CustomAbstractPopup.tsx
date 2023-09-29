@@ -5,7 +5,11 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
 // import { createAbstract } from '../../hooks/abstract-hooks';
-import { createInstantCategory, updateCategory } from '../../hooks/category-hooks';
+import {
+  createInstantCategory,
+  updateCategory,
+  useGetMasterAbstractStatusParentType
+} from '../../hooks/category-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import { getAbstractValidateyup } from '../../helper/constants/abstract-constants';
@@ -14,6 +18,8 @@ import TextArea from '../ui/CustomTextArea';
 import DatePicker from './CustomDatePicker';
 import CategoryService from '../../service/category-service';
 import { format } from 'date-fns';
+import Select from '../ui/selectNew';
+
 
 const CustomAbstractAdd = (props: {
   isVissible: any;
@@ -22,14 +28,27 @@ const CustomAbstractAdd = (props: {
   setReload: any;
   mode: any;
   categoryId: any;
-  selectedBomConfig:any;
-
+  selectedBomConfig: any;
+  setMode:any;
 }) => {
-  const { isVissible, onAction, selectedProject, setReload, mode, categoryId,selectedBomConfig } =
-    props;
+  const {
+    isVissible,
+    onAction,
+    selectedProject,
+    setReload,
+    mode,
+    categoryId,
+    selectedBomConfig,
+    setMode,
+  } = props;
+  console.log("props.mode---->",mode);
+  
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
   const { mutate: createNewAbstract } = createInstantCategory();
   const { mutate: updateCategoryData } = updateCategory();
+  const { data: getAllAbstractStatusDatadrop = [] } =
+  useGetMasterAbstractStatusParentType();
+  
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
@@ -37,21 +56,23 @@ const CustomAbstractAdd = (props: {
     start_date: '',
     end_date: '',
     category_id: '',
-    selectedBomConfig:''
+    selectedBomConfig: '',
+    progress_status:'',
+    budget: '',
   });
 
   const dateFormat = (value: any) => {
-    if(value !== null) {
-    const currentDate = new Date(value);
-    const formattedDate = format(currentDate, 'yyyy-MM-dd');
-    return formattedDate;
+    if (value !== null) {
+      const currentDate = new Date(value);
+      const formattedDate = format(currentDate, 'yyyy-MM-dd');
+      return formattedDate;
     }
   };
 
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   useEffect(() => {
-    if (props.mode === 'EDIT') {
+    if (mode === 'EDIT') {
       const fetchOne = async () => {
         const data = await CategoryService.getOneCategoryByID(props.categoryId);
         setclientInitialValues({
@@ -61,9 +82,10 @@ const CustomAbstractAdd = (props: {
           start_date: dateFormat(data?.data?.start_date),
           end_date: dateFormat(data?.data?.end_date),
           category_id: data?.data?.category_id,
+          progress_status:data?.data?.progress_status,
+          budget:data?.data?.budget,
         });
-        console.log("dataaaa",data);
-        
+        // console.log('dataaaa', data);
       };
       fetchOne();
     }
@@ -74,30 +96,30 @@ const CustomAbstractAdd = (props: {
     validationSchema: validationSchemaAbstract,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      if (props.mode === 'EDIT') {
+      if (mode === 'EDIT') {
         const Object: any = {
           name: values.name,
           description: values.description,
           project_id: selectedProject,
-          budget: 0,
+          budget: clientinitialValues.budget,
           start_date: values.start_date,
           end_date: values.end_date,
           category_id: values.category_id,
-          bom_configuration_id:selectedBomConfig
+          bom_configuration_id: selectedBomConfig,
+          progress_status:values.progress_status
         };
-        console.log('abstract from', Object);
         updateCategoryData(Object, {
-          onSuccess: (data,variables,context) => {
-            console.log('samlpe data==>', data);
+          onSuccess: (data, variables, context) => {
             if (data?.status === true) {
               setMessage('Abstract edited');
               setOpenSnack(true);
+              resetForm();
+              setclientInitialValues({})
               setReload(true);
               handleCloseForm();
-              resetForm();
             }
-          }
-        })
+          },
+        });
       } else {
         const Object: any = {
           name: values.name,
@@ -106,18 +128,17 @@ const CustomAbstractAdd = (props: {
           budget: 0,
           start_date: values.start_date,
           end_date: values.end_date,
-          bom_configuration_id:selectedBomConfig
+          bom_configuration_id: selectedBomConfig,
+          progress_status: 'Inprogress',
         };
-        console.log('abstract from', Object);
         createNewAbstract(Object, {
           onSuccess: (data, variables, context) => {
-            console.log('samlpe data==>', data);
             if (data?.status === true) {
               setMessage('Abstract created');
               setOpenSnack(true);
+              resetForm();
               setReload(true);
               handleCloseForm();
-              resetForm();
             }
           },
         });
@@ -126,8 +147,9 @@ const CustomAbstractAdd = (props: {
   });
 
   const handleCloseForm = () => {
-    onAction(false);
     formik.resetForm();
+    setclientInitialValues({})
+    onAction(false);
   };
 
   const handleSnackBarClose = () => {
@@ -143,7 +165,7 @@ const CustomAbstractAdd = (props: {
               <form onSubmit={formik.handleSubmit}>
                 <div className={Styles.header}>
                   <div>
-                    <h4>Add Abstract</h4>
+                    <h4> {mode === 'EDIT' ? 'Edit Abstract' : 'Add Abstract'}</h4>
                   </div>
                   <div>
                     <CloseIcon onClick={handleCloseForm} />
@@ -162,6 +184,25 @@ const CustomAbstractAdd = (props: {
                       error={formik.touched.name && formik.errors.name}
                     />
                   </div>
+                  {mode === 'EDIT' ? (
+                    <div>
+                      <Select
+                        label="Status"
+                        name="progress_status"
+                        mandatory={true}
+                        placeholder="Select the Status"
+                        onChange={formik.handleChange}
+                        value={formik.values.progress_status}
+                        defaultLabel="Select from options"
+                      >
+                        {getAllAbstractStatusDatadrop.map((option: any) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </Select>
+                    </div>
+                  ) : null}
                   <div>
                     <TextArea
                       name="description"
@@ -173,8 +214,8 @@ const CustomAbstractAdd = (props: {
                       error={
                         formik.touched.description && formik.errors.description
                       }
-                      rows={5}
-                      maxCharacterCount={150}
+                      rows={10}
+                      maxCharacterCount={1000}
                     />
                   </div>
                   <div className={Styles.dateField}>

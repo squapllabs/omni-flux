@@ -205,6 +205,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
     });
   };
 
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
   const handleSubmit = () => {
     const obj: any = {
       ...projectData,
@@ -352,7 +355,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                       </div>
                     </td>
                     <td>
-                      <div className={Styles.actionIcon}>
+                    {/* <DeleteIcon /> */}
+                      {/* <p>sample</p> */}
+                      {/* <div className={Styles.actionIcon}>
                         <div
                           className={Styles.addPlan}
                           onClick={() => {
@@ -370,10 +375,10 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                                 : 'auto',
                           }}
                         >
-                          <AddIcon style={{ height: '15px', width: '15px' }} />
+                          <AddIcon style={{ height: '15px', width: '15px'}} />
                           <p className={Styles.addText}>Add Site Expense</p>
                         </div>
-                      </div>
+                      </div> */}
                     </td>
                   </tr>
                 );
@@ -507,7 +512,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
               shape="rectangle"
               size="small"
               justify="center"
-              icon={<AddIcon />}
+              icon={<AddIcon color="white"/>}
               onClick={(e) => {
                 handleSubmit(e);
               }}
@@ -521,6 +526,13 @@ const ProjectSiteConfig: React.FC = (props: any) => {
         isVissiblesite={showSiteForm}
         onActionsite={setShowSiteForm}
       />
+      <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
     </div>
   );
 };

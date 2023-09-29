@@ -3,6 +3,7 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import Button from '../ui/Button';
 import Styles from '../../styles/project.module.scss';
 import ProjectGeneralDetails from './projectComponent/projectGeneralDetails';
+import ProjectDashboard from './projectComponent/projectDashboard';
 import ProjectBomConfig from './projectComponent/projectBomConfig';
 import ProjectSiteConfig from './projectComponent/projectSiteConfig';
 import CustomLoader from '../ui/customLoader';
@@ -13,15 +14,22 @@ import ProjectSettings from './projectComponent/projectSettings';
 import ProjectDocument from './projectComponent/projectDocument';
 import IndentRequest from './projectComponent/projectIndentRequest/indentRequest';
 import ProjectIndentRequestList from './projectComponent/projectIndentRequest/projectIndentRequestList';
+import ProjectStockmanagement from './projectComponent/projectStockmanagement';
+import SiteExpenseList from '../expanses/siteExpenseList';
+import ProjectStockOutward from '../stockOutward/stockOutwardList';
 const Project = () => {
   const routeParams = useParams();
   const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Dashboard', value: 'PDB' },
     { label: 'Generic', value: 'PGS' },
     { label: 'Settings', value: 'PSG' },
-    { label: 'Site Configuration', value: 'PSC' },
-    { label: 'BOM configuration', value: 'PBC' },
+    { label: 'Site', value: 'PSC' },
+    { label: 'BOQ', value: 'PBC' },
     { label: 'Document', value: 'PDT' },
     { label: 'Indent', value: 'PIR' },
+    { label: 'Stock Audit', value: 'PSM' },
+    { label: 'Site Expense', value: 'PSE' },
+    { label: 'Stock Outward', value: 'PSO' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
@@ -43,7 +51,7 @@ const Project = () => {
     }
   };
   return (
-    <CustomLoader loading={loader} size={20}>
+    <CustomLoader loading={loader} size={48}>
       <div className={Styles.Container}>
         <div className={Styles.Container_main}>
           <div className={Styles.box}>
@@ -68,12 +76,21 @@ const Project = () => {
             ) : (
               <div className={Styles.textContent}>
                 <h3>Add - Project</h3>
-                <span className={Styles.content}>Add your project</span>
+                {/* <span className={Styles.content}>Add your project</span> */}
               </div>
             )}
           </div>
           <div className={Styles.box}>
             <div className={Styles.mainBody}>
+              {activeButton === 'PDB' ? (
+                <ProjectDashboard
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
               {activeButton === 'PGS' ? (
                 <ProjectGeneralDetails
                   setActiveButton={setActiveButton}
@@ -122,6 +139,33 @@ const Project = () => {
               )}
               {activeButton === 'PIR' ? (
                 <ProjectIndentRequestList
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
+              {activeButton === 'PSM' ? (
+                <ProjectStockmanagement
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
+              {activeButton === 'PSE' ? (
+                <SiteExpenseList
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
+              {activeButton === 'PSO' ? (
+                <ProjectStockOutward
                   setActiveButton={setActiveButton}
                   setLoader={setLoader}
                   loader={loader}

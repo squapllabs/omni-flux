@@ -20,6 +20,13 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
 import CustomBomAddPopup from '../ui/CustomBomAddPopup';
 /* Function for  CategoryList */
+import DataTable from '../ui/Table';
+interface Column {
+  field: string;
+  label: string;
+  render?: (value: any, row: any) => JSX.Element;
+}
+
 const CategoryList = () => {
   const {
     mutate: postDataForFilter,
@@ -60,7 +67,7 @@ const CategoryList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -150,6 +157,31 @@ const CategoryList = () => {
     setActiveButton(value);
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  const columns: Column[] = [
+    { field: 'category_id', label: 'Category ID' },
+    { field: 'name', label: 'Name' },
+    { field: 'budget', label: 'Budget' },
+    { field: 'description', label: 'Description' },
+
+    {
+      field: 'edit',
+      label: 'Actions',
+      render: (value: any, row: any) => (
+        <div className={Styles.tableIcon}>
+          <div>
+            <EditIcon onClick={() => handleEdit(row.category_id)} />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  const handleCellClick = (value: any, field: string, rowIndex: number) => {
+    console.log(
+      `You clicked on row ${rowIndex}, field ${field}, value ${value}`
+    );
+  };
+
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -176,7 +208,7 @@ const CategoryList = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-                icon={<AddIcon />}
+                icon={<AddIcon color='white'/>}
                 onClick={() => {
                   navigate('/category-add');
                 }}
@@ -232,62 +264,15 @@ const CategoryList = () => {
               </div>
               <div className={Styles.tableContainer}>
                 <div>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>S No</th>
-                        <th>Category Name</th>
-                        <th>Budget</th>
-                        <th>Description</th>
-                        {activeButton === 'AC' && <th></th>}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {getFilterData?.total_count === 0 ? (
-                        <tr>
-                          <td></td>
-                          <td>No data found</td>
-                          {activeButton === 'AC' && <td></td>}
-                        </tr>
-                      ) : (
-                        ''
-                      )}
-                      {getFilterData?.content?.map(
-                        (item: any, index: number) => (
-                          <tr key={item.category_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{item.name}</td>
-                            <td>{formatBudgetValue(item.budget)}</td>
-                            <td>
-                              <span title={item.description}>
-                                {item.description?item.description.substring(0, 20) : '-'}
-                              </span>
-                            </td>
-                            {activeButton === 'AC' && (
-                              <td>
-                                <div className={Styles.tableIcon}>
-                                  <div>
-                                    <EditIcon
-                                      onClick={() =>
-                                        handleEdit(item.category_id)
-                                      }
-                                    />
-                                  </div>
-                                  {/* <div>
-                                        <DeleteIcon
-                                          onClick={() =>
-                                            deleteCategoryHandler(item.category_id)
-                                          }
-                                        />
-                                      </div> */}
-                                </div>
-                              </td>
-                            )}
-                          </tr>
-                        )
-                      )}
-                    </tbody>
-                  </table>
+                  {getFilterData && getFilterData.content ? (
+                    <DataTable
+                      columns={columns}
+                      data={getFilterData.content}
+                      onCellClick={handleCellClick}
+                    />
+                  ) : (
+                    <div>Loading...</div>
+                  )}
                 </div>
                 <div className={Styles.pagination}>
                   <Pagination
@@ -333,7 +318,7 @@ const CategoryList = () => {
         autoHideDuration={1000}
         type="success"
       />
-        {/* <CustomBomAddPopup
+      {/* <CustomBomAddPopup
           isVissible={showClientForm}
           onAction={setShowClientForm}
         /> */}

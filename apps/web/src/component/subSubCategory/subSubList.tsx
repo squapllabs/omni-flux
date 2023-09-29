@@ -161,7 +161,7 @@ const SubSubCategoryList = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-                icon={<AddIcon />}
+                icon={<AddIcon color='white'/>}
                 onClick={() => {navigate('/subsubcategory-add')}}
               >
                 Add Sub Sub Category
@@ -223,7 +223,7 @@ const SubSubCategoryList = () => {
                         <th>Sub Sub Category</th>
                         <th>Budget</th>
                         <th>Description</th>
-                        {activeButton === 'AC' && <th></th>}
+                        {activeButton === 'AC' && <th>Actions</th>}
                       </tr>
                     </thead>
                     <tbody>

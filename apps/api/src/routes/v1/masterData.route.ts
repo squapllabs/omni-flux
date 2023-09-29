@@ -9,9 +9,12 @@ import {
   deleteByMasterDataId,
   getAllMasterData,
   getAllParentMasterData,
+  getAllProjectMasterData,
   getByMasterDataId,
   getByParentMasterDataType,
   getByParentType,
+  getByProjectId,
+  getByProjectIdAndType,
   searchMasterData,
   updateMasterData,
 } from '../../controller/masterData.controller';
@@ -56,5 +59,19 @@ router.delete('/delete/:master_data_id', authMiddleware, deleteByMasterDataId);
 router.post('/search-master-data', authMiddleware, searchMasterData);
 
 router.get('/get-by-type/:master_data_type', authMiddleware, getByParentType);
+
+router.get('/get-by-project-id/:project_id', authMiddleware, getByProjectId);
+
+router.get(
+  '/get-all-project-master-data',
+  authMiddleware,
+  getAllProjectMasterData
+);
+
+router.get(
+  '/get-by-project-id-and-type/:project_id/:master_data_type',
+  authMiddleware,
+  getByProjectIdAndType
+);
 
 export default router;

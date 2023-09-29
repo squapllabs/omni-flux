@@ -165,7 +165,7 @@ const BomRawMaterials: React.FC = (props: any) => {
                   return (
                     <tr>
                       <td>{rowIndex}</td>
-                      <td>{items.bom_name}</td>
+                      <td style={{textAlign:'left'}}>{items.bom_name}</td>
                       {/* <td>
                       <Input
                         name="description"

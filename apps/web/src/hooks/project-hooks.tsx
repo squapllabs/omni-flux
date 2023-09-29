@@ -123,6 +123,20 @@ const getUserDataProjectRolebased = (value: any) => {
   );
 };
 
+const getUserIDProjectRolebased = (value: any) => {
+  return useQuery(
+    ['getUserIdroleAndProjectBased', value],
+    () => ProjectService.getProjectDataBasedOnUserandRole(value),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project?.project_data?.project_id,
+          label: project?.project_data?.project_name,
+        })),
+    }
+  );
+};
+
 const updateProject = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -161,6 +175,21 @@ const useGetAllProjectManagers = () => {
     }
   );
 };
+
+const getProjectSite = (id: number) => {
+  return useQuery(
+    ['getProjectSite', id],
+    () => ProjectService.getOneProjectSite(id),
+    {
+      select: (data) =>
+        data?.data?.map((options: any) => ({
+          value: options.site_id,
+          label: options.site_details.name,
+        })),
+    }
+  );
+};
+
 export {
   useGetAllProject,
   useGetAllProjectStatus,
@@ -174,4 +203,6 @@ export {
   useGetAllProjectDrop,
   getMemberBasedProject,
   getUserDataProjectRolebased,
+  getProjectSite,
+  getUserIDProjectRolebased
 };

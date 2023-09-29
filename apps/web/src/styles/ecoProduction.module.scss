@@ -12,11 +12,16 @@ a {
     cursor: pointer;
 }
 
-a:hover {
-    color: #7f56d9;
-}
+// a:hover {
+//     color: #7f56d9;
+// }
 
-Button:hover {
+// Button:hover {
+//     background-color: #7f56d9;
+//     color: white;
+// }
+
+.btn:hover {
     background-color: #7f56d9;
     color: white;
 }
@@ -70,14 +75,14 @@ Button:hover {
     box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.12);
 }
 
-h2 {
+.heading2 {
     color: #333;
     border-bottom: 2px solid #efefef;
     padding-bottom: 10px;
     margin-bottom: 15px;
 }
 
-p {
+.paragraph {
     color: #666;
     line-height: 1.6;
     text-align: justify;

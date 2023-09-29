@@ -121,7 +121,7 @@ const GstList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
-                    icon={<AddIcon />}
+                    icon={<AddIcon color='white'/>}
                   >
                     Add
                   </Button>
@@ -143,7 +143,7 @@ const GstList = () => {
                     <tr>
                       <th>S No</th>
                       <th>GST Rate</th>
-                      <th></th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>

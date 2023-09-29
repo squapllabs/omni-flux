@@ -16402,6 +16402,105 @@
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"user_data\": {\n                \"user_id\": 62,\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"user_profiles\": {\n                    \"profile_image_url\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1690374500388-67413086-aalam1-4.png\"\n                }\n            },\n            \"project_role_data\": {\n                \"role_name\": \"Planning Engineer\"\n            }\n        }\n    ]\n}"
             }
           ]
+        },
+        {
+          "name": "API To Get Project Member Association By User Id And Project Role Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{omni_access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_URL}}/api/project-member-association/get-by-user-id-and-project-role-id/101/6",
+              "host": ["{{API_URL}}"],
+              "path": [
+                "api",
+                "project-member-association",
+                "get-by-user-id-and-project-role-id",
+                "101",
+                "6"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "API To Get Project Member Association By User Id And Project Role Id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{API_URL}}/api/project-member-association/get-by-user-id-and-project-role-id/101/6",
+                  "host": ["{{API_URL}}"],
+                  "path": [
+                    "api",
+                    "project-member-association",
+                    "get-by-user-id-and-project-role-id",
+                    "101",
+                    "6"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1320"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"528-xOpqpv+9U9kClHlBO85ZZt/Xsfk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 15 Sep 2023 08:16:20 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"project_member_association_id\": 21,\n            \"project_id\": 137,\n            \"user_id\": 101,\n            \"project_role_id\": 6,\n            \"access_start_date\": \"2023-09-07T00:00:00.000Z\",\n            \"access_end_date\": \"2023-09-30T00:00:00.000Z\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T08:15:56.197Z\",\n            \"updated_date\": \"2023-09-12T08:15:56.197Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"project_data\": {\n                \"project_id\": 137,\n                \"project_name\": \"Pipe line Project\",\n                \"description\": \"With completion of major projects like HCPL, VDPL, HPCL’s mainline capacity has increased to 35.2 MM\",\n                \"user_id\": 106,\n                \"date_started\": \"2023-09-12T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-11T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 1,\n                \"project_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PLP1/file-1694506857512-126879648-BOQ (4).xlsx\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"created_date\": \"2023-09-12T08:14:29.393Z\",\n                \"updated_date\": \"2023-09-12T08:20:58.412Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"\",\n                \"project_type\": \"Pipeline Laying\",\n                \"code\": \"PLP1\",\n                \"estimated_budget\": 20000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 73\n            },\n            \"user_data\": {\n                \"first_name\": \"Site Engineer\",\n                \"last_name\": \"User\",\n                \"email_id\": \"siteengineeruser@aalamsoft.com\",\n                \"user_profiles\": {\n                    \"profile_image_url\": \"\"\n                }\n            },\n            \"project_role_data\": {\n                \"role_name\": \"Site Engineer\"\n            }\n        }\n    ]\n}"
+            }
+          ]
         }
       ]
     },
@@ -17505,7 +17604,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"pipe\",\r\n    \"project_id\": 137,\r\n    \"approver_user_id\": 97,\r\n    \"approver_status\": \"Pending\",\r\n    \"priority\": \"High\",\r\n    \"status\": \"AC\"\r\n}",
+              "raw": "// {\r\n//     \"limit\": 50,\r\n//     \"offset\": 0,\r\n//     \"order_by_column\": \"updated_date\",\r\n//     \"order_by_direction\": \"desc\",\r\n//     // \"global_search\": \"pipe\",\r\n//     // \"project_id\": 137,\r\n//     // \"approver_user_id\": 97,\r\n//     \"project_approver_id\":102,\r\n//     \"approver_status\": \"Pending\",\r\n//     // \"priority\": \"High\",\r\n//     \"status\": \"AC\"\r\n// }\r\n\r\n{\r\n    \"limit\": 10,\r\n    \"offset\": 10,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"approver_status\": \"Pending\",\r\n    \"project_approver_id\": 102,\r\n    \"priority\": \"\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -18412,7 +18511,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\":\"2023-09-13\",\r\n    \"status\":\"Requested\",\r\n    \"vendor_selection_method\":\"Manual Selection\",\r\n    \"project_id\":137,\r\n    \"selected_vendor_id\":1,\r\n    \"total_cost\":241999.11,\r\n    \"created_by\":1\r\n}",
+              "raw": "{\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-13\",\r\n    \"status\": \"Requested\",\r\n    \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"selected_vendor_id\": 1,\r\n    \"total_cost\": 241999.11,\r\n    \"created_by\": 1,\r\n    \"purchase_request_details\": {\r\n        \"item_name\": \"Gadget B\",\r\n        \"quantity\": 5,\r\n        \"unit_price\": 50.0,\r\n        \"total_price\": 250.0\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -18520,13 +18619,72 @@
             "method": "PUT",
             "header": [],
             "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"purchase_request_id\": 1,\r\n    \"indent_request_id\": 10,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-13T00:00:00.000Z\",\r\n    \"status\": \"Approved\",\r\n    \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"selected_vendor_id\": 1,\r\n    \"total_cost\": 241999.11,\r\n    \"updated_by\": 1\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "purchase_request_id",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "indent_request_id",
+                  "value": "10",
+                  "type": "text"
+                },
+                {
+                  "key": "requester_user_id",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "request_date",
+                  "value": "2023-09-13",
+                  "type": "text"
+                },
+                {
+                  "key": "status",
+                  "value": "Approved",
+                  "type": "text"
+                },
+                {
+                  "key": "vendor_selection_method",
+                  "value": "Manual Selection",
+                  "type": "text"
+                },
+                {
+                  "key": "project_id",
+                  "value": "137",
+                  "type": "text"
+                },
+                {
+                  "key": "selected_vendor_id",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "total_cost",
+                  "value": "122334",
+                  "type": "text"
+                },
+                {
+                  "key": "updated_by",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "purchase_request_documents",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/0065/Downloads/file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4 (1).png",
+                    "/C:/Users/0065/Downloads/file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4.png"
+                  ]
+                },
+                {
+                  "key": "purchase_request_details",
+                  "value": " {\"item_name\": \"Gadget B\",      \"quantity\": 5,      \"unit_price\": 50.0,      \"total_price\": 250.0}",
+                  "type": "text"
                 }
-              }
+              ]
             },
             "url": {
               "raw": "http://localhost:8080/api/purchase-request/",
@@ -18610,6 +18768,139 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_request_id\": 2,\n        \"indent_request_id\": 10,\n        \"requester_user_id\": 1,\n        \"request_date\": \"2023-09-13T00:00:00.000Z\",\n        \"status\": \"Pending\",\n        \"vendor_selection_method\": \"Manual Selection\",\n        \"project_id\": 137,\n        \"selected_vendor_id\": 1,\n        \"total_cost\": 241999.11,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-13T13:14:51.234Z\",\n        \"updated_date\": \"2023-09-13T13:18:32.874Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
+            },
+            {
+              "name": "API To Update Purchase Request",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "purchase_request_id",
+                      "value": "3",
+                      "type": "text"
+                    },
+                    {
+                      "key": "indent_request_id",
+                      "value": "10",
+                      "type": "text"
+                    },
+                    {
+                      "key": "requester_user_id",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "request_date",
+                      "value": "2023-09-13",
+                      "type": "text"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Approved",
+                      "type": "text"
+                    },
+                    {
+                      "key": "vendor_selection_method",
+                      "value": "Manual Selection",
+                      "type": "text"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "137",
+                      "type": "text"
+                    },
+                    {
+                      "key": "selected_vendor_id",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "total_cost",
+                      "value": "122334",
+                      "type": "text"
+                    },
+                    {
+                      "key": "updated_by",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "purchase_request_documents",
+                      "type": "file",
+                      "src": [
+                        "/C:/Users/0065/Downloads/file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4 (1).png",
+                        "/C:/Users/0065/Downloads/file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4.png"
+                      ]
+                    },
+                    {
+                      "key": "purchase_request_details",
+                      "value": " {\"item_name\": \"Gadget B\",      \"quantity\": 5,      \"unit_price\": 50.0,      \"total_price\": 250.0}",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/purchase-request/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["api", "purchase-request", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1148"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"47c-l0u5cTjEs+ohrufVf9hghKDmIaw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 15 Sep 2023 11:53:59 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_request_id\": 3,\n        \"indent_request_id\": 10,\n        \"requester_user_id\": 1,\n        \"request_date\": \"2023-09-13T00:00:00.000Z\",\n        \"status\": \"Approved\",\n        \"vendor_selection_method\": \"Manual Selection\",\n        \"project_id\": 137,\n        \"selected_vendor_id\": 1,\n        \"total_cost\": 122334,\n        \"purchase_request_details\": {\n            \"quantity\": 5,\n            \"item_name\": \"Gadget B\",\n            \"unit_price\": 50,\n            \"total_price\": 250\n        },\n        \"purchase_request_documents\": [\n            {\n                \"code\": \"purchase-request-3-0\",\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-request/purchase-request-3-0/purchase_request_documents-1694778831552-953756603-file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4 (1).png\",\n                \"index\": 0,\n                \"folder\": \"purchase-request\"\n            },\n            {\n                \"code\": \"purchase-request-3-1\",\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-request/purchase-request-3-1/purchase_request_documents-1694778831553-493515044-file-1692021835666-612082074-file-1690377159922-687213136-aalam1-4.png\",\n                \"index\": 1,\n                \"folder\": \"purchase-request\"\n            }\n        ],\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-15T11:42:37.851Z\",\n        \"updated_date\": \"2023-09-15T11:53:58.638Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
             }
           ]
         },

@@ -23,7 +23,7 @@ const CustomSubCategoryAdd = (props: {
   selectedCategoryId: any;
   selectedProject: any;
   selectedSubCategory: any;
-  selectedBomConfig:any;
+  selectedBomConfig: any;
   mode: any;
   setMode: any;
 }) => {
@@ -37,7 +37,7 @@ const CustomSubCategoryAdd = (props: {
     setMode,
     selectedBomConfig,
   } = props;
-  console.log('!!!!!!!!!!', selectedSubCategory);
+  // console.log('!!!!!!!!!!', selectedSubCategory);
 
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = createInstantSubcategory();
@@ -50,6 +50,7 @@ const CustomSubCategoryAdd = (props: {
     start_date: '',
     end_date: '',
     sub_category_id: '',
+    budget: '',
   });
   const dateFormat = (value: any) => {
     if (value !== null) {
@@ -72,7 +73,8 @@ const CustomSubCategoryAdd = (props: {
           category_id: data?.data?.category_id,
           project_id: data?.data?.project_id,
           sub_category_id: data?.data?.sub_category_id,
-          bom_configuration_id:selectedBomConfig
+          bom_configuration_id: selectedBomConfig,
+          budget: data?.data?.budget,
         });
       };
       fetchOne();
@@ -91,7 +93,7 @@ const CustomSubCategoryAdd = (props: {
           name: values.name,
           description: values.description,
           project_id: selectedProject,
-          budget: 0,
+          budget: clientinitialValues.budget,
           category_id: selectedCategoryId,
           start_date: values.start_date,
           end_date: values.end_date,
@@ -118,7 +120,7 @@ const CustomSubCategoryAdd = (props: {
           category_id: selectedCategoryId,
           start_date: values.start_date,
           end_date: values.end_date,
-          bom_configuration_id:selectedBomConfig
+          bom_configuration_id: selectedBomConfig,
         };
         console.log('sub category added form ', Object);
         createNewSubCategory(Object, {
@@ -184,8 +186,8 @@ const CustomSubCategoryAdd = (props: {
                       error={
                         formik.touched.description && formik.errors.description
                       }
-                      rows={5}
-                      maxCharacterCount={150}
+                      rows={10}
+                      maxCharacterCount={1000}
                     />
                   </div>
                   <div className={Styles.dateField}>

@@ -444,7 +444,7 @@ const getByProjectIdAndSiteId = async (
   }
 };
 
-const getSiteExpenseDeatilsBySiteExpenceId = async (
+const getSiteExpenseDetailsBySiteExpenceId = async (
   siteExpenseId: number,
   status: string,
   connectionObj = null
@@ -483,5 +483,5 @@ export default {
   deleteSiteExpense,
   searchSiteExpense,
   getByProjectIdAndSiteId,
-  getSiteExpenseDeatilsBySiteExpenceId,
+  getSiteExpenseDetailsBySiteExpenceId,
 };

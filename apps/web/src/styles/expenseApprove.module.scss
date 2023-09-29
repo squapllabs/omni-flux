@@ -1,0 +1,170 @@
+.box {
+    position: relative;
+    // background-color: #6941c6;
+}
+
+.box::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    position: absolute;
+    bottom: 20;
+    left: 10;
+}
+
+.textContent_1 {
+    width: 30%;
+}
+
+.headingContent {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0px 10px 10px;
+}
+
+.pagination {
+    padding-top: 10px;
+    display: flex;
+    justify-content: end;
+}
+
+.searchField {
+    padding: 5px 5px 0px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.inputFilter {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+.filterSelect {
+    width: 30%;
+}
+
+.filterButton {
+    display: flex;
+    gap: 20px;
+}
+
+.searchButton {
+    padding: 12px 20px 12px 20px;
+    border-radius: 8px;
+    border: 1px;
+    gap: 8px;
+    color: #6941c6;
+}
+
+.searchButton:hover {
+    background-color: #7f56d9;
+    color: #ffffff;
+}
+
+.resetButton [disabled] {
+    padding: 12px 20px 12px 20px;
+    border-radius: 8px;
+    border: 1px;
+    gap: 8px;
+    color: black;
+    background-color: #ccc;
+}
+
+.resetButton:not([disabled]):hover {
+    background-color: #c4c4c6;
+    color: #ffffff;
+}
+
+.tableContainer {
+    padding: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #f2f2f2;
+    padding: 8px;
+    text-align: left;
+}
+
+tr {
+    border-bottom: 1px solid #ccc;
+}
+
+td {
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+.tableIcon {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+//EXPENSE DETAIL
+
+.title {
+    padding: 15px 15px 0px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cardContent {
+    padding: 10px 10px 10px 10px;
+    width: 65%;
+}
+
+.dataRows {
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    // justify-content: center;
+}
+
+.leftData {
+    font-weight: bold;
+    width: 250px;
+}
+
+.rightData {
+    margin-left: 200px;
+}
+
+.dividerStyle {
+    border-bottom: 1px solid black;
+    padding: 15px 15px 0px 10px;
+}
+
+.siteList {
+    list-style: none;
+    display: inline;
+}
+
+.disabledIcon {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.tableContainerBottom {
+    padding: 10px 10px 50px 10px;
+}

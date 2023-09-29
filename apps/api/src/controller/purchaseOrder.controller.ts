@@ -73,6 +73,41 @@ const searchPurchaseOrder = catchAsync(async (req, res) => {
   }
 });
 
+const createPurchaseOrderWithItem = catchAsync(async (req, res) => {
+  const methodName = '/createPurchaseOrderWithItem';
+  try {
+    const purchaseOrder =
+      await purchaseOrderService.createPurchaseOrderWithItem(req.body);
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getByPurchaseRequestId = catchAsync(async (req, res) => {
+  const methodName = '/getByPurchaseRequestId';
+  try {
+    const purchaseOrder = await purchaseOrderService.getByPurchaseRequestId(
+      req.params.purchase_request_id
+    );
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const updateStatusAndDocument = catchAsync(async (req, res) => {
+  const methodName = '/updateStatusAndDocument';
+  try {
+    const purchaseOrder = await purchaseOrderService.updateStatusAndDocument(
+      req.body
+    );
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -80,4 +115,7 @@ export {
   getByPurchaseOrderId,
   deleteByPurchaseOrderId,
   searchPurchaseOrder,
+  createPurchaseOrderWithItem,
+  getByPurchaseRequestId,
+  updateStatusAndDocument,
 };

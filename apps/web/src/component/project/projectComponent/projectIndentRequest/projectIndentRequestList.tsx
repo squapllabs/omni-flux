@@ -33,7 +33,7 @@ const ProjectIndentRequestList = () => {
     data: getFilterData,
     isLoading: FilterLoading,
   } = getBySearchIndent();
-  console.log('getFilterData', getFilterData);
+  // console.log('getFilterData', getFilterData);
 
   useEffect(() => {
     handleSearch();
@@ -49,7 +49,7 @@ const ProjectIndentRequestList = () => {
       project_id: Number(routeParams?.id),
       ...filterValues,
     };
-    console.log('demo', demo);
+    // console.log('demo', demo);
     postDataForFilter(demo);
     // setIsLoading(false);
     // setFilter(true);
@@ -126,7 +126,6 @@ const ProjectIndentRequestList = () => {
             </div>
           </div>
         </div>
-
         <div className={Styles.searchField}>
           <div className={Styles.inputFilter}>
             <div className={Styles.filterSelect}>
@@ -191,33 +190,39 @@ const ProjectIndentRequestList = () => {
                 </tr>
               </thead>
               <tbody>
-                {getFilterData?.content?.map((items: any, index: any) => {
-                  rowIndex = rowIndex + 1;
-                  return (
-                    <tr>
-                      <td>{rowIndex}</td>
-                      <td>{dateFormat(items?.requested_date)}</td>
-                      <td>{dateFormat(items?.expected_delivery_date)}</td>
-                      <td>{formatBudgetValue(items?.total_cost)}</td>
-                      <td>{items?.approver_status}</td>
-                      <td>
-                        <div
-                          style={{
-                            cursor: 'pointer',
-                          }}
-                        >
-                          <EditIcon
-                            onClick={(e) => {
-                              navigate(
-                                `/indent/${routeParams?.id}/${items?.indent_request_id}`
-                              );
+                {getFilterData?.content?.length > 0 ? (
+                  getFilterData.content.map((items: any, index: any) => {
+                    rowIndex = rowIndex + 1;
+                    return (
+                      <tr key={index}>
+                        <td>{rowIndex}</td>
+                        <td>{dateFormat(items?.requested_date)}</td>
+                        <td>{dateFormat(items?.expected_delivery_date)}</td>
+                        <td>{formatBudgetValue(items?.total_cost)}</td>
+                        <td>{items?.approver_status}</td>
+                        <td>
+                          <div
+                            style={{
+                              cursor: 'pointer',
                             }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                          >
+                            <EditIcon
+                              onClick={(e) => {
+                                navigate(
+                                  `/indent/${routeParams?.id}/${items?.indent_request_id}`
+                                );
+                              }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="6" style={{textAlign:'center'}}>No data found</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

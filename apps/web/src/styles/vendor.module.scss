@@ -24,11 +24,12 @@
 }
 
 .fieldRowLast {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 0px 20px 0px 40px;
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  // padding: 0px 20px 0px 40px;
+  margin-left: 3.5%;
+}
 
 .buttonFields {
   display: flex;
@@ -42,11 +43,12 @@
   width: 98%;
   padding: 5px 0px 5px 5px;
 }
+
 .inputFieldMain {
-    padding: 0px 0px 0px 20px;
-    width: 96%;
-    height: 50%;
-  }
+  padding: 0px 0px 0px 20px;
+  width: 96%;
+  height: 50%;
+}
 
 .text {
   padding: 10px 10px 0px 10px;
@@ -103,12 +105,14 @@
 .inputFilter {
   display: flex;
   gap: 10px;
+  height: 40px;
 }
 
 .button {
   display: flex;
   gap: 20px;
 }
+
 .dividerStyle {
   border-bottom: 1px solid #ccc;
   padding: 1px 1px 5px 1px;

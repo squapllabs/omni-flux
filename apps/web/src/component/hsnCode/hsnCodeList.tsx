@@ -354,7 +354,7 @@ const HsnCodeList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
-                    icon={<AddIcon />}
+                    icon={<AddIcon color='white'/>}
                   >
                     Add
                   </Button>
@@ -468,7 +468,7 @@ const HsnCodeList = () => {
                       <th>S No</th>
                       <th>HSN Code</th>
                       <th>Description</th>
-                      {activeButton === 'AC' && <th></th>}
+                      {activeButton === 'AC' && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>

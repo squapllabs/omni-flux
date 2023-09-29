@@ -7,6 +7,7 @@ import Select from '../../ui/selectNew';
 import {
   getBymasertDataType,
   getBymasertDataTypeDrop,
+  getByMasterDataProjectIdDrop
 } from '../../../hooks/masertData-hook';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
@@ -40,7 +41,9 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
-  const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
+  // const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
+  const { data: getBomType = [] } = getByMasterDataProjectIdDrop(Number(routeParams?.id));
+
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
   useEffect(() => {
@@ -158,9 +161,9 @@ const ProjectBomConfig: React.FC = (props: any) => {
             <thead>
               <tr>
                 <th className={Styles.tableHeading}>S No</th>
-                <th className={Styles.tableHeadingSite}>BOM Name</th>
-                <th className={Styles.tableHeading}>BOM Description</th>
-                <th className={Styles.tableHeading}>BOM Type</th>
+                <th className={Styles.tableHeadingSite}>BOQ Name</th>
+                <th className={Styles.tableHeading}>BOQ Description</th>
+                <th className={Styles.tableHeading}>BOQ Type</th>
                 <th className={Styles.tableHeading}>Budget</th>
                 <th className={Styles.tableHeading}>Action</th>
               </tr>
@@ -169,7 +172,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
               {bomConfig?.map((item: any, index: any) => {
                 rowIndex = rowIndex + 1;
                 return (
-                  <>
+                  // <>
                     <tr>
                       <td>{rowIndex}</td>
                       <td>{item?.bom_name}</td>
@@ -192,11 +195,11 @@ const ProjectBomConfig: React.FC = (props: any) => {
                           }}
                         >
                           <AddIcon style={{ height: '15px', width: '15px' }} />
-                          <p className={Styles.addText}>Add BOM</p>
+                          <p className={Styles.addText}>Create Abstract</p>
                         </div>
                       </td>
                     </tr>
-                  </>
+                  // </>
                 );
               })}
               <tr>

@@ -1,32 +1,50 @@
-.container{
+.container {
   width: 100%;
   height: 100vh;
 }
+
 .text {
-  padding: 10px 10px 0px 30px;
+  padding: 10px 10px 0px 5px;
   display: flex;
   flex-direction: column;
 }
+
 .textStyle {
   padding-left: 5px;
   padding-top: 5px;
 }
+.textStyleDescription{
+  padding-left: 5px;
+  padding-top: 5px;
+  font-size: 0.7rem;
+}
+.cardTextStyle {
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .dividerStyle {
   border-bottom: 1px solid #ccc;
   padding: 5px 1px 5px 1px;
 }
+
 .searchField {
-  padding: 20px 10px 0px 30px;
+  padding: 20px 10px 0px 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 10px;
 }
+
 .searchButton {
   display: flex;
   flex-direction: row;
   flex-shrink: initial;
 }
+
 .searchButton {
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
@@ -34,11 +52,13 @@
   gap: 8px;
   color: #6941c6;
 }
+
 .searchButton:hover {
   background-color: #7f56d9;
   color: #ffffff;
 }
-.resetButton [disabled]{
+
+.resetButton [disabled] {
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
   border: 1px;
@@ -46,61 +66,82 @@
   color: black;
   background-color: #ccc;
 }
+
 .resetButton:not([disabled]):hover {
   background-color: #c4c4c6;
   color: #ffffff;
 }
+
 .inputFilter {
   display: flex;
   gap: 10px;
 }
+
+.cardDiv1 {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  gap: 30px;
+}
+
 .button {
   display: flex;
   gap: 20px;
 }
+
 .pagination {
   padding: 10px 10px 10px 0px;
   display: flex;
   justify-content: end;
 }
+
 table {
   border-collapse: collapse;
   width: 100%;
   border: 1px solid #ccc;
 }
+
 th {
   background-color: #f2f2f2;
   padding: 8px;
   text-align: center;
-} 
+}
+
 tr {
   border-bottom: 1px solid #ccc;
 }
+
 td {
   padding: 8px;
 }
+
 .tablerow {
   display: flex;
   flex-direction: row;
   column-gap: 15px;
   cursor: pointer;
 }
+
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+
 tr:hover {
   background-color: #e0e0e0;
 }
+
 .tableContainer {
-  padding: 10px 10px 0px 30px;
+  padding: 10px 10px 0px 10px;
   // height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.dashBoardcontainer{
+
+.dashBoardcontainer {
   padding: 2px;
 }
+
 .dashBoard {
   height: 300px;
 }
@@ -108,56 +149,52 @@ tr:hover {
 .card {
   display: flex;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(66, 66, 66, 0.2);
-  width: 19%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 20%;
+  height: 20%;
   border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
 }
+
 .card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .graphCard {
   display: flex;
   justify-content: center;
-  box-shadow: 0 4px 8px 0 rgba(66, 66, 66, 0.2);
-  width: 49%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 51%;
   column-gap: 50px;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 .graphCard:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .cardContainer {
-  padding: 15px 0px;
-} 
+  padding: 15px 2px;
+}
 
 .cardDiv {
   display: flex;
+
   justify-content: space-evenly;
+
   padding: 10px 0px 10px 5px;
 }
 
 .barCarddDiv {
   display: flex;
-  justify-content: space-evenly;
-  padding: 10px 0px 10px 5px;
-
+  justify-content: center;
+  padding: 10px;
+  gap: 30px;
 }
 
 .chart {
   width: 100%;
+
   padding: 20px 40px;
 }
-
-.values {
-  display: flex;
-  justify-content: center;
-  padding: 5px;
-}
-
-
-
-
-

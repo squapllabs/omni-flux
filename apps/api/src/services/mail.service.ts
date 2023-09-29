@@ -108,6 +108,170 @@ const OTPEmail = async (body) => {
   }
 };
 
+/**
+ * Method to Send Email To vendor for the Purchase Request
+ */
+const purchaseRequestEmailForVendor = async (body) => {
+  try {
+    const fromMailId = process.env.EMAIL_FROM;
+    const purchase_request_details = body.purchase_request_details;
+    const vendor_name = body.vendor_name;
+    const to_email_id = body.to_email_id;
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+
+    const template = `<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Purchase Request Notification</title>
+      </head>
+      <body
+        style="
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+          margin: 0;
+          padding: 0;
+        "
+      >
+        <table width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center">
+              <table
+                class="container"
+                width="600"
+                cellpadding="20"
+                style="
+                  background-color: #ffffff;
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                  border-radius: 10px;
+                  padding: 20px;
+                "
+              >
+                <tr>
+                  <td
+                    align="center"
+                    bgcolor="#e9e5e5"
+                    style="
+                      color: #ffffff;
+                      border-top-left-radius: 10px;
+                      border-top-right-radius: 10px;
+                    "
+                  >
+                    <h1 style="color: #333; font-size: 24px; margin-bottom: 20px">
+                      Purchase Request Notification
+                    </h1>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>Dear <b>${vendor_name},</b></p>
+                    <p>
+                      We are pleased to inform you that a new purchase request has
+                      been created for the following items:
+                    </p>
+                    <table
+                      style="
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 5px;
+                      "
+                    >
+                      <tr>
+                        <th
+                          style="
+                            border: 1px solid #dddddd;
+                            text-align: left;
+                            padding: 3px;
+                            background-color: #f2f2f2;
+                          "
+                        >
+                          Item Name
+                        </th>
+                        <th
+                          style="
+                            border: 1px solid #dddddd;
+                            text-align: left;
+                            padding: 3px;
+                            background-color: #f2f2f2;
+                          "
+                        >
+                          Quantity
+                        </th>
+                      </tr>
+    
+                      ${purchase_request_details
+                        .map(
+                          (item) => `
+                      <tr>
+                        <td style="border: 1px solid #dddddd; padding: 3px">
+                          ${item.item_name}
+                        </td>
+                        <td style="border: 1px solid #dddddd; padding: 3px">
+                          ${item.quantity}
+                        </td>
+                      </tr>
+                      `
+                        )
+                        .join('')}
+                    </table>
+    
+                    <p>
+                      We kindly request you to review this purchase request and
+                      provide us with your quotation to fulfill these requirements.
+                      Your prompt response would be greatly appreciated as it will
+                      help us expedite the procurement process.
+                    </p>
+                    <p>Thank you for your prompt attention to this matter.</p>
+                    <div style="margin-top: 20px">
+                      <p>Sincerely,</p>
+                      <p><b>The Omni-Flux ERP</b></p>
+                    </div>
+                    <div
+                      class="footer"
+                      style="
+                        background-color: #e9e5e5;
+                        color: #333;
+                        padding: 15px;
+                        text-align: center;
+                        border-bottom-left-radius: 10px;
+                        border-bottom-right-radius: 10px;
+                        font-size: 14px;
+                      "
+                    >
+                      <p>
+                        <b
+                          >&copy; ${currentYear} The Omni-Flux ERP. All rights
+                          reserved.</b
+                        >
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>`;
+
+    await transporter.transporter.sendMail({
+      from: `${fromMailId}`,
+      to: to_email_id,
+      /*  to: 'vijay.perumalsamy@aalamsoft.com', */
+      subject:
+        'Request for Quotation - New Purchase Request from Omni-Flux ERP',
+      html: template,
+    });
+
+    console.log('email sent sucessfully');
+  } catch (error) {
+    console.log(error, 'email not sent');
+  }
+};
+
 export default {
   OTPEmail,
+  purchaseRequestEmailForVendor,
 };

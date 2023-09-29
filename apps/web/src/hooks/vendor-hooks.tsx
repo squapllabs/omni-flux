@@ -78,11 +78,27 @@ const useGetAllPaginatedVendor = (data: any) => {
     );
   };
 
+  const useGetAllVendors = () => {
+    return useQuery(['useGetAllVendors'], () => vendorService.getAllVendors(), {
+      select: (data) =>
+        data?.data?.map((vendor: any) => ({
+          value: vendor.vendor_id,
+          label: vendor.vendor_name,
+        })),
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
+      staleTime: 60000,
+    });
+  };
+
+
+
   export {
     useGetAllPaginatedVendor,
     getByFilterVendor,
     useDeleteVendor,
     createVendor,
     updateVendor,
-    getByVendorId
+    getByVendorId,
+    useGetAllVendors
   }

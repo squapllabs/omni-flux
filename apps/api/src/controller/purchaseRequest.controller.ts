@@ -19,7 +19,7 @@ const updatePurchaseRequest = catchAsync(async (req, res) => {
   const methodName = '/updatePurchaseRequest';
   try {
     const purchaseRequest = await purchaseRequestService.updatePurchaseRequest(
-      req.body
+      req
     );
     res.send(purchaseRequest);
   } catch (err) {

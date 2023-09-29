@@ -3,9 +3,8 @@ import Styles from '../../styles/projectlist.module.scss';
 import {
   getByProject,
   useDeleteProjects,
-  useGetAllProject,
-  useGetAllProjectStatus,
   getMemberBasedProject,
+  useGetAllProject,
 } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -23,15 +22,19 @@ import ViewIcon from '../menu/icons/viewIcon';
 import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import { Chart } from "react-google-charts";
-
+import StoreIcon from '../menu/icons/storeIcon';
+import { Chart } from 'react-google-charts';
 
 const ProjectList = () => {
   const state: RootState = store.getState();
-  let encryptedData = getToken(state, 'Data');
-  let userID: number = encryptedData.userId;
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
+  const roleName =
+    encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
+  // console.log('roleNAme', roleName);
+  const isProjectCreate = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN';
+  const isProjectEdit = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' || roleName === 'SITE ENGINEER' || roleName === 'PLANNING ENGINEER';
   const { isLoading: getAllLoading } = useGetAllProject();
-  const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus(); 
 
   const {
     mutate: postDataForFilter,
@@ -144,107 +147,8 @@ const ProjectList = () => {
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
-  const chartOptions1 = {
-    chart: {
-      title: "Project Status",
-      subtitle: "Estimated Days, Completed Days",
-    },
-  };
-  const chartOptions2 = {
-    chart: {
-      title: "Top Projects",
-      subtitle: "Top Projects Based on Budget",
-    }
-  };
-
-  const projectStatusData: any = [["Projects", "Total Days", "So Far"]];
-  projectStatus?.top_projects?.map(async(val: any) => {
-    await projectStatusData.push([val.project_name, val.project_total_days, val.days_completed])
-  });
-
-  const topProjectsData: any = [["Projects", "Budget"]];
-  projectStatus?.top_projects?.map (async(val: any) => {
-    await topProjectsData.push([val.project_name, val.total_budget])
-  });
-
   return (
     <div className={Styles.container}>
-      <div>
-        <CustomLoader
-          loading = {getAllProjectStatusLoading === false ? getAllProjectStatusLoading : projectStatus}
-          size={48}
-          color="#333C44"
-        >
-          <div className={Styles.dashBoardcontainer}>
-            {/* <CustomCard> */}
-              <div className={Styles.cardDiv}>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.textStyle}>
-                      <h3><b>Total Projects</b></h3>
-                      <p className={Styles.values}>{projectStatus?.total_projects}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.textStyle}>
-                      <h3><b>Active Projects</b></h3>
-                      <p className={Styles.values}>{projectStatus?.active_projects}</p >
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.textStyle}>
-                      <h3><b>Completed Projects</b></h3>
-                      <p className={Styles.values}>{projectStatus?.completed_projects}</p> 
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.textStyle}>
-                      <h3><b>In-progress Projects</b></h3>
-                      <p className={Styles.values}>{projectStatus?.inprogress_projects}</p> 
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.card}>
-                  <div className={Styles.cardContainer}>
-                    <div className={Styles.textStyle}>
-                      <h3><b>Not Started Projects</b></h3>
-                      <p className={Styles.values}>{projectStatus?.not_started_projects}</p> 
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={Styles.barCarddDiv}>
-                <div className={Styles.graphCard}>
-                  <div className={Styles.chart}>
-                    <Chart
-                      chartType="Bar"
-                      height="400px"
-                      data={projectStatusData}
-                      options={chartOptions1}
-                    />
-                  </div>
-                </div>
-                <div className={Styles.graphCard}>
-                  <div className={Styles.chart}>
-                    <Chart
-                      chartType="Bar"
-                      height="400px"
-                      data={topProjectsData}
-                      options={chartOptions2}
-                    />
-                  </div>
-                </div>
-              </div>
-            {/* </CustomCard> */}
-          </div>
-        </CustomLoader>
-      </div>
       <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}
@@ -255,8 +159,10 @@ const ProjectList = () => {
             <div className={Styles.textStyle}>
               <h3>List of Projects</h3>
             </div>
-            <div className={Styles.textStyle}>
-              <h6>Project List</h6>
+            <div className={Styles.textStyleDescription}>
+              <span>
+                Manage your entire project throught out the organization
+              </span>
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>
@@ -298,18 +204,20 @@ const ProjectList = () => {
                   activeButton={activeButton}
                 />
               </div>
-              <div>
-                <Button
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  color="primary"
-                  icon={<AddIcon />}
-                  onClick={() => navigate('/project')}
-                >
-                  Add
-                </Button>
-              </div>
+              {isProjectCreate && (
+                <div>
+                  <Button
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    color="primary"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/project')}
+                  >
+                    Add
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>
@@ -318,22 +226,22 @@ const ProjectList = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>S. No</th>
+                    <th>S No</th>
                     <th>Name</th>
                     <th>Code</th>
                     <th>Manager</th>
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    {activeButton === 'AC' && <th></th>}
+                    {activeButton === 'AC' && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>
                   {getFilterData?.total_count === 0 ? (
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td>No data found</td>
+                      <td colSpan="7" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
                       {activeButton === 'AC' && <td></td>}
                     </tr>
                   ) : (
@@ -346,8 +254,8 @@ const ProjectList = () => {
                         <td>{data?.project_data.project_name}</td>
                         <td>{data?.project_data.code}</td>
                         <td>
-                          {data?.user_data?.first_name}{' '}
-                          {data?.user_data?.last_name}
+                          {data?.project_data?.user?.first_name}{' '}
+                          {data?.project_data?.user?.last_name}
                         </td>
                         <td>{data?.project_data.status}</td>
                         <td>
@@ -365,17 +273,29 @@ const ProjectList = () => {
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/project-edit/${data?.project_data.project_id}`
-                                  )
-                                }
-                              />
+                            {isProjectEdit && (
+                              <div>
+                                {' '}
+                                <EditIcon
+                                  onClick={() =>
+                                    navigate(
+                                      `/project-edit/${data?.project_data.project_id}`
+                                    )
+                                  }
+                                />
+                              </div>
+                            )}
                               <ViewIcon
                                 onClick={() =>
                                   navigate(
                                     `/project-info/${data?.project_data.project_id}`
+                                  )
+                                }
+                              />
+                              <StoreIcon
+                                onClick={() =>
+                                  navigate(
+                                    `/project-inventory/${data?.project_data.project_id}`
                                   )
                                 }
                               />

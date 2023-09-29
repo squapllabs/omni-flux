@@ -228,7 +228,7 @@ const UomList = () => {
                     shape="rectangle"
                     justify="center"
                     size="small"
-                    icon={<AddIcon />}
+                    icon={<AddIcon color='white'/>}
                   >
                     Add
                   </Button>
@@ -282,7 +282,7 @@ const UomList = () => {
                       <th>S No</th>
                       <th>UOM Name</th>
                       <th>Description</th>
-                      <th></th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>

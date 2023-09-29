@@ -6,8 +6,8 @@ import Select from '../../../ui/selectNew';
 import DatePicker from '../../../ui/CustomDatePicker';
 import TextArea from '../../../ui/CustomTextArea';
 import Button from '../../../ui/Button';
-import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
-import { getBOMbyProjectandType } from 'apps/web/src/hooks/bom-hooks';
+// import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
+import { getBOMbyProjectandType } from '../../../../hooks/bom-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import IndentRequestDetails from './indentRequestDetails';
 import { store, RootState } from '../../../../redux/store';
@@ -16,18 +16,19 @@ import {
   createIndentRequest,
   updateIndentRequest,
 } from '../../../../hooks/indentRequest-hooks';
-import IndentRequestService from 'apps/web/src/service/indentRequest-service';
+import IndentRequestService from '../../../../service/indentRequest-service';
 import { format } from 'date-fns';
 import * as yup from 'yup';
 import PageDisabled from '../../../ui/pageDisableComponent';
 import BackArrow from '../../../menu/icons/backArrow';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
+import { getProjectSite } from '../../../../hooks/project-hooks';
 
 const IndentRequest: React.FC = (props: any) => {
   const state: RootState = store.getState();
-  let encryptedData = getToken(state, 'Data');
-  let userID: number = encryptedData.userId;
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
   const routeParams = useParams();
   const navigate = useNavigate();
   const [totalCost, setTotalCost] = useState(0);
@@ -41,6 +42,7 @@ const IndentRequest: React.FC = (props: any) => {
     created_by: userID,
     requested_date: new Date(),
     project_id: Number(routeParams?.id),
+    site_id: '',
     request_status: '',
   });
   const [indentRequestDetailsList, setIndentRequestDetailsList] = useState<any>(
@@ -62,7 +64,6 @@ const IndentRequest: React.FC = (props: any) => {
       const indentData = await IndentRequestService.getOneIndent(
         Number(routeParams?.indentid)
       );
-      console.log('indentData', indentData?.data);
       if (indentData?.data?.approver_status === 'Rejected') {
         setDisabled(false);
       } else {
@@ -74,13 +75,26 @@ const IndentRequest: React.FC = (props: any) => {
           indentData?.data?.expected_delivery_date
         ),
       };
-      console.log('obj', obj);
+      // console.log('obj', obj);
       setInitialValues({
         ...indentData?.data,
         expected_delivery_date: dateFormat(
           indentData?.data?.expected_delivery_date
         ),
       });
+      // console.log('indentData?.data?', indentData?.data);
+      const uomNames = indentData?.data?.indent_request_details?.map((item : any) => item?.bom_detail_data?.uom_data?.name);
+      // console.log("uomNames",uomNames);
+      // console.log(
+      //   'indentData?.data?.indent_request_details',
+      //   indentData?.data?.indent_request_details
+      // );
+      const tempArray = indentData?.data?.indent_request_details
+      // console.log("tempArray---->",tempArray)
+      tempArray.forEach((obj : any, index : number) => {
+        obj.uom_name = uomNames[index];
+    });
+    // console.log(" new newtempArray---->",tempArray)
       setIndentRequestDetailsList(indentData?.data?.indent_request_details);
     };
     if (routeParams?.indentid != undefined) fetchData();
@@ -94,7 +108,9 @@ const IndentRequest: React.FC = (props: any) => {
     createIndentRequest();
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
     updateIndentRequest();
-
+  const { data: getAllProjectSiteDatadrop = [] } = getProjectSite(
+    Number(routeParams?.id)
+  );
   const handleDraft = () => {
     formik.setFieldValue('request_status', 'Draft');
     formik.submitForm();
@@ -106,6 +122,7 @@ const IndentRequest: React.FC = (props: any) => {
       .min(new Date(), 'Date must be greater than or equal to the current date')
       .required(' Expected Date is required'),
     description: yup.string().required('Description is required'),
+    site_id: yup.string().required('Site is required'),
   });
   const formik = useFormik({
     initialValues,
@@ -125,6 +142,7 @@ const IndentRequest: React.FC = (props: any) => {
         ...values,
         approver_status: 'Pending',
         indent_request_details: indentRequestDetailsList,
+        site_id: Number(formik.values.site_id),
       };
       if (routeParams?.indentid != undefined) {
         updateIndentData(obj, {
@@ -160,12 +178,12 @@ const IndentRequest: React.FC = (props: any) => {
           <div className={Styles.mainTextContent}>
             <div className={Styles.textContent_1}>
               <h3>Indent Request</h3>
-              <span className={Styles.content}>Rise Indent Request</span>
+              <span className={Styles.content}>Raise Indent Request</span>
             </div>
             <div className={Styles.backButton}>
               <Button
                 type="button"
-                color="secondary"
+                color="primary"
                 shape="rectangle"
                 size="small"
                 justify="center"
@@ -226,6 +244,30 @@ const IndentRequest: React.FC = (props: any) => {
                         }
                       />
                     </div>
+
+                    <div style={{ width: '40%' }}>
+                      <Select
+                        label="Site"
+                        name="site_id"
+                        mandatory={true}
+                        onChange={formik.handleChange}
+                        value={formik.values.site_id}
+                        defaultLabel="Select from options"
+                        placeholder="Select from options"
+                        error={formik.touched.site_id && formik.errors.site_id}
+                        disabled={disabled}
+                      >
+                        {getAllProjectSiteDatadrop?.map(
+                          (items: any, index: any) => {
+                            return (
+                              <option key={items.value} value={items.value}>
+                                {items.label}
+                              </option>
+                            );
+                          }
+                        )}
+                      </Select>
+                    </div>
                     <div style={{ width: '40%' }}>
                       <Input
                         label="Total Cost"
@@ -236,10 +278,13 @@ const IndentRequest: React.FC = (props: any) => {
                         disabled={true}
                       />
                     </div>
-                    <div style={{ width: '40%' }}>
+                  </div>
+                  <div style={{ marginLeft: '2.5%' }}>
+                    <div style={{ width: '41%' }}>
                       <TextArea
                         name="description"
                         label="Indent Description"
+                        mandatory={true}
                         placeholder="Enter project description"
                         value={formik.values.description}
                         onChange={formik.handleChange}
@@ -267,7 +312,7 @@ const IndentRequest: React.FC = (props: any) => {
                   style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    paddingRight: '50px',
+                    paddingRight: '32px',
                     gap: '20px',
                   }}
                 >

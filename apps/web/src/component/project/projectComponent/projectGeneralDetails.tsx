@@ -71,7 +71,8 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getProjectManagerList = [] } = getUserbyRole('Project Manager');
-  const { data: getProjectApproverList = [] } = getUserbyRole('Approver');
+  const { data: getProjectApproverList = [] } =
+    getUserbyRole('Planning Engineer');
   const { data: getAllProjectTypeDatadrop = [] } =
     useGetMasterProjectParentType();
   const { mutate: createNewProjectData } = createProject();
@@ -156,13 +157,13 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     estimated_budget: yup
       .number()
       .min(1, 'Value must be greater than 0')
-      .max(100000, 'Value must be less then 100000')
+      .max(5000000000, 'Value must be less then 5000000000')
       .typeError('Only Number are allowed')
       .required('Estimated budget is required'),
     actual_budget: yup
       .number()
       .min(1, 'Value must be greater than 0')
-      .max(100000, 'Value must be less then 100000')
+      .max(5000000000, 'Value must be less then 5000000000')
       .typeError('Only Number are allowed'),
     project_type: yup.string().trim().required('Project type is required'),
     date_started: yup.date().required('Project start date is required'),
@@ -185,13 +186,13 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     estimated_budget: yup
       .number()
       .min(1, 'Value must be greater than 0')
-      .max(100000, 'Value must be less then 100000')
+      .max(5000000000, 'Value must be less then 5000000000')
       .typeError('Only Number are allowed')
       .required('Estimated budget is required'),
     actual_budget: yup
       .number()
       .min(1, 'Value must be greater than 0')
-      .max(100000, 'Value must be less then 100000')
+      .max(5000000000, 'Value must be less then 5000000000')
       .typeError('Only Number are allowed'),
     project_type: yup.string().trim().required('Project type is required'),
     date_started: yup.date().required('Project start date is required'),

@@ -40,6 +40,13 @@ import purchaseRequest from './purchaseRequest.route';
 import indentRequestDetails from './indentRequestDetails.route';
 import purchaseOrder from './purchaseOrder.route';
 import purchaseOrderItem from './purchaseOrderItem.route';
+import vendorQuotes from './vendorQuotes.route';
+import projectInventory from './projectInventory.route';
+import stockOutward from './stockOutward.route';
+import stockOutwardDetails from './stockOutwardDetails.route';
+import stockAudit from './stockAudit.route';
+import expense from './expense.route';
+import expenseDetails from './expenseDetails.route';
 
 const router = express.Router();
 
@@ -207,6 +214,34 @@ const defaultRoutes = [
   {
     path: '/purchase-order-item',
     route: purchaseOrderItem,
+  },
+  {
+    path: '/vendor-quotes',
+    route: vendorQuotes,
+  },
+  {
+    path: '/project-inventory',
+    route: projectInventory,
+  },
+  {
+    path: '/stock-outward',
+    route: stockOutward,
+  },
+  {
+    path: '/stock-outward-details',
+    route: stockOutwardDetails,
+  },
+  {
+    path: '/stock-audit',
+    route: stockAudit,
+  },
+  {
+    path: '/expense',
+    route: expense,
+  },
+  {
+    path: '/expense-details',
+    route: expenseDetails,
   },
 ];
 
