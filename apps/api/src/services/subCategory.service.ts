@@ -25,6 +25,7 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       start_date,
       end_date,
       bom_configuration_id,
+      progress_status,
     } = body;
     let result = null;
     const categoryExist = await categoryDao.getById(category_id);
@@ -83,6 +84,7 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       project_id,
       start_date,
       end_date,
+      progress_status,
       bom_configuration_id
     );
     result = { message: 'success', status: true, data: subCategoryDetails };
@@ -111,6 +113,7 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       start_date,
       end_date,
       bom_configuration_id,
+      progress_status,
     } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
@@ -180,6 +183,7 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       project_id,
       start_date,
       end_date,
+      progress_status,
       bom_configuration_id
     );
     result = { message: 'success', status: true, data: subCategoryDetails };

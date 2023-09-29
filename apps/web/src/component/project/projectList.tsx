@@ -31,9 +31,13 @@ const ProjectList = () => {
   const userID: number = encryptedData.userId;
   const roleName =
     encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
-  // console.log('roleNAme', roleName);
-  const isProjectCreate = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN';
-  const isProjectEdit = roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' || roleName === 'SITE ENGINEER' || roleName === 'PLANNING ENGINEER';
+  const isProjectCreate =
+    roleName === 'PROJECT MANAGER' || roleName === 'ADMIN';
+  const isProjectEdit =
+    roleName === 'PROJECT MANAGER' ||
+    roleName === 'ADMIN' ||
+    roleName === 'SITE MANAGER' ||
+    roleName === 'PLANNING ENGINEER';
   const { isLoading: getAllLoading } = useGetAllProject();
 
   const {
@@ -41,15 +45,19 @@ const ProjectList = () => {
     data: getFilterData,
     isLoading: FilterLoading,
   } = getMemberBasedProject();
+
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IN' },
+    { label: 'Inprogress', value: 'Inprogress' },
+    { label: 'Completed', value: 'Completed' },
+    ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
+    ? [{ label: 'Draft', value: 'Draft' }]
+    : []),
   ]);
-  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
   const [filter, setFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,8 +95,10 @@ const ProjectList = () => {
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
       global_search: filterValues.search_by_name,
-      status: activeButton,
-      user_id: userID,
+      status: 'AC',
+      user_id: roleName === 'ADMIN' ? null : userID,
+      project_status: activeButton,
+      project_manager_id : roleName === 'PROJECT MANAGER' ? true : false
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -104,7 +114,8 @@ const ProjectList = () => {
       order_by_direction: 'desc',
       global_search: '',
       status: 'AC',
-      user_id: userID,
+      user_id: roleName === 'ADMIN' ? null : userID,
+      project_status: activeButton,
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -233,7 +244,7 @@ const ProjectList = () => {
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    {activeButton === 'AC' && <th>Actions</th>}
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -242,71 +253,62 @@ const ProjectList = () => {
                       <td colSpan="7" style={{ textAlign: 'center' }}>
                         No data found
                       </td>
-                      {activeButton === 'AC' && <td></td>}
+                      {activeButton === 'Inprogress' && <td></td>}
                     </tr>
                   ) : (
                     ''
                   )}
                   {getFilterData?.content?.map((data: any, index: number) => {
                     return (
-                      <tr key={data.user_id}>
+                      <tr key={data.project_id}>
                         <td>{startingIndex + index}</td>
-                        <td>{data?.project_data.project_name}</td>
-                        <td>{data?.project_data.code}</td>
+                        <td>{data?.project_name}</td>
+                        <td>{data?.code}</td>
                         <td>
-                          {data?.project_data?.user?.first_name}{' '}
-                          {data?.project_data?.user?.last_name}
+                          {data?.user?.first_name} {data?.user?.last_name}
                         </td>
-                        <td>{data?.project_data.status}</td>
+                        <td>{data?.status}</td>
                         <td>
-                          {format(
-                            new Date(data?.project_data.date_started),
-                            'MMM dd, yyyy'
-                          )}
+                          {format(new Date(data?.date_started), 'MMM dd, yyyy')}
                         </td>
                         <td>
-                          {format(
-                            new Date(data?.project_data.date_ended),
-                            'MMM dd, yyyy'
-                          )}
+                          {format(new Date(data?.date_ended), 'MMM dd, yyyy')}
                         </td>
-                        {activeButton === 'AC' && (
-                          <td>
-                            <div className={Styles.tablerow}>
+                        {/* {activeButton === 'AC' && ( */}
+                        <td>
+                          <div className={Styles.tablerow}>
                             {isProjectEdit && (
                               <div>
                                 {' '}
                                 <EditIcon
                                   onClick={() =>
                                     navigate(
-                                      `/project-edit/${data?.project_data.project_id}`
+                                      `/project-edit/${data?.project_id}`
                                     )
                                   }
                                 />
                               </div>
                             )}
-                              <ViewIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/project-info/${data?.project_data.project_id}`
-                                  )
-                                }
-                              />
-                              <StoreIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/project-inventory/${data?.project_data.project_id}`
-                                  )
-                                }
-                              />
-                              {/* <DeleteIcon
+                            <ViewIcon
+                              onClick={() =>
+                                navigate(`/project-info/${data?.project_id}`)
+                              }
+                            />
+                            <StoreIcon
+                              onClick={() =>
+                                navigate(
+                                  `/project-inventory/${data?.project_id}`
+                                )
+                              }
+                            />
+                            {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
                             }
                           /> */}
-                            </div>
-                          </td>
-                        )}
+                          </div>
+                        </td>
+                        {/* )} */}
                       </tr>
                     );
                   })}

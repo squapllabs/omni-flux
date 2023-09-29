@@ -74,6 +74,19 @@ const searchPurchaseRequest = catchAsync(async (req, res) => {
   }
 });
 
+const getAllPurchaseRequestProjectsByStatus = catchAsync(async (req, res) => {
+  const methodName = '/getAllPurchaseRequestProjectsByStatus';
+  try {
+    const purchaseRequest =
+      await purchaseRequestService.getAllPurchaseRequestProjectsByStatus(
+        req.params.status
+      );
+    res.send(purchaseRequest);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createPurchaseRequest,
   updatePurchaseRequest,
@@ -81,4 +94,5 @@ export {
   getByPurchaseRequestId,
   deleteByPurchaseRequestId,
   searchPurchaseRequest,
+  getAllPurchaseRequestProjectsByStatus,
 };

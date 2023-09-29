@@ -9,7 +9,7 @@ import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import DatePicker from '../../ui/CustomDatePicker';
 import CustomGroupButton from '../../ui/CustomGroupButton';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useGetAllRoles } from '../../../hooks/userRole-hooks';
+import { useGetAllSelectedRoles } from '../../../hooks/userRole-hooks';
 import {
   createProjectMember,
   getBySearchProjectMembers,
@@ -27,7 +27,7 @@ import CustomSnackBar from '../../ui/customSnackBar';
 import * as Yup from 'yup';
 import {
   getProjectMemberCreationYupschema,
-  getCreateMasterValidateyup
+  getCreateMasterValidateyup,
 } from '../../../helper/constants/projectSettings-constants';
 import TextArea from '../../ui/CustomTextArea';
 import {
@@ -36,10 +36,10 @@ import {
   useGetAllPaginatedMasterData,
   useDeletemasertData,
 } from '../../../hooks/masertData-hook';
-import { getByProjectId } from '../../../hooks/project-hooks'
+import { getByProjectId } from '../../../hooks/project-hooks';
 import EditIcon from '../../menu/icons/editIcon';
 import CustomEditDialog from '../../ui/customEditDialogBox';
-import ProjectMasterDataEditForm from './projectMasterDataEdit'
+import ProjectMasterDataEditForm from './projectMasterDataEdit';
 
 const ProjectSettings: React.FC = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,7 +52,7 @@ const ProjectSettings: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [dataShow, setDataShow] = useState(false);
-  const [componentShow, setComponentShow] = useState(false)
+  const [componentShow, setComponentShow] = useState(false);
   const [filterValues, setFilterValues] = useState({
     global_search: '',
   });
@@ -61,7 +61,7 @@ const ProjectSettings: React.FC = (props: any) => {
   const routeParams = useParams();
   const [userData, setUserData] = useState();
   const { data: getAllRolesData = [], isLoading: dropLoading } =
-    useGetAllRoles();
+    useGetAllSelectedRoles();
   const { mutate: getDeleteProjectMemberByID } = useDeleteProjectMember();
 
   const [buttonLabels, setButtonLabels] = useState([
@@ -69,7 +69,7 @@ const ProjectSettings: React.FC = (props: any) => {
     { label: 'Inactive', value: 'IN' },
   ]);
   const [filter, setFilter] = useState(false);
-  const [projectId, setProjectId] = useState(Number(routeParams?.id))
+  const [projectId, setProjectId] = useState(Number(routeParams?.id));
 
   const [initialValues, setInitialValues] = useState({
     project_role_id: '',
@@ -77,7 +77,7 @@ const ProjectSettings: React.FC = (props: any) => {
     user_id: '',
     access_start_date: '',
     access_end_date: '',
-    project_id: Number(routeParams?.id)
+    project_id: Number(routeParams?.id),
   });
 
   const object: any = {
@@ -246,7 +246,6 @@ const ProjectSettings: React.FC = (props: any) => {
     setOpenSnack(true);
     refetch();
   };
-
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -450,9 +449,9 @@ const ProjectSettings: React.FC = (props: any) => {
                               {data?.access_end_date == null
                                 ? '-'
                                 : format(
-                                  new Date(data?.access_end_date),
-                                  'MMM dd, yyyy'
-                                )}
+                                    new Date(data?.access_end_date),
+                                    'MMM dd, yyyy'
+                                  )}
                             </td>
                             {activeButton === 'AC' && (
                               <td>
@@ -507,9 +506,9 @@ const ProjectSettings: React.FC = (props: any) => {
                           {data?.access_end_date == null
                             ? '-'
                             : format(
-                              new Date(data?.access_end_date),
-                              'MMM dd, yyyy'
-                            )}
+                                new Date(data?.access_end_date),
+                                'MMM dd, yyyy'
+                              )}
                         </td>
                         {activeButton === 'AC' && (
                           <td>
@@ -541,7 +540,9 @@ const ProjectSettings: React.FC = (props: any) => {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={
-                    dataShow ? getFilterData?.total_page : initialData?.total_page
+                    dataShow
+                      ? getFilterData?.total_page
+                      : initialData?.total_page
                   }
                   totalCount={
                     dataShow
@@ -578,12 +579,9 @@ const ProjectSettings: React.FC = (props: any) => {
   );
 };
 
-export default ProjectSettings
+export default ProjectSettings;
 
-
-const MasterData: React.FC = (props: {
-  projectId: any;
-}) => {
+const MasterData: React.FC = (props: { projectId: any }) => {
   const { projectId } = props;
   const [initialValues, setInitialValues] = useState({
     master_data_id: '',
@@ -591,7 +589,7 @@ const MasterData: React.FC = (props: {
     master_data_description: '',
     master_data_type: '',
     parent_master_data_id: '',
-    project_id: projectId
+    project_id: projectId,
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
@@ -636,7 +634,6 @@ const MasterData: React.FC = (props: {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
-
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -658,7 +655,6 @@ const MasterData: React.FC = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
 
   const deleteMasterData = (id: any) => {
     setValue(id);
@@ -685,7 +681,7 @@ const MasterData: React.FC = (props: {
     setOpen(true);
   };
 
-  const validationSchema = getCreateMasterValidateyup(Yup)
+  const validationSchema = getCreateMasterValidateyup(Yup);
 
   const formik = useFormik({
     initialValues,
@@ -709,15 +705,13 @@ const MasterData: React.FC = (props: {
           }
         },
       });
-    }
+    },
   });
-
 
   return (
     <>
       <div className={Styles.dividerStyle}></div>
       <div className={Styles.conatiner}>
-
         <div className={Styles.box}>
           <div className={Styles.textContent}>
             <h3>Add New Master Data Against Your Project</h3>
@@ -782,7 +776,7 @@ const MasterData: React.FC = (props: {
                     maxCharacterCount={120}
                   />
                 </div>
-                <div >
+                <div>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -820,12 +814,14 @@ const MasterData: React.FC = (props: {
                   </tr>
                 </thead>
                 <tbody>
-                  {initialData?.total_count === 0 ?
-                    (<tr>
-                      <td colSpan="5" style={{textAlign:"center"}}>No data found</td>
-                    </tr>) :
-                    (initialData?.content?.map((item: any, index: number) => {
-
+                  {initialData?.total_count === 0 ? (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
+                    </tr>
+                  ) : (
+                    initialData?.content?.map((item: any, index: number) => {
                       return (
                         <tr key={item?.master_data_id}>
                           <td>{startingIndex + index}</td>
@@ -850,11 +846,10 @@ const MasterData: React.FC = (props: {
                               </div>
                             </td>
                           )}
-
                         </tr>
-                      )
-                    }))
-                  }
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
@@ -862,12 +857,8 @@ const MasterData: React.FC = (props: {
           <div className={Styles.pagination1}>
             <Pagination
               currentPage={currentPage}
-              totalPages={
-                initialData?.total_page
-              }
-              totalCount={
-                initialData?.total_count
-              }
+              totalPages={initialData?.total_page}
+              totalCount={initialData?.total_count}
               rowsPerPage={rowsPerPage}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
@@ -905,7 +896,5 @@ const MasterData: React.FC = (props: {
         />
       </div>
     </>
-  )
-}
-
-
+  );
+};

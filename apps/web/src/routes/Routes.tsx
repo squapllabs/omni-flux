@@ -360,7 +360,6 @@ const AppRoutes = () => {
   const ProtectedSiteExpensesApprove = withLayoutAndProtection(ExpenseApprove);
   const ProtectedExpenseDetailApprove = withLayoutAndProtection(ExpenseDetailApprove);
   const ProtectedBillView = withLayoutAndProtection(BillView);
-
   const ProtectedListVendor = withLayoutAndProtection(ListVendor);
   return (
     <div>

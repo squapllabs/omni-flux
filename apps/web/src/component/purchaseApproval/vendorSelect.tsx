@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 import CustomLoader from '../ui/customLoader';
 import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Styles from '../../styles/vendorSelect.module.scss';
 import CustomEditDialog from '../ui/customEditDialogBox';
@@ -19,6 +19,9 @@ import { Link } from 'react-router-dom';
 
 const VendorSelect = () => {
   const routeParams = useParams();
+  const location = useLocation();
+  const indentId = location.state.indent_id;
+  const projectId = location.state.project_id;
   const navigate = useNavigate();
   const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
   const state: RootState = store.getState();
@@ -105,7 +108,9 @@ const VendorSelect = () => {
           if (data?.message === 'success') {
             setMessage('Vendor Approved');
             setOpenSnack(true);
-            navigate('/purchase-view');
+            navigate(`/purchase-detail/${indentId}`, {
+              state: { project_id: projectId },
+            });
           }
         },
       });
@@ -212,7 +217,11 @@ const VendorSelect = () => {
               size="small"
               color="primary"
               // icon={<BackArrowIcon />}
-              onClick={() => navigate('/purchase-view')}
+              onClick={() =>
+                navigate(`/purchase-detail/${indentId}`, {
+                  state: { project_id: projectId },
+                })
+              }
             >
               Back
             </Button>

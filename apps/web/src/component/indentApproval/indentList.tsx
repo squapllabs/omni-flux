@@ -12,6 +12,8 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/invoice'
 
 const IndentList = () => {
   const navigate = useNavigate();
@@ -27,7 +29,8 @@ const IndentList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
-  const { data: getPriorityType = [], isLoading: dropLoading } = getBymasertDataTypeDrop('PRTYPE');
+  const { data: getPriorityType = [], isLoading: dropLoading } =
+    getBymasertDataTypeDrop('PRTYPE');
 
   const SampleOption: any = [
     { label: 'Low', value: 'Low' },
@@ -83,6 +86,13 @@ const IndentList = () => {
     setSelectedValueType(selectedData);
     setIsResetDisabled(searchValue === '');
   };
+  const handleReportGenerator = () =>{  
+    const data:any ={
+      title:"Indent Request"
+    }  
+    ReportGenerator(data)
+  }
+
 
   useEffect(() => {
     handleSearch();
@@ -157,9 +167,9 @@ const IndentList = () => {
               <tbody>
                 {getIndentData?.total_count === 0 ? (
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
+                    <td colSpan="7" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
                   </tr>
                 ) : (
                   ''
@@ -169,7 +179,7 @@ const IndentList = () => {
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data?.project_data?.project_name}</td>
-                      <td >{data?.priority}</td>
+                      <td>{data?.priority}</td>
                       <td>
                         {format(
                           new Date(data?.expected_delivery_date),
@@ -187,6 +197,7 @@ const IndentList = () => {
                               )
                             }
                           />
+                            <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                         </div>
                       </td>
                     </tr>

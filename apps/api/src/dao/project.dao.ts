@@ -436,7 +436,7 @@ const getAll = async (connectionObj = null) => {
 const getAllDashboard = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : db;
-    let query = `select
+    const query = `select
     status.total_projects,
     status.active_projects,
     status.inactive_projects,
@@ -492,7 +492,7 @@ const getAllDashboard = async (connectionObj = null) => {
         p.actual_budget desc
       limit 3) top_five)project_list on
     true`;
-    let result = await transaction.oneOrNone(query, []);
+    const result = await transaction.oneOrNone(query, []);
     return result;
   } catch (error) {
     console.log('Error occurred in getAllDashboard dao', error);

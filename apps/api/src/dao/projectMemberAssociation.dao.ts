@@ -300,6 +300,11 @@ const searchProjectMemberAssociation = async (
                   last_name: true,
                 },
               },
+              client: {
+                select: {
+                  name: true,
+                },
+              },
             },
           },
           user_data: {
