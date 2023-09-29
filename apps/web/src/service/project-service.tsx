@@ -66,7 +66,7 @@ const filterProject = async (values: JSON) => {
 const filterProjectmemberBased = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/project-member-association/search`,
+      `${environment.apiUrl}/project-member-association/search-by-user-id`,
       values
     );
     return response.data;
