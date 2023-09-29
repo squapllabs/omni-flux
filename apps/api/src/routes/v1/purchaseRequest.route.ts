@@ -7,6 +7,7 @@ import {
 import {
   createPurchaseRequest,
   deleteByPurchaseRequestId,
+  getAllPurchaseRequestProjectsByStatus,
   getAllPurchaseRequests,
   getByPurchaseRequestId,
   searchPurchaseRequest,
@@ -60,5 +61,11 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchPurchaseRequest);
+
+router.get(
+  '/get-all-projects-by-status/:status',
+  authMiddleware,
+  getAllPurchaseRequestProjectsByStatus
+);
 
 export default router;

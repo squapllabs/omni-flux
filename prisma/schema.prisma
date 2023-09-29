@@ -167,6 +167,7 @@ model sub_category {
   name                   String             @db.VarChar(100)
   category_id            Int?
   budget                 Float?
+  progress_status        String?
   created_date           DateTime
   updated_date           DateTime
   created_by             Int?
@@ -890,6 +891,8 @@ model purchase_order {
   total_cost               Float?
   order_remark             String?
   purchase_order_documents Json?
+  payment_mode             String?
+  payment_date             DateTime?
   is_delete                Boolean               @default(false)
   created_date             DateTime              @default(now())
   updated_date             DateTime
