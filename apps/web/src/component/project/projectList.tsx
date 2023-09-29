@@ -53,7 +53,9 @@ const ProjectList = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
-    { label: 'Draft', value: 'Draft' },
+    ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
+    ? [{ label: 'Draft', value: 'Draft' }]
+    : []),
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
   const [filter, setFilter] = useState(false);
@@ -96,6 +98,7 @@ const ProjectList = () => {
       status: 'AC',
       user_id: roleName === 'ADMIN' ? null : userID,
       project_status: activeButton,
+      project_manager_id : roleName === 'PROJECT MANAGER' ? true : false
     };
     postDataForFilter(userData);
     setIsLoading(false);

@@ -41,10 +41,10 @@ const OrderView = () => {
     useGetAllProject();
   const {
     mutate: postDataForFilter,
-    data: getFilterData,
+    data: getFilterData,  
     isLoading: searchLoader,
   } = getBySearchPoData();
-  console.log('getFilterData---->', getFilterData);
+  // console.log('getFilterData---->', getFilterData);
 
   const handleEdit = (value: any) => {
     setPurchaseId(value);
@@ -129,9 +129,9 @@ const OrderView = () => {
       >
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>Purchase Order</h3>
+            <h3>Check PO Progress</h3>
             <span className={Styles.content}>
-              Manage purchase order here your entire organization.
+              Manage purchase order updates.
             </span>
           </div>
           <div className={Styles.dividerStyleTop}></div>
