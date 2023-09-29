@@ -178,14 +178,12 @@ const ProjectIndentRequestList = () => {
               <thead>
                 <tr>
                   <th className={Styles.tableHeading}>S No</th>
-                  <th className={Styles.tableHeadingSite}>
-                    Indent Requested Date
-                  </th>
+                  <th className={Styles.tableHeadingSite}>Requested Date</th>
                   <th className={Styles.tableHeading}>
                     Expected Delivery Date
                   </th>
                   <th className={Styles.tableHeading}>Cost</th>
-                  <th className={Styles.tableHeading}>Indent Status</th>
+                  <th className={Styles.tableHeading}>Status</th>
                   <th className={Styles.tableHeading}>Action</th>
                 </tr>
               </thead>
@@ -220,7 +218,9 @@ const ProjectIndentRequestList = () => {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="6" style={{textAlign:'center'}}>No data found</td>
+                    <td colSpan="6" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
                   </tr>
                 )}
               </tbody>

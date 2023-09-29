@@ -7,7 +7,7 @@ import Select from '../../ui/selectNew';
 import {
   getBymasertDataType,
   getBymasertDataTypeDrop,
-  getByMasterDataProjectIdDrop
+  getByMasterDataProjectIdDrop,
 } from '../../../hooks/masertData-hook';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
@@ -42,7 +42,9 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [openSnack, setOpenSnack] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
   // const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
-  const { data: getBomType = [] } = getByMasterDataProjectIdDrop(Number(routeParams?.id));
+  const { data: getBomType = [] } = getByMasterDataProjectIdDrop(
+    Number(routeParams?.id)
+  );
 
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
@@ -161,10 +163,10 @@ const ProjectBomConfig: React.FC = (props: any) => {
             <thead>
               <tr>
                 <th className={Styles.tableHeading}>S No</th>
-                <th className={Styles.tableHeadingSite}>BOQ Name</th>
-                <th className={Styles.tableHeading}>BOQ Description</th>
-                <th className={Styles.tableHeading}>BOQ Type</th>
-                <th className={Styles.tableHeading}>Budget</th>
+                <th className={Styles.tableHeadingSite}>Name</th>
+                <th className={Styles.tableHeading}>Description</th>
+                <th className={Styles.tableHeading}>Type</th>
+                <th className={Styles.tableHeading}>Amount</th>
                 <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
@@ -173,32 +175,32 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 rowIndex = rowIndex + 1;
                 return (
                   // <>
-                    <tr>
-                      <td>{rowIndex}</td>
-                      <td>{item?.bom_name}</td>
-                      <td>{item?.bom_description}</td>
-                      <td>{item?.bom_type_name}</td>
-                      <td>{item?.budget}</td>
-                      <td>
-                        <div
-                          className={Styles.addPlan}
-                          onClick={() => {
-                            navigate(
-                              `/bomlist/${routeParams.id}/${item?.bom_configuration_id}`
-                            );
-                          }}
-                          style={{
-                            pointerEvents:
-                              `${item?.bom_configuration_id}` === ''
-                                ? 'none'
-                                : 'auto',
-                          }}
-                        >
-                          <AddIcon style={{ height: '15px', width: '15px' }} />
-                          <p className={Styles.addText}>Create Abstract</p>
-                        </div>
-                      </td>
-                    </tr>
+                  <tr>
+                    <td>{rowIndex}</td>
+                    <td>{item?.bom_name}</td>
+                    <td>{item?.bom_description}</td>
+                    <td>{item?.bom_type_name}</td>
+                    <td>{item?.budget}</td>
+                    <td>
+                      <div
+                        className={Styles.addPlan}
+                        onClick={() => {
+                          navigate(
+                            `/bomlist/${routeParams.id}/${item?.bom_configuration_id}`
+                          );
+                        }}
+                        style={{
+                          pointerEvents:
+                            `${item?.bom_configuration_id}` === ''
+                              ? 'none'
+                              : 'auto',
+                        }}
+                      >
+                        <AddIcon style={{ height: '15px', width: '15px' }} />
+                        <p className={Styles.addText}>Create Abstract</p>
+                      </div>
+                    </td>
+                  </tr>
                   // </>
                 );
               })}
@@ -284,7 +286,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 handleSubmit(e);
               }}
             >
-              Save Config
+              Save
             </Button>
           </div>
         </div>

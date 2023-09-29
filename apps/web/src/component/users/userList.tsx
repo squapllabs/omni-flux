@@ -90,7 +90,7 @@ const UserList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -196,7 +196,7 @@ const UserList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  icon={<AddIcon color="white"/>}
+                  icon={<AddIcon color="white" />}
                   onClick={() => navigate('/user-create')}
                 >
                   Add

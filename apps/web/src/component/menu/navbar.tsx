@@ -224,89 +224,97 @@ const Navbar = () => {
           >
             <Button text="Add product" onClick={handleClickToAddAccount} />
           </Dropdown> */}
-          <Dropdown
-            label={
-              <div>
-                Resources <DropdownIcon color="gray" />
-              </div>
-            }
-          >
-            <div className={Styles.container}>
-              <div className={Styles.dropDownContainer}>
-                <p>Resources</p>
+          {roleName === 'HR' ? (
+            <Dropdown
+              label={
                 <div>
-                  <div className={Styles.dropDownContent}>
-                    <div className={Styles.dropDownItems}>
-                      <div className={Styles.itemsTitle}>
-                        <CheckIcon />
-                        <h2>Blog</h2>
-                      </div>
-                      <p>The latest industry news, updates and info.</p>
-                    </div>
-                    <div>
+                  Resources <DropdownIcon color="gray" />
+                </div>
+              }
+            >
+              <div className={Styles.container}>
+                <div className={Styles.dropDownContainer}>
+                  <p>Resources</p>
+                  <div>
+                    <div className={Styles.dropDownContent}>
                       <div className={Styles.dropDownItems}>
-                        <div className={Styles.itemsTitle}>
+                        <div
+                          className={Styles.itemsTitle}
+                          onClick={() => {
+                            navigate('/userList');
+                          }}
+                        >
                           <CheckIcon />
-                          <h2>Customer stories</h2>
+                          <h2>Users</h2>
                         </div>
-                        <p>Learn how our customers are making big changes.</p>
+                        <p>User Management details list.</p>
                       </div>
-                    </div>
-                    <div>
-                      <div className={Styles.dropDownItems}>
-                        <div className={Styles.itemsTitle}>
-                          <CheckIcon />
-                          <h2>Video tutorial</h2>
+                      <div>
+                        <div className={Styles.dropDownItems}>
+                          <div className={Styles.itemsTitle}>
+                            <CheckIcon />
+                            <h2>Customer stories</h2>
+                          </div>
+                          <p>Learn how our customers are making big changes.</p>
                         </div>
-                        <p>
-                          Get up and running on new features and techniques.
-                        </p>
+                      </div>
+                      <div>
+                        <div className={Styles.dropDownItems}>
+                          <div className={Styles.itemsTitle}>
+                            <CheckIcon />
+                            <h2>Video tutorial</h2>
+                          </div>
+                          <p>
+                            Get up and running on new features and techniques.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className={Styles.dropDownContainer}>
-                <p>Company</p>
-                <div>
-                  <div className={Styles.dropDownContent}>
-                    <div className={Styles.dropDownItems}>
-                      <div className={Styles.itemsTitle}>
-                        <CheckIcon />
-                        <h2>About us</h2>
-                      </div>
+                <div className={Styles.dropDownContainer}>
+                  <p>Company</p>
+                  <div>
+                    <div className={Styles.dropDownContent}>
+                      <div className={Styles.dropDownItems}>
+                        <div className={Styles.itemsTitle}>
+                          <CheckIcon />
+                          <h2>About us</h2>
+                        </div>
 
-                      <p>Learn about our story and our mission statement.</p>
-                    </div>
-                    <div>
-                      <div className={Styles.dropDownItems}>
-                        <div className={Styles.itemsTitle}>
-                          <CheckIcon />
-                          <h2>Press</h2>
-                        </div>
-                        <p>
-                          News and writings, press releases, and press
-                          resources.
-                        </p>
+                        <p>Learn about our story and our mission statement.</p>
                       </div>
-                    </div>
-                    <div>
-                      <div className={Styles.dropDownItems}>
-                        <div className={Styles.itemsTitle}>
-                          <CheckIcon />
-                          <h2>Careers</h2>
+                      <div>
+                        <div className={Styles.dropDownItems}>
+                          <div className={Styles.itemsTitle}>
+                            <CheckIcon />
+                            <h2>Press</h2>
+                          </div>
+                          <p>
+                            News and writings, press releases, and press
+                            resources.
+                          </p>
                         </div>
-                        <p>
-                          We’re always looking for talented people. Join our
-                          team!
-                        </p>
+                      </div>
+                      <div>
+                        <div className={Styles.dropDownItems}>
+                          <div className={Styles.itemsTitle}>
+                            <CheckIcon />
+                            <h2>Careers</h2>
+                          </div>
+                          <p>
+                            We’re always looking for talented people. Join our
+                            team!
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Dropdown>
+            </Dropdown>
+          ) : null}
+
           <div
             onClick={() => {
               navigate('/project-list');
