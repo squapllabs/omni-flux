@@ -632,6 +632,8 @@ const searchByUserId = async (body) => {
     const status = body.status;
     const project_status = body.project_status;
     const user_id = body.user_id;
+    const project_manager_id = body.project_manager_id;
+
     let result = null;
 
     const filterObj: any = {};
@@ -799,6 +801,97 @@ const searchByUserId = async (body) => {
         filterObj.filterProject.AND = filterObj.filterProject.AND || [];
         filterObj.filterProject.AND.push({
           status: project_status,
+        });
+      }
+
+      if (global_search) {
+        filterObj.filterProject = filterObj.filterProject || {};
+        filterObj.filterProject.OR = filterObj.filterProject.OR || [];
+
+        filterObj.filterProject.OR.push(
+          { project_name: { contains: global_search, mode: 'insensitive' } },
+          { description: { contains: global_search, mode: 'insensitive' } },
+          { status: { contains: global_search, mode: 'insensitive' } },
+          { project_notes: { contains: global_search, mode: 'insensitive' } },
+          { project_type: { contains: global_search, mode: 'insensitive' } },
+          { code: { contains: global_search, mode: 'insensitive' } },
+          {
+            client: {
+              name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            user: {
+              first_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            user: {
+              last_name: {
+                contains: global_search,
+                mode: 'insensitive',
+              },
+            },
+          }
+        );
+
+        filterObj.filterProject.OR.push({
+          OR: [
+            {
+              project_site: {
+                some: {
+                  status: {
+                    contains: global_search,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+            {
+              project_site: {
+                some: {
+                  site_details: {
+                    name: {
+                      contains: global_search,
+                      mode: 'insensitive',
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        });
+      }
+
+      result = await projectDao.searchProject(
+        offset,
+        limit,
+        order_by_column,
+        order_by_direction,
+        filterObj
+      );
+    } else if (user_id && project_manager_id) {
+      const filterObj: any = {};
+
+      if (project_status) {
+        filterObj.filterProject = filterObj.filterProject || {};
+        filterObj.filterProject.AND = filterObj.filterProject.AND || [];
+        filterObj.filterProject.AND.push({
+          status: project_status,
+        });
+      }
+
+      if (user_id) {
+        filterObj.filterProject = filterObj.filterProject || {};
+        filterObj.filterProject.AND = filterObj.filterProject.AND || [];
+        filterObj.filterProject.AND.push({
+          user_id: user_id,
         });
       }
 
