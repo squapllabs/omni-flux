@@ -15,6 +15,7 @@ import {
   getByProjectMemberAssociationId,
   getByUserIdAndProjectRoleId,
   search,
+  searchByUserId,
   updateProjectMemberAssociation,
 } from '../../controller/projectMemberAssociation.controller';
 
@@ -71,5 +72,7 @@ router.get(
   authMiddleware,
   getByUserIdAndProjectRoleId
 );
+
+router.post('/search-by-user-id', authMiddleware, searchByUserId);
 
 export default router;
