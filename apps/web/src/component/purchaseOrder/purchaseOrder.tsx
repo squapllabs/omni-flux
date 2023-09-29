@@ -44,7 +44,6 @@ const OrderView = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getBySearchPoData();
-  console.log('getFilterData---->', getFilterData);
 
   const handleEdit = (value: any) => {
     setPurchaseId(value);
@@ -298,7 +297,7 @@ const OrderView = () => {
                             <div className={Styles.tablerow}>
                               <EditIcon
                                 onClick={() =>
-                                  handleEdit(data.purchase_order_id)
+                                  handleEdit(Number(data.purchase_order_id))
                                 }
                               />
                             </div>

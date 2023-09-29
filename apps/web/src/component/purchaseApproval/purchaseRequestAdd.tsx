@@ -71,6 +71,7 @@ const PurchaseRequestAdd = () => {
   const deletePurchaseRequest = (index: number) => {
     purchaseRequestData.splice(index, 1);
     setPurchaseRequestData([...purchaseRequestData]);
+    setDropDisable(false);
   };
 
   const handleSubmit = () => {
@@ -231,7 +232,7 @@ const PurchaseRequestAdd = () => {
                   justify="center"
                   size="small"
                   type="submit"
-                  icon={<AddIcon color='white'/>}
+                  icon={<AddIcon color="white" />}
                 >
                   Add
                 </Button>
@@ -299,16 +300,29 @@ const PurchaseRequestAdd = () => {
             </Button>
           </div>
           <div>
-            <Button
-              color="primary"
-              shape="rectangle"
-              justify="center"
-              size="small"
-              onClick={handleSubmit}
-              icon={<AddIcon color='white'/>}
-            >
-              Raise Purchase Request
-            </Button>
+            {rowIndex > 0 ? (
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleSubmit}
+                icon={<AddIcon color="white" />}
+              >
+                Raise Purchase Request
+              </Button>
+            ) : (
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon color="white" />}
+                disabled
+              >
+                Raise Purchase Request
+              </Button>
+            )}
           </div>
         </div>
       </div>
