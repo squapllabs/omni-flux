@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import Button from '../ui/Button';
-import Styles from '../../styles/customEditPopup.module.scss';
+import Styles from '../../styles/customEditInvoicePopup.module.scss';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
@@ -10,6 +10,7 @@ import { updatePurchseOrderBillStatus } from '../../hooks/purchase-request-hooks
 import Select from '../ui/selectNew';
 import PurchaseRequestService from '../../service/purchase-request.service';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
+import DatePicker from '../ui/CustomDatePicker';
 
 const CustomEditInvoicePopup = (props: {
   isVissible: any;
@@ -20,10 +21,13 @@ const CustomEditInvoicePopup = (props: {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
     getBymasertDataType('PYS');
+  const { data: getAllPaymentTypeDatadrop = [] } = getBymasertDataType('PPM');
 
   const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
   const [initialValues, setInitialValues] = useState({
     bill_status: '',
+    payment_date: '',
+    payment_mode: '',
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -37,25 +41,30 @@ const CustomEditInvoicePopup = (props: {
 
   useEffect(() => {
     const fetchOne = async () => {
-      const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(
-        Number(selectedPurchaseOrder)
-      );
-      setInitialValues({
-        bill_status: data.data?.status,
-      });
-      const existingFileNames = data?.data?.purchase_order_documents?.map(
-        (document: any) => {
-          const pathParts = document.path.split('/');
-          const fileName = pathParts[pathParts.length - 1];
-          const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
-          if (originalFileNameMatches) {
-            return originalFileNameMatches[1];
+      if (selectedPurchaseOrder > 0) {
+        const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(
+          Number(selectedPurchaseOrder)
+        );
+        setInitialValues({
+          bill_status: data.data?.status,
+          payment_mode: data?.data?.payment_mode,
+          payment_date: data?.data?.payment_date,
+        });
+
+        const existingFileNames = data?.data?.purchase_order_documents?.map(
+          (document: any) => {
+            const pathParts = document.path.split('/');
+            const fileName = pathParts[pathParts.length - 1];
+            const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
+            if (originalFileNameMatches) {
+              return originalFileNameMatches[1];
+            }
+            return fileName;
           }
-          return fileName;
-        }
-      );
-      setExistingFileName(existingFileNames);
-      setExistingFileUrl(data?.data?.purchase_order_documents);
+        );
+        setExistingFileName(existingFileNames);
+        setExistingFileUrl(data?.data?.purchase_order_documents);
+      }
     };
     fetchOne();
   }, [selectedPurchaseOrder, isFormSubmitted]);
@@ -108,6 +117,8 @@ const CustomEditInvoicePopup = (props: {
       );
       const Object: any = {
         status: values.bill_status,
+        payment_mode: values.payment_mode,
+        payment_date: values.payment_date,
         purchase_order_documents:
           s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
         purchase_order_id: Number(selectedPurchaseOrder),
@@ -230,7 +241,7 @@ const CustomEditInvoicePopup = (props: {
               <form onSubmit={formik.handleSubmit}>
                 <div className={Styles.header}>
                   <div>
-                    <h4>Edit PO</h4>
+                    <h4>Edit Payment Details</h4>
                   </div>
                   <div>
                     <CloseIcon onClick={handleCloseForm} />
@@ -246,9 +257,47 @@ const CustomEditInvoicePopup = (props: {
                       name="bill_status"
                       onChange={formik.handleChange}
                       value={formik.values.bill_status}
-                      width='250px'
+                      width="250px"
                     >
                       {getAllBillStatusTypeDatadrop?.map((option: any) => (
+                        <option
+                          key={option.master_data_id}
+                          value={option.master_data_name}
+                        >
+                          {option.master_data_name}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                  <div>
+                    <DatePicker
+                      label="Payment Date"
+                      name="payment_date"
+                      mandatory={true}
+                      width="250px"
+                      value={formik.values.payment_date}
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        min: '1930-01-01',
+                        max: `${new Date().toISOString().slice(0, 10)}`,
+                      }}
+                      error={
+                        formik.touched.payment_date &&
+                        formik.errors.payment_date
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Select
+                      label="Payment Mode"
+                      defaultLabel="Select the payment mode"
+                      placeholder="Select the payment mode"
+                      name="payment_mode"
+                      onChange={formik.handleChange}
+                      value={formik.values.payment_mode}
+                      width="250px"
+                    >
+                      {getAllPaymentTypeDatadrop?.map((option: any) => (
                         <option
                           key={option.master_data_id}
                           value={option.master_data_name}

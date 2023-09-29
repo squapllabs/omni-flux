@@ -20,6 +20,7 @@ import siteExpenseService from '../../service/expense-service';
 import CustomSnackBar from '../ui/customSnackBar';
 import RejectIcon from '../menu/icons/cancelIcon';
 import RejectDialogBox from '../ui/CustomReject';
+import { formatBudgetValue } from '../../helper/common-function';
 
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
@@ -312,7 +313,7 @@ const ExpenseApprove = () => {
             <tbody>
               {getExpenseList?.content?.length === 0 ? (
                 <tr>
-                  <td colSpan="7">No data found</td>
+                  <td colSpan="7" style={{textAlign:'center'}}>No data found</td>
                 </tr>
               ) : (
                 ''
@@ -334,7 +335,7 @@ const ExpenseApprove = () => {
                       <td>{items?.site_data?.name}</td>
                       <td>{dateFormat(items?.start_date)}</td>
                       <td>{dateFormat(items?.end_date)}</td>
-                      <td>{sumOfRates}</td>
+                      <td>{formatBudgetValue(sumOfRates)}</td>
                       <td>{items?.status}</td>
                       <td>
                         <div className={Styles.tableIcon}>

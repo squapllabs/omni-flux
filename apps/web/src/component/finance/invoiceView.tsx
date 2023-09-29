@@ -15,6 +15,9 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import ViewIcon from '../menu/icons/viewIcon';
+import { format } from 'date-fns';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/invoice'
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -48,6 +51,7 @@ const OrderView = () => {
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
+
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProject();
   const {
@@ -55,12 +59,19 @@ const OrderView = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getBySearchPoData();
-  // console.log('getFilterData---->', getFilterData);
 
   const handleEdit = (value: any) => {
     setPurchaseId(value);
     setShowEditPopUp(true);
   };
+
+  const handleReportGenerator = () =>{  
+    const data:any ={
+      title:"Invoice and Payments"
+    }  
+    ReportGenerator(data)
+  }
+
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -121,23 +132,17 @@ const OrderView = () => {
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
-  const generateCustomBillName = (data:any) => {
+  const generateCustomBillName = (data: any) => {
     if (data) {
       const vendorName = data.vendor_data?.vendor_name || '';
-      const projectName = data.purchase_request_data?.project_data?.project_name || '';
+      const projectName =
+        data.purchase_request_data?.project_data?.project_name || '';
       const year = new Date().getFullYear();
-      const customBillName = `ALM-${projectName.substring(0, 3)}-${vendorName.substring(0, 3)}-${year}`;
-      return customBillName.toUpperCase();;
-    }
-    return '';
-  };
-
-  const generateCustomQuotationName = (data:any) => {
-    if (data) {
-      const vendorName = data.vendor_data?.vendor_name || '';
-      const year = new Date().getFullYear();
-      const customBillName = `ALM-${vendorName.substring(0, 5)}-${year}`;
-      return customBillName.toUpperCase();;
+      const customBillName = `ALM-${projectName.substring(
+        0,
+        3
+      )}-${vendorName.substring(0, 3)}-${year}`;
+      return customBillName.toUpperCase();
     }
     return '';
   };
@@ -153,7 +158,7 @@ const OrderView = () => {
           <div className={Styles.textContent}>
             <h3>Invoice and Payments</h3>
             <span className={Styles.content}>
-              Manage invoice and payment of the orders.
+              Manage payables for the orders
             </span>
           </div>
           <div className={Styles.dividerStyleTop}></div>
@@ -211,10 +216,12 @@ const OrderView = () => {
               <thead>
                 <tr>
                   <th>S No</th>
+                  <th>Order Id</th>
                   <th>Vendor Name</th>
                   <th>Project Name </th>
-                  <th>Budget</th>
-                  <th>Quotation </th>
+                  <th>Amount</th>
+                  {activeButton === 'Completed' && <th>Payment Date</th>}
+                  {activeButton === 'Completed' && <th>Payment Mode</th>}
                   <th>Bill</th>
                   <th>Actions</th>
                 </tr>
@@ -222,11 +229,11 @@ const OrderView = () => {
               <tbody>
                 {dataShow
                   ? getFilterData?.content?.map((data: any, index: number) => {
-                    const customBillName = generateCustomBillName(data);
-                    const customQuotationName = generateCustomQuotationName(data);
+                      const customBillName = generateCustomBillName(data);
                       return (
                         <tr>
                           <td>{startingIndex + index}</td>
+                          <td>{data?.order_id}</td>
                           <td>{data?.vendor_data?.vendor_name}</td>
                           <td>
                             {
@@ -235,28 +242,23 @@ const OrderView = () => {
                             }
                           </td>
                           <td>{formatBudgetValue(data?.total_cost)}</td>
-                          <td>
-                            <div>
-                              {data?.purchase_request_data
-                                ?.purchase_request_documents?.length > 0 ? (
-                                data?.purchase_request_data?.purchase_request_documents.map(
-                                  (document: any, index: number) => (
-                                    <div key={document.code}>
-                                      <a
-                                        href={document.path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {customQuotationName}
-                                      </a>
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
+                          {activeButton === 'Completed' && (
+                            <td>
+                              {data?.payment_date
+                                ? `${format(
+                                    new Date(data?.payment_date),
+                                    'MMM dd, yyyy'
+                                  )}`
+                                : '- '}
+                            </td>
+                          )}
+                          {activeButton === 'Completed' && (
+                            <td>
+                              {data?.payment_mode !== 'null'
+                                ? data?.payment_mode
+                                : '-'}
+                            </td>
+                          )}
                           <td>
                             <div>
                               {data?.purchase_order_documents?.length > 0 ? (
@@ -286,6 +288,7 @@ const OrderView = () => {
                                     handleEdit(data.purchase_order_id)
                                   }
                                 />
+                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                               </div>
                             </td>
                           ) : (
@@ -293,9 +296,12 @@ const OrderView = () => {
                               <div className={Styles.tablerow}>
                                 <ViewIcon
                                   onClick={() =>
-                                    navigate(`/invoice-view/${data.purchase_order_id}`)
+                                    navigate(
+                                      `/invoice-view/${data.purchase_order_id}`
+                                    )
                                   }
                                 />
+                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                               </div>
                             </td>
                           )}
@@ -303,11 +309,11 @@ const OrderView = () => {
                       );
                     })
                   : getAllData?.content?.map((data: any, index: number) => {
-                    const customBillName = generateCustomBillName(data);
-                    const customQuotationName = generateCustomQuotationName(data);
+                      const customBillName = generateCustomBillName(data);
                       return (
                         <tr>
                           <td>{startingIndex + index}</td>
+                          <td>{data?.order_id}</td>
                           <td>{data?.vendor_data?.vendor_name}</td>
                           <td>
                             {
@@ -316,28 +322,19 @@ const OrderView = () => {
                             }
                           </td>
                           <td>{formatBudgetValue(data?.total_cost)}</td>
-                          <td>
-                            <div>
-                              {data?.purchase_request_data
-                                ?.purchase_request_documents?.length > 0 ? (
-                                data?.purchase_request_data?.purchase_request_documents.map(
-                                  (document: any, index: number) => (
-                                    <div key={document.code}>
-                                      <a
-                                        href={document.path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                         {customQuotationName}
-                                      </a>
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
+                          {activeButton === 'Completed' && (
+                            <td>
+                              {data?.payment_date
+                                ? `${format(
+                                    new Date(data?.payment_date),
+                                    'MMM dd, yyyy'
+                                  )}`
+                                : '- '}
+                            </td>
+                          )}
+                          {activeButton === 'Completed' && (
+                            <td>{data?.payment_mode || '-'} </td>
+                          )}
                           <td>
                             <div>
                               {data?.purchase_order_documents?.length > 0 ? (
@@ -367,6 +364,7 @@ const OrderView = () => {
                                     handleEdit(data.purchase_order_id)
                                   }
                                 />
+                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                               </div>
                             </td>
                           ) : (
@@ -374,9 +372,12 @@ const OrderView = () => {
                               <div className={Styles.tablerow}>
                                 <ViewIcon
                                   onClick={() =>
-                                    navigate(`/invoice-view/${data.purchase_order_id}`)   
+                                    navigate(
+                                      `/invoice-view/${data.purchase_order_id}`
+                                    )
                                   }
                                 />
+                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                               </div>
                             </td>
                           )}

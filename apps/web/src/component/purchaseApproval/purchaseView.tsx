@@ -199,7 +199,7 @@ const PurchaseView = () => {
                     {
                       label: 'View',
                       onClick: () => {
-                        navigate(`/vendor-select/${data?.purchase_request_id}`);
+                        navigate(`/vendor-select/${data?.purchase_request_id}`,{state:{project_id: projectId,indent_id:indentId}});
                       },
                     },
                     {
@@ -207,7 +207,7 @@ const PurchaseView = () => {
                       onClick: () => {
                         if (isMarkEnabled) {
                           navigate(
-                            `/purchase-request/${data?.purchase_request_id}`
+                            `/purchase-request/${data?.purchase_request_id}`,
                           );
                         }
                       },
