@@ -54,8 +54,8 @@ const ProjectList = () => {
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
     ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
-    ? [{ label: 'Draft', value: 'Draft' }]
-    : []),
+      ? [{ label: 'Draft', value: 'Draft' }]
+      : []),
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
   const [filter, setFilter] = useState(false);
@@ -98,7 +98,7 @@ const ProjectList = () => {
       status: 'AC',
       user_id: roleName === 'ADMIN' ? null : userID,
       project_status: activeButton,
-      project_manager_id : roleName === 'PROJECT MANAGER' ? true : false
+      project_manager_id: roleName === 'PROJECT MANAGER' ? true : false
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -166,19 +166,38 @@ const ProjectList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.text}>
-            <div className={Styles.textStyle}>
-              <h3>List of Projects</h3>
+          <div className={Styles.header}>
+            <div className={Styles.firstHeader}>
+            <div className={Styles.text}>
+              <div className={Styles.textStyle}>
+                <h3>Projects</h3>
+              </div>
             </div>
-            <div className={Styles.textStyleDescription}>
-              <span>
-                Manage your entire project throught out the organization
-              </span>
+            <div >
+              {isProjectCreate && (
+                <div>
+                  <Button
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    color="primary"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/project')}
+                  >
+                    New Project
+                  </Button>
+                </div>
+              )}
             </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
-          <div className={Styles.searchField}>
-            <div className={Styles.inputFilter}>
+            </div>
+            <div className={Styles.button}>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
+            <div className={Styles.inputFilter1}>
               <Input
                 width="260px"
                 prefixIcon={<SearchIcon />}
@@ -187,6 +206,11 @@ const ProjectList = () => {
                 onChange={(e) => handleFilterChange(e)}
                 placeholder="Search"
               />
+            </div>
+          </div>
+          {/* <div className={Styles.dividerStyle}></div> */}
+          {/* <div className={Styles.searchField}>
+        
               <Button
                 className={Styles.searchButton}
                 shape="rectangle"
@@ -206,31 +230,8 @@ const ProjectList = () => {
               >
                 Reset
               </Button>
-            </div>
-            <div className={Styles.button}>
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div>
-              {isProjectCreate && (
-                <div>
-                  <Button
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    color="primary"
-                    icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/project')}
-                  >
-                    Add
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
+            </div> */}
+
           <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>
