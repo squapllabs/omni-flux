@@ -13,17 +13,18 @@ import AddIcon from '../menu/icons/addIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import { format } from 'date-fns';
 import Pagination from '../menu/pagination';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomLoader from '../ui/customLoader';
-import ViewIcon from '../menu/icons/viewIcon';
+import ViewIcon from '../menu/icons/rocketIcon';
 import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import StoreIcon from '../menu/icons/storeIcon';
+import StoreIcon from '../menu/icons/newStoreIcon';
 import { Chart } from 'react-google-charts';
+import CustomPagination from '../menu/CustomPagination';
 
 const ProjectList = () => {
   const state: RootState = store.getState();
@@ -54,14 +55,14 @@ const ProjectList = () => {
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
     ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
-    ? [{ label: 'Draft', value: 'Draft' }]
-    : []),
+      ? [{ label: 'Draft', value: 'Draft' }]
+      : []),
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
   const [filter, setFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
@@ -98,7 +99,7 @@ const ProjectList = () => {
       status: 'AC',
       user_id: roleName === 'ADMIN' ? null : userID,
       project_status: activeButton,
-      project_manager_id : roleName === 'PROJECT MANAGER' ? true : false
+      project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -166,19 +167,38 @@ const ProjectList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.text}>
-            <div className={Styles.textStyle}>
-              <h3>List of Projects</h3>
+          <div className={Styles.header}>
+            <div className={Styles.firstHeader}>
+              <div className={Styles.text}>
+                <div className={Styles.textStyle}>
+                  <h3>PROJECTS</h3>
+                </div>
+              </div>
+              <div>
+                {isProjectCreate && (
+                  <div>
+                    <Button
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      color="primary"
+                      icon={<AddIcon color="white" />}
+                      onClick={() => navigate('/project-add')}
+                    >
+                      New Project
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className={Styles.textStyleDescription}>
-              <span>
-                Manage your entire project throught out the organization
-              </span>
+            <div className={Styles.button}>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
             </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
-          <div className={Styles.searchField}>
-            <div className={Styles.inputFilter}>
+            <div className={Styles.inputFilter1}>
               <Input
                 width="260px"
                 prefixIcon={<SearchIcon />}
@@ -187,6 +207,11 @@ const ProjectList = () => {
                 onChange={(e) => handleFilterChange(e)}
                 placeholder="Search"
               />
+            </div>
+          </div>
+          {/* <div className={Styles.dividerStyle}></div> */}
+          {/* <div className={Styles.searchField}>
+        
               <Button
                 className={Styles.searchButton}
                 shape="rectangle"
@@ -206,45 +231,22 @@ const ProjectList = () => {
               >
                 Reset
               </Button>
-            </div>
-            <div className={Styles.button}>
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div>
-              {isProjectCreate && (
-                <div>
-                  <Button
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    color="primary"
-                    icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/project')}
-                  >
-                    Add
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
+            </div> */}
+
+          {/* <div className={Styles.dividerStyle}></div> */}
           <div className={Styles.tableContainer}>
             <div>
-              <table>
+              <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th>S No</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Manager</th>
-                    <th>Status</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Actions</th>
+                    <th className={Styles.tableHeading}>#</th>
+                    <th className={Styles.tableHeading}>Name</th>
+                    <th className={Styles.tableHeading}>Code</th>
+                    <th className={Styles.tableHeading}>Manager</th>
+                    <th className={Styles.tableHeading}>Status</th>
+                    <th className={Styles.tableHeading}>Start Date</th>
+                    <th className={Styles.tableHeading}>End Date</th>
+                    <th className={Styles.tableHeading}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -267,7 +269,10 @@ const ProjectList = () => {
                         <td>
                           {data?.user?.first_name} {data?.user?.last_name}
                         </td>
-                        <td>{data?.status}</td>
+                        <td>
+                          {' '}
+                          <span className={Styles.status}>{data?.status} </span>
+                        </td>
                         <td>
                           {format(new Date(data?.date_started), 'MMM dd, yyyy')}
                         </td>
@@ -277,9 +282,20 @@ const ProjectList = () => {
                         {/* {activeButton === 'AC' && ( */}
                         <td>
                           <div className={Styles.tablerow}>
+                            <StoreIcon
+                              onClick={() =>
+                                navigate(
+                                  `/project-inventory/${data?.project_id}`
+                                )
+                              }
+                            />
+                            <ViewIcon
+                              onClick={() =>
+                                navigate(`/project-info/${data?.project_id}`)
+                              }
+                            />
                             {isProjectEdit && (
                               <div>
-                                {' '}
                                 <EditIcon
                                   onClick={() =>
                                     navigate(
@@ -289,18 +305,7 @@ const ProjectList = () => {
                                 />
                               </div>
                             )}
-                            <ViewIcon
-                              onClick={() =>
-                                navigate(`/project-info/${data?.project_id}`)
-                              }
-                            />
-                            <StoreIcon
-                              onClick={() =>
-                                navigate(
-                                  `/project-inventory/${data?.project_id}`
-                                )
-                              }
-                            />
+
                             {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
@@ -316,7 +321,7 @@ const ProjectList = () => {
               </table>
             </div>
             <div className={Styles.pagination}>
-              <Pagination
+              <CustomPagination
                 currentPage={currentPage}
                 totalPages={getFilterData?.total_page}
                 totalCount={getFilterData?.total_count}

@@ -1,0 +1,46 @@
+.container {
+  border: 1px solid #fff;
+  width: fit-content;
+  padding: 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 40px;
+  width: 100%;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navigateIcon {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.numberCount {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.selected {
+  border-radius: 50%;
+  background-color: #c2c4c5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 30px;
+  height: 30px;
+}
+.menu_item {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 30px;
+  height: 30px;
+}
