@@ -349,13 +349,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
 
           {/* CHILD 2 */}
           <div className={Styles.childTwo}>
-            {/* PARENT GRID */}
-            <div className={Styles.parentGrid}>
-              {/* CHILD 1 GRID */}
-              <div>
-                <div>
+            <div className={Styles.subChildOne}>
+              <div className={Styles.subOneChildOne}>
+                <div className={Styles.inputFields}>
                   <Input
-                    width="160%"
                     label="Name"
                     placeholder="Enter project name"
                     name="project_name"
@@ -367,9 +364,30 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     }
                   />
                 </div>
-                <div>
+                <div className={Styles.inputFields}>
+                  <Select
+                    label="Project Type"
+                    name="project_type"
+                    mandatory={true}
+                    onChange={formik.handleChange}
+                    value={formik.values.project_type}
+                    defaultLabel="Select from options"
+                    placeholder="Select from options"
+                    error={
+                      formik.touched.project_type && formik.errors.project_type
+                    }
+                  >
+                    {getAllProjectTypeDatadrop.map((option: any) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+              <div className={Styles.subOneChildTwo}>
+                <div className={Styles.inputFields}>
                   <Input
-                    width="160%"
                     label="Code"
                     placeholder="Enter project code"
                     name="code"
@@ -380,9 +398,37 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     disabled={routeParams?.id === undefined ? false : true}
                   />
                 </div>
-                <div>
+                <div className={Styles.clientInstantAdd}>
+                  <div style={{ width: '60%' }}>
+                    <AutoCompleteSelect
+                      name="client_id"
+                      label="Client / Customer"
+                      defaultLabel="Select from options"
+                      placeholder="Select from options"
+                      mandatory={true}
+                      value={formik.values.client_id}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.client_id && formik.errors.client_id
+                      }
+                      onSelect={(value) => {
+                        formik.setFieldValue('client_id', value);
+                      }}
+                      optionList={getAllClientDatadrop}
+                    />
+                  </div>
+                  <div
+                    className={Styles.clientNewAddMain}
+                    onClick={handleOpenClientForm}
+                  >
+                    <AddIcon style={{ height: '13px', width: '20px' }} />
+                    <h4 className={Styles.addtext}>New client</h4>
+                  </div>
+                </div>
+              </div>
+              <div className={Styles.subOneChildThree}>
+                <div className={Styles.inputFields}>
                   <AutoCompleteSelect
-                    width="160%"
                     name="user_id"
                     label="Project Manager"
                     defaultLabel="Select from options"
@@ -398,7 +444,29 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     optionList={getProjectManagerList}
                   />
                 </div>
-                {/* <div className={Styles.dividerStyle}></div> */}
+                <div className={Styles.inputFields}>
+                  <AutoCompleteSelect
+                    name="approvar_id"
+                    label="Approver"
+                    defaultLabel="Select from options"
+                    placeholder="Select from options"
+                    mandatory={true}
+                    value={formik.values.approvar_id}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.approvar_id && formik.errors.approvar_id
+                    }
+                    onSelect={(value) => {
+                      formik.setFieldValue('approvar_id', value);
+                    }}
+                    optionList={getProjectApproverList}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={Styles.dividerStyleOne}></div>
+            <div className={Styles.subChildTwo}>
+              <div className={Styles.subTwoChildOne}>
                 <div>
                   <DatePicker
                     label="Start Date"
@@ -418,111 +486,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                   />
                 </div>
                 <div>
-                  <Input
-                    width="160%"
-                    label="Estimated Budget"
-                    placeholder="Enter rate"
-                    name="estimated_budget"
-                    mandatory={true}
-                    onChange={formik.handleChange}
-                    value={formik.values.estimated_budget}
-                    error={
-                      formik.touched.estimated_budget &&
-                      formik.errors.estimated_budget
-                    }
-                  />
-                </div>
-                <div>
-                  <TextArea
-                    width="160%"
-                    name="description"
-                    label="Project Description"
-                    placeholder="Enter project description"
-                    value={formik.values.description}
-                    onChange={formik.handleChange}
-                    rows={3}
-                    maxCharacterCount={100}
-                  />
-                </div>
-              </div>
-
-              {/* CHILD 2 GRID */}
-              <div>
-                <div>
-                  <Select
-                    width="97%"
-                    label="Project Type"
-                    name="project_type"
-                    mandatory={true}
-                    onChange={formik.handleChange}
-                    value={formik.values.project_type}
-                    defaultLabel="Select from options"
-                    placeholder="Select from options"
-                    error={
-                      formik.touched.project_type && formik.errors.project_type
-                    }
-                  >
-                    {getAllProjectTypeDatadrop.map((option: any) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-                <div className={Styles.clientMain}>
-                  <div style={{ width: '100%' }}>
-                    <AutoCompleteSelect
-                      width="160%"
-                      name="client_id"
-                      label="Client / Customer"
-                      defaultLabel="Select from options"
-                      placeholder="Select from options"
-                      mandatory={true}
-                      value={formik.values.client_id}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.client_id && formik.errors.client_id
-                      }
-                      onSelect={(value) => {
-                        formik.setFieldValue('client_id', value);
-                      }}
-                      optionList={getAllClientDatadrop}
-                    />
-                  </div>
-                  <div
-                    className={Styles.clientSecondMain}
-                    onClick={handleOpenClientForm}
-                  >
-                    <div
-                    className={Styles.clientChildSecond}
-                    >
-                      <AddIcon style={{ height: '13px', width: '20px' }} />
-                      <h4 className={Styles.addtext}>New client</h4>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <AutoCompleteSelect
-                    width="97%"
-                    name="approvar_id"
-                    label="Approver"
-                    defaultLabel="Select from options"
-                    placeholder="Select from options"
-                    mandatory={true}
-                    value={formik.values.approvar_id}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.approvar_id && formik.errors.approvar_id
-                    }
-                    onSelect={(value) => {
-                      formik.setFieldValue('approvar_id', value);
-                    }}
-                    optionList={getProjectApproverList}
-                  />
-                </div>
-                <div>
                   <DatePicker
-                    width="59%"
                     label="End Date"
                     name="date_ended"
                     mandatory={true}
@@ -539,9 +503,27 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     }
                   />
                 </div>
-                <div>
+              </div>
+            </div>
+            <div className={Styles.dividerStyleOne}></div>
+            <div className={Styles.subChildThree}>
+              <div className={Styles.subThreeChildOne}>
+                <div className={Styles.inputFields}>
                   <Input
-                    width="97%"
+                    label="Estimated Budget"
+                    placeholder="Enter rate"
+                    name="estimated_budget"
+                    mandatory={true}
+                    onChange={formik.handleChange}
+                    value={formik.values.estimated_budget}
+                    error={
+                      formik.touched.estimated_budget &&
+                      formik.errors.estimated_budget
+                    }
+                  />
+                </div>
+                <div className={Styles.inputFields}>
+                  <Input
                     label="Actual Budget"
                     placeholder="Enter rate"
                     name="actual_budget"
@@ -553,9 +535,24 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     }
                   />
                 </div>
-                <div>
+              </div>
+            </div>
+            <div className={Styles.dividerStyleOne}></div>
+            <div className={Styles.subChildFour}>
+              <div className={Styles.subFourChildOne}>
+                <div className={Styles.inputFields}>
                   <TextArea
-                    width="97%"
+                    name="description"
+                    label="Project Description"
+                    placeholder="Enter project description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    rows={3}
+                    maxCharacterCount={100}
+                  />
+                </div>
+                <div className={Styles.inputFields}>
+                  <TextArea
                     name="project_notes"
                     label="Project Notes"
                     placeholder="Enter project notes"
@@ -566,8 +563,8 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                   />
                 </div>
               </div>
-              {/* second div close */}
             </div>
+            <div className={Styles.dividerStyleOne}></div>
           </div>
         </div>
       </form>
