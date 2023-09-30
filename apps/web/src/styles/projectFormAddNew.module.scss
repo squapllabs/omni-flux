@@ -33,21 +33,30 @@
     gap: 20%;
     width: 80%;
 }
-  .inputFieldsContent {
+.clientMain{
     display: flex;
     flex-direction: row;
-    gap: 15%;
-    margin-top: 2%;
-    margin-left: 4%;
-    // background-color: lawngreen;
-  }
-.inputFields{
-    width: 80%;
+}
+.clientSecondMain{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-left: 40%;
+}
+.clientChildSecond{
+    display: flex;
+    flex-direction: row;
+    margin-top:29px;
+    width:120px;
+}
+.addtext{
+    color: var(--secondary-color);
+    font-size: 0.6rem;
 }
 .draftButton{
-    color: #6941c6;
+    color: var(--secondary-color);
 }
 .cancelButton{
-    background-color: #FEF3F2;
+    background-color: var(--danger-color);
     color:#B42318
 }

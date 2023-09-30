@@ -250,7 +250,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
             if (data?.status === true) {
               setMessage('Project created');
               setOpenSnack(true);
-              props.setLoader(!props.loader);
+              // props.setLoader(!props.loader);
               if (data?.data?.project?.status === 'Draft') {
                 setTimeout(() => {
                   navigate('/project-list');
@@ -398,6 +398,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     optionList={getProjectManagerList}
                   />
                 </div>
+                {/* <div className={Styles.dividerStyle}></div> */}
                 <div>
                   <DatePicker
                     label="Start Date"
@@ -449,7 +450,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
               <div>
                 <div>
                   <Select
-                    width="160%"
+                    width="97%"
                     label="Project Type"
                     name="project_type"
                     mandatory={true}
@@ -468,31 +469,41 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     ))}
                   </Select>
                 </div>
-                <div>
-                  <AutoCompleteSelect
-                    width="160%"
-                    name="client_id"
-                    label="Client / Customer"
-                    defaultLabel="Select from options"
-                    placeholder="Select from options"
-                    mandatory={true}
-                    value={formik.values.client_id}
-                    onChange={formik.handleChange}
-                    error={formik.touched.client_id && formik.errors.client_id}
-                    onSelect={(value) => {
-                      formik.setFieldValue('client_id', value);
-                    }}
-                    optionList={getAllClientDatadrop}
-                  />
-                  {/* 
-                  <div onClick={handleOpenClientForm}>
-                    <AddIcon style={{ height: '15px', width: '15px' }} />
-                    <h4 className={Styles.addtext}>Add client</h4>
-                  </div> */}
+                <div className={Styles.clientMain}>
+                  <div style={{ width: '100%' }}>
+                    <AutoCompleteSelect
+                      width="160%"
+                      name="client_id"
+                      label="Client / Customer"
+                      defaultLabel="Select from options"
+                      placeholder="Select from options"
+                      mandatory={true}
+                      value={formik.values.client_id}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.client_id && formik.errors.client_id
+                      }
+                      onSelect={(value) => {
+                        formik.setFieldValue('client_id', value);
+                      }}
+                      optionList={getAllClientDatadrop}
+                    />
+                  </div>
+                  <div
+                    className={Styles.clientSecondMain}
+                    onClick={handleOpenClientForm}
+                  >
+                    <div
+                    className={Styles.clientChildSecond}
+                    >
+                      <AddIcon style={{ height: '13px', width: '20px' }} />
+                      <h4 className={Styles.addtext}>New client</h4>
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <AutoCompleteSelect
-                    width="160%"
+                    width="97%"
                     name="approvar_id"
                     label="Approver"
                     defaultLabel="Select from options"
@@ -506,12 +517,12 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     onSelect={(value) => {
                       formik.setFieldValue('approvar_id', value);
                     }}
-                    // disabled={disable}
                     optionList={getProjectApproverList}
                   />
                 </div>
                 <div>
                   <DatePicker
+                    width="59%"
                     label="End Date"
                     name="date_ended"
                     mandatory={true}
@@ -530,7 +541,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                 </div>
                 <div>
                   <Input
-                    width="160%"
+                    width="97%"
                     label="Actual Budget"
                     placeholder="Enter rate"
                     name="actual_budget"
@@ -544,7 +555,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                 </div>
                 <div>
                   <TextArea
-                    width="160%"
+                    width="97%"
                     name="project_notes"
                     label="Project Notes"
                     placeholder="Enter project notes"
