@@ -182,7 +182,7 @@ const ProjectList = () => {
                     size="small"
                     color="primary"
                     icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/project')}
+                    onClick={() => navigate('/project-add')}
                   >
                     New Project
                   </Button>
