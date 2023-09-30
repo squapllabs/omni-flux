@@ -78,7 +78,7 @@ const PurchaseRequestAdd = () => {
       indent_request_id: indentId,
       requester_user_id: userID,
       request_date: new Date(),
-      status: 'Waiting For Quotation',
+      status: 'Evaluating Vendors',
       project_id: projectId,
       purchase_request_details: purchaseRequestData.map((item: any) => ({
         item_id: item.item_id,

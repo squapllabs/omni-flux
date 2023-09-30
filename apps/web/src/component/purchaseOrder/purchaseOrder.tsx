@@ -42,6 +42,7 @@ const OrderView = () => {
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
+  
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProject();
   const {
@@ -239,7 +240,7 @@ const OrderView = () => {
                           <div className={Styles.tablerow}>
                             <EditIcon
                               onClick={() =>
-                                handleEdit(data.purchase_order_id)
+                                handleEdit(data?.purchase_order_id)
                               }
                             />
                             <PdfDownloadIcon onClick={() => handleReportGenerator(data)} />
@@ -308,7 +309,7 @@ const OrderView = () => {
                           <div className={Styles.tablerow}>
                             <EditIcon
                               onClick={() =>
-                                handleEdit(data.purchase_order_id)
+                                handleEdit(data?.purchase_order_id)
                               }
                             />
                             <PdfDownloadIcon onClick={() => handleReportGenerator(data)} />

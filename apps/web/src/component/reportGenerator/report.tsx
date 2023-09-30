@@ -63,28 +63,32 @@ const ReportGenerator = (data: any) => {
 
     // Title
     pdf.setFontSize(15);
-
+    pdf.setFont('Newsreader','bold');
     // pdf.text(`${purchaseOrder.companyName}`, 105, yStart + yOffset);
     pdf.text('PURCHASE ORDER', 85, 10);
     pdf.setFontSize(11);
-    pdf.setLineHeightFactor(0.1);
-    pdf.setFont('helvetica');
-    pdf.text(`${purchaseOrder.companyAddress}`, 10, yStart + yOffset * 1 + 2);
-    pdf.text(`${purchaseOrder.Line1}`, 10, yStart + yOffset * 2 + 2 * 0.1);
-    pdf.text(`${purchaseOrder.phoneNumber}`, 10, yStart + yOffset * 3 + 2 * 0.2);
-    pdf.text(`${purchaseOrder.emailAddress}`, 10, yStart + yOffset * 4 + 2 * 0.3);
-    pdf.text(`${purchaseOrder.websiteURL}`, 10, yStart + yOffset * 5 + 2 * 0.4);
+    // pdf.setLineHeightFactor(0.1);
+    pdf.setFont('Newsreader','normal');
+    pdf.text(`${purchaseOrder.companyAddress}`, 10, 25);
+    pdf.text(`${purchaseOrder.Line1}`, 10, 30);
+    pdf.text(`${purchaseOrder.phoneNumber}`, 10, 35);
+    pdf.text(`${purchaseOrder.emailAddress}`, 10, 40);
+    pdf.text(`${purchaseOrder.websiteURL}`, 10, 45);
     pdf.setFontSize(12);
-    pdf.text(`Order Number: ${purchaseOrder.orderNumber}`, 140, yStart + yOffset * 2);
-    pdf.text(`Order Date: ${purchaseOrder.orderDate}`, 140, yStart + yOffset * 3);
-    pdf.text('Vendor Details', 105, yStart + yOffset * 6, 'center');
-    pdf.text(`Vendor Name: ${purchaseOrder.vendorName}`, 10, yStart + yOffset * 7);
-    pdf.text(`Vendor Address: ${purchaseOrder.vendorAddress}`, 10, yStart + yOffset * 8);
-    pdf.text(`Vendor Contact: ${purchaseOrder.vendorContact}`, 105, yStart + yOffset * 8);
-    pdf.text('Site Details / Shipping Details', 105, yStart + yOffset * 9, 'center');
-    pdf.text(`Site Name: ${purchaseOrder.siteName}`, 10, yStart + yOffset * 10);
-    pdf.text(`Site Address: ${purchaseOrder.siteAddress}`, 10, yStart + yOffset * 11);
-    pdf.text(`Contact Number: ${purchaseOrder.siteContact}`, 105, yStart + yOffset * 11);
+    pdf.text(`Order Number: ${purchaseOrder.orderNumber}`, 140, 30);
+    pdf.text(`Order Date: ${purchaseOrder.orderDate}`, 140, 35);
+    pdf.setFont('Newsreader','bold');
+    pdf.text('Vendor Details', 105, 50,'center');
+    pdf.setFont('Newsreader','normal');
+    pdf.text(`Vendor Name: ${purchaseOrder.vendorName}`, 10, 55);
+    pdf.text(`Vendor Address: ${purchaseOrder.vendorAddress}`, 10, 60);
+    pdf.text(`Vendor Contact: ${purchaseOrder.vendorContact}`, 105, 60);
+    pdf.setFont('Newsreader','bold');
+    pdf.text('Site / Shipping Details', 105, 70, 'center');
+    pdf.setFont('Newsreader','normal');
+    pdf.text(`Site Name: ${purchaseOrder.siteName}`, 10, 75);
+    pdf.text(`Site Address: ${purchaseOrder.siteAddress}`, 10, 80);
+    pdf.text(`Contact Number: ${purchaseOrder.siteContact}`, 105, 80);
 
     // Addresses
     // pdf.text(`Billing Address: ${purchaseOrder.billingAddress}`, 10, yStart + yOffset * 8);
@@ -106,7 +110,7 @@ const ReportGenerator = (data: any) => {
     ]);
 
     // Create item details table
-    const itemDetailsYStart = yStart + yOffset * 12;
+    const itemDetailsYStart = yStart + yOffset * 7;
     pdf.autoTable({
         head: [itemDetailsHeaders],
         body: itemDetailsRows,
@@ -137,13 +141,9 @@ const ReportGenerator = (data: any) => {
     pdf.save('invoice.pdf');
 
     // const pdfDataUri = pdf.output("datauristring");
-
     // const previewWindow = window.open();
-
     // previewWindow?.document.write(
-
     //     "<iframe width='100%' height='100%' src='" + pdfDataUri + "'></iframe>"
-
     // );
 
     // };

@@ -15,6 +15,10 @@ import purchaseRequestService from '../../service/purchaseRequest-service';
 import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
 import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
+import Input from '../ui/Input';
+import SearchIcon from '../menu/icons/search';
+import CustomGroupButton from '../ui/CustomGroupButton';
+import { useGetAllPaginatedPurchaseRequests, getBySearchPurchaseRequestes } from '../../hooks/purchaseRequest-hooks';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -32,19 +36,106 @@ const PurchaseView = () => {
   const [reload, setReload] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  
+  const [activeButton, setActiveButton] = useState<string | null>('Evaluating Vendors');
+  const [isLoading, setIsLoading] = useState(true);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Evaluating Vendors', value: 'Evaluating Vendors' },
+    { label: 'Vendor Shortlisted', value: 'Vendor Shortlisted' },
+    { label: 'PO Placed', value: 'PO Placed' },
+  ]);
+  const [filterValues, setFilterValues] = useState({
+    global_search: '',
+  });
+  const [filter, setFilter] = useState(false);
+  const [dataShow, setDataShow] = useState(false);
   const indentId = Number(routeParams?.id);
   const location = useLocation();
   const projectId = location.state.project_id;
+  const [isResetDisabled, setIsResetDisabled] = useState(true);
 
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
     order_by_column: 'updated_date',
     order_by_direction: 'desc',
+    purchase_request_status: activeButton,
     status: 'AC',
     global_search: '',
     indent_request_id: indentId,
+  };
+
+  const {
+    mutate: postDataForFilter,
+    data: getFilterData,
+    isLoading: FilterLoading,
+  } = getBySearchPurchaseRequestes();
+
+  const {
+    isLoading: getAllLoadingPurchaseRequestsData,
+    data: initialData,
+    refetch,
+  } = useGetAllPaginatedPurchaseRequests(masterData);
+
+  /* Function for group button (Active and Inactive status) */
+  const handleGroupButtonClick = (value: string) => {
+    console.log("value", value);
+    setActiveButton(value);
+  };
+
+  /* Function for Filter Change */
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
+
+    setFilterValues({
+      ...filterValues,
+      ['global_search']: event.target.value,
+    });
+    setIsResetDisabled(searchValue === '');
+    if (searchValue === '') {
+      handleReset();
+    }
+  };
+
+
+
+  const handleSearch = async () => {
+    const object: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      purchase_request_status: activeButton,
+      indent_request_id: indentId,
+      ...filterValues,
+    };
+    postDataForFilter(object);
+    setDataShow(true);
+    setIsLoading(false);
+    setFilter(true);
+  };
+
+  /* Function for resting the search field and data to normal state */
+  const handleReset = async () => {
+    const demo: any = {
+      offset: (currentPage - 1) * rowsPerPage,
+      limit: rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      status: 'AC',
+      purchase_request_status: "Evaluating Vendors",
+      project_id: Number(routeParams?.id),
+      global_search: '',
+    };
+    postDataForFilter(demo);
+    setIsLoading(false);
+    setFilter(false);
+    setFilterValues({
+      global_search: '',
+    });
+    setIsLoading(false);
+    setDataShow(false);
+    setIsResetDisabled(true);
   };
 
   useEffect(() => {
@@ -61,6 +152,10 @@ const PurchaseView = () => {
     };
     getAllData();
   }, []);
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton]);
 
   const purchaseData = {
     limit: rowsPerPage,
@@ -95,7 +190,7 @@ const PurchaseView = () => {
 
   return (
     <div className={Styles.container}>
-      <CustomLoader loading={dataLoading} size={48} color="#333C44">
+      <CustomLoader loading={FilterLoading ? FilterLoading : getAllLoadingPurchaseRequestsData} size={48} color="#333C44">
         <div className={Styles.box}>
           <div className={Styles.headingTop}>
             <div className={Styles.textContent}>
@@ -121,7 +216,7 @@ const PurchaseView = () => {
           <div className={Styles.tableContainer}>
             <div>
               <div className={Styles.tableText}>
-                <h3>Indent Detail Table</h3>
+                <h3>Indent Detail List</h3>
               </div>
               <table>
                 <thead>
@@ -154,7 +249,7 @@ const PurchaseView = () => {
                 justify="center"
                 size="small"
                 color="primary"
-                onClick={() => {navigate('/purchase-request-add',{state:{project_id: projectId,indent_id:indentId}})}}
+                onClick={() => { navigate('/purchase-request-add', { state: { project_id: projectId, indent_id: indentId } }) }}
               >
                 <AddIcon color='white' />
                 Create PR
@@ -166,8 +261,47 @@ const PurchaseView = () => {
       <div className={Styles.bottomTable}>
         <div className={Styles.tableContainer}>
           <div>
+
             <div className={Styles.tableText}>
-              <h3>Purchase Request Table</h3>
+              <h3>Purchase Request List</h3>
+            </div>
+            <div className={Styles.searchField}>
+              <div className={Styles.inputFilter}>
+                <Input
+                  width="260px"
+                  prefixIcon={<SearchIcon />}
+                  name="global_search"
+                  value={filterValues.global_search}
+                  onChange={(e) => handleFilterChange(e)}
+                  placeholder="Search by Vendor and Status"
+                />
+                <Button
+                  className={Styles.searchButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+                <Button
+                  className={Styles.resetButton}
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  disabled={isResetDisabled}
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
+              </div>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
             </div>
             <table>
               <thead>
@@ -177,70 +311,128 @@ const PurchaseView = () => {
                   <th>Vendor Name </th>
                   <th>Budget</th>
                   <th>No of Items</th>
-                  <th>Quotation Status</th>
+                  {/* <th>Quotation Status</th> */}
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {dataCount === 0 ? (
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
-                    <td></td>
-                  </tr>
-                ) : (
-                  ''
-                )}
-                {purchaseTableData?.map((data: any, index: number) => {
-                  const isStatusApproved = data?.status === 'Approved';
-                  const isMarkEnabled = isStatusApproved;
-                  const actions = [
-                    {
-                      label: 'View',
-                      onClick: () => {
-                        navigate(`/vendor-select/${data?.purchase_request_id}`);
-                      },
-                    },
-                    {
-                      label: 'Move to PO',
-                      onClick: () => {
-                        if (isMarkEnabled) {
-                          navigate(
-                            `/purchase-request/${data?.purchase_request_id}`
-                          );
-                        }
-                      },
-                      disabled: !isMarkEnabled,
-                    },
-                  ];
-                  return (
-                    <tr key={data.purchase_request_id}>
-                      <td>{startingIndex + index}</td>
-                      <td>
-                        {data.indent_request_data.description ||
-                          nullLableNameFromEnv}
+                {dataShow ? (
+                  getFilterData?.total_count === 0 ? (
+                    <tr>
+                      <td colSpan="4" style={{ textAlign: 'center' }}>
+                        No data found
                       </td>
-                      <td>
-                        {data?.selected_vendor_data?.vendor_name ||
-                          nullLableNameFromEnv}
-                      </td>
-                      <td>
-                        {data?.total_cost
-                          ? formatBudgetValue(data?.total_cost)
-                          : nullLableNameFromEnv}
-                      </td>
-                      <td>
-                        {data?.purchase_request_details.length ||
-                          nullLableNameFromEnv}
-                      </td>
-                      <td>{data?.status || 'N.A'}</td>
-                      <td>
-                        <CustomMenu actions={actions} />
-                      </td>
+                      {activeButton === 'AC' && <td></td>}
                     </tr>
-                  );
-                })}
+                  ) :
+                    (getFilterData?.content?.map((data: any, index: number) => {
+                      const isStatusApproved = data?.status === 'Vendor Shortlisted';
+                      const isMarkEnabled = isStatusApproved;
+                      const actions = [
+                        {
+                          label: 'View',
+                          onClick: () => {
+                            navigate(`/vendor-select/${data?.purchase_request_id}`);
+                          },
+                        },
+                        {
+                          label: 'Move to PO',
+                          onClick: () => {
+                            if (isMarkEnabled) {
+                              navigate(
+                                `/purchase-request/${data?.purchase_request_id}`
+                              );
+                            }
+                          },
+                          disabled: !isMarkEnabled,
+                        },
+                      ];
+                      return (
+                        <tr key={data.purchase_request_id}>
+                          <td>{startingIndex + index}</td>
+                          <td>
+                            {data.indent_request_data.description ||
+                              nullLableNameFromEnv}
+                          </td>
+                          <td>
+                            {data?.selected_vendor_data?.vendor_name ||
+                              nullLableNameFromEnv}
+                          </td>
+                          <td>
+                            {data?.total_cost
+                              ? formatBudgetValue(data?.total_cost)
+                              : nullLableNameFromEnv}
+                          </td>
+                          <td>
+                            {data?.purchase_request_details.length ||
+                              nullLableNameFromEnv}
+                          </td>
+                          {/* <td>{data?.status || 'N.A'}</td> */}
+                          <td>
+                            <CustomMenu actions={actions} />
+                          </td>
+                        </tr>
+                      );
+                    }))
+                ) :
+                  initialData?.total_count === 0 ? (
+                    <tr>
+                      <td colSpan="4" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
+                      {/* {activeButton === 'AC' && <td></td>} */}
+                    </tr>
+                  ) : (initialData?.content?.map((data: any, index: number) => {
+                    console.log("sdf",data);
+                    const isStatusApproved = data?.status === 'Vendor Shortlisted';
+                    const isMarkEnabled = isStatusApproved;
+                    const actions = [
+                      {
+                        label: 'View',
+                        onClick: () => {
+                          navigate(`/vendor-select/${data?.purchase_request_id}`);
+                        },
+                      },
+                      {
+                        label: 'Move to PO',
+                        onClick: () => {
+                          if (isMarkEnabled) {
+                            navigate(
+                              `/purchase-request/${data?.purchase_request_id}`
+                            );
+                          }
+                        },
+                        disabled: !isMarkEnabled,
+                      },
+                    ];
+                    return (
+                      <tr key={data.purchase_request_id}>
+                        <td>{startingIndex + index}</td>
+                        <td>
+                          {data.indent_request_data.description ||
+                            nullLableNameFromEnv}
+                        </td>
+                        <td>
+                          {data?.selected_vendor_data?.vendor_name ||
+                            nullLableNameFromEnv}
+                        </td>
+                        <td>
+                          {data?.total_cost
+                            ? formatBudgetValue(data?.total_cost)
+                            : nullLableNameFromEnv}
+                        </td>
+                        <td>
+                          {data?.purchase_request_details.length ||
+                            nullLableNameFromEnv}
+                        </td>
+                        {/* <td>{data?.status || 'N.A'}</td> */}
+                        <td>
+                          <CustomMenu actions={actions} />
+                        </td>
+                      </tr>
+                    );
+                  }))
+                }
               </tbody>
             </table>
           </div>
