@@ -79,33 +79,33 @@
   display: none;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  border: 1px solid #ccc;
-}
+// table {
+//   border-collapse: collapse;
+//   width: 100%;
+//   border: 1px solid #ccc;
+// }
 
-th {
-  background-color: #f2f2f2;
-  padding: 8px;
-  text-align: left;
-}
+// th {
+//   background-color: #f2f2f2;
+//   padding: 8px;
+//   text-align: left;
+// }
 
-tr {
-  border-bottom: 1px solid #ccc;
-}
+// tr {
+//   border-bottom: 1px solid #ccc;
+// }
 
-td {
-  vertical-align: middle;
-}
+// td {
+//   vertical-align: middle;
+// }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
+// tr:nth-child(even) {
+//   background-color: #f2f2f2;
+// }
 
-tr:hover {
-  background-color: #e0e0e0;
-}
+// tr:hover {
+//   background-color: #e0e0e0;
+// }
 .pagination {
   display: flex;
   justify-content: end;

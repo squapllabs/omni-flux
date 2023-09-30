@@ -232,23 +232,23 @@ const ProjectList = () => {
               </Button>
             </div> */}
 
-          <div className={Styles.dividerStyle}></div>
+          {/* <div className={Styles.dividerStyle}></div> */}
           <div className={Styles.tableContainer}>
             <div>
-              <table>
+              <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th>S No</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Manager</th>
-                    <th>Status</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Actions</th>
+                    <th className={Styles.tableHeading}>#</th>
+                    <th className={Styles.tableHeading}>Name</th>
+                    <th className={Styles.tableHeading}>Code</th>
+                    <th className={Styles.tableHeading}>Manager</th>
+                    <th className={Styles.tableHeading}>Status</th>
+                    <th className={Styles.tableHeading}>Start Date</th>
+                    <th className={Styles.tableHeading}>End Date</th>
+                    <th className={Styles.tableHeading}>Actions</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody >
                   {getFilterData?.total_count === 0 ? (
                     <tr>
                       <td colSpan="7" style={{ textAlign: 'center' }}>
