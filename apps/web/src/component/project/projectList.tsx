@@ -98,7 +98,7 @@ const ProjectList = () => {
       status: 'AC',
       user_id: roleName === 'ADMIN' ? null : userID,
       project_status: activeButton,
-      project_manager_id: roleName === 'PROJECT MANAGER' ? true : false
+      project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
     };
     postDataForFilter(userData);
     setIsLoading(false);
@@ -168,27 +168,27 @@ const ProjectList = () => {
         >
           <div className={Styles.header}>
             <div className={Styles.firstHeader}>
-            <div className={Styles.text}>
-              <div className={Styles.textStyle}>
-                <h3>Projects</h3>
-              </div>
-            </div>
-            <div >
-              {isProjectCreate && (
-                <div>
-                  <Button
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    color="primary"
-                    icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/project-add')}
-                  >
-                    New Project
-                  </Button>
+              <div className={Styles.text}>
+                <div className={Styles.textStyle}>
+                  <h3>Projects</h3>
                 </div>
-              )}
-            </div>
+              </div>
+              <div>
+                {isProjectCreate && (
+                  <div>
+                    <Button
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      color="primary"
+                      icon={<AddIcon color="white" />}
+                      onClick={() => navigate('/project')}
+                    >
+                      New Project
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
             <div className={Styles.button}>
               <CustomGroupButton

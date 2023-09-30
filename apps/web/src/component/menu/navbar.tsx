@@ -28,6 +28,7 @@ const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAssets, setShowAssets] = useState(false);
+  const [showHome, setShowHome] = useState(false);
   const [showProject, setShowProject] = useState(false);
   const [showResources, setShowResources] = useState(false);
   const [showReport, setShowReport] = useState(false);
@@ -39,6 +40,13 @@ const Navbar = () => {
     encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
   const handleShowAssets = () => {
     setShowAssets(!showAssets);
+    setShowResources(false);
+    setShowProject(false);
+    setShowReport(false);
+  };
+  const handleShowHome = () => {
+    setShowHome(!showHome);
+    setShowAssets(false);
     setShowResources(false);
     setShowProject(false);
     setShowReport(false);
@@ -125,7 +133,24 @@ const Navbar = () => {
     <div>
       <nav className={Styles.navbar}>
         <div className={Styles.appContainer}>
-          <div className={Styles.logo}>OmniFLUX ERP</div>
+          <div
+            onClick={handleShowHome}
+            className={
+              showHome
+                ? `${Styles.menu_item} ${Styles.selected}`
+                : `${Styles.menu_item}`
+            }
+          >
+            <div
+              className={Styles.logo}
+              onClick={() => {
+                navigate('/home');
+              }}
+            >
+              OmniFLUX ERP
+            </div>
+          </div>
+
           <div className={Styles.container}>
             <div className={Styles.verticalLine}></div>
           </div>
