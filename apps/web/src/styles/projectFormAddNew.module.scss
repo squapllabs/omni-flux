@@ -1,0 +1,53 @@
+.topHeading{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px 10px 10px 20px;
+}
+.topHeadingButton{
+    display: flex;
+    flex-direction: row;
+    gap: 1.2%;
+    margin-left: 3%;
+    width: 20%;
+}
+.dividerStyle {
+    border-bottom: 1px solid #ccc;
+  }
+
+.formMainContent{
+    display: flex;
+    flex-direction: row;
+    height: 100vh
+}
+
+.childTwo{
+    margin-top: 1%;
+    margin-left: 2%;
+    width: 80%;
+}
+.parentGrid{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20%;
+    width: 80%;
+}
+  .inputFieldsContent {
+    display: flex;
+    flex-direction: row;
+    gap: 15%;
+    margin-top: 2%;
+    margin-left: 4%;
+    // background-color: lawngreen;
+  }
+.inputFields{
+    width: 80%;
+}
+.draftButton{
+    color: #6941c6;
+}
+.cancelButton{
+    background-color: #FEF3F2;
+    color:#B42318
+}
