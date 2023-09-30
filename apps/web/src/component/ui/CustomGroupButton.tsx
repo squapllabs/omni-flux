@@ -34,6 +34,7 @@ const CustomGroupButton: React.FC<GroupButtonProps> = ({
             padding: '10px, 16px, 10px, 16px',
             fontSize:'0.75rem'
           }}
+
           justify="center"
           size="small"
         >

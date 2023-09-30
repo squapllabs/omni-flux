@@ -13,16 +13,16 @@ import AddIcon from '../menu/icons/addIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import { format } from 'date-fns';
 import Pagination from '../menu/pagination';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomLoader from '../ui/customLoader';
-import ViewIcon from '../menu/icons/viewIcon';
+import ViewIcon from '../menu/icons/rocketIcon';
 import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import StoreIcon from '../menu/icons/storeIcon';
+import StoreIcon from '../menu/icons/newStoreIcon';
 import { Chart } from 'react-google-charts';
 
 const ProjectList = () => {
@@ -170,7 +170,7 @@ const ProjectList = () => {
             <div className={Styles.firstHeader}>
               <div className={Styles.text}>
                 <div className={Styles.textStyle}>
-                  <h3>Projects</h3>
+                  <h3>PROJECTS</h3>
                 </div>
               </div>
               <div>
@@ -264,11 +264,11 @@ const ProjectList = () => {
                       <tr key={data.project_id}>
                         <td>{startingIndex + index}</td>
                         <td>{data?.project_name}</td>
-                        <td>{data?.code}</td>
+                        <td >{data?.code}</td>
                         <td>
                           {data?.user?.first_name} {data?.user?.last_name}
                         </td>
-                        <td>{data?.status}</td>
+                        <td > <span className={Styles.status}>{data?.status} </span></td>
                         <td>
                           {format(new Date(data?.date_started), 'MMM dd, yyyy')}
                         </td>
@@ -278,9 +278,22 @@ const ProjectList = () => {
                         {/* {activeButton === 'AC' && ( */}
                         <td>
                           <div className={Styles.tablerow}>
+                           
+                            <StoreIcon
+                              onClick={() =>
+                                navigate(
+                                  `/project-inventory/${data?.project_id}`
+                                )
+                              }
+                            />
+                            <ViewIcon
+                              onClick={() =>
+                                navigate(`/project-info/${data?.project_id}`)
+                              }
+                            />
                             {isProjectEdit && (
                               <div>
-                                {' '}
+                                
                                 <EditIcon
                                   onClick={() =>
                                     navigate(
@@ -290,18 +303,8 @@ const ProjectList = () => {
                                 />
                               </div>
                             )}
-                            <ViewIcon
-                              onClick={() =>
-                                navigate(`/project-info/${data?.project_id}`)
-                              }
-                            />
-                            <StoreIcon
-                              onClick={() =>
-                                navigate(
-                                  `/project-inventory/${data?.project_id}`
-                                )
-                              }
-                            />
+
+
                             {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
