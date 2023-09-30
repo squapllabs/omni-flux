@@ -102,21 +102,19 @@
 }
 
 .pagination {
-  padding: 10px 10px 10px 0px;
+  padding: 10px 10px 10px 2px;
   display: flex;
   justify-content: end;
 }
-
 
 // .scrollable_table {
 //   width: 100%;
 //   height: 100%;
 //   // top: 142px;
 //   // left: 58px;
-//   padding: 12px, 24px, 12px, 24px;  
+//   padding: 12px, 24px, 12px, 24px;
 //   // border: 0px, 0px, 1px, 0px;
 //   gap: 10px;
-  
 
 //   th,
 //   td {
@@ -156,7 +154,7 @@
   height: 100%;
   padding: 10px 10px; /* Adjust padding */
   gap: 12px;
-  border-collapse: collapse; 
+  border-collapse: collapse;
 
   th,
   td {
@@ -166,10 +164,10 @@
     // border: 0px 0px 1px;
     font-size: 12px;
     border: none; /* Remove borders */
-    border-bottom: 0.1px solid #f0f0f0
+    border-bottom: 0.1px solid #f0f0f0;
   }
 
-  td{
+  td {
     border-bottom: 0.1px solid #f0f0f0;
     // border-bottom :0px, 0px, 1px, 0px
   }
@@ -183,11 +181,11 @@
     }
   }
 
-  .status{
-    background-color: #ECFDF3;
+  .status {
+    background-color: #ecfdf3;
     padding: 6px;
     border-radius: 50px;
-    color: #027A48;
+    color: #027a48;
   }
 
   td:hover,
@@ -196,17 +194,14 @@
   }
 }
 
-
-
 .tablerow {
   display: flex;
   flex-direction: row;
   align-items: center;
   // column-gap: 15px;
-// margin-right: 40px;
+  // margin-right: 40px;
   cursor: pointer;
 }
-
 
 // .tableContainer {
 //   padding: 10px 10px 0px 10px;
@@ -250,8 +245,8 @@
 
 .tableHeading {
   // background-color: linear-gradient(0deg, #EAECF0, #EAECF0);
-    // linear-gradient(0deg, #FFFFFF, #FFFFFF);
-   color: linear-gradient(0deg, #EAECF0, #EAECF0);
+  // linear-gradient(0deg, #FFFFFF, #FFFFFF);
+  color: linear-gradient(0deg, #eaecf0, #eaecf0);
 }
 
 .graphCard:hover {

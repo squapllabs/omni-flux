@@ -24,6 +24,7 @@ import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import StoreIcon from '../menu/icons/newStoreIcon';
 import { Chart } from 'react-google-charts';
+import CustomPagination from '../menu/CustomPagination';
 
 const ProjectList = () => {
   const state: RootState = store.getState();
@@ -61,7 +62,7 @@ const ProjectList = () => {
   const [filter, setFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
@@ -182,7 +183,7 @@ const ProjectList = () => {
                       size="small"
                       color="primary"
                       icon={<AddIcon color="white" />}
-                      onClick={() => navigate('/project')}
+                      onClick={() => navigate('/project-add')}
                     >
                       New Project
                     </Button>
@@ -248,7 +249,7 @@ const ProjectList = () => {
                     <th className={Styles.tableHeading}>Actions</th>
                   </tr>
                 </thead>
-                <tbody >
+                <tbody>
                   {getFilterData?.total_count === 0 ? (
                     <tr>
                       <td colSpan="7" style={{ textAlign: 'center' }}>
@@ -264,11 +265,14 @@ const ProjectList = () => {
                       <tr key={data.project_id}>
                         <td>{startingIndex + index}</td>
                         <td>{data?.project_name}</td>
-                        <td >{data?.code}</td>
+                        <td>{data?.code}</td>
                         <td>
                           {data?.user?.first_name} {data?.user?.last_name}
                         </td>
-                        <td > <span className={Styles.status}>{data?.status} </span></td>
+                        <td>
+                          {' '}
+                          <span className={Styles.status}>{data?.status} </span>
+                        </td>
                         <td>
                           {format(new Date(data?.date_started), 'MMM dd, yyyy')}
                         </td>
@@ -278,7 +282,6 @@ const ProjectList = () => {
                         {/* {activeButton === 'AC' && ( */}
                         <td>
                           <div className={Styles.tablerow}>
-                           
                             <StoreIcon
                               onClick={() =>
                                 navigate(
@@ -293,7 +296,6 @@ const ProjectList = () => {
                             />
                             {isProjectEdit && (
                               <div>
-                                
                                 <EditIcon
                                   onClick={() =>
                                     navigate(
@@ -303,7 +305,6 @@ const ProjectList = () => {
                                 />
                               </div>
                             )}
-
 
                             {/* <DeleteIcon
                             onClick={() =>
@@ -320,7 +321,7 @@ const ProjectList = () => {
               </table>
             </div>
             <div className={Styles.pagination}>
-              <Pagination
+              <CustomPagination
                 currentPage={currentPage}
                 totalPages={getFilterData?.total_page}
                 totalCount={getFilterData?.total_count}
