@@ -2,25 +2,28 @@ import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/projectMasterDataAdd.module.scss';
 import Button from '../../ui/Button';
 import AddIcon from '../../menu/icons/addIcon';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import MasterDataIcon from '../../menu/icons/masterDataIcon';
-import {
-  useGetAllmasertData,
-  createmasertData,
-  useGetAllPaginatedMasterData,
-  useDeletemasertData,
-} from '../../../hooks/masertData-hook';
+import { useGetAllPaginatedMasterData } from '../../../hooks/masertData-hook';
 import EditIcon from '../../menu/icons/newEditIcon';
 import CustomLoader from '../../ui/customLoader';
 import CustomGroupButton from '../../ui/CustomGroupButton';
 import CustomPagination from '../../menu/CustomPagination';
+import CustomPopup from '../../ui/CustomRightSidePopup';
+import ProjectMasterDataEditForm from './projectMasterDataEdit';
+import CustomSnackBar from '../../ui/customSnackBar';
 
 const ProjectMasterData: React.FC = (props: any) => {
   const routeParams = useParams();
-
+  const projectId = Number(routeParams?.id);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [mode, setMode] = useState('');
+  const [masterId,setMasterId] = useState();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -42,10 +45,23 @@ const ProjectMasterData: React.FC = (props: any) => {
     isLoading: getAllLoadingProjectMasterData,
   } = useGetAllPaginatedMasterData(masterData);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-  console.log('zzzzzzzzzzzzzzzzzz', initialData);
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
+  };
+
+  const handleAddMasterData = () => {
+    setOpen(true);
+    setMode('ADD')
+  }
+  const handleEdit = (value: any) => {
+    setMasterId(value)
+    setOpen(true);
+    setMode('EDIT')
+  }
+  
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
   };
 
   const handleRowsPerPageChange = (
@@ -84,6 +100,7 @@ const ProjectMasterData: React.FC = (props: any) => {
                     justify="center"
                     size="small"
                     icon={<AddIcon color="white" />}
+                    onClick={handleAddMasterData}
                   >
                     Add Master Data
                   </Button>
@@ -126,7 +143,7 @@ const ProjectMasterData: React.FC = (props: any) => {
                             <td>{data?.master_data_description}</td>
                             <td>{data?.master_data_type}</td>
                             <td>
-                              <EditIcon />
+                              <EditIcon onClick={() => handleEdit(data?.master_data_id)}/>
                             </td>
                           </tr>
                         );
@@ -166,15 +183,16 @@ const ProjectMasterData: React.FC = (props: any) => {
                 <h5>This project has no Master Data</h5>
               </div>
               <div>
-                <span>Go ahead, add a Master Data to this project now</span>
+                <span className={Styles.spanContent}>Go ahead, add a Master Data to this project now</span>
               </div>
-              <div>
+              <div className={Styles.emptyButton}>
                 <Button
                   color="primary"
                   shape="rectangle"
                   justify="center"
                   size="small"
                   icon={<AddIcon color="white" />}
+                  onClick={() => setOpen(true)}
                 >
                   Add Master Data
                 </Button>
@@ -183,6 +201,27 @@ const ProjectMasterData: React.FC = (props: any) => {
           </div>
         )}
       </CustomLoader>
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
+      />
+      <CustomPopup
+        open={open}
+        content={
+          <ProjectMasterDataEditForm
+            setOpen={setOpen}
+            open={open}
+            mode={mode}
+            projectId={projectId}
+            masterID={masterId}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+          />
+        }
+      />
     </div>
   );
 };
