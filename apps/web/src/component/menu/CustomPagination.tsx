@@ -31,6 +31,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
 
   const [pages, setPages] = useState<any>(currentPage);
   const numbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+  console.log('numbers', numbers);
 
   const handlePageChange = (page: number) => {
     onPageChange(page);
@@ -61,9 +62,6 @@ const CustomPagination: React.FC<PaginationProps> = ({
       <div>
         <div className={Styles.numberCount}>
           {numbers?.map((value: any, index: any) => {
-            console.log('value', value);
-            console.log('currentPage', currentPage);
-
             return (
               <div>
                 <div

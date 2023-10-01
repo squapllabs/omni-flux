@@ -25,6 +25,7 @@ import SelectNew from '../ui/selectNew';
 import AddIcon from '../menu/icons/addIcon';
 import TextArea from '../ui/CustomTextArea';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+import CustomPagination from '../menu/CustomPagination';
 
 const MaterData = () => {
   const [selectedValue, setSelectedValue] = useState('');
@@ -50,7 +51,7 @@ const MaterData = () => {
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [reload, setReload] = useState(false);
   const {
@@ -290,7 +291,7 @@ const MaterData = () => {
                       shape="rectangle"
                       justify="center"
                       size="small"
-                      icon={<AddIcon color="white"/>}
+                      icon={<AddIcon color="white" />}
                     >
                       Add
                     </Button>
@@ -449,7 +450,7 @@ const MaterData = () => {
               </div>
             </div>
             <div className={Styles.pagination}>
-              <Pagination
+              <CustomPagination
                 currentPage={currentPage}
                 totalPages={
                   dataShow ? getFilterData?.total_page : initialData?.total_page
