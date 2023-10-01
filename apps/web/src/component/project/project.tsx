@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import Button from '../ui/Button';
-import Styles from '../../styles/project.module.scss';
+import Styles from '../../styles/newStyles/project.module.scss';
 import ProjectGeneralDetails from './projectComponent/projectGeneralDetails';
 import ProjectDashboard from './projectComponent/projectDashboard';
 import ProjectBomConfig from './projectComponent/projectBomConfig';
@@ -17,8 +17,13 @@ import ProjectIndentRequestList from './projectComponent/projectIndentRequest/pr
 import ProjectStockmanagement from './projectComponent/projectStockmanagement';
 import SiteExpenseList from '../expanses/siteExpenseList';
 import ProjectStockOutward from '../stockOutward/stockOutwardList';
+import KeyboardBackspaceIcon from '../menu/icons/backArrow';
+import FirstPageIcon from '../menu/icons/firstPageIcon';
+import PreviousPageIcon from '../menu/icons/previousPageIcon';
+import SideNav from '../ui/sideNav';
 const Project = () => {
   const routeParams = useParams();
+  const navigate = useNavigate();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Dashboard', value: 'PDB' },
     { label: 'Generic', value: 'PGS' },
@@ -50,130 +55,117 @@ const Project = () => {
       setActiveButton('PGS');
     }
   };
+  const [selectedItem, setSelectedItem] = useState<number>(1);
+  const menuItems = [
+    {
+      id: 1,
+      name: 'Dashboard',
+    },
+    {
+      id: 2,
+      name: 'Project Details',
+    },
+    {
+      id: 3,
+      name: 'Member',
+    },
+
+    {
+      id: 4,
+      name: 'Master Data',
+    },
+    {
+      id: 5,
+      name: 'Sites',
+    },
+    {
+      id: 6,
+      name: 'Site Expense',
+    },
+    {
+      id: 7,
+      name: 'BOQ',
+    },
+    {
+      id: 8,
+      name: 'Documents',
+    },
+    {
+      id: 9,
+      name: 'Indents',
+    },
+    {
+      id: 10,
+      name: 'Stock Audit',
+    },
+    {
+      id: 11,
+      name: 'Stock Outward',
+    },
+  ];
+  const handleMenuItemClick = (id: number) => {
+    setSelectedItem(id);
+  };
+  const mainContentComponents: { [key: number]: JSX.Element } = {
+    1: (
+      <ProjectDashboard
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    2: (
+      <ProjectGeneralDetails
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    3: (
+      <ProjectSettings
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+  };
   return (
     <CustomLoader loading={loader} size={48}>
       <div className={Styles.Container}>
-        <div className={Styles.Container_main}>
-          <div className={Styles.box}>
-            {routeParams?.id != undefined ? (
-              <div className={Styles.mainTextContent}>
-                <div className={Styles.textContent_1}>
-                  <h3>{projectData?.data?.project_name}</h3>
-                  <span className={Styles.content}>
-                    {projectData?.data?.description}
-                  </span>
-                </div>
-                <div className={Styles.groupButton}>
-                  <div>
-                    <CustomGroupButton
-                      labels={buttonLabels}
-                      onClick={handleGroupButtonClick}
-                      activeButton={activeButton}
-                    />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className={Styles.textContent}>
-                <h3>Add - Project</h3>
-                {/* <span className={Styles.content}>Add your project</span> */}
-              </div>
-            )}
+        <div className={Styles.sub_header}>
+          <div
+            className={Styles.logo}
+            onClick={() => {
+              navigate('/project-list');
+            }}
+          >
+            <PreviousPageIcon width={20} height={20} color="#7f56d9" />
           </div>
-          <div className={Styles.box}>
-            <div className={Styles.mainBody}>
-              {activeButton === 'PDB' ? (
-                <ProjectDashboard
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PGS' ? (
-                <ProjectGeneralDetails
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PBC' ? (
-                <ProjectBomConfig
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PSC' ? (
-                <ProjectSiteConfig
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PSG' ? (
-                <ProjectSettings
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                  projectData={projectData}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PDT' ? (
-                <ProjectDocument
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PIR' ? (
-                <ProjectIndentRequestList
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PSM' ? (
-                <ProjectStockmanagement
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PSE' ? (
-                <SiteExpenseList
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
-              {activeButton === 'PSO' ? (
-                <ProjectStockOutward
-                  setActiveButton={setActiveButton}
-                  setLoader={setLoader}
-                  loader={loader}
-                />
-              ) : (
-                ''
-              )}
+          <div style={{ padding: '8px', display: 'flex' }}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
             </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div className={Styles.textContent_1}>
+              <h3>{projectData?.data?.project_name}</h3>
+              <span className={Styles.content}>
+                {projectData?.data?.description}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className={Styles.selected}></div>
+        <div className={Styles.mainContainer}>
+          <div className={Styles.sidnav}>
+            <SideNav
+              menuItems={menuItems}
+              selectedItem={selectedItem}
+              handleMenuItemClick={handleMenuItemClick}
+            />
+          </div>
+          <div className={Styles.mainbar}>
+            {mainContentComponents[selectedItem]}
           </div>
         </div>
       </div>
