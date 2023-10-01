@@ -9,7 +9,7 @@
   gap: 20px;
   height: 40px;
   width: 100%;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  // box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .navigateIcon {
@@ -23,6 +23,7 @@
   display: flex;
   flex-direction: row;
   gap: 20px;
+  align-items: center;
 }
 
 .selected {
@@ -34,6 +35,7 @@
   overflow: hidden;
   width: 30px;
   height: 30px;
+  cursor: pointer;
 }
 .menu_item {
   border-radius: 50%;
@@ -43,4 +45,5 @@
   overflow: hidden;
   width: 30px;
   height: 30px;
+  cursor: pointer;
 }

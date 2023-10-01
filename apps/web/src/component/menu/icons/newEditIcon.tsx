@@ -14,34 +14,9 @@ const NewEditIcon: React.FC<StoreIconProps> = ({
   onClick,
   ...props
 }) => (
-  <div title="Edit">
-    <svg
-      width="40"
-      height="40"
-      viewBox="0 0 40 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <g clip-path="url(#clip0_117_57)">
-        <path
-          d="M24.1667 12.5C24.3856 12.2811 24.6455 12.1075 24.9314 11.9891C25.2174 11.8706 25.5239 11.8096 25.8334 11.8096C26.1429 11.8096 26.4494 11.8706 26.7354 11.9891C27.0214 12.1075 27.2812 12.2811 27.5001 12.5C27.719 12.7189 27.8926 12.9787 28.011 13.2647C28.1295 13.5506 28.1904 13.8571 28.1904 14.1667C28.1904 14.4762 28.1295 14.7827 28.011 15.0687C27.8926 15.3546 27.719 15.6145 27.5001 15.8333L16.2501 27.0833L11.6667 28.3333L12.9167 23.75L24.1667 12.5Z"
-          stroke="#667085"
-          stroke-width="1.66667"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_117_57">
-          <rect
-            width="20"
-            height="20"
-            fill="white"
-            transform="translate(10 10)"
-          />
-        </clipPath>
-      </defs>
+  <div title="Edit" onClick={onClick}  role="button">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.5 19.5H22.5V21H1.5V19.5ZM19.05 6.75C19.65 6.15 19.65 5.25 19.05 4.65L16.35 1.95C15.75 1.35 14.85 1.35 14.25 1.95L3 13.2V18H7.8L19.05 6.75ZM15.3 3L18 5.7L15.75 7.95L13.05 5.25L15.3 3ZM4.5 16.5V13.8L12 6.3L14.7 9L7.2 16.5H4.5Z" fill="#7F56D9"/>
     </svg>
   </div>
 );
