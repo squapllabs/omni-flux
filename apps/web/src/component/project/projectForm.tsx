@@ -294,40 +294,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         <div>
           <h3>NEW PROJECT</h3>
         </div>
-        <div className={Styles.topHeadingButton}>
-          <Button
-            type="button"
-            color="primary"
-            shape="rectangle"
-            size="small"
-            justify="center"
-            onClick={() => submitHandler()}
-          >
-            Save
-          </Button>
-          <Button
-            type="button"
-            color="secondary"
-            shape="rectangle"
-            size="small"
-            justify="center"
-            className={Styles.draftButton}
-            onClick={() => drafthandler()}
-          >
-            Save Draft
-          </Button>
-          <Button
-            type="button"
-            color="secondary"
-            shape="rectangle"
-            size="small"
-            justify="center"
-            className={Styles.cancelButton}
-            onClick={() => cancelhandler()}
-          >
-            Cancel
-          </Button>
-        </div>
       </div>
 
       {/* DIVIDER */}
@@ -565,6 +531,40 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
               </div>
             </div>
             <div className={Styles.dividerStyleOne}></div>
+            <div className={Styles.bottomButton}>
+              <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                onClick={() => submitHandler()}
+              >
+                Save
+              </Button>
+              <Button
+                type="button"
+                color="secondary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                className={Styles.draftButton}
+                onClick={() => drafthandler()}
+              >
+                Save Draft
+              </Button>
+              <Button
+                type="button"
+                color="secondary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                className={Styles.cancelButton}
+                onClick={() => cancelhandler()}
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
         </div>
       </form>

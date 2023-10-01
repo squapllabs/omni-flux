@@ -22305,3 +22305,165 @@ D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
   399     const transaction = connectionObj !== null ? connectionObj : prisma;
 → 400     const users = await transaction.users.findMany(
 Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:382:47
+
+  379 const getAll = async (connectionObj = null) => {
+  380   try {
+  381     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 382     const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:382:47
+
+  379 const getAll = async (connectionObj = null) => {
+  380   try {
+  381     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 382     const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:382:47
+
+  379 const getAll = async (connectionObj = null) => {
+  380   try {
+  381     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 382     const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:289:56
+
+  286 ) => {
+  287   try {
+  288     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 289     const masterDataId = await transaction.master_data.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:289:56
+
+  286 ) => {
+  287   try {
+  288     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 289     const masterDataId = await transaction.master_data.findFirst(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:400:43
+
+  397 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  398   try {
+  399     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 400     const users = await transaction.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:289:56
+
+  286 ) => {
+  287   try {
+  288     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 289     const masterDataId = await transaction.master_data.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)

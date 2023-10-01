@@ -17,6 +17,7 @@ import ProjectIndentRequestList from './projectComponent/projectIndentRequest/pr
 import ProjectStockmanagement from './projectComponent/projectStockmanagement';
 import SiteExpenseList from '../expanses/siteExpenseList';
 import ProjectStockOutward from '../stockOutward/stockOutwardList';
+import ProjectMasterData from './projectComponent/projectMasterData';
 const Project = () => {
   const routeParams = useParams();
   const [buttonLabels, setButtonLabels] = useState([
@@ -30,6 +31,7 @@ const Project = () => {
     { label: 'Stock Audit', value: 'PSM' },
     { label: 'Site Expense', value: 'PSE' },
     { label: 'Stock Outward', value: 'PSO' },
+    { label: 'Master Data', value: 'MD' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [loader, setLoader] = useState(false);
@@ -166,6 +168,15 @@ const Project = () => {
               )}
               {activeButton === 'PSO' ? (
                 <ProjectStockOutward
+                  setActiveButton={setActiveButton}
+                  setLoader={setLoader}
+                  loader={loader}
+                />
+              ) : (
+                ''
+              )}
+                {activeButton === 'MD' ? (
+                <ProjectMasterData
                   setActiveButton={setActiveButton}
                   setLoader={setLoader}
                   loader={loader}
