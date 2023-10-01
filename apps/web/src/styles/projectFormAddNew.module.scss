@@ -1,0 +1,96 @@
+.topHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px 10px 10px 20px;
+}
+.topHeadingButton {
+  display: flex;
+  flex-direction: row;
+  gap: 1.2%;
+  margin-left: 3%;
+  width: 20%;
+}
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+}
+.dividerStyleOne {
+  border-bottom: 1px solid rgb(66, 200, 75);
+  width: 77%;
+  margin-bottom: 5px;
+}
+.formMainContent {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.childTwo {
+  margin-top: 1%;
+  margin-left: 2%;
+  width: 80%;
+}
+
+.subOneChildOne {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+  // background-color: #B42318;
+}
+.inputFields {
+  width: 30%;
+}
+.subOneChildTwo {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.clientNewAddMain {
+  display: flex;
+  flex-direction: row;
+  //   background-color: lawngreen;
+  align-items: center;
+}
+.clientInstantAdd{
+    display: flex;
+    flex-direction: row;
+    gap:5px;
+    width:50%
+}
+.subOneChildThree {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.subTwoChildOne {
+  display: flex;
+  flex-direction: row;
+  gap: 183px;
+  flex-wrap: wrap;
+}
+.subThreeChildOne {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.subFourChildOne {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.addtext {
+  color: var(--secondary-color);
+  font-size: 0.6rem;
+}
+.draftButton {
+  color: var(--secondary-color);
+}
+.cancelButton {
+  background-color: var(--danger-color);
+  color: #b42318;
+}

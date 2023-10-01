@@ -25,4 +25,17 @@ const useGetAllRole = () => {
   );
 };
 
-export { useGetAllRoles,useGetAllRole };
+const useGetAllSelectedRoles = () => {
+  return useQuery(['useGetAllSelectedRoles'], () => userRoleService.getAllSelectedRoles(), {
+    select: (data) =>
+      data?.map((role: any) => ({
+        value: role.role_id,
+        label: role.role_name,
+      })),
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    staleTime: 60000,
+  });
+};
+
+export { useGetAllRoles,useGetAllRole,useGetAllSelectedRoles };

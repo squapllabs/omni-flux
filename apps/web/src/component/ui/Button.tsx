@@ -62,11 +62,11 @@ const sizes = {
 };
 
 const rectangleStyles = css`
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 `;
 
 const roundedStyles = css`
-  border-radius: 15px;
+  border-radius: 8px;
 `;
 
 const outlinedStyles = css`

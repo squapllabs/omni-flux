@@ -180,7 +180,7 @@ const LabourAddForm = () => {
                   justify="center"
                   size="small"
                   onClick={() => {
-                    navigate('/labour');
+                    navigate('/settings');
                   }}
                 >
                   Back

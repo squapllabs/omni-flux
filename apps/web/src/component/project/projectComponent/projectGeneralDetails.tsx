@@ -33,7 +33,15 @@ import {
   getEditValidateyup,
 } from '../../../helper/constants/project-constants';
 
+import { store, RootState } from '../../../redux/store';
+import { getToken } from '../../../redux/reducer';
+
 const ProjectGeneralDetails: React.FC = (props: any) => {
+  const state: RootState = store.getState();
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
+  const roleName =
+    encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
   const routeParams = useParams();
   const navigate = useNavigate();
   const currentDate = new Date();
@@ -42,7 +50,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState({
     project_name: '',
     code: '',
-    user_id: '',
+    user_id: roleName === 'PROJECT MANAGER' ? userID : '',
     client_id: '',
     date_started: currentDate.toISOString().slice(0, 10),
     date_ended: defaultEndDate.toISOString().slice(0, 10),
@@ -211,11 +219,13 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       const statusData = values.submitType === 'Draft' ? 'Draft' : 'Inprogress';
+      const user_id =
+        roleName === 'PROJECT MANAGER' ? userID : Number(values.user_id);
       const Object: any = {
         project_id: values.project_id,
         project_name: values.project_name,
         code: values.code.toUpperCase(),
-        user_id: Number(values.user_id),
+        user_id: user_id,
         client_id: Number(values.client_id),
         date_started: values.date_started,
         date_ended: values.date_ended,
@@ -318,7 +328,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                 onSelect={(value) => {
                   formik.setFieldValue('user_id', value);
                 }}
-                // disabled={disable}
+                disabled={roleName === 'PROJECT MANAGER'}
                 optionList={getProjectManagerList}
               />
             </div>

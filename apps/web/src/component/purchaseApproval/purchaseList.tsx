@@ -12,6 +12,8 @@ import { format } from 'date-fns';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useNavigate } from 'react-router-dom';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/invoice'
 
 const PurchaseList = () => {
   const state: RootState = store.getState();
@@ -52,6 +54,12 @@ const PurchaseList = () => {
     setPriorityValue('');
     setIsResetDisabled(true);
   };
+  const handleReportGenerator = () =>{  
+    const data:any ={
+      title:"Purchase Request"
+    }  
+    ReportGenerator(data)
+  }
   /* Function for searching a user in the table */
   const handleSearch = async () => {
     const userData: any = {
@@ -235,6 +243,7 @@ const PurchaseList = () => {
                               )
                             }
                           />
+                           <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                         </div>
                       </td>
                     </tr>

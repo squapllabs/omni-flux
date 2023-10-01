@@ -20,7 +20,6 @@ const CustomEditPoPopup = (props: {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
     getBymasertDataType('POS');
-
   const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
   const [initialValues, setInitialValues] = useState({
     bill_status: '',
@@ -37,25 +36,27 @@ const CustomEditPoPopup = (props: {
 
   useEffect(() => {
     const fetchOne = async () => {
-      const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(
-        Number(selectedPurchaseOrder)
-      );
-      setInitialValues({
-        bill_status: data.data?.status,
-      });
-      const existingFileNames = data?.data?.purchase_order_documents?.map(
-        (document: any) => {
-          const pathParts = document.path.split('/');
-          const fileName = pathParts[pathParts.length - 1];
-          const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
-          if (originalFileNameMatches) {
-            return originalFileNameMatches[1];
+      if (selectedPurchaseOrder > 0) {
+        const data = await PurchaseRequestService.getOnePurchaseOrderDataByID(
+          Number(selectedPurchaseOrder)
+        );
+        setInitialValues({
+          bill_status: data.data?.status,
+        });
+        const existingFileNames = data?.data?.purchase_order_documents?.map(
+          (document: any) => {
+            const pathParts = document.path.split('/');
+            const fileName = pathParts[pathParts.length - 1];
+            const originalFileNameMatches = fileName.match(/-.*-(.*\.\w+)/);
+            if (originalFileNameMatches) {
+              return originalFileNameMatches[1];
+            }
+            return fileName;
           }
-          return fileName;
-        }
-      );
-      setExistingFileName(existingFileNames);
-      setExistingFileUrl(data?.data?.purchase_order_documents);
+        );
+        setExistingFileName(existingFileNames);
+        setExistingFileUrl(data?.data?.purchase_order_documents);
+      }
     };
     fetchOne();
   }, [selectedPurchaseOrder, isFormSubmitted]);
@@ -246,7 +247,7 @@ const CustomEditPoPopup = (props: {
                       name="bill_status"
                       onChange={formik.handleChange}
                       value={formik.values.bill_status}
-                      width='250px'
+                      width="250px"
                     >
                       {getAllBillStatusTypeDatadrop?.map((option: any) => (
                         <option

@@ -147,8 +147,8 @@ const ProductPage = () => {
       <CustomLoader loading={searchLoader} size={48} color="#333C44">
         <div className={Styles.topContent}>
           <div className={Styles.leftContainer}>
-            <h1>List of Items</h1>
-            <p>Manage your raw materials ( Raw, Semi Finished & Finished).</p>
+            <h3>List of Items</h3>
+            <p>Manage your raw materials (Raw, Semi Finished & Finished).</p>
           </div>
           <div className={Styles.rightContainer}>
             <div className={Styles.button}>
@@ -163,7 +163,7 @@ const ProductPage = () => {
                 backgroundColor="white"
                 textColor="black"
                 width={140}
-                height={45}
+                height={38}
                 style={{ paddingLeft: '8px' }}
                 border="1px solid #D0D5DD"
                 borderRadius={5}
@@ -174,7 +174,7 @@ const ProductPage = () => {
                 color="primary"
                 shape="rectangle"
                 justify="center"
-                size="medium"
+                size="small"
                 icon={<AddIcon />}
                 onClick={() => {
                   navigate('/product-add');

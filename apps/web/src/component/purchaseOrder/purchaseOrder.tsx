@@ -7,16 +7,21 @@ import {
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
 import EditIcon from '../menu/icons/editIcon';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import CustomEditPoPopup from '../ui/CustomEditPoPopup';
 import { formatBudgetValue } from '../../helper/common-function';
 import Pagination from '../menu/pagination';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
+import ReportGenerator from '../ui/reportGenerator';
+import AddIcon from '../menu/icons/addIcon';
+import PurchaseOrderReport from '../reportGenerator/report'
 
 const OrderView = () => {
   const navigate = useNavigate();
   const [showEditPopUp, setShowEditPopUp] = useState(false);
+  const [pdfDownload, setPdfDownload] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [purchaseId, setPurchaseId] = useState();
@@ -41,10 +46,9 @@ const OrderView = () => {
     useGetAllProject();
   const {
     mutate: postDataForFilter,
-    data: getFilterData,
+    data: getFilterData,  
     isLoading: searchLoader,
   } = getBySearchPoData();
-  console.log('getFilterData---->', getFilterData);
 
   const handleEdit = (value: any) => {
     setPurchaseId(value);
@@ -70,6 +74,10 @@ const OrderView = () => {
     setSelectedValue(selectedProjectId);
     setIsResetDisabled(searchValue === '');
   };
+
+  const handleReportGenerator = async (data: any) => {
+    await PurchaseOrderReport(data)
+  }
 
   const handleSearch = async () => {
     const poData: any = {
@@ -97,6 +105,29 @@ const OrderView = () => {
   }, [currentPage, rowsPerPage]);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
+  const generateCustomQuotationName = (data: any) => {
+    if (data) {
+      const vendorName = data.vendor_data?.vendor_name || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-${vendorName.substring(0, 5)}-${year}`;
+      return customBillName.toUpperCase();
+    }
+    return '';
+  };
+  const generateCustomBillName = (data: any) => {
+    if (data) {
+      const vendorName = data.vendor_data?.vendor_name || '';
+      const projectName =
+        data.purchase_request_data?.project_data?.project_name || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-${projectName.substring(
+        0,
+        3
+      )}-${vendorName.substring(0, 3)}-${year}`;
+      return customBillName.toUpperCase();
+    }
+    return '';
+  };
   return (
     <div className={Styles.container}>
       <CustomLoader
@@ -106,9 +137,9 @@ const OrderView = () => {
       >
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>Purchase Order</h3>
+            <h3>Check PO Progress</h3>
             <span className={Styles.content}>
-              Manage purchase order here your entire organization.
+              Manage purchase order updates.
             </span>
           </div>
           <div className={Styles.dividerStyleTop}></div>
@@ -161,7 +192,7 @@ const OrderView = () => {
                   <th>S No</th>
                   <th>Vendor Name</th>
                   <th>Project Name </th>
-                  <th>Budget</th>
+                  <th>Amount</th>
                   <th>Quotation </th>
                   <th>Bill Status</th>
                   <th>Bill</th>
@@ -171,6 +202,9 @@ const OrderView = () => {
               <tbody>
                 {dataShow
                   ? getFilterData?.content?.map((data: any, index: number) => {
+                      const customBillName = generateCustomBillName(data);
+                      const customQuotationName =
+                        generateCustomQuotationName(data);
                       return (
                         <tr>
                           <td>{startingIndex + index}</td>
@@ -194,7 +228,8 @@ const OrderView = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
-                                        Uploaded Document
+                                        {customQuotationName}
+                                        {/* Uploaded Document */}
                                       </a>
                                     </div>
                                   )
@@ -216,29 +251,35 @@ const OrderView = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
-                                        Uploaded Document
+                                        {customBillName}
+                                        {/* Uploaded Document */}
                                       </a>
                                     </div>
                                   )
-                                )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() =>
-                                  handleEdit(data.purchase_order_id)
-                                }
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
+
+                              )
+                            ) : (
+                              <div>-</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                handleEdit(data.purchase_order_id)
+                              }
+                            />
+                            <PdfDownloadIcon onClick={() => handleReportGenerator(data)} />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
                   : getAllData?.content?.map((data: any, index: number) => {
+                      const customBillName = generateCustomBillName(data);
+                      const customQuotationName =
+                        generateCustomQuotationName(data);
                       return (
                         <tr>
                           <td>{startingIndex + index}</td>
@@ -262,7 +303,8 @@ const OrderView = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
-                                        Uploaded Document
+                                        {customQuotationName}
+                                        {/* Uploaded Document */}
                                       </a>
                                     </div>
                                   )
@@ -284,7 +326,8 @@ const OrderView = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
-                                        Uploaded Document
+                                        {customBillName}
+                                        {/* Uploaded Document */}
                                       </a>
                                     </div>
                                   )
@@ -298,9 +341,10 @@ const OrderView = () => {
                             <div className={Styles.tablerow}>
                               <EditIcon
                                 onClick={() =>
-                                  handleEdit(data.purchase_order_id)
+                                  handleEdit(Number(data.purchase_order_id))
                                 }
                               />
+                               <PdfDownloadIcon onClick={() => handleReportGenerator(data)} />
                             </div>
                           </td>
                         </tr>
@@ -330,6 +374,9 @@ const OrderView = () => {
         onAction={setShowEditPopUp}
         selectedPurchaseOrder={purchaseId}
       />
+      {
+        pdfDownload ? <ReportGenerator /> : ""
+      }
     </div>
   );
 };
