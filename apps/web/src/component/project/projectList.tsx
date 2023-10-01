@@ -282,27 +282,31 @@ const ProjectList = () => {
                         {/* {activeButton === 'AC' && ( */}
                         <td>
                           <div className={Styles.tablerow}>
-                            <StoreIcon
+                            <div
                               onClick={() =>
                                 navigate(
                                   `/project-inventory/${data?.project_id}`
                                 )
                               }
-                            />
-                            <ViewIcon
+                            >
+                              <StoreIcon />
+                            </div>
+
+                            <div
                               onClick={() =>
                                 navigate(`/project-info/${data?.project_id}`)
                               }
-                            />
+                            >
+                              <ViewIcon />
+                            </div>
+
                             {isProjectEdit && (
-                              <div>
-                                <EditIcon
-                                  onClick={() =>
-                                    navigate(
-                                      `/project-edit/${data?.project_id}`
-                                    )
-                                  }
-                                />
+                              <div
+                                onClick={() =>
+                                  navigate(`/project-edit/${data?.project_id}`)
+                                }
+                              >
+                                <EditIcon />
                               </div>
                             )}
 
