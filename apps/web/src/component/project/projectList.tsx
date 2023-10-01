@@ -18,7 +18,7 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomLoader from '../ui/customLoader';
-import ViewIcon from '../menu/icons/rocketIcon';
+import ViewIcon from '../menu/icons/newViewIcon';
 import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -282,32 +282,18 @@ const ProjectList = () => {
                         {/* {activeButton === 'AC' && ( */}
                         <td>
                           <div className={Styles.tablerow}>
-                            <div
-                              onClick={() =>
-                                navigate(
-                                  `/project-inventory/${data?.project_id}`
-                                )
-                              }
-                            >
-                              <StoreIcon />
-                            </div>
-
-                            <div
-                              onClick={() =>
-                                navigate(`/project-info/${data?.project_id}`)
-                              }
-                            >
-                              <ViewIcon />
-                            </div>
-
+                          <ViewIcon onClick={() =>
+                              navigate(`/project-info/${data?.project_id}`)
+                            } />
+                            <StoreIcon onClick={() =>
+                              navigate(
+                                `/project-inventory/${data?.project_id}`
+                              )
+                            } />
                             {isProjectEdit && (
-                              <div
-                                onClick={() =>
-                                  navigate(`/project-edit/${data?.project_id}`)
-                                }
-                              >
-                                <EditIcon />
-                              </div>
+                              <EditIcon onClick={() =>
+                                navigate(`/project-edit/${data?.project_id}`)
+                              } />
                             )}
 
                             {/* <DeleteIcon
