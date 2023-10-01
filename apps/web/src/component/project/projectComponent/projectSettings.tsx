@@ -40,6 +40,7 @@ import { getByProjectId } from '../../../hooks/project-hooks';
 import EditIcon from '../../menu/icons/editIcon';
 import CustomEditDialog from '../../ui/customEditDialogBox';
 import ProjectMasterDataEditForm from './projectMasterDataEdit';
+import MemberIcon from '../../menu/icons/memberIcon';
 
 const ProjectSettings: React.FC = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -258,8 +259,25 @@ const ProjectSettings: React.FC = (props: any) => {
       >
         <div className={Styles.box}>
           <div className={Styles.textContent}>
-            <h3>Invite Member</h3>
+            <div className={Styles.title}>
+              <MemberIcon />
+            {/* </div>
+            <div> */}
+              <h3>MEMBERS</h3>
+            </div>
+            <div >
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon color="white" />}
+              >
+                Add To Project
+              </Button>
+            </div>
           </div>
+
           <form onSubmit={formik.handleSubmit}>
             <div className={Styles.fields_container}>
               <div className={Styles.fields_container_1}>
@@ -337,17 +355,7 @@ const ProjectSettings: React.FC = (props: any) => {
                   />
                 </div>
                 <div className={Styles.inputField}>
-                  <div>
-                    <Button
-                      color="primary"
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      icon={<AddIcon color="white" />}
-                    >
-                      Add To Project
-                    </Button>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -449,9 +457,9 @@ const ProjectSettings: React.FC = (props: any) => {
                               {data?.access_end_date == null
                                 ? '-'
                                 : format(
-                                    new Date(data?.access_end_date),
-                                    'MMM dd, yyyy'
-                                  )}
+                                  new Date(data?.access_end_date),
+                                  'MMM dd, yyyy'
+                                )}
                             </td>
                             {activeButton === 'AC' && (
                               <td>
@@ -506,9 +514,9 @@ const ProjectSettings: React.FC = (props: any) => {
                           {data?.access_end_date == null
                             ? '-'
                             : format(
-                                new Date(data?.access_end_date),
-                                'MMM dd, yyyy'
-                              )}
+                              new Date(data?.access_end_date),
+                              'MMM dd, yyyy'
+                            )}
                         </td>
                         {activeButton === 'AC' && (
                           <td>
