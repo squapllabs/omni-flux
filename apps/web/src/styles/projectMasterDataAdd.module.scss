@@ -30,7 +30,6 @@
       padding: 10px 10px 10px 24px; /* Adjust padding */
       text-align: left;
       font-weight: 500;
-      // border: 0px 0px 1px;
       font-size: 12px;
       border: none; /* Remove borders */
       border-bottom: 0.1px solid #f0f0f0;
@@ -38,7 +37,6 @@
   
     td {
       border-bottom: 0.1px solid #f0f0f0;
-      // border-bottom :0px, 0px, 1px, 0px
     }
   
     thead {
@@ -49,7 +47,11 @@
         }
       }
     }
-  
+  }
 
+  .emptyDataHandling{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
