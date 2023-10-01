@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NextPage from '../menu/icons/nextPageIcon';
 import PreviousPage from '../menu/icons/previousPageIcon';
 import FirstPageIcon from '../menu/icons/firstPageIcon';
@@ -30,8 +30,12 @@ const CustomPagination: React.FC<PaginationProps> = ({
   console.log('currentPage', currentPage);
 
   const [pages, setPages] = useState<any>(currentPage);
+  const [pageLimitStartCount, setPageLimitStartCount] = useState<any>(1);
+  const [pageLimitEndCount, setPageLimitEndCount] = useState<any>(5);
   const numbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+  console.log('pageLimitEndCount', pageLimitEndCount);
   console.log('numbers', numbers);
+  console.log('pageLimitStartCount', pageLimitStartCount);
 
   const handlePageChange = (page: number) => {
     onPageChange(page);
@@ -46,6 +50,10 @@ const CustomPagination: React.FC<PaginationProps> = ({
     onRowsPerPageChange(newRowsPerPage);
   };
 
+  useEffect(() => {
+    onPageChange(pageLimitStartCount);
+  }, [pageLimitStartCount]);
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   const endingIndex = Math.min(startingIndex + rowsPerPage - 1, totalCount);
 
@@ -56,29 +64,60 @@ const CustomPagination: React.FC<PaginationProps> = ({
         onClick={() => handlePageChange(currentPage - 1)}
         style={{ pointerEvents: currentPage === 1 ? 'none' : '' }}
       >
-        <PreviousPage disabled={currentPage === 1} width={10} height={10} />
+        <FirstPageIcon disabled={currentPage === 1} width={20} height={20} />
         <span>Previous</span>
       </div>
       <div>
         <div className={Styles.numberCount}>
+          <div>
+            <PreviousPage
+              width={10}
+              height={10}
+              onClick={() => {
+                setPageLimitStartCount(pageLimitStartCount - 5);
+                setPageLimitEndCount(pageLimitEndCount - 5);
+              }}
+              disabled={pageLimitStartCount <= numbers[0]}
+            />
+          </div>
           {numbers?.map((value: any, index: any) => {
-            return (
-              <div>
-                <div
-                  className={
-                    currentPage === value
-                      ? `${Styles.menu_item} ${Styles.selected}`
-                      : `${Styles.menu_item}`
-                  }
-                  onClick={() => {
-                    handleClickChange(value);
-                  }}
-                >
-                  {value}
+            if (
+              Number(value) >= Number(pageLimitStartCount) &&
+              Number(value) <= Number(pageLimitEndCount)
+            ) {
+              return (
+                <div>
+                  <div
+                    className={
+                      currentPage === value
+                        ? `${Styles.menu_item} ${Styles.selected}`
+                        : `${Styles.menu_item}`
+                    }
+                    onClick={() => {
+                      handleClickChange(value);
+                    }}
+                  >
+                    {value}
+                  </div>
                 </div>
-              </div>
-            );
+              );
+            }
           })}
+          <div
+            style={{
+              pointerEvents: pageLimitEndCount >= totalPages ? 'none' : '',
+            }}
+          >
+            <NextPage
+              width={10}
+              height={10}
+              onClick={() => {
+                setPageLimitStartCount(pageLimitStartCount + 5);
+                setPageLimitEndCount(pageLimitEndCount + 5);
+              }}
+              disabled={pageLimitEndCount >= totalPages}
+            />
+          </div>
         </div>
       </div>
 
@@ -88,10 +127,10 @@ const CustomPagination: React.FC<PaginationProps> = ({
         style={{ pointerEvents: currentPage === totalPages ? 'none' : '' }}
       >
         <span>Next</span>
-        <NextPage
+        <LastPageIcon
           disabled={currentPage === totalPages}
-          width={10}
-          height={10}
+          width={20}
+          height={20}
         />
       </div>
     </div>
