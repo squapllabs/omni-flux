@@ -12,6 +12,7 @@ import CustomPagination from '../../menu/CustomPagination';
 import CustomPopup from '../../ui/CustomRightSidePopup';
 import ProjectMasterDataEditForm from './projectMasterDataEdit';
 import CustomSnackBar from '../../ui/customSnackBar';
+import DeleteIcon from '../../menu/icons/newDeleteIcon';
 
 const ProjectMasterData: React.FC = (props: any) => {
   const routeParams = useParams();
@@ -144,7 +145,10 @@ const ProjectMasterData: React.FC = (props: any) => {
                             <td>{data?.master_data_description}</td>
                             <td>{data?.master_data_type}</td>
                             <td>
+                                <div className={Styles.iconStyle}>
                               <EditIcon onClick={() => handleEdit(data?.master_data_id)}/>
+                              <DeleteIcon/>
+                              </div>
                             </td>
                           </tr>
                         );
