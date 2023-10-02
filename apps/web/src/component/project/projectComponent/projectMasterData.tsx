@@ -79,7 +79,7 @@ const ProjectMasterData: React.FC = (props: any) => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
   return (
-    <div className={Styles.conatiner}>
+    <div className={Styles.container}>
     <div>
       <CustomLoader
         loading={getAllLoadingProjectMasterData}

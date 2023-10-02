@@ -19,7 +19,7 @@ import { createHsnCode } from '../../hooks/hsnCode-hooks';
 import * as XLSX from 'xlsx';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
-import Pagination from '../menu/pagination';
+import Pagination from '../menu/CustomPagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import * as Yup from 'yup';
 import { gethsnCreateValidateyup } from '../../helper/constants/hsn-constants';
@@ -462,7 +462,7 @@ const HsnCodeList = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
                       <th>S No</th>

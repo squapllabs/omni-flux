@@ -355,7 +355,7 @@ const MaterData = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
                       <th>S No</th>
@@ -422,9 +422,9 @@ const MaterData = () => {
                               {data.master_data_description
                                 ? data.master_data_description.length > 20
                                   ? data.master_data_description.substring(
-                                      0,
-                                      20
-                                    ) + '...'
+                                    0,
+                                    20
+                                  ) + '...'
                                   : data.master_data_description
                                 : '-'}
                             </span>

@@ -138,7 +138,7 @@ const GstList = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
                       <th>S No</th>

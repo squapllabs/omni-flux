@@ -15,7 +15,7 @@ import {
   useGetAllLabour,
 } from '../../hooks/labour-hooks';
 import CustomLoader from '../ui/customLoader';
-import Pagination from '../menu/pagination';
+import Pagination from '../menu/CustomPagination';
 import { formatBudgetValue } from '../../helper/common-function';
 
 const LabourList = () => {
@@ -238,7 +238,7 @@ const LabourList = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
                       <th>S No</th>

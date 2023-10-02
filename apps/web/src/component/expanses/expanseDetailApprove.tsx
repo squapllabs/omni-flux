@@ -139,7 +139,7 @@ const ExpenseDetailApprove = () => {
   return (
     <div>
       <div className={Styles.title}>
-        <h2>Expense Detaills</h2>
+        <h2>Expense Details</h2>
         <Button
           type="button"
           color="primary"
@@ -241,14 +241,14 @@ const ExpenseDetailApprove = () => {
         </CustomCard>
       </div>
       <div className={Styles.tableContainerBottom}>
-        <table>
+        <table className={Styles.scrollable_table}>
           <thead>
             <tr>
-              <th>SI No</th>
-              <th>Expense Name</th>
-              <th>Documents</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th className={Styles.tableHeading}>#</th>
+              <th className={Styles.tableHeading}>Expense Name</th>
+              <th className={Styles.tableHeading}>Documents</th>
+              <th className={Styles.tableHeading}>Status</th>
+              <th className={Styles.tableHeading}>Action</th>
             </tr>
           </thead>
           <tbody>

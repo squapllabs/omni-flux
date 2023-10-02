@@ -204,7 +204,7 @@ const Navbar = () => {
                               <CheckIcon />
                               <h2>Indent Approval</h2>
                             </div>
-                            <p>Manage your project indent.</p>
+                            <p>Manage your project indent</p>
                           </div>
                         ) : null}
 
@@ -219,7 +219,7 @@ const Navbar = () => {
                               <CheckIcon />
                               <h2>Purchase Order</h2>
                             </div>
-                            <p>Manage your purchase order.</p>
+                            <p>Manage your purchase order</p>
                           </div>
                         ) : null}
 
@@ -234,7 +234,7 @@ const Navbar = () => {
                               <CheckIcon />
                               <h2>Purchase Request</h2>
                             </div>
-                            <p>Manage your purchase request.</p>
+                            <p>Manage your purchase request</p>
                           </div>
                         ) : null}
 
@@ -248,7 +248,7 @@ const Navbar = () => {
                               <CheckIcon />
                               <h2>Expenses-Approval</h2>
                             </div>
-                            <p>Manage your expenses approval.</p>
+                            <p>Manage your expenses approval</p>
                           </div>
                         ) : null}
 
@@ -277,7 +277,7 @@ const Navbar = () => {
                               <CheckIcon />
                               <h2>Vendors</h2>
                             </div>
-                            <p>Manage your approved vendor.</p>
+                            <p>Manage your approved vendor</p>
                           </div>
                         ) : null}
                       </div>
