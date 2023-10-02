@@ -28,6 +28,7 @@ import SiteNavigateIcon from '../../menu/icons/siteNavigateIcon';
 import NewEditIcon from '../../menu/icons/newEditIcon';
 import CustomPopup from '../../ui/CustomRightSidePopup';
 import CustomSidePopup from '../../ui/CustomSidePopup';
+import ProjectSiteConfigAdd from './projectSiteConfigAdd';
 
 const ProjectSiteConfig: React.FC = (props: any) => {
   const routeParams = useParams();
@@ -59,6 +60,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const [openSnack, setOpenSnack] = useState(false);
   const [errors, setErrors] = useState('');
   const [open, setOpen] = useState(false);
+  const [projectSiteOpen, setProjectSiteOpen] = useState(false);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrops();
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
@@ -191,6 +193,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const handleCloseSiteAdd = () => {
     setOpen(false);
   };
+  const handleCloseProjectSite = () => {
+    setProjectSiteOpen(false);
+  };
   const handleChangeItems = async (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -271,7 +276,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
               justify="center"
               size="small"
               icon={<AddIcon color="white" />}
-              // onClick={handleAddMasterData}
+              onClick={() => {
+                setProjectSiteOpen(true);
+              }}
             >
               Add Site to Project
             </Button>
@@ -380,6 +387,17 @@ const ProjectSiteConfig: React.FC = (props: any) => {
         title="Create Site"
         handleClose={handleCloseSiteAdd}
         content={<CustomSiteAdd open={open} setOpen={setOpen} />}
+      />
+      <CustomSidePopup
+        open={projectSiteOpen}
+        title="Create New Project Site"
+        handleClose={handleCloseProjectSite}
+        content={
+          <ProjectSiteConfigAdd
+            open={projectSiteOpen}
+            setOpen={setProjectSiteOpen}
+          />
+        }
       />
     </div>
   );
