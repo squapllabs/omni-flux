@@ -193,13 +193,13 @@ const ProjectStockAdd = () => {
             itemsList={itemsList}
             itemData={itemData}
           /> */}
-          <div className={Styles.table_container}>
-            <table className={Styles.scrollable_table_stock_add}>
+          <div className={Styles.table_data}>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S.No</th>
-                  <th>Item</th>
-                  <th>Quantity</th>
+                  <th className={Styles.tableHeading}>#</th>
+                  <th className={Styles.tableHeading}>Item</th>
+                  <th className={Styles.tableHeading}>Quantity</th>
                 </tr>
               </thead>
               <tbody>

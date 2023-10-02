@@ -3,8 +3,8 @@ import Styles from '../../styles/labourList.module.scss';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
-import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
+import EditIcon from '../menu/icons/newEditIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
 import SearchIcon from '../menu/icons/search';
 import { useNavigate } from 'react-router-dom';
 import CustomGroupButton from '../ui/CustomGroupButton';
@@ -241,7 +241,7 @@ const LabourList = () => {
                 <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>Labour Type</th>
                       <th>UOM Type</th>
                       <th>Rate</th>

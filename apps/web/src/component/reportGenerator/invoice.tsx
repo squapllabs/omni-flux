@@ -61,19 +61,19 @@ const InvoiceReportGenerator = (data:any) => {
     const imageUrl = "/Ecologo-03.png"; // Replace with your image URL
     pdf.addImage(imageUrl, 'JPEG', 10, 1, 55, 15); //text to added in list of particals
 
-    // Title
     pdf.setFontSize(15);
-
+    // Title
+    pdf.setFont('Newsreader','bold');
     // pdf.text(`${purchaseOrder.companyName}`, 105, yStart + yOffset);
     pdf.text(`${data?.title}`, 85, 10);
     pdf.setFontSize(11);
-    pdf.setLineHeightFactor(0.1);
-    pdf.setFont('helvetica');
-    pdf.text(`${purchaseOrder.companyAddress}`, 10, yStart + yOffset * 1 + 2);
-    pdf.text(`${purchaseOrder.Line1}`, 10, yStart + yOffset * 2 + 2 * 0.1);
-    pdf.text(`${purchaseOrder.phoneNumber}`, 10, yStart + yOffset * 3 + 2 * 0.2);
-    pdf.text(`${purchaseOrder.emailAddress}`, 10, yStart + yOffset * 4 + 2 * 0.3);
-    pdf.text(`${purchaseOrder.websiteURL}`, 10, yStart + yOffset * 5 + 2 * 0.4);
+    // pdf.setLineHeightFactor(0.1);
+    pdf.setFont('Newsreader','normal');
+    pdf.text(`${purchaseOrder.companyAddress}`, 10, 25);
+    pdf.text(`${purchaseOrder.Line1}`, 10, 30);
+    pdf.text(`${purchaseOrder.phoneNumber}`, 10, 35);
+    pdf.text(`${purchaseOrder.emailAddress}`, 10, 40);
+    pdf.text(`${purchaseOrder.websiteURL}`, 10, 45);
     pdf.setFontSize(12);
     // pdf.text(`Order Number: ${purchaseOrder.orderNumber}`, 140, yStart + yOffset * 2);
     // pdf.text(`Order Date: ${purchaseOrder.orderDate}`, 140, yStart + yOffset * 3);
@@ -134,7 +134,7 @@ const InvoiceReportGenerator = (data:any) => {
     // });
 
     // Save the PDF
-    pdf.save('invoice.pdf');
+    pdf.save(`${data?.name}.pdf`);
 
     // const pdfDataUri = pdf.output("datauristring");
 
