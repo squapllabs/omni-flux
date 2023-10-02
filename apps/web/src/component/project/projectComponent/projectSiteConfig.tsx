@@ -7,7 +7,7 @@ import Styles from '../../../styles/project.module.scss';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import DeleteIcon from '../../menu/icons/deleteIcon';
+import DeleteIcon from '../../menu/icons/newDeleteIcon';
 import siteService from '../../../service/site-service';
 import CustomSiteAdd from '../../ui/CustomSiteAdd';
 import { useGetAllSiteDrops } from '../../../hooks/site-hooks';
@@ -24,6 +24,10 @@ import {
   updateProject,
   getUserDataProjectRolebased,
 } from '../../../hooks/project-hooks';
+import SiteNavigateIcon from '../../menu/icons/siteNavigateIcon';
+import NewEditIcon from '../../menu/icons/newEditIcon';
+import CustomPopup from '../../ui/CustomRightSidePopup';
+import CustomSidePopup from '../../ui/CustomSidePopup';
 
 const ProjectSiteConfig: React.FC = (props: any) => {
   const routeParams = useParams();
@@ -54,6 +58,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [errors, setErrors] = useState('');
+  const [open, setOpen] = useState(false);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
   const { data: getAllSite = [] } = useGetAllSiteDrops();
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
@@ -159,6 +164,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
         Number(routeParams?.id)
       );
       setProjectData(getData?.data);
+      console.log('getData?.data?.project_site', getData?.data?.project_site);
       let arr: any = [];
       const siteConfigurationRows = getData?.data?.project_site.map(
         (config: any) => {
@@ -170,16 +176,20 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             approvar_id: config.approvar_id,
             status: config.status,
             project_site_id: config.project_site_id,
+            ...config,
           };
           arr.push(obj);
         }
       );
-      setSiteConfigData(arr);
+      setSiteConfigData(getData?.data?.project_site);
     };
     if (routeParams?.id != undefined) fetchData();
   }, []);
   const handelOpenSiteForm = () => {
     setShowSiteForm(true);
+  };
+  const handleCloseSiteAdd = () => {
+    setOpen(false);
   };
   const handleChangeItems = async (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -248,291 +258,129 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   };
   return (
     <div>
-      <div className={Styles.tableContainer}>
-        <div>
-          <table className={Styles.scrollable_table}>
-            <thead>
-              <tr>
-                <th className={Styles.tableHeading}>S No</th>
-                <th className={Styles.tableHeadingSite}>Site</th>
-                <th className={Styles.tableHeading}>Site Address</th>
-                <th className={Styles.tableHeading}>Status</th>
-                <th className={Styles.tableHeading}>Estimated Budget</th>
-                <th className={Styles.tableHeading}>Actual Budget</th>
-                <th className={Styles.tableHeading}>Approver</th>
-                <th className={Styles.tableHeading}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {siteConfigData.map((row, index) => {
-                rowIndex = rowIndex + 1;
-                return (
-                  <tr key={index}>
-                    <td>{rowIndex}</td>
-                    <td>
-                      <div className={Styles.selectedProjectName}>
-                        <div className={Styles.siteField}>
-                          <AutoCompleteSelect
-                            name="site_id"
-                            width="200px"
-                            defaultLabel="Select Site"
-                            placeholder="Select from options"
-                            value={row?.site_id}
-                            onChange={(e) => handleChangeExistItems(e, index)}
-                            onSelect={(value) => {
-                              setValue({ ...value, ['site_id']: value });
-                            }}
-                            optionList={getAllSite}
-                          />
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      {row?.siteData?.site_contractor_id === undefined ? (
-                        <div>
-                          <span>
-                            {row.address?.street} {row.address?.city},{' '}
-                            {row.address?.state},
-                          </span>
-                          <span>
-                            {row.address?.country},{row.address?.pin_code}
-                          </span>
-                        </div>
-                      ) : (
-                        <div>
-                          <span>
-                            {row.siteData.address?.street}{' '}
-                            {row.siteData.address?.city},{' '}
-                            {row.siteData.address?.state},
-                          </span>
-                          <span>
-                            {row.siteData.address?.country},
-                            {row.siteData.address?.pin_code}
-                          </span>
-                        </div>
-                      )}
-                    </td>
-                    <td>
-                      <div className={Styles.statusProject}>
-                        <span>Not Started</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className={Styles.siteEstimation}>
-                        <Input
-                          width="140px"
-                          placeholder="Enter estimation"
-                          name="estimated_budget"
-                          onChange={(e) => handleChangeExistItems(e, index)}
-                          value={row?.estimated_budget}
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <div className={Styles.siteEstimation}>
-                        <Input
-                          width="140px"
-                          placeholder="Enter actual budget"
-                          name="actual_budget"
-                          onChange={(e) => handleChangeExistItems(e, index)}
-                          value={row.actual_budget}
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <div className={Styles.siteEstimation}>
-                        <AutoCompleteSelect
-                          name="approvar_id"
-                          value={row?.approvar_id}
-                          defaultLabel="Select Approver"
-                          placeholder="Select from options"
-                          onSelect={(value) => {
-                            setValue({ ...value, ['approvar_id']: value });
-                          }}
-                          onChange={(e) => handleChangeExistItems(e, index)}
-                          optionList={getProjectApproverList}
-                        />
-                      </div>
-                    </td>
-                    <td>
-                    {/* <DeleteIcon /> */}
-                      {/* <p>sample</p> */}
-                      {/* <div className={Styles.actionIcon}>
-                        <div
-                          className={Styles.addPlan}
-                          onClick={() => {
-                            navigate(
-                              `/expenses/${routeParams.id}/${row?.project_site_id}`
-                            );
-                            // navigate(
-                            //   `/bomlist/${routeParams.id}/${row?.bom_configuration_id}`
-                            // );
-                          }}
-                          style={{
-                            pointerEvents:
-                              `${row?.project_site_id}` === ''
-                                ? 'none'
-                                : 'auto',
-                          }}
-                        >
-                          <AddIcon style={{ height: '15px', width: '15px'}} />
-                          <p className={Styles.addText}>Add Site Expense</p>
-                        </div>
-                      </div> */}
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr>
-                <td>{rowIndex + 1}</td>
-                <td>
-                  <div className={Styles.selectedProjectName}>
-                    <div className={Styles.siteField}>
-                      <AutoCompleteSelect
-                        width="200px"
-                        name="site_id"
-                        defaultLabel="Select Site"
-                        placeholder="Select from options"
-                        value={value.site_id}
-                        onSelect={(datas) => {
-                          setValue((prevValue: any) => {
-                            const updatedValue = {
-                              ...prevValue,
-                              site_id: datas,
-                            };
-                            addressSet(updatedValue.site_id);
-                            return updatedValue;
-                          });
-                        }}
-                        error={errors?.site_id}
-                        optionList={getAllSite}
-                      />
-                    </div>
-                    <div
-                      className={Styles.instantAdd}
-                      onClick={handelOpenSiteForm}
-                    >
-                      <AddIcon style={{ height: '15px', width: '15px' }} />
-                      <h4 className={Styles.addtext}> Add Site</h4>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  {' '}
-                  {value.site_id && (
-                    <div>
-                      <span>
-                        {viewAddress.address?.street}{' '}
-                        {viewAddress.address?.city},{' '}
-                        {viewAddress.address?.state},
-                      </span>
-                      <span>
-                        {viewAddress.address?.country},
-                        {viewAddress.address?.pin_code}
-                      </span>
-                    </div>
-                  )}
-                </td>
-                <td>
-                  <div className={Styles.statusProject}>
-                    {value.site_id && <span>Not Started</span>}
-                  </div>
-                </td>
-
-                <td>
-                  {value.site_id ? (
-                    <div className={Styles.siteEstimation}>
-                      <Input
-                        width="140px"
-                        placeholder="Enter budget"
-                        name="estimated_budget"
-                        onChange={handleChangeItems}
-                        value={value.estimated_budget}
-                        error={errors?.estimated_budget}
-                      />
-                    </div>
-                  ) : (
-                    ''
-                  )}
-                </td>
-                <td>
-                  {value.site_id ? (
-                    <div className={Styles.siteEstimation}>
-                      <Input
-                        width="140px"
-                        placeholder="Enter budget"
-                        name="actual_budget"
-                        onChange={handleChangeItems}
-                        value={value.actual_budget}
-                        error={errors?.actual_budget}
-                      />
-                    </div>
-                  ) : (
-                    ''
-                  )}
-                </td>
-                <td>
-                  {value.site_id ? (
-                    <div className={Styles.siteEstimation}>
-                      <AutoCompleteSelect
-                        name="approvar_id"
-                        defaultLabel="Select Approver"
-                        placeholder="Select from options"
-                        value={value.approvar_id}
-                        onSelect={(datas) => {
-                          setValue({ ...value, ['approvar_id']: datas });
-                        }}
-                        optionList={getProjectApproverList}
-                        error={errors?.approvar_id}
-                      />
-                    </div>
-                  ) : (
-                    ''
-                  )}
-                </td>
-                <td>
-                  <div
-                    style={{
-                      cursor: 'pointer',
-                      paddingBottom: '20px',
-                    }}
-                  >
-                    <div onClick={(e) => addRow(e)}>
-                      <AddIcon />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div className={Styles.buttonContent}>
+      <div className={Styles.topHeading}>
+        <div className={Styles.heading}>
+          <div className={Styles.subHeading}>
+            <SiteNavigateIcon width={30} height={30} />
+            <h4>SITE</h4>
+          </div>
+          <div>
             <Button
-              type="button"
               color="primary"
               shape="rectangle"
-              size="small"
               justify="center"
-              icon={<AddIcon color="white"/>}
-              onClick={(e) => {
-                handleSubmit(e);
-              }}
+              size="small"
+              icon={<AddIcon color="white" />}
+              // onClick={handleAddMasterData}
             >
-              SITE CONFIG
+              Add Site to Project
             </Button>
+          </div>
+          <div
+            className={Styles.siteCreatelabel}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            <SiteNavigateIcon width={15} height={15} color="#7f56d9" />
+            <span className={Styles.sitelabel}>Create New Site</span>
           </div>
         </div>
       </div>
-      <CustomSiteAdd
-        isVissiblesite={showSiteForm}
-        onActionsite={setShowSiteForm}
-      />
+
+      <div className={Styles.tableContainer}>
+        <table className={Styles.scrollable_table}>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Site</th>
+              <th>Site Address</th>
+              <th>Status</th>
+              <th>Estimated Budget</th>
+              <th>Actual Budget</th>
+              <th>Approver</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {siteConfigData.map((row, index) => {
+              console.log('row', row);
+              rowIndex = rowIndex + 1;
+              return (
+                <tr key={index}>
+                  <td>{rowIndex}</td>
+                  <td>{row.site_details?.name}</td>
+                  <td>
+                    {row?.siteData?.site_contractor_id === undefined ? (
+                      <div>
+                        <span>
+                          {row.site_details?.address?.street}{' '}
+                          {row.site_details?.address?.city},{' '}
+                          {row.site_details?.address?.state},
+                        </span>
+                        <span>
+                          {row.site_details?.address?.country},
+                          {row.site_details?.address?.pin_code}
+                        </span>
+                      </div>
+                    ) : (
+                      <div>
+                        <span>
+                          {row.siteData.address?.street}{' '}
+                          {row.siteData.address?.city},{' '}
+                          {row.siteData.address?.state},
+                        </span>
+                        <span>
+                          {row.siteData.address?.country},
+                          {row.siteData.address?.pin_code}
+                        </span>
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <div className={Styles.statusProject}>
+                      <span>Not Started</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span>{row?.estimated_budget}</span>
+                  </td>
+                  <td>
+                    <span>{row.actual_budget}</span>
+                  </td>
+                  <td>
+                    <span>
+                      {row.approvar_data?.first_name +
+                        ' ' +
+                        row.approvar_data?.last_name}
+                    </span>
+                  </td>
+                  <td>
+                    <div className={Styles.iconStyle}>
+                      <NewEditIcon />
+                      <DeleteIcon />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {/* <CustomSiteAdd /> */}
       <CustomSnackBar
-          open={openSnack}
-          message={message}
-          onClose={handleSnackBarClose}
-          autoHideDuration={1000}
-          type="success"
-        />
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
+      />
+      <CustomSidePopup
+        open={open}
+        title="Create Site"
+        handleClose={handleCloseSiteAdd}
+        content={<CustomSiteAdd open={open} setOpen={setOpen} />}
+      />
     </div>
   );
 };
