@@ -22467,3 +22467,2700 @@ D:\2023\September\20\erp\omni-flux\apps\api\src\dao\client.dao.ts:77:45
   76     const transaction = connectionObj !== null ? connectionObj : prisma;
 → 77     const client = await transaction.client.findMany(
 Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
