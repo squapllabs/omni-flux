@@ -13,7 +13,8 @@ import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useNavigate } from 'react-router-dom';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
-import ReportGenerator from '../reportGenerator/invoice'
+import ReportGenerator from '../reportGenerator/invoice';
+import CustomPagination from '../menu/CustomPagination';
 
 const PurchaseList = () => {
   const state: RootState = store.getState();
@@ -254,7 +255,7 @@ const PurchaseList = () => {
           </div>
         </div>
         <div className={Styles.pagination}>
-          <Pagination
+          <CustomPagination
             currentPage={currentPage}
             totalPages={getIndentData?.total_page}
             totalCount={getIndentData?.total_count}
