@@ -5,7 +5,7 @@ import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import Pagination from '../menu/pagination';
-import ViewIcon from '../menu/icons/viewIcon';
+import ViewIcon from '../menu/icons/newViewIcon';
 import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
@@ -191,15 +191,15 @@ const PurchaseList = () => {
         </div>
         <div className={Styles.tableContainer}>
           <div>
-            <table>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S No</th>
-                  <th>Project Name</th>
-                  <th>Expected Delivery Date </th>
-                  <th>Priority</th>
-                  <th>Cost</th>
-                  <th>Actions</th>
+                  <th className={Styles.tableHeading}>S No</th>
+                  <th className={Styles.tableHeading}>Project Name</th>
+                  <th className={Styles.tableHeading}>Expected Delivery Date </th>
+                  <th className={Styles.tableHeading}>Priority</th>
+                  <th className={Styles.tableHeading}>Cost</th>
+                  <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
               <tbody>

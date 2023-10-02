@@ -6,11 +6,12 @@ import {
 } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import CustomEditPoPopup from '../ui/CustomEditPoPopup';
 import { formatBudgetValue } from '../../helper/common-function';
-import Pagination from '../menu/pagination';
+// import Pagination from '../menu/pagination';
+import CustomPagination from '../menu/CustomPagination';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
@@ -186,17 +187,17 @@ const OrderView = () => {
         </div>
         <div className={Styles.tableContainer}>
           <div>
-            <table>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S No</th>
-                  <th>Vendor Name</th>
-                  <th>Project Name </th>
-                  <th>Amount</th>
-                  <th>Quotation </th>
-                  <th>Bill Status</th>
-                  <th>Bill</th>
-                  <th>Actions</th>
+                  <th className={Styles.tableHeading}>#</th>
+                  <th className={Styles.tableHeading}>Vendor Name</th>
+                  <th className={Styles.tableHeading}>Project Name </th>
+                  <th className={Styles.tableHeading}>Amount</th>
+                  <th className={Styles.tableHeading}>Quotation </th>
+                  <th className={Styles.tableHeading}>Bill Status</th>
+                  <th className={Styles.tableHeading}>Bill</th>
+                  <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -355,7 +356,7 @@ const OrderView = () => {
           </div>
         </div>
         <div className={Styles.pagination}>
-          <Pagination
+          <CustomPagination
             currentPage={currentPage}
             totalPages={
               dataShow ? getFilterData?.total_page : getAllData?.total_page

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../ui/Button';
-import Styles from '../../../styles/project.module.scss';
+import Styles from '../../../styles/projectDetails.module.scss';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Input from '../../ui/Input';
 import DatePicker from '../../ui/CustomDatePicker';
 import AddIcon from '../../menu/icons/addIcon';
+import ProjectDetailsIcon from '../../menu/icons/projectDetailsIcon';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
 import {
@@ -120,9 +121,9 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const handleOpenClientForm = () => {
     setShowClientForm(true);
   };
-  const submitHandler = () => {
-    setOpenConfirm(true);
-  };
+  // const submitHandler = () => {
+  //   setOpenConfirm(true);
+  // };
   const handleCloseConfirm = () => {
     setOpenConfirm(false);
   };
@@ -137,6 +138,9 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   };
   const handleSnackBarClose = () => {
     setOpenSnack(false);
+  };
+  const cancelhandler = () => {
+    navigate('/project-list');
   };
   const validateSchemaCreate = yup.object().shape({
     project_name: yup.string().required('Project name is required'),
@@ -199,7 +203,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       .required('Estimated budget is required'),
     actual_budget: yup
       .number()
-      .min(1, 'Value must be greater than 0')
+      // .min(1, 'Value must be greater than 0')
       .max(5000000000, 'Value must be less then 5000000000')
       .typeError('Only Number are allowed'),
     project_type: yup.string().trim().required('Project type is required'),
@@ -218,7 +222,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       routeParams?.id === undefined ? validateSchemaCreate : validateSchemaEdit,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const statusData = values.submitType === 'Draft' ? 'Draft' : 'Inprogress';
+      // const statusData = values.submitType === 'Draft' ? 'Draft' : 'Inprogress';
       const user_id =
         roleName === 'PROJECT MANAGER' ? userID : Number(values.user_id);
       const Object: any = {
@@ -238,7 +242,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         site_configuration: siteConfigData,
         project_documents: [],
         bom_configuration: bomConfig,
-        status: statusData,
+        status: 'Inprogress',
       };
       if (routeParams?.id === undefined) {
         createNewProjectData(Object, {
@@ -267,16 +271,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
               setMessage('Project updated');
               setOpenSnack(true);
               props.setLoader(!props.loader);
-              if (data?.data?.project?.status === 'Draft') {
-                setTimeout(() => {
-                  navigate('/project-list');
-                }, 1000);
-              } else {
-                setTimeout(() => {
-                  navigate(`/project-edit/${data?.data?.project?.project_id}`);
-                  props.setLoader(props.loader);
-                }, 1000);
-              }
+              setTimeout(() => {
+                navigate(`/project-edit/${data?.data?.project?.project_id}`);
+                props.setLoader(props.loader);
+              }, 1000);
             }
           },
         });
@@ -285,258 +283,275 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   });
   return (
     <div>
-      <form onSubmit={formik.handleSubmit}>
-        <div className={Styles.inputFieldMain}>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <Input
-                label="Name"
-                placeholder="Enter project name"
-                name="project_name"
-                mandatory={true}
-                value={formik.values.project_name}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.project_name && formik.errors.project_name
-                }
-              />
-            </div>
-            <div style={{ width: '40%' }}>
-              <Input
-                label="Code"
-                placeholder="Enter project code"
-                name="code"
-                mandatory={true}
-                value={formik.values.code}
-                onChange={formik.handleChange}
-                error={formik.touched.code && formik.errors.code}
-                disabled={routeParams?.id === undefined ? false : true}
-              />
-            </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <AutoCompleteSelect
-                name="user_id"
-                label="Project Manager"
-                defaultLabel="Select from options"
-                placeholder="Select from options"
-                mandatory={true}
-                value={formik.values.user_id}
-                onChange={formik.handleChange}
-                error={formik.touched.user_id && formik.errors.user_id}
-                onSelect={(value) => {
-                  formik.setFieldValue('user_id', value);
-                }}
-                disabled={roleName === 'PROJECT MANAGER'}
-                optionList={getProjectManagerList}
-              />
-            </div>
-            <div style={{ width: '40%' }} className={Styles.client}>
-              <AutoCompleteSelect
-                name="client_id"
-                label="Client / Customer"
-                defaultLabel="Select from options"
-                placeholder="Select from options"
-                mandatory={true}
-                value={formik.values.client_id}
-                onChange={formik.handleChange}
-                error={formik.touched.client_id && formik.errors.client_id}
-                onSelect={(value) => {
-                  formik.setFieldValue('client_id', value);
-                }}
-                // disabled={disable}
-                optionList={getAllClientDatadrop}
-              />
-              <div className={Styles.instantAdd} onClick={handleOpenClientForm}>
-                <AddIcon style={{ height: '15px', width: '15px' }} />
-                <h4 className={Styles.addtext}>Add client</h4>
+      <div className={Styles.topHeading}>
+        <ProjectDetailsIcon />
+        <span>PROJECT DETAILS </span>
+      </div>
+      <div>
+        <form onSubmit={formik.handleSubmit}>
+          <div className={Styles.childTwo}>
+            <div className={Styles.subChildOne}>
+              <div className={Styles.subOneChildOne}>
+                <div className={Styles.inputFields}>
+                  <Input
+                    label="Name"
+                    placeholder="Enter project name"
+                    name="project_name"
+                    mandatory={true}
+                    value={formik.values.project_name}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.project_name && formik.errors.project_name
+                    }
+                  />
+                </div>
+                <div className={Styles.inputFields}>
+                  <Select
+                    label="Project Type"
+                    name="project_type"
+                    mandatory={true}
+                    onChange={formik.handleChange}
+                    value={formik.values.project_type}
+                    defaultLabel="Select from options"
+                    placeholder="Select from options"
+                    error={
+                      formik.touched.project_type && formik.errors.project_type
+                    }
+                  >
+                    {getAllProjectTypeDatadrop.map((option: any) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+              <div className={Styles.subOneChildTwo}>
+                <div className={Styles.inputFields}>
+                  <Input
+                    label="Code"
+                    placeholder="Enter project code"
+                    name="code"
+                    mandatory={true}
+                    value={formik.values.code}
+                    onChange={formik.handleChange}
+                    error={formik.touched.code && formik.errors.code}
+                    disabled={routeParams?.id === undefined ? false : true}
+                  />
+                </div>
+                <div className={Styles.clientInstantAdd}>
+                  <div style={{ width: '80%' }}>
+                    <AutoCompleteSelect
+                      name="client_id"
+                      label="Client / Customer"
+                      defaultLabel="Select from options"
+                      placeholder="Select from options"
+                      mandatory={true}
+                      value={formik.values.client_id}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.client_id && formik.errors.client_id
+                      }
+                      onSelect={(value) => {
+                        formik.setFieldValue('client_id', value);
+                      }}
+                      optionList={getAllClientDatadrop}
+                    />
+                  </div>
+                  <div
+                    className={Styles.clientNewAddMain}
+                    onClick={handleOpenClientForm}
+                  >
+                    <AddIcon style={{ height: '13px', width: '20px' }} />
+                    <h4 className={Styles.addtext}>New client</h4>
+                  </div>
+                </div>
+              </div>
+              <div className={Styles.subOneChildThree}>
+                <div className={Styles.inputFields}>
+                  <AutoCompleteSelect
+                    name="user_id"
+                    label="Project Manager"
+                    defaultLabel="Select from options"
+                    placeholder="Select from options"
+                    mandatory={true}
+                    value={formik.values.user_id}
+                    onChange={formik.handleChange}
+                    error={formik.touched.user_id && formik.errors.user_id}
+                    onSelect={(value) => {
+                      formik.setFieldValue('user_id', value);
+                    }}
+                    disabled={roleName === 'PROJECT MANAGER'}
+                    optionList={getProjectManagerList}
+                  />
+                </div>
+                <div className={Styles.inputFields}>
+                  <AutoCompleteSelect
+                    name="approvar_id"
+                    label="Approver"
+                    defaultLabel="Select from options"
+                    placeholder="Select from options"
+                    mandatory={true}
+                    value={formik.values.approvar_id}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.approvar_id && formik.errors.approvar_id
+                    }
+                    onSelect={(value) => {
+                      formik.setFieldValue('approvar_id', value);
+                    }}
+                    optionList={getProjectApproverList}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <DatePicker
-                label="Start Date"
-                name="date_started"
-                mandatory={true}
-                value={formik.values.date_started}
-                onChange={formik.handleChange}
-                InputProps={{
-                  inputProps: {
-                    min: '1930-01-01',
-                    max: `${new Date().toISOString().slice(0, 10)}`,
-                  },
-                }}
-                error={
-                  formik.touched.date_started && formik.errors.date_started
-                }
-              />
+            <div className={Styles.dividerStyleOne}></div>
+            <div className={Styles.subChildTwo}>
+              <div className={Styles.subTwoChildOne}>
+                <div>
+                  <DatePicker
+                    label="Start Date"
+                    name="date_started"
+                    mandatory={true}
+                    value={formik.values.date_started}
+                    onChange={formik.handleChange}
+                    InputProps={{
+                      inputProps: {
+                        min: '1930-01-01',
+                        max: `${new Date().toISOString().slice(0, 10)}`,
+                      },
+                    }}
+                    error={
+                      formik.touched.date_started && formik.errors.date_started
+                    }
+                  />
+                </div>
+                <div>
+                  <DatePicker
+                    label="End Date"
+                    name="date_ended"
+                    mandatory={true}
+                    value={formik.values.date_ended}
+                    onChange={formik.handleChange}
+                    InputProps={{
+                      inputProps: {
+                        min: '1930-01-01',
+                        max: `${new Date().toISOString().slice(0, 10)}`,
+                      },
+                    }}
+                    error={
+                      formik.touched.date_ended && formik.errors.date_ended
+                    }
+                  />
+                </div>
+              </div>
             </div>
-            <div style={{ width: '40%' }}>
-              <DatePicker
-                label="End Date"
-                name="date_ended"
-                mandatory={true}
-                value={formik.values.date_ended}
-                onChange={formik.handleChange}
-                InputProps={{
-                  inputProps: {
-                    min: '1930-01-01',
-                    max: `${new Date().toISOString().slice(0, 10)}`,
-                  },
-                }}
-                error={formik.touched.date_ended && formik.errors.date_ended}
-              />
+            <div className={Styles.dividerStyleOne}></div>
+            <div className={Styles.subChildThree}>
+              <div className={Styles.subThreeChildOne}>
+                <div className={Styles.inputFields}>
+                  <Input
+                    label="Estimated Budget"
+                    placeholder="Enter rate"
+                    name="estimated_budget"
+                    mandatory={true}
+                    onChange={formik.handleChange}
+                    value={formik.values.estimated_budget}
+                    error={
+                      formik.touched.estimated_budget &&
+                      formik.errors.estimated_budget
+                    }
+                  />
+                </div>
+                <div className={Styles.inputFields}>
+                  <Input
+                    label="Actual Budget"
+                    placeholder="Enter rate"
+                    name="actual_budget"
+                    onChange={formik.handleChange}
+                    value={formik.values.actual_budget}
+                    error={
+                      formik.touched.actual_budget &&
+                      formik.errors.actual_budget
+                    }
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <Select
-                label="Project Type"
-                name="project_type"
-                mandatory={true}
-                onChange={formik.handleChange}
-                value={formik.values.project_type}
-                defaultLabel="Select from options"
-                placeholder="Select from options"
-                error={
-                  formik.touched.project_type && formik.errors.project_type
-                }
+            <div className={Styles.dividerStyleOne}></div>
+            <div className={Styles.subChildFour}>
+              <div className={Styles.subFourChildOne}>
+                <div className={Styles.inputFields}>
+                  <TextArea
+                    name="description"
+                    label="Project Description"
+                    placeholder="Enter project description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    rows={3}
+                    maxCharacterCount={100}
+                  />
+                </div>
+                <div className={Styles.inputFields}>
+                  <TextArea
+                    name="project_notes"
+                    label="Project Notes"
+                    placeholder="Enter project notes"
+                    value={formik.values.project_notes}
+                    onChange={formik.handleChange}
+                    rows={3}
+                    maxCharacterCount={100}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={Styles.dividerStyleOne}></div>
+            <div className={Styles.bottomButton}>
+              <Button
+                type="button"
+                color="secondary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                className={Styles.cancelButton}
+                onClick={() => cancelhandler()}
               >
-                {getAllProjectTypeDatadrop.map((option: any) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div style={{ width: '40%' }}>
-              <AutoCompleteSelect
-                name="approvar_id"
-                label="Approver"
-                defaultLabel="Select from options"
-                placeholder="Select from options"
-                mandatory={true}
-                value={formik.values.approvar_id}
-                onChange={formik.handleChange}
-                error={formik.touched.approvar_id && formik.errors.approvar_id}
-                onSelect={(value) => {
-                  formik.setFieldValue('approvar_id', value);
-                }}
-                // disabled={disable}
-                optionList={getProjectApproverList}
-              />
-            </div>
-          </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <Input
-                label="Estimated Budget"
-                placeholder="Enter rate"
-                name="estimated_budget"
-                mandatory={true}
-                onChange={formik.handleChange}
-                value={formik.values.estimated_budget}
-                error={
-                  formik.touched.estimated_budget &&
-                  formik.errors.estimated_budget
-                }
-              />
-            </div>
-            <div style={{ width: '40%' }}>
-              <Input
-                label="Actual Budget"
-                placeholder="Enter rate"
-                name="actual_budget"
-                onChange={formik.handleChange}
-                value={formik.values.actual_budget}
-                error={
-                  formik.touched.actual_budget && formik.errors.actual_budget
-                }
-              />
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                // onClick={() => submitHandler()}
+              >
+                Save
+              </Button>
+              {/* <Button
+                type="button"
+                color="secondary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                className={Styles.draftButton}
+                onClick={() => drafthandler()}
+              >
+                Save Draft
+              </Button> */}
             </div>
           </div>
-          <div className={Styles.inputFields}>
-            <div style={{ width: '40%' }}>
-              <TextArea
-                name="description"
-                label="Project Description"
-                placeholder="Enter project description"
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                rows={4}
-                maxCharacterCount={100}
-              />
-            </div>
-            <div style={{ width: '40%' }}>
-              <TextArea
-                name="project_notes"
-                label="Project Notes"
-                placeholder="Enter project notes"
-                value={formik.values.project_notes}
-                onChange={formik.handleChange}
-                rows={4}
-                maxCharacterCount={100}
-              />
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <div className={Styles.submitButton}>
-        <Button
-          className={Styles.resetButton}
-          type="button"
-          shape="rectangle"
-          size="small"
-          justify="center"
-          onClick={() => drafthandler()}
-        >
-          Draft
-        </Button>
-        <Button
-          type="button"
-          color="primary"
-          shape="rectangle"
-          size="small"
-          justify="center"
-          onClick={() => submitHandler()}
-        >
-          {routeParams?.id != undefined ? 'Submit' : 'Create New Project'}
-        </Button>
-      </div>
-
-      {/* <Button
-        shape="rectangle"
-        justify="center"
-        size="small"
-        onClick={(e) => props.setActiveButton('PSC')}
-      >
-        SAVE & MOVE ON
-      </Button> */}
-      <div>
-        <CustomClientAdd
-          isVissible={showClientForm}
-          onAction={setShowClientForm}
-        />
-        <CustomSiteAdd
-          isVissiblesite={showSiteForm}
-          onActionsite={setShowSiteForm}
-        />
-        <CustomConfirm
-          open={openConfirm}
-          title="Confirm Submit"
-          contentLine1="If you confirmed this project it will move to the review process"
-          handleClose={handleCloseConfirm}
-          handleConfirm={handleConfirmForm}
-        />
+        </form>
         <CustomSnackBar
           open={openSnack}
           message={message}
           onClose={handleSnackBarClose}
           autoHideDuration={1000}
           type="success"
+        />
+         <CustomClientAdd
+          isVissible={showClientForm}
+          onAction={setShowClientForm}
         />
       </div>
     </div>
