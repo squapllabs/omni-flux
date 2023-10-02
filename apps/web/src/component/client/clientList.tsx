@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
+import EditIcon from '../menu/icons/newEditIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
 import {
   useDeleteClient,
   getByClient,
@@ -300,7 +300,7 @@ const ClientList = () => {
                 <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>Client Name</th>
                       <th>Contact Details</th>
                       {activeButton === 'AC' && <th>Actions</th>}

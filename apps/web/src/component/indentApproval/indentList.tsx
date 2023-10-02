@@ -88,7 +88,8 @@ const IndentList = () => {
   };
   const handleReportGenerator = () =>{  
     const data:any ={
-      title:"Indent Request"
+      title:"Indent Request",
+      name:"indent_request"
     }  
     ReportGenerator(data)
   }

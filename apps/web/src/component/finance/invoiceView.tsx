@@ -67,7 +67,8 @@ const OrderView = () => {
 
   const handleReportGenerator = () =>{  
     const data:any ={
-      title:"Invoice and Payments"
+      title:"Invoice and Payments",
+      name:"invoice"
     }  
     ReportGenerator(data)
   }

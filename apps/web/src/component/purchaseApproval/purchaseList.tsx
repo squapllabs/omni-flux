@@ -56,7 +56,8 @@ const PurchaseList = () => {
   };
   const handleReportGenerator = () =>{  
     const data:any ={
-      title:"Purchase Request"
+      title:"Purchase Request",
+      name:"purchase_request"
     }  
     ReportGenerator(data)
   }

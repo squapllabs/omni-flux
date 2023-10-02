@@ -14,7 +14,7 @@ import {
   getBySearchmasterData,
   useGetAllPaginatedMasterData,
 } from '../../hooks/masertData-hook';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import SearchIcon from '../menu/icons/search';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import CustomDelete from '../ui/customDeleteDialogBox';
@@ -358,7 +358,7 @@ const MaterData = () => {
                 <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>Name</th>
                       <th>Description</th>
                       <th>Code</th>

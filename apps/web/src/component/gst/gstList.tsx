@@ -3,7 +3,7 @@ import Styles from '../../styles/gstList.module.scss';
 import { useGetAllGst, useDeleteGst } from '../../hooks/gst-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
 import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import GstForm from './gstCreate';
 import Button from '../ui/Button';
@@ -141,7 +141,7 @@ const GstList = () => {
                 <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>GST Rate</th>
                       <th>Action</th>
                     </tr>

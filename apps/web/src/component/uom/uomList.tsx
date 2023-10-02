@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
   useGetAlluom,
@@ -279,7 +279,7 @@ const UomList = () => {
                 <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>UOM Name</th>
                       <th>Description</th>
                       <th>Actions</th>

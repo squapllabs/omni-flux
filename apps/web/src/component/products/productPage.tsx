@@ -11,7 +11,7 @@ import ButtonOne from '../ui/Button';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
 import { getByItem } from '../../hooks/add-product-hooks';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import addProduct from '../../service/add-product';
 
@@ -234,12 +234,13 @@ const ProductPage = () => {
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th>S No</th>
+                <th>#</th>
                 <th>Item Name</th>
                 <th>Item Type</th>
                 <th>Description</th>
                 <th>GST</th>
                 <th>Rate</th>
+                <th>Action</th>
                 {activeButton === 'AC' && <th></th>}
               </tr>
             </thead>
