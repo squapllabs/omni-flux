@@ -62,7 +62,7 @@ const deleteprojectSite = async (id: any) => {
 const filterprojectSite = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/project-site/search-project-site`,
+      `${environment.apiUrl}/project-site/search`,
       values
     );
     return response.data;
