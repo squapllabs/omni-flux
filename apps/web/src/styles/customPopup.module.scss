@@ -1,33 +1,114 @@
 .popupOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .popupBody {
-    padding: 16px;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  // .popup-enter {
-  //   transform: translateX(100%);
-  //   transition: transform 1.5s ease-in-out;
-  // }
-  
-  // .popup-enter-active {
-  //   transform: translateX(0);
-  // }
-  
-  // .popup-exit {
-  //   transform: translateX(0);
-  //   transition: transform 0.8s ease-in-out;
-  // }
-  
-  // .popup-exit-active {
-  //   transform: translateX(100%);
-  // }
+.popupBody {
+  padding: 16px;
+}
+
+// .popup-enter {
+//   transform: translateX(100%);
+//   transition: transform 1.5s ease-in-out;
+// }
+
+// .popup-enter-active {
+//   transform: translateX(0);
+// }
+
+// .popup-exit {
+//   transform: translateX(0);
+//   transition: transform 0.8s ease-in-out;
+// }
+
+// .popup-exit-active {
+//   transform: translateX(100%);
+// }
+
+//customSide popup
+
+.popupContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(63, 63, 63, 0.6);
+}
+
+.dialogStyle {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background-color: rgba(118, 118, 118, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boxStyle {
+  background-color: #fff;
+  padding: 2px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.heading {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.selected {
+  position: relative;
+}
+
+.selected::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #d0d5dd;
+}
+.mainContent {
+  padding-top: 10px;
+}
+
+/* Add more styles as needed */
+
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+.main_content {
+  overflow-y: scroll;
+}
+.main_content::-webkit-scrollbar {
+  display: none;
+}

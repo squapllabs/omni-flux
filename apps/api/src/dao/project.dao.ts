@@ -335,6 +335,12 @@ const getById = async (projectId: number, connectionObj = null) => {
         project_site: {
           include: {
             site_details: true,
+            approvar_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
           },
         },
         bom_configuration: {
@@ -387,6 +393,12 @@ const getAll = async (connectionObj = null) => {
         project_site: {
           include: {
             site_details: true,
+            approvar_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
           },
         },
         bom_configuration: {
@@ -568,6 +580,12 @@ const searchProject = async (
         project_site: {
           include: {
             site_details: true,
+            approvar_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
           },
         },
         user: {
