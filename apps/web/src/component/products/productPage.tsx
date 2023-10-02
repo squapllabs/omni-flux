@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../menu/button';
 import { useNavigate } from 'react-router-dom';
 import Styles from '..//../styles/listItem.module.scss';
-import Pagination from '../menu/pagination';
+import Pagination from '../menu/CustomPagination';
 import AddIcon from '../menu/icons/addIcon';
 import DownloadIcon from '../menu/icons/download';
 import Input from '../ui/Input';
@@ -231,7 +231,7 @@ const ProductPage = () => {
           </div>
         </div>
         <div>
-          <table>
+          <table className={Styles.scrollable_table}>
             <thead>
               <tr>
                 <th>S No</th>

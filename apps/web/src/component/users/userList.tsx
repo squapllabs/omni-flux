@@ -14,7 +14,7 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
-import Pagination from '../menu/pagination';
+import Pagination from '../menu/CustomPagination';
 import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import AddIcon from '../menu/icons/addIcon';
@@ -207,7 +207,7 @@ const UserList = () => {
           <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>
-              <table>
+              <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
                     <th>S No</th>

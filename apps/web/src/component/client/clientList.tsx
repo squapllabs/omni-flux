@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import { getClientValidateyup } from '../../helper/constants/client-constants';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
-import Pagination from '../menu/pagination';
+import Pagination from '../menu/CustomPagination';
 import SearchIcon from '../menu/icons/search';
 import CustomSnackbar from '../ui/customSnackBar';
 import AddIcon from '../menu/icons/addIcon';
@@ -297,7 +297,7 @@ const ClientList = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
                       <th>S No</th>
