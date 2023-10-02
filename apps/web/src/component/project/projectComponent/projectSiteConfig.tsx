@@ -62,6 +62,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const [open, setOpen] = useState(false);
   const [projectSiteOpen, setProjectSiteOpen] = useState(false);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
+  const [reload, setReload] = useState(false);
+  const [mode, setMode] = useState('');
+  const [projectSiteId, setProjectSiteId] = useState();
   const { data: getAllSite = [] } = useGetAllSiteDrops();
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { mutate: createNewProjectData } = createProject();
@@ -186,7 +189,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
       setSiteConfigData(getData?.data?.project_site);
     };
     if (routeParams?.id != undefined) fetchData();
-  }, []);
+  }, [reload]);
   const handelOpenSiteForm = () => {
     setShowSiteForm(true);
   };
@@ -222,6 +225,11 @@ const ProjectSiteConfig: React.FC = (props: any) => {
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
+  };
+  const handleProjectSiteEdit = (value: any) => {
+    setMode('EDIT');
+    setProjectSiteId(value);
+    setProjectSiteOpen(true);
   };
   const handleSubmit = () => {
     const obj: any = {
@@ -277,6 +285,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
               size="small"
               icon={<AddIcon color="white" />}
               onClick={() => {
+                setMode('ADD');
                 setProjectSiteOpen(true);
               }}
             >
@@ -364,7 +373,11 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                   </td>
                   <td>
                     <div className={Styles.iconStyle}>
-                      <NewEditIcon />
+                      <NewEditIcon
+                        onClick={(e) =>
+                          handleProjectSiteEdit(row?.project_site_id)
+                        }
+                      />
                       <DeleteIcon />
                     </div>
                   </td>
@@ -396,6 +409,17 @@ const ProjectSiteConfig: React.FC = (props: any) => {
           <ProjectSiteConfigAdd
             open={projectSiteOpen}
             setOpen={setProjectSiteOpen}
+            projectID={Number(routeParams?.id)}
+            projectData={projectData}
+            siteConfigData={siteConfigData}
+            reload={reload}
+            setReload={setReload}
+            openSnack={openSnack}
+            setOpenSnack={setOpenSnack}
+            message={message}
+            setMessage={setMessage}
+            projectSiteId={projectSiteId}
+            mode={mode}
           />
         }
       />

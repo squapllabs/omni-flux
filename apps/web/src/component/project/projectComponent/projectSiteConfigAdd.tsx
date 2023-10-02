@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetAllSiteDrops } from '../../../hooks/site-hooks';
 import {
   useGetAllUsersDrop,
@@ -11,8 +11,15 @@ import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import Styles from '../../../styles/newStyles/project_siteConfig.module.scss';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
+import {
+  createprojectSite,
+  updateprojectSite,
+} from '../../../hooks/projectSite-hooks';
+import projectSiteService from '../../../service/projectSite-service';
 
 const ProjectSiteConfigAdd: React.FC = (props: any) => {
+  console.log('props.mode', props.mode);
+
   const [initialValues, setInitialValues] = useState<any>({
     site_id: '',
     estimated_budget: '',
@@ -21,18 +28,116 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
     status: 'Not Started',
     is_delete: 'N',
     address: '',
+    project_id: Number(props.projectID),
+    created_by: 1,
+    project_site_id: '',
   });
   const { data: getAllSite = [] } = useGetAllSiteDrops();
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const handleClose = () => {
     props.setOpen(false);
   };
+  const { mutate: postProjectSite } = createprojectSite();
+  const { mutate: updateProjectSite } = updateprojectSite();
+  useEffect(() => {
+    const fetchData = async () => {
+      const getData = await projectSiteService.getOneprojectSiteByID(
+        props.projectSiteId
+      );
+      setInitialValues({
+        site_id: getData?.data?.site_id,
+        estimated_budget: getData?.data?.estimated_budget,
+        actual_budget: getData?.data?.actual_budget,
+        approvar_id: getData?.data?.approvar_id,
+        status: getData?.data?.status,
+        is_delete: 'N',
+        address: '',
+        project_id: Number(props.projectID),
+        created_by: 1,
+        project_site_id: getData?.data?.project_site_id,
+      });
+      console.log('getData', getData);
+    };
+    if (props.mode === 'EDIT') fetchData();
+  }, [props.mode]);
+  const validationSchema = Yup.object().shape({
+    site_id: Yup.string()
+      .trim()
+      .required('Site is required')
+      .test(
+        'unique-site-ids',
+        'Site name repeated are not allowed',
+        function (sites: any) {
+          if (props.mode === 'ADD') {
+            const isSiteIdUnique = props.siteConfigData.every(
+              (siteData) => siteData.site_id !== parseInt(sites, 10)
+            );
+            return isSiteIdUnique;
+          } else {
+            return true;
+          }
+        }
+      ),
+    approvar_id: Yup.string().trim().required('Approver is required'),
+    actual_budget: Yup.string().matches(/^[0-9]*$/, 'Only numbers are allowed'),
+    estimated_budget: Yup.string()
+      .matches(/^[0-9]*$/, 'Only numbers are allowed')
+      .required('Budget is required')
+      .typeError('Only numbesqswqsrs are allowed')
+      .test(
+        'site-budget',
+        'Site budget is greater than estimated budget',
+        async function (budget: any) {
+          const estimated_budget = props.projectData.estimated_budget;
+          const site_configuration = props.siteConfigData;
+          if (site_configuration.length === 0) {
+            if (Number(budget) > Number(estimated_budget)) {
+              return false;
+            }
+            return true;
+          } else {
+            const totalEstimation = site_configuration.reduce(
+              (total: any, site: any) => total + Number(site.estimated_budget),
+              0
+            );
+            const finalTotal = totalEstimation + Number(budget);
+            if (finalTotal > estimated_budget) {
+              return false;
+            }
+            return true;
+          }
+        }
+      ),
+  });
   const formik = useFormik({
     initialValues,
-    // validationSchema,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       console.log('values', values);
+      if (props?.mode == 'ADD') {
+        postProjectSite(values, {
+          onSuccess(data, variables, context) {
+            console.log('data', data);
+            props.setOpen(false);
+            props.setMessage('Project Site created Successfully');
+            props.setOpenSnack(true);
+            props.setReload(true);
+          },
+        });
+      } else {
+        updateProjectSite(values, {
+          onSuccess(data, variables, context) {
+            console.log('data', data);
+            if (data.status === true) {
+              props.setOpen(false);
+              props.setMessage('Project Site Updated Successfully');
+              props.setOpenSnack(true);
+              props.setReload(true);
+            }
+          },
+        });
+      }
     },
   });
   return (
@@ -55,6 +160,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
                   }}
                   error={formik.errors?.site_id}
                   optionList={getAllSite}
+                  disabled={props.mode === 'EDIT' ? true : false}
                 />
               </div>
               <div className={Styles.field}>
@@ -97,7 +203,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
                   onSelect={(datas) => {
                     formik.setFieldValue('approvar_id', datas);
                   }}
-                  error={formik.errors?.getAllUsersDatadrop}
+                  error={formik.errors?.approvar_id}
                   optionList={getAllUsersDatadrop}
                 />
               </div>
