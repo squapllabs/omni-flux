@@ -94,3 +94,8 @@
   background-color: var(--danger-color);
   color: #b42318;
 }
+.bottomButton{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

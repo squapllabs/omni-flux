@@ -126,6 +126,7 @@
 }
 .field {
   padding: 5px 20px 5px 20px;
+  width: 50%;
 }
 .header {
   display: flex;
@@ -138,4 +139,27 @@
 }
 .tablerow {
   cursor: pointer;
+}
+
+
+.divOne{
+  display: flex;
+  flex-direction: row;
+}
+
+.footer {
+  margin-top: 140px;
+}
+
+.cancelButton {
+  background-color: var(--danger-color);
+  color: #b42318;
+}
+
+.button {
+  padding: 10px;
+  gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
 }
