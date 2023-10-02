@@ -389,3 +389,10 @@
 .sitelabel {
   color: var(--secondary-color);
 }
+.topHeading{
+  display: flex;
+  flex-direction: row;
+}
+.table_data{
+  padding: 0px 140px 0px 140px;
+}
