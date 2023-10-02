@@ -9,7 +9,8 @@ import EditIcon from '../../menu/icons/newEditIcon';
 import CustomLoader from '../../ui/customLoader';
 import CustomGroupButton from '../../ui/CustomGroupButton';
 import CustomPagination from '../../menu/CustomPagination';
-import CustomPopup from '../../ui/CustomRightSidePopup';
+// import CustomPopup from '../../ui/CustomRightSidePopup';
+import CustomPopup from '../../ui/CustomSidePopup';
 import ProjectMasterDataEditForm from './projectMasterDataEdit';
 import CustomSnackBar from '../../ui/customSnackBar';
 import DeleteIcon from '../../menu/icons/newDeleteIcon';
@@ -60,6 +61,11 @@ const ProjectMasterData: React.FC = (props: any) => {
     setOpen(true);
     setMode('EDIT')
   }
+
+  const handleClosePopup = () => {
+    setOpen(false);
+  }
+
   
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -214,7 +220,9 @@ const ProjectMasterData: React.FC = (props: any) => {
         type="success"
       />
       <CustomPopup
+       title= {mode === "EDIT" ? 'Edit Master Data' : 'Add Master Data'}
         open={open}
+        handleClose={handleClosePopup}
         content={
           <ProjectMasterDataEditForm
             setOpen={setOpen}

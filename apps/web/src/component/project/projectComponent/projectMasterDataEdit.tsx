@@ -95,15 +95,6 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
 
   return (
     <div>
-      <div className={Styles.header}>
-        <div>
-          <h4 className={Styles.titleStyle}>{props.mode === 'EDIT' ? 'Edit Master Data' : 'Add Master Data'}</h4>
-        </div>
-        <div>
-          <CancelIcon onClick={handleClose} />
-        </div>
-      </div>
-      <div className={Styles.dividerStyle}></div>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.divOne}>
           <div style={{ width: '60%' }}>
