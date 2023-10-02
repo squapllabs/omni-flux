@@ -16,7 +16,7 @@
 .subHeading {
   display: flex;
   flex-direction: row;
-  gap: 7px;
+  gap: 3px;
   align-items: center;
 }
 
@@ -54,12 +54,11 @@
   }
 }
 
-.conatiner {
+.container {
   width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
 
 .emptyDataHandling {
   display: flex;
@@ -75,7 +74,7 @@
   font-weight: 400;
 }
 
-.iconStyle{
+.iconStyle {
   display: flex;
   flex-direction: row;
   gap: 5px;

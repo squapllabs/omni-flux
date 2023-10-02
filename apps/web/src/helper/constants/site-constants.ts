@@ -22,8 +22,10 @@ export const getCreateValidateyup = (yup: any) => {
         async (value: any) => {
           if (value) {
             const response = await siteService.checkSiteCodeDuplicate(value);
-            if (response?.is_exist === true) return true;
-            else return false;
+            console.log('response', response);
+
+            if (response?.is_exist === true) return false;
+            else return true;
           }
         }
       ),
