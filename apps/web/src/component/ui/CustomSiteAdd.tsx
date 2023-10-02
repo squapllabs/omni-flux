@@ -260,7 +260,7 @@ const CustomSiteAdd = (props: { setOpen: any; open: any }) => {
                   size="small"
                   type="submit"
                 >
-                  Submit
+                  Save
                 </Button>
               </div>
             </div>
