@@ -21,6 +21,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import RejectIcon from '../menu/icons/cancelIcon';
 import RejectDialogBox from '../ui/CustomReject';
 import { formatBudgetValue } from '../../helper/common-function';
+import CustomPagination from '../menu/CustomPagination';
 
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
@@ -296,18 +297,18 @@ const ExpenseApprove = () => {
               </div>
             </div>
           </div>
-          <table>
+          <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th>S.No</th>
-                <th>Expense Code</th>
-                <th>Project</th>
-                <th>Site</th>
-                <th>From Date</th>
-                <th>To Date</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th className={Styles.tableHeading}>#</th>
+                <th className={Styles.tableHeading}>Expense Code</th>
+                <th className={Styles.tableHeading}>Project</th>
+                <th className={Styles.tableHeading}>Site</th>
+                <th className={Styles.tableHeading}>From Date</th>
+                <th className={Styles.tableHeading}>To Date</th>
+                <th className={Styles.tableHeading}>Amount</th>
+                <th className={Styles.tableHeading}>Status</th>
+                <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -353,7 +354,7 @@ const ExpenseApprove = () => {
             </tbody>
           </table>
           <div className={Styles.pagination}>
-            <Pagination
+            <CustomPagination
               currentPage={currentPage}
               totalPages={getExpenseList?.total_page}
               totalCount={getExpenseList?.total_count}
