@@ -137,6 +137,55 @@ const Project = () => {
         loader={loader}
       />
     ),
+    5: (
+      <ProjectSiteConfig
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    6: (
+      <SiteExpenseList
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    7: (
+      <ProjectBomConfig
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    8: (
+      <ProjectDocument
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    9: (
+      <ProjectIndentRequestList
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    10: (
+      <ProjectStockmanagement
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    11: (
+      <ProjectStockOutward
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
   };
   return (
     <CustomLoader loading={loader} size={48}>
