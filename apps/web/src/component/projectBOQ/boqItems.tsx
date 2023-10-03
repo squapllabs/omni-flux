@@ -357,6 +357,8 @@ const BomItems = (props: {
             mode={mode}
             selectedCategoryId={selectedCategory}
             selectedSubCategory={selectedSubCategoryId}
+            setAbstractReload={props.setReload}
+            abstractReload={props.reload}
           />
         }
       />

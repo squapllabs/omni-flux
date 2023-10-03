@@ -80,10 +80,11 @@ const ProjectTaskAdd: React.FC = (props: any) => {
             if (data?.message === 'success') {
               props.setMessage('Task edited');
               props.setOpenSnack(true);
-            //   props.setMode('ADD');
+              //   props.setMode('ADD');
               props.setOpen(false);
-              props.setReload(true);
-            //   handleClose();
+              props.setReload(!props.reload);
+              //   handleClose();
+              props.setAbstractReload(!props.abstractReload);
               resetForm();
             }
           },
@@ -107,7 +108,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               props.setOpenSnack(true);
               //   handleClose();
               props.setOpen(false);
-              props.setReload(true);
+              props.setReload(!props.reload);
+              props.setAbstractReload(!props.abstractReload);
               resetForm();
             }
           },
@@ -176,7 +178,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           </div>
         </div>
         <div className={Styles.icon}>
-          <CheckListIcon />
+          <CheckListIcon width={50} height={50} />
         </div>
       </div>
       <div className={Styles.sub_sub_container_2}>
