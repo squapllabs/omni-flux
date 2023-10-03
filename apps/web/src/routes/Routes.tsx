@@ -265,6 +265,7 @@ import ExpenseApprove from '../component/expanses/siteExpenseApprove';
 import ExpenseDetailApprove from '../component/expanses/expanseDetailApprove';
 import BillView from '../component/finance/invoiceBillView';
 import EcoProduction from '../component/ecoProduction/ecoProduction';
+import projectAbstract from '../component/projectBOQ/projectAbstract';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -315,7 +316,8 @@ const AppRoutes = () => {
   const ProtectedProjectView = withLayoutAndProtection(ProjectView);
   const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
   const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
-  const ProtectedBomList = withLayoutAndProtection(BomList);
+  // const ProtectedBomList = withLayoutAndProtection(BomList);
+  const ProtectedBomList = withLayoutAndProtection(projectAbstract);
   const ProtectedBom = withLayoutAndProtection(Bom);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
   const ProtectedLabourListPage = withLayoutAndProtection(LabourList);
@@ -358,7 +360,8 @@ const AppRoutes = () => {
   const ProtectedFinanceInvoiceList =
     withLayoutAndProtection(FinanceInvoiceView);
   const ProtectedSiteExpensesApprove = withLayoutAndProtection(ExpenseApprove);
-  const ProtectedExpenseDetailApprove = withLayoutAndProtection(ExpenseDetailApprove);
+  const ProtectedExpenseDetailApprove =
+    withLayoutAndProtection(ExpenseDetailApprove);
   const ProtectedBillView = withLayoutAndProtection(BillView);
   const ProtectedListVendor = withLayoutAndProtection(ListVendor);
   return (
@@ -555,11 +558,17 @@ const AppRoutes = () => {
           element={<ProtectedProjectInventory />}
         />
         <Route path="/finance-view" element={<ProtectedFinanceInvoiceList />} />
-        <Route path="/site-expense-approve" element={<ProtectedSiteExpensesApprove />} />
-        <Route path="/expense-detail-approve/:projectId/:id" element={<ProtectedExpenseDetailApprove />} />
+        <Route
+          path="/site-expense-approve"
+          element={<ProtectedSiteExpensesApprove />}
+        />
+        <Route
+          path="/expense-detail-approve/:projectId/:id"
+          element={<ProtectedExpenseDetailApprove />}
+        />
         <Route path="/invoice-view/:id" element={<ProtectedBillView />} />
-        <Route path="/eco-protection" element={<EcoProduction/>}/>
-        <Route path="/vendor-list" element={<ProtectedListVendor/>}/>
+        <Route path="/eco-protection" element={<EcoProduction />} />
+        <Route path="/vendor-list" element={<ProtectedListVendor />} />
       </Routes>
     </div>
   );
