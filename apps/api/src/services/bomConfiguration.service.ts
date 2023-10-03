@@ -159,10 +159,89 @@ const getByBomConfigurationId = async (bom_configuration_id: number) => {
   }
 };
 
+const searchBomConfiguration = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterBomConfiguration = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (global_search) {
+      filterObj.filterBomConfiguration = filterObj.filterBomConfiguration || {};
+      filterObj.filterBomConfiguration.OR =
+        filterObj.filterBomConfiguration.OR || [];
+
+      filterObj.filterBomConfiguration.OR.push(
+        {
+          bom_name: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          bom_type_data: {
+            name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          project_data: {
+            name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
+    }
+
+    const result = await bomConfigurationDao.searchBomConfiguration(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const tempBomConfigurationData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      total_page: total_pages,
+      content: data,
+    };
+    return tempBomConfigurationData;
+  } catch (error) {
+    console.log(
+      'Error occurred in searchbomconfiguration bomConfiguration service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export = {
   createBomConfiguration,
   updateBomConfiguration,
   getAllBomConfiguration,
   deleteBomConfiguration,
   getByBomConfigurationId,
+  searchBomConfiguration,
 };

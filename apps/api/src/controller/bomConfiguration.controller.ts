@@ -62,10 +62,23 @@ const getByBomConfigurationId = catchAsync(async (req, res) => {
   }
 });
 
+const searchBomConfiguration = catchAsync(async (req, res) => {
+  const methodName = '/searchbomconfiguration';
+  try {
+    const labour = await bomConfigurationService.searchBomConfiguration(
+      req.body
+    );
+    res.send(labour);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createBomConfiguration,
   updateBomConfiguration,
   getAllBomConfiguration,
   deleteBomConfiguration,
   getByBomConfigurationId,
+  searchBomConfiguration,
 };

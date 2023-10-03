@@ -6,13 +6,15 @@ import {
   getAllBomConfiguration,
   deleteBomConfiguration,
   getByBomConfigurationId,
+  searchBomConfiguration,
 } from '../../controller/bomConfiguration.controller';
+import { runValidation } from '../../validations/index';
 
 const router = express.Router();
 
-router.post('/', authMiddleware, createBomConfiguration);
+router.post('/', authMiddleware, runValidation, createBomConfiguration);
 
-router.put('/', authMiddleware, updateBomConfiguration);
+router.put('/', authMiddleware, runValidation, updateBomConfiguration);
 
 router.get('/get-all', authMiddleware, getAllBomConfiguration);
 
@@ -27,5 +29,7 @@ router.get(
   authMiddleware,
   getByBomConfigurationId
 );
+
+router.post('/search', authMiddleware, searchBomConfiguration);
 
 export default router;

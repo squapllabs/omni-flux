@@ -54,6 +54,8 @@ const add = async (
   try {
     const currentDate = new Date();
     const is_delete = false;
+    console.log('bomtype>>>', bom_type_id);
+
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const bomConfiguration = await transaction.bom_configuration.create({
       data: {
@@ -199,43 +201,47 @@ const getByBomConfigurationId = async (
   }
 };
 
-// const searchbomconfiguration = async (
-//   offset: number,
-//   limit: number,
-//   orderByColumn: string,
-//   orderByDirection: string,
-//   filters,
-//   connectionObj = null
-// ) => {
-//   try {
-//     const transaction = connectionObj !== null ? connectionObj : prisma;
-//     const filter = filters.filterLabour;
-//     const labour = await transaction.labour.findMany({
-//       where: filter,
-//       include: {
-//         uom: true,
-//       },
-//       orderBy: [
-//         {
-//           [orderByColumn]: orderByDirection,
-//         },
-//       ],
-//       skip: offset,
-//       take: limit,
-//     });
-//     const labourCount = await transaction.labour.count({
-//       where: filter,
-//     });
-//     const labourData = {
-//       count: labourCount,
-//       data: labour,
-//     };
-//     return labourData;
-//   } catch (error) {
-//     console.log('Error occurred in labour dao : searchLabour', error);
-//     throw error;
-//   }
-// };
+const searchBomConfiguration = async (
+  offset: number,
+  limit: number,
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterBomConfiguration;
+    const bomConfiguration = await transaction.bom_configuration.findMany({
+      where: filter,
+      include: {
+        bom_type_data: true,
+        project_data: true,
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+      skip: offset,
+      take: limit,
+    });
+    const bomConfigurationCount = await transaction.bom_configuration.count({
+      where: filter,
+    });
+    const bomConfigurationData = {
+      count: bomConfigurationCount,
+      data: bomConfiguration,
+    };
+    return bomConfigurationData;
+  } catch (error) {
+    console.log(
+      'Error occurred in bomConfiguration dao : searchbomConfiguration',
+      error
+    );
+    throw error;
+  }
+};
 
 export default {
   getById,
@@ -245,5 +251,5 @@ export default {
   getAll,
   deleteBomConfiguration,
   getByBomConfigurationId,
-  // searchbomconfiguration
+  searchBomConfiguration,
 };
