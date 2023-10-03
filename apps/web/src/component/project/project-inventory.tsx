@@ -39,6 +39,8 @@ const ProjectInventory = () => {
         if (result.message === 'success') {
           setTableData(result.content);
           setDataLoading(false);
+          console.log("tableData-->", tableData);
+          
         }
       }
     };
@@ -59,15 +61,16 @@ const ProjectInventory = () => {
           </span>
         </div>
         <div className={Styles.dividerStyle}></div>
+        
         <div className={Styles.tableContainer}>
           <div>
-            <table>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S.No</th>
-                  <th>Item Name </th>
-                  <th>In Stock</th>
-                  <th>Rate</th>
+                  <th className={Styles.tableHeading}>S.No</th>
+                  <th className={Styles.tableHeading}>Item Name </th>
+                  <th className={Styles.tableHeading}>In Stock</th>
+                  <th className={Styles.tableHeading}>Rate</th>
                 </tr>
               </thead>
               <tbody>
