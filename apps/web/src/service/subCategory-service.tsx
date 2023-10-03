@@ -95,6 +95,7 @@ const getOneSubCatListbyCatID = async (values: any) => {
     throw error;
   }
 };
+
 export default {
   getAllSubcategory,
   getOneSubcategoryByID,

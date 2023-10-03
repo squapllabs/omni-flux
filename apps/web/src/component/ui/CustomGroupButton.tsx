@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import Button from './Button';
 
 interface ButtonData {
@@ -8,7 +8,7 @@ interface ButtonData {
 
 interface GroupButtonProps {
   labels: ButtonData[];
-  onClick: (value: string) => void; // Update the onClick callback to receive the value
+  onClick: (value: string) => void;
   activeButton?: string | null;
 }
 
@@ -23,18 +23,18 @@ const CustomGroupButton: React.FC<GroupButtonProps> = ({
 
   return (
     <div style={{ display: 'flex' }}>
-      {labels.map(({ label, value }) => (
+      {labels.map(({ label, value }, index) => (
         <Button
           key={value}
           onClick={() => handleButtonClick(value)}
           style={{
             backgroundColor: activeButton === value ? '#D0D5DD' : 'white',
-            color: activeButton === value ? 'Black' : 'black',
+            color: activeButton === value ? 'black' : 'black',
             border: '1px solid #D0D5DD',
-            padding: '10px, 16px, 10px, 16px',
-            fontSize:'0.75rem'
+            padding: '10px 16px',
+            fontSize: '0.75rem',
+            borderRadius: index === 0 ? '8px 0 0 8px' : index === labels.length - 1 ? '0 8px 8px 0' : 'none', // Apply border radius based on index
           }}
-
           justify="center"
           size="small"
         >

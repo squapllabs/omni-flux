@@ -3731,15 +3731,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "44"
+									"value": "474"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"2c-2b25zr7zSVKvWxsHs1fQs4o33fY\""
+									"value": "W/\"1da-SEI/pXgGdRTaDcrs+DgfOsT7U5g\""
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 03 Oct 2023 05:34:36 GMT"
+									"value": "Tue, 03 Oct 2023 07:03:28 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3751,7 +3751,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": 2\n}"
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"abstract_count\": 2,\n        \"tasks_count\": 2,\n        \"bom_configuration_data\": {\n            \"bom_configuration_id\": 53,\n            \"bom_name\": \"Demo Boq\",\n            \"bom_description\": \"Demo Boq description\",\n            \"bom_type_id\": 180,\n            \"project_id\": 164,\n            \"budget\": 8120,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-02T09:02:49.936Z\",\n            \"updated_date\": \"2023-10-03T05:11:54.524Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"project_data\": {\n                \"project_name\": \"Check BOQ Type \"\n            },\n            \"bom_type_data\": {\n                \"master_data_name\": \"TEST \"\n            }\n        }\n    }\n}"
 						}
 					]
 				}
@@ -30422,6 +30422,663 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 3,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"expense_details_id\": 20,\n            \"expense_id\": 17,\n            \"expense_data_id\": 134,\n            \"total\": 22,\n            \"bill_details\": [],\n            \"bill_number\": \"\",\n            \"created_date\": \"2023-09-23T15:35:07.704Z\",\n            \"updated_date\": \"2023-09-26T03:52:17.081Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"status\": \"Approved\",\n            \"comments\": \"Progressed By Vijay Perumalsamy\",\n            \"progressed_date\": \"2023-09-26T03:52:17.081Z\",\n            \"progressed_by\": 1,\n            \"is_delete\": false,\n            \"progressed_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"expense_master_data\": {\n                \"master_data_id\": 134,\n                \"master_data_name\": \"Labour Advance\",\n                \"master_data_description\": \"Labour Advance\",\n                \"master_data_type\": \"SIEPLA\",\n                \"parent_master_data_id\": 131,\n                \"project_id\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-23T05:36:32.748Z\",\n                \"updated_date\": \"2023-09-23T05:36:32.748Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            }\n        },\n        {\n            \"expense_details_id\": 19,\n            \"expense_id\": 17,\n            \"expense_data_id\": 133,\n            \"total\": 1000,\n            \"bill_details\": [],\n            \"bill_number\": \"12345A23\",\n            \"created_date\": \"2023-09-23T15:35:07.704Z\",\n            \"updated_date\": \"2023-09-25T13:13:41.348Z\",\n            \"created_by\": 1,\n            \"updated_by\": 97,\n            \"status\": \"Approved\",\n            \"comments\": \"Progressed By Vijay Perumalsamy\",\n            \"progressed_date\": \"2023-09-25T07:25:56.823Z\",\n            \"progressed_by\": 1,\n            \"is_delete\": false,\n            \"progressed_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"expense_master_data\": {\n                \"master_data_id\": 133,\n                \"master_data_name\": \"Fuel\",\n                \"master_data_description\": \"Fuel\",\n                \"master_data_type\": \"SIEPF\",\n                \"parent_master_data_id\": 131,\n                \"project_id\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-23T05:35:07.821Z\",\n                \"updated_date\": \"2023-09-23T05:35:07.821Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            }\n        },\n        {\n            \"expense_details_id\": 18,\n            \"expense_id\": 17,\n            \"expense_data_id\": 132,\n            \"total\": 100,\n            \"bill_details\": [],\n            \"bill_number\": \"12345A2\",\n            \"created_date\": \"2023-09-23T15:33:46.159Z\",\n            \"updated_date\": \"2023-09-25T13:13:41.348Z\",\n            \"created_by\": 1,\n            \"updated_by\": 97,\n            \"status\": \"Approved\",\n            \"comments\": \"Progressed By Vijay Perumalsamy\",\n            \"progressed_date\": \"2023-09-25T07:26:24.629Z\",\n            \"progressed_by\": 1,\n            \"is_delete\": false,\n            \"progressed_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"expense_master_data\": {\n                \"master_data_id\": 132,\n                \"master_data_name\": \"Air Transport\",\n                \"master_data_description\": \"Air Transport\",\n                \"master_data_type\": \"SIEPAT\",\n                \"parent_master_data_id\": 131,\n                \"project_id\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-23T05:34:28.843Z\",\n                \"updated_date\": \"2023-09-23T05:34:28.843Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            }\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bom Configuration",
+			"item": [
+				{
+					"name": "API To Create Bom Configuration",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bom_name\": \"BOM 55\",\r\n    \"bom_description\": \"BOM 55 Desc\",\r\n    \"bom_type_id\": 161,\r\n    \"project_id\": 164,\r\n    \"budget\": 3102023,\r\n    \"created_by\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/bom-configuration/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"bom-configuration",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Create Bom Configuration",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bom_name\": \"BOM 55\",\r\n    \"bom_description\": \"BOM 55 Desc\",\r\n    \"bom_type_id\": 161,\r\n    \"project_id\": 164,\r\n    \"budget\": 3102023,\r\n    \"created_by\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/bom-configuration/",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"bom-configuration",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "309"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"135-J6O73VyQSAegzEOQMXtGP+JiQtk\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 03 Oct 2023 08:51:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"bom_configuration_id\": 63,\n        \"bom_name\": \"BOM 55\",\n        \"bom_description\": \"BOM 55 Desc\",\n        \"bom_type_id\": 161,\n        \"project_id\": 164,\n        \"budget\": 3102023,\n        \"is_delete\": false,\n        \"created_date\": \"2023-10-03T08:51:58.606Z\",\n        \"updated_date\": \"2023-10-03T08:51:58.606Z\",\n        \"created_by\": 1,\n        \"updated_by\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Update Bom Configuration By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bom_name\": \"BOM 54\",\r\n    \"bom_description\": \"BOM 54 Desc\",\r\n    \"bom_type_id\": 161,\r\n    \"project_id\": 164,\r\n    \"budget\": 3102023,\r\n    \"updated_by\": 1,\r\n    \"bom_configuration_id\": 62\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/bom-configuration/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"bom-configuration",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Update Bom Configuration By Id",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bom_name\": \"BOM 54\",\r\n    \"bom_description\": \"BOM 54 Desc\",\r\n    \"bom_type_id\": 161,\r\n    \"project_id\": 164,\r\n    \"budget\": 3102023,\r\n    \"updated_by\": 1,\r\n    \"bom_configuration_id\": 62\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/bom-configuration/",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"bom-configuration",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "306"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"132-wE+9TjZ/PHvhEETClKWIt5sm9rg\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 03 Oct 2023 08:49:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"bom_configuration_id\": 62,\n        \"bom_name\": \"BOM 54\",\n        \"bom_description\": \"BOM 54 Desc\",\n        \"bom_type_id\": 161,\n        \"project_id\": 164,\n        \"budget\": 3102023,\n        \"is_delete\": false,\n        \"created_date\": \"2023-10-03T08:48:26.066Z\",\n        \"updated_date\": \"2023-10-03T08:49:56.594Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get All Bom Configuration",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/bom-configuration/get-all",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"bom-configuration",
+								"get-all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get All Bom Configuration",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/bom-configuration/get-all",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"bom-configuration",
+										"get-all"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "7636"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1dd4-mEc17bwYivgKR/deH0p5RdTnKoU\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 03 Oct 2023 08:40:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"bom_configuration_id\": 55,\n            \"bom_name\": \"Sample\",\n            \"bom_description\": \"check\",\n            \"bom_type_id\": 194,\n            \"project_id\": 164,\n            \"budget\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-02T11:05:19.190Z\",\n            \"updated_date\": \"2023-10-02T11:05:19.190Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Electrical\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Check BOQ Type \"\n            }\n        },\n        {\n            \"bom_configuration_id\": 54,\n            \"bom_name\": \"Sample\",\n            \"bom_description\": \"check\",\n            \"bom_type_id\": 194,\n            \"project_id\": 164,\n            \"budget\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-02T11:05:03.330Z\",\n            \"updated_date\": \"2023-10-02T11:05:03.330Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Electrical\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Check BOQ Type \"\n            }\n        },\n        {\n            \"bom_configuration_id\": 52,\n            \"bom_name\": \"Sample\",\n            \"bom_description\": \"description\",\n            \"bom_type_id\": 193,\n            \"project_id\": 166,\n            \"budget\": 1060,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-02T06:47:16.102Z\",\n            \"updated_date\": \"2023-10-02T06:50:02.398Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil Works\"\n            },\n            \"project_data\": {\n                \"project_name\": \"sample project check\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 51,\n            \"bom_name\": \"11\",\n            \"bom_description\": \"22\",\n            \"bom_type_id\": 161,\n            \"project_id\": 143,\n            \"budget\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-02T04:48:13.273Z\",\n            \"updated_date\": \"2023-10-02T04:48:13.273Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Mech\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Water Treatment Plan Ambattur\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 40,\n            \"bom_name\": \"Sample Bom Ambattur\",\n            \"bom_description\": \"Sample Bom Ambattur Description\",\n            \"bom_type_id\": 112,\n            \"project_id\": 143,\n            \"budget\": 1005100,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-21T05:07:34.460Z\",\n            \"updated_date\": \"2023-10-02T04:48:13.273Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Water Treatment Plan Ambattur\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 50,\n            \"bom_name\": \"11\",\n            \"bom_description\": \"11\",\n            \"bom_type_id\": 178,\n            \"project_id\": 163,\n            \"budget\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-01T06:29:31.373Z\",\n            \"updated_date\": \"2023-10-01T06:29:31.373Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Mechanical\"\n            },\n            \"project_data\": {\n                \"project_name\": \"sdfsdf\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 47,\n            \"bom_name\": \"Bhiwandi Civil\",\n            \"bom_description\": \"Bhiwandi Civil works\",\n            \"bom_type_id\": 165,\n            \"project_id\": 149,\n            \"budget\": 1371215,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-26T14:40:34.933Z\",\n            \"updated_date\": \"2023-09-29T12:09:18.043Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Bhiwandi Nizampur water supply\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 49,\n            \"bom_name\": \"Test\",\n            \"bom_description\": \"Test description\",\n            \"bom_type_id\": 160,\n            \"project_id\": 144,\n            \"budget\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-29T12:07:36.232Z\",\n            \"updated_date\": \"2023-09-29T12:07:36.232Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Test 01\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Metro Project Adyar\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 41,\n            \"bom_name\": \"Sample Bom adyar bom\",\n            \"bom_description\": \"Sample Bom adyar bom description\",\n            \"bom_type_id\": 112,\n            \"project_id\": 144,\n            \"budget\": 267870.5,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T10:56:38.464Z\",\n            \"updated_date\": \"2023-09-29T12:07:36.232Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Metro Project Adyar\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 48,\n            \"bom_name\": \"Patna \",\n            \"bom_description\": \"patna\",\n            \"bom_type_id\": 167,\n            \"project_id\": 149,\n            \"budget\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-29T12:04:06.762Z\",\n            \"updated_date\": \"2023-09-29T12:04:06.762Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Electrical\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Bhiwandi Nizampur water supply\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 34,\n            \"bom_name\": \"Mech\",\n            \"bom_description\": \"Mech\",\n            \"bom_type_id\": 113,\n            \"project_id\": 137,\n            \"budget\": 3964,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-12T08:17:14.207Z\",\n            \"updated_date\": \"2023-09-27T07:58:42.104Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Mechanical\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Pipe line Project ambur\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 42,\n            \"bom_name\": \"Civil\",\n            \"bom_description\": \"civil\",\n            \"bom_type_id\": 112,\n            \"project_id\": 137,\n            \"budget\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T06:12:58.500Z\",\n            \"updated_date\": \"2023-09-27T07:58:42.104Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Pipe line Project ambur\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 44,\n            \"bom_name\": \"testing\",\n            \"bom_description\": \"testing\",\n            \"bom_type_id\": 149,\n            \"project_id\": 137,\n            \"budget\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T14:30:02.081Z\",\n            \"updated_date\": \"2023-09-27T07:58:42.104Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"test\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Pipe line Project ambur\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 45,\n            \"bom_name\": \"Civil Boq\",\n            \"bom_description\": \"Civil Boq description\",\n            \"bom_type_id\": 152,\n            \"project_id\": 145,\n            \"budget\": 200900,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T16:42:03.477Z\",\n            \"updated_date\": \"2023-09-27T04:30:47.722Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil Works\"\n            },\n            \"project_data\": {\n                \"project_name\": \"120 MLD Sewage Treatment Plant at Kodungaiyur\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 46,\n            \"bom_name\": \"Civil Work\",\n            \"bom_description\": \"Civil Work Progression\",\n            \"bom_type_id\": 162,\n            \"project_id\": 147,\n            \"budget\": 5103860,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-26T13:49:16.126Z\",\n            \"updated_date\": \"2023-09-26T14:55:21.362Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil\"\n            },\n            \"project_data\": {\n                \"project_name\": \"120 MLD CAPACITY SEWAGE TREATMENT PLANT KODUNGAIYUR\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 43,\n            \"bom_name\": \"Sample check bom\",\n            \"bom_description\": \"Sample check bom description\",\n            \"bom_type_id\": 113,\n            \"project_id\": 142,\n            \"budget\": 5500,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-25T10:18:39.470Z\",\n            \"updated_date\": \"2023-09-25T10:20:37.375Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Mechanical\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Fire fighting Mall VR\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 39,\n            \"bom_name\": \"Final Flow Check Bom\",\n            \"bom_description\": \"Final Flow Check Bom description\",\n            \"bom_type_id\": 112,\n            \"project_id\": 142,\n            \"budget\": 102800,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-20T10:51:13.331Z\",\n            \"updated_date\": \"2023-09-25T10:18:39.470Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Fire fighting Mall VR\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 38,\n            \"bom_name\": \"Testing \",\n            \"bom_description\": \"Testing bom\",\n            \"bom_type_id\": 112,\n            \"project_id\": 141,\n            \"budget\": 3000,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-19T06:34:53.726Z\",\n            \"updated_date\": \"2023-09-25T09:43:49.701Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Sample Demo Project\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 36,\n            \"bom_name\": \"BOM 2\",\n            \"bom_description\": \"Sample BOM Description 2\",\n            \"bom_type_id\": 113,\n            \"project_id\": 140,\n            \"budget\": 7500,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-18T12:07:06.778Z\",\n            \"updated_date\": \"2023-09-18T12:07:06.778Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Mechanical\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Project Fire Fightening\"\n            }\n        },\n        {\n            \"bom_configuration_id\": 37,\n            \"bom_name\": \"BOM 3\",\n            \"bom_description\": \"Sample BOM Description 3\",\n            \"bom_type_id\": 114,\n            \"project_id\": 140,\n            \"budget\": 6000,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-18T12:07:06.778Z\",\n            \"updated_date\": \"2023-09-18T12:07:06.778Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Electrical\"\n            },\n            \"project_data\": {\n                \"project_name\": \"Project Fire Fightening\"\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get Bom Configuration By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/bom-configuration/get/53",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"bom-configuration",
+								"get",
+								"53"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Bom Configuration By Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/bom-configuration/get/53",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"bom-configuration",
+										"get",
+										"53"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"19d-tE3JUdIl9HP4l+4+FNxgOEJeWa4\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 03 Oct 2023 08:39:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"bom_configuration_id\": 53,\n        \"bom_name\": \"Demo Boq\",\n        \"bom_description\": \"Demo Boq description\",\n        \"bom_type_id\": 180,\n        \"project_id\": 164,\n        \"budget\": 30790,\n        \"is_delete\": false,\n        \"created_date\": \"2023-10-02T09:02:49.936Z\",\n        \"updated_date\": \"2023-10-03T07:55:16.680Z\",\n        \"created_by\": null,\n        \"updated_by\": 1,\n        \"bom_type_data\": {\n            \"master_data_name\": \"TEST \"\n        },\n        \"project_data\": {\n            \"project_name\": \"Check BOQ Type \"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Delete Bom Configuration ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/bom-configuration/delete/53",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"bom-configuration",
+								"delete",
+								"53"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Delete Bom Configuration",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/bom-configuration/delete/53",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"bom-configuration",
+										"delete",
+										"53"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "82"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"52-Wol3Ydm9jy+3OqCmKaBBE2nmDKU\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 03 Oct 2023 08:39:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"BomConfiguration Data Deleted Successfully\",\n    \"status\": true,\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Search Bom Configuration ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"global_search\": \"civil\",\r\n    \"project_id\": 166\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/bom-configuration/search",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"bom-configuration",
+								"search"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Search Bom Configuration",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"global_search\": \"civil\",\r\n    \"project_id\": 166\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/bom-configuration/search",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"bom-configuration",
+										"search"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "451"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c3-4K1LDXIBC+1dq71q6rRic9biIyY\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 03 Oct 2023 09:03:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"content\": [\n        {\n            \"bom_configuration_id\": 52,\n            \"bom_name\": \"Sample\",\n            \"bom_description\": \"description\",\n            \"bom_type_id\": 193,\n            \"project_id\": 166,\n            \"budget\": 1060,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-02T06:47:16.102Z\",\n            \"updated_date\": \"2023-10-02T06:50:02.398Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"bom_type_data\": {\n                \"master_data_name\": \"Civil Works\"\n            },\n            \"project_data\": {\n                \"project_name\": \"sample project check\"\n            }\n        }\n    ]\n}"
 						}
 					]
 				}

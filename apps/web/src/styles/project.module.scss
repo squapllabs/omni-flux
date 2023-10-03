@@ -1,6 +1,7 @@
 .Container {
   width: 100%;
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 .Container_main {
   padding-left: 10px;
@@ -111,6 +112,15 @@
   margin: 2rem auto;
   &::-webkit-scrollbar {
     width: 0px;
+    background: transparent;
+  }
+}
+
+.tableContainerBOM {
+  padding: 10px;
+  width: 100%;
+  &::-webkit-scrollbar {
+    width: 2px;
     background: transparent;
   }
 }
@@ -443,6 +453,11 @@
   font-size: 16px;
 }
 .image{
+  display: flex;
+  justify-content: center;
+}
+
+.imageAdd{
   display: flex;
   justify-content: center;
 }
