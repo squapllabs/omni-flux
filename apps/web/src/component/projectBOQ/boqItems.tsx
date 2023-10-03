@@ -55,7 +55,7 @@ const BomItems = (props: {
     selectedBomConfig: selectedBomConfig,
   };
 
-  const { data: getAllData } = getBycategoryIdInSub(obj);
+  const { data: getAllData, refetch } = getBycategoryIdInSub(obj);
 
   console.log('getAllData----------90', getAllData);
 
@@ -217,9 +217,9 @@ const BomItems = (props: {
 
   useEffect(() => {
     // handleDemo()
-
-    props.setReload(!props.reload);
-  }, [activeButton]);
+    refetch();
+    // props.setReload(!props.reload);
+  }, [reload]);
 
   useEffect(() => {
     const closeContextMenu = () => {
@@ -250,22 +250,16 @@ const BomItems = (props: {
             <thead>
               <tr>
                 <th className={Styles.tableHeading}>#</th>
-
                 <th className={Styles.tableHeading}>Task Name</th>
-
                 <th className={Styles.tableHeading}>Task Description</th>
-
                 <th className={Styles.tableHeading}>Amount</th>
-
                 <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
-
             <tbody>
               {getAllData?.map((data: any, index: number) => (
                 <tr key={data.sub_category_id}>
                   <td>{index + 1}</td>
-
                   <td>
                     <span title={data?.name}>
                       {data.name
@@ -275,7 +269,6 @@ const BomItems = (props: {
                         : '-'}
                     </span>
                   </td>
-
                   <td>
                     <span title={data?.description}>
                       {data.description
@@ -285,22 +278,17 @@ const BomItems = (props: {
                         : '-'}
                     </span>
                   </td>
-
                   <td>{formatBudgetValue(data?.budget ? data?.budget : 0)}</td>
-
                   <td>
                     <MoreVerticalIcon
                       onClick={(e: any) => {
                         e.stopPropagation();
-
                         setOpenedContextMenuForSubCategory(
                           data.sub_category_id
                         );
-
                         setMoreIconDropdownOpen(!moreIconDropdownOpen);
                       }}
                     />
-
                     {moreIconDropdownOpen &&
                       data.sub_category_id ===
                         openedContextMenuForSubCategory && (
@@ -309,23 +297,21 @@ const BomItems = (props: {
                             <div
                               style={{
                                 display: 'flex',
-
                                 flexDirection: 'column',
-
                                 gap: '5px',
-
                                 padding: '5px',
-
                                 backgroundColor: '#E5CFF7',
                               }}
                             >
                               <div
                                 className={Styles.options}
                                 onClick={() => {
-                                    setSelectedSubCategoryId(data.sub_category_id)
-                                    setPlanListTitle(data.name)
-                                    setShowPlanForm(true)
-                                //   navigate(`/bom/${data?.sub_category_id}`);
+                                  setSelectedSubCategoryId(
+                                    data.sub_category_id
+                                  );
+                                  setPlanListTitle(data.name);
+                                  setShowPlanForm(true);
+                                  //   navigate(`/bom/${data?.sub_category_id}`);
                                 }}
                               >
                                 <span className={Styles.menuFont}>
@@ -375,6 +361,10 @@ const BomItems = (props: {
             open={showPlanForm}
             setOpen={setShowPlanForm}
             subCategoryId={selectedSubCategoryId}
+            setAbstractReload={props.setReload}
+            abstractReload={props.setReload}
+            reload={reload}
+            setReload={setReload}
           />
         }
       />

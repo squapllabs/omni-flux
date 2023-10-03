@@ -15,6 +15,7 @@ import Input from '../../ui/Input';
 import BomService from '../../../service/bom-service';
 import CustomSnackBar from '../../ui/customSnackBar';
 import CustomDelete from '../../ui/customDeleteDialogBox';
+import NewAddCircleIcon from '../../menu/icons/newAddCircleIcon';
 
 const BomRawMaterials: React.FC = (props: any) => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const BomRawMaterials: React.FC = (props: any) => {
         async function (value: number, { parent }: Yup.TestContext) {
           let isDelete = parent.is_delete;
           try {
-            const isValuePresent = bomList.some((obj: any) => {
+            const isValuePresent = props.bomList.some((obj: any) => {
               return (
                 Number(obj.item_id) === Number(value) &&
                 obj.is_delete === isDelete
@@ -307,21 +308,16 @@ const BomRawMaterials: React.FC = (props: any) => {
                 <td>
                   <label>{formik.values.quantity * formik.values.rate}</label>
                 </td>
-                <td>
-                  <div
-                    style={{
-                      cursor: 'pointer',
-                      paddingBottom: '20px',
-                    }}
-                  >
-                    <div onClick={formik.handleSubmit}>
-                      <AddIcon />
-                    </div>
-                  </div>
-                </td>
+                <td></td>
               </tr>
             </tbody>
           </table>
+          <div className={Styles.addDataIcon}>
+            <div onClick={formik.handleSubmit} className={Styles.iconContent}>
+              <NewAddCircleIcon />
+              <span>Add Plan here</span>
+            </div>
+          </div>
         </div>
         {/* <div className={Styles.saveButton}>
           <Button

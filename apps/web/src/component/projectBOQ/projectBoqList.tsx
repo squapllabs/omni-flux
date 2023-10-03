@@ -68,13 +68,9 @@ const BomList: React.FC = (props: any) => {
         bomconfigId: bomconfigId,
       };
       const datas = await CategoryService.getAllCategoryByProjectId(obj);
-
-      console.log('rrrrrrrrrrrrrrrr', datas.data);
       setCategories(datas.data);
       setIsloading(false);
       setCategoryData(datas.data[0]);
-      console.log('ttttttttttt', datas.data[0]);
-      props.setReload(!props.reload);
       setSelectedCategory(datas.data[0].category_id);
       setCategoryId(datas.data[0].category_id);
     };
