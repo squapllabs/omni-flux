@@ -30,6 +30,7 @@ import SiteExpenseBill from './SiteExpensBill';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import BackArrow from '../menu/icons/backArrow';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
+import ProjectSubheader from '../project/projectSubheader';
 const SiteExpensesForm = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -220,47 +221,17 @@ const SiteExpensesForm = () => {
   return (
     <div>
       <div className={Styles.container}>
-        <div className={Styles.sub_header}>
-          <div
-            className={Styles.logo}
-            onClick={() => {
-              navigate(`/project-edit/${projectId}`);
-            }}
-          >
-            <PreviousPageIcon width={20} height={20} color="#7f56d9" />
-          </div>
-          <div style={{ padding: '8px', display: 'flex' }}>
-            <div className={Styles.vertical}>
-              <div className={Styles.verticalLine}></div>
-            </div>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '700px',
-            }}
-          >
-            <div className={Styles.textContent_1}>
-              {params?.id !== undefined ? (
-                <h3>Edit Site Expense</h3>
-              ) : (
-                <h3>Add Site Expense</h3>
-              )}
-              {/* <span className={Styles.content}>Add your site expense</span> */}
-              {params?.id !== undefined ? (
-                <span className={Styles.content}>
-                  Review, update, or modify your site-related expenses
-                </span>
-              ) : (
-                <span className={Styles.content}>
-                  Provide all the necessary details for each expense
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
+        <ProjectSubheader
+          description={
+            params?.id !== undefined
+              ? ' Review, update, or modify your site-related expenses'
+              : ' Provide all the necessary details for each expense'
+          }
+          navigation={`/project-edit/${projectId}`}
+          title={
+            params?.id !== undefined ? 'Edit Site Expense' : 'Add Site Expense'
+          }
+        />
       </div>
       <div className={Styles.dividerStyle}></div>
       <form>

@@ -18,7 +18,8 @@ import { useGetAllMachineryForDrop } from '../../../hooks/machinery-hooks';
 
 const BomMachinery: React.FC = (props: any) => {
   const navigate = useNavigate();
-  const fieldWidth = '140px';
+  const fieldWidth = '100px';
+  const DropfieldWidth = '150px';
   let rowIndex = 0;
   const [bomList, setBomList] = useState<any>([]);
   const validationSchema = Yup.object().shape({
@@ -191,7 +192,7 @@ const BomMachinery: React.FC = (props: any) => {
                   return (
                     <tr>
                       <td>{rowIndex}</td>
-                      <td style={{textAlign:'left'}}>{items.bom_name}</td>
+                      <td style={{ textAlign: 'left' }}>{items.bom_name}</td>
                       {/* <td>
                       <Input
                         name="description"
@@ -202,7 +203,7 @@ const BomMachinery: React.FC = (props: any) => {
                     </td> */}
                       <td>
                         <AutoCompleteSelect
-                          width="250px"
+                          width={DropfieldWidth}
                           name="uom_id"
                           mandatory={true}
                           optionList={
@@ -262,7 +263,7 @@ const BomMachinery: React.FC = (props: any) => {
                 <td>{rowIndex + 1}</td>
                 <td>
                   <AutoCompleteSelect
-                    width="250px"
+                    width={DropfieldWidth}
                     name="machinery_id"
                     mandatory={true}
                     optionList={getAllMachineDrop}
@@ -300,7 +301,7 @@ const BomMachinery: React.FC = (props: any) => {
               </td> */}
                 <td>
                   <AutoCompleteSelect
-                    width="250px"
+                    width={DropfieldWidth}
                     name="uom_id"
                     mandatory={true}
                     optionList={getAllUomDrop}

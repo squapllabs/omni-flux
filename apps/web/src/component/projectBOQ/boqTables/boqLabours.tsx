@@ -18,7 +18,8 @@ import { useGetAllLabourForDrop } from '../../../hooks/labour-hooks';
 
 const BomLabours: React.FC = (props: any) => {
   const navigate = useNavigate();
-  const fieldWidth = '140px';
+  const fieldWidth = '100px';
+  const DropfieldWidth = '150px';
   let rowIndex = 0;
   const validationSchema = Yup.object().shape({
     bom_name: Yup.string().trim().required(bomErrorMessages.ENTER_NAME),
@@ -171,7 +172,9 @@ const BomLabours: React.FC = (props: any) => {
                       return (
                         <tr key={index}>
                           <td>{rowIndex}</td>
-                          <td style={{textAlign:'left'}}>{items.bom_name}</td>
+                          <td style={{ textAlign: 'left' }}>
+                            {items.bom_name}
+                          </td>
                           {/* <td>
                       <Input
                         name="description"
@@ -182,7 +185,7 @@ const BomLabours: React.FC = (props: any) => {
                     </td> */}
                           <td>
                             <AutoCompleteSelect
-                              width="250px"
+                              width={DropfieldWidth}
                               name="uom_id"
                               mandatory={true}
                               optionList={
@@ -243,7 +246,7 @@ const BomLabours: React.FC = (props: any) => {
                 <td>{rowIndex + 1}</td>
                 <td>
                   <AutoCompleteSelect
-                    width="250px"
+                    width={DropfieldWidth}
                     name="labour_id"
                     mandatory={true}
                     optionList={getAllLabourDrop}
@@ -284,7 +287,7 @@ const BomLabours: React.FC = (props: any) => {
               </td> */}
                 <td>
                   <AutoCompleteSelect
-                    width="250px"
+                    width={DropfieldWidth}
                     name="uom_id"
                     mandatory={true}
                     optionList={getAllUomDrop}

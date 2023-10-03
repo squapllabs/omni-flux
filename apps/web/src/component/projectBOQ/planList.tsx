@@ -18,7 +18,7 @@ import { getBySubcategoryID } from '../../hooks/subCategory-hooks';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomLabours from './boqTables/boqLabours';
 import BomRawMaterials from './boqTables/boqRawMaterials';
-import BomMachinery from './boqTables/boqRawMaterials';
+import BomMachinery from './boqTables/boqMachinery';
 import Button from '../ui/Button';
 import CloseIcon from '../menu/icons/closeIcon';
 import BackArrow from '../menu/icons/backArrow';
@@ -103,11 +103,7 @@ const Bom: React.FC = (props: any) => {
           setMessage('BOM created successfully');
           setOpenSnack(true);
           setReload(!reload);
-          setTimeout(() => {
-            navigate(
-              `/bomlist/${getSubCategoryData?.project_id}/${getSubCategoryData?.bom_configuration_id}`
-            );
-          }, 3000);
+          props.setOpen(!props.open);
         }
       },
     });
@@ -120,7 +116,13 @@ const Bom: React.FC = (props: any) => {
   };
   return (
     <div className={Styles.bomcontainer}>
-      <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
         <div>
           <CustomGroupButton
             labels={buttonLabels}
@@ -129,7 +131,9 @@ const Bom: React.FC = (props: any) => {
           />
         </div>
         <div className={Styles.countContent}>
-          <h3>{formatBudgetValue(rawMaterialTotal + labourTotal + machineryTotal)}</h3>
+          <h3>
+            {formatBudgetValue(rawMaterialTotal + labourTotal + machineryTotal)}
+          </h3>
           <span className={Styles.countContentTitle}>Aggregated Value</span>
         </div>
       </div>
@@ -195,7 +199,7 @@ const Bom: React.FC = (props: any) => {
         </div>
       </div>
 
-      <div className={Styles.totalPanel}>
+      {/* <div className={Styles.totalPanel}>
         <div className={Styles.panelList}>
           <div className={Styles.panel}>
             <span className={Styles.panelTitle}>Raw Material Cost:</span>
@@ -214,7 +218,7 @@ const Bom: React.FC = (props: any) => {
             <span>{rawMaterialTotal + labourTotal + machineryTotal}</span>
           </div>
         </div>
-      </div>
+      </div> */}
       <CustomSnackBar
         open={openSnack}
         message={message}
