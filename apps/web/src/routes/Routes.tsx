@@ -266,6 +266,7 @@ import ExpenseDetailApprove from '../component/expanses/expanseDetailApprove';
 import BillView from '../component/finance/invoiceBillView';
 import EcoProduction from '../component/ecoProduction/ecoProduction';
 import projectAbstract from '../component/projectBOQ/projectAbstract';
+import NewBoqList from '../component/projectBOQ/projectBoqList';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -364,6 +365,7 @@ const AppRoutes = () => {
     withLayoutAndProtection(ExpenseDetailApprove);
   const ProtectedBillView = withLayoutAndProtection(BillView);
   const ProtectedListVendor = withLayoutAndProtection(ListVendor);
+  const ProtectedNewBoqList = withLayoutAndProtection(NewBoqList);
   return (
     <div>
       <Routes>
@@ -458,7 +460,7 @@ const AppRoutes = () => {
           element={<ProtectedLeadTenderView />}
         />
         <Route
-          path="/bomlist/:projectId/:bomconfigId"
+          path="/newBoq/:projectId/:bomconfigId"
           element={<ProtectedBomList />}
         />
         <Route path="/labour" element={<ProtectedLabourListPage />} />
