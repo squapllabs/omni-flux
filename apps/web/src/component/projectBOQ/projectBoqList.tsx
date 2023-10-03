@@ -34,11 +34,7 @@ const BomList = () => {
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const bomconfigId = Number(params?.bomconfigId);
-  // console.log('oooo', params);
-  // const projectId = Number(params?.projectId);
   const { data: projectData } = getByProjectId(projectId);
-  // console.log('projectData', projectData);
-
   const [projectsId, setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
@@ -69,12 +65,12 @@ const BomList = () => {
         bomconfigId: bomconfigId,
       };
       const datas = await CategoryService.getAllCategoryByProjectId(obj);
-      console.log("rrrrrrrrrrrrrrrr",datas.data);
+      console.log('rrrrrrrrrrrrrrrr', datas.data);
       setCategories(datas.data);
       setIsloading(false);
       setCategoryData(datas.data[0]);
-      console.log("ttttttttttt",datas.data[0]);
-      
+      console.log('ttttttttttt', datas.data[0]);
+
       setSelectedCategory(datas.data[0].category_id);
       setCategoryId(datas.data[0].category_id);
     };
@@ -168,92 +164,100 @@ const BomList = () => {
                       />
                     </div>
 
-                    {categories?.map((items: any, index: any) => {
-                      return (
-                        <ul key={index}>
-                          <li>
-                            {/* it is category shows */}
-                            <div
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                              }}
-                            >
-                              <div
+                    <div>
+                      {categories?.map((items: any, index: any) => {
+                        return (
+                          <div>
+                            <ul key={index}>
+                              <li
                                 className={
                                   selectedCategory === items.category_id
                                     ? Styles.selected
-                                    : Styles.primarylistContent
+                                    : ''
                                 }
                                 onClick={() => {
                                   handleSelectedCategory(items);
                                   setCategoryId(items.category_id);
                                 }}
                               >
-                                <div>
-                                  {index + 1} {items?.name}
-                                  <span className={Styles.smallred}>
-                                    {items?.progress_status}
-                                  </span>
-                                </div>
-                              </div>
-                              <div>
-                                {/* category add  */}
-                                <MoreVerticalIcon
-                                  onClick={(e: any) => {
-                                    e.stopPropagation();
-                                    setOpenedContextMenuForCategory(
-                                      items.category_id
-                                    );
-                                    setCategoryId(items.category_id);
-                                    setMoreIconDropdownOpen(
-                                      !moreIconDropdownOpen
-                                    );
+                                {/* it is category shows */}
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
                                   }}
-                                />
-                                {moreIconDropdownOpen &&
-                                  items.category_id ===
-                                    openedContextMenuForCategory && (
-                                    <ul className={Styles.menu}>
-                                      <li className={Styles.menuItem}>
-                                        <div
-                                          style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            gap: '5px',
-                                            padding: '5px',
-                                          }}
-                                        >
-                                          <div
-                                            className={Styles.options}
-                                            onClick={() =>
-                                              handleEdit(items.category_id)
-                                            }
-                                          >
-                                            <span className={Styles.menuFont}>
-                                              Edit Abstract
-                                            </span>
-                                          </div>
-                                          <div
-                                            className={Styles.options}
-                                            onClick={() =>
-                                              deleteHandler(items.category_id)
-                                            }
-                                          >
-                                            <span className={Styles.menuFont}>
-                                              Delete
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  )}
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      );
-                    })}
+                                >
+                                  <div>
+                                    {index + 1} {items?.name}
+                                    <span className={Styles.smallred}>
+                                      {items?.progress_status}
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <MoreVerticalIcon
+                                      onClick={(e: any) => {
+                                        e.stopPropagation();
+                                        setOpenedContextMenuForCategory(
+                                          items.category_id
+                                        );
+                                        setCategoryId(items.category_id);
+                                        setMoreIconDropdownOpen(
+                                          !moreIconDropdownOpen
+                                        );
+                                      }}
+                                      color="#7f56d9"
+                                    />
+                                    {moreIconDropdownOpen &&
+                                      items.category_id ===
+                                        openedContextMenuForCategory && (
+                                        <ul className={Styles.menu}>
+                                          <li className={Styles.menuItem}>
+                                            <div
+                                              style={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: '5px',
+                                                padding: '5px',
+                                              }}
+                                            >
+                                              <div
+                                                className={Styles.options}
+                                                onClick={() =>
+                                                  handleEdit(items.category_id)
+                                                }
+                                              >
+                                                <span
+                                                  className={Styles.menuFont}
+                                                >
+                                                  Edit Abstract
+                                                </span>
+                                              </div>
+                                              <div
+                                                className={Styles.options}
+                                                onClick={() =>
+                                                  deleteHandler(
+                                                    items.category_id
+                                                  )
+                                                }
+                                              >
+                                                <span
+                                                  className={Styles.menuFont}
+                                                >
+                                                  Delete
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                      )}
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
                 <div className={Styles.mainContainer}>
@@ -262,7 +266,7 @@ const BomList = () => {
                       <div className={Styles.mainHeading}>
                         <div className={Styles.mainLeftContent}>
                           <div className={Styles.leftContentOne}>
-                            <CheckListIcon/>
+                            <CheckListIcon />
                             <h3>{categoryData?.name}(count)</h3>
                           </div>
                           <div
@@ -276,12 +280,13 @@ const BomList = () => {
                           </div>
                         </div>
                         <div>
-                          <p>INR {formatBudgetValue(
-                              categoryData?.budget ? categoryData?.budget : 0
-                            )}</p>
                           <p>
-                            Aggregated Value
+                            INR{' '}
+                            {formatBudgetValue(
+                              categoryData?.budget ? categoryData?.budget : 0
+                            )}
                           </p>
+                          <p>Aggregated Value</p>
                         </div>
                       </div>
                     </div>
