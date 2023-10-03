@@ -13,7 +13,7 @@ import DatePicker from '../../ui/CustomDatePicker';
 import SubcategoryService from '../../../service/subCategory-service';
 import { format } from 'date-fns';
 import Styles from '../../../styles/newStyles/project_abstractAdd.module.scss';
-import DeliveryTruckIcon from '../../menu/icons/deliveryTruckicon';
+import CheckListIcon from '../../menu/icons/checkListIcon';
 
 const ProjectTaskAdd: React.FC = (props: any) => {
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
@@ -176,7 +176,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           </div>
         </div>
         <div className={Styles.icon}>
-          <DeliveryTruckIcon />
+          <CheckListIcon />
         </div>
       </div>
       <div className={Styles.sub_sub_container_2}>

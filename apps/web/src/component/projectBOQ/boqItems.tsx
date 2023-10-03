@@ -109,9 +109,7 @@ const BomItems = (props: {
 
   const handleEdit = (value: any) => {
     setMode('EDIT');
-
     setShowSubCategoryForm(true);
-
     setSelectedSubCategoryId(value);
   };
 
@@ -309,27 +307,50 @@ const BomItems = (props: {
                             <div
                               style={{
                                 display: 'flex',
-
                                 flexDirection: 'column',
-
                                 gap: '5px',
-
                                 padding: '5px',
-
-                                backgroundColor: '#E5CFF7',
+                                backgroundColor: 'rgb(255, 255, 255)',
                               }}
                             >
                               <div
                                 className={Styles.options}
                                 onClick={() => {
-                                    setSelectedSubCategoryId(data.sub_category_id)
-                                    setPlanListTitle(data.name)
-                                    setShowPlanForm(true)
-                                //   navigate(`/bom/${data?.sub_category_id}`);
+                                  setSelectedSubCategoryId(
+                                    data.sub_category_id
+                                  );
+                                  setPlanListTitle(data.name);
+                                  setShowPlanForm(true);
+                                  //   navigate(`/bom/${data?.sub_category_id}`);
                                 }}
                               >
                                 <span className={Styles.menuFont}>
                                   Manage Plan
+                                </span>
+                              </div>
+                            </div>
+                          </li>
+                          <li className={Styles.menuItem}>
+                            <div
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '5px',
+                                padding: '5px',
+                                backgroundColor: 'rgb(255, 255, 255)',  
+                              }}
+                            >
+                              <div
+                                className={Styles.options}
+                                onClick={() => {
+                                  handleEdit(data?.sub_category_id);
+                                  setSelectedSubCategoryId(
+                                    data?.sub_category_id
+                                  );
+                                }}
+                              >
+                                <span className={Styles.menuFont}>
+                                  Edit Task
                                 </span>
                               </div>
                             </div>
