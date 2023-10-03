@@ -4,9 +4,31 @@ import Card from '../../ui/CustomCard';
 import { formatBudgetValue } from '../../../helper/common-function';
 import DashboardIcon from '../../menu/icons/dashboardIcon';
 import projectService from '../../../service/project-service';
+import { useParams } from 'react-router-dom';
 
 
 const ProjectDashboard = () => {
+  const params = useParams();
+  const [data, setData] = useState();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const getData = await projectService.getOneProjectById(
+  //       Number(params?.id)
+  //     );
+  //     console.log("Get Data ==> ", getData);
+  //     setData(getData?.data);
+  //   }
+  //   console.log("start date ==>", data?.date_started);
+  //   // console.log("ISO start date ==>", data?.date_started?.toISOString());
+  //   fetchData();
+  // }, [params?.id]);  
+
+// const startedDate =  data?.date_started;
+// const sdate = new Date(startedDate);
+// const formattedStartedDate = sdate.toISOString().split('T')[0];
+
+// console.log("formattedStartedDate--->",formattedStartedDate);
+
   const startDate = new Date('2023-06-15');
   const endDate = new Date('2023-11-25');
   const currentDate = new Date();
