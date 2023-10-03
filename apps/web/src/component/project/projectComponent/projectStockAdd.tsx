@@ -19,6 +19,7 @@ import CustomSnackBar from '../../ui/customSnackBar';
 import { getProjectStockAuditValidate } from '../../../helper/constants/project-constants';
 import StockAuditService from '../../../service/stockaudit-service';
 import BackArrow from '../../menu/icons/backArrow';
+import PreviousPageIcon from '../../menu/icons/previousPageIcon';
 
 const ProjectStockAdd = () => {
   const routeParams = useParams();
@@ -103,37 +104,28 @@ const ProjectStockAdd = () => {
     <div className={Styles.stock_Container}>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.box}>
-          <div className={Styles.mainTextContent}>
-            <div className={Styles.textContent_1}>
-              <h3>{getProjectData?.project_name}</h3>
-              <span className={Styles.content}>
-                Add your Stock audit in day basis
-              </span>
-            </div>
-            <div className={Styles.backButton}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<BackArrow />}
-                onClick={(e) => {
-                  navigate(`/project-edit/${routeParams?.id}`);
-                }}
-              >
-                Back
-              </Button>
-            </div>
-            {/* <div
-              style={{
-                width: '70%',
-                display: 'flex',
-                justifyContent: 'flex-end',
+          <div className={Styles.sub_header}>
+            <div
+              className={Styles.logo}
+              onClick={() => {
+                navigate(`/project-edit/${routeParams?.id}`);
               }}
             >
-              <p>back button</p>
-            </div> */}
+              <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+            </div>
+            <div style={{ padding: '8px', display: 'flex' }}>
+              <div className={Styles.vertical}>
+                <div className={Styles.verticalLine}></div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection:'row',alignItems: 'center',width:'700px' }}>
+              <div className={Styles.textContent_1}>
+                <h3>{getProjectData?.project_name}</h3>
+                <span className={Styles.content}>
+                  Add your Stock audit in day basis
+                </span>
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -183,7 +175,7 @@ const ProjectStockAdd = () => {
                   );
                 }}
               />
-              <span style={{ fontSize: 'small' }}>  Edit stock date</span>
+              <span style={{ fontSize: 'small' }}> Edit stock date</span>
             </div>
           </div>
         </div>
