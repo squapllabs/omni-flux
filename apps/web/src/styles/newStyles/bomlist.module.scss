@@ -222,15 +222,15 @@
   padding-right: 10px;
 }
 
-.Secondcontainer {
-  height: 100vh;
-}
+// .Secondcontainer {
+//   height: 100vh;
+// }
 
-.abstractButton {
-  display: flex;
-  justify-content: center;
-  margin-top: 230px;
-}
+// .abstractButton {
+//   display: flex;
+//   justify-content: center;
+//   margin-top: 230px;
+// }
 
 .bomcontainer {
   padding: 10px 10px 10px 10px;
@@ -342,12 +342,24 @@
 
 .Secondcontainer {
   height: 100vh;
+  // background-color: #7f56d9;
 }
 
-.abstractButton {
+.secondContainerHeading{
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 7px;
+}
+
+.secondContainerContent {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 230px;
+  align-items: center;
+  height: 70vh;
+  row-gap: 10px;
 }
 
 .bomcontainer {
