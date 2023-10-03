@@ -6,6 +6,7 @@ import Styles from '../../styles/stockOutWardView.module.scss';
 import Button from '../menu/button';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
+import ProjectSubheader from '../project/projectSubheader';
 
 const StockOutWardView = () => {
   const routeParams = useParams();
@@ -36,18 +37,12 @@ const StockOutWardView = () => {
 
   return (
     <div className={Styles.screen}>
-      <div className={Styles.title}>
-        <h2>StockOutWard Information</h2>
-
-        <Button
-          text="Back"
-          backgroundColor="#7F56D9"
-          fontSize={14}
-          fontWeight={500}
-          width={100}
-          onClick={() => navigate(`/project-edit/${projectId}`)}
-        />
-      </div>
+      <ProjectSubheader
+        description=""
+        navigation={`/project-edit/${projectId}`}
+        title='StockOutWard Information'
+      />
+      <div className={Styles.dividerStyle}></div>
       <div className={Styles.cardContent}>
         <CustomCard>
           <div className={Styles.mainContent}>

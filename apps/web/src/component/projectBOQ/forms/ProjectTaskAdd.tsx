@@ -80,10 +80,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
             if (data?.message === 'success') {
               props.setMessage('Task edited');
               props.setOpenSnack(true);
-            //   props.setMode('ADD');
               props.setOpen(false);
               props.setReload(true);
-            //   handleClose();
               resetForm();
             }
           },
@@ -105,7 +103,6 @@ const ProjectTaskAdd: React.FC = (props: any) => {
             if (data?.status === true) {
               props.setMessage('Task created');
               props.setOpenSnack(true);
-              //   handleClose();
               props.setOpen(false);
               props.setReload(true);
               resetForm();

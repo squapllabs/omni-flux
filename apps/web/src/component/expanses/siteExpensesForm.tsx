@@ -22,15 +22,13 @@ import { getCreateValidateyup } from '../../helper/constants/siteExpanse-constan
 import CustomDialogBox from '../ui/CustomDialog';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useParams, useNavigate } from 'react-router-dom';
-import KeyboardBackspaceIcon from '../menu/icons/backArrow';
 import SiteExpensesDetails from './siteExpensesDetails';
 import { getProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import SiteExpenseBill from './SiteExpensBill';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
-import BackArrow from '../menu/icons/backArrow';
-import PreviousPageIcon from '../menu/icons/previousPageIcon';
 import ProjectSubheader from '../project/projectSubheader';
+
 const SiteExpensesForm = () => {
   const params = useParams();
   const navigate = useNavigate();

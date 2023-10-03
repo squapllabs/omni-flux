@@ -20,11 +20,10 @@ import IndentRequestService from '../../../../service/indentRequest-service';
 import { format } from 'date-fns';
 import * as yup from 'yup';
 import PageDisabled from '../../../ui/pageDisableComponent';
-import BackArrow from '../../../menu/icons/backArrow';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
 import { getProjectSite } from '../../../../hooks/project-hooks';
-import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
+import ProjectSubheader from '../../projectSubheader';
 
 const IndentRequest: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -178,55 +177,11 @@ const IndentRequest: React.FC = (props: any) => {
     <div>
       <div className={Styles.indent_container}>
         <div className={Styles.box}>
-          {/* <div className={Styles.mainTextContent}>
-            <div className={Styles.textContent_1}>
-              <h3>Indent Request</h3>
-              <span className={Styles.content}>Raise Indent Request</span>
-            </div>
-            <div className={Styles.backButton}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<BackArrow />}
-                onClick={(e) => {
-                  navigate(`/project-edit/${routeParams?.id}`);
-                }}
-              >
-                Back
-              </Button>
-            </div>
-          </div> */}
-          <div className={Styles.sub_header}>
-            <div
-              className={Styles.logo}
-              onClick={() => {
-                navigate(`/project-edit/${routeParams?.id}`);
-              }}
-            >
-              <PreviousPageIcon width={20} height={20} color="#7f56d9" />
-            </div>
-            <div style={{ padding: '8px', display: 'flex' }}>
-              <div className={Styles.vertical}>
-                <div className={Styles.verticalLine}></div>
-              </div>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '700px',
-              }}
-            >
-              <div className={Styles.textContent_1}>
-                <h3>Indent Request</h3>
-                <span className={Styles.content}>Raise Indent Request</span>
-              </div>
-            </div>
-          </div>
+          <ProjectSubheader
+            description="Raise Indent Request"
+            navigation={`/project-edit/${routeParams?.id}`}
+            title="Indent Request"
+          />
         </div>
         <PageDisabled disabled={disabled}>
           <div className={Styles.box}>

@@ -1,11 +1,12 @@
 import React from 'react';
 import { getByStockAuditId } from '../../../hooks/stockAudit-hooks';
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Styles from '../../../styles/project.module.scss';
 import { format } from 'date-fns';
 import Button from '../../ui/Button';
 import CustomLoader from '../../ui/customLoader';
 import BackArrow from '../../menu/icons/backArrow';
+import PreviousPageIcon from '../../menu/icons/previousPageIcon';
 
 const ProjectStockAuditView = () => {
   const routeParams = useParams();
@@ -20,39 +21,39 @@ const ProjectStockAuditView = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
-        <div className={Styles.topHeading}>
+        <div className={Styles.sub_header}>
+          <div
+            className={Styles.logo}
+            onClick={() => {
+              navigate(`/project-edit/${routeParams?.id}`);
+            }}
+          >
+            <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+          </div>
+          <div style={{ padding: '8px', display: 'flex' }}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
           <div
             style={{
-              width: '30%',
               display: 'flex',
-              gap: '10px',
-              paddingBottom: '10px',
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '700px',
             }}
           >
             <div className={Styles.content_container_left}>
               <span>Project Name :</span>
               <span>Site Name :</span>
-              {/* <span>Audit Date :</span> */}
             </div>
             <div className={Styles.content_container}>
               <span>{getStockData?.project_data?.project_name}</span>
               <span>{getStockData?.site_data?.name}</span>
             </div>
           </div>
-          <div>
-          <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<BackArrow />}
-               onClick={() => navigate(`/project-edit/${Number(routeParams?.id)}`)}
-              >
-                Back
-              </Button>
-          </div>
         </div>
+        <div className={Styles.dividerStyle}></div>
         <div className={Styles.box}>
           <table className={Styles.scrollable_table}>
             <thead>

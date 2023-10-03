@@ -20,6 +20,7 @@ import { getProjectStockAuditValidate } from '../../../helper/constants/project-
 import StockAuditService from '../../../service/stockaudit-service';
 import BackArrow from '../../menu/icons/backArrow';
 import PreviousPageIcon from '../../menu/icons/previousPageIcon';
+import ProjectSubheader from '../projectSubheader';
 
 const ProjectStockAdd = () => {
   const routeParams = useParams();
@@ -32,6 +33,7 @@ const ProjectStockAdd = () => {
   };
   const currentDate = new Date();
   const projectId = Number(routeParams?.id);
+  
   const [initialValues, setInitialValues] = useState({
     project_id: Number(routeParams?.id),
     site_id: '',
@@ -44,6 +46,7 @@ const ProjectStockAdd = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
   const { data: getProjectData } = getByProjectId(Number(routeParams?.id));
+  
   const { mutate: postStockData, isLoading: stockpostLoading } =
     createStockAudit();
   const handleSnackBarClose = () => {
@@ -104,29 +107,11 @@ const ProjectStockAdd = () => {
     <div className={Styles.stock_Container}>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.box}>
-          <div className={Styles.sub_header}>
-            <div
-              className={Styles.logo}
-              onClick={() => {
-                navigate(`/project-edit/${routeParams?.id}`);
-              }}
-            >
-              <PreviousPageIcon width={20} height={20} color="#7f56d9" />
-            </div>
-            <div style={{ padding: '8px', display: 'flex' }}>
-              <div className={Styles.vertical}>
-                <div className={Styles.verticalLine}></div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection:'row',alignItems: 'center',width:'700px' }}>
-              <div className={Styles.textContent_1}>
-                <h3>{getProjectData?.project_name}</h3>
-                <span className={Styles.content}>
-                  Add your Stock audit in day basis
-                </span>
-              </div>
-            </div>
-          </div>
+          <ProjectSubheader
+            description="Add your Stock audit in day basis"
+            navigation={`/project-edit/${routeParams?.id}`}
+            title={getProjectData?.project_name}
+          />
         </div>
         <div
           style={{

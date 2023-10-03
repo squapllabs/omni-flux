@@ -27,6 +27,7 @@ import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useLocation } from 'react-router-dom';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
+import ProjectSubheader from '../project/projectSubheader';
 
 const StoreOutwardAdd = () => {
   const state: RootState = store.getState();
@@ -132,34 +133,11 @@ const StoreOutwardAdd = () => {
 
   return (
     <div>
-      <div className={Styles.sub_header}>
-        <div
-          className={Styles.logo}
-          onClick={() => {
-            navigate(`/project-edit/${projectId}`);
-          }}
-        >
-          <PreviousPageIcon width={20} height={20} color="#7f56d9" />
-        </div>
-        <div style={{ padding: '8px', display: 'flex' }}>
-          <div className={Styles.vertical}>
-            <div className={Styles.verticalLine}></div>
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            width: '700px',
-          }}
-        >
-          <div className={Styles.textContent_1}>
-            <h3>Stock OutWard Add</h3>
-            <span className={Styles.content}>Manage your stock outward</span>
-          </div>
-        </div>
-      </div>
+      <ProjectSubheader
+        description="Manage your stock outward"
+        navigation={`/project-edit/${projectId}`}
+        title="Stock OutWard Add"
+      />
       <div className={Styles.dividerStyle}></div>
       <div className={Styles.container}>
         <div className={Styles.box}>

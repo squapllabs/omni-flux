@@ -7,6 +7,7 @@ import CustomCard from '../ui/CustomCard';
 import { getByProjectId } from '../../hooks/project-hooks';
 import { format } from 'date-fns';
 import BackArrow from '../menu/icons/backArrow';
+import ProjectSubheader from './projectSubheader';
 
 const ProjectView = () => {
   const routeParams = useParams();
@@ -16,20 +17,11 @@ const ProjectView = () => {
 
   return (
     <div>
-      <div className={Styles.title}>
-        <h2>Project Information</h2>
-        <Button
-          type="button"
-          color="primary"
-          shape="rectangle"
-          size="small"
-          justify="center"
-          icon={<BackArrow />}
-          onClick={() => navigate('/project-list')}
-        >
-          Back
-        </Button>
-      </div>
+      <ProjectSubheader
+        description=""
+        navigation={'/project-list'}
+        title="Project Information"
+      />
       <div className={Styles.cardContent}>
         <CustomCard>
           <div className={Styles.mainContent}>
