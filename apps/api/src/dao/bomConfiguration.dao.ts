@@ -134,7 +134,32 @@ const getAll = async (connectionObj = null) => {
         },
       ],
     });
-    return bomConfiguration;
+
+    const bomConfigurationWithCounts = await Promise.all(
+      bomConfiguration.map(async (config) => {
+        const categoryCount = await transaction.category.count({
+          where: {
+            is_delete: false,
+            bom_configuration_id: config.bom_configuration_id,
+          },
+        });
+
+        const subCategoryCount = await transaction.sub_category.count({
+          where: {
+            is_delete: false,
+            bom_configuration_id: config.bom_configuration_id,
+          },
+        });
+
+        return {
+          ...config,
+          abstract_count: categoryCount,
+          task_count: subCategoryCount,
+        };
+      })
+    );
+
+    return bomConfigurationWithCounts;
   } catch (error) {
     console.log('Error occurred in bomConfiguration getAll dao', error);
     throw error;
@@ -233,9 +258,42 @@ const searchBomConfiguration = async (
     const bomConfigurationCount = await transaction.bom_configuration.count({
       where: filter,
     });
+
+    const bomConfigurationWithCounts = await Promise.all(
+      bomConfiguration.map(async (config) => {
+        const categoryCount = await transaction.category.count({
+          where: {
+            is_delete: false,
+            bom_configuration_id: config.bom_configuration_id,
+          },
+        });
+
+        const subCategoryCount = await transaction.sub_category.count({
+          where: {
+            is_delete: false,
+            bom_configuration_id: config.bom_configuration_id,
+          },
+        });
+
+        const bomDetailCount = await transaction.bom_detail.count({
+          where: {
+            is_delete: false,
+            bom_configuration_id: config.bom_configuration_id,
+          },
+        });
+
+        return {
+          ...config,
+          abstract_count: categoryCount,
+          task_count: subCategoryCount,
+          plan_count: bomDetailCount,
+        };
+      })
+    );
+
     const bomConfigurationData = {
       count: bomConfigurationCount,
-      data: bomConfiguration,
+      data: bomConfigurationWithCounts,
     };
     return bomConfigurationData;
   } catch (error) {
