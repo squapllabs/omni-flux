@@ -25,6 +25,9 @@ import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import { getByProjectId } from '../../hooks/project-hooks';
 import BackArrow from '../menu/icons/backArrow';
+import CustomSidePopup from '../ui/CustomSidePopup';
+import ProjectAbstractAdd from '../projectBOQ/forms/projectAbstractAdd';
+import ProjectTaskAdd from '../projectBOQ/forms/ProjectTaskAdd';
 
 const BomList = () => {
   const params = useParams();
@@ -138,8 +141,13 @@ const BomList = () => {
     };
   }, []);
 
+  const handleCloseAbstract = () => {
+    setShowAbstractForm(false);
+  };
 
-  
+  const handleCloseTask = () => {
+    setShowSubCategoryForm(false);
+  };
 
   return (
     <div>
@@ -150,6 +158,7 @@ const BomList = () => {
               <h3>{projectData?.project_name}</h3>
               <span className={Styles.content}>{projectData?.description}</span>
             </div>
+  
             <div className={Styles.backButton}>
               <div>
                 <Button
@@ -188,18 +197,17 @@ const BomList = () => {
                         shape="rectangle"
                         justify="center"
                         size="small"
-                        icon={<AddIcon width={20} color="white"/>}
+                        icon={<AddIcon width={20} color="white" />}
                         onClick={() => {
                           setShowAbstractForm(true);
-                          setMode('Add')
+                          setMode('Add');
                         }}
                       >
                         Add Abstract
                       </Button>
                     </div>
-                    
 
-                    {categories?.map((items: any, index: any) => {                      
+                    {categories?.map((items: any, index: any) => {
                       return (
                         <ul key={index}>
                           <li>
@@ -221,11 +229,14 @@ const BomList = () => {
                                   setCategoryId(items.category_id);
                                 }}
                               >
-                               <div>{items?.name}<span className={Styles.smallred}>{items?.progress_status}</span></div>
-                            
+                                <div>
+                                  {items?.name}
+                                  <span className={Styles.smallred}>
+                                    {items?.progress_status}
+                                  </span>
+                                </div>
                               </div>
                               <div>
-                                {/* category add  */}
                                 <MoreVerticalIcon
                                   onClick={(e: any) => {
                                     e.stopPropagation();
@@ -310,7 +321,7 @@ const BomList = () => {
                             shape="rectangle"
                             justify="center"
                             size="small"
-                            icon={<AddIcon width={20} color="white"/>}
+                            icon={<AddIcon width={20} color="white" />}
                             onClick={() => {
                               setShowSubCategoryForm(true);
                             }}
@@ -338,7 +349,7 @@ const BomList = () => {
                   color="primary"
                   shape="rectangle"
                   size="small"
-                  icon={<AddIcon width={20}  color='white'/>}
+                  icon={<AddIcon width={20} color="white" />}
                   onClick={() => {
                     setShowAbstractForm(true);
                   }}
@@ -351,22 +362,47 @@ const BomList = () => {
         </div>
       )}
       <CustomBomAddPopup isVissible={showItemForm} onAction={setShowItemForm} />
-      <CustomAbstractAddPopup
-        isVissible={showAbstractForm}
-        onAction={setShowAbstractForm}
-        selectedProject={projectsId}
-        selectedBomConfig={bomconfigId}
-        setReload={setReload}
-        mode={mode}
-        setMode={setMode}
-        categoryId={categoryId}
+      <CustomSidePopup
+        open={showAbstractForm}
+        title={mode === 'EDIT' ? 'Edit Abstract' : 'Create New Abstract'}
+        handleClose={handleCloseAbstract}
+        content={
+          <ProjectAbstractAdd
+            open={showAbstractForm}
+            setOpen={setShowAbstractForm}
+            selectedProject={projectsId}
+            selectedBomConfig={bomconfigId}
+            reload={reload}
+            setReload={setReload}
+            openSnack={openSnack}
+            setOpenSnack={setOpenSnack}
+            message={message}
+            setMessage={setMessage}
+            mode={mode}
+            categoryId={categoryId}
+          />
+        }
       />
-      <CustomSubCategoryAddPopup
-        isVissible={showSubCategoryForm}
-        onAction={setShowSubCategoryForm}
-        selectedCategoryId={categoryId}
-        selectedProject={projectsId}
-        selectedBomConfig={bomconfigId}
+      <CustomSidePopup
+        open={showSubCategoryForm}
+        title={mode === 'EDIT' ? 'Edit Task' : 'Create New Task'}
+        handleClose={handleCloseTask}
+        content={
+          <ProjectTaskAdd
+            open={showSubCategoryForm}
+            setOpen={setShowSubCategoryForm}
+            selectedProject={projectsId}
+            selectedBomConfig={bomconfigId}
+            reload={reload}
+            setReload={setReload}
+            openSnack={openSnack}
+            setOpenSnack={setOpenSnack}
+            message={message}
+            setMessage={setMessage}
+            mode={mode}
+            selectedCategoryId={categoryId}
+          />
+        }
       />
       <CustomDelete
         open={openDelete}

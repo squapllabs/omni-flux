@@ -74,6 +74,57 @@ const getBOMbyProjectandType = async (values: any) => {
     throw error;
   }
 };
+
+const addBoQ = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/bom-configuration/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in BoQ insert :', error);
+    throw error;
+  }
+};
+
+const getProjectBoQList = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/bom-configuration/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getProjectBoQList  :', error);
+    throw error;
+  }
+};
+
+const getBOQId = async (values: number) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/bom-configuration/get/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in bom insert :', error);
+    throw error;
+  }
+};
+const updateBoQ = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/bom-configuration/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in updateBoQ edit:', error);
+  }
+};
+
+
 export default {
   createBomData,
   getCustomBomData,
@@ -81,4 +132,8 @@ export default {
   getBOMbySubCatIDandType,
   getBOMbySubCatID,
   getBOMbyProjectandType,
+  addBoQ,
+  getProjectBoQList,
+  getBOQId,
+  updateBoQ
 };

@@ -22,13 +22,13 @@ import { getCreateValidateyup } from '../../helper/constants/siteExpanse-constan
 import CustomDialogBox from '../ui/CustomDialog';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useParams, useNavigate } from 'react-router-dom';
-import KeyboardBackspaceIcon from '../menu/icons/backArrow';
 import SiteExpensesDetails from './siteExpensesDetails';
 import { getProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import SiteExpenseBill from './SiteExpensBill';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
-import BackArrow from '../menu/icons/backArrow';
+import ProjectSubheader from '../project/projectSubheader';
+
 const SiteExpensesForm = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -219,28 +219,19 @@ const SiteExpensesForm = () => {
   return (
     <div>
       <div className={Styles.container}>
-        <div className={Styles.top}>
-          <div className={Styles.textContent}>
-            <h3>Add Site Expense</h3>
-            <span className={Styles.content}>Add your site expense</span>
-          </div>
-          <div className={Styles.backButton}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<BackArrow />}
-                onClick={(e) => {
-                  navigate(`/project-edit/${projectId}`);
-                }}
-              >
-                Back
-              </Button>
-            </div>
-        </div>
+        <ProjectSubheader
+          description={
+            params?.id !== undefined
+              ? ' Review, update, or modify your site-related expenses'
+              : ' Provide all the necessary details for each expense'
+          }
+          navigation={`/project-edit/${projectId}`}
+          title={
+            params?.id !== undefined ? 'Edit Site Expense' : 'Add Site Expense'
+          }
+        />
       </div>
+      <div className={Styles.dividerStyle}></div>
       <form>
         <div className={Styles.box}>
           <div className={Styles.fields_container}>

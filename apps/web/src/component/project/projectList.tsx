@@ -47,17 +47,19 @@ const ProjectList = () => {
     isLoading: FilterLoading,
   } = getMemberBasedProject();
 
-
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
   const [buttonLabels, setButtonLabels] = useState([
+    ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
+      ? [
+          { label: 'All', value: 'ALL' },
+          { label: 'Draft', value: 'Draft' },
+        ]
+      : []),
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
-    ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
-      ? [{ label: 'Draft', value: 'Draft' }, { label: 'All', value: 'ALL' }]
-      : []),
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
   const [filter, setFilter] = useState(false);
@@ -84,6 +86,7 @@ const ProjectList = () => {
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
+    setCurrentPage(1);
   };
   useEffect(() => {
     handleSearch();
@@ -110,7 +113,7 @@ const ProjectList = () => {
       project_status: activeButton,
       project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
     };
-    postDataForFilter(activeButton === "ALL" ? allData : userData);
+    postDataForFilter(activeButton === 'ALL' ? allData : userData);
     setIsLoading(false);
     setFilter(true);
   };
@@ -136,7 +139,7 @@ const ProjectList = () => {
       project_status: activeButton,
       project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
     };
-    postDataForFilter(activeButton === "ALL" ? allData : userData);
+    postDataForFilter(activeButton === 'ALL' ? allData : userData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
@@ -300,18 +303,24 @@ const ProjectList = () => {
                         {/* {activeButton === 'AC' && ( */}
                         <td>
                           <div className={Styles.tablerow}>
-                            <ViewIcon onClick={() =>
-                              navigate(`/project-info/${data?.project_id}`)
-                            } />
-                            <StoreIcon onClick={() =>
-                              navigate(
-                                `/project-inventory/${data?.project_id}`
-                              )
-                            } />
+                            <ViewIcon
+                              onClick={() =>
+                                navigate(`/project-info/${data?.project_id}`)
+                              }
+                            />
+                            <StoreIcon
+                              onClick={() =>
+                                navigate(
+                                  `/project-inventory/${data?.project_id}`
+                                )
+                              }
+                            />
                             {isProjectEdit && (
-                              <EditIcon onClick={() =>
-                                navigate(`/project-edit/${data?.project_id}`)
-                              } />
+                              <EditIcon
+                                onClick={() =>
+                                  navigate(`/project-edit/${data?.project_id}`)
+                                }
+                              />
                             )}
 
                             {/* <DeleteIcon

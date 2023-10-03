@@ -30,6 +30,7 @@ import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import ProjectSubheader from '../project/projectSubheader';
 
 const StoreOutwardEdit = () => {
   const routeParams = useParams();
@@ -163,14 +164,11 @@ const StoreOutwardEdit = () => {
 
   return (
     <div>
-      <div className={Styles.text}>
-        <div className={Styles.textStyle}>
-          <h3>Stock OutWard Edit</h3>
-        </div>
-        <div className={Styles.textStyle}>
-          <h6>Manage your stock outward</h6>
-        </div>
-      </div>
+      <ProjectSubheader
+        description="Manage your stock outward"
+        navigation={`/project-edit/${projectId}`}
+        title='Stock OutWard Edit'
+      />
       <div className={Styles.dividerStyle}></div>
       <div className={Styles.container}>
         <div className={Styles.box}>
@@ -282,7 +280,7 @@ const StoreOutwardEdit = () => {
                   <span className={Styles.checkBox}> Edit OutWard Date</span>
                 </div>
               </div>
-              <div className={Styles.dividerStyle}></div>
+              <div className={Styles.dividerStyle1}></div>
               <div className={Styles.tableContainer}>
                 <ItemDetailsTable
                   stockData={stockData}
@@ -293,20 +291,6 @@ const StoreOutwardEdit = () => {
               </div>
             </div>
             <div className={Styles.buttonFields}>
-              <div>
-                <Button
-                  color="secondary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  // disabled={stockData?.length === 0 ? true : false}
-                  onClick={() => {
-                    navigate(`/project-edit/${projectId}`);
-                  }}
-                >
-                  Back
-                </Button>
-              </div>
               <div>
                 <Button
                   color="primary"

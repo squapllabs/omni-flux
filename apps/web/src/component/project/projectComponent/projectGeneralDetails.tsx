@@ -36,6 +36,7 @@ import {
 
 import { store, RootState } from '../../../redux/store';
 import { getToken } from '../../../redux/reducer';
+import { format } from 'date-fns';
 
 const ProjectGeneralDetails: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -86,6 +87,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     useGetMasterProjectParentType();
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
+  const dateFormat = (value: any) => {
+    const currentDate = new Date(value);
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
+    return formattedDate;
+  };
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -96,8 +102,8 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         code: getData?.data?.code,
         user_id: getData?.data?.user_id,
         client_id: getData?.data?.client_id,
-        date_started: currentDate.toISOString().slice(0, 10),
-        date_ended: defaultEndDate.toISOString().slice(0, 10),
+        date_started: dateFormat(getData?.data?.date_started),
+        date_ended: dateFormat(getData?.data?.date_ended),
         project_type: getData?.data?.project_type,
         approvar_id: getData?.data?.approvar_id,
         estimated_budget: getData?.data?.estimated_budget,
@@ -549,7 +555,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
           autoHideDuration={1000}
           type="success"
         />
-         <CustomClientAdd
+        <CustomClientAdd
           isVissible={showClientForm}
           onAction={setShowClientForm}
         />

@@ -20,10 +20,10 @@ import IndentRequestService from '../../../../service/indentRequest-service';
 import { format } from 'date-fns';
 import * as yup from 'yup';
 import PageDisabled from '../../../ui/pageDisableComponent';
-import BackArrow from '../../../menu/icons/backArrow';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
 import { getProjectSite } from '../../../../hooks/project-hooks';
+import ProjectSubheader from '../../projectSubheader';
 
 const IndentRequest: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -83,18 +83,20 @@ const IndentRequest: React.FC = (props: any) => {
         ),
       });
       // console.log('indentData?.data?', indentData?.data);
-      const uomNames = indentData?.data?.indent_request_details?.map((item : any) => item?.bom_detail_data?.uom_data?.name);
+      const uomNames = indentData?.data?.indent_request_details?.map(
+        (item: any) => item?.bom_detail_data?.uom_data?.name
+      );
       // console.log("uomNames",uomNames);
       // console.log(
       //   'indentData?.data?.indent_request_details',
       //   indentData?.data?.indent_request_details
       // );
-      const tempArray = indentData?.data?.indent_request_details
+      const tempArray = indentData?.data?.indent_request_details;
       // console.log("tempArray---->",tempArray)
-      tempArray.forEach((obj : any, index : number) => {
+      tempArray.forEach((obj: any, index: number) => {
         obj.uom_name = uomNames[index];
-    });
-    // console.log(" new newtempArray---->",tempArray)
+      });
+      // console.log(" new newtempArray---->",tempArray)
       setIndentRequestDetailsList(indentData?.data?.indent_request_details);
     };
     if (routeParams?.indentid != undefined) fetchData();
@@ -175,27 +177,11 @@ const IndentRequest: React.FC = (props: any) => {
     <div>
       <div className={Styles.indent_container}>
         <div className={Styles.box}>
-          <div className={Styles.mainTextContent}>
-            <div className={Styles.textContent_1}>
-              <h3>Indent Request</h3>
-              <span className={Styles.content}>Raise Indent Request</span>
-            </div>
-            <div className={Styles.backButton}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<BackArrow />}
-                onClick={(e) => {
-                  navigate(`/project-edit/${routeParams?.id}`);
-                }}
-              >
-                Back
-              </Button>
-            </div>
-          </div>
+          <ProjectSubheader
+            description="Raise Indent Request"
+            navigation={`/project-edit/${routeParams?.id}`}
+            title="Indent Request"
+          />
         </div>
         <PageDisabled disabled={disabled}>
           <div className={Styles.box}>

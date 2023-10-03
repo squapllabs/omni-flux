@@ -147,7 +147,7 @@ const Navbar = () => {
                 navigate('/home');
               }}
             >
-              OmniFLUX ERP
+              Omni ERP
             </div>
           </div>
 
