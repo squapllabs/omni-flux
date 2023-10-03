@@ -30,6 +30,7 @@ import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import PreviousPageIcon from '../menu/icons/previousPageIcon';
 
 const StoreOutwardEdit = () => {
   const routeParams = useParams();
@@ -163,12 +164,32 @@ const StoreOutwardEdit = () => {
 
   return (
     <div>
-      <div className={Styles.text}>
-        <div className={Styles.textStyle}>
-          <h3>Stock OutWard Edit</h3>
+      <div className={Styles.sub_header}>
+        <div
+          className={Styles.logo}
+          onClick={() => {
+            navigate(`/project-edit/${projectId}`);
+          }}
+        >
+          <PreviousPageIcon width={20} height={20} color="#7f56d9" />
         </div>
-        <div className={Styles.textStyle}>
-          <h6>Manage your stock outward</h6>
+        <div style={{ padding: '8px', display: 'flex' }}>
+          <div className={Styles.vertical}>
+            <div className={Styles.verticalLine}></div>
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '700px',
+          }}
+        >
+          <div className={Styles.textContent_1}>
+            <h3>Stock OutWard Edit</h3>
+            <span className={Styles.content}>Manage your stock outward</span>
+          </div>
         </div>
       </div>
       <div className={Styles.dividerStyle}></div>
@@ -282,7 +303,7 @@ const StoreOutwardEdit = () => {
                   <span className={Styles.checkBox}> Edit OutWard Date</span>
                 </div>
               </div>
-              <div className={Styles.dividerStyle}></div>
+              <div className={Styles.dividerStyle1}></div>
               <div className={Styles.tableContainer}>
                 <ItemDetailsTable
                   stockData={stockData}
@@ -293,20 +314,6 @@ const StoreOutwardEdit = () => {
               </div>
             </div>
             <div className={Styles.buttonFields}>
-              <div>
-                <Button
-                  color="secondary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  // disabled={stockData?.length === 0 ? true : false}
-                  onClick={() => {
-                    navigate(`/project-edit/${projectId}`);
-                  }}
-                >
-                  Back
-                </Button>
-              </div>
               <div>
                 <Button
                   color="primary"

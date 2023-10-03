@@ -7,6 +7,8 @@ import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import projectInventoryService from '../../service/projectInventory-service';
+import ProjectSubheader from '../project/projectSubheader';
+
 
 const ProjectInventory = () => {
   const routeParams = useParams();
@@ -38,7 +40,7 @@ const ProjectInventory = () => {
         );
         if (result.message === 'success') {
           setTableData(result.content);
-          setDataLoading(false);
+          setDataLoading(false);          
         }
       }
     };
@@ -52,22 +54,23 @@ const ProjectInventory = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
-        <div className={Styles.textContent}>
-          <h3>Project Inventory Detail List</h3>
-          <span className={Styles.content}>
-            Manage your Indent raise detail across your project
-          </span>
-        </div>
+      <ProjectSubheader
+          description='Manage your Indent raise detail across your project'
+          // navigation={`/project-edit/${projectId}`}
+          navigation={`/project-list`}
+          title='Project Inventory Detail List'
+        />
         <div className={Styles.dividerStyle}></div>
+        
         <div className={Styles.tableContainer}>
           <div>
-            <table>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S.No</th>
-                  <th>Item Name </th>
-                  <th>In Stock</th>
-                  <th>Rate</th>
+                  <th className={Styles.tableHeading}>S.No</th>
+                  <th className={Styles.tableHeading}>Item Name </th>
+                  <th className={Styles.tableHeading}>In Stock</th>
+                  <th className={Styles.tableHeading}>Rate</th>
                 </tr>
               </thead>
               <tbody>
@@ -97,19 +100,7 @@ const ProjectInventory = () => {
               </tbody>
             </table>
           </div>
-          <div className={Styles.Buttons}>
-            <div>
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color="secondary"
-                onClick={() => navigate('/project-list')}
-              >
-                Back
-              </Button>
-            </div>
-          </div>
+
         </div>
       </CustomLoader>
     </div>

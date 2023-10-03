@@ -24,6 +24,7 @@ import BackArrow from '../../../menu/icons/backArrow';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
 import { getProjectSite } from '../../../../hooks/project-hooks';
+import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
 
 const IndentRequest: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -83,18 +84,20 @@ const IndentRequest: React.FC = (props: any) => {
         ),
       });
       // console.log('indentData?.data?', indentData?.data);
-      const uomNames = indentData?.data?.indent_request_details?.map((item : any) => item?.bom_detail_data?.uom_data?.name);
+      const uomNames = indentData?.data?.indent_request_details?.map(
+        (item: any) => item?.bom_detail_data?.uom_data?.name
+      );
       // console.log("uomNames",uomNames);
       // console.log(
       //   'indentData?.data?.indent_request_details',
       //   indentData?.data?.indent_request_details
       // );
-      const tempArray = indentData?.data?.indent_request_details
+      const tempArray = indentData?.data?.indent_request_details;
       // console.log("tempArray---->",tempArray)
-      tempArray.forEach((obj : any, index : number) => {
+      tempArray.forEach((obj: any, index: number) => {
         obj.uom_name = uomNames[index];
-    });
-    // console.log(" new newtempArray---->",tempArray)
+      });
+      // console.log(" new newtempArray---->",tempArray)
       setIndentRequestDetailsList(indentData?.data?.indent_request_details);
     };
     if (routeParams?.indentid != undefined) fetchData();
@@ -175,7 +178,7 @@ const IndentRequest: React.FC = (props: any) => {
     <div>
       <div className={Styles.indent_container}>
         <div className={Styles.box}>
-          <div className={Styles.mainTextContent}>
+          {/* <div className={Styles.mainTextContent}>
             <div className={Styles.textContent_1}>
               <h3>Indent Request</h3>
               <span className={Styles.content}>Raise Indent Request</span>
@@ -194,6 +197,34 @@ const IndentRequest: React.FC = (props: any) => {
               >
                 Back
               </Button>
+            </div>
+          </div> */}
+          <div className={Styles.sub_header}>
+            <div
+              className={Styles.logo}
+              onClick={() => {
+                navigate(`/project-edit/${routeParams?.id}`);
+              }}
+            >
+              <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+            </div>
+            <div style={{ padding: '8px', display: 'flex' }}>
+              <div className={Styles.vertical}>
+                <div className={Styles.verticalLine}></div>
+              </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '700px',
+              }}
+            >
+              <div className={Styles.textContent_1}>
+                <h3>Indent Request</h3>
+                <span className={Styles.content}>Raise Indent Request</span>
+              </div>
             </div>
           </div>
         </div>

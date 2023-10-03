@@ -299,23 +299,16 @@ const ProjectBomConfig: React.FC = (props: any) => {
                             const actions = [
                               {
                                 label: 'Manage Abstracts, Tasks or Plans',
-                                // onClick: () => {
-                                //   navigate(`/vendor-select/${data?.purchase_request_id}`, { state: { project_id: projectId, indent_id: indentId } });
-                                // }
+                                onClick: () => {
+                                  navigate(
+                                    `/newBoq/${routeParams?.id}/${data?.bom_configuration_id}`
+                                  );                                }
                               },
                               {
                                 label: 'Edit BoQ Name & Description',
                                 onClick: () => { handleEdit(data?.bom_configuration_id) }
 
                               },
-                              // {
-                              //   label: 'Delete BoQ',
-                              // onClick: () => {
-                              //   navigate(
-                              //     `/purchase-request/${data?.purchase_request_id}`,
-                              //   )
-                              // }
-                              // }
 
                             ];
                             return (

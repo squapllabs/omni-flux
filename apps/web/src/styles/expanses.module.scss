@@ -1,20 +1,23 @@
 .container {
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  // padding-bottom: 10px;
 }
+
 .textContent {
   padding: 10px;
   padding-left: 20px;
 }
+
 .content {
   font-size: 0.7rem;
 }
+
 .fields_container {
   display: flex;
   flex-direction: column;
   //   gap: 20px;
 }
+
 .fields_container_1 {
   display: flex;
   gap: 10%;
@@ -27,6 +30,7 @@
 
 .box {
   position: relative;
+  padding-top: 10px;
 }
 
 .box::after {
@@ -43,15 +47,18 @@
 .box:last-child::after {
   display: none;
 }
+
 .table_container {
   padding: 10px;
   width: 100%;
   height: 100%;
   overflow-x: auto;
   overflow-y: auto;
-  max-width: 1200px; /* Adjust the maximum width as needed */
+  max-width: 1200px;
+  /* Adjust the maximum width as needed */
   max-height: 250px;
   margin: 0 auto;
+
   &::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -70,6 +77,7 @@
     font-weight: 600;
     font-size: 11px;
   }
+
   thead {
     tr {
       th {
@@ -84,17 +92,20 @@
     // align-items: center;
     // text-align: center;
   }
+
   td:hover,
   tr:hover {
     background-color: rgb(239, 239, 239);
   }
 }
+
 .expanseAddButton {
   padding: 10px;
   padding-right: 25px;
   display: flex;
   justify-content: flex-end;
 }
+
 .submitButton {
   padding: 10px;
   padding-right: 25px;
@@ -134,6 +145,7 @@
   gap: 20px;
   align-items: center;
 }
+
 .documentOuterLayer {
   // width: 40%;
   border: 1px dashed #475467;
@@ -146,12 +158,15 @@
   justify-content: space-between;
   padding: 20px;
 }
+
 .documentSpan {
   font-size: 0.65rem;
 }
+
 .viewFiles {
   padding: 0px 0px 0px 50px;
 }
+
 .listStyles {
   font-size: 0.85rem;
 }
@@ -164,4 +179,46 @@
 .headingContent {
   display: flex;
   justify-content: space-between;
+}
+
+.sub_header {
+  height: 10vh;
+  display: flex;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 16px;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5%;
+  cursor: pointer;
+}
+
+.vertical {
+  position: relative;
+}
+
+.verticalLine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  /* Adjust the width of the line */
+  background-color: #7d7d7d;
+  /* Adjust the color as needed */
+  height: 100%;
+}
+
+.content {
+  font-size: 0.7rem;
+  padding-bottom: 5px;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 0px 0px px 0px;
 }

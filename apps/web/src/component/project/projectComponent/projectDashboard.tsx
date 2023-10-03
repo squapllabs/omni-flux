@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/projectDashboard.module.scss';
 import Card from '../../ui/CustomCard';
-import { Chart } from 'react-google-charts';
 import { formatBudgetValue } from '../../../helper/common-function';
 import DashboardIcon from '../../menu/icons/dashboardIcon';
+import projectService from '../../../service/project-service';
+import { useParams } from 'react-router-dom';
+
 
 const ProjectDashboard = () => {
+  const params = useParams();
+  const [data, setData] = useState();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const getData = await projectService.getOneProjectById(
+  //       Number(params?.id)
+  //     );
+  //     console.log("Get Data ==> ", getData);
+  //     setData(getData?.data);
+  //   }
+  //   console.log("start date ==>", data?.date_started);
+  //   // console.log("ISO start date ==>", data?.date_started?.toISOString());
+  //   fetchData();
+  // }, [params?.id]);  
+
+// const startedDate =  data?.date_started;
+// const sdate = new Date(startedDate);
+// const formattedStartedDate = sdate.toISOString().split('T')[0];
+
+// console.log("formattedStartedDate--->",formattedStartedDate);
+
   const startDate = new Date('2023-06-15');
   const endDate = new Date('2023-11-25');
   const currentDate = new Date();
@@ -19,32 +42,11 @@ const ProjectDashboard = () => {
   const progressPercentage =
     ((progressInDays / totalDays) * 100).toFixed(2) + '%';
 
-  const chartOptions1 = {
-    chart: {
-      title: 'Project Progress',
-      subtitle: `Progress Percentage - ${progressPercentage}`,
-    },
-    colors: ['#6941C6', '#32D583'],
-    title: 'Project Progress ',
-    pieHole: 0.4,
-    pieSliceTextStyle: {
-      color: 'white',
-    },
-  };
-
-  const projectStatusData = [
-    ['Pipe Line Project', 'Estimated Day', 'Completed Day'],
-    // [{projectStatus.top_projects[0].project name    }, 1000, 200],
-    // ["Project Sample", new Date("2023-06-15"), new Date("2023-11-25")],
-    ['Progress  ', totalDays, progressInDays],
-    // ["Project 4", 540, 350],
-  ];
-
   return (
     <div className={Styles.container}>
       <div className={Styles.dashBoardcontainer}>
         <div className={Styles.headingContainer}>
-          <DashboardIcon width={30} height={30} />
+          <DashboardIcon width={25} height={30} />
           <span>DASHBOARD</span>
         </div>
 
@@ -52,46 +54,44 @@ const ProjectDashboard = () => {
           <div>
             <div className={Styles.card}>
               <div className={Styles.textStyle}>
-                <h3>
+                <h4>
                   <b> Manager Name</b>
-                </h3>
+                </h4>
                 <p>Vignesh AD</p>
               </div>
               <div className={Styles.textStyle}>
-                <h3>
+                <h4>
                   <b>Client Name</b>
-                </h3>
+                </h4>
                 <p>Aalam Info Solutions LLP</p>
               </div>
               <div className={Styles.textStyle}>
-                <h3>
+                <h4>
                   <b> User Count</b>
-                </h3>
+                </h4>
                 <p>18</p>
               </div>
               <div className={Styles.textStyle}>
-                <h3>
+                <h4>
                   <b> Site Count</b>
-                </h3>
+                </h4>
                 <p>5</p>
               </div>
             </div>
           </div>
-          <div>
+
+          <div className={Styles.projectProgress}>
             <span>PROJECT PROGRESS</span>
           </div>
-          <div className={Styles.cardDiv}>
-            <div className={Styles.graphCard}>
-              <div className={Styles.chart}>
-                <Chart
-                  chartType="BarChart"
-                  height="215px"
-                  data={projectStatusData}
-                  options={chartOptions1}
-                />
-              </div>
+          <div className={Styles.border}>
+            <div className={Styles.progressBar}>
+              <div className={Styles.totalDays} style={{ width: `${totalDays}%` }}></div>
+            </div>
+            <div className={Styles.progressBar}>
+              <div className={Styles.completedDays} style={{ width: `${progressPercentage}` }}></div>
             </div>
           </div>
+
           <div>
             <span>BUDGET</span>
           </div>

@@ -573,10 +573,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
           isVissible={showClientForm}
           onAction={setShowClientForm}
         />
-        <CustomSiteAdd
-          isVissiblesite={showSiteForm}
-          onActionsite={setShowSiteForm}
-        />
         <CustomConfirm
           open={openConfirm}
           title="Confirm Submit"

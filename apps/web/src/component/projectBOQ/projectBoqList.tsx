@@ -4,19 +4,20 @@ import {
   useGetAllCategoryByProjectId,
   useDeleteCategory,
 } from '../../hooks/category-hooks';
-import Styles from '../../styles/bom.module.scss';
+import Styles from '../../styles/newStyles/bomlist.module.scss';
 import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import subCategoryService from '../../service/subCategory-service';
 import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
+import NewAddCircleIcon from '../menu/icons/newAddCircleIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomBomAddPopup from '../ui/CustomBomAddPopup';
 import CustomAbstractAddPopup from '../ui/CustomAbstractPopup';
 import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
 import BomService from '../../service/bom-service';
 import { formatBudgetValue } from '../../helper/common-function';
-import BomItems from './bomItems';
-import Bom from './bom';
+import BomItems from '../projectBOQ/boqItems';
+// import Bom from './bom';
 import { useNavigate, useParams } from 'react-router-dom';
 import CategoryService from '../../service/category-service';
 import EditIcon from '../menu/icons/editIcon';
@@ -25,20 +26,18 @@ import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import { getByProjectId } from '../../hooks/project-hooks';
 import BackArrow from '../menu/icons/backArrow';
+import ZIcon from '../menu/icons/zIcon';
+import CheckListIcon from '../menu/icons/checkListIcon';
 import CustomSidePopup from '../ui/CustomSidePopup';
-import ProjectAbstractAdd from '../projectBOQ/forms/projectAbstractAdd';
-import ProjectTaskAdd from '../projectBOQ/forms/ProjectTaskAdd';
+import ProjectAbstractAdd from './forms/projectAbstractAdd';
+import ProjectTaskAdd from './forms/ProjectTaskAdd';
 
-const BomList = () => {
+const BomList: React.FC = (props: any) => {
   const params = useParams();
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const bomconfigId = Number(params?.bomconfigId);
-  // console.log('oooo', params);
-  // const projectId = Number(params?.projectId);
   const { data: projectData } = getByProjectId(projectId);
-  // console.log('projectData', projectData);
-
   const [projectsId, setProjectsId] = useState(projectId);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
@@ -69,12 +68,17 @@ const BomList = () => {
         bomconfigId: bomconfigId,
       };
       const datas = await CategoryService.getAllCategoryByProjectId(obj);
+
+      console.log('rrrrrrrrrrrrrrrr', datas.data);
       setCategories(datas.data);
       setIsloading(false);
       setCategoryData(datas.data[0]);
+      console.log('ttttttttttt', datas.data[0]);
+      props.setReload(!props.reload);
       setSelectedCategory(datas.data[0].category_id);
       setCategoryId(datas.data[0].category_id);
     };
+
     fetchData();
   }, [reload]);
 
@@ -151,34 +155,6 @@ const BomList = () => {
 
   return (
     <div>
-      <div className={Styles.headingcontainer}>
-        <div className={Styles.box}>
-          <div className={Styles.mainTextContent}>
-            <div className={Styles.textContent_1}>
-              <h3>{projectData?.project_name}</h3>
-              <span className={Styles.content}>{projectData?.description}</span>
-            </div>
-  
-            <div className={Styles.backButton}>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<BackArrow />}
-                  onClick={() => {
-                    navigate(`/project-edit/${projectId}`);
-                  }}
-                >
-                  Back
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className={Styles.box}></div>
       {isloading ? (
         <CustomLoader loading={isloading} size={48} />
       ) : (
@@ -190,109 +166,119 @@ const BomList = () => {
                   <div className={Styles.side_menu}>
                     <div className={Styles.topSideMenu}>
                       <div className={Styles.topSideHeading}>
-                        <h3>BOQ Creator</h3>
+                        <ZIcon />
+                        <h3>Abstracts ({categories?.length})</h3>
                       </div>
-                      <Button
-                        color="primary"
-                        shape="rectangle"
-                        justify="center"
-                        size="small"
-                        icon={<AddIcon width={20} color="white" />}
+                      <NewAddCircleIcon
                         onClick={() => {
                           setShowAbstractForm(true);
                           setMode('Add');
                         }}
-                      >
-                        Add Abstract
-                      </Button>
+                      />
                     </div>
 
-                    {categories?.map((items: any, index: any) => {
-                      return (
-                        <ul key={index}>
-                          <li>
-                            {/* it is category shows */}
-                            <div
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                              }}
-                            >
-                              <div
+                    <div>
+                      {categories?.map((items: any, index: any) => {
+                        console.log('categories', categories);
+
+                        return (
+                          <div>
+                            <ul key={index}>
+                              <li
                                 className={
                                   selectedCategory === items.category_id
                                     ? Styles.selected
-                                    : Styles.primarylistContent
+                                    : ''
                                 }
                                 onClick={() => {
                                   handleSelectedCategory(items);
                                   setCategoryId(items.category_id);
                                 }}
                               >
-                                <div>
-                                  {items?.name}
-                                  <span className={Styles.smallred}>
-                                    {items?.progress_status}
-                                  </span>
-                                </div>
-                              </div>
-                              <div>
-                                <MoreVerticalIcon
-                                  onClick={(e: any) => {
-                                    e.stopPropagation();
-                                    setOpenedContextMenuForCategory(
-                                      items.category_id
-                                    );
-                                    setCategoryId(items.category_id);
-                                    setMoreIconDropdownOpen(
-                                      !moreIconDropdownOpen
-                                    );
+                                {/* it is category shows */}
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
                                   }}
-                                />
-                                {moreIconDropdownOpen &&
-                                  items.category_id ===
-                                    openedContextMenuForCategory && (
-                                    <ul className={Styles.menu}>
-                                      <li
-                                        className={Styles.menuItem}
-                                        // onClick={() => setShowSubCategoryForm(true)}
-                                      >
-                                        <div
-                                          style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            // alignItems: 'center',
-                                            gap: '5px',
-                                          }}
-                                        >
-                                          <div
-                                            className={Styles.options}
-                                            onClick={() =>
-                                              handleEdit(items.category_id)
-                                            }
-                                          >
-                                            <EditIcon width={20} />
-                                            <span>Edit</span>
-                                          </div>
-                                          <div
-                                            className={Styles.options}
-                                            onClick={() =>
-                                              deleteHandler(items.category_id)
-                                            }
-                                          >
-                                            <DeleteIcon width={20} />
-                                            <span>Delete</span>
-                                          </div>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  )}
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      );
-                    })}
+                                >
+                                  <div>
+                                    {index + 1} {items?.name}
+                                    <span className={Styles.smallred}>
+                                      {items?.progress_status}
+                                    </span>
+                                    <div className={Styles?.subMenuDescription}>
+                                      <span title={items?.description}>
+                                        {items?.description?.substring(0, 50) +
+                                          '...'}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <MoreVerticalIcon
+                                      onClick={(e: any) => {
+                                        e.stopPropagation();
+                                        setOpenedContextMenuForCategory(
+                                          items.category_id
+                                        );
+                                        setCategoryId(items.category_id);
+                                        setMoreIconDropdownOpen(
+                                          !moreIconDropdownOpen
+                                        );
+                                      }}
+                                      color="#7f56d9"
+                                    />
+                                    {moreIconDropdownOpen &&
+                                      items.category_id ===
+                                        openedContextMenuForCategory && (
+                                        <ul className={Styles.menu}>
+                                          <li className={Styles.menuItem}>
+                                            <div
+                                              style={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: '5px',
+                                                padding: '5px',
+                                              }}
+                                            >
+                                              <div
+                                                className={Styles.options}
+                                                onClick={() =>
+                                                  handleEdit(items.category_id)
+                                                }
+                                              >
+                                                <span
+                                                  className={Styles.menuFont}
+                                                >
+                                                  Edit Abstract
+                                                </span>
+                                              </div>
+                                              <div
+                                                className={Styles.options}
+                                                onClick={() =>
+                                                  deleteHandler(
+                                                    items.category_id
+                                                  )
+                                                }
+                                              >
+                                                <span
+                                                  className={Styles.menuFont}
+                                                >
+                                                  Delete
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                      )}
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
                 <div className={Styles.mainContainer}>
@@ -300,34 +286,38 @@ const BomList = () => {
                     <div>
                       <div className={Styles.mainHeading}>
                         <div className={Styles.mainLeftContent}>
-                          <h3>{categoryData?.name}</h3>
-                          <p className={Styles.descriptionContent}>
-                            {categoryData?.description}
-                          </p>
-                        </div>
-                        <div>
-                          <p>Allocated Budget</p>
-                          <p>
-                            {formatBudgetValue(
-                              categoryData?.budget ? categoryData?.budget : 0
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                      <div>
-                        <div className={Styles.taskButton}>
-                          <Button
-                            color="primary"
-                            shape="rectangle"
-                            justify="center"
-                            size="small"
-                            icon={<AddIcon width={20} color="white" />}
+                          <div className={Styles.leftContentOne}>
+                            <CheckListIcon />
+                            <h3 title={categoryData.name}>
+                              {' '}
+                              {categoryData.name
+                                ? categoryData.name.length > 20
+                                  ? categoryData.name.substring(0, 20) + '...'
+                                  : categoryData.name
+                                : '-'}
+                              (count)
+                            </h3>
+                            {/* <h3>{categoryData?.name}(count)</h3> */}
+                          </div>
+                          <div
+                            className={Styles.leftContentOne}
                             onClick={() => {
                               setShowSubCategoryForm(true);
                             }}
                           >
-                            Add Tasks
-                          </Button>
+                            <NewAddCircleIcon />
+                            <span className={Styles.menuFont}>Add Task</span>
+                          </div>
+                        </div>
+                        <div>
+                          <h3>
+                            {formatBudgetValue(
+                              categoryData?.budget ? categoryData?.budget : 0
+                            )}
+                          </h3>
+                          <p className={Styles.countContentTitle}>
+                            Aggregated Value
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -338,24 +328,44 @@ const BomList = () => {
                     selectedSubCategory={selectedSubCategory}
                     projectsId={projectsId}
                     selectedBomConfig={bomconfigId}
+                    setReload={props.setReload}
+                    reload={props.reload}
                   />
                 </div>
               </div>
             </div>
           ) : (
             <div className={Styles.Secondcontainer}>
-              <div className={Styles.abstractButton}>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  size="small"
-                  icon={<AddIcon width={20} color="white" />}
-                  onClick={() => {
-                    setShowAbstractForm(true);
-                  }}
-                >
-                  Add Abstract
-                </Button>
+              <div className={Styles.secondContainerHeading}>
+                <ZIcon />
+                <span>Abstract (0)</span>
+              </div>
+              <div className={Styles.secondContainerContent}>
+                <div>
+                  <ZIcon width={50} height={50} />
+                </div>
+                <div>
+                  <h5>No Abstracts added to this BoQ</h5>
+                </div>
+                <div>
+                  <span>
+                    Every BoQ needs an Abstract to begin with. Go ahead, add an
+                    Abstract now.
+                  </span>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    icon={<AddIcon width={20} color="white" />}
+                    onClick={() => {
+                      setShowAbstractForm(true);
+                    }}
+                  >
+                    Add Abstract
+                  </Button>
+                </div>
               </div>
             </div>
           )}

@@ -53,11 +53,11 @@ const ProjectList = () => {
     search_by_name: '',
   });
   const [buttonLabels, setButtonLabels] = useState([
+    ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
+      ? [{ label: 'All', value: 'ALL' }, { label: 'Draft', value: 'Draft' }]
+      : []),
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
-    ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
-      ? [{ label: 'Draft', value: 'Draft' }, { label: 'All', value: 'ALL' }]
-      : []),
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
   const [filter, setFilter] = useState(false);

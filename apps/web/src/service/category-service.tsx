@@ -66,8 +66,8 @@ const deleteCategory = async (id: number) => {
     const response = await axiosinterceptor.delete(
       `${environment.apiUrl}/category/delete/${id}`
     );
-    console.log("delete",response.data);
-    
+    console.log('delete', response.data);
+
     return response.data;
   } catch (error) {
     console.log('Error in occur in delete category  :', error);
@@ -111,6 +111,17 @@ const getAllAbstractStatusParentType = async () => {
     throw error;
   }
 };
+const getBOMDetail = async (Value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/category/get-abstract-count/${Value?.projectId}/${Value?.boQId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting getAllAbstractStatusParentType:', error);
+    throw error;
+  }
+};
 export default {
   getAllCategory,
   getOneCategoryByID,
@@ -120,5 +131,6 @@ export default {
   checkDublicateCategory,
   filterCategory,
   getAllCategoryByProjectId,
-  getAllAbstractStatusParentType
+  getAllAbstractStatusParentType,
+  getBOMDetail,
 };
