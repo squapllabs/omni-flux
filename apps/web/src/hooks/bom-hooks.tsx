@@ -51,4 +51,70 @@ const getBOMbyProjectandType = (value: any) => {
   );
 };
 
-export { createBom, createBulkBom, getBOMbyProjectandType };
+const createBoQ = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return BomService.addBoQ(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllProjectBOQData']);
+      },
+    }
+  );
+};
+
+
+const getBySearchBoQProject = (data: any) => {
+  return useQuery(
+    ['useGetAllProjectBOQData'],
+    () => BomService.getProjectBoQList(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+const updateBoQ = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return BomService.updateBoQ(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllProjectBOQData']);
+      },
+    }
+  );
+};
+
+// const useDeleteProjectMember = () => {
+//   const queryClient = useQueryClient();
+//   return useMutation(
+//     (data: any) => {
+//       return BomService.deleteProjectMember(data);
+//     },
+//     {
+//       onSuccess: () => {
+//         queryClient.invalidateQueries(['useGetAllProjectPaginatedData']);
+//       },
+//     }
+//   );
+// };
+
+
+// const useGetAllPaginatedProjectMember = (data: any) => {
+//   return useQuery(
+//     ['useGetAllProjectPaginatedData'],
+//     () => BomService.filterProjectMember(data),
+//     {
+//       select: (data) => data,
+//       staleTime: Infinity,
+//     }
+//   );
+// };
+
+export { createBom, createBulkBom, getBOMbyProjectandType, createBoQ, getBySearchBoQProject,updateBoQ };

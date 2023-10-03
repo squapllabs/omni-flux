@@ -1,6 +1,7 @@
 .Container {
   width: 100%;
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .Container_main {
@@ -126,6 +127,15 @@
 
   &::-webkit-scrollbar {
     width: 0px;
+    background: transparent;
+  }
+}
+
+.tableContainerBOM {
+  padding: 10px;
+  width: 100%;
+  &::-webkit-scrollbar {
+    width: 2px;
     background: transparent;
   }
 }
@@ -500,6 +510,10 @@
   justify-content: center;
 }
 
+.imageAdd{
+  display: flex;
+  justify-content: center;
+}
 .sub_header {
   height: 10vh;
   display: flex;

@@ -16,6 +16,8 @@ import Styles from '../../../styles/newStyles/project_abstractAdd.module.scss';
 import CheckListIcon from '../../menu/icons/checkListIcon';
 
 const ProjectTaskAdd: React.FC = (props: any) => {
+  console.log('props', props?.mode);
+
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = createInstantSubcategory();
   const { mutate: updateSubcategoryData } = updateSubcategory();
@@ -54,9 +56,9 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           budget: data?.data?.budget,
         });
       };
-      fetchOne();
+      if (props.mode === 'EDIT') fetchOne();
     }
-  }, [props.mode, props.selectedSubCategory]);
+  }, [props?.mode]);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -78,11 +80,12 @@ const ProjectTaskAdd: React.FC = (props: any) => {
         updateSubcategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
+              resetForm();
               props.setMessage('Task edited');
               props.setOpenSnack(true);
               props.setOpen(false);
-              props.setReload(true);
-              resetForm();
+              props.setReload(!props.reload);
+              props.setAbstractReload(!props.abstractReload);
             }
           },
         });
@@ -104,7 +107,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               props.setMessage('Task created');
               props.setOpenSnack(true);
               props.setOpen(false);
-              props.setReload(true);
+              props.setReload(!props.reload);
+              props.setAbstractReload(!props.abstractReload);
               resetForm();
             }
           },
@@ -173,7 +177,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           </div>
         </div>
         <div className={Styles.icon}>
-          <CheckListIcon />
+          <CheckListIcon width={50} height={50} />
         </div>
       </div>
       <div className={Styles.sub_sub_container_2}>

@@ -158,6 +158,7 @@ const BomList = () => {
               <h3>{projectData?.project_name}</h3>
               <span className={Styles.content}>{projectData?.description}</span>
             </div>
+  
             <div className={Styles.backButton}>
               <div>
                 <Button
@@ -236,7 +237,6 @@ const BomList = () => {
                                 </div>
                               </div>
                               <div>
-                                {/* category add  */}
                                 <MoreVerticalIcon
                                   onClick={(e: any) => {
                                     e.stopPropagation();

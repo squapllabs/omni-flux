@@ -47,6 +47,7 @@ import stockOutwardDetails from './stockOutwardDetails.route';
 import stockAudit from './stockAudit.route';
 import expense from './expense.route';
 import expenseDetails from './expenseDetails.route';
+import bomConfiguration from './bomConfiguration.route';
 
 const router = express.Router();
 
@@ -242,6 +243,10 @@ const defaultRoutes = [
   {
     path: '/expense-details',
     route: expenseDetails,
+  },
+  {
+    path: '/bom-configuration',
+    route: bomConfiguration,
   },
 ];
 

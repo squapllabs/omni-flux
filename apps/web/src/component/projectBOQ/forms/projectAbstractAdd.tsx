@@ -85,7 +85,10 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
               props.setOpenSnack(true);
               resetForm();
               setInitialValues({});
-              props.setReload(true);
+              props.setAbstractReload(true);
+              // props.setReload(true);
+              props.setReload(!props.reload);
+
               handleClose();
             }
           },
@@ -106,7 +109,8 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
             if (data?.status === true) {
               props.setMessage('Abstract created');
               props.setOpenSnack(true);
-              props.setReload(true);
+              props.setAbstractReload(true);
+              props.setReload(!props.reload);
               handleClose();
               resetForm();
             }
@@ -195,7 +199,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
           </div>
         </div>
         <div className={Styles.icon}>
-          <ZIcon />
+          <ZIcon width={50} height={50} />
         </div>
       </div>
       <div className={Styles.sub_sub_container_2}>

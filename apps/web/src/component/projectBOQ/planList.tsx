@@ -103,10 +103,17 @@ const Bom: React.FC = (props: any) => {
           setMessage('BOM created successfully');
           setOpenSnack(true);
           setReload(!reload);
-          props.setOpen(!props.open);
+          setTimeout(() => {
+            props.setOpen(!props.open);
+            props.setReload(!props.reload);
+            props.setAbstractReload(!props.abstractReload);
+          }, 1000);
         }
       },
     });
+  };
+  const handleClose = () => {
+    props.setOpen(false);
   };
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -116,109 +123,112 @@ const Bom: React.FC = (props: any) => {
   };
   return (
     <div className={Styles.bomcontainer}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div>
-          <CustomGroupButton
-            labels={buttonLabels}
-            onClick={handleGroupButtonClick}
-            activeButton={activeButton}
-          />
-        </div>
-        <div className={Styles.countContent}>
-          <h3>
-            {formatBudgetValue(rawMaterialTotal + labourTotal + machineryTotal)}
-          </h3>
-          <span className={Styles.countContentTitle}>Aggregated Value</span>
-        </div>
-      </div>
-      <div className={Styles.mainBody}>
-        {activeButton === 'RAWMT' ? (
-          <BomRawMaterials
-            subCategoryId={subCategoryId}
-            activeButton={activeButton}
-            projectId={getSubCategoryData?.project_id}
-            bomId={getSubCategoryData?.bom_configuration_id}
-            setRawMaterialTotal={setRawMaterialTotal}
-            rawMaterialTotal={rawMaterialTotal}
-            setReload={setReload}
-            reload={reload}
-            setBomList={setBomList}
-            bomList={bomList}
-          />
-        ) : (
-          ''
-        )}
-        {activeButton === 'LABOR' ? (
-          <BomLabours
-            subCategoryId={subCategoryId}
-            activeButton={activeButton}
-            projectId={getSubCategoryData?.project_id}
-            bomId={getSubCategoryData?.bom_configuration_id}
-            setRawMaterialTotal={setRawMaterialTotal}
-            rawMaterialTotal={rawMaterialTotal}
-            setReload={setReload}
-            reload={reload}
-            setBomList={setBomList}
-            bomList={bomList}
-          />
-        ) : (
-          ''
-        )}
-        {activeButton === 'MCNRY' ? (
-          <BomMachinery
-            subCategoryId={subCategoryId}
-            activeButton={activeButton}
-            projectId={getSubCategoryData?.project_id}
-            bomId={getSubCategoryData?.bom_configuration_id}
-            setRawMaterialTotal={setRawMaterialTotal}
-            rawMaterialTotal={rawMaterialTotal}
-            setReload={setReload}
-            reload={reload}
-            setBomList={setBomList}
-            bomList={bomList}
-          />
-        ) : (
-          ''
-        )}
-        <div className={Styles.saveButton}>
-          <Button
-            color="primary"
-            shape="rectangle"
-            justify="center"
-            size="small"
-            onClick={(e) => handleBulkBomAdd(e)}
+      <div className={Styles.sub_container}>
+        <div className={Styles.sub_sub_container}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
           >
-            SAVE
-          </Button>
+            <div>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
+            <div className={Styles.countContent}>
+              <h3>
+                {formatBudgetValue(
+                  rawMaterialTotal + labourTotal + machineryTotal
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Aggregated Value</span>
+            </div>
+          </div>
+          <div className={Styles.mainBody}>
+            {activeButton === 'RAWMT' ? (
+              <BomRawMaterials
+                subCategoryId={subCategoryId}
+                activeButton={activeButton}
+                projectId={getSubCategoryData?.project_id}
+                bomId={getSubCategoryData?.bom_configuration_id}
+                setRawMaterialTotal={setRawMaterialTotal}
+                rawMaterialTotal={rawMaterialTotal}
+                setReload={setReload}
+                reload={reload}
+                setBomList={setBomList}
+                bomList={bomList}
+              />
+            ) : (
+              ''
+            )}
+            {activeButton === 'LABOR' ? (
+              <BomLabours
+                subCategoryId={subCategoryId}
+                activeButton={activeButton}
+                projectId={getSubCategoryData?.project_id}
+                bomId={getSubCategoryData?.bom_configuration_id}
+                setRawMaterialTotal={setRawMaterialTotal}
+                rawMaterialTotal={rawMaterialTotal}
+                setReload={setReload}
+                reload={reload}
+                setBomList={setBomList}
+                bomList={bomList}
+              />
+            ) : (
+              ''
+            )}
+            {activeButton === 'MCNRY' ? (
+              <BomMachinery
+                subCategoryId={subCategoryId}
+                activeButton={activeButton}
+                projectId={getSubCategoryData?.project_id}
+                bomId={getSubCategoryData?.bom_configuration_id}
+                setRawMaterialTotal={setRawMaterialTotal}
+                rawMaterialTotal={rawMaterialTotal}
+                setReload={setReload}
+                reload={reload}
+                setBomList={setBomList}
+                bomList={bomList}
+              />
+            ) : (
+              ''
+            )}
+          </div>
+        </div>
+        <div className={Styles.sub_sub_container_2}>
+          <div className={Styles.footer}>
+            <div>
+              <div className={Styles.dividerStyle}></div>
+              <div className={Styles.button}>
+                <Button
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleClose}
+                  className={Styles.cancelButton}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  shape="rectangle"
+                  color="primary"
+                  justify="center"
+                  size="small"
+                  type="submit"
+                  onClick={(e) => handleBulkBomAdd(e)}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* <div className={Styles.totalPanel}>
-        <div className={Styles.panelList}>
-          <div className={Styles.panel}>
-            <span className={Styles.panelTitle}>Raw Material Cost:</span>
-            <span>{rawMaterialTotal}</span>
-          </div>
-          <div className={Styles.panel}>
-            <span className={Styles.panelTitle}>Manpower Cost:</span>
-            <span>{labourTotal}</span>
-          </div>
-          <div className={Styles.panel}>
-            <span className={Styles.panelTitle}>Machinery Cost:</span>
-            <span>{machineryTotal}</span>
-          </div>
-          <div className={Styles.panel}>
-            <span className={Styles.panelTitle}>Total:</span>
-            <span>{rawMaterialTotal + labourTotal + machineryTotal}</span>
-          </div>
-        </div>
-      </div> */}
       <CustomSnackBar
         open={openSnack}
         message={message}

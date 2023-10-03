@@ -8,16 +8,16 @@ interface CheckListIconProps {
 }
 
 const CheckListIcon: FC<CheckListIconProps> = ({
-  width = 28,
-  height = 28,
+  width = 20,
+  height = 17,
   color = '#475467',
   style,
 }) => {
   return (
     <div>
       <svg
-        width="20"
-        height="17"
+        width={width}
+        height={height}
         viewBox="0 0 20 17"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

@@ -22,6 +22,13 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
 import projectService from '../../../service/project-service';
+import BOQIcon from '../../menu/icons/boqIcon';
+import CustomLoader from '../../ui/customLoader';
+import Pagination from '../../menu/CustomPagination';
+import CustomPopup from '../../ui/CustomSidePopup';
+import ProjectBoqAddPopup from './projectBoqAddPopup';
+import { getBySearchBoQProject } from '../../../hooks/bom-hooks';
+import CustomMenu from '../../ui/NewCustomMenu';
 
 const ProjectBomConfig: React.FC = (props: any) => {
   const routeParams = useParams();
@@ -41,14 +48,61 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [reload, setReload] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState('');
+  const [boqId, setBoQId] = useState();
+  const [isLoading, setIsLoading] = useState(false)
+  const action = [];
   // const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
   const { data: getBomType = [] } = getByMasterDataProjectIdDrop(
     Number(routeParams?.id)
   );
-  console.log('getBomType', getBomType);
+  const { data: projectDatas } = getByProjectId(Number(routeParams?.id))
+
+  const truncateString = (str: any, maxLength: number) => {
+    if (projectDatas?.project_name.length > maxLength) {
+      return str.substring(0, maxLength - 3) + '...';
+    }
+    return projectDatas?.project_name;
+  }
+
+  const truncatedString = truncateString(projectDatas?.project_name, 30);
 
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
+  const object: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: 'AC',
+    project_id: Number(routeParams?.id),
+    global_search: '',
+  }
+
+  const {
+    isLoading: getAllLoadingBoQProjectData,
+    data: initialData,
+    refetch,
+  } = getBySearchBoQProject(object);
+
+  // console.log("initialData", initialData);
+
+
+  const handleAddBoQData = () => {
+    setOpen(true);
+    setMode('ADD')
+  }
+  const handleEdit = (value: any) => {
+    setBoQId(value)
+    setOpen(true);
+    setMode('EDIT')
+  }
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -77,35 +131,56 @@ const ProjectBomConfig: React.FC = (props: any) => {
     };
     if (routeParams?.id != undefined) fetchData();
   }, []);
-  const validateSchema = yup.object().shape({
-    bom_name: yup.string().required('BOM name is required'),
-    bom_description: yup.string().required('BOM description is required'),
-    bom_type_id: yup
-      .string()
-      .required('BOM type is required')
-      .test(
-        'decimal-validation',
-        'Already exist',
-        async function (value: number, { parent }: yup.TestContext) {
-          let isDelete = parent.is_delete;
-          try {
-            const isValuePresent = bomConfig.some((obj: any) => {
-              return (
-                Number(obj.bom_type_id) === Number(value) &&
-                obj.is_delete === isDelete
-              );
-            });
-            if (isValuePresent === false) {
-              return true;
-            } else return false;
-          } catch {
-            return true;
-          }
-        }
-      ),
-  });
+  // const validateSchema = yup.object().shape({
+  //   bom_name: yup.string().required('BOM name is required'),
+  //   bom_description: yup.string().required('BOM description is required'),
+  //   bom_type_id: yup
+  //     .string()
+  //     .required('BOM type is required')
+  //     .test(
+  //       'decimal-validation',
+  //       'Already exist',
+  //       async function (value: number, { parent }: yup.TestContext) {
+  //         let isDelete = parent.is_delete;
+  //         try {
+  //           const isValuePresent = bomConfig.some((obj: any) => {
+  //             return (
+  //               Number(obj.bom_type_id) === Number(value) &&
+  //               obj.is_delete === isDelete
+  //             );
+  //           });
+  //           if (isValuePresent === false) {
+  //             return true;
+  //           } else return false;
+  //         } catch {
+  //           return true;
+  //         }
+  //       }
+  //     ),
+  // });
   const handleSnackBarClose = () => {
     setOpenSnack(false);
+  };
+
+  const handleClosePopup = () => {
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    refetch()
+  }, [rowsPerPage, currentPage])
+
+  /* Function for changing the table page */
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  /* Function for changing no of rows in pagination */
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
   };
   const handleSubmit = () => {
     const obj: any = {
@@ -147,7 +222,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
   };
   const formik = useFormik({
     initialValues,
-    validationSchema: validateSchema,
+    // validationSchema: validateSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
       let arr = [];
@@ -158,147 +233,180 @@ const ProjectBomConfig: React.FC = (props: any) => {
   });
   return (
     <div>
-      <div className={Styles.tableContainer}>
-        <div>
-          <table className={Styles.scrollable_table}>
-            <thead>
-              <tr>
-                <th className={Styles.tableHeading}>S No</th>
-                <th className={Styles.tableHeadingSite}>BOQ Name</th>
-                <th className={Styles.tableHeading}>BOQ Description</th>
-                <th className={Styles.tableHeading}>BOQ Type</th>
-                <th className={Styles.tableHeading}>Budgeewe  t</th>
-                <th className={Styles.tableHeading}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bomConfig?.map((item: any, index: any) => {
-                rowIndex = rowIndex + 1;
-                return (
-                  // <>
-                  <tr>
-                    <td>{rowIndex}</td>
-                    <td>{item?.bom_name}</td>
-                    <td>{item?.bom_description}</td>
-                    <td>{item?.bom_type_name}</td>
-                    <td>{item?.budget}</td>
-                    <td>
-                      <div
-                        className={Styles.addPlan}
-                        onClick={() => {
-                          navigate(
-                            `/newBoq/${routeParams.id}/${item?.bom_configuration_id}`
-                          );
-                        }}
-                        style={{
-                          pointerEvents:
-                            `${item?.bom_configuration_id}` === ''
-                              ? 'none'
-                              : 'auto',
-                        }}
-                      >
-                        <AddIcon style={{ height: '15px', width: '15px' }} />
-                        <p className={Styles.addText}>Create Abstract</p>
-                      </div>
-                    </td>
-                  </tr>
-                  // </>
-                );
-              })}
-              <tr>
-                <td>{rowIndex + 1}</td>
-                <td>
-                  <Input
-                    name="bom_name"
-                    value={formik.values.bom_name}
-                    onChange={formik.handleChange}
-                    error={formik.touched.bom_name && formik.errors.bom_name}
-                  />
-                </td>
-                <td>
-                  <Input
-                    name="bom_description"
-                    value={formik.values.bom_description}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.bom_description &&
-                      formik.errors.bom_description
-                    }
-                  />
-                </td>
-                <td>
-                  <AutoCompleteSelect
-                    defaultLabel=""
-                    // width="250px"
-                    name="bom_type_id"
-                    mandatory={true}
-                    optionList={getBomType}
-                    value={formik.values.bom_type_id}
-                    onChange={formik.handleChange}
-                    onSelect={(value) => {
-                      formik.setFieldValue('bom_type_id', value);
-                      const matchingObjects = getBomType.filter(
-                        (obj: any) => Number(obj.value) === Number(value)
-                      );
-                      formik.setFieldValue(
-                        'bom_type_name',
-                        matchingObjects[0]?.label
-                      );
-                    }}
-                    error={
-                      formik.touched.bom_type_id && formik.errors.bom_type_id
-                    }
-                  />
-                </td>
-                <td>
-                  {' '}
-                  <div
-                    style={{
-                      cursor: 'pointer',
-                      paddingBottom: '20px',
-                    }}
-                  >
-                    {formik.values.budget}
+      <div className={Styles.container}>
+        <CustomLoader
+          loading={isLoading ? isLoading : getAllLoadingBoQProjectData}
+          size={48}
+          color="#333C44"
+        >
+          {initialData?.total_count !== 0 ? (
+            <div>
+              <div className={Styles.topHeading}>
+                <div className={Styles.heading}>
+                  <div className={Styles.subHeading}>
+                    <BOQIcon />
+                    <h3>{`BoQ (${initialData?.total_count})`}</h3>
                   </div>
-                </td>
-                <td>
-                  <div
-                    style={{
-                      cursor: 'pointer',
-                      paddingBottom: '20px',
-                    }}
-                  >
-                    <div onClick={formik.handleSubmit}>
-                      <AddIcon />
-                    </div>
+                  <div>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon color="white" />}
+                      onClick={() => handleAddBoQData()}
+                    >
+                      Add BoQ
+                    </Button>
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div className={Styles.buttonContent}>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-              onClick={(e) => {
-                handleSubmit(e);
-              }}
-            >
-              Save Config
-            </Button>
-          </div>
-        </div>
-        <CustomSnackBar
-          open={openSnack}
-          message={message}
-          onClose={handleSnackBarClose}
-          autoHideDuration={1000}
-          type="success"
-        />
+                </div>
+                {/* <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div> */}
+              </div>
+              <div className={Styles.box}>
+                <div className={Styles.tableContainerBOM}>
+                  <div>
+                    <table className={Styles.scrollable_table}>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>BoQ Name</th>
+                          <th>Description</th>
+                          <th>Type</th>
+                          <th>Abstracts</th>
+                          <th>Tasks</th>
+                          {/* <th>Plans</th> */}
+                          <th>Actions</th>
+                          {/* {activeButton === 'AC' && <th>Action</th>} */}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {initialData?.total_count === 0 ? (
+
+                          <tr>
+                            <td colSpan="8" style={{ textAlign: 'center' }}>
+                              No data found
+                            </td>
+                            {/* {activeButton === 'AC' && <td></td>} */}
+                          </tr>
+                        ) :
+                          (initialData?.content?.map((data: any, index: number) => {
+                            const actions = [
+                              {
+                                label: 'Manage Abstracts, Tasks or Plans',
+                                onClick: () => {
+                                  navigate(
+                                    `/newBoq/${routeParams?.id}/${data?.bom_configuration_id}`
+                                  );                                }
+                              },
+                              {
+                                label: 'Edit BoQ Name & Description',
+                                onClick: () => { handleEdit(data?.bom_configuration_id) }
+
+                              },
+
+                            ];
+                            return (
+                              <tr key={data?.bom_configuration_id}>
+                                <td>{startingIndex + index}</td>
+                                <td>{data?.bom_name}</td>
+                                <td>{data?.bom_description}</td>
+                                <td>{data?.bom_type_data?.master_data_name}</td>
+                                <td>{data?.abstract_count}</td>
+                                <td>{data?.task_count}</td>
+                                {/* <td>{0}</td> */}
+                                <td><CustomMenu actions={actions} /></td>
+                              </tr>
+                            );
+                          }
+                          )
+                          )}
+                        <td></td>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div>
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={
+                        // dataShow
+                        //   ? getFilterData?.total_page
+                        //   : 
+                        initialData?.total_page
+                      }
+                      totalCount={
+                        // dataShow
+                        //   ? getFilterData?.total_count
+                        //   :
+                        initialData?.total_count
+                      }
+                      rowsPerPage={rowsPerPage}
+                      onPageChange={handlePageChange}
+                      onRowsPerPageChange={handleRowsPerPageChange}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>) : (
+            <div>
+              <div className={Styles.subHeading}>
+                <BOQIcon />
+                <h3>BoQ</h3>
+              </div>
+              <div className={Styles.emptyDataHandling}>
+                <div className={Styles.imageAdd}>
+                  <img
+                    src="/boq-add.png"
+                    alt="aa"
+                    width="90%"
+                    height="20%"
+                  />
+                </div>
+                <div>
+                  <h5 className={Styles.textmax}>No BoQ added to this Project</h5>
+                </div>
+                <div>
+                  <p className={Styles.textmin}>Go ahead, add a BoQ </p>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => handleAddBoQData()}
+                  >
+                    Add BoQ
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+        </CustomLoader>
       </div>
+      <CustomPopup
+        title={mode === 'ADD' ? `Add BoQ to ${truncatedString}` : `Edit BoQ to ${truncatedString}`}
+        open={open}
+        handleClose={handleClosePopup}
+        content={
+          <ProjectBoqAddPopup
+            setOpen={setOpen}
+            open={open}
+            mode={mode}
+            boqId={boqId}
+            setReload={setReload}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+            projectId={Number(routeParams?.id)}
+          />
+        }
+      />
     </div>
   );
 };

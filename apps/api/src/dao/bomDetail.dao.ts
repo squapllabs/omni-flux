@@ -396,7 +396,8 @@ const addBulk = async (bulkBom: bomBody[], connectionObj = null) => {
       const description = bom.description;
       const quantity = bom.quantity;
       const rate = bom.rate;
-      const total = bom.total;
+      /* const total = bom.total; */
+      const total = quantity * rate;
       const sub_category_id = bom.sub_category_id;
       const bom_type = bom.bom_type;
       const category_id = bom.category_id;
