@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/vendorSelect.module.scss';
 import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 
-const NewCustomMenu = ({ actions }:any) => {
+const NewCustomMenu = ({ actions, name }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -13,13 +13,13 @@ const NewCustomMenu = ({ actions }:any) => {
   const handleItemClick = (action: any) => {
     if (!action.disabled) {
       action.onClick();
-      setIsOpen(false); 
+      setIsOpen(false);
     }
   };
 
 
   useEffect(() => {
-    const handleClickOutside = (event:any) => {
+    const handleClickOutside = (event: any) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
       }
@@ -29,21 +29,23 @@ const NewCustomMenu = ({ actions }:any) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  console.log("name", name);
 
   return (
     <div className={Styles.customMenu} ref={menuRef}>
       <span className={Styles.menuText} onClick={toggleMenu}>
         <MoreVerticalIcon />
+
       </span>
       {isOpen && (
-        <div className={Styles.menuDropdown}>
-          {actions.map((action:any, index:any) => (
+        <div className={name === "abstract" ? Styles.menuDropdownAbstract : (name === "BoQItems" ? Styles.menuDropdownItems : Styles.menuDropdownOne)}>
+          {actions.map((action: any, index: any) => (
             <div
-            key={index}
-            // onClick={action.disabled ? null : action.onClick}
-            onClick={() => handleItemClick(action)}
-            className={`${Styles.menuItem} ${action.disabled ? Styles.disabled : ''}`}
-          >
+              key={index}
+              // onClick={action.disabled ? null : action.onClick}
+              onClick={() => handleItemClick(action)}
+              className={`${Styles.menuItem} ${action.disabled ? Styles.disabled : ''}`}
+            >
               {action.label}
             </div>
           ))}
