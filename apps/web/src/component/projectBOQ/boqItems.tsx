@@ -18,6 +18,7 @@ import PlanList from '../projectBOQ/planList';
 import CheckListIcon from '../menu/icons/checkListIcon';
 import NewAddCircleIcon from '../menu/icons/newAddCircleIcon';
 import CategoryService from '../../service/category-service';
+import CustomMenu from '../ui/NewCustomMenu';
 
 const BomItems = (props: {
   selectedCategory: any;
@@ -168,7 +169,30 @@ const BomItems = (props: {
                 </tr>
               </thead>
               <tbody>
-                {getAllData?.map((data: any, index: number) => (
+                {getAllData?.map((data: any, index: number) => {
+                  const actions = [
+                    {
+                      label: 'Manage Plans',
+                      onClick: () => {
+                        setSelectedSubCategoryId(
+                          data.sub_category_id
+                        );
+                        setPlanListTitle(data.name);
+                        setShowPlanForm(true);
+                      }
+                    },
+                    {
+                      label: 'Edit Task',
+                      onClick: () => {
+                        handleEdit(data?.sub_category_id);
+                        setSelectedSubCategoryId(
+                          data?.sub_category_id
+                        );
+                      }
+                    },
+
+                  ];
+                  return (
                   <tr key={data.sub_category_id}>
                     <td>{index + 1}</td>
 
@@ -197,7 +221,8 @@ const BomItems = (props: {
                     </td>
 
                     <td>
-                      <MoreVerticalIcon
+                      <CustomMenu actions={actions} name="BoQItems" />
+                      {/* <MoreVerticalIcon
                         onClick={(e: any) => {
                           e.stopPropagation();
 
@@ -207,9 +232,9 @@ const BomItems = (props: {
 
                           setMoreIconDropdownOpen(!moreIconDropdownOpen);
                         }}
-                      />
+                      /> */}
 
-                      {moreIconDropdownOpen &&
+                      {/* {moreIconDropdownOpen &&
                         data.sub_category_id ===
                           openedContextMenuForSubCategory && (
                           <ul className={Styles.menu}>
@@ -266,10 +291,10 @@ const BomItems = (props: {
                               </div>
                             </li>
                           </ul>
-                        )}
+                        )} */}
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>

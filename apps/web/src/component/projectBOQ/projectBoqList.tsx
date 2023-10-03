@@ -31,6 +31,7 @@ import CheckListIcon from '../menu/icons/checkListIcon';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import ProjectAbstractAdd from './forms/projectAbstractAdd';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
+import CustomMenu from '../ui/NewCustomMenu';
 
 const BomList: React.FC = (props: any) => {
   const params = useParams();
@@ -175,7 +176,18 @@ const BomList: React.FC = (props: any) => {
 
                     <div>
                       {categories?.map((items: any, index: any) => {
-                        console.log('categories', categories);
+                        // console.log('categories', categories);
+                        const actions = [
+                          {
+                            label: 'Edit Abstract',
+                            onClick: () => { handleEdit(items?.category_id) }
+                          },
+                          // {
+                          //   label: 'Delete',
+                          //   onClick: () => { deleteHandler(items.category_id) }
+                          // },
+
+                        ];
 
                         return (
                           <div>
@@ -211,62 +223,63 @@ const BomList: React.FC = (props: any) => {
                                     </div>
                                   </div>
                                   <div>
-                                    <MoreVerticalIcon
-                                      onClick={(e: any) => {
-                                        e.stopPropagation();
-                                        setOpenedContextMenuForCategory(
-                                          items.category_id
-                                        );
-                                        setCategoryId(items.category_id);
-                                        setMoreIconDropdownOpen(
-                                          !moreIconDropdownOpen
-                                        );
-                                      }}
-                                      color="#7f56d9"
-                                    />
-                                    {moreIconDropdownOpen &&
-                                      items.category_id ===
-                                        openedContextMenuForCategory && (
-                                        <ul className={Styles.menu}>
-                                          <li className={Styles.menuItem}>
-                                            <div
-                                              style={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                gap: '5px',
-                                                padding: '5px',
-                                              }}
+                                    <CustomMenu actions={actions} name={'abstract'} />
+                                    {/* <MoreVerticalIcon
+                                  onClick={(e: any) => {
+                                    e.stopPropagation();
+                                    setOpenedContextMenuForCategory(
+                                      items.category_id
+                                    );
+                                    setCategoryId(items.category_id);
+                                    setMoreIconDropdownOpen(
+                                      !moreIconDropdownOpen
+                                    );
+                                  }}
+                                  color="#7f56d9"
+                                /> */}
+                                    {/* {moreIconDropdownOpen &&
+                                  items.category_id ===
+                                  openedContextMenuForCategory && (
+                                    <ul className={Styles.menu}>
+                                      <li className={Styles.menuItem}>
+                                        <div
+                                          style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '5px',
+                                            padding: '5px',
+                                          }}
+                                        >
+                                          <div
+                                            className={Styles.options}
+                                            onClick={() =>
+                                              handleEdit(items.category_id)
+                                            }
+                                          >
+                                            <span
+                                              className={Styles.menuFont}
                                             >
-                                              <div
-                                                className={Styles.options}
-                                                onClick={() =>
-                                                  handleEdit(items.category_id)
-                                                }
-                                              >
-                                                <span
-                                                  className={Styles.menuFont}
-                                                >
-                                                  Edit Abstract
-                                                </span>
-                                              </div>
-                                              <div
-                                                className={Styles.options}
-                                                onClick={() =>
-                                                  deleteHandler(
-                                                    items.category_id
-                                                  )
-                                                }
-                                              >
-                                                <span
-                                                  className={Styles.menuFont}
-                                                >
-                                                  Delete
-                                                </span>
-                                              </div>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      )}
+                                              Edit Abstract
+                                            </span>
+                                          </div>
+                                          <div
+                                            className={Styles.options}
+                                            onClick={() =>
+                                              deleteHandler(
+                                                items.category_id
+                                              )
+                                            }
+                                          >
+                                            <span
+                                              className={Styles.menuFont}
+                                            >
+                                              Delete
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  )} */}
                                   </div>
                                 </div>
                               </li>
