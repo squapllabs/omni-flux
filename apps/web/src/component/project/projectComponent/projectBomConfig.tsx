@@ -167,7 +167,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 <th className={Styles.tableHeadingSite}>BOQ Name</th>
                 <th className={Styles.tableHeading}>BOQ Description</th>
                 <th className={Styles.tableHeading}>BOQ Type</th>
-                <th className={Styles.tableHeading}>Budget</th>
+                <th className={Styles.tableHeading}>Budgeewe  t</th>
                 <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
@@ -187,7 +187,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                         className={Styles.addPlan}
                         onClick={() => {
                           navigate(
-                            `/bomlist/${routeParams.id}/${item?.bom_configuration_id}`
+                            `/newBoq/${routeParams.id}/${item?.bom_configuration_id}`
                           );
                         }}
                         style={{
