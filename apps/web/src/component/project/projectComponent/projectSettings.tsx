@@ -42,7 +42,7 @@ import CustomEditDialog from '../../ui/customEditDialogBox';
 import ProjectMasterDataEditForm from './projectMasterDataEdit';
 import MemberIcon from '../../menu/icons/memberIcon';
 import CustomProjectMemberAddPopup from './projectMemberAddPopup';
-import CustomPopup from '../../ui/CustomRightSidePopup';
+import CustomPopup from '../../ui/CustomSidePopup';
 
 const ProjectSettings: React.FC = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -103,6 +103,10 @@ const ProjectSettings: React.FC = (props: any) => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const handleClosePopup = () => {
+    setOpen(false);
+  }
 
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -216,201 +220,201 @@ const ProjectSettings: React.FC = (props: any) => {
         size={48}
         color="#333C44"
       >
-        {initialData?.total_count !== 0 || activeButton === 'IN'? (
-                  <div>
-                  <div className={Styles.topHeading}>
-                        <div className={Styles.heading}>
-                          <div className={Styles.subHeading}>
-                          <MemberIcon />
-                        <h3>MEMBERS</h3>
-                          </div>
-                          <div>
-                          <Button
-                          color="primary"
-                          shape="rectangle"
-                          justify="center"
-                          size="small"
-                          icon={<AddIcon color="white" />}
-                          onClick={()=>setOpen(true)}
-                        >
-                          Add Member
-                        </Button>
-                          </div>
-                        </div>
-                        <div>
-                        <CustomGroupButton
-                          labels={buttonLabels}
-                          onClick={handleGroupButtonClick}
-                          activeButton={activeButton}
-                        />
-                        </div>
-                      </div>
-                  <div className={Styles.box}>
-                    <div className={Styles.tableContainer}>
-                      <div>
-                        <table className={Styles.scrollable_table}>
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Name</th>
-                              <th>Role</th>
-                              <th>Expiration Date</th>
-                              {activeButton === 'AC' && <th>Action</th>}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {dataShow ? (
-                              getFilterData?.total_count === 0 ? (
-                                <tr>
-                                  <td colSpan="4" style={{ textAlign: 'center' }}>
-                                    No data found
-                                  </td>
-                                  {activeButton === 'AC' && <td></td>}
-                                </tr>
-                              ) : (
-                                getFilterData?.content?.map(
-                                  (data: any, index: number) => (
-                                    <tr key={data.project_member_association_id}>
-                                      <td>{startingIndex + index}</td>
-                                      <td>
-                                        <div className={Styles.profileDetail}>
-                                          <div>
-                                            <Avatar
-                                              firstName={data?.user_data?.first_name}
-                                              lastName={data?.user_data?.last_name}
-                                              size={40}
-                                            />
-                                          </div>
-                                          <div className={Styles.profileContents}>
-                                            <span className={Styles.profileName}>
-                                              {data?.user_data?.first_name}{' '}
-                                              {data?.user_data?.last_name}
-                                            </span>
-                                            <span className={Styles.emailContent}>
-                                              {data?.user_data?.email_id}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </td>
-                                      <td>{data?.project_role_data?.role_name}</td>
-                                      <td>
-                                        {data?.access_end_date == null
-                                          ? '-'
-                                          : format(
-                                            new Date(data?.access_end_date),
-                                            'MMM dd, yyyy'
-                                          )}
-                                      </td>
-                                      {activeButton === 'AC' && (
-                                        <td>
-                                          <div className={Styles.tablerow}>
-                                            <DeleteIcon
-                                              onClick={() =>
-                                                deleteProjectMember(
-                                                  data?.project_member_association_id
-                                                )
-                                              }
-                                            />
-                                          </div>
-                                        </td>
-                                      )}
-                                    </tr>
-                                  )
-                                )
-                              )
-                            ) : initialData?.total_count === 0 ? (
-                              <tr>
-                                <td colSpan="4" style={{ textAlign: 'center' }}>
-                                  No data found
+        {initialData?.total_count !== 0 || activeButton === 'IN' ? (
+          <div>
+            <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <MemberIcon />
+                  <h3>MEMBERS</h3>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => setOpen(true)}
+                  >
+                    Add Member
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
+            </div>
+            <div className={Styles.box}>
+              <div className={Styles.tableContainer}>
+                <div>
+                  <table className={Styles.scrollable_table}>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Expiration Date</th>
+                        {activeButton === 'AC' && <th>Action</th>}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dataShow ? (
+                        getFilterData?.total_count === 0 ? (
+                          <tr>
+                            <td colSpan="4" style={{ textAlign: 'center' }}>
+                              No data found
+                            </td>
+                            {activeButton === 'AC' && <td></td>}
+                          </tr>
+                        ) : (
+                          getFilterData?.content?.map(
+                            (data: any, index: number) => (
+                              <tr key={data.project_member_association_id}>
+                                <td>{startingIndex + index}</td>
+                                <td>
+                                  <div className={Styles.profileDetail}>
+                                    <div>
+                                      <Avatar
+                                        firstName={data?.user_data?.first_name}
+                                        lastName={data?.user_data?.last_name}
+                                        size={40}
+                                      />
+                                    </div>
+                                    <div className={Styles.profileContents}>
+                                      <span className={Styles.profileName}>
+                                        {data?.user_data?.first_name}{' '}
+                                        {data?.user_data?.last_name}
+                                      </span>
+                                      <span className={Styles.emailContent}>
+                                        {data?.user_data?.email_id}
+                                      </span>
+                                    </div>
+                                  </div>
                                 </td>
-                                {activeButton === 'AC' && <td></td>}
-                              </tr>
-                            ) : (
-                              initialData?.content?.map((data: any, index: number) => (
-                                <tr key={data.project_member_association_id}>
-                                  <td>{startingIndex + index}</td>
+                                <td>{data?.project_role_data?.role_name}</td>
+                                <td>
+                                  {data?.access_end_date == null
+                                    ? '-'
+                                    : format(
+                                      new Date(data?.access_end_date),
+                                      'MMM dd, yyyy'
+                                    )}
+                                </td>
+                                {activeButton === 'AC' && (
                                   <td>
-                                    <div className={Styles.profileDetail}>
-                                      <div>
-                                        <Avatar
-                                          firstName={data?.user_data?.first_name}
-                                          lastName={data?.user_data?.last_name}
-                                          size={40}
-                                        />
-                                      </div>
-                                      <div className={Styles.profileContents}>
-                                        <span className={Styles.profileName}>
-                                          {data?.user_data?.first_name}{' '}
-                                          {data?.user_data?.last_name}
-                                        </span>
-                                        <span className={Styles.emailContent}>
-                                          {data?.user_data?.email_id}
-                                        </span>
-                                      </div>
+                                    <div className={Styles.tablerow}>
+                                      <DeleteIcon
+                                        onClick={() =>
+                                          deleteProjectMember(
+                                            data?.project_member_association_id
+                                          )
+                                        }
+                                      />
                                     </div>
                                   </td>
-                                  <td>{data?.project_role_data?.role_name}</td>
-                                  <td>
-                                    {data?.access_end_date == null
-                                      ? '-'
-                                      : format(
-                                        new Date(data?.access_end_date),
-                                        'MMM dd, yyyy'
-                                      )}
-                                  </td>
-                                  {activeButton === 'AC' && (
-                                    <td>
-                                      <div className={Styles.tablerow}>
-                                        <DeleteIcon
-                                          onClick={() =>
-                                            deleteProjectMember(
-                                              data?.project_member_association_id
-                                            )
-                                          }
-                                        />
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ))
+                                )}
+                              </tr>
+                            )
+                          )
+                        )
+                      ) : initialData?.total_count === 0 ? (
+                        <tr>
+                          <td colSpan="4" style={{ textAlign: 'center' }}>
+                            No data found
+                          </td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        initialData?.content?.map((data: any, index: number) => (
+                          <tr key={data.project_member_association_id}>
+                            <td>{startingIndex + index}</td>
+                            <td>
+                              <div className={Styles.profileDetail}>
+                                <div>
+                                  <Avatar
+                                    firstName={data?.user_data?.first_name}
+                                    lastName={data?.user_data?.last_name}
+                                    size={40}
+                                  />
+                                </div>
+                                <div className={Styles.profileContents}>
+                                  <span className={Styles.profileName}>
+                                    {data?.user_data?.first_name}{' '}
+                                    {data?.user_data?.last_name}
+                                  </span>
+                                  <span className={Styles.emailContent}>
+                                    {data?.user_data?.email_id}
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                            <td>{data?.project_role_data?.role_name}</td>
+                            <td>
+                              {data?.access_end_date == null
+                                ? '-'
+                                : format(
+                                  new Date(data?.access_end_date),
+                                  'MMM dd, yyyy'
+                                )}
+                            </td>
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tablerow}>
+                                  <DeleteIcon
+                                    onClick={() =>
+                                      deleteProjectMember(
+                                        data?.project_member_association_id
+                                      )
+                                    }
+                                  />
+                                </div>
+                              </td>
                             )}
-                          </tbody>
-                        </table>
-                      </div>
-                        <div>
-                          <Pagination
-                            currentPage={currentPage}
-                            totalPages={
-                              dataShow
-                                ? getFilterData?.total_page
-                                : initialData?.total_page
-                            }
-                            totalCount={
-                              dataShow
-                                ? getFilterData?.total_count
-                                : initialData?.total_count
-                            }
-                            rowsPerPage={rowsPerPage}
-                            onPageChange={handlePageChange}
-                            onRowsPerPageChange={handleRowsPerPageChange}
-                          />
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-       )  :(
-        <div>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={
+                      dataShow
+                        ? getFilterData?.total_page
+                        : initialData?.total_page
+                    }
+                    totalCount={
+                      dataShow
+                        ? getFilterData?.total_count
+                        : initialData?.total_count
+                    }
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div>
             <div className={Styles.subHeading}>
               <MemberIcon />
               <h3>MEMBERS</h3>
             </div>
             <div className={Styles.emptyDataHandling}>
-              <div>
+              <div className={Styles.imageAdd}>
                 <img
                   src="/add-member.png"
                   alt="aa"
-                  width="90%"
-                  height="50%"
+                  width="80%"
+                  height="20%"
                 />
               </div>
               <div>
@@ -426,7 +430,7 @@ const ProjectSettings: React.FC = (props: any) => {
                   justify="center"
                   size="small"
                   icon={<AddIcon color="white" />}
-                  onClick={()=>setOpen(true)}
+                  onClick={() => setOpen(true)}
                 >
                   Add Member
                 </Button>
@@ -434,7 +438,7 @@ const ProjectSettings: React.FC = (props: any) => {
             </div>
           </div>
 
-         )}
+        )}
       </CustomLoader>
       <CustomDelete
         open={openDelete}
@@ -452,18 +456,20 @@ const ProjectSettings: React.FC = (props: any) => {
         type="success"
       />
       <CustomPopup
-          open={open}
-          content={
-            <CustomProjectMemberAddPopup
-              setOpen={setOpen}
-              open={open}
-              setReload={setReload}
-              setOpenSnack={setOpenSnack}
-              setMessage={setMessage}
-              projectId = {projectId}
-            />
-          }
+        title="Add Member"
+        open={open}
+        handleClose={handleClosePopup}
+        content={
+          <CustomProjectMemberAddPopup
+            setOpen={setOpen}
+            open={open}
+            setReload={setReload}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+            projectId={projectId}
           />
+        }
+      />
     </div>
   );
 };

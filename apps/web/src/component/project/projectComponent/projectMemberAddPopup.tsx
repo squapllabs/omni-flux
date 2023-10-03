@@ -93,16 +93,6 @@ const ProjectMemberAddPopup = (props: any) => {
 
     return (
         <div>
-            <div className={Styles.header}>
-                <div>
-                    <h4 className={Styles.titleStyle}>Add Member</h4>
-                </div>
-                <div>
-                    <CancelIcon onClick={handleClose} />
-                </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
-
             <form onSubmit={formik.handleSubmit}>
                 <div className={Styles.divOne}>
                     <div>
@@ -196,13 +186,11 @@ const ProjectMemberAddPopup = (props: any) => {
                             Cancel
                         </Button>
                         <Button
-                            // className={Styles.searchButton}
                             shape="rectangle"
                             color="primary"
                             justify="center"
                             size="small"
                             type='submit'
-                        // onClick={() => formik.handleSubmit()}
                         >
                             Save
                         </Button>
