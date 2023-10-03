@@ -103,9 +103,11 @@ const Bom: React.FC = (props: any) => {
           setMessage('BOM created successfully');
           setOpenSnack(true);
           setReload(!reload);
-          props.setOpen(!props.open);
-          props.setReload(!props.reload);
-          props.setAbstractReload(!props.abstractReload);
+          setTimeout(() => {
+            props.setOpen(!props.open);
+            props.setReload(!props.reload);
+            props.setAbstractReload(!props.abstractReload);
+          }, 1000);
         }
       },
     });

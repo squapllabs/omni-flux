@@ -222,15 +222,15 @@
   padding-right: 10px;
 }
 
-.Secondcontainer {
-  height: 100vh;
-}
+// .Secondcontainer {
+//   height: 100vh;
+// }
 
-.abstractButton {
-  display: flex;
-  justify-content: center;
-  margin-top: 230px;
-}
+// .abstractButton {
+//   display: flex;
+//   justify-content: center;
+//   margin-top: 230px;
+// }
 
 .mainheader {
   height: 30%;
@@ -272,9 +272,66 @@
 }
 
 .abstractButton {
+}
+.saveButton {
   display: flex;
+  justify-content: end;
+  padding-right: 10px;
+}
+
+.totalPanel {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #ccc;
+  padding: 10px;
+}
+
+.panelList {
+  width: 20%;
+  padding: 10px;
+}
+
+.panel {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  text-align: right;
+  align-items: end;
+}
+
+.panelTitle {
+  text-align: right;
+  align-items: end;
+  color: rgb(0, 0, 0);
+}
+
+.groupButton {
+  display: flex;
+  //   margin-top: 1%;
+  //   justify-content: flex-end;
+  //   padding-right: 10px;
+}
+
+.Secondcontainer {
+  height: 100vh;
+  // background-color: #7f56d9;
+}
+
+.secondContainerHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 7px;
+}
+
+.secondContainerContent {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 230px;
+  align-items: center;
+  height: 70vh;
+  row-gap: 10px;
 }
 
 .mainTextContent {
@@ -381,4 +438,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+}
+.overAllTopContent {
+  background-color: lightcyan;
 }

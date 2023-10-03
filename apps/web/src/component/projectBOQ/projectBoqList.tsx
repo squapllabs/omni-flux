@@ -278,46 +278,9 @@ const BomList: React.FC = (props: any) => {
                   </div>
                 </div>
                 <div className={Styles.mainContainer}>
-                  {categoryData && (
-                    <div>
-                      <div className={Styles.mainHeading}>
-                        <div className={Styles.mainLeftContent}>
-                          <div className={Styles.leftContentOne}>
-                            <CheckListIcon />
-                            <h3 title={categoryData.name}>
-                              {' '}
-                              {categoryData.name
-                                ? categoryData.name.length > 20
-                                  ? categoryData.name.substring(0, 20) + '...'
-                                  : categoryData.name
-                                : '-'}
-                              (count)
-                            </h3>
-                            {/* <h3>{categoryData?.name}(count)</h3> */}
-                          </div>
-                          <div
-                            className={Styles.leftContentOne}
-                            onClick={() => {
-                              setShowSubCategoryForm(true);
-                            }}
-                          >
-                            <NewAddCircleIcon />
-                            <span className={Styles.menuFont}>Add Task</span>
-                          </div>
-                        </div>
-                        <div>
-                          <h3>
-                            {formatBudgetValue(
-                              categoryData?.budget ? categoryData?.budget : 0
-                            )}
-                          </h3>
-                          <p className={Styles.countContentTitle}>
-                            Aggregated Value
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  {/* {categoryData && (
+                    
+                  )} */}
                   <BomItems
                     selectedCategory={selectedCategory}
                     setSelectedSubCategory={setSelectedSubCategory}
@@ -332,18 +295,36 @@ const BomList: React.FC = (props: any) => {
             </div>
           ) : (
             <div className={Styles.Secondcontainer}>
-              <div className={Styles.abstractButton}>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  size="small"
-                  icon={<AddIcon width={20} color="white" />}
-                  onClick={() => {
-                    setShowAbstractForm(true);
-                  }}
-                >
-                  Add Abstract
-                </Button>
+              <div className={Styles.secondContainerHeading}>
+                <ZIcon />
+                <span>Abstract (0)</span>
+              </div>
+              <div className={Styles.secondContainerContent}>
+                <div>
+                  <ZIcon width={50} height={50} />
+                </div>
+                <div>
+                  <h5>No Abstracts added to this BoQ</h5>
+                </div>
+                <div>
+                  <span>
+                    Every BoQ needs an Abstract to begin with. Go ahead, add an
+                    Abstract now.
+                  </span>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    icon={<AddIcon width={20} color="white" />}
+                    onClick={() => {
+                      setShowAbstractForm(true);
+                    }}
+                  >
+                    Add Abstract
+                  </Button>
+                </div>
               </div>
             </div>
           )}

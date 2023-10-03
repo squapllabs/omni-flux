@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 import Select from '../../ui/selectNew';
 import CategoryService from '../../../service/category-service';
 import Styles from '../../../styles/newStyles/project_abstractAdd.module.scss';
-import DeliveryTruckIcon from '../../menu/icons/deliveryTruckicon';
+import ZIcon from '../../menu/icons/zIcon';
 
 const ProjectAbstractAdd: React.FC = (props: any) => {
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
@@ -195,7 +195,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
           </div>
         </div>
         <div className={Styles.icon}>
-          <DeliveryTruckIcon />
+          <ZIcon width={50} height={50}/>
         </div>
       </div>
       <div className={Styles.sub_sub_container_2}>

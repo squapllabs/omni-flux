@@ -7,6 +7,8 @@ import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import projectInventoryService from '../../service/projectInventory-service';
+import ProjectSubheader from '../project/projectSubheader';
+
 
 const ProjectInventory = () => {
   const routeParams = useParams();
@@ -38,9 +40,7 @@ const ProjectInventory = () => {
         );
         if (result.message === 'success') {
           setTableData(result.content);
-          setDataLoading(false);
-          console.log("tableData-->", tableData);
-          
+          setDataLoading(false);          
         }
       }
     };
@@ -54,12 +54,12 @@ const ProjectInventory = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
-        <div className={Styles.textContent}>
-          <h3>Project Inventory Detail List</h3>
-          <span className={Styles.content}>
-            Manage your Indent raise detail across your project
-          </span>
-        </div>
+      <ProjectSubheader
+          description='Manage your Indent raise detail across your project'
+          // navigation={`/project-edit/${projectId}`}
+          navigation={`/project-list`}
+          title='Project Inventory Detail List'
+        />
         <div className={Styles.dividerStyle}></div>
         
         <div className={Styles.tableContainer}>
@@ -100,19 +100,7 @@ const ProjectInventory = () => {
               </tbody>
             </table>
           </div>
-          <div className={Styles.Buttons}>
-            <div>
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color="secondary"
-                onClick={() => navigate('/project-list')}
-              >
-                Back
-              </Button>
-            </div>
-          </div>
+
         </div>
       </CustomLoader>
     </div>
