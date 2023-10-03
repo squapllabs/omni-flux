@@ -15,6 +15,8 @@ import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomLoader from '../ui/customLoader';
+import ProjectTaskAdd from '../projectBOQ/forms/ProjectTaskAdd';
+import CustomSidePopup from '../ui/CustomSidePopup';
 
 const BomItems = (props: {
   selectedCategory: any;
@@ -36,6 +38,7 @@ const BomItems = (props: {
   const [message, setMessage] = useState('');
   const [isWarning, setIswarning] = useState(false);
   const [mode, setMode] = useState('');
+  const [reload,setReload] = useState(false);
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [value, setValue] = useState();
@@ -122,6 +125,10 @@ const BomItems = (props: {
   useEffect(() => {
     // handleDemo()
   }, [activeButton]);
+
+  const handleCloseTask = () => {
+    setShowSubCategoryForm(false);
+  };
 
   return (
     <div className={Styles.scrollContainer}>
@@ -330,14 +337,26 @@ const BomItems = (props: {
           );
         })}
       </div>
-      <CustomSubCategoryAddPopup
-        isVissible={showSubCategoryForm}
-        onAction={setShowSubCategoryForm}
-        selectedCategoryId={selectedCategory}
-        selectedSubCategory={selectedSubCategoryId}
-        selectedProject={props.projectsId}
-        mode={mode}
-        setMode={setMode}
+      <CustomSidePopup
+        open={showSubCategoryForm}
+        title={mode === 'EDIT' ? 'Edit Task' : 'Create New Task'}
+        handleClose={handleCloseTask}
+        content={
+          <ProjectTaskAdd
+            open={showSubCategoryForm}
+            setOpen={setShowSubCategoryForm}
+            selectedProject={props.projectsId}
+            reload={reload}
+            setReload={setReload}
+            openSnack={openSnack}
+            setOpenSnack={setOpenSnack}
+            message={message}
+            setMessage={setMessage}
+            mode={mode}
+            selectedCategoryId={selectedCategory}
+            selectedSubCategory={selectedSubCategoryId}
+          />
+        }
       />
       <CustomDelete
         open={openDelete}

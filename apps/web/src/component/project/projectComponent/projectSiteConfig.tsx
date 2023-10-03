@@ -292,7 +292,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
         />
         <CustomSidePopup
           open={projectSiteOpen}
-          title="Create New Project Site"
+          title={mode === 'EDIT' ? 'Edit Project Site' : 'Create New Project Site'}
           handleClose={handleCloseProjectSite}
           content={
             <ProjectSiteConfigAdd
