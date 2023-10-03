@@ -18,6 +18,7 @@ import CustomLoader from '../ui/customLoader';
 import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
+import PlanList from './planList';
 
 
 const BomItems = (props: {
@@ -37,8 +38,10 @@ const BomItems = (props: {
 
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
+  const [showPlanForm, setShowPlanForm] = useState(false);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();
   const [openSnack, setOpenSnack] = useState(false);
+  const [planListTitle,setPlanListTitle] = useState('');
   const [message, setMessage] = useState('');
   const [isWarning, setIswarning] = useState(false);
   const [mode, setMode] = useState('');
@@ -147,6 +150,9 @@ const BomItems = (props: {
   const handleCloseTask = () => {
     setShowSubCategoryForm(false);
   };
+  const handleClosePlanList = () => {
+    setShowPlanForm(false);
+  };
 
   return (
     <div>
@@ -211,7 +217,9 @@ const BomItems = (props: {
                             <div
                               className={Styles.options}
                               onClick={() => {
-                                navigate(`/bom/${data?.sub_category_id}`);
+                                setSelectedSubCategoryId(data?.sub_category_id)
+                                setPlanListTitle(data.name)
+                                setShowPlanForm(true)
                               }}
                             >
                               <span className={Styles.menuFont}>
@@ -256,6 +264,20 @@ const BomItems = (props: {
             mode={mode}
             selectedCategoryId={selectedCategory}
             selectedSubCategory={selectedSubCategoryId}
+          />
+        }
+      />
+      <CustomSidePopup
+        open={showPlanForm}
+        title={planListTitle}
+        width='85%'
+        handleClose={handleClosePlanList}
+        content={
+          <PlanList
+            open={showPlanForm}
+            setOpen={setShowPlanForm}
+            subCategoryId={selectedSubCategoryId}
+
           />
         }
       />

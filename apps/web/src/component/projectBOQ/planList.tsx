@@ -24,6 +24,7 @@ import CloseIcon from '../menu/icons/closeIcon';
 import BackArrow from '../menu/icons/backArrow';
 
 const Bom: React.FC = (props: any) => {
+    const subCategoryId = Number(props.subCategoryId)
   const params = useParams();
   const navigate = useNavigate();
   const [bomList, setBomList] = useState<any[]>([]);
@@ -40,29 +41,29 @@ const Bom: React.FC = (props: any) => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const { data: getSubCategoryData } = getBySubcategoryID(
-    Number(params?.subCategoryId)
+    subCategoryId
   );
 
   useEffect(() => {
     const fetchData = async () => {
       const getData = await BomService.getBOMbySubCatID(
-        Number(params?.subCategoryId)
+        subCategoryId
       );
       if (getData?.data != null) setBomList(getData?.data);
       const Rawmaterialobj = {
-        id: params?.subCategoryId,
+        id: subCategoryId,
         type: 'RAWMT',
       };
       const getDataRawMAterial = await BomService.getBOMbySubCatIDandType(
         Rawmaterialobj
       );
       const labourobj = {
-        id: params?.subCategoryId,
+        id: subCategoryId,
         type: 'LABOR',
       };
       const getDataLabour = await BomService.getBOMbySubCatIDandType(labourobj);
       const machineryobj = {
-        id: params?.subCategoryId,
+        id: subCategoryId,
         type: 'MCNRY',
       };
       const getDatamachinery = await BomService.getBOMbySubCatIDandType(
@@ -145,7 +146,7 @@ const Bom: React.FC = (props: any) => {
       <div className={Styles.mainBody}>
         {activeButton === 'RAWMT' ? (
           <BomRawMaterials
-            subCategoryId={params.subCategoryId}
+            subCategoryId={subCategoryId}
             activeButton={activeButton}
             projectId={getSubCategoryData?.project_id}
             bomId={getSubCategoryData?.bom_configuration_id}
@@ -161,7 +162,7 @@ const Bom: React.FC = (props: any) => {
         )}
         {activeButton === 'LABOR' ? (
           <BomLabours
-            subCategoryId={params.subCategoryId}
+            subCategoryId={subCategoryId}
             activeButton={activeButton}
             projectId={getSubCategoryData?.project_id}
             bomId={getSubCategoryData?.bom_configuration_id}
@@ -177,7 +178,7 @@ const Bom: React.FC = (props: any) => {
         )}
         {activeButton === 'MCNRY' ? (
           <BomMachinery
-            subCategoryId={params.subCategoryId}
+            subCategoryId={subCategoryId}
             activeButton={activeButton}
             projectId={getSubCategoryData?.project_id}
             bomId={getSubCategoryData?.bom_configuration_id}
