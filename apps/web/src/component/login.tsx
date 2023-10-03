@@ -12,6 +12,8 @@ import { FaUser, FaLock } from 'react-icons/fa6';
 import { BsFillEyeSlashFill, BsFillEyeFill } from 'react-icons/bs';
 import Button from './ui/Button';
 import Checkbox from './ui/Checkbox';
+import MailIcon from './menu/icons/mailIcon';
+import KeyIcon from './menu/icons/keyIcon';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -108,17 +110,12 @@ const Login = () => {
   };
   return (
     <div>
-      <div>
         <div className={Styles.container}>
-          <div className={Styles.contantdiv}>
+          <div className={Styles.contentDiv}>
             <div className={Styles.titlediv}>
               <div className={Styles.main_title}></div>
               <div className={Styles.logoCotainer}>
-                <img src="/Logomark.png" alt="aa" width="48px" height="48px" />
-                <p className={Styles.sub_tile_words}>Welcome back</p>
-                <p className={Styles.sub_title_sub}>
-                  Welcome back! Please enter your details.
-                </p>
+                <p className={Styles.sub_tile_words}>Omni <b> ERP</b></p>
               </div>
             </div>
             <div className={Styles.filedContainer}>
@@ -130,7 +127,7 @@ const Login = () => {
                   value={values.email}
                   onChange={(e) => handleChange(e)}
                   error={errors.email}
-                  prefixIcon={<FaUser />}
+                  prefixIcon={<MailIcon />}
                   width="100%"
                 />
                 <Input
@@ -141,7 +138,7 @@ const Login = () => {
                   value={values.password}
                   onChange={handleChange}
                   error={errors.password}
-                  prefixIcon={<FaLock />}
+                  prefixIcon={<KeyIcon />}
                   suffixIcon={
                     <button
                       type="button"
@@ -161,21 +158,21 @@ const Login = () => {
                   <span>{message}</span>
                 </div>
 
-                <div className={Styles.buttonField}>
-                  <div className={Styles.forgetPassword}>
+                {/* <div className={Styles.buttonField}> */}
+                  {/* <div className={Styles.forgetPassword}>
                     <Checkbox
                       name="is_remember_me"
                       checked={checked}
                       onChange={() => setChecked(!checked)}
                       label="Remember me"
                     />
-                  </div>
+                  </div> */}
                   <div className={Styles.forgetPassword}>
                     <a href="/forget-password">
                       <span>Forgot Password</span>
                     </a>
                   </div>
-                </div>
+                {/* </div> */}
                 <div className={Styles.buttons}>
                   <div className={Styles.loginButton}>
                     <Button
@@ -188,20 +185,26 @@ const Login = () => {
                     >
                       Sign In
                     </Button>
+                    <div className={Styles.copyRights}>
+                      <p>Copyright 2023, Aalamsoft. All rights reserved.</p>
+                    </div>
                   </div>
-                  <div className={Styles.newAccounts}>
+                  {/* <div className={Styles.newAccounts}>
                     <p className={Styles.newAccounts_msg}>
                       Don't have any account? <a href="#">Sign Up</a>
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
-            <div className={Styles.footer}></div>
           </div>
-          <div className={Styles.imagediv}></div>
+          <div className={Styles.imgContainer}>
+          <div className={Styles.imagediv}>
+            <img src='/ERP.jpg'/>
+          </div>
+          </div>
+          
         </div>
-      </div>
     </div>
   );
 };

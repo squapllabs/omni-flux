@@ -1,60 +1,68 @@
 .container {
-  width: 100%;
-  height: 100vh;
+  height: 98vh;
   margin: 0;
   padding: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  border-top: 8px solid var(--primary-color);
+  overflow: hidden;
 }
 
-.contantdiv {
-  width: 40%;
-  height: 100%;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-}
-
-.titlediv {
-  height: 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.main_title {
-  height: 20%;
-  text-align: center;
-  font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 12px;
-}
-
-.main_tile_words {
-  font-weight: bold;
-  font-size: larger;
-}
-.sub_tile_words {
-  font-weight: bold;
-  font-size: larger;
-}
-.sub_title_sub {
-  font-size: 16px;
-  font-weight: 400;
-  text-align: center;
-  color: #667085;
+.imgContainer{
+  display: grid;
+  justify-content: flex-end;
+  align-items: end;
 }
 
 .imagediv {
-  width: 60%;
-  height: 100%;
-  background-image: url(../../public/Section.jpg);
+  object-fit: fill;
   background-repeat: no-repeat;
-  background-size: cover;
-  font-size: larger;
+}
+
+.contentDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .titlediv {
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .main_title {
+    height: 40%;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .main_tile_words {
+    font-weight: bold;
+    font-size: larger;
+  }
+
+  .sub_tile_words {
+    font-size: 35px;
+  }
+
+  .sub_title_sub {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    color: #667085;
+  }
+}
+
+.copyRights {
+  margin-top: 69%;
+  color: gray;
+  font-size: smaller;
 }
 
 .logoCotainer {
@@ -65,7 +73,6 @@
 }
 
 .filedContainer {
-  height: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,14 +82,14 @@
 .fields {
   display: flex;
   flex-direction: column;
-  width: 70%;
-
 }
+
 .buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
 .buttonField {
   display: flex;
   flex-direction: row;
@@ -91,43 +98,18 @@
 }
 
 .forgetPassword {
-  font-size: smaller;
-}
-
-.divider {
-  font-size: 10px;
   display: flex;
-  align-items: center;
-  color: #3f3f3f;
+  justify-content: flex-end;
+  font-size: smaller;
+  padding: 4px 0px 10px 0px;
 }
 
-.divider::before,
-.divider::after {
-  flex: 10;
-  content: '__________________';
-  padding: 1px;
-  padding-bottom: 8px;
-  color: #3f3f3f;
-}
 
 .loginButton {
   text-align: center;
   padding-top: 3px;
 }
 
-.ssoButtons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.iconColor {
-  border-color: linear-gradient(-120deg, #4285f4, #34a853, #fbbc05, #ea4335);
-}
-
-.footers {
-  height: 20%;
-}
 .errormessage {
   color: red;
   font-size: small;
