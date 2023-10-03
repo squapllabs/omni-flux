@@ -245,7 +245,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 <div className={Styles.heading}>
                   <div className={Styles.subHeading}>
                     <BOQIcon />
-                    <h3>BoQ</h3>
+                    <h3>{`BoQ (${initialData?.total_count})`}</h3>
                   </div>
                   <div>
                     <Button
@@ -280,7 +280,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                           <th>Type</th>
                           <th>Abstracts</th>
                           <th>Tasks</th>
-                          <th>Plans</th>
+                          {/* <th>Plans</th> */}
                           <th>Actions</th>
                           {/* {activeButton === 'AC' && <th>Action</th>} */}
                         </tr>
@@ -317,9 +317,9 @@ const ProjectBomConfig: React.FC = (props: any) => {
                                 <td>{data?.bom_name}</td>
                                 <td>{data?.bom_description}</td>
                                 <td>{data?.bom_type_data?.master_data_name}</td>
-                                <td>{0}</td>
-                                <td>{0}</td>
-                                <td>{0}</td>
+                                <td>{data?.abstract_count}</td>
+                                <td>{data?.task_count}</td>
+                                {/* <td>{0}</td> */}
                                 <td><CustomMenu actions={actions} /></td>
                               </tr>
                             );
