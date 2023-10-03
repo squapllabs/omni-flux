@@ -8,6 +8,11 @@
   justify-content: space-between;
 }
 
+.cancelButton {
+  background-color: var(--danger-color);
+  color: #b42318;
+}
+
 .backButton {
   padding: 15px 40px 10px 0px;
 }

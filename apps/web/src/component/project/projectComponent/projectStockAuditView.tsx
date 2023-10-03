@@ -1,12 +1,15 @@
 import React from 'react';
 import { getByStockAuditId } from '../../../hooks/stockAudit-hooks';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import Styles from '../../../styles/project.module.scss';
 import { format } from 'date-fns';
+import Button from '../../ui/Button';
 import CustomLoader from '../../ui/customLoader';
+import BackArrow from '../../menu/icons/backArrow';
 
 const ProjectStockAuditView = () => {
   const routeParams = useParams();
+  const navigate = useNavigate();
   let rowIndex = 0;
   // console.log('routeParams?.id', routeParams?.id);
   const { data: getStockData, isLoading: dataLoading } = getByStockAuditId(
@@ -17,7 +20,7 @@ const ProjectStockAuditView = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
-        <div className={Styles.box}>
+        <div className={Styles.topHeading}>
           <div
             style={{
               width: '30%',
@@ -36,14 +39,27 @@ const ProjectStockAuditView = () => {
               <span>{getStockData?.site_data?.name}</span>
             </div>
           </div>
+          <div>
+          <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                size="small"
+                justify="center"
+                icon={<BackArrow />}
+               onClick={() => navigate(`/project-edit/${Number(routeParams?.id)}`)}
+              >
+                Back
+              </Button>
+          </div>
         </div>
         <div className={Styles.box}>
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th>S.No</th>
-                <th>Item</th>
-                <th>Quantity</th>
+                <th className={Styles.tableHeading}>S.No</th>
+                <th className={Styles.tableHeading}>Item</th>
+                <th className={Styles.tableHeading}>Quantity</th>
               </tr>
             </thead>
             <tbody>

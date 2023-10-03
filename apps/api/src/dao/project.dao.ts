@@ -335,6 +335,12 @@ const getById = async (projectId: number, connectionObj = null) => {
         project_site: {
           include: {
             site_details: true,
+            approvar_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
           },
         },
         bom_configuration: {
@@ -387,6 +393,12 @@ const getAll = async (connectionObj = null) => {
         project_site: {
           include: {
             site_details: true,
+            approvar_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
           },
         },
         bom_configuration: {
@@ -436,7 +448,7 @@ const getAll = async (connectionObj = null) => {
 const getAllDashboard = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : db;
-    let query = `select
+    const query = `select
     status.total_projects,
     status.active_projects,
     status.inactive_projects,
@@ -490,9 +502,9 @@ const getAllDashboard = async (connectionObj = null) => {
         project p
       order by
         p.actual_budget desc
-      limit 3) top_five)project_list on
+      limit 6) top_five)project_list on
     true`;
-    let result = await transaction.oneOrNone(query, []);
+    const result = await transaction.oneOrNone(query, []);
     return result;
   } catch (error) {
     console.log('Error occurred in getAllDashboard dao', error);
@@ -568,6 +580,12 @@ const searchProject = async (
         project_site: {
           include: {
             site_details: true,
+            approvar_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
           },
         },
         user: {

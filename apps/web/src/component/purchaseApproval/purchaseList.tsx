@@ -5,13 +5,16 @@ import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import Pagination from '../menu/pagination';
-import ViewIcon from '../menu/icons/viewIcon';
+import ViewIcon from '../menu/icons/newViewIcon';
 import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useNavigate } from 'react-router-dom';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/invoice';
+import CustomPagination from '../menu/CustomPagination';
 
 const PurchaseList = () => {
   const state: RootState = store.getState();
@@ -52,6 +55,13 @@ const PurchaseList = () => {
     setPriorityValue('');
     setIsResetDisabled(true);
   };
+  const handleReportGenerator = () =>{  
+    const data:any ={
+      title:"Purchase Request",
+      name:"purchase_request"
+    }  
+    ReportGenerator(data)
+  }
   /* Function for searching a user in the table */
   const handleSearch = async () => {
     const userData: any = {
@@ -183,15 +193,15 @@ const PurchaseList = () => {
         </div>
         <div className={Styles.tableContainer}>
           <div>
-            <table>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S No</th>
-                  <th>Project Name</th>
-                  <th>Expected Delivery Date </th>
-                  <th>Priority</th>
-                  <th>Cost</th>
-                  <th>Actions</th>
+                  <th className={Styles.tableHeading}>S No</th>
+                  <th className={Styles.tableHeading}>Project Name</th>
+                  <th className={Styles.tableHeading}>Expected Delivery Date </th>
+                  <th className={Styles.tableHeading}>Priority</th>
+                  <th className={Styles.tableHeading}>Cost</th>
+                  <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -235,6 +245,7 @@ const PurchaseList = () => {
                               )
                             }
                           />
+                           <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                         </div>
                       </td>
                     </tr>
@@ -245,7 +256,7 @@ const PurchaseList = () => {
           </div>
         </div>
         <div className={Styles.pagination}>
-          <Pagination
+          <CustomPagination
             currentPage={currentPage}
             totalPages={getIndentData?.total_page}
             totalCount={getIndentData?.total_count}

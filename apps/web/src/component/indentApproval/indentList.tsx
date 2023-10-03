@@ -5,13 +5,15 @@ import Select from '../ui/selectNew';
 import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import Pagination from '../menu/pagination';
-import ViewIcon from '../menu/icons/viewIcon';
+import ViewIcon from '../menu/icons/newViewIcon';
 import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/invoice';
+import CustomPagination from '../menu/CustomPagination';
 
 const IndentList = () => {
   const navigate = useNavigate();
@@ -27,7 +29,8 @@ const IndentList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
-  const { data: getPriorityType = [], isLoading: dropLoading } = getBymasertDataTypeDrop('PRTYPE');
+  const { data: getPriorityType = [], isLoading: dropLoading } =
+    getBymasertDataTypeDrop('PRTYPE');
 
   const SampleOption: any = [
     { label: 'Low', value: 'Low' },
@@ -83,6 +86,14 @@ const IndentList = () => {
     setSelectedValueType(selectedData);
     setIsResetDisabled(searchValue === '');
   };
+  const handleReportGenerator = () =>{  
+    const data:any ={
+      title:"Indent Request",
+      name:"indent_request"
+    }  
+    ReportGenerator(data)
+  }
+
 
   useEffect(() => {
     handleSearch();
@@ -142,24 +153,24 @@ const IndentList = () => {
         </div>
         <div className={Styles.tableContainer}>
           <div>
-            <table>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S No</th>
-                  <th>Project Name</th>
-                  <th>Priority</th>
-                  <th>Expected Delivery Date</th>
-                  <th>Description</th>
-                  <th>Total Cost</th>
-                  <th>Actions</th>
+                  <th className={Styles.tableHeading}>#</th>
+                  <th className={Styles.tableHeading}>Project Name</th>
+                  <th className={Styles.tableHeading}>Priority</th>
+                  <th className={Styles.tableHeading}>Expected Delivery Date</th>
+                  <th className={Styles.tableHeading}>Description</th>
+                  <th className={Styles.tableHeading}>Total Cost</th>
+                  <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {getIndentData?.total_count === 0 ? (
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
+                    <td colSpan="7" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
                   </tr>
                 ) : (
                   ''
@@ -169,7 +180,7 @@ const IndentList = () => {
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data?.project_data?.project_name}</td>
-                      <td >{data?.priority}</td>
+                      <td>{data?.priority}</td>
                       <td>
                         {format(
                           new Date(data?.expected_delivery_date),
@@ -187,6 +198,7 @@ const IndentList = () => {
                               )
                             }
                           />
+                            <PdfDownloadIcon onClick={() => handleReportGenerator()} />
                         </div>
                       </td>
                     </tr>
@@ -197,7 +209,7 @@ const IndentList = () => {
           </div>
         </div>
         <div className={Styles.pagination}>
-          <Pagination
+          <CustomPagination
             currentPage={currentPage}
             totalPages={getIndentData?.total_page}
             totalCount={getIndentData?.total_count}

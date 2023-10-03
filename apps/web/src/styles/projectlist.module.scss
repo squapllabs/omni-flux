@@ -4,20 +4,24 @@
 }
 
 .text {
-  padding: 10px 10px 0px 5px;
+  padding: 8px 10px 10px 10px;
   display: flex;
   flex-direction: column;
+  // justify-content: center;
 }
 
 .textStyle {
   padding-left: 5px;
-  padding-top: 5px;
+  display: flex;
+  justify-content: center;
 }
-.textStyleDescription{
+
+.textStyleDescription {
   padding-left: 5px;
   padding-top: 5px;
   font-size: 0.7rem;
 }
+
 .cardTextStyle {
   display: flex;
   // justify-content: center;
@@ -77,6 +81,12 @@
   gap: 10px;
 }
 
+.inputFilter1 {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
 .cardDiv1 {
   display: flex;
   justify-content: center;
@@ -86,57 +96,79 @@
 
 .button {
   display: flex;
-  gap: 20px;
+  // gap: 20px;
+  justify-content: center;
+  // align-items: center;
 }
 
 .pagination {
-  padding: 10px 10px 10px 0px;
+  padding: 10px 10px 10px 2px;
   display: flex;
   justify-content: end;
 }
 
-table {
-  border-collapse: collapse;
+
+/* Apply the scrollable_table class to your table element */
+.scrollable_table {
   width: 100%;
-  border: 1px solid #ccc;
+  height: 100%;
+  padding: 10px 10px; /* Adjust padding */
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px 10px 10px 24px; /* Adjust padding */
+    text-align: left;
+    font-weight: 500;
+    // border: 0px 0px 1px;
+    font-size: 12px;
+    border: none; /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+    // border-bottom :0px, 0px, 1px, 0px
+  }
+
+  thead {
+    tr {
+      th {
+        color: #667085;
+        font-weight: 700;
+      }
+    }
+  }
+  td:hover,
+  tr:hover {
+    /* Add hover styles if needed */
+  }
 }
 
-th {
-  background-color: #f2f2f2;
-  padding: 8px;
-  text-align: center;
-}
-
-tr {
-  border-bottom: 1px solid #ccc;
-}
-
-td {
-  padding: 8px;
+.status {
+  background-color: #ecfdf3;
+  padding: 6px;
+  border-radius: 50px;
+  color: #027a48;
 }
 
 .tablerow {
   display: flex;
   flex-direction: row;
-  column-gap: 15px;
+  align-items: center;
+  column-gap: 10px;
+  // margin-right: 40px;
   cursor: pointer;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #e0e0e0;
-}
-
-.tableContainer {
-  padding: 10px 10px 0px 10px;
-  // height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+// .tableContainer {
+//   padding: 10px 10px 0px 10px;
+//   // height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 20px;
+// }
 
 .dashBoardcontainer {
   padding: 2px;
@@ -170,6 +202,12 @@ tr:hover {
   border-radius: 20px;
 }
 
+.tableHeading {
+  // background-color: linear-gradient(0deg, #EAECF0, #EAECF0);
+  // linear-gradient(0deg, #FFFFFF, #FFFFFF);
+  color: linear-gradient(0deg, #eaecf0, #eaecf0);
+}
+
 .graphCard:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
@@ -195,6 +233,19 @@ tr:hover {
 
 .chart {
   width: 100%;
-
   padding: 20px 40px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px 10px 0px 10px;
+}
+
+.firstHeader {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
 }

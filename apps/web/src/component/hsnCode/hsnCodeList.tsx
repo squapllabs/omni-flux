@@ -7,8 +7,8 @@ import {
   useGetAllPaginatedHsnCodeData,
 } from '../../hooks/hsnCode-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
-import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import HsnForm from './hsnCodeCreate';
 import Button from '../ui/Button';
@@ -19,7 +19,7 @@ import { createHsnCode } from '../../hooks/hsnCode-hooks';
 import * as XLSX from 'xlsx';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
-import Pagination from '../menu/pagination';
+import Pagination from '../menu/CustomPagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import * as Yup from 'yup';
 import { gethsnCreateValidateyup } from '../../helper/constants/hsn-constants';
@@ -462,10 +462,10 @@ const HsnCodeList = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>HSN Code</th>
                       <th>Description</th>
                       {activeButton === 'AC' && <th>Actions</th>}

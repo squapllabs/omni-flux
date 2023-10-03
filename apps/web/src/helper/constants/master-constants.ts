@@ -5,7 +5,7 @@ export const masterErrorMessages = {
   ENTER_CODE: 'Code is required',
   ENTER_DESCRIPTION: 'Description is required',
   ENTER_NUMBERONLY: 'Number only allowed',
-  MIN_CODE: 'Code must be more then 3',
+  MIN_CODE: 'Code must be more then 3 letter',
   MAX_CODE: 'Code must lesser then 15',
   CODE_EXIST: 'Code is already present',
 };

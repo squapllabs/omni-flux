@@ -3,13 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import Styles from '../../styles/project.module.scss';
-import Pagination from '../menu/pagination';
+// import Pagination from '../menu/pagination';
 import { getBySearchsiteExpense } from '../../hooks/expense-hook';
 import { getProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
 import EditIcon from '../menu/icons/editIcon';
+import CustomPagination from '../menu/CustomPagination';
 
 const SiteExpenseList = () => {
   const routeParams = useParams();
@@ -149,13 +150,13 @@ const SiteExpenseList = () => {
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th>S.No</th>
-                <th>Site</th>
-                <th>From Date</th>
-                <th>To Date</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th className={Styles.tableHeading}>#</th>
+                <th className={Styles.tableHeading}>Site</th>
+                <th className={Styles.tableHeading}>From Date</th>
+                <th className={Styles.tableHeading}>To Date</th>
+                <th className={Styles.tableHeading}>Amount</th>
+                <th className={Styles.tableHeading}>Status</th>
+                <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -203,7 +204,7 @@ const SiteExpenseList = () => {
             </tbody>
           </table>
           <div className={Styles.pagination}>
-            <Pagination
+            <CustomPagination
               currentPage={currentPage}
               totalPages={getExpenseList?.total_page}
               totalCount={getExpenseList?.total_count}

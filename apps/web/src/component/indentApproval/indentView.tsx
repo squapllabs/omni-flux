@@ -103,14 +103,14 @@ const IndentView = () => {
           </div>
           <div className={Styles.tableContainer}>
             <div>
-              <table>
+              <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th>S No</th>
-                    <th>Item Name </th>
-                    <th>UOM</th>
-                    <th>Quantity</th>
-                    <th>Total Cost</th>
+                    <th className={Styles.tableHeading}>#</th>
+                    <th className={Styles.tableHeading}>Item Name </th>
+                    <th className={Styles.tableHeading}>UOM</th>
+                    <th className={Styles.tableHeading}>Quantity</th>
+                    <th className={Styles.tableHeading}>Total Cost</th>
                   </tr>
                 </thead>
                 <tbody>

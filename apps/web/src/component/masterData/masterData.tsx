@@ -14,7 +14,7 @@ import {
   getBySearchmasterData,
   useGetAllPaginatedMasterData,
 } from '../../hooks/masertData-hook';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import SearchIcon from '../menu/icons/search';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import CustomDelete from '../ui/customDeleteDialogBox';
@@ -25,6 +25,7 @@ import SelectNew from '../ui/selectNew';
 import AddIcon from '../menu/icons/addIcon';
 import TextArea from '../ui/CustomTextArea';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+import CustomPagination from '../menu/CustomPagination';
 
 const MaterData = () => {
   const [selectedValue, setSelectedValue] = useState('');
@@ -50,7 +51,7 @@ const MaterData = () => {
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [reload, setReload] = useState(false);
   const {
@@ -290,7 +291,7 @@ const MaterData = () => {
                       shape="rectangle"
                       justify="center"
                       size="small"
-                      icon={<AddIcon color="white"/>}
+                      icon={<AddIcon color="white" />}
                     >
                       Add
                     </Button>
@@ -354,10 +355,10 @@ const MaterData = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>Name</th>
                       <th>Description</th>
                       <th>Code</th>
@@ -421,9 +422,9 @@ const MaterData = () => {
                               {data.master_data_description
                                 ? data.master_data_description.length > 20
                                   ? data.master_data_description.substring(
-                                      0,
-                                      20
-                                    ) + '...'
+                                    0,
+                                    20
+                                  ) + '...'
                                   : data.master_data_description
                                 : '-'}
                             </span>
@@ -449,7 +450,7 @@ const MaterData = () => {
               </div>
             </div>
             <div className={Styles.pagination}>
-              <Pagination
+              <CustomPagination
                 currentPage={currentPage}
                 totalPages={
                   dataShow ? getFilterData?.total_page : initialData?.total_page

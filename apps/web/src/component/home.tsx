@@ -17,7 +17,7 @@ const Home = () => {
   const { isLoading: getAllLoading } = useGetAllProject();
   const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus();
 
-  
+
   const handleCreateList = () => {
     setCreateItem(true);
     setCreateCustomer(false);
@@ -39,35 +39,30 @@ const Home = () => {
     await topProjectsData.push([val.project_name, val.total_budget])
   });
 
+
   const chartOptions1 = {
-    chart: {
-      title: 'Project Status',
-      subtitle: '(Estimated Days / Completed Days)',
-    },
     hAxis: {
       title: 'Days',
       minValue: 0,
     },
     vAxis: {
       title: 'Project Name',
+      textStyle: {
+        fontSize: 0.1
+      },
+      viewWindow: {
+        min: 10,
+      },
     },
     legend: { position: 'none' },
+    series: {
+      0: {
+        targetAxisIndex: 0,
+      },
+    },
+    colors: ['#6941C6', '#32D583']
   };
 
-  const chartOptions2 = {
-    chart: {
-      title: 'High Budget Projects',
-      subtitle: '(Budget Per Project)',
-    },
-    hAxis: {
-      title: 'Budget',
-      minValue: 0,
-    },
-    vAxis: {
-      title: 'Project Name',
-    },
-    legend: { position: 'none' },
-  };
 
   return (
 
@@ -78,77 +73,48 @@ const Home = () => {
         color="#333C44"
       >
         <div className={Styles.containerCard}>
-
-          <div className={Styles.dashBoardcontainer}>
-            {/* <CustomCard> */}
-            <div className={Styles.cardDiv}>
-              <div className={Styles.card}>
-                <div className={Styles.cardContainer}>
-                  <div className={Styles.cardTextStyle}>
-                    <h3><b>Total Projects</b></h3>
-                    <p>{projectStatus?.total_projects}</p>
-                  </div>
-                </div>
-              </div>
-              <div className={Styles.card}>
-                <div className={Styles.cardContainer}>
-                  <div className={Styles.cardTextStyle}>
-                    <h3><b>Active Projects</b></h3>
-                    <p>{projectStatus?.active_projects}</p >
-                  </div>
-                </div>
-              </div>
-              <div className={Styles.card}>
-                <div className={Styles.cardContainer}>
-                  <div className={Styles.cardTextStyle}>
-                    <h3><b>Completed Projects</b></h3>
-                    <p>{projectStatus?.completed_projects}</p>
-                  </div>
-                </div>
-              </div>
-              <div className={Styles.card}>
-                <div className={Styles.cardContainer}>
-                  <div className={Styles.cardTextStyle}>
-                    <h3><b>In-Progress Projects</b></h3>
-                    <p>{projectStatus?.inprogress_projects}</p>
-                  </div>
-                </div>
-              </div>
-              <div className={Styles.card}>
-                <div className={Styles.cardContainer}>
-                  <div className={Styles.cardTextStyle}>
-                    <h3><b>Yet To Start</b></h3>
-                    <p><b>{projectStatus?.not_started_projects}</b></p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* <div className={Styles.dashBoardcontainer}> */}
+            <div>PROJECT TRACKER</div>
             <div className={Styles.barCarddDiv}>
-              <div className={Styles.graphCard}>
-                <div className={Styles.chart}>
-                  <Chart
-                    chartType="Bar"
-                    height="400px"
-                    // data={[['Project Name', 'Total Days', 'So Far'], ...projectStatusData]}
-                    data={projectStatusData}
-                    options={chartOptions1}
-                  />
+              <div className={Styles.chart}>
+                <Chart
+                  chartType="Bar"
+                  height="250px"
+                  data={projectStatusData}
+                  options={chartOptions1}
+                />
+              </div>
+            </div>
+            <div >PROJECTS
+            <div className={Styles.cardDiv}>
+              <div className={Styles.cardContainer}>
+                <div className={Styles.cardTextStyle}>
+                  <h3><b>Inprogress</b></h3>
+                  <div className = {Styles.textStyle1}>{projectStatus?.inprogress_projects}</div>
+                </div>
+                <div className={Styles.cardTextStyle}>
+                  <h3><b>Yet to Start</b></h3>
+                  <p className={Styles.textStyle1}>{projectStatus?.not_started_projects}</p>
+                </div>
+                <div className={Styles.cardTextStyle}>
+                  <h3><b>Active</b></h3>
+                  <p className={Styles.textStyle2}>{projectStatus?.active_projects}</p>
                 </div>
               </div>
-              <div className={Styles.graphCard}>
-                <div className={Styles.chart}>
-                  <Chart
-                    chartType="Bar"
-                    height="400px"
-                    data={topProjectsData}
-                    options={chartOptions2}
-                  />
+              <div className={Styles.cardContainer1}>
+                <div className={Styles.cardTextStyle}>
+                  <h3><b>Completed</b></h3>
+                  <p className={Styles.textStyle1}>{projectStatus?.completed_projects}</p>
+                </div>
+              </div>
+              <div className={Styles.cardContainer2}>
+                <div className={Styles.cardTextStyle}>
+                  <h3><b>Total</b></h3>
+                  <p className={Styles.textStyle3}>{projectStatus?.total_projects}</p>
                 </div>
               </div>
             </div>
-            {/* </CustomCard> */}
           </div>
-
         </div>
 
         <div className={Styles.homeContainer}>

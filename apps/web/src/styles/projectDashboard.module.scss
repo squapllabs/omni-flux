@@ -1,105 +1,124 @@
 .container {
-    width: 100%;
-    height: 50%;
+  width: 100%;
+  height: 100vh;
 }
 
 .text {
-    padding: 10px 10px 0px 30px;
-    display: flex;
-    flex-direction: column;
+  padding: 10px 10px 0px 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 .textStyle {
-    display: flex;
-    // justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .dividerStyle {
-    border-bottom: 1px solid #ccc;
-    padding: 5px 1px 5px 1px;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 1px 5px 1px;
 }
 
 .dashBoardcontainer {
-    padding: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px;
 }
 
 .dashBoard {
-    height: 300px;
+  height: 300px;
 }
 
 // For Cards in Dashboard
 .card {
-    display: flex;
-    justify-content: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    width: 20%;
-    height: 20%;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 20%;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #ecfdf3;
 }
 
 .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .card1:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .card1 {
-    display: flex;
-    justify-content: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    width: 32%;
-    height: 140px;
-    border-radius: 10px;
-    padding: 45px;
-    margin: 10px;
+  display: flex;
+  justify-content: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 20%;
+  border-radius: 10px;
+  padding: 25px;
+  background-color: #f9f5ff;
+}
+.card2 {
+  display: flex;
+  justify-content: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 20%;
+  border-radius: 10px;
+  padding: 25px;
+  background-color: #fffaeb;
 }
 
 .graphCard {
-    display: flex;
-    justify-content: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    width: 52%;
-    height: 100%;
-    column-gap: 50px;
-    border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  column-gap: 50px;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .graphCard:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-.cardContainer {
-    padding: 15px 2px;
-}
+// .cardContainer {
+//   padding: 15px 2px;
+//   display: flex;
+//   justify-content: space-;
+// }
 
 .cardContainer1 {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .cardDiv {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .cardDiv1 {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    gap: 30px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 
 .chart {
-    width: 100%;
-    padding: 20px 50px;
+  width: 100%;
+  padding: 20px 50px;
+}
+.headingContainer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }

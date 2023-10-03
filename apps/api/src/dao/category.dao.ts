@@ -307,6 +307,59 @@ const updateBudget = async (
   }
 };
 
+const getCountByProjectIdAndBomConfigId = async (
+  project_id: number,
+  bom_configuration_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const category = await transaction.category.count({
+      where: {
+        project_id: Number(project_id),
+        bom_configuration_id: Number(bom_configuration_id),
+        is_delete: false,
+      },
+    });
+
+    const subCategory = await transaction.sub_category.count({
+      where: {
+        project_id: Number(project_id),
+        bom_configuration_id: Number(bom_configuration_id),
+        is_delete: false,
+      },
+    });
+
+    const bomConfiguration = await transaction.bom_configuration.findFirst({
+      where: {
+        project_id: Number(project_id),
+        bom_configuration_id: Number(bom_configuration_id),
+        is_delete: false,
+      },
+      include: {
+        project_data: { select: { project_name: true } },
+        bom_type_data: {
+          select: {
+            master_data_name: true,
+          },
+        },
+      },
+    });
+    const result = {
+      abstract_count: category,
+      tasks_count: subCategory,
+      bom_configuration_data: bomConfiguration,
+    };
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in category getCountByProjectIdAndBomConfigId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -318,4 +371,5 @@ export default {
   searchCategory,
   getByProjectId,
   updateBudget,
+  getCountByProjectIdAndBomConfigId,
 };

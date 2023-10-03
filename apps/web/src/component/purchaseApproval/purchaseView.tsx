@@ -123,14 +123,14 @@ const PurchaseView = () => {
               <div className={Styles.tableText}>
                 <h3>Indent Detail Table</h3>
               </div>
-              <table>
+              <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th>S No</th>
-                    <th>Item Name </th>
-                    <th>UOM</th>
-                    <th>Quantity</th>
-                    <th>Total Cost</th>
+                    <th className={Styles.tableHeading}>#</th>
+                    <th className={Styles.tableHeading}>Item Name </th>
+                    <th className={Styles.tableHeading}>UOM</th>
+                    <th className={Styles.tableHeading}>Quantity</th>
+                    <th className={Styles.tableHeading}>Total Cost</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -169,16 +169,16 @@ const PurchaseView = () => {
             <div className={Styles.tableText}>
               <h3>Purchase Request Table</h3>
             </div>
-            <table>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S No</th>
-                  <th>Purchase Request</th>
-                  <th>Vendor Name </th>
-                  <th>Budget</th>
-                  <th>No of Items</th>
-                  <th>Quotation Status</th>
-                  <th>Action</th>
+                  <th className={Styles.tableHeading}>#</th>
+                  <th className={Styles.tableHeading}>Purchase Request</th>
+                  <th className={Styles.tableHeading}>Vendor Name </th>
+                  <th className={Styles.tableHeading}>Budget</th>
+                  <th className={Styles.tableHeading}>No of Items</th>
+                  <th className={Styles.tableHeading}>Quotation Status</th>
+                  <th className={Styles.tableHeading}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -199,7 +199,7 @@ const PurchaseView = () => {
                     {
                       label: 'View',
                       onClick: () => {
-                        navigate(`/vendor-select/${data?.purchase_request_id}`);
+                        navigate(`/vendor-select/${data?.purchase_request_id}`,{state:{project_id: projectId,indent_id:indentId}});
                       },
                     },
                     {
@@ -207,7 +207,7 @@ const PurchaseView = () => {
                       onClick: () => {
                         if (isMarkEnabled) {
                           navigate(
-                            `/purchase-request/${data?.purchase_request_id}`
+                            `/purchase-request/${data?.purchase_request_id}`,
                           );
                         }
                       },

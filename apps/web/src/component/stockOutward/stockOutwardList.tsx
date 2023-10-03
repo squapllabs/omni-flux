@@ -9,10 +9,10 @@ import { useNavigate } from 'react-router';
 import AddIcon from '../menu/icons/addIcon';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-import ViewIcon from '../menu/icons/viewIcon';
-import EditIcon from '../menu/icons/editIcon';
+import ViewIcon from '../menu/icons/newViewIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import { useParams } from 'react-router-dom';
-
+import CustomPagination from '../menu/CustomPagination';
 
 const StockOutwardList = () => {
   const navigate = useNavigate();
@@ -152,14 +152,14 @@ const StockOutwardList = () => {
             <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S No</th>
-                  <th>Project</th>
-                  <th>Outward ID</th>
-                  <th>Site</th>
-                  <th>Site Engineer</th>
-                  <th>Item Count</th>
-                  <th>Delivery Date</th>
-                  <th>Actions</th>
+                  <th className={Styles.tableHeading}>#</th>
+                  <th className={Styles.tableHeading}>Project</th>
+                  <th className={Styles.tableHeading}>Outward ID</th>
+                  <th className={Styles.tableHeading}>Site</th>
+                  <th className={Styles.tableHeading}>Site Engineer</th>
+                  <th className={Styles.tableHeading}>Item Count</th>
+                  <th className={Styles.tableHeading}>Delivery Date</th>
+                  <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -202,8 +202,8 @@ const StockOutwardList = () => {
             </table>
           </div>
         </div>
-        <div className={Styles.pagination}>
-          <Pagination
+        <div>
+          <CustomPagination
             currentPage={currentPage}
             totalPages={getStockData?.total_page}
             totalCount={getStockData?.total_count}

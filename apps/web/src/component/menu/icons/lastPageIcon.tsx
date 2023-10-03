@@ -24,28 +24,14 @@ const LastPageIcon: React.FC<LastPageProps> = ({
   };
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      fill="none"
-      viewBox="0 0 26 24"
-      style={{
-        ...style,
-        opacity: disabled ? 0.5 : 1,
-        pointerEvents: disabled ? 'none' : 'auto',
-      }}
-      onClick={handleClick}
-    >
-      <path stroke={color} strokeWidth="1.5" d="M24.75 4v14" />
-      <path
-        stroke={color}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="m9 6 6 6-6 6"
-      />
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={handleClick}       style={{
+      ...style,
+      opacity: disabled ? 0.5 : 1,
+      pointerEvents: disabled ? 'none' : 'auto',
+    }}>
+      <path d="M4.1665 9.99996H15.8332M15.8332 9.99996L9.99984 4.16663M15.8332 9.99996L9.99984 15.8333" stroke={color} stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
+
   );
 };
 

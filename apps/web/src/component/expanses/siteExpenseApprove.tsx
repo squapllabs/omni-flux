@@ -20,6 +20,8 @@ import siteExpenseService from '../../service/expense-service';
 import CustomSnackBar from '../ui/customSnackBar';
 import RejectIcon from '../menu/icons/cancelIcon';
 import RejectDialogBox from '../ui/CustomReject';
+import { formatBudgetValue } from '../../helper/common-function';
+import CustomPagination from '../menu/CustomPagination';
 
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
@@ -295,24 +297,24 @@ const ExpenseApprove = () => {
               </div>
             </div>
           </div>
-          <table>
+          <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th>S.No</th>
-                <th>Expense Code</th>
-                <th>Project</th>
-                <th>Site</th>
-                <th>From Date</th>
-                <th>To Date</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th className={Styles.tableHeading}>#</th>
+                <th className={Styles.tableHeading}>Expense Code</th>
+                <th className={Styles.tableHeading}>Project</th>
+                <th className={Styles.tableHeading}>Site</th>
+                <th className={Styles.tableHeading}>From Date</th>
+                <th className={Styles.tableHeading}>To Date</th>
+                <th className={Styles.tableHeading}>Amount</th>
+                <th className={Styles.tableHeading}>Status</th>
+                <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
             <tbody>
               {getExpenseList?.content?.length === 0 ? (
                 <tr>
-                  <td colSpan="7">No data found</td>
+                  <td colSpan="7" style={{textAlign:'center'}}>No data found</td>
                 </tr>
               ) : (
                 ''
@@ -334,7 +336,7 @@ const ExpenseApprove = () => {
                       <td>{items?.site_data?.name}</td>
                       <td>{dateFormat(items?.start_date)}</td>
                       <td>{dateFormat(items?.end_date)}</td>
-                      <td>{sumOfRates}</td>
+                      <td>{formatBudgetValue(sumOfRates)}</td>
                       <td>{items?.status}</td>
                       <td>
                         <div className={Styles.tableIcon}>
@@ -352,7 +354,7 @@ const ExpenseApprove = () => {
             </tbody>
           </table>
           <div className={Styles.pagination}>
-            <Pagination
+            <CustomPagination
               currentPage={currentPage}
               totalPages={getExpenseList?.total_page}
               totalCount={getExpenseList?.total_count}
