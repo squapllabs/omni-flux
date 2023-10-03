@@ -101,6 +101,19 @@ const getByProjectId = catchAsync(async (req, res) => {
   }
 });
 
+const getCountByProjectIdAndBomConfigId = catchAsync(async (req, res) => {
+  const methodName = '/getCountByProjectIdAndBomConfigId';
+  try {
+    const category = await categoryService.getCountByProjectIdAndBomConfigId(
+      req.params.project_id,
+      req.params.bom_configuration_id
+    );
+    res.send(category);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createCategory,
   updateCategory,
@@ -111,4 +124,5 @@ export {
   getAllInActiveCategories,
   searchCategory,
   getByProjectId,
+  getCountByProjectIdAndBomConfigId,
 };

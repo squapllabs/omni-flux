@@ -475,6 +475,59 @@ const getByProjectId = async (
   }
 };
 
+/**
+ * Method to get Count By Project Id And Bom Configuration Id
+ * @param project_id
+ * @param bom_configuration_id
+ * @returns
+ */
+const getCountByProjectIdAndBomConfigId = async (
+  project_id: number,
+  bom_configuration_id: number
+) => {
+  try {
+    const projectExist = await projectDao.getById(project_id);
+    if (!projectExist) {
+      return {
+        message: 'project_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const bomConfigurationExist = await bomConfigurationDao.getById(
+      bom_configuration_id
+    );
+    if (!bomConfigurationExist) {
+      return {
+        message: 'bom_configuration_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const categoryData = await categoryDao.getCountByProjectIdAndBomConfigId(
+      project_id,
+      bom_configuration_id
+    );
+    if (categoryData) {
+      return { message: 'success', status: true, data: categoryData };
+    } else {
+      return {
+        message: 'No data found for this project_id and bom_configuration_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getCountByProjectIdAndBomConfigId category service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createCategory,
   updateCategory,
@@ -485,4 +538,5 @@ export {
   getAllInActiveCategories,
   searchCategory,
   getByProjectId,
+  getCountByProjectIdAndBomConfigId,
 };

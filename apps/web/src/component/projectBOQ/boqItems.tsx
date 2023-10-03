@@ -3,7 +3,7 @@ import {
   getBycategoryIdInSub,
   useDeleteSubcategory,
 } from '../../hooks/subCategory-hooks';
-import Styles from '../../styles/bomList.module.scss';
+import Styles from '../../styles/newStyles/bomlist.module.scss';
 import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,8 @@ import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomLoader from '../ui/customLoader';
+import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
+
 
 const BomItems = (props: {
   selectedCategory: any;
@@ -46,6 +48,9 @@ const BomItems = (props: {
   const [tableData, setTableData] = useState();
   const [istableLoader, setIsTableLoader] = useState(true);
   const [activeButton, setActiveButton] = useState<string | null>('RAWMT');
+  const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
+  const [openedContextMenuForSubCategory, setOpenedContextMenuForSubCategory] =
+    useState<number | null>(null);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'RAW MATERIAL', value: 'RAWMT' },
     { label: 'LABOUR', value: 'LABOR' },
@@ -125,218 +130,98 @@ const BomItems = (props: {
     // handleDemo()
   }, [activeButton]);
 
+  useEffect(() => {
+    const closeContextMenu = () => {
+      setMoreIconDropdownOpen(false);
+      setOpenedContextMenuForSubCategory(null);
+    };
+    window.addEventListener('click', closeContextMenu);
+    return () => {
+      window.removeEventListener('click', closeContextMenu);
+    };
+  }, []);
+
   return (
-    <div className={Styles.scrollContainer}>
+    <div>
       <div className={Styles.tableContainer}>
         <div>
-          <table className={Styles.scrollable_table}>
+          <table className={Styles.boqSubCategoryTable}>
             <thead>
               <tr>
-                <th>#</th>
-                <th>Task Name</th>
-                <th>Task Description</th>
-                <th>Amount</th>
-                <th>Action</th>
+                <th className={Styles.tableHeading}>#</th>
+                <th className={Styles.tableHeading}>Task Name</th>
+                <th className={Styles.tableHeading}>Task Description</th>
+                <th className={Styles.tableHeading}>Amount</th>
+                <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
             <tbody>
               {getAllData?.map((data: any, index: number) => (
                 <tr key={data.sub_category_id}>
                   <td>{index + 1}</td>
-                  <td>{data.name}</td>
-                  {/* <td>{data.description}</td> */}
+                  <td><span title={data?.name}>
+                      {data.name
+                        ? data.name.length > 20
+                          ? data.name.substring(0, 20) + '...'
+                          : data.name
+                        : '-'}
+                    </span></td>
+                  <td>
+                    <span title={data?.description}>
+                      {data.description
+                        ? data.description.length > 20
+                          ? data.description.substring(0, 20) + '...'
+                          : data.description
+                        : '-'}
+                    </span>
+                  </td>
                   <td>{formatBudgetValue(data?.budget ? data?.budget : 0)}</td>
+                  <td><MoreVerticalIcon 
+                  onClick={(e: any) => {
+                    e.stopPropagation();
+                    setOpenedContextMenuForSubCategory(
+                      data.sub_category_id
+                    );
+                    setMoreIconDropdownOpen(
+                      !moreIconDropdownOpen
+                    );
+                  }}
+                  />
+                  {moreIconDropdownOpen &&
+                    data.sub_category_id ===
+                      openedContextMenuForSubCategory && (
+                      <ul className={Styles.menu}>
+                        <li className={Styles.menuItem}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: '5px',
+                              padding: '5px',
+                              backgroundColor:'#E5CFF7'
+                            }}
+                          >
+                            <div
+                              className={Styles.options}
+                              onClick={() => {
+                                navigate(`/bom/${data?.sub_category_id}`);
+                              }}
+                            >
+                              <span className={Styles.menuFont}>
+                                Manage Plan
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    )}
+                 </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
-      {/* <div>
-        {getAllData?.map((items: any, index: any) => {
-          const isItemExpanded = isExpanded === items.sub_category_id;
-          return (
-            <div key={items.sub_category_id}>
-              <div className={Styles.dividerContent}>
-                <div
-                  className={Styles.mainHeading}
-                  onClick={() => handleDemo(items?.sub_category_id)}
-                >
-                  <div className={Styles.mainLeftContent}>
-                    <h4>
-                      {index + 1}. {items?.name}
-                    </h4>
-                    <p className={Styles.descriptionContent}>
-                      {items?.description}
-                    </p>
-                  </div>
-                  <div className={Styles.rightContent}>
-                    <p>
-                      {formatBudgetValue(items?.budget ? items?.budget : 0)}
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  {isItemExpanded && (
-                    <div>
-                      <div className={Styles.groupButton}>
-                        <CustomGroupButton
-                          labels={buttonLabels}
-                          onClick={handleGroupButtonClick}
-                          activeButton={activeButton}
-                        />
-                      </div>
-                      <div>
-                        {istableLoader ? (
-                          <CustomLoader loading={istableLoader} size={48} />
-                        ) : activeButton === 'RAWMT' ? (
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>S No</th>
-                                <th>ITEM</th>
-                                <th>UOM</th>
-                                <th>QUANTITY</th>
-                                <th>RATE</th>
-                                <th>Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {tableData && tableData.length > 0 ? (
-                                tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_detail_id}>
-                                    <td>{index + 1}</td>
-                                    <td>{item.item_data?.item_name}</td>
-                                    <td>{item.uom_data?.name}</td>
-                                    <td>{item.quantity}</td>
-                                    <td>{formatBudgetValue(item.rate)}</td>
-                                    <td>{formatBudgetValue(item.total)}</td>
-                                  </tr>
-                                ))
-                              ) : (
-                                <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td>No records found</td>
-                                  <td></td>
-                                  <td></td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                        ) : (
-                          ' '
-                        )}
-                        {istableLoader ? (
-                          <CustomLoader loading={istableLoader} size={48} />
-                        ) : activeButton === 'LABOR' ? (
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>S No</th>
-                                <th>LABOUR TYPE</th>
-                                <th>WAGES TYPE</th>
-                                <th>LABOUR Count</th>
-                                <th>RATE</th>
-                                <th>Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {tableData && tableData.length > 0 ? (
-                                tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_detail_id}>
-                                    <td>{index + 1}</td>
-                                    <td>{item.bom_name}</td>
-                                    <td>{item.uom_data?.name}</td>
-                                    <td>{item.quantity}</td>
-                                    <td>{formatBudgetValue(item.rate)}</td>
-                                    <td>{formatBudgetValue(item.total)}</td>
-                                  </tr>
-                                ))
-                              ) : (
-                                <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td>No records found</td>
-                                  <td></td>
-                                  <td></td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                        ) : (
-                          ' '
-                        )}
-                        {istableLoader ? (
-                          <CustomLoader loading={istableLoader} size={48} />
-                        ) : activeButton === 'MCNRY' ? (
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>S No</th>
-                                <th>MACHINE TYPE</th>
-                                <th>RENT TYPE</th>
-                                <th>MACHINE Count</th>
-                                <th>RATE</th>
-                                <th>Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {tableData && tableData.length > 0 ? (
-                                tableData.map((item: any, index: any) => (
-                                  <tr key={item.bom_detail_id}>
-                                    <td>{index + 1}</td>
-                                    <td>{item.bom_name}</td>
-                                    <td>{item.uom_data?.name}</td>
-                                    <td>{item.quantity}</td>
-                                    <td>{formatBudgetValue(item.rate)}</td>
-                                    <td>{formatBudgetValue(item.total)}</td>
-                                  </tr>
-                                ))
-                              ) : (
-                                <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td>No records found</td>
-                                  <td></td>
-                                  <td></td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                        ) : (
-                          ' '
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className={Styles.options}>
-                  <div
-                    className={Styles.addPlan}
-                    onClick={() => {
-                      navigate(`/bom/${items?.sub_category_id}`);
-                    }}
-                  >
-                    <AddIcon style={{ height: '15px', width: '15px'}} />
-                    <p className={Styles.addText}>Add Plan</p>
-                  </div>
-                  <div
-                    className={Styles.addPlan}
-                    onClick={() => {
-                      handleEdit(items?.sub_category_id);
-                      setSelectedSubCategoryId(items?.sub_category_id);
-                    }}
-                  >
-                    <EditIcon style={{ height: '15px', width: '15px' }} />
-                    <p className={Styles.addText}>Edit Task</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div> */}
       <CustomSubCategoryAddPopup
         isVissible={showSubCategoryForm}
         onAction={setShowSubCategoryForm}
