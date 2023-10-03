@@ -32,7 +32,7 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import ProjectAbstractAdd from './forms/projectAbstractAdd';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 
-const BomList = () => {
+const BomList: React.FC = (props: any) => {
   const params = useParams();
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
@@ -68,15 +68,17 @@ const BomList = () => {
         bomconfigId: bomconfigId,
       };
       const datas = await CategoryService.getAllCategoryByProjectId(obj);
+
       console.log('rrrrrrrrrrrrrrrr', datas.data);
       setCategories(datas.data);
       setIsloading(false);
       setCategoryData(datas.data[0]);
       console.log('ttttttttttt', datas.data[0]);
-
+      props.setReload(!props.reload);
       setSelectedCategory(datas.data[0].category_id);
       setCategoryId(datas.data[0].category_id);
     };
+
     fetchData();
   }, [reload]);
 
@@ -286,7 +288,16 @@ const BomList = () => {
                         <div className={Styles.mainLeftContent}>
                           <div className={Styles.leftContentOne}>
                             <CheckListIcon />
-                            <h3>{categoryData?.name}(count)</h3>
+                            <h3 title={categoryData.name}>
+                              {' '}
+                              {categoryData.name
+                                ? categoryData.name.length > 20
+                                  ? categoryData.name.substring(0, 20) + '...'
+                                  : categoryData.name
+                                : '-'}
+                              (count)
+                            </h3>
+                            {/* <h3>{categoryData?.name}(count)</h3> */}
                           </div>
                           <div
                             className={Styles.leftContentOne}
@@ -299,13 +310,14 @@ const BomList = () => {
                           </div>
                         </div>
                         <div>
-                          <p>
-                            INR{' '}
+                          <h3>
                             {formatBudgetValue(
                               categoryData?.budget ? categoryData?.budget : 0
                             )}
+                          </h3>
+                          <p className={Styles.countContentTitle}>
+                            Aggregated Value
                           </p>
-                          <p>Aggregated Value</p>
                         </div>
                       </div>
                     </div>
@@ -316,6 +328,8 @@ const BomList = () => {
                     selectedSubCategory={selectedSubCategory}
                     projectsId={projectsId}
                     selectedBomConfig={bomconfigId}
+                    setReload={props.setReload}
+                    reload={props.reload}
                   />
                 </div>
               </div>

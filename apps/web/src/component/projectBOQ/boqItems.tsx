@@ -19,13 +19,14 @@ import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 
-
 const BomItems = (props: {
   selectedCategory: any;
   setSelectedSubCategory: any;
   selectedSubCategory: any;
   projectsId: any;
   selectedBomConfig: any;
+  setReload: any;
+  reload: any;
 }) => {
   const { selectedCategory, selectedBomConfig } = props;
   const obj = {
@@ -42,7 +43,7 @@ const BomItems = (props: {
   const [message, setMessage] = useState('');
   const [isWarning, setIswarning] = useState(false);
   const [mode, setMode] = useState('');
-  const [reload,setReload] = useState(false);
+  const [reload, setReload] = useState(false);
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [value, setValue] = useState();
@@ -131,6 +132,7 @@ const BomItems = (props: {
 
   useEffect(() => {
     // handleDemo()
+    props.setReload(!props.reload);
   }, [activeButton]);
 
   useEffect(() => {
@@ -166,13 +168,15 @@ const BomItems = (props: {
               {getAllData?.map((data: any, index: number) => (
                 <tr key={data.sub_category_id}>
                   <td>{index + 1}</td>
-                  <td><span title={data?.name}>
+                  <td>
+                    <span title={data?.name}>
                       {data.name
                         ? data.name.length > 20
                           ? data.name.substring(0, 20) + '...'
                           : data.name
                         : '-'}
-                    </span></td>
+                    </span>
+                  </td>
                   <td>
                     <span title={data?.description}>
                       {data.description
@@ -183,46 +187,45 @@ const BomItems = (props: {
                     </span>
                   </td>
                   <td>{formatBudgetValue(data?.budget ? data?.budget : 0)}</td>
-                  <td><MoreVerticalIcon 
-                  onClick={(e: any) => {
-                    e.stopPropagation();
-                    setOpenedContextMenuForSubCategory(
-                      data.sub_category_id
-                    );
-                    setMoreIconDropdownOpen(
-                      !moreIconDropdownOpen
-                    );
-                  }}
-                  />
-                  {moreIconDropdownOpen &&
-                    data.sub_category_id ===
-                      openedContextMenuForSubCategory && (
-                      <ul className={Styles.menu}>
-                        <li className={Styles.menuItem}>
-                          <div
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              gap: '5px',
-                              padding: '5px',
-                              backgroundColor:'#E5CFF7'
-                            }}
-                          >
+                  <td>
+                    <MoreVerticalIcon
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        setOpenedContextMenuForSubCategory(
+                          data.sub_category_id
+                        );
+                        setMoreIconDropdownOpen(!moreIconDropdownOpen);
+                      }}
+                    />
+                    {moreIconDropdownOpen &&
+                      data.sub_category_id ===
+                        openedContextMenuForSubCategory && (
+                        <ul className={Styles.menu}>
+                          <li className={Styles.menuItem}>
                             <div
-                              className={Styles.options}
-                              onClick={() => {
-                                navigate(`/bom/${data?.sub_category_id}`);
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '5px',
+                                padding: '5px',
+                                backgroundColor: '#E5CFF7',
                               }}
                             >
-                              <span className={Styles.menuFont}>
-                                Manage Plan
-                              </span>
+                              <div
+                                className={Styles.options}
+                                onClick={() => {
+                                  navigate(`/bom/${data?.sub_category_id}`);
+                                }}
+                              >
+                                <span className={Styles.menuFont}>
+                                  Manage Plan
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                      </ul>
-                    )}
-                 </td>
+                          </li>
+                        </ul>
+                      )}
+                  </td>
                 </tr>
               ))}
             </tbody>

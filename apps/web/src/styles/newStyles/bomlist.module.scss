@@ -75,17 +75,17 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: rgb(255, 255, 255);
-  // background-color: lightcoral;
+  padding-bottom: 2%;
+  padding-left: 2%;
+  align-items: center;
 }
 
 .mainLeftContent {
-  width: 45%;
   font-weight: 100 !important;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 5px;
+  gap: 30px;
 }
 .leftContentOne {
   cursor: pointer;
@@ -106,7 +106,14 @@
   display: block;
   font-size: small;
 }
-
+.countContentTitle {
+  font-weight: 400;
+  color: #475467;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+}
 .menu {
   list-style: none;
   position: absolute;

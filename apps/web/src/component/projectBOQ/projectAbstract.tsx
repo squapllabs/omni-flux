@@ -10,6 +10,7 @@ const projectAbstract = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
   const [bomData, setBomData] = useState<any>({});
+  const [reload, setReload] = useState(false);
   useEffect(() => {
     const fatchData = async () => {
       const obj: any = {
@@ -21,7 +22,7 @@ const projectAbstract = () => {
       console.log('getBomData', getBomData);
     };
     fatchData();
-  }, []);
+  }, [reload]);
   return (
     <div>
       <div className={Styles.container}>
@@ -94,7 +95,7 @@ const projectAbstract = () => {
         </div>
         <div className={Styles.selected}></div>
         <div>
-          <BomList />
+          <BomList setReload={setReload} reload={reload} />
         </div>
       </div>
     </div>

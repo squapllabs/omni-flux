@@ -106,9 +106,9 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
             if (data?.status === true) {
               props.setMessage('Abstract created');
               props.setOpenSnack(true);
-              resetForm();
               props.setReload(true);
               handleClose();
+              resetForm();
             }
           },
         });
