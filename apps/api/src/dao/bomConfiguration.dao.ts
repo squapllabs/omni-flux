@@ -54,8 +54,6 @@ const add = async (
   try {
     const currentDate = new Date();
     const is_delete = false;
-    console.log('bomtype>>>', bom_type_id);
-
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const bomConfiguration = await transaction.bom_configuration.create({
       data: {
@@ -215,8 +213,14 @@ const searchBomConfiguration = async (
     const bomConfiguration = await transaction.bom_configuration.findMany({
       where: filter,
       include: {
-        bom_type_data: true,
-        project_data: true,
+        bom_type_data: {
+          select: {
+            master_data_name: true,
+          },
+        },
+        project_data: {
+          select: { project_name: true },
+        },
       },
       orderBy: [
         {

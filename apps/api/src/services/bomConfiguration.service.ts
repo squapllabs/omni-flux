@@ -1,6 +1,13 @@
 import bomConfigurationDao from '../dao/bomConfiguration.dao';
+import masterDataDao from '../dao/masterData.dao';
+import projectDao from '../dao/project.dao';
 import { bomConfigurationBody } from '../interfaces/bomConfiguration.interface';
 
+/**
+ * Method to create Bom Configuration
+ * @param body
+ * @returns
+ */
 const createBomConfiguration = async (body: bomConfigurationBody) => {
   try {
     const {
@@ -11,12 +18,35 @@ const createBomConfiguration = async (body: bomConfigurationBody) => {
       project_id,
       created_by,
     } = body;
+
+    if (bom_type_id) {
+      const bomTypeExist = await masterDataDao.getById(bom_type_id);
+      if (!bomTypeExist) {
+        return {
+          message: 'bom_type_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     const bomConfigurationDetails = await bomConfigurationDao.add(
       bom_name,
       bom_description,
-      budget,
       bom_type_id,
       project_id,
+      budget,
       created_by
     );
     const result = {
@@ -31,6 +61,11 @@ const createBomConfiguration = async (body: bomConfigurationBody) => {
   }
 };
 
+/**
+ * Method To update Bom Configuration
+ * @param body
+ * @returns
+ */
 const updateBomConfiguration = async (body: bomConfigurationBody) => {
   try {
     const {
@@ -53,29 +88,55 @@ const updateBomConfiguration = async (body: bomConfigurationBody) => {
         data: null,
       };
       return result;
-    } else {
-      const bomConfigurationDetails = await bomConfigurationDao.edit(
-        bom_configuration_id,
-        bom_name,
-        bom_description,
-        budget,
-        bom_type_id,
-        project_id,
-        updated_by
-      );
-      result = {
-        message: 'success',
-        status: true,
-        data: bomConfigurationDetails,
-      };
-      return result;
     }
+
+    if (bom_type_id) {
+      const bomTypeExist = await masterDataDao.getById(bom_type_id);
+      if (!bomTypeExist) {
+        return {
+          message: 'bom_type_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        return {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const bomConfigurationDetails = await bomConfigurationDao.edit(
+      bom_configuration_id,
+      bom_name,
+      bom_description,
+      bom_type_id,
+      project_id,
+      budget,
+      updated_by
+    );
+    result = {
+      message: 'success',
+      status: true,
+      data: bomConfigurationDetails,
+    };
+    return result;
   } catch (error) {
     console.log('Error occurred in bomConfiguration service Edit: ', error);
     throw error;
   }
 };
 
+/**
+ * Method To get All Bom Configuration
+ * @returns
+ */
 const getAllBomConfiguration = async () => {
   try {
     const result = await bomConfigurationDao.getAll();
@@ -91,6 +152,11 @@ const getAllBomConfiguration = async () => {
   }
 };
 
+/**
+ * Method To Delete Bom Configuration By bom_configuratoin_id
+ * @param bom_configuration_id
+ * @returns
+ */
 const deleteBomConfiguration = async (bom_configuration_id: number) => {
   try {
     const bomConfigurationExists = await bomConfigurationDao.getById(
@@ -130,6 +196,11 @@ const deleteBomConfiguration = async (bom_configuration_id: number) => {
   }
 };
 
+/**
+ * Method To Get Bom Configuration By bom_configuration_id
+ * @param bom_configuration_id
+ * @returns
+ */
 const getByBomConfigurationId = async (bom_configuration_id: number) => {
   try {
     let result = null;
@@ -159,6 +230,11 @@ const getByBomConfigurationId = async (bom_configuration_id: number) => {
   }
 };
 
+/**
+ * Method To Search Bom Configurarion
+ * @param body
+ * @returns
+ */
 const searchBomConfiguration = async (body) => {
   try {
     const offset = body.offset;
@@ -170,12 +246,24 @@ const searchBomConfiguration = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const status = body.status;
+    const project_id = body.project_id;
+
     const filterObj: any = {};
 
     if (status) {
       filterObj.filterBomConfiguration = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (project_id) {
+      filterObj.filterBomConfiguration = filterObj.filterBomConfiguration || {};
+      filterObj.filterBomConfiguration.AND =
+        filterObj.filterBomConfiguration.AND || [];
+
+      filterObj.filterBomConfiguration.AND.push({
+        project_id: project_id,
+      });
     }
 
     if (global_search) {
@@ -191,8 +279,14 @@ const searchBomConfiguration = async (body) => {
           },
         },
         {
+          bom_description: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
           bom_type_data: {
-            name: {
+            master_data_name: {
               contains: global_search,
               mode: 'insensitive',
             },
@@ -200,7 +294,7 @@ const searchBomConfiguration = async (body) => {
         },
         {
           project_data: {
-            name: {
+            project_name: {
               contains: global_search,
               mode: 'insensitive',
             },
@@ -230,7 +324,7 @@ const searchBomConfiguration = async (body) => {
     return tempBomConfigurationData;
   } catch (error) {
     console.log(
-      'Error occurred in searchbomconfiguration bomConfiguration service : ',
+      'Error occurred in searchbomConfiguration bomConfiguration service : ',
       error
     );
     throw error;

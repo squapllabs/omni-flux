@@ -9,12 +9,28 @@ import {
   searchBomConfiguration,
 } from '../../controller/bomConfiguration.controller';
 import { runValidation } from '../../validations/index';
+import {
+  bomConfigurationCreateValidator,
+  bomConfigurationUpdateValidator,
+} from '../../validations/bomConfiguration';
 
 const router = express.Router();
 
-router.post('/', authMiddleware, runValidation, createBomConfiguration);
+router.post(
+  '/',
+  authMiddleware,
+  bomConfigurationCreateValidator,
+  runValidation,
+  createBomConfiguration
+);
 
-router.put('/', authMiddleware, runValidation, updateBomConfiguration);
+router.put(
+  '/',
+  authMiddleware,
+  bomConfigurationUpdateValidator,
+  runValidation,
+  updateBomConfiguration
+);
 
 router.get('/get-all', authMiddleware, getAllBomConfiguration);
 
@@ -25,7 +41,7 @@ router.delete(
 );
 
 router.get(
-  '/get-id/:bom_configuration_id',
+  '/get/:bom_configuration_id',
   authMiddleware,
   getByBomConfigurationId
 );
