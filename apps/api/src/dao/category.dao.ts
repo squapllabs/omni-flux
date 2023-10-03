@@ -307,6 +307,29 @@ const updateBudget = async (
   }
 };
 
+const getCountByProjectIdAndBomConfigId = async (
+  project_id: number,
+  bom_configuration_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const category = await transaction.category.count({
+      where: {
+        project_id: Number(project_id),
+        bom_configuration_id: Number(bom_configuration_id),
+      },
+    });
+    return category;
+  } catch (error) {
+    console.log(
+      'Error occurred in category getCountByProjectIdAndBomConfigId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -318,4 +341,5 @@ export default {
   searchCategory,
   getByProjectId,
   updateBudget,
+  getCountByProjectIdAndBomConfigId,
 };

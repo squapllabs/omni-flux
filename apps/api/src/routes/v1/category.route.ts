@@ -12,6 +12,7 @@ import {
   getAllInActiveCategories,
   getByCategoryId,
   getByProjectId,
+  getCountByProjectIdAndBomConfigId,
   searchCategory,
   updateCategory,
 } from '../../controller/category.controller';
@@ -55,6 +56,12 @@ router.get(
   '/get-by-project-id/:project_id/:bom_configuration_id',
   authMiddleware,
   getByProjectId
+);
+
+router.get(
+  '/get-abstract-count/:project_id/:bom_configuration_id',
+  authMiddleware,
+  getCountByProjectIdAndBomConfigId
 );
 
 export default router;
