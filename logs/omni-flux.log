@@ -38579,3 +38579,2311 @@ type IntFilter {
 }
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+
+  86 const getById = async (categoryId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+
+  86 const getById = async (categoryId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+
+  86 const getById = async (categoryId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+
+  86 const getById = async (categoryId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBomBySubCategoryIdAndBomType << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:93:56
+
+  90 const getById = async (subCategoryId: number, connectionObj = null) => {
+  91   try {
+  92     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 93     const subCategory = await transaction.sub_category.findFirst({
+           where: {
+             sub_category_id: NaN,
+                              ~~~
+             is_delete: false
+           },
+           include: {
+             category: true,
+             project_data: {
+               select: {
+                 project_name: true,
+                 description: true
+               }
+             },
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument sub_category_id: Got invalid value NaN on prisma.findFirstsub_category. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)

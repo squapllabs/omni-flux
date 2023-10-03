@@ -336,18 +336,36 @@ const BomList: React.FC = (props: any) => {
             </div>
           ) : (
             <div className={Styles.Secondcontainer}>
-              <div className={Styles.abstractButton}>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  size="small"
-                  icon={<AddIcon width={20} color="white" />}
-                  onClick={() => {
-                    setShowAbstractForm(true);
-                  }}
-                >
-                  Add Abstract
-                </Button>
+              <div className={Styles.secondContainerHeading}>
+                <ZIcon />
+                <span>Abstract (0)</span>
+              </div>
+              <div className={Styles.secondContainerContent}>
+                <div>
+                  <ZIcon width={50} height={50} />
+                </div>
+                <div>
+                  <h5>No Abstracts added to this BoQ</h5>
+                </div>
+                <div>
+                  <span>
+                    Every BoQ needs an Abstract to begin with. Go ahead, add an
+                    Abstract now.
+                  </span>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    icon={<AddIcon width={20} color="white" />}
+                    onClick={() => {
+                      setShowAbstractForm(true);
+                    }}
+                  >
+                    Add Abstract
+                  </Button>
+                </div>
               </div>
             </div>
           )}
