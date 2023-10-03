@@ -166,6 +166,8 @@ const BomList = () => {
 
                     <div>
                       {categories?.map((items: any, index: any) => {
+                        console.log('categories', categories);
+
                         return (
                           <div>
                             <ul key={index}>
@@ -192,6 +194,12 @@ const BomList = () => {
                                     <span className={Styles.smallred}>
                                       {items?.progress_status}
                                     </span>
+                                    <div className={Styles?.subMenuDescription}>
+                                      <span title={items?.description}>
+                                        {items?.description?.substring(0, 50) +
+                                          '...'}
+                                      </span>
+                                    </div>
                                   </div>
                                   <div>
                                     <MoreVerticalIcon
