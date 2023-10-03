@@ -138,10 +138,7 @@ const BomList = () => {
     };
   }, []);
 
-
-  
-
-  return (
+ return (
     <div>
       <div className={Styles.headingcontainer}>
         <div className={Styles.box}>
@@ -150,6 +147,7 @@ const BomList = () => {
               <h3>{projectData?.project_name}</h3>
               <span className={Styles.content}>{projectData?.description}</span>
             </div>
+  
             <div className={Styles.backButton}>
               <div>
                 <Button
@@ -197,8 +195,6 @@ const BomList = () => {
                         Add Abstract
                       </Button>
                     </div>
-                    
-
                     {categories?.map((items: any, index: any) => {                      
                       return (
                         <ul key={index}>
@@ -225,7 +221,6 @@ const BomList = () => {
                             
                               </div>
                               <div>
-                                {/* category add  */}
                                 <MoreVerticalIcon
                                   onClick={(e: any) => {
                                     e.stopPropagation();
