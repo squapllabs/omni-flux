@@ -55,11 +55,11 @@ const BomItems = (props: {
   const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
   const [openedContextMenuForSubCategory, setOpenedContextMenuForSubCategory] =
     useState<number | null>(null);
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'RAW MATERIAL', value: 'RAWMT' },
-    { label: 'LABOUR', value: 'LABOR' },
-    { label: 'MACHINERY', value: 'MCNRY' },
-  ]);
+//   const [buttonLabels, setButtonLabels] = useState([
+//     { label: 'RAW MATERIAL', value: 'RAWMT' },
+//     { label: 'LABOUR', value: 'LABOR' },
+//     { label: 'MACHINERY', value: 'MCNRY' },
+//   ]);
 
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -97,38 +97,38 @@ const BomItems = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const handleGroupButtonClick = async (value: string) => {
-    setIsTableLoader(true);
-    setActiveButton(value);
-    const obj = {
-      id: isExpanded,
-      type: value,
-    };
-    try {
-      const getData = await bomService.getBOMbySubCatIDandType(obj);
-      setTableData(getData.data);
-      setIsTableLoader(false);
-    } catch (error) {
-      console.error('Error fetching data in handleGroupButtonClick :', error);
-    }
-  };
+//   const handleGroupButtonClick = async (value: string) => {
+//     setIsTableLoader(true);
+//     setActiveButton(value);
+//     const obj = {
+//       id: isExpanded,
+//       type: value,
+//     };
+//     try {
+//       const getData = await bomService.getBOMbySubCatIDandType(obj);
+//       setTableData(getData.data);
+//       setIsTableLoader(false);
+//     } catch (error) {
+//       console.error('Error fetching data in handleGroupButtonClick :', error);
+//     }
+//   };
 
-  const handleDemo = async (subCategoryId: any) => {
-    const obj = {
-      id: subCategoryId,
-      type: activeButton,
-    };
-    if (isExpanded === subCategoryId) {
-      setIsExpanded(null);
-      setActiveButton('RAWMT');
-    } else {
-      const getData = await bomService.getBOMbySubCatIDandType(obj);
-      setActiveButton('RAWMT');
-      setTableData(getData.data);
-      setIsExpanded(subCategoryId);
-      setIsTableLoader(false);
-    }
-  };
+//   const handleDemo = async (subCategoryId: any) => {
+//     const obj = {
+//       id: subCategoryId,
+//       type: activeButton,
+//     };
+//     if (isExpanded === subCategoryId) {
+//       setIsExpanded(null);
+//       setActiveButton('RAWMT');
+//     } else {
+//       const getData = await bomService.getBOMbySubCatIDandType(obj);
+//       setActiveButton('RAWMT');
+//       setTableData(getData.data);
+//       setIsExpanded(subCategoryId);
+//       setIsTableLoader(false);
+//     }
+//   };
 
   useEffect(() => {
     // handleDemo()
