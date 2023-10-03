@@ -195,7 +195,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
           </div>
         </div>
         <div className={Styles.icon}>
-          <ZIcon />
+          <ZIcon width={50} height={50}/>
         </div>
       </div>
       <div className={Styles.sub_sub_container_2}>

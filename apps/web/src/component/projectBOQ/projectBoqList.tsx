@@ -282,46 +282,9 @@ const BomList: React.FC = (props: any) => {
                   </div>
                 </div>
                 <div className={Styles.mainContainer}>
-                  {categoryData && (
-                    <div>
-                      <div className={Styles.mainHeading}>
-                        <div className={Styles.mainLeftContent}>
-                          <div className={Styles.leftContentOne}>
-                            <CheckListIcon />
-                            <h3 title={categoryData.name}>
-                              {' '}
-                              {categoryData.name
-                                ? categoryData.name.length > 20
-                                  ? categoryData.name.substring(0, 20) + '...'
-                                  : categoryData.name
-                                : '-'}
-                              (count)
-                            </h3>
-                            {/* <h3>{categoryData?.name}(count)</h3> */}
-                          </div>
-                          <div
-                            className={Styles.leftContentOne}
-                            onClick={() => {
-                              setShowSubCategoryForm(true);
-                            }}
-                          >
-                            <NewAddCircleIcon />
-                            <span className={Styles.menuFont}>Add Task</span>
-                          </div>
-                        </div>
-                        <div>
-                          <h3>
-                            {formatBudgetValue(
-                              categoryData?.budget ? categoryData?.budget : 0
-                            )}
-                          </h3>
-                          <p className={Styles.countContentTitle}>
-                            Aggregated Value
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  {/* {categoryData && (
+                    
+                  )} */}
                   <BomItems
                     selectedCategory={selectedCategory}
                     setSelectedSubCategory={setSelectedSubCategory}
