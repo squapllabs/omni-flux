@@ -68,13 +68,9 @@ const BomList: React.FC = (props: any) => {
         bomconfigId: bomconfigId,
       };
       const datas = await CategoryService.getAllCategoryByProjectId(obj);
-
-      console.log('rrrrrrrrrrrrrrrr', datas.data);
       setCategories(datas.data);
       setIsloading(false);
       setCategoryData(datas.data[0]);
-      console.log('ttttttttttt', datas.data[0]);
-      props.setReload(!props.reload);
       setSelectedCategory(datas.data[0].category_id);
       setCategoryId(datas.data[0].category_id);
     };
@@ -282,46 +278,9 @@ const BomList: React.FC = (props: any) => {
                   </div>
                 </div>
                 <div className={Styles.mainContainer}>
-                  {categoryData && (
-                    <div>
-                      <div className={Styles.mainHeading}>
-                        <div className={Styles.mainLeftContent}>
-                          <div className={Styles.leftContentOne}>
-                            <CheckListIcon />
-                            <h3 title={categoryData.name}>
-                              {' '}
-                              {categoryData.name
-                                ? categoryData.name.length > 20
-                                  ? categoryData.name.substring(0, 20) + '...'
-                                  : categoryData.name
-                                : '-'}
-                              (count)
-                            </h3>
-                            {/* <h3>{categoryData?.name}(count)</h3> */}
-                          </div>
-                          <div
-                            className={Styles.leftContentOne}
-                            onClick={() => {
-                              setShowSubCategoryForm(true);
-                            }}
-                          >
-                            <NewAddCircleIcon />
-                            <span className={Styles.menuFont}>Add Task</span>
-                          </div>
-                        </div>
-                        <div>
-                          <h3>
-                            {formatBudgetValue(
-                              categoryData?.budget ? categoryData?.budget : 0
-                            )}
-                          </h3>
-                          <p className={Styles.countContentTitle}>
-                            Aggregated Value
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  {/* {categoryData && (
+                    
+                  )} */}
                   <BomItems
                     selectedCategory={selectedCategory}
                     setSelectedSubCategory={setSelectedSubCategory}

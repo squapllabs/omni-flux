@@ -8,8 +8,8 @@ interface CheckListIconProps {
 }
 
 const CheckListIcon: FC<CheckListIconProps> = ({
-  width = 28,
-  height = 28,
+  width = 20,
+  height = 17,
   color = '#475467',
   style,
 }) => {

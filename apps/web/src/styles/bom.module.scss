@@ -7,6 +7,23 @@
   // padding: 10px 10px 10px 10px;
   // padding-left: 10px;
 }
+.addDataIcon {
+  padding-top: 20px;
+  padding-left: 50px;
+  display: flex;
+  flex-direction: row;
+  color: var(--secondary-color);
+  gap: 10px;
+  align-items: center;
+}
+.iconContent {
+  // background-color: #667085;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+  padding: 10px;
+}
 
 .subHeader {
   display: flex;
@@ -14,10 +31,6 @@
   padding-bottom: 10px;
 }
 
-// .abstractAdd{
-//   width:100%;
-//   // background-color: red;
-// }
 .subcontainer {
   display: flex;
   flex-direction: row;
@@ -143,22 +156,16 @@
   padding: 5px 10px 0px 0px;
 }
 
-.tableContainer {
-  padding: 10px;
-  width: 100%;
-  // height: 100%;
-  // overflow-x: auto;
-  // overflow-y: none;
-  max-width: 1150px;
-  /* Adjust the maximum width as needed */
-  // max-height: 550px;
-  margin: 0 auto;
+// .tableContainer {
+//   padding: 10px;
 
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
-}
+//   max-width: 950px;
+//   margin: 0 auto;
+//   &::-webkit-scrollbar {
+//     width: 0px;
+//     background: transparent;
+//   }
+// }
 
 // .scrollable_table {
 //   width: 100%;
@@ -285,7 +292,8 @@
 }
 
 .bomcontainer {
-  padding: 10px 10px 10px 10px;
+  // padding: 10px 10px 10px 10px;
+  // width: 90%;
   height: 100%;
 }
 

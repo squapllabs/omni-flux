@@ -15,6 +15,7 @@ import BomService from '../../../service/bom-service';
 import CustomSnackBar from '../../ui/customSnackBar';
 import CustomDelete from '../../ui/customDeleteDialogBox';
 import { useGetAllLabourForDrop } from '../../../hooks/labour-hooks';
+import NewAddCircleIcon from '../../menu/icons/newAddCircleIcon';
 
 const BomLabours: React.FC = (props: any) => {
   const navigate = useNavigate();
@@ -321,21 +322,16 @@ const BomLabours: React.FC = (props: any) => {
                 <td>
                   <label>{formik.values.quantity * formik.values.rate}</label>
                 </td>
-                <td>
-                  <div
-                    style={{
-                      cursor: 'pointer',
-                      paddingBottom: '20px',
-                    }}
-                  >
-                    <div onClick={formik.handleSubmit}>
-                      <AddIcon />
-                    </div>
-                  </div>
-                </td>
+                <td></td>
               </tr>
             </tbody>
           </table>
+          <div className={Styles.addDataIcon}>
+            <div onClick={formik.handleSubmit} className={Styles.iconContent}>
+              <NewAddCircleIcon />
+              <span>Add Plan here</span>
+            </div>
+          </div>
         </div>
         {/* <div className={Styles.saveButton}>
           <Button
