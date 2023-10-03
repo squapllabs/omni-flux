@@ -1,6 +1,7 @@
 .container {
   width: 100%;
   height: 100vh;
+  padding: 10px;
 }
 
 .text {
@@ -35,12 +36,12 @@
 // For Cards in Dashboard
 .card {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   width: 100%;
   height: 20%;
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 20px 0px;
   background-color: #ecfdf3;
 }
 
@@ -105,6 +106,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding: 10px;
 }
 
 .cardDiv1 {
@@ -113,12 +115,42 @@
   padding: 10px;
 }
 
-.chart {
-  width: 100%;
-  padding: 20px 50px;
-}
 .headingContainer {
   display: flex;
   gap: 10px;
   align-items: center;
+  padding: 0px 0px 0px 15px ;
+
+}
+
+.projectProgress {
+  padding: 15px 0px 0px 0px ;
+}
+
+.progressBar {
+  width: 100%;
+  height: 20px;
+  border-radius: 1.5px;
+  overflow: hidden;
+  padding-bottom: 1px;
+}
+
+.totalDays {
+  height: 100%;
+  background-color: #6941C6;
+}
+
+.completedDays {
+  height: 100%;
+  background-color: #32D583;
+}
+
+.border {
+  padding: 15px 15px 15px 0;
+  border-left: 1px solid rgb(146, 146, 146);
+  border-bottom: 1px solid rgb(146, 146, 146);
+  // background-image: repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.1) 10px);
+  // background-size: 100% 20px;
+  // line-height: 20px; 
+
 }
