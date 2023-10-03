@@ -24,7 +24,7 @@ import CloseIcon from '../menu/icons/closeIcon';
 import BackArrow from '../menu/icons/backArrow';
 
 const Bom: React.FC = (props: any) => {
-    const subCategoryId = Number(props.subCategoryId)
+  const subCategoryId = Number(props.subCategoryId);
   const params = useParams();
   const navigate = useNavigate();
   const [bomList, setBomList] = useState<any[]>([]);
@@ -40,15 +40,11 @@ const Bom: React.FC = (props: any) => {
   const [reload, setReload] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const { data: getSubCategoryData } = getBySubcategoryID(
-    subCategoryId
-  );
+  const { data: getSubCategoryData } = getBySubcategoryID(subCategoryId);
 
   useEffect(() => {
     const fetchData = async () => {
-      const getData = await BomService.getBOMbySubCatID(
-        subCategoryId
-      );
+      const getData = await BomService.getBOMbySubCatID(subCategoryId);
       if (getData?.data != null) setBomList(getData?.data);
       const Rawmaterialobj = {
         id: subCategoryId,
@@ -124,7 +120,7 @@ const Bom: React.FC = (props: any) => {
   };
   return (
     <div className={Styles.bomcontainer}>
-      <div>
+      <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
         <div>
           <CustomGroupButton
             labels={buttonLabels}
@@ -132,16 +128,10 @@ const Bom: React.FC = (props: any) => {
             activeButton={activeButton}
           />
         </div>
-        {/* <div className={Styles.countContent}>
-              <h3>
-                {formatBudgetValue(
-                  bomData?.bom_configuration_data?.budget
-                    ? bomData?.bom_configuration_data?.budget
-                    : 0
-                )}
-              </h3>
-              <span className={Styles.countContentTitle}>Aggregated Value</span>
-            </div> */}
+        <div className={Styles.countContent}>
+          <h3>{formatBudgetValue(rawMaterialTotal + labourTotal + machineryTotal)}</h3>
+          <span className={Styles.countContentTitle}>Aggregated Value</span>
+        </div>
       </div>
       <div className={Styles.mainBody}>
         {activeButton === 'RAWMT' ? (
