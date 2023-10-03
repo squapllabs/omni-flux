@@ -24,27 +24,12 @@ const FirstPageIcon: React.FC<FirstPageProps> = ({
   };
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      fill="none"
-      viewBox="0 0 24 24"
-      style={{
-        ...style,
-        opacity: disabled ? 0.5 : 1,
-        pointerEvents: disabled ? 'none' : 'auto',
-      }}
-      onClick={handleClick}
-    >
-      <path
-        stroke={color}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="m15 18-6-6 6-6"
-      />
-      <path stroke={color} strokeWidth="1.5" d="M.75 5v14" />
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={handleClick} style={{
+      ...style,
+      opacity: disabled ? 0.5 : 1,
+      pointerEvents: disabled ? 'none' : 'auto',
+    }}>
+      <path d="M12.8332 6.99996H1.1665M1.1665 6.99996L6.99984 12.8333M1.1665 6.99996L6.99984 1.16663" stroke={color} stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   );
 };

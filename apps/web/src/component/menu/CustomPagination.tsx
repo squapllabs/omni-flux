@@ -27,15 +27,12 @@ const CustomPagination: React.FC<PaginationProps> = ({
   onPageChange,
   onRowsPerPageChange,
 }) => {
-  console.log('currentPage', currentPage);
 
   const [pages, setPages] = useState<any>(currentPage);
   const [pageLimitStartCount, setPageLimitStartCount] = useState<any>(1);
   const [pageLimitEndCount, setPageLimitEndCount] = useState<any>(5);
   const numbers = Array.from({ length: totalPages }, (_, index) => index + 1);
-  console.log('pageLimitEndCount', pageLimitEndCount);
-  console.log('numbers', numbers);
-  console.log('pageLimitStartCount', pageLimitStartCount);
+
 
   const handlePageChange = (page: number) => {
     onPageChange(page);
@@ -65,7 +62,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
         style={{ pointerEvents: currentPage === 1 ? 'none' : '' }}
       >
         <FirstPageIcon disabled={currentPage === 1} width={20} height={20} />
-        <span>Previous</span>
+        <span style={{color:'#667085',fontSize:"14px",fontWeight:"400"}}>Previous</span>
       </div>
       <div>
         <div className={Styles.numberCount}>
@@ -91,13 +88,13 @@ const CustomPagination: React.FC<PaginationProps> = ({
                     className={
                       currentPage === value
                         ? `${Styles.menu_item} ${Styles.selected}`
-                        : `${Styles.menu_item}`
+                        : `${Styles.menu_items}`
                     }
                     onClick={() => {
                       handleClickChange(value);
                     }}
                   >
-                    {value}
+                    <div >{value}</div>
                   </div>
                 </div>
               );
@@ -126,7 +123,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
         onClick={() => handlePageChange(currentPage + 1)}
         style={{ pointerEvents: currentPage === totalPages ? 'none' : '' }}
       >
-        <span>Next</span>
+        <span style={{color:'#667085',fontSize:"14px",fontWeight:"400"}}>Next</span>
         <LastPageIcon
           disabled={currentPage === totalPages}
           width={20}

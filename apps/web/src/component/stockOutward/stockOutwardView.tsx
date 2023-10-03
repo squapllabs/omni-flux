@@ -97,13 +97,13 @@ const StockOutWardView = () => {
           </div>
         </CustomCard>
         <div className={Styles.dataRows}>
-          <table>
+          <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th>S No</th>
-                <th>Item</th>
-                <th>OutWard Quantity</th>
-                <th>UOM</th>
+                <th className={Styles.tableHeading}>S No</th>
+                <th className={Styles.tableHeading}>Item</th>
+                <th className={Styles.tableHeading}>OutWard Quantity</th>
+                <th className={Styles.tableHeading}>UOM</th>
               </tr>
             </thead>
             <tbody>

@@ -14,7 +14,7 @@ import {
   getBySearchmasterData,
   useGetAllPaginatedMasterData,
 } from '../../hooks/masertData-hook';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import SearchIcon from '../menu/icons/search';
 import CustomEditDialog from '../ui/customEditDialogBox';
 import CustomDelete from '../ui/customDeleteDialogBox';
@@ -355,10 +355,10 @@ const MaterData = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>Name</th>
                       <th>Description</th>
                       <th>Code</th>
@@ -422,9 +422,9 @@ const MaterData = () => {
                               {data.master_data_description
                                 ? data.master_data_description.length > 20
                                   ? data.master_data_description.substring(
-                                      0,
-                                      20
-                                    ) + '...'
+                                    0,
+                                    20
+                                  ) + '...'
                                   : data.master_data_description
                                 : '-'}
                             </span>

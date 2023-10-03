@@ -5,10 +5,10 @@ import Button from '../ui/Button';
 import CustomLoader from '../ui/customLoader';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
-import Pagination from '../menu/pagination';
-import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
-import ViewIcon from '../menu/icons/viewIcon';
+import Pagination from '../menu/CustomPagination';
+import EditIcon from '../menu/icons/newEditIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
+import ViewIcon from '../menu/icons/newViewIcon';
 import AddIcon from '../menu/icons/addIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import Styles from '../../styles/vendor.module.scss';
@@ -200,10 +200,10 @@ const VendorList = () => {
           <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>
-              <table>
+              <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th>S. No</th>
+                    <th>#</th>
                     <th>Vendor Name</th>
                     <th>Contact Person Name</th>
                     <th>Phone Number</th>

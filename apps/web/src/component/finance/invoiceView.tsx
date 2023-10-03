@@ -6,7 +6,7 @@ import {
 } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import CustomEditInvoicePopup from '../ui/CustomEditInvoicePopup';
 import { formatBudgetValue } from '../../helper/common-function';
 import Pagination from '../menu/pagination';
@@ -17,7 +17,8 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import ViewIcon from '../menu/icons/viewIcon';
 import { format } from 'date-fns';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
-import ReportGenerator from '../reportGenerator/invoice'
+import ReportGenerator from '../reportGenerator/invoice';
+import CustomPagination from '../menu/CustomPagination';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -67,7 +68,8 @@ const OrderView = () => {
 
   const handleReportGenerator = () =>{  
     const data:any ={
-      title:"Invoice and Payments"
+      title:"Invoice and Payments",
+      name:"invoice"
     }  
     ReportGenerator(data)
   }
@@ -212,18 +214,18 @@ const OrderView = () => {
         </div>
         <div className={Styles.tableContainer}>
           <div>
-            <table>
+            <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th>S No</th>
-                  <th>Order Id</th>
-                  <th>Vendor Name</th>
-                  <th>Project Name </th>
-                  <th>Amount</th>
+                  <th className={Styles.tableHeading}>#</th>
+                  <th className={Styles.tableHeading}>Order Id</th>
+                  <th className={Styles.tableHeading}>Vendor Name</th>
+                  <th className={Styles.tableHeading}>Project Name </th>
+                  <th className={Styles.tableHeading}>Amount</th>
                   {activeButton === 'Completed' && <th>Payment Date</th>}
                   {activeButton === 'Completed' && <th>Payment Mode</th>}
-                  <th>Bill</th>
-                  <th>Actions</th>
+                  <th className={Styles.tableHeading}>Bill</th>
+                  <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -389,7 +391,7 @@ const OrderView = () => {
           </div>
         </div>
         <div className={Styles.pagination}>
-          <Pagination
+          <CustomPagination
             currentPage={currentPage}
             totalPages={
               dataShow ? getFilterData?.total_page : getAllData?.total_page

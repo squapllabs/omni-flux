@@ -403,7 +403,7 @@ const ItemDetailsTable: React.FC = (props: {
                 <table className={Styles.scrollable_table}>
                     <thead>
                         <tr>
-                            <th className={Styles.tableHeading}>S No</th>
+                            <th className={Styles.tableHeading}>#</th>
                             <th className={Styles.tableHeading}>ITEM</th>
                             <th className={Styles.tableHeading}>QUANTITY</th>
                             <th className={Styles.tableHeading}>IN STOCK</th>

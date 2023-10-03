@@ -638,10 +638,21 @@ const searchByUserId = async (body) => {
 
     const filterObj: any = {};
 
-    if (status) {
+    /* if (status) {
       filterObj.filterProjectMemberAssociation = {
         is_delete: status === 'AC' ? false : true,
       };
+    } */
+
+    if (status !== 'ALL') {
+      filterObj.filterProjectMemberAssociation = {
+        project_data: { is_delete: status === 'AC' ? false : true },
+      };
+    } else if (status === 'ALL') {
+      filterObj.filterProjectMemberAssociation =
+        filterObj.filterProjectMemberAssociation || {};
+      filterObj.filterProjectMemberAssociation.AND =
+        filterObj.filterProjectMemberAssociation.AND || [];
     }
 
     if (user_id) {
@@ -796,6 +807,15 @@ const searchByUserId = async (body) => {
     if (!user_id) {
       const filterObj: any = {};
 
+      if (status !== 'ALL') {
+        filterObj.filterProject = {
+          is_delete: status === 'AC' ? false : true,
+        };
+      } else if (status === 'ALL') {
+        filterObj.filterProject = filterObj.filterProject || {};
+        filterObj.filterProject.AND = filterObj.filterProject.AND || [];
+      }
+
       if (project_status) {
         filterObj.filterProject = filterObj.filterProject || {};
         filterObj.filterProject.AND = filterObj.filterProject.AND || [];
@@ -878,6 +898,15 @@ const searchByUserId = async (body) => {
       );
     } else if (user_id && project_manager_id) {
       const filterObj: any = {};
+
+      if (status !== 'ALL') {
+        filterObj.filterProject = {
+          is_delete: status === 'AC' ? false : true,
+        };
+      } else if (status === 'ALL') {
+        filterObj.filterProject = filterObj.filterProject || {};
+        filterObj.filterProject.AND = filterObj.filterProject.AND || [];
+      }
 
       if (project_status) {
         filterObj.filterProject = filterObj.filterProject || {};

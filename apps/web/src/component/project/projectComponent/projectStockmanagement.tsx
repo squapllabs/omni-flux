@@ -11,8 +11,9 @@ import CustomLoader from '../../ui/customLoader';
 import { format } from 'date-fns';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { getProjectSite } from '../../../hooks/project-hooks';
-import Pagination from '../../menu/pagination';
-import ViewIcon from '../../menu/icons/viewIcon';
+// import Pagination from '../../menu/pagination';
+import ViewIcon from '../../menu/icons/newViewIcon';
+import CustomPagination from '../../menu/CustomPagination';
 
 const ProjectStockmanagement = () => {
   const routeParams = useParams();
@@ -203,7 +204,7 @@ const ProjectStockmanagement = () => {
             </tbody>
           </table>
           <div className={Styles.pagination}>
-            <Pagination
+            <CustomPagination
               currentPage={currentPage}
               totalPages={getStockAuditList?.total_page}
               totalCount={getStockAuditList?.total_count}

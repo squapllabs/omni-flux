@@ -5,7 +5,7 @@ import {
   getBySearchIndent,
 } from '../../../../hooks/indentRequest-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
-import EditIcon from '../../../menu/icons/editIcon';
+import EditIcon from '../../../menu/icons/newEditIcon';
 import { format } from 'date-fns';
 import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
@@ -13,6 +13,7 @@ import { formatBudgetValue } from '../../../../helper/common-function';
 import Select from '../../../ui/selectNew';
 import Pagination from '../../../menu/pagination';
 import CustomLoader from '../../../ui/customLoader';
+import CustomPagination from '../../../menu/CustomPagination';
 const ProjectIndentRequestList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -177,7 +178,7 @@ const ProjectIndentRequestList = () => {
             <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th className={Styles.tableHeading}>S No</th>
+                  <th className={Styles.tableHeading}>#</th>
                   <th className={Styles.tableHeadingSite}>
                     Indent Requested Date
                   </th>
@@ -227,7 +228,7 @@ const ProjectIndentRequestList = () => {
             </table>
           </div>
           <div className={Styles.pagination}>
-            <Pagination
+            <CustomPagination
               currentPage={currentPage}
               totalPages={getFilterData?.total_page}
               totalCount={getFilterData?.total_count}

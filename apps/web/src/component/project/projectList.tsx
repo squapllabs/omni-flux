@@ -47,6 +47,7 @@ const ProjectList = () => {
     isLoading: FilterLoading,
   } = getMemberBasedProject();
 
+
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -55,7 +56,7 @@ const ProjectList = () => {
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
     ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
-      ? [{ label: 'Draft', value: 'Draft' }]
+      ? [{ label: 'Draft', value: 'Draft' }, { label: 'All', value: 'ALL' }]
       : []),
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
@@ -90,6 +91,14 @@ const ProjectList = () => {
 
   /* Function for searching a user in the table */
   const handleSearch = async () => {
+    const allData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      global_search: filterValues.search_by_name,
+      status: activeButton,
+    };
     const userData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
@@ -101,24 +110,33 @@ const ProjectList = () => {
       project_status: activeButton,
       project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
     };
-    postDataForFilter(userData);
+    postDataForFilter(activeButton === "ALL" ? allData : userData);
     setIsLoading(false);
     setFilter(true);
   };
 
   /* Function for reseting the table to its actual state after search */
   const handleReset = async () => {
+    const allData: any = {
+      limit: rowsPerPage,
+      offset: (currentPage - 1) * rowsPerPage,
+      order_by_column: 'updated_date',
+      order_by_direction: 'desc',
+      global_search: filterValues.search_by_name,
+      status: activeButton,
+    };
     const userData: any = {
       limit: rowsPerPage,
       offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_by',
+      order_by_column: 'updated_date',
       order_by_direction: 'desc',
-      global_search: '',
+      global_search: filterValues.search_by_name,
       status: 'AC',
       user_id: roleName === 'ADMIN' ? null : userID,
       project_status: activeButton,
+      project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
     };
-    postDataForFilter(userData);
+    postDataForFilter(activeButton === "ALL" ? allData : userData);
     setIsLoading(false);
     setFilter(false);
     setFilterValues({
@@ -282,7 +300,7 @@ const ProjectList = () => {
                         {/* {activeButton === 'AC' && ( */}
                         <td>
                           <div className={Styles.tablerow}>
-                          <ViewIcon onClick={() =>
+                            <ViewIcon onClick={() =>
                               navigate(`/project-info/${data?.project_id}`)
                             } />
                             <StoreIcon onClick={() =>

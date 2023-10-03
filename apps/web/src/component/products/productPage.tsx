@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../menu/button';
 import { useNavigate } from 'react-router-dom';
 import Styles from '..//../styles/listItem.module.scss';
-import Pagination from '../menu/pagination';
+import Pagination from '../menu/CustomPagination';
 import AddIcon from '../menu/icons/addIcon';
 import DownloadIcon from '../menu/icons/download';
 import Input from '../ui/Input';
@@ -11,7 +11,7 @@ import ButtonOne from '../ui/Button';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
 import { getByItem } from '../../hooks/add-product-hooks';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import addProduct from '../../service/add-product';
 
@@ -231,15 +231,16 @@ const ProductPage = () => {
           </div>
         </div>
         <div>
-          <table>
+          <table className={Styles.scrollable_table}>
             <thead>
               <tr>
-                <th>S No</th>
+                <th>#</th>
                 <th>Item Name</th>
                 <th>Item Type</th>
                 <th>Description</th>
                 <th>GST</th>
                 <th>Rate</th>
+                <th>Action</th>
                 {activeButton === 'AC' && <th></th>}
               </tr>
             </thead>

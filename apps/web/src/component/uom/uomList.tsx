@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import DeleteIcon from '../menu/icons/deleteIcon';
-import EditIcon from '../menu/icons/editIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
   useGetAlluom,
@@ -19,7 +19,7 @@ import { getuomCreateValidateyup } from '../../helper/constants/uom-constants';
 import * as Yup from 'yup';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
-import Pagination from '../menu/pagination';
+import Pagination from '../menu/CustomPagination';
 import SearchIcon from '../menu/icons/search';
 import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
@@ -276,10 +276,10 @@ const UomList = () => {
             </div>
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
-                      <th>S No</th>
+                      <th>#</th>
                       <th>UOM Name</th>
                       <th>Description</th>
                       <th>Actions</th>
