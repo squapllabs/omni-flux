@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import categoryService from '../../service/category-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomList from './projectBoqList';
+import ClipboardIcon from '../menu/icons/clipboardIcon';
 const projectAbstract = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
@@ -40,7 +41,10 @@ const projectAbstract = () => {
                 <div className={Styles.verticalLine}></div>
               </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <div>
+                <ClipboardIcon width={30} height={30} />
+              </div>
               <div className={Styles.textContent_1}>
                 <span className={Styles.projectTitle}>
                   {bomData?.bom_configuration_data?.project_data?.project_name}

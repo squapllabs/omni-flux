@@ -6,6 +6,7 @@ interface DialogBoxProps {
   content: React.ReactNode;
   title: String;
   handleClose: () => void;
+  width: String;
 }
 
 const CustomSidePopup: React.FC<DialogBoxProps> = ({
@@ -13,6 +14,7 @@ const CustomSidePopup: React.FC<DialogBoxProps> = ({
   content,
   title,
   handleClose,
+  width = '50%',
 }) => {
   if (!open) return null;
   const dialogStyle: React.CSSProperties = {
@@ -37,11 +39,13 @@ const CustomSidePopup: React.FC<DialogBoxProps> = ({
     display: 'flex',
     flexDirection: 'column',
   };
-
+  const styles = {
+    width: width,
+  };
   return (
     <div className={Styles.popupContainer}>
       <div className={Styles.leftdialogStyle}></div>
-      <div className={Styles.dialogStyle}>
+      <div className={Styles.dialogStyle} style={styles}>
         <div className={Styles.boxStyle}>
           <div className={Styles.mainContent}>
             <div className={Styles.popupHeader}>

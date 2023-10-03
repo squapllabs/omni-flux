@@ -28,6 +28,9 @@ import { getByProjectId } from '../../hooks/project-hooks';
 import BackArrow from '../menu/icons/backArrow';
 import ZIcon from '../menu/icons/zIcon';
 import CheckListIcon from '../menu/icons/checkListIcon';
+import CustomSidePopup from '../ui/CustomSidePopup';
+import ProjectAbstractAdd from './forms/projectAbstractAdd';
+import ProjectTaskAdd from './forms/ProjectTaskAdd';
 
 const BomList = () => {
   const params = useParams();
@@ -139,6 +142,14 @@ const BomList = () => {
       window.removeEventListener('click', closeContextMenu);
     };
   }, []);
+
+  const handleCloseAbstract = () => {
+    setShowAbstractForm(false);
+  };
+
+  const handleCloseTask = () => {
+    setShowSubCategoryForm(false);
+  };
 
   return (
     <div>
@@ -329,22 +340,47 @@ const BomList = () => {
         </div>
       )}
       <CustomBomAddPopup isVissible={showItemForm} onAction={setShowItemForm} />
-      <CustomAbstractAddPopup
-        isVissible={showAbstractForm}
-        onAction={setShowAbstractForm}
-        selectedProject={projectsId}
-        selectedBomConfig={bomconfigId}
-        setReload={setReload}
-        mode={mode}
-        setMode={setMode}
-        categoryId={categoryId}
+      <CustomSidePopup
+        open={showAbstractForm}
+        title={mode === 'EDIT' ? 'Edit Abstract' : 'Create New Abstract'}
+        handleClose={handleCloseAbstract}
+        content={
+          <ProjectAbstractAdd
+            open={showAbstractForm}
+            setOpen={setShowAbstractForm}
+            selectedProject={projectsId}
+            selectedBomConfig={bomconfigId}
+            reload={reload}
+            setReload={setReload}
+            openSnack={openSnack}
+            setOpenSnack={setOpenSnack}
+            message={message}
+            setMessage={setMessage}
+            mode={mode}
+            categoryId={categoryId}
+          />
+        }
       />
-      <CustomSubCategoryAddPopup
-        isVissible={showSubCategoryForm}
-        onAction={setShowSubCategoryForm}
-        selectedCategoryId={categoryId}
-        selectedProject={projectsId}
-        selectedBomConfig={bomconfigId}
+      <CustomSidePopup
+        open={showSubCategoryForm}
+        title={mode === 'EDIT' ? 'Edit Task' : 'Create New Task'}
+        handleClose={handleCloseTask}
+        content={
+          <ProjectTaskAdd
+            open={showSubCategoryForm}
+            setOpen={setShowSubCategoryForm}
+            selectedProject={projectsId}
+            selectedBomConfig={bomconfigId}
+            reload={reload}
+            setReload={setReload}
+            openSnack={openSnack}
+            setOpenSnack={setOpenSnack}
+            message={message}
+            setMessage={setMessage}
+            mode={mode}
+            selectedCategoryId={categoryId}
+          />
+        }
       />
       <CustomDelete
         open={openDelete}
