@@ -52,6 +52,7 @@ const ProjectSubheader: React.FC<CancelFilterIconProps> = ({
           </div>
         </div>
       </div>
+      <div className={Styles.dividerStyle}></div>
     </div>
   );
 };

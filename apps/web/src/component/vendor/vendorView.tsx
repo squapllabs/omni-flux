@@ -6,6 +6,7 @@ import Styles from '../../styles/vendorView.module.scss';
 import CustomCard from '../ui/CustomCard';
 import { getByVendorId } from '../../hooks/vendor-hooks';
 import BackArrowIcon from '../menu/icons/backArrow';
+import ProjectSubheader from '../project/projectSubheader';
 
 const VendorView = () => {
   const routeParams = useParams();
@@ -14,7 +15,7 @@ const VendorView = () => {
   const { data: getOneVendor } = getByVendorId(VendorId);
   return (
     <div>
-      <div className={Styles.title}>
+      {/* <div className={Styles.title}>
         <h2>Vendor Information</h2>
         <Button
           shape="rectangle"
@@ -26,6 +27,12 @@ const VendorView = () => {
         >
           Back
         </Button>
+      </div> */}
+      <div>
+        <ProjectSubheader
+          title={'Vendor Information'}
+          navigation={'/vendor-list'}
+        />
       </div>
       <div className={Styles.cardContent}>
         <CustomCard>
@@ -59,7 +66,7 @@ const VendorView = () => {
           <div className={Styles.dataRows}>
             <div className={Styles.leftData}>Vendor Contact Email</div>
             <div className={Styles.rightData}>
-                          {getOneVendor?.contact_email
+              {getOneVendor?.contact_email
                 ? `${getOneVendor?.contact_email}`
                 : 'Not Provided'}
             </div>
@@ -147,7 +154,7 @@ const VendorView = () => {
           <div className={Styles.dataRows}>
             <div className={Styles.leftData}>Tax Number</div>
             <div className={Styles.rightData}>
-                        {getOneVendor?.tax_id
+              {getOneVendor?.tax_id
                 ? `${getOneVendor?.tax_id}`
                 : 'Not Provided'}
             </div>
@@ -193,7 +200,7 @@ const VendorView = () => {
           <div className={Styles.dataRows}>
             <div className={Styles.leftData}>Notes</div>
             <div className={Styles.rightData}>
-                  {getOneVendor?.notes ? `${getOneVendor?.notes}` : 'Not Provided'}
+              {getOneVendor?.notes ? `${getOneVendor?.notes}` : 'Not Provided'}
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>

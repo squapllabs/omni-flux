@@ -175,15 +175,17 @@ const IndentRequestDetails: React.FC = (props: any) => {
                     </td>
                     <td>
                       <Input
+                        width="180px"
                         name="uom_name"
                         mandatory={true}
                         value={items?.uom_name}
                         onChange={formik?.handleChange}
-                        disabled={props.disabled}
+                        disabled={true}
                       />
                     </td>
                     <td>
                       <Input
+                        width="180px"
                         name="quantity"
                         mandatory={true}
                         value={items?.quantity}
