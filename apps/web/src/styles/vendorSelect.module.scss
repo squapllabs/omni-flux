@@ -62,6 +62,43 @@
      justify-content: flex-end;
  }
 
+ .sub_header {
+     height: 10vh;
+     display: flex;
+ }
+
+ .logo {
+     font-weight: bold;
+     font-size: 16px;
+     color: var(--secondary-color);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 5%;
+     cursor: pointer;
+ }
+
+ .vertical {
+     position: relative;
+ }
+
+ .verticalLine::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     width: 1px;
+     /* Adjust the width of the line */
+     background-color: #7d7d7d;
+     /* Adjust the color as needed */
+     height: 100%;
+ }
+
+ .content {
+     font-size: 0.7rem;
+     padding-bottom: 5px;
+ }
+
  //***************Custom Menu component SCSS***************//
 
  .customMenu {
@@ -241,4 +278,45 @@
          }
      }
 
+ }
+
+ .scrollable_table {
+     width: 100%;
+     height: 100%;
+     padding: 10px 10px;
+     /* Adjust padding */
+     gap: 12px;
+     border-collapse: collapse;
+
+     th,
+     td {
+         padding: 10px 10px 10px 24px;
+         /* Adjust padding */
+         text-align: left;
+         font-weight: 500;
+         // border: 0px 0px 1px;
+         font-size: 12px;
+         border: none;
+         /* Remove borders */
+         border-bottom: 0.1px solid #f0f0f0;
+     }
+
+     td {
+         border-bottom: 0.1px solid #f0f0f0;
+         // border-bottom :0px, 0px, 1px, 0px
+     }
+
+     thead {
+         tr {
+             th {
+                 color: #667085;
+                 font-weight: 700;
+             }
+         }
+     }
+
+     td:hover,
+     tr:hover {
+         /* Add hover styles if needed */
+     }
  }

@@ -18,7 +18,7 @@ import {
 import projectSiteService from '../../../service/projectSite-service';
 
 const ProjectSiteConfigAdd: React.FC = (props: any) => {
-  console.log('props.mode', props.mode);
+  // console.log('props.mode', props.mode);
 
   const [initialValues, setInitialValues] = useState<any>({
     site_id: '',
@@ -56,7 +56,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
         created_by: 1,
         project_site_id: getData?.data?.project_site_id,
       });
-      console.log('getData', getData);
+      // console.log('getData', getData);
     };
     if (props.mode === 'EDIT') fetchData();
   }, [props.mode]);
@@ -114,11 +114,11 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      console.log('values', values);
+      // console.log('values', values);
       if (props?.mode == 'ADD') {
         postProjectSite(values, {
           onSuccess(data, variables, context) {
-            console.log('data', data);
+            // console.log('data', data);
             props.setOpen(false);
             props.setMessage('Project Site created Successfully');
             props.setOpenSnack(true);
@@ -128,7 +128,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
       } else {
         updateProjectSite(values, {
           onSuccess(data, variables, context) {
-            console.log('data', data);
+            // console.log('data', data);
             if (data.status === true) {
               props.setOpen(false);
               props.setMessage('Project Site Updated Successfully');
@@ -153,6 +153,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
                   name="site_id"
                   defaultLabel="Select Site"
                   placeholder="Select from options"
+                  mandatory
                   label="Site"
                   value={formik.values.site_id}
                   onSelect={(datas) => {
@@ -185,7 +186,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
                   placeholder="Enter your Actual Budget"
                   value={formik.values.actual_budget}
                   onChange={formik.handleChange}
-                  mandatory
+                  // mandatory
                   error={
                     formik.touched.actual_budget && formik.errors.actual_budget
                   }
@@ -197,13 +198,14 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
                   width="185%"
                   name="approvar_id"
                   label="Approver"
+                  mandatory
                   defaultLabel="Select Site"
                   placeholder="Select from options"
                   value={formik.values.approvar_id}
                   onSelect={(datas) => {
                     formik.setFieldValue('approvar_id', datas);
                   }}
-                  error={formik.errors?.approvar_id}
+                  error={formik.touched.approvar_id && formik.errors?.approvar_id  }
                   optionList={getAllUsersDatadrop}
                 />
               </div>

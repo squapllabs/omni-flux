@@ -31,7 +31,7 @@ const ProjectSubheader: React.FC<CancelFilterIconProps> = ({
             navigate(`${navigation}`);
           }}
         >
-          <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+          <PreviousPageIcon width={15} height={15} color="#7f56d9" />
         </div>
         <div style={{ padding: '8px', display: 'flex' }}>
           <div className={Styles.vertical}>
@@ -52,6 +52,7 @@ const ProjectSubheader: React.FC<CancelFilterIconProps> = ({
           </div>
         </div>
       </div>
+      <div className={Styles.dividerStyle}></div>
     </div>
   );
 };

@@ -103,6 +103,18 @@ const checkDuplicateName = catchAsync(async (req, res) => {
   }
 });
 
+const getByIndentRequestId = catchAsync(async (req, res) => {
+  const methodName = '/getByIndentRequestId';
+  try {
+    const item = await itemService.getByIndentRequestId(
+      req.params.indent_request_id
+    );
+    res.send(item);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   addItem,
   deleteByItemId,
@@ -114,4 +126,5 @@ export {
   getAllItemData,
   search,
   checkDuplicateName,
+  getByIndentRequestId,
 };

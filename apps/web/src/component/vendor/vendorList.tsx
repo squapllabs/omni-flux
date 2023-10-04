@@ -18,6 +18,7 @@ import {
   useDeleteVendor,
 } from '../../hooks/vendor-hooks';
 import CustomSnackbar from '../ui/customSnackBar';
+import ProjectSubheader from '../project/projectSubheader';
 
 const VendorList = () => {
   const navigate = useNavigate();
@@ -139,12 +140,12 @@ const VendorList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.text}>
-            <div className={Styles.textStyle}>
-              <h3>List of Vendors</h3>
-            </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
+          <ProjectSubheader
+            title="List of Vendors"
+            description=" Manage your Vendor list"
+            navigation={'/home'}
+          />
+
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
               <Input
@@ -189,7 +190,7 @@ const VendorList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  icon={<AddIcon color="white"/>}
+                  icon={<AddIcon color="white" />}
                   onClick={() => navigate('/vendor-add')}
                 >
                   Add

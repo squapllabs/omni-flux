@@ -9,6 +9,14 @@
 .textContent {
   padding-left: 10px;
   padding-top: 10px;
+  // background-color: #667085;
+}
+
+.rightContent{
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  align-items: center;
 }
 
 .content {

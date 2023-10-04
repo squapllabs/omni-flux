@@ -22,6 +22,7 @@ import RejectIcon from '../menu/icons/cancelIcon';
 import RejectDialogBox from '../ui/CustomReject';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomPagination from '../menu/CustomPagination';
+import ProjectSubheader from '../project/projectSubheader';
 
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
@@ -71,7 +72,7 @@ const ExpenseApprove = () => {
     expense_id: '',
     comments: '',
     status: '',
-    progressed_by:'',
+    progressed_by: '',
     updated_by: '',
   });
 
@@ -137,12 +138,12 @@ const ExpenseApprove = () => {
         comments: datas?.data?.comments,
         status: datas?.data?.status,
         progressed_by: datas?.data?.progressed_by,
-        updated_by: datas?.data?.updated_by
+        updated_by: datas?.data?.updated_by,
       });
     };
     if (value !== undefined) fetchData();
-  }, [reload,value]);
-  
+  }, [reload, value]);
+
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
@@ -226,7 +227,7 @@ const ExpenseApprove = () => {
       updated_by: encryptedData?.userId,
       expense_id: initialValues.expense_id,
       bill_details: expenseBill,
-      comments:comments,
+      comments: comments,
       status: 'Rejected',
       progressed_by: userID,
     };
@@ -246,16 +247,11 @@ const ExpenseApprove = () => {
     });
   };
 
-
   return (
     <div className={Styles.container}>
       <CustomLoader loading={fetchLoader}>
         <div className={Styles.box}>
-          <div className={Styles.headingContent}>
-            <div className={Styles.textContent_1}>
-              <h3>Site Expense Approve</h3>
-            </div>
-          </div>
+          <ProjectSubheader navigation={'/home'} title="Expense Approval for Site" description="Review and authorization of expenses incurred at a designated site"/>
         </div>
         <div className={Styles.tableContainer}>
           <div className={Styles.searchField}>
@@ -314,7 +310,9 @@ const ExpenseApprove = () => {
             <tbody>
               {getExpenseList?.content?.length === 0 ? (
                 <tr>
-                  <td colSpan="7" style={{textAlign:'center'}}>No data found</td>
+                  <td colSpan="7" style={{ textAlign: 'center' }}>
+                    No data found
+                  </td>
                 </tr>
               ) : (
                 ''
@@ -340,11 +338,19 @@ const ExpenseApprove = () => {
                       <td>{items?.status}</td>
                       <td>
                         <div className={Styles.tableIcon}>
-                          <InfoIcon onClick={() => navigate(`/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`)}/>
+                          <InfoIcon
+                            onClick={() =>
+                              navigate(
+                                `/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`
+                              )
+                            }
+                          />
                           <TickIcon
                             onClick={() => approveHandler(items.expense_id)}
                           />
-                          <RejectIcon onClick={() => rejectHandler(items.expense_id)}/>
+                          <RejectIcon
+                            onClick={() => rejectHandler(items.expense_id)}
+                          />
                         </div>
                       </td>
                     </tr>

@@ -180,13 +180,14 @@ const BomList: React.FC = (props: any) => {
                         const actions = [
                           {
                             label: 'Edit Abstract',
-                            onClick: () => { handleEdit(items?.category_id) }
+                            onClick: () => {
+                              handleEdit(items?.category_id);
+                            },
                           },
                           // {
                           //   label: 'Delete',
                           //   onClick: () => { deleteHandler(items.category_id) }
                           // },
-
                         ];
 
                         return (
@@ -216,14 +217,14 @@ const BomList: React.FC = (props: any) => {
                                       {items?.progress_status}
                                     </span>
                                     <div className={Styles?.subMenuDescription}>
-                                      <span title={items?.description}>
-                                        {items?.description?.substring(0, 50) +
-                                          '...'}
-                                      </span>
+                                      <span>{items?.description}</span>
                                     </div>
                                   </div>
                                   <div>
-                                    <CustomMenu actions={actions} name={'abstract'} />
+                                    <CustomMenu
+                                      actions={actions}
+                                      name={'abstract'}
+                                    />
                                     {/* <MoreVerticalIcon
                                   onClick={(e: any) => {
                                     e.stopPropagation();

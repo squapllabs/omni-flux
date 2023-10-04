@@ -19,6 +19,7 @@ import { format } from 'date-fns';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/invoice';
 import CustomPagination from '../menu/CustomPagination';
+import ProjectSubheader from '../project/projectSubheader';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -66,14 +67,13 @@ const OrderView = () => {
     setShowEditPopUp(true);
   };
 
-  const handleReportGenerator = () =>{  
-    const data:any ={
-      title:"Invoice and Payments",
-      name:"invoice"
-    }  
-    ReportGenerator(data)
-  }
-
+  const handleReportGenerator = () => {
+    const data: any = {
+      title: 'Invoice and Payments',
+      name: 'invoice',
+    };
+    ReportGenerator(data);
+  };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -157,11 +157,12 @@ const OrderView = () => {
         color="#333C44"
       >
         <div className={Styles.box}>
-          <div className={Styles.textContent}>
-            <h3>Invoice and Payments</h3>
-            <span className={Styles.content}>
-              Manage payables for the orders
-            </span>
+          <div>
+            <ProjectSubheader
+              title="Invoice and Payments"
+              description=" Manage payables for the orders"
+              navigation={'/home'}
+            />
           </div>
           <div className={Styles.dividerStyleTop}></div>
           <div className={Styles.searchField}>
@@ -290,7 +291,9 @@ const OrderView = () => {
                                     handleEdit(data.purchase_order_id)
                                   }
                                 />
-                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
+                                <PdfDownloadIcon
+                                  onClick={() => handleReportGenerator()}
+                                />
                               </div>
                             </td>
                           ) : (
@@ -303,7 +306,9 @@ const OrderView = () => {
                                     )
                                   }
                                 />
-                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
+                                <PdfDownloadIcon
+                                  onClick={() => handleReportGenerator()}
+                                />
                               </div>
                             </td>
                           )}
@@ -366,7 +371,9 @@ const OrderView = () => {
                                     handleEdit(data.purchase_order_id)
                                   }
                                 />
-                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
+                                <PdfDownloadIcon
+                                  onClick={() => handleReportGenerator()}
+                                />
                               </div>
                             </td>
                           ) : (
@@ -379,7 +386,9 @@ const OrderView = () => {
                                     )
                                   }
                                 />
-                                 <PdfDownloadIcon onClick={() => handleReportGenerator()} />
+                                <PdfDownloadIcon
+                                  onClick={() => handleReportGenerator()}
+                                />
                               </div>
                             </td>
                           )}

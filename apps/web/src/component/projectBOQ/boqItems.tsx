@@ -163,7 +163,7 @@ const BomItems = (props: {
               <thead>
                 <tr>
                   <th className={Styles.tableHeading}>#</th>
-                  <th className={Styles.tableHeading}>Task Name</th>
+                  {/* <th className={Styles.tableHeading}>Task Name</th> */}
                   <th className={Styles.tableHeading}>Task Description</th>
                   <th className={Styles.tableHeading}>Amount</th>
                   <th className={Styles.tableHeading}>Action</th>
@@ -192,7 +192,7 @@ const BomItems = (props: {
                     <tr key={data.sub_category_id}>
                       <td>{index + 1}</td>
 
-                      <td>
+                      {/* <td>
                         <span title={data?.name}>
                           {data.name
                             ? data.name.length > 20
@@ -200,15 +200,16 @@ const BomItems = (props: {
                               : data.name
                             : '-'}
                         </span>
-                      </td>
+                      </td> */}
 
                       <td>
-                        <span title={data?.description}>
-                          {data.description
+                        <span style={{ textAlign: 'justify' }}>
+                          {/* {data.description
                             ? data.description.length > 20
                               ? data.description.substring(0, 20) + '...'
                               : data.description
-                            : '-'}
+                            : '-'} */}
+                          {data.description}
                         </span>
                       </td>
 

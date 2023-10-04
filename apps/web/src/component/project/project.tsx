@@ -197,7 +197,7 @@ const Project = () => {
               navigate('/project-list');
             }}
           >
-            <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+            <PreviousPageIcon width={15} height={15} color="#7f56d9" />
           </div>
           <div style={{ padding: '8px', display: 'flex' }}>
             <div className={Styles.vertical}>

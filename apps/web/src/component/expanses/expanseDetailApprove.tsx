@@ -15,6 +15,7 @@ import ApproveDialogBox from '../ui/CustomApprovePopup';
 import RejectDialogBox from '../ui/CustomReject';
 import { updatesiteExpenseDetail } from '../../hooks/expense-hook';
 import { environment } from '../../environment/environment';
+import ProjectSubheader from '../project/projectSubheader';
 
 const ExpenseDetailApprove = () => {
   const state: RootState = store.getState();
@@ -138,7 +139,13 @@ const ExpenseDetailApprove = () => {
 
   return (
     <div>
-      <div className={Styles.title}>
+      <div>
+        <ProjectSubheader
+          title="Expense Details"
+          navigation={'/site-expense-approve'}
+        />
+      </div>
+      {/* <div className={Styles.title}>
         <h2>Expense Details</h2>
         <Button
           type="button"
@@ -151,7 +158,7 @@ const ExpenseDetailApprove = () => {
         >
           Back
         </Button>
-      </div>
+      </div> */}
       <div className={Styles.cardContent}>
         <CustomCard>
           <div className={Styles.mainContent}>
@@ -268,13 +275,18 @@ const ExpenseDetailApprove = () => {
                 return (
                   <tr>
                     <td>{rowindex}</td>
-                    <td>{data?.expense_master_data?.master_data_name || nullLableNameFromEnv}</td>
                     <td>
-                      {data?.bill_details.length > 0 ? data?.bill_details?.map((files: any, index: any) => (
-                        <ol key={index}>
-                          <a href={files.path}>Document {index + 1}</a>
-                        </ol>
-                      )) : nullLableNameFromEnv}
+                      {data?.expense_master_data?.master_data_name ||
+                        nullLableNameFromEnv}
+                    </td>
+                    <td>
+                      {data?.bill_details.length > 0
+                        ? data?.bill_details?.map((files: any, index: any) => (
+                            <ol key={index}>
+                              <a href={files.path}>Document {index + 1}</a>
+                            </ol>
+                          ))
+                        : nullLableNameFromEnv}
                     </td>
                     <td>{data?.status || nullLableNameFromEnv}</td>
                     <td>
