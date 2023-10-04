@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../ui/customSnackBar';
 import { getPurchaseRequestCreateValidateyup } from '../../helper/constants/purchaseRequestAdd-constants';
 import * as yup from 'yup';
+import PreviousPageIcon from '../menu/icons/previousPageIcon';
 const PurchaseRequestAdd = () => {
   const [itemValues, setItemsValues] = useState([]);
   const state: RootState = store.getState();
@@ -56,18 +57,19 @@ const PurchaseRequestAdd = () => {
   });
 
   const handleDropChange = async (obj: any) => {
-    const itemsData = await PurchaseRequestService.getProjectItems(projectId);
+    const itemsData = await PurchaseRequestService.getIndentItems(indentId);
     const arr: any = [];
     setItemsData(itemsData.data);
     const items = itemsData?.data?.map((items: any, index: any) => {
       const obj: any = {
         value: items?.item_id,
-        label: items?.item_data?.item_name,
+        label: items?.item_name,
       };
       arr.push(obj);
     });
     setItemsValues(arr);
   };
+  
 
   const deletePurchaseRequest = (index: number) => {
     purchaseRequestData.splice(index, 1);
@@ -134,14 +136,45 @@ const PurchaseRequestAdd = () => {
     <div>
       <div className={Styles.popupContent}>
         <form onSubmit={formik.handleSubmit}>
-          <div className={Styles.header}>
-            <div>
+            {/* <div>
               <h4>Request for Quotation</h4>
               <span className={Styles.content}>
                 Raise your purchase request againest your Project
               </span>
+            </div> */}
+            <div className={Styles.sub_header}>
+              <div
+                className={Styles.logo}
+                onClick={() => {
+                  navigate(`/purchase-detail/${indentId}`, {
+                    state: { project_id: projectId },
+                  })
+                }}
+              >
+                <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+              </div>
+              <div style={{ padding: '8px', display: 'flex' }}>
+                <div className={Styles.vertical}>
+                  <div className={Styles.verticalLine}></div>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '700px',
+                }}
+              >
+                <div className={Styles.textContent_1}>
+                  <h4>Request for Quotation</h4>
+                  <span className={Styles.content}>
+                    Raise your purchase request againest your Project
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          
           <div className={Styles.dividerStyle}></div>
           {/* <div className={Styles.inputFields}> */}
           <div className={Styles.fields_container}>
@@ -161,10 +194,10 @@ const PurchaseRequestAdd = () => {
                   }}
                   optionList={getAllVendorsData}
                   disabled={dropDisable}
-                  // error={
-                  //   formik.touched.user_id &&
-                  //   formik.errors.user_id
-                  // }
+                // error={
+                //   formik.touched.user_id &&
+                //   formik.errors.user_id
+                // }
                 />
               </div>
               <div
@@ -195,14 +228,14 @@ const PurchaseRequestAdd = () => {
 
                     const matchingObjects = itemsData?.filter(
                       (obj: any) => Number(obj.item_id) === Number(value)
-                    );
+                    );                    
                     formik.setFieldValue(
                       'quantity',
-                      matchingObjects[0]?.quantity
+                      matchingObjects[0]?.bom_detail[0]?.quantity
                     );
                     formik.setFieldValue(
                       'item_name',
-                      matchingObjects[0]?.item_data?.item_name
+                      matchingObjects[0]?.item_name
                     );
                   }}
                   optionList={itemValues}
@@ -219,7 +252,7 @@ const PurchaseRequestAdd = () => {
                   value={formik.values.quantity}
                   onChange={formik.handleChange}
                   error={
-                      formik.touched.quantity && formik.errors.quantity
+                    formik.touched.quantity && formik.errors.quantity
                   }
                 />
               </div>
@@ -251,7 +284,7 @@ const PurchaseRequestAdd = () => {
                 <tbody>
                   {purchaseRequestData?.length === 0 ? (
                     <tr>
-                      <td colspan="4" style={{textAlign:'center'}}>No data found</td>
+                      <td colspan="4" style={{ textAlign: 'center' }}>No data found</td>
                     </tr>
                   ) : (
                     purchaseRequestData?.map((item: any, index: any) => {

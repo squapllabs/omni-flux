@@ -68,7 +68,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, reload]);
-  console.log('getAllLoadingProjectMasterData', initialData);
+  // console.log('getAllLoadingProjectMasterData', initialData);
   const handleCloseSiteAdd = () => {
     setOpen(false);
   };
@@ -152,7 +152,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                 </thead>
                 <tbody>
                   {initialData?.content.map((row, index) => {
-                    console.log('row', row);
+                    // console.log('row', row);
                     rowIndex = rowIndex + 1;
                     return (
                       <tr key={index}>

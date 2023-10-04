@@ -51,6 +51,18 @@ const purchaseDetailData = async (values: JSON) => {
     }
   };
 
+  const getIndentItems = async (values: number) => {
+    try {
+      const response = await axiosinterceptor.get(
+        `${environment.apiUrl}/item/get-by-indent-request-id/${values}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in get Indent Items :', error);
+      throw error;
+    }
+  };
+
   const addPurchaseRequest = async (values: JSON) => {
     try {
       const response = await axiosinterceptor.post(
@@ -69,5 +81,6 @@ const purchaseDetailData = async (values: JSON) => {
     getOneProjectRequestById,
     updatePurchaseRequest,
     getProjectItems,
-    addPurchaseRequest
+    addPurchaseRequest,
+    getIndentItems
   };

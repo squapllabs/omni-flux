@@ -124,3 +124,36 @@
   cursor: pointer;
   padding: 5px 0px 5px 0px;
 }
+
+.sub_header {
+  height: 10vh;
+  display: flex;
+}
+.logo {
+  font-weight: bold;
+  font-size: 16px;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5%;
+  cursor: pointer;
+}
+.vertical {
+  position: relative;
+}
+.verticalLine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  /* Adjust the width of the line */
+  background-color: #7d7d7d;
+  /* Adjust the color as needed */
+  height: 100%;
+}
+.content {
+  font-size: 0.7rem;
+  padding-bottom: 5px;
+}
