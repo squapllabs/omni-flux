@@ -25,6 +25,7 @@ import { getToken } from '../../redux/reducer';
 import StoreIcon from '../menu/icons/newStoreIcon';
 import { Chart } from 'react-google-charts';
 import CustomPagination from '../menu/CustomPagination';
+import ProjectSubheader from './projectSubheader';
 
 const ProjectList = () => {
   const state: RootState = store.getState();
@@ -183,6 +184,13 @@ const ProjectList = () => {
   return (
     <div className={Styles.container}>
       <div>
+        <ProjectSubheader
+          title="Project List"
+          navigation="/home"
+          description="Manage your Project List"
+        />
+      </div>
+      <div>
         <CustomLoader
           loading={isLoading === true ? getAllLoading : FilterLoading}
           size={48}
@@ -190,11 +198,11 @@ const ProjectList = () => {
         >
           <div className={Styles.header}>
             <div className={Styles.firstHeader}>
-              <div className={Styles.text}>
+              {/* <div className={Styles.text}>
                 <div className={Styles.textStyle}>
                   <h3>PROJECTS</h3>
                 </div>
-              </div>
+              </div> */}
               <div>
                 {isProjectCreate && (
                   <div>
