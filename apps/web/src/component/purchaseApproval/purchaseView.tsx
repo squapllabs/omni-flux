@@ -106,7 +106,7 @@ const PurchaseView = () => {
           <div className={Styles.tableContainer}>
             <div>
               <div className={Styles.tableText}>
-                <h3>Indent Detail Table</h3>
+                <h3>Indent Detail List</h3>
               </div>
               <table className={Styles.scrollable_table}>
                 <thead>
@@ -152,7 +152,7 @@ const PurchaseView = () => {
         <div className={Styles.tableContainer}>
           <div>
             <div className={Styles.tableText}>
-              <h3>Purchase Request Table</h3>
+              <h3>Purchase Request List</h3>
             </div>
             <table className={Styles.scrollable_table}>
               <thead>

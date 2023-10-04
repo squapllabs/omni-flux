@@ -148,7 +148,7 @@ const PurchaseView = () => {
           </div>
           <div className={Styles.approveButtons}>
             <div>
-              <Button
+              {/* <Button
                 shape="rectangle"
                 justify="center"
                 size="small"
@@ -156,7 +156,7 @@ const PurchaseView = () => {
                 onClick={() => navigate('/purchase-view')}
               >
                 Back
-              </Button>
+              </Button> */}
             </div>
             <div>
               <Button

@@ -313,7 +313,7 @@ const PurchaseRequestAdd = () => {
         {/* <div className={Styles.dividerStyle}></div> */}
         <div className={Styles.formButton}>
           <div>
-            <Button
+            {/* <Button
               className={Styles.cancelButton}
               shape="rectangle"
               justify="center"
@@ -325,7 +325,7 @@ const PurchaseRequestAdd = () => {
               }
             >
               Back
-            </Button>
+            </Button> */}
           </div>
           <div>
             {rowIndex > 0 ? (
