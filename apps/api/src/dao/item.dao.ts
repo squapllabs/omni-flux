@@ -429,6 +429,17 @@ const getByIndentRequestId = async (
         },
         is_delete: false,
       },
+      include: {
+        bom_detail: {
+          select: { quantity: true },
+          where: {
+            indent_request_details: {
+              some: { indent_request_id: Number(indent_request_id) },
+            },
+          },
+        },
+      },
+      orderBy: { updated_date: 'desc' },
     });
     return item;
   } catch (error) {
