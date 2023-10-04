@@ -15,6 +15,7 @@ import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
+import ProjectSubheader from '../project/projectSubheader';
 
 const IndentList = () => {
   const navigate = useNavigate();
@@ -113,12 +114,17 @@ const IndentList = () => {
     <div className={Styles.container}>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.box}>
-          <div className={Styles.textContent}>
+        <ProjectSubheader
+            description="Indent list based on Projects"
+            navigation={`/project-list`}
+            title={'Indent List'}
+          />
+          {/* <div className={Styles.textContent}>
             <h3>Indent List</h3>
             <span className={Styles.content}>
               Indent list based on projects.
             </span>
-          </div>
+          </div> */}
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
               <div>
