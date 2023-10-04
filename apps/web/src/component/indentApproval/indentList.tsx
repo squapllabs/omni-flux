@@ -14,12 +14,14 @@ import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/invoice';
 import CustomPagination from '../menu/CustomPagination';
+import CustomGroupButton from '../ui/CustomGroupButton';
 
 const IndentList = () => {
   const navigate = useNavigate();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
+  const [activeButton, setActiveButton] = useState<string | null>('Pending');
   const [selectedValueType, setSelectedValueType] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -37,7 +39,15 @@ const IndentList = () => {
     { label: 'Medium', value: 'Medium' },
     { label: 'High', value: 'High' },
   ];
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'Pending', value: 'Pending' },
+    { label: 'Approved', value: 'Approved' },
+    { label: 'Rejected', value: 'Rejected' },
+  ]);
 
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+  };
   const handleReset = async () => {
     setIsResetDisabled(true);
     setSelectedValueType('');
@@ -61,7 +71,7 @@ const IndentList = () => {
       order_by_column: 'updated_date',
       order_by_direction: 'desc',
       status: 'AC',
-      approver_status: 'Pending',
+      approver_status: activeButton,
       project_approver_id: userID,
       priority: selectedValueType,
     };
@@ -97,7 +107,7 @@ const IndentList = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [currentPage, rowsPerPage]);
+  }, [currentPage, rowsPerPage,activeButton]);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
@@ -147,6 +157,13 @@ const IndentList = () => {
               >
                 Reset
               </Button>
+            </div>
+            <div>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
             </div>
           </div>
           <div className={Styles.dividerStyle}></div>

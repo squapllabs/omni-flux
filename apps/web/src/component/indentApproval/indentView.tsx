@@ -38,8 +38,13 @@ const IndentView = () => {
     global_search: '',
     indent_request_id: IndentId,
   };
-  const { data: getAllData, isLoading: dataLoading,refetch } =
-    useGetAllIndentRequestDetail(masterData);
+  const {
+    data: getAllData,
+    isLoading: dataLoading,
+    refetch,
+  } = useGetAllIndentRequestDetail(masterData);
+  console.log('getAAAAAAAAAAAAAAAAA', getAllData);
+
   const { mutate: updateIndentRequestData } = updateIndentRequest();
 
   const handleApprove = () => {
@@ -49,8 +54,8 @@ const IndentView = () => {
       approver_status: 'Approved',
       approved_date: date,
       rejected_date: null,
-      updated_by:userID,
-      approver_user_id:userID
+      updated_by: userID,
+      approver_user_id: userID,
     };
     updateIndentRequestData(obj, {
       onSuccess: (data, variables, context) => {
@@ -114,15 +119,15 @@ const IndentView = () => {
                   </tr>
                 </thead>
                 <tbody>
-                {getAllData?.total_count === 0 ? (
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
-                  </tr>
-                ) : (
-                  ''
-                )}
+                  {getAllData?.total_count === 0 ? (
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>No data found</td>
+                    </tr>
+                  ) : (
+                    ''
+                  )}
                   {getAllData?.content?.map((data: any, index: number) => {
                     return (
                       <tr key={data.indent_request_id}>
@@ -138,32 +143,37 @@ const IndentView = () => {
               </table>
             </div>
           </div>
-          <div className={Styles.approveButtons}>
-            <div>
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color='primary'
-                onClick={() => handleApprove()}
-                disabled={getAllData?.total_count === 0 ? true : false}
-              >
-                Approve
-              </Button>
+          {getAllData?.content[0]?.indent_request_data?.approver_status ===
+            'Approved' ||
+          getAllData?.content[0]?.indent_request_data?.approver_status ===
+            'Rejected' ? null : ( 
+            <div className={Styles.approveButtons}>
+              <div>
+                <Button
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  color="primary"
+                  onClick={() => handleApprove()}
+                  disabled={getAllData?.total_count === 0 ? true : false}
+                >
+                  Approve
+                </Button>
+              </div>
+              <div>
+                <Button
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  color="secondary"
+                  onClick={() => handleReject()}
+                  disabled={getAllData?.total_count === 0 ? true : false}
+                >
+                  Reject
+                </Button>
+              </div>
             </div>
-            <div>
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color='secondary'
-                onClick={() => handleReject()}
-                disabled={getAllData?.total_count === 0 ? true : false}
-              >
-                Reject
-              </Button>
-            </div>
-          </div>
+          )}
         </div>
         <CustomRejectPopup
           isVissible={showRejectForm}
