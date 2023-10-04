@@ -19,6 +19,8 @@ import CustomSnackBar from '../../ui/customSnackBar';
 import { getProjectStockAuditValidate } from '../../../helper/constants/project-constants';
 import StockAuditService from '../../../service/stockaudit-service';
 import BackArrow from '../../menu/icons/backArrow';
+import PreviousPageIcon from '../../menu/icons/previousPageIcon';
+import ProjectSubheader from '../projectSubheader';
 
 const ProjectStockAdd = () => {
   const routeParams = useParams();
@@ -31,6 +33,7 @@ const ProjectStockAdd = () => {
   };
   const currentDate = new Date();
   const projectId = Number(routeParams?.id);
+  
   const [initialValues, setInitialValues] = useState({
     project_id: Number(routeParams?.id),
     site_id: '',
@@ -43,6 +46,7 @@ const ProjectStockAdd = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
   const { data: getProjectData } = getByProjectId(Number(routeParams?.id));
+  
   const { mutate: postStockData, isLoading: stockpostLoading } =
     createStockAudit();
   const handleSnackBarClose = () => {
@@ -103,38 +107,11 @@ const ProjectStockAdd = () => {
     <div className={Styles.stock_Container}>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.box}>
-          <div className={Styles.mainTextContent}>
-            <div className={Styles.textContent_1}>
-              <h3>{getProjectData?.project_name}</h3>
-              <span className={Styles.content}>
-                Add your Stock audit in day basis
-              </span>
-            </div>
-            <div className={Styles.backButton}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<BackArrow />}
-                onClick={(e) => {
-                  navigate(`/project-edit/${routeParams?.id}`);
-                }}
-              >
-                Back
-              </Button>
-            </div>
-            {/* <div
-              style={{
-                width: '70%',
-                display: 'flex',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <p>back button</p>
-            </div> */}
-          </div>
+          <ProjectSubheader
+            description="Add your Stock audit in day basis"
+            navigation={`/project-edit/${routeParams?.id}`}
+            title={getProjectData?.project_name}
+          />
         </div>
         <div
           style={{
@@ -183,7 +160,7 @@ const ProjectStockAdd = () => {
                   );
                 }}
               />
-              <span style={{ fontSize: 'small' }}>  Edit stock date</span>
+              <span style={{ fontSize: 'small' }}> Edit stock date</span>
             </div>
           </div>
         </div>
