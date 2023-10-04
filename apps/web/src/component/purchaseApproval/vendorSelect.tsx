@@ -129,7 +129,7 @@ const VendorSelect = () => {
         </div>
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.tableContainer}>
-          <table>
+          <table className={Styles.scrollable_table}>
             <thead>
               <tr>
                 <th>S No</th>

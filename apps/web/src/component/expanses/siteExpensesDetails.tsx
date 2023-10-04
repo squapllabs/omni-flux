@@ -178,7 +178,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       <div className={Styles.table_container}>
         <table className={Styles.scrollable_table}>
           <thead>
-            <th>SI No</th>
+            <th>#</th>
             <th>Site Expense</th>
             <th>Bill No</th>
             <th>Amount</th>

@@ -242,8 +242,7 @@ const PurchaseRequestAdd = () => {
               <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th className={Styles.tableHeading}>S NO</th>
-                    {/* <th className={Styles.tableHeading}>Vendor Name</th> */}
+                    <th className={Styles.tableHeading}>#</th>
                     <th className={Styles.tableHeading}>Item</th>
                     <th className={Styles.tableHeading}>Quantity</th>
                     <th className={Styles.tableHeading}>Action</th>
@@ -252,16 +251,14 @@ const PurchaseRequestAdd = () => {
                 <tbody>
                   {purchaseRequestData?.length === 0 ? (
                     <tr>
-                      <td colspan="5">No data found</td>
+                      <td colspan="4" style={{textAlign:'center'}}>No data found</td>
                     </tr>
                   ) : (
                     purchaseRequestData?.map((item: any, index: any) => {
-                      // let vendorName = item?.vendor_id?.map((vendor: any) => vendor.label).join(', ')
                       rowIndex = rowIndex + 1;
                       return (
                         <tr>
                           <td>{rowIndex}</td>
-                          {/* <td>{vendorName}</td> */}
                           <td>{item.item_name}</td>
                           <td>{item.quantity}</td>
                           <td>
