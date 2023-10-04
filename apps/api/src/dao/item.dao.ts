@@ -412,6 +412,31 @@ const getByItemName = async (item_name: string, connectionObj = null) => {
   }
 };
 
+const getByIndentRequestId = async (
+  indent_request_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const item = await transaction.item.findMany({
+      where: {
+        bom_detail: {
+          some: {
+            indent_request_details: {
+              some: { indent_request_id: Number(indent_request_id) },
+            },
+          },
+        },
+        is_delete: false,
+      },
+    });
+    return item;
+  } catch (error) {
+    console.log('Error occurred in item getByIndentRequestId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getAll,
@@ -426,4 +451,5 @@ export default {
   getAllItems,
   searchItem,
   getByItemName,
+  getByIndentRequestId,
 };

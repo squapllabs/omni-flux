@@ -1,3 +1,4 @@
+import indentRequestDao from '../dao/indentRequest.dao';
 import itemDao from '../dao/item.dao';
 import { createItemBody, updateItemBody } from '../interfaces/item.interface';
 import prisma from '../utils/prisma';
@@ -425,6 +426,43 @@ const getByItemName = async (item_name) => {
   }
 };
 
+/**
+ * Method to get item By Indent Request Id
+ * @param indent_request_id
+ * @returns
+ */
+const getByIndentRequestId = async (indent_request_id: number) => {
+  try {
+    const indentRequestExist = await indentRequestDao.getById(
+      indent_request_id
+    );
+    if (!indentRequestExist) {
+      return {
+        message: 'indent_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const itemData = await itemDao.getByIndentRequestId(indent_request_id);
+    if (itemData.length > 0) {
+      return { message: 'success', status: true, data: itemData };
+    } else {
+      return {
+        message: 'No data found for this indent_request_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByIndentRequestId item service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   addItem,
   getAllItem,
@@ -436,4 +474,5 @@ export {
   getAllItemData,
   searchItem,
   getByItemName,
+  getByIndentRequestId,
 };
