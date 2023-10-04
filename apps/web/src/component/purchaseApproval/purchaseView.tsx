@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
-import BackArrowIcon from '../menu/icons/backArrow';
 import Styles from '../../styles/purchaseView.module.scss';
 import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
@@ -15,6 +14,7 @@ import purchaseRequestService from '../../service/purchaseRequest-service';
 import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
 import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
+import ProjectSubheader from '../project/projectSubheader';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -97,26 +97,11 @@ const PurchaseView = () => {
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
         <div className={Styles.box}>
-          <div className={Styles.headingTop}>
-            <div className={Styles.textContent}>
-              <h3>Indent Request Detail List</h3>
-              <span className={Styles.content}>
-                Manage your Indent raise detail across your project
-              </span>
-            </div>
-            <div className={Styles.backButton}>
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color="primary"
-                icon={<BackArrowIcon />}
-                onClick={() => navigate('/purchase-view')}
-              >
-                Back
-              </Button>
-            </div>
-          </div>
+          <ProjectSubheader
+            description="Manage your Indent raise detail across your project"
+            navigation={'/purchase-view'}
+            title="Indent Request Detail List"
+          />
           <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>

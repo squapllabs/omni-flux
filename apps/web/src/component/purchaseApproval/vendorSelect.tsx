@@ -16,6 +16,7 @@ import BackArrowIcon from '../menu/icons/backArrow';
 import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
 import { Link } from 'react-router-dom';
+import PreviousPageIcon from '../menu/icons/previousPageIcon';
 
 const VendorSelect = () => {
   const routeParams = useParams();
@@ -123,9 +124,39 @@ const VendorSelect = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
-        <div className={Styles.textContent}>
+        {/* <div className={Styles.textContent}>
           <h3>Vendor Detail List</h3>
           <span className={Styles.content}>Select the apt vendor</span>
+        </div> */}
+        <div className={Styles.sub_header}>
+          <div
+            className={Styles.logo}
+            onClick={() => {
+              navigate(`/purchase-detail/${indentId}`, {
+                state: { project_id: projectId },
+              });
+            }}
+          >
+            <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+          </div>
+          <div style={{ padding: '8px', display: 'flex' }}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '700px',
+            }}
+          >
+            <div className={Styles.textContent_1}>
+              <h3>Vendor Detail List</h3>
+              <span className={Styles.content}>Select the apt vendor</span>
+            </div>
+          </div>
         </div>
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.tableContainer}>
@@ -210,22 +241,6 @@ const VendorSelect = () => {
               })}
             </tbody>
           </table>
-          <div className={Styles.button}>
-            <Button
-              shape="rectangle"
-              justify="center"
-              size="small"
-              color="primary"
-              // icon={<BackArrowIcon />}
-              onClick={() =>
-                navigate(`/purchase-detail/${indentId}`, {
-                  state: { project_id: projectId },
-                })
-              }
-            >
-              Back
-            </Button>
-          </div>
         </div>
         <CustomSnackBar
           open={openSnack}

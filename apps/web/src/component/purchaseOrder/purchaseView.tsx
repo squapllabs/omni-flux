@@ -11,6 +11,7 @@ import Styles from '../../styles/purchaseRequestView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
+import ProjectSubheader from '../project/projectSubheader';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -71,16 +72,15 @@ const PurchaseView = () => {
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
         <div className={Styles.headingTop}>
-          <div className={Styles.textContent}>
-            <h3>{getAllData?.project_data?.project_name}</h3>
-            <span className={Styles.content}>
-              {getAllData?.project_data?.description}
-            </span>
-          </div>
-          <div className={Styles.rightContent}>
+          <ProjectSubheader
+            title={getAllData?.project_data?.project_name}
+            navigation={'/purchase-view'}
+            description={getAllData?.project_data?.description}
+          />
+          {/* <div className={Styles.rightContent}>
             <h3>Estimated Delivery Date :</h3>
             <span>20-10-2023</span>
-          </div>
+          </div> */}
         </div>
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.tableContainer}>
