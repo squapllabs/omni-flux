@@ -28,6 +28,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     total: 0,
     is_delete: false,
     uom_name: '',
+    per_item_cost: 0,
   });
   const [indentDetails, setIndentDetails] = useState<any>();
   const [openDelete, setOpenDelete] = useState(false);
@@ -75,7 +76,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     };
     const tempArry = [...props.indentRequestDetailsList];
     tempArry[index] = tempObj;
-    
+
     props.setIndentRequestDetailsList(tempArry);
   };
   const validationSchema = yup.object().shape({
@@ -114,7 +115,8 @@ const IndentRequestDetails: React.FC = (props: any) => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       values['quantity'] = Number(formik?.values?.quantity);
-      values['total'] = formik?.values?.quantity * formik?.values?.total;
+      values['total'] =
+        formik?.values?.quantity * formik?.values?.per_item_cost;
       await props.setIndentRequestDetailsList([
         ...props.indentRequestDetailsList,
         values,
@@ -145,12 +147,15 @@ const IndentRequestDetails: React.FC = (props: any) => {
               <th className={Styles.tableHeadingSite}>Item</th>
               <th className={Styles.tableHeadingSite}>UOM</th>
               <th className={Styles.tableHeading}>Quantity</th>
-              <th className={Styles.tableHeading}>Cost</th>
+              <th className={Styles.tableHeading}>Per Item Cost</th>
+              <th className={Styles.tableHeading}>Total Cost</th>
               <th className={Styles.tableHeading}>Action</th>
             </tr>
           </thead>
           <tbody>
             {props.indentRequestDetailsList?.map((items: any, index: any) => {
+              console.log('indentRequestDetailsList', items);
+
               if (items?.is_delete === false) {
                 rowIndex = rowIndex + 1;
                 return (
@@ -187,6 +192,11 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         }}
                         disabled={props.disabled}
                       />
+                    </td>
+                    <td>
+                      {props.disabled
+                        ? items.total / items?.quantity
+                        : items.per_item_cost}
                     </td>
                     <td>{items.total}</td>
                     <td>
@@ -229,6 +239,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                     const matchingObjects = getBOMList.filter(
                       (obj: any) => Number(obj.value) === Number(value)
                     );
+                    console.log('matchingObjects', matchingObjects);
 
                     formik.setFieldValue(
                       'quantity',
@@ -239,9 +250,8 @@ const IndentRequestDetails: React.FC = (props: any) => {
                       matchingObjects[0]?.temp?.uom_data?.name
                     );
                     formik.setFieldValue(
-                      'total',
-                      matchingObjects[0]?.bom_rate /
-                        matchingObjects[0]?.bom_quantity
+                      'per_item_cost',
+                      matchingObjects[0]?.bom_rate
                     );
                   }}
                   onChange={formik?.handleChange}
@@ -254,7 +264,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                 <Input
                   name="uom_name"
                   mandatory={true}
-                  width='180px'
+                  width="180px"
                   value={formik?.values?.uom_name}
                   onChange={formik?.handleChange}
                   disabled={true}
@@ -264,16 +274,17 @@ const IndentRequestDetails: React.FC = (props: any) => {
                 <Input
                   name="quantity"
                   mandatory={true}
-                  width='180px'
+                  width="180px"
                   value={formik?.values?.quantity}
                   onChange={formik?.handleChange}
                   error={formik.touched.quantity && formik.errors.quantity}
                   disabled={props.disabled}
                 />
               </td>
+              <td>{formik?.values?.per_item_cost}</td>
               <td>
                 <label>
-                  {formik?.values?.quantity * formik?.values?.total}
+                  {formik?.values?.per_item_cost * formik?.values?.quantity}
                 </label>
               </td>
               <td></td>
