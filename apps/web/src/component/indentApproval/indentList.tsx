@@ -116,7 +116,7 @@ const IndentList = () => {
         <div className={Styles.box}>
         <ProjectSubheader
             description="Indent list based on Projects"
-            navigation={`/project-list`}
+            navigation={`/home`}
             title={'Indent List'}
           />
           {/* <div className={Styles.textContent}>
