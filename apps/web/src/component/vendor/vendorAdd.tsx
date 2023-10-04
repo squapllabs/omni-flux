@@ -17,6 +17,7 @@ import {
 } from '../../helper/constants/vendor-constants';
 import { createVendor, updateVendor } from '../../hooks/vendor-hooks';
 import vendorService from '../../service/vendor-service';
+import ProjectSubheader from '../project/projectSubheader';
 
 const AddVendor = () => {
   const navigate = useNavigate();
@@ -184,12 +185,14 @@ const AddVendor = () => {
 
   return (
     <div className={Styles.container}>
-      <div className={Styles.box}>
-        <div>
-          <h3>{routeParams.id ? 'Vendor Edit' : 'Vendor Add'}</h3>
-        </div>
+      <div>
+        <ProjectSubheader
+          title={routeParams.id ? 'Vendor Edit' : 'Vendor Add'}
+          navigation={'/vendor-list'}
+        />
       </div>
-      <div className={Styles.dividerStyle}></div>
+      <div className={Styles.box}></div>
+      {/* <div className={Styles.dividerStyle}></div> */}
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.box1}>
