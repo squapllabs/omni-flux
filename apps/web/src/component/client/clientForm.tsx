@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { createClient, updateClient } from '../../hooks/client-hooks';
-import { getClientValidateyup } from '../../helper/constants/client-constants';
+import { getClientValidateyup, getUpdateClientValidateyup } from '../../helper/constants/client-constants';
 import clientService from '../../service/client-service';
 import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import Styles from '../../styles/userList.module.scss';
-import CancelIcon from '../menu/icons/closeIcon';
+import Styles from '../../styles/newStyles/uomForm.module.scss';
 
 //Function for client form
 const ClientForm: React.FC = (props: any) => {
   const { mutate: createNewClient } = createClient();
   const { mutate: updateClientDetails } = updateClient();
-  const validationSchema = getClientValidateyup(Yup);
+  const validationSchema = props.mode === 'ADD' ? getClientValidateyup(Yup) : getUpdateClientValidateyup(Yup);
   const [initialValues, setInitialValues] = useState({
     name: '',
     contact_details: '',
@@ -31,7 +30,7 @@ const ClientForm: React.FC = (props: any) => {
       };
       fetchOne();
     }
-  }, );
+  });
   //Function for creating and updating client data
   const formik = useFormik({
     initialValues,
@@ -78,51 +77,68 @@ const ClientForm: React.FC = (props: any) => {
   };
 
   return (
-    <div className={Styles.formContainer}>
-      <form onSubmit={formik.handleSubmit}>
-        <div className={Styles.header}>
-          <div><h4 className={Styles.titleStyle}>Edit Client</h4></div>
-          <div> <CancelIcon onClick={handleClose} /></div>
-        </div>
-        <div className={Styles.dividerStyle}></div>
-        <div className={Styles.field}>
-          <Input
-            label="Name"
-            placeholder="Enter client name"
-            name="name"
-            value={formik.values.name}
-            mandatory={true}
-            onChange={formik.handleChange}
-            error={formik.touched.name && formik.errors.name}
-            width="100%"
-          />
-        </div>
-        <div className={Styles.field}>
-          <Input
-            label="Contact Detail"
-            placeholder="Enter client contact detail"
-            name="contact_details"
-            mandatory={true}
-            value={formik.values.contact_details}
-            onChange={formik.handleChange}
-            error={formik.touched.contact_details && formik.errors.contact_details}
-            width="100%"
-          />
-        </div>
-        <div className={Styles.dividerStyle}></div>
-        <div className={Styles.formButton}>
-          <div>
-            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
-              Cancel
-            </Button>
-          </div>
-          <div>
-            <Button color="primary" shape="rectangle" justify="center" size="small">
-              Submit
-            </Button>
+    <div>
+      <div className={Styles.sub_container}>
+        <div className={Styles.formFields}>
+          <div style={{ width: '60%' }}>
+            <div>
+              <Input
+                label="Name"
+                placeholder="Enter client name"
+                name="name"
+                value={formik.values.name}
+                mandatory={true}
+                onChange={formik.handleChange}
+                error={formik.touched.name && formik.errors.name}
+                width="100%"
+              />
+            </div>
+            <div>
+              <Input
+                label="Contact Number"
+                placeholder="Enter client contact Number"
+                name="contact_details"
+                mandatory={true}
+                value={formik.values.contact_details}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.contact_details &&
+                  formik.errors.contact_details
+                }
+                width="100%"
+              />
+            </div>
           </div>
         </div>
-      </form>
+        <div className={Styles.bottom_container_client}>
+          <div className={Styles.footer1}>
+            <div>
+              <div className={Styles.dividerStyle}></div>
+              <div className={Styles.button}>
+                <Button
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleClose}
+                  className={Styles.cancelButton}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  shape="rectangle"
+                  color="primary"
+                  justify="center"
+                  size="small"
+                  type="submit"
+                  onClick={formik.handleSubmit}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -36,7 +36,7 @@ const MaterData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3); 
+  const [totalPages, setTotalPages] = useState(3);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [reload, setReload] = useState(false);
@@ -163,7 +163,7 @@ const MaterData = () => {
             <div className={Styles.heading}>
               <h3>Add New Master Data</h3>
               <span className={Styles.description}>
-                Manage your master data across your application
+              Create new master data
               </span>
             </div>
             <div>
@@ -187,7 +187,7 @@ const MaterData = () => {
             <div className={Styles.textContent}>
               <h3>List of Master Data</h3>
               <span className={Styles.content}>
-                Manage your master data across your application
+                List of all existing master data entries
               </span>
             </div>
             <div className={Styles.searchField}>
