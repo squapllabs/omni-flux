@@ -7,38 +7,18 @@ interface DialogBoxProps {
   title: String;
   handleClose: () => void;
   width: String;
+  description: String;
 }
 
 const CustomSidePopup: React.FC<DialogBoxProps> = ({
   open,
   content,
   title,
+  description,
   handleClose,
   width = '50%',
 }) => {
   if (!open) return null;
-  const dialogStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: '0',
-    right: '0', // Set to right to make it a right-side popup
-    width: '100%', // Set to 50% to cover half the width
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-
-  const boxStyle: React.CSSProperties = {
-    backgroundColor: '#fff',
-    padding: '2px',
-    borderRadius: '4px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-    width: '100%', // Set to 100% to cover the full width inside the popup
-    height: '100%', // Set to 100% to cover the full height inside the popup
-    display: 'flex',
-    flexDirection: 'column',
-  };
   const styles = {
     width: width,
   };
@@ -49,7 +29,11 @@ const CustomSidePopup: React.FC<DialogBoxProps> = ({
         <div className={Styles.boxStyle}>
           <div className={Styles.mainContent}>
             <div className={Styles.popupHeader}>
-              <h4>{title}</h4>
+              <div className={Styles.textContent_1}>
+                <h4>{title}</h4>
+                <span className={Styles.content}>{description}</span>
+              </div>
+
               <button className={Styles.closeButton}>
                 <CloseIcon onClick={handleClose} />
               </button>
