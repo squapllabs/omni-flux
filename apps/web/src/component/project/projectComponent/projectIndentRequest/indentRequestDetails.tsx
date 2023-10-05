@@ -147,8 +147,8 @@ const IndentRequestDetails: React.FC = (props: any) => {
               <th className={Styles.tableHeadingSite}>Item</th>
               <th className={Styles.tableHeadingSite}>UOM</th>
               <th className={Styles.tableHeading}>Quantity</th>
-              <th className={Styles.tableHeading}>Per Item Cost</th>
-              <th className={Styles.tableHeading}>Total Cost</th>
+              {/* <th className={Styles.tableHeading}>Per Item Cost</th>
+              <th className={Styles.tableHeading}>Total Cost</th> */}
               <th className={Styles.tableHeading}>Action</th>
             </tr>
           </thead>
@@ -195,12 +195,12 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         disabled={props.disabled}
                       />
                     </td>
-                    <td>
+                    {/* <td>
                       {props.disabled
                         ? items.total / items?.quantity
                         : items.per_item_cost}
                     </td>
-                    <td>{items.total}</td>
+                    <td>{items.total}</td> */}
                     <td>
                       <div
                         style={{
@@ -283,12 +283,12 @@ const IndentRequestDetails: React.FC = (props: any) => {
                   disabled={props.disabled}
                 />
               </td>
-              <td>{formik?.values?.per_item_cost}</td>
-              <td>
+              {/* <td>{formik?.values?.per_item_cost}</td> */}
+              {/* <td>
                 <label>
                   {formik?.values?.per_item_cost * formik?.values?.quantity}
                 </label>
-              </td>
+              </td> */}
               <td></td>
             </tr>
           </tbody>

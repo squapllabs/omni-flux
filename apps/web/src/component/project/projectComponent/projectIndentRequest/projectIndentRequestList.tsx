@@ -185,7 +185,7 @@ const ProjectIndentRequestList = () => {
                   <th className={Styles.tableHeading}>
                     Expected Delivery Date
                   </th>
-                  <th className={Styles.tableHeading}>Cost</th>
+                  {/* <th className={Styles.tableHeading}>Cost</th> */}
                   <th className={Styles.tableHeading}>Indent Status</th>
                   <th className={Styles.tableHeading}>Action</th>
                 </tr>
@@ -199,7 +199,7 @@ const ProjectIndentRequestList = () => {
                         <td>{rowIndex}</td>
                         <td>{dateFormat(items?.requested_date)}</td>
                         <td>{dateFormat(items?.expected_delivery_date)}</td>
-                        <td>{formatBudgetValue(items?.total_cost)}</td>
+                        {/* <td>{formatBudgetValue(items?.total_cost)}</td> */}
                         <td>{items?.approver_status}</td>
                         <td>
                           <div
