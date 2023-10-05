@@ -12,6 +12,7 @@ import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
+import CustomPagination from '../menu/CustomPagination';
 
 const ContractorList = () => {
   const { mutate: getDeleteContractorById } = useDeleteSite();
@@ -121,24 +122,24 @@ const ContractorList = () => {
         <div className={Styles.container}>
           <div className={Styles.box}>
             <div className={Styles.topHeading}>
-            <div className={Styles.heading}>
-              <div className={Styles.subHeading}>
-                <h3>CONTRACTOR</h3>
-              </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => navigate('/contractor-add')}
-                >
-                  Add Contractor
-                </Button>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <h3>CONTRACTOR</h3>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/contractor-add')}
+                  >
+                    Add Contractor
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
             {/* <div className={Styles.searchField}>
               <div className={Styles.inputFilter}>
                 <Input
@@ -183,7 +184,6 @@ const ContractorList = () => {
                 </Button>
               </div>
             </div> */}
-            <div className={Styles.dividerStyle}></div>
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>
@@ -250,7 +250,7 @@ const ContractorList = () => {
                 </table>
               </div>
               <div className={Styles.pagination}>
-                <Pagination
+                <CustomPagination
                   currentPage={currentPage}
                   totalPages={getFilterData?.total_page}
                   totalCount={getFilterData?.total_count}
