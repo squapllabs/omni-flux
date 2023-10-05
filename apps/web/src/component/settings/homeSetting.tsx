@@ -46,8 +46,8 @@ const Settings = () => {
       { name: 'Client', id: 7 },
       { name: 'HsnCode', id: 8 },
       { name: 'Items', id: 9 },
-      { name: 'Machinery', id: 10 },
-      { name: 'Contractor', id: 11 },
+      { name: 'Machineries', id: 10 },
+      { name: 'Contractors', id: 11 },
     );
   }
 

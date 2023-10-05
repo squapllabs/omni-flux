@@ -273,3 +273,21 @@
   font-weight: 700;
   font-size: 16px;
 }
+
+.cancelButton {
+  background-color: var(--danger-color);
+  color: #b42318;
+}
+
+.submitButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  // padding: 10px;
+  padding: 0px 15px 20px 0px;
+  gap: 10px;
+
+}
+.footer{
+  margin-top: 350px;
+}

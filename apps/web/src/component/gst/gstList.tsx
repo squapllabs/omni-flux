@@ -166,7 +166,7 @@ const GstList = () => {
                 Manage your GST details here.
               </span>
             </div> */}
-          <div className={Styles.tableContainer}>
+          <div >
             <div>
               <table className={Styles.scrollable_table}>
                 <thead>

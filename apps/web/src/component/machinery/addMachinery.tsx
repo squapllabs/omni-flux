@@ -16,6 +16,7 @@ import { useParams } from 'react-router-dom';
 import machineryService from '../../service/machinery-service';
 import { format } from 'date-fns';
 import Select from '../ui/selectNew';
+import ProjectSubheader from '../project/projectSubheader';
 
 const AddMachinery = () => {
   const { data: getAllUomList = [] } = getByUomType();
@@ -146,12 +147,19 @@ const AddMachinery = () => {
 
   return (
     <div>
-      <div className={Styles.box}>
+      {/* <div className={Styles.box}>
         <div>
           <h3>{routeParams.id ? 'Machinery Edit' : 'Machinery Add'}</h3>
         </div>
       </div>
-      <div className={Styles.dividerStyle}></div>
+      <div className={Styles.dividerStyle}></div> */}
+      <div>
+          <ProjectSubheader
+            title={routeParams.id ? 'MACHINERY EDIT' : 'NEW MACHINERY'}
+            navigation="/settings"
+            description=""
+          />
+          </div>
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.formFields}>
@@ -303,7 +311,7 @@ const AddMachinery = () => {
               </div>
             </div>
             <div className={Styles.buttonFields}>
-              <div>
+              {/* <div>
                 <Button
                   color="secondary"
                   shape="rectangle"
@@ -315,19 +323,8 @@ const AddMachinery = () => {
                 >
                   Back
                 </Button>
-              </div>
+              </div> */}
               <div>
-                {routeParams.id ? (
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    type="submit"
-                  >
-                    Update
-                  </Button>
-                ) : (
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -337,7 +334,6 @@ const AddMachinery = () => {
                   >
                     Save
                   </Button>
-                )}
               </div>
             </div>
           </div>
