@@ -10,6 +10,7 @@ import TextArea from '../ui/CustomTextArea';
 import { getCreateValidateyup } from '../../helper/constants/site-constants';
 import { updateSite, getBySiteId } from '../../hooks/site-hooks';
 import { useParams } from 'react-router-dom';
+import ProjectSubheader from '../project/projectSubheader';
 
 const ContractorForm = () => {
   const routeParams = useParams();
@@ -85,7 +86,7 @@ const ContractorForm = () => {
             setMessage('Contractor edited');
             setOpenSnack(true);
             setTimeout(() => {
-              navigate('/contractor');
+              navigate('/settings');
             }, 1000);
           }
         },
@@ -98,10 +99,11 @@ const ContractorForm = () => {
 
   return (
     <div className={Styles.container}>
-      <div className={Styles.textContent}>
-        <h3>Edit Contractor</h3>
-        <span className={Styles.content}>Edit your contractor</span>
-      </div>
+      <ProjectSubheader
+        navigation={'/settings'}
+        description=""
+        title="Edit Contractor"
+      />
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.inputFieldMain}>
           <div className={Styles.inputFields}>
@@ -249,15 +251,6 @@ const ContractorForm = () => {
           </div>
         </div>
         <div className={Styles.submitButton}>
-          <Button
-            className={Styles.resetButton}
-            type="submit"
-            shape="rectangle"
-            justify="center"
-            onClick={() => navigate('/contractor')}
-          >
-            Back
-          </Button>
           <Button
             type="submit"
             color="primary"

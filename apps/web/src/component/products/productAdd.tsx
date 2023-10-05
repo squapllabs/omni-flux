@@ -120,7 +120,7 @@ const ProductAdd = () => {
               setMessage('Item Added');
               setOpenSnack(true);
               setTimeout(() => {
-                navigate('/products');
+                navigate('/settings');
               }, 1000);
             }
           },
@@ -283,19 +283,6 @@ const ProductAdd = () => {
             </div>
           </div>
           <div className={Styles.buttonFields}>
-            <div>
-              <Button
-                color="secondary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={() => {
-                  navigate('/products');
-                }}
-              >
-                Back
-              </Button>
-            </div>
             <div>
               <Button
                 color="primary"

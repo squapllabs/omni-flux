@@ -141,7 +141,7 @@ const OrderView = () => {
           <div>
             <ProjectSubheader
               navigation={'/home'}
-              description="Manage purchase order updates."
+              description="Overview of all purchase orders within your organization"
               title="Check PO Progress"
             />
           </div>

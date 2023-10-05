@@ -1,95 +1,166 @@
 .container {
-    width: 100%;
-  }
+  width: 100%;
+}
 
 .textContent {
-    padding-left: 10px;
-    padding-top: 10px;
-  }
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
 .content {
-    font-size: 0.7rem;
-  }
+  font-size: 0.7rem;
+}
+
 .box {
-    position: relative;
-  }
+  position: relative;
+}
+
 .searchField {
-    padding: 20px 10px 0px 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  padding: 20px 10px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .inputFilter {
-    display: flex;
-    flex-direction: row;
-    gap: 10px; 
-  }
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
 .searchButton {
-    padding: 12px 20px 0px 20px;
-    border-radius: 8px;
-    border: 1px;
-    gap: 8px;
-    color: #6941c6;
-  }
+  padding: 12px 20px 0px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
+}
+
 .searchButton:hover {
-    background-color: #7f56d9;
-    color: #ffffff;
-  }
-  .resetButton [disabled]{
-    padding: 12px 20px 12px 20px;
-    border-radius: 8px;
-    border: 1px;
-    gap: 8px;
-    color: #848289;
-    background-color: #ccc;
-  }
-  .resetButton:not([disabled]):hover {
-    background-color: #c4c4c6;
-    color: #ffffff;
-  } 
+  background-color: #7f56d9;
+  color: #ffffff;
+}
+
+.resetButton [disabled] {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #848289;
+  background-color: #ccc;
+}
+
+.resetButton:not([disabled]):hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
+}
+
 .box::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: #ccc;
-    position: absolute;
-    bottom: 20;
-    left: 10;
-  }
-  
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 20;
+  left: 10;
+}
+
 .box:last-child::after {
-    display: none;
-  }
-  
+  display: none;
+}
+
 .tableContainer {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;  
-  }
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 
 
 .pagination {
-    display: flex;
-    justify-content: end;
-  }
-  
-  .tableSpan{
-    display: 'inline-block';
-    white-space: nowrap;
-    overflow: 'hidden';
-    text-overflow: ellipsis;
-    max-width: '100px';
+  display: flex;
+  justify-content: end;
+}
+
+.tableSpan {
+  display: 'inline-block';
+  white-space: nowrap;
+  overflow: 'hidden';
+  text-overflow: ellipsis;
+  max-width: '100px';
+}
+
+.tableIcon {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 0px 1px 5px 1px;
+}
+
+.scrollable_table {
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  /* Adjust padding */
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px 10px 10px 24px;
+    /* Adjust padding */
+    text-align: left;
+    font-weight: 500;
+    // border: 0px 0px 1px;
+    font-size: 12px;
+    border: none;
+    /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
   }
 
-  .tableIcon {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    cursor: pointer;
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+    // border-bottom :0px, 0px, 1px, 0px
   }
 
-  .dividerStyle {
-    border-bottom: 1px solid #ccc;
-    padding: 0px 1px 5px 1px;
+  thead {
+    tr {
+      th {
+        color: #667085;
+        font-weight: 700;
+      }
+    }
   }
+
+  td:hover,
+  tr:hover {
+    /* Add hover styles if needed */
+  }
+}
+
+.topHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+
+.subHeading {
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  align-items: center;
+}
