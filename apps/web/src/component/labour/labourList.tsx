@@ -17,6 +17,8 @@ import {
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/CustomPagination';
 import { formatBudgetValue } from '../../helper/common-function';
+import CustomPopup from '../ui/CustomSidePopup';
+import CustomLabourAddPopup from './labourAdd'
 
 const LabourList = () => {
   const [initialValues, setInitialValues] = useState({
@@ -35,11 +37,14 @@ const LabourList = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [reload, setReload] = useState(false);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
+  const [mode, setMode] = useState('');
   const [value, setValue] = useState();
+  const [labourId, setLabourId] = useState('');
   const [message, setMessage] = useState('');
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
@@ -81,6 +86,18 @@ const LabourList = () => {
     setIsLoading(false);
     setFilter(true);
   };
+
+  const handleAddLabourData = () => {
+    setOpen(true);
+    setMode('ADD')
+  }
+  const handleEdit = (value: any) => {
+    setLabourId(value);
+    setOpen(true);
+    setMode('EDIT');
+  }
+
+  console.log("la", labourId);
 
   /* Function for resting the search field and data to normal state */
   const handleReset = async () => {
@@ -126,15 +143,16 @@ const LabourList = () => {
     setActiveButton(value);
   };
 
-  /* Function for editing the Category */
-  const handleEdit = (id: any) => {
-    navigate(`/labour-edit/${id}`);
-  };
+
 
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
+
+  const handleClosePopup = () => {
+    setOpen(false);
+  }
 
   /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
@@ -173,7 +191,33 @@ const LabourList = () => {
         color="#333C44"
       >
         <div>
-          <div className={Styles.top}>
+          <div className={Styles.topHeading}>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <h3>LABOURS</h3>
+              </div>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => handleAddLabourData()}
+                >
+                  Add Labour
+                </Button>
+              </div>
+            </div>
+            <div>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
+          </div>
+          {/* <div className={Styles.top}>
             <div className={Styles.textContent}>
               <h3>Add New Labour</h3>
             </div>
@@ -191,10 +235,10 @@ const LabourList = () => {
                 Add Labour
               </Button>
             </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
+          </div> */}
+          {/* <div className={Styles.dividerStyle}></div> */}
           <div className={Styles.box}>
-            <div className={Styles.textContent1}>
+            {/* <div className={Styles.textContent1}>
               <h3>List of Labour Data</h3>
             </div>
             <div className={Styles.searchField}>
@@ -235,7 +279,7 @@ const LabourList = () => {
                   activeButton={activeButton}
                 />
               </div>
-            </div>
+            </div> */}
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>
@@ -269,11 +313,11 @@ const LabourList = () => {
                                 <td>
                                   <div className={Styles.tableIcon}>
                                     <EditIcon
-                                      onClick={() => handleEdit(data.labour_id)}
+                                      onClick={() => handleEdit(data?.labour_id)}
                                     />
                                     <DeleteIcon
                                       onClick={() =>
-                                        deleteLabourHandler(data.labour_id)
+                                        deleteLabourHandler(data?.labour_id)
                                       }
                                     />
                                   </div>
@@ -302,7 +346,7 @@ const LabourList = () => {
                               <div className={Styles.tableIcon}>
                                 <div>
                                   <EditIcon
-                                    onClick={() => handleEdit(item.labour_id)}
+                                    onClick={() => handleEdit(item?.labour_id)}
                                   />
                                 </div>
                                 <div>
@@ -321,7 +365,6 @@ const LabourList = () => {
                   </tbody>
                 </table>
               </div>
-
               <div className={Styles.pagination}>
                 <Pagination
                   currentPage={currentPage}
@@ -351,6 +394,22 @@ const LabourList = () => {
         contentLine2=""
         handleClose={handleCloseDelete}
         handleConfirm={deleteLabour}
+      />
+      <CustomPopup
+        title={mode === 'ADD' ? "NEW LABOUR" : "EDIT LABOUR"}
+        open={open}
+        handleClose={handleClosePopup}
+        content={
+          <CustomLabourAddPopup
+            setOpen={setOpen}
+            open={open}
+            mode={mode}
+            labourId={labourId}
+            setReload={setReload}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+          />
+        }
       />
     </div>
   );

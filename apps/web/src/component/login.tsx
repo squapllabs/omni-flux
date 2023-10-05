@@ -114,9 +114,9 @@ const Login = () => {
           <div className={Styles.contentDiv}>
             <div className={Styles.titlediv}>
               <div className={Styles.main_title}></div>
-              <div className={Styles.logoCotainer}>
+              {/* <div className={Styles.logoCotainer}> */}
                 <p className={Styles.sub_tile_words}>Omni <b> ERP</b></p>
-              </div>
+              {/* </div> */}
             </div>
             <div className={Styles.filedContainer}>
               <div className={Styles.fields}>
@@ -199,11 +199,10 @@ const Login = () => {
             </div>
           </div>
           <div className={Styles.imgContainer}>
-          <div className={Styles.imagediv}>
-            <img src='/ERP.jpg'/>
+            {/* <div className={Styles.imagediv}> */}
+              <img src='/ERP.jpg' className={Styles.imagediv}/>
+            {/* </div> */}
           </div>
-          </div>
-          
         </div>
     </div>
   );
