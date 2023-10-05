@@ -30,6 +30,7 @@ import CloseIcon from '../menu/icons/closeIcon';
 import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import TextArea from '../ui/CustomTextArea';
+import CustomSidePopup from '../ui/CustomSidePopup';
 
 const FileUploadValidationSchema = Yup.object().shape({
   file: Yup.mixed().required('Please upload a file'),
@@ -57,6 +58,7 @@ const HsnCodeList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [dataShow, setDataShow] = useState(false);
+  const [openHsnForm, setOpenHsnForm] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -117,7 +119,7 @@ const HsnCodeList = () => {
   const editHscCodeHandler = (value: any) => {
     setMode('EDIT');
     setHsnCodeId(value);
-    setOpen(true);
+    setOpenHsnForm(true);
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,7 +129,7 @@ const HsnCodeList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -248,8 +250,7 @@ const HsnCodeList = () => {
                 setOpenSnack(true);
                 setError(null);
                 setSelectedFile(null);
-              }
-              else {
+              } else {
                 setError('No data to upload. Please select a valid file.');
               }
             },
@@ -304,86 +305,24 @@ const HsnCodeList = () => {
     URL.revokeObjectURL(url);
   };
 
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const handleHsnFormClose = () => {
+    setOpenHsnForm(false);
+  };
+
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
     <div>
       <div>
-        <CustomLoader 
-        loading={searchLoader ? searchLoader : getAllLoadingPaginated}
-        size={48} color="#333C44">
-          <div className={Styles.box}>
-            <div className={Styles.textContent}>
-              <h3>Add New HSN Code</h3>
-              <span className={Styles.content}>
-                Manage your HSN details here.
-              </span>
-            </div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className={Styles.fields}>
-                <div>
-                  <Input
-                    label="HSN Code"
-                    placeholder="Enter HSN code"
-                    name="code"
-                    mandatory={true}
-                    value={formik.values.code}
-                    onChange={formik.handleChange}
-                    error={formik.touched.code && formik.errors.code}
-                    width="100%"
-                  />
-                </div>
-                <div className={Styles.textarea}>
-                  <TextArea
-                    name="description"
-                    label="Description"
-                    mandatory={true}
-                    placeholder="Enter HSN Code description"
-                    value={formik.values.description}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.description && formik.errors.description
-                    }
-                    rows={3}
-                    maxCharacterCount={100}
-                  />
-                </div>
-                <div className={Styles.addButton}>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon color='white'/>}
-                  >
-                    Add
-                  </Button>
-                </div>
-              </div>
-            </form>
-            <div className={Styles.uploads}>
-              <div>
-                {selectedFile ? (
-                  <div>
-                    <span>{selectedFile.name}</span>
-                    <button className={Styles.closeButton}>
-                      <CloseIcon onClick={handleRemoveFile} />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    className={Styles.fileSelect}
-                    onClick={() => fileInputRef.current.click()}
-                  >
-                    Select File
-                  </button>
-                )}
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  className={Styles.input}
-                  onChange={handleFileChange}
-                />
+        <CustomLoader
+          loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+          size={48}
+          color="#333C44"
+        >
+          <div className={Styles.topHeading}>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <h3>HSN CODE</h3>
               </div>
               <div>
                 <Button
@@ -391,32 +330,83 @@ const HsnCodeList = () => {
                   shape="rectangle"
                   justify="center"
                   size="small"
-                  onClick={handleUpload}
+                  icon={<AddIcon color="white" />}
+                  onClick={() => {
+                    setMode('ADD');
+                    setOpenHsnForm(true);
+                  }}
                 >
-                  Upload
+                  Add HSN CODE
                 </Button>
               </div>
-              <div className={Styles.button}>
-                <Button1
-                  text={
-                    <div className={Styles.downloadButton}>
-                      <DownloadIcon />
-                      Download Sample Data
-                    </div>
-                  }
-                  onClick={handleDownload}
-                  backgroundColor="white"
-                  textColor="black"
-                  width={140}
-                  border="1px solid #D0D5DD"
-                  borderRadius={8}
-                />
-              </div>
             </div>
-            {error && <div className={Styles.error}>{error}</div>}
+            <div>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
           </div>
+          <div className={Styles.uploads}>
+            {/* <div style={{paddingTop:'5px'}}>
+                <h3>File Upload</h3>
+              </div> */}
+            <div>
+              {selectedFile ? (
+                <div>
+                  <span>{selectedFile.name}</span>
+                  <button className={Styles.closeButton}>
+                    <CloseIcon onClick={handleRemoveFile} />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  className={Styles.fileSelect}
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  Select File
+                </button>
+              )}
+              <input
+                type="file"
+                ref={fileInputRef}
+                className={Styles.input}
+                onChange={handleFileChange}
+              />
+            </div>
+            <div>
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleUpload}
+              >
+                Upload
+              </Button>
+            </div>
+            <div className={Styles.button}>
+              <Button1
+                text={
+                  <div className={Styles.downloadButton}>
+                    <DownloadIcon />
+                    Download Sample Data
+                  </div>
+                }
+                onClick={handleDownload}
+                backgroundColor="white"
+                textColor="black"
+                width={140}
+                border="1px solid #D0D5DD"
+                borderRadius={8}
+              />
+            </div>
+          </div>
+          {error && <div className={Styles.error}>{error}</div>}
+
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
+            {/* <div className={Styles.textContent}>
               <h3>List of HSN Code</h3>
               <span className={Styles.content}>
                 Manage your HSN Code details here.
@@ -459,7 +449,7 @@ const HsnCodeList = () => {
                   activeButton={activeButton}
                 />
               </div>
-            </div>
+            </div> */}
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>
@@ -569,8 +559,14 @@ const HsnCodeList = () => {
             <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={ dataShow ? getFilterData?.total_page : initialData?.total_page }
-                totalCount = {dataShow ? getFilterData?.total_count : initialData?.total_count}
+                totalPages={
+                  dataShow ? getFilterData?.total_page : initialData?.total_page
+                }
+                totalCount={
+                  dataShow
+                    ? getFilterData?.total_count
+                    : initialData?.total_count
+                }
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
@@ -586,17 +582,22 @@ const HsnCodeList = () => {
           handleClose={handleClose}
           handleConfirm={deleteHscCode}
         />
-        <CustomEditDialog
-          open={open}
+        <CustomSidePopup
+          open={openHsnForm}
+          title={mode === 'EDIT' ? 'Edit HSN Code' : 'Add HSN Code'}
+          handleClose={handleHsnFormClose}
           content={
             <HsnForm
-              setOpen={setOpen}
-              open={open}
+              open={openHsnForm}
+              setOpen={setOpenHsnForm}
+              reload={reload}
               setReload={setReload}
+              openSnack={openSnack}
+              setOpenSnack={setOpenSnack}
+              message={message}
+              setMessage={setMessage}
               mode={mode}
               hsnCodeId={hsnCodeId}
-              setOpenSnack={setOpenSnack}
-              setMessage={setMessage}
             />
           }
         />

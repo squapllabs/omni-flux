@@ -19,6 +19,7 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import CustomPagination from '../menu/CustomPagination';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import MasterDataForm from './masterDataForm';
+import MasterDataIcon from '../menu/icons/masterDataIcon';
 
 const MaterData = () => {
   const [selectedValue, setSelectedValue] = useState('');
@@ -159,38 +160,38 @@ const MaterData = () => {
         color="#333C44"
       >
         <div className={Styles.conatiner}>
-          <div className={Styles.topheader}>
+          <div className={Styles.topHeading}>
             <div className={Styles.heading}>
-              <h3>Add New Master Data</h3>
-              <span className={Styles.description}>
-              Create new master data
-              </span>
-            </div>
-            <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon color="white" />}
-                onClick={() => {
-                  setMode('Add');
-                  setMasterDataFormOpen(true);
-                }}
-              >
-                Add Master Data
-              </Button>
+              <div className={Styles.subHeading}>
+                <MasterDataIcon />
+                <h4>MASTER DATA</h4>
+              </div>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => {
+                    setMode('Add');
+                    setMasterDataFormOpen(true);
+                  }}
+                >
+                  Add Master Data
+                </Button>
+              </div>
             </div>
           </div>
-          <div className={Styles.dividerStyle}></div>
+          {/* <div className={Styles.dividerStyle}></div> */}
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
+            {/* <div className={Styles.textContent}>
               <h3>List of Master Data</h3>
               <span className={Styles.content}>
                 List of all existing master data entries
               </span>
-            </div>
-            <div className={Styles.searchField}>
+            </div> */}
+            {/* <div className={Styles.searchField}>
               <div className={Styles.inputFilter}>
                 <Input
                   width="260px"
@@ -235,7 +236,7 @@ const MaterData = () => {
                   Reset
                 </Button>
               </div>
-            </div>
+            </div> */}
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>

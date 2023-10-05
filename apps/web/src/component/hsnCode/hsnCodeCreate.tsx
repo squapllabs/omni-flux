@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import CancelIcon from '../menu/icons/closeIcon';
-import Styles from '../../styles/gstList.module.scss';
+import Styles from '../../styles/newStyles/uomForm.module.scss';
 import TextArea from '../ui/CustomTextArea';
 
 const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
@@ -30,10 +30,9 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
           description: data?.data?.description,
         });
       };
-
       fetchOne();
     }
-  }, []);
+  }, [props.hsnCodeId, props.mode]);
   const validationSchema =
     props.mode === 'ADD'
       ? gethsnCreateValidateyup(Yup)
@@ -83,55 +82,69 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
 
   const handleClose = () => {
     props.setOpen(false);
-  }
+  };
 
   return (
-    <div className={Styles.formContainer}>
-      <form onSubmit={formik.handleSubmit}>
-        <div className={Styles.header}>
-          <div><h4 className={Styles.titleStyle}>Edit HSN Code</h4></div>
-          <div> <CancelIcon onClick={handleClose} /></div>
-        </div>
-        <div className={Styles.dividerStyle}></div>
-        <div className={Styles.field}>
-          <Input
-            label="Code"
-            placeholder="Enter product code"
-            name="code"
-            mandatory={true}
-            value={formik.values.code}
-            onChange={formik.handleChange}
-            error={formik.touched.code && formik.errors.code}
-            width="100%"
-          />
-        </div>
-        <div className={Styles.field}>
-          <TextArea
-            label="Description"
-            placeholder="Enter product description"
-            name="description"
-            mandatory={true}
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            error={formik.touched.description && formik.errors.description}
-            rows={3}
-            maxCharacterCount={100}
-          />
-        </div>
-        <div className={Styles.dividerStyle}></div>
-        <div className={Styles.formButton}>
-          <div>
-            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
-              Cancel
-            </Button>
-          </div>
-          <div>
-            <Button color="primary" shape="rectangle" justify="center" size="small">
-              Submit
-            </Button>
+    <div>
+      <div className={Styles.sub_container}>
+        <div className={Styles.formFields}>
+          <div style={{ width: '60%' }}>
+            <div>
+              <Input
+                label="Code"
+                placeholder="Enter product code"
+                name="code"
+                mandatory={true}
+                value={formik.values.code}
+                onChange={formik.handleChange}
+                error={formik.touched.code && formik.errors.code}
+                width="100%"
+              />
+            </div>
+            <div>
+              <TextArea
+                label="Description"
+                placeholder="Enter product description"
+                name="description"
+                mandatory={true}
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                error={formik.touched.description && formik.errors.description}
+                rows={5}
+                maxCharacterCount={100}
+              />
+            </div>
           </div>
         </div>
-      </form>
+        <div className={Styles.bottom_container}>
+          <div className={Styles.footer1}>
+            <div>
+              <div className={Styles.dividerStyle}></div>
+              <div className={Styles.button}>
+                <Button
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  onClick={handleClose}
+                  className={Styles.cancelButton}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  shape="rectangle"
+                  color="primary"
+                  justify="center"
+                  size="small"
+                  type="submit"
+                  onClick={formik.handleSubmit}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -20,6 +20,7 @@ import {
   getCreateValidateyup,
   getUpdateValidateyup,
 } from '../../helper/constants/item-constants';
+import ProjectSubheader from '../project/projectSubheader';
 
 const ProductAdd = () => {
   const { data: getAllItemTypeList = [] } = getBymasertDataType('IMTY');
@@ -134,10 +135,11 @@ const ProductAdd = () => {
 
   return (
     <div className={Styles.container}>
-      <div className={Styles.headingContainer}>
-        <h3>Add Item</h3>
-        <p>Add your raw materials ( Raw, Semi Finished & Finished).</p>
-      </div>
+      <ProjectSubheader
+        navigation={'/settings'}
+        description="Add your raw materials ( Raw, Semi Finished & Finished)."
+        title="Add Item"
+      />
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.itemField}>

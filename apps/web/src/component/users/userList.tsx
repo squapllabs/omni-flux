@@ -91,7 +91,7 @@ const UserList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -148,32 +148,32 @@ const UserList = () => {
           color="#333C44"
         >
           <div className={Styles.topHeading}>
-              <div className={Styles.heading}>
-                <div className={Styles.subHeading}>
-                  <MemberIcon />
-                  <h3>USERS</h3>
-                </div>
-                <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/user-create')}
-                  >
-                    Add User
-                  </Button>
-                </div>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <MemberIcon />
+                <h3>USERS</h3>
               </div>
               <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => navigate('/user-create')}
+                >
+                  Add User
+                </Button>
               </div>
             </div>
+            <div>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
+          </div>
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>

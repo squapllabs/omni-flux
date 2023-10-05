@@ -4,40 +4,29 @@ import DeleteIcon from '../menu/icons/newDeleteIcon';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
-  useGetAlluom,
   useDeleteUom,
   getByUom,
   useGetAllPaginatedUomData,
 } from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
-import CustomEditDialog from '../ui/customEditDialogBox';
 import Button from '../ui/Button';
-import { useFormik } from 'formik';
-import { createuom } from '../../hooks/uom-hooks';
 import Input from '../ui/Input';
-import { getuomCreateValidateyup } from '../../helper/constants/uom-constants';
-import * as Yup from 'yup';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/CustomPagination';
 import SearchIcon from '../menu/icons/search';
 import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
-import TextArea from '../ui/CustomTextArea';
 import CustomSidePopup from '../ui/CustomSidePopup';
 
 /* Function for Unit of Measurement */
 const UomList = () => {
-  // const { isLoading: getAllLoading } = useGetAlluom();
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: searchLoader,
   } = getByUom();
 
-  // console.log('uom search data==>', getFilterData);
-
   const { mutate: getDeleteuomByID } = useDeleteUom();
-  const { mutate: createNewuom } = createuom();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [uomId, setUomID] = useState();
@@ -53,15 +42,10 @@ const UomList = () => {
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
   const [openUomForm, setOpenUomForm] = useState(false);
-  const [initialValues, setInitialValues] = useState({
-    uom_id: '',
-    name: '',
-    description: '',
-  });
+
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
-  const validationSchema = getuomCreateValidateyup(Yup);
   const uomData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -99,30 +83,6 @@ const UomList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      if (values) {
-        const Object: any = {
-          uom_id: values.uom_id,
-          name: values.name,
-          description: values.description,
-        };
-        createNewuom(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.success) {
-              setMessage('UOM created');
-              setOpenSnack(true);
-              resetForm();
-            }
-          },
-        });
-      }
-    },
-  });
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
@@ -191,42 +151,36 @@ const UomList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.topheader}>
-            <div className={Styles.title}>
-              <div>
-                <h3>Add New UOM</h3>
+          <div className={Styles.topHeading}>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <h3>UOM</h3>
               </div>
               <div>
-                <span className={Styles.description}>
-                  Manage your UOM details here.
-                </span>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => {
+                    setMode('ADD');
+                    setOpenUomForm(true);
+                  }}
+                >
+                  Add Uom
+                </Button>
               </div>
-            </div>
-            <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon color="white" />}
-                onClick={() => {
-                  setMode('ADD');
-                  setOpenUomForm(true);
-                }}
-              >
-                Add UOM
-              </Button>
             </div>
           </div>
-          <div className={Styles.dividerStyle}></div>
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
+            {/* <div className={Styles.textContent}>
               <h3>List of Unit of Measurements</h3>
               <span className={Styles.content}>
                 Manage your UOM details here.
               </span>
-            </div>
-            <div className={Styles.searchField}>
+            </div> */}
+            {/* <div className={Styles.searchField}>
               <div className={Styles.inputFilter}>
                 <Input
                   width="260px"
@@ -256,7 +210,7 @@ const UomList = () => {
                   Reset
                 </Button>
               </div>
-            </div>
+            </div> */}
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>
