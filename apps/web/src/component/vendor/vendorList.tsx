@@ -140,14 +140,33 @@ const VendorList = () => {
           size={48}
           color="#333C44"
         >
-          <ProjectSubheader
-            title="List of Vendors"
-            description=" Manage your Vendor list"
-            navigation={'/home'}
-          />
-
-          <div className={Styles.searchField}>
-            <div className={Styles.inputFilter}>
+          
+          <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <h3>VENDORS</h3>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/vendor-add')}
+                  >
+                    Add Vendor
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
+              {/* <div>
               <Input
                 width="260px"
                 prefixIcon={<SearchIcon />}
@@ -175,30 +194,8 @@ const VendorList = () => {
               >
                 Reset
               </Button>
+              </div> */}
             </div>
-            <div className={Styles.button}>
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => navigate('/vendor-add')}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>

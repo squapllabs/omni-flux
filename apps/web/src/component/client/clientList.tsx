@@ -78,10 +78,6 @@ const ClientList = () => {
     refetch,
   } = useGetAllPaginatedClient(clientData);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
@@ -111,32 +107,6 @@ const ClientList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      if (values) {
-        const Object: any = {
-          name: values.name,
-          contact_details: values.contact_details,
-        };
-        createNewClient(Object, {
-          onSuccess: (data: { success: any }, variables: any, context: any) => {
-            if (data?.success) {
-              setMessage('Client created');
-              setOpenSnack(true);
-              resetForm();
-            } else {
-              setMessage('Error occured in creating a new client');
-              setOpenSnack(true);
-            }
-          },
-        });
-      }
-    },
-  });
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
@@ -206,36 +176,30 @@ const ClientList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.topheader}>
-            <div className={Styles.title}>
-              <div>
-                <h3>Add New Client</h3>
+          <div className={Styles.topHeading}>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <h3>CLIENT</h3>
               </div>
               <div>
-                <span className={Styles.description}>
-                  Manage your Client details here.
-                </span>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => {
+                    setMode('ADD');
+                    setOpenClientForm(true);
+                  }}
+                >
+                  Add Client
+                </Button>
               </div>
-            </div>
-            <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon color="white" />}
-                onClick={() => {
-                  setMode('ADD');
-                  setOpenClientForm(true);
-                }}
-              >
-                Add Client
-              </Button>
             </div>
           </div>
-          <div className={Styles.dividerStyle}></div>
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
+            {/* <div className={Styles.textContent}>
               <h3>List of Clients</h3>
               <span className={Styles.content}>
                 Manage your Client Details here.
@@ -278,7 +242,7 @@ const ClientList = () => {
                   activeButton={activeButton}
                 />
               </div>
-            </div>
+            </div> */}
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>

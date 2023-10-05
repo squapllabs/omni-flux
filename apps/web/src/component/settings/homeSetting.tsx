@@ -15,6 +15,8 @@ import ItemList from '../products/productPage';
 import ProjectSubheader from '../project/projectSubheader';
 import CustomLoader from '../ui/customLoader';
 import SideNav from '../ui/sideNav';
+import MachineryList from '../machinery/machineryList';
+import ContractorList from '../contractor/contractorList';
 
 const Settings = () => {
   const state: RootState = store.getState();
@@ -43,7 +45,9 @@ const Settings = () => {
       { name: 'UOM', id: 6 },
       { name: 'Client', id: 7 },
       { name: 'HsnCode', id: 8 },
-      { name: 'Items', id: 9 }
+      { name: 'Items', id: 9 },
+      { name: 'Machinery', id: 10 },
+      { name: 'Contractor', id: 11 },
     );
   }
 
@@ -113,6 +117,20 @@ const Settings = () => {
     ),
     9: (
       <ItemList
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    10: (
+      <MachineryList
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    11: (
+      <ContractorList
         setActiveButton={setActiveButton}
         setLoader={setLoader}
         loader={loader}
