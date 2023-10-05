@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Button from '../menu/button';
+import Button from '../ui/Button';
+import ButtonOne from '../menu/button';
 import { useNavigate } from 'react-router-dom';
 import Styles from '..//../styles/listItem.module.scss';
 import Pagination from '../menu/CustomPagination';
@@ -7,7 +8,6 @@ import AddIcon from '../menu/icons/addIcon';
 import DownloadIcon from '../menu/icons/download';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
-import ButtonOne from '../ui/Button';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
 import { getByItem } from '../../hooks/add-product-hooks';
@@ -145,7 +145,7 @@ const ProductPage = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={searchLoader} size={48} color="#333C44">
-        <div className={Styles.topContent}>
+        {/* <div className={Styles.topContent}>
           <div className={Styles.leftContainer}>
             <h3>List of Items</h3>
             <p>Manage your raw materials (Raw, Semi Finished & Finished).</p>
@@ -184,9 +184,55 @@ const ProductPage = () => {
               </ButtonOne>
             </div>
           </div>
+        </div> */}
+        <div className={Styles.topHeading}>
+          <div className={Styles.heading}>
+            <div className={Styles.subHeading}>
+              <h3>ITEMS</h3>
+            </div>
+            <div>
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon color="white" />}
+                onClick={() => {
+                  navigate('/product-add');
+                }}
+              >
+                Add Item
+              </Button>
+            </div>
+            <div className={Styles.button}>
+              <ButtonOne
+                text={
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <DownloadIcon style={{ padding: '4px' }} />
+                    Download csv
+                  </div>
+                }
+                onClick={handleDownload}
+                backgroundColor="white"
+                textColor="black"
+                width={140}
+                height={38}
+                style={{ paddingLeft: '8px' }}
+                border="1px solid #D0D5DD"
+                borderRadius={5}
+              />
+            </div>
+          </div>
+          <div className={Styles.groupButton}>
+            <CustomGroupButton
+              labels={buttonLabels}
+              onClick={handleGroupButtonClick}
+              activeButton={activeButton}
+            />
+          </div>
         </div>
 
-        <div className={Styles.middleContent}>
+        {/* <div className={Styles.middleContent}>
           <div className={Styles.middleRightContent}>
             <div className={Styles.searchField}>
               <Input
@@ -229,7 +275,7 @@ const ProductPage = () => {
               activeButton={activeButton}
             />
           </div>
-        </div>
+        </div> */}
         <div>
           <table className={Styles.scrollable_table}>
             <thead>

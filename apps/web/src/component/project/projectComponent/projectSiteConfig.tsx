@@ -229,24 +229,26 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                 onRowsPerPageChange={handleRowsPerPageChange}
               />
             </div>
-          </div>) : (<div>
+          </div>
+        ) : (
+          <div>
             <div className={Styles.subHeading}>
-              < SiteNavigateIcon width={30} height={30} />
+              <SiteNavigateIcon width={30} height={30} />
               <h3>SITES</h3>
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img
-                  src="/siteAdd.png"
-                  width="70%"
-                  height="20%"
-                />
+                <img src="/siteAdd.png" width="70%" height="20%" />
               </div>
               <div>
-                <h5 className={Styles.textmax}>No sites added to this Project</h5>
+                <h5 className={Styles.textmax}>
+                  No sites added to this Project
+                </h5>
               </div>
               <div>
-                <p className={Styles.textmin}>Go ahead, add a site from existing list or create new</p>
+                <p className={Styles.textmin}>
+                  Go ahead, add a site from existing list or create new
+                </p>
               </div>
               <div className={Styles.siteCreateButton}>
                 <div>
@@ -275,7 +277,8 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                 </div>
               </div>
             </div>
-          </div>)}
+          </div>
+        )}
         {/* <CustomSiteAdd /> */}
         <CustomSnackBar
           open={openSnack}
@@ -292,8 +295,11 @@ const ProjectSiteConfig: React.FC = (props: any) => {
         />
         <CustomSidePopup
           open={projectSiteOpen}
-          title={mode === 'EDIT' ? 'Edit Project Site' : 'Create New Project Site'}
+          title={
+            mode === 'EDIT' ? 'Edit Project Site' : 'Create New Project Site'
+          }
           handleClose={handleCloseProjectSite}
+          description={'Create a new project site'}
           content={
             <ProjectSiteConfigAdd
               open={projectSiteOpen}

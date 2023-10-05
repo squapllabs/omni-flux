@@ -1,0 +1,52 @@
+.sub_container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+.formFields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0px 0px 20px;
+}
+
+.bottom_container {
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.footer1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.cancelButton {
+    background-color: var(--danger-color);
+    color: #b42318;
+}
+
+.button {
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.dividerStyle {
+    border-bottom: 1px solid #ccc;
+    padding: 0px 1px 5px 1px;
+}
+
+///client form
+.bottom_container_client {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}

@@ -14,6 +14,7 @@ import Select from '../ui/selectNew';
 import userService from '../../service/user-service';
 import AddIcon from '../menu/icons/addIcon';
 import CustomSnackbar from '../ui/customSnackBar';
+import ProjectSubheader from '../project/projectSubheader';
 
 const validationSchema = getUsercreationYupschema(Yup);
 const UserCreate = () => {
@@ -118,11 +119,17 @@ const UserCreate = () => {
     },
   });
   return (
+    
     <div className={Styles.container}>
-      <form onSubmit={formik.handleSubmit}>
-        <div className={Styles.heading}>
-          <h2>USER CREATION</h2>
+       <div>
+          <ProjectSubheader
+            title="NEW USER"
+            navigation="/settings"
+            description=""
+          />
         </div>
+      <form onSubmit={formik.handleSubmit}>
+     <div className={Styles.box}>
         <div className={Styles.fieldsOne}>
           <div className={Styles.inputField}>
             <Input
@@ -350,14 +357,6 @@ const UserCreate = () => {
         <div className={Styles.footerButton}>
           <div className={Styles.submitButton}>
             <Button
-              color="primary"
-              shape="rectangle"
-              justify="center"
-              onClick={() => navigate('/settings')}
-            >
-              Back
-            </Button>
-            <Button
               type="submit"
               color="primary"
               shape="rectangle"
@@ -367,7 +366,9 @@ const UserCreate = () => {
             </Button>
           </div>
         </div>
+        </div>
       </form>
+
       <CustomSnackbar
         open={OpenSnackbar}
         message={message}
