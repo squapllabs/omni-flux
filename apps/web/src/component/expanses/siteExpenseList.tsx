@@ -9,7 +9,7 @@ import { getProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import CustomPagination from '../menu/CustomPagination';
 
 const SiteExpenseList = () => {
