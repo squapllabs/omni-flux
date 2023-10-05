@@ -14,7 +14,9 @@ import * as Yup from 'yup';
 import { getGstcreationYupschema } from '../../helper/constants/gst-constants';
 import CustomLoader from '../ui/customLoader';
 import AddIcon from '../menu/icons/addIcon';
-import CustomDelete from '../ui/customDeleteDialogBox'
+import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomPopup from '../ui/CustomSidePopup';
+import GSTAddForm from './gstCreate'
 
 /* Function for GST */
 const GstList = () => {
@@ -33,7 +35,7 @@ const GstList = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const validationSchema = getGstcreationYupschema(Yup);
-  const [value,setValue] = useState(); 
+  const [value, setValue] = useState();
 
   /* Function for closing delete popup */
   const handleCloseDelete = () => {
@@ -55,12 +57,21 @@ const GstList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-  /* Function for editing gst */
+
+  const handleClosePopup = () => {
+    setOpen(false);
+  }
+
+  const handleAddGstData = () => {
+    setOpen(true);
+    setMode('ADD')
+  }
   const handleEdit = (value: any) => {
-    setMode('EDIT');
     setGstId(value);
     setOpen(true);
-  };
+    setMode('EDIT');
+  }
+
   /* Function for adding new gst data */
   const formik = useFormik({
     initialValues,
@@ -93,7 +104,7 @@ const GstList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.box}>
+          {/* <div className={Styles.box}>
             <div className={Styles.textContent}>
               <h3>Add New GST</h3>
               <span className={Styles.content}>
@@ -128,42 +139,61 @@ const GstList = () => {
                 </div>
               </div>
             </form>
+          </div> */}
+          <div className={Styles.topHeading}>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <h3>GST</h3>
+              </div>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => handleAddGstData()}
+                >
+                  Add GST
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className={Styles.box}>
-            <div className={Styles.textContent}>
+          {/* <div className={Styles.box}> */}
+          {/* <div className={Styles.textContent}>
               <h3>List of GST</h3>
               <span className={Styles.content}>
                 Manage your GST details here.
               </span>
-            </div>
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>GST Rate</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {getAllGstData?.map((data: any,index:number) => (
-                      <tr key={data.gst_id}>
-                        <td>{index+1}</td>
-                        <td>{data.rate}</td>
-                        <td>
-                          <EditIcon onClick={() => handleEdit(data.gst_id)} />
-                          
-                          {/* <DeleteIcon onClick={() =>
+            </div> */}
+          <div className={Styles.tableContainer}>
+            <div>
+              <table className={Styles.scrollable_table}>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>GST Rate</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getAllGstData?.map((data: any, index: number) => (
+                    <tr key={data.gst_id}>
+                      <td>{index + 1}</td>
+                      <td>{data.rate}</td>
+                      <td>
+                        <EditIcon onClick={() => handleEdit(data.gst_id)} />
+
+                        {/* <DeleteIcon onClick={() =>
                             deleteCategoryHandler( data.gst_id)}/> */}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
+          {/* </div> */}
         </CustomLoader>
         <CustomDelete
           open={openDelete}
@@ -173,10 +203,12 @@ const GstList = () => {
           handleClose={handleCloseDelete}
           handleConfirm={deleteGst}
         />
-        <CustomEditDialog
+        <CustomPopup
           open={open}
+          handleClose={handleClosePopup}
+          title={mode === "EDIT" ? "GST EDIT" : "NEW GST"}
           content={
-            <GstForm
+            <GSTAddForm
               setOpen={setOpen}
               open={open}
               setReload={setReload}

@@ -187,8 +187,8 @@ const AddVendor = () => {
     <div className={Styles.container}>
       <div>
         <ProjectSubheader
-          title={routeParams.id ? 'Vendor Edit' : 'Vendor Add'}
-          navigation={'/vendor-list'}
+          title={routeParams.id ? 'VENDOR EDIT' : 'NEW VENDOR'}
+          navigation={'/settings'}
         />
       </div>
       <div className={Styles.box}></div>
