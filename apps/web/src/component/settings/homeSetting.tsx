@@ -129,7 +129,7 @@ const Settings = () => {
       <div className={Styles.Container}>
         <div>
           <ProjectSubheader
-            title="Master Data"
+            title="Settings"
             navigation="/home"
             description="Manage your master datas across your application"
           />
