@@ -120,15 +120,12 @@
   justify-content: end;
 }
 
-
-
 .tablerow {
   display: flex;
   flex-direction: row;
   column-gap: 15px;
   cursor: pointer;
 }
-
 
 .searchField {
   padding: 10px 10px 0px 10px;
@@ -252,7 +249,6 @@
   width: 30%;
 }
 
-
 .topHeading {
   // background-color: aqua;
   display: flex;
@@ -309,5 +305,9 @@
 .title {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start ;
+  justify-content: flex-start;
+}
+.filters {
+  display: flex;
+  gap: 20px;
 }

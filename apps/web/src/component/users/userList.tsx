@@ -53,7 +53,7 @@ const UserList = () => {
     offset: (currentPage - 1) * rowsPerPage,
     order_by_column: 'updated_by',
     order_by_direction: 'desc',
-    global_search: '',
+    global_search: filterValues?.search_by_name,
     status: activeButton,
   };
   const {
@@ -61,6 +61,7 @@ const UserList = () => {
     data: initialData,
     refetch,
   } = useGetAllPaginatedUser(userData);
+
   const deleteUserHandler = (id: any) => {
     setValue(id);
     setOpen(true);
@@ -91,7 +92,7 @@ const UserList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -99,22 +100,30 @@ const UserList = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 2000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
 
   /* Function for searching a user in the table */
-  const handleSearch = async () => {
-    const userData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      global_search: filterValues.search_by_name,
-      status: activeButton,
-    };
-    postDataForFilter(userData);
-    setDataShow(true);
-    setIsLoading(false);
-    setFilter(true);
-  };
+  // const handleSearch = async () => {
+  //   const userData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'desc',
+  //     global_search: filterValues.search_by_name,
+  //     status: activeButton,
+  //   };
+  //   setTimeout(() => {
+  //     postDataForFilter(userData);
+  //   }, 2000);
+  //   // setDataShow(true);
+  //   // setIsLoading(false);
+  //   // setFilter(true);
+  // };
 
   /* Function for reseting the table to its actual state after search */
   const handleReset = async () => {
@@ -138,6 +147,15 @@ const UserList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+  // const handleChange = (e: any) => {
+  //   console.log(e.target.value);
+  //   const searchValue = e.target.value;
+  //   setFilterValues({
+  //     ...filterValues,
+  //     ['search_by_name']: e.target.value,
+  //   });
+  //   handleSearch();
+  // };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
@@ -148,32 +166,46 @@ const UserList = () => {
           color="#333C44"
         >
           <div className={Styles.topHeading}>
-              <div className={Styles.heading}>
-                <div className={Styles.subHeading}>
-                  <MemberIcon />
-                  <h3>USERS</h3>
-                </div>
-                <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/user-create')}
-                  >
-                    Add User
-                  </Button>
-                </div>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <MemberIcon />
+                <h3>USERS</h3>
               </div>
               <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => navigate('/user-create')}
+                >
+                  Add User
+                </Button>
               </div>
             </div>
+            <div className={Styles.filters}>
+              <div>
+                <Input
+                  placeholder="Search Users"
+                  width="300px"
+                  prefixIcon={<SearchIcon />}
+                  name="filter_value"
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValues,
+                      ['search_by_name']: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
+          </div>
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>
