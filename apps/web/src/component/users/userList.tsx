@@ -18,6 +18,7 @@ import Pagination from '../menu/CustomPagination';
 import EditIcon from '../menu/icons/newEditIcon';
 import DeleteIcon from '../menu/icons/newDeleteIcon';
 import AddIcon from '../menu/icons/addIcon';
+import MemberIcon from '../menu/icons/memberIcon';
 
 /* Function for User List */
 const UserList = () => {
@@ -146,43 +147,25 @@ const UserList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.text}>
-            <div className={Styles.textStyle}>
-              <h3>List of Users</h3>
-            </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
-          <div className={Styles.searchField}>
-            <div className={Styles.inputFilter}>
-              <Input
-                width="260px"
-                prefixIcon={<SearchIcon />}
-                name="search_by_name"
-                value={filterValues.search_by_name}
-                onChange={(e) => handleFilterChange(e)}
-                placeholder="Search"
-              />
-              <Button
-                className={Styles.searchButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleSearch}
-              >
-                Search
-              </Button>
-              <Button
-                className={Styles.resetButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleReset}
-                disabled={isResetDisabled}
-              >
-                Reset
-              </Button>
-            </div>
-            <div className={Styles.button}>
+          <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <MemberIcon />
+                  <h3>USERS</h3>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/user-create')}
+                  >
+                    Add User
+                  </Button>
+                </div>
+              </div>
               <div>
                 <CustomGroupButton
                   labels={buttonLabels}
@@ -190,21 +173,7 @@ const UserList = () => {
                   activeButton={activeButton}
                 />
               </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white"/>}
-                  onClick={() => navigate('/user-create')}
-                >
-                  Add
-                </Button>
-              </div>
             </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>
