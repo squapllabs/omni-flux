@@ -136,12 +136,6 @@ const PurchaseRequestAdd = () => {
     <div>
       <div className={Styles.popupContent}>
         <form onSubmit={formik.handleSubmit}>
-            {/* <div>
-              <h4>Request for Quotation</h4>
-              <span className={Styles.content}>
-                Raise your purchase request againest your Project
-              </span>
-            </div> */}
             <div className={Styles.sub_header}>
               <div
                 className={Styles.logo}
@@ -169,7 +163,7 @@ const PurchaseRequestAdd = () => {
                 <div className={Styles.textContent_1}>
                   <h4>Request for Quotation</h4>
                   <span className={Styles.content}>
-                    Raise your purchase request againest your Project
+                    Raise purchase request against your Project
                   </span>
                 </div>
               </div>

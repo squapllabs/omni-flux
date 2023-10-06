@@ -15,3 +15,73 @@
   border-bottom: 2px solid #ccc;
   padding: 5px 1px 5px 1px;
 }
+
+
+.Container {
+  width: 100%;
+  // padding-bottom: 10px;
+}
+.sub_header {
+  height: 10vh;
+  display: flex;
+}
+.mainContainer {
+  height: 90vh;
+  display: flex;
+
+}
+.sidnav {
+  width: 15%;  
+  border-right: 1px solid #ccc;
+}
+.mainbar {
+  width: 85%;
+  padding: 10px;
+}
+.mainContent {
+  padding: 10px;
+}
+.selected {
+  position: relative;
+}
+
+.selected::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+.vertical {
+  position: relative;
+}
+.verticalLine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px; /* Adjust the width of the line */
+  background-color: #7d7d7d; /* Adjust the color as needed */
+  height: 100%;
+}
+.logo {
+  font-weight: bold;
+  font-size: 16px;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5%;
+  cursor: pointer;
+}
+.textContent_1 {
+  //   width: 30%;
+}
+.textContent {
+  padding: 15px 10px 10px 20px;
+}
+.content {
+  font-size: 0.7rem;
+  padding-bottom: 5px;
+}

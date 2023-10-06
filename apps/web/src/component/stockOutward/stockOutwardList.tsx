@@ -54,7 +54,7 @@ const StockOutwardList = () => {
       status: 'AC',
       global_search: '',
       site_id: "",
-      project_id: selectedValue
+      project_id: Number(routeParams?.id)
     };
     postDataForFilter(stockData);
   };
@@ -85,15 +85,26 @@ const StockOutwardList = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
-        <div className={Styles.box}>
+        <div className={Styles.topHeading}>
           <div className={Styles.textContent}>
             <h3>Stock Outward</h3>
             <span className={Styles.content}>
               Stock Outward manage your entire organization.
             </span>
           </div>
-          <div className={Styles.dividerStyleTop}></div>
-          <div className={Styles.searchField}>
+          <div>
+              <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon color='white' />}
+                onClick={() => navigate('/stockoutward-add', { state: { projectId: routeParams?.id } })}
+              >
+                Add
+              </Button>
+            </div>
+          {/* <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
               <div>
                 <AutoCompleteSelect
@@ -144,7 +155,7 @@ const StockOutwardList = () => {
                 Add
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.tableContainer}>

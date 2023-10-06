@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/masterdata.module.scss';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { getCreateValidateyup } from '../../helper/constants/master-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
   useGetAllmasertData,
-  createmasertData,
   useGetAllParentmasertDataDrop,
   useDeletemasertData,
   getBySearchmasterData,
@@ -16,31 +12,22 @@ import {
 } from '../../hooks/masertData-hook';
 import EditIcon from '../menu/icons/newEditIcon';
 import SearchIcon from '../menu/icons/search';
-import CustomEditDialog from '../ui/customEditDialogBox';
 import CustomDelete from '../ui/customDeleteDialogBox';
-import MasterDataEditForm from './masterDataEditForm';
-import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
-import SelectNew from '../ui/selectNew';
 import AddIcon from '../menu/icons/addIcon';
-import TextArea from '../ui/CustomTextArea';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import CustomPagination from '../menu/CustomPagination';
+import CustomSidePopup from '../ui/CustomSidePopup';
+import MasterDataForm from './masterDataForm';
+import MasterDataIcon from '../menu/icons/masterDataIcon';
 
 const MaterData = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const [initialValues, setInitialValues] = useState({
-    master_data_id: '',
-    master_data_name: '',
-    master_data_description: '',
-    master_data_type: '',
-    parent_master_data_id: '',
-  });
   const [value, setValue] = useState();
   const [openDelete, setOpenDelete] = useState(false);
-  const [categoryId, setCategoryID] = useState();
+  const [masterDataID, setMasterDataID] = useState();
   const [mode, setMode] = useState('');
   const [open, setOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
@@ -50,10 +37,11 @@ const MaterData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3); // Set initial value to 1
+  const [totalPages, setTotalPages] = useState(3);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [reload, setReload] = useState(false);
+  const [masterDataFormOpen, setMasterDataFormOpen] = useState(false);
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -63,7 +51,6 @@ const MaterData = () => {
     useGetAllmasertData();
   const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
     useGetAllParentmasertDataDrop();
-  const { mutate: postMasterData } = createmasertData();
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
@@ -114,7 +101,6 @@ const MaterData = () => {
     };
     postDataForFilter(masterData);
     setDataShow(true);
-    // setTotalPages(getFilterData?.total_page);
     setIsLoading(false);
     setFilter(true);
   };
@@ -140,44 +126,6 @@ const MaterData = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-  const validationSchema = getCreateValidateyup(Yup);
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      if (values) {
-        let object: any = {};
-        const num = 0;
-        if (Number(values.parent_master_data_id) === num) {
-          object = {
-            master_data_name: values.master_data_name,
-            master_data_description: values.master_data_description,
-            master_data_type: values.master_data_type,
-            parent_master_data_id: null,
-          };
-        } else {
-          object = {
-            master_data_name: values.master_data_name,
-            master_data_description: values.master_data_description,
-            master_data_type: values.master_data_type,
-            parent_master_data_id: Number(values.parent_master_data_id),
-          };
-        }
-
-        postMasterData(object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.message === 'success') {
-              setMessage('Master Data created');
-              setOpenSnack(true);
-              setSelectedValue('');
-              resetForm();
-            }
-          },
-        });
-      }
-    },
-  });
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -186,9 +134,9 @@ const MaterData = () => {
     setOpenDelete(true);
   };
   const handleEdit = (value: any) => {
-    setMode('EDIT');
-    setCategoryID(value);
-    setOpen(true);
+    setMode('Edit');
+    setMasterDataID(value);
+    setMasterDataFormOpen(true);
   };
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -200,6 +148,10 @@ const MaterData = () => {
     setOpenSnack(true);
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+
+  const handleCloseMasterForm = () => {
+    setMasterDataFormOpen(false);
+  };
   return (
     <div>
       <CustomLoader
@@ -208,106 +160,38 @@ const MaterData = () => {
         color="#333C44"
       >
         <div className={Styles.conatiner}>
-          <div className={Styles.box}>
-            <div className={Styles.textContent}>
-              <h3>Add New Master Data</h3>
-              <span className={Styles.content}>
-                Manage your master data across your application
-              </span>
-            </div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className={Styles.fields_container}>
-                <div className={Styles.fields_container_1}>
-                  <div className={Styles.inputField}>
-                    <Input
-                      name="master_data_name"
-                      label="Name"
-                      placeholder="Enter master name"
-                      value={formik.values.master_data_name}
-                      onChange={formik.handleChange}
-                      mandatory={true}
-                      error={
-                        formik.touched.master_data_name &&
-                        formik.errors.master_data_name
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      name="master_data_type"
-                      label="Code"
-                      placeholder="Enter code"
-                      value={formik.values.master_data_type}
-                      onChange={formik.handleChange}
-                      mandatory={true}
-                      error={
-                        formik.touched.master_data_type &&
-                        formik.errors.master_data_type
-                      }
-                    />
-                  </div>
-                  <div>
-                    <AutoCompleteSelect
-                      label="Parent Name"
-                      name="parent_master_data_id"
-                      onChange={formik.handleChange}
-                      value={formik.values.parent_master_data_id}
-                      placeholder="Select from options"
-                      width="200px"
-                      onSelect={(value) => {
-                        formik.setFieldValue('parent_master_data_id', value);
-                      }}
-                      optionList={
-                        dropLoading === true ? [] : getAllmasterDataForDrop
-                      }
-                      error={
-                        formik.touched.parent_master_data_id &&
-                        formik.errors.parent_master_data_id
-                      }
-                    />
-                  </div>
-                </div>
-                <div className={Styles.fields_container_2}>
-                  <div className={Styles.inputField}>
-                    <TextArea
-                      name="master_data_description"
-                      label="Description"
-                      placeholder="Enter description"
-                      value={formik.values.master_data_description}
-                      onChange={formik.handleChange}
-                      mandatory={true}
-                      error={
-                        formik.touched.master_data_description &&
-                        formik.errors.master_data_description
-                      }
-                      rows={3}
-                      maxCharacterCount={120}
-                    />
-                  </div>
-
-                  <div>
-                    <Button
-                      color="primary"
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      icon={<AddIcon color="white" />}
-                    >
-                      Add
-                    </Button>
-                  </div>
-                </div>
+          <div className={Styles.topHeading}>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <MasterDataIcon />
+                <h4>MASTER DATA</h4>
               </div>
-            </form>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => {
+                    setMode('Add');
+                    setMasterDataFormOpen(true);
+                  }}
+                >
+                  Add Master Data
+                </Button>
+              </div>
+            </div>
           </div>
+          {/* <div className={Styles.dividerStyle}></div> */}
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
+            {/* <div className={Styles.textContent}>
               <h3>List of Master Data</h3>
               <span className={Styles.content}>
-                Manage your master data across your application
+                List of all existing master data entries
               </span>
-            </div>
-            <div className={Styles.searchField}>
+            </div> */}
+            {/* <div className={Styles.searchField}>
               <div className={Styles.inputFilter}>
                 <Input
                   width="260px"
@@ -352,7 +236,7 @@ const MaterData = () => {
                   Reset
                 </Button>
               </div>
-            </div>
+            </div> */}
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>
@@ -422,9 +306,9 @@ const MaterData = () => {
                               {data.master_data_description
                                 ? data.master_data_description.length > 20
                                   ? data.master_data_description.substring(
-                                    0,
-                                    20
-                                  ) + '...'
+                                      0,
+                                      20
+                                    ) + '...'
                                   : data.master_data_description
                                 : '-'}
                             </span>
@@ -482,21 +366,26 @@ const MaterData = () => {
           contentLine2=""
           handleConfirm={deleteCategory}
         />
-        <CustomEditDialog
-          open={open}
-          content={
-            <MasterDataEditForm
-              setOpen={setOpen}
-              open={open}
-              setReload={setReload}
-              mode={mode}
-              masterID={categoryId}
-              setOpenSnack={setOpenSnack}
-              setMessage={setMessage}
-            />
-          }
-        />
       </CustomLoader>
+      <CustomSidePopup
+        open={masterDataFormOpen}
+        title={mode === 'Edit' ? 'Edit Master Data' : 'Add Master Data'}
+        handleClose={handleCloseMasterForm}
+        content={
+          <MasterDataForm
+            open={masterDataFormOpen}
+            setOpen={setMasterDataFormOpen}
+            reload={reload}
+            setReload={setReload}
+            openSnack={openSnack}
+            setOpenSnack={setOpenSnack}
+            message={message}
+            setMessage={setMessage}
+            mode={mode}
+            masterID={masterDataID}
+          />
+        }
+      />
     </div>
   );
 };

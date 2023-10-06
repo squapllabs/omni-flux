@@ -221,6 +221,7 @@ const ProjectMasterData: React.FC = (props: any) => {
       />
       <CustomPopup
        title= {mode === "EDIT" ? 'Edit Master Data' : 'Add Master Data'}
+       description={mode === "EDIT" ? 'Modify existing master data' : 'Create new master data for a project'}
         open={open}
         handleClose={handleClosePopup}
         content={

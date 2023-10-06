@@ -22,6 +22,7 @@ import SearchIcon from '../menu/icons/search';
 import CustomSnackbar from '../ui/customSnackBar';
 import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
+import CustomSidePopup from '../ui/CustomSidePopup';
 
 /* Function for Client List */
 const ClientList = () => {
@@ -47,6 +48,7 @@ const ClientList = () => {
   const [value, setValue] = useState();
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
+  const [openClientForm, setOpenClientForm] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -76,10 +78,6 @@ const ClientList = () => {
     refetch,
   } = useGetAllPaginatedClient(clientData);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
@@ -92,7 +90,7 @@ const ClientList = () => {
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setClientID(value);
-    setOpen(true);
+    setOpenClientForm(true);
   };
 
   const handleSnackBarClose = () => {
@@ -109,32 +107,6 @@ const ClientList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      if (values) {
-        const Object: any = {
-          name: values.name,
-          contact_details: values.contact_details,
-        };
-        createNewClient(Object, {
-          onSuccess: (data: { success: any }, variables: any, context: any) => {
-            if (data?.success) {
-              setMessage('Client created');
-              setOpenSnack(true);
-              resetForm();
-            } else {
-              setMessage('Error occured in creating a new client');
-              setOpenSnack(true);
-            }
-          },
-        });
-      }
-    },
-  });
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
@@ -190,6 +162,10 @@ const ClientList = () => {
     setActiveButton(value);
   };
 
+  const handleClientFormClose = () => {
+    setOpenClientForm(false);
+  };
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
@@ -200,58 +176,30 @@ const ClientList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.box}>
-            <div className={Styles.textContent}>
-              <h3>Add New Client</h3>
-              <span className={Styles.content}>
-                Manage your Client details here.
-              </span>
-            </div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className={Styles.fields}>
-                <div>
-                  <Input
-                    label="Client Name"
-                    placeholder="Enter client name"
-                    name="name"
-                    mandatory={true}
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    error={formik.touched.name && formik.errors.name}
-                    width="100%"
-                  />
-                </div>
-                <div>
-                  <Input
-                    label="Contact Detail"
-                    placeholder="Enter client contact detail"
-                    name="contact_details"
-                    mandatory={true}
-                    value={formik.values.contact_details}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.contact_details &&
-                      formik.errors.contact_details
-                    }
-                    width="100%"
-                  />
-                </div>
-                <div className={Styles.addButton}>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon color='white'/>}
-                  >
-                    Add
-                  </Button>
-                </div>
+          <div className={Styles.topHeading}>
+            <div className={Styles.heading}>
+              <div className={Styles.subHeading}>
+                <h3>CLIENT</h3>
               </div>
-            </form>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => {
+                    setMode('ADD');
+                    setOpenClientForm(true);
+                  }}
+                >
+                  Add Client
+                </Button>
+              </div>
+            </div>
           </div>
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
+            {/* <div className={Styles.textContent}>
               <h3>List of Clients</h3>
               <span className={Styles.content}>
                 Manage your Client Details here.
@@ -294,7 +242,7 @@ const ClientList = () => {
                   activeButton={activeButton}
                 />
               </div>
-            </div>
+            </div> */}
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>
@@ -393,17 +341,22 @@ const ClientList = () => {
             </div>
           </div>
         </CustomLoader>
-        <CustomEditDialog
-          open={open}
+        <CustomSidePopup
+          open={openClientForm}
+          title={mode === 'EDIT' ? 'Edit Client' : 'Add Client'}
+          handleClose={handleClientFormClose}
           content={
             <ClientForm
-              setOpen={setOpen}
-              open={open}
+              open={openClientForm}
+              setOpen={setOpenClientForm}
+              reload={reload}
               setReload={setReload}
+              openSnack={openSnack}
+              setOpenSnack={setOpenSnack}
+              message={message}
+              setMessage={setMessage}
               mode={mode}
               clientId={clientId}
-              setOpenSnack={setOpenSnack}
-              setMessage={setMessage}
             />
           }
         />

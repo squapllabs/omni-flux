@@ -8,10 +8,11 @@ import CustomLoader from '../ui/customLoader';
 import { getBySearchSiteData, useDeleteSite } from '../../hooks/site-hooks';
 import AddIcon from '../menu/icons/addIcon';
 import { useNavigate } from 'react-router';
-import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
+import EditIcon from '../menu/icons/newEditIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
+import CustomPagination from '../menu/CustomPagination';
 
 const ContractorList = () => {
   const { mutate: getDeleteContractorById } = useDeleteSite();
@@ -42,7 +43,7 @@ const ContractorList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -114,19 +115,32 @@ const ContractorList = () => {
     setOpenSnack(false);
   };
 
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.container}>
           <div className={Styles.box}>
-            <div className={Styles.textContent}>
-              <h3>List of Contractor</h3>
-              <span className={Styles.content}>
-                Manage your contractor across your application
-              </span>
+            <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <h3>CONTRACTOR</h3>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/contractor-add')}
+                  >
+                    Add Contractor
+                  </Button>
+                </div>
+              </div>
             </div>
-            <div className={Styles.searchField}>
+            {/* <div className={Styles.searchField}>
               <div className={Styles.inputFilter}>
                 <Input
                   width="260px"
@@ -169,11 +183,10 @@ const ContractorList = () => {
                   Add
                 </Button>
               </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
+            </div> */}
             <div className={Styles.tableContainer}>
               <div>
-                <table>
+                <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
                       <th>S No</th>
@@ -203,9 +216,11 @@ const ContractorList = () => {
                         <td>{item.code}</td>
                         <td>{item.mobile_number}</td>
                         <td>
-                            <span title={item.description}>
-                              {item.description?item.description.substring(0, 50) : '-'}
-                            </span>
+                          <span title={item.description}>
+                            {item.description
+                              ? item.description.substring(0, 50)
+                              : '-'}
+                          </span>
                         </td>
                         {activeButton === 'AC' && (
                           <td>
@@ -235,7 +250,7 @@ const ContractorList = () => {
                 </table>
               </div>
               <div className={Styles.pagination}>
-                <Pagination
+                <CustomPagination
                   currentPage={currentPage}
                   totalPages={getFilterData?.total_page}
                   totalCount={getFilterData?.total_count}

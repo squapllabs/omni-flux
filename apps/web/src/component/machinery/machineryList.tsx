@@ -7,9 +7,9 @@ import Button from '../ui/Button';
 import CustomLoader from '../ui/customLoader';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
-import Pagination from '../menu/pagination';
-import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
+import Pagination from '../menu/CustomPagination';
+import EditIcon from '../menu/icons/newEditIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
 import AddIcon from '../menu/icons/addIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import {
@@ -144,13 +144,13 @@ const MachineryList = () => {
     <div className={Styles.container}>
       <div>
         <CustomLoader loading={FilterLoading} size={48} color="#333C44">
-          <div className={Styles.text}>
+          {/* <div className={Styles.text}>
             <div className={Styles.textStyle}>
               <h3>List of Machineries</h3>
             </div>
           </div>
-          <div className={Styles.dividerStyle}></div>
-          <div className={Styles.searchField}>
+          <div className={Styles.dividerStyle}></div> */}
+          {/* <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
               <Input
                 width="260px"
@@ -201,14 +201,40 @@ const MachineryList = () => {
                 </Button>
               </div>
             </div>
-          </div>
-          <div className={Styles.dividerStyle}></div>
+          </div> */}
+          {/* <div className={Styles.dividerStyle}></div> */}
+          <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <h3>MACHINERIES</h3>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/add-machinery')}
+                  >
+                    Add Machinery
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
+            </div>
           <div className={Styles.tableContainer}>
             <div>
-              <table>
+              <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th>S. No</th>
+                    <th>#</th>
                     <th>Machinery Name</th>
                     <th>Rate</th>
                     <th>UOM</th>

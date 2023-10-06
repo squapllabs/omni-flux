@@ -2,8 +2,11 @@
     width: 100%;
   }
   
-  .box {
-    position: relative;
+  .topHeading {
+    // position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
   
   .textContent {

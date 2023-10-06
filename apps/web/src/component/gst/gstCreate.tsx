@@ -21,9 +21,9 @@ const GstCreate: React.FC = (props: any) => {
   });
 
   useEffect(() => {
-    if (props.mode === 'EDIT') {
+    if (props?.mode === 'EDIT') {
       const fetchOne = async () => {
-        const data = await gstService.getOneGst(props.gstId);
+        const data = await gstService.getOneGst(props?.gstId);
         setInitialValues({
           gst_id: data?.data?.gst_id,
           rate: data?.data?.rate,
@@ -78,13 +78,13 @@ const GstCreate: React.FC = (props: any) => {
   };
 
   return (
-    <div className={Styles.formContainer}>
+    <div >
       <form onSubmit={formik.handleSubmit}>
-        <div className={Styles.header}>
+        {/* <div className={Styles.header}>
           <div><h4 className={Styles.titleStyle}>Edit GST</h4></div>
           <div> <CancelIcon onClick={handleClose} /></div>
         </div>
-        <div className={Styles.dividerStyle}></div>
+        <div className={Styles.dividerStyle}></div> */}
         <div className={Styles.field}>
           <Input
             label="Gst Rate"
@@ -94,20 +94,22 @@ const GstCreate: React.FC = (props: any) => {
             value={formik.values.rate}
             onChange={formik.handleChange}
             error={formik.touched.rate && formik.errors.rate}
-            width="100%"
+            width="350px"
           />
         </div>
-        <div className={Styles.dividerStyle}></div>
-        <div className={Styles.formButton}>
-          <div>
-            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
-              Cancel
-            </Button>
-          </div>
-          <div>
-            <Button color="primary" shape="rectangle" justify="center" size="small" type="submit">
-              Submit
-            </Button>
+        <div className={Styles.footer}>
+          <div className={Styles.dividerStyle}></div>
+          <div className={Styles.formButton}>
+            <div>
+              <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
+                Cancel
+              </Button>
+            </div>
+            <div>
+              <Button color="primary" shape="rectangle" justify="center" size="small" type="submit">
+                Submit
+              </Button>
+            </div>
           </div>
         </div>
       </form>

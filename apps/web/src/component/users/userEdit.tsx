@@ -16,6 +16,7 @@ import { format } from 'date-fns';
 import Checkbox from '../ui/Checkbox';
 import CustomSnackbar from '../ui/customSnackBar';
 import CustomLoader from '../ui/customLoader';
+import ProjectSubheader from '../project/projectSubheader';
 const validationSchema = getUsereditYupschema(Yup);
 const UserEdit = () => {
   const navigate = useNavigate();
@@ -177,9 +178,14 @@ const UserEdit = () => {
     <div className={Styles.container}>
       <CustomLoader loading={isLoading} size={48} color="#333C44">
         <form onSubmit={formik.handleSubmit}>
-          <div className={Styles.heading}>
-            <h2>USER EDIT</h2>
-          </div>
+        <div>
+          <ProjectSubheader
+            title="USER EDIT"
+            navigation="/settings"
+            description=""
+          />
+        </div >
+        <div className={Styles.box}>
           <div className={Styles.fieldsOne}>
             <div className={Styles.inputField}>
               <Input
@@ -381,14 +387,6 @@ const UserEdit = () => {
           <div className={Styles.footerButton}>
             <div className={Styles.submitButton}>
               <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                onClick={() => navigate('/settings')}
-              >
-                Back
-              </Button>
-              <Button
                 type="submit"
                 color="primary"
                 shape="rectangle"
@@ -397,6 +395,7 @@ const UserEdit = () => {
                 Submit
               </Button>
             </div>
+          </div>
           </div>
         </form>
         <CustomSnackbar

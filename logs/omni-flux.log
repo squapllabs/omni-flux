@@ -47523,3 +47523,264 @@ type IntFilter {
 }
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByMasterDataId << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:71:54
+
+  68 const getById = async (masterDataId: number, connectionObj = null) => {
+  69   try {
+  70     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 71     const masterData = await transaction.master_data.findFirst({
+           where: {
+             master_data_id: NaN,
+                             ~~~
+             is_delete: false
+           },
+           include: {
+             parent: true,
+             children: true
+           }
+         })
+
+Argument master_data_id: Got invalid value NaN on prisma.findFirstmaster_data. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllParentMasterData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:167:54
+
+  164 const getAllParentMasterData = async (connectionObj = null) => {
+  165   try {
+  166     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 167     const masterData = await transaction.master_data.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchLabour << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.labour.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\labour.dao.ts:133:45
+
+  130 try {
+  131   const transaction = connectionObj !== null ? connectionObj : prisma;
+  132   const filter = filters.filterLabour;
+→ 133   const labour = await transaction.labour.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchUom << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.uom.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\uom.dao.ts:136:39
+
+  133 try {
+  134   const transaction = connectionObj !== null ? connectionObj : prisma;
+  135   const filter = filters.filterUom;
+→ 136   const uom = await transaction.uom.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchUser << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:341:42
+
+  338 try {
+  339   const transaction = connectionObj !== null ? connectionObj : prisma;
+  340   const filter = filters.filterUser;
+→ 341   const user = await transaction.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllMasterData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:143:54
+
+  140 const getAll = async (connectionObj = null) => {
+  141   try {
+  142     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 143     const masterData = await transaction.master_data.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllParentMasterData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:167:54
+
+  164 const getAllParentMasterData = async (connectionObj = null) => {
+  165   try {
+  166     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 167     const masterData = await transaction.master_data.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchUser << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:341:42
+
+  338 try {
+  339   const transaction = connectionObj !== null ? connectionObj : prisma;
+  340   const filter = filters.filterUser;
+→ 341   const user = await transaction.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.

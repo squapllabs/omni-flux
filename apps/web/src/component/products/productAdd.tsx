@@ -20,6 +20,7 @@ import {
   getCreateValidateyup,
   getUpdateValidateyup,
 } from '../../helper/constants/item-constants';
+import ProjectSubheader from '../project/projectSubheader';
 
 const ProductAdd = () => {
   const { data: getAllItemTypeList = [] } = getBymasertDataType('IMTY');
@@ -119,7 +120,7 @@ const ProductAdd = () => {
               setMessage('Item Added');
               setOpenSnack(true);
               setTimeout(() => {
-                navigate('/products');
+                navigate('/settings');
               }, 1000);
             }
           },
@@ -134,10 +135,11 @@ const ProductAdd = () => {
 
   return (
     <div className={Styles.container}>
-      <div className={Styles.headingContainer}>
-        <h3>Add Item</h3>
-        <p>Add your raw materials ( Raw, Semi Finished & Finished).</p>
-      </div>
+      <ProjectSubheader
+        navigation={'/settings'}
+        description="Add your raw materials ( Raw, Semi Finished & Finished)."
+        title="Add Item"
+      />
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.itemField}>
@@ -281,19 +283,6 @@ const ProductAdd = () => {
             </div>
           </div>
           <div className={Styles.buttonFields}>
-            <div>
-              <Button
-                color="secondary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={() => {
-                  navigate('/products');
-                }}
-              >
-                Back
-              </Button>
-            </div>
             <div>
               <Button
                 color="primary"
