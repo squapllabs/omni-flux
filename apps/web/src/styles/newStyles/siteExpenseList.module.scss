@@ -1,0 +1,112 @@
+.container{
+    // width: 120%;
+}
+
+.topHeading{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+.vertical {
+    position: relative;
+  }
+  .verticalLine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px; /* Adjust the width of the line */
+    background-color: #7d7d7d; /* Adjust the color as needed */
+    height: 100%;
+  }
+.cards{
+    background-color:#F9F9F9;
+}
+.amountCards{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+    // background-color: white;
+}
+  
+  .card1 {
+    display: flex;
+    justify-content: flex-start;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    // width: 100%;
+    height: 20%;
+    border-radius: 7px;
+    padding: 25px;
+    background-color: white;
+  }
+  .card2 {
+    display: flex;
+    justify-content: flex-start;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    // width: 100%;
+    height: 20%;
+    border-radius: 7px;
+    padding: 25px;
+    background-color: white;
+  }
+.grpButtons{
+    display: flex;
+    justify-content: center;
+    padding: 10px 0px 10px 0px;
+    // background-color: #667085;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Apply the scrollable_table class to your table element */
+  .scrollable_table {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px;
+    gap: 12px;
+    border-collapse: collapse;
+  
+    th,
+    td {
+      padding: 10px 10px 10px 24px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 12px;
+      border: none;
+      border-bottom: 0.1px solid #f0f0f0;
+    }
+  
+    td {
+      border-bottom: 0.1px solid #f0f0f0;
+    }
+  
+    thead {
+      tr {
+        th {
+          color: #667085;
+          font-weight: 700;
+        }
+      }
+    }
+  
+    td:hover,
+    tr:hover {
+      /* Add hover styles if needed */
+    }
+  }
+  
