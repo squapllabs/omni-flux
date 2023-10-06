@@ -1,6 +1,7 @@
 import prisma from '../utils/prisma';
 import { expenseDetailsBody } from '../interfaces/expense.interface';
 import common from './common/utils.dao';
+import db from '../utils/db';
 
 const add = async (
   site_id: number,
@@ -333,6 +334,8 @@ const searchExpense = async (
   orderByColumn: string,
   orderByDirection: string,
   filters,
+  project_id: number,
+  site_id: number,
   connectionObj = null
 ) => {
   try {
@@ -379,7 +382,32 @@ const searchExpense = async (
       count: expenseCount,
       data: expense,
     };
-    return expenseData;
+
+    let expenseStatistics = {};
+    if (project_id && site_id) {
+      const db_transaction = connectionObj !== null ? connectionObj : db;
+
+      const expenseStatisticsQuery = `SELECT
+          CAST((SELECT COUNT(*) FROM expense WHERE project_id = ${project_id} AND site_id = ${site_id}) AS INT) AS total_expenses,
+          SUM(CASE WHEN e.status = 'Approved' THEN ed.total ELSE 0 END) AS approved_expenses,
+          SUM(CASE WHEN e.status = 'Rejected' THEN ed.total ELSE 0 END) AS rejected_expenses,
+          SUM(CASE WHEN e.status = 'Pending' THEN ed.total ELSE 0 END) AS pending_expenses
+      FROM
+          expense e
+      LEFT JOIN
+          expense_details ed ON ed.expense_id = e.expense_id
+      WHERE
+          e.project_id =  ${project_id}
+          AND e.site_id = ${site_id}`;
+
+      expenseStatistics = await db_transaction.one(expenseStatisticsQuery);
+    }
+    const expenseDataResult = {
+      expense_statistics: expenseStatistics,
+      data: expenseData,
+    };
+
+    return expenseDataResult;
   } catch (error) {
     console.log('Error occurred in Expense dao : searchExpense ', error);
     throw error;
