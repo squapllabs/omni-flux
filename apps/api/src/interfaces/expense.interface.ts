@@ -18,6 +18,7 @@ interface expenseBody {
   comments: string;
   progressed_date: Date;
   progressed_by: number;
+  total_amount: number;
   expense_details: Array<expenseDetailsBody>;
 }
 
@@ -35,6 +36,9 @@ interface expenseDetailsBody {
   progressed_by: number;
   is_delete: boolean;
   bill_number: string;
+  description: string;
+  quantity: number;
+  unit_value: number;
 }
 
 export { expenseBody, expenseDetailsBody };

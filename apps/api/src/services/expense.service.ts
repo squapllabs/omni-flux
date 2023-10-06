@@ -29,6 +29,7 @@ const createExpense = async (body: expenseBody) => {
       expense_details,
       bill_details,
       status,
+      total_amount,
     } = body;
     let result = null;
 
@@ -81,6 +82,7 @@ const createExpense = async (body: expenseBody) => {
           bill_details,
           created_by,
           status,
+          total_amount,
           expense_details,
           prisma
         );
@@ -143,6 +145,7 @@ const updateExpense = async (body: expenseBody) => {
       status,
       expense_id,
       expense_details,
+      total_amount,
       bill_details,
     } = body;
     let result = null;
@@ -215,6 +218,7 @@ const updateExpense = async (body: expenseBody) => {
           updated_by,
           status,
           expense_id,
+          total_amount,
           expense_details,
           prisma
         );
