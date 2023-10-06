@@ -29,6 +29,7 @@ const createExpense = async (body: expenseBody) => {
       expense_details,
       bill_details,
       status,
+      total_amount,
     } = body;
     let result = null;
 
@@ -81,6 +82,7 @@ const createExpense = async (body: expenseBody) => {
           bill_details,
           created_by,
           status,
+          total_amount,
           expense_details,
           prisma
         );
@@ -143,6 +145,7 @@ const updateExpense = async (body: expenseBody) => {
       status,
       expense_id,
       expense_details,
+      total_amount,
       bill_details,
     } = body;
     let result = null;
@@ -215,6 +218,7 @@ const updateExpense = async (body: expenseBody) => {
           updated_by,
           status,
           expense_id,
+          total_amount,
           expense_details,
           prisma
         );
@@ -371,7 +375,10 @@ const searchExpense = async (body) => {
       });
     }
 
-    if (expense_status) {
+    if (expense_status === 'All') {
+      filterObj.filterExpense = filterObj.filterExpense || {};
+      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+    } else {
       filterObj.filterExpense = filterObj.filterExpense || {};
       filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
 
@@ -493,17 +500,21 @@ const searchExpense = async (body) => {
       limit,
       order_by_column,
       order_by_direction,
-      filterObj
+      filterObj,
+      project_id,
+      site_id
     );
 
-    const count = result.count;
-    const data = result.data;
+    const count = result.data?.count;
+    const data = result.data?.data;
+    const expenseStatistics = result?.expense_statistics;
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
     const tempExpenseData = {
       message: 'success',
       status: true,
       total_count: count,
       total_page: total_pages,
+      expense_statistics: expenseStatistics,
       content: data,
     };
     return tempExpenseData;

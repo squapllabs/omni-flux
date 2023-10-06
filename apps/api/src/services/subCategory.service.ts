@@ -7,6 +7,7 @@ import {
 import subSubCategoryDao from '../dao/subSubCategory.dao';
 import projectDao from '../dao/project.dao';
 import bomConfigurationDao from '../dao/bomConfiguration.dao';
+import uomDao from '../dao/uom.dao';
 
 /**
  * Method to Create a New SubCategory
@@ -18,7 +19,7 @@ const createSubCategory = async (body: createSubCategoryBody) => {
     const {
       name,
       category_id,
-      budget,
+      actual_budget,
       created_by = null,
       description,
       project_id,
@@ -26,6 +27,10 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       end_date,
       bom_configuration_id,
       progress_status,
+      parent_sub_category_id,
+      estimated_budget,
+      uom_id,
+      quantity,
     } = body;
     let result = null;
     const categoryExist = await categoryDao.getById(category_id);
@@ -42,6 +47,17 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       if (!projectExist) {
         return {
           message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    if (uom_id) {
+      const uomExist = await uomDao.getById(uom_id);
+      if (!uomExist) {
+        return {
+          message: 'uom_id does not exist',
           status: false,
           data: null,
         };
@@ -74,18 +90,35 @@ const createSubCategory = async (body: createSubCategoryBody) => {
         };
       }
     }
+    if (parent_sub_category_id) {
+      const parentSubCategoryExist = await subCategoryDao.getById(
+        parent_sub_category_id
+      );
+      if (!parentSubCategoryExist) {
+        result = {
+          message: 'parent_sub_category_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
 
     const subCategoryDetails = await subCategoryDao.add(
       name,
       category_id,
-      budget,
+      actual_budget,
       created_by,
       description,
       project_id,
       start_date,
       end_date,
       progress_status,
-      bom_configuration_id
+      bom_configuration_id,
+      parent_sub_category_id,
+      estimated_budget,
+      uom_id,
+      quantity
     );
     result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
@@ -105,7 +138,7 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
     const {
       name,
       category_id,
-      budget,
+      actual_budget,
       updated_by,
       sub_category_id,
       description,
@@ -114,6 +147,10 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       end_date,
       bom_configuration_id,
       progress_status,
+      parent_sub_category_id,
+      estimated_budget,
+      uom_id,
+      quantity,
     } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
@@ -135,6 +172,31 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
           status: false,
           data: null,
         };
+      }
+    }
+
+    if (uom_id) {
+      const uomExist = await uomDao.getById(uom_id);
+      if (!uomExist) {
+        return {
+          message: 'uom_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    if (parent_sub_category_id) {
+      const parentSubCategoryExist = await subCategoryDao.getById(
+        parent_sub_category_id
+      );
+      if (!parentSubCategoryExist) {
+        result = {
+          message: 'parent_sub_category_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
       }
     }
 
@@ -176,7 +238,7 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
     const subCategoryDetails = await subCategoryDao.edit(
       name,
       category_id,
-      budget,
+      actual_budget,
       updated_by,
       sub_category_id,
       description,
@@ -184,7 +246,11 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       start_date,
       end_date,
       progress_status,
-      bom_configuration_id
+      bom_configuration_id,
+      parent_sub_category_id,
+      estimated_budget,
+      uom_id,
+      quantity
     );
     result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
@@ -394,6 +460,14 @@ const searchSubCategory = async (body) => {
           {
             project_data: {
               project_name: {
+                contains: name,
+                mode: 'insensitive',
+              },
+            },
+          },
+          {
+            uom_data: {
+              name: {
                 contains: name,
                 mode: 'insensitive',
               },
