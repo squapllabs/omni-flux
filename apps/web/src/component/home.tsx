@@ -6,6 +6,7 @@ import FolderIcon from './menu/icons/folderIcon';
 import CustomCard from './ui/CustomCard';
 import { Chart } from "react-google-charts";
 import CustomLoader from './ui/customLoader';
+import { formatBudgetValue } from '../helper/common-function';
 import {
   useGetAllProject,
   useGetAllProjectStatus,
@@ -28,9 +29,11 @@ const Home = () => {
     setCreateItem(false);
   };
 
-
   const projectStatusData: any = [["Projects", "Total Days", "So Far"]];
   projectStatus?.top_projects?.map(async (val: any) => {
+    const truncatedProjectName = val.project_name.length > 20
+      ? val.project_name.substring(0, 17) + "..."
+      : val.project_name;
     await projectStatusData.push([val.project_name, val.project_total_days, val.days_completed])
   });
 
@@ -63,6 +66,12 @@ const Home = () => {
     colors: ['#6941C6', '#32D583']
   };
 
+  const formatNumberToLakh = (number: number) => {
+    const lakhValue = number / 100000;
+    const formattedNumber = '₹ ' + lakhValue.toFixed(1) + ' L';
+    return formattedNumber;
+  }
+
 
   return (
 
@@ -74,23 +83,23 @@ const Home = () => {
       >
         <div className={Styles.containerCard}>
           {/* <div className={Styles.dashBoardcontainer}> */}
-            <div>PROJECT TRACKER</div>
-            <div className={Styles.barCarddDiv}>
-              <div className={Styles.chart}>
-                <Chart
-                  chartType="Bar"
-                  height="250px"
-                  data={projectStatusData}
-                  options={chartOptions1}
-                />
-              </div>
+          <div>PROJECT TRACKER</div>
+          <div className={Styles.barCarddDiv}>
+            <div className={Styles.chart}>
+              <Chart
+                chartType="Bar"
+                height="250px"
+                data={projectStatusData}
+                options={chartOptions1}
+              />
             </div>
-            <div >PROJECTS
+          </div>
+          <div >PROJECTS
             <div className={Styles.cardDiv}>
               <div className={Styles.cardContainer}>
                 <div className={Styles.cardTextStyle}>
                   <h3><b>Inprogress</b></h3>
-                  <div className = {Styles.textStyle1}>{projectStatus?.inprogress_projects}</div>
+                  <div className={Styles.textStyle1}>{projectStatus?.inprogress_projects}</div>
                 </div>
                 <div className={Styles.cardTextStyle}>
                   <h3><b>Yet to Start</b></h3>
@@ -115,9 +124,138 @@ const Home = () => {
               </div>
             </div>
           </div>
+          <div className={Styles.centerCard}>
+            {/* <div className={Styles.dashedLine}></div>
+            <div className={Styles.headingGap}>
+              CUSTOMERS (57)
+              <div className={Styles.centerFirst}>
+                <div className={Styles.centerGap}>
+                  <h3>Total Invoiced</h3>
+                  <div>
+                    <b>₹14.32 L</b> (YTD)
+                  </div>
+                </div>
+                <div className={Styles.centerGap}>
+                  <h3> Received</h3>
+                  <div>
+                    <b>-</b>
+                  </div>
+                </div>
+                <div className={Styles.centerGap}>
+                  <h3>Outstanding</h3>
+                  <div>
+                    <b>₹22.69 L</b> (YTD)
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            <div className={Styles.dashedLine}></div>
+            <div className={Styles.headingGap}>
+              VENDORS (30)
+              <div className={Styles.centerFirst}>
+                <div className={Styles.centerGap}>
+                  <h3>Total Invoiced</h3>
+                  <div>
+                    <b>₹18.09 L</b> (YTD)
+                  </div>
+                </div>
+                <div className={Styles.centerGap}>
+                  <h3> Paid</h3>
+                  <div>
+                    <b>-</b>
+                  </div>
+                </div>
+                <div className={Styles.centerGap}>
+                  <h3>Pending</h3>
+                  <div>
+                    <b>-</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={Styles.dashedLine}></div>
+            <div className={Styles.headingGap}>PURCHASE
+              <div className={Styles.centerFirst}>
+                <div className={Styles.centerGap}>
+                  <h3>Pending</h3>
+                  <div>
+                    <b>207</b>
+                  </div>
+                </div>
+                <div className={Styles.centerGap}>
+                  <h3> Completed</h3>
+                  <div>
+                    <b>69</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={Styles.dashedLine}></div>
+          </div>
+        </div>
+        <div className={Styles.projectDiv}>
+          <div className={Styles.headingGap}> TOP 5: PROJECTS
+            <table className={Styles.scrollable_table}>
+              <thead></thead>
+              <tbody>
+                {projectStatus?.top_projects?.map((data: any) => {
+                  return (
+                    <tr>
+                      <td>{(data?.project_name).toUpperCase()}
+                        {/* <span className={Styles.spantag}>120 invoices (so for)</span> */}
+                      </td>
+                      <td className={Styles.budget}>{(formatNumberToLakh(data?.total_budget))}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div >
+          <div className={Styles.projectDiv2}> <div className={Styles.projectPayment}>TOP 5: PAYMENT OUTSTANDING</div>
+            <table className={Styles.scrollable_table}>
+              <tbody>
+                {projectStatus?.top_projects?.map((data: any) => {
+                  return (
+                    <tr>
+                      <td>{(data?.project_name).toUpperCase()}
+                        <span className={Styles.spantag}>120 invoices (so for)</span>
+                      </td>
+                      <td className={Styles.budget}>{(formatNumberToLakh(data?.total_budget))}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+          {/* <div className={Styles.projectDiv3}>PURCHASE
+              <table className={Styles.scrollable_table}>
+                <tbody>
+                  <tr>
+                    <td> PRODUCT RECEIVED
+                    </td>
+                    <td className={Styles.budget}>98</td>
+                  </tr>
+                  <tr>
+                    <td> PENDING
+                    </td>
+                    <td className={Styles.budget}>33</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      COMPLETED
+                    </td>
+                    <td className={Styles.budget}>65</td>
+                  </tr>
+                </tbody>
+              </table>
+
+
+            </div> */}
+
         </div>
 
-        <div className={Styles.homeContainer}>
+
+        {/* <div className={Styles.homeContainer}>
           <div className={Styles.homeLeftContent}>
             <h2>Let's begin your journey with OmniFlux ERP</h2>
             <p>Item,customer,Supplier,Quatation</p>
@@ -267,7 +405,7 @@ const Home = () => {
           <div className={Styles.importContainer}>
             <p>Import Data</p>
           </div>
-        </div>
+        </div> */}
       </CustomLoader>
     </div>
 
