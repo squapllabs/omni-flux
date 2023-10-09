@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SiteExpensesForm from '../../../expanses/siteExpensesForm';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
@@ -20,8 +20,14 @@ import TickIcon from '../../../menu/icons/tickIcon';
 import EnrichIcon from '../../../menu/icons/enrichIcon';
 import FlagIcon from '../../../menu/icons/flagIcon';
 import Button from '../../../ui/Button';
+import CustomConfirmDialogBox from '../../../ui/CustomConfirmDialogBox';
+import CustomDialogBox from '../../../ui/CustomDialog';
+import siteExpenseService from '../../../../service/expense-service';
+import CustomSnackbar from '../../../ui/customSnackBar';
 
 const ProjectSiteExpenseForm: React.FC = (props: any) => {
+  console.log('filterValue', props.siteId);
+
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const projectId = Number(props?.projectId);
@@ -36,24 +42,91 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     department: '',
     designation: '',
     site_expense_id: '',
-    site_id: '',
+    site_id: siteId,
     expense_id: '',
     submitType: '',
+    total_amount: '',
   });
   const [expenseList, setExpenseList] = useState<any>([]);
   const validationSchema = getCreateValidateyup(Yup);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const { data: getSiteList } = getProjectSite(Number(projectId));
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
     createsiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
     updatesiteExpense();
+  const drafthandler = () => {
+    formik.setFieldValue('submitType', 'Draft');
+    formik.submitForm();
+  };
+  const submitHandler = () => {
+    setOpenConfirm(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  const handleCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
+  const handleConfirmForm = () => {
+    formik.setFieldValue('submitType', 'Inprogress');
+    formik.submitForm();
+    setOpenConfirm(false);
+  };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+  };
+
+  const dateFormat = (value: any) => {
+    const currentDate = new Date(value);
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
+    return formattedDate;
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const postIds = {
+        projectId: projectId,
+        siteId: siteId,
+      };
+      const datas = await siteExpenseService.getOnesiteExpenseByID(
+        props?.expenseID
+      );
+      console.log('datas', datas);
+      const arry: any = [];
+      // setExpenseBill(
+      //   datas?.data?.bill_details === null ? [] : datas?.data?.bill_details
+      // );
+      setExpenseList(datas?.data?.expense_details);
+      setInitialValues({
+        employee_name: datas?.data?.employee_name,
+        employee_id: datas?.data?.employee_id,
+        employee_phone: datas?.data?.employee_phone,
+        end_date: dateFormat(datas?.data?.end_date),
+        start_date: dateFormat(datas?.data?.start_date),
+        purpose: datas?.data?.purpose,
+        department: datas?.data?.department,
+        designation: datas?.data?.designation,
+        site_expense_id: datas?.data?.site_expense_id,
+        expense_id: datas?.data?.expense_id,
+        site_id: datas?.data?.site_id,
+        submitType: datas?.data?.status,
+        total_amount: datas?.data?.total_amount,
+      });
+    };
+    if (props?.mode === 'Edit') fetchData();
+  }, [props?.expenseID, props?.mode]);
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
+      console.log('values', values);
+
       const statusData = values.submitType === 'Draft' ? 'Draft' : 'Pending';
       let count = 0;
       for (let i = 0; i < expenseList.length; i++) {
@@ -62,8 +135,17 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
         }
       }
       if (count === 0) {
-        // setOpenDialog(true);
+        setOpenDialog(true);
       } else {
+        const totalSelectedPrice = expenseList.reduce(
+          (total: any, item: any) => {
+            if (item.is_delete === false) {
+              return total + item.total;
+            }
+            return total;
+          },
+          0
+        );
         if (values.expense_id === '') {
           const object: any = {
             site_id: values.site_id,
@@ -80,6 +162,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             created_by: encryptedData?.userId,
             bill_details: '',
             status: statusData,
+            total_amount: totalSelectedPrice,
           };
           console.log('objectpost', object);
           postSiteExpenseData(object, {
@@ -88,13 +171,16 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
               if (data?.status === true) {
                 setMessage('Site Expense has been added successfully !');
                 setOpenSnack(true);
-                // setTimeout(() => {
-                //   navigate(`/project-edit/${projectId}`);
-                // }, 3000);
+                setTimeout(() => {
+                  props.setOpen(!props.open);
+                  props.setReload(!props.reload);
+                }, 1000);
               }
             },
           });
         } else {
+          console.log('sumOfRates', totalSelectedPrice);
+
           const object: any = {
             site_id: values.site_id,
             project_id: projectId,
@@ -112,15 +198,20 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             expense_id: values.expense_id,
             bill_details: '',
             status: statusData,
+            total_amount: totalSelectedPrice,
           };
+          console.log('Editobject', object);
+
           updateSiteExpenseData(object, {
             onSuccess(data, variables, context) {
               if (data?.status === true) {
+                console.log('editData', data);
                 setMessage('Site Expense has been updated successfully !');
                 setOpenSnack(true);
-                // setTimeout(() => {
-                //   navigate(`/project-edit/${projectId}`);
-                // }, 3000);
+                setTimeout(() => {
+                  props.setOpen(!props.open);
+                  props.setReload(!props.reload);
+                }, 1000);
               }
             },
           });
@@ -150,7 +241,14 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                 />
               </div>
               <div className={Styles.fieldStyle}>
-                <Input name="total" label="Total" disabled mandatory />
+                <Input
+                  name="total_amount"
+                  label="Total"
+                  value={formik.values.total_amount}
+                  onChange={formik.handleChange}
+                  disabled
+                  mandatory
+                />
               </div>
             </div>
             <div className={Styles.fields_container_1}>
@@ -196,7 +294,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                 shape="rectangle"
                 size="small"
                 justify="center"
-                // onClick={() => submitHandler()}
+                onClick={() => submitHandler()}
               >
                 Save
               </Button>
@@ -207,7 +305,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                 size="small"
                 justify="center"
                 className={Styles.draftButton}
-                // onClick={() => drafthandler()}
+                onClick={() => drafthandler()}
               >
                 Save Draft
               </Button>
@@ -226,6 +324,27 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
           </div>
         </div>
       </div>
+      <CustomConfirmDialogBox
+        open={openConfirm}
+        handleClose={handleCloseConfirm}
+        handleConfirm={handleConfirmForm}
+        title="are you sure you want to save?"
+        contentLine1="after saving you cant edit  "
+      />
+      <CustomDialogBox
+        open={openDialog}
+        title="Warning"
+        contentLine1="Please add site expanse details"
+        contentLine2=""
+        handleClose={handleCloseDialog}
+      />
+      <CustomSnackbar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
+      />
     </div>
   );
 };
