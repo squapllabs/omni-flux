@@ -21,17 +21,15 @@ const ProjectSiteExpenseList = () => {
   let rowIndex = 0;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
-  const initialSiteId = getSiteList ? getSiteList[0]?.value : null;
-  console.log('initialSiteIdjjjjjjj', initialSiteId);
+
+
   const [activeButton, setActiveButton] = useState<string | null>('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [filterValue, setFilterValue] = useState(initialSiteId);
   const [expenseID, setExpenseID] = useState();
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);
-  console.log('initialSiteIdssssss', filterValue);
+
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
     { label: 'Approved', value: 'Approved' },
@@ -39,21 +37,28 @@ const ProjectSiteExpenseList = () => {
     { label: 'Rejected', value: 'Rejected' },
     { label: 'Draft', value: 'Draft' },
   ]);
+
+
+  const { data: getSiteList, isLoading: siteLoading } = getProjectSite(Number(routeParams?.id));
+  console.log("Check Site List1:", getSiteList)
+  console.log("Check Site List2:", siteLoading)
+
+  const initialSiteId = !siteLoading && getSiteList ? getSiteList[0]?.value : null;
+  console.log("Check Site List3:", initialSiteId)
+  const [filterValue, setFilterValue] = useState(initialSiteId);
+  console.log('Check Site List4', filterValue);
+
   const {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
   } = getBySearchsiteExpense();
-  console.log('getExpenseList', getExpenseList);
-
-  // const dateFormat = (value: any) => {
-  //   const currentDate = new Date(value);
-  //   const formattedDate = format(currentDate, 'yyyy-MM-dd');
-  //   return formattedDate;
-  // };
 
   const handleSearch = async () => {
-    console.log("Check data--->",filterValue)
+    console.log("Check data--->21", filterValue)
+    console.log("Check data--->22", initialSiteId)
+    console.log("Check data--->23", getSiteList)
+
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
@@ -62,7 +67,7 @@ const ProjectSiteExpenseList = () => {
       status: 'AC',
       project_id: Number(routeParams?.id),
       expense_status: activeButton,
-      site_id: filterValue === null ? initialSiteId:  filterValue,
+      site_id: filterValue === null ? initialSiteId : filterValue,
     };
     console.log('payload ----->', demo);
     postDataForFilter(demo);
@@ -90,7 +95,7 @@ const ProjectSiteExpenseList = () => {
   };
   useEffect(() => {
     handleSearch();
-  }, [currentPage, rowsPerPage, filterValue, activeButton, reload]);
+  }, [currentPage, rowsPerPage, filterValue, activeButton, reload, getSiteList]);
   return (
     <div className={Styles.container}>
       <CustomLoader loading={fetchLoader} size={48}>
@@ -98,16 +103,16 @@ const ProjectSiteExpenseList = () => {
           <MoneyIcon color="black" />
           <span>Site Expenses for</span>
           <div>
-            <AutoCompleteSelect
+            {getSiteList && <AutoCompleteSelect
               name="site_id"
               label="Site"
               mandatory={true}
               optionList={getSiteList}
-              value={filterValue}
+              value={filterValue === null ? Number(initialSiteId) : filterValue}
               onSelect={(value: any) => {
                 setFilterValue(value);
               }}
-            />
+            />}
           </div>
           <div className={Styles.sub_header}>
             {getExpenseList?.expense_statistics?.total_expenses === 0 ? (
@@ -143,7 +148,7 @@ const ProjectSiteExpenseList = () => {
         </div>
         <div>
           {getExpenseList?.total_count !== 0 ||
-          getExpenseList?.expense_statistics?.total_expenses !== 0 ? (
+            getExpenseList?.expense_statistics?.total_expenses !== 0 ? (
             <div>
               <div className={Styles.cards}>
                 <div className={Styles.amountCards}>
@@ -166,7 +171,7 @@ const ProjectSiteExpenseList = () => {
                         {formatBudgetValue(
                           getExpenseList?.expense_statistics?.approved_expenses
                             ? getExpenseList?.expense_statistics
-                                ?.approved_expenses
+                              ?.approved_expenses
                             : 0
                         )}
                       </p>
@@ -181,7 +186,7 @@ const ProjectSiteExpenseList = () => {
                         {formatBudgetValue(
                           getExpenseList?.expense_statistics?.rejected_expenses
                             ? getExpenseList?.expense_statistics
-                                ?.rejected_expenses
+                              ?.rejected_expenses
                             : 0
                         )}
                       </p>
@@ -196,7 +201,7 @@ const ProjectSiteExpenseList = () => {
                         {formatBudgetValue(
                           getExpenseList?.expense_statistics?.pending_expenses
                             ? getExpenseList?.expense_statistics
-                                ?.pending_expenses
+                              ?.pending_expenses
                             : 0
                         )}
                       </p>
@@ -223,8 +228,8 @@ const ProjectSiteExpenseList = () => {
                       <th className={Styles.tableHeading}>Amount</th>
                       {/* <th className={Styles.tableHeading}>Action</th> */}
                       {activeButton === 'All' ||
-                      activeButton === 'Rejected' ||
-                      activeButton === 'Draft' ? (
+                        activeButton === 'Rejected' ||
+                        activeButton === 'Draft' ? (
                         <th className={Styles.tableHeading}>Action</th>
                       ) : null}
                     </tr>
@@ -256,17 +261,16 @@ const ProjectSiteExpenseList = () => {
                             <td>{items?.site_data?.name}</td>
                             <td>
                               <span
-                                className={`${Styles.status} ${
-                                  items?.status === 'Pending'
-                                    ? Styles.pendingStatus
-                                    : items?.status === 'Rejected'
+                                className={`${Styles.status} ${items?.status === 'Pending'
+                                  ? Styles.pendingStatus
+                                  : items?.status === 'Rejected'
                                     ? Styles.rejectedStatus
                                     : items?.status === 'Approved'
-                                    ? Styles.approvedStatus
-                                    : items?.status === 'Draft'
-                                    ? Styles.draftStatus
-                                    : ''
-                                }`}
+                                      ? Styles.approvedStatus
+                                      : items?.status === 'Draft'
+                                        ? Styles.draftStatus
+                                        : ''
+                                  }`}
                               >
                                 {items?.status}
                               </span>
@@ -274,7 +278,7 @@ const ProjectSiteExpenseList = () => {
                             <td>{sumOfRates}</td>
                             <td>
                               {items?.status === 'Rejected' ||
-                              items?.status === 'Draft' ? (
+                                items?.status === 'Draft' ? (
                                 <div
                                   style={{ cursor: 'pointer' }}
                                   onClick={(e) => {
