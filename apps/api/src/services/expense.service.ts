@@ -298,13 +298,11 @@ const deleteExpense = async (expenseId: number) => {
     }
 
     if (expenseExist?.expense_details?.length > 0) {
-      const result = {
-        message:
-          'Unable to delete this.The expense_id is mapped on expense_details',
-        status: false,
-        data: null,
-      };
-      return result;
+      const expenseDetailsData = expenseExist?.expense_details;
+      for (const expenseDetails of expenseDetailsData) {
+        const expense_details_id = expenseDetails.expense_details_id;
+        await expenseDetailsDao.deleteExpenseDetails(expense_details_id);
+      }
     }
 
     const data = await expenseDao.deleteExpense(expenseId);
