@@ -502,7 +502,7 @@ const getAllDashboard = async (connectionObj = null) => {
         project p
       order by
         p.actual_budget desc
-      limit 6) top_five)project_list on
+      limit 5) top_five)project_list on
     true`;
     const result = await transaction.oneOrNone(query, []);
     return result;

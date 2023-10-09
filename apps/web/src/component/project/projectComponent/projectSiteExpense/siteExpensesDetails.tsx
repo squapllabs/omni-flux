@@ -64,12 +64,15 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         'description-availability',
         'Site Expense is already present',
         async function (value, { parent }: Yup.TestContext) {
-          const isDelete = parent.is_delete;
+          const isDelete = false;
+          console.log('isDelete', typeof isDelete);
           try {
+            console.log('props.expenseList', props.expenseList);
             const isValuePresent = props.expenseList.some((obj) => {
-              console.log('obj', obj);
+              console.log('obj.is_delete ', typeof obj.is_delete);
               return (
-                obj.site_expense === Number(value) && obj.is_delete === isDelete
+                Number(obj.expense_data_id) === Number(value) &&
+                obj.is_delete === isDelete
               );
             });
             console.log('isValuePresent', isValuePresent);
@@ -194,7 +197,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                 </div>
               </td>
               <td>
-                <div>
+                <div style={{ paddingTop: '20px' }}>
                   <Input
                     name="bill_number"
                     value={formik.values.bill_number}
@@ -217,7 +220,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                     <span style={{ fontSize: '70%' }}>Is bill available ?</span>
                   </div>
                 </div>
-  
               </td>
               <td>
                 <div>

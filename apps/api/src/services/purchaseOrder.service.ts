@@ -633,6 +633,31 @@ const updateStatusAndDocument = async (body: purchaseOrderBody) => {
   }
 };
 
+/**
+ * Method to get PurchaseOrder Statistics
+ * @returns
+ */
+const getPOStatistics = async () => {
+  try {
+    const purchaseOrderData = await purchaseOrderDao.getPOStatistics();
+    if (purchaseOrderData) {
+      return { message: 'success', status: true, data: purchaseOrderData };
+    } else {
+      return {
+        message: 'No data found',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getPOStatistics purchaseOrder service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -643,4 +668,5 @@ export {
   createPurchaseOrderWithItem,
   getByPurchaseRequestId,
   updateStatusAndDocument,
+  getPOStatistics,
 };

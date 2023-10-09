@@ -9,17 +9,17 @@ export const siteExpanseMessages = {
 
 export const getCreateValidateyup = (yup: any) => {
   return yup.object().shape({
-    employee_name: yup.string().required(siteExpanseMessages.ENTER_NAME),
-    employee_id: yup.string().required(siteExpanseMessages.ENTER_DEPARTMENT),
-    employee_phone: yup
-      .string()
-      .matches(/^\d{10}$/, 'Contact number must be a 10 digit number')
-      .typeError('Invalid contact number'),
-    purpose: yup
-      .string()
-      .typeError(siteExpanseMessages.ENTER_PURPOSE)
-      .required(siteExpanseMessages.ENTER_PURPOSE),
-    department: yup.string().required(siteExpanseMessages.ENTER_DEPARTMENT),
+    // employee_name: yup.string().required(siteExpanseMessages.ENTER_NAME),
+    // employee_id: yup.string().required(siteExpanseMessages.ENTER_DEPARTMENT),
+    // employee_phone: yup
+    //   .string()
+    //   .matches(/^\d{10}$/, 'Contact number must be a 10 digit number')
+    //   .typeError('Invalid contact number'),
+    // purpose: yup
+    //   .string()
+    //   .typeError(siteExpanseMessages.ENTER_PURPOSE)
+    //   .required(siteExpanseMessages.ENTER_PURPOSE),
+    // department: yup.string().required(siteExpanseMessages.ENTER_DEPARTMENT),
     start_date: yup
       .date()
       .typeError(siteExpanseMessages.ENTER_START_DATE)
