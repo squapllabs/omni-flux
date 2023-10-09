@@ -33,7 +33,8 @@ const ProjectSiteExpenseList = () => {
         open={open}
         handleClose={handleClose}
         title={'Add Site Expense'}
-        content={<ProjectSiteExpenseForm />}
+        content={<ProjectSiteExpenseForm projectId={routeParams?.id} />}
+        width={'80%'}
       />
     </div>
   );
