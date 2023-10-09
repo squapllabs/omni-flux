@@ -1,0 +1,111 @@
+.container {
+  padding-top: 10px;
+}
+
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.formContainer {
+  display: flex;
+  gap: 10px;
+}
+.form_fields {
+  width: 85%;
+}
+.fieldStyle {
+  width: 40%;
+}
+.table_container {
+  padding: 10px;
+  margin: 0 auto;
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
+
+.scrollable_table {
+  padding: 10px 10px;
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px 10px 10px 24px;
+    text-align: left;
+    font-weight: 500;
+    // border: 0px 0px 1px;
+    font-size: 12px;
+    border: none;
+    /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+    // border-bottom :0px, 0px, 1px, 0px
+  }
+
+  thead {
+    tr {
+      th {
+        color: #667085;
+        font-weight: 700;
+      }
+    }
+  }
+
+  td:hover,
+  tr:hover {
+    /* Add hover styles if needed */
+  }
+}
+.fields_container_1 {
+  display: flex;
+  gap: 10px;
+}
+
+.addDataIcon {
+  padding-top: 20px;
+  padding-left: 50px;
+  display: flex;
+  flex-direction: row;
+  color: var(--secondary-color);
+  gap: 10px;
+  align-items: center;
+}
+.iconContent {
+  // background-color: #667085;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+  padding: 10px;
+}
+
+.buttonComponent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 5px;
+}
+.dividerStyleOne {
+  border-bottom: 1px solid rgb(226, 226, 226);
+}
+
+.bottomButton {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+.draftButton {
+  color: var(--secondary-color);
+}
+.cancelButton {
+  background-color: var(--danger-color);
+  color: #b42318;
+}

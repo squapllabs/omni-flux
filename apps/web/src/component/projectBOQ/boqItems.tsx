@@ -36,6 +36,8 @@ const BomItems = (props: {
     selectedBomConfig: selectedBomConfig,
   };
   const { data: getAllData, refetch } = getBycategoryIdInSub(obj);
+  console.log('getAllData', getAllData);
+
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [planListTitle, setPlanListTitle] = useState('');
