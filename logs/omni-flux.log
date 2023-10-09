@@ -47784,6 +47784,7 @@ D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:341:42
 Can't reach database server at `3.108.30.2`:`5432`
 
 Please make sure your database server is running at `3.108.30.2`:`5432`.
+<<<<<<< HEAD
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.sub_category.findMany()` invocation in
 D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:347:56
@@ -47819,6 +47820,20 @@ Unknown field `uom_data` for include statement on model sub_category. Available 
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.category.findFirst()` invocation in
 D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+=======
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.sub_category.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:319:56
+
+  316 ) => {
+  317   try {
+  318     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 319     const subCategory = await transaction.sub_category.findMany(
+The column `sub_category.budget` does not exist in the current database.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+>>>>>>> 4e37662cd0ba741dda3e6e844443a52714d2bd78
 
   86 const getById = async (categoryId: number, connectionObj = null) => {
   87   try {
@@ -47866,6 +47881,7 @@ type IntFilter {
 }
 
 
+<<<<<<< HEAD
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.sub_category.findMany()` invocation in
 D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:347:56
@@ -47901,6 +47917,20 @@ Unknown field `uom_data` for include statement on model sub_category. Available 
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.category.findFirst()` invocation in
 D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+=======
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.sub_category.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:319:56
+
+  316 ) => {
+  317   try {
+  318     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 319     const subCategory = await transaction.sub_category.findMany(
+The column `sub_category.budget` does not exist in the current database.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+>>>>>>> 4e37662cd0ba741dda3e6e844443a52714d2bd78
 
   86 const getById = async (categoryId: number, connectionObj = null) => {
   87   try {
@@ -47948,6 +47978,7 @@ type IntFilter {
 }
 
 
+<<<<<<< HEAD
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.sub_category.findMany()` invocation in
 D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:347:56
@@ -48158,3 +48189,14 @@ D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:347:56
 
 Unknown field `uom_data` for include statement on model sub_category. Available options are listed in green. Did you mean `bom_detail`?
 
+=======
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.sub_category.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:319:56
+
+  316 ) => {
+  317   try {
+  318     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 319     const subCategory = await transaction.sub_category.findMany(
+The column `sub_category.budget` does not exist in the current database.
+>>>>>>> 4e37662cd0ba741dda3e6e844443a52714d2bd78
