@@ -107,7 +107,7 @@ const InputContainer = styled.div<StyledInputProps>`
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
   background-color: ${(props) =>
-    props.transparent ? 'transaparent' : '#f4f5f6'};
+    props.transparent ? 'transaparent' : '#FFFFFF'};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   &:hover {
@@ -299,7 +299,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
                     }}
                     style={{
                       backgroundColor: `${
-                        option.label === values ? '#EFF5F5' : ''
+                        option.label === values ? '#FFFFFF' : ''
                       }`,
                     }}
                   >
