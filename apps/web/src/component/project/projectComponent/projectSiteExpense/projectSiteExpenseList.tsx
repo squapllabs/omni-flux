@@ -21,15 +21,12 @@ const ProjectSiteExpenseList = () => {
   let rowIndex = 0;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-
-
   const [activeButton, setActiveButton] = useState<string | null>('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [expenseID, setExpenseID] = useState();
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);
-
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
     { label: 'Approved', value: 'Approved' },
@@ -40,13 +37,8 @@ const ProjectSiteExpenseList = () => {
 
 
   const { data: getSiteList, isLoading: siteLoading } = getProjectSite(Number(routeParams?.id));
-  console.log("Check Site List1:", getSiteList)
-  console.log("Check Site List2:", siteLoading)
-
   const initialSiteId = !siteLoading && getSiteList ? getSiteList[0]?.value : null;
-  console.log("Check Site List3:", initialSiteId)
   const [filterValue, setFilterValue] = useState(initialSiteId);
-  console.log('Check Site List4', filterValue);
 
   const {
     mutate: postDataForFilter,
@@ -55,10 +47,6 @@ const ProjectSiteExpenseList = () => {
   } = getBySearchsiteExpense();
 
   const handleSearch = async () => {
-    console.log("Check data--->21", filterValue)
-    console.log("Check data--->22", initialSiteId)
-    console.log("Check data--->23", getSiteList)
-
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
@@ -69,7 +57,6 @@ const ProjectSiteExpenseList = () => {
       expense_status: activeButton,
       site_id: filterValue === null ? initialSiteId : filterValue,
     };
-    console.log('payload ----->', demo);
     postDataForFilter(demo);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -226,7 +213,6 @@ const ProjectSiteExpenseList = () => {
                       <th className={Styles.tableHeading}>Site</th>
                       <th className={Styles.tableHeading}>Status</th>
                       <th className={Styles.tableHeading}>Amount</th>
-                      {/* <th className={Styles.tableHeading}>Action</th> */}
                       {activeButton === 'All' ||
                         activeButton === 'Rejected' ||
                         activeButton === 'Draft' ? (
@@ -247,12 +233,6 @@ const ProjectSiteExpenseList = () => {
                     {getExpenseList?.content?.map((items: any, index: any) => {
                       if (items.is_delete != true) {
                         rowIndex = rowIndex + 1;
-                        const sumOfRates = items?.expense_details.reduce(
-                          (accumulator: any, currentItem: any) => {
-                            return accumulator + currentItem.total;
-                          },
-                          0
-                        );
                         return (
                           <tr>
                             <td>{rowIndex}</td>
@@ -275,7 +255,7 @@ const ProjectSiteExpenseList = () => {
                                 {items?.status}
                               </span>
                             </td>
-                            <td>{sumOfRates}</td>
+                            <td>{formatBudgetValue(items?.total_amount ? items?.total_amount : 0)}</td>
                             <td>
                               {items?.status === 'Rejected' ||
                                 items?.status === 'Draft' ? (
