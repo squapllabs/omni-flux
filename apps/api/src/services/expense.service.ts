@@ -308,7 +308,7 @@ const deleteExpense = async (expenseId: number) => {
     const data = await expenseDao.deleteExpense(expenseId);
     if (data) {
       const result = {
-        message: 'expense Data Deleted Successfully',
+        message: 'Expense Data Deleted Successfully',
         status: true,
         data: null,
       };
@@ -346,6 +346,7 @@ const searchExpense = async (body) => {
     const site_id = body.site_id;
     const user_id = body.user_id;
     const expense_status = body.expense_status;
+    const employee_name = body.employee_name;
 
     const filterObj: any = {};
 
@@ -397,6 +398,15 @@ const searchExpense = async (body) => {
             },
           },
         },
+      });
+    }
+
+    if (employee_name) {
+      filterObj.filterExpense = filterObj.filterExpense || {};
+      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+      filterObj.filterExpense.AND.push({
+        employee_name: employee_name,
       });
     }
 
