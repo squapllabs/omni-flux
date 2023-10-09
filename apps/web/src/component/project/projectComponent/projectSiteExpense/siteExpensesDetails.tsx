@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 import Input from '../../../ui/Input';
 import Select from '../../../ui/selectNew';
@@ -14,6 +14,8 @@ import CustomDelete from '../../../ui/customDeleteDialogBox';
 import AddIcon from '../../../menu/icons/addIcon';
 import TextArea from '../../../ui/CustomTextArea';
 import NewAddCircleIcon from '../../../menu/icons/newAddCircleIcon';
+import AttachmentIcon from '../../../menu/icons/attachementIcon';
+import userService from '../../../../service/user-service';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
   console.log('props.expenseList', props.expenseList);
@@ -26,18 +28,23 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     total: '',
     is_delete: false,
     description: '',
+    bill_details: '',
   });
   const [ExpenseValue, setExpenseValue] = useState<any>({});
   const [checked, setChecked] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [fileSizeError, setFileSizeError] = useState<string>('');
+  const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
+  console.log('selectedFileName', selectedFileName);
 
   const deleteSiteExpense = (e: any, values: any) => {
     console.log('ExpenseValue', ExpenseValue);
-
     const itemIndex = props.expenseList.findIndex(
       (item: any) =>
         item.expense_data_id === ExpenseValue?.expense_data_id &&
@@ -98,13 +105,91 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      console.log('values', values);
+      console.log('valuesDetails', values);
       values['total'] = Number(values.total);
       props.setExpenseList([...props.expenseList, values]);
       setChecked(false);
+      setSelectedFileName([]);
       resetForm();
     },
   });
+  const generateCustomQuotationName = (data: any) => {
+    if (data) {
+      const vendorName =
+        data?.site_expense_name === undefined
+          ? data?.expense_master_data?.master_data_name
+          : data?.site_expense_name || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-${vendorName.substring(0, 5)}-${year}`;
+      return customBillName.toUpperCase();
+    }
+    return '';
+  };
+  const onButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileSelect = async (e: any) => {
+    const files = e.target.files;
+    console.log('files', files);
+    props.setLoader(!props.loader);
+    if (files.length > 0) {
+      const fileList: File[] = Array.from(files);
+      const oversizedFiles = fileList.filter(
+        (file) => file.size > 10 * 1024 * 1024
+      );
+      if (oversizedFiles.length > 0) {
+        const oversizedFileNames = oversizedFiles
+          .map((file) => file.name)
+          .join(', ');
+        props.setLoader(!props.loader);
+        const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
+        setFileSizeError(errorMessage);
+        props.setMessage(errorMessage);
+        props.setOpenSnack(true);
+      } else {
+        const selectedFilesArray: File[] = [];
+        const selectedFileNamesArray: string[] = [];
+        fileList.forEach((file) => {
+          selectedFilesArray.push(file);
+          selectedFileNamesArray.push(file.name);
+        });
+        setSelectedFiles(selectedFilesArray);
+        setSelectedFileName(selectedFileNamesArray);
+        setFileSizeError('');
+        let code = 'SITEEXPENSE' + props.siteId;
+        console.log('selectedFiles', selectedFilesArray);
+        const s3UploadUrl: any = await handleDocuments(
+          selectedFilesArray,
+          code.toUpperCase()
+        );
+        console.log('s3UploadUrl', s3UploadUrl);
+        formik.setFieldValue('bill_details', s3UploadUrl);
+        props.setLoader(false);
+        props.setMessage('Document uploaded');
+        props.setOpenSnack(true);
+      }
+    }
+  };
+  const handleDocuments = async (files: File[], code: string) => {
+    try {
+      const uploadPromises = files.map(async (file) => {
+        const response = await userService.documentUpload(file, code);
+        return response.data;
+      });
+      const uploadResponses = await Promise.all(uploadPromises);
+      const modifiedArray = uploadResponses.flatMap((response) => response);
+      const modifiedArrayWithDeleteFlag = modifiedArray.map((obj) => ({
+        ...obj,
+        is_delete: 'N',
+      }));
+      return modifiedArrayWithDeleteFlag;
+    } catch (error) {
+      console.log('Error in occur project document upload:', error);
+    }
+  };
   return (
     <div>
       <form>
@@ -118,12 +203,13 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             <th>Description</th>
             <th>Bill No</th>
             <th>Amount</th>
+            <th>Document</th>
             <th>Action</th>
           </thead>
           <tbody>
             {props.expenseList?.length === 0 ? (
               <tr>
-                <td colSpan="6" style={{ textAlign: 'center' }}>
+                <td colSpan="7" style={{ textAlign: 'center' }}>
                   No data found
                 </td>
               </tr>
@@ -133,6 +219,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             {props.expenseList?.map((item: any, index: any) => {
               if (item.is_delete === false) {
                 rowIndex = rowIndex + 1;
+                const customQuotationName = generateCustomQuotationName(item);
                 return (
                   <tr>
                     <td>{rowIndex}</td>
@@ -143,7 +230,28 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                     </td>
                     <td>{item.description}</td>
                     <td>{item.bill_number}</td>
+
                     <td>{item.total}</td>
+                    <td>
+                      {item.bill_details?.length > 0 ? (
+                        item.bill_details.map(
+                          (document: any, index: number) => (
+                            <div key={document.code}>
+                              <a
+                                href={document.path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {customQuotationName}
+                                {/* Uploaded Document */}
+                              </a>
+                            </div>
+                          )
+                        )
+                      ) : (
+                        <div>-</div>
+                      )}
+                    </td>
                     <td>
                       <div
                         style={{ cursor: 'pointer' }}
@@ -221,6 +329,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                   </div>
                 </div>
               </td>
+
               <td>
                 <div>
                   <Input
@@ -229,6 +338,22 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                     onChange={formik.handleChange}
                     error={formik.touched.total && formik.errors.total}
                   />
+                </div>
+              </td>
+              <td>
+                <div title="Attach document">
+                  <input
+                    ref={fileInputRef}
+                    id="upload-photo"
+                    name="upload_photo"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={handleFileSelect}
+                  />
+                  <div onClick={onButtonClick} style={{ cursor: 'pointer' }}>
+                    <AttachmentIcon color="#7f56d9" />
+                  </div>
+                  <span>{selectedFileName[0]}</span>
                 </div>
               </td>
               <td></td>

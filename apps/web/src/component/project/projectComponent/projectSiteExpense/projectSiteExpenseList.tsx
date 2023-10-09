@@ -317,7 +317,7 @@ const ProjectSiteExpenseList = () => {
               reload={reload}
             />
           }
-          width={'80%'}
+          width={'90%'}
         />
       </CustomLoader>
     </div>
