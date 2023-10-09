@@ -1,6 +1,7 @@
 import prisma from '../utils/prisma';
 import { expenseDetailsBody } from '../interfaces/expense.interface';
 import common from './common/utils.dao';
+import db from '../utils/db';
 
 const add = async (
   site_id: number,
@@ -16,6 +17,7 @@ const add = async (
   bill_details: JSON,
   created_by: number,
   status: string,
+  total_amount: number,
   expense_details: Array<expenseDetailsBody>,
   connectionObj = null
 ) => {
@@ -44,6 +46,7 @@ const add = async (
         purpose,
         department,
         designation,
+        total_amount,
         bill_details: bill_details ? bill_details : [],
         status,
         start_date: formatted_start_date,
@@ -68,6 +71,9 @@ const add = async (
       const progressed_date = expenseDetail.progressed_date;
       const progressed_by = expenseDetail.progressed_by;
       const bill_number = expenseDetail.bill_number;
+      const description = expenseDetail.description;
+      const quantity = expenseDetail.quantity;
+      const unit_value = expenseDetail.unit_value;
 
       if (is_delete === false) {
         const newExpenseDetail = await transaction.expense_details.create({
@@ -85,6 +91,9 @@ const add = async (
             progressed_date,
             progressed_by,
             bill_number,
+            description,
+            quantity,
+            unit_value,
           },
         });
 
@@ -118,6 +127,7 @@ const edit = async (
   updated_by: number,
   status: string,
   expense_id: number,
+  total_amount: number,
   expense_details: Array<expenseDetailsBody>,
   connectionObj = null
 ) => {
@@ -139,6 +149,7 @@ const edit = async (
         purpose,
         department,
         designation,
+        total_amount,
         bill_details: bill_details ? bill_details : [],
         status,
         start_date: formatted_start_date,
@@ -161,6 +172,9 @@ const edit = async (
       const progressed_date = expenseDetail.progressed_date;
       const progressed_by = expenseDetail.progressed_by;
       const bill_number = expenseDetail.bill_number;
+      const description = expenseDetail.description;
+      const quantity = expenseDetail.quantity;
+      const unit_value = expenseDetail.unit_value;
 
       if (expense_details_id) {
         if (is_delete === true) {
@@ -187,6 +201,9 @@ const edit = async (
               progressed_date,
               progressed_by,
               bill_number,
+              description,
+              quantity,
+              unit_value,
             },
           });
 
@@ -209,6 +226,9 @@ const edit = async (
               progressed_date,
               progressed_by,
               bill_number,
+              description,
+              quantity,
+              unit_value,
             },
           });
 
@@ -333,6 +353,8 @@ const searchExpense = async (
   orderByColumn: string,
   orderByDirection: string,
   filters,
+  project_id: number,
+  site_id: number,
   connectionObj = null
 ) => {
   try {
@@ -379,7 +401,33 @@ const searchExpense = async (
       count: expenseCount,
       data: expense,
     };
-    return expenseData;
+
+    let expenseStatistics = {};
+    if (project_id && site_id) {
+      const db_transaction = connectionObj !== null ? connectionObj : db;
+
+      const expenseStatisticsQuery = `SELECT
+          CAST((SELECT COUNT(*) FROM expense WHERE project_id = ${project_id} AND site_id = ${site_id} AND is_delete = false) AS INT) AS total_expenses,
+          SUM(CASE WHEN e.status = 'Approved' THEN ed.total ELSE 0 END) AS approved_expenses,
+          SUM(CASE WHEN e.status = 'Rejected' THEN ed.total ELSE 0 END) AS rejected_expenses,
+          SUM(CASE WHEN e.status = 'Pending' THEN ed.total ELSE 0 END) AS pending_expenses
+      FROM
+          expense e
+      LEFT JOIN
+          expense_details ed ON ed.expense_id = e.expense_id
+      WHERE
+          e.project_id =  ${project_id}
+          AND e.site_id = ${site_id}
+          AND e.is_delete = false`;
+
+      expenseStatistics = await db_transaction.one(expenseStatisticsQuery);
+    }
+    const expenseDataResult = {
+      expense_statistics: expenseStatistics,
+      data: expenseData,
+    };
+
+    return expenseDataResult;
   } catch (error) {
     console.log('Error occurred in Expense dao : searchExpense ', error);
     throw error;

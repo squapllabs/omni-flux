@@ -37,7 +37,6 @@ const getOnesiteExpenseDetailByID = async (values: any) => {
   }
 };
 
-
 const createsiteExpense = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -53,7 +52,7 @@ const createsiteExpense = async (values: JSON) => {
 const updatesiteExpense = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
-      `${environment.apiUrl}/expense/update-status`,
+      `${environment.apiUrl}/expense/`,
       values
     );
     return response.data;
@@ -134,5 +133,5 @@ export default {
   bulkUploadSiteExpanse,
   getSiteExpenseByProjectandSiteID,
   updatesiteExpenseDetail,
-  getOnesiteExpenseDetailByID
+  getOnesiteExpenseDetailByID,
 };

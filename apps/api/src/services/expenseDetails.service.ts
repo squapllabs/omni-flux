@@ -223,6 +223,12 @@ const searchExpenseDetails = async (body) => {
               mode: 'insensitive',
             },
           },
+        },
+        {
+          description: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
         }
       );
     }

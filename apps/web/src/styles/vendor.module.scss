@@ -146,7 +146,7 @@
 
   th,
   td {
-    padding: 10px 10px 10px 24px; /* Adjust padding */
+    padding: 5px 10px 5px 24px; /* Adjust padding */
     text-align: left;
     font-weight: 500;
     // border: 0px 0px 1px;
@@ -180,6 +180,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 20px 25px;
 }
 
 .heading {
