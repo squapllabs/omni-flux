@@ -35,7 +35,7 @@ const SelectContainer = styled.div<StyledSelectProps>`
   align-items: center;
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
-  background-color: ${(props) => (props.disabled ? '#f9f9f9' : '#f4f5f6')};
+  background-color: ${(props) => (props.disabled ? '#FFFFFF' : '#FFFFFF')};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
   opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   &:hover {

@@ -12,8 +12,10 @@ const useGetAllProject = () => {
 };
 
 const useGetAllProjectStatus = () => {
-  return useQuery(['useGetAllProjectStatus'], () => ProjectService.getAllProjectStatus())
-}
+  return useQuery(['useGetAllProjectStatus'], () =>
+    ProjectService.getAllProjectStatus()
+  );
+};
 // const useGetAllProjectDrop = () => {
 //   return useQuery(
 //     ['useGetAllProjectDrop'],
@@ -79,6 +81,17 @@ const getMemberBasedProject = () => {
       onSuccess: (response) => {
         response;
       },
+    }
+  );
+};
+
+const getPaginatedMemberBasedProject = (data:any) => {
+  return useQuery(
+    ['useGetAllProject'],
+    () => ProjectService.filterProjectmemberBased(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
     }
   );
 };
@@ -202,7 +215,8 @@ export {
   useGetAllProjectManagers,
   useGetAllProjectDrop,
   getMemberBasedProject,
+  getPaginatedMemberBasedProject,
   getUserDataProjectRolebased,
   getProjectSite,
-  getUserIDProjectRolebased
+  getUserIDProjectRolebased,
 };

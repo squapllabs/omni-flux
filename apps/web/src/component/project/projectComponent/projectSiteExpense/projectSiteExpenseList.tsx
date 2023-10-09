@@ -21,17 +21,12 @@ const ProjectSiteExpenseList = () => {
   let rowIndex = 0;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
-  const initialSiteId = getSiteList ? getSiteList[0]?.value : '';
-  console.log('initialSiteIdjjjjjjj', initialSiteId);
   const [activeButton, setActiveButton] = useState<string | null>('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [filterValue, setFilterValue] = useState(initialSiteId);
   const [expenseID, setExpenseID] = useState();
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);
-  console.log('initialSiteIdssssss', filterValue);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
     { label: 'Approved', value: 'Approved' },
@@ -39,18 +34,18 @@ const ProjectSiteExpenseList = () => {
     { label: 'Rejected', value: 'Rejected' },
     { label: 'Draft', value: 'Draft' },
   ]);
+
+
+  const { data: getSiteList, isLoading: siteLoading } = getProjectSite(Number(routeParams?.id));
+  const initialSiteId = !siteLoading && getSiteList ? getSiteList[0]?.value : null;
+  const [filterValue, setFilterValue] = useState(initialSiteId);
+
   const {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
   } = getBySearchsiteExpense();
-  console.log('getExpenseList', getExpenseList);
 
-  const dateFormat = (value: any) => {
-    const currentDate = new Date(value);
-    const formattedDate = format(currentDate, 'yyyy-MM-dd');
-    return formattedDate;
-  };
   const handleSearch = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -60,7 +55,7 @@ const ProjectSiteExpenseList = () => {
       status: 'AC',
       project_id: Number(routeParams?.id),
       expense_status: activeButton,
-      site_id: filterValue,
+      site_id: filterValue === null ? initialSiteId : filterValue,
     };
     postDataForFilter(demo);
   };
@@ -87,7 +82,7 @@ const ProjectSiteExpenseList = () => {
   };
   useEffect(() => {
     handleSearch();
-  }, [currentPage, rowsPerPage, filterValue, activeButton, reload]);
+  }, [currentPage, rowsPerPage, filterValue, activeButton, reload, getSiteList]);
   return (
     <div className={Styles.container}>
       <CustomLoader loading={fetchLoader} size={48}>
@@ -95,23 +90,27 @@ const ProjectSiteExpenseList = () => {
           <MoneyIcon color="black" />
           <span>Site Expenses for</span>
           <div>
-            <AutoCompleteSelect
+            {getSiteList && <AutoCompleteSelect
               name="site_id"
               label="Site"
               mandatory={true}
               optionList={getSiteList}
-              value={filterValue}
+              value={filterValue === null ? Number(initialSiteId) : filterValue}
               onSelect={(value: any) => {
                 setFilterValue(value);
               }}
-            />
+            />}
           </div>
           <div className={Styles.sub_header}>
-            <div style={{ padding: '8px', display: 'flex' }}>
-              <div className={Styles.vertical}>
-                <div className={Styles.verticalLine}></div>
+            {getExpenseList?.expense_statistics?.total_expenses === 0 ? (
+              ''
+            ) : (
+              <div style={{ padding: '8px', display: 'flex' }}>
+                <div className={Styles.vertical}>
+                  <div className={Styles.verticalLine}></div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div>
             {getExpenseList?.expense_statistics?.total_expenses === 0 ? (
@@ -136,7 +135,7 @@ const ProjectSiteExpenseList = () => {
         </div>
         <div>
           {getExpenseList?.total_count !== 0 ||
-          getExpenseList?.expense_statistics?.total_expenses !== 0 ? (
+            getExpenseList?.expense_statistics?.total_expenses !== 0 ? (
             <div>
               <div className={Styles.cards}>
                 <div className={Styles.amountCards}>
@@ -159,7 +158,7 @@ const ProjectSiteExpenseList = () => {
                         {formatBudgetValue(
                           getExpenseList?.expense_statistics?.approved_expenses
                             ? getExpenseList?.expense_statistics
-                                ?.approved_expenses
+                              ?.approved_expenses
                             : 0
                         )}
                       </p>
@@ -174,7 +173,7 @@ const ProjectSiteExpenseList = () => {
                         {formatBudgetValue(
                           getExpenseList?.expense_statistics?.rejected_expenses
                             ? getExpenseList?.expense_statistics
-                                ?.rejected_expenses
+                              ?.rejected_expenses
                             : 0
                         )}
                       </p>
@@ -189,7 +188,7 @@ const ProjectSiteExpenseList = () => {
                         {formatBudgetValue(
                           getExpenseList?.expense_statistics?.pending_expenses
                             ? getExpenseList?.expense_statistics
-                                ?.pending_expenses
+                              ?.pending_expenses
                             : 0
                         )}
                       </p>
@@ -212,11 +211,13 @@ const ProjectSiteExpenseList = () => {
                       <th className={Styles.tableHeading}>Invoice</th>
                       <th className={Styles.tableHeading}>Added By</th>
                       <th className={Styles.tableHeading}>Site</th>
-                      {/* <th className={Styles.tableHeading}>From Date</th>
-                      <th className={Styles.tableHeading}>To Date</th> */}
                       <th className={Styles.tableHeading}>Status</th>
                       <th className={Styles.tableHeading}>Amount</th>
-                      <th className={Styles.tableHeading}>Action</th>
+                      {activeButton === 'All' ||
+                        activeButton === 'Rejected' ||
+                        activeButton === 'Draft' ? (
+                        <th className={Styles.tableHeading}>Action</th>
+                      ) : null}
                     </tr>
                   </thead>
                   <tbody>
@@ -232,32 +233,43 @@ const ProjectSiteExpenseList = () => {
                     {getExpenseList?.content?.map((items: any, index: any) => {
                       if (items.is_delete != true) {
                         rowIndex = rowIndex + 1;
-                        console.log('items', items);
-                        const sumOfRates = items?.expense_details.reduce(
-                          (accumulator: any, currentItem: any) => {
-                            return accumulator + currentItem.total;
-                          },
-                          0
-                        );
                         return (
                           <tr>
                             <td>{rowIndex}</td>
                             <td>{items?.expense_code}</td>
                             <td>{items?.employee_name}</td>
                             <td>{items?.site_data?.name}</td>
-                            {/* <td>{dateFormat(items?.start_date)}</td>
-                            <td>{dateFormat(items?.end_date)}</td> */}
-                            <td>{items?.status}</td>
-                            <td>{sumOfRates}</td>
                             <td>
-                              <div
-                                style={{ cursor: 'pointer' }}
-                                onClick={(e) => {
-                                  handleEditExpense(e, items.expense_id);
-                                }}
+                              <span
+                                className={`${Styles.status} ${items?.status === 'Pending'
+                                  ? Styles.pendingStatus
+                                  : items?.status === 'Rejected'
+                                    ? Styles.rejectedStatus
+                                    : items?.status === 'Approved'
+                                      ? Styles.approvedStatus
+                                      : items?.status === 'Draft'
+                                        ? Styles.draftStatus
+                                        : ''
+                                  }`}
                               >
-                                <EditIcon />
-                              </div>
+                                {items?.status}
+                              </span>
+                            </td>
+                            <td>{formatBudgetValue(items?.total_amount ? items?.total_amount : 0)}</td>
+                            <td>
+                              {items?.status === 'Rejected' ||
+                                items?.status === 'Draft' ? (
+                                <div
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={(e) => {
+                                    handleEditExpense(e, items.expense_id);
+                                  }}
+                                >
+                                  <EditIcon />
+                                </div>
+                              ) : (
+                                ''
+                              )}
                             </td>
                           </tr>
                         );

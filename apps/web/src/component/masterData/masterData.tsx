@@ -47,6 +47,7 @@ const MaterData = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getBySearchmasterData();
+
   const { data: getAllmasterData, isLoading: getAllloading } =
     useGetAllmasertData();
   const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
@@ -60,7 +61,7 @@ const MaterData = () => {
     });
     setIsResetDisabled(searchValue === '');
     if (searchValue === '') {
-      handleReset();
+      // handleReset();
     }
   };
   const [dataShow, setDataShow] = useState(false);
@@ -70,7 +71,7 @@ const MaterData = () => {
     order_by_column: 'updated_date',
     order_by_direction: 'desc',
     status: activeButton,
-    global_search: filterValues.search_by_name,
+    global_search: filterValues?.search_by_name,
   };
   const {
     isLoading: getAllLoadingPaginated,
@@ -88,43 +89,52 @@ const MaterData = () => {
   };
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage, activeButton]);
-  const handleSearch = async () => {
-    const masterData: any = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'asc',
-      status: activeButton,
-      global_search: filterValues.search_by_name,
-      parent_id: Number(selectedValue),
-    };
-    postDataForFilter(masterData);
-    setDataShow(true);
-    setIsLoading(false);
-    setFilter(true);
-  };
-  const handleReset = async () => {
-    setFilterValues({
-      search_by_name: '',
-    });
-    setSelectedValue('');
-    setDataShow(false);
-    setIsLoading(false);
-    setFilter(false);
-    setIsLoading(false);
-    setSelectedValue('');
-    setIsResetDisabled(true);
-  };
-  const handlePageChange = (page: React.SetStateAction<number>) => {
-    setCurrentPage(page);
-  };
+  }, [currentPage, rowsPerPage]);
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
+  // const handleSearch = async () => {
+  //   const masterData: any = {
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     limit: rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'asc',
+  //     status: activeButton,
+  //     global_search: filterValues.search_by_name,
+  //     parent_id: Number(selectedValue),
+  //   };
+  //   postDataForFilter(masterData);
+  //   setDataShow(true);
+  //   setIsLoading(false);
+  //   setFilter(true);
+  // };
+  // const handleReset = async () => {
+  //   setFilterValues({
+  //     search_by_name: '',
+  //   });
+  //   setSelectedValue('');
+  //   setDataShow(false);
+  //   setIsLoading(false);
+  //   setFilter(false);
+  //   setIsLoading(false);
+  //   setSelectedValue('');
+  //   setIsResetDisabled(true);
+  // };
+  // const handlePageChange = (page: React.SetStateAction<number>) => {
+  //   setCurrentPage(page);
+  // };
 
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
+  };
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
   };
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -155,7 +165,7 @@ const MaterData = () => {
   return (
     <div>
       <CustomLoader
-        loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+        loading={getAllLoadingPaginated}
         size={48}
         color="#333C44"
       >
@@ -181,6 +191,20 @@ const MaterData = () => {
                   Add Master Data
                 </Button>
               </div>
+            </div>
+            <div className={Styles.searchBar}>
+              <Input
+                placeholder="Search Data"
+                width="300px"
+                prefixIcon={<SearchIcon />}
+                name="filter_value"
+                onChange={(e) => {
+                  setFilterValues({
+                    ...filterValues,
+                    ['search_by_name']: e.target.value,
+                  });
+                }}
+              />
             </div>
           </div>
           {/* <div className={Styles.dividerStyle}></div> */}
@@ -251,42 +275,7 @@ const MaterData = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {dataShow ? (
-                      getFilterData?.total_count === 0 ? (
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td>No data found</td>
-                          <td></td>
-                          {activeButton === 'AC' && <td></td>}
-                        </tr>
-                      ) : (
-                        getFilterData?.content?.map(
-                          (data: any, index: number) => (
-                            <tr key={data.master_data_id}>
-                              <td>{startingIndex + index}</td>
-                              <td>{data.master_data_name}</td>
-                              <td>{data.master_data_description}</td>
-                              <td>{data.master_data_type}</td>
-                              <td>
-                                {data?.parent?.master_data_name === undefined
-                                  ? '-'
-                                  : data?.parent?.master_data_name}
-                              </td>
-                              {activeButton === 'AC' && (
-                                <td>
-                                  <EditIcon
-                                    onClick={() =>
-                                      handleEdit(data.master_data_id)
-                                    }
-                                  />
-                                </td>
-                              )}
-                            </tr>
-                          )
-                        )
-                      )
-                    ) : initialData?.total_count === 0 ? (
+                    {initialData?.total_count === 0 ? (
                       <tr>
                         <td></td>
                         <td></td>
@@ -306,9 +295,9 @@ const MaterData = () => {
                               {data.master_data_description
                                 ? data.master_data_description.length > 20
                                   ? data.master_data_description.substring(
-                                      0,
-                                      20
-                                    ) + '...'
+                                    0,
+                                    20
+                                  ) + '...'
                                   : data.master_data_description
                                 : '-'}
                             </span>
@@ -336,14 +325,8 @@ const MaterData = () => {
             <div className={Styles.pagination}>
               <CustomPagination
                 currentPage={currentPage}
-                totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
-                }
-                totalCount={
-                  dataShow
-                    ? getFilterData?.total_count
-                    : initialData?.total_count
-                }
+                totalPages={initialData?.total_page}
+                totalCount={initialData?.total_count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
@@ -370,6 +353,7 @@ const MaterData = () => {
       <CustomSidePopup
         open={masterDataFormOpen}
         title={mode === 'Edit' ? 'Edit Master Data' : 'Add Master Data'}
+        description={mode === "Edit" ? 'Modify existing master data' : 'Create new master data'}
         handleClose={handleCloseMasterForm}
         content={
           <MasterDataForm
