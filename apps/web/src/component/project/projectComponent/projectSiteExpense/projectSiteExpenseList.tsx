@@ -28,6 +28,9 @@ const ProjectSiteExpenseList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState(initialSiteId);
+  const [expenseID, setExpenseID] = useState();
+  const [mode, setMode] = useState('');
+  const [reload, setReload] = useState(false);
   console.log('initialSiteIdssssss', filterValue);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
@@ -80,9 +83,14 @@ const ProjectSiteExpenseList = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleEditExpense = (e: any, expenseId: any) => {
+    setMode('Edit');
+    setOpen(true);
+    setExpenseID(expenseId);
+  };
   useEffect(() => {
     handleSearch();
-  }, [currentPage, rowsPerPage, filterValue, activeButton]);
+  }, [currentPage, rowsPerPage, filterValue, activeButton, reload]);
   return (
     <div className={Styles.container}>
       <CustomLoader loading={fetchLoader} size={48}>
@@ -125,6 +133,7 @@ const ProjectSiteExpenseList = () => {
                 icon={<AddIcon width={20} color="white" />}
                 onClick={(e) => {
                   setOpen(true);
+                  setMode('Add');
                 }}
               >
                 Add Expense
@@ -268,10 +277,8 @@ const ProjectSiteExpenseList = () => {
                               items?.status === 'Draft' ? (
                                 <div
                                   style={{ cursor: 'pointer' }}
-                                  onClick={() => {
-                                    navigate(
-                                      `/expenses-edit/${routeParams?.id}/${items.expense_id}`
-                                    );
+                                  onClick={(e) => {
+                                    handleEditExpense(e, items.expense_id);
                                   }}
                                 >
                                   <EditIcon />
@@ -312,6 +319,7 @@ const ProjectSiteExpenseList = () => {
                 icon={<AddIcon width={20} color="white" />}
                 onClick={(e) => {
                   setOpen(true);
+                  setMode('Add');
                 }}
               >
                 Add Expense
@@ -323,7 +331,20 @@ const ProjectSiteExpenseList = () => {
           open={open}
           handleClose={handleClose}
           title={'Add Site Expense'}
-          content={<ProjectSiteExpenseForm projectId={routeParams?.id} />}
+          content={
+            <ProjectSiteExpenseForm
+              projectId={routeParams?.id}
+              setOpen={setOpen}
+              open={open}
+              setExpenseID={setExpenseID}
+              expenseID={expenseID}
+              setMode={setMode}
+              mode={mode}
+              siteId={filterValue}
+              setReload={setReload}
+              reload={reload}
+            />
+          }
           width={'80%'}
         />
       </CustomLoader>
