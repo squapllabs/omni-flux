@@ -84,7 +84,7 @@ const searchExpenseDetails = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterExpenseDetails;
-    const expense = await transaction.expense_details.findMany({
+    const expenseDetails = await transaction.expense_details.findMany({
       where: filter,
       include: {
         progressed_by_data: {
@@ -109,7 +109,7 @@ const searchExpenseDetails = async (
     });
     const expenseData = {
       count: expenseCount,
-      data: expense,
+      data: expenseDetails,
     };
     return expenseData;
   } catch (error) {
@@ -121,9 +121,31 @@ const searchExpenseDetails = async (
   }
 };
 
+const deleteExpenseDetails = async (
+  expenseDetailsId: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const expenseDetails = await transaction.expense_details.delete({
+      where: {
+        expense_details_id: Number(expenseDetailsId),
+      },
+    });
+    return expenseDetails;
+  } catch (error) {
+    console.log(
+      'Error occurred in Expense details dao : deleteExpenseDetails',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   updateStatus,
   getById,
   getByExpenseId,
   searchExpenseDetails,
+  deleteExpenseDetails,
 };

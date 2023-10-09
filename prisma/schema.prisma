@@ -109,6 +109,7 @@ model uom {
   labour                 labour[]
   machinery              machinery[]
   stock_outward_details  stock_outward_details[]
+  sub_category           sub_category[]
 
   @@map(name: "uom")
 }
@@ -166,7 +167,8 @@ model sub_category {
   sub_category_id        Int                @id @default(autoincrement())
   name                   String             @db.VarChar(100)
   category_id            Int?
-  budget                 Float?
+  estimated_budget       Float?
+  actual_budget          Float?
   progress_status        String?
   created_date           DateTime
   updated_date           DateTime
@@ -176,11 +178,17 @@ model sub_category {
   end_date               DateTime?
   is_delete              Boolean            @default(false) @db.Boolean
   bom_configuration_id   Int?
+  parent_sub_category_id Int?
+  uom_id                 Int?
+  quantity               Int?
   bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
   category               category?          @relation(fields: [category_id], references: [category_id])
   description            String?
   project_id             Int?
   project_data           project?           @relation(fields: [project_id], references: [project_id])
+  uom_data               uom?               @relation(fields: [uom_id], references: [uom_id])
+  parent                 sub_category?      @relation("ChildToParent", fields: [parent_sub_category_id], references: [sub_category_id])
+  children               sub_category[]     @relation("ChildToParent")
   sub_sub_category       sub_sub_category[]
   bom_detail             bom_detail[]
 }
@@ -1020,6 +1028,7 @@ model expense {
   start_date         DateTime?
   end_date           DateTime?
   bill_details       Json?
+  total_amount       Float?
   status             String?
   comments           String?
   progressed_date    DateTime?
@@ -1042,6 +1051,9 @@ model expense_details {
   expense_details_id  Int          @id @default(autoincrement())
   expense_id          Int
   expense_data_id     Int?
+  description         String?
+  quantity            Int?
+  unit_value          Int?
   total               Float?
   bill_details        Json?
   bill_number         String?

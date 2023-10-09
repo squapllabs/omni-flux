@@ -3,7 +3,7 @@ import prisma from '../utils/prisma';
 const add = async (
   name: string,
   category_id: number,
-  budget: number,
+  actual_budget: number,
   created_by: bigint,
   description: string,
   project_id: number,
@@ -11,6 +11,10 @@ const add = async (
   end_date: Date,
   progress_status: string,
   bom_configuration_id: number,
+  parent_sub_category_id: number,
+  estimated_budget: number,
+  uom_id: number,
+  quantity: number,
   connectionObj = null
 ) => {
   try {
@@ -23,7 +27,7 @@ const add = async (
       data: {
         name,
         category_id,
-        budget,
+        actual_budget,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -34,6 +38,10 @@ const add = async (
         end_date: formatted_end_date,
         bom_configuration_id,
         progress_status,
+        parent_sub_category_id,
+        estimated_budget,
+        uom_id,
+        quantity,
       },
     });
     return subCategory;
@@ -46,7 +54,7 @@ const add = async (
 const edit = async (
   name: string,
   category_id: number,
-  budget: number,
+  actual_budget: number,
   updated_by: bigint,
   sub_category_id: number,
   description: string,
@@ -55,6 +63,10 @@ const edit = async (
   end_date: Date,
   progress_status: string,
   bom_configuration_id: number,
+  parent_sub_category_id: number,
+  estimated_budget: number,
+  uom_id: number,
+  quantity: number,
   connectionObj = null
 ) => {
   try {
@@ -69,7 +81,7 @@ const edit = async (
       data: {
         name,
         category_id,
-        budget,
+        actual_budget,
         updated_by,
         updated_date: currentDate,
         description,
@@ -78,6 +90,10 @@ const edit = async (
         end_date: formatted_end_date,
         bom_configuration_id,
         progress_status,
+        parent_sub_category_id,
+        estimated_budget,
+        uom_id,
+        quantity,
       },
     });
     return subCategory;
@@ -111,6 +127,9 @@ const getById = async (subCategoryId: number, connectionObj = null) => {
               },
             },
           },
+        },
+        uom_data: {
+          select: { name: true },
         },
       },
     });
@@ -149,6 +168,9 @@ const getAll = async (connectionObj = null) => {
               },
             },
           },
+        },
+        uom_data: {
+          select: { name: true },
         },
       },
     });
@@ -254,6 +276,9 @@ const searchSubCategory = async (
             },
           },
         },
+        uom_data: {
+          select: { name: true },
+        },
       },
       skip: offset,
       take: limit,
@@ -300,6 +325,9 @@ const getByCategoryId = async (category_id: number, connectionObj = null) => {
             },
           },
         },
+        uom_data: {
+          select: { name: true },
+        },
       },
     });
     return subCategory;
@@ -339,6 +367,9 @@ const getByCategoryIdAndBomConfigurationId = async (
             },
           },
         },
+        uom_data: {
+          select: { name: true },
+        },
       },
     });
     return subCategory;
@@ -352,7 +383,7 @@ const getByCategoryIdAndBomConfigurationId = async (
 };
 
 const updateBudget = async (
-  budget: number,
+  actual_budget: number,
   sub_category_id: number,
   updated_by: number,
   connectionObj = null
@@ -365,7 +396,7 @@ const updateBudget = async (
         sub_category_id: sub_category_id,
       },
       data: {
-        budget: budget,
+        actual_budget: actual_budget,
         updated_date: currentDate,
         updated_by,
       },
