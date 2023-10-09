@@ -22,7 +22,7 @@ const ProjectSiteExpenseList = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
-  const initialSiteId = getSiteList ? getSiteList[0]?.value : '';
+  const initialSiteId = getSiteList ? getSiteList[0]?.value : null;
   console.log('initialSiteIdjjjjjjj', initialSiteId);
   const [activeButton, setActiveButton] = useState<string | null>('All');
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,11 +43,11 @@ const ProjectSiteExpenseList = () => {
   } = getBySearchsiteExpense();
   console.log('getExpenseList', getExpenseList);
 
-  const dateFormat = (value: any) => {
-    const currentDate = new Date(value);
-    const formattedDate = format(currentDate, 'yyyy-MM-dd');
-    return formattedDate;
-  };
+  // const dateFormat = (value: any) => {
+  //   const currentDate = new Date(value);
+  //   const formattedDate = format(currentDate, 'yyyy-MM-dd');
+  //   return formattedDate;
+  // };
 
   const handleSearch = async () => {
     const demo: any = {
@@ -60,6 +60,7 @@ const ProjectSiteExpenseList = () => {
       expense_status: activeButton,
       site_id: filterValue,
     };
+    console.log('payload ----->', demo);
     postDataForFilter(demo);
   };
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -100,11 +101,15 @@ const ProjectSiteExpenseList = () => {
             />
           </div>
           <div className={Styles.sub_header}>
-            <div style={{ padding: '8px', display: 'flex' }}>
-              <div className={Styles.vertical}>
-                <div className={Styles.verticalLine}></div>
+            {getExpenseList?.expense_statistics?.total_expenses === 0 ? (
+              ''
+            ) : (
+              <div style={{ padding: '8px', display: 'flex' }}>
+                <div className={Styles.vertical}>
+                  <div className={Styles.verticalLine}></div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div>
             {getExpenseList?.expense_statistics?.total_expenses === 0 ? (
@@ -204,11 +209,14 @@ const ProjectSiteExpenseList = () => {
                       <th className={Styles.tableHeading}>Invoice</th>
                       <th className={Styles.tableHeading}>Added By</th>
                       <th className={Styles.tableHeading}>Site</th>
-                      {/* <th className={Styles.tableHeading}>From Date</th>
-                      <th className={Styles.tableHeading}>To Date</th> */}
                       <th className={Styles.tableHeading}>Status</th>
                       <th className={Styles.tableHeading}>Amount</th>
-                      <th className={Styles.tableHeading}>Action</th>
+                      {/* <th className={Styles.tableHeading}>Action</th> */}
+                      {activeButton === 'All' ||
+                      activeButton === 'Rejected' ||
+                      activeButton === 'Draft' ? (
+                        <th className={Styles.tableHeading}>Action</th>
+                      ) : null}
                     </tr>
                   </thead>
                   <tbody>
@@ -224,7 +232,6 @@ const ProjectSiteExpenseList = () => {
                     {getExpenseList?.content?.map((items: any, index: any) => {
                       if (items.is_delete != true) {
                         rowIndex = rowIndex + 1;
-                        console.log('items', items);
                         const sumOfRates = items?.expense_details.reduce(
                           (accumulator: any, currentItem: any) => {
                             return accumulator + currentItem.total;
@@ -237,21 +244,40 @@ const ProjectSiteExpenseList = () => {
                             <td>{items?.expense_code}</td>
                             <td>{items?.employee_name}</td>
                             <td>{items?.site_data?.name}</td>
-                            {/* <td>{dateFormat(items?.start_date)}</td>
-                            <td>{dateFormat(items?.end_date)}</td> */}
-                            <td>{items?.status}</td>
+                            <td>
+                              <span
+                                className={`${Styles.status} ${
+                                  items?.status === 'Pending'
+                                    ? Styles.pendingStatus
+                                    : items?.status === 'Rejected'
+                                    ? Styles.rejectedStatus
+                                    : items?.status === 'Approved'
+                                    ? Styles.approvedStatus
+                                    : items?.status === 'Draft'
+                                    ? Styles.draftStatus
+                                    : ''
+                                }`}
+                              >
+                                {items?.status}
+                              </span>
+                            </td>
                             <td>{sumOfRates}</td>
                             <td>
-                              <div
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  navigate(
-                                    `/expenses-edit/${routeParams?.id}/${items.expense_id}`
-                                  );
-                                }}
-                              >
-                                <EditIcon />
-                              </div>
+                              {items?.status === 'Rejected' ||
+                              items?.status === 'Draft' ? (
+                                <div
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => {
+                                    navigate(
+                                      `/expenses-edit/${routeParams?.id}/${items.expense_id}`
+                                    );
+                                  }}
+                                >
+                                  <EditIcon />
+                                </div>
+                              ) : (
+                                ''
+                              )}
                             </td>
                           </tr>
                         );

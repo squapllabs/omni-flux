@@ -31,13 +31,15 @@
 
 .cards {
   background-color: #f9f9f9;
+  // background-color: #c01574;
 }
 .amountCards {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  // justify-content: space-between;
+  gap: 35px;
   flex-wrap: wrap;
-  // background-color: white;
+
 }
 
 .card1 {
@@ -62,7 +64,7 @@
 .grpButtons {
   display: flex;
   justify-content: center;
-  padding: 10px 0px 10px 0px;
+  padding: 15px 0px 15px 0px;
   // background-color: #667085;
 }
 
@@ -74,6 +76,31 @@
 }
 .pendingStyles {
   color: #c01574;
+}
+
+.approvedStatus {
+  background-color: #ecfdf3;
+  padding: 6px;
+  border-radius: 50px;
+  color: #027a48;
+}
+.pendingStatus {
+  background-color:#FDF2FA;
+  padding: 6px;
+  border-radius: 50px;
+  color:  #C11574
+}
+.rejectedStatus {
+  background-color:#FFFAEB;
+  padding: 6px;
+  border-radius: 50px;
+  color:  #B54708;
+}
+.draftStatus {
+  background-color:#EFF8FF;
+  padding: 6px;
+  border-radius: 50px;
+  color:#175CD3
 }
 
 .emptyData {
