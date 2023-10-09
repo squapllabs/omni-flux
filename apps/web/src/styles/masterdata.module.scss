@@ -207,7 +207,7 @@
 
   th,
   td {
-    padding: 10px 10px 10px 24px;
+    padding: 5px 10px 5px 24px; /* Adjust padding */
     /* Adjust padding */
     text-align: left;
     font-weight: 500;
@@ -285,4 +285,8 @@
   flex-direction: row;
   gap: 3px;
   align-items: center;
+}
+
+.searchBar {
+  padding: 5px 15px 0
 }

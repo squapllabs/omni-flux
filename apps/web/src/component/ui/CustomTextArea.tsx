@@ -37,7 +37,7 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
   resize: vertical;
-  background-color: #f4f5f6;
+  background-color: #FFFFFF;
   &:hover {
     border-color: #888;
   }

@@ -48,7 +48,7 @@ const InputContainer = styled.div<StyledInputProps>`
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
   background-color: ${(props) =>
-    props.transparent ? 'transaparent' : '#f4f5f6'};
+    props.transparent ? 'transaparent' : '#FFFFFF'};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   &:hover {
@@ -65,7 +65,7 @@ const StyledInput = styled.input<StyledInputProps>`
   height: 34px;
   padding: ${(props) => `6px ${props.hasSuffixIcon ? '32px' : '0'} 6px 0`};
   border: none;
-  background-color: ${(props) => (props.disabled ? '#f9f9f9' : 'transparent')};
+  background-color: ${(props) => (props.disabled ? '#FFFFFF' : 'transparent')};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
   color: ${(props) => (props.disabled ? '#888' : 'inherit')};
   flex-grow: 1;

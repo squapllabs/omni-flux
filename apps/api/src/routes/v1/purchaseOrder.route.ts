@@ -11,6 +11,7 @@ import {
   getAllPurchaseOrders,
   getByPurchaseOrderId,
   getByPurchaseRequestId,
+  getPOStatistics,
   searchPurchaseOrder,
   updatePurchaseOrder,
   updateStatusAndDocument,
@@ -68,5 +69,7 @@ router.put(
   runValidation,
   updateStatusAndDocument
 );
+
+router.get('/get-po-statistics', authMiddleware, getPOStatistics);
 
 export default router;

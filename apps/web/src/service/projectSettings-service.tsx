@@ -64,5 +64,17 @@ const fetchProjectUser = async (user_id:number,project_id:number) => {
   }
 };
 
+const fetchAllProjectMembers = async (project_id:number) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project-member-association/get-by-project-id/${project_id}`
+    );  
+    return response.data;
+  } catch (error) {
+    console.log('Error in occur in fetchAllProjectMember :', error);
+    throw error;
+  }
+};
 
-export default { fetchRoleBasedUser, addProjectMember, filterProjectMember, deleteProjectMember,fetchProjectUser };
+
+export default { fetchRoleBasedUser, addProjectMember, filterProjectMember, deleteProjectMember,fetchProjectUser,fetchAllProjectMembers };

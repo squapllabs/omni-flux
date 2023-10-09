@@ -91,6 +91,14 @@ const getBySearchsiteExpense = () => {
     }
   );
 };
+
+const useGetAllPaginatedExpense = (data: any) => {
+  return useQuery(['useGetAllsiteExpense'], () => siteExpenseService.filtersiteExpense(data), {
+    select: (data) => data,
+    staleTime: Infinity,
+  });
+};
+
 const useBulkuploadSiteExpanse = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -113,4 +121,5 @@ export {
   getBySearchsiteExpense,
   useBulkuploadSiteExpanse,
   updatesiteExpenseDetail,
+  useGetAllPaginatedExpense
 };
