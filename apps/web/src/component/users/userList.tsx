@@ -24,11 +24,11 @@ import MemberIcon from '../menu/icons/memberIcon';
 const UserList = () => {
   // const { isLoading: getAllLoading } = useGetAllUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: FilterLoading,
-  } = getByUser();
+  // const {
+  //   mutate: postDataForFilter,
+  //   data: getFilterData,
+  //   isLoading: FilterLoading,
+  // } = getByUser();
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
@@ -161,7 +161,7 @@ const UserList = () => {
     <div className={Styles.container}>
       <div>
         <CustomLoader
-          loading={FilterLoading ? FilterLoading : getAllLoadingPaginated}
+          loading={getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
@@ -220,44 +220,7 @@ const UserList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {dataShow ? (
-                    getFilterData?.total_count === 0 ? (
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
-                        {activeButton === 'AC' && <td></td>}
-                      </tr>
-                    ) : (
-                      getFilterData?.content?.map(
-                        (data: any, index: number) => (
-                          <tr key={data.user_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{data.first_name}</td>
-                            <td>{data.last_name}</td>
-                            <td>{data.email_id}</td>
-                            <td>{data.contact_no}</td>
-                            {activeButton === 'AC' && (
-                              <td>
-                                <div className={Styles.tablerow}>
-                                  <EditIcon
-                                    onClick={() =>
-                                      navigate(`/user-edit/${data.user_id}`)
-                                    }
-                                  />
-                                  <DeleteIcon
-                                    onClick={() =>
-                                      deleteUserHandler(data.user_id)
-                                    }
-                                  />
-                                </div>
-                              </td>
-                            )}
-                          </tr>
-                        )
-                      )
-                    )
-                  ) : initialData?.total_count === 0 ? (
+                  {initialData?.total_count === 0 ? (
                     <tr>
                       <td></td>
                       <td></td>
@@ -295,14 +258,8 @@ const UserList = () => {
             <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
-                }
-                totalCount={
-                  dataShow
-                    ? getFilterData?.total_count
-                    : initialData?.total_count
-                }
+                totalPages={initialData?.total_page}
+                totalCount={initialData?.total_count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
