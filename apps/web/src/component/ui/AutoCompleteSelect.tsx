@@ -101,8 +101,7 @@ const InputContainer = styled.div<StyledInputProps>`
   display: flex;
   align-items: center;
   padding: ${(props) =>
-    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
-      props.hasPrefixIcon ? '32px' : '12px'
+    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${props.hasPrefixIcon ? '32px' : '12px'
     }`};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
@@ -180,7 +179,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
-
+  console.log("check option list data--->", optionList)
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [allOptions, setAllOptions] = useState(optionList); // Replace with actual data source
   const [open, setOpen] = useState(false);
@@ -298,9 +297,8 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
                       setValues(option.label);
                     }}
                     style={{
-                      backgroundColor: `${
-                        option.label === values ? '#EFF5F5' : ''
-                      }`,
+                      backgroundColor: `${option.label === values ? '#EFF5F5' : ''
+                        }`,
                     }}
                   >
                     {option.label}

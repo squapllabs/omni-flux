@@ -1,0 +1,154 @@
+.container {
+  // width: 120%;
+  height: 100vh;
+  // background-color: #118153;
+}
+
+.topHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.sub_header {
+  height: 10vh;
+  display: flex;
+}
+
+.vertical {
+  position: relative;
+}
+
+.verticalLine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #d0d5dd;
+  height: 100%;
+}
+
+.cards {
+  background-color: #f9f9f9;
+  // background-color: #c01574;
+}
+.amountCards {
+  display: flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  gap: 35px;
+  flex-wrap: wrap;
+
+}
+
+.card1 {
+  display: flex;
+  justify-content: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  height: 20%;
+  border-radius: 7px;
+  padding: 25px;
+  background-color: white;
+}
+.card2 {
+  display: flex;
+  justify-content: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  // width: 100%;
+  height: 20%;
+  border-radius: 7px;
+  padding: 25px;
+  background-color: white;
+}
+.grpButtons {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0px 15px 0px;
+  // background-color: #667085;
+}
+
+.approvedStyles {
+  color: #118153;
+}
+.rejectedStyles {
+  color: red;
+}
+.pendingStyles {
+  color: #c01574;
+}
+
+.approvedStatus {
+  background-color: #ecfdf3;
+  padding: 6px;
+  border-radius: 50px;
+  color: #027a48;
+}
+.pendingStatus {
+  background-color:#FDF2FA;
+  padding: 6px;
+  border-radius: 50px;
+  color:  #C11574
+}
+.rejectedStatus {
+  background-color:#FFFAEB;
+  padding: 6px;
+  border-radius: 50px;
+  color:  #B54708;
+}
+.draftStatus {
+  background-color:#EFF8FF;
+  padding: 6px;
+  border-radius: 50px;
+  color:#175CD3
+}
+
+.emptyData {
+  position: absolute;
+  top: 70%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  // text-align: center;
+}
+
+/* Apply the scrollable_table class to your table element */
+.scrollable_table {
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px 10px 10px 24px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    border: none;
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  thead {
+    tr {
+      th {
+        color: #667085;
+        font-weight: 700;
+      }
+    }
+  }
+
+  td:hover,
+  tr:hover {
+    /* Add hover styles if needed */
+  }
+}

@@ -370,6 +370,7 @@ const MaterData = () => {
       <CustomSidePopup
         open={masterDataFormOpen}
         title={mode === 'Edit' ? 'Edit Master Data' : 'Add Master Data'}
+        description={mode === "Edit" ? 'Modify existing master data' : 'Create new master data'}
         handleClose={handleCloseMasterForm}
         content={
           <MasterDataForm
