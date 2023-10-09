@@ -1,3 +1,4 @@
+import db from '../utils/db';
 import prisma from '../utils/prisma';
 import customQueryExecutor from './common/utils.dao';
 
@@ -367,6 +368,135 @@ const updateStatusAndDocument = async (
   }
 };
 
+const getPOStatistics = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const purchaseOrderStatisticsQuery = `with project_based_puchase_order_data as (
+      select
+        p.project_name,
+        p.project_id,
+        p.estimated_budget,
+        p.actual_budget,
+        COUNT(po.*) as total_po_count,
+        SUM(case when po.status = 'Completed' then 1 else 0 end) as count_of_completed_po,
+        SUM(case when po.status != 'Completed' then 1 else 0 end) as count_of_pending_po,
+        SUM(case when po.status = 'Completed' then po.total_cost else 0 end) as total_cost_completed,
+        SUM(case when po.status != 'Completed' then po.total_cost else 0 end) as total_cost_other_than_completed,
+        SUM(po.total_cost) as total_purchase_order_cost
+      from
+        purchase_order po
+      left join purchase_request pr on
+        pr.purchase_request_id = po.purchase_request_id
+      left join project p on
+        p.project_id = pr.project_id
+      where
+        po.is_delete = false
+      group by
+        p.project_id,
+        p.project_name,
+        p.estimated_budget,
+        p.actual_budget
+      order by
+        p.actual_budget desc
+      limit 5
+      ),
+      
+      purchase_order_statistics as (
+      select
+        SUM(case when po.status = 'Processing' then po.total_cost else 0 end) as total_cost_processing,
+        SUM(case when po.status = 'Product Received' then po.total_cost else 0 end) as total_cost_product_received,
+        SUM(case when po.status = 'Invoice' then po.total_cost else 0 end) as total_cost_invoice,
+        SUM(case when po.status = 'Completed' then po.total_cost else 0 end) as total_cost_completed,
+        SUM(case when po.status != 'Completed' then po.total_cost else 0 end) as total_cost_other_than_completed,
+        SUM(po.total_cost) as total_purchase_order_cost,
+        (
+        select
+          COUNT(*)
+        from
+          purchase_order
+        where
+          status = 'Completed'
+          and is_delete = false) as completed_po,
+        (
+        select
+          COUNT(*)
+        from
+          purchase_order
+        where
+          status != 'Completed'
+          and is_delete = false) as pending_po
+      from
+        purchase_order po
+      where
+        po.is_delete = false
+      ),
+      
+      vendor_count as (
+      select
+        count(*)::integer as total_vendor_count 
+      from
+        vendor v
+      where
+        v.is_delete = false
+      ),
+      
+      vendor_involved_in_purchase_order as (
+      select
+        count(v.*)::integer as total_vendor_involved_in_po 
+      from
+        (
+        select
+          po.vendor_id
+        from
+          purchase_order po
+        where
+          po.is_delete = false
+        group by
+          po.vendor_id) as v
+      )
+      
+      select
+        pd.project_name,
+        pd.project_id,
+        pd.estimated_budget,
+        pd.actual_budget,
+        pd.total_po_count::integer,
+        pd.count_of_completed_po::integer,
+        pd.count_of_pending_po::integer,
+        pd.total_cost_completed,
+        pd.total_cost_other_than_completed,
+        pd.total_purchase_order_cost,
+        json_build_object(
+              'total_cost_processing', pos.total_cost_processing,
+              'total_cost_product_received', pos.total_cost_product_received,
+              'total_cost_invoice', pos.total_cost_invoice,
+              'total_cost_completed', pos.total_cost_completed,
+              'total_cost_other_than_completed', pos.total_cost_other_than_completed,
+              'total_purchase_order_cost', pos.total_purchase_order_cost,
+              'completed_po', pos.completed_po,
+              'pending_po', pos.pending_po
+          ) as purchase_order_statistics,
+        vc.*,
+        vipo.*
+      from
+        project_based_puchase_order_data pd
+      cross join
+          purchase_order_statistics pos
+      cross join 
+      vendor_count vc
+      cross join 
+      vendor_involved_in_purchase_order vipo`;
+
+    const purchaseOrder = await transaction.manyOrNone(
+      purchaseOrderStatisticsQuery
+    );
+    return purchaseOrder;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrder getPOStatistics dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -377,4 +507,5 @@ export default {
   createPurchaseOrderWithItem,
   getByPurchaseRequestId,
   updateStatusAndDocument,
+  getPOStatistics,
 };
