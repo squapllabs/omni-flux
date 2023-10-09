@@ -83,7 +83,7 @@ const ExpenseApprove = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'All', value: '' },
+    { label: 'All', value: 'All' },
     { label: 'Pending', value: 'Pending' },
     { label: 'Approved', value: 'Approved' },
     { label: 'Rejected', value: 'Rejected' },
@@ -251,6 +251,7 @@ const ExpenseApprove = () => {
     expense_status: activeButton,
     ...filterValue,
     site_id: siteValue.site_id,
+    employee_name:memberValue.project_member_name
   };
 
   const {
@@ -268,7 +269,7 @@ const ExpenseApprove = () => {
       refetch();
     }, 500);
     return () => clearTimeout(handleSearch);
-  }, [filterValue, siteValue]);
+  }, [filterValue, siteValue,memberValue]);
 
   return (
     <div className={Styles.container}>
@@ -303,22 +304,22 @@ const ExpenseApprove = () => {
                   label="Site"
                   optionList={siteData}
                   onSelect={(value) => {
-                    setSiteValue({ ['site_id']: value });
+                    setSiteValue({ 'site_id': value });
                   }}
                   width="100%"
                 />
               </div>
               <div>
                 <AutoCompleteSelect
-                  name="site_engineer_id"
-                  label="Site Engineer Name"
+                  name="project_member_id"
+                  label="Project Member"
                   optionList={projectMemberData}
                   onSelect={(value) => {
-                    setMemberValue({ ['project_member_id']: value });
+                    setMemberValue({ 'project_member_id': value });
                     const matchingObjects = projectMemberData.filter(
                       (obj: any) => Number(obj.value) === Number(value)
                     );
-                    setMemberValue({ ['project_member_name']: matchingObjects[0].label });
+                    setMemberValue({ 'project_member_name': matchingObjects[0].label });
                   }}
                   width="100%"
                 />
