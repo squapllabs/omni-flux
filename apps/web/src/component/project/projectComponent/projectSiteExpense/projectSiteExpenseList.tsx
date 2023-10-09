@@ -50,6 +50,7 @@ const ProjectSiteExpenseList = () => {
   // };
 
   const handleSearch = async () => {
+    console.log("Check data--->",filterValue)
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
       limit: rowsPerPage,
@@ -58,7 +59,7 @@ const ProjectSiteExpenseList = () => {
       status: 'AC',
       project_id: Number(routeParams?.id),
       expense_status: activeButton,
-      site_id: filterValue,
+      site_id: filterValue === null ? initialSiteId:  filterValue,
     };
     console.log('payload ----->', demo);
     postDataForFilter(demo);
