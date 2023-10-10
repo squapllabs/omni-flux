@@ -4,7 +4,7 @@ pipeline {
         stage('checkout code'){
             steps {
                 checkout([$class: 'GitSCM',
-                branches: [[name: '*/main-backup-28-sep']],
+                branches: [[name: '*/main']],
                 extensions: scm.extensions,
                 userRemoteConfigs: [[
                     url: 'git@github.com:squapllabs/omni-flux.git',
