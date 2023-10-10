@@ -104,9 +104,21 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     initialValues,
     validationSchema,
     enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
+      let code = 'SITEEXPENSE' + props.siteId;
+
+      const s3UploadUrl: any = await handleDocuments(
+        selectedFiles,
+        code.toUpperCase()
+      );
+
+      console.log('s3UploadUrl', s3UploadUrl);
+
+      console.log('s3UploadUrl', s3UploadUrl);
+      formik.setFieldValue('bill_details', s3UploadUrl);
       console.log('valuesDetails', values);
       values['total'] = Number(values.total);
+      values['bill_details'] = s3UploadUrl;
       props.setExpenseList([...props.expenseList, values]);
       setChecked(false);
       setSelectedFileName([]);
@@ -159,14 +171,9 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
-        let code = 'SITEEXPENSE' + props.siteId;
+
         console.log('selectedFiles', selectedFilesArray);
-        const s3UploadUrl: any = await handleDocuments(
-          selectedFilesArray,
-          code.toUpperCase()
-        );
-        console.log('s3UploadUrl', s3UploadUrl);
-        formik.setFieldValue('bill_details', s3UploadUrl);
+
         props.setLoader(false);
         props.setMessage('Document uploaded');
         props.setOpenSnack(true);
