@@ -48200,3 +48200,193 @@ D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:319:56
 → 319     const subCategory = await transaction.sub_category.findMany(
 The column `sub_category.budget` does not exist in the current database.
 >>>>>>> 4e37662cd0ba741dda3e6e844443a52714d2bd78
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+

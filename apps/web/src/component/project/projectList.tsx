@@ -122,16 +122,16 @@ const ProjectList = () => {
 
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage, activeButton]);
+  }, [filterValues, currentPage, rowsPerPage, activeButton]);
 
   useEffect(() => {
     // if (filterValues.search_by_name !== '') {
-      const handleSearch = setTimeout(() => {
-        refetch();
-      }, 2000);
-      return () => clearTimeout(handleSearch);
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 2000);
+    return () => clearTimeout(handleSearch);
     // }
-  }, [filterValues]);
+  }, [filterValues, currentPage, rowsPerPage, activeButton]);
 
   /* Function for searching a user in the table */
   // const handleSearch = async () => {
@@ -342,9 +342,18 @@ const ProjectList = () => {
                             {data?.user?.first_name} {data?.user?.last_name}
                           </td>
                           <td>
-                            {' '}
-                            <span className={Styles.status}>
-                              {data?.status}{' '}
+                            <span
+                              className={`${Styles.status} ${
+                                data?.status === 'Inprogress'
+                                  ? Styles.inprogressStatus
+                                  : data?.status === 'Completed'
+                                  ? Styles.completedStatus
+                                  : data?.status === 'Draft'
+                                  ? Styles.draftStatus
+                                  : ''
+                              }`}
+                            >
+                              {data?.status}
                             </span>
                           </td>
                           <td>
