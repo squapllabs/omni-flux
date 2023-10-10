@@ -227,12 +227,14 @@ const updatePurchaseRequest = async (req) => {
       }
 
       for (const file of files) {
+        const contentType = file.mimetype;
         const code = `purchase-request-${purchase_request_id}-${index}`;
         const localUploadedFilePath = file.path;
         const fileData = await s3.uploadFileInS3(
           file,
           code,
-          'purchase-request'
+          'purchase-request',
+          contentType
         );
 
         const s3FilePath = fileData.path;

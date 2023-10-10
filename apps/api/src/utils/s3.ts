@@ -26,7 +26,8 @@ const s3 = new S3Client({
 const uploadFileInS3 = async (
   file: { path: string; filename: string },
   code: string,
-  folder: string
+  folder: string,
+  contentType: string
 ) => {
   const fileStream = createReadStream(file.path);
   const uniqueFolder = folder ? folder : 'common';
@@ -37,6 +38,7 @@ const uploadFileInS3 = async (
     Bucket: bucketName,
     Body: fileStream,
     Key: filePath,
+    ContentType: contentType,
   };
 
   try {
