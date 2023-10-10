@@ -11,6 +11,7 @@ import {
   getAllInActiveSubCategories,
   getAllSubCategory,
   getByCategoryId,
+  getByParentSubCategoryId,
   getBySubCategoryId,
   searchSubCategory,
   updateSubCategory,
@@ -59,6 +60,12 @@ router.get(
   '/get-by-category-id/:category_id/:bom_configuration_id',
   authMiddleware,
   getByCategoryId
+);
+
+router.get(
+  '/get-by-parent-sub-category-id/:parent_sub_category_id',
+  authMiddleware,
+  getByParentSubCategoryId
 );
 
 export default router;

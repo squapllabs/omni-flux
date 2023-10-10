@@ -349,8 +349,10 @@ const getByCategoryIdAndBomConfigurationId = async (
         category_id: Number(category_id),
         bom_configuration_id: Number(bom_configuration_id),
         is_delete: false,
+        parent_sub_category_id: null,
       },
       include: {
+        children: true,
         category: true,
         project_data: {
           select: {
@@ -435,6 +437,49 @@ const getSumOfBudgetByCategoryId = async (
   }
 };
 
+const getByParentSubCategoryId = async (
+  parent_sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.findMany({
+      where: {
+        parent_sub_category_id: Number(parent_sub_category_id),
+        is_delete: false,
+      },
+      include: {
+        category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
+        uom_data: {
+          select: { name: true },
+        },
+      },
+    });
+    return subCategory;
+  } catch (error) {
+    console.log(
+      'Error occurred in subCategory getByParentSubCategoryId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -448,4 +493,5 @@ export default {
   updateBudget,
   getSumOfBudgetByCategoryId,
   getByCategoryIdAndBomConfigurationId,
+  getByParentSubCategoryId,
 };
