@@ -48200,3 +48200,12 @@ D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:319:56
 → 319     const subCategory = await transaction.sub_category.findMany(
 The column `sub_category.budget` does not exist in the current database.
 >>>>>>> 4e37662cd0ba741dda3e6e844443a52714d2bd78
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createExpense << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.expense.create()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\expense.dao.ts:40:47
+
+  37   expenseCodeGeneratorQuery
+  38 );
+  39 
+→ 40 const expense = await transaction.expense.create(
+Foreign key constraint failed on the field: `fk_expense_site_id (index)`
