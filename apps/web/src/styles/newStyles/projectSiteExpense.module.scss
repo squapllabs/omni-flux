@@ -1,5 +1,6 @@
 .container {
   padding-top: 10px;
+  padding-left: 10px;
 }
 
 .tableContainer {
@@ -108,4 +109,34 @@
 .cancelButton {
   background-color: var(--danger-color);
   color: #b42318;
+}
+
+.documentContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.documentOuterLayer {
+  border: 1px solid #d0d5dd;
+  border-radius: 5px;
+}
+
+.documentContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+}
+
+.documentSpan {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.1599999964237213px;
+  text-align: left;
+  color: #525252;
 }

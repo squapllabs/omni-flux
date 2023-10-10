@@ -106,7 +106,7 @@ const InputContainer = styled.div<StyledInputProps>`
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
   background-color: ${(props) =>
-    props.transparent ? 'transaparent' : '#f4f5f6'};
+    props.transparent ? 'transaparent' : '#FFFFFF'};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   &:hover {
@@ -179,7 +179,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
-  console.log("check option list data--->", optionList)
+  // console.log("check option list data--->", optionList)
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [allOptions, setAllOptions] = useState(optionList); // Replace with actual data source
   const [open, setOpen] = useState(false);
@@ -297,8 +297,9 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
                       setValues(option.label);
                     }}
                     style={{
-                      backgroundColor: `${option.label === values ? '#EFF5F5' : ''
-                        }`,
+                      backgroundColor: `${
+                        option.label === values ? '#FFFFFF' : ''
+                      }`,
                     }}
                   >
                     {option.label}

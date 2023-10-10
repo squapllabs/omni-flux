@@ -24,18 +24,30 @@ import CustomConfirmDialogBox from '../../../ui/CustomConfirmDialogBox';
 import CustomDialogBox from '../../../ui/CustomDialog';
 import siteExpenseService from '../../../../service/expense-service';
 import CustomSnackbar from '../../../ui/customSnackBar';
+import { formatBudgetValue } from '../../../../helper/common-function';
+import SiteExpenseBill from './SiteExpensBill';
+import CustomLoader from '../../../ui/customLoader';
+import CurrencyIcon from '../../../menu/icons/CurrencyIcon';
 
 const ProjectSiteExpenseForm: React.FC = (props: any) => {
   console.log('filterValue', props.siteId);
 
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
+  console.log('encryptedData', encryptedData?.userData?.contact_no);
+
   const projectId = Number(props?.projectId);
   const siteId = Number(props?.siteId);
   const [initialValues, setInitialValues] = useState({
-    employee_name: '',
+    employee_name:
+      encryptedData?.userData?.first_name +
+      ' ' +
+      encryptedData?.userData?.last_name,
     employee_id: '',
-    employee_phone: '',
+    employee_phone:
+      encryptedData?.userData?.contact_no != null
+        ? encryptedData?.userData?.contact_no
+        : '',
     end_date: '',
     start_date: '',
     purpose: '',
@@ -46,6 +58,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     expense_id: '',
     submitType: '',
     total_amount: '',
+    expense_code: '',
   });
   const [expenseList, setExpenseList] = useState<any>([]);
   const validationSchema = getCreateValidateyup(Yup);
@@ -53,6 +66,8 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [expenseBill, setExpenseBill] = useState<any>([]);
   const { data: getSiteList } = getProjectSite(Number(projectId));
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
     createsiteExpense();
@@ -98,9 +113,9 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
       );
       console.log('datas', datas);
       const arry: any = [];
-      // setExpenseBill(
-      //   datas?.data?.bill_details === null ? [] : datas?.data?.bill_details
-      // );
+      setExpenseBill(
+        datas?.data?.bill_details === null ? [] : datas?.data?.bill_details
+      );
       setExpenseList(datas?.data?.expense_details);
       setInitialValues({
         employee_name: datas?.data?.employee_name,
@@ -116,6 +131,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
         site_id: datas?.data?.site_id,
         submitType: datas?.data?.status,
         total_amount: datas?.data?.total_amount,
+        expense_code: datas?.data?.expense_code,
       });
     };
     if (props?.mode === 'Edit') fetchData();
@@ -150,9 +166,15 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
           const object: any = {
             site_id: values.site_id,
             project_id: projectId,
-            employee_name: values.employee_name,
-            employee_id: values.employee_id,
-            employee_phone: values.employee_phone,
+            employee_name:
+              encryptedData?.userData?.first_name +
+              ' ' +
+              encryptedData?.userData?.last_name,
+            employee_id: '',
+            employee_phone:
+              encryptedData?.userData?.contact_no != null
+                ? encryptedData?.userData?.contact_no
+                : '',
             end_date: values.end_date,
             start_date: values.start_date,
             purpose: values.purpose,
@@ -160,7 +182,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             designation: values.designation,
             expense_details: expenseList,
             created_by: encryptedData?.userId,
-            bill_details: '',
+            bill_details: expenseBill,
             status: statusData,
             total_amount: totalSelectedPrice,
           };
@@ -180,13 +202,18 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
           });
         } else {
           console.log('sumOfRates', totalSelectedPrice);
-
           const object: any = {
             site_id: values.site_id,
             project_id: projectId,
-            employee_name: values.employee_name,
-            employee_id: values.employee_id,
-            employee_phone: values.employee_phone,
+            employee_name:
+              encryptedData?.userData?.first_name +
+              ' ' +
+              encryptedData?.userData?.last_name,
+            employee_id: '',
+            employee_phone:
+              encryptedData?.userData?.contact_no != null
+                ? encryptedData?.userData?.contact_no
+                : '',
             end_date: values.end_date,
             start_date: values.start_date,
             purpose: values.purpose,
@@ -196,7 +223,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             created_by: encryptedData?.userId,
             updated_by: encryptedData?.userId,
             expense_id: values.expense_id,
-            bill_details: '',
+            bill_details: expenseBill,
             status: statusData,
             total_amount: totalSelectedPrice,
           };
@@ -221,11 +248,27 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   });
   return (
     <div>
-      <div className={Styles.container}>
-        <div className={Styles.formContainer}>
-          <div className={Styles.form_fields}>
-            <div className={Styles.fields_container_1}>
-              <div className={Styles.fieldStyle}>
+      <CustomLoader loading={loader} size={20}>
+        <div className={Styles.container}>
+          <div className={Styles.formContainer}>
+            <div className={Styles.form_fields}>
+              <div className={Styles.fields_container_1}>
+                <div className={Styles.fieldStyle}>
+                  <Input
+                    label="Expense Code"
+                    placeholder="EXP-YYYY-"
+                    name="quantity"
+                    // mandatory={true}
+                    disabled={true}
+                    // width="350px"
+                    value={formik.values.expense_code}
+                    onChange={formik.handleChange}
+                    // error={
+                    //     formik.touched.quantity && formik.errors.quantity
+                    // }
+                  />
+                </div>
+                {/* <div className={Styles.fieldStyle}>
                 <AutoCompleteSelect
                   name="site_id"
                   label="Site"
@@ -239,112 +282,131 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                   error={formik.touched.site_id && formik.errors.site_id}
                   disabled={siteId ? true : false}
                 />
+              </div> */}
+                <div className={Styles.fieldStyle}>
+                  <Input
+                    name="total_amount"
+                    label="Total"
+                    value={formatBudgetValue(
+                      formik.values.total_amount
+                        ? formik.values.total_amount
+                        : 0
+                    )}
+                    onChange={formik.handleChange}
+                    disabled
+                    mandatory
+                  />
+                </div>
               </div>
-              <div className={Styles.fieldStyle}>
-                <Input
-                  name="total_amount"
-                  label="Total"
-                  value={formik.values.total_amount}
-                  onChange={formik.handleChange}
-                  disabled
-                  mandatory
+              <div className={Styles.fields_container_1}>
+                <div className={Styles.fieldStyle}>
+                  <DatePicker
+                    label="Start Date"
+                    name="start_date"
+                    onChange={formik.handleChange}
+                    value={formik.values.start_date}
+                    mandatory
+                    error={
+                      formik.touched.start_date && formik.errors.start_date
+                    }
+                  />
+                </div>
+                <div className={Styles.fieldStyle}>
+                  <DatePicker
+                    label="End Date"
+                    name="end_date"
+                    onChange={formik.handleChange}
+                    value={formik.values.end_date}
+                    mandatory
+                    error={formik.touched.end_date && formik.errors.end_date}
+                  />
+                </div>
+              </div>
+              <div>
+                <SiteExpenseBill
+                  projectId={projectId}
+                  setExpenseBill={setExpenseBill}
+                  expenseBill={expenseBill}
+                  loader={loader}
+                  setLoader={setLoader}
                 />
               </div>
             </div>
-            <div className={Styles.fields_container_1}>
-              <div className={Styles.fieldStyle}>
-                <DatePicker
-                  label="Start Date"
-                  name="start_date"
-                  onChange={formik.handleChange}
-                  value={formik.values.start_date}
-                  mandatory
-                  error={formik.touched.start_date && formik.errors.start_date}
-                />
-              </div>
-              <div className={Styles.fieldStyle}>
-                <DatePicker
-                  label="End Date"
-                  name="end_date"
-                  onChange={formik.handleChange}
-                  value={formik.values.end_date}
-                  mandatory
-                  error={formik.touched.end_date && formik.errors.end_date}
-                />
-              </div>
+            <div>
+              <CurrencyIcon width={90} height={90} color="#7f56d9" />
             </div>
           </div>
-          <div>
-            <FlagIcon width={50} height={50} />
+          <div className={Styles.tableContainer}>
+            <SiteExpensesDetails
+              setExpenseList={setExpenseList}
+              expenseList={expenseList}
+              setMessage={setMessage}
+              setOpenSnack={setOpenSnack}
+              siteId={Number(props?.siteId)}
+              loader={loader}
+              setLoader={setLoader}
+            />
+            <div className={Styles.buttonComponent}>
+              <div className={Styles.dividerStyleOne}></div>
+              <div className={Styles.bottomButton}>
+                <Button
+                  type="button"
+                  color="primary"
+                  shape="rectangle"
+                  size="small"
+                  justify="center"
+                  onClick={() => submitHandler()}
+                >
+                  Save
+                </Button>
+                <Button
+                  type="button"
+                  color="secondary"
+                  shape="rectangle"
+                  size="small"
+                  justify="center"
+                  className={Styles.draftButton}
+                  onClick={() => drafthandler()}
+                >
+                  Save Draft
+                </Button>
+                <Button
+                  type="button"
+                  color="secondary"
+                  shape="rectangle"
+                  size="small"
+                  justify="center"
+                  className={Styles.cancelButton}
+                  // onClick={() => cancelhandler()}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
-        <div className={Styles.tableContainer}>
-          <SiteExpensesDetails
-            setExpenseList={setExpenseList}
-            expenseList={expenseList}
-            setMessage={setMessage}
-            setOpenSnack={setOpenSnack}
-          />
-          <div className={Styles.buttonComponent}>
-            <div className={Styles.dividerStyleOne}></div>
-            <div className={Styles.bottomButton}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                onClick={() => submitHandler()}
-              >
-                Save
-              </Button>
-              <Button
-                type="button"
-                color="secondary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                className={Styles.draftButton}
-                onClick={() => drafthandler()}
-              >
-                Save Draft
-              </Button>
-              <Button
-                type="button"
-                color="secondary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                className={Styles.cancelButton}
-                // onClick={() => cancelhandler()}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <CustomConfirmDialogBox
-        open={openConfirm}
-        handleClose={handleCloseConfirm}
-        handleConfirm={handleConfirmForm}
-        title="are you sure you want to save?"
-        contentLine1="after saving you cant edit  "
-      />
-      <CustomDialogBox
-        open={openDialog}
-        title="Warning"
-        contentLine1="Please add site expanse details"
-        contentLine2=""
-        handleClose={handleCloseDialog}
-      />
-      <CustomSnackbar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        autoHideDuration={1000}
-        type="success"
-      />
+        <CustomConfirmDialogBox
+          open={openConfirm}
+          handleClose={handleCloseConfirm}
+          handleConfirm={handleConfirmForm}
+          title="are you sure you want to save?"
+          contentLine1="after saving you cant edit  "
+        />
+        <CustomDialogBox
+          open={openDialog}
+          title="Warning"
+          contentLine1="Please add site expanse details"
+          contentLine2=""
+          handleClose={handleCloseDialog}
+        />
+        <CustomSnackbar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
+      </CustomLoader>
     </div>
   );
 };
