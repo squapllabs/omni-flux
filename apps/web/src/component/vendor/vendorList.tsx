@@ -134,6 +134,13 @@ const VendorList = () => {
 
   return (
     <div>
+          <div>
+            <ProjectSubheader
+              title="Vendors"
+              description=" Manage your approved vendor details"
+              navigation={'/home'}
+            />
+          </div>
       <div>
         <CustomLoader
           loading={searchLoader ? searchLoader : getAllLoadingPaginated}
@@ -143,9 +150,9 @@ const VendorList = () => {
           
           <div className={Styles.topHeading}>
               <div className={Styles.heading}>
-                <div className={Styles.subHeading}>
+                {/* <div className={Styles.subHeading}>
                   <h3>VENDORS</h3>
-                </div>
+                </div> */}
                 <div>
                   <Button
                     color="primary"

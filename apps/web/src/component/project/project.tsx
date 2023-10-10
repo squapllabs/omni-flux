@@ -22,6 +22,7 @@ import KeyboardBackspaceIcon from '../menu/icons/backArrow';
 import FirstPageIcon from '../menu/icons/firstPageIcon';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
 import SideNav from '../ui/sideNav';
+import ProjectSiteExpenseList from './projectComponent/projectSiteExpense/projectSiteExpenseList';
 const Project = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -145,7 +146,7 @@ const Project = () => {
       />
     ),
     6: (
-      <SiteExpenseList
+      <ProjectSiteExpenseList
         setActiveButton={setActiveButton}
         setLoader={setLoader}
         loader={loader}

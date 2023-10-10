@@ -4,6 +4,7 @@
 
 .box {
   position: relative;
+  padding-bottom: 15px;
 }
 
 .textContent {
@@ -140,7 +141,7 @@
   
     th,
     td {
-      padding: 10px 10px 10px 24px; /* Adjust padding */
+      padding: 6px 10px 6px 24px; /* Adjust padding */
       text-align: left;
       font-weight: 500;
       font-size: 12px;
