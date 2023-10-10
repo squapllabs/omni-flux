@@ -449,6 +449,7 @@ const getByParentSubCategoryId = async (
         is_delete: false,
       },
       include: {
+        children: true,
         category: true,
         project_data: {
           select: {
