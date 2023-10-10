@@ -14,6 +14,7 @@ const add = async (
   designation: string,
   start_date: Date,
   end_date: Date,
+  bill_date: Date,
   bill_details: JSON,
   created_by: number,
   status: string,
@@ -27,6 +28,7 @@ const add = async (
     const is_delete = false;
     const formatted_start_date = start_date ? new Date(start_date) : null;
     const formatted_end_date = end_date ? new Date(end_date) : null;
+    const formatted_bill_date = bill_date ? new Date(bill_date) : null;
 
     const expenseCodeGeneratorQuery = `select
 	concat('EXP', DATE_PART('year', CURRENT_DATE), '00', nextval('expence_code_sequence')::text) as expence_code_sequence`;
@@ -51,6 +53,7 @@ const add = async (
         status,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
+        bill_date: formatted_bill_date,
         is_delete: is_delete,
         created_by,
         created_date: currentDate,
@@ -123,6 +126,7 @@ const edit = async (
   designation: string,
   start_date: Date,
   end_date: Date,
+  bill_date: Date,
   bill_details: JSON,
   updated_by: number,
   status: string,
@@ -136,6 +140,8 @@ const edit = async (
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const formatted_start_date = start_date ? new Date(start_date) : null;
     const formatted_end_date = end_date ? new Date(end_date) : null;
+    const formatted_bill_date = bill_date ? new Date(bill_date) : null;
+
     const expense = await transaction.expense.update({
       where: {
         expense_id: expense_id,
@@ -154,6 +160,7 @@ const edit = async (
         status,
         start_date: formatted_start_date,
         end_date: formatted_end_date,
+        bill_date: formatted_bill_date,
         updated_by,
         updated_date: currentDate,
       },

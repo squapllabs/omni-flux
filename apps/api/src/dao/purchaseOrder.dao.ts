@@ -397,7 +397,7 @@ const getPOStatistics = async (connectionObj = null) => {
         p.estimated_budget,
         p.actual_budget
       order by
-        p.actual_budget desc
+        total_cost_other_than_completed desc
       limit 5
       ),
       
