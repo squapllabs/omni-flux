@@ -95,6 +95,17 @@ const getOneSubCatListbyCatID = async (values: any) => {
     throw error;
   }
 };
+const getOneChlidSubCatListbyParentID = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/sub-category/get-by-parent-sub-category-id/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in get getOneChlidSubCatListbyParentID  list', error);
+    throw error;
+  }
+};
 
 export default {
   getAllSubcategory,
@@ -105,4 +116,5 @@ export default {
   checkDublicateSubCategory,
   filterSubCategory,
   getOneSubCatListbyCatID,
+  getOneChlidSubCatListbyParentID,
 };

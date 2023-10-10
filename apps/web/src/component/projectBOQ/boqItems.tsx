@@ -19,6 +19,7 @@ import CheckListIcon from '../menu/icons/checkListIcon';
 import NewAddCircleIcon from '../menu/icons/newAddCircleIcon';
 import CategoryService from '../../service/category-service';
 import CustomMenu from '../ui/NewCustomMenu';
+import subCategoryService from '../../service/subCategory-service';
 
 const BomItems = (props: {
   selectedCategory: any;
@@ -51,15 +52,30 @@ const BomItems = (props: {
   const [reload, setReload] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [value, setValue] = useState();
+  const [subTaskView, setSubTaskView] = useState(false);
   const navigate = useNavigate();
   const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
   const [openedContextMenuForSubCategory, setOpenedContextMenuForSubCategory] =
     useState<number | null>(null);
-
+  const [subChildList, setSubChildList] = useState<any>([]);
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setShowSubCategoryForm(true);
     setSelectedSubCategoryId(value);
+  };
+  const handleSubTask = (value: any) => {
+    console.log('data?.sub_category_id', value);
+    setMode('Sub Task');
+    setShowSubCategoryForm(true);
+    setSelectedSubCategoryId(value);
+  };
+  const handleSubTaskView = async (value: any) => {
+    setSubTaskView(!subTaskView);
+    setSelectedSubCategoryId(value);
+    const getSubChildList =
+      await subCategoryService.getOneChlidSubCatListbyParentID(value);
+    console.log('getSubChildList', getSubChildList);
+    setSubChildList(getSubChildList?.data);
   };
 
   const deleteHandler = (id: any) => {
@@ -189,110 +205,62 @@ const BomItems = (props: {
                         setSelectedSubCategoryId(data?.sub_category_id);
                       },
                     },
+                    {
+                      label: 'Add sub Task',
+                      onClick: () => {
+                        handleSubTask(data?.sub_category_id);
+                        setSelectedSubCategoryId(data?.sub_category_id);
+                      },
+                    },
                   ];
                   return (
-                    <tr key={data.sub_category_id}>
-                      <td>{index + 1}</td>
-
-                      {/* <td>
-                        <span title={data?.name}>
-                          {data.name
-                            ? data.name.length > 20
-                              ? data.name.substring(0, 20) + '...'
-                              : data.name
-                            : '-'}
-                        </span>
-                      </td> */}
-
-                      <td>
-                        <span style={{ textAlign: 'justify' }}>
-                          {/* {data.description
-                            ? data.description.length > 20
-                              ? data.description.substring(0, 20) + '...'
-                              : data.description
-                            : '-'} */}
-                          {data.description}
-                        </span>
-                      </td>
-
-                      <td>
-                        {formatBudgetValue(data?.budget ? data?.budget : 0)}
-                      </td>
-
-                      <td>
-                        <CustomMenu actions={actions} name="BoQItems" />
-                        {/* <MoreVerticalIcon
-                        onClick={(e: any) => {
-                          e.stopPropagation();
-
-                          setOpenedContextMenuForSubCategory(
-                            data.sub_category_id
+                    <>
+                      <tr
+                        key={data.sub_category_id}
+                        onClick={(e) => handleSubTaskView(data.sub_category_id)}
+                        className={
+                          selectedSubCategoryId == data?.sub_category_id
+                            ? Styles.selectedRow
+                            : ''
+                        }
+                      >
+                        <td>{index + 1}</td>
+                        <td>
+                          <span style={{ textAlign: 'justify' }}>
+                            {data.description}
+                          </span>
+                        </td>
+                        <td>
+                          {formatBudgetValue(data?.budget ? data?.budget : 0)}
+                        </td>
+                        <td>
+                          <CustomMenu actions={actions} name="BoQItems" />
+                        </td>
+                      </tr>
+                      {subTaskView === true &&
+                        selectedSubCategoryId == data?.sub_category_id &&
+                        subChildList?.map((item: any, subindex: any) => {
+                          return (
+                            <>
+                              <tr>
+                                <td>{index + 1 + '.' + `${subindex + 1}`}</td>
+                                <td>{item.description}</td>
+                                <td>
+                                  {formatBudgetValue(
+                                    item?.budget ? item?.budget : 0
+                                  )}
+                                </td>
+                                <td>
+                                  <CustomMenu
+                                    actions={actions}
+                                    name="BoQItems"
+                                  />
+                                </td>
+                              </tr>
+                            </>
                           );
-
-                          setMoreIconDropdownOpen(!moreIconDropdownOpen);
-                        }}
-                      /> */}
-
-                        {/* {moreIconDropdownOpen &&
-                        data.sub_category_id ===
-                          openedContextMenuForSubCategory && (
-                          <ul className={Styles.menu}>
-                            <li className={Styles.menuItem}>
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                  gap: '5px',
-                                  padding: '5px',
-                                  backgroundColor: 'rgb(255, 255, 255)',
-                                }}
-                              >
-                                <div
-                                  className={Styles.options}
-                                  onClick={() => {
-                                    setSelectedSubCategoryId(
-                                      data.sub_category_id
-                                    );
-                                    setPlanListTitle(data.name);
-                                    setShowPlanForm(true);
-                                    //   navigate(`/bom/${data?.sub_category_id}`);
-                                  }}
-                                >
-                                  <span className={Styles.menuFont}>
-                                    Manage Plan
-                                  </span>
-                                </div>
-                              </div>
-                            </li>
-                            <li className={Styles.menuItem}>
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                  gap: '5px',
-                                  padding: '5px',
-                                  backgroundColor: 'rgb(255, 255, 255)',
-                                }}
-                              >
-                                <div
-                                  className={Styles.options}
-                                  onClick={() => {
-                                    handleEdit(data?.sub_category_id);
-                                    setSelectedSubCategoryId(
-                                      data?.sub_category_id
-                                    );
-                                  }}
-                                >
-                                  <span className={Styles.menuFont}>
-                                    Edit Task
-                                  </span>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        )} */}
-                      </td>
-                    </tr>
+                        })}
+                    </>
                   );
                 })}
               </tbody>
