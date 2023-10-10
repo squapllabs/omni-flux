@@ -48309,3 +48309,163 @@ D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\user.dao.ts:341:42
   340   const filter = filters.filterUser;
 → 341   const user = await transaction.users.findMany(
 Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -1")
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulkBom << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.aggregate()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:420:56
+
+  417 ) => {
+  418   try {
+  419     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 420     const subCategory = await transaction.sub_category.aggregate({
+            _sum: {
+              budget: true,
+              ~~~~~~
+          ?   sub_category_id?: true,
+          ?   category_id?: true,
+          ?   estimated_budget?: true,
+          ?   actual_budget?: true,
+          ?   created_by?: true,
+          ?   updated_by?: true,
+          ?   bom_configuration_id?: true,
+          ?   parent_sub_category_id?: true,
+          ?   uom_id?: true,
+          ?   quantity?: true,
+          ?   project_id?: true
+            },
+            where: {
+              category_id: 202,
+              is_delete: false
+            }
+          })
+
+
+Unknown field `budget` for select statement on model Sub_categorySumAggregateOutputType. Available options are listed in green. Did you mean `uom_id`?
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulkBom << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.aggregate()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:420:56
+
+  417 ) => {
+  418   try {
+  419     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 420     const subCategory = await transaction.sub_category.aggregate({
+            _sum: {
+              budget: true,
+              ~~~~~~
+          ?   sub_category_id?: true,
+          ?   category_id?: true,
+          ?   estimated_budget?: true,
+          ?   actual_budget?: true,
+          ?   created_by?: true,
+          ?   updated_by?: true,
+          ?   bom_configuration_id?: true,
+          ?   parent_sub_category_id?: true,
+          ?   uom_id?: true,
+          ?   quantity?: true,
+          ?   project_id?: true
+            },
+            where: {
+              category_id: 202,
+              is_delete: false
+            }
+          })
+
+
+Unknown field `budget` for select statement on model Sub_categorySumAggregateOutputType. Available options are listed in green. Did you mean `uom_id`?
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulkBom << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.aggregate()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:420:56
+
+  417 ) => {
+  418   try {
+  419     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 420     const subCategory = await transaction.sub_category.aggregate({
+            _sum: {
+              budget: true,
+              ~~~~~~
+          ?   sub_category_id?: true,
+          ?   category_id?: true,
+          ?   estimated_budget?: true,
+          ?   actual_budget?: true,
+          ?   created_by?: true,
+          ?   updated_by?: true,
+          ?   bom_configuration_id?: true,
+          ?   parent_sub_category_id?: true,
+          ?   uom_id?: true,
+          ?   quantity?: true,
+          ?   project_id?: true
+            },
+            where: {
+              category_id: 202,
+              is_delete: false
+            }
+          })
+
+
+Unknown field `budget` for select statement on model Sub_categorySumAggregateOutputType. Available options are listed in green. Did you mean `uom_id`?
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulkBom << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.aggregate()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:420:56
+
+  417 ) => {
+  418   try {
+  419     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 420     const subCategory = await transaction.sub_category.aggregate({
+            _sum: {
+              budget: true,
+              ~~~~~~
+          ?   sub_category_id?: true,
+          ?   category_id?: true,
+          ?   estimated_budget?: true,
+          ?   actual_budget?: true,
+          ?   created_by?: true,
+          ?   updated_by?: true,
+          ?   bom_configuration_id?: true,
+          ?   parent_sub_category_id?: true,
+          ?   uom_id?: true,
+          ?   quantity?: true,
+          ?   project_id?: true
+            },
+            where: {
+              category_id: 202,
+              is_delete: false
+            }
+          })
+
+
+Unknown field `budget` for select statement on model Sub_categorySumAggregateOutputType. Available options are listed in green. Did you mean `uom_id`?
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulkBom << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.aggregate()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:420:56
+
+  417 ) => {
+  418   try {
+  419     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 420     const subCategory = await transaction.sub_category.aggregate({
+            _sum: {
+              budget: true,
+              ~~~~~~
+          ?   sub_category_id?: true,
+          ?   category_id?: true,
+          ?   estimated_budget?: true,
+          ?   actual_budget?: true,
+          ?   created_by?: true,
+          ?   updated_by?: true,
+          ?   bom_configuration_id?: true,
+          ?   parent_sub_category_id?: true,
+          ?   uom_id?: true,
+          ?   quantity?: true,
+          ?   project_id?: true
+            },
+            where: {
+              category_id: 202,
+              is_delete: false
+            }
+          })
+
+
+Unknown field `budget` for select statement on model Sub_categorySumAggregateOutputType. Available options are listed in green. Did you mean `uom_id`?
+
