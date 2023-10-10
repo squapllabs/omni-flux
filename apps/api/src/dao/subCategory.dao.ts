@@ -423,11 +423,11 @@ const getSumOfBudgetByCategoryId = async (
         is_delete: false,
       },
       _sum: {
-        budget: true,
+        actual_budget: true,
       },
     });
 
-    return subCategory._sum.budget || 0;
+    return subCategory._sum.actual_budget || 0;
   } catch (error) {
     console.error(
       'Error occurred in sub category dao getSumOfBudgetByCategoryId:',
