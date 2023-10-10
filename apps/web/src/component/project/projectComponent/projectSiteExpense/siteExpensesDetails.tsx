@@ -9,13 +9,16 @@ import { getBymasertDataTypeDrop } from '../../../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Checkbox from '../../../ui/Checkbox';
-import DeleteIcon from '../../../menu/icons/deleteIcon';
+import DeleteIcon from '../../../menu/icons/newDeleteIcon';
 import CustomDelete from '../../../ui/customDeleteDialogBox';
 import AddIcon from '../../../menu/icons/addIcon';
 import TextArea from '../../../ui/CustomTextArea';
 import NewAddCircleIcon from '../../../menu/icons/newAddCircleIcon';
 import AttachmentIcon from '../../../menu/icons/attachementIcon';
 import userService from '../../../../service/user-service';
+import Popup from '../../../ui/CustomPdfPopup';
+import SiteExpensesView from './siteExpensesView';
+import ViewIcon from '../../../menu/icons/newViewIcon';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
   // console.log('props.expenseList', props.expenseList);
@@ -30,6 +33,9 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     description: '',
     bill_details: '',
   });
+  const [openPopup, setOpenPopup] = useState(false);
+  const [openPdfpopup, setOpenPdfpopup] = useState(false);
+  const [viewDocs, setViewDocs] = useState();
   const [ExpenseValue, setExpenseValue] = useState<any>({});
   const [checked, setChecked] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -116,7 +122,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
               return true;
             }
           } catch {
-            return true;            
+            return true;
           }
         }
       ),
@@ -158,6 +164,11 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       fileInputRef.current.click();
     }
   };
+
+  const viewDocumnet = (value: any) => {
+    setOpenPdfpopup(true)
+    setViewDocs(value)
+  }
 
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
@@ -273,14 +284,24 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                       )}
                     </td>
                     <td>
-                      <div
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          setExpenseValue(item);
-                          setOpenDelete(true);
-                        }}
-                      >
-                        <DeleteIcon />
+                      <div className={Styles.buttons}> 
+                        <div
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            setExpenseValue(item);
+                            setOpenDelete(true);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </div>
+                        <div
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            viewDocumnet(item)
+                          }}
+                        >
+                          <ViewIcon />
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -331,10 +352,10 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                     name="bill_number"
                     value={formik.values.bill_number}
                     onChange={formik.handleChange}
-                    // error={
-                    //   formik.touched.bill_number && formik.errors.bill_number
-                    // }
-                    // disabled={checked === true ? false : true}
+                  // error={
+                  //   formik.touched.bill_number && formik.errors.bill_number
+                  // }
+                  // disabled={checked === true ? false : true}
                   />
                 </div>
               </td>
@@ -388,6 +409,18 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         contentLine2=""
         handleClose={handleCloseDelete}
         handleConfirm={deleteSiteExpense}
+      />
+      <Popup
+        // title="Pdf Viewer"
+        openPopup={openPdfpopup}
+        setOpenPopup={setOpenPdfpopup}
+        content={
+          <SiteExpensesView
+            openPopup={openPdfpopup}
+            setOpenPopup={setOpenPdfpopup}
+            viewDocs={viewDocs}
+          />
+        }
       />
     </div>
   );

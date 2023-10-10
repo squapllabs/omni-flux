@@ -2,7 +2,7 @@ import React from 'react'
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 
 const SiteExpensesView = (props: any) => {
-    console.log("test", props);
+    // console.log("test", props);
 
     const getFileTypeFromUrl = () => {
         // Convert the URL to lowercase for case-insensitive matching
@@ -17,7 +17,7 @@ const SiteExpensesView = (props: any) => {
     }
     // const url = props?.viewDocs?.bill_details[0]?.path;
     const fileType = getFileTypeFromUrl();
-    console.log(`File type: ${fileType}`);
+    // console.log(`File type: ${fileType}`);
 
 
     return (

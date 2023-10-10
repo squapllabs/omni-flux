@@ -177,3 +177,33 @@
   padding-bottom: 5px;
   gap: 4px;
 }
+
+.header{
+  display: 'flex';
+  flex-direction: 'row';
+  // align-items: 'center';
+  // width: '700px';
+  padding: 10px;
+}
+
+.content_container_left {
+display: flex;
+flex-direction: column;
+justify-content:space-evenly;
+gap: 10px;
+// font-weight: bold;
+}
+
+.content_container {
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+gap: 20px;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
