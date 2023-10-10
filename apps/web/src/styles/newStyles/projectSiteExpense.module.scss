@@ -16,7 +16,7 @@
   width: 85%;
 }
 .fieldStyle {
-  width: 40%;
+  width: 18%;
 }
 .table_container {
   padding: 10px;
@@ -66,6 +66,9 @@
 .fields_container_1 {
   display: flex;
   gap: 10px;
+  // background-color: #b42318;
+  padding-left: 15px;
+  align-items: center;
 }
 
 .addDataIcon {
@@ -152,4 +155,25 @@
 .errorStyles {
   color: red;
   font-size: 0.75rem;
+}
+
+.totalBudget{
+  // background-color: #b42318;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 30px;
+  padding-bottom: 10px;
+}
+
+.documentErr{
+  color: black;
+  font-size: 0.75rem;
+}
+
+.expCode{
+  display: flex;
+  flex-direction: row;
+  padding-left: 15px;
+  padding-bottom: 5px;
+  gap: 4px;
 }
