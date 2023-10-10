@@ -506,6 +506,51 @@ const getByProjectIdAndSiteId = async (body) => {
   }
 };
 
+/**
+ * Method to get Project By user_id
+ * @param user_id
+ * @returns
+ */
+const getByUserId = async (user_id: number) => {
+  try {
+    if (user_id) {
+      const userExist = await userDao.getById(user_id);
+      if (!userExist) {
+        return {
+          message: 'user_id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+
+      const projectData = await projectDao.getByUserId(user_id);
+      if (projectData.length > 0) {
+        return { message: 'success', status: true, data: projectData };
+      } else {
+        return {
+          message: 'No data found for this user_id',
+          status: false,
+          data: null,
+        };
+      }
+    } else {
+      const projectData = await projectDao.getAll();
+      if (projectData.length > 0) {
+        return { message: 'success', status: true, data: projectData };
+      } else {
+        return {
+          message: 'No data found',
+          status: false,
+          data: null,
+        };
+      }
+    }
+  } catch (error) {
+    console.log('Error occurred in getByUserId project service : ', error);
+    throw error;
+  }
+};
+
 export {
   createProject,
   updateProject,
@@ -516,4 +561,5 @@ export {
   getByCode,
   getByProjectIdAndSiteId,
   getAllDashboard,
+  getByUserId,
 };

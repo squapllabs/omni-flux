@@ -93,6 +93,16 @@ const getByProjectIdAndSiteId = catchAsync(async (req, res) => {
   }
 });
 
+const getByUserId = catchAsync(async (req, res) => {
+  const methodName = '/getByUserId';
+  try {
+    const project = await projectService.getByUserId(req.params.user_id);
+    res.send(project);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createProject,
   updateProject,
@@ -102,5 +112,6 @@ export {
   searchProject,
   checkDuplicateCode,
   getByProjectIdAndSiteId,
-  getAllDashboard
+  getAllDashboard,
+  getByUserId,
 };

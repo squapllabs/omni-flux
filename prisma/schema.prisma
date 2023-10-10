@@ -1027,6 +1027,7 @@ model expense {
   designation        String?
   start_date         DateTime?
   end_date           DateTime?
+  bill_date          DateTime?
   bill_details       Json?
   total_amount       Float?
   status             String?

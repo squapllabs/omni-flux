@@ -12,6 +12,7 @@ import {
   getAllProject,
   getByProjectId,
   getByProjectIdAndSiteId,
+  getByUserId,
   searchProject,
   updateProject,
 } from '../../controller/project.controller';
@@ -48,5 +49,7 @@ router.get('/check-duplicate-code/:code', authMiddleware, checkDuplicateCode);
 router.post('/get-project-site', authMiddleware, getByProjectIdAndSiteId);
 
 router.get('/get-dashboard', authMiddleware, getAllDashboard);
+
+router.get('/get-by-user-id/:user_id?', authMiddleware, getByUserId);
 
 export default router;

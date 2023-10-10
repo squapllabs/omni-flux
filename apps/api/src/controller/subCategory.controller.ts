@@ -103,6 +103,18 @@ const getByCategoryId = catchAsync(async (req, res) => {
   }
 });
 
+const getByParentSubCategoryId = catchAsync(async (req, res) => {
+  const methodName = '/getByParentSubCategoryId';
+  try {
+    const subCategory = await subCategoryService.getByParentSubCategoryId(
+      req.params.parent_sub_category_id
+    );
+    res.send(subCategory);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createSubCategory,
   updateSubCategory,
@@ -113,4 +125,5 @@ export {
   getAllInActiveSubCategories,
   searchSubCategory,
   getByCategoryId,
+  getByParentSubCategoryId,
 };
