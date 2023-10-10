@@ -48200,3 +48200,211 @@ D:\2023\September\20\erp\omni-flux\apps\api\src\dao\subCategory.dao.ts:319:56
 → 319     const subCategory = await transaction.sub_category.findMany(
 The column `sub_category.budget` does not exist in the current database.
 >>>>>>> 4e37662cd0ba741dda3e6e844443a52714d2bd78
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>Error: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst({
+           where: {
+             user_id: NaN,
+                      ~~~
+             is_delete: false
+           }
+         })
+
+Argument user_id: Got invalid value NaN on prisma.findFirstusers. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\expense.dao.ts:370:47
+
+  367 try {
+  368   const transaction = connectionObj !== null ? connectionObj : prisma;
+  369   const filter = filters.filterExpense;
+→ 370   const expense = await transaction.expense.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)

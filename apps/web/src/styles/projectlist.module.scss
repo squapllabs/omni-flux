@@ -146,11 +146,24 @@
   }
 }
 
-.status {
-  background-color: #ecfdf3;
+.completedStatus {
+  background-color: #cff3de;
   padding: 6px;
   border-radius: 50px;
   color: #027a48;
+}
+.inprogressStatus {
+  background-color:#f7e0f0;
+  padding: 6px;
+  border-radius: 50px;
+  color:  #C11574
+}
+
+.draftStatus {
+  background-color:#EFF8FF;
+  padding: 6px;
+  border-radius: 50px;
+  color:#175CD3
 }
 
 .tablerow {
