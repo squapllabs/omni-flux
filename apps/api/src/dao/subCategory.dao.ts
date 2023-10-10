@@ -352,6 +352,7 @@ const getByCategoryIdAndBomConfigurationId = async (
         parent_sub_category_id: null,
       },
       include: {
+        children: true,
         category: true,
         project_data: {
           select: {
