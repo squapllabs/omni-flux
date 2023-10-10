@@ -10,6 +10,7 @@ import { formatBudgetValue } from '../helper/common-function';
 import {
   useGetAllProject,
   useGetAllProjectStatus,
+  useGetDashboardDatasforPO
 } from './../hooks/project-hooks';
 
 const Home = () => {
@@ -17,8 +18,8 @@ const Home = () => {
   const [createCustomer, setCreateCustomer] = useState(false);
   const { isLoading: getAllLoading } = useGetAllProject();
   const { data: projectStatus, isLoading: getAllProjectStatusLoading } = useGetAllProjectStatus();
-
-
+  const { data: vendorData =[] } = useGetDashboardDatasforPO();
+  
   const handleCreateList = () => {
     setCreateItem(true);
     setCreateCustomer(false);
@@ -41,6 +42,7 @@ const Home = () => {
   projectStatus?.top_projects?.map(async (val: any) => {
     await topProjectsData.push([val.project_name, val.total_budget])
   });
+
 
 
   const chartOptions1 = {
@@ -151,24 +153,24 @@ const Home = () => {
             </div> */}
             <div className={Styles.dashedLine}></div>
             <div className={Styles.headingGap}>
-              VENDORS (30)
+              {`VENDORS (${vendorData[0]?.total_vendor_count})`}
               <div className={Styles.centerFirst}>
                 <div className={Styles.centerGap}>
                   <h3>Total Invoiced</h3>
                   <div>
-                    <b>₹18.09 L</b> (YTD)
+                    <b>{formatNumberToLakh(vendorData[0]?.purchase_order_statistics?.total_purchase_order_cost)}</b>
                   </div>
                 </div>
                 <div className={Styles.centerGap}>
                   <h3> Paid</h3>
                   <div>
-                    <b>-</b>
+                    <b>{formatNumberToLakh(vendorData[0]?.purchase_order_statistics?.total_cost_completed)}</b>
                   </div>
                 </div>
                 <div className={Styles.centerGap}>
                   <h3>Pending</h3>
                   <div>
-                    <b>-</b>
+                    <b>{formatNumberToLakh(vendorData[0]?.purchase_order_statistics?.total_cost_other_than_completed)}</b>
                   </div>
                 </div>
               </div>
@@ -179,13 +181,13 @@ const Home = () => {
                 <div className={Styles.centerGap}>
                   <h3>Pending</h3>
                   <div>
-                    <b>207</b>
+                    <b>{vendorData[0]?.purchase_order_statistics?.pending_po}</b>
                   </div>
                 </div>
                 <div className={Styles.centerGap}>
                   <h3> Completed</h3>
                   <div>
-                    <b>69</b>
+                    <b>{vendorData[0]?.purchase_order_statistics?.completed_po}</b>
                   </div>
                 </div>
               </div>
@@ -214,13 +216,13 @@ const Home = () => {
           <div className={Styles.projectDiv2}> <div className={Styles.projectPayment}>TOP 5: PAYMENT OUTSTANDING</div>
             <table className={Styles.scrollable_table}>
               <tbody>
-                {projectStatus?.top_projects?.map((data: any) => {
+                {vendorData?.map((data: any) => {
                   return (
                     <tr>
                       <td>{(data?.project_name).toUpperCase()}
-                        <span className={Styles.spantag}>120 invoices (so for)</span>
+                        <span className={Styles.spantag}>{data?.count_of_pending_po} invoices (so for)</span>
                       </td>
-                      <td className={Styles.budget}>{(formatNumberToLakh(data?.total_budget))}</td>
+                      <td className={Styles.budget}>{(formatNumberToLakh(data?.total_cost_other_than_completed))}</td>
                     </tr>
                   )
                 })}

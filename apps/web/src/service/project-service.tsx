@@ -26,6 +26,19 @@ const getAllProjectStatus = async () => {
   }
 }
 
+const getDashboardDatas = async () => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/purchase-order/get-po-statistics`
+    );
+    return response.data.data; 
+  }
+  catch (error) {
+    console.log("Error in getDashboardDatas SERVICE", error);
+    throw error;
+  }
+}
+
 const createProjectData = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -182,4 +195,5 @@ export default {
   getUserDataRolebasedandProjectBased,
   getOneProjectSite,
   getProjectDataBasedOnUserandRole,
+  getDashboardDatas
 };

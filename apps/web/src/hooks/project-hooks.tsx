@@ -16,6 +16,12 @@ const useGetAllProjectStatus = () => {
     ProjectService.getAllProjectStatus()
   );
 };
+
+const useGetDashboardDatasforPO = () => {
+  return useQuery(['useGetDashboardDatasforPO'], () =>
+    ProjectService.getDashboardDatas()
+  );
+};
 // const useGetAllProjectDrop = () => {
 //   return useQuery(
 //     ['useGetAllProjectDrop'],
@@ -219,4 +225,5 @@ export {
   getUserDataProjectRolebased,
   getProjectSite,
   getUserIDProjectRolebased,
+  useGetDashboardDatasforPO
 };
