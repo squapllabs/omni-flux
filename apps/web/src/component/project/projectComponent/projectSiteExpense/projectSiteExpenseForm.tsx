@@ -254,7 +254,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             <div className={Styles.form_fields}>
               <div className={Styles.fields_container_1}>
                 <div className={Styles.fieldStyle}>
-                  <Input
+                  {/* <Input
                     label="Expense Code"
                     placeholder="EXP-YYYY-"
                     name="quantity"
@@ -263,10 +263,8 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                     // width="350px"
                     value={formik.values.expense_code}
                     onChange={formik.handleChange}
-                    // error={
-                    //     formik.touched.quantity && formik.errors.quantity
-                    // }
-                  />
+                 
+                  /> */}
                 </div>
                 {/* <div className={Styles.fieldStyle}>
                 <AutoCompleteSelect
@@ -283,7 +281,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                   disabled={siteId ? true : false}
                 />
               </div> */}
-                <div className={Styles.fieldStyle}>
+                {/* <div className={Styles.fieldStyle}>
                   <Input
                     name="total_amount"
                     label="Total"
@@ -296,7 +294,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                     disabled
                     mandatory
                   />
-                </div>
+                </div> */}
               </div>
               <div className={Styles.fields_container_1}>
                 <div className={Styles.fieldStyle}>
@@ -322,7 +320,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                   />
                 </div>
               </div>
-              <div>
+              <div style={{ display: 'none' }}>
                 <SiteExpenseBill
                   projectId={projectId}
                   setExpenseBill={setExpenseBill}
@@ -346,6 +344,14 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
               loader={loader}
               setLoader={setLoader}
             />
+            <div>
+              <div>
+                <span>Total</span>
+                {formatBudgetValue(
+                  formik.values.total_amount ? formik.values.total_amount : 0
+                )}
+              </div>
+            </div>
             <div className={Styles.buttonComponent}>
               <div className={Styles.dividerStyleOne}></div>
               <div className={Styles.bottomButton}>
