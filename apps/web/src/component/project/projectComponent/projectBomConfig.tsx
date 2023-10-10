@@ -54,20 +54,20 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('');
   const [boqId, setBoQId] = useState();
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const action = [];
   // const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
   const { data: getBomType = [] } = getByMasterDataProjectIdDrop(
     Number(routeParams?.id)
   );
-  const { data: projectDatas } = getByProjectId(Number(routeParams?.id))
+  const { data: projectDatas } = getByProjectId(Number(routeParams?.id));
 
   const truncateString = (str: any, maxLength: number) => {
     if (projectDatas?.project_name.length > maxLength) {
       return str.substring(0, maxLength - 3) + '...';
     }
     return projectDatas?.project_name;
-  }
+  };
 
   const truncatedString = truncateString(projectDatas?.project_name, 30);
 
@@ -83,7 +83,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
     status: 'AC',
     project_id: Number(routeParams?.id),
     global_search: '',
-  }
+  };
 
   const {
     isLoading: getAllLoadingBoQProjectData,
@@ -93,16 +93,15 @@ const ProjectBomConfig: React.FC = (props: any) => {
 
   // console.log("initialData", initialData);
 
-
   const handleAddBoQData = () => {
     setOpen(true);
-    setMode('ADD')
-  }
+    setMode('ADD');
+  };
   const handleEdit = (value: any) => {
-    setBoQId(value)
+    setBoQId(value);
     setOpen(true);
-    setMode('EDIT')
-  }
+    setMode('EDIT');
+  };
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -164,11 +163,11 @@ const ProjectBomConfig: React.FC = (props: any) => {
 
   const handleClosePopup = () => {
     setOpen(false);
-  }
+  };
 
   useEffect(() => {
-    refetch()
-  }, [rowsPerPage, currentPage])
+    refetch();
+  }, [rowsPerPage, currentPage]);
 
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -287,45 +286,50 @@ const ProjectBomConfig: React.FC = (props: any) => {
                       </thead>
                       <tbody>
                         {initialData?.total_count === 0 ? (
-
                           <tr>
                             <td colSpan="8" style={{ textAlign: 'center' }}>
                               No data found
                             </td>
                             {/* {activeButton === 'AC' && <td></td>} */}
                           </tr>
-                        ) :
-                          (initialData?.content?.map((data: any, index: number) => {
-                            const actions = [
-                              {
-                                label: 'Manage Abstracts, Tasks or Plans',
-                                onClick: () => {
-                                  navigate(
-                                    `/newBoq/${routeParams?.id}/${data?.bom_configuration_id}`
-                                  );                                }
-                              },
-                              {
-                                label: 'Edit BoQ Name & Description',
-                                onClick: () => { handleEdit(data?.bom_configuration_id) }
-
-                              },
-
-                            ];
-                            return (
-                              <tr key={data?.bom_configuration_id}>
-                                <td>{startingIndex + index}</td>
-                                <td>{data?.bom_name}</td>
-                                <td>{data?.bom_description}</td>
-                                <td>{data?.bom_type_data?.master_data_name}</td>
-                                <td>{data?.abstract_count}</td>
-                                <td>{data?.task_count}</td>
-                                {/* <td>{0}</td> */}
-                                <td><CustomMenu actions={actions} /></td>
-                              </tr>
-                            );
-                          }
+                        ) : (
+                          initialData?.content?.map(
+                            (data: any, index: number) => {
+                              const actions = [
+                                {
+                                  label: 'Manage Abstracts, Tasks or Plans',
+                                  onClick: () => {
+                                    navigate(
+                                      `/newBoq/${routeParams?.id}/${data?.bom_configuration_id}`
+                                    );
+                                  },
+                                },
+                                {
+                                  label: 'Edit BoQ Name & Description',
+                                  onClick: () => {
+                                    handleEdit(data?.bom_configuration_id);
+                                  },
+                                },
+                              ];
+                              return (
+                                <tr key={data?.bom_configuration_id}>
+                                  <td>{startingIndex + index}</td>
+                                  <td>{data?.bom_name}</td>
+                                  <td>{data?.bom_description}</td>
+                                  <td>
+                                    {data?.bom_type_data?.master_data_name}
+                                  </td>
+                                  <td>{data?.abstract_count}</td>
+                                  <td>{data?.task_count}</td>
+                                  {/* <td>{0}</td> */}
+                                  <td>
+                                    <CustomMenu actions={actions} />
+                                  </td>
+                                </tr>
+                              );
+                            }
                           )
-                          )}
+                        )}
                         <td></td>
                       </tbody>
                     </table>
@@ -336,7 +340,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                       totalPages={
                         // dataShow
                         //   ? getFilterData?.total_page
-                        //   : 
+                        //   :
                         initialData?.total_page
                       }
                       totalCount={
@@ -352,7 +356,8 @@ const ProjectBomConfig: React.FC = (props: any) => {
                   </div>
                 </div>
               </div>
-            </div>) : (
+            </div>
+          ) : (
             <div>
               <div className={Styles.subHeading}>
                 <BOQIcon />
@@ -360,15 +365,12 @@ const ProjectBomConfig: React.FC = (props: any) => {
               </div>
               <div className={Styles.emptyDataHandling}>
                 <div className={Styles.imageAdd}>
-                  <img
-                    src="/boq-add.png"
-                    alt="aa"
-                    width="90%"
-                    height="20%"
-                  />
+                  <img src="/boq-add.png" alt="aa" width="90%" height="20%" />
                 </div>
                 <div>
-                  <h5 className={Styles.textmax}>No BoQ added to this Project</h5>
+                  <h5 className={Styles.textmax}>
+                    No BoQ added to this Project
+                  </h5>
                 </div>
                 <div>
                   <p className={Styles.textmin}>Go ahead, add a BoQ </p>
@@ -391,7 +393,11 @@ const ProjectBomConfig: React.FC = (props: any) => {
         </CustomLoader>
       </div>
       <CustomPopup
-        title={mode === 'ADD' ? `Add BoQ to ${truncatedString}` : `Edit BoQ to ${truncatedString}`}
+        title={
+          mode === 'ADD'
+            ? `Add BoQ to ${truncatedString}`
+            : `Edit BoQ to ${truncatedString}`
+        }
         open={open}
         handleClose={handleClosePopup}
         content={
