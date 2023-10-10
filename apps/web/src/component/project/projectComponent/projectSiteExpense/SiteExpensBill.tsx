@@ -51,6 +51,8 @@ const SiteExpenseBill: React.FC = (props: any) => {
   };
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
+    console.log('files', files);
+
     props.setLoader(true);
     if (files.length > 0) {
       const fileList: File[] = Array.from(files);
@@ -74,14 +76,6 @@ const SiteExpenseBill: React.FC = (props: any) => {
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
-
-        let code = 'SITEEXPENSE' + props.projectId;
-        const s3UploadUrl: any = await handleDocuments(
-          selectedFiles,
-          code.toUpperCase()
-        );
-        // console.log('s3UploadUrl', s3UploadUrl);
-        props.setExpenseBill([...props.expenseBill, ...s3UploadUrl]);
         props.setLoader(false);
       }
     }
@@ -140,7 +134,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ width: '40%' }}>
+      <div style={{ width: '50%' }}>
         <div className={Styles.documentContainer}>
           <div className={Styles.documentOuterLayer}>
             <div className={Styles.documentContent}>
@@ -184,26 +178,31 @@ const SiteExpenseBill: React.FC = (props: any) => {
                   paddingLeft: '20px',
                 }}
               >
-                {props.expenseBill?.map((files: any, index: any) => {
-                  console.log('files', files);
-                  if (files?.is_delete === 'N') {
-                    rowindex = rowindex + 1;
-                    return (
-                      <div>
-                        <img
-                          src={files.path}
-                          alt="Uploaded Preview"
-                          style={{ maxWidth: '40px', fontSize: '10px' }}
-                        />
-                      </div>
-                    );
-                  }
-                })}
+                <div className={Styles.viewFiles}>
+                  <span>
+                    <ol className={Styles.listStyles}>
+                      {selectedFileName.map((fileName, index) => (
+                        <li key={index}>
+                          {fileName} {'    '}
+                          <CloseIcon
+                            width={5}
+                            height={10}
+                            onClick={() => deleteFile(index)}
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  </span>
+                  <span>
+                    {' '}
+                    <p className={Styles.errorStyles}>{fileSizeError}</p>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
           <div>
-            {/* <Button
+            <Button
               onClick={(e) => {
                 handleSubmit(e);
               }}
@@ -213,7 +212,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
               color="primary"
             >
               Upload
-            </Button> */}
+            </Button>
           </div>
         </div>
         {/* <div className={Styles.viewFiles}>
@@ -237,7 +236,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
           </span>
         </div> */}
       </div>
-      {/* <div style={{ width: '30%' }}>
+      <div style={{ width: '50%' }}>
         <div
           style={{
             width: '100%',
@@ -269,12 +268,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
                       <tr>
                         <td>{rowindex}</td>
                         <td>
-                          <img
-                            src={files.path}
-                            alt="Uploaded Preview"
-                            style={{ maxWidth: '20px' }}
-                          />
-        
+                          <a href={files.path}>Document {rowindex}</a>
                         </td>
                         <td>
                           {' '}
@@ -292,7 +286,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
             </table>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

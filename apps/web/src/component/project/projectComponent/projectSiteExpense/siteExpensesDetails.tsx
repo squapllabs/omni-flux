@@ -9,16 +9,19 @@ import { getBymasertDataTypeDrop } from '../../../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Checkbox from '../../../ui/Checkbox';
-import DeleteIcon from '../../../menu/icons/deleteIcon';
+import DeleteIcon from '../../../menu/icons/newDeleteIcon';
 import CustomDelete from '../../../ui/customDeleteDialogBox';
 import AddIcon from '../../../menu/icons/addIcon';
 import TextArea from '../../../ui/CustomTextArea';
 import NewAddCircleIcon from '../../../menu/icons/newAddCircleIcon';
 import AttachmentIcon from '../../../menu/icons/attachementIcon';
 import userService from '../../../../service/user-service';
+import Popup from '../../../ui/CustomPdfPopup';
+import SiteExpensesView from './siteExpensesView';
+import ViewIcon from '../../../menu/icons/newViewIcon';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
-  console.log('props.expenseList', props.expenseList);
+  // console.log('props.expenseList', props.expenseList);
 
   let rowIndex = 0;
   const [initialValues, setInitialValues] = useState({
@@ -30,6 +33,9 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     description: '',
     bill_details: '',
   });
+  const [openPopup, setOpenPopup] = useState(false);
+  const [openPdfpopup, setOpenPdfpopup] = useState(false);
+  const [viewDocs, setViewDocs] = useState();
   const [ExpenseValue, setExpenseValue] = useState<any>({});
   const [checked, setChecked] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -37,20 +43,21 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [fileMandatoryError, setFileMandatoryError] = useState('');
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  console.log('selectedFileName', selectedFileName);
+  // console.log('selectedFileName', selectedFileName);
 
   const deleteSiteExpense = (e: any, values: any) => {
-    console.log('ExpenseValue', ExpenseValue);
+    // console.log('ExpenseValue', ExpenseValue);
     const itemIndex = props.expenseList.findIndex(
       (item: any) =>
         item.expense_data_id === ExpenseValue?.expense_data_id &&
         item.is_delete === ExpenseValue?.is_delete
     );
-    console.log('itemIndex', itemIndex);
+    // console.log('itemIndex', itemIndex);
 
     props.expenseList[itemIndex] = {
       ...props.expenseList[itemIndex],
@@ -72,18 +79,17 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         'Site Expense is already present',
         async function (value, { parent }: Yup.TestContext) {
           const isDelete = false;
-          console.log('isDelete', typeof isDelete);
+          // console.log('isDelete', typeof isDelete);
           try {
-            console.log('props.expenseList', props.expenseList);
+            // console.log('props.expenseList', props.expenseList);
             const isValuePresent = props.expenseList.some((obj) => {
-              console.log('obj.is_delete ', typeof obj.is_delete);
+              // console.log('obj.is_delete ', typeof obj.is_delete);
               return (
                 Number(obj.expense_data_id) === Number(value) &&
                 obj.is_delete === isDelete
               );
             });
-            console.log('isValuePresent', isValuePresent);
-
+            // console.log('isValuePresent', isValuePresent);
             if (isValuePresent === true) {
               return false;
             } else {
@@ -99,18 +105,46 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       .max(100000, 'Amount must be less then 100000')
       .typeError('Amount is required')
       .required('Amount is required'),
+    bill_number: Yup.string()
+      // .required('bill number is required')
+      .test(
+        'document check',
+        'Site document mandatory ',
+        async function (value, { parent }: Yup.TestContext) {
+          try {
+            if (value && selectedFiles.length === 0) {
+              setFileMandatoryError(
+                'File is mandatory when a bill number is provided'
+              );
+              return false;
+            } else {
+              setFileMandatoryError('');
+              return true;
+            }
+          } catch {
+            return true;
+          }
+        }
+      ),
   });
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      console.log('valuesDetails', values);
+    onSubmit: async (values, { resetForm }) => {
+      const code = 'SITEEXPENSE' + props.siteId;
+      const s3UploadUrl: any = await handleDocuments(
+        selectedFiles,
+        code.toUpperCase()
+      );
+      formik.setFieldValue('bill_details', s3UploadUrl);
       values['total'] = Number(values.total);
+      values['bill_details'] = s3UploadUrl;
       props.setExpenseList([...props.expenseList, values]);
       setChecked(false);
       setSelectedFileName([]);
       resetForm();
+      setSelectedFiles([]);
     },
   });
   const generateCustomQuotationName = (data: any) => {
@@ -131,9 +165,14 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     }
   };
 
+  const viewDocumnet = (value: any) => {
+    setOpenPdfpopup(true)
+    setViewDocs(value)
+  }
+
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
-    console.log('files', files);
+    // console.log('files', files);
     props.setLoader(!props.loader);
     if (files.length > 0) {
       const fileList: File[] = Array.from(files);
@@ -159,14 +198,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
-        let code = 'SITEEXPENSE' + props.siteId;
-        console.log('selectedFiles', selectedFilesArray);
-        const s3UploadUrl: any = await handleDocuments(
-          selectedFilesArray,
-          code.toUpperCase()
-        );
-        console.log('s3UploadUrl', s3UploadUrl);
-        formik.setFieldValue('bill_details', s3UploadUrl);
+        // console.log('selectedFiles', selectedFilesArray);
         props.setLoader(false);
         props.setMessage('Document uploaded');
         props.setOpenSnack(true);
@@ -199,8 +231,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         <table className={Styles.scrollable_table}>
           <thead>
             <th>#</th>
-            <th>Site Expense</th>
             <th>Description</th>
+            <th>Site Expense</th>
             <th>Bill No</th>
             <th>Amount</th>
             <th>Document</th>
@@ -223,14 +255,13 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                 return (
                   <tr>
                     <td>{rowIndex}</td>
+                    <td>{item.description}</td>
                     <td>
                       {item?.site_expense_name === undefined
                         ? item?.expense_master_data?.master_data_name
                         : item?.site_expense_name}
                     </td>
-                    <td>{item.description}</td>
                     <td>{item.bill_number}</td>
-
                     <td>{item.total}</td>
                     <td>
                       {item.bill_details?.length > 0 ? (
@@ -253,14 +284,24 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                       )}
                     </td>
                     <td>
-                      <div
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          setExpenseValue(item);
-                          setOpenDelete(true);
-                        }}
-                      >
-                        <DeleteIcon />
+                      <div className={Styles.buttons}> 
+                        <div
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            setExpenseValue(item);
+                            setOpenDelete(true);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </div>
+                        <div
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            viewDocumnet(item)
+                          }}
+                        >
+                          <ViewIcon />
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -269,6 +310,15 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             })}
             <tr>
               <td></td>
+              <td>
+                <div>
+                  <Input
+                    name="description"
+                    onChange={formik.handleChange}
+                    value={formik.values.description}
+                  />
+                </div>
+              </td>
               <td>
                 <div>
                   <AutoCompleteSelect
@@ -295,41 +345,20 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                   />
                 </div>
               </td>
+
               <td>
                 <div>
-                  <Input
-                    name="description"
-                    onChange={formik.handleChange}
-                    value={formik.values.description}
-                  />
-                </div>
-              </td>
-              <td>
-                <div style={{ paddingTop: '20px' }}>
                   <Input
                     name="bill_number"
                     value={formik.values.bill_number}
                     onChange={formik.handleChange}
-                    disabled={checked === true ? false : true}
+                  // error={
+                  //   formik.touched.bill_number && formik.errors.bill_number
+                  // }
+                  // disabled={checked === true ? false : true}
                   />
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: '10px',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Checkbox
-                      checked={checked}
-                      onChange={() => {
-                        setChecked(!checked);
-                      }}
-                    />
-                    <span style={{ fontSize: '70%' }}>Is bill available ?</span>
-                  </div>
                 </div>
               </td>
-
               <td>
                 <div>
                   <Input
@@ -349,11 +378,17 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                     type="file"
                     style={{ display: 'none' }}
                     onChange={handleFileSelect}
+                    error={
+                      formik.touched.bill_number && formik.errors.bill_number
+                    }
                   />
                   <div onClick={onButtonClick} style={{ cursor: 'pointer' }}>
                     <AttachmentIcon color="#7f56d9" />
                   </div>
                   <span>{selectedFileName[0]}</span>
+                  {fileMandatoryError && (
+                    <div className={Styles.documentErr}>{fileMandatoryError}</div>
+                  )}
                 </div>
               </td>
               <td></td>
@@ -374,6 +409,18 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         contentLine2=""
         handleClose={handleCloseDelete}
         handleConfirm={deleteSiteExpense}
+      />
+      <Popup
+        // title="Pdf Viewer"
+        openPopup={openPdfpopup}
+        setOpenPopup={setOpenPdfpopup}
+        content={
+          <SiteExpensesView
+            openPopup={openPdfpopup}
+            setOpenPopup={setOpenPdfpopup}
+            viewDocs={viewDocs}
+          />
+        }
       />
     </div>
   );
