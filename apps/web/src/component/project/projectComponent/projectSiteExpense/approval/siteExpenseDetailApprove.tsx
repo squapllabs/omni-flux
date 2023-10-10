@@ -255,25 +255,21 @@ const ExpenseDetailApprove = () => {
             {tableData?.expense_details?.map((data: any, index: any) => {
               if (data?.is_delete === false) {
                 rowindex = rowindex + 1;
-                const isPending = data?.status === 'Pending';
+                const isApproved = data?.status === 'Approved';
                 const actions = [
                   {
                     label: 'Approve',
                     onClick: () => {
-                      if (isPending) {
                         approveHandler(data.expense_details_id);
-                      }
                     },
-                    disabled: !isPending,
+                    disabled: isApproved,
                   },
                   {
                     label: 'Reject',
                     onClick: () => {
-                      if (isPending) {
                         rejectHandler(data.expense_details_id);
-                      }
                     },
-                    disabled: !isPending,
+                    disabled: isApproved,
                   },
                 ];
                 return (
@@ -292,7 +288,19 @@ const ExpenseDetailApprove = () => {
                           ))
                         : nullLableNameFromEnv}
                     </td>
-                    <td>{data?.status || nullLableNameFromEnv}</td>
+                    <td>
+                      <span
+                        className={`${Styles.status} ${
+                          data?.status === 'Rejected'
+                            ? Styles.rejectedStatus
+                            : data?.status === 'Approved'
+                            ? Styles.approvedStatus
+                            : ''
+                        }`}
+                      >
+                        {data?.status || nullLableNameFromEnv}
+                      </span>
+                    </td>
                     <td>
                       <CustomMenu actions={actions} />
                     </td>

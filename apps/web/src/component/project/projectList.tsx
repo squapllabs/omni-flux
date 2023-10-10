@@ -357,9 +357,18 @@ const ProjectList = () => {
                             {data?.user?.first_name} {data?.user?.last_name}
                           </td>
                           <td>
-                            {' '}
-                            <span className={Styles.status}>
-                              {data?.status}{' '}
+                            <span
+                              className={`${Styles.status} ${
+                                data?.status === 'Inprogress'
+                                  ? Styles.inprogressStatus
+                                  : data?.status === 'Completed'
+                                  ? Styles.completedStatus
+                                  : data?.status === 'Draft'
+                                  ? Styles.draftStatus
+                                  : ''
+                              }`}
+                            >
+                              {data?.status}
                             </span>
                           </td>
                           <td>

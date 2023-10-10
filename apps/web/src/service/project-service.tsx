@@ -18,13 +18,12 @@ const getAllProjectStatus = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/project/get-dashboard`
     );
-    return response.data.data; 
-  }
-  catch (error) {
-    console.log("Error in getAllProjectStatus() SERVICE", error);
+    return response.data.data;
+  } catch (error) {
+    console.log('Error in getAllProjectStatus() SERVICE', error);
     throw error;
   }
-}
+};
 
 const getDashboardDatas = async () => {
   try {
@@ -168,7 +167,19 @@ const getProjectDataBasedOnUserandRole = async (value: any) => {
     console.log('Error in getting all users:', error);
     throw error;
   }
-}
+};
+
+const getProjectDataBasedOnUser = async (value: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/project/get-by-user-id/${value}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all users:', error);
+    throw error;
+  }
+};
 const getOneProjectSite = async (values: any) => {
   try {
     const response = await axiosinterceptor.get(
@@ -195,5 +206,6 @@ export default {
   getUserDataRolebasedandProjectBased,
   getOneProjectSite,
   getProjectDataBasedOnUserandRole,
+  getProjectDataBasedOnUser,
   getDashboardDatas
 };

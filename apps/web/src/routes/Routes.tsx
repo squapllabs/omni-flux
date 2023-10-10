@@ -268,6 +268,7 @@ import BillView from '../component/finance/invoiceBillView';
 import EcoProduction from '../component/ecoProduction/ecoProduction';
 import projectAbstract from '../component/projectBOQ/projectAbstract';
 import NewBoqList from '../component/projectBOQ/projectBoqList';
+import GenerateOtp from '../component/generateOtp';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -572,6 +573,7 @@ const AppRoutes = () => {
         <Route path="/invoice-view/:id" element={<ProtectedBillView />} />
         <Route path="/eco-protection" element={<EcoProduction />} />
         <Route path="/vendor-list" element={<ProtectedListVendor />} />
+        <Route path="/generate-otp" element={<GenerateOtp />} />
       </Routes>
     </div>
   );
