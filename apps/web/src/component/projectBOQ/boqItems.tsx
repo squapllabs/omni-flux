@@ -10,8 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import Button from '../ui/Button';
-import CustomLoader from '../ui/customLoader';
-import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 import PlanList from '../projectBOQ/planList';
@@ -28,8 +26,6 @@ const BomItems = (props: {
   selectedSubCategory: any;
   projectsId: any;
   selectedBomConfig: any;
-  setReload: any;
-  reload: any;
 }) => {
   const { selectedCategory, selectedBomConfig } = props;
 
@@ -38,13 +34,11 @@ const BomItems = (props: {
     selectedBomConfig: selectedBomConfig,
   };
   const { data: getAllData, refetch } = getBycategoryIdInSub(obj);
-  console.log('getAllData', getAllData);
-
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [planListTitle, setPlanListTitle] = useState('');
   const [showPlanForm, setShowPlanForm] = useState(false);
-  const [categoryData, setCategoryData] = useState();
+  const [categoryData, setCategoryData] = useState<any>();
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
@@ -66,7 +60,6 @@ const BomItems = (props: {
     setSelectedSubCategoryId(value);
   };
   const handleSubTask = (value: any) => {
-    console.log('data?.sub_category_id', value);
     setMode('Sub Task');
     setShowSubCategoryForm(true);
     setSelectedSubCategoryId(value);
@@ -76,7 +69,6 @@ const BomItems = (props: {
     setSelectedSubCategoryId(value);
     const getSubChildList =
       await subCategoryService.getOneChlidSubCatListbyParentID(value);
-    console.log('getSubChildList', getSubChildList);
     setSubChildList(getSubChildList?.data);
   };
 
@@ -102,11 +94,6 @@ const BomItems = (props: {
       },
     });
   };
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
@@ -165,6 +152,7 @@ const BomItems = (props: {
               <div
                 className={Styles.leftContentOne}
                 onClick={() => {
+                  // selectedSubCategoryId(!selectedSubCategoryId);
                   setShowSubCategoryForm(true);
                   setMode('Add');
                 }}
@@ -220,6 +208,7 @@ const BomItems = (props: {
                         handleSubTask(data?.sub_category_id);
                         setSelectedSubCategoryId(data?.sub_category_id);
                       },
+                      disabled: data?.is_bom_detail === true,
                     },
                   ];
                   return (
@@ -275,33 +264,6 @@ const BomItems = (props: {
                       {!subTaskView &&
                         selectedSubCategoryId == data?.sub_category_id &&
                         subChildList?.map((item: any, subindex: any) => {
-                          const subChildLength = item?.children?.length;
-                          console.log('subChildLength', subChildLength);
-                          const sub_actions = [
-                            {
-                              label: 'Manage Plans',
-                              onClick: () => {
-                                setSelectedSubCategoryId(item.sub_category_id);
-                                setPlanListTitle(item.name);
-                                setShowPlanForm(true);
-                              },
-                              disabled: subChildLength > 0,
-                            },
-                            {
-                              label: 'Edit Task',
-                              onClick: () => {
-                                handleEdit(item?.sub_category_id);
-                                setSelectedSubCategoryId(item?.sub_category_id);
-                              },
-                            },
-                            {
-                              label: 'Add sub Task',
-                              onClick: () => {
-                                handleSubTask(item?.sub_category_id);
-                                setSelectedSubCategoryId(item?.sub_category_id);
-                              },
-                            },
-                          ];
                           return (
                             <>
                               <SubBoqItems
@@ -309,7 +271,10 @@ const BomItems = (props: {
                                 index={subindex}
                                 primaryIndex={index}
                                 rowData={item}
-                                actions={sub_actions}
+                                reload={reload}
+                                setReload={setReload}
+                                subTaskView={subTaskView}
+                                setSubTaskView={setSubTaskView}
                               />
                             </>
                           );
