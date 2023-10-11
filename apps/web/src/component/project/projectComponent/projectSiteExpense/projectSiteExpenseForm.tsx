@@ -33,13 +33,10 @@ import AddIcon from '../../../menu/icons/addIcon';
 import MoneyIcon from '../../../menu/icons/MoneyIcon';
 
 const ProjectSiteExpenseForm: React.FC = (props: any) => {
-  // console.log('filterValue', props);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
-  // console.log('encryptedData', encryptedData?.userData?.contact_no);
   const projectId = Number(props?.projectId);
   const siteId = Number(props?.siteId);
-  // console.log('dddddd', siteId);
   const currentDate = new Date();
   const [initialValues, setInitialValues] = useState({
     employee_name:
@@ -118,7 +115,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
       const datas = await siteExpenseService.getOnesiteExpenseByID(
         props?.expenseID
       );
-      // console.log('datas', datas);
       const arry: any = [];
       setExpenseBill(
         datas?.data?.bill_details === null ? [] : datas?.data?.bill_details
@@ -152,7 +148,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
       }
       return total;
     }, 0);
-    // console.log('totalSelectedPrice', totalSelectedPrice);
     setTotalAmount(Number(totalSelectedPrice));
   }, [expenseList]);
   const formik = useFormik({
@@ -160,8 +155,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      // console.log('values', values);
-
       const statusData = values.submitType === 'Draft' ? 'Draft' : 'Pending';
       let count = 0;
       for (let i = 0; i < expenseList.length; i++) {
@@ -206,10 +199,8 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             status: statusData,
             total_amount: totalSelectedPrice,
           };
-          // console.log('objectpost', object);
           postSiteExpenseData(object, {
             onSuccess(data, variables, context) {
-              // console.log('data', data);
               if (data?.status === true) {
                 setMessage('Site Expense has been added successfully !');
                 setOpenSnack(true);
@@ -221,7 +212,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             },
           });
         } else {
-          // console.log('sumOfRates', totalSelectedPrice);
           const object: any = {
             site_id: values.site_id,
             project_id: projectId,
@@ -248,11 +238,9 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             status: statusData,
             total_amount: totalSelectedPrice,
           };
-          // console.log('Editobject', object);
           updateSiteExpenseData(object, {
             onSuccess(data, variables, context) {
               if (data?.status === true) {
-                // console.log('editData', data);
                 setMessage('Site Expense has been updated successfully !');
                 setOpenSnack(true);
                 setTimeout(() => {

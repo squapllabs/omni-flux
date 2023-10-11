@@ -1,29 +1,20 @@
 import React, { useRef, useState } from 'react';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 import Input from '../../../ui/Input';
-import Select from '../../../ui/selectNew';
-import DatePicker from '../../../ui/CustomDatePicker';
-import Button from '../../../ui/Button';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { getBymasertDataTypeDrop } from '../../../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import Checkbox from '../../../ui/Checkbox';
 import DeleteIcon from '../../../menu/icons/newDeleteIcon';
 import CustomDelete from '../../../ui/customDeleteDialogBox';
-import AddIcon from '../../../menu/icons/addIcon';
-import TextArea from '../../../ui/CustomTextArea';
 import NewAddCircleIcon from '../../../menu/icons/newAddCircleIcon';
-import AttachmentIcon from '../../../menu/icons/attachementIcon';
 import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import userService from '../../../../service/user-service';
 import Popup from '../../../ui/CustomPdfPopup';
 import SiteExpensesView from './siteExpensesView';
 import ViewIcon from '../../../menu/icons/newViewIcon';
-import MoneyIcon from '../../../menu/icons/MoneyIcon';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
-
   let rowIndex = 0;
   const [initialValues, setInitialValues] = useState({
     expense_data_id: '',
@@ -35,20 +26,15 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     bill_details: '',
     status: '',
   });
-  const [openPopup, setOpenPopup] = useState(false);
   const [openPdfpopup, setOpenPdfpopup] = useState(false);
   const [viewDocs, setViewDocs] = useState();
   const [ExpenseValue, setExpenseValue] = useState<any>({});
-  const [checked, setChecked] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [fileMandatoryError, setFileMandatoryError] = useState('');
-  const [viewAddRow, setViewAddRow] = useState(false);
-  const [viewAddRowButton, setViewAddRowButton] = useState(true);
-  const [billMandatoryErr,setBilMandatoryErr] = useState('');
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -122,28 +108,21 @@ const SiteExpensesDetails: React.FC = (props: any) => {
           }
         }
       )
-      // .test(
-      //   'bill number check',
-      //   'bill number mandatory',
-      //   async function (value, { parent }: Yup.TestContext) {
-      //     try {
-      //       if (selectedFiles.length === 0) {
-      //         console.log("if inns");
-      //         setBilMandatoryErr(
-      //           'Bill Number is required'
-      //         );
-      //         return false;
-      //       } else {
-      //         console.log("elsev inn");
-              
-      //         setBilMandatoryErr('');
-      //         return true;
-      //       }
-      //     } catch {
-      //       return true;
-      //     }
-      //   }
-      // ),
+      .test(
+        'bill number check',
+        'Bill No mandatory',
+        async function (value, { parent }: Yup.TestContext) {
+          try {
+            if (selectedFiles.length > 0 && value === undefined) {
+              return false;
+            } else {
+              return true;
+            }
+          } catch {
+            return true;
+          }
+        }
+      ),
   });
   const formik = useFormik({
     initialValues,
@@ -160,7 +139,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       values['bill_details'] = s3UploadUrl;
       values['status'] = 'Pending';
       props.setExpenseList([...props.expenseList, values]);
-      // setChecked(false);
       setSelectedFileName([]);
       resetForm();
       setSelectedFiles([]);
@@ -191,7 +169,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
 
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
-    // console.log('files', files);
     props.setLoader(!props.loader);
     if (files.length > 0) {
       const fileList: File[] = Array.from(files);
@@ -217,7 +194,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
-        // console.log('selectedFiles', selectedFilesArray);
         props.setLoader(false);
         props.setMessage('Document uploaded');
         props.setOpenSnack(true);
@@ -241,7 +217,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       console.log('Error in occur project document upload:', error);
     }
   };
-  
+
   return (
     <div>
       <form>
@@ -287,7 +263,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                 rel="noopener noreferrer"
                               >
                                 {customQuotationName}
-                                {/* Uploaded Document */}
                               </a>
                             </div>
                           )
@@ -307,127 +282,127 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         >
                           <DeleteIcon />
                         </div>
-                        {item.bill_details?.length > 0 ? (
-                          item.bill_details.map(
-                            (document: any, index: number) => (
-                              <div
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  viewDocumnet(item)
-                                }}
-                              >
-                                <ViewIcon />
-                              </div>
+                        {item.bill_details?.length > 0
+                          ? item.bill_details.map(
+                              (document: any, index: number) => (
+                                <div
+                                  style={{ cursor: 'pointer' }}
+                                  onClick={() => {
+                                    viewDocumnet(item);
+                                  }}
+                                >
+                                  <ViewIcon />
+                                </div>
+                              )
                             )
-                          )
-                        ) : ""}
+                          : ''}
                       </div>
                     </td>
                   </tr>
                 );
               }
             })}
-              <tr>
-                <td></td>
-                <td>
-                  <div>
-                    <Input
-                      name="description"
-                      onChange={formik.handleChange}
-                      value={formik.values.description}
-                      width="300px"
-                    />
+            <tr>
+              <td></td>
+              <td>
+                <div>
+                  <Input
+                    name="description"
+                    onChange={formik.handleChange}
+                    value={formik.values.description}
+                    width="300px"
+                  />
+                </div>
+              </td>
+              <td>
+                <div>
+                  <AutoCompleteSelect
+                    name="expense_data_id"
+                    defaultLabel="Select from options"
+                    placeholder="Select from options"
+                    onChange={formik.handleChange}
+                    value={formik.values.expense_data_id}
+                    optionList={getSiteExpense}
+                    width="180px"
+                    onSelect={(value) => {
+                      formik.setFieldValue('expense_data_id', value);
+                      const matchingObjects = getSiteExpense.filter(
+                        (obj: any) => Number(obj.value) === Number(value)
+                      );
+                      formik.setFieldValue(
+                        'site_expense_name',
+                        matchingObjects[0].label
+                      );
+                    }}
+                    error={
+                      formik.touched.expense_data_id &&
+                      formik.errors.expense_data_id
+                    }
+                  />
+                </div>
+              </td>
+              <td style={{ overflow: 'hidden' }}>
+                <div>
+                  <Input
+                    name="bill_number"
+                    value={formik.values.bill_number}
+                    onChange={formik.handleChange}
+                    width="120px"
+                    error={
+                      formik.touched.bill_number &&
+                      formik.errors.bill_number
+                    }
+                  />
+                </div>
+                
+              </td>
+              <td style={{ overflow: 'hidden' }}>
+                <div>
+                  <Input
+                    name="total"
+                    value={formik.values.total}
+                    onChange={formik.handleChange}
+                    error={formik.touched.total && formik.errors.total}
+                    width="120px"
+                  />
+                </div>
+              </td>
+              <td>
+                <div title="Attach document">
+                  <input
+                    ref={fileInputRef}
+                    id="upload-photo"
+                    name="upload_photo"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={handleFileSelect}
+                    error={
+                      formik.touched.bill_number && formik.errors.bill_number
+                    }
+                  />
+                  <div style={{ cursor: 'pointer', paddingBottom: '5px' }}>
+                    <FileUploadIcon onClick={onButtonClick} color="#7f56d9" />
                   </div>
-                </td>
-                <td>
                   <div>
-                    <AutoCompleteSelect
-                      name="expense_data_id"
-                      defaultLabel="Select from options"
-                      placeholder="Select from options"
-                      onChange={formik.handleChange}
-                      value={formik.values.expense_data_id}
-                      optionList={getSiteExpense}
-                      width="180px"
-                      onSelect={(value) => {
-                        formik.setFieldValue('expense_data_id', value);
-                        const matchingObjects = getSiteExpense.filter(
-                          (obj: any) => Number(obj.value) === Number(value)
-                        );
-                        formik.setFieldValue(
-                          'site_expense_name',
-                          matchingObjects[0].label
-                        );
-                      }}
-                      error={
-                        formik.touched.expense_data_id &&
-                        formik.errors.expense_data_id
-                      }
-                    />
+                    <span>{selectedFileName[0]}</span>
                   </div>
-                </td>
-                <td style={{ overflow: 'hidden'}}>
-                  <div>
-                    <Input
-                      name="bill_number"
-                      value={formik.values.bill_number}
-                      onChange={formik.handleChange}
-                      width="120px"
-                      
-                    />
-
-                  </div>
-                  {billMandatoryErr && (
-                      <span className={Styles.billNumberErr}>
-                        {billMandatoryErr}
-                      </span>
-                    )}
-                </td>
-                <td style={{ overflow: 'hidden' }}>
-                  <div>
-                    <Input
-                      name="total"
-                      value={formik.values.total}
-                      onChange={formik.handleChange}
-                      error={formik.touched.total && formik.errors.total}
-                      width="120px"
-                    />
-                  </div>
-                </td>
-                <td>
-                  <div title="Attach document">
-                    <input
-                      ref={fileInputRef}
-                      id="upload-photo"
-                      name="upload_photo"
-                      type="file"
-                      style={{ display: 'none' }}
-                      onChange={handleFileSelect}
-                      error={
-                        formik.touched.bill_number && formik.errors.bill_number
-                      }
-                    />
-                    <div style={{ cursor: 'pointer', paddingBottom: '5px' }}>
-                      <FileUploadIcon onClick={onButtonClick} color="#7f56d9" />
+                  {fileMandatoryError && (
+                    <div className={Styles.documentErr}>
+                      {fileMandatoryError}
                     </div>
-                    <div><span>{selectedFileName[0]}</span></div>
-                    {fileMandatoryError && (
-                      <div className={Styles.documentErr}>
-                        {fileMandatoryError}
-                      </div>
-                    )}
-                  </div>
-                </td>
-                <td></td>
-              </tr>
+                  )}
+                </div>
+              </td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
         <div className={Styles.addDataIcon}>
-            <div onClick={formik.handleSubmit} className={Styles.iconContent}>
-              <NewAddCircleIcon />
-              <span>Add Expenses</span>
-            </div>
+          <div onClick={formik.handleSubmit} className={Styles.iconContent}>
+            <NewAddCircleIcon />
+            <span>Add Expenses</span>
           </div>
+        </div>
       </div>
       <CustomDelete
         open={openDelete}
