@@ -52,24 +52,21 @@ const updateStatus = async (body: expenseDetailsBody) => {
         const expenseDetailsByExpenseId =
           await expenseDetailsDao.getByExpenseId(expense_id, prisma);
 
-        let expense_details_status_same = false;
-        let expense_details_status_different = false;
-
-        for (const expenseDetails of expenseDetailsByExpenseId) {
-          const expense_details_existing_status = expenseDetails?.status;
-          if (expense_details_existing_status === status) {
-            expense_details_status_same = true;
-          } else {
-            expense_details_status_different = true;
-          }
-        }
-
         let expenseStatusUpdate = null;
 
-        if (
-          expense_details_status_same === true &&
-          expense_details_status_different === false
-        ) {
+        const allApproved = expenseDetailsByExpenseId.every(
+          (expenseDetails: { status: string }) =>
+            expenseDetails.status === 'Approved'
+        );
+
+        /* Check if at least one expenseDetails has 'Rejected' status */
+        const hasRejected = expenseDetailsByExpenseId.some(
+          (expenseDetails: { status: string }) =>
+            expenseDetails.status === 'Rejected'
+        );
+
+        if (allApproved) {
+          /*  Trigger the approval flow */
           expenseStatusUpdate = await expenseDao.updateStatus(
             status,
             comments,
@@ -78,7 +75,11 @@ const updateStatus = async (body: expenseDetailsBody) => {
             expense_id,
             prisma
           );
-        } else if (expense_details_status_different === true) {
+          console.log(
+            'All expense details are Approved. So Expense is Approved.'
+          );
+        } else if (hasRejected) {
+          /* Trigger the separate flow for 'Rejected' */
           expenseStatusUpdate = await expenseDao.updateStatus(
             'Rejected',
             'Some of the respective child expense details has been rejected',
@@ -86,6 +87,9 @@ const updateStatus = async (body: expenseDetailsBody) => {
             updated_by,
             expense_id,
             prisma
+          );
+          console.log(
+            'Some of the expense details got Rejected.So Expense is Rejected'
           );
         }
 
