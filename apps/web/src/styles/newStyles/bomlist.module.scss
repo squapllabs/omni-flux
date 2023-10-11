@@ -389,6 +389,9 @@
     }
   }
 }
+.selectedRow {
+  background-color: #e7e7e7;
+}
 
 .footer {
   // position: fixed;
@@ -441,4 +444,53 @@
 }
 .overAllTopContent {
   background-color: lightcyan;
+}
+
+//custom menu
+
+.customMenu {
+  position: relative;
+  // display: inline-block;
+
+  .menuItem {
+    color: var(--secondary-color);
+  }
+}
+.iconContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.menuText {
+  color: blue;
+}
+.menuDropdownItems {
+  position: absolute;
+  // top: 0;
+  left: -65%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  z-index: 1;
+  div {
+    padding: 8px 12px;
+    // white-space: nowrap;
+    cursor: pointer;
+
+    &.disabled {
+      cursor: not-allowed;
+      color: #999;
+
+      &:hover {
+        background-color: inherit;
+        color: #999;
+      }
+    }
+
+    &:not(.disabled):hover {
+      background-color: #f0f0f0;
+      color: black;
+    }
+  }
 }

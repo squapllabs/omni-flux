@@ -26,8 +26,16 @@ const createBulkBom = () => {
     },
     {
       onSuccess: (response) => {
+        console.log('response', response);
+        queryClient.invalidateQueries([
+          'getBOMDetails',
+          {
+            projectId: response?.data?.bom_configuration_details?.project_id,
+            boQId:
+              response?.data?.bom_configuration_details?.bom_configuration_id,
+          },
+        ]);
         response;
-        //   queryClient.invalidateQueries(['useGetAllClientData']);
       },
     }
   );
@@ -64,7 +72,6 @@ const createBoQ = () => {
     }
   );
 };
-
 
 const getBySearchBoQProject = (data: any) => {
   return useQuery(
@@ -105,7 +112,6 @@ const updateBoQ = () => {
 //   );
 // };
 
-
 // const useGetAllPaginatedProjectMember = (data: any) => {
 //   return useQuery(
 //     ['useGetAllProjectPaginatedData'],
@@ -117,4 +123,11 @@ const updateBoQ = () => {
 //   );
 // };
 
-export { createBom, createBulkBom, getBOMbyProjectandType, createBoQ, getBySearchBoQProject,updateBoQ };
+export {
+  createBom,
+  createBulkBom,
+  getBOMbyProjectandType,
+  createBoQ,
+  getBySearchBoQProject,
+  updateBoQ,
+};
