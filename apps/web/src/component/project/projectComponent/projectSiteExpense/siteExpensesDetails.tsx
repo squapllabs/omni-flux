@@ -298,14 +298,20 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         >
                           <DeleteIcon />
                         </div>
-                        <div
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            viewDocumnet(item);
-                          }}
-                        >
-                          <ViewIcon />
-                        </div>
+                        {item.bill_details?.length > 0 ? (
+                          item.bill_details.map(
+                            (document: any, index: number) => (
+                              <div
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                  viewDocumnet(item)
+                                }}
+                              >
+                                <ViewIcon />
+                              </div>
+                            )
+                          )
+                        ) : ""}
                       </div>
                     </td>
                   </tr>
