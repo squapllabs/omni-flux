@@ -21,10 +21,8 @@ import Popup from '../../../ui/CustomPdfPopup';
 import SiteExpensesView from './siteExpensesView';
 import ViewIcon from '../../../menu/icons/newViewIcon';
 import MoneyIcon from '../../../menu/icons/MoneyIcon';
-// import AddIcon from '../../../menu/icons/addIcon';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
-  // console.log('props.expenseList', props.expenseList);
 
   let rowIndex = 0;
   const [initialValues, setInitialValues] = useState({
@@ -50,21 +48,18 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [fileMandatoryError, setFileMandatoryError] = useState('');
   const [viewAddRow, setViewAddRow] = useState(false);
   const [viewAddRowButton, setViewAddRowButton] = useState(true);
+  const [billMandatoryErr,setBilMandatoryErr] = useState('');
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  // console.log('selectedFileName', selectedFileName);
 
   const deleteSiteExpense = (e: any, values: any) => {
-    // console.log('ExpenseValue', ExpenseValue);
     const itemIndex = props.expenseList.findIndex(
       (item: any) =>
         item.expense_data_id === ExpenseValue?.expense_data_id &&
         item.is_delete === ExpenseValue?.is_delete
     );
-    // console.log('itemIndex', itemIndex);
-
     props.expenseList[itemIndex] = {
       ...props.expenseList[itemIndex],
       is_delete: true,
@@ -85,17 +80,13 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         'Site Expense is already present',
         async function (value, { parent }: Yup.TestContext) {
           const isDelete = false;
-          // console.log('isDelete', typeof isDelete);
           try {
-            // console.log('props.expenseList', props.expenseList);
             const isValuePresent = props.expenseList.some((obj) => {
-              // console.log('obj.is_delete ', typeof obj.is_delete);
               return (
                 Number(obj.expense_data_id) === Number(value) &&
                 obj.is_delete === isDelete
               );
             });
-            // console.log('isValuePresent', isValuePresent);
             if (isValuePresent === true) {
               return false;
             } else {
@@ -112,10 +103,9 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       .typeError('Only Numbers are allowed')
       .required('Amount is required'),
     bill_number: Yup.string()
-      // .required('bill number is required')
       .test(
         'document check',
-        'Site document mandatory ',
+        'Site document mandatory',
         async function (value, { parent }: Yup.TestContext) {
           try {
             if (value && selectedFiles.length === 0) {
@@ -131,7 +121,29 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             return true;
           }
         }
-      ),
+      )
+      // .test(
+      //   'bill number check',
+      //   'bill number mandatory',
+      //   async function (value, { parent }: Yup.TestContext) {
+      //     try {
+      //       if (selectedFiles.length === 0) {
+      //         console.log("if inns");
+      //         setBilMandatoryErr(
+      //           'Bill Number is required'
+      //         );
+      //         return false;
+      //       } else {
+      //         console.log("elsev inn");
+              
+      //         setBilMandatoryErr('');
+      //         return true;
+      //       }
+      //     } catch {
+      //       return true;
+      //     }
+      //   }
+      // ),
   });
   const formik = useFormik({
     initialValues,
@@ -148,7 +160,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       values['bill_details'] = s3UploadUrl;
       values['status'] = 'Pending';
       props.setExpenseList([...props.expenseList, values]);
-      setChecked(false);
+      // setChecked(false);
       setSelectedFileName([]);
       resetForm();
       setSelectedFiles([]);
@@ -229,10 +241,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       console.log('Error in occur project document upload:', error);
     }
   };
-  const handleAddRowButton = () => {
-    setViewAddRow(true);
-    setViewAddRowButton(false);
-  };
+  
   return (
     <div>
       <form>
@@ -312,7 +321,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                 );
               }
             })}
-            {viewAddRow || props?.mode === 'Edit' ? (
               <tr>
                 <td></td>
                 <td>
@@ -352,15 +360,22 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                     />
                   </div>
                 </td>
-                <td style={{ overflow: 'hidden' }}>
+                <td style={{ overflow: 'hidden'}}>
                   <div>
                     <Input
                       name="bill_number"
                       value={formik.values.bill_number}
                       onChange={formik.handleChange}
                       width="120px"
+                      
                     />
+
                   </div>
+                  {billMandatoryErr && (
+                      <span className={Styles.billNumberErr}>
+                        {billMandatoryErr}
+                      </span>
+                    )}
                 </td>
                 <td style={{ overflow: 'hidden' }}>
                   <div>
@@ -399,41 +414,14 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                 </td>
                 <td></td>
               </tr>
-            ) : (
-              ''
-            )}
           </tbody>
         </table>
-        {viewAddRow || props?.mode === 'Edit' ? (
-          <div className={Styles.addDataIcon}>
+        <div className={Styles.addDataIcon}>
             <div onClick={formik.handleSubmit} className={Styles.iconContent}>
               <NewAddCircleIcon />
               <span>Add Expenses</span>
             </div>
           </div>
-        ) : (
-          ''
-        )}
-        {props?.mode !== 'Edit' && viewAddRowButton ? (
-          <div className={Styles.addNewRowView}>
-            <MoneyIcon height={50} width={50} color="#475467" />
-            <h5>No Site Expenses added for this site </h5>
-            <span className={Styles.spanContent}>Let's add an expanse now</span>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-              icon={<AddIcon color="white" />}
-              onClick={() => handleAddRowButton()}
-            >
-              Add Expense
-            </Button>
-          </div>
-        ) : (
-          ''
-        )}
       </div>
       <CustomDelete
         open={openDelete}
