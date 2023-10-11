@@ -368,7 +368,7 @@ const updateStatusAndDocument = async (
   }
 };
 
-const getPOStatistics = async (connectionObj = null) => {
+/* const getPOStatistics = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : db;
     const purchaseOrderStatisticsQuery = `with project_based_puchase_order_data as (
@@ -495,9 +495,9 @@ const getPOStatistics = async (connectionObj = null) => {
     console.log('Error occurred in purchaseOrder getPOStatistics dao', error);
     throw error;
   }
-};
+}; */
 
-/* const getPOStatistics = async (connectionObj = null) => {
+const getPOStatistics = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : db;
     const purchaseOrderStatisticsQuery = `with project_based_purchase_order_data as (
@@ -700,7 +700,7 @@ const getPOStatistics = async (connectionObj = null) => {
     console.log('Error occurred in purchaseOrder getPOStatistics dao', error);
     throw error;
   }
-}; */
+};
 
 export default {
   add,
