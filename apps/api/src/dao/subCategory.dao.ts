@@ -369,12 +369,24 @@ const getByCategoryIdAndBomConfigurationId = async (
             },
           },
         },
+        bom_detail: {
+          where: {
+            bom_configuration_id: Number(bom_configuration_id),
+            is_delete: false,
+          },
+        },
         uom_data: {
           select: { name: true },
         },
       },
     });
-    return subCategory;
+
+    const response = subCategory.map((bomDetail) => ({
+      ...bomDetail,
+      is_bom_detail: bomDetail.bom_detail.length > 0 ? true : false,
+    }));
+
+    return response;
   } catch (error) {
     console.log(
       'Error occurred in subCategory getByCategoryIdAndBomConfigurationId dao',
@@ -466,12 +478,22 @@ const getByParentSubCategoryId = async (
             },
           },
         },
+        bom_detail: {
+          where: {
+            is_delete: false,
+          },
+        },
         uom_data: {
           select: { name: true },
         },
       },
     });
-    return subCategory;
+    const response = subCategory.map((bomDetail) => ({
+      ...bomDetail,
+      is_bom_detail: bomDetail.bom_detail.length > 0 ? true : false,
+    }));
+
+    return response;
   } catch (error) {
     console.log(
       'Error occurred in subCategory getByParentSubCategoryId dao',
