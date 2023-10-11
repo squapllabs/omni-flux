@@ -226,7 +226,7 @@ const Home = () => {
                     </tr>
                   )
                 })}
-              </tbody>
+              </tbody> */}
             </table>
           </div>
           {/* <div className={Styles.projectDiv3}>PURCHASE

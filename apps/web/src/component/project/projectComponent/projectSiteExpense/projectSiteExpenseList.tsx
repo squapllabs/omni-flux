@@ -5,7 +5,7 @@ import CustomSidePopup from '../../../ui/CustomSidePopup';
 import ProjectSiteExpenseForm from './projectSiteExpenseForm';
 import { useNavigate, useParams } from 'react-router-dom';
 import Styles from '../../../../styles/newStyles/siteExpenseList.module.scss';
-import MoneyIcon from '../../../menu/icons/MoneyIcon';
+import MoneyIcon from '../../../menu/icons/moneyIcon';
 import { getProjectSite } from '../../../../hooks/project-hooks';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import CustomGroupButton from '../../../ui/CustomGroupButton';

@@ -53,8 +53,8 @@ const ExpenseDetailApprove = () => {
       const datas = await siteExpenseService.getOnesiteExpenseByID(params?.id);
       setTableData(datas.data);
     };
-    fetchData();
     if (expenseId !== undefined) fetchData();
+    setReload(false);
   }, [reload]);
 
   useEffect(() => {
@@ -255,7 +255,7 @@ const ExpenseDetailApprove = () => {
             {tableData?.expense_details?.map((data: any, index: any) => {
               if (data?.is_delete === false) {
                 rowindex = rowindex + 1;
-                const isApproved = data?.status === 'Approved';
+                const isApproved = data?.status === 'Approved' || data?.status === 'Rejected';
                 const actions = [
                   {
                     label: 'Approve',
