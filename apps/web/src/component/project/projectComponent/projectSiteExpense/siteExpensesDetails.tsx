@@ -274,7 +274,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         ? item?.expense_master_data?.master_data_name
                         : item?.site_expense_name}
                     </td>
-                    <td>{item.bill_number}</td>
+                    <td>{item.bill_number ? item.bill_number : '-'}</td>
                     <td>{item.total}</td>
                     <td>
                       {item.bill_details?.length > 0 ? (
