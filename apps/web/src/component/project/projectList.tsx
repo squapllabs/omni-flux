@@ -40,7 +40,8 @@ const ProjectList = () => {
     roleName === 'PROJECT MANAGER' ||
     roleName === 'ADMIN' ||
     roleName === 'SITE MANAGER' ||
-    roleName === 'PLANNING ENGINEER';
+    roleName === 'PLANNING ENGINEER' ||
+    roleName === 'SITE ENGINEER';
   const { isLoading: getAllLoading } = useGetAllProject();
 
   const {
