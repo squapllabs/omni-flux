@@ -293,7 +293,7 @@ const ProjectSiteExpenseList = () => {
             <div className={Styles.emptyData}>
               <MoneyIcon height={60} width={60} color="#475467" />
               <h5>No Site Expenses added for this site </h5>
-              <span>Let's add an expanse now</span>
+              <span className={Styles.spanContent}>Let's add an expanse now</span>
               <Button
                 type="button"
                 color="primary"

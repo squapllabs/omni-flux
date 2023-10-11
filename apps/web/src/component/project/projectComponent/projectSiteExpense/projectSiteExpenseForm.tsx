@@ -313,10 +313,12 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                   />
                 </div> */}
               {/* </div> */}
+              {props.expenseID && formik.values.expense_code ? 
               <div className={Styles.expCode}>
                 <h4>Expense Code : </h4>
                 <p>{formik.values.expense_code || 'EXP-YYYY'}</p>
               </div>
+               : ''}
               <div className={Styles.fields_container_1}>
                 <div className={Styles.fieldStyle}>
                   <DatePicker
@@ -324,12 +326,12 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                     name="bill_date"
                     onChange={formik.handleChange}
                     value={formik.values.bill_date}
-                    // mandatory
+                    mandatory={true}
                     error={formik.touched.bill_date && formik.errors.bill_date}
-                    disabled={checked === true ? false : true}
+                    // disabled={checked === true ? false : true} 
                   />
                 </div>
-                <div>
+                {/* <div>
                   <Checkbox
                     checked={checked}
                     onChange={() => {
@@ -339,7 +341,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                   <span style={{ fontSize: '70%', paddingLeft: '5px' }}>
                     Edit date?
                   </span>
-                </div>
+                </div> */}
                 {/* <div className={Styles.fieldStyle}>
                   <DatePicker
                     label="End Date"
@@ -376,6 +378,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
               setLoader={setLoader}
               setTotalAmount={setTotalAmount}
               totalAmount={totalAmount}
+              mode={props?.mode}
             />
             <div className={Styles.totalBudget}>
               <div>
