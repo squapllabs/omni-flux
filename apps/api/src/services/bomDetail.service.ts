@@ -335,7 +335,10 @@ const addBulkBom = async (body) => {
         const category_id = subCategoryDetails?.category_id;
 
         const subCategoryDataByCategoryId =
-          await subCategoryDao.getSumOfBudgetByCategoryId(category_id, prisma);
+          await subCategoryDao.getParentSubCategoryBudgetByCategoryId(
+            category_id,
+            prisma
+          );
 
         const categoryDetails = await categoryDao.updateBudget(
           subCategoryDataByCategoryId,

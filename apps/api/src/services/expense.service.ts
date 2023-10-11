@@ -408,11 +408,7 @@ const searchExpense = async (body) => {
 
       filterObj.filterExpense.AND.push({
         project_data: {
-          project_member_association: {
-            some: {
-              user_id: user_id,
-            },
-          },
+          user_id: user_id,
         },
       });
     }
