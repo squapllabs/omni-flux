@@ -29,26 +29,22 @@
 
 .scrollable_table {
   padding: 10px 10px;
-  gap: 12px;
+  gap: 5px;
   border-collapse: collapse;
+  width:100%;
 
   th,
   td {
-    padding: 10px 10px 10px 24px;
+    padding: 5px 10px 10px 10px;
     text-align: left;
     font-weight: 500;
-    // border: 0px 0px 1px;
     font-size: 12px;
     border: none;
-    /* Remove borders */
     border-bottom: 0.1px solid #f0f0f0;
   }
-
   td {
     border-bottom: 0.1px solid #f0f0f0;
-    // border-bottom :0px, 0px, 1px, 0px
   }
-
   thead {
     tr {
       th {
@@ -57,12 +53,8 @@
       }
     }
   }
-
-  td:hover,
-  tr:hover {
-    /* Add hover styles if needed */
-  }
 }
+
 .fields_container_1 {
   display: flex;
   gap: 10px;
@@ -170,6 +162,12 @@
   font-size: 0.75rem;
 }
 
+.billNumberErr{
+  color: red;
+  font-size: 0.7rem;
+  // padding-top: 10px;
+  // background-color: #667085;
+}
 .expCode{
   display: flex;
   flex-direction: row;
@@ -206,4 +204,18 @@ gap: 20px;
   flex-direction: row;
   align-items: center;
   gap: 10px;
+}
+.addNewRowView{
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  // display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+
+.spanContent{
+  font-size: 0.8rem;
 }
