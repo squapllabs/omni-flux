@@ -369,12 +369,24 @@ const getByCategoryIdAndBomConfigurationId = async (
             },
           },
         },
+        bom_detail: {
+          where: {
+            bom_configuration_id: Number(bom_configuration_id),
+            is_delete: false,
+          },
+        },
         uom_data: {
           select: { name: true },
         },
       },
     });
-    return subCategory;
+
+    const response = subCategory.map((bomDetail) => ({
+      ...bomDetail,
+      is_bom_detail: bomDetail.bom_detail.length > 0 ? true : false,
+    }));
+
+    return response;
   } catch (error) {
     console.log(
       'Error occurred in subCategory getByCategoryIdAndBomConfigurationId dao',
@@ -423,11 +435,11 @@ const getSumOfBudgetByCategoryId = async (
         is_delete: false,
       },
       _sum: {
-        budget: true,
+        actual_budget: true,
       },
     });
 
-    return subCategory._sum.budget || 0;
+    return subCategory._sum.actual_budget || 0;
   } catch (error) {
     console.error(
       'Error occurred in sub category dao getSumOfBudgetByCategoryId:',
@@ -449,6 +461,7 @@ const getByParentSubCategoryId = async (
         is_delete: false,
       },
       include: {
+        children: true,
         category: true,
         project_data: {
           select: {
@@ -465,12 +478,22 @@ const getByParentSubCategoryId = async (
             },
           },
         },
+        bom_detail: {
+          where: {
+            is_delete: false,
+          },
+        },
         uom_data: {
           select: { name: true },
         },
       },
     });
-    return subCategory;
+    const response = subCategory.map((bomDetail) => ({
+      ...bomDetail,
+      is_bom_detail: bomDetail.bom_detail.length > 0 ? true : false,
+    }));
+
+    return response;
   } catch (error) {
     console.log(
       'Error occurred in subCategory getByParentSubCategoryId dao',

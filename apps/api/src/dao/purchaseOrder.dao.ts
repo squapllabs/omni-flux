@@ -497,6 +497,211 @@ const getPOStatistics = async (connectionObj = null) => {
   }
 };
 
+/* const getPOStatistics = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const purchaseOrderStatisticsQuery = `with project_based_purchase_order_data as (
+      select
+        p.project_name,
+        p.project_id,
+        p.estimated_budget,
+        p.actual_budget,
+        COUNT(po.*) as total_po_count,
+        SUM(case when po.status = 'Completed' then 1 else 0 end) as count_of_completed_po,
+        SUM(case when po.status != 'Completed' then 1 else 0 end) as count_of_pending_po,
+        SUM(case when po.status = 'Completed' then po.total_cost else 0 end) as total_cost_completed,
+        SUM(case when po.status != 'Completed' then po.total_cost else 0 end) as total_cost_other_than_completed,
+        SUM(po.total_cost) as total_purchase_order_cost
+      from
+        purchase_order po
+      left join purchase_request pr on
+        pr.purchase_request_id = po.purchase_request_id
+      left join project p on
+        p.project_id = pr.project_id
+      where
+        po.is_delete = false
+      group by
+        p.project_id,
+        p.project_name,
+        p.estimated_budget,
+        p.actual_budget
+      order by
+        total_cost_other_than_completed desc
+      limit 5
+      ),
+      
+      purchase_order_statistics as (
+      select
+        SUM(case when po.status = 'Processing' then po.total_cost else 0 end) as total_cost_processing,
+        SUM(case when po.status = 'Product Received' then po.total_cost else 0 end) as total_cost_product_received,
+        SUM(case when po.status = 'Invoice' then po.total_cost else 0 end) as total_cost_invoice,
+        SUM(case when po.status = 'Completed' then po.total_cost else 0 end) as total_cost_completed,
+        SUM(case when po.status != 'Completed' then po.total_cost else 0 end) as total_cost_other_than_completed,
+        SUM(po.total_cost) as total_purchase_order_cost,
+        (
+        select
+          COUNT(*)
+        from
+          purchase_order
+        where
+          status = 'Completed'
+          and is_delete = false
+              ) as completed_po,
+        (
+        select
+          COUNT(*)
+        from
+          purchase_order
+        where
+          status != 'Completed'
+          and is_delete = false
+              ) as pending_po
+      from
+        purchase_order po
+      where
+        po.is_delete = false
+      ),
+      
+      vendor_count as (
+      select
+        count(v.*)as total_vendors,
+        COUNT(case when v.is_delete = false then 1 end)::INTEGER as active_vendors,
+        COUNT(case when v.is_delete = true then 1 end)::INTEGER as inactive_vendors
+      from
+        vendor v
+      ),
+      
+      vendor_involved_in_purchase_order as (
+      select
+        COUNT(v.*)::INTEGER as total_vendor_involved_in_po
+      from
+        (
+        select
+          po.vendor_id
+        from
+          purchase_order po
+        where
+          po.is_delete = false
+        group by
+          po.vendor_id
+              ) as v
+      ),
+      
+      dashboard_data as (
+      select
+        status.total_projects,
+        status.active_projects,
+        status.inactive_projects,
+        status.inprogress_projects,
+        status.completed_projects,
+        status.not_started_projects,
+        project_list.top_projects
+      from
+        (
+        select
+          count(*) as total_projects,
+          count(p.is_delete)filter (
+        where
+          is_delete = false)as active_projects,
+          count(p.is_delete)filter (
+        where
+          is_delete = true)as inactive_projects,
+          count(status)filter (
+        where
+          status = 'Inprogress')as inprogress_projects,
+          count(status)filter (
+        where
+          status = 'Completed')as completed_projects,
+          count(status)filter (
+        where
+          status = 'Not Started')as not_started_projects
+        from
+          project p)status
+      join (
+        select
+          jsonb_agg(top_five.top_five_projects) as top_projects
+        from
+          (
+          select
+            jsonb_build_object('project_total_days',
+              (p.date_ended - p.date_started),
+              'days_completed',
+              (current_date - date_started ),
+              'project_name',
+              p.project_name,
+             'total_budget',
+              p.actual_budget) as top_five_projects
+          from
+            project p
+          order by
+            p.actual_budget desc
+          limit 5) top_five)project_list on
+        true
+      )
+      
+      select
+        pd_array.project_data as project_based_purchase_order_data,
+        po_stats.total_purchase_order_statistics,
+        vc.total_vendors::INTEGER,
+        vc.active_vendors,
+        vc.inactive_vendors,
+        vipo.total_vendor_involved_in_po,
+        dd.top_projects,
+        dd.total_projects::INTEGER,
+        dd.active_projects::INTEGER,
+        dd.inactive_projects::INTEGER,
+        dd.inprogress_projects::INTEGER,
+        dd.completed_projects::INTEGER,
+        dd.not_started_projects::INTEGER
+      from
+        (
+        select
+          JSON_AGG(
+              JSON_BUILD_OBJECT(
+                  'project_name', project_name,
+                  'project_id', project_id,
+                  'estimated_budget', estimated_budget,
+                  'actual_budget', actual_budget,
+                  'total_po_count', total_po_count::INTEGER,
+                  'count_of_completed_po', count_of_completed_po::INTEGER,
+                  'count_of_pending_po', count_of_pending_po::INTEGER,
+                  'total_cost_completed', total_cost_completed,
+                  'total_cost_other_than_completed', total_cost_other_than_completed,
+                  'total_purchase_order_cost', total_purchase_order_cost
+              )
+          ) as project_data
+        from
+          project_based_purchase_order_data
+      ) as pd_array
+      cross join (
+        select
+          JSON_BUILD_OBJECT(
+                  'total_cost_processing', pos.total_cost_processing,
+                  'total_cost_product_received', pos.total_cost_product_received,
+                  'total_cost_invoice', pos.total_cost_invoice,
+                  'total_cost_completed', pos.total_cost_completed,
+                  'total_cost_other_than_completed', pos.total_cost_other_than_completed,
+                  'total_purchase_order_cost', pos.total_purchase_order_cost,
+                  'completed_po', pos.completed_po,
+                  'pending_po', pos.pending_po
+              ) as total_purchase_order_statistics
+        from
+          purchase_order_statistics pos
+      ) as po_stats
+      cross join vendor_count vc
+      cross join vendor_involved_in_purchase_order vipo
+      cross join dashboard_data dd`;
+
+    const purchaseOrder = await transaction.oneOrNone(
+      purchaseOrderStatisticsQuery
+    );
+    return purchaseOrder;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrder getPOStatistics dao', error);
+    throw error;
+  }
+}; */
+
 export default {
   add,
   edit,
