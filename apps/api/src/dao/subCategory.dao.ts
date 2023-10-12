@@ -1,3 +1,4 @@
+import db from '../utils/db';
 import prisma from '../utils/prisma';
 
 const add = async (
@@ -349,8 +350,10 @@ const getByCategoryIdAndBomConfigurationId = async (
         category_id: Number(category_id),
         bom_configuration_id: Number(bom_configuration_id),
         is_delete: false,
+        parent_sub_category_id: null,
       },
       include: {
+        children: true,
         category: true,
         project_data: {
           select: {
@@ -367,12 +370,24 @@ const getByCategoryIdAndBomConfigurationId = async (
             },
           },
         },
+        bom_detail: {
+          where: {
+            bom_configuration_id: Number(bom_configuration_id),
+            is_delete: false,
+          },
+        },
         uom_data: {
           select: { name: true },
         },
       },
     });
-    return subCategory;
+
+    const response = subCategory.map((bomDetail) => ({
+      ...bomDetail,
+      is_bom_detail: bomDetail.bom_detail.length > 0 ? true : false,
+    }));
+
+    return response;
   } catch (error) {
     console.log(
       'Error occurred in subCategory getByCategoryIdAndBomConfigurationId dao',
@@ -421,11 +436,140 @@ const getSumOfBudgetByCategoryId = async (
         is_delete: false,
       },
       _sum: {
-        budget: true,
+        actual_budget: true,
       },
     });
 
-    return subCategory._sum.budget || 0;
+    return subCategory._sum.actual_budget || 0;
+  } catch (error) {
+    console.error(
+      'Error occurred in sub category dao getSumOfBudgetByCategoryId:',
+      error
+    );
+    throw error;
+  }
+};
+
+const getByParentSubCategoryId = async (
+  parent_sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.findMany({
+      where: {
+        parent_sub_category_id: Number(parent_sub_category_id),
+        is_delete: false,
+      },
+      include: {
+        children: true,
+        category: true,
+        project_data: {
+          select: {
+            project_name: true,
+            description: true,
+          },
+        },
+        bom_configuration_data: {
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+        },
+        bom_detail: {
+          where: {
+            is_delete: false,
+          },
+        },
+        uom_data: {
+          select: { name: true },
+        },
+      },
+    });
+    const response = subCategory.map((bomDetail) => ({
+      ...bomDetail,
+      is_bom_detail: bomDetail.bom_detail.length > 0 ? true : false,
+    }));
+
+    return response;
+  } catch (error) {
+    console.log(
+      'Error occurred in subCategory getByParentSubCategoryId dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const getParentSubCategoriesBySubCategoryId = async (
+  sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const query = `with recursive get_respective_parent_sc as (
+                  select
+                    sub_category_id,
+                    name,
+                    parent_sub_category_id,
+                    actual_budget,
+                    is_delete 
+                  from
+                    sub_category
+                  where
+                    sub_category_id = $1
+                  union all
+                  select
+                    sc.sub_category_id,
+                    sc.name,
+                    sc.parent_sub_category_id,
+                    sc.actual_budget,
+                    sc.is_delete 
+                  from
+                    sub_category sc
+                  inner join
+                      get_respective_parent_sc sh on
+                    sc.sub_category_id = sh.parent_sub_category_id
+                  )
+                  select
+                    sub_category_id,
+                    name,
+                    actual_budget,
+                    parent_sub_category_id,
+                    is_delete 
+                  from
+                    get_respective_parent_sc
+                  where
+                    is_delete = false`;
+    const data = transaction.manyOrNone(query, [sub_category_id]);
+    return data;
+  } catch (error) {
+    console.error(
+      'Error occurred in sub category dao getParentSubCategoriesBySubCategoryId:',
+      error
+    );
+    throw error;
+  }
+};
+
+const getParentSubCategoryBudgetByCategoryId = async (
+  category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.findFirst({
+      where: {
+        category_id: Number(category_id),
+        is_delete: false,
+        parent_sub_category_id: null,
+      },
+    });
+
+    return subCategory.actual_budget || 0;
   } catch (error) {
     console.error(
       'Error occurred in sub category dao getSumOfBudgetByCategoryId:',
@@ -448,4 +592,7 @@ export default {
   updateBudget,
   getSumOfBudgetByCategoryId,
   getByCategoryIdAndBomConfigurationId,
+  getByParentSubCategoryId,
+  getParentSubCategoriesBySubCategoryId,
+  getParentSubCategoryBudgetByCategoryId,
 };

@@ -630,6 +630,66 @@ const searchProject = async (
   }
 };
 
+const getByUserId = async (user_id: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const project = await transaction.project.findMany({
+      where: {
+        user_id: Number(user_id),
+        is_delete: false,
+      },
+      include: {
+        project_site: {
+          include: {
+            site_details: true,
+            approvar_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+          },
+        },
+        bom_configuration: {
+          where: {
+            is_delete: false,
+          },
+          include: {
+            bom_type_data: {
+              select: {
+                master_data_name: true,
+              },
+            },
+          },
+          orderBy: [{ updated_date: 'desc' }],
+        },
+        user: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        client: {
+          select: {
+            name: true,
+          },
+        },
+        approvar_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+      },
+      orderBy: [{ updated_date: 'desc' }],
+    });
+    return project;
+  } catch (error) {
+    console.log('Error occurred in project getByUserId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -640,4 +700,5 @@ export default {
   getByCode,
   searchProject,
   getAllDashboard,
+  getByUserId,
 };

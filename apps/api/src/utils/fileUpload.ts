@@ -12,7 +12,8 @@ const processFileUpload = async (req) => {
   let index = 0;
   if (storage === 's3') {
     for (const file of files.file) {
-      data = await s3Access.uploadFileInS3(file, code, folder);
+      const contentType = file.mimetype;
+      data = await s3Access.uploadFileInS3(file, code, folder, contentType);
       const uploadedFile = file;
       const filePath = uploadedFile.path;
       const s3FilePath = data.path;

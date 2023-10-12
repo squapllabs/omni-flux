@@ -570,6 +570,45 @@ const getByCategoryId = async (
   }
 };
 
+/**
+ * Method to get SubCategory By Parent Sub Category Id
+ * @param parentSubCategoryId
+ * @returns
+ */
+const getByParentSubCategoryId = async (parentSubCategoryId: number) => {
+  try {
+    const parentSubCategoryExist = await subCategoryDao.getById(
+      parentSubCategoryId
+    );
+    if (!parentSubCategoryExist) {
+      return {
+        message: 'parent_sub_category_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const subCategoryData = await subCategoryDao.getByParentSubCategoryId(
+      parentSubCategoryId
+    );
+    if (subCategoryData.length > 0) {
+      return { message: 'success', status: true, data: subCategoryData };
+    } else {
+      return {
+        message: 'No child data found for this parent_sub_category_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByParentSubCategoryId subCategory service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSubCategory,
   updateSubCategory,
@@ -580,4 +619,5 @@ export {
   getAllInActiveSubCategories,
   searchSubCategory,
   getByCategoryId,
+  getByParentSubCategoryId,
 };
