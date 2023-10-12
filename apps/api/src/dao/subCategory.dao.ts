@@ -555,6 +555,30 @@ const getParentSubCategoriesBySubCategoryId = async (
   }
 };
 
+const getParentSubCategoryBudgetByCategoryId = async (
+  category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.findFirst({
+      where: {
+        category_id: Number(category_id),
+        is_delete: false,
+        parent_sub_category_id: null,
+      },
+    });
+
+    return subCategory.actual_budget || 0;
+  } catch (error) {
+    console.error(
+      'Error occurred in sub category dao getSumOfBudgetByCategoryId:',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -570,4 +594,5 @@ export default {
   getByCategoryIdAndBomConfigurationId,
   getByParentSubCategoryId,
   getParentSubCategoriesBySubCategoryId,
+  getParentSubCategoryBudgetByCategoryId,
 };
