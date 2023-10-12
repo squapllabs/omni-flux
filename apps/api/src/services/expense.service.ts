@@ -351,6 +351,7 @@ const searchExpense = async (body) => {
     const user_id = body.user_id;
     const expense_status = body.expense_status;
     const employee_name = body.employee_name;
+    const is_draft = body.is_draft ? body.is_draft : 'Y';
 
     const filterObj: any = {};
 
@@ -379,8 +380,19 @@ const searchExpense = async (body) => {
     }
 
     if (expense_status === 'All') {
-      filterObj.filterExpense = filterObj.filterExpense || {};
-      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+      if (is_draft === 'Y') {
+        filterObj.filterExpense = filterObj.filterExpense || {};
+        filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+      } else {
+        filterObj.filterExpense = filterObj.filterExpense || {};
+        filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+        filterObj.filterExpense.AND.push({
+          NOT: {
+            status: 'Draft',
+          },
+        });
+      }
     } else {
       filterObj.filterExpense = filterObj.filterExpense || {};
       filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
@@ -396,11 +408,7 @@ const searchExpense = async (body) => {
 
       filterObj.filterExpense.AND.push({
         project_data: {
-          project_member_association: {
-            some: {
-              user_id: user_id,
-            },
-          },
+          user_id: user_id,
         },
       });
     }

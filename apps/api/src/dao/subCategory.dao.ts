@@ -1,3 +1,4 @@
+import db from '../utils/db';
 import prisma from '../utils/prisma';
 
 const add = async (
@@ -503,6 +504,81 @@ const getByParentSubCategoryId = async (
   }
 };
 
+const getParentSubCategoriesBySubCategoryId = async (
+  sub_category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const query = `with recursive get_respective_parent_sc as (
+                  select
+                    sub_category_id,
+                    name,
+                    parent_sub_category_id,
+                    actual_budget,
+                    is_delete 
+                  from
+                    sub_category
+                  where
+                    sub_category_id = $1
+                  union all
+                  select
+                    sc.sub_category_id,
+                    sc.name,
+                    sc.parent_sub_category_id,
+                    sc.actual_budget,
+                    sc.is_delete 
+                  from
+                    sub_category sc
+                  inner join
+                      get_respective_parent_sc sh on
+                    sc.sub_category_id = sh.parent_sub_category_id
+                  )
+                  select
+                    sub_category_id,
+                    name,
+                    actual_budget,
+                    parent_sub_category_id,
+                    is_delete 
+                  from
+                    get_respective_parent_sc
+                  where
+                    is_delete = false`;
+    const data = transaction.manyOrNone(query, [sub_category_id]);
+    return data;
+  } catch (error) {
+    console.error(
+      'Error occurred in sub category dao getParentSubCategoriesBySubCategoryId:',
+      error
+    );
+    throw error;
+  }
+};
+
+const getParentSubCategoryBudgetByCategoryId = async (
+  category_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const subCategory = await transaction.sub_category.findFirst({
+      where: {
+        category_id: Number(category_id),
+        is_delete: false,
+        parent_sub_category_id: null,
+      },
+    });
+
+    return subCategory.actual_budget || 0;
+  } catch (error) {
+    console.error(
+      'Error occurred in sub category dao getSumOfBudgetByCategoryId:',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -517,4 +593,6 @@ export default {
   getSumOfBudgetByCategoryId,
   getByCategoryIdAndBomConfigurationId,
   getByParentSubCategoryId,
+  getParentSubCategoriesBySubCategoryId,
+  getParentSubCategoryBudgetByCategoryId,
 };

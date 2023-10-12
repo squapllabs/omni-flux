@@ -85,7 +85,6 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
               props.setOpenSnack(true);
               resetForm();
               setInitialValues({});
-              props.setAbstractReload(true);
               // props.setReload(true);
               props.setReload(!props.reload);
 
@@ -109,7 +108,6 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
             if (data?.status === true) {
               props.setMessage('Abstract created');
               props.setOpenSnack(true);
-              props.setAbstractReload(true);
               props.setReload(!props.reload);
               handleClose();
               resetForm();

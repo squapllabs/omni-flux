@@ -106,7 +106,8 @@ const Bom: React.FC = (props: any) => {
           setTimeout(() => {
             props.setOpen(!props.open);
             props.setReload(!props.reload);
-            props.setAbstractReload(!props.abstractReload);
+            props.setSubTaskView(!props.subTaskView);
+            props.setIsCollapsed(!props.isCollapsed);
           }, 1000);
         }
       },
