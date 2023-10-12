@@ -50,11 +50,11 @@ const LabourList = () => {
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
   ]);
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: FilterLoading,
-  } = getBySearchLabour();
+  // const {
+  //   mutate: postDataForFilter,
+  //   data: getFilterData,
+  //   isLoading: FilterLoading,
+  // } = getBySearchLabour();
 
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
@@ -72,20 +72,20 @@ const LabourList = () => {
   const { mutate: getDeleteLabourByID } = useDeleteLabour();
 
   /* Function for search */
-  const handleSearch = async () => {
-    const demo: any = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: activeButton,
-      ...filterValues,
-    };
-    postDataForFilter(demo);
-    setDataShow(true);
-    setIsLoading(false);
-    setFilter(true);
-  };
+  // const handleSearch = async () => {
+  //   const demo: any = {
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     limit: rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'desc',
+  //     status: activeButton,
+  //     ...filterValues,
+  //   };
+  //   postDataForFilter(demo);
+  //   setDataShow(true);
+  //   setIsLoading(false);
+  //   setFilter(true);
+  // };
 
   const handleAddLabourData = () => {
     setOpen(true);
@@ -97,46 +97,51 @@ const LabourList = () => {
     setMode('EDIT');
   }
 
-  console.log("la", labourId);
-
   /* Function for resting the search field and data to normal state */
-  const handleReset = async () => {
-    const demo: any = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      global_search: '',
-    };
-    postDataForFilter(demo);
-    setIsLoading(false);
-    setFilter(false);
-    setFilterValues({
-      global_search: '',
-    });
-    setIsLoading(false);
-    setDataShow(false);
-    setIsResetDisabled(true);
-  };
+  // const handleReset = async () => {
+  //   const demo: any = {
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     limit: rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'desc',
+  //     status: 'AC',
+  //     global_search: '',
+  //   };
+  //   postDataForFilter(demo);
+  //   setIsLoading(false);
+  //   setFilter(false);
+  //   setFilterValues({
+  //     global_search: '',
+  //   });
+  //   setIsLoading(false);
+  //   setDataShow(false);
+  //   setIsResetDisabled(true);
+  // };
 
   /* Function for Filter Change */
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
+  // const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const searchValue = event.target.value;
 
-    setFilterValues({
-      ...filterValues,
-      ['global_search']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
+  //   setFilterValues({
+  //     ...filterValues,
+  //     ['global_search']: event.target.value,
+  //   });
+  //   setIsResetDisabled(searchValue === '');
+  //   if (searchValue === '') {
+  //     handleReset();
+  //   }
+  // };
 
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
+
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
 
   /* Function for group button (Active and Inactive status) */
   const handleGroupButtonClick = (value: string) => {
@@ -186,7 +191,7 @@ const LabourList = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader
-        loading={FilterLoading ? FilterLoading : getAllLoadingLabourData}
+        loading={getAllLoadingLabourData}
         size={48}
         color="#333C44"
       >
@@ -209,12 +214,28 @@ const LabourList = () => {
                 </Button>
               </div>
             </div>
-            <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
+            <div className={Styles.filters}>
+              <div>
+                <Input
+                  placeholder="Search Labours"
+                  width="300px"
+                  prefixIcon={<SearchIcon />}
+                  name="filter_value"
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValues,
+                      ['global_search']: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
             </div>
           </div>
           {/* <div className={Styles.top}>
@@ -294,7 +315,7 @@ const LabourList = () => {
                   </thead>
                   <tbody>
                     {dataShow ? (
-                      getFilterData?.total_count === 0 ? (
+                      initialData?.total_count === 0 ? (
                         <tr>
                           <td></td>
                           <td></td>
@@ -302,7 +323,7 @@ const LabourList = () => {
                           {activeButton === 'AC' && <td></td>}
                         </tr>
                       ) : (
-                        getFilterData?.content?.map(
+                        initialData?.content?.map(
                           (data: any, index: number) => (
                             <tr key={data.labour_id}>
                               <td>{startingIndex + index}</td>
@@ -368,16 +389,18 @@ const LabourList = () => {
               <div className={Styles.pagination}>
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={
-                    dataShow
-                      ? getFilterData?.total_page
-                      : initialData?.total_page
-                  }
-                  totalCount={
-                    dataShow
-                      ? getFilterData?.total_count
-                      : initialData?.total_count
-                  }
+                  totalPages={initialData?.total_page}
+                  totalCount={initialData?.total_page}
+                  // totalPages={
+                  //   dataShow
+                  //     ? getFilterData?.total_page
+                  //     : initialData?.total_page
+                  // }
+                  // totalCount={
+                  //   dataShow
+                  //     ? getFilterData?.total_count
+                  //     : initialData?.total_count
+                  // }
                   rowsPerPage={rowsPerPage}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}

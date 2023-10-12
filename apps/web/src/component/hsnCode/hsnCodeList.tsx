@@ -137,6 +137,14 @@ const HsnCodeList = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
+
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
+  
   /* Function for searching a HSN Code from the list */
   const handleSearch = async () => {
     const hsnData: any = {
@@ -340,12 +348,28 @@ const HsnCodeList = () => {
                 </Button>
               </div>
             </div>
-            <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
+            <div className={Styles.filters}>
+              <div>
+                <Input
+                  placeholder="Search Hsn Code"
+                  width="300px"
+                  prefixIcon={<SearchIcon />}
+                  name="filter_value"
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValues,
+                      ['search_by_name']: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
             </div>
           </div>
           <div className={Styles.uploads}>
