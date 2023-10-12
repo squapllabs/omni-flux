@@ -17,7 +17,6 @@ const NewCustomMenu = ({ actions, name }: any) => {
     }
   };
 
-
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -29,22 +28,42 @@ const NewCustomMenu = ({ actions, name }: any) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  console.log("name", name);
+  console.log('name', name);
 
   return (
     <div className={Styles.customMenu} ref={menuRef}>
       <span className={Styles.menuText} onClick={toggleMenu}>
         <MoreVerticalIcon />
-
       </span>
       {isOpen && (
-        <div className={name === "abstract" ? Styles.menuDropdownAbstract : (name === "BoQItems" ? Styles.menuDropdownItems : Styles.menuDropdownOne)}>
+        <div
+          className={
+            name === 'abstract'
+              ? Styles.menuDropdownAbstract
+              : name === 'BoQItems'
+              ? Styles.menuDropdownItems
+              : Styles.menuDropdownOne
+          }
+        >
           {actions.map((action: any, index: any) => (
             <div
               key={index}
               // onClick={action.disabled ? null : action.onClick}
               onClick={() => handleItemClick(action)}
-              className={`${Styles.menuItem} ${action.disabled ? Styles.disabled : ''}`}
+              // className={`${Styles.menuItem} ${
+              //   action.disabled
+              //     ? Styles.disabled
+              //     : name === 'BoQItems' && action.disabled == true
+              //     ? Styles.displayNone
+              //     : ''
+              // }`}
+              className={
+                name === 'BoQItems' && action.disabled == true
+                  ? Styles.displayNone
+                  : action.disabled
+                  ? Styles.disabled
+                  : Styles.menuItem
+              }
             >
               {action.label}
             </div>

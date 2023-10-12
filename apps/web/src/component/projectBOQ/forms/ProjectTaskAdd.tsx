@@ -16,7 +16,7 @@ import Styles from '../../../styles/newStyles/project_abstractAdd.module.scss';
 import CheckListIcon from '../../menu/icons/checkListIcon';
 
 const ProjectTaskAdd: React.FC = (props: any) => {
-  console.log('props', props?.mode);
+  console.log('props', props?.isCollapsed);
 
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = createInstantSubcategory();
@@ -30,6 +30,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
     end_date: '',
     sub_category_id: '',
     budget: '',
+    parent_sub_category_id: '',
   });
   const dateFormat = (value: any) => {
     if (value !== null) {
@@ -54,6 +55,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           sub_category_id: data?.data?.sub_category_id,
           bom_configuration_id: props.selectedBomConfig,
           budget: data?.data?.budget,
+          parent_sub_category_id: data?.data?.parent_sub_category_id,
         });
       };
       if (props.mode === 'EDIT') fetchOne();
@@ -75,6 +77,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           start_date: values.start_date,
           end_date: values.end_date,
           sub_category_id: values.sub_category_id,
+          parent_sub_category_id: values.parent_sub_category_id,
         };
         console.log('abstract from', Object);
         updateSubcategoryData(Object, {
@@ -85,7 +88,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               props.setOpenSnack(true);
               props.setOpen(false);
               props.setReload(!props.reload);
-              props.setAbstractReload(!props.abstractReload);
+              props.setSubTaskView(!props.subTaskView);
+              props.setIsCollapsed(!props.isCollapsed);
             }
           },
         });
@@ -99,6 +103,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           start_date: values.start_date,
           end_date: values.end_date,
           bom_configuration_id: props.selectedBomConfig,
+          parent_sub_category_id:
+            props.mode === 'Sub Task' ? props.selectedSubCategory : null,
         };
         console.log('sub category added form ', Object);
         createNewSubCategory(Object, {
@@ -107,9 +113,12 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               props.setMessage('Task created');
               props.setOpenSnack(true);
               props.setOpen(false);
+              console.log('data_created', data);
+
               props.setReload(!props.reload);
-              props.setAbstractReload(!props.abstractReload);
               resetForm();
+              props.setIsCollapsed(!props.isCollapsed);
+              props.setSubTaskView(!props.subTaskView);
             }
           },
         });

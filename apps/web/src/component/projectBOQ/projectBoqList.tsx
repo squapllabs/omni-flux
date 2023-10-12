@@ -301,8 +301,6 @@ const BomList: React.FC = (props: any) => {
                     selectedSubCategory={selectedSubCategory}
                     projectsId={projectsId}
                     selectedBomConfig={bomconfigId}
-                    setReload={props.setReload}
-                    reload={props.reload}
                   />
                 </div>
               </div>
@@ -363,8 +361,6 @@ const BomList: React.FC = (props: any) => {
             setMessage={setMessage}
             mode={mode}
             categoryId={categoryId}
-            setAbstractReload={props.setReload}
-            abstractReload={props.reload}
           />
         }
       />
@@ -386,8 +382,6 @@ const BomList: React.FC = (props: any) => {
             setMessage={setMessage}
             mode={mode}
             selectedCategoryId={categoryId}
-            setAbstractReload={props.setReload}
-            abstractReload={props.reload}
           />
         }
       />

@@ -208,7 +208,7 @@ const ProjectSiteExpenseList = () => {
                   <thead>
                     <tr>
                       <th className={Styles.tableHeading}>#</th>
-                      <th className={Styles.tableHeading}>Invoice</th>
+                      <th className={Styles.tableHeading}>Expense Code</th>
                       <th className={Styles.tableHeading}>Added By</th>
                       <th className={Styles.tableHeading}>Site</th>
                       <th className={Styles.tableHeading}>Status</th>
@@ -293,7 +293,7 @@ const ProjectSiteExpenseList = () => {
             <div className={Styles.emptyData}>
               <MoneyIcon height={60} width={60} color="#475467" />
               <h5>No Site Expenses added for this site </h5>
-              <span>Let's add an expanse now</span>
+              <span className={Styles.spanContent}>Let's add an expanse now</span>
               <Button
                 type="button"
                 color="primary"
@@ -314,7 +314,7 @@ const ProjectSiteExpenseList = () => {
         <CustomSidePopup
           open={open}
           handleClose={handleClose}
-          title={'Add Site Expense'}
+          title={'Add/Edit Site Expense'}
           content={
             <ProjectSiteExpenseForm
               projectId={routeParams?.id}
@@ -324,7 +324,7 @@ const ProjectSiteExpenseList = () => {
               expenseID={expenseID}
               setMode={setMode}
               mode={mode}
-              siteId={filterValue}
+              siteId={filterValue === null ? Number(initialSiteId) : filterValue}
               setReload={setReload}
               reload={reload}
             />

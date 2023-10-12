@@ -7,7 +7,7 @@ import AutoCompleteSelect from '../../../../ui/AutoCompleteSelect';
 import { store, RootState } from '../../../../../redux/store';
 import { getToken } from '../../../../../redux/reducer';
 import { updatesiteExpense } from '../../../../../hooks/expense-hook';
-import { getUserIDProjectRolebased } from '../../../../../hooks/project-hooks';
+import { getUserIDBasedProject } from '../../../../../hooks/project-hooks';
 import ApproveDialogBox from '../../../../ui/CustomApprovePopup';
 import siteExpenseService from '../../../../../service/expense-service';
 import CustomSnackBar from '../../../../ui/customSnackBar';
@@ -27,16 +27,15 @@ const ExpenseApprove = () => {
   const userID: number = encryptedData.userId;
   const [siteData, setSiteData] = useState();
   const [projectMemberData, setProjectMemberData] = useState();
-  const roleID: number = encryptedData.userData.user_roles[0].role_data.role_id;
+  const roleName =
+    encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
   const navigate = useNavigate();
   let rowIndex = 0;
   const { mutate: updateSiteExpenseData } = updatesiteExpense();
-  const Obj: any = {
-    userID: Number(userID),
-    roleID: Number(roleID),
-  };
+
   const { data: getProjectList = [], isLoading: dropLoading } =
-    getUserIDProjectRolebased(Obj);
+    getUserIDBasedProject(roleName === 'ADMIN' ? '' : userID);
+
   const fetchProjectSiteData = async (value: any) => {
     if (value) {
       const getData = await projectService.getOneProjectSite(value);
@@ -58,10 +57,10 @@ const ExpenseApprove = () => {
         value
       );
       const arr: any = [];
-      const memberList = getData?.data?.map((user:any,index:any) =>{
+      const memberList = getData?.data?.map((user: any, index: any) => {
         const Obj: any = {
           value: user?.user_id,
-          label: user?.user_data?.first_name +' '+ user?.user_data?.last_name,
+          label: user?.user_data?.first_name + ' ' + user?.user_data?.last_name,
         };
         arr.push(Obj);
       });
@@ -82,6 +81,7 @@ const ExpenseApprove = () => {
   const [expenseList, setExpenseList] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [selectShow, setSelectShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
     { label: 'Pending', value: 'Pending' },
@@ -93,6 +93,7 @@ const ExpenseApprove = () => {
     setActiveButton(value);
     setCurrentPage(1);
   };
+
   const [initialValues, setInitialValues] = useState({
     employee_name: '',
     employee_id: '',
@@ -247,11 +248,12 @@ const ExpenseApprove = () => {
     order_by_column: 'updated_date',
     order_by_direction: 'desc',
     status: 'AC',
-    user_id: userID,
+    user_id: roleName === 'ADMIN' ? null : userID,
     expense_status: activeButton,
     ...filterValue,
     site_id: siteValue.site_id,
-    employee_name:memberValue.project_member_name
+    employee_name: memberValue.project_member_name,
+    is_draft: "N"
   };
 
   const {
@@ -269,7 +271,7 @@ const ExpenseApprove = () => {
       refetch();
     }, 500);
     return () => clearTimeout(handleSearch);
-  }, [filterValue, siteValue,memberValue]);
+  }, [filterValue, siteValue, memberValue]);
 
   return (
     <div className={Styles.container}>
@@ -288,42 +290,54 @@ const ExpenseApprove = () => {
                 <AutoCompleteSelect
                   name="project_id"
                   label="Project"
+                  placeholder="Select Project"
                   optionList={dropLoading === true ? [] : getProjectList}
                   value={filterValue.project_id}
                   onSelect={(value) => {
                     setFilterValue({ ['project_id']: value });
                     fetchProjectSiteData(value);
                     fetchMemberData(value);
+                    setSelectShow(true);
                   }}
                   width="100%"
                 />
               </div>
-              <div>
-                <AutoCompleteSelect
-                  name="site_id"
-                  label="Site"
-                  optionList={siteData}
-                  onSelect={(value) => {
-                    setSiteValue({ 'site_id': value });
-                  }}
-                  width="100%"
-                />
-              </div>
-              <div>
-                <AutoCompleteSelect
-                  name="project_member_id"
-                  label="Project Member"
-                  optionList={projectMemberData}
-                  onSelect={(value) => {
-                    setMemberValue({ 'project_member_id': value });
-                    const matchingObjects = projectMemberData.filter(
-                      (obj: any) => Number(obj.value) === Number(value)
-                    );
-                    setMemberValue({ 'project_member_name': matchingObjects[0].label });
-                  }}
-                  width="100%"
-                />
-              </div>
+              {filterValue.project_id && selectShow === true ? (
+                <div className={Styles.selectRow}>
+                  <div className={Styles.selectDrop}>
+                    <AutoCompleteSelect
+                      name="site_id"
+                      label="Site"
+                      placeholder="Select Site"
+                      optionList={siteData}
+                      onSelect={(value) => {
+                        setSiteValue({ site_id: value });
+                      }}
+                      width="100%"
+                    />
+                  </div>
+                  <div className={Styles.selectDrop}>
+                    <AutoCompleteSelect
+                      name="project_member_id"
+                      label="Project Member"
+                      placeholder="Select Project Member"
+                      optionList={projectMemberData}
+                      onSelect={(value) => {
+                        setMemberValue({ project_member_id: value });
+                        const matchingObjects = projectMemberData.filter(
+                          (obj: any) => Number(obj.value) === Number(value)
+                        );
+                        setMemberValue({
+                          project_member_name: matchingObjects[0].label,
+                        });
+                      }}
+                      width="100%"
+                    />
+                  </div>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
             <div className={Styles.button}>
               <CustomGroupButton
@@ -341,13 +355,9 @@ const ExpenseApprove = () => {
                 <th className={Styles.tableHeading}>Project</th>
                 <th className={Styles.tableHeading}>Site</th>
                 <th className={Styles.tableHeading}>Added By</th>
-                <th className={Styles.tableHeading}>From Date</th>
-                <th className={Styles.tableHeading}>To Date</th>
                 <th className={Styles.tableHeading}>Amount</th>
                 <th className={Styles.tableHeading}>Status</th>
-                {activeButton === 'Pending' && (
-                  <th className={Styles.tableHeading}>Action</th>
-                )}
+                <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -369,6 +379,7 @@ const ExpenseApprove = () => {
                     },
                     0
                   );
+                  const infoView = items?.status === 'Approved' || items?.status === 'Rejected';
                   const actions = [
                     {
                       label: 'Info',
@@ -377,18 +388,21 @@ const ExpenseApprove = () => {
                           `/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`
                         );
                       },
+
                     },
                     {
                       label: 'Approve',
                       onClick: () => {
                         approveHandler(items.expense_id);
                       },
+                      disabled: infoView,
                     },
                     {
                       label: 'Reject',
                       onClick: () => {
                         rejectHandler(items.expense_id);
                       },
+                      disabled: infoView,
                     },
                   ];
                   return (
@@ -398,15 +412,27 @@ const ExpenseApprove = () => {
                       <td>{items?.project_data?.project_name}</td>
                       <td>{items?.site_data?.name}</td>
                       <td>{items?.employee_name}</td>
-                      <td>{dateFormat(items?.start_date)}</td>
-                      <td>{dateFormat(items?.end_date)}</td>
                       <td>{formatBudgetValue(sumOfRates)}</td>
-                      <td>{items?.status}</td>
-                      {activeButton === 'Pending' && (
-                        <td>
-                          <CustomMenu actions={actions} />
-                        </td>
-                      )}
+                      <td>
+                        <span
+                          className={`${Styles.status} ${
+                            items?.status === 'Pending'
+                              ? Styles.pendingStatus
+                              : items?.status === 'Rejected'
+                              ? Styles.rejectedStatus
+                              : items?.status === 'Approved'
+                              ? Styles.approvedStatus
+                              : items?.status === 'Draft'
+                              ? Styles.draftStatus
+                              : ''
+                          }`}
+                        >
+                          {items?.status}
+                        </span>
+                      </td>
+                      <td>
+                        <CustomMenu actions={actions} />
+                      </td>
                     </tr>
                   );
                 }

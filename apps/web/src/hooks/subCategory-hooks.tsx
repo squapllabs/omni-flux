@@ -64,7 +64,7 @@ const getBySearchCategroy = () => {
   );
 };
 
-const getBycategoryIdInSub = (values : any) => {
+const getBycategoryIdInSub = (values: any) => {
   return useQuery(
     ['getSubcategoryList', values],
     () => SubcategoryService.getOneSubCatListbyCatID(values),
@@ -81,8 +81,13 @@ const createInstantSubcategory = () => {
       return SubcategoryService.createSubcategory(data);
     },
     {
-      onSuccess: () => {
+      onSuccess: (data, _v) => {
+        console.log('createInstantSubcategory', _v);
         queryClient.invalidateQueries(['getSubcategoryList']);
+        queryClient.invalidateQueries([
+          'getBOMDetails',
+          { projectId: _v.project_id, boQId: _v.bom_configuration_id },
+        ]);
       },
     }
   );
@@ -125,5 +130,5 @@ export {
   getBySearchCategroy,
   useGetAllSubcategoryDrop,
   getBycategoryIdInSub,
-  createInstantSubcategory
+  createInstantSubcategory,
 };
