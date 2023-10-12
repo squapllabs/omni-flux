@@ -19,6 +19,7 @@ const useGetAllSiteDrops = () => {
 };
 
 const createSite = () => {
+  const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
       return SiteService.createNewSite(data);
@@ -59,6 +60,17 @@ const getBySearchSiteData = () => {
   );
 };
 
+const useGetAllPaginatedContractorsData = (data: any) => {
+  return useQuery(
+    ['useGetAllPaginatedContractorsData'], 
+    () => SiteService.filterContractorData(data),
+    {
+        select: (data) => data,
+        staleTime: Infinity
+    }
+  );
+};
+
 const getBySiteId = (id: number) => {
   return useQuery(['getByuserID', id], () => SiteService.getOneSiteById(id), {
     select: (data) => data.data,
@@ -92,4 +104,4 @@ const useDeleteSite = () => {
   );
 };
 
-export { useGetAllSiteDrop,useGetAllSiteDrops,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite,instantCreateSite };
+export { useGetAllSiteDrop,useGetAllSiteDrops,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite,instantCreateSite, useGetAllPaginatedContractorsData };

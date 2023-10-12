@@ -15,14 +15,15 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import {
   getByMachinery,
   useDeleteMachinery,
+  useGetAllPaginatedMachinery,
 } from '../../hooks/machinery-hooks';
 
 const MachineryList = () => {
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: FilterLoading,
-  } = getByMachinery();
+  // const {
+  //   mutate: postDataForFilter,
+  //   data: getFilterData,
+  //   isLoading: FilterLoading,
+  // } = getByMachinery();
 
   const { mutate: getDeleteMachineryByID } = useDeleteMachinery();
 
@@ -54,59 +55,71 @@ const MachineryList = () => {
     offset: (currentPage - 1) * rowsPerPage,
     order_by_column: 'updated_by',
     order_by_direction: 'desc',
-    global_search: '',
+    global_search: filterValues.search_by_name,
     status: activeButton,
   };
 
+  const {
+    data: getFilterData,
+    isLoading: FilterLoading,  
+    refetch,
+  } = useGetAllPaginatedMachinery(machineryData);
 
-
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setFilterValues({
-      ...filterValues,
-      ['search_by_name']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
+  // const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const searchValue = event.target.value;
+  //   setFilterValues({
+  //     ...filterValues,
+  //     ['search_by_name']: event.target.value,
+  //   });
+  //   setIsResetDisabled(searchValue === '');
+  //   if (searchValue === '') {
+  //     handleReset();
+  //   }
+  // };
 
   useEffect(() => {
-    handleSearch();
+    refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
-  const handleSearch = async () => {
-    const machineryData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'asc',
-      global_search: filterValues.search_by_name,
-      status: activeButton,
-    };
-    postDataForFilter(machineryData);
-    // setIsLoading(false);
-    // setFilter(true);
-  };
+  
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
 
-  const handleReset = async () => {
-    const machineryData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'asc',
-      global_search: '',
-      status: 'AC',
-    };
-    postDataForFilter(machineryData);
+  // const handleSearch = async () => {
+  //   const machineryData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'asc',
+  //     global_search: filterValues.search_by_name,
+  //     status: activeButton,
+  //   };
+  //   postDataForFilter(machineryData);
+  //   // setIsLoading(false);
+  //   // setFilter(true);
+  // };
 
-    setFilterValues({
-      search_by_name: '',
-    });
-    // setIsLoading(false);
-    setIsResetDisabled(true);
-  };
+  // const handleReset = async () => {
+  //   const machineryData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'asc',
+  //     global_search: '',
+  //     status: 'AC',
+  //   };
+  //   postDataForFilter(machineryData);
+
+  //   setFilterValues({
+  //     search_by_name: '',
+  //   });
+  //   // setIsLoading(false);
+  //   setIsResetDisabled(true);
+  // };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -221,12 +234,28 @@ const MachineryList = () => {
                   </Button>
                 </div>
               </div>
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
+              <div className={Styles.filters}>
+                <div>
+                  <Input
+                    placeholder="Search Machineries"
+                    width="300px"
+                    prefixIcon={<SearchIcon />}
+                    name="filter_value"
+                    onChange={(e) => {
+                      setFilterValues({
+                        ...filterValues,
+                        ['search_by_name']: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div>
+                  <CustomGroupButton
+                    labels={buttonLabels}
+                    onClick={handleGroupButtonClick}
+                    activeButton={activeButton}
+                  />
+                </div>
               </div>
             </div>
           <div className={Styles.tableContainer}>

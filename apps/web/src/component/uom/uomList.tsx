@@ -101,6 +101,13 @@ const UomList = () => {
     refetch();
   }, [currentPage, rowsPerPage]);
 
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
+
   /* Function for searching data in the UOM Table */
   const handleSearch = async () => {
     const uomData: any = {
@@ -171,6 +178,20 @@ const UomList = () => {
                   Add Uom
                 </Button>
               </div>
+            </div>
+            <div className={Styles.searchBar}>
+              <Input
+                placeholder="Search UOM"
+                width="300px"
+                prefixIcon={<SearchIcon />}
+                name="filter_value"
+                onChange={(e) => {
+                  setFilterValues({
+                    ...filterValues,
+                    ['search_by_name']: e.target.value,
+                  });
+                }}
+              />
             </div>
           </div>
           <div className={Styles.box}>
