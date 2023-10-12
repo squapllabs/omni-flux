@@ -29,15 +29,14 @@ import { formatBudgetValue } from '../../../../helper/common-function';
 import SiteExpenseBill from './SiteExpensBill';
 import CustomLoader from '../../../ui/customLoader';
 import CurrencyIcon from '../../../menu/icons/CurrencyIcon';
+import AddIcon from '../../../menu/icons/addIcon';
+import MoneyIcon from '../../../menu/icons/MoneyIcon';
 
 const ProjectSiteExpenseForm: React.FC = (props: any) => {
-  // console.log('filterValue', props);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
-  // console.log('encryptedData', encryptedData?.userData?.contact_no);
   const projectId = Number(props?.projectId);
   const siteId = Number(props?.siteId);
-  // console.log('dddddd', siteId);
   const currentDate = new Date();
   const [initialValues, setInitialValues] = useState({
     employee_name:
@@ -71,7 +70,8 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const [loader, setLoader] = useState(false);
   const [expenseBill, setExpenseBill] = useState<any>([]);
   const [totalAmount, setTotalAmount] = useState<any>();
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
+  const [tableView, setTableView] = useState(false);
   const { data: getSiteList } = getProjectSite(Number(projectId));
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
     createsiteExpense();
@@ -115,7 +115,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
       const datas = await siteExpenseService.getOnesiteExpenseByID(
         props?.expenseID
       );
-      // console.log('datas', datas);
       const arry: any = [];
       setExpenseBill(
         datas?.data?.bill_details === null ? [] : datas?.data?.bill_details
@@ -149,7 +148,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
       }
       return total;
     }, 0);
-    // console.log('totalSelectedPrice', totalSelectedPrice);
     setTotalAmount(Number(totalSelectedPrice));
   }, [expenseList]);
   const formik = useFormik({
@@ -157,8 +155,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      // console.log('values', values);
-
       const statusData = values.submitType === 'Draft' ? 'Draft' : 'Pending';
       let count = 0;
       for (let i = 0; i < expenseList.length; i++) {
@@ -203,10 +199,8 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             status: statusData,
             total_amount: totalSelectedPrice,
           };
-          // console.log('objectpost', object);
           postSiteExpenseData(object, {
             onSuccess(data, variables, context) {
-              // console.log('data', data);
               if (data?.status === true) {
                 setMessage('Site Expense has been added successfully !');
                 setOpenSnack(true);
@@ -218,7 +212,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             },
           });
         } else {
-          // console.log('sumOfRates', totalSelectedPrice);
           const object: any = {
             site_id: values.site_id,
             project_id: projectId,
@@ -245,11 +238,9 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             status: statusData,
             total_amount: totalSelectedPrice,
           };
-          // console.log('Editobject', object);
           updateSiteExpenseData(object, {
             onSuccess(data, variables, context) {
               if (data?.status === true) {
-                // console.log('editData', data);
                 setMessage('Site Expense has been updated successfully !');
                 setOpenSnack(true);
                 setTimeout(() => {
@@ -267,160 +258,128 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     <div>
       <CustomLoader loading={loader} size={20}>
         <div className={Styles.container}>
-          <div className={Styles.formContainer}>
-            <div className={Styles.form_fields}>
-              {/* <div className={Styles.fields_container_1}> */}
-              {/* <div className={Styles.fieldStyle}> */}
-              {/* <Input
-                    label="Expense Code"
-                    placeholder="EXP-YYYY-"
-                    name="quantity"
-                    // mandatory={true}
-                    disabled={true}
-                    // width="350px"
-                    value={formik.values.expense_code}
-                    onChange={formik.handleChange}
-                 
-                  /> */}
-              {/* </div> */}
-              {/* <div className={Styles.fieldStyle}>
-                <AutoCompleteSelect
-                  name="site_id"
-                  label="Site"
-                  mandatory={true}
-                  optionList={getSiteList != undefined ? getSiteList : []}
-                  value={formik.values.site_id}
-                  onChange={formik.handleChange}
-                  onSelect={(value) => {
-                    formik.setFieldValue('site_id', value);
-                  }}
-                  error={formik.touched.site_id && formik.errors.site_id}
-                  disabled={siteId ? true : false}
-                />
-              </div> */}
-              {/* <div className={Styles.fieldStyle}>
-                  <Input
-                    name="total_amount"
-                    label="Total"
-                    value={formatBudgetValue(
-                      formik.values.total_amount
-                        ? formik.values.total_amount
-                        : 0
-                    )}
-                    onChange={formik.handleChange}
-                    disabled
-                    mandatory
-                  />
-                </div> */}
-              {/* </div> */}
-              <div className={Styles.expCode}>
-                <h4>Expense Code : </h4>
-                <p>{formik.values.expense_code || 'EXP-YYYY'}</p>
-              </div>
-              <div className={Styles.fields_container_1}>
-                <div className={Styles.fieldStyle}>
-                  <DatePicker
-                    label="Bill Date"
-                    name="bill_date"
-                    onChange={formik.handleChange}
-                    value={formik.values.bill_date}
-                    // mandatory
-                    error={formik.touched.bill_date && formik.errors.bill_date}
-                    disabled={checked === true ? false : true}
+          {props?.mode === 'Edit' || tableView ? (
+            <div className={Styles.formContainer}>
+              <div className={Styles.form_fields}>
+                {props.expenseID && formik.values.expense_code ? (
+                  <div className={Styles.expCode}>
+                    <h4>Expense Code : </h4>
+                    <p>{formik.values.expense_code || 'EXP-YYYY'}</p>
+                  </div>
+                ) : (
+                  ''
+                )}
+                <div className={Styles.fields_container_1}>
+                  <div className={Styles.fieldStyle}>
+                    <DatePicker
+                      label="Bill Date"
+                      name="bill_date"
+                      onChange={formik.handleChange}
+                      value={formik.values.bill_date}
+                      mandatory={true}
+                      error={
+                        formik.touched.bill_date && formik.errors.bill_date
+                      }
+                    />
+                  </div>
+                </div>
+                <div style={{ display: 'none' }}>
+                  <SiteExpenseBill
+                    projectId={projectId}
+                    setExpenseBill={setExpenseBill}
+                    expenseBill={expenseBill}
+                    loader={loader}
+                    setLoader={setLoader}
                   />
                 </div>
-                <div>
-                  <Checkbox
-                    checked={checked}
-                    onChange={() => {
-                      setChecked(!checked);
-                    }}
-                  />
-                  <span style={{ fontSize: '70%', paddingLeft: '5px' }}>
-                    Edit date?
-                  </span>
-                </div>
-                {/* <div className={Styles.fieldStyle}>
-                  <DatePicker
-                    label="End Date"
-                    name="end_date"
-                    onChange={formik.handleChange}
-                    value={formik.values.end_date}
-                    mandatory
-                    error={formik.touched.end_date && formik.errors.end_date}
-                  />
-                </div> */}
               </div>
-              <div style={{ display: 'none' }}>
-                <SiteExpenseBill
-                  projectId={projectId}
-                  setExpenseBill={setExpenseBill}
-                  expenseBill={expenseBill}
-                  loader={loader}
-                  setLoader={setLoader}
-                />
-              </div>
-            </div>
-            <div>
-              <CurrencyIcon width={90} height={90} color="#7f56d9" />
-            </div>
-          </div>
-          <div className={Styles.tableContainer}>
-            <SiteExpensesDetails
-              setExpenseList={setExpenseList}
-              expenseList={expenseList}
-              setMessage={setMessage}
-              setOpenSnack={setOpenSnack}
-              siteId={Number(props?.siteId)}
-              loader={loader}
-              setLoader={setLoader}
-              setTotalAmount={setTotalAmount}
-              totalAmount={totalAmount}
-            />
-            <div className={Styles.totalBudget}>
               <div>
-                <span>Total : </span>
-                {formatBudgetValue(Number(totalAmount))}
+                <CurrencyIcon width={90} height={90} color="#7f56d9" />
               </div>
             </div>
-            <div className={Styles.buttonComponent}>
-              <div className={Styles.dividerStyleOne}></div>
-              <div className={Styles.bottomButton}>
+          ) : (
+            ''
+          )}
+          {props?.mode === 'Edit' || tableView ? (
+            <div className={Styles.tableContainer}>
+              <SiteExpensesDetails
+                setExpenseList={setExpenseList}
+                expenseList={expenseList}
+                setMessage={setMessage}
+                setOpenSnack={setOpenSnack}
+                siteId={Number(props?.siteId)}
+                loader={loader}
+                setLoader={setLoader}
+                setTotalAmount={setTotalAmount}
+                totalAmount={totalAmount}
+                mode={props?.mode}
+              />
+              <div className={Styles.totalBudget}>
+                <div>
+                  <span>Total : </span>
+                  {formatBudgetValue(Number(totalAmount))}
+                </div>
+              </div>
+              <div className={Styles.buttonComponent}>
+                <div className={Styles.dividerStyleOne}></div>
+                <div className={Styles.bottomButton}>
+                  <Button
+                    type="button"
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    onClick={() => submitHandler()}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    className={Styles.draftButton}
+                    onClick={() => drafthandler()}
+                  >
+                    Save Draft
+                  </Button>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    className={Styles.cancelButton}
+                    onClick={() => props.setOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className={Styles.addNewRowView}>
+                <MoneyIcon height={50} width={50} color="#475467" />
+                <h5>No Site Expenses added for this site </h5>
+                <span className={Styles.spanContent}>
+                  Let's add an expanse now
+                </span>
                 <Button
                   type="button"
                   color="primary"
                   shape="rectangle"
                   size="small"
                   justify="center"
-                  onClick={() => submitHandler()}
+                  icon={<AddIcon color="white" />}
+                  onClick={() => setTableView(true)}
                 >
-                  Save
-                </Button>
-                <Button
-                  type="button"
-                  color="secondary"
-                  shape="rectangle"
-                  size="small"
-                  justify="center"
-                  className={Styles.draftButton}
-                  onClick={() => drafthandler()}
-                >
-                  Save Draft
-                </Button>
-                <Button
-                  type="button"
-                  color="secondary"
-                  shape="rectangle"
-                  size="small"
-                  justify="center"
-                  className={Styles.cancelButton}
-                  onClick={() => props.setOpen(false)}
-                >
-                  Cancel
+                  Add Expense
                 </Button>
               </div>
             </div>
-          </div>
+          )}
         </div>
         <CustomConfirmDialogBox
           open={openConfirm}

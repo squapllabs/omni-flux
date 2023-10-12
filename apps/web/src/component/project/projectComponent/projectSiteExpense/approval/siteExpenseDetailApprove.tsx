@@ -13,6 +13,7 @@ import { updatesiteExpenseDetail } from '../../../../../hooks/expense-hook';
 import { environment } from '../../../../../environment/environment';
 import ProjectSubheader from '../../../../project/projectSubheader';
 import CustomMenu from '../../../../ui/CustomMenu';
+import { formatBudgetValue } from '../../../../../helper/common-function';
 
 const ExpenseDetailApprove = () => {
   const state: RootState = store.getState();
@@ -53,8 +54,8 @@ const ExpenseDetailApprove = () => {
       const datas = await siteExpenseService.getOnesiteExpenseByID(params?.id);
       setTableData(datas.data);
     };
-    fetchData();
     if (expenseId !== undefined) fetchData();
+    setReload(false);
   }, [reload]);
 
   useEffect(() => {
@@ -236,7 +237,9 @@ const ExpenseDetailApprove = () => {
           <thead>
             <tr>
               <th className={Styles.tableHeading}>#</th>
+              <th className={Styles.tableHeading}>Description</th>
               <th className={Styles.tableHeading}>Expense Name</th>
+              <th className={Styles.tableHeading}>Amount</th>
               <th className={Styles.tableHeading}>Documents</th>
               <th className={Styles.tableHeading}>Status</th>
               <th className={Styles.tableHeading}>Action</th>
@@ -255,19 +258,20 @@ const ExpenseDetailApprove = () => {
             {tableData?.expense_details?.map((data: any, index: any) => {
               if (data?.is_delete === false) {
                 rowindex = rowindex + 1;
-                const isApproved = data?.status === 'Approved';
+                const isApproved =
+                  data?.status === 'Approved' || data?.status === 'Rejected';
                 const actions = [
                   {
                     label: 'Approve',
                     onClick: () => {
-                        approveHandler(data.expense_details_id);
+                      approveHandler(data.expense_details_id);
                     },
                     disabled: isApproved,
                   },
                   {
                     label: 'Reject',
                     onClick: () => {
-                        rejectHandler(data.expense_details_id);
+                      rejectHandler(data.expense_details_id);
                     },
                     disabled: isApproved,
                   },
@@ -275,10 +279,12 @@ const ExpenseDetailApprove = () => {
                 return (
                   <tr>
                     <td>{rowindex}</td>
+                    <td>{data?.description || nullLableNameFromEnv}</td>
                     <td>
                       {data?.expense_master_data?.master_data_name ||
                         nullLableNameFromEnv}
                     </td>
+                    <td>{formatBudgetValue(data?.total)}</td>
                     <td>
                       {data?.bill_details.length > 0
                         ? data?.bill_details?.map((files: any, index: any) => (

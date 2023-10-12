@@ -253,6 +253,7 @@ const ExpenseApprove = () => {
     ...filterValue,
     site_id: siteValue.site_id,
     employee_name: memberValue.project_member_name,
+    is_draft: "N"
   };
 
   const {
@@ -289,7 +290,7 @@ const ExpenseApprove = () => {
                 <AutoCompleteSelect
                   name="project_id"
                   label="Project"
-                  placeholder='Select Project'
+                  placeholder="Select Project"
                   optionList={dropLoading === true ? [] : getProjectList}
                   value={filterValue.project_id}
                   onSelect={(value) => {
@@ -307,7 +308,7 @@ const ExpenseApprove = () => {
                     <AutoCompleteSelect
                       name="site_id"
                       label="Site"
-                      placeholder='Select Site'
+                      placeholder="Select Site"
                       optionList={siteData}
                       onSelect={(value) => {
                         setSiteValue({ site_id: value });
@@ -319,7 +320,7 @@ const ExpenseApprove = () => {
                     <AutoCompleteSelect
                       name="project_member_id"
                       label="Project Member"
-                      placeholder='Select Project Member'
+                      placeholder="Select Project Member"
                       optionList={projectMemberData}
                       onSelect={(value) => {
                         setMemberValue({ project_member_id: value });
@@ -356,9 +357,7 @@ const ExpenseApprove = () => {
                 <th className={Styles.tableHeading}>Added By</th>
                 <th className={Styles.tableHeading}>Amount</th>
                 <th className={Styles.tableHeading}>Status</th>
-                {activeButton === 'Pending' && (
-                  <th className={Styles.tableHeading}>Action</th>
-                )}
+                <th className={Styles.tableHeading}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -380,6 +379,7 @@ const ExpenseApprove = () => {
                     },
                     0
                   );
+                  const infoView = items?.status === 'Approved' || items?.status === 'Rejected';
                   const actions = [
                     {
                       label: 'Info',
@@ -388,18 +388,21 @@ const ExpenseApprove = () => {
                           `/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`
                         );
                       },
+
                     },
                     {
                       label: 'Approve',
                       onClick: () => {
                         approveHandler(items.expense_id);
                       },
+                      disabled: infoView,
                     },
                     {
                       label: 'Reject',
                       onClick: () => {
                         rejectHandler(items.expense_id);
                       },
+                      disabled: infoView,
                     },
                   ];
                   return (
@@ -427,11 +430,9 @@ const ExpenseApprove = () => {
                           {items?.status}
                         </span>
                       </td>
-                      {activeButton === 'Pending' && (
-                        <td>
-                          <CustomMenu actions={actions} />
-                        </td>
-                      )}
+                      <td>
+                        <CustomMenu actions={actions} />
+                      </td>
                     </tr>
                   );
                 }
