@@ -19,9 +19,7 @@ import {
   getLabourUpdateYupschema
 } from '../../helper/constants/labour-constants';
 
-const LabourAddForm = (props : any) => {
-  console.log("props",props);
-  
+const LabourAddForm = (props : any) => {  
 
   const [initialValues, setInitialValues] = useState({
     labour_id: '',
@@ -65,7 +63,7 @@ const LabourAddForm = (props : any) => {
   };
 
   const validationSchema =
-    props?.labourId === undefined
+   ( props?.labourId === undefined ||  props?.labourId === "")
       ? getLabourCreationYupschema(Yup)
       : getLabourUpdateYupschema(Yup);
 

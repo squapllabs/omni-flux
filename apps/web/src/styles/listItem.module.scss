@@ -126,7 +126,7 @@ display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 25px;
+  padding-bottom: 10px;
 }
 
 .heading {
@@ -141,4 +141,10 @@ display: flex;
   flex-direction: row;
   gap: 7px;
   align-items: center;
+}
+
+.filters {
+  display: flex;
+  gap: 20px;
+  padding: 10px;
 }

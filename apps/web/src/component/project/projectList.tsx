@@ -63,7 +63,7 @@ const ProjectList = () => {
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
   ]);
-  const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
+  const [activeButton, setActiveButton] = useState<string | null>('ALL');
   const [filter, setFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,7 +128,7 @@ const ProjectList = () => {
     // if (filterValues.search_by_name !== '') {
       const handleSearch = setTimeout(() => {
         refetch();
-      }, 2000);
+      }, 1000);
       return () => clearTimeout(handleSearch);
     // }
   }, [filterValues]);

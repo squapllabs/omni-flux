@@ -18,7 +18,7 @@ const createNewSite = async (values: JSON) => {
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/site-contractor/`,
       values
-    );
+    );    
     return response.data;
   } catch (error) {
     console.log('Error in createNewSite  :', error);
@@ -27,6 +27,19 @@ const createNewSite = async (values: JSON) => {
 };
 
 const filterSiteData = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/site-contractor/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in project workbreakdown filter :', error);
+    throw error;
+  }
+};
+
+const filterContractorData = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/site-contractor/search`,
@@ -93,5 +106,6 @@ export default {
     getOneSiteById,
     updateSiteData,
     checkSiteCodeDuplicate,
-    deleteSite
+    deleteSite,
+    filterContractorData
 };

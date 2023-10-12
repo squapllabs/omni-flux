@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import Button from '../ui/Button';
 import CustomLoader from '../ui/customLoader';
@@ -22,6 +22,8 @@ import ProjectSubheader from '../project/projectSubheader';
 
 const VendorList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const { mutate: getDeleteVendorByID } = useDeleteVendor();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
@@ -130,41 +132,67 @@ const VendorList = () => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
     <div>
-          <div>
-            <ProjectSubheader
-              title="Vendors"
-              description=" Manage your approved vendor details"
-              navigation={'/home'}
-            />
-          </div>
       <div>
         <CustomLoader
           loading={searchLoader ? searchLoader : getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
-          
+          {location.pathname === '/vendor-list' && (
+            <div>
+              <ProjectSubheader
+                navigation={'/home'}
+                title="Vendors"
+                description="Manage your approved vendors"
+              />
+            </div>
+          )}
+
           <div className={Styles.topHeading}>
-              <div className={Styles.heading}>
-                {/* <div className={Styles.subHeading}>
+            <div className={Styles.heading}>
+              {location.pathname !== '/vendor-list' && (
+                <div className={Styles.subHeading}>
                   <h3>VENDORS</h3>
-                </div> */}
-                <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/vendor-add')}
-                  >
-                    Add Vendor
-                  </Button>
                 </div>
+              )}
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => navigate('/vendor-add')}
+                >
+                  Add Vendor
+                </Button>
+              </div>
+            </div>
+            <div className={Styles.filters}>
+              <div>
+                <Input
+                  placeholder="Search Vendors"
+                  width="300px"
+                  prefixIcon={<SearchIcon />}
+                  name="filter_value"
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValues,
+                      ['search_by_name']: e.target.value,
+                    });
+                  }}
+                />
               </div>
               <div>
                 <CustomGroupButton
@@ -173,7 +201,8 @@ const VendorList = () => {
                   activeButton={activeButton}
                 />
               </div>
-              {/* <div>
+            </div>
+            {/* <div>
               <Input
                 width="260px"
                 prefixIcon={<SearchIcon />}
@@ -202,7 +231,7 @@ const VendorList = () => {
                 Reset
               </Button>
               </div> */}
-            </div>
+          </div>
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>

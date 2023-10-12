@@ -5,7 +5,11 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
-import { getBySearchSiteData, useDeleteSite } from '../../hooks/site-hooks';
+import { 
+  getBySearchSiteData, 
+  useDeleteSite,
+  useGetAllPaginatedContractorsData,
+} from '../../hooks/site-hooks';
 import AddIcon from '../menu/icons/addIcon';
 import { useNavigate } from 'react-router';
 import EditIcon from '../menu/icons/newEditIcon';
@@ -29,12 +33,27 @@ const ContractorList = () => {
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: FilterLoading,
-  } = getBySearchSiteData();
+  // const {
+  //   mutate: postDataForFilter,
+  //   data: getFilterData,
+  //   isLoading: FilterLoading,
+  // } = getBySearchSiteData();
   const navigate = useNavigate();
+
+  const contractorData: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: filterValues.search_by_name,
+    type: 'Contractor',
+  };
+  const {
+    isLoading: FilterLoading,
+    data: getFilterData,
+    refetch,
+  } = useGetAllPaginatedContractorsData(contractorData);
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
@@ -51,6 +70,13 @@ const ContractorList = () => {
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
+
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
 
   const handleSearch = async () => {
     const demo: any = {
@@ -138,6 +164,20 @@ const ContractorList = () => {
                     Add Contractor
                   </Button>
                 </div>
+              </div>
+              <div className={Styles.searchBar}>
+                <Input
+                  placeholder="Search Contractors"
+                  width="300px"
+                  prefixIcon={<SearchIcon />}
+                  name="filter_value"
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValues,
+                      ['search_by_name']: e.target.value,
+                    });
+                  }}
+                />
               </div>
             </div>
             {/* <div className={Styles.searchField}>

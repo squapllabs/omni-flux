@@ -10,17 +10,19 @@ import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
-import { getByItem } from '../../hooks/add-product-hooks';
+import { getByItem,
+         useGetAllPaginatedItemData 
+       } from '../../hooks/add-product-hooks';
 import EditIcon from '../menu/icons/newEditIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import addProduct from '../../service/add-product';
 
 const ProductPage = () => {
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: searchLoader,
-  } = getByItem();
+  // const {
+  //   mutate: postDataForFilter,
+  //   data: getFilterData,
+  //   isLoading: searchLoader,
+  // } = getByItem();
 
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,10 +37,6 @@ const ProductPage = () => {
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [isResetDisabled, setIsResetDisabled] = useState(true);
 
-  useEffect(() => {
-    handleSearch();
-  }, [currentPage, rowsPerPage, activeButton]);
-
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
     setFilterValues({
@@ -51,33 +49,59 @@ const ProductPage = () => {
     }
   };
 
-  const handleSearch = async () => {
-    const itemData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: activeButton,
-      global_search: filterValues.search_by_name,
-    };
-    postDataForFilter(itemData);
+  const itemData: any = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: filterValues.search_by_name,
   };
 
-  const handleReset = async () => {
-    const itemData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      global_search: '',
-    };
-    postDataForFilter(itemData);
-    setFilterValues({
-      search_by_name: '',
-    });
-    setIsResetDisabled(true);
-  };
+  const {
+    isLoading: searchLoader,
+    data: getFilterData,
+    refetch,
+  } = useGetAllPaginatedItemData(itemData)
+
+  // const handleSearch = async () => {
+  //   const itemData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'desc',
+  //     status: activeButton,
+  //     global_search: filterValues.search_by_name,
+  //   };
+  //   postDataForFilter(itemData);
+  // };
+
+  // const handleReset = async () => {
+  //   const itemData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'desc',
+  //     status: 'AC',
+  //     global_search: '',
+  //   };
+  //   postDataForFilter(itemData);
+  //   setFilterValues({
+  //     search_by_name: '',
+  //   });
+  //   setIsResetDisabled(true);
+  // };
+
+    useEffect(() => {
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton]);
+
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
 
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -223,12 +247,28 @@ const ProductPage = () => {
               />
             </div>
           </div>
-          <div className={Styles.groupButton}>
-            <CustomGroupButton
-              labels={buttonLabels}
-              onClick={handleGroupButtonClick}
-              activeButton={activeButton}
-            />
+          <div className={Styles.filters}>
+            <div className={Styles.searchBar}>
+              <Input
+                placeholder="Search Items"
+                width="300px"
+                prefixIcon={<SearchIcon />}
+                name="filter_value"
+                onChange={(e) => {
+                  setFilterValues({
+                    ...filterValues,
+                    ['search_by_name']: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className={Styles.groupButton}>
+              <CustomGroupButton
+                labels={buttonLabels}
+                onClick={handleGroupButtonClick}
+                activeButton={activeButton}
+              />
+            </div>
           </div>
         </div>
 
@@ -300,17 +340,17 @@ const ProductPage = () => {
                 </tr>
               ) : (
                 getFilterData?.content?.map((data: any, index: any) => (
-                  <tr key={data.item_id}>
+                  <tr key={data?.item_id}>
                     <td>{startingIndex + index}</td>
-                    <td>{data.item_name}</td>
-                    <td>{data.item_type && data.item_type.master_data_name}</td>
-                    <td>{data.description}</td>
-                    <td>{data.gst.rate}</td>
+                    <td>{data?.item_name}</td>
+                    <td>{data?.item_type && data?.item_type.master_data_name}</td>
+                    <td>{data?.description}</td>
+                    <td>{data?.gst?.rate}</td>
                     <td>{formatBudgetValue(data.rate || '-')}</td>
                     {activeButton === 'AC' && (
                       <td>
                         <div className={Styles.tablerow}>
-                          <EditIcon onClick={() => handleEdit(data.item_id)} />
+                          <EditIcon onClick={() => handleEdit(data?.item_id)} />
                         </div>
                       </td>
                     )}

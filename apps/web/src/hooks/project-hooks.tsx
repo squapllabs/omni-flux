@@ -87,7 +87,7 @@ const getMemberBasedProject = () => {
 
 const getPaginatedMemberBasedProject = (data:any) => {
   return useQuery(
-    ['useGetAllProject'],
+    ['getPaginatedMemberBasedProject'],
     () => ProjectService.filterProjectmemberBased(data),
     {
       select: (data) => data,

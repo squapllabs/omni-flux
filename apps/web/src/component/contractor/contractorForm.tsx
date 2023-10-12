@@ -56,8 +56,8 @@ const ContractorForm = () => {
         },
       };
       createNewSite(Object, {
-        onSuccess: (data: any) => {
-          if (data?.status === true) {
+        onSuccess: (data: any) => {          
+          if (data.message === 'success') {
             setMessage('Contractor created');
             setOpenSnack(true);
             setTimeout(() => {
