@@ -13,6 +13,7 @@ import userService from '../../../../service/user-service';
 import Popup from '../../../ui/CustomPdfPopup';
 import SiteExpensesView from './siteExpensesView';
 import ViewIcon from '../../../menu/icons/newViewIcon';
+import CloseIcon from '../../../menu/icons/closeIcon';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
   let rowIndex = 0;
@@ -49,6 +50,12 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     props.expenseList[itemIndex] = {
       ...props.expenseList[itemIndex],
       is_delete: true,
+      bill_details: props.expenseList[itemIndex].bill_details.map((billDetail:any, index:number) => {
+        if (index === 0) {
+          return { ...billDetail, is_delete: 'Y' };
+        }
+        return billDetail;
+      }),
     };
     props.setExpenseList([...props.expenseList]);
     rowIndex = rowIndex - 1;
@@ -124,6 +131,22 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         }
       ),
   });
+
+  const handleListChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: any
+  ) => {
+    let tempObj = {};
+    tempObj = {
+      ...props.expenseList[index],
+      [event.target.name]: event.target.value,
+    };
+    let tempArry = [...props.expenseList];
+    tempArry[index] = tempObj;
+    console.log('edit data==>', tempArry);
+    props.setExpenseList(tempArry);
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -217,7 +240,18 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       console.log('Error in occur project document upload:', error);
     }
   };
+  const deleteFileinList = (index: any) => {
+    let tempObj = {};
+    props.expenseList[index].bill_details[0].is_delete = 'Y';
 
+    tempObj = {
+      ...props.expenseList[index],
+    };
+    let tempArry = [...props.expenseList];
+    tempArry[index] = tempObj;
+    console.log('edit data==>', tempArry);
+    props.setExpenseList(tempArry);
+  };
   return (
     <div>
       <form>
@@ -241,34 +275,78 @@ const SiteExpensesDetails: React.FC = (props: any) => {
               if (item.is_delete === false) {
                 rowIndex = rowIndex + 1;
                 const customQuotationName = generateCustomQuotationName(item);
+                console.log('props.expenseList==>', props.expenseList);
                 return (
                   <tr>
                     <td>{rowIndex}</td>
-                    <td>{item.description}</td>
                     <td>
-                      {item?.site_expense_name === undefined
-                        ? item?.expense_master_data?.master_data_name
-                        : item?.site_expense_name}
+                    <Input
+                      name="description"
+                      onChange={(e) => handleListChange(e, index)}
+                      value={item.description}
+                      width="300px"
+                    />
                     </td>
-                    <td>{item.bill_number ? item.bill_number : '-'}</td>
-                    <td>{item.total}</td>
                     <td>
-                      {item.bill_details?.length > 0 ? (
+                      {/* {item?.site_expense_name === undefined
+                        ? item?.expense_master_data?.master_data_name
+                        : item?.site_expense_name} */}
+                         <AutoCompleteSelect
+                              // width={DropfieldWidth}
+                              name="expense_data_id"
+                              mandatory={true}
+                              optionList={
+                                getSiteExpense != undefined ? getSiteExpense : []
+                              }
+                              value={item.expense_data_id}
+                              onChange={(e) => handleListChange(e, index)}
+                              disabled={true}
+                            />
+                    </td>
+                    <td>
+                      <Input
+                        name="bill_number"
+                        value={item.bill_number}
+                        onChange={(e) => handleListChange(e, index)}
+                        width="120px"
+                      />
+                    </td>
+                    <td style={{ overflow: 'hidden' }} >
+                      <Input
+                        name="total"
+                        value={item.total}
+                        onChange={(e) => handleListChange(e, index)}
+                        width="120px"
+                      />
+                    </td>
+                    <td>
+                      {item.bill_details?.length > 0 && item.bill_details[0].is_delete === 'N'? ( 
                         item.bill_details.map(
-                          (document: any, index: number) => (
-                            <div key={document.code} style={{ width: '150px' }}>
-                              <a
-                                href={document.path}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {customQuotationName}
-                              </a>
-                            </div>
-                          )
+                          (document: any, billIndex: number) => {
+                            if (document.is_delete === 'N')
+                              return (
+                                <div
+                                  key={document.code}
+                                  style={{ width: '150px' }}
+                                >
+                                  <a
+                                    href={document.path}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {customQuotationName}
+                                  </a>
+                                  <CloseIcon
+                                    width={5}
+                                    height={10}
+                                    onClick={() => deleteFileinList(index)}
+                                  />
+                                </div>
+                              );
+                          }
                         )
                       ) : (
-                        <div>-</div>
+                       "-"
                       )}
                     </td>
                     <td>
@@ -282,7 +360,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         >
                           <DeleteIcon />
                         </div>
-                        {item.bill_details?.length > 0
+                        {item.bill_details?.length > 0 && item.bill_details[0].is_delete === 'N'
                           ? item.bill_details.map(
                               (document: any, index: number) => (
                                 <div
@@ -349,12 +427,10 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                     onChange={formik.handleChange}
                     width="120px"
                     error={
-                      formik.touched.bill_number &&
-                      formik.errors.bill_number
+                      formik.touched.bill_number && formik.errors.bill_number
                     }
                   />
                 </div>
-                
               </td>
               <td style={{ overflow: 'hidden' }}>
                 <div>
