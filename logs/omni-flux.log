@@ -3200,3 +3200,3804 @@ type IntFilter {
 }
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:82:37
+
+  79 
+  80 const getById = async (userId: number) => {
+  81   try {
+→ 82     const user = await prisma.users.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\expense.dao.ts:370:47
+
+  367 try {
+  368   const transaction = connectionObj !== null ? connectionObj : prisma;
+  369   const filter = filters.filterExpense;
+→ 370   const expense = await transaction.expense.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\expense.dao.ts:370:47
+
+  367 try {
+  368   const transaction = connectionObj !== null ? connectionObj : prisma;
+  369   const filter = filters.filterExpense;
+→ 370   const expense = await transaction.expense.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchStockAudit << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_audit.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:139:54
+
+  136 try {
+  137   const transaction = connectionObj !== null ? connectionObj : prisma;
+  138   const filter = filters.filterStockAudit;
+→ 139   const stockAudit = await transaction.stock_audit.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByStockAuditId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_audit.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:75:54
+
+  72 const getById = async (stockAuditId: number, connectionObj = null) => {
+  73   try {
+  74     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 75     const stockAudit = await transaction.stock_audit.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByStockAuditId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_audit.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:75:54
+
+  72 const getById = async (stockAuditId: number, connectionObj = null) => {
+  73   try {
+  74     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 75     const stockAudit = await transaction.stock_audit.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByStockAuditId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_audit.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:75:54
+
+  72 const getById = async (stockAuditId: number, connectionObj = null) => {
+  73   try {
+  74     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 75     const stockAudit = await transaction.stock_audit.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchStockAudit << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_audit.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:139:54
+
+  136 try {
+  137   const transaction = connectionObj !== null ? connectionObj : prisma;
+  138   const filter = filters.filterStockAudit;
+→ 139   const stockAudit = await transaction.stock_audit.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\expense.dao.ts:370:47
+
+  367 try {
+  368   const transaction = connectionObj !== null ? connectionObj : prisma;
+  369   const filter = filters.filterExpense;
+→ 370   const expense = await transaction.expense.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\expense.dao.ts:370:47
+
+  367 try {
+  368   const transaction = connectionObj !== null ? connectionObj : prisma;
+  369   const filter = filters.filterExpense;
+→ 370   const expense = await transaction.expense.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchStockAudit << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_audit.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:139:54
+
+  136 try {
+  137   const transaction = connectionObj !== null ? connectionObj : prisma;
+  138   const filter = filters.filterStockAudit;
+→ 139   const stockAudit = await transaction.stock_audit.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\expense.dao.ts:370:47
+
+  367 try {
+  368   const transaction = connectionObj !== null ? connectionObj : prisma;
+  369   const filter = filters.filterExpense;
+→ 370   const expense = await transaction.expense.findMany(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchProjectSite << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project_site.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\projectSite.dao.ts:192:56
+
+  189 try {
+  190   const transaction = connectionObj !== null ? connectionObj : prisma;
+  191   const filter = filters.filterProjectSite;
+→ 192   const projectSite = await transaction.project_site.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchStockOutward << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_outward.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockOutward.dao.ts:299:58
+
+  296 try {
+  297   const transaction = connectionObj !== null ? connectionObj : prisma;
+  298   const filter = filters.filterStockOutward;
+→ 299   const stockOutward = await transaction.stock_outward.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchStockOutward << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_outward.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockOutward.dao.ts:299:58
+
+  296 try {
+  297   const transaction = connectionObj !== null ? connectionObj : prisma;
+  298   const filter = filters.filterStockOutward;
+→ 299   const stockOutward = await transaction.stock_outward.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchStockAudit << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_audit.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:139:54
+
+  136 try {
+  137   const transaction = connectionObj !== null ? connectionObj : prisma;
+  138   const filter = filters.filterStockAudit;
+→ 139   const stockAudit = await transaction.stock_audit.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchStockAudit << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.stock_audit.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:139:54
+
+  136 try {
+  137   const transaction = connectionObj !== null ? connectionObj : prisma;
+  138   const filter = filters.filterStockAudit;
+→ 139   const stockAudit = await transaction.stock_audit.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 21)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockAudit << ERRSTRING >>Error: 
+Invalid `transaction.stock_audit.create()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:18:54
+
+  15   ? new Date(stock_audit_date)
+  16   : null;
+  17 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 18 const stockAudit = await transaction.stock_audit.create({
+       data: {
+         project_id: 137,
+         ~~~~~~~~~~
+         site_id: '',
+         ~~~~~~~
+         stock_audit_date: new Date('2023-10-12T00:00:00.000Z'),
+         item_details: [
+           {
+             item_name: 'Fly ash',
+             quantity: '2'
+           },
+           {
+             item_name: 'Electric wire',
+             quantity: ''
+           },
+           {
+             item_name: 'Green cement',
+             quantity: '6'
+           },
+           {
+             item_name: 'TMT Rod',
+             quantity: ''
+           },
+           {
+             item_name: 'Pipe',
+             quantity: '4'
+           },
+           {
+             item_name: 'Paint',
+             quantity: ''
+           },
+           {
+             item_name: 'Stone',
+             quantity: ''
+           }
+         ],
+         created_by: 1,
+         created_date: new Date('2023-10-12T13:01:49.953Z'),
+         updated_date: new Date('2023-10-12T13:01:49.953Z'),
+         is_delete: false
+       }
+     })
+
+Unknown arg `project_id` in data.project_id for type stock_auditCreateInput. Did you mean `project_data`? Available args:
+type stock_auditCreateInput {
+  stock_audit_date?: DateTime | Null
+  item_details?: NullableJsonNullValueInput | Json
+  is_delete?: Boolean
+  created_date?: DateTime
+  updated_date: DateTime
+  created_by?: Int | Null
+  updated_by?: Int | Null
+  project_data?: projectCreateNestedOneWithoutStock_auditInput
+  site_data?: site_contractorCreateNestedOneWithoutStock_auditInput
+}
+Unknown arg `site_id` in data.site_id for type stock_auditCreateInput. Did you mean `site_data`? Available args:
+type stock_auditCreateInput {
+  stock_audit_date?: DateTime | Null
+  item_details?: NullableJsonNullValueInput | Json
+  is_delete?: Boolean
+  created_date?: DateTime
+  updated_date: DateTime
+  created_by?: Int | Null
+  updated_by?: Int | Null
+  project_data?: projectCreateNestedOneWithoutStock_auditInput
+  site_data?: site_contractorCreateNestedOneWithoutStock_auditInput
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockAudit << ERRSTRING >>Error: 
+Invalid `transaction.stock_audit.create()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\stockAudit.dao.ts:18:54
+
+  15   ? new Date(stock_audit_date)
+  16   : null;
+  17 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 18 const stockAudit = await transaction.stock_audit.create({
+       data: {
+         project_id: 137,
+         ~~~~~~~~~~
+         site_id: '',
+         ~~~~~~~
+         stock_audit_date: new Date('2023-10-12T00:00:00.000Z'),
+         item_details: [
+           {
+             item_name: 'Fly ash',
+             quantity: '1'
+           },
+           {
+             item_name: 'Electric wire',
+             quantity: '1'
+           },
+           {
+             item_name: 'Green cement',
+             quantity: '1'
+           },
+           {
+             item_name: 'TMT Rod',
+             quantity: '1'
+           },
+           {
+             item_name: 'Pipe',
+             quantity: ''
+           },
+           {
+             item_name: 'Paint',
+             quantity: ''
+           },
+           {
+             item_name: 'Stone',
+             quantity: ''
+           }
+         ],
+         created_by: 1,
+         created_date: new Date('2023-10-12T13:11:04.731Z'),
+         updated_date: new Date('2023-10-12T13:11:04.731Z'),
+         is_delete: false
+       }
+     })
+
+Unknown arg `project_id` in data.project_id for type stock_auditCreateInput. Did you mean `project_data`? Available args:
+type stock_auditCreateInput {
+  stock_audit_date?: DateTime | Null
+  item_details?: NullableJsonNullValueInput | Json
+  is_delete?: Boolean
+  created_date?: DateTime
+  updated_date: DateTime
+  created_by?: Int | Null
+  updated_by?: Int | Null
+  project_data?: projectCreateNestedOneWithoutStock_auditInput
+  site_data?: site_contractorCreateNestedOneWithoutStock_auditInput
+}
+Unknown arg `site_id` in data.site_id for type stock_auditCreateInput. Did you mean `site_data`? Available args:
+type stock_auditCreateInput {
+  stock_audit_date?: DateTime | Null
+  item_details?: NullableJsonNullValueInput | Json
+  is_delete?: Boolean
+  created_date?: DateTime
+  updated_date: DateTime
+  created_by?: Int | Null
+  updated_by?: Int | Null
+  project_data?: projectCreateNestedOneWithoutStock_auditInput
+  site_data?: site_contractorCreateNestedOneWithoutStock_auditInput
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectIdAndSiteId << ERRSTRING >>Error: 
+Invalid `transaction.site_contractor.findFirst()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\siteContractor.dao.ts:276:62
+
+  273 const getBySiteId = async (getBySiteId: number, connectionObj = null) => {
+  274   try {
+  275     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 276     const siteContractor = await transaction.site_contractor.findFirst({
+            where: {
+              site_contractor_id: NaN,
+                                  ~~~
+              type: 'Site',
+              is_delete: false
+            }
+          })
+
+Argument site_contractor_id: Got invalid value NaN on prisma.findFirstsite_contractor. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Styles from '../../../styles/project.module.scss';
+import Styles from '../../../styles/newStyles/projectStockManagement.module.scss';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Input from '../../ui/Input';
@@ -10,33 +10,24 @@ import DatePicker from '../../ui/CustomDatePicker';
 import { format } from 'date-fns';
 import Checkbox from '../../ui/Checkbox';
 import Button from '../../ui/Button';
-import {
-  createStockAudit,
-  getItemByProjectAndSite,
-} from '../../../hooks/stockAudit-hooks';
-import CheckIcon from '../../menu/icons/checkIcon';
+import { createStockAudit } from '../../../hooks/stockAudit-hooks';
 import CustomSnackBar from '../../ui/customSnackBar';
-import { getProjectStockAuditValidate } from '../../../helper/constants/project-constants';
+// import { getProjectStockAuditValidate } from '../../../helper/constants/project-constants';
 import StockAuditService from '../../../service/stockaudit-service';
-import BackArrow from '../../menu/icons/backArrow';
-import PreviousPageIcon from '../../menu/icons/previousPageIcon';
-import ProjectSubheader from '../projectSubheader';
 
-const ProjectStockAdd = () => {
-  const routeParams = useParams();
-  const navigate = useNavigate();
-  const validationSchema = getProjectStockAuditValidate(yup);
+const ProjectStockAdd: React.FC = (props: any) => {
+  // const validationSchema = getProjectStockAuditValidate(yup);
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
+
   const currentDate = new Date();
-  const projectId = Number(routeParams?.id);
-  
+  const projectId = props.project_id;
   const [initialValues, setInitialValues] = useState({
-    project_id: Number(routeParams?.id),
-    site_id: '',
+    project_id: projectId,
+    site_id: props.siteId,
     stock_audit_date: dateFormat(currentDate),
   });
   const [itemsList, setItemsList] = useState<any>([]);
@@ -44,19 +35,19 @@ const ProjectStockAdd = () => {
   const [check, setChecked] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
-  const { data: getProjectData } = getByProjectId(Number(routeParams?.id));
-  
+  const { data: getSiteList } = getProjectSite(projectId);
+  const { data: getProjectData } = getByProjectId(projectId);
+
   const { mutate: postStockData, isLoading: stockpostLoading } =
     createStockAudit();
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
 
-  const searchCategory = async (value: any) => {
+  const searchCategory = async () => {
     const values = {
       projectId: projectId,
-      siteId: value,
+      siteId: props.siteId,
     };
     try {
       const itemsData = await StockAuditService.getItems(values);
@@ -82,7 +73,7 @@ const ProjectStockAdd = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    // validationSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
       const obj: any = {
@@ -92,37 +83,31 @@ const ProjectStockAdd = () => {
       };
       postStockData(obj, {
         onSuccess(data, variables, context) {
-          // resetForm();
-          setMessage('Stock audited successfully');
-          setOpenSnack(true);
-          setTimeout(() => {
-            navigate(`/project-edit/${routeParams?.id}`);
-          }, 2000);
+          if(data?.message === 'success'){
+          resetForm();
+          props.setMessage('Stock audited successfully');
+          props.setOpenSnack(true);
+          props.setOpen(false);
+          props.setReload(true);
+          }
         },
       });
     },
   });
 
+  const handleClose = () => {
+    props.setOpen(false);
+  };
+
+  useEffect(() => {
+    searchCategory();
+  }, [props?.siteId]);
+
   return (
     <div className={Styles.stock_Container}>
       <form onSubmit={formik.handleSubmit}>
-        <div className={Styles.box}>
-          <ProjectSubheader
-            description="Add your Stock audit in day basis"
-            navigation={`/project-edit/${routeParams?.id}`}
-            title={getProjectData?.project_name}
-          />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            gap: '10px',
-            justifyContent: 'center',
-            padding: '20px',
-            // marginLeft:"30px"
-          }}
-        >
-          <div style={{ width: '30%' }}>
+        <div className={Styles.divOne}>
+          {/* <div>
             <AutoCompleteSelect
               name="site_id"
               label="Site"
@@ -132,11 +117,13 @@ const ProjectStockAdd = () => {
               onChange={formik.handleChange}
               onSelect={(value) => {
                 formik.setFieldValue('site_id', value);
-                searchCategory(value);
+                if(value !== '')
+                searchCategory(value); 
               }}
+              width='185px'
               error={formik.touched.site_id && formik.errors.site_id}
             />
-          </div>
+          </div> */}
           <div style={{ width: '30%' }}>
             <DatePicker
               name="stock_audit_date"
@@ -211,18 +198,28 @@ const ProjectStockAdd = () => {
               </tbody>
             </table>
           </div>
-          <div className={Styles.indent_button}>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-              onClick={formik.handleSubmit}
-              disabled={itemsList?.length === 0 ? true : false}
-            >
-              Submit
-            </Button>
+          <div className={Styles.footer}>
+            <div className={Styles.dividerStyle}></div>
+            <div className={Styles.button}>
+              <Button
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleClose}
+                className={Styles.cancelButton}
+              >
+                Cancel
+              </Button>
+              <Button
+                shape="rectangle"
+                color="primary"
+                justify="center"
+                size="small"
+                type="submit"
+              >
+                Save
+              </Button>
+            </div>
           </div>
         </div>
       </form>
