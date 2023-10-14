@@ -94,8 +94,8 @@ const ProjectDocument: React.FC = (props: any) => {
         fileList.forEach((file) => {
           selectedFilesArray.push(file);
           const urls =
-          URL.createObjectURL(file)
-        
+            URL.createObjectURL(file)
+
           const obj: any = {
             name: file.name,
             url: urls
@@ -116,7 +116,7 @@ const ProjectDocument: React.FC = (props: any) => {
     setViewDocs(value);
   };
 
-  const deleteFile = (index: number) => {    
+  const deleteFile = (index: number) => {
     const newFiles = [...selectedFiles];
     const newFileNames = [...selectedFileName];
     newFiles.splice(index, 1);
@@ -168,7 +168,7 @@ const ProjectDocument: React.FC = (props: any) => {
     }
   };
 
-  const handleSubmit = async () => {    
+  const handleSubmit = async () => {
     if (selectedFiles?.length !== 0 || projectDocs[0]?.is_delete) {
       const s3UploadUrl: any = await handleDocuments(
         selectedFiles,
@@ -266,31 +266,29 @@ const ProjectDocument: React.FC = (props: any) => {
               </Button>
             </div>
             <div className={Styles.viewFiles}>
-              <span>
                 <ol className={Styles.listStyles}>
-                  {previewUrls?.map((data, index) => {
+                  {previewUrls?.map((data, index) => {                    
                     const fileName = data?.name
                     return (
-                      <div >
+                      <div className={Styles.selectedFiles}>
                         <li key={index}>
-                          <div  className={Styles.document}>
-                           <div onClick={() => viewDocument(data?.url)}>
-                            {fileName} {'  '}
+                          <div className={Styles.document}>
+                            <div onClick={() => viewDocument(data?.url)} className={Styles.fileList}>
+                              {fileName} {'  '}
                             </div>
-                          <div>
-                            <CloseIcon
-                              width={10}
-                              height={10}
-                              onClick={() => deleteFile(index)}
-                            />
-                          </div>
                           </div>
                         </li>
-                      </div>
+                        <div className={Styles.closeIcon}>
+                          <CloseIcon
+                            width={10}
+                            height={10}
+                            onClick={() => deleteFile(index)}
+                          />
+                        </div>
+                      </div>  
                     )
                   })}
                 </ol>
-              </span>
               <span>
                 {' '}
                 <p className={Styles.errorStyles}>{fileSizeError}</p>
