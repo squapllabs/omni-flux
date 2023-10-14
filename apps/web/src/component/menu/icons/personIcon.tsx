@@ -29,7 +29,7 @@ const PersonIcon: React.FC<PersonIconProps> = ({
     height={height}
     width={width}
     fill="currentColor"
-    class="bi bi-person"
+    // class="bi bi-person"
     viewBox="0 0 16 16"
     {...props}
   >

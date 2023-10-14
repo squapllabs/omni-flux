@@ -60,6 +60,19 @@ const updatesiteExpense = async (values: JSON) => {
     console.log('Error in expense edit:', error);
   }
 };
+
+const updatesiteExpenseStatus = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/expense/update-status`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in expense edit:', error);
+  }
+};
+
 const updatesiteExpenseDetail = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
@@ -134,4 +147,5 @@ export default {
   getSiteExpenseByProjectandSiteID,
   updatesiteExpenseDetail,
   getOnesiteExpenseDetailByID,
+  updatesiteExpenseStatus
 };

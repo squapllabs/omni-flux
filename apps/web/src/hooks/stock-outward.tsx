@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import stockOutwardService from '../service/stock-outward-service';
 
-
 const getAllStockOutwardData = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -12,6 +11,17 @@ const getAllStockOutwardData = () => {
       onSuccess: (response) => {
         response;
       },
+    }
+  );
+};
+
+const getAllPaginatedStockOutwardData = (data: any) => {
+  return useQuery(
+    ['getAllPaginatedStockOutwardData'],
+    () => stockOutwardService.getStockOutWardData(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
     }
   );
 };
@@ -31,8 +41,6 @@ const createStockOutWard = () => {
 };
 
 const getByStockOutWardId = (id: number) => {
-  console.log("sad",id);
-  
   return useQuery(
     ['getOneStockOutWardId', id],
     () => stockOutwardService.getOneStockOutWardId(id),
@@ -56,4 +64,10 @@ const updateStockOutWard = () => {
   );
 };
 
-export { getAllStockOutwardData, createStockOutWard, getByStockOutWardId,updateStockOutWard }
+export {
+  getAllStockOutwardData,
+  createStockOutWard,
+  getByStockOutWardId,
+  updateStockOutWard,
+  getAllPaginatedStockOutwardData
+};

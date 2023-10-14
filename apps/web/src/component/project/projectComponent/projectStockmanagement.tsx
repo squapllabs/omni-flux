@@ -1,43 +1,90 @@
 import React, { useEffect, useState } from 'react';
-import Styles from '../../../styles/project.module.scss';
+import Styles from '../../../styles/newStyles/projectStockManagement.module.scss';
 import Button from '../../ui/Button';
 import AddIcon from '../../menu/icons/addIcon';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  useGetAllStockAudits,
-  getByFilterStockAudit,
-} from '../../../hooks/stockAudit-hooks';
+import { useGetAllPaginatedStockAudit } from '../../../hooks/stockAudit-hooks';
 import CustomLoader from '../../ui/customLoader';
 import { format } from 'date-fns';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { getProjectSite } from '../../../hooks/project-hooks';
-// import Pagination from '../../menu/pagination';
 import ViewIcon from '../../menu/icons/newViewIcon';
 import CustomPagination from '../../menu/CustomPagination';
+import StockIcon from '../../menu/icons/stockIcon';
+import CustomSidePopup from '../../ui/CustomSidePopup';
+import CustomSnackBar from '../../ui/customSnackBar';
+import ProjectStockAdd from './projectStockAdd';
+import StockAuditService from '../../../service/stockaudit-service';
 
 const ProjectStockmanagement = () => {
   const routeParams = useParams();
+  const projectId = Number(routeParams?.id);
   const navigate = useNavigate();
   let rowIndex = 0;
-  const {
-    mutate: postDataForFilter,
-    data: getStockAuditList,
-    isLoading: fetchLoader,
-  } = getByFilterStockAudit();
-  // console.log('getStockAuditList', getStockAuditList);
 
-  const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
+  const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
+    Number(routeParams?.id)
+  );
+
+  const initialSiteId =
+    !siteLoading && getSiteList ? getSiteList[0]?.value : null;
+  const [intialValue, setIntialValue] = useState(initialSiteId);
+  const [filterValue, setFilterValue] = useState(initialSiteId);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [filterValue, setFilterValue] = useState<any>({});
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [arrLength, setArrLength] = useState<boolean>();
+  const [warning, setWarning] = useState(false);
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
+
+  const stockData: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: 'AC',
+    project_id: Number(routeParams?.id),
+    site_id: filterValue === null ? initialSiteId : filterValue,
+  };
+  const {
+    data: getStockAuditList,
+    isLoading: fetchLoader,
+    refetch,
+  } = useGetAllPaginatedStockAudit(stockData);
+
   useEffect(() => {
-    handleSearch();
-  }, [currentPage, rowsPerPage]);
+    refetch();
+  }, [currentPage, rowsPerPage, filterValue, reload, getSiteList, arrLength]);
+  useEffect(() => {
+    refetch();
+    // seekData(intialValue);
+    const fetchData = async () => {
+      const values = {
+        projectId: projectId,
+        siteId: intialValue === null ? getSiteList[0]?.value : intialValue,
+      };
+      try {
+        const itemsData = await StockAuditService.getItems(values);
+        const num = itemsData?.data?.length;
+        if (itemsData?.data?.length > 0) {
+          setArrLength(true);
+        } else {
+          setArrLength(false);
+        }
+      } catch (err) {
+        console.log('error in list : ', err);
+      }
+    };
+    fetchData();
+  }, [!siteLoading, intialValue]);
+
 
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -52,56 +99,80 @@ const ProjectStockmanagement = () => {
     setCurrentPage(1);
   };
 
-  /* Function for search */
-  const handleSearch = async () => {
-    const demo: any = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      project_id: Number(routeParams?.id),
-      ...filterValue,
-    };
-    postDataForFilter(demo);
+  const handleAddStockData = () => {
+    if (intialValue !== '' && arrLength === true) {
+      setOpen(true);
+      setArrLength(false);
+    } else {
+      if (arrLength === false && intialValue !== '') {
+        setOpenSnack(true);
+        setWarning(true);
+        setMessage('No items have been approved to this site!');
+      } else {
+        setOpenSnack(true);
+        setWarning(true);
+        setMessage('Select any one Site!');
+      }
+    }
   };
 
-  /* Function for resting the search field and data to normal state */
-  const handleReset = async () => {
-    setFilterValue('');
-    const demo: any = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      global_search: '',
-      project_id: Number(routeParams?.id),
-      site_id: '',
-    };
-    postDataForFilter(demo);
+  const handleClosePopup = () => {
+    setOpen(false);
   };
+
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
+    setWarning(false);
+  };
+
+  // const seekData = async (value: any) => {
+  //   const values = {
+  //     projectId: projectId,
+  //     siteId: intialValue === null ? getSiteList[0]?.value : intialValue,
+  //   };
+  //   try {
+  //     const itemsData = await StockAuditService.getItems(values);
+  //     const num = itemsData?.data?.length;
+  //     if (itemsData?.data?.length > 0) {
+  //       setArrLength(true);
+  //     } else {
+  //       setArrLength(false);
+  //     }
+  //   } catch (err) {
+  //     console.log('error in list : ', err);
+  //   }
+  // };
+
   return (
-    <div>
-      <CustomLoader loading={fetchLoader} size={48}>
-        <div className={Styles.box}>
-          <div className={Styles.headingContent}>
-            <div className={Styles.textContent_1}>
-              <h3>Stock Audit</h3>
-              <span className={Styles.content}>Project Stock auditing</span>
+    <div className={Styles.container}>
+      <CustomLoader loading={fetchLoader} size={48} color="#333C44">
+        {/* Header Part */}
+        <div className={Styles.topHeading}>
+          <div className={Styles.heading}>
+            <div className={Styles.subHeading}>
+              <StockIcon />
+              <h4>STOCK AUDIT</h4>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-              <div>
-                <Button
-                  type="button"
-                  color="primary"
-                  shape="rectangle"
-                  size="small"
-                  justify="center"
-                >
-                  Stock Adjustment
-                </Button>
-              </div>
+            <div className={Styles.filterSelect}>
+              <AutoCompleteSelect
+                name="site_id"
+                label="Site"
+                optionList={getSiteList != null ? getSiteList : []}
+                value={
+                  filterValue === null ? Number(initialSiteId) : filterValue
+                }
+                onSelect={(value) => {
+                  if (value !== '') {
+                    setFilterValue(value);
+                  }
+                  setIntialValue(value);
+                }}
+                showClearIcon={false}
+              />
+            </div>
+          </div>
+          {getStockAuditList?.total_count > 0 ? (
+            <div>
               <Button
                 type="button"
                 color="primary"
@@ -109,112 +180,145 @@ const ProjectStockmanagement = () => {
                 size="small"
                 justify="center"
                 icon={<AddIcon width={20} color="white" />}
-                onClick={(e) => {
-                  navigate(`/project-stockadd/${routeParams?.id}`);
-                }}
+                onClick={handleAddStockData}
               >
                 Add
               </Button>
             </div>
-          </div>
+          ) : (
+            ''
+          )}
+          {/* <div>
+            <Button
+              type="button"
+              color="primary"
+              shape="rectangle"
+              size="small"
+              justify="center"
+            >
+              Stock Adjustment
+            </Button>
+          </div> */}
         </div>
-        <div className={Styles.tableContainer}>
-          <div className={Styles.searchField}>
-            <div className={Styles.inputFilter}>
-              <div className={Styles.filterSelect}>
-                <AutoCompleteSelect
-                  name="site_id"
-                  label="Site"
-                  mandatory={true}
-                  optionList={getSiteList}
-                  value={filterValue.site_id}
-                  onSelect={(value) => {
-                    setFilterValue({ ...filterValue, ['site_id']: value });
-                  }}
+        {getStockAuditList?.total_count > 0 ? (
+          <div className={Styles.tableContainer}>
+            <table className={Styles.scrollable_table}>
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Site</th>
+                  <th>Audit Date</th>
+                  <th>Item count</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {getStockAuditList?.content?.length > 0 ? (
+                  getStockAuditList.content.map((items: any, index: any) => {
+                    rowIndex = rowIndex + 1;
+                    return (
+                      <tr key={index}>
+                        <td>{rowIndex}</td>
+                        <td>{items?.site_data?.name}</td>
+                        <td>{dateFormat(items?.stock_audit_date)}</td>
+                        <td>{items?.item_details?.length}</td>
+                        <td>
+                          <div
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              navigate(
+                                `/project-stockView/${items?.stock_audit_id}`
+                              );
+                            }}
+                          >
+                            <ViewIcon />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="5" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            <div className={Styles.pagination}>
+              <CustomPagination
+                currentPage={currentPage}
+                totalPages={getStockAuditList?.total_page}
+                totalCount={getStockAuditList?.total_count}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className={Styles.emptyDataHandling}>
+              <div className={Styles.emptyDataHandling}>
+                <img
+                  src="/StockManagement.jpg"
+                  alt="aa"
+                  width="50%"
+                  height="50%"
                 />
               </div>
-              <div className={Styles.filterButton}>
+              <div>
+                <h5>This project has no Stock Details</h5>
+              </div>
+              <div>
+                <span className={Styles.spanContent}>
+                  Manage Stock Audit details to this project now
+                </span>
+              </div>
+              <div className={Styles.emptyButton}>
                 <Button
-                  className={Styles.searchButton}
                   type="button"
                   color="primary"
                   shape="rectangle"
                   size="small"
                   justify="center"
-                  onClick={(e) => handleSearch(e)}
+                  icon={<AddIcon width={20} color="white" />}
+                  onClick={handleAddStockData}
                 >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  type="button"
-                  color="secondary"
-                  shape="rectangle"
-                  size="small"
-                  justify="center"
-                  onClick={(e) => handleReset(e)}
-                >
-                  Reset
+                  Add Stock Detail
                 </Button>
               </div>
             </div>
           </div>
-          <table className={Styles.scrollable_table}>
-            <thead>
-              <tr>
-                <th>S.No</th>
-                <th>Site</th>
-                <th>Audit Date</th>
-                <th>Item count</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {getStockAuditList?.content?.length > 0 ? (
-                getStockAuditList.content.map((items: any, index: any) => {
-                  rowIndex = rowIndex + 1;
-                  return (
-                    <tr key={index}>
-                      <td>{rowIndex}</td>
-                      <td>{items?.site_data?.name}</td>
-                      <td>{dateFormat(items?.stock_audit_date)}</td>
-                      <td>{items?.item_details?.length}</td>
-                      <td>
-                        <div
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            navigate(
-                              `/project-stockView/${items?.stock_audit_id}`
-                            );
-                          }}
-                        >
-                          <ViewIcon />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan="5" style={{ textAlign: 'center' }}>
-                    No data found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-          <div className={Styles.pagination}>
-            <CustomPagination
-              currentPage={currentPage}
-              totalPages={getStockAuditList?.total_page}
-              totalCount={getStockAuditList?.total_count}
-              rowsPerPage={rowsPerPage}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-            />
-          </div>
-        </div>
+        )}
       </CustomLoader>
+      <CustomSnackBar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type={warning === true ? 'error' : 'success'}
+      />
+      <CustomSidePopup
+        title={'Add Stock Details'}
+        description={'Manage the stock details of the project'}
+        open={open}
+        handleClose={handleClosePopup}
+        width={'70%'}
+        content={
+          <ProjectStockAdd
+            setOpen={setOpen}
+            open={open}
+            project_id={projectId}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+            reload={reload}
+            setReload={setReload}
+            siteId={filterValue === null ? Number(initialSiteId) : filterValue}
+          />
+        }
+      />
     </div>
   );
 };

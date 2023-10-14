@@ -298,9 +298,9 @@ const MaterData = () => {
                               {data.master_data_description
                                 ? data.master_data_description.length > 20
                                   ? data.master_data_description.substring(
-                                    0,
-                                    20
-                                  ) + '...'
+                                      0,
+                                      20
+                                    ) + '...'
                                   : data.master_data_description
                                 : '-'}
                             </span>
@@ -395,7 +395,11 @@ const MaterData = () => {
       <CustomSidePopup
         open={masterDataFormOpen}
         title={mode === 'Edit' ? 'Edit Master Data' : 'Add Master Data'}
-        description={mode === "Edit" ? 'Modify existing master data' : 'Create new master data'}
+        description={
+          mode === 'Edit'
+            ? 'Modify existing master data'
+            : 'Create new master data'
+        }
         handleClose={handleCloseMasterForm}
         content={
           <MasterDataForm

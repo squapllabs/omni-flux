@@ -14,7 +14,7 @@ const useGetAllsiteExpense = () => {
 
 const getBysiteExpenseID = (id: number) => {
   return useQuery(
-    ['getOnesiteExpenseID', id],
+    ['getBysiteExpenseID', id],
     () => siteExpenseService.getOnesiteExpenseByID(id),
     {
       select: (data) => data.data,
@@ -50,6 +50,20 @@ const updatesiteExpense = () => {
   );
 };
 
+const updatesiteExpenseStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return siteExpenseService.updatesiteExpenseStatus(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getBysiteExpenseID']);
+      },
+    }
+  );
+};
+
 const updatesiteExpenseDetail = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -58,7 +72,7 @@ const updatesiteExpenseDetail = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllsiteExpense']);
+        queryClient.invalidateQueries(['getBysiteExpenseID']);
       },
     }
   );
@@ -93,7 +107,7 @@ const getBySearchsiteExpense = () => {
 };
 
 const useGetAllPaginatedExpense = (data: any) => {
-  return useQuery(['useGetAllsiteExpense'], () => siteExpenseService.filtersiteExpense(data), {
+  return useQuery(['useGetAllPaginatedExpense'], () => siteExpenseService.filtersiteExpense(data), {
     select: (data) => data,
     staleTime: Infinity,
   });
@@ -121,5 +135,6 @@ export {
   getBySearchsiteExpense,
   useBulkuploadSiteExpanse,
   updatesiteExpenseDetail,
-  useGetAllPaginatedExpense
+  useGetAllPaginatedExpense,
+  updatesiteExpenseStatus
 };

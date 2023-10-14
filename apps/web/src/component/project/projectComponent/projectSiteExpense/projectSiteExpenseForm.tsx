@@ -173,11 +173,15 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                 const isDelete = false;
                 const { path, createError } = this;
                 try {
+                  let dummy: any = [];
                   const allIds = expenseList.map((item: any) => {
-                    if (item.is_delete === 'N') item.expense_data_id;
+                    console.log('item', item);
+
+                    if (item.is_delete === false)
+                      dummy.push(item.expense_data_id);
                   });
-                  console.log('allIds', allIds);
-                  const checking = allIds.filter(
+                  console.log('allIds', dummy);
+                  const checking = dummy.filter(
                     (id) => Number(id) === Number(value)
                   ).length;
                   if (checking <= 1) {
