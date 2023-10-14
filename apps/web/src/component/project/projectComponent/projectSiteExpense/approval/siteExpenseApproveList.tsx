@@ -85,9 +85,9 @@ const ExpenseApprove = () => {
   const [selectShow, setSelectShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Pending', value: 'Pending' },
-    { label: 'Approved', value: 'Approved' },
-    { label: 'Rejected', value: 'Rejected' },
+    { label: 'Waiting for Approval', value: 'Pending' },
+    { label: 'InProgress', value: 'InProgress' },
+    { label: 'Completed', value: 'Completed' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('All');
   const handleGroupButtonClick = (value: string) => {
@@ -420,16 +420,19 @@ const ExpenseApprove = () => {
                           className={`${Styles.status} ${
                             items?.status === 'Pending'
                               ? Styles.pendingStatus
-                              : items?.status === 'Rejected'
+                              : items?.status === 'InProgress'
                               ? Styles.rejectedStatus
                               : items?.status === 'Approved'
                               ? Styles.approvedStatus
                               : items?.status === 'Draft'
                               ? Styles.draftStatus
+                              : items?.status === 'Completed'
+                              ? Styles.approvedStatus 
                               : ''
+
                           }`}
                         >
-                          {items?.status}
+                          {items?.status === 'Pending' ? 'Waiting for Approval' : items?.status}
                         </span>
                       </td>
                       <td>

@@ -9,7 +9,11 @@ import CustomCard from '../../../../ui/CustomCard';
 import Styles from '../../../../../styles/expenseApprove.module.scss';
 import ApproveDialogBox from '../../../../ui/CustomApprovePopup';
 import RejectDialogBox from '../../../../ui/CustomReject';
-import { updatesiteExpenseDetail } from '../../../../../hooks/expense-hook';
+import CustomConfirm from '../../../../ui/CustomConfirmDialogBox';
+import {
+  updatesiteExpenseStatus,
+  updatesiteExpenseDetail,
+} from '../../../../../hooks/expense-hook';
 import { environment } from '../../../../../environment/environment';
 import ProjectSubheader from '../../../../project/projectSubheader';
 import CustomMenu from '../../../../ui/CustomMenu';
@@ -18,6 +22,9 @@ import Input from '../../../../ui/Input';
 import SiteNavigateIcon from '../../../../menu/icons/siteNavigateIcon';
 import PersonIcon from '../../../../menu/icons/personIcon';
 import Button from '../../../../ui/Button';
+import NewViewIcon from '../../../../menu/icons/newViewIcon';
+import NewApproveIcon from 'apps/web/src/component/menu/icons/newApproveIcon';
+import NewRejectIcon from 'apps/web/src/component/menu/icons/newRejectIcon';
 
 const ExpenseDetailApprove = () => {
   const state: RootState = store.getState();
@@ -31,10 +38,12 @@ const ExpenseDetailApprove = () => {
   const [value, setValue] = useState(0);
   const [openApprove, setOpenApprove] = useState(false);
   const [openReject, setOpenReject] = useState(false);
+  const [openComplete, setOpenComplete] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+  const { mutate: updateSiteExpenseData } = updatesiteExpenseStatus();
   const [initialValues, setInitialValues] = useState({
     expense_details_id: '',
     status: '',
@@ -59,7 +68,6 @@ const ExpenseDetailApprove = () => {
       setTableData(datas.data);
     };
     if (expenseId !== undefined) fetchData();
-    // setReload(false);
   }, [reload]);
 
   useEffect(() => {
@@ -84,6 +92,7 @@ const ExpenseDetailApprove = () => {
   const approveHandler = (id: any) => {
     setValue(id);
     setOpenApprove(true);
+    setReload(false);
   };
 
   const handleCloseApprove = () => {
@@ -137,6 +146,32 @@ const ExpenseDetailApprove = () => {
         }
       },
     });
+  };
+
+  const approveSite = async () => {
+    const object: any = {
+      updated_by: userID,
+      expense_id: tableData.expense_id,
+      status: 'Completed',
+      progressed_by: userID,
+    };
+    updateSiteExpenseData(object, {
+      onSuccess(data, variables, context) {
+        if (data?.message === 'success') {
+          setMessage('Process has been Completed');
+          setOpenSnack(true);
+          setReload(true);
+          handleCloseConfirm();
+        }
+      },
+    });
+  };
+
+  const hanldeOpen = () => {
+    setOpenComplete(true);
+  };
+  const handleCloseConfirm = () => {
+    setOpenComplete(false);
   };
 
   return (
@@ -226,7 +261,7 @@ const ExpenseDetailApprove = () => {
         </div>
       </div>
       <div className={Styles.selected}></div>
-      {tableData?.status !== 'Pending' ? (
+      {tableData?.isEnableComplete !== false ? (
         <div className={Styles.completeButton}>
           <Button
             color="primary"
@@ -234,7 +269,8 @@ const ExpenseDetailApprove = () => {
             justify="center"
             size="small"
             type="submit"
-            // onClick={hanldeOpen}
+            onClick={hanldeOpen}
+            disabled={tableData?.status === 'Completed'}
           >
             Complete
           </Button>
@@ -251,7 +287,12 @@ const ExpenseDetailApprove = () => {
               <th className={Styles.tableHeading}>Amount</th>
               <th className={Styles.tableHeading}>Documents</th>
               <th className={Styles.tableHeading}>Status</th>
-              <th className={Styles.tableHeading}>Action</th>
+              {tableData?.isEnableComplete === true ? (
+                ''
+              ) : (
+                <th className={Styles.tableHeading}>Action</th>
+              )}
+              {/* <th className={Styles.tableHeading}>Action</th> */}
             </tr>
           </thead>
           <tbody>
@@ -267,24 +308,24 @@ const ExpenseDetailApprove = () => {
             {tableData?.expense_details?.map((data: any, index: any) => {
               if (data?.is_delete === false) {
                 rowindex = rowindex + 1;
-                const isApproved =
-                  data?.status === 'Approved' || data?.status === 'Rejected';
-                const actions = [
-                  {
-                    label: 'Approve',
-                    onClick: () => {
-                      approveHandler(data.expense_details_id);
-                    },
-                    disabled: isApproved,
-                  },
-                  {
-                    label: 'Reject',
-                    onClick: () => {
-                      rejectHandler(data.expense_details_id);
-                    },
-                    disabled: isApproved,
-                  },
-                ];
+                // const isApproved =
+                //   data?.status === 'Approved' || data?.status === 'Rejected';
+                // const actions = [
+                //   {
+                //     label: 'Approve',
+                //     onClick: () => {
+                //       approveHandler(data.expense_details_id);
+                //     },
+                //     disabled: isApproved,
+                //   },
+                //   {
+                //     label: 'Reject',
+                //     onClick: () => {
+                //       rejectHandler(data.expense_details_id);
+                //     },
+                //     disabled: isApproved,
+                //   },
+                // ];
                 return (
                   <tr>
                     <td>{rowindex}</td>
@@ -317,9 +358,21 @@ const ExpenseDetailApprove = () => {
                         {data?.status || nullLableNameFromEnv}
                       </span>
                     </td>
-                    <td>
-                      <CustomMenu actions={actions} />
-                    </td>
+                    {tableData?.isEnableComplete === true ? (
+                      ''
+                    ) : (
+                      <td className={Styles.tableIcon}>
+                        <NewViewIcon />
+                        <NewApproveIcon
+                          onClick={() =>
+                            approveHandler(data.expense_details_id)
+                          }
+                        />
+                        <NewRejectIcon
+                          onClick={() => rejectHandler(data.expense_details_id)}
+                        />
+                      </td>
+                    )}
                   </tr>
                 );
               }
@@ -342,6 +395,13 @@ const ExpenseDetailApprove = () => {
         contentLine2=""
         handleClose={handleCloseReject}
         onReject={handleRejectWithComments}
+      />
+      <CustomConfirm
+        open={openComplete}
+        title=""
+        contentLine1="By clicking submit you cannot edit this expense!"
+        handleClose={handleCloseConfirm}
+        handleConfirm={() => approveSite(tableData?.expense_id)}
       />
       <CustomSnackBar
         open={openSnack}
