@@ -38,8 +38,6 @@ const ProjectSiteExpenseList = () => {
   const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
     Number(routeParams?.id)
   );
-  console.log('get aaaaaaa', getSiteList);
-
   const initialSiteId =
     !siteLoading && getSiteList ? getSiteList[0]?.value : null;
   const [filterValue, setFilterValue] = useState(initialSiteId);
@@ -386,10 +384,10 @@ const ProjectSiteExpenseList = () => {
               </div>
               <div>
                 <p className={Styles.textmin}>
-                Create a site for this project by going to the previous menu.
+                  Create a site for this project by going to the previous menu.
                 </p>
               </div>
-          </div>
+            </div>
           </div>
         )}
       </CustomLoader>

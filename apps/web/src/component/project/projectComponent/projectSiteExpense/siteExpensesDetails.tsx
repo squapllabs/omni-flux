@@ -14,6 +14,7 @@ import Popup from '../../../ui/CustomPdfPopup';
 import SiteExpensesView from './siteExpensesView';
 import ViewIcon from '../../../menu/icons/newViewIcon';
 import CloseIcon from '../../../menu/icons/closeIcon';
+import CloudUploadIcon from '../../../menu/icons/cloudUpload';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
   let rowIndex = 0;
@@ -32,9 +33,11 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [ExpenseValue, setExpenseValue] = useState<any>({});
   const [openDelete, setOpenDelete] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef_2 = useRef<HTMLInputElement | null>(null);
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
   const [fileMandatoryError, setFileMandatoryError] = useState('');
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
   const handleCloseDelete = () => {
@@ -50,12 +53,14 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     props.expenseList[itemIndex] = {
       ...props.expenseList[itemIndex],
       is_delete: true,
-      bill_details: props.expenseList[itemIndex].bill_details.map((billDetail:any, index:number) => {
-        if (index === 0) {
-          return { ...billDetail, is_delete: 'Y' };
+      bill_details: props.expenseList[itemIndex].bill_details.map(
+        (billDetail: any, index: number) => {
+          if (index === 0) {
+            return { ...billDetail, is_delete: 'Y' };
+          }
+          return billDetail;
         }
-        return billDetail;
-      }),
+      ),
     };
     props.setExpenseList([...props.expenseList]);
     rowIndex = rowIndex - 1;
@@ -63,6 +68,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     props.setMessage('Site expanse details has been deleted');
     props.setOpenSnack(true);
   };
+  // console.log('expenseErrors', props.errors.[`[${index}].reason_for_leaving`]);
+
   const validationSchema = Yup.object().shape({
     is_delete: Yup.string().required(),
     expense_data_id: Yup.string()
@@ -74,12 +81,13 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         async function (value, { parent }: Yup.TestContext) {
           const isDelete = false;
           try {
-            const isValuePresent = props.expenseList.some((obj) => {
+            const isValuePresent = props.expenseList.some((obj: any) => {
               return (
                 Number(obj.expense_data_id) === Number(value) &&
                 obj.is_delete === isDelete
               );
             });
+
             if (isValuePresent === true) {
               return false;
             } else {
@@ -95,41 +103,42 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       .max(100000, 'Amount must be less then 100000')
       .typeError('Only Numbers are allowed')
       .required('Amount is required'),
-    bill_number: Yup.string()
-      .test(
-        'document check',
-        'Site document mandatory',
-        async function (value, { parent }: Yup.TestContext) {
-          try {
-            if (value && selectedFiles.length === 0) {
-              setFileMandatoryError(
-                'File is mandatory when a bill number is provided'
-              );
-              return false;
-            } else {
-              setFileMandatoryError('');
-              return true;
-            }
-          } catch {
-            return true;
-          }
-        }
-      )
-      .test(
-        'bill number check',
-        'Bill No mandatory',
-        async function (value, { parent }: Yup.TestContext) {
-          try {
-            if (selectedFiles.length > 0 && value === undefined) {
-              return false;
-            } else {
-              return true;
-            }
-          } catch {
-            return true;
-          }
-        }
-      ),
+    description: Yup.string().required('Description is required'),
+    bill_number: Yup.string(),
+    // .test(
+    //   'document check',
+    //   'Site document mandatory',
+    //   async function (value, { parent }: Yup.TestContext) {
+    //     try {
+    //       if (value && selectedFiles.length === 0) {
+    //         setFileMandatoryError(
+    //           'File is mandatory when a bill number is provided'
+    //         );
+    //         return false;
+    //       } else {
+    //         setFileMandatoryError('');
+    //         return true;
+    //       }
+    //     } catch {
+    //       return true;
+    //     }
+    //   }
+    // )
+    // .test(
+    //   'bill number check',
+    //   'Bill No mandatory',
+    //   async function (value, { parent }: Yup.TestContext) {
+    //     try {
+    //       if (selectedFiles.length > 0 && value === undefined) {
+    //         return false;
+    //       } else {
+    //         return true;
+    //       }
+    //     } catch {
+    //       return true;
+    //     }
+    //   }
+    // ),
   });
 
   const handleListChange = (
@@ -137,34 +146,50 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     index: any
   ) => {
     let tempObj = {};
-    tempObj = {
-      ...props.expenseList[index],
-      [event.target.name]: event.target.value,
-    };
+
+    if (event.target.name === 'total') {
+      tempObj = {
+        ...props.expenseList[index],
+        [event.target.name]: Number(event.target.value),
+      };
+    } else {
+      tempObj = {
+        ...props.expenseList[index],
+        [event.target.name]: event.target.value,
+      };
+    }
     let tempArry = [...props.expenseList];
     tempArry[index] = tempObj;
-    console.log('edit data==>', tempArry);
     props.setExpenseList(tempArry);
   };
-
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
-      const code = 'SITEEXPENSE' + props.siteId;
-      const s3UploadUrl: any = await handleDocuments(
-        selectedFiles,
-        code.toUpperCase()
-      );
-      formik.setFieldValue('bill_details', s3UploadUrl);
-      values['total'] = Number(values.total);
-      values['bill_details'] = s3UploadUrl;
-      values['status'] = 'Pending';
-      props.setExpenseList([...props.expenseList, values]);
-      setSelectedFileName([]);
-      resetForm();
-      setSelectedFiles([]);
+      if (values.bill_number != '' && selectedFiles.length === 0) {
+        props.setMessage('Bill number is given but bill is not attached');
+        props.setOpenSnack(true);
+      } else {
+        const code = 'SITEEXPENSE' + props.siteId;
+        const s3UploadUrl: any = await handleDocuments(
+          selectedFiles,
+          code.toUpperCase()
+        );
+        formik.setFieldValue('bill_details', s3UploadUrl);
+        values['total'] = Number(values.total);
+        values['bill_details'] = s3UploadUrl;
+        values['status'] = 'Pending';
+        props.setExpenseList([...props.expenseList, values]);
+        // props.setInitialValues({
+        //   ...props.initialValues,
+        //   ['expenseList']: [...props.expenseList, values],
+        // });
+
+        setSelectedFileName([]);
+        resetForm();
+        setSelectedFiles([]);
+      }
     },
   });
   const generateCustomQuotationName = (data: any) => {
@@ -182,6 +207,11 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const onButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
+    }
+  };
+  const onButtonClickRow = () => {
+    if (fileInputRef_2.current) {
+      fileInputRef_2.current.click();
     }
   };
 
@@ -223,6 +253,42 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       }
     }
   };
+  const handleFileSelectRow = async (e: any, index: any) => {
+    console.log('handleFileSelectRow', index);
+    const files = e.target.files;
+    props.setLoader(!props.loader);
+    if (files.length > 0) {
+      const fileList: File[] = Array.from(files);
+      const oversizedFiles = fileList.filter(
+        (file) => file.size > 10 * 1024 * 1024
+      );
+      if (oversizedFiles.length > 0) {
+        const oversizedFileNames = oversizedFiles
+          .map((file) => file.name)
+          .join(', ');
+        props.setLoader(!props.loader);
+        const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
+        setFileSizeError(errorMessage);
+        props.setMessage(errorMessage);
+        props.setOpenSnack(true);
+      } else {
+        const selectedFilesArray: File[] = [];
+        const selectedFileNamesArray: string[] = [];
+
+        fileList.forEach(async (file) => {
+          selectedFilesArray.push(file);
+          selectedFileNamesArray.push(file.name);
+        });
+
+        setSelectedFiles(selectedFilesArray);
+        setSelectedFileName(selectedFileNamesArray);
+        setFileSizeError('');
+        props.setLoader(false);
+        props.setMessage('Document uploaded');
+        props.setOpenSnack(true);
+      }
+    }
+  };
   const handleDocuments = async (files: File[], code: string) => {
     try {
       const uploadPromises = files.map(async (file) => {
@@ -243,15 +309,15 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const deleteFileinList = (index: any) => {
     let tempObj = {};
     props.expenseList[index].bill_details[0].is_delete = 'Y';
-
+    props.expenseList[index].bill_number = '';
     tempObj = {
       ...props.expenseList[index],
     };
     let tempArry = [...props.expenseList];
     tempArry[index] = tempObj;
-    console.log('edit data==>', tempArry);
     props.setExpenseList(tempArry);
   };
+
   return (
     <div>
       <form>
@@ -280,28 +346,43 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                   <tr>
                     <td>{rowIndex}</td>
                     <td>
-                    <Input
-                      name="description"
-                      onChange={(e) => handleListChange(e, index)}
-                      value={item.description}
-                      width="300px"
-                    />
+                      <Input
+                        // name={`item.description`}
+                        name="description"
+                        onChange={(e) => handleListChange(e, index)}
+                        value={item.description}
+                        width="300px"
+                        error={props.errors?.[`[${index}].description`]}
+                      />
                     </td>
                     <td>
                       {/* {item?.site_expense_name === undefined
                         ? item?.expense_master_data?.master_data_name
                         : item?.site_expense_name} */}
-                         <AutoCompleteSelect
-                              // width={DropfieldWidth}
-                              name="expense_data_id"
-                              mandatory={true}
-                              optionList={
-                                getSiteExpense != undefined ? getSiteExpense : []
-                              }
-                              value={item.expense_data_id}
-                              onChange={(e) => handleListChange(e, index)}
-                              disabled={true}
-                            />
+                      <AutoCompleteSelect
+                        // width={DropfieldWidth}
+                        width="180px"
+                        name="expense_data_id"
+                        mandatory={true}
+                        optionList={
+                          getSiteExpense != undefined ? getSiteExpense : []
+                        }
+                        value={item.expense_data_id}
+                        onChange={(e) => handleListChange(e, index)}
+                        onSelect={(value) => {
+                          let tempObj = {};
+                          tempObj = {
+                            ...props.expenseList[index],
+                            ['expense_data_id']: value,
+                          };
+                          let tempArry = [...props.expenseList];
+                          tempArry[index] = tempObj;
+
+                          props.setExpenseList(tempArry);
+                        }}
+                        error={props.errors?.[`[${index}].expense_data_id`]}
+                        // disabled={true}
+                      />
                     </td>
                     <td>
                       <Input
@@ -311,16 +392,19 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         width="120px"
                       />
                     </td>
-                    <td style={{ overflow: 'hidden' }} >
+                    <td style={{ overflow: 'hidden' }}>
                       <Input
                         name="total"
+                        // name={`item[${index}].total`}
                         value={item.total}
                         onChange={(e) => handleListChange(e, index)}
                         width="120px"
+                        error={props.errors?.[`[${index}].total`]}
                       />
                     </td>
                     <td>
-                      {item.bill_details?.length > 0 && item.bill_details[0].is_delete === 'N'? ( 
+                      {item.bill_details?.length > 0 &&
+                      item.bill_details[0].is_delete === 'N' ? (
                         item.bill_details.map(
                           (document: any, billIndex: number) => {
                             if (document.is_delete === 'N')
@@ -346,7 +430,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                           }
                         )
                       ) : (
-                       "-"
+                        <div>-</div>
                       )}
                     </td>
                     <td>
@@ -360,7 +444,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         >
                           <DeleteIcon />
                         </div>
-                        {item.bill_details?.length > 0 && item.bill_details[0].is_delete === 'N'
+                        {item.bill_details?.length > 0 &&
+                        item.bill_details[0].is_delete === 'N'
                           ? item.bill_details.map(
                               (document: any, index: number) => (
                                 <div
@@ -380,104 +465,123 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                 );
               }
             })}
-            <tr>
-              <td></td>
-              <td>
-                <div>
-                  <Input
-                    name="description"
-                    onChange={formik.handleChange}
-                    value={formik.values.description}
-                    width="300px"
-                  />
-                </div>
-              </td>
-              <td>
-                <div>
-                  <AutoCompleteSelect
-                    name="expense_data_id"
-                    defaultLabel="Select from options"
-                    placeholder="Select from options"
-                    onChange={formik.handleChange}
-                    value={formik.values.expense_data_id}
-                    optionList={getSiteExpense}
-                    width="180px"
-                    onSelect={(value) => {
-                      formik.setFieldValue('expense_data_id', value);
-                      const matchingObjects = getSiteExpense.filter(
-                        (obj: any) => Number(obj.value) === Number(value)
-                      );
-                      formik.setFieldValue(
-                        'site_expense_name',
-                        matchingObjects[0].label
-                      );
-                    }}
-                    error={
-                      formik.touched.expense_data_id &&
-                      formik.errors.expense_data_id
-                    }
-                  />
-                </div>
-              </td>
-              <td style={{ overflow: 'hidden' }}>
-                <div>
-                  <Input
-                    name="bill_number"
-                    value={formik.values.bill_number}
-                    onChange={formik.handleChange}
-                    width="120px"
-                    error={
-                      formik.touched.bill_number && formik.errors.bill_number
-                    }
-                  />
-                </div>
-              </td>
-              <td style={{ overflow: 'hidden' }}>
-                <div>
-                  <Input
-                    name="total"
-                    value={formik.values.total}
-                    onChange={formik.handleChange}
-                    error={formik.touched.total && formik.errors.total}
-                    width="120px"
-                  />
-                </div>
-              </td>
-              <td>
-                <div title="Attach document">
-                  <input
-                    ref={fileInputRef}
-                    id="upload-photo"
-                    name="upload_photo"
-                    type="file"
-                    style={{ display: 'none' }}
-                    onChange={handleFileSelect}
-                    error={
-                      formik.touched.bill_number && formik.errors.bill_number
-                    }
-                  />
-                  <div style={{ cursor: 'pointer', paddingBottom: '5px' }}>
-                    <FileUploadIcon onClick={onButtonClick} color="#7f56d9" />
-                  </div>
+            {display && (
+              <tr>
+                <td></td>
+                <td>
                   <div>
-                    <span>{selectedFileName[0]}</span>
+                    <Input
+                      name="description"
+                      onChange={formik.handleChange}
+                      value={formik.values.description}
+                      width="300px"
+                      error={
+                        formik.touched.description && formik.errors.description
+                      }
+                    />
                   </div>
-                  {fileMandatoryError && (
-                    <div className={Styles.documentErr}>
-                      {fileMandatoryError}
+                </td>
+                <td>
+                  <div>
+                    <AutoCompleteSelect
+                      name="expense_data_id"
+                      defaultLabel="Select from options"
+                      placeholder="Select from options"
+                      onChange={formik.handleChange}
+                      value={formik.values.expense_data_id}
+                      optionList={getSiteExpense}
+                      width="180px"
+                      onSelect={(value) => {
+                        formik.setFieldValue('expense_data_id', value);
+                        const matchingObjects = getSiteExpense.filter(
+                          (obj: any) => Number(obj.value) === Number(value)
+                        );
+                        formik.setFieldValue(
+                          'site_expense_name',
+                          matchingObjects[0].label
+                        );
+                      }}
+                      error={
+                        formik.touched.expense_data_id &&
+                        formik.errors.expense_data_id
+                      }
+                    />
+                  </div>
+                </td>
+                <td style={{ overflow: 'hidden' }}>
+                  <div>
+                    <Input
+                      name="bill_number"
+                      value={formik.values.bill_number}
+                      onChange={formik.handleChange}
+                      width="120px"
+                      error={
+                        formik.touched.bill_number && formik.errors.bill_number
+                      }
+                    />
+                  </div>
+                </td>
+                <td style={{ overflow: 'hidden' }}>
+                  <div>
+                    <Input
+                      name="total"
+                      value={formik.values.total}
+                      onChange={formik.handleChange}
+                      error={formik.touched.total && formik.errors.total}
+                      width="120px"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div title="Attach document">
+                    <input
+                      ref={fileInputRef}
+                      id="upload-photo"
+                      name="upload_photo"
+                      type="file"
+                      style={{ display: 'none' }}
+                      onChange={handleFileSelect}
+                      error={
+                        formik.touched.bill_number && formik.errors.bill_number
+                      }
+                    />
+                    <div style={{ cursor: 'pointer', paddingBottom: '5px' }}>
+                      <FileUploadIcon onClick={onButtonClick} color="#7f56d9" />
                     </div>
-                  )}
-                </div>
-              </td>
-              <td></td>
-            </tr>
+                    <div>
+                      <span>{selectedFileName[0]}</span>
+                    </div>
+                    {fileMandatoryError && (
+                      <div className={Styles.documentErr}>
+                        {fileMandatoryError}
+                      </div>
+                    )}
+                  </div>
+                </td>
+                <td></td>
+              </tr>
+            )}
           </tbody>
         </table>
         <div className={Styles.addDataIcon}>
-          <div onClick={formik.handleSubmit} className={Styles.iconContent}>
-            <NewAddCircleIcon />
-            <span>Add Expenses</span>
-          </div>
+          {display && (
+            <div onClick={formik.handleSubmit} className={Styles.iconContent}>
+              <NewAddCircleIcon />
+              <span>Add Expenses</span>
+            </div>
+          )}
+
+          {display === false && (
+            <div
+              onClick={() => {
+                setDisplay(true);
+              }}
+              className={Styles.iconContent}
+            >
+              <NewAddCircleIcon />
+              <span>Add More Expenses</span>
+            </div>
+          )}
         </div>
       </div>
       <CustomDelete
