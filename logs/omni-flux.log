@@ -47784,3 +47784,103 @@ D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\user.dao.ts:341:42
 Can't reach database server at `3.108.30.2`:`5432`
 
 Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>Error: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\october\4\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany({
+          where: {
+            is_delete: false,
+            AND: [
+              {
+                project_id: 9e+32
+              }
+            ]
+          },
+          include: {
+            parent: true,
+            children: true
+          },
+          orderBy: [
+            {
+              updated_date: "desc"
+            }
+          ],
+          skip: 0,
+          take: 5
+        })
+
+Unable to fit value into a 64-bit signed integer for field `project_id`
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchCapability << ERRSTRING >>Error: 
+Invalid `transaction.capability.findMany()` invocation in
+D:\2023\october\4\omni-flux\apps\api\src\dao\capability.dao.ts:127:53
+
+  124 try {
+  125   const transaction = connectionObj !== null ? connectionObj : prisma;
+  126   const filter = filters.filterCapability;
+→ 127   const capability = await transaction.capability.findMany({
+          where: {
+            filter: {
+            ~~~~~~
+              AND: [],
+              OR: [
+                {
+                  capability_name: {
+                    contains: 'men',
+                    mode: 'insensitive'
+                  }
+                },
+                {
+                  description: {
+                    contains: 'men',
+                    mode: 'insensitive'
+                  }
+                },
+                {
+                  permission_type: {
+                    contains: 'men',
+                    mode: 'insensitive'
+                  }
+                },
+                {
+                  ui_type: {
+                    contains: 'men',
+                    mode: 'insensitive'
+                  }
+                }
+              ],
+              is_delete: false
+            },
+            is_delete: false
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 5
+        })
+
+Unknown arg `filter` in where.filter for type capabilityWhereInput. Did you mean `ui_type`? Available args:
+type capabilityWhereInput {
+  AND?: capabilityWhereInput | List<capabilityWhereInput>
+  OR?: List<capabilityWhereInput>
+  NOT?: capabilityWhereInput | List<capabilityWhereInput>
+  capability_id?: IntFilter | Int
+  capability_name?: StringFilter | String
+  description?: StringNullableFilter | String | Null
+  permission_type?: StringNullableFilter | String | Null
+  ui_type?: StringNullableFilter | String | Null
+  is_delete?: BoolFilter | Boolean
+  created_date?: DateTimeFilter | DateTime
+  updated_date?: DateTimeFilter | DateTime
+  created_by?: IntNullableFilter | Int | Null
+  updated_by?: IntNullableFilter | Int | Null
+  permissions?: PermissionsListRelationFilter
+}
+
+

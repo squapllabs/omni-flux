@@ -177,24 +177,33 @@ const searchHSNCode = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterHSNCode;
-    const hsnCode = await transaction.hsn_code.findMany({
-      where: filter,
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
+    const getdata = await transaction.hsn_code.findMany({
+      where: {
+        is_delete: false,
+      },
     });
-    const hsnCodeCount = await transaction.hsn_code.count({
-      where: filter,
-    });
-    const hsnCodeData = {
-      count: hsnCodeCount,
-      data: hsnCode,
-    };
-    return hsnCodeData;
+    if (getdata.length != 0) {
+      const hsnCode = await transaction.hsn_code.findMany({
+        where: filter,
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const hsnCodeCount = await transaction.hsn_code.count({
+        where: filter,
+      });
+      const hsnCodeData = {
+        count: hsnCodeCount,
+        data: hsnCode,
+      };
+      return hsnCodeData;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log('Error occurred in hsnCode dao : searchHSNCode ', error);
     throw error;

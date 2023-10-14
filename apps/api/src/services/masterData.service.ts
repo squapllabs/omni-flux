@@ -404,18 +404,38 @@ const searchMasterData = async (body) => {
       order_by_direction,
       filterObj
     );
+    console.log('resultdata>>>>>>>>>>', result.data);
 
-    const count = result.count;
-    const data = result.data;
-    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempMasterDataData = {
-      message: 'success',
-      status: true,
-      total_count: count,
-      total_page: total_pages,
-      content: data,
-    };
-    return tempMasterDataData;
+    if (result.count > 0) {
+      const count = result.count;
+      const data = result.data;
+      const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+      const tempMasterDataData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempMasterDataData;
+    } else if (result.count == 0) {
+      const count = result.count;
+      const tempMasterDataData = {
+        message: 'success',
+        status: true,
+        count: count,
+        is_available: true,
+      };
+      return tempMasterDataData;
+    } else if (!result) {
+      const tempMasterDataData = {
+        message: 'success',
+        status: true,
+        is_available: false,
+      };
+      return tempMasterDataData;
+    }
   } catch (error) {
     console.log(
       'Error occurred in searchMasterData masterData service : ',

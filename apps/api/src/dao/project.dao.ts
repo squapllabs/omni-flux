@@ -482,7 +482,7 @@ const getAllDashboard = async (connectionObj = null) => {
     select
       count(vendor_id) as vendor_count
     from
-      vendor v )vendor_list on
+      vendor v where is_delete=false)vendor_list on
     true
   join (
     select

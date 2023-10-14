@@ -162,25 +162,34 @@ const searchMachinery = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterMachinery;
-    const machinery = await transaction.machinery.findMany({
-      where: filter,
-      include: { uom_data: true },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
+    const getdata = await transaction.machinery.findMany({
+      where: {
+        is_delete: false,
+      },
     });
-    const machineryCount = await transaction.machinery.count({
-      where: filter,
-    });
-    const machineryData = {
-      count: machineryCount,
-      data: machinery,
-    };
-    return machineryData;
+    if (getdata.length != 0) {
+      const machinery = await transaction.machinery.findMany({
+        where: filter,
+        include: { uom_data: true },
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const machineryCount = await transaction.machinery.count({
+        where: filter,
+      });
+      const machineryData = {
+        count: machineryCount,
+        data: machinery,
+      };
+      return machineryData;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log('Error occurred in Machinery dao : searchMachinery ', error);
     throw error;

@@ -252,6 +252,7 @@ const searchMasterData = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterMasterData;
+    console.log('filter>>>>', filter);
     const masterData = await transaction.master_data.findMany({
       where: filter,
       include: {
@@ -273,6 +274,8 @@ const searchMasterData = async (
       count: masterDataCount,
       data: masterData,
     };
+    console.log(masterDataData);
+
     return masterDataData;
   } catch (error) {
     console.log('Error occurred in masterData dao : searchMasterData ', error);

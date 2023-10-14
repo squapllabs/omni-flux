@@ -283,18 +283,39 @@ const searchHsnCode = async (body) => {
       order_by_direction,
       filterObj
     );
-
-    const count = result.count;
-    const data = result.data;
-    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempHsnCodeData = {
-      message: 'success',
-      status: true,
-      total_count: count,
-      total_page: total_pages,
-      content: data,
-    };
-    return tempHsnCodeData;
+    if (result != false) {
+      const count = result.count;
+      const data = result.data;
+      const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+      if (result.count > 0) {
+        const tempHsnCodeData = {
+          message: 'success',
+          status: true,
+          total_count: count,
+          total_page: total_pages,
+          is_available: true,
+          content: data,
+        };
+        return tempHsnCodeData;
+      } else if (result.count == 0) {
+        const tempHsnCodeData = {
+          message: 'success',
+          status: true,
+          total_count: count,
+          total_page: total_pages,
+          is_available: true,
+          content: data,
+        };
+        return tempHsnCodeData;
+      }
+    } else {
+      const tempHsnCodeData = {
+        message: 'success',
+        status: true,
+        is_available: false,
+      };
+      return tempHsnCodeData;
+    }
   } catch (error) {
     console.log('Error occurred in searchHsnCode HsnCode service : ', error);
     throw error;

@@ -120,24 +120,33 @@ const searchClient = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterClient;
-    const client = await transaction.client.findMany({
-      where: filter,
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
+    const getdata = await transaction.client.findMany({
+      where: {
+        is_delete: false,
+      },
     });
-    const clientCount = await transaction.client.count({
-      where: filter,
-    });
-    const clientData = {
-      count: clientCount,
-      data: client,
-    };
-    return clientData;
+    if (getdata.length != 0) {
+      const client = await transaction.client.findMany({
+        where: filter,
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const clientCount = await transaction.client.count({
+        where: filter,
+      });
+      const clientData = {
+        count: clientCount,
+        data: client,
+      };
+      return clientData;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log('Error occurred in client dao : searchClient', error);
     throw error;
