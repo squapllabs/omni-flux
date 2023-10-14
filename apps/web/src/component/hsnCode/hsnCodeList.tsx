@@ -137,6 +137,14 @@ const HsnCodeList = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
+
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
+
   /* Function for searching a HSN Code from the list */
   const handleSearch = async () => {
     const hsnData: any = {
@@ -319,160 +327,224 @@ const HsnCodeList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.topHeading}>
-            <div className={Styles.heading}>
-              <div className={Styles.subHeading}>
-                <h3>HSN CODE</h3>
-              </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => {
-                    setMode('ADD');
-                    setOpenHsnForm(true);
-                  }}
-                >
-                  Add HSN CODE
-                </Button>
-              </div>
-            </div>
+          {initialData?.total_count !== 0 ? (
             <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
-            </div>
-          </div>
-          <div className={Styles.uploads}>
-            {/* <div style={{paddingTop:'5px'}}>
-                <h3>File Upload</h3>
-              </div> */}
-            <div>
-              {selectedFile ? (
-                <div>
-                  <span>{selectedFile.name}</span>
-                  <button className={Styles.closeButton}>
-                    <CloseIcon onClick={handleRemoveFile} />
-                  </button>
-                </div>
-              ) : (
-                <button
-                  className={Styles.fileSelect}
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  Select File
-                </button>
-              )}
-              <input
-                type="file"
-                ref={fileInputRef}
-                className={Styles.input}
-                onChange={handleFileChange}
-              />
-            </div>
-            <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleUpload}
-              >
-                Upload
-              </Button>
-            </div>
-            <div className={Styles.button}>
-              <Button1
-                text={
-                  <div className={Styles.downloadButton}>
-                    <DownloadIcon />
-                    Download Sample Data
+              <div className={Styles.topHeading}>
+                <div className={Styles.heading}>
+                  <div className={Styles.subHeading}>
+                    <h3>HSN CODE</h3>
                   </div>
-                }
-                onClick={handleDownload}
-                backgroundColor="white"
-                textColor="black"
-                width={140}
-                border="1px solid #D0D5DD"
-                borderRadius={8}
-              />
-            </div>
-          </div>
-          {error && <div className={Styles.error}>{error}</div>}
+                  <div>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon color="white" />}
+                      onClick={() => {
+                        setMode('ADD');
+                        setOpenHsnForm(true);
+                      }}
+                    >
+                      Add HSN CODE
+                    </Button>
+                  </div>
+                </div>
+                <div className={Styles.filters}>
+                  <div>
+                    <Input
+                      placeholder="Search Hsn Code"
+                      width="300px"
+                      prefixIcon={<SearchIcon />}
+                      name="filter_value"
+                      onChange={(e) => {
+                        setFilterValues({
+                          ...filterValues,
+                          ['search_by_name']: e.target.value,
+                        });
+                        setCurrentPage(1)
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <CustomGroupButton
+                      labels={buttonLabels}
+                      onClick={handleGroupButtonClick}
+                      activeButton={activeButton}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={Styles.uploads}>
+                {/* <div style={{paddingTop:'5px'}}>
+                    <h3>File Upload</h3>
+                  </div> */}
+                <div>
+                  {selectedFile ? (
+                    <div>
+                      <span>{selectedFile.name}</span>
+                      <button className={Styles.closeButton}>
+                        <CloseIcon onClick={handleRemoveFile} />
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      className={Styles.fileSelect}
+                      onClick={() => fileInputRef.current.click()}
+                    >
+                      Select File
+                    </button>
+                  )}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    className={Styles.input}
+                    onChange={handleFileChange}
+                  />
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    onClick={handleUpload}
+                  >
+                    Upload
+                  </Button>
+                </div>
+                <div className={Styles.button}>
+                  <Button1
+                    text={
+                      <div className={Styles.downloadButton}>
+                        <DownloadIcon />
+                        Download Sample Data
+                      </div>
+                    }
+                    onClick={handleDownload}
+                    backgroundColor="white"
+                    textColor="black"
+                    width={140}
+                    border="1px solid #D0D5DD"
+                    borderRadius={8}
+                  />
+                </div>
+              </div>
+              {error && <div className={Styles.error}>{error}</div>}
 
-          <div className={Styles.box}>
-            {/* <div className={Styles.textContent}>
-              <h3>List of HSN Code</h3>
-              <span className={Styles.content}>
-                Manage your HSN Code details here.
-              </span>
-            </div>
-            <div className={Styles.searchField}>
-              <div className={Styles.inputFilter}>
-                <Input
-                  width="260px"
-                  prefixIcon={<SearchIcon />}
-                  name="search_by_name"
-                  value={filterValues.search_by_name}
-                  onChange={(e) => handleFilterChange(e)}
-                  placeholder="Search"
-                />
-                <Button
-                  className={Styles.searchButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleReset}
-                  disabled={isResetDisabled}
-                >
-                  Reset
-                </Button>
-              </div>
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div>
-            </div> */}
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>HSN Code</th>
-                      <th>Description</th>
-                      {activeButton === 'AC' && <th>Actions</th>}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataShow ? (
-                      getFilterData?.total_count === 0 ? (
+              <div className={Styles.box}>
+                {/* <div className={Styles.textContent}>
+                  <h3>List of HSN Code</h3>
+                  <span className={Styles.content}>
+                    Manage your HSN Code details here.
+                  </span>
+                </div>
+                <div className={Styles.searchField}>
+                  <div className={Styles.inputFilter}>
+                    <Input
+                      width="260px"
+                      prefixIcon={<SearchIcon />}
+                      name="search_by_name"
+                      value={filterValues.search_by_name}
+                      onChange={(e) => handleFilterChange(e)}
+                      placeholder="Search"
+                    />
+                    <Button
+                      className={Styles.searchButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </Button>
+                    <Button
+                      className={Styles.resetButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleReset}
+                      disabled={isResetDisabled}
+                    >
+                      Reset
+                    </Button>
+                  </div>
+                  <div>
+                    <CustomGroupButton
+                      labels={buttonLabels}
+                      onClick={handleGroupButtonClick}
+                      activeButton={activeButton}
+                    />
+                  </div>
+                </div> */}
+                <div className={Styles.tableContainer}>
+                  <div>
+                    <table className={Styles.scrollable_table}>
+                      <thead>
                         <tr>
-                          <td></td>
-                          <td></td>
-                          <td>No data found</td>
-                          {activeButton === 'AC' && <td></td>}
+                          <th>#</th>
+                          <th>HSN Code</th>
+                          <th>Description</th>
+                          {activeButton === 'AC' && <th>Actions</th>}
                         </tr>
-                      ) : (
-                        getFilterData?.content?.map(
-                          (data: any, index: number) => (
+                      </thead>
+                      <tbody>
+                        {dataShow ? (
+                          getFilterData?.total_count === 0 ? (
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td>No data found</td>
+                              {activeButton === 'AC' && <td></td>}
+                            </tr>
+                          ) : (
+                            getFilterData?.content?.map(
+                              (data: any, index: number) => (
+                                <tr key={data.hsn_code_id}>
+                                  <td>{startingIndex + index}</td>
+                                  <td>{data.code}</td>
+                                  <td>
+                                    <span
+                                      className={Styles.truncatedStyle}
+                                      title={data.description}
+                                    >
+                                      {data.description
+                                        ? data.description.length > 30
+                                          ? data.description.substring(0, 30) +
+                                          '...'
+                                          : data.description
+                                        : '-'}
+                                    </span>
+                                  </td>
+                                  {activeButton === 'AC' && (
+                                    <td>
+                                      <div className={Styles.tablerow}>
+                                        <EditIcon
+                                          onClick={() =>
+                                            editHscCodeHandler(data.hsn_code_id)
+                                          }
+                                        />
+                                        <DeleteIcon
+                                          onClick={() =>
+                                            deleteCategoryHandler(data.hsn_code_id)
+                                          }
+                                        />
+                                      </div>
+                                    </td>
+                                  )}
+                                </tr>
+                              )
+                            )
+                          )
+                        ) : initialData?.total_count === 0 ? (
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td>No data found</td>
+                            {activeButton === 'AC' && <td></td>}
+                          </tr>
+                        ) : (
+                          initialData?.content?.map((data: any, index: number) => (
                             <tr key={data.hsn_code_id}>
                               <td>{startingIndex + index}</td>
                               <td>{data.code}</td>
@@ -483,8 +555,7 @@ const HsnCodeList = () => {
                                 >
                                   {data.description
                                     ? data.description.length > 30
-                                      ? data.description.substring(0, 30) +
-                                        '...'
+                                      ? data.description.substring(0, 30) + '...'
                                       : data.description
                                     : '-'}
                                 </span>
@@ -506,73 +577,69 @@ const HsnCodeList = () => {
                                 </td>
                               )}
                             </tr>
-                          )
-                        )
-                      )
-                    ) : initialData?.total_count === 0 ? (
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
-                        {activeButton === 'AC' && <td></td>}
-                      </tr>
-                    ) : (
-                      initialData?.content?.map((data: any, index: number) => (
-                        <tr key={data.hsn_code_id}>
-                          <td>{startingIndex + index}</td>
-                          <td>{data.code}</td>
-                          <td>
-                            <span
-                              className={Styles.truncatedStyle}
-                              title={data.description}
-                            >
-                              {data.description
-                                ? data.description.length > 30
-                                  ? data.description.substring(0, 30) + '...'
-                                  : data.description
-                                : '-'}
-                            </span>
-                          </td>
-                          {activeButton === 'AC' && (
-                            <td>
-                              <div className={Styles.tablerow}>
-                                <EditIcon
-                                  onClick={() =>
-                                    editHscCodeHandler(data.hsn_code_id)
-                                  }
-                                />
-                                <DeleteIcon
-                                  onClick={() =>
-                                    deleteCategoryHandler(data.hsn_code_id)
-                                  }
-                                />
-                              </div>
-                            </td>
-                          )}
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className={Styles.pagination}>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={
+                      dataShow ? getFilterData?.total_page : initialData?.total_page
+                    }
+                    totalCount={
+                      dataShow
+                        ? getFilterData?.total_count
+                        : initialData?.total_count
+                    }
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
+              </div>
+
+            </div>
+          ) : (
+            <div>
+              <div className={Styles.subHeading}>
+              </div>
+              <div className={Styles.emptyDataHandling}>
+                <div>
+                  <img
+                    src="/HSN.png"
+                    alt="aa"
+                    width="100%"
+                    height="250px"
+                    style={{paddingBottom: '15px'}}
+                  />
+                </div>
+                <div>
+                  <h5>HSN code is Empty</h5>
+                </div>
+                <div>
+                  <span className={Styles.spanContent}>Go ahead, add new HsnCode</span>
+                </div>
+                <div className={Styles.emptyButton}>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => {
+                      setMode('ADD');
+                      setOpenHsnForm(true);
+                    }}
+                  >
+                    Add HSN CODE
+                  </Button>
+                </div>
               </div>
             </div>
-            <div className={Styles.pagination}>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
-                }
-                totalCount={
-                  dataShow
-                    ? getFilterData?.total_count
-                    : initialData?.total_count
-                }
-                rowsPerPage={rowsPerPage}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-              />
-            </div>
-          </div>
+          )}
         </CustomLoader>
         <CustomDelete
           open={openDelete}

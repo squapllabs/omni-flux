@@ -283,6 +283,7 @@ const ExpenseDetailApprove = () => {
           <thead>
             <tr>
               <th className={Styles.tableHeading}>#</th>
+              <th className={Styles.tableHeading}>Description</th>
               <th className={Styles.tableHeading}>Expense Name</th>
               <th className={Styles.tableHeading}>Amount</th>
               <th className={Styles.tableHeading}>Documents</th>
@@ -329,6 +330,7 @@ const ExpenseDetailApprove = () => {
                 return (
                   <tr>
                     <td>{rowindex}</td>
+                    <td>{data?.description || nullLableNameFromEnv}</td>
                     <td>
                       {data?.expense_master_data?.master_data_name ||
                         nullLableNameFromEnv}

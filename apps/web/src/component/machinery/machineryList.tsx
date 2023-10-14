@@ -15,14 +15,15 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import {
   getByMachinery,
   useDeleteMachinery,
+  useGetAllPaginatedMachinery,
 } from '../../hooks/machinery-hooks';
 
 const MachineryList = () => {
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: FilterLoading,
-  } = getByMachinery();
+  // const {
+  //   mutate: postDataForFilter,
+  //   data: getFilterData,
+  //   isLoading: FilterLoading,
+  // } = getByMachinery();
 
   const { mutate: getDeleteMachineryByID } = useDeleteMachinery();
 
@@ -54,59 +55,71 @@ const MachineryList = () => {
     offset: (currentPage - 1) * rowsPerPage,
     order_by_column: 'updated_by',
     order_by_direction: 'desc',
-    global_search: '',
+    global_search: filterValues.search_by_name,
     status: activeButton,
   };
 
+  const {
+    data: getFilterData,
+    isLoading: FilterLoading,  
+    refetch,
+  } = useGetAllPaginatedMachinery(machineryData);
 
-
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setFilterValues({
-      ...filterValues,
-      ['search_by_name']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
+  // const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const searchValue = event.target.value;
+  //   setFilterValues({
+  //     ...filterValues,
+  //     ['search_by_name']: event.target.value,
+  //   });
+  //   setIsResetDisabled(searchValue === '');
+  //   if (searchValue === '') {
+  //     handleReset();
+  //   }
+  // };
 
   useEffect(() => {
-    handleSearch();
+    refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
-  const handleSearch = async () => {
-    const machineryData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'asc',
-      global_search: filterValues.search_by_name,
-      status: activeButton,
-    };
-    postDataForFilter(machineryData);
-    // setIsLoading(false);
-    // setFilter(true);
-  };
+  
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
 
-  const handleReset = async () => {
-    const machineryData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'asc',
-      global_search: '',
-      status: 'AC',
-    };
-    postDataForFilter(machineryData);
+  // const handleSearch = async () => {
+  //   const machineryData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'asc',
+  //     global_search: filterValues.search_by_name,
+  //     status: activeButton,
+  //   };
+  //   postDataForFilter(machineryData);
+  //   // setIsLoading(false);
+  //   // setFilter(true);
+  // };
 
-    setFilterValues({
-      search_by_name: '',
-    });
-    // setIsLoading(false);
-    setIsResetDisabled(true);
-  };
+  // const handleReset = async () => {
+  //   const machineryData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'asc',
+  //     global_search: '',
+  //     status: 'AC',
+  //   };
+  //   postDataForFilter(machineryData);
+
+  //   setFilterValues({
+  //     search_by_name: '',
+  //   });
+  //   // setIsLoading(false);
+  //   setIsResetDisabled(true);
+  // };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -203,95 +216,149 @@ const MachineryList = () => {
             </div>
           </div> */}
           {/* <div className={Styles.dividerStyle}></div> */}
-          <div className={Styles.topHeading}>
-              <div className={Styles.heading}>
-                <div className={Styles.subHeading}>
-                  <h3>MACHINERIES</h3>
+          {getFilterData?.total_count !== 0 ? (
+            <div>
+              <div className={Styles.topHeading}>
+                  <div className={Styles.heading}>
+                    <div className={Styles.subHeading}>
+                      <h3>MACHINERIES</h3>
+                    </div>
+                    <div>
+                      <Button
+                        color="primary"
+                        shape="rectangle"
+                        justify="center"
+                        size="small"
+                        icon={<AddIcon color="white" />}
+                        onClick={() => navigate('/add-machinery')}
+                      >
+                        Add Machinery
+                      </Button>
+                    </div>
+                  </div>
+                  <div className={Styles.filters}>
+                    <div>
+                      <Input
+                        placeholder="Search Machineries"
+                        width="300px"
+                        prefixIcon={<SearchIcon />}
+                        name="filter_value"
+                        onChange={(e) => {
+                          setFilterValues({
+                            ...filterValues,
+                            ['search_by_name']: e.target.value,
+                          });
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <CustomGroupButton
+                        labels={buttonLabels}
+                        onClick={handleGroupButtonClick}
+                        activeButton={activeButton}
+                      />
+                    </div>
+                  </div>
                 </div>
+              <div className={Styles.tableContainer}>
                 <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/add-machinery')}
-                  >
-                    Add Machinery
-                  </Button>
+                  <table className={Styles.scrollable_table}>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Machinery Name</th>
+                        <th>Rate</th>
+                        <th>UOM</th>
+                        <th>Operational Status</th>
+                        {activeButton === 'AC' && <th>Options</th>}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getFilterData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        ''
+                      )}
+                      {getFilterData?.content?.map((data: any, index: number) => (
+                        <tr key={data.machinery_id}>
+                          <td>{startingIndex + index}</td>
+                          <td>{data.machinery_name}</td>
+                          <td>{data.rate}</td>
+                          <td>{data.uom_data.name}</td>
+                          <td>{data.operational_status}</td>
+                          {activeButton === 'AC' && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                <EditIcon
+                                  onClick={() =>
+                                    navigate(`/edit-machinery/${data.machinery_id}`)
+                                  }
+                                />
+                                <DeleteIcon
+                                  onClick={() =>
+                                    deleteMachineryHandler(data.machinery_id)
+                                  }
+                                />
+                              </div>
+                            </td>
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              </div>
+                <div className={Styles.pagination}>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={getFilterData?.total_page}
+                    totalCount={getFilterData?.total_count}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
+              </div>   
+            </div>
+          ) : (
+            <div>
+            <div className={Styles.subHeading}>
+            </div>
+            <div className={Styles.emptyDataHandling}>
               <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
+                <img
+                  src="/machineries_.jpg"
+                  alt="aa"
+                  width="100%"
+                  height="300px"
                 />
               </div>
-            </div>
-          <div className={Styles.tableContainer}>
-            <div>
-              <table className={Styles.scrollable_table}>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Machinery Name</th>
-                    <th>Rate</th>
-                    <th>UOM</th>
-                    <th>Operational Status</th>
-                    {activeButton === 'AC' && <th>Options</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {getFilterData?.total_count === 0 ? (
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td>No data found</td>
-                      {activeButton === 'AC' && <td></td>}
-                    </tr>
-                  ) : (
-                    ''
-                  )}
-                  {getFilterData?.content?.map((data: any, index: number) => (
-                    <tr key={data.machinery_id}>
-                      <td>{startingIndex + index}</td>
-                      <td>{data.machinery_name}</td>
-                      <td>{data.rate}</td>
-                      <td>{data.uom_data.name}</td>
-                      <td>{data.operational_status}</td>
-                      {activeButton === 'AC' && (
-                        <td>
-                          <div className={Styles.tablerow}>
-                            <EditIcon
-                              onClick={() =>
-                                navigate(`/edit-machinery/${data.machinery_id}`)
-                              }
-                            />
-                            <DeleteIcon
-                              onClick={() =>
-                                deleteMachineryHandler(data.machinery_id)
-                              }
-                            />
-                          </div>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className={Styles.pagination}>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={getFilterData?.total_page}
-                totalCount={getFilterData?.total_count}
-                rowsPerPage={rowsPerPage}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-              />
+              <div>
+                <h5>Machineries list is Empty</h5>
+              </div>
+              <div>
+                <span className={Styles.spanContent}>Go ahead, add new Machineries</span>
+              </div>
+              <div className={Styles.emptyButton}>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => navigate('/add-machinery')}
+                >
+                Add Machinery
+                </Button>
+              </div>
             </div>
           </div>
+          )}
         </CustomLoader>
         <CustomDelete
           open={open}

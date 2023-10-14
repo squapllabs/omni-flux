@@ -5,7 +5,11 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
-import { getBySearchSiteData, useDeleteSite } from '../../hooks/site-hooks';
+import { 
+  getBySearchSiteData, 
+  useDeleteSite,
+  useGetAllPaginatedContractorsData,
+} from '../../hooks/site-hooks';
 import AddIcon from '../menu/icons/addIcon';
 import { useNavigate } from 'react-router';
 import EditIcon from '../menu/icons/newEditIcon';
@@ -29,12 +33,27 @@ const ContractorList = () => {
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: FilterLoading,
-  } = getBySearchSiteData();
+  // const {
+  //   mutate: postDataForFilter,
+  //   data: getFilterData,
+  //   isLoading: FilterLoading,
+  // } = getBySearchSiteData();
   const navigate = useNavigate();
+
+  const contractorData: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: activeButton,
+    global_search: filterValues.search_by_name,
+    type: 'Contractor',
+  };
+  const {
+    isLoading: FilterLoading,
+    data: getFilterData,
+    refetch,
+  } = useGetAllPaginatedContractorsData(contractorData);
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
@@ -51,6 +70,13 @@ const ContractorList = () => {
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton]);
+
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
 
   const handleSearch = async () => {
     const demo: any = {
@@ -119,164 +145,218 @@ const ContractorList = () => {
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
-        <div className={Styles.container}>
-          <div className={Styles.box}>
-            <div className={Styles.topHeading}>
-              <div className={Styles.heading}>
-                <div className={Styles.subHeading}>
-                  <h3>CONTRACTOR</h3>
+        {getFilterData?.total_count !== 0 ? (
+          <div>
+            <div className={Styles.container}>
+              <div className={Styles.box}>
+                <div className={Styles.topHeading}>
+                  <div className={Styles.heading}>
+                    <div className={Styles.subHeading}>
+                      <h3>CONTRACTOR</h3>
+                    </div>
+                    <div>
+                      <Button
+                        color="primary"
+                        shape="rectangle"
+                        justify="center"
+                        size="small"
+                        icon={<AddIcon color="white" />}
+                        onClick={() => navigate('/contractor-add')}
+                      >
+                        Add Contractor
+                      </Button>
+                    </div>
+                  </div>
+                  <div className={Styles.searchBar}>
+                    <Input
+                      placeholder="Search Contractors"
+                      width="300px"
+                      prefixIcon={<SearchIcon />}
+                      name="filter_value"
+                      onChange={(e) => {
+                        setFilterValues({
+                          ...filterValues,
+                          ['search_by_name']: e.target.value,
+                        });
+                        setCurrentPage(1)
+                      }}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Button
-                    color="primary"
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/contractor-add')}
-                  >
-                    Add Contractor
-                  </Button>
-                </div>
-              </div>
-            </div>
-            {/* <div className={Styles.searchField}>
-              <div className={Styles.inputFilter}>
-                <Input
-                  width="260px"
-                  prefixIcon={<SearchIcon />}
-                  name="search_by_name"
-                  value={filterValues.search_by_name}
-                  onChange={(e) => handleFilterChange(e)}
-                  placeholder="Search by name"
-                />
-                <Button
-                  className={Styles.searchButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  disabled={isResetDisabled}
-                  onClick={handleReset}
-                >
-                  Reset
-                </Button>
-              </div>
-              <div>
-                <Button
-                  className={Styles.resetButton}
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon />}
-                  onClick={() => navigate('/contractor-add')}
-                >
-                  Add
-                </Button>
-              </div>
-            </div> */}
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th>S No</th>
-                      <th>Name</th>
-                      <th>Code</th>
-                      <th>Mobile Number</th>
-                      <th>Description</th>
-                      {activeButton === 'AC' && <th>Actions</th>}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {getFilterData?.total_count === 0 ? (
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
-                        {activeButton === 'AC' && <td></td>}
-                      </tr>
-                    ) : (
-                      ''
-                    )}
-                    {getFilterData?.content?.map((item: any, index: number) => (
-                      <tr key={item.site_contractor_id}>
-                        <td>{startingIndex + index}</td>
-                        <td>{item.name}</td>
-                        <td>{item.code}</td>
-                        <td>{item.mobile_number}</td>
-                        <td>
-                          <span title={item.description}>
-                            {item.description
-                              ? item.description.substring(0, 50)
-                              : '-'}
-                          </span>
-                        </td>
-                        {activeButton === 'AC' && (
-                          <td>
-                            <div className={Styles.tableIcon}>
-                              <div>
-                                <EditIcon
-                                  onClick={() =>
-                                    navigate(
-                                      `/contractor-edit/${item.site_contractor_id}`
-                                    )
-                                  }
-                                />
-                              </div>
-                              <div>
-                                <DeleteIcon
-                                  onClick={() =>
-                                    deleteContractor(item.site_contractor_id)
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </td>
+                {/* <div className={Styles.searchField}>
+                  <div className={Styles.inputFilter}>
+                    <Input
+                      width="260px"
+                      prefixIcon={<SearchIcon />}
+                      name="search_by_name"
+                      value={filterValues.search_by_name}
+                      onChange={(e) => handleFilterChange(e)}
+                      placeholder="Search by name"
+                    />
+                    <Button
+                      className={Styles.searchButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </Button>
+                    <Button
+                      className={Styles.resetButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      disabled={isResetDisabled}
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </Button>
+                  </div>
+                  <div>
+                    <Button
+                      className={Styles.resetButton}
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon />}
+                      onClick={() => navigate('/contractor-add')}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </div> */}
+                <div className={Styles.tableContainer}>
+                  <div>
+                    <table className={Styles.scrollable_table}>
+                      <thead>
+                        <tr>
+                          <th>S No</th>
+                          <th>Name</th>
+                          <th>Code</th>
+                          <th>Mobile Number</th>
+                          <th>Description</th>
+                          {activeButton === 'AC' && <th>Actions</th>}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {getFilterData?.total_count === 0 ? (
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>No data found</td>
+                            {activeButton === 'AC' && <td></td>}
+                          </tr>
+                        ) : (
+                          ''
                         )}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        {getFilterData?.content?.map((item: any, index: number) => (
+                          <tr key={item.site_contractor_id}>
+                            <td>{startingIndex + index}</td>
+                            <td>{item.name}</td>
+                            <td>{item.code}</td>
+                            <td>{item.mobile_number}</td>
+                            <td>
+                              <span title={item.description}>
+                                {item.description
+                                  ? item.description.substring(0, 50)
+                                  : '-'}
+                              </span>
+                            </td>
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tableIcon}>
+                                  <div>
+                                    <EditIcon
+                                      onClick={() =>
+                                        navigate(
+                                          `/contractor-edit/${item.site_contractor_id}`
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deleteContractor(item.site_contractor_id)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className={Styles.pagination}>
+                    <CustomPagination
+                      currentPage={currentPage}
+                      totalPages={getFilterData?.total_page}
+                      totalCount={getFilterData?.total_count}
+                      rowsPerPage={rowsPerPage}
+                      onPageChange={handlePageChange}
+                      onRowsPerPageChange={handleRowsPerPageChange}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className={Styles.pagination}>
-                <CustomPagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_page}
-                  totalCount={getFilterData?.total_count}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
+              <CustomDelete
+                open={openDelete}
+                title="Delete"
+                contentLine1="Are you sure you want to delete this site? This action cannot be undone."
+                contentLine2=""
+                handleClose={handleCloseDelete}
+                handleConfirm={deleteSiteConform}
+              />
+              <CustomSnackBar
+                open={openSnack}
+                message={message}
+                onClose={handleSnackBarClose}
+                autoHideDuration={1000}
+                type="success"
+              />
+            </div>
+
+          </div>
+        ) : (
+          <div>
+            <div className={Styles.subHeading}>
+            </div>
+            <div className={Styles.emptyDataHandling}>
+              <div>
+                <img
+                  src="/_contractor_.jpg"
+                  alt="contractor_img"
+                  width="100%"
+                  height="250px"
+                  style={{paddingTop: '35px', paddingBottom: '10px'}}
                 />
+              </div>
+              <div>
+                <h5>Contractor list is Empty</h5>
+              </div>
+              <div>
+                <span className={Styles.spanContent}>Go ahead, add new Contractors</span>
+              </div>
+              <div className={Styles.emptyButton}>
+                <Button
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+                icon={<AddIcon color="white" />}
+                onClick={() => navigate('/contractor-add')}
+              >
+                Add Contractor
+                </Button>
               </div>
             </div>
           </div>
-          <CustomDelete
-            open={openDelete}
-            title="Delete"
-            contentLine1="Are you sure you want to delete this site? This action cannot be undone."
-            contentLine2=""
-            handleClose={handleCloseDelete}
-            handleConfirm={deleteSiteConform}
-          />
-          <CustomSnackBar
-            open={openSnack}
-            message={message}
-            onClose={handleSnackBarClose}
-            autoHideDuration={1000}
-            type="success"
-          />
-        </div>
+        )}
       </CustomLoader>
     </div>
   );

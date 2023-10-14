@@ -30,7 +30,7 @@ import SiteExpenseBill from './SiteExpensBill';
 import CustomLoader from '../../../ui/customLoader';
 import CurrencyIcon from '../../../menu/icons/CurrencyIcon';
 import AddIcon from '../../../menu/icons/addIcon';
-import MoneyIcon from '../../../menu/icons/MoneyIcon';
+import MoneyIcon from '../../../menu/icons/moneyIcon';
 
 const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -38,6 +38,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const projectId = Number(props?.projectId);
   const siteId = Number(props?.siteId);
   const currentDate = new Date();
+  const [expenseList, setExpenseList] = useState<any>([]);
   const [initialValues, setInitialValues] = useState({
     employee_name:
       encryptedData?.userData?.first_name +
@@ -60,9 +61,10 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     total_amount: '',
     expense_code: '',
     bill_date: currentDate.toISOString().slice(0, 10),
+    expenseList: [],
   });
-  const [expenseList, setExpenseList] = useState<any>([]);
-  const validationSchema = getCreateValidateyup(Yup);
+  const [errors, setErrors] = useState<any>();
+  const validationSchema = Yup.object().shape({});
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -71,7 +73,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const [expenseBill, setExpenseBill] = useState<any>([]);
   const [totalAmount, setTotalAmount] = useState<any>();
   // const [checked, setChecked] = useState(false);
-  const [tableView,setTableView] = useState(false);
+  const [tableView, setTableView] = useState(false);
   const { data: getSiteList } = getProjectSite(Number(projectId));
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
     createsiteExpense();
@@ -125,8 +127,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
         employee_id: datas?.data?.employee_id,
         employee_phone: datas?.data?.employee_phone,
         bill_date: dateFormat(datas?.data?.bill_date),
-        // end_date: dateFormat(datas?.data?.end_date),
-        // start_date: dateFormat(datas?.data?.start_date),
         purpose: datas?.data?.purpose,
         department: datas?.data?.department,
         designation: datas?.data?.designation,
@@ -136,12 +136,14 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
         submitType: datas?.data?.status,
         total_amount: datas?.data?.total_amount,
         expense_code: datas?.data?.expense_code,
+        expenseList: datas?.data?.expense_details,
       });
     };
 
     if (props?.mode === 'Edit') fetchData();
   }, [props?.expenseID, props?.mode]);
   useEffect(() => {
+    formik.setFieldValue('expenseList', [...expenseList]);
     const totalSelectedPrice = expenseList.reduce((total: any, item: any) => {
       if (item.is_delete === false) {
         return total + item.total;
@@ -154,221 +156,289 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     initialValues,
     validationSchema,
     enableReinitialize: true,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const statusData = values.submitType === 'Draft' ? 'Draft' : 'Pending';
       let count = 0;
-      for (let i = 0; i < expenseList.length; i++) {
-        if (expenseList[i].is_delete === false) {
-          count++;
-        }
-      }
-      if (count === 0) {
-        setOpenDialog(true);
-      } else {
-        const totalSelectedPrice = expenseList.reduce(
-          (total: any, item: any) => {
-            if (item.is_delete === false) {
-              return total + item.total;
+      const schema = Yup.array().of(
+        Yup.object().shape({
+          description: Yup.string().required('Description is required'),
+          is_delete: Yup.string().required(),
+          expense_data_id: Yup.string()
+            .typeError('Site Expense is required')
+            .required('Site Expense is required')
+            .test(
+              'description-availability',
+              'Site Expense is already present',
+              async function (value, { parent }: Yup.TestContext) {
+                const isDelete = false;
+                const { path, createError } = this;
+                try {
+                  const allIds = expenseList.map((item: any) => {
+                    if (item.is_delete === 'N') item.expense_data_id;
+                  });
+                  console.log('allIds', allIds);
+                  const checking = allIds.filter(
+                    (id) => Number(id) === Number(value)
+                  ).length;
+                  if (checking <= 1) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                } catch {
+                  return true;
+                }
+              }
+            ),
+          total: Yup.number()
+            .min(1, 'Amount must be more then 0')
+            .max(100000, 'Amount must be less then 100000')
+            .typeError('Only Numbers are allowed')
+            .required('Amount is required'),
+        })
+      );
+      await schema
+        .validate(expenseList, { abortEarly: false })
+        .then(async () => {
+          console.log('IntialValuevalues', values);
+          setErrors({});
+          for (let i = 0; i < expenseList.length; i++) {
+            if (expenseList[i].is_delete === false) {
+              count++;
             }
-            return total;
-          },
-          0
-        );
-        if (values.expense_id === '') {
-          const object: any = {
-            site_id: values.site_id,
-            project_id: projectId,
-            employee_name:
-              encryptedData?.userData?.first_name +
-              ' ' +
-              encryptedData?.userData?.last_name,
-            employee_id: '',
-            employee_phone:
-              encryptedData?.userData?.contact_no != null
-                ? encryptedData?.userData?.contact_no
-                : '',
-            bill_date: values.bill_date,
-            // end_date: values.end_date,
-            // start_date: values.start_date,
-            purpose: values.purpose,
-            department: values.department,
-            designation: values.designation,
-            expense_details: expenseList,
-            created_by: encryptedData?.userId,
-            bill_details: expenseBill,
-            status: statusData,
-            total_amount: totalSelectedPrice,
-          };
-          postSiteExpenseData(object, {
-            onSuccess(data, variables, context) {
-              if (data?.status === true) {
-                setMessage('Site Expense has been added successfully !');
-                setOpenSnack(true);
-                setTimeout(() => {
-                  props.setOpen(!props.open);
-                  props.setReload(!props.reload);
-                }, 1000);
-              }
-            },
+          }
+          if (count === 0) {
+            setOpenDialog(true);
+          } else {
+            const totalSelectedPrice = expenseList.reduce(
+              (total: any, item: any) => {
+                if (item.is_delete === false) {
+                  return total + item.total;
+                }
+                return total;
+              },
+              0
+            );
+            if (values.expense_id === '') {
+              const object: any = {
+                site_id: values.site_id,
+                project_id: projectId,
+                employee_name:
+                  encryptedData?.userData?.first_name +
+                  ' ' +
+                  encryptedData?.userData?.last_name,
+                employee_id: '',
+                employee_phone:
+                  encryptedData?.userData?.contact_no != null
+                    ? encryptedData?.userData?.contact_no
+                    : '',
+                bill_date: values.bill_date,
+                // end_date: values.end_date,
+                // start_date: values.start_date,
+                purpose: values.purpose,
+                department: values.department,
+                designation: values.designation,
+                expense_details: expenseList,
+                created_by: encryptedData?.userId,
+                bill_details: expenseBill,
+                status: statusData,
+                total_amount: Number(totalSelectedPrice),
+              };
+              postSiteExpenseData(object, {
+                onSuccess(data, variables, context) {
+                  if (data?.status === true) {
+                    setMessage('Site Expense has been added successfully !');
+                    setOpenSnack(true);
+                    setTimeout(() => {
+                      props.setOpen(!props.open);
+                      props.setReload(!props.reload);
+                    }, 1000);
+                  }
+                },
+              });
+            } else {
+              const object: any = {
+                site_id: values.site_id,
+                project_id: projectId,
+                employee_name:
+                  encryptedData?.userData?.first_name +
+                  ' ' +
+                  encryptedData?.userData?.last_name,
+                employee_id: '',
+                employee_phone:
+                  encryptedData?.userData?.contact_no != null
+                    ? encryptedData?.userData?.contact_no
+                    : '',
+                bill_date: values.bill_date,
+                // end_date: values.end_date,
+                // start_date: values.start_date,
+                purpose: values.purpose,
+                department: values.department,
+                designation: values.designation,
+                expense_details: expenseList,
+                created_by: encryptedData?.userId,
+                updated_by: encryptedData?.userId,
+                expense_id: values.expense_id,
+                bill_details: expenseBill,
+                status: statusData,
+                total_amount: Number(totalSelectedPrice),
+              };
+              updateSiteExpenseData(object, {
+                onSuccess(data, variables, context) {
+                  if (data?.status === true) {
+                    setMessage('Site Expense has been updated successfully !');
+                    setOpenSnack(true);
+                    setTimeout(() => {
+                      props.setOpen(!props.open);
+                      props.setReload(!props.reload);
+                    }, 1000);
+                  }
+                },
+              });
+            }
+          }
+        })
+        .catch((e: any) => {
+          let errorObj = {};
+          e.inner?.map((error: any) => {
+            console.log('error', e);
+            return (errorObj[error.path] = error.message);
           });
-        } else {
-          const object: any = {
-            site_id: values.site_id,
-            project_id: projectId,
-            employee_name:
-              encryptedData?.userData?.first_name +
-              ' ' +
-              encryptedData?.userData?.last_name,
-            employee_id: '',
-            employee_phone:
-              encryptedData?.userData?.contact_no != null
-                ? encryptedData?.userData?.contact_no
-                : '',
-            bill_date: values.bill_date,
-            // end_date: values.end_date,
-            // start_date: values.start_date,
-            purpose: values.purpose,
-            department: values.department,
-            designation: values.designation,
-            expense_details: expenseList,
-            created_by: encryptedData?.userId,
-            updated_by: encryptedData?.userId,
-            expense_id: values.expense_id,
-            bill_details: expenseBill,
-            status: statusData,
-            total_amount: totalSelectedPrice,
-          };
-          updateSiteExpenseData(object, {
-            onSuccess(data, variables, context) {
-              if (data?.status === true) {
-                setMessage('Site Expense has been updated successfully !');
-                setOpenSnack(true);
-                setTimeout(() => {
-                  props.setOpen(!props.open);
-                  props.setReload(!props.reload);
-                }, 1000);
-              }
-            },
+          setErrors({
+            ...errorObj,
           });
-        }
-      }
+        });
     },
   });
   return (
     <div>
       <CustomLoader loading={loader} size={20}>
         <div className={Styles.container}>
-          <div className={Styles.formContainer}>
-            <div className={Styles.form_fields}>
-              {props.expenseID && formik.values.expense_code ? 
-              <div className={Styles.expCode}>
-                <h4>Expense Code : </h4>
-                <p>{formik.values.expense_code || 'EXP-YYYY'}</p>
-              </div>
-               : ''}
-              <div className={Styles.fields_container_1}>
-                <div className={Styles.fieldStyle}>
-                  <DatePicker
-                    label="Bill Date"
-                    name="bill_date"
-                    onChange={formik.handleChange}
-                    value={formik.values.bill_date}
-                    mandatory={true}
-                    error={formik.touched.bill_date && formik.errors.bill_date}
+          {props?.mode === 'Edit' || tableView ? (
+            <div className={Styles.formContainer}>
+              <div className={Styles.form_fields}>
+                {props.expenseID && formik.values.expense_code ? (
+                  <div className={Styles.expCode}>
+                    <h4>Expense Code : </h4>
+                    <p>{formik.values.expense_code || 'EXP-YYYY'}</p>
+                  </div>
+                ) : (
+                  ''
+                )}
+                <div className={Styles.fields_container_1}>
+                  <div className={Styles.fieldStyle}>
+                    <DatePicker
+                      label="Bill Date"
+                      name="bill_date"
+                      onChange={formik.handleChange}
+                      value={formik.values.bill_date}
+                      mandatory={true}
+                      error={
+                        formik.touched.bill_date && formik.errors.bill_date
+                      }
+                    />
+                  </div>
+                </div>
+                <div style={{ display: 'none' }}>
+                  <SiteExpenseBill
+                    projectId={projectId}
+                    setExpenseBill={setExpenseBill}
+                    expenseBill={expenseBill}
+                    loader={loader}
+                    setLoader={setLoader}
                   />
                 </div>
               </div>
-              <div style={{ display: 'none' }}>
-                <SiteExpenseBill
-                  projectId={projectId}
-                  setExpenseBill={setExpenseBill}
-                  expenseBill={expenseBill}
-                  loader={loader}
-                  setLoader={setLoader}
-                />
-              </div>
-            </div>
-            <div>
-              <CurrencyIcon width={90} height={90} color="#7f56d9" />
-            </div>
-          </div>
-          {props?.mode === 'Edit' || tableView ?
-          <div className={Styles.tableContainer}>
-            <SiteExpensesDetails
-              setExpenseList={setExpenseList}
-              expenseList={expenseList}
-              setMessage={setMessage}
-              setOpenSnack={setOpenSnack}
-              siteId={Number(props?.siteId)}
-              loader={loader}
-              setLoader={setLoader}
-              setTotalAmount={setTotalAmount}
-              totalAmount={totalAmount}
-              mode={props?.mode}
-            />
-            <div className={Styles.totalBudget}>
               <div>
-                <span>Total : </span>
-                {formatBudgetValue(Number(totalAmount))}
+                <CurrencyIcon width={90} height={90} color="#7f56d9" />
               </div>
             </div>
-            <div className={Styles.buttonComponent}>
-              <div className={Styles.dividerStyleOne}></div>
-              <div className={Styles.bottomButton}>
+          ) : (
+            ''
+          )}
+          {props?.mode === 'Edit' || tableView ? (
+            <div className={Styles.tableContainer}>
+              <SiteExpensesDetails
+                setExpenseList={setExpenseList}
+                expenseList={expenseList}
+                initialValues={initialValues}
+                setInitialValues={setInitialValues}
+                setMessage={setMessage}
+                setOpenSnack={setOpenSnack}
+                siteId={Number(props?.siteId)}
+                loader={loader}
+                setLoader={setLoader}
+                setTotalAmount={setTotalAmount}
+                totalAmount={totalAmount}
+                mode={props?.mode}
+                errors={errors}
+              />
+              <div className={Styles.totalBudget}>
+                <div>
+                  <span>Total : </span>
+                  {formatBudgetValue(Number(totalAmount))}
+                </div>
+              </div>
+              <div className={Styles.buttonComponent}>
+                <div className={Styles.dividerStyleOne}></div>
+                <div className={Styles.bottomButton}>
+                  <Button
+                    type="button"
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    onClick={() => submitHandler()}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    className={Styles.draftButton}
+                    onClick={() => drafthandler()}
+                  >
+                    Save Draft
+                  </Button>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    className={Styles.cancelButton}
+                    onClick={() => props.setOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className={Styles.addNewRowView}>
+                <MoneyIcon height={50} width={50} color="#475467" />
+                <h5>No Site Expenses added for this site </h5>
+                <span className={Styles.spanContent}>
+                  Let's add an expanse now
+                </span>
                 <Button
                   type="button"
                   color="primary"
                   shape="rectangle"
                   size="small"
                   justify="center"
-                  onClick={() => submitHandler()}
+                  icon={<AddIcon color="white" />}
+                  onClick={() => setTableView(true)}
                 >
-                  Save
-                </Button>
-                <Button
-                  type="button"
-                  color="secondary"
-                  shape="rectangle"
-                  size="small"
-                  justify="center"
-                  className={Styles.draftButton}
-                  onClick={() => drafthandler()}
-                >
-                  Save Draft
-                </Button>
-                <Button
-                  type="button"
-                  color="secondary"
-                  shape="rectangle"
-                  size="small"
-                  justify="center"
-                  className={Styles.cancelButton}
-                  onClick={() => props.setOpen(false)}
-                >
-                  Cancel
+                  Add Expense
                 </Button>
               </div>
             </div>
-          </div>
-          : <div>
-            <div className={Styles.addNewRowView}>
-            <MoneyIcon height={50} width={50} color="#475467" />
-            <h5>No Site Expenses added for this site </h5>
-            <span className={Styles.spanContent}>Let's add an expanse now</span>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-              icon={<AddIcon color="white" />}
-              onClick={() => setTableView(true)}
-            >
-              Add Expense
-            </Button>
-          </div>
-          </div>
-          }
+          )}
         </div>
         <CustomConfirmDialogBox
           open={openConfirm}
