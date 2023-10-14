@@ -4106,3 +4106,53 @@ Error in query graph construction: AssertionError("Invalid value for skip argume
 =======
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/processFileUpload << ERRSTRING >>TypeError: files.file is not iterable
 >>>>>>> 92a2ef7a64e38324990012b0b18578bc60414136
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-10-14T10:48:46.575Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createStockOutward << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.update()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\projectInventory.dao.ts:226:66
+
+  223 try {
+  224   const currentDate = new Date();
+  225   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 226   const projectInventory = await transaction.project_inventory.update({
+          where: {
+        ?   project_inventory_id?: Int
+          },
+          data: {
+            available_quantity: NaN,
+                                ~~~
+            updated_by: 1,
+            total_cost: NaN,
+            updated_date: new Date('2023-10-14T10:49:39.449Z')
+          }
+        })
+
+Argument where of type project_inventoryWhereUniqueInput needs at least one argument. Available args are listed in green.
+Argument available_quantity: Got invalid value NaN on prisma.updateOneproject_inventory. Provided Float, expected Int or NullableIntFieldUpdateOperationsInput or Null.
+
+Note: Lines with ? are optional.
+
