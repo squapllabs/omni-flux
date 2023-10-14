@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Styles from '../../../../styles/project.module.scss';
+import Styles from '../../../../styles/newStyles/projectIndentList.module.scss';
 import {
   getProjectBasedIndent,
   getBySearchIndent,
+  getIndentSearchPaginated,
 } from '../../../../hooks/indentRequest-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditIcon from '../../../menu/icons/newEditIcon';
@@ -11,9 +12,9 @@ import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import Select from '../../../ui/selectNew';
-import Pagination from '../../../menu/pagination';
 import CustomLoader from '../../../ui/customLoader';
 import CustomPagination from '../../../menu/CustomPagination';
+import BOQIcon from '../../../menu/icons/boqIcon';
 const ProjectIndentRequestList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -29,48 +30,27 @@ const ProjectIndentRequestList = () => {
     approver_status: '',
   });
 
+  const demo: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: 'AC',
+    project_id: Number(routeParams?.id),
+    ...filterValues,
+  };
   const {
-    mutate: postDataForFilter,
-    data: getFilterData,
     isLoading: FilterLoading,
-  } = getBySearchIndent();
-  // console.log('getFilterData', getFilterData);
+    data: getFilterData,
+    refetch,
+  } = getIndentSearchPaginated(demo);
 
   useEffect(() => {
-    handleSearch();
-  }, [currentPage, rowsPerPage]);
+    refetch();
+  }, [currentPage, rowsPerPage, filterValues]);
 
-  const handleSearch = async () => {
-    const demo: any = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      project_id: Number(routeParams?.id),
-      ...filterValues,
-    };
-    // console.log('demo', demo);
-    postDataForFilter(demo);
-    // setIsLoading(false);
-    // setFilter(true);
-  };
+  
 
-  /* Function for resting the search field and data to normal state */
-  const handleReset = async () => {
-    const demo: any = {
-      offset: (currentPage - 1) * rowsPerPage,
-      limit: rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      global_search: '',
-    };
-    postDataForFilter(demo);
-    setFilterValues({
-      approver_status: '',
-    });
-  };
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -85,7 +65,7 @@ const ProjectIndentRequestList = () => {
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
+    // const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
       ['approver_status']: event.target.value,
@@ -104,140 +84,201 @@ const ProjectIndentRequestList = () => {
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
-        <div className={Styles.box}>
-          <div className={Styles.headingContent}>
-            <div className={Styles.textContent_1}>
-              <h3>Indent Request</h3>
-              <span className={Styles.content}>Add Indent Request</span>
-            </div>
-            <div>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                icon={<AddIcon width={20} color="white" />}
-                onClick={(e) => {
-                  navigate(`/indent/${routeParams?.id}`);
-                }}
-              >
-                Add
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className={Styles.searchField}>
-          <div className={Styles.inputFilter}>
-            <div className={Styles.filterSelect}>
-              <Select
-                label="Indent Status"
-                name="approver_status"
-                value={filterValues.approver_status}
-                onChange={(e) => handleFilterChange(e)}
-                defaultLabel="Select from options"
-                placeholder="Select from options"
-              >
-                {approverStatus?.map((items: any, index: any) => {
-                  return (
-                    <option key={items.value} value={items.value}>
-                      {items.label}
-                    </option>
-                  );
-                })}
-              </Select>
-            </div>
-            <div className={Styles.filterButton}>
-              <Button
-                className={Styles.searchButton}
-                type="button"
-                color="primary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                onClick={(e) => handleSearch(e)}
-              >
-                Search
-              </Button>
-              <Button
-                className={Styles.resetButton}
-                type="button"
-                color="secondary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                onClick={(e) => handleReset(e)}
-              >
-                Reset
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className={Styles.tableContainer}>
+        {getFilterData?.total_count !== 0 ||
+        filterValues.approver_status !== '' ? (
           <div>
-            <table className={Styles.scrollable_table}>
-              <thead>
-                <tr>
-                  <th className={Styles.tableHeading}>#</th>
-                  <th className={Styles.tableHeadingSite}>
-                    Indent Requested Date
-                  </th>
-                  <th className={Styles.tableHeading}>
-                    Expected Delivery Date
-                  </th>
-                  {/* <th className={Styles.tableHeading}>Cost</th> */}
-                  <th className={Styles.tableHeading}>Indent Status</th>
-                  <th className={Styles.tableHeading}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {getFilterData?.content?.length > 0 ? (
-                  getFilterData.content.map((items: any, index: any) => {
-                    rowIndex = rowIndex + 1;
-                    return (
-                      <tr key={index}>
-                        <td>{rowIndex}</td>
-                        <td>{dateFormat(items?.requested_date)}</td>
-                        <td>{dateFormat(items?.expected_delivery_date)}</td>
-                        {/* <td>{formatBudgetValue(items?.total_cost)}</td> */}
-                        <td>{items?.approver_status}</td>
-                        <td>
-                          <div
-                            style={{
-                              cursor: 'pointer',
-                            }}
-                          >
-                            <EditIcon
-                              onClick={(e) => {
-                                navigate(
-                                  `/indent/${routeParams?.id}/${items?.indent_request_id}`
-                                );
-                              }}
-                            />
-                          </div>
+            <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.headingOne}>
+                  <div className={Styles.subHeading}>
+                    <BOQIcon />
+                    <h3>Indent Request</h3>
+                  </div>
+                  <div>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon color="white" />}
+                      onClick={(e) => {
+                        navigate(`/indent/${routeParams?.id}`);
+                      }}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </div>
+                <div className ={ Styles.searchBar}>
+                  <Select
+                    width="200px"
+                    name="approver_status"
+                    value={filterValues.approver_status}
+                    onChange={(e) => handleFilterChange(e)}
+                    defaultLabel="Select from options"
+                    placeholder="Select All"
+                  >
+                    {approverStatus?.map((items: any, index: any) => {
+                      return (
+                        <option key={items.value} value={items.value}>
+                          {items.label}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                </div>
+              </div>
+            </div>
+            {/* <div className={Styles.searchField}>
+              <div className={Styles.inputFilter}>
+                <div className={Styles.filterSelect}>
+                  <Select
+                    label="Indent Status"
+                    name="approver_status"
+                    value={filterValues.approver_status}
+                    onChange={(e) => handleFilterChange(e)}
+                    defaultLabel="Select from options"
+                    placeholder="Select from options"
+                  >
+                    {approverStatus?.map((items: any, index: any) => {
+                      return (
+                        <option key={items.value} value={items.value}>
+                          {items.label}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                </div> */}
+            {/* <div className={Styles.filterButton}>
+                  <Button
+                    // className={Styles.searchButton}
+                    type="button"
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    onClick={(e) => handleSearch(e)}
+                  >
+                    Search
+                  </Button>
+                  <Button
+                    className={Styles.resetButton}
+                    type="button"
+                    color="secondary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    onClick={(e) => handleReset(e)}
+                  >
+                    Reset
+                  </Button>
+                </div> */}
+            {/* </div>
+            </div> */}
+            <div className={Styles.tableContainer}>
+              <div>
+                <table className={Styles.scrollable_table}>
+                  <thead>
+                    <tr>
+                      <th className={Styles.tableHeading}>#</th>
+                      <th className={Styles.tableHeadingSite}>
+                        Indent Requested Date
+                      </th>
+                      <th className={Styles.tableHeading}>
+                        Expected Delivery Date
+                      </th>
+                      <th className={Styles.tableHeading}>Indent Status</th>
+                      <th className={Styles.tableHeading}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getFilterData?.content?.length > 0 ? (
+                      getFilterData.content.map((items: any, index: any) => {
+                        rowIndex = rowIndex + 1;
+                        return (
+                          <tr key={index}>
+                            <td>{rowIndex}</td>
+                            <td>{dateFormat(items?.requested_date)}</td>
+                            <td>{dateFormat(items?.expected_delivery_date)}</td>
+                            {/* <td>{formatBudgetValue(items?.total_cost)}</td> */}
+                            <td>{items?.approver_status}</td>
+                            <td>
+                              <div
+                                style={{
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                <EditIcon
+                                  onClick={(e) => {
+                                    navigate(
+                                      `/indent/${routeParams?.id}/${items?.indent_request_id}`
+                                    );
+                                  }}
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr>
+                        <td colSpan="6" style={{ textAlign: 'center' }}>
+                          No data found
                         </td>
                       </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan="6" style={{textAlign:'center'}}>No data found</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div className={Styles.pagination}>
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={getFilterData?.total_page}
+                  totalCount={getFilterData?.total_count}
+                  rowsPerPage={rowsPerPage}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                />
+              </div>
+            </div>
           </div>
-          <div className={Styles.pagination}>
-            <CustomPagination
-              currentPage={currentPage}
-              totalPages={getFilterData?.total_page}
-              totalCount={getFilterData?.total_count}
-              rowsPerPage={rowsPerPage}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-            />
+        ) : (
+          <div>
+            <div className={Styles.subHeading}>
+              <BOQIcon width={30} height={30} color="black" />
+              <h3>Indent Raise</h3>
+            </div>
+            <div className={Styles.emptyDataHandling}>
+              <div className={Styles.image}>
+                <img src="/boq-add.png" width="100%" height="20%" />
+              </div>
+              <div>
+                <h5 className={Styles.textmax}>
+                  No indent added to this Project
+                </h5>
+              </div>
+              <div>
+                <p className={Styles.textmin}>
+                  Go ahead, add a indent to this project now
+                </p>
+              </div>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={(e) => {
+                    navigate(`/indent/${routeParams?.id}`);
+                  }}
+                >
+                  Add
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </CustomLoader>
     </div>
   );
