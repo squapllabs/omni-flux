@@ -7001,3 +7001,75 @@ type IntFilter {
 }
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientUnknownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -1")
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientUnknownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -1")
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientUnknownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -1")
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientUnknownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -1")
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientUnknownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -10")
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientUnknownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -10")
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientUnknownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -10")
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientUnknownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\2023\Oct\Master Data 05\omni-flux\apps\api\src\dao\masterData.dao.ts:255:54
+
+  252 try {
+  253   const transaction = connectionObj !== null ? connectionObj : prisma;
+  254   const filter = filters.filterMasterData;
+→ 255   const masterData = await transaction.master_data.findMany(
+Error in query graph construction: AssertionError("Invalid value for skip argument: Value can only be positive, found: -10")

@@ -34,13 +34,11 @@
     padding: 5px 5px 0px 0px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
 }
 
 .inputFilter {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     padding-left: 20px;
 }
@@ -52,10 +50,6 @@
 }
 
 .filterSelect {
-    width: 30%;
-}
-
-.selectDrop {
     width: 30%;
 }
 
@@ -136,7 +130,9 @@
 }
 
 .button {
-    padding-top: 1.5%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0% 3% 1.5% 0%;
 }
 
 .approvedStatus {
@@ -144,25 +140,28 @@
     padding: 4px;
     border-radius: 50px;
     color: #027a48;
-  }
-  .pendingStatus {
-    background-color:#FDF2FA;
+}
+
+.pendingStatus {
+    background-color: #FDF2FA;
     padding: 4px;
     border-radius: 35px;
-    color:  #C11574
-  }
-  .rejectedStatus {
-    background-color:#FFFAEB;
+    color: #C11574
+}
+
+.rejectedStatus {
+    background-color: #FFFAEB;
     padding: 4px;
     border-radius: 35px;
-    color:  #B54708;
-  }
-  .draftStatus {
-    background-color:#EFF8FF;
+    color: #B54708;
+}
+
+.draftStatus {
+    background-color: #EFF8FF;
     padding: 4px;
     border-radius: 35px;
-    color:#175CD3
-  }
+    color: #175CD3
+}
 
 //EXPENSE DETAIL
 
@@ -211,5 +210,94 @@
 }
 
 .tableContainerBottom {
-    padding: 10px 10px 50px 10px;
+    padding: 20px 10px 50px 10px;
+}
+
+.mainDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 10px 0px 0px 30px;
+}
+
+.subDiv {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.textContent_1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.projectTitle {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-right: -70px;
+}
+
+.lineStyles {
+    padding: 8px;
+    display: flex;
+}
+
+.vertical {
+    position: relative;
+}
+
+.verticalLine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.5px;
+    /* Adjust the width of the line */
+    background-color: #7a7676;
+    /* Adjust the color as needed */
+    height: 100%;
+}
+
+.sub_header {
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.boqAmount {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.countContentTitle {
+    font-weight: 400;
+    color: #475467;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.selected {
+    position: relative;
+}
+
+.selected::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #d0d5dd;
+}
+
+.completeButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 10px 10px 0px 0px;
 }

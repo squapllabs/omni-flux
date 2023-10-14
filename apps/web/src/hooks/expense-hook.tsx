@@ -93,7 +93,7 @@ const getBySearchsiteExpense = () => {
 };
 
 const useGetAllPaginatedExpense = (data: any) => {
-  return useQuery(['useGetAllsiteExpense'], () => siteExpenseService.filtersiteExpense(data), {
+  return useQuery(['useGetAllPaginatedExpense'], () => siteExpenseService.filtersiteExpense(data), {
     select: (data) => data,
     staleTime: Infinity,
   });

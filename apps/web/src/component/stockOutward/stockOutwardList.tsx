@@ -81,9 +81,11 @@ const StockOutwardList = () => {
               <AutoCompleteSelect
                 name="site_id"
                 // label="Site"
-                optionList={getSiteList}
+                optionList={getSiteList != null ? getSiteList : []}
                 value={
-                  selectedValue === null ? Number(initialSiteId) : selectedValue
+                  selectedValue === null && getSiteList != null
+                    ? Number(initialSiteId)
+                    : selectedValue
                 }
                 placeholder="Select Site"
                 onSelect={(value) => {
@@ -204,7 +206,7 @@ const StockOutwardList = () => {
           <div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.emptyDataHandling}>
-                <img src="/stock.jpg" alt="aa" width="50%" height="50%" />
+                <img src="/stock.jpg" alt="aa" width="25%" height="25%" />
               </div>
               <div>
                 <h5>This project has no Stock Details</h5>

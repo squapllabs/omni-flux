@@ -164,11 +164,7 @@ const MaterData = () => {
   };
   return (
     <div>
-      <CustomLoader
-        loading={getAllLoadingPaginated}
-        size={48}
-        color="#333C44"
-      >
+      <CustomLoader loading={getAllLoadingPaginated} size={48} color="#333C44">
         <div className={Styles.conatiner}>
           <div className={Styles.topHeading}>
             <div className={Styles.heading}>
@@ -203,6 +199,7 @@ const MaterData = () => {
                     ...filterValues,
                     ['search_by_name']: e.target.value,
                   });
+                  setCurrentPage(1);
                 }}
               />
             </div>
@@ -295,9 +292,9 @@ const MaterData = () => {
                               {data.master_data_description
                                 ? data.master_data_description.length > 20
                                   ? data.master_data_description.substring(
-                                    0,
-                                    20
-                                  ) + '...'
+                                      0,
+                                      20
+                                    ) + '...'
                                   : data.master_data_description
                                 : '-'}
                             </span>
@@ -353,7 +350,11 @@ const MaterData = () => {
       <CustomSidePopup
         open={masterDataFormOpen}
         title={mode === 'Edit' ? 'Edit Master Data' : 'Add Master Data'}
-        description={mode === "Edit" ? 'Modify existing master data' : 'Create new master data'}
+        description={
+          mode === 'Edit'
+            ? 'Modify existing master data'
+            : 'Create new master data'
+        }
         handleClose={handleCloseMasterForm}
         content={
           <MasterDataForm
