@@ -131,6 +131,51 @@
   }
 }
 
+.tableDiv{
+    display: flex;
+    flex-wrap: wrap; /* Wrap items to the next row */
+    gap: 10px; /* Adjust the gap between items */
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px 10px 10px;
+    // overflow: hidden;
+}
+
+.icons{
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+
+.deleteIndex{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 400;
+  font-size: 12px;
+  padding-bottom: 5px;
+  color: var(--secondary-color);
+}
+
+/* Individual iframe */
+.iframeDiv {
+  width: calc(15.33% - 10px); /* Adjust the width based on the number of columns you want */
+  // box-sizing: border-box; /* Include padding and border in the width calculation */
+  // border: 1px solid #ccc; 
+  /* Add a border for each iframe */
+  border: none;
+}
+
+/* Style the iframe itself */
+.iframeDiv iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
 .tableContainerBOM {
   padding: 10px;
   width: 100%;
@@ -154,6 +199,48 @@
 .scrollable_table {
   width: 100%;
   height: 100%;
+  padding: 10px 10px;
+  /* Adjust padding */
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px 10px 10px 24px;
+    /* Adjust padding */
+    text-align: left;
+    font-weight: 500;
+    // border: 0px 0px 1px;
+    font-size: 12px;
+    border: none;
+    /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+    // border-bottom :0px, 0px, 1px, 0px
+  }
+
+  thead {
+    tr {
+      th {
+        color: #667085;
+        font-weight: 700;
+      }
+    }
+  }
+
+  td:hover,
+  tr:hover {
+    /* Add hover styles if needed */
+  }
+}
+
+.scrollable_table_documents {
+  // width: 100%;
+  // height: 100%;
+  width: 50%;
   padding: 10px 10px;
   /* Adjust padding */
   gap: 12px;
@@ -260,9 +347,23 @@
   padding: 10px 0px 0px 30px;
   display: flex;
   flex-direction: row;
-  // justify-content: space-between;
+  // justify-content: center;
   gap: 30px;
   align-items: center;
+}
+.document{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  padding: 2px;
+}
+
+.allDocuments{
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: gray;
+  gap: 10px;
 }
 
 .documentOuterLayer {
@@ -283,11 +384,36 @@
 }
 
 .viewFiles {
-  padding: 0px 0px 0px 50px;
+  padding: 10px 30px;
+  width: 40%;
+}
+
+.closeIcon {
+  padding: 2px;
 }
 
 .listStyles {
   font-size: 0.85rem;
+}
+
+.selectedFiles {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 2px;
+  padding: 2px;
+  margin: 5px;
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+
+}
+
+.fileList {
+  cursor: pointer;
+  color: #333;
+}
+
+.fileList:hover {
+  color: blue; 
 }
 
 .errorStyles {
@@ -387,6 +513,11 @@
 
 .container {
   padding: 10px;
+}
+
+.container_document {
+  padding: 10px;
+  width: 100%;
 }
 
 .content_container_left {

@@ -61,7 +61,6 @@ const UserList = () => {
     data: initialData,
     refetch,
   } = useGetAllPaginatedUser(userData);
-
   const deleteUserHandler = (id: any) => {
     setValue(id);
     setOpen(true);
@@ -165,107 +164,150 @@ const UserList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.topHeading}>
-            <div className={Styles.heading}>
-              <div className={Styles.subHeading}>
-                <MemberIcon />
-                <h3>USERS</h3>
-              </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => navigate('/user-create')}
-                >
-                  Add User
-                </Button>
-              </div>
-            </div>
-            <div className={Styles.filters}>
-              <div>
-                <Input
-                  placeholder="Search Users"
-                  width="300px"
-                  prefixIcon={<SearchIcon />}
-                  name="filter_value"
-                  onChange={(e) => {
-                    setFilterValues({
-                      ...filterValues,
-                      ['search_by_name']: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
-            </div>
-          </div>
-          <div className={Styles.tableContainer}>
+          {initialData?.total_count !== 0 ? (
             <div>
-              <table className={Styles.scrollable_table}>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Contact Number</th>
-                    {activeButton === 'AC' && <th>Actions</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {initialData?.total_count === 0 ? (
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td>No data found</td>
-                      {activeButton === 'AC' && <td></td>}
-                    </tr>
-                  ) : (
-                    initialData?.content?.map((data: any, index: number) => (
-                      <tr key={data.user_id}>
-                        <td>{startingIndex + index}</td>
-                        <td>{data.first_name}</td>
-                        <td>{data.last_name}</td>
-                        <td>{data.email_id}</td>
-                        <td>{data.contact_no}</td>
-                        {activeButton === 'AC' && (
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() =>
-                                  navigate(`/user-edit/${data.user_id}`)
-                                }
-                              />
-                              <DeleteIcon
-                                onClick={() => deleteUserHandler(data.user_id)}
-                              />
-                            </div>
-                          </td>
-                        )}
+              <div className={Styles.topHeading}>
+                <div className={Styles.heading}>
+                  <div className={Styles.subHeading}>
+                    <MemberIcon />
+                    <h3>USERS</h3>
+                  </div>
+                  <div>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon color="white" />}
+                      onClick={() => navigate('/user-create')}
+                    >
+                      Add User
+                    </Button>
+                  </div>
+                </div>
+                <div className={Styles.filters}>
+                  <div>
+                    <Input
+                      placeholder="Search Users"
+                      width="300px"
+                      prefixIcon={<SearchIcon />}
+                      name="filter_value"
+                      onChange={(e) => {
+                        setFilterValues({
+                          ...filterValues,
+                          ['search_by_name']: e.target.value,
+                        });
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
+                  <CustomGroupButton
+                    labels={buttonLabels}
+                    onClick={handleGroupButtonClick}
+                    activeButton={activeButton}
+                  />
+                </div>
+              </div>
+              <div className={Styles.tableContainer}>
+                <div>
+                  <table className={Styles.scrollable_table}>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        {activeButton === 'AC' && <th>Actions</th>}
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {initialData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        initialData?.content?.map((data: any, index: number) => (
+                          <tr key={data.user_id}>
+                            <td>{startingIndex + index}</td>
+                            <td>{data.first_name}</td>
+                            <td>{data.last_name}</td>
+                            <td>{data.email_id}</td>
+                            <td>{data.contact_no}</td>
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tablerow}>
+                                  <EditIcon
+                                    onClick={() =>
+                                      navigate(`/user-edit/${data.user_id}`)
+                                    }
+                                  />
+                                  <DeleteIcon
+                                    onClick={() => deleteUserHandler(data.user_id)}
+                                  />
+                                </div>
+                              </td>
+                            )}
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                <div className={Styles.pagination}>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
+              </div>
             </div>
-            <div className={Styles.pagination}>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={initialData?.total_page}
-                totalCount={initialData?.total_count}
-                rowsPerPage={rowsPerPage}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-              />
-            </div>
-          </div>
+          ) :
+            (
+              <div>
+                <div className={Styles.subHeading}>
+                  <MemberIcon />
+                  <span>Users</span>
+                </div>
+                <div className={Styles.emptyDataHandling}>
+                  <div>
+                    <img
+                      src="/users_img.jpg"
+                      alt="aa"
+                      width="100%"
+                      height="300px"
+                    />
+                  </div>
+                  <div>
+                    <h5>Users List is Empty</h5>
+                  </div>
+                  <div>
+                    <span className={Styles.spanContent}>Go ahead, and add some Users</span>
+                  </div>
+                  <div className={Styles.emptyButton}>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon color="white" />}
+                      onClick={() => navigate('/user-create')}
+                    >
+                      Add User
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+
         </CustomLoader>
         <CustomDelete
           open={open}

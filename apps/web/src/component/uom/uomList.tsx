@@ -101,6 +101,13 @@ const UomList = () => {
     refetch();
   }, [currentPage, rowsPerPage]);
 
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValues]);
+
   /* Function for searching data in the UOM Table */
   const handleSearch = async () => {
     const uomData: any = {
@@ -151,89 +158,136 @@ const UomList = () => {
           size={48}
           color="#333C44"
         >
-          <div className={Styles.topHeading}>
-            <div className={Styles.heading}>
-              <div className={Styles.subHeading}>
-                <h3>UOM</h3>
+          {initialData?.total_count !== 0 ? (
+            <div>
+              <div className={Styles.topHeading}>
+                <div className={Styles.heading}>
+                  <div className={Styles.subHeading}>
+                    <h3>UOM</h3>
+                  </div>
+                  <div>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon color="white" />}
+                      onClick={() => {
+                        setMode('ADD');
+                        setOpenUomForm(true);
+                      }}
+                    >
+                      Add Uom
+                    </Button>
+                  </div>
+                </div>
+                <div className={Styles.searchBar}>
+                  <Input
+                    placeholder="Search UOM"
+                    width="300px"
+                    prefixIcon={<SearchIcon />}
+                    name="filter_value"
+                    onChange={(e) => {
+                      setFilterValues({
+                        ...filterValues,
+                        ['search_by_name']: e.target.value,
+                      });
+                      setCurrentPage(1);
+                    }}
+                  />
+                </div>
               </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => {
-                    setMode('ADD');
-                    setOpenUomForm(true);
-                  }}
-                >
-                  Add Uom
-                </Button>
-              </div>
-            </div>
-          </div>
-          <div className={Styles.box}>
-            {/* <div className={Styles.textContent}>
-              <h3>List of Unit of Measurements</h3>
-              <span className={Styles.content}>
-                Manage your UOM details here.
-              </span>
-            </div> */}
-            {/* <div className={Styles.searchField}>
-              <div className={Styles.inputFilter}>
-                <Input
-                  width="260px"
-                  prefixIcon={<SearchIcon />}
-                  name="search_by_name"
-                  value={filterValues.search_by_name}
-                  onChange={(e) => handleFilterChange(e)}
-                  placeholder="Search"
-                />
-                <Button
-                  className={Styles.searchButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleReset}
-                  disabled={isResetDisabled}
-                >
-                  Reset
-                </Button>
-              </div>
-            </div> */}
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>UOM Name</th>
-                      <th>Description</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataShow ? (
-                      getFilterData?.total_count === 0 ? (
+              <div className={Styles.box}>
+                {/* <div className={Styles.textContent}>
+                  <h3>List of Unit of Measurements</h3>
+                  <span className={Styles.content}>
+                    Manage your UOM details here.
+                  </span>
+                </div> */}
+                {/* <div className={Styles.searchField}>
+                  <div className={Styles.inputFilter}>
+                    <Input
+                      width="260px"
+                      prefixIcon={<SearchIcon />}
+                      name="search_by_name"
+                      value={filterValues.search_by_name}
+                      onChange={(e) => handleFilterChange(e)}
+                      placeholder="Search"
+                    />
+                    <Button
+                      className={Styles.searchButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </Button>
+                    <Button
+                      className={Styles.resetButton}
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      onClick={handleReset}
+                      disabled={isResetDisabled}
+                    >
+                      Reset
+                    </Button>
+                  </div>
+                </div> */}
+                <div className={Styles.tableContainer}>
+                  <div>
+                    <table className={Styles.scrollable_table}>
+                      <thead>
                         <tr>
-                          <td></td>
-                          <td></td>
-                          <td>No data found</td>
-                          <td></td>
+                          <th>#</th>
+                          <th>UOM Name</th>
+                          <th>Description</th>
+                          <th>Actions</th>
                         </tr>
-                      ) : (
-                        getFilterData?.content?.map(
-                          (data: any, index: number) => (
+                      </thead>
+                      <tbody>
+                        {dataShow ? (
+                          getFilterData?.total_count === 0 ? (
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td>No data found</td>
+                              <td></td>
+                            </tr>
+                          ) : (
+                            getFilterData?.content?.map(
+                              (data: any, index: number) => (
+                                <tr key={data.uom_id}>
+                                  <td>{startingIndex + index}</td>
+                                  <td>{data.name}</td>
+                                  <td>{data.description}</td>
+
+                                  <td>
+                                    <div className={Styles.tablerow}>
+                                      <EditIcon
+                                        onClick={() => handleEdit(data.uom_id)}
+                                      />
+                                      <DeleteIcon
+                                        onClick={() =>
+                                          deleteCategoryHandler(data.uom_id)
+                                        }
+                                      />
+                                    </div>
+                                  </td>
+                                </tr>
+                              )
+                            )
+                          )
+                        ) : initialData?.total_count === 0 ? (
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td>No data found</td>
+                            <td></td>
+                          </tr>
+                        ) : (
+                          initialData?.content?.map((data: any, index: number) => (
                             <tr key={data.uom_id}>
                               <td>{startingIndex + index}</td>
                               <td>{data.name}</td>
@@ -252,59 +306,69 @@ const UomList = () => {
                                 </div>
                               </td>
                             </tr>
-                          )
-                        )
-                      )
-                    ) : initialData?.total_count === 0 ? (
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
-                        <td></td>
-                      </tr>
-                    ) : (
-                      initialData?.content?.map((data: any, index: number) => (
-                        <tr key={data.uom_id}>
-                          <td>{startingIndex + index}</td>
-                          <td>{data.name}</td>
-                          <td>{data.description}</td>
-
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() => handleEdit(data.uom_id)}
-                              />
-                              <DeleteIcon
-                                onClick={() =>
-                                  deleteCategoryHandler(data.uom_id)
-                                }
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className={Styles.pagination}>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={
+                      dataShow ? getFilterData?.total_page : initialData?.total_page
+                    }
+                    totalCount={
+                      dataShow
+                        ? getFilterData?.total_count
+                        : initialData?.total_count
+                    }
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
               </div>
             </div>
-            <div className={Styles.pagination}>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
-                }
-                totalCount={
-                  dataShow
-                    ? getFilterData?.total_count
-                    : initialData?.total_count
-                }
-                rowsPerPage={rowsPerPage}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-              />
+          ) : (
+            <div>
+            <div className={Styles.subHeading}>
+              {/* <span>UOM</span> */}
+            </div>
+            <div className={Styles.emptyDataHandling}>
+              <div>
+                <img
+                  src="/UOM.jpg"
+                  alt="aa"
+                  width="100%"
+                  height="300px"
+                />
+              </div>
+              <div>
+                <h5>UOM is Empty</h5>
+              </div>
+              <div>
+                <span className={Styles.spanContent}>Go ahead, add new Unit of Measure</span>
+              </div>
+              <div className={Styles.emptyButton}>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon color="white" />}
+                      onClick={() => {
+                        setMode('ADD');
+                        setOpenUomForm(true);
+                      }}
+                    >
+                      Add Uom
+                    </Button>
+              </div>
             </div>
           </div>
+          )}
+
         </CustomLoader>
         <CustomSidePopup
           open={openUomForm}

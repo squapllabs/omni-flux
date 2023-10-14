@@ -1,153 +1,142 @@
 .container {
-    width: 100%;
-  }
-  
-  .topHeading {
-    // position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  
-  .textContent {
-    padding-left: 10px;
-    // padding-top: 10px;
-  }
-  
-  .content {
-    font-size: 0.7rem;
-  }
-  
-  .searchField {
-    padding: 10px 10px 0px 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  
-  .inputFilter {
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    height: 45px;
-  }
-  
-  .searchButton {
-    padding: 12px 20px 12px 20px;
-    border-radius: 8px;
-    border: 1px;
-    gap: 8px;
-    color: #6941c6;
-  }
-  
-  .searchButton:hover {
-    background-color: #7f56d9;
-    color: #ffffff;
-  }
-  
-  .resetButton [disabled] {
-    padding: 12px 20px 12px 20px;
-    border-radius: 8px;
-    border: 1px;
-    gap: 8px;
-    color: #848289;
-    background-color: #ccc;
+  width: 100%;
+}
+
+.topHeading {
+  // padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.textContent {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.content {
+  padding-top: 5px;
+}
+
+.scrollable_table {
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  /* Adjust padding */
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px 10px 10px 24px;
+    /* Adjust padding */
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    border: none;
+    /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
   }
 
-  .scrollable_table {
-    width: 100%;
-    height: 100%;
-    padding: 10px 10px; /* Adjust padding */
-    gap: 12px;
-    border-collapse: collapse;
-  
-    th,
-    td {
-      padding: 10px 10px 10px 24px; /* Adjust padding */
-      text-align: left;
-      font-weight: 500;
-      font-size: 12px;
-      border: none; /* Remove borders */
-      border-bottom: 0.1px solid #f0f0f0;
-    }
-  
-    td {
-      border-bottom: 0.1px solid #f0f0f0;
-    }
-  
-    thead {
-      tr {
-        th {
-          color: #667085;
-          font-weight: 700;
-        }
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  thead {
+    tr {
+      th {
+        color: #667085;
+        font-weight: 700;
       }
     }
-  
-    .status {
-      background-color: #ecfdf3;
-      padding: 6px;
-      border-radius: 50px;
-      color: #027a48;
-    }
-  
-  }
-  
-  .resetButton:not([disabled]):hover {
-    background-color: #c4c4c6;
-    color: #ffffff;
-  }
-  
-  .dividerStyle {
-    border-bottom: 1px solid #ccc;
-  }
-  .dividerStyleTop {
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .tablerow {
-    display: flex;
-    flex-direction: row;
-    column-gap: 15px;
-    cursor: pointer;
   }
 
-  .tableContainer {
-    padding: 10px 10px 0px 10px;
-    // height: 100vh;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  .status {
+    background-color: #ecfdf3;
+    padding: 6px;
+    border-radius: 50px;
+    color: #027a48;
   }
-  
-  .pagination {
-    padding: 10px 10px 10px 0px;
-    display: flex;
-    justify-content: end;
-  }
-  
-  .buttonStyle {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-  }
-  
-  .headingTop {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .backButton {
-    padding: 0px 10px 0px 0px
-  }
-  
-  .approveButtons {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 10px 10px 0px 0px
-  }
-  
+
+}
+
+.resetButton:not([disabled]):hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+}
+
+.dividerStyleTop {
+  border-bottom: 1px solid #ccc;
+}
+
+.tablerow {
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
+  cursor: pointer;
+}
+
+.tableContainer {
+  padding: 10px 10px 0px 10px;
+  // height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pagination {
+  padding: 10px 10px 10px 0px;
+  display: flex;
+  justify-content: end;
+}
+
+.buttonStyle {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.headingTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.backButton {
+  padding: 0px 10px 0px 0px
+}
+
+.approveButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px 10px 0px 0px
+}
+
+.emptyDataHandling {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.emptyButton {
+  margin-top: 15px;
+}
+
+.spanContent {
+  font-weight: 300;
+}

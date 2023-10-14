@@ -3,7 +3,7 @@ import StockAuditService from '../service/stockaudit-service';
 
 const useGetAllPaginatedStockAudit = (data: any) => {
   return useQuery(
-    ['useGetAllStockAuditData'],
+    ['useGetAllPaginatedStockAudit'],
     () => StockAuditService.filterStockAudit(data),
     {
       select: (data) => data,
@@ -48,7 +48,7 @@ const createStockAudit = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllStockAuditData']);
+        queryClient.invalidateQueries(['useGetAllPaginatedStockAudit']);
       },
     }
   );

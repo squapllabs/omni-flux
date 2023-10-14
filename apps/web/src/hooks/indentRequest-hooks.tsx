@@ -52,9 +52,21 @@ const getBySearchIndent = () => {
   );
 };
 
+const getIndentSearchPaginated = (data : any) =>{
+  return useQuery(
+    ['getProjectBasedIndent'],
+    () => IndentService.filterIndnet(data),
+    {
+      // select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+
 export {
   getProjectBasedIndent,
   createIndentRequest,
   updateIndentRequest,
   getBySearchIndent,
+  getIndentSearchPaginated
 };

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/vendorSelect.module.scss';
-import MoreHorizIcon from '../menu/icons/moreHorizontalIcon';
+import MoreVertIcon from '../menu/icons/moreVerticalIcon';
 
-const CustomMenu = ({ actions }:any) => {
+const CustomMenu = ({ actions }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -13,13 +13,12 @@ const CustomMenu = ({ actions }:any) => {
   const handleItemClick = (action: any) => {
     if (!action.disabled) {
       action.onClick();
-      setIsOpen(false); 
+      setIsOpen(false);
     }
   };
 
-
   useEffect(() => {
-    const handleClickOutside = (event:any) => {
+    const handleClickOutside = (event: any) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
       }
@@ -33,17 +32,18 @@ const CustomMenu = ({ actions }:any) => {
   return (
     <div className={Styles.customMenu} ref={menuRef}>
       <span className={Styles.menuText} onClick={toggleMenu}>
-        <MoreHorizIcon />
+        <MoreVertIcon />
       </span>
       {isOpen && (
         <div className={Styles.menuDropdown}>
-          {actions.map((action:any, index:any) => (
+          {actions.map((action: any, index: any) => (
             <div
-            key={index}
-            // onClick={action.disabled ? null : action.onClick}
-            onClick={() => handleItemClick(action)}
-            className={`${Styles.menuItem} ${action.disabled ? Styles.disabled : ''}`}
-          >
+              key={index}
+              onClick={() => handleItemClick(action)}
+              className={`${Styles.menuItem} ${
+                action.disabled ? Styles.disabled : ''
+              }`}
+            >
               {action.label}
             </div>
           ))}

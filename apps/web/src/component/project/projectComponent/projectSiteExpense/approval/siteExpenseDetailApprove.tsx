@@ -9,11 +9,22 @@ import CustomCard from '../../../../ui/CustomCard';
 import Styles from '../../../../../styles/expenseApprove.module.scss';
 import ApproveDialogBox from '../../../../ui/CustomApprovePopup';
 import RejectDialogBox from '../../../../ui/CustomReject';
-import { updatesiteExpenseDetail } from '../../../../../hooks/expense-hook';
+import CustomConfirm from '../../../../ui/CustomConfirmDialogBox';
+import {
+  updatesiteExpenseStatus,
+  updatesiteExpenseDetail,
+} from '../../../../../hooks/expense-hook';
 import { environment } from '../../../../../environment/environment';
 import ProjectSubheader from '../../../../project/projectSubheader';
 import CustomMenu from '../../../../ui/CustomMenu';
 import { formatBudgetValue } from '../../../../../helper/common-function';
+import Input from '../../../../ui/Input';
+import SiteNavigateIcon from '../../../../menu/icons/siteNavigateIcon';
+import PersonIcon from '../../../../menu/icons/personIcon';
+import Button from '../../../../ui/Button';
+import NewViewIcon from '../../../../menu/icons/newViewIcon';
+import NewApproveIcon from 'apps/web/src/component/menu/icons/newApproveIcon';
+import NewRejectIcon from 'apps/web/src/component/menu/icons/newRejectIcon';
 
 const ExpenseDetailApprove = () => {
   const state: RootState = store.getState();
@@ -27,10 +38,12 @@ const ExpenseDetailApprove = () => {
   const [value, setValue] = useState(0);
   const [openApprove, setOpenApprove] = useState(false);
   const [openReject, setOpenReject] = useState(false);
+  const [openComplete, setOpenComplete] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+  const { mutate: updateSiteExpenseData } = updatesiteExpenseStatus();
   const [initialValues, setInitialValues] = useState({
     expense_details_id: '',
     status: '',
@@ -51,11 +64,10 @@ const ExpenseDetailApprove = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const datas = await siteExpenseService.getOnesiteExpenseByID(params?.id);
+      const datas = await siteExpenseService.getOnesiteExpenseByID(expenseId);
       setTableData(datas.data);
     };
     if (expenseId !== undefined) fetchData();
-    setReload(false);
   }, [reload]);
 
   useEffect(() => {
@@ -70,7 +82,7 @@ const ExpenseDetailApprove = () => {
         updated_by: '',
       });
     };
-    if (value !== undefined) fetchData();
+    if (value !== 0) fetchData();
   }, [reload, value]);
 
   const handleSnackBarClose = () => {
@@ -80,6 +92,7 @@ const ExpenseDetailApprove = () => {
   const approveHandler = (id: any) => {
     setValue(id);
     setOpenApprove(true);
+    setReload(false);
   };
 
   const handleCloseApprove = () => {
@@ -135,6 +148,32 @@ const ExpenseDetailApprove = () => {
     });
   };
 
+  const approveSite = async () => {
+    const object: any = {
+      updated_by: userID,
+      expense_id: tableData.expense_id,
+      status: 'Completed',
+      progressed_by: userID,
+    };
+    updateSiteExpenseData(object, {
+      onSuccess(data, variables, context) {
+        if (data?.message === 'success') {
+          setMessage('Process has been Completed');
+          setOpenSnack(true);
+          setReload(true);
+          handleCloseConfirm();
+        }
+      },
+    });
+  };
+
+  const hanldeOpen = () => {
+    setOpenComplete(true);
+  };
+  const handleCloseConfirm = () => {
+    setOpenComplete(false);
+  };
+
   return (
     <div>
       <div>
@@ -144,94 +183,101 @@ const ExpenseDetailApprove = () => {
           description=""
         />
       </div>
-      <div className={Styles.cardContent}>
-        <CustomCard>
-          <div className={Styles.mainContent}>
-            <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>Project Name</div>
-              <div className={Styles.rightData}>
-                {' '}
-                {tableData?.project_data?.project_name
-                  ? `${tableData?.project_data?.project_name}`
-                  : 'Not Provided'}
-              </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
-            <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>Site Name</div>
-              <div className={Styles.rightData}>
-                {' '}
-                {tableData?.site_data?.name
-                  ? `${tableData?.site_data?.name}`
-                  : 'Not Provided'}
-              </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
-            <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>Expense Code</div>
-              <div className={Styles.rightData}>
-                {' '}
-                {tableData?.expense_code
-                  ? `${tableData?.expense_code}`
-                  : 'Not Provided'}
-              </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
-            <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>Employee ID</div>
-              <div className={Styles.rightData}>
-                {' '}
-                {tableData?.employee_id
-                  ? `${tableData?.employee_id}`
-                  : 'Not Provided'}
-              </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
-            <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>Employee Name</div>
-              <div className={Styles.rightData}>
-                {' '}
-                {tableData?.employee_name
-                  ? `${tableData?.employee_name}`
-                  : 'Not Provided'}
-              </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
-            <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>Start Date</div>
-              <div className={Styles.rightData}>
-                {' '}
-                {tableData?.start_date
-                  ? `${dateFormat(tableData?.start_date)}`
-                  : 'Not Provided'}
-              </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
-            <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>End Date</div>
-              <div className={Styles.rightData}>
-                {' '}
-                {tableData?.end_date
-                  ? `${dateFormat(tableData?.end_date)}`
-                  : 'Not Provided'}
-              </div>
-            </div>
-            <div className={Styles.dividerStyle}></div>
-            <div className={Styles.dataRows}>
-              <div className={Styles.leftData}>Uploaded Documents</div>
-              <div className={Styles.rightData}>
-                <ol className={Styles.siteList}>
-                  {tableData?.bill_details?.map((files: any, index: any) => (
-                    <ol key={index}>
-                      <a href={files.path}>Document {index + 1}</a>
-                    </ol>
-                  ))}
-                </ol>
-              </div>
+      <div className={Styles.sub_header}>
+        <div style={{ display: 'flex' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '20px 10px 20px 30px',
+            }}
+          >
+            <div className={Styles.textContent_1}>
+              <span className={Styles.projectTitle}>Expense Code</span>
+              <h3>{tableData?.expense_code}</h3>
             </div>
           </div>
-        </CustomCard>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '20px 10px 20px 10px',
+            }}
+          >
+            <div>
+              <SiteNavigateIcon width={30} height={30} />
+            </div>
+            <div className={Styles.textContent_1}>
+              <span className={Styles.projectTitle}>Site</span>
+              <span style={{ width: '160px' }}>
+                {tableData?.site_data?.name}
+              </span>
+            </div>
+          </div>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <div>
+              <PersonIcon width={30} height={30} />
+            </div>
+            <div className={Styles.textContent_1}>
+              <span className={Styles.projectTitle}>Applied By</span>
+              <span style={{ width: '160px' }}>{tableData?.employee_name}</span>
+            </div>
+          </div>
+        </div>
+        <div className={Styles.boqAmount}>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '20px 10px 20px 10px',
+            }}
+          >
+            <div className={Styles.countContent}>
+              <h3>
+                {formatBudgetValue(
+                  tableData?.total_amount ? tableData?.total_amount : 0
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Total Amount</span>
+            </div>
+          </div>
+        </div>
       </div>
+      <div className={Styles.selected}></div>
+      {tableData?.isEnableComplete !== false ? (
+        <div className={Styles.completeButton}>
+          <Button
+            color="primary"
+            shape="rectangle"
+            justify="center"
+            size="small"
+            type="submit"
+            onClick={hanldeOpen}
+            disabled={tableData?.status === 'Completed'}
+          >
+            Complete
+          </Button>
+        </div>
+      ) : (
+        ''
+      )}
       <div className={Styles.tableContainerBottom}>
         <table className={Styles.scrollable_table}>
           <thead>
@@ -242,7 +288,12 @@ const ExpenseDetailApprove = () => {
               <th className={Styles.tableHeading}>Amount</th>
               <th className={Styles.tableHeading}>Documents</th>
               <th className={Styles.tableHeading}>Status</th>
-              <th className={Styles.tableHeading}>Action</th>
+              {tableData?.isEnableComplete === true ? (
+                ''
+              ) : (
+                <th className={Styles.tableHeading}>Action</th>
+              )}
+              {/* <th className={Styles.tableHeading}>Action</th> */}
             </tr>
           </thead>
           <tbody>
@@ -258,24 +309,24 @@ const ExpenseDetailApprove = () => {
             {tableData?.expense_details?.map((data: any, index: any) => {
               if (data?.is_delete === false) {
                 rowindex = rowindex + 1;
-                const isApproved =
-                  data?.status === 'Approved' || data?.status === 'Rejected';
-                const actions = [
-                  {
-                    label: 'Approve',
-                    onClick: () => {
-                      approveHandler(data.expense_details_id);
-                    },
-                    disabled: isApproved,
-                  },
-                  {
-                    label: 'Reject',
-                    onClick: () => {
-                      rejectHandler(data.expense_details_id);
-                    },
-                    disabled: isApproved,
-                  },
-                ];
+                // const isApproved =
+                //   data?.status === 'Approved' || data?.status === 'Rejected';
+                // const actions = [
+                //   {
+                //     label: 'Approve',
+                //     onClick: () => {
+                //       approveHandler(data.expense_details_id);
+                //     },
+                //     disabled: isApproved,
+                //   },
+                //   {
+                //     label: 'Reject',
+                //     onClick: () => {
+                //       rejectHandler(data.expense_details_id);
+                //     },
+                //     disabled: isApproved,
+                //   },
+                // ];
                 return (
                   <tr>
                     <td>{rowindex}</td>
@@ -301,15 +352,29 @@ const ExpenseDetailApprove = () => {
                             ? Styles.rejectedStatus
                             : data?.status === 'Approved'
                             ? Styles.approvedStatus
+                            : data?.status === 'Pending'
+                            ? Styles.pendingStatus
                             : ''
                         }`}
                       >
                         {data?.status || nullLableNameFromEnv}
                       </span>
                     </td>
-                    <td>
-                      <CustomMenu actions={actions} />
-                    </td>
+                    {tableData?.isEnableComplete === true ? (
+                      ''
+                    ) : (
+                      <td className={Styles.tableIcon}>
+                        <NewViewIcon />
+                        <NewApproveIcon
+                          onClick={() =>
+                            approveHandler(data.expense_details_id)
+                          }
+                        />
+                        <NewRejectIcon
+                          onClick={() => rejectHandler(data.expense_details_id)}
+                        />
+                      </td>
+                    )}
                   </tr>
                 );
               }
@@ -332,6 +397,13 @@ const ExpenseDetailApprove = () => {
         contentLine2=""
         handleClose={handleCloseReject}
         onReject={handleRejectWithComments}
+      />
+      <CustomConfirm
+        open={openComplete}
+        title=""
+        contentLine1="By clicking submit you cannot edit this expense!"
+        handleClose={handleCloseConfirm}
+        handleConfirm={() => approveSite(tableData?.expense_id)}
       />
       <CustomSnackBar
         open={openSnack}

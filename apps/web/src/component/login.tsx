@@ -127,7 +127,7 @@ const Login = () => {
                   value={values.email}
                   onChange={(e) => handleChange(e)}
                   error={errors.email}
-                  prefixIcon={<MailIcon />}
+                  prefixIcon={<MailIcon style={{paddingTop: '5px'}}/>}
                   width="100%"
                 />
                 <Input

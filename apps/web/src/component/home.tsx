@@ -107,7 +107,7 @@ const Home = () => {
                 </div>
                 <div className={Styles.cardTextStyle}>
                   <h3><b>Yet to Start</b></h3>
-                  <p className={Styles.textStyle1}>{projectData?.not_started_projects}</p>
+                  <p className={Styles.textStyle1}>{projectData?.draft_projects}</p>
                 </div>
                 <div className={Styles.cardTextStyle}>
                   <h3><b>Active</b></h3>

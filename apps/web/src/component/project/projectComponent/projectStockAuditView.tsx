@@ -12,11 +12,9 @@ const ProjectStockAuditView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   let rowIndex = 0;
-  // console.log('routeParams?.id', routeParams?.id);
   const { data: getStockData, isLoading: dataLoading } = getByStockAuditId(
     Number(routeParams?.id)
   );
-  // console.log('getStockData==>', getStockData);
 
   return (
     <div className={Styles.container}>
@@ -25,7 +23,7 @@ const ProjectStockAuditView = () => {
           <div
             className={Styles.logo}
             onClick={() => {
-              navigate(`/project-edit/${routeParams?.id}`);
+              navigate(`/project-edit/${getStockData?.project_id}`);
             }}
           >
             <PreviousPageIcon width={20} height={20} color="#7f56d9" />
