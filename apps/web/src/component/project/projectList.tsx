@@ -288,6 +288,7 @@ const ProjectList = () => {
                     ...filterValues,
                     ['search_by_name']: e.target.value,
                   });
+                  setCurrentPage(1);
                 }}
                 placeholder="Search"
               />

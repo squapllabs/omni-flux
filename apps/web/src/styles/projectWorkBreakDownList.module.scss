@@ -166,6 +166,20 @@
   align-items: center;
 }
 
+.emptyDataHandling {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spanContent {
+  font-weight: 400;
+}
+
+.emptyButton {
+  margin-top: 25px;
+}
+
 .searchBar {
   padding: 5px 15px 0
 }

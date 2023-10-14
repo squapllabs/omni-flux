@@ -209,167 +209,211 @@ const ProductPage = () => {
             </div>
           </div>
         </div> */}
-        <div className={Styles.topHeading}>
-          <div className={Styles.heading}>
-            <div className={Styles.subHeading}>
-              <h3>ITEMS</h3>
+        {getFilterData?.total_count !== 0 ? (
+          <div>
+            <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <h3>ITEMS</h3>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => {
+                      navigate('/product-add');
+                    }}
+                  >
+                    Add Item
+                  </Button>
+                </div>
+                <div className={Styles.button}>
+                  <ButtonOne
+                    text={
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <DownloadIcon style={{ padding: '4px' }} />
+                        Download csv
+                      </div>
+                    }
+                    onClick={handleDownload}
+                    backgroundColor="white"
+                    textColor="black"
+                    width={140}
+                    height={38}
+                    style={{ paddingLeft: '8px' }}
+                    border="1px solid #D0D5DD"
+                    borderRadius={5}
+                  />
+                </div>
+              </div>
+              <div className={Styles.filters}>
+                <div className={Styles.searchBar}>
+                  <Input
+                    placeholder="Search Items"
+                    width="300px"
+                    prefixIcon={<SearchIcon />}
+                    name="filter_value"
+                    onChange={(e) => {
+                      setFilterValues({
+                        ...filterValues,
+                        ['search_by_name']: e.target.value,
+                      });
+                      setCurrentPage(1);
+                    }}
+                  />
+                </div>
+                <div className={Styles.groupButton}>
+                  <CustomGroupButton
+                    labels={buttonLabels}
+                    onClick={handleGroupButtonClick}
+                    activeButton={activeButton}
+                  />
+                </div>
+              </div>
             </div>
-            <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon color="white" />}
-                onClick={() => {
-                  navigate('/product-add');
-                }}
-              >
-                Add Item
-              </Button>
-            </div>
-            <div className={Styles.button}>
-              <ButtonOne
-                text={
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <DownloadIcon style={{ padding: '4px' }} />
-                    Download csv
-                  </div>
-                }
-                onClick={handleDownload}
-                backgroundColor="white"
-                textColor="black"
-                width={140}
-                height={38}
-                style={{ paddingLeft: '8px' }}
-                border="1px solid #D0D5DD"
-                borderRadius={5}
-              />
-            </div>
-          </div>
-          <div className={Styles.filters}>
-            <div className={Styles.searchBar}>
-              <Input
-                placeholder="Search Items"
-                width="300px"
-                prefixIcon={<SearchIcon />}
-                name="filter_value"
-                onChange={(e) => {
-                  setFilterValues({
-                    ...filterValues,
-                    ['search_by_name']: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div className={Styles.groupButton}>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
-            </div>
-          </div>
-        </div>
 
-        {/* <div className={Styles.middleContent}>
-          <div className={Styles.middleRightContent}>
-            <div className={Styles.searchField}>
-              <Input
-                width="260px"
-                prefixIcon={<SearchIcon />}
-                name="search_by_name"
-                value={filterValues.search_by_name}
-                onChange={(e) => handleFilterChange(e)}
-                placeholder="Search"
+            {/* <div className={Styles.middleContent}>
+              <div className={Styles.middleRightContent}>
+                <div className={Styles.searchField}>
+                  <Input
+                    width="260px"
+                    prefixIcon={<SearchIcon />}
+                    name="search_by_name"
+                    value={filterValues.search_by_name}
+                    onChange={(e) => handleFilterChange(e)}
+                    placeholder="Search"
+                  />
+                </div>
+                <div>
+                  <ButtonOne
+                    className={Styles.searchButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </ButtonOne>
+                </div>
+                <div>
+                  <ButtonOne
+                    className={Styles.resetButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    onClick={handleReset}
+                    disabled={isResetDisabled}
+                  >
+                    Reset
+                  </ButtonOne>
+                </div>
+              </div>
+              <div className={Styles.groupButton}>
+                <CustomGroupButton
+                  labels={buttonLabels}
+                  onClick={handleGroupButtonClick}
+                  activeButton={activeButton}
+                />
+              </div>
+            </div> */}
+            <div>
+              <table className={Styles.scrollable_table}>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Item Name</th>
+                    <th>Item Type</th>
+                    <th>Description</th>
+                    <th>GST</th>
+                    <th>Rate</th>
+                    <th>Action</th>
+                    {activeButton === 'AC' && <th></th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {getFilterData?.total_count === 0 ? (
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>No data found</td>
+                      {activeButton === 'AC' && <td></td>}
+                    </tr>
+                  ) : (
+                    getFilterData?.content?.map((data: any, index: any) => (
+                      <tr key={data?.item_id}>
+                        <td>{startingIndex + index}</td>
+                        <td>{data?.item_name}</td>
+                        <td>{data?.item_type && data?.item_type.master_data_name}</td>
+                        <td>{data?.description}</td>
+                        <td>{data?.gst?.rate}</td>
+                        <td>{formatBudgetValue(data.rate || '-')}</td>
+                        {activeButton === 'AC' && (
+                          <td>
+                            <div className={Styles.tablerow}>
+                              <EditIcon onClick={() => handleEdit(data?.item_id)} />
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <div className={Styles.pagination}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={getFilterData?.total_page}
+                totalCount={getFilterData?.total_count}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
               />
             </div>
-            <div>
-              <ButtonOne
-                className={Styles.searchButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleSearch}
-              >
-                Search
-              </ButtonOne>
+
+          </div>
+        ) : (
+          <div>
+            <div className={Styles.subHeading}>
+              {/* <MasterDataIcon />
+              <span>Items</span> */}
             </div>
-            <div>
-              <ButtonOne
-                className={Styles.resetButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleReset}
-                disabled={isResetDisabled}
-              >
-                Reset
-              </ButtonOne>
+            <div className={Styles.emptyDataHandling}>
+              <div>
+                <img
+                  src="/items.jpg"
+                  alt="aa"
+                  width="100%"
+                  height="250px"
+                  style={{paddingTop: '35px', paddingBottom: '15px'}}
+                />
+              </div>
+              <div>
+                <h5>Items list is Empty</h5>
+              </div>
+              <div>
+                <span className={Styles.spanContent}>Go ahead, add new Items</span>
+              </div>
+              <div className={Styles.emptyButton}>
+                <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => {
+                      navigate('/product-add');
+                    }}
+                  >
+                  Add Item
+                </Button>              
+              </div>
             </div>
           </div>
-          <div className={Styles.groupButton}>
-            <CustomGroupButton
-              labels={buttonLabels}
-              onClick={handleGroupButtonClick}
-              activeButton={activeButton}
-            />
-          </div>
-        </div> */}
-        <div>
-          <table className={Styles.scrollable_table}>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Item Name</th>
-                <th>Item Type</th>
-                <th>Description</th>
-                <th>GST</th>
-                <th>Rate</th>
-                <th>Action</th>
-                {activeButton === 'AC' && <th></th>}
-              </tr>
-            </thead>
-            <tbody>
-              {getFilterData?.total_count === 0 ? (
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td>No data found</td>
-                  {activeButton === 'AC' && <td></td>}
-                </tr>
-              ) : (
-                getFilterData?.content?.map((data: any, index: any) => (
-                  <tr key={data?.item_id}>
-                    <td>{startingIndex + index}</td>
-                    <td>{data?.item_name}</td>
-                    <td>{data?.item_type && data?.item_type.master_data_name}</td>
-                    <td>{data?.description}</td>
-                    <td>{data?.gst?.rate}</td>
-                    <td>{formatBudgetValue(data.rate || '-')}</td>
-                    {activeButton === 'AC' && (
-                      <td>
-                        <div className={Styles.tablerow}>
-                          <EditIcon onClick={() => handleEdit(data?.item_id)} />
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-        <div className={Styles.pagination}>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={getFilterData?.total_page}
-            totalCount={getFilterData?.total_count}
-            rowsPerPage={rowsPerPage}
-            onPageChange={handlePageChange}
-            onRowsPerPageChange={handleRowsPerPageChange}
-          />
-        </div>
+        )}
       </CustomLoader>
     </div>
   );

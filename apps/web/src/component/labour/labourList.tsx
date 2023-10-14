@@ -195,11 +195,54 @@ const LabourList = () => {
         size={48}
         color="#333C44"
       >
-        <div>
-          <div className={Styles.topHeading}>
-            <div className={Styles.heading}>
-              <div className={Styles.subHeading}>
-                <h3>LABOURS</h3>
+        {initialData?.total_count !== 0 ? (
+          <div>
+            <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <h3>LABOURS</h3>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => handleAddLabourData()}
+                  >
+                    Add Labour
+                  </Button>
+                </div>
+              </div>
+              <div className={Styles.filters}>
+                <div>
+                  <Input
+                    placeholder="Search Labours"
+                    width="300px"
+                    prefixIcon={<SearchIcon />}
+                    name="filter_value"
+                    onChange={(e) => {
+                      setFilterValues({
+                        ...filterValues,
+                        ['global_search']: e.target.value,
+                      });
+                      setCurrentPage(1)
+                    }}
+                  />
+                </div>
+                <div>
+                  <CustomGroupButton
+                    labels={buttonLabels}
+                    onClick={handleGroupButtonClick}
+                    activeButton={activeButton}
+                  />
+                </div>
+              </div>
+            </div>
+            {/* <div className={Styles.top}>
+              <div className={Styles.textContent}>
+                <h3>Add New Labour</h3>
               </div>
               <div>
                 <Button
@@ -208,207 +251,202 @@ const LabourList = () => {
                   justify="center"
                   size="small"
                   icon={<AddIcon color="white" />}
-                  onClick={() => handleAddLabourData()}
+                  onClick={() => {
+                    navigate('/labour-add');
+                  }}
                 >
                   Add Labour
                 </Button>
               </div>
-            </div>
-            <div className={Styles.filters}>
-              <div>
-                <Input
-                  placeholder="Search Labours"
-                  width="300px"
-                  prefixIcon={<SearchIcon />}
-                  name="filter_value"
-                  onChange={(e) => {
-                    setFilterValues({
-                      ...filterValues,
-                      ['global_search']: e.target.value,
-                    });
-                  }}
-                />
+            </div> */}
+            {/* <div className={Styles.dividerStyle}></div> */}
+            <div className={Styles.box}>
+              {/* <div className={Styles.textContent1}>
+                <h3>List of Labour Data</h3>
               </div>
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
+              <div className={Styles.searchField}>
+                <div className={Styles.inputFilter}>
+                  <Input
+                    width="260px"
+                    prefixIcon={<SearchIcon />}
+                    name="global_search"
+                    value={filterValues.global_search}
+                    onChange={(e) => handleFilterChange(e)}
+                    placeholder="Search by labour type"
+                  />
+
+                  <Button
+                    className={Styles.searchButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
+                  <Button
+                    className={Styles.resetButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    disabled={isResetDisabled}
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </div>
+                <div>
+                  <CustomGroupButton
+                    labels={buttonLabels}
+                    onClick={handleGroupButtonClick}
+                    activeButton={activeButton}
+                  />
+                </div>
+              </div> */}
+              <div className={Styles.tableContainer}>
+                <div>
+                  <table className={Styles.scrollable_table}>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Labour Type</th>
+                        <th>UOM Type</th>
+                        <th>Rate</th>
+                        {activeButton === 'AC' && <th>Actions</th>}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dataShow ? (
+                        initialData?.total_count === 0 ? (
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td>No data found</td>
+                            {activeButton === 'AC' && <td></td>}
+                          </tr>
+                        ) : (
+                          initialData?.content?.map(
+                            (data: any, index: number) => (
+                              <tr key={data.labour_id}>
+                                <td>{startingIndex + index}</td>
+                                <td>{data.labour_type}</td>
+                                <td>{data.uom?.name}</td>
+                                <td>{formatBudgetValue(data.rate)}</td>
+                                {activeButton === 'AC' && (
+                                  <td>
+                                    <div className={Styles.tableIcon}>
+                                      <EditIcon
+                                        onClick={() => handleEdit(data?.labour_id)}
+                                      />
+                                      <DeleteIcon
+                                        onClick={() =>
+                                          deleteLabourHandler(data?.labour_id)
+                                        }
+                                      />
+                                    </div>
+                                  </td>
+                                )}
+                              </tr>
+                            )
+                          )
+                        )
+                      ) : initialData?.total_count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td>No data found</td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        initialData?.content?.map((item: any, index: number) => (
+                          <tr key={item.labour_id}>
+                            <td>{startingIndex + index}</td>
+                            <td>{item.labour_type}</td>
+                            <td>{item.uom?.name}</td>
+                            <td>{formatBudgetValue(item.rate)}</td>
+
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tableIcon}>
+                                  <div>
+                                    <EditIcon
+                                      onClick={() => handleEdit(item?.labour_id)}
+                                    />
+                                  </div>
+                                  <div>
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deleteLabourHandler(item.labour_id)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            )}
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                <div className={Styles.pagination}>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_page}
+                    // totalPages={
+                    //   dataShow
+                    //     ? getFilterData?.total_page
+                    //     : initialData?.total_page
+                    // }
+                    // totalCount={
+                    //   dataShow
+                    //     ? getFilterData?.total_count
+                    //     : initialData?.total_count
+                    // }
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
               </div>
             </div>
+
           </div>
-          {/* <div className={Styles.top}>
-            <div className={Styles.textContent}>
-              <h3>Add New Labour</h3>
+        ) : (
+        <div>
+          <div className={Styles.subHeading}>
+            {/* <span>MASTER DATA</span> */}
+          </div>
+          <div className={Styles.emptyDataHandling}>
+            <div>
+              <img
+                src="/labours_img.jpg"
+                alt="aa"
+                width="100%"
+                height="250px"
+              />
             </div>
             <div>
+              <h5>The Labours list is empty</h5>
+            </div>
+            <div>
+              <span className={Styles.spanContent}>Go ahead, add new labour list</span>
+            </div>
+            <div className={Styles.emptyButton}>
               <Button
                 color="primary"
                 shape="rectangle"
                 justify="center"
                 size="small"
                 icon={<AddIcon color="white" />}
-                onClick={() => {
-                  navigate('/labour-add');
-                }}
+                onClick={() => handleAddLabourData()}
               >
                 Add Labour
               </Button>
             </div>
-          </div> */}
-          {/* <div className={Styles.dividerStyle}></div> */}
-          <div className={Styles.box}>
-            {/* <div className={Styles.textContent1}>
-              <h3>List of Labour Data</h3>
-            </div>
-            <div className={Styles.searchField}>
-              <div className={Styles.inputFilter}>
-                <Input
-                  width="260px"
-                  prefixIcon={<SearchIcon />}
-                  name="global_search"
-                  value={filterValues.global_search}
-                  onChange={(e) => handleFilterChange(e)}
-                  placeholder="Search by labour type"
-                />
-
-                <Button
-                  className={Styles.searchButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  disabled={isResetDisabled}
-                  onClick={handleReset}
-                >
-                  Reset
-                </Button>
-              </div>
-              <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div>
-            </div> */}
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Labour Type</th>
-                      <th>UOM Type</th>
-                      <th>Rate</th>
-                      {activeButton === 'AC' && <th>Actions</th>}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataShow ? (
-                      initialData?.total_count === 0 ? (
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td>No data found</td>
-                          {activeButton === 'AC' && <td></td>}
-                        </tr>
-                      ) : (
-                        initialData?.content?.map(
-                          (data: any, index: number) => (
-                            <tr key={data.labour_id}>
-                              <td>{startingIndex + index}</td>
-                              <td>{data.labour_type}</td>
-                              <td>{data.uom?.name}</td>
-                              <td>{formatBudgetValue(data.rate)}</td>
-                              {activeButton === 'AC' && (
-                                <td>
-                                  <div className={Styles.tableIcon}>
-                                    <EditIcon
-                                      onClick={() => handleEdit(data?.labour_id)}
-                                    />
-                                    <DeleteIcon
-                                      onClick={() =>
-                                        deleteLabourHandler(data?.labour_id)
-                                      }
-                                    />
-                                  </div>
-                                </td>
-                              )}
-                            </tr>
-                          )
-                        )
-                      )
-                    ) : initialData?.total_count === 0 ? (
-                      <tr>
-                        <td></td>
-                        <td>No data found</td>
-                        {activeButton === 'AC' && <td></td>}
-                      </tr>
-                    ) : (
-                      initialData?.content?.map((item: any, index: number) => (
-                        <tr key={item.labour_id}>
-                          <td>{startingIndex + index}</td>
-                          <td>{item.labour_type}</td>
-                          <td>{item.uom?.name}</td>
-                          <td>{formatBudgetValue(item.rate)}</td>
-
-                          {activeButton === 'AC' && (
-                            <td>
-                              <div className={Styles.tableIcon}>
-                                <div>
-                                  <EditIcon
-                                    onClick={() => handleEdit(item?.labour_id)}
-                                  />
-                                </div>
-                                <div>
-                                  <DeleteIcon
-                                    onClick={() =>
-                                      deleteLabourHandler(item.labour_id)
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </td>
-                          )}
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-              <div className={Styles.pagination}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={initialData?.total_page}
-                  totalCount={initialData?.total_page}
-                  // totalPages={
-                  //   dataShow
-                  //     ? getFilterData?.total_page
-                  //     : initialData?.total_page
-                  // }
-                  // totalCount={
-                  //   dataShow
-                  //     ? getFilterData?.total_count
-                  //     : initialData?.total_count
-                  // }
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
-            </div>
           </div>
         </div>
+        )}
       </CustomLoader>
       <CustomDelete
         open={openDelete}

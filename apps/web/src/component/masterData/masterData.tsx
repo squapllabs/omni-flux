@@ -169,13 +169,14 @@ const MaterData = () => {
         size={48}
         color="#333C44"
       >
-        <div className={Styles.conatiner}>
-          <div className={Styles.topHeading}>
-            <div className={Styles.heading}>
-              <div className={Styles.subHeading}>
-                <MasterDataIcon />
-                <h4>MASTER DATA</h4>
-              </div>
+
+        <div className={Styles.topHeading}>
+          <div className={Styles.heading}>
+            <div className={Styles.subHeading}>
+              <MasterDataIcon />
+              <h4>MASTER DATA</h4>
+            </div>
+            {initialData?.total_count !== 0 ? (
               <div>
                 <Button
                   color="primary"
@@ -190,77 +191,79 @@ const MaterData = () => {
                 >
                   Add Master Data
                 </Button>
-              </div>
-            </div>
-            <div className={Styles.searchBar}>
-              <Input
-                placeholder="Search Data"
-                width="300px"
-                prefixIcon={<SearchIcon />}
-                name="filter_value"
-                onChange={(e) => {
-                  setFilterValues({
-                    ...filterValues,
-                    ['search_by_name']: e.target.value,
-                  });
-                }}
-              />
-            </div>
+              </div> ) : 
+             ''}
           </div>
-          {/* <div className={Styles.dividerStyle}></div> */}
+          <div className={Styles.searchBar}>
+            <Input
+              placeholder="Search Data"
+              width="300px"
+              prefixIcon={<SearchIcon />}
+              name="filter_value"
+              onChange={(e) => {
+                setFilterValues({
+                  ...filterValues,
+                  ['search_by_name']: e.target.value,
+                });
+              }}
+            />
+          </div>
+        </div>
+        {/* <div className={Styles.dividerStyle}></div> */}
+        {initialData?.total_count !== 0 ? (
           <div className={Styles.box}>
             {/* <div className={Styles.textContent}>
-              <h3>List of Master Data</h3>
-              <span className={Styles.content}>
-                List of all existing master data entries
-              </span>
-            </div> */}
+                <h3>List of Master Data</h3>
+                <span className={Styles.content}>
+                  List of all existing master data entries
+                </span>
+              </div> */}
             {/* <div className={Styles.searchField}>
-              <div className={Styles.inputFilter}>
-                <Input
-                  width="260px"
-                  prefixIcon={<SearchIcon />}
-                  name="search_by_name"
-                  value={filterValues.search_by_name}
-                  onChange={(e) => handleFilterChange(e)}
-                  placeholder="Search by name"
-                />
-                <AutoCompleteSelect
-                  name="parent_master_data_id"
-                  defaultLabel="Select Parent Name"
-                  onChange={() => handleDropdownChange}
-                  value={selectedValue}
-                  placeholder="Parent Name"
-                  width="260px"
-                  onSelect={(value) => {
-                    setSelectedValue(value);
-                    setIsResetDisabled(false);
-                  }}
-                  optionList={
-                    dropLoading === true ? [] : getAllmasterDataForDrop
-                  }
-                />
-                <Button
-                  className={Styles.searchButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
-                <Button
-                  className={Styles.resetButton}
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  disabled={isResetDisabled}
-                  onClick={handleReset}
-                >
-                  Reset
-                </Button>
-              </div>
-            </div> */}
+                <div className={Styles.inputFilter}>
+                  <Input
+                    width="260px"
+                    prefixIcon={<SearchIcon />}
+                    name="search_by_name"
+                    value={filterValues.search_by_name}
+                    onChange={(e) => handleFilterChange(e)}
+                    placeholder="Search by name"
+                  />
+                  <AutoCompleteSelect
+                    name="parent_master_data_id"
+                    defaultLabel="Select Parent Name"
+                    onChange={() => handleDropdownChange}
+                    value={selectedValue}
+                    placeholder="Parent Name"
+                    width="260px"
+                    onSelect={(value) => {
+                      setSelectedValue(value);
+                      setIsResetDisabled(false);
+                    }}
+                    optionList={
+                      dropLoading === true ? [] : getAllmasterDataForDrop
+                    }
+                  />
+                  <Button
+                    className={Styles.searchButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
+                  <Button
+                    className={Styles.resetButton}
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    disabled={isResetDisabled}
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </div> */}
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>
@@ -333,7 +336,46 @@ const MaterData = () => {
               />
             </div>
           </div>
-        </div>
+
+        ) : (
+          <div>
+            {/* <div className={Styles.subHeading}>
+              <MasterDataIcon />
+              <span>MASTER DATA</span>
+            </div> */}
+            <div className={Styles.emptyDataHandling}>
+              <div>
+                <img
+                  src="/masterData.jpg"
+                  alt="masterData_img"
+                  width="100%"
+                  height="250px"
+                />
+              </div>
+              <div>
+                <h5>Master Data is Empty</h5>
+              </div>
+              <div>
+                <span className={Styles.spanContent}>Go ahead, add a Master Data</span>
+              </div>
+              <div className={Styles.emptyButton}>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => {
+                    setMode('Add');
+                    setMasterDataFormOpen(true);
+                  }}
+                >
+                  Add Master Data
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
         <CustomSnackBar
           open={openSnack}
           message={message}
