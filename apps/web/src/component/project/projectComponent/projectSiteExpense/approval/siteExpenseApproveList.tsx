@@ -20,7 +20,7 @@ import projectService from '../../../../../service/project-service';
 import CustomGroupButton from '../../../../ui/CustomGroupButton';
 import CustomMenu from '../../../../ui/CustomMenu';
 import projectSettingsService from '../../../../../service/projectSettings-service';
-import ViewIcon from '../../../../menu/icons/newViewIcon'
+import ViewIcon from '../../../../menu/icons/newViewIcon';
 
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
@@ -299,6 +299,7 @@ const ExpenseApprove = () => {
                     fetchProjectSiteData(value);
                     fetchMemberData(value);
                     setSelectShow(true);
+                    setCurrentPage(1);
                   }}
                   width="90%"
                 />
@@ -427,12 +428,13 @@ const ExpenseApprove = () => {
                               : items?.status === 'Draft'
                               ? Styles.draftStatus
                               : items?.status === 'Completed'
-                              ? Styles.approvedStatus 
+                              ? Styles.approvedStatus
                               : ''
-
                           }`}
                         >
-                          {items?.status === 'Pending' ? 'Waiting for Approval' : items?.status}
+                          {items?.status === 'Pending'
+                            ? 'Waiting for Approval'
+                            : items?.status}
                         </span>
                       </td>
                       <td>

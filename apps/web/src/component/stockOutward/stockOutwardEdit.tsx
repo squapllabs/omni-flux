@@ -409,17 +409,24 @@ const ItemDetailsTable: React.FC = (props: {
           </div>
           {display && (
             <div>
-              <Button
+              {/* <Button
                 type="button"
                 color="primary"
                 shape="rectangle"
                 justify="center"
                 size="small"
-                onClick={() => formik.handleSubmit()}
+               
                 icon={<AddIcon color="white" />}
               >
                 Add
-              </Button>
+              </Button> */}
+              <div
+                onClick={() => formik.handleSubmit()}
+                className={Styles.iconContent}
+              >
+                <NewAddCircleIcon />
+                <span>Add Item </span>
+              </div>
             </div>
           )}
           {display === false && (
