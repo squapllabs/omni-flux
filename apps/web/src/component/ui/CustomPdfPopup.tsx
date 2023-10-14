@@ -26,18 +26,20 @@ const Popup = (props) => {
                 <div
                     style={{
                         background: '#fff',
-                        padding: '20px',
-                        maxWidth: '80%',
+                        paddingTop: '45px',
+                        paddingLeft: '25px',
+                        paddingRight: '25px',
+                        height: '100vh'
                     }}
                 >
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px'}}>
                         <h2>{title}</h2>
                         <div onClick={handleClose}>
                             <CloseIcon />
                         </div>
                     </div>
                     <div>{children}</div>
-                    <div>{content}</div>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>{content}</div>
                 </div>
             </div>
         </div>
