@@ -49,53 +49,68 @@ const updateStatus = async (body: expenseDetailsBody) => {
         );
 
         const expense_id = expenseDetailsExist?.expense_id;
-        const expenseDetailsByExpenseId =
-          await expenseDetailsDao.getByExpenseId(expense_id, prisma);
+        // const expenseDetailsByExpenseId =
+        //   await expenseDetailsDao.getByExpenseId(expense_id, prisma);
 
-        let expenseStatusUpdate = null;
+        let dbExpense = await expenseDao.getByIdWithOutChild(expense_id, prisma);
 
-        const allApproved = expenseDetailsByExpenseId.every(
-          (expenseDetails: { status: string }) =>
-            expenseDetails.status === 'Approved'
-        );
-
-        /* Check if at least one expenseDetails has 'Rejected' status */
-        const hasRejected = expenseDetailsByExpenseId.some(
-          (expenseDetails: { status: string }) =>
-            expenseDetails.status === 'Rejected'
-        );
-
-        if (allApproved) {
-          /*  Trigger the approval flow */
-          expenseStatusUpdate = await expenseDao.updateStatus(
-            status,
-            comments,
-            progressed_by,
-            updated_by,
-            expense_id,
-            prisma
-          );
-          console.log(
-            'All expense details are Approved. So Expense is Approved.'
-          );
-        } else if (hasRejected) {
-          /* Trigger the separate flow for 'Rejected' */
-          expenseStatusUpdate = await expenseDao.updateStatus(
-            'Rejected',
+        if (dbExpense.status === 'Pending') {
+          dbExpense = await expenseDao.updateStatus(
+            'InProgress',
             'Some of the respective child expense details has been rejected',
             progressed_by,
             updated_by,
             expense_id,
             prisma
           );
-          console.log(
-            'Some of the expense details got Rejected.So Expense is Rejected'
-          );
         }
+
+        /**
+                let expenseStatusUpdate = null;
+                console.log("check Status Data::0", expenseDetailsByExpenseId)
+                const allApproved = expenseDetailsByExpenseId.every(
+                  (expenseDetails: { status: string }) =>
+                    expenseDetails.status === 'Approved'
+                );
+                console.log("check Status Data::2", allApproved)
+                // Check if at least one expenseDetails has 'Rejected' status 
+                const hasRejected = expenseDetailsByExpenseId.some(
+                  (expenseDetails: { status: string }) =>
+                    expenseDetails.status === 'Rejected'
+                );
+        
+                if (allApproved) {
+                  //  Trigger the approval flow 
+                  expenseStatusUpdate = await expenseDao.updateStatus(
+                    status,
+                    comments,
+                    progressed_by,
+                    updated_by,
+                    expense_id,
+                    prisma
+                  );
+                  console.log(
+                    'All expense details are Approved. So Expense is Approved::', expenseStatusUpdate
+                  );
+                } else if (hasRejected) {
+                  // Trigger the separate flow for 'Rejected' 
+                  expenseStatusUpdate = await expenseDao.updateStatus(
+                    'Rejected',
+                    'Some of the respective child expense details has been rejected',
+                    progressed_by,
+                    updated_by,
+                    expense_id,
+                    prisma
+                  );
+                  console.log(
+                    'Some of the expense details got Rejected.So Expense is Rejected'
+                  );
+                }
+                **/
 
         const expenseDetailsWithExpenseData = {
           expense_details: expenseDetailsData,
-          expense: expenseStatusUpdate,
+          expense: dbExpense,
         };
 
         return {

@@ -549,6 +549,23 @@ const updateStatus = async (
   }
 };
 
+
+const getByIdWithOutChild = async (expenseId: number, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const expense = await transaction.expense.findFirst({
+      where: {
+        expense_id: Number(expenseId),
+        is_delete: false,
+      }
+    });
+    return expense;
+  } catch (error) {
+    console.log('Error occurred in expense getByIdWithOutChild dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -559,4 +576,5 @@ export default {
   getByProjectIdAndSiteId,
   getExpenseDetailsByExpenceId,
   updateStatus,
+  getByIdWithOutChild
 };
