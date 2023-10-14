@@ -306,10 +306,39 @@ const addBulkBom = async (body) => {
           prisma
         );
 
+        /* Parent Sub Categories Actual Budget Updation */
+
+        const parentSubCategoryDetails =
+          await subCategoryDao.getParentSubCategoriesBySubCategoryId(
+            sub_category_id
+          );
+
+        for await (const subCategory of parentSubCategoryDetails) {
+          const parent_sub_category_id = subCategory?.sub_category_id;
+
+          if (parent_sub_category_id !== sub_category_id) {
+            const actual_budget = subCategory?.actual_budget;
+            const latest_updated_actual_budget =
+              Number(actual_budget) + Number(subCategoryBudget);
+
+            await subCategoryDao.updateBudget(
+              Number(latest_updated_actual_budget),
+              parent_sub_category_id,
+              updated_by,
+              prisma
+            );
+          }
+        }
+
+        /* Category's Budget Updation */
+
         const category_id = subCategoryDetails?.category_id;
 
         const subCategoryDataByCategoryId =
-          await subCategoryDao.getSumOfBudgetByCategoryId(category_id, prisma);
+          await subCategoryDao.getParentSubCategoryBudgetByCategoryId(
+            category_id,
+            prisma
+          );
 
         const categoryDetails = await categoryDao.updateBudget(
           subCategoryDataByCategoryId,
@@ -323,6 +352,8 @@ const addBulkBom = async (body) => {
             bom_configuration_id,
             prisma
           );
+
+        /* Bom Configuration Budget Updation */
 
         const bomConfigurationDetails = await bomConfigurationDao.updateBudget(
           bomConfigurationBudget,

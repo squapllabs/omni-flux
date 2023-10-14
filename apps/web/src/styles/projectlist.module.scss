@@ -118,7 +118,7 @@
 
   th,
   td {
-    padding: 10px 10px 10px 24px; /* Adjust padding */
+    padding: 5px 10px 5px 24px; /* Adjust padding */
     text-align: left;
     font-weight: 500;
     // border: 0px 0px 1px;
@@ -146,11 +146,24 @@
   }
 }
 
-.status {
+.completedStatus {
   background-color: #ecfdf3;
   padding: 6px;
   border-radius: 50px;
   color: #027a48;
+}
+.inprogressStatus {
+  background-color:#FDF2FA;
+  padding: 6px;
+  border-radius: 50px;
+  color:  #C11574
+}
+
+.draftStatus {
+  background-color:#EFF8FF;
+  padding: 6px;
+  border-radius: 50px;
+  color:#175CD3
 }
 
 .tablerow {

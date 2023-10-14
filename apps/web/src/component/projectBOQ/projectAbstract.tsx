@@ -6,23 +6,17 @@ import categoryService from '../../service/category-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomList from './projectBoqList';
 import ClipboardIcon from '../menu/icons/clipboardIcon';
+import { getByBOMDetails } from '../../hooks/category-hooks';
 const projectAbstract = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
   const [bomData, setBomData] = useState<any>({});
-  const [reload, setReload] = useState(false);
-  useEffect(() => {
-    const fatchData = async () => {
-      const obj: any = {
-        projectId: Number(routeParams?.projectId),
-        boQId: Number(routeParams?.bomconfigId),
-      };
-      const getBomData = await categoryService.getBOMDetail(obj);
-      setBomData(getBomData?.data);
-      console.log('getBomData', getBomData);
-    };
-    fatchData();
-  }, [reload]);
+  // const [reload, setReload] = useState(false);
+  const obj: any = {
+    projectId: Number(routeParams?.projectId),
+    boQId: Number(routeParams?.bomconfigId),
+  };
+  const { data: getBomData } = getByBOMDetails(obj);
   return (
     <div>
       <div className={Styles.container}>
@@ -48,10 +42,13 @@ const projectAbstract = () => {
               </div>
               <div className={Styles.textContent_1}>
                 <span className={Styles.projectTitle}>
-                  {bomData?.bom_configuration_data?.project_data?.project_name}
+                  {
+                    getBomData?.bom_configuration_data?.project_data
+                      ?.project_name
+                  }
                 </span>
                 <span className={Styles.content}>
-                  {bomData?.bom_configuration_data?.bom_name}
+                  {getBomData?.bom_configuration_data?.bom_name}
                 </span>
               </div>
             </div>
@@ -61,7 +58,7 @@ const projectAbstract = () => {
               </div>
             </div>
             <div className={Styles.countContent}>
-              <h3>{bomData?.abstract_count}</h3>
+              <h3>{getBomData?.abstract_count}</h3>
               <span className={Styles.countContentTitle}>Abstract</span>
             </div>
             <div className={Styles.lineStyles}>
@@ -70,7 +67,7 @@ const projectAbstract = () => {
               </div>
             </div>
             <div className={Styles.countContent}>
-              <h3>{bomData?.tasks_count}</h3>
+              <h3>{getBomData?.tasks_count}</h3>
               <span className={Styles.countContentTitle}>Task</span>
             </div>
           </div>
@@ -84,8 +81,8 @@ const projectAbstract = () => {
             <div className={Styles.countContent}>
               <h3>
                 {formatBudgetValue(
-                  bomData?.bom_configuration_data?.budget
-                    ? bomData?.bom_configuration_data?.budget
+                  getBomData?.bom_configuration_data?.budget
+                    ? getBomData?.bom_configuration_data?.budget
                     : 0
                 )}
               </h3>
@@ -95,7 +92,7 @@ const projectAbstract = () => {
         </div>
         <div className={Styles.selected}></div>
         <div>
-          <BomList setReload={setReload} reload={reload} />
+          <BomList />
         </div>
       </div>
     </div>

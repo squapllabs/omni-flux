@@ -29,8 +29,13 @@ const createInstantCategory = () => {
       return CategoryService.createCategory(data);
     },
     {
-      onSuccess: () => {
+      onSuccess: (data, _v) => {
+        console.log('Test data', _v);
         queryClient.invalidateQueries(['useGetAllCategoryByProject']);
+        queryClient.invalidateQueries([
+          'getBOMDetails',
+          { projectId: _v.project_id, boQId: _v.bom_configuration_id },
+        ]);
       },
     }
   );
@@ -54,6 +59,15 @@ const getByCategoryID = (id: number) => {
   return useQuery(
     ['getOnecategoryID', id],
     () => CategoryService.getOneCategoryByID(id),
+    {
+      select: (data) => data.data,
+    }
+  );
+};
+const getByBOMDetails = (value: any) => {
+  return useQuery(
+    ['getBOMDetails', value],
+    () => CategoryService.getBOMDetail(value),
     {
       select: (data) => data.data,
     }
@@ -137,5 +151,6 @@ export {
   getBySearchCategroy,
   useGetAllCategoryByProjectId,
   createInstantCategory,
-  useGetMasterAbstractStatusParentType
+  useGetMasterAbstractStatusParentType,
+  getByBOMDetails,
 };

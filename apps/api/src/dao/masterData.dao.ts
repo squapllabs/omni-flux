@@ -252,7 +252,6 @@ const searchMasterData = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterMasterData;
-    console.log('filter>>>>', filter);
     const masterData = await transaction.master_data.findMany({
       where: filter,
       include: {

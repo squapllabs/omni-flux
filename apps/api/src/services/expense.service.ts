@@ -30,6 +30,7 @@ const createExpense = async (body: expenseBody) => {
       bill_details,
       status,
       total_amount,
+      bill_date,
     } = body;
     let result = null;
 
@@ -79,6 +80,7 @@ const createExpense = async (body: expenseBody) => {
           designation,
           start_date,
           end_date,
+          bill_date,
           bill_details,
           created_by,
           status,
@@ -141,6 +143,7 @@ const updateExpense = async (body: expenseBody) => {
       designation,
       start_date,
       end_date,
+      bill_date,
       updated_by,
       status,
       expense_id,
@@ -214,6 +217,7 @@ const updateExpense = async (body: expenseBody) => {
           designation,
           start_date,
           end_date,
+          bill_date,
           updatedBillDetails,
           updated_by,
           status,
@@ -249,8 +253,14 @@ const getById = async (expenseId: number) => {
   try {
     let result = null;
     const expenseData = await expenseDao.getById(expenseId);
+
+    const isUpdateAllDetails = expenseData?.expense_details?.every(
+      (expenseDetails: { status: string }) =>
+        expenseDetails.status !== 'Pending'
+    );
+
     if (expenseData) {
-      result = { message: 'success', status: true, data: expenseData };
+      result = { message: 'success', status: true, data: { ...expenseData, isEnableComplete: isUpdateAllDetails } };
       return result;
     } else {
       result = {
@@ -347,6 +357,7 @@ const searchExpense = async (body) => {
     const user_id = body.user_id;
     const expense_status = body.expense_status;
     const employee_name = body.employee_name;
+    const is_draft = body.is_draft ? body.is_draft : 'Y';
 
     const filterObj: any = {};
 
@@ -375,8 +386,19 @@ const searchExpense = async (body) => {
     }
 
     if (expense_status === 'All') {
-      filterObj.filterExpense = filterObj.filterExpense || {};
-      filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+      if (is_draft === 'Y') {
+        filterObj.filterExpense = filterObj.filterExpense || {};
+        filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+      } else {
+        filterObj.filterExpense = filterObj.filterExpense || {};
+        filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+        filterObj.filterExpense.AND.push({
+          NOT: {
+            status: 'Draft',
+          },
+        });
+      }
     } else {
       filterObj.filterExpense = filterObj.filterExpense || {};
       filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
@@ -392,11 +414,7 @@ const searchExpense = async (body) => {
 
       filterObj.filterExpense.AND.push({
         project_data: {
-          project_member_association: {
-            some: {
-              user_id: user_id,
-            },
-          },
+          user_id: user_id,
         },
       });
     }
@@ -648,25 +666,25 @@ const updateStatus = async (body: expenseBody) => {
         const expenseDetailsByExpenseId =
           await expenseDetailsDao.getByExpenseId(expense_id, prisma);
 
-        const expenseDetailsUpdatedData = [];
-        for (const expenseDetails of expenseDetailsByExpenseId) {
-          const expense_details_id = expenseDetails?.expense_details_id;
+        // const expenseDetailsUpdatedData = [];
+        // for (const expenseDetails of expenseDetailsByExpenseId) {
+        //   const expense_details_id = expenseDetails?.expense_details_id;
 
-          const expenseDetailsData = await expenseDetailsDao.updateStatus(
-            status,
-            comments,
-            progressed_by,
-            updated_by,
-            expense_details_id,
-            prisma
-          );
+        //   const expenseDetailsData = await expenseDetailsDao.updateStatus(
+        //     status,
+        //     comments,
+        //     progressed_by,
+        //     updated_by,
+        //     expense_details_id,
+        //     prisma
+        //   );
 
-          expenseDetailsUpdatedData.push(expenseDetailsData);
-        }
+        //   expenseDetailsUpdatedData.push(expenseDetailsData);
+        // }
 
         const expenseDataWithDetails = {
           expense: expenseData,
-          expense_details: expenseDetailsUpdatedData,
+          expense_details: expenseDetailsByExpenseId,
         };
 
         return {

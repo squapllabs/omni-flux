@@ -11,6 +11,7 @@ interface expenseBody {
   designation: string;
   start_date: Date;
   end_date: Date;
+  bill_date: Date;
   bill_details: JSON;
   created_by: number;
   updated_by: number;

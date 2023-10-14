@@ -12,8 +12,16 @@ const useGetAllProject = () => {
 };
 
 const useGetAllProjectStatus = () => {
-  return useQuery(['useGetAllProjectStatus'], () => ProjectService.getAllProjectStatus())
-}
+  return useQuery(['useGetAllProjectStatus'], () =>
+    ProjectService.getAllProjectStatus()
+  );
+};
+
+const useGetDashboardDatasforPO = () => {
+  return useQuery(['useGetDashboardDatasforPO'], () =>
+    ProjectService.getDashboardDatas()
+  );
+};
 // const useGetAllProjectDrop = () => {
 //   return useQuery(
 //     ['useGetAllProjectDrop'],
@@ -83,6 +91,17 @@ const getMemberBasedProject = () => {
   );
 };
 
+const getPaginatedMemberBasedProject = (data:any) => {
+  return useQuery(
+    ['useGetAllProject'],
+    () => ProjectService.filterProjectmemberBased(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
 const useDeleteProjects = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -132,6 +151,20 @@ const getUserIDProjectRolebased = (value: any) => {
         data?.data?.map((project: any) => ({
           value: project?.project_data?.project_id,
           label: project?.project_data?.project_name,
+        })),
+    }
+  );
+};
+
+const getUserIDBasedProject = (value: any) => {
+  return useQuery(
+    ['getUserIDBasedProject', value],
+    () => ProjectService.getProjectDataBasedOnUser(value),
+    {
+      select: (data) =>
+        data?.data?.map((project: any) => ({
+          value: project?.project_id,
+          label: project?.project_name,
         })),
     }
   );
@@ -202,7 +235,10 @@ export {
   useGetAllProjectManagers,
   useGetAllProjectDrop,
   getMemberBasedProject,
+  getPaginatedMemberBasedProject,
   getUserDataProjectRolebased,
   getProjectSite,
-  getUserIDProjectRolebased
+  getUserIDProjectRolebased,
+  getUserIDBasedProject,
+  useGetDashboardDatasforPO
 };

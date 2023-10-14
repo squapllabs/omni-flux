@@ -404,7 +404,6 @@ const searchMasterData = async (body) => {
       order_by_direction,
       filterObj
     );
-    console.log('resultdata>>>>>>>>>>', result.data);
 
     if (result.count > 0) {
       const count = result.count;
