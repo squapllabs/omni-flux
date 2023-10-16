@@ -1,6 +1,6 @@
 .conatiner {
-  width: 100%;
-  padding-bottom: 10px;
+  width: 100%;  
+  // padding-bottom: 10px;
 }
 
 .topheader {
@@ -290,3 +290,20 @@
 .searchBar {
   padding: 5px 15px 0
 }
+
+//For initial page
+
+.emptyDataHandling {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spanContent {
+  font-weight: 400;
+}
+
+.emptyButton {
+  margin-top: 25px;
+}
+

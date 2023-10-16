@@ -263,8 +263,16 @@
   justify-content: center;
   align-items: center;
   gap: 2px;
+  padding-top: 30px;
 }
 
+.spanContent {
+  font-weight: 400;
+}
+
+.emptyButton {
+  margin-top: 25px;
+}
 .textmin {
   padding: 10px;
   font-weight: 400;
@@ -292,4 +300,10 @@
 }
 .footer{
   margin-top: 350px;
+}
+
+.filters {
+  display: flex;
+  gap: 20px;
+  padding: 2px;
 }

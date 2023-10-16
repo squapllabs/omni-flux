@@ -31,6 +31,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import ProjectSubheader from '../project/projectSubheader';
+import NewAddCircleIcon from '../menu/icons/newAddCircleIcon';
 
 const StoreOutwardEdit = () => {
   const routeParams = useParams();
@@ -167,7 +168,7 @@ const StoreOutwardEdit = () => {
       <ProjectSubheader
         description="Manage your stock outward"
         navigation={`/project-edit/${projectId}`}
-        title='Stock OutWard Edit'
+        title="Stock OutWard Edit"
       />
       <div className={Styles.dividerStyle}></div>
       <div className={Styles.container}>
@@ -175,7 +176,7 @@ const StoreOutwardEdit = () => {
           <form onSubmit={formik.handleSubmit}>
             <div className={Styles.fields_container}>
               <div className={Styles.fields_container_1}>
-                <div>
+                {/* <div>
                   <Input
                     label="OutWardID"
                     // placeholder="STO-YYYY-"
@@ -189,7 +190,38 @@ const StoreOutwardEdit = () => {
                     //     formik.touched.quantity && formik.errors.quantity
                     // }
                   />
+                </div> */}
+                {/* <div>
+                  <Input
+                    label="Project"
+                    // name="user_id"
+                    width="350px"
+                    // onSelect={(value) => {
+                    //     formik.setFieldValue('user_id', value);
+                    // }}
+                    value={getProjectData?.project_name}
+                    disabled={true}
+                    // error={
+                    //     formik.touched.user_id &&
+                    //     formik.errors.user_id
+                    // }
+                  />
+                </div> */}
+                <div className={Styles.topHeading}>
+                  <span className={Styles.heading}>Outward ID</span>
+                  <h3>{initialValues?.outward_id}</h3>
                 </div>
+                <div className={Styles.lineStyles}>
+                  <div className={Styles.vertical}>
+                    <div className={Styles.verticalLine}></div>
+                  </div>
+                </div>
+                <div className={Styles.topHeading}>
+                  <span className={Styles.heading}>Project Name</span>
+                  <h3>{getProjectData?.project_name}</h3>
+                </div>
+              </div>
+              <div className={Styles.fields_container_2}>
                 <div>
                   <AutoCompleteSelect
                     label="Site"
@@ -228,32 +260,6 @@ const StoreOutwardEdit = () => {
                       formik.touched.site_engineer_id &&
                       formik.errors.site_engineer_id
                     }
-                  />
-                  {/* <div>
-                                        <Checkbox
-                                            name="is_site"
-                                            checked={siteChecked}
-                                            onChange={(e) => handleCheckBoxSiteChange(e)}
-                                        />
-                                        <span className={Styles.checkBox}>  Edit Site Engineer Name</span>
-                                    </div> */}
-                </div>
-              </div>
-              <div className={Styles.fields_container_2}>
-                <div>
-                  <Input
-                    label="Project"
-                    // name="user_id"
-                    width="350px"
-                    // onSelect={(value) => {
-                    //     formik.setFieldValue('user_id', value);
-                    // }}
-                    value={getProjectData?.project_name}
-                    disabled={true}
-                    // error={
-                    //     formik.touched.user_id &&
-                    //     formik.errors.user_id
-                    // }
                   />
                 </div>
                 <div>
@@ -339,6 +345,7 @@ const ItemDetailsTable: React.FC = (props: {
   });
   const [itemData, setItemData] = useState<any>([]);
   const [itemDetails, setItemDetails] = useState();
+  const [display, setDisplay] = useState(false);
   const validationSchema = getStockOutwardItemCreationYupschema(Yup);
 
   const fetchProjectInventoryItem = async () => {
@@ -400,19 +407,39 @@ const ItemDetailsTable: React.FC = (props: {
           <div>
             <h3>Item Details</h3>
           </div>
-          <div>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              justify="center"
-              size="small"
-              onClick={() => formik.handleSubmit()}
-              icon={<AddIcon color="white" />}
+          {display && (
+            <div>
+              {/* <Button
+                type="button"
+                color="primary"
+                shape="rectangle"
+                justify="center"
+                size="small"
+               
+                icon={<AddIcon color="white" />}
+              >
+                Add
+              </Button> */}
+              <div
+                onClick={() => formik.handleSubmit()}
+                className={Styles.iconContent}
+              >
+                <NewAddCircleIcon />
+                <span>Add Item </span>
+              </div>
+            </div>
+          )}
+          {display === false && (
+            <div
+              onClick={() => {
+                setDisplay(true);
+              }}
+              className={Styles.iconContent}
             >
-              Add
-            </Button>
-          </div>
+              <NewAddCircleIcon />
+              <span>Add Item Row</span>
+            </div>
+          )}
         </div>
         <table className={Styles.scrollable_table}>
           <thead>
@@ -473,90 +500,92 @@ const ItemDetailsTable: React.FC = (props: {
                 </tr>
               );
             })}
-            <tr>
-              <td>{rowIndex + 1}</td>
-              <td>
-                <AutoCompleteSelect
-                  placeholder="Select from options"
-                  // width="250px"
-                  name="item_id"
-                  mandatory={true}
-                  optionList={itemData}
-                  value={formik.values.item_id}
-                  onChange={formik.handleChange}
-                  onSelect={(value) => {
-                    formik.setFieldValue('item_id', value);
-                    const matchingObjects = itemDetails?.filter(
-                      (obj: any) => Number(obj.item_id) === Number(value)
-                    );
-                    formik.setFieldValue(
-                      'available_quantity',
-                      matchingObjects[0]?.available_quantity
-                    );
-                    formik.setFieldValue(
-                      'uom_id',
-                      matchingObjects[0]?.item_data?.uom_id
-                    );
-                    formik.setFieldValue(
-                      'uom_name',
-                      matchingObjects[0]?.item_data?.uom?.name
-                    );
-                    formik.setFieldValue(
-                      'item_name',
-                      matchingObjects[0]?.item_data?.item_name
-                    );
-                  }}
-                  error={formik.touched.item_id && formik.errors.item_id}
-                />
-              </td>
-              <td>
-                <Input
-                  name="outward_quantity"
-                  value={formik.values.outward_quantity}
-                  width="140px"
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.outward_quantity &&
-                    formik.errors.outward_quantity
-                  }
-                />
-              </td>
-              <td>
-                <Input
-                  name="available_quantity"
-                  width="180px"
-                  value={formik.values.available_quantity}
-                  onChange={formik.handleChange}
-                  disabled={true}
-                  error={
-                    formik.touched.available_quantity &&
-                    formik.errors.available_quantity
-                  }
-                />
-              </td>
-              <td>
-                <Input
-                  name="uom_name"
-                  width="180px"
-                  disabled={true}
-                  value={formik.values.uom_name}
-                  onChange={formik.handleChange}
-                  // error={formik.touched.bom_name && formik.errors.bom_name}
-                />
-              </td>
-              <td>
-                <div
-                  style={{
-                    cursor: 'pointer',
-                    // paddingBottom: '20px',
-                  }}
-                >
-                  {/* <div >
+            {display && (
+              <tr>
+                <td>{rowIndex + 1}</td>
+                <td>
+                  <AutoCompleteSelect
+                    placeholder="Select from options"
+                    // width="250px"
+                    name="item_id"
+                    mandatory={true}
+                    optionList={itemData}
+                    value={formik.values.item_id}
+                    onChange={formik.handleChange}
+                    onSelect={(value) => {
+                      formik.setFieldValue('item_id', value);
+                      const matchingObjects = itemDetails?.filter(
+                        (obj: any) => Number(obj.item_id) === Number(value)
+                      );
+                      formik.setFieldValue(
+                        'available_quantity',
+                        matchingObjects[0]?.available_quantity
+                      );
+                      formik.setFieldValue(
+                        'uom_id',
+                        matchingObjects[0]?.item_data?.uom_id
+                      );
+                      formik.setFieldValue(
+                        'uom_name',
+                        matchingObjects[0]?.item_data?.uom?.name
+                      );
+                      formik.setFieldValue(
+                        'item_name',
+                        matchingObjects[0]?.item_data?.item_name
+                      );
+                    }}
+                    error={formik.touched.item_id && formik.errors.item_id}
+                  />
+                </td>
+                <td>
+                  <Input
+                    name="outward_quantity"
+                    value={formik.values.outward_quantity}
+                    width="140px"
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.outward_quantity &&
+                      formik.errors.outward_quantity
+                    }
+                  />
+                </td>
+                <td>
+                  <Input
+                    name="available_quantity"
+                    width="180px"
+                    value={formik.values.available_quantity}
+                    onChange={formik.handleChange}
+                    disabled={true}
+                    error={
+                      formik.touched.available_quantity &&
+                      formik.errors.available_quantity
+                    }
+                  />
+                </td>
+                <td>
+                  <Input
+                    name="uom_name"
+                    width="180px"
+                    disabled={true}
+                    value={formik.values.uom_name}
+                    onChange={formik.handleChange}
+                    // error={formik.touched.bom_name && formik.errors.bom_name}
+                  />
+                </td>
+                <td>
+                  <div
+                    style={{
+                      cursor: 'pointer',
+                      // paddingBottom: '20px',
+                    }}
+                  >
+                    {/* <div >
                                         <DeleteIcon onClick={() => handleDelete(rowIndex)} />
                                     </div> */}
-                </div>
-              </td>
-            </tr>
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </form>

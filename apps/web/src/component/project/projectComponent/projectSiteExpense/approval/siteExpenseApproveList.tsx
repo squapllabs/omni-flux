@@ -20,6 +20,7 @@ import projectService from '../../../../../service/project-service';
 import CustomGroupButton from '../../../../ui/CustomGroupButton';
 import CustomMenu from '../../../../ui/CustomMenu';
 import projectSettingsService from '../../../../../service/projectSettings-service';
+import ViewIcon from '../../../../menu/icons/newViewIcon';
 
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
@@ -84,11 +85,11 @@ const ExpenseApprove = () => {
   const [selectShow, setSelectShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Pending', value: 'Pending' },
-    { label: 'Approved', value: 'Approved' },
-    { label: 'Rejected', value: 'Rejected' },
+    { label: 'Waiting for Approval', value: 'Pending' },
+    { label: 'InProgress', value: 'InProgress' },
+    { label: 'Completed', value: 'Completed' },
   ]);
-  const [activeButton, setActiveButton] = useState<string | null>('Pending');
+  const [activeButton, setActiveButton] = useState<string | null>('All');
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
     setCurrentPage(1);
@@ -253,7 +254,7 @@ const ExpenseApprove = () => {
     ...filterValue,
     site_id: siteValue.site_id,
     employee_name: memberValue.project_member_name,
-    is_draft: "N"
+    is_draft: 'N',
   };
 
   const {
@@ -298,8 +299,9 @@ const ExpenseApprove = () => {
                     fetchProjectSiteData(value);
                     fetchMemberData(value);
                     setSelectShow(true);
+                    setCurrentPage(1);
                   }}
-                  width="100%"
+                  width="90%"
                 />
               </div>
               {filterValue.project_id && selectShow === true ? (
@@ -313,7 +315,7 @@ const ExpenseApprove = () => {
                       onSelect={(value) => {
                         setSiteValue({ site_id: value });
                       }}
-                      width="100%"
+                      width="200px"
                     />
                   </div>
                   <div className={Styles.selectDrop}>
@@ -331,7 +333,7 @@ const ExpenseApprove = () => {
                           project_member_name: matchingObjects[0].label,
                         });
                       }}
-                      width="100%"
+                      width="200px"
                     />
                   </div>
                 </div>
@@ -339,13 +341,13 @@ const ExpenseApprove = () => {
                 ''
               )}
             </div>
-            <div className={Styles.button}>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
-            </div>
+          </div>
+          <div className={Styles.button}>
+            <CustomGroupButton
+              labels={buttonLabels}
+              onClick={handleGroupButtonClick}
+              activeButton={activeButton}
+            />
           </div>
           <table className={Styles.scrollable_table}>
             <thead>
@@ -379,32 +381,33 @@ const ExpenseApprove = () => {
                     },
                     0
                   );
-                  const infoView = items?.status === 'Approved' || items?.status === 'Rejected';
-                  const actions = [
-                    {
-                      label: 'Info',
-                      onClick: () => {
-                        navigate(
-                          `/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`
-                        );
-                      },
-
-                    },
-                    {
-                      label: 'Approve',
-                      onClick: () => {
-                        approveHandler(items.expense_id);
-                      },
-                      disabled: infoView,
-                    },
-                    {
-                      label: 'Reject',
-                      onClick: () => {
-                        rejectHandler(items.expense_id);
-                      },
-                      disabled: infoView,
-                    },
-                  ];
+                  // const infoView =
+                  //   items?.status === 'Approved' ||
+                  //   items?.status === 'Rejected';
+                  // const actions = [
+                  //   {
+                  //     label: 'Info',
+                  //     onClick: () => {
+                  //       navigate(
+                  //         `/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`
+                  //       );
+                  //     },
+                  //   },
+                  //   {
+                  //     label: 'Approve',
+                  //     onClick: () => {
+                  //       approveHandler(items.expense_id);
+                  //     },
+                  //     disabled: infoView,
+                  //   },
+                  //   {
+                  //     label: 'Reject',
+                  //     onClick: () => {
+                  //       rejectHandler(items.expense_id);
+                  //     },
+                  //     disabled: infoView,
+                  //   },
+                  // ];
                   return (
                     <tr>
                       <td>{rowIndex}</td>
@@ -418,20 +421,31 @@ const ExpenseApprove = () => {
                           className={`${Styles.status} ${
                             items?.status === 'Pending'
                               ? Styles.pendingStatus
-                              : items?.status === 'Rejected'
+                              : items?.status === 'InProgress'
                               ? Styles.rejectedStatus
                               : items?.status === 'Approved'
                               ? Styles.approvedStatus
                               : items?.status === 'Draft'
                               ? Styles.draftStatus
+                              : items?.status === 'Completed'
+                              ? Styles.approvedStatus
                               : ''
                           }`}
                         >
-                          {items?.status}
+                          {items?.status === 'Pending'
+                            ? 'Waiting for Approval'
+                            : items?.status}
                         </span>
                       </td>
                       <td>
-                        <CustomMenu actions={actions} />
+                        {/* <CustomMenu actions={actions} /> */}
+                        <ViewIcon
+                          onClick={() =>
+                            navigate(
+                              `/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`
+                            )
+                          }
+                        />
                       </td>
                     </tr>
                   );

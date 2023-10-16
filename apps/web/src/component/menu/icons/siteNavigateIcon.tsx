@@ -10,7 +10,7 @@ interface SiteNavigateIconProps {
 const SiteNavigateIcon: FC<SiteNavigateIconProps> = ({
   width = 12,
   height = 8,
-  color = '#475467',
+  color = '#000',
   style,
 }) => {
   return (
