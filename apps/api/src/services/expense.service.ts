@@ -260,7 +260,11 @@ const getById = async (expenseId: number) => {
     );
 
     if (expenseData) {
-      result = { message: 'success', status: true, data: { ...expenseData, isEnableComplete: isUpdateAllDetails } };
+      result = {
+        message: 'success',
+        status: true,
+        data: { ...expenseData, isEnableComplete: isUpdateAllDetails },
+      };
       return result;
     } else {
       result = {
