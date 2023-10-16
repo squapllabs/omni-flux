@@ -280,7 +280,7 @@ const ExpenseApprove = () => {
         <div className={Styles.box}>
           <ProjectSubheader
             navigation={'/home'}
-            title="Expense Approval for Site"
+            title="Claim Approval for Site"
             description="Review and authorization of expenses incurred at a designated site"
           />
         </div>

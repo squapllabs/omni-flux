@@ -366,13 +366,13 @@ const HsnCodeList = () => {
                       }}
                     />
                   </div>
-                  <div>
+                  {/* <div>
                     <CustomGroupButton
                       labels={buttonLabels}
                       onClick={handleGroupButtonClick}
                       activeButton={activeButton}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className={Styles.uploads}>
@@ -524,11 +524,11 @@ const HsnCodeList = () => {
                                             editHscCodeHandler(data.hsn_code_id)
                                           }
                                         />
-                                        <DeleteIcon
+                                        {/* <DeleteIcon
                                           onClick={() =>
                                             deleteCategoryHandler(data.hsn_code_id)
                                           }
-                                        />
+                                        /> */}
                                       </div>
                                     </td>
                                   )}
@@ -568,11 +568,11 @@ const HsnCodeList = () => {
                                         editHscCodeHandler(data.hsn_code_id)
                                       }
                                     />
-                                    <DeleteIcon
+                                    {/* <DeleteIcon
                                       onClick={() =>
                                         deleteCategoryHandler(data.hsn_code_id)
                                       }
-                                    />
+                                    /> */}
                                   </div>
                                 </td>
                               )}

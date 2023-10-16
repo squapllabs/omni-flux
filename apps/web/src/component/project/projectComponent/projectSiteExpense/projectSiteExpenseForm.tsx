@@ -425,9 +425,9 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
             <div>
               <div className={Styles.addNewRowView}>
                 <MoneyIcon height={50} width={50} color="#475467" />
-                <h5>No Site Expenses added for this site </h5>
+                <h5>No Site Claims added for this site </h5>
                 <span className={Styles.spanContent}>
-                  Let's add an expanse now
+                  Let's add an claim now
                 </span>
                 <Button
                   type="button"
@@ -438,7 +438,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                   icon={<AddIcon color="white" />}
                   onClick={() => setTableView(true)}
                 >
-                  Add Expense
+                  Add Claim
                 </Button>
               </div>
             </div>
@@ -454,7 +454,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
         <CustomDialogBox
           open={openDialog}
           title="Warning"
-          contentLine1="Please add site expanse details"
+          contentLine1="Please add site claim details"
           contentLine2=""
           handleClose={handleCloseDialog}
         />

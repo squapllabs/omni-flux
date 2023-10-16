@@ -83,7 +83,7 @@ const Project = () => {
     },
     {
       id: 6,
-      name: 'Site Expense',
+      name: 'Site Claims',
     },
     {
       id: 7,

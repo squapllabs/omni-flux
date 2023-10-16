@@ -252,13 +252,13 @@ const MachineryList = () => {
                         }}
                       />
                     </div>
-                    <div>
+                    {/* <div>
                       <CustomGroupButton
                         labels={buttonLabels}
                         onClick={handleGroupButtonClick}
                         activeButton={activeButton}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               <div className={Styles.tableContainer}>
@@ -300,11 +300,11 @@ const MachineryList = () => {
                                     navigate(`/edit-machinery/${data.machinery_id}`)
                                   }
                                 />
-                                <DeleteIcon
+                                {/* <DeleteIcon
                                   onClick={() =>
                                     deleteMachineryHandler(data.machinery_id)
                                   }
-                                />
+                                /> */}
                               </div>
                             </td>
                           )}

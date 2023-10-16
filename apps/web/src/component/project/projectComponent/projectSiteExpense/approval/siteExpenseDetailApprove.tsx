@@ -178,7 +178,7 @@ const ExpenseDetailApprove = () => {
     <div>
       <div>
         <ProjectSubheader
-          title="Expense Details"
+          title="Claim Details"
           navigation={'/site-expense-approve'}
           description=""
         />

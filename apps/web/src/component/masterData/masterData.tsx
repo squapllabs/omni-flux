@@ -271,7 +271,7 @@ const MaterData = () => {
                     <tr>
                       <th>#</th>
                       <th>Name</th>
-                      <th>Description</th>
+                      {/* <th>Description</th> */}
                       <th>Code</th>
                       <th>Parent Name</th>
                       {activeButton === 'AC' && <th>Actions</th>}
@@ -290,7 +290,7 @@ const MaterData = () => {
                         <tr key={data.uom_id}>
                           <td>{startingIndex + index}</td>
                           <td>{data.master_data_name}</td>
-                          <td>
+                          {/* <td>
                             <span
                               title={data?.master_data_description}
                               className={Styles.truncatedStyle}
@@ -304,7 +304,7 @@ const MaterData = () => {
                                   : data.master_data_description
                                 : '-'}
                             </span>
-                          </td>
+                          </td> */}
                           <td>{data.master_data_type}</td>
                           <td>
                             {data?.parent?.master_data_name === undefined

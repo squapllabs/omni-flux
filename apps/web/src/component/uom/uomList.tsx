@@ -268,11 +268,11 @@ const UomList = () => {
                                       <EditIcon
                                         onClick={() => handleEdit(data.uom_id)}
                                       />
-                                      <DeleteIcon
+                                      {/* <DeleteIcon
                                         onClick={() =>
                                           deleteCategoryHandler(data.uom_id)
                                         }
-                                      />
+                                      /> */}
                                     </div>
                                   </td>
                                 </tr>
@@ -298,11 +298,11 @@ const UomList = () => {
                                   <EditIcon
                                     onClick={() => handleEdit(data.uom_id)}
                                   />
-                                  <DeleteIcon
+                                  {/* <DeleteIcon
                                     onClick={() =>
                                       deleteCategoryHandler(data.uom_id)
                                     }
-                                  />
+                                  /> */}
                                 </div>
                               </td>
                             </tr>

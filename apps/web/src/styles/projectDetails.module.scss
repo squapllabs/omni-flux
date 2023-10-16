@@ -1,87 +1,88 @@
-.topHeading{
-    // background-color: aqua;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.topHeading {
+  // background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .childTwo {
-    margin-top: 1%;
-    margin-left: 2%;
-    width: 85%;
-    // background-color: aquamarine;
-  }
-  .subOneChildOne {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    flex-wrap: wrap;
-    // background-color: #B42318;
-  }
-  .inputFields {
-    width: 40%;
-  }
-  .subOneChildTwo {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    flex-wrap: wrap;
-  }
-  .clientNewAddMain {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    cursor: pointer;
-  }
-  .clientInstantAdd{
-      display: flex;
-      flex-direction: row;
-      gap:5px;
-      width:50%
-  }
-  .subOneChildThree {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    flex-wrap: wrap;
-  }
-  .dividerStyleOne {
-    border-bottom: 1px solid rgb(66, 200, 75);
-    width: 97%;
-    margin-bottom: 5px;
-  }
-  .subTwoChildOne {
+  margin-top: 1%;
+  margin-left: 2%;
+  width: 85%;
+  // background-color: aquamarine;
+}
+.subOneChildOne {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+  // background-color: #B42318;
+}
+.inputFields {
+  width: 40%;
+}
+.subOneChildTwo {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.clientNewAddMain {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+.clientInstantAdd {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  width: 50%;
+}
+.subOneChildThree {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.dividerStyleOne {
+  border-bottom: 1px solid rgb(66, 200, 75);
+  width: 86%;
+  margin-bottom: 5px;
+}
+.subTwoChildOne {
   display: flex;
   flex-direction: row;
   gap: 230px;
   flex-wrap: wrap;
 }
 .subThreeChildOne {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    flex-wrap: wrap;
-  }
-  .subFourChildOne {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    flex-wrap: wrap;
-  }
-  .addtext {
-    color: var(--secondary-color);
-    font-size: 0.6rem;
-  }
-  .draftButton {
-    color: var(--secondary-color);
-  }
-  .cancelButton {
-    background-color: var(--danger-color);
-    color: #b42318;
-  }
-  .bottomButton{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 6px 0px 10px 0px;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.subFourChildOne {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+.addtext {
+  color: var(--secondary-color);
+  font-size: 0.6rem;
+}
+.draftButton {
+  color: var(--secondary-color);
+}
+.cancelButton {
+  background-color: var(--danger-color);
+  color: #b42318;
+}
+.bottomButton {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 6px 0px 10px 0px;
+  justify-content: flex-end;
+  width: 86%;
+}

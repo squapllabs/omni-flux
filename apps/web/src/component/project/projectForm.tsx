@@ -32,7 +32,7 @@ import {
   getCreateValidateyup,
   getEditValidateyup,
 } from '../../helper/constants/project-constants';
-
+import CustomSidePopup from '../ui/CustomSidePopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import SelectInput from '@mui/material/Select/SelectInput';
@@ -86,6 +86,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     useGetMasterProjectParentType();
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
+  const handleClientFormClose = () => {
+    setShowClientForm(false);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -365,7 +369,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                   />
                 </div>
                 <div className={Styles.clientInstantAdd}>
-                  <div style={{ width: '60%' }}>
+                  <div style={{ width: '100%' }}>
                     <AutoCompleteSelect
                       name="client_id"
                       label="Client / Customer"
@@ -387,7 +391,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     className={Styles.clientNewAddMain}
                     onClick={handleOpenClientForm}
                   >
-                    <AddIcon style={{ height: '13px', width: '20px' }} />
+                    <AddIcon style={{ height: '15px', width: '15px' }} />
                     <h4 className={Styles.addtext}>New client</h4>
                   </div>
                 </div>
@@ -569,10 +573,17 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         </div>
       </form>
       <div>
-        <CustomClientAdd
-          isVissible={showClientForm}
-          onAction={setShowClientForm}
-        />
+      <CustomSidePopup
+          open={showClientForm}
+          title={'Add Client'}
+          handleClose={handleClientFormClose}
+          content={
+          <CustomClientAdd
+            isVissible={showClientForm}
+            onAction={setShowClientForm}
+          />}
+          />
+        
         <CustomConfirm
           open={openConfirm}
           title="Confirm Submit"
