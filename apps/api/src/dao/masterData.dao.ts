@@ -252,8 +252,6 @@ const searchMasterData = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterMasterData;
-    console.log(filter.AND[0].project_id, 'filter.AND[0].project_id');
-
     if (filter.AND[0].project_id.equals === null) {
       const getData = await transaction.master_data.findMany({
         where: {
@@ -316,6 +314,8 @@ const searchMasterData = async (
           data: masterData,
         };
         return masterDataData;
+      } else {
+        return getData;
       }
     }
   } catch (error) {
