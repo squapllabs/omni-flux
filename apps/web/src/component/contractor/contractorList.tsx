@@ -277,13 +277,13 @@ const ContractorList = () => {
                                       }
                                     />
                                   </div>
-                                  <div>
+                                  {/* <div>
                                     <DeleteIcon
                                       onClick={() =>
                                         deleteContractor(item.site_contractor_id)
                                       }
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                               </td>
                             )}

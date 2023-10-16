@@ -300,11 +300,11 @@ const ClientList = () => {
                                         <EditIcon
                                           onClick={() => handleEdit(data.client_id)}
                                         />
-                                        <DeleteIcon
+                                        {/* <DeleteIcon
                                           onClick={() =>
                                             deleteCategoryHandler(data.client_id)
                                           }
-                                        />
+                                        /> */}
                                       </div>
                                     </td>
                                   )}
@@ -332,11 +332,11 @@ const ClientList = () => {
                                     <EditIcon
                                       onClick={() => handleEdit(data.client_id)}
                                     />
-                                    <DeleteIcon
+                                    {/* <DeleteIcon
                                       onClick={() =>
                                         deleteCategoryHandler(data.client_id)
                                       }
-                                    />
+                                    /> */}
                                   </div>
                                 </td>
                               )}

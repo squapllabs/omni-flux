@@ -231,13 +231,13 @@ const LabourList = () => {
                     }}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <CustomGroupButton
                     labels={buttonLabels}
                     onClick={handleGroupButtonClick}
                     activeButton={activeButton}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
             {/* <div className={Styles.top}>
@@ -338,11 +338,11 @@ const LabourList = () => {
                                       <EditIcon
                                         onClick={() => handleEdit(data?.labour_id)}
                                       />
-                                      <DeleteIcon
+                                      {/* <DeleteIcon
                                         onClick={() =>
                                           deleteLabourHandler(data?.labour_id)
                                         }
-                                      />
+                                      /> */}
                                     </div>
                                   </td>
                                 )}
@@ -373,13 +373,13 @@ const LabourList = () => {
                                       onClick={() => handleEdit(item?.labour_id)}
                                     />
                                   </div>
-                                  <div>
+                                  {/* <div>
                                     <DeleteIcon
                                       onClick={() =>
                                         deleteLabourHandler(item.labour_id)
                                       }
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                               </td>
                             )}

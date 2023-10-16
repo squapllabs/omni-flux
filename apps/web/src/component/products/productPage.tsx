@@ -265,13 +265,13 @@ const ProductPage = () => {
                     }}
                   />
                 </div>
-                <div className={Styles.groupButton}>
+                {/* <div className={Styles.groupButton}>
                   <CustomGroupButton
                     labels={buttonLabels}
                     onClick={handleGroupButtonClick}
                     activeButton={activeButton}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
 

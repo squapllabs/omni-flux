@@ -16,6 +16,7 @@ const add = async (
   estimated_budget: number,
   uom_id: number,
   quantity: number,
+  rate: number,
   connectionObj = null
 ) => {
   try {
@@ -43,6 +44,7 @@ const add = async (
         estimated_budget,
         uom_id,
         quantity,
+        rate,
       },
     });
     return subCategory;
@@ -68,6 +70,7 @@ const edit = async (
   estimated_budget: number,
   uom_id: number,
   quantity: number,
+  rate: number,
   connectionObj = null
 ) => {
   try {
@@ -95,6 +98,7 @@ const edit = async (
         estimated_budget,
         uom_id,
         quantity,
+        rate,
       },
     });
     return subCategory;

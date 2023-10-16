@@ -567,7 +567,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
           {display && (
             <div onClick={formik.handleSubmit} className={Styles.iconContent}>
               <NewAddCircleIcon />
-              <span>Add Expenses</span>
+              <span>Add Claim</span>
             </div>
           )}
 
@@ -579,7 +579,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
               className={Styles.iconContent}
             >
               <NewAddCircleIcon />
-              <span>Add More Expenses</span>
+              <span>Add More Claim</span>
             </div>
           )}
         </div>

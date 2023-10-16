@@ -75,7 +75,7 @@ const Project = () => {
 
     {
       id: 4,
-      name: 'Master Data',
+      name: 'BOQ Type',
     },
     {
       id: 5,
@@ -83,7 +83,7 @@ const Project = () => {
     },
     {
       id: 6,
-      name: 'Site Expense',
+      name: 'Site Claims',
     },
     {
       id: 7,

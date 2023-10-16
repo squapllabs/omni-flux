@@ -44,7 +44,7 @@ const Settings = () => {
       { name: 'GST', id: 5 },
       { name: 'UOM', id: 6 },
       { name: 'Client', id: 7 },
-      { name: 'HsnCode', id: 8 },
+      { name: 'HSN Code', id: 8 },
       { name: 'Items', id: 9 },
       { name: 'Machineries', id: 10 },
       { name: 'Contractors', id: 11 },
