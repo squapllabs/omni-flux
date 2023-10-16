@@ -181,6 +181,7 @@ model sub_category {
   parent_sub_category_id Int?
   uom_id                 Int?
   quantity               Int?
+  rate                   Float?
   bom_configuration_data bom_configuration? @relation(fields: [bom_configuration_id], references: [bom_configuration_id])
   category               category?          @relation(fields: [category_id], references: [category_id])
   description            String?

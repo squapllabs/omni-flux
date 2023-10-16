@@ -13,6 +13,7 @@ interface createSubCategoryBody {
   estimated_budget: number;
   uom_id: number;
   quantity: number;
+  rate: number;
 }
 
 interface updateSubCategoryBody {
@@ -31,6 +32,7 @@ interface updateSubCategoryBody {
   estimated_budget: number;
   uom_id: number;
   quantity: number;
+  rate: number;
 }
 
 export { createSubCategoryBody, updateSubCategoryBody };

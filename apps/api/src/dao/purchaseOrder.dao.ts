@@ -178,7 +178,11 @@ const searchPurchaseOrder = async (
       where: filter,
       include: {
         purchase_request_data: {
-          include: { indent_request_data: true, project_data: true },
+          include: {
+            indent_request_data: true,
+            project_data: true,
+            site_data: true,
+          },
         },
         vendor_data: true,
       },
