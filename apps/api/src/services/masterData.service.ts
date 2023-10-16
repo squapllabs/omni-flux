@@ -404,7 +404,6 @@ const searchMasterData = async (body) => {
       order_by_direction,
       filterObj
     );
-
     if (result.count > 0) {
       const count = result.count;
       const data = result.data;
@@ -418,7 +417,7 @@ const searchMasterData = async (body) => {
         content: data,
       };
       return tempMasterDataData;
-    } else if (result.count == 0) {
+    } else if (result.count === 0) {
       const count = result.count;
       const tempMasterDataData = {
         message: 'success',
@@ -427,9 +426,9 @@ const searchMasterData = async (body) => {
         is_available: true,
       };
       return tempMasterDataData;
-    } else if (!result) {
+    } else {
       const tempMasterDataData = {
-        message: 'success',
+        message: 'fail',
         status: true,
         is_available: false,
       };

@@ -252,28 +252,72 @@ const searchMasterData = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterMasterData;
-    const masterData = await transaction.master_data.findMany({
-      where: filter,
-      include: {
-        parent: true,
-        children: true,
-      },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
+    console.log(filter.AND[0].project_id, 'filter.AND[0].project_id');
+
+    if (filter.AND[0].project_id.equals === null) {
+      const getData = await transaction.master_data.findMany({
+        where: {
+          is_delete: filter.is_delete,
         },
-      ],
-      skip: offset,
-      take: limit,
-    });
-    const masterDataCount = await transaction.master_data.count({
-      where: filter,
-    });
-    const masterDataData = {
-      count: masterDataCount,
-      data: masterData,
-    };
-    return masterDataData;
+      });
+      if (getData.length > 0) {
+        const masterData = await transaction.master_data.findMany({
+          where: filter,
+          include: {
+            parent: true,
+            children: true,
+          },
+          orderBy: [
+            {
+              [orderByColumn]: orderByDirection,
+            },
+          ],
+          skip: offset,
+          take: limit,
+        });
+        const masterDataCount = await transaction.master_data.count({
+          where: filter,
+        });
+        const masterDataData = {
+          count: masterDataCount,
+          data: masterData,
+        };
+        return masterDataData;
+      } else {
+        return getData;
+      }
+    } else {
+      const getData = await transaction.master_data.findMany({
+        where: {
+          is_delete: filter.is_delete,
+          project_id: filter.AND[0].project_id,
+        },
+      });
+      if (getData.length > 0) {
+        const masterData = await transaction.master_data.findMany({
+          where: filter,
+          include: {
+            parent: true,
+            children: true,
+          },
+          orderBy: [
+            {
+              [orderByColumn]: orderByDirection,
+            },
+          ],
+          skip: offset,
+          take: limit,
+        });
+        const masterDataCount = await transaction.master_data.count({
+          where: filter,
+        });
+        const masterDataData = {
+          count: masterDataCount,
+          data: masterData,
+        };
+        return masterDataData;
+      }
+    }
   } catch (error) {
     console.log('Error occurred in masterData dao : searchMasterData ', error);
     throw error;

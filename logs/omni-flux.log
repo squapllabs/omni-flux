@@ -3304,3 +3304,8 @@ type capabilityWhereInput {
 
 =======
 >>>>>>> 388294719360e1fdd80dae43eee06aab11e61921
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
