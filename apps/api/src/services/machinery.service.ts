@@ -301,6 +301,7 @@ const searchMachinery = async (body) => {
           status: true,
           total_count: count,
           total_page: total_pages,
+          is_available: true,
           content: data,
         };
         return tempMachineryData;

@@ -249,8 +249,8 @@ const searchCapability = async (body) => {
           status: true,
           total_count: count,
           total_page: total_pages,
-          content: data,
           is_available: true,
+          content: data,
         };
         return tempCapabilityData;
       } else if (result.count == 0) {
