@@ -36,6 +36,7 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import SelectInput from '@mui/material/Select/SelectInput';
+import ProjectSubheader from './projectSubheader';
 
 const ProjectGeneralDetails: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -294,12 +295,16 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   return (
     <div>
       {/* HEADER */}
-      <div className={Styles.topHeading}>
+      {/* <div className={Styles.topHeading}>
         <div>
           <h3>NEW PROJECT</h3>
         </div>
-      </div>
-
+      </div> */}
+      <ProjectSubheader
+        title="NEW PROJECT"
+        description="Create your Project with mandatory Details"
+        navigation="/project-list"
+      />
       {/* DIVIDER */}
       <div className={Styles.dividerStyle}></div>
 

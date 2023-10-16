@@ -31,6 +31,7 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       estimated_budget,
       uom_id,
       quantity,
+      rate,
     } = body;
     let result = null;
     const categoryExist = await categoryDao.getById(category_id);
@@ -118,7 +119,8 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       parent_sub_category_id,
       estimated_budget,
       uom_id,
-      quantity
+      quantity,
+      rate
     );
     result = { message: 'success', status: true, data: subCategoryDetails };
     return result;
@@ -151,6 +153,7 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       estimated_budget,
       uom_id,
       quantity,
+      rate,
     } = body;
     let result = null;
     const subCategoryExist = await subCategoryDao.getById(sub_category_id);
@@ -250,7 +253,8 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       parent_sub_category_id,
       estimated_budget,
       uom_id,
-      quantity
+      quantity,
+      rate
     );
     result = { message: 'success', status: true, data: subCategoryDetails };
     return result;

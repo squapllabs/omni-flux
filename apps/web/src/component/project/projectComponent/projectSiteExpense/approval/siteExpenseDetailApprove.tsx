@@ -65,6 +65,8 @@ const ExpenseDetailApprove = () => {
   useEffect(() => {
     const fetchData = async () => {
       const datas = await siteExpenseService.getOnesiteExpenseByID(expenseId);
+      console.log('datas', datas?.data);
+
       setTableData(datas.data);
     };
     if (expenseId !== undefined) fetchData();
@@ -252,6 +254,50 @@ const ExpenseDetailApprove = () => {
             <div className={Styles.countContent}>
               <h3>
                 {formatBudgetValue(
+                  tableData?.approved_total ? tableData?.approved_total : 0
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Approved Amount</span>
+            </div>
+          </div>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '20px 10px 20px 10px',
+            }}
+          >
+            <div className={Styles.countContent}>
+              <h3>
+                {formatBudgetValue(
+                  tableData?.rejected_total ? tableData?.rejected_total : 0
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Rejected Amount</span>
+            </div>
+          </div>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '20px 10px 20px 10px',
+            }}
+          >
+            <div className={Styles.countContent}>
+              <h3>
+                {formatBudgetValue(
                   tableData?.total_amount ? tableData?.total_amount : 0
                 )}
               </h3>
@@ -280,19 +326,15 @@ const ExpenseDetailApprove = () => {
       )}
       <div className={Styles.tableContainerBottom}>
         <table className={Styles.scrollable_table}>
-          <thead>
+          <thead className="globaltablehead">
             <tr>
-              <th className={Styles.tableHeading}>#</th>
-              <th className={Styles.tableHeading}>Description</th>
-              <th className={Styles.tableHeading}>Expense Name</th>
-              <th className={Styles.tableHeading}>Amount</th>
-              <th className={Styles.tableHeading}>Documents</th>
-              <th className={Styles.tableHeading}>Status</th>
-              {tableData?.isEnableComplete === true ? (
-                ''
-              ) : (
-                <th className={Styles.tableHeading}>Action</th>
-              )}
+              <th>#</th>
+              <th>Description</th>
+              <th>Expense Name</th>
+              <th>Amount</th>
+              <th>Documents</th>
+              <th>Status</th>
+              {tableData?.isEnableComplete === true ? '' : <th>Action</th>}
               {/* <th className={Styles.tableHeading}>Action</th> */}
             </tr>
           </thead>
