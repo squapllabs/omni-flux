@@ -332,7 +332,7 @@ const HsnCodeList = () => {
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>
                   <div className={Styles.subHeading}>
-                    <h3>HSN CODE</h3>
+                    <h3>HSN Code</h3>
                   </div>
                   <div>
                     <Button
@@ -346,7 +346,7 @@ const HsnCodeList = () => {
                         setOpenHsnForm(true);
                       }}
                     >
-                      Add HSN CODE
+                      Add HSN Code
                     </Button>
                   </div>
                 </div>

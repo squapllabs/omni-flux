@@ -272,7 +272,7 @@ const ExpenseDetailApprove = () => {
             onClick={hanldeOpen}
             disabled={tableData?.status === 'Completed'}
           >
-            Complete
+            Review Complete
           </Button>
         </div>
       ) : (

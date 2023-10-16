@@ -85,7 +85,7 @@ const ExpenseApprove = () => {
   const [selectShow, setSelectShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Waiting for Approval', value: 'Pending' },
+    { label: 'Waiting Approval', value: 'Pending' },
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);

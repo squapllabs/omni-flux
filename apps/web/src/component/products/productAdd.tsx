@@ -137,8 +137,12 @@ const ProductAdd = () => {
     <div className={Styles.container}>
       <ProjectSubheader
         navigation={'/settings'}
-        description="Add your raw materials ( Raw, Semi Finished & Finished)."
-        title="Add Item"
+        description={
+          routeParams?.id === undefined
+            ? 'Add your raw materials (Raw, Semi Finished & Finished).'
+            : 'Edit your raw materials (Raw, Semi Finished & Finished).'
+        }
+        title={routeParams?.id === undefined ? 'Add Item' : 'Edit Item'}
       />
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>

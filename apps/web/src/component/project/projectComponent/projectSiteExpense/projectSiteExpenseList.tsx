@@ -347,7 +347,7 @@ const ProjectSiteExpenseList = () => {
             <CustomSidePopup
               open={open}
               handleClose={handleClose}
-              title={'Add/Edit Site Expense'}
+              title={mode === 'Edit' ? 'Edit Site Expense ':'Add Site Expense'}
               content={
                 <ProjectSiteExpenseForm
                   projectId={routeParams?.id}
