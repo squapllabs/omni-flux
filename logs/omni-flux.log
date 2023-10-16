@@ -3550,3 +3550,526 @@ type IntFilter {
 }
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:110:56
+
+  107 const getById = async (subCategoryId: number, connectionObj = null) => {
+  108   try {
+  109     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 110     const subCategory = await transaction.sub_category.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:110:56
+
+  107 const getById = async (subCategoryId: number, connectionObj = null) => {
+  108   try {
+  109     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 110     const subCategory = await transaction.sub_category.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getBySubCategoryId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.sub_category.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:110:56
+
+  107 const getById = async (subCategoryId: number, connectionObj = null) => {
+  108   try {
+  109     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 110     const subCategory = await transaction.sub_category.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.update()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:78:56
+
+  75 const formatted_start_date = start_date ? new Date(start_date) : null;
+  76 const formatted_end_date = end_date ? new Date(end_date) : null;
+  77 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 78 const subCategory = await transaction.sub_category.update({
+       where: {
+         sub_category_id: 275
+       },
+       data: {
+         name: 'Civil ground work 2',
+         category_id: 238,
+         actual_budget: undefined,
+         updated_by: undefined,
+         updated_date: new Date('2023-10-13T05:21:00.077Z'),
+         description: 'Civil ground work 2',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: undefined,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '1000000',
+                           ~~~~~~~~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value '1000000' on prisma.updateOnesub_category. Provided String, expected Float or NullableFloatFieldUpdateOperationsInput or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllUom << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.uom.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\uom.dao.ts:81:39
+
+  78 const getAll = async (connectionObj = null) => {
+  79   try {
+  80     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 81     const uom = await transaction.uom.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllItemData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.item.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\item.dao.ts:297:41
+
+  294 const getAllItems = async (connectionObj = null) => {
+  295   try {
+  296     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 297     const item = await transaction.item.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+
+  86 const getById = async (categoryId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const category = await transaction.category.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getCountByProjectIdAndBomConfigId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.update()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:78:56
+
+  75 const formatted_start_date = start_date ? new Date(start_date) : null;
+  76 const formatted_end_date = end_date ? new Date(end_date) : null;
+  77 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 78 const subCategory = await transaction.sub_category.update({
+       where: {
+         sub_category_id: 274
+       },
+       data: {
+         name: 'Civil ground Work 1',
+         category_id: 238,
+         actual_budget: undefined,
+         updated_by: undefined,
+         updated_date: new Date('2023-10-13T05:35:14.930Z'),
+         description: 'Civil ground Work 1',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: undefined,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '1000000',
+                           ~~~~~~~~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value '1000000' on prisma.updateOnesub_category. Provided String, expected Float or NullableFloatFieldUpdateOperationsInput or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.update()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:78:56
+
+  75 const formatted_start_date = start_date ? new Date(start_date) : null;
+  76 const formatted_end_date = end_date ? new Date(end_date) : null;
+  77 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 78 const subCategory = await transaction.sub_category.update({
+       where: {
+         sub_category_id: 274
+       },
+       data: {
+         name: 'Civil ground Work 1',
+         category_id: 238,
+         actual_budget: undefined,
+         updated_by: undefined,
+         updated_date: new Date('2023-10-13T05:35:17.741Z'),
+         description: 'Civil ground Work 1',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: undefined,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '1000000',
+                           ~~~~~~~~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value '1000000' on prisma.updateOnesub_category. Provided String, expected Float or NullableFloatFieldUpdateOperationsInput or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:27:56
+
+  24 const formatted_end_date = end_date ? new Date(end_date) : null;
+  25 const transaction = connectionObj !== null ? connectionObj : prisma;
+  26 const is_delete = false;
+→ 27 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: 'Civil ground work 3',
+         category_id: 238,
+         actual_budget: undefined,
+         created_by: null,
+         created_date: new Date('2023-10-13T06:07:45.432Z'),
+         updated_date: new Date('2023-10-13T06:07:45.432Z'),
+         is_delete: false,
+         description: 'Civil ground work 3',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 93,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: 'Civil ground work 3',
+                           ~~~~~~~~~~~~~~~~~~~~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value 'Civil ground work 3' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:27:56
+
+  24 const formatted_end_date = end_date ? new Date(end_date) : null;
+  25 const transaction = connectionObj !== null ? connectionObj : prisma;
+  26 const is_delete = false;
+→ 27 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: 'Civil ground work 3',
+         category_id: 238,
+         actual_budget: undefined,
+         created_by: null,
+         created_date: new Date('2023-10-13T06:07:55.190Z'),
+         updated_date: new Date('2023-10-13T06:07:55.190Z'),
+         is_delete: false,
+         description: 'Civil ground work 3',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 93,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: 'Civil ground work 3',
+                           ~~~~~~~~~~~~~~~~~~~~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value 'Civil ground work 3' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.update()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:78:56
+
+  75 const formatted_start_date = start_date ? new Date(start_date) : null;
+  76 const formatted_end_date = end_date ? new Date(end_date) : null;
+  77 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 78 const subCategory = await transaction.sub_category.update({
+       where: {
+         sub_category_id: 274
+       },
+       data: {
+         name: 'Civil ground Work 1',
+         category_id: 238,
+         actual_budget: undefined,
+         updated_by: undefined,
+         updated_date: new Date('2023-10-13T06:59:36.966Z'),
+         description: 'Civil ground Work 1',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: undefined,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '1000000',
+                           ~~~~~~~~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value '1000000' on prisma.updateOnesub_category. Provided String, expected Float or NullableFloatFieldUpdateOperationsInput or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:27:56
+
+  24 const formatted_end_date = end_date ? new Date(end_date) : null;
+  25 const transaction = connectionObj !== null ? connectionObj : prisma;
+  26 const is_delete = false;
+→ 27 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: 'Item No.1',
+         category_id: 240,
+         actual_budget: undefined,
+         created_by: null,
+         created_date: new Date('2023-10-13T07:22:41.615Z'),
+         updated_date: new Date('2023-10-13T07:22:41.615Z'),
+         is_delete: false,
+         description: 'Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion with B.C.soil (in gunny bags if required).  Providing impervious / semipervious materials on both sides of B.C. Soil (including gunny bags if required) including ramming, compacting to the satisfaction of Engineer-in-charge till  the completion of work including dismentaling coffer dam after completion of work and disposing off the material as directed by Engineer-in-charge.',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 94,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '',
+                           ~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:27:56
+
+  24 const formatted_end_date = end_date ? new Date(end_date) : null;
+  25 const transaction = connectionObj !== null ? connectionObj : prisma;
+  26 const is_delete = false;
+→ 27 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: 'Work - 1',
+         category_id: 240,
+         actual_budget: undefined,
+         created_by: null,
+         created_date: new Date('2023-10-13T07:54:08.576Z'),
+         updated_date: new Date('2023-10-13T07:54:08.576Z'),
+         is_delete: false,
+         description: 'Work - 1',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 94,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '',
+                           ~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createSubCategory << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:27:56
+
+  24 const formatted_end_date = end_date ? new Date(end_date) : null;
+  25 const transaction = connectionObj !== null ? connectionObj : prisma;
+  26 const is_delete = false;
+→ 27 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: 'Work - 1',
+         category_id: 240,
+         actual_budget: undefined,
+         created_by: null,
+         created_date: new Date('2023-10-13T07:55:54.001Z'),
+         updated_date: new Date('2023-10-13T07:55:54.001Z'),
+         is_delete: false,
+         description: 'Work - 1',
+         project_id: 178,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 94,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '',
+                           ~~
+         uom_id: undefined,
+         quantity: undefined
+       }
+     })
+
+Argument estimated_budget: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+
+  86 const getById = async (categoryId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+
+  86 const getById = async (categoryId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\category.dao.ts:89:49
+
+  86 const getById = async (categoryId: number, connectionObj = null) => {
+  87   try {
+  88     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 89     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+

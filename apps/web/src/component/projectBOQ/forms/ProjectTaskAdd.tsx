@@ -15,6 +15,9 @@ import { format } from 'date-fns';
 import Styles from '../../../styles/newStyles/project_abstractAdd.module.scss';
 import CheckListIcon from '../../menu/icons/checkListIcon';
 
+import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
+import { getUomByType } from '../../../hooks/uom-hooks';
+
 const ProjectTaskAdd: React.FC = (props: any) => {
   console.log('props', props?.isCollapsed);
 
@@ -29,9 +32,15 @@ const ProjectTaskAdd: React.FC = (props: any) => {
     start_date: '',
     end_date: '',
     sub_category_id: '',
-    budget: '',
+    actual_budget: '',
     parent_sub_category_id: '',
+    estimated_budget : '',
+    uom_id:''
   });
+
+  const DropfieldWidth = '150px';
+  const { data: getAllUomDrop } = getUomByType('RAWMT');
+
   const dateFormat = (value: any) => {
     if (value !== null) {
       const currentDate = new Date(value);
@@ -54,8 +63,10 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           project_id: data?.data?.project_id,
           sub_category_id: data?.data?.sub_category_id,
           bom_configuration_id: props.selectedBomConfig,
-          budget: data?.data?.budget,
+          actual_budget: data?.data?.actual_budget,
           parent_sub_category_id: data?.data?.parent_sub_category_id,
+          estimated_budget : data?.data?.estimated_budget,
+          uom_id: data?.data?.uom_id,
         });
       };
       if (props.mode === 'EDIT') fetchOne();
@@ -72,12 +83,15 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           name: values.name,
           description: values.description,
           project_id: props.selectedProject,
-          budget: initialValues.budget,
+          actual_budget: initialValues.actual_budget,
           category_id: props.selectedCategoryId,
           start_date: values.start_date,
           end_date: values.end_date,
           sub_category_id: values.sub_category_id,
           parent_sub_category_id: values.parent_sub_category_id,
+          estimated_budget :  values.estimated_budget,
+          uom_id : values.uom_id,
+
         };
         console.log('abstract from', Object);
         updateSubcategoryData(Object, {
@@ -98,13 +112,15 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           name: values.name,
           description: values.description,
           project_id: props.selectedProject,
-          budget: 0,
+          actual_budget: 0,
           category_id: props.selectedCategoryId,
           start_date: values.start_date,
           end_date: values.end_date,
           bom_configuration_id: props.selectedBomConfig,
           parent_sub_category_id:
-            props.mode === 'Sub Task' ? props.selectedSubCategory : null,
+          props.mode === 'Sub Task' ? props.selectedSubCategory : null,
+          estimated_budget : values.estimated_budget,
+          uom_id : values.uom_id,
         };
         console.log('sub category added form ', Object);
         createNewSubCategory(Object, {
@@ -114,7 +130,6 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               props.setOpenSnack(true);
               props.setOpen(false);
               console.log('data_created', data);
-
               props.setReload(!props.reload);
               resetForm();
               props.setIsCollapsed(!props.isCollapsed);
@@ -129,6 +144,12 @@ const ProjectTaskAdd: React.FC = (props: any) => {
   const handleClose = () => {
     props.setOpen(false);
   };
+
+  const calculatebudget = () =>{
+    const estimated_budget = Number(formik.values.rate) * Number(formik.values.quantity);
+    return estimated_budget
+  }
+  
 
   return (
     <div className={Styles.container}>
@@ -158,6 +179,57 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               maxCharacterCount={1000}
             />
           </div>
+          <div>
+          <AutoCompleteSelect
+              width={DropfieldWidth}
+              name="uom_id"
+              label='Select UOM'
+              mandatory={true}
+              optionList={getAllUomDrop != undefined ? getAllUomDrop : []}
+              value={formik.values.uom_id}
+              onChange={formik.handleChange} 
+              onSelect={(e: string): void => {
+                formik.values.uom_id = e
+              } } defaultLabel={'Select'} 
+            />   
+          </div>
+          {/* <div className={Styles.field}>
+            <Input
+              label="Quantity"
+              placeholder="Enter Quantity"
+              name="Quantity"
+              type="number"
+              mandatory={true}
+              value={formik.values.quantity}
+              onChange={formik.handleChange}
+              error={formik.touched.quantity && formik.errors.quantity}
+            />
+          </div>
+          <div className={Styles.field}>
+            <Input
+              label="Rate"
+              placeholder="Enter Rate"
+              name="Rate"
+              type="number"
+              mandatory={true}
+              value={formik.values.rate}
+              onChange={formik.handleChange}
+              error={formik.touched.rate && formik.errors.rate}
+            />
+          </div> */}
+          <div className={Styles.field}>
+            <Input
+              label="Estimated Budget"
+              placeholder="Enter Estimated Budget"
+              name="estimated_budget"
+              type="number"
+              mandatory={true}
+              value={formik.values.estimated_budget}
+              onChange={formik.handleChange}
+              error={formik.touched.estimated_budget && formik.errors.estimated_budget}
+            />
+          </div>
+         
           <div className={Styles.field}>
             <DatePicker
               label="Start Date"
