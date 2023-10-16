@@ -3311,3 +3311,41 @@ type capabilityWhereInput {
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchCapability << ERRSTRING >>Error: 
+Invalid `transaction.capability.findMany()` invocation in
+D:\2023\october\4\omni-flux\apps\api\src\dao\capability.dao.ts:129:55
+
+  126 const filter = filters.filterCapability;
+  127 const getData = await transaction.capability.findMany({});
+  128 if (getData.length > 0) {
+→ 129   const capability = await transaction.capability.findMany({
+          where: false,
+                 ~~~~~
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 5
+        })
+
+Argument where: Got invalid value false on prisma.findManycapability. Provided Boolean, expected capabilityWhereInput:
+type capabilityWhereInput {
+  AND?: capabilityWhereInput | List<capabilityWhereInput>
+  OR?: List<capabilityWhereInput>
+  NOT?: capabilityWhereInput | List<capabilityWhereInput>
+  capability_id?: IntFilter | Int
+  capability_name?: StringFilter | String
+  description?: StringNullableFilter | String | Null
+  permission_type?: StringNullableFilter | String | Null
+  ui_type?: StringNullableFilter | String | Null
+  is_delete?: BoolFilter | Boolean
+  created_date?: DateTimeFilter | DateTime
+  updated_date?: DateTimeFilter | DateTime
+  created_by?: IntNullableFilter | Int | Null
+  updated_by?: IntNullableFilter | Int | Null
+  permissions?: PermissionsListRelationFilter
+}
+
+

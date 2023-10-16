@@ -133,11 +133,7 @@ const searchUOM = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterUom;
-    const getData = await transaction.uom.findMany({
-      where: {
-        is_delete: filter.is_delete,
-      },
-    });
+    const getData = await transaction.uom.findMany({});
     if (getData.length > 0) {
       const uom = await transaction.uom.findMany({
         where: filter,

@@ -120,11 +120,7 @@ const searchClient = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterClient;
-    const getData = await transaction.client.findMany({
-      where: {
-        is_delete: filter.is_delete,
-      },
-    });
+    const getData = await transaction.client.findMany({});
     if (getData.length > 0) {
       const client = await transaction.client.findMany({
         where: filter,

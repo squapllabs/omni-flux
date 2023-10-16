@@ -130,11 +130,7 @@ const searchLabour = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterLabour;
-    const getData = await transaction.labour.findMany({
-      where: {
-        is_delete: filter.is_delete,
-      },
-    });
+    const getData = await transaction.labour.findMany({});
     if (getData.length > 0) {
       const labour = await transaction.labour.findMany({
         where: filter,

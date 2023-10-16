@@ -178,11 +178,7 @@ const searchVendor = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const getData = await transaction.vendor.findMany({
-      where: {
-        is_delete: is_delete,
-      },
-    });
+    const getData = await transaction.vendor.findMany({});
     if (getData.length > 0) {
       const query = `
       SELECT *

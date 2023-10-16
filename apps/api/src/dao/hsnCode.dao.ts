@@ -177,11 +177,7 @@ const searchHSNCode = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterHSNCode;
-    const getData = await transaction.hsn_code.findMany({
-      where: {
-        is_delete: filter.is_delete,
-      },
-    });
+    const getData = await transaction.hsn_code.findMany({});
     if (getData.length > 0) {
       const hsnCode = await transaction.hsn_code.findMany({
         where: filter,

@@ -124,11 +124,7 @@ const searchCapability = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterCapability;
-    const getData = await transaction.capability.findMany({
-      where: {
-        is_delete: filter.is_delete,
-      },
-    });
+    const getData = await transaction.capability.findMany({});
     if (getData.length > 0) {
       const capability = await transaction.capability.findMany({
         where: filter,

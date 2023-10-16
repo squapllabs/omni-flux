@@ -162,11 +162,7 @@ const searchMachinery = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterMachinery;
-    const getData = await transaction.machinery.findMany({
-      where: {
-        is_delete: filter.is_delete,
-      },
-    });
+    const getData = await transaction.machinery.findMany({});
     if (getData.length > 0) {
       const machinery = await transaction.machinery.findMany({
         where: filter,

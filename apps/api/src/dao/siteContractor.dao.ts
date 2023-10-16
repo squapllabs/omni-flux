@@ -198,11 +198,7 @@ const searchSiteContractor = async (
     const order_by_column = orderByColumn;
     const order_by_direction = orderByDirection;
     const is_delete = status === 'AC' ? false : true;
-    const getData = await transaction.site_contractor.findMany({
-      where: {
-        is_delete: is_delete,
-      },
-    });
+    const getData = await transaction.site_contractor.findMany({});
     if (getData.length > 0) {
       const allSiteContractors = await transaction.$queryRawUnsafe(
         `SELECT *,
