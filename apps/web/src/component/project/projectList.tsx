@@ -43,13 +43,6 @@ const ProjectList = () => {
     roleName === 'PLANNING ENGINEER' ||
     roleName === 'SITE ENGINEER';
   const { isLoading: getAllLoading } = useGetAllProject();
-
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: FilterLoading,
-  } = getMemberBasedProject();
-
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -64,7 +57,7 @@ const ProjectList = () => {
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
   ]);
-  const [activeButton, setActiveButton] = useState<string | null>('Inprogress');
+  const [activeButton, setActiveButton] = useState<string | null>('ALL');
   const [filter, setFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,71 +106,72 @@ const ProjectList = () => {
     project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
   };
 
-  // const {
-  //   isLoading: getAllLoadingPaginated,
-  //   data: getFilterData,
-  //   refetch,
-  // } = getPaginatedMemberBasedProject(
-  //   activeButton === 'ALL'
-  //     ? {
-  //         limit: rowsPerPage,
-  //         offset: (currentPage - 1) * rowsPerPage,
-  //         order_by_column: 'updated_date',
-  //         order_by_direction: 'desc',
-  //         global_search: '',
-  //         status: activeButton,
-  //       }
-  //     : {
-  //         limit: rowsPerPage,
-  //         offset: (currentPage - 1) * rowsPerPage,
-  //         order_by_column: 'updated_date',
-  //         order_by_direction: 'desc',
-  //         global_search: '',
-  //         status: 'AC',
-  //         user_id: roleName === 'ADMIN' ? null : userID,
-  //         project_status: activeButton,
-  //         project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
-  //       }
-  // );
+  const {
+    isLoading: getAllLoadingPaginated,
+    data: getFilterData,
+    refetch,
+  } = getPaginatedMemberBasedProject(
+    activeButton === 'ALL'
+      ? {
+          limit: rowsPerPage,
+          offset: (currentPage - 1) * rowsPerPage,
+          order_by_column: 'updated_date',
+          order_by_direction: 'desc',
+          global_search:  filterValues?.search_by_name,
+          status: activeButton,
+        }
+      : {
+          limit: rowsPerPage,
+          offset: (currentPage - 1) * rowsPerPage,
+          order_by_column: 'updated_date',
+          order_by_direction: 'desc',
+          global_search: filterValues?.search_by_name,
+          status: 'AC',
+          user_id: roleName === 'ADMIN' ? null : userID,
+          project_status: activeButton,
+          project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
+        }
+  );
 
   useEffect(() => {
-    handleSearch();
+    // handleSearch();
+    refetch()
   }, [currentPage, rowsPerPage, activeButton]);
 
-  // useEffect(() => {
-  //   if (filterValues.search_by_name !== '') {
-  //     const handleSearch = setTimeout(() => {
-  //       refetch();
-  //     }, 2000);
-  //     return () => clearTimeout(handleSearch);
-  //   }
-  // }, [filterValues]);
+  useEffect(() => {
+    // if (filterValues.search_by_name !== '') {
+      const handleSearch = setTimeout(() => {
+        refetch();
+      }, 1000);
+      return () => clearTimeout(handleSearch);
+    // }
+  }, [filterValues]);
 
   /* Function for searching a user in the table */
-  const handleSearch = async () => {
-    const allData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      global_search: filterValues.search_by_name,
-      status: activeButton,
-    };
-    const userData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      global_search: filterValues.search_by_name,
-      status: 'AC',
-      user_id: roleName === 'ADMIN' ? null : userID,
-      project_status: activeButton,
-      project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
-    };
-    postDataForFilter(activeButton === 'ALL' ? allData : userData);
-    setIsLoading(false);
-    setFilter(true);
-  };
+  // const handleSearch = async () => {
+  //   const allData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'desc',
+  //     global_search: filterValues.search_by_name,
+  //     status: activeButton,
+  //   };
+  //   const userData: any = {
+  //     limit: rowsPerPage,
+  //     offset: (currentPage - 1) * rowsPerPage,
+  //     order_by_column: 'updated_date',
+  //     order_by_direction: 'desc',
+  //     global_search: filterValues.search_by_name,
+  //     status: 'AC',
+  //     user_id: roleName === 'ADMIN' ? null : userID,
+  //     project_status: activeButton,
+  //     project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
+  //   };
+  //   postDataForFilter(activeButton === 'ALL' ? allData : userData);
+  //   setIsLoading(false);
+  //   setFilter(true);
+  // };
 
   /* Function for reseting the table to its actual state after search */
   // const handleReset = async () => {
@@ -294,6 +288,7 @@ const ProjectList = () => {
                     ...filterValues,
                     ['search_by_name']: e.target.value,
                   });
+                  setCurrentPage(1);
                 }}
                 placeholder="Search"
               />

@@ -167,6 +167,14 @@
     align-items: center;
   }
   
+  .spanContent {
+    font-weight: 400;
+  }
+  
+  .emptyButton {
+    margin-top: 25px;
+  }
+  
   .emptyDataHandling {
     display: flex;
     flex-direction: column;
@@ -221,4 +229,10 @@
     tr:hover {
       /* Add hover styles if needed */
     }
+  }
+
+  .filters {
+    display: flex;
+    gap: 20px;
+    padding: 15px;
   }

@@ -270,6 +270,15 @@
   align-items: center;
 }
 
+.spanContent {
+  font-weight: 400;
+}
+
+.emptyButton {
+  margin-top: 25px;
+}
+
+
 .emptyDataHandling {
   display: flex;
   flex-direction: column;
@@ -306,6 +315,11 @@
   flex-direction: column;
   justify-content: flex-start;
 }
+
+.searchBar {
+  padding: 5px 15px 0
+}
+
 .filters {
   display: flex;
   gap: 20px;

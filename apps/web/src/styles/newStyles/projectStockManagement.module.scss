@@ -1,0 +1,105 @@
+.container {
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.topHeading {
+    // background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.heading {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+}
+
+.subHeading {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    align-items: center;
+}
+
+.scrollable_table {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px;
+    /* Adjust padding */
+    gap: 12px;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 10px 10px 10px 24px;
+        /* Adjust padding */
+        text-align: left;
+        font-weight: 500;
+        font-size: 12px;
+        border: none;
+        /* Remove borders */
+        border-bottom: 0.1px solid #f0f0f0;
+    }
+
+    td {
+        border-bottom: 0.1px solid #f0f0f0;
+    }
+
+    thead {
+        tr {
+            th {
+                color: #667085;
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+.emptyDataHandling {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.emptyButton {
+    margin-top: 15px;
+}
+
+.spanContent {
+    font-weight: 300;
+}
+
+//Stock audit add
+
+.divOne {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px 0px 10px;
+}
+
+.footer {
+    margin-top: 200px;
+}
+
+.cancelButton {
+    background-color: var(--danger-color);
+    color: #b42318;
+}
+
+.button {
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.dividerStyle {
+    border-bottom: 1px solid #ccc;
+    padding: 0px 1px 5px 1px;
+}

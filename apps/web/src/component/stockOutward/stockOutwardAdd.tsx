@@ -144,7 +144,7 @@ const StoreOutwardAdd = () => {
           <form onSubmit={formik.handleSubmit}>
             <div className={Styles.fields_container}>
               <div className={Styles.fields_container_1}>
-                <div>
+                {/* <div>
                   <Input
                     label="OutWardID"
                     placeholder="STO-YYYY-"
@@ -159,6 +159,28 @@ const StoreOutwardAdd = () => {
                     // }
                   />
                 </div>
+                <div>
+                  <Input
+                    label="Project"
+                    // name="user_id"
+                    width="350px"
+                    // onSelect={(value) => {
+                    //     formik.setFieldValue('user_id', value);
+                    // }}
+                    value={getProjectData?.project_name}
+                    disabled={true}
+                    // error={
+                    //     formik.touched.user_id &&
+                    //     formik.errors.user_id
+                    // }
+                  />
+                </div> */}
+                <div className={Styles.topHeading}>
+                  <span className={Styles.heading}>Project Name</span>
+                  <h3>{getProjectData?.project_name}</h3>
+                </div>
+              </div>
+              <div className={Styles.fields_container_2}>
                 <div>
                   <AutoCompleteSelect
                     label="Site"
@@ -194,32 +216,6 @@ const StoreOutwardAdd = () => {
                       formik.errors.site_engineer_id
                     }
                   />
-                  {/* <div>
-                                        <Checkbox
-                                            name="is_site"
-                                            checked={siteChecked}
-                                            onChange={(e) => handleCheckBoxSiteChange(e)}
-                                        />
-                                        <span className={Styles.checkBox}>  Edit Site Engineer Name</span>
-                                    </div> */}
-                </div>
-              </div>
-              <div className={Styles.fields_container_2}>
-                <div>
-                  <Input
-                    label="Project"
-                    // name="user_id"
-                    width="350px"
-                    // onSelect={(value) => {
-                    //     formik.setFieldValue('user_id', value);
-                    // }}
-                    value={getProjectData?.project_name}
-                    disabled={true}
-                    // error={
-                    //     formik.touched.user_id &&
-                    //     formik.errors.user_id
-                    // }
-                  />
                 </div>
                 <div>
                   <DatePicker
@@ -246,13 +242,22 @@ const StoreOutwardAdd = () => {
                 </div>
               </div>
               <div className={Styles.dividerStyle1}></div>
-              <div className={Styles.tableContainer}>
+              {/* <div className={Styles.tableContainer}>
                 <ItemDetailsTable
                   stockData={stockData}
                   setStockData={setStockData}
                   projectId={projectId}
                 />
-              </div>
+              </div> */}
+              {formik.values.site_id && (
+                <div className={Styles.tableContainer}>
+                  <ItemDetailsTable
+                    stockData={stockData}
+                    setStockData={setStockData}
+                    projectId={projectId}
+                  />
+                </div>
+              )}
             </div>
             <div className={Styles.buttonFields}>
               <div>

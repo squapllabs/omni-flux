@@ -17,7 +17,7 @@ const DeliveryTruckIcon: React.FC<DeliveryTruckIconProps> = ({
     height={height}
     width={width}
     fill="currentColor"
-    class="bi bi-truck"
+    // class="bi bi-truck"
     viewBox="0 0 16 16"
   >
     {' '}

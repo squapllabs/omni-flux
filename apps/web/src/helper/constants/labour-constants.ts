@@ -22,9 +22,7 @@ export const getLabourCreationYupschema = (yup: any) => {
                 labourErrorMessages.TYPE_EXIST,
                 async (value: any) => {
                     if (value) {
-                        const response = await LabourService.getByLabourType(value);
-                        console.log("response",response);
-                        
+                        const response = await LabourService.getByLabourType(value);                        
                         if (response?.is_exist === true) {
                             return false;
                         } else {
@@ -57,13 +55,8 @@ export const getLabourUpdateYupschema = (yup: any) => {
                 async (value: any, { parent }: yup.TestContext) => {
                     const labourId = parent.labour_id;
                     if (value) {
-                        const response = await LabourService.getByLabourType(value);
-                        console.log("response",response?.data?.labour_id ,labourId);
-                        console.log("r",response);
-                        
-                        
+                        const response = await LabourService.getByLabourType(value);                                                
                         if (response?.is_exist === true && response?.data?.labour_id !== labourId) {
-                            console.log("f");
                             return false;
                         } else {
                             return true;

@@ -29,6 +29,7 @@ interface StyledInputProps {
   hasSuffixIcon?: boolean;
   transparent?: boolean;
   disabled?: boolean;
+  showClearIcon? : boolean;
 }
 
 interface Option {
@@ -162,7 +163,7 @@ const ErrorMessageWrapper = styled.div`
 const SelectedValue = styled.span`
   backgroundcolor: blue;
 `;
-const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
+const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean,showClearIcon?: boolean }> = ({
   label,
   placeholder,
   error,
@@ -176,6 +177,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
   onSelect,
   optionList,
   defaultLabel,
+  showClearIcon = true,
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
@@ -252,6 +254,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
           hasSuffixIcon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
+          showClearIcon = {showClearIcon}
           value={values}
           {...props}
           onChange={(e) => handleChange(e)}
@@ -267,7 +270,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
               gap: '10px',
             }}
           >
-            {!disabled && values != '' ? (
+            {!disabled && values != ''  && showClearIcon ? (
               <CloseIcon width={10} onClick={(e) => handleClear(e)} />
             ) : (
               ''
