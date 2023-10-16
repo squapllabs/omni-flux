@@ -173,10 +173,18 @@ const searchVendor = async (
   orderByColumn: string,
   orderByDirection: string,
   is_delete,
-  global_search
+  global_search,
+  connectionObj = null
 ) => {
   try {
-    const query = `
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const getData = await transaction.vendor.findMany({
+      where: {
+        is_delete: is_delete,
+      },
+    });
+    if (getData.length > 0) {
+      const query = `
       SELECT *
       FROM vendor v
       LEFT JOIN master_data md ON md.master_data_id = v.preferred_payment_method_id
@@ -208,7 +216,7 @@ const searchVendor = async (
       LIMIT ${limit}
       OFFSET ${offset}`;
 
-    const countQuery = `    SELECT count(*)
+      const countQuery = `    SELECT count(*)
       FROM vendor v
       LEFT JOIN master_data md ON md.master_data_id = v.preferred_payment_method_id
       LEFT JOIN master_data md2 ON md2.master_data_id = v.vendor_category_id
@@ -236,11 +244,14 @@ const searchVendor = async (
         OR v.notes ILIKE '%${global_search}%'
       )`;
 
-    const result = await customQueryExecutor.customQueryExecutor(query);
-    const count = await customQueryExecutor.customQueryExecutor(countQuery);
+      const result = await customQueryExecutor.customQueryExecutor(query);
+      const count = await customQueryExecutor.customQueryExecutor(countQuery);
 
-    const vendorData = { count: Number(count[0].count), data: result };
-    return vendorData;
+      const vendorData = { count: Number(count[0].count), data: result };
+      return vendorData;
+    } else {
+      return getData;
+    }
   } catch (error) {
     console.error('Error occurred in vendor dao: searchVendor', error);
     throw error;
