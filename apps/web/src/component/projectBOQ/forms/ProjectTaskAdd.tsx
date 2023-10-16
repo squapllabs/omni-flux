@@ -132,7 +132,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
         };
         createNewSubCategory(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.status === true) {=
+            if (data?.status === true) {
               props.setMessage('Task created');
               props.setOpenSnack(true);
               props.setOpen(false);
