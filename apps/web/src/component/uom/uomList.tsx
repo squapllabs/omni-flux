@@ -158,7 +158,7 @@ const UomList = () => {
           size={48}
           color="#333C44"
         >
-          {initialData?.total_count !== 0 ? (
+          {initialData?.is_available ? (
             <div>
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>

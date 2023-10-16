@@ -343,51 +343,60 @@ const searchItem = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterItem;
-    const item = await transaction.item.findMany({
-      where: filter,
-      include: {
-        gst: {
-          select: {
-            rate: true,
-          },
-        },
-        hsn_code: {
-          select: {
-            code: true,
-          },
-        },
-        uom: {
-          select: {
-            name: true,
-          },
-        },
-        item_type: {
-          select: {
-            master_data_name: true,
-          },
-        },
-        brand: {
-          select: {
-            brand_name: true,
-          },
-        },
+    const getdata = await transaction.item.findMany({
+      where: {
+        is_delete: false,
       },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
+    });
+    if (getdata.length != 0) {
+      const item = await transaction.item.findMany({
+        where: filter,
+        include: {
+          gst: {
+            select: {
+              rate: true,
+            },
+          },
+          hsn_code: {
+            select: {
+              code: true,
+            },
+          },
+          uom: {
+            select: {
+              name: true,
+            },
+          },
+          item_type: {
+            select: {
+              master_data_name: true,
+            },
+          },
+          brand: {
+            select: {
+              brand_name: true,
+            },
+          },
         },
-      ],
-      skip: offset,
-      take: limit,
-    });
-    const itemCount = await transaction.item.count({
-      where: filter,
-    });
-    const itemData = {
-      count: itemCount,
-      data: item,
-    };
-    return itemData;
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const itemCount = await transaction.item.count({
+        where: filter,
+      });
+      const itemData = {
+        count: itemCount,
+        data: item,
+      };
+      return itemData;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log('Error occurred in item dao : searchItem ', error);
     throw error;

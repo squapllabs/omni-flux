@@ -195,7 +195,7 @@ const LabourList = () => {
         size={48}
         color="#333C44"
       >
-        {initialData?.total_count !== 0 ? (
+        {initialData?.is_available ? (
           <div>
             <div className={Styles.topHeading}>
               <div className={Styles.heading}>
@@ -352,6 +352,7 @@ const LabourList = () => {
                         )
                       ) : initialData?.total_count === 0 ? (
                         <tr>
+                          <td></td>
                           <td></td>
                           <td>No data found</td>
                           {activeButton === 'AC' && <td></td>}

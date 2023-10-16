@@ -338,28 +338,37 @@ const searchUser = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterUser;
-    const user = await transaction.users.findMany({
-      where: filter,
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
-      include: {
-        parent_data: true,
+    const getdata = await transaction.users.findMany({
+      where: {
+        is_delete: false,
       },
     });
-    const userCount = await transaction.users.count({
-      where: filter,
-    });
+    if (getdata.length != 0) {
+      const user = await transaction.users.findMany({
+        where: filter,
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+        include: {
+          parent_data: true,
+        },
+      });
+      const userCount = await transaction.users.count({
+        where: filter,
+      });
 
-    const userData = {
-      count: userCount,
-      data: user,
-    };
-    return userData;
+      const userData = {
+        count: userCount,
+        data: user,
+      };
+      return userData;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log('Error occurred in user dao : searchUser ', error);
     throw error;

@@ -216,7 +216,7 @@ const MachineryList = () => {
             </div>
           </div> */}
           {/* <div className={Styles.dividerStyle}></div> */}
-          {getFilterData?.total_count !== 0 ? (
+          {getFilterData?.is_available ? (
             <div>
               <div className={Styles.topHeading}>
                   <div className={Styles.heading}>
@@ -277,6 +277,7 @@ const MachineryList = () => {
                     <tbody>
                       {getFilterData?.total_count === 0 ? (
                         <tr>
+                          <td></td>
                           <td></td>
                           <td></td>
                           <td>No data found</td>

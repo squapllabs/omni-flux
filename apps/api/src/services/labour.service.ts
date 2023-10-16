@@ -190,18 +190,39 @@ const searchLabour = async (body) => {
       order_by_direction,
       filterObj
     );
-
-    const count = result.count;
-    const data = result.data;
-    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempLabourData = {
-      message: 'success',
-      status: true,
-      total_count: count,
-      total_page: total_pages,
-      content: data,
-    };
-    return tempLabourData;
+    if (result != false) {
+      const count = result.count;
+      const data = result.data;
+      const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+      if (result.count > 0) {
+        const tempLabourData = {
+          message: 'success',
+          status: true,
+          total_count: count,
+          total_page: total_pages,
+          is_available: true,
+          content: data,
+        };
+        return tempLabourData;
+      } else if (result.count == 0) {
+        const tempLabourData = {
+          message: 'success',
+          status: true,
+          total_count: count,
+          total_page: total_pages,
+          is_available: true,
+          content: data,
+        };
+        return tempLabourData;
+      }
+    } else {
+      const tempLabourData = {
+        message: 'success',
+        status: true,
+        is_available: false,
+      };
+      return tempLabourData;
+    }
   } catch (error) {
     console.log('Error occurred in searchLabour Labour service : ', error);
     throw error;
