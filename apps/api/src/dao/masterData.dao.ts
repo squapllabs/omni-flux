@@ -273,8 +273,6 @@ const searchMasterData = async (
       count: masterDataCount,
       data: masterData,
     };
-    console.log(masterDataData);
-
     return masterDataData;
   } catch (error) {
     console.log('Error occurred in masterData dao : searchMasterData ', error);
