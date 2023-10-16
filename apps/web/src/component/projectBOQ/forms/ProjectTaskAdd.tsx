@@ -34,8 +34,10 @@ const ProjectTaskAdd: React.FC = (props: any) => {
     sub_category_id: '',
     actual_budget: '',
     parent_sub_category_id: '',
-    estimated_budget : '',
-    uom_id:''
+    estimated_budget : 0,
+    uom_id:'',
+    rate : '',
+    quantity : ''
   });
 
   const DropfieldWidth = '150px';
@@ -67,6 +69,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           parent_sub_category_id: data?.data?.parent_sub_category_id,
           estimated_budget : data?.data?.estimated_budget,
           uom_id: data?.data?.uom_id,
+          rate:  data?.data?.rate, 
+          quantity:  data?.data?.quantity, 
         });
       };
       if (props.mode === 'EDIT') fetchOne();
@@ -91,6 +95,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           parent_sub_category_id: values.parent_sub_category_id,
           estimated_budget :  values.estimated_budget,
           uom_id : values.uom_id,
+          rate :  values.rate,
+          quantity :  values.quantity
 
         };
         console.log('abstract from', Object);
@@ -121,11 +127,12 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           props.mode === 'Sub Task' ? props.selectedSubCategory : null,
           estimated_budget : values.estimated_budget,
           uom_id : values.uom_id,
+          rate :  values.rate,
+          quantity :  values.quantity
         };
-        console.log('sub category added form ', Object);
         createNewSubCategory(Object, {
           onSuccess: (data, variables, context) => {
-            if (data?.status === true) {
+            if (data?.status === true) {=
               props.setMessage('Task created');
               props.setOpenSnack(true);
               props.setOpen(false);
@@ -146,10 +153,13 @@ const ProjectTaskAdd: React.FC = (props: any) => {
   };
 
   const calculatebudget = () =>{
-    const estimated_budget = Number(formik.values.rate) * Number(formik.values.quantity);
-    return estimated_budget
+    let estimated_budget = Number(formik.values.rate) * Number(formik.values.quantity);
+    if(Number.isNaN(estimated_budget)){
+      estimated_budget = 0
+    }
+    formik.values.estimated_budget = estimated_budget;
+    return estimated_budget.toLocaleString();
   }
-  
 
   return (
     <div className={Styles.container}>
@@ -190,14 +200,17 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               onChange={formik.handleChange} 
               onSelect={(e: string): void => {
                 formik.values.uom_id = e
-              } } defaultLabel={'Select'} 
-            />   
+              }} 
+              defaultLabel={'Select'} 
+              error={formik.touched.uom_id && formik.errors.uom_id}
+            />  
+            {formik.touched.uom_id} 
           </div>
-          {/* <div className={Styles.field}>
+          <div className={Styles.field}>
             <Input
               label="Quantity"
               placeholder="Enter Quantity"
-              name="Quantity"
+              name="quantity"
               type="number"
               mandatory={true}
               value={formik.values.quantity}
@@ -209,27 +222,14 @@ const ProjectTaskAdd: React.FC = (props: any) => {
             <Input
               label="Rate"
               placeholder="Enter Rate"
-              name="Rate"
+              name="rate"
               type="number"
               mandatory={true}
               value={formik.values.rate}
               onChange={formik.handleChange}
               error={formik.touched.rate && formik.errors.rate}
             />
-          </div> */}
-          <div className={Styles.field}>
-            <Input
-              label="Estimated Budget"
-              placeholder="Enter Estimated Budget"
-              name="estimated_budget"
-              type="number"
-              mandatory={true}
-              value={formik.values.estimated_budget}
-              onChange={formik.handleChange}
-              error={formik.touched.estimated_budget && formik.errors.estimated_budget}
-            />
-          </div>
-         
+          </div>         
           <div className={Styles.field}>
             <DatePicker
               label="Start Date"
@@ -256,6 +256,9 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               width="200px"
             />
           </div>
+          <div className={Styles.total_budget}>
+          Estimated Budget : {calculatebudget()}
+        </div>
         </div>
         <div className={Styles.icon}>
           <CheckListIcon width={50} height={50} />
