@@ -162,12 +162,12 @@ const searchMachinery = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterMachinery;
-    const getdata = await transaction.machinery.findMany({
+    const getData = await transaction.machinery.findMany({
       where: {
-        is_delete: false,
+        is_delete: filter.is_delete,
       },
     });
-    if (getdata.length != 0) {
+    if (getData.length > 0) {
       const machinery = await transaction.machinery.findMany({
         where: filter,
         include: { uom_data: true },
@@ -188,7 +188,7 @@ const searchMachinery = async (
       };
       return machineryData;
     } else {
-      return false;
+      return getData;
     }
   } catch (error) {
     console.log('Error occurred in Machinery dao : searchMachinery ', error);

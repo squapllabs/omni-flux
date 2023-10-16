@@ -120,12 +120,12 @@ const searchClient = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterClient;
-    const getdata = await transaction.client.findMany({
+    const getData = await transaction.client.findMany({
       where: {
-        is_delete: false,
+        is_delete: filter.is_delete,
       },
     });
-    if (getdata.length != 0) {
+    if (getData.length > 0) {
       const client = await transaction.client.findMany({
         where: filter,
         orderBy: [
@@ -145,7 +145,7 @@ const searchClient = async (
       };
       return clientData;
     } else {
-      return false;
+      return getData;
     }
   } catch (error) {
     console.log('Error occurred in client dao : searchClient', error);
