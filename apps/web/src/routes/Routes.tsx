@@ -415,6 +415,10 @@ const AppRoutes = () => {
           element={<ProtectedContractorEditFormPage />}
         />
         <Route path="/project-add" element={<ProtectedProjectFormPage />} />
+        <Route
+          path="/project-edit-draft/:id"
+          element={<ProtectedProjectFormPage />}
+        />
         <Route path="/lead-enquires" element={<ProtectedLeadPage />} />
         <Route path="/lead-add" element={<ProtectedLeadEnquiresPage />} />
         <Route
