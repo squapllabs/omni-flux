@@ -151,7 +151,7 @@ const MachineryList = () => {
     setOpenDeleteSnack(false);
   };
 
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;  
 
   return (
     <div className={Styles.container}>

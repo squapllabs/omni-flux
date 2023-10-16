@@ -226,6 +226,7 @@ const UserList = () => {
                         <tr>
                           <td></td>
                           <td></td>
+                          <td></td>
                           <td>No data found</td>
                           {activeButton === 'AC' && <td></td>}
                         </tr>

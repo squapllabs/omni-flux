@@ -149,7 +149,7 @@ const VendorList = () => {
           size={48}
           color="#333C44"
         >
-          {initialData?.total_count !== 0 ? (
+          {initialData?.is_available ? (
             <div>
               {location.pathname === '/vendor-list' && (
                 <div>
