@@ -253,8 +253,14 @@ const getById = async (expenseId: number) => {
   try {
     let result = null;
     const expenseData = await expenseDao.getById(expenseId);
+
+    const isUpdateAllDetails = expenseData?.expense_details?.every(
+      (expenseDetails: { status: string }) =>
+        expenseDetails.status !== 'Pending'
+    );
+
     if (expenseData) {
-      result = { message: 'success', status: true, data: expenseData };
+      result = { message: 'success', status: true, data: { ...expenseData, isEnableComplete: isUpdateAllDetails } };
       return result;
     } else {
       result = {
@@ -660,25 +666,25 @@ const updateStatus = async (body: expenseBody) => {
         const expenseDetailsByExpenseId =
           await expenseDetailsDao.getByExpenseId(expense_id, prisma);
 
-        const expenseDetailsUpdatedData = [];
-        for (const expenseDetails of expenseDetailsByExpenseId) {
-          const expense_details_id = expenseDetails?.expense_details_id;
+        // const expenseDetailsUpdatedData = [];
+        // for (const expenseDetails of expenseDetailsByExpenseId) {
+        //   const expense_details_id = expenseDetails?.expense_details_id;
 
-          const expenseDetailsData = await expenseDetailsDao.updateStatus(
-            status,
-            comments,
-            progressed_by,
-            updated_by,
-            expense_details_id,
-            prisma
-          );
+        //   const expenseDetailsData = await expenseDetailsDao.updateStatus(
+        //     status,
+        //     comments,
+        //     progressed_by,
+        //     updated_by,
+        //     expense_details_id,
+        //     prisma
+        //   );
 
-          expenseDetailsUpdatedData.push(expenseDetailsData);
-        }
+        //   expenseDetailsUpdatedData.push(expenseDetailsData);
+        // }
 
         const expenseDataWithDetails = {
           expense: expenseData,
-          expense_details: expenseDetailsUpdatedData,
+          expense_details: expenseDetailsByExpenseId,
         };
 
         return {
