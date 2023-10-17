@@ -45,7 +45,8 @@ model users {
   purchase_request           purchase_request[]
   stock_outward              stock_outward[]
   expense_details            expense_details[]
-  expense                    expense[]
+  expense_approver           expense[]                    @relation("expenseApproverUser")
+  expense_applier            expense[]                    @relation("expenseApplierUser")
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -165,7 +166,7 @@ model category {
 
 model sub_category {
   sub_category_id        Int                @id @default(autoincrement())
-  name                   String             @db.VarChar(100)
+  name                   String?            @db.VarChar(100)
   category_id            Int?
   estimated_budget       Float?
   actual_budget          Float?
@@ -1035,14 +1036,16 @@ model expense {
   comments           String?
   progressed_date    DateTime?
   progressed_by      Int?
+  user_id            Int?
   is_delete          Boolean          @default(false)
   created_date       DateTime         @default(now())
   updated_date       DateTime
   created_by         Int?
   updated_by         Int?
+  user_data          users?           @relation("expenseApplierUser", fields: [user_id], references: [user_id])
   site_data          site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
   project_data       project?         @relation(fields: [project_id], references: [project_id])
-  progressed_by_data users?           @relation(fields: [progressed_by], references: [user_id])
+  progressed_by_data users?           @relation("expenseApproverUser", fields: [progressed_by], references: [user_id])
 
   expense_details expense_details[]
 
