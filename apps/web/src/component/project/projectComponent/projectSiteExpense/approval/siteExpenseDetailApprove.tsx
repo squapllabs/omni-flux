@@ -26,7 +26,7 @@ import NewViewIcon from '../../../../menu/icons/newViewIcon';
 import NewApproveIcon from 'apps/web/src/component/menu/icons/newApproveIcon';
 import NewRejectIcon from 'apps/web/src/component/menu/icons/newRejectIcon';
 
-const ExpenseDetailApprove = () => {
+const ExpenseDetailApprove: React.FC = (props: any) => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID = encryptedData.userId;
@@ -34,6 +34,10 @@ const ExpenseDetailApprove = () => {
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const expenseId = Number(params?.id);
+  console.log('expenseId', expenseId);
+  const expenseIdFromProps = props?.expenseID;
+  console.log('expenseIdFromProps', expenseIdFromProps);
+
   const [tableData, setTableData] = useState<any>([]);
   const [value, setValue] = useState(0);
   const [openApprove, setOpenApprove] = useState(false);
@@ -63,13 +67,25 @@ const ExpenseDetailApprove = () => {
   let rowindex = 0;
 
   useEffect(() => {
-    const fetchData = async () => {
-      const datas = await siteExpenseService.getOnesiteExpenseByID(expenseId);
-      console.log('datas', datas?.data);
+    if (expenseIdFromProps === undefined) {
+      const fetchData = async () => {
+        const datas = await siteExpenseService.getOnesiteExpenseByID(expenseId);
+        console.log('datas', datas?.data);
 
-      setTableData(datas.data);
-    };
-    if (expenseId !== undefined) fetchData();
+        setTableData(datas.data);
+      };
+      fetchData();
+    } else {
+      const fetchData = async () => {
+        const datas = await siteExpenseService.getOnesiteExpenseByID(
+          expenseIdFromProps
+        );
+        console.log('datas', datas?.data);
+
+        setTableData(datas.data);
+      };
+      fetchData();
+    }
   }, [reload]);
 
   useEffect(() => {
@@ -179,11 +195,15 @@ const ExpenseDetailApprove = () => {
   return (
     <div>
       <div>
-        <ProjectSubheader
-          title="Claim Details"
-          navigation={'/site-expense-approve'}
-          description=""
-        />
+        {!props.expenseID ? (
+          <ProjectSubheader
+            title="Claim Details"
+            navigation={'/site-expense-approve'}
+            description=""
+          />
+        ) : (
+          ''
+        )}
       </div>
       <div className={Styles.sub_header}>
         <div style={{ display: 'flex' }}>
@@ -307,7 +327,9 @@ const ExpenseDetailApprove = () => {
         </div>
       </div>
       <div className={Styles.selected}></div>
-      {tableData?.isEnableComplete !== false ? (
+      {props.expenseID ? (
+        ''
+      ) : tableData?.isEnableComplete !== false ? (
         <div className={Styles.completeButton}>
           <Button
             color="primary"
@@ -334,8 +356,13 @@ const ExpenseDetailApprove = () => {
               <th>Amount</th>
               <th>Documents</th>
               <th>Status</th>
-              {tableData?.isEnableComplete === true ? '' : <th>Action</th>}
-              {/* <th className={Styles.tableHeading}>Action</th> */}
+              {props.expenseID ? (
+                ''
+              ) : tableData?.isEnableComplete === true ? (
+                ''
+              ) : (
+                <th>Action</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -402,11 +429,13 @@ const ExpenseDetailApprove = () => {
                         {data?.status || nullLableNameFromEnv}
                       </span>
                     </td>
-                    {tableData?.isEnableComplete === true ? (
+                    {props.expenseID ? (
+                      ''
+                    ) : tableData?.isEnableComplete === true ? (
                       ''
                     ) : (
                       <td className={Styles.tableIcon}>
-                        <NewViewIcon />
+                        {/* <NewViewIcon /> */}
                         <NewApproveIcon
                           onClick={() =>
                             approveHandler(data.expense_details_id)
@@ -423,6 +452,20 @@ const ExpenseDetailApprove = () => {
             })}
           </tbody>
         </table>
+        {props.expenseID && (
+          <div className={Styles.propCancel}>
+            <Button
+              type="button"
+              color="secondary"
+              shape="rectangle"
+              size="small"
+              justify="center"
+              onClick={() => props.setOpen(false)}
+            >
+              Close
+            </Button>
+          </div>
+        )}
       </div>
       <ApproveDialogBox
         open={openApprove}

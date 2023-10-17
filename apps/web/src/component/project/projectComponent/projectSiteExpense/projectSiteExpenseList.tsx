@@ -15,6 +15,8 @@ import EditIcon from '../../../menu/icons/newEditIcon';
 import CustomLoader from '../../../ui/customLoader';
 import CustomPagination from '../../../menu/CustomPagination';
 import { formatBudgetValue } from '../../../../helper/common-function';
+import ViewIcon from '../../../menu/icons/newViewIcon';
+import ExpenseDetailApprove from './approval/siteExpenseDetailApprove';
 
 const ProjectSiteExpenseList = () => {
   const routeParams = useParams();
@@ -29,10 +31,10 @@ const ProjectSiteExpenseList = () => {
   const [reload, setReload] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Approved', value: 'Approved' },
-    { label: 'Pending', value: 'Pending' },
-    { label: 'Rejected', value: 'Rejected' },
     { label: 'Draft', value: 'Draft' },
+    { label: 'Waiting Approval', value: 'Pending' },
+    { label: 'InProgress', value: 'InProgress' },
+    { label: 'Completed', value: 'Completed' },
   ]);
 
   const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
@@ -82,6 +84,12 @@ const ProjectSiteExpenseList = () => {
     setOpen(true);
     setExpenseID(expenseId);
   };
+
+  const handleViewExpense = (expenseId: any) => {
+    setExpenseID(expenseId);
+    setOpen(true);
+  };
+
   useEffect(() => {
     handleSearch();
   }, [
@@ -232,11 +240,7 @@ const ProjectSiteExpenseList = () => {
                           <th className={Styles.tableHeading}>Site</th>
                           <th className={Styles.tableHeading}>Status</th>
                           <th className={Styles.tableHeading}>Amount</th>
-                          {activeButton === 'All' ||
-                          activeButton === 'Rejected' ||
-                          activeButton === 'Draft' ? (
-                            <th className={Styles.tableHeading}>Action</th>
-                          ) : null}
+                          <th className={Styles.tableHeading}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -264,12 +268,14 @@ const ProjectSiteExpenseList = () => {
                                       className={`${Styles.status} ${
                                         items?.status === 'Pending'
                                           ? Styles.pendingStatus
-                                          : items?.status === 'Rejected'
+                                          : items?.status === 'InProgress'
                                           ? Styles.rejectedStatus
                                           : items?.status === 'Approved'
                                           ? Styles.approvedStatus
                                           : items?.status === 'Draft'
                                           ? Styles.draftStatus
+                                          : items?.status === 'Completed'
+                                          ? Styles.approvedStatus
                                           : ''
                                       }`}
                                     >
@@ -284,8 +290,7 @@ const ProjectSiteExpenseList = () => {
                                     )}
                                   </td>
                                   <td>
-                                    {items?.status === 'Rejected' ||
-                                    items?.status === 'Draft' ? (
+                                    {items?.status === 'Draft' ? (
                                       <div
                                         style={{ cursor: 'pointer' }}
                                         onClick={(e) => {
@@ -298,7 +303,14 @@ const ProjectSiteExpenseList = () => {
                                         <EditIcon />
                                       </div>
                                     ) : (
-                                      ''
+                                      <div
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={(e) => {
+                                          handleViewExpense(items.expense_id);
+                                        }}
+                                      >
+                                        <ViewIcon />
+                                      </div>
                                     )}
                                   </td>
                                 </tr>
@@ -347,7 +359,7 @@ const ProjectSiteExpenseList = () => {
             <CustomSidePopup
               open={open}
               handleClose={handleClose}
-              title={mode === 'Edit' ? 'Edit Site Claims ':'Add Site Claims'}
+              title={mode === 'Edit' ? 'Edit Site Claims ' : 'Add Site Claims'}
               content={
                 <ProjectSiteExpenseForm
                   projectId={routeParams?.id}
@@ -362,6 +374,19 @@ const ProjectSiteExpenseList = () => {
                   }
                   setReload={setReload}
                   reload={reload}
+                />
+              }
+              width={'90%'}
+            />
+            <CustomSidePopup
+              open={open}
+              handleClose={handleClose}
+              title={'Claim Details'}
+              content={
+                <ExpenseDetailApprove
+                  expenseID={expenseID}
+                  setOpen={setOpen}
+                  open={open}
                 />
               }
               width={'90%'}
