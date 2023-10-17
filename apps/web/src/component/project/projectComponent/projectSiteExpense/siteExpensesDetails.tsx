@@ -74,30 +74,30 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     is_delete: Yup.string().required(),
     expense_data_id: Yup.string()
       .typeError('Site Expense is required')
-      .required('Site Expense is required')
-      .test(
-        'description-availability',
-        'Site Expense is already present',
-        async function (value, { parent }: Yup.TestContext) {
-          const isDelete = false;
-          try {
-            const isValuePresent = props.expenseList.some((obj: any) => {
-              return (
-                Number(obj.expense_data_id) === Number(value) &&
-                obj.is_delete === isDelete
-              );
-            });
+      .required('Site Expense is required'),
+    // .test(
+    //   'description-availability',
+    //   'Site Expense is already present',
+    //   async function (value, { parent }: Yup.TestContext) {
+    //     const isDelete = false;
+    //     try {
+    //       const isValuePresent = props.expenseList.some((obj: any) => {
+    //         return (
+    //           Number(obj.expense_data_id) === Number(value) &&
+    //           obj.is_delete === isDelete
+    //         );
+    //       });
 
-            if (isValuePresent === true) {
-              return false;
-            } else {
-              return true;
-            }
-          } catch {
-            return true;
-          }
-        }
-      ),
+    //       if (isValuePresent === true) {
+    //         return false;
+    //       } else {
+    //         return true;
+    //       }
+    //     } catch {
+    //       return true;
+    //     }
+    //   }
+    // ),
     total: Yup.number()
       .min(1, 'Amount must be more then 0')
       .max(100000, 'Amount must be less then 100000')
@@ -411,15 +411,23 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                               return (
                                 <div
                                   key={document.code}
-                                  style={{ width: '150px' }}
+                                  style={{
+                                    width: '150px',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bolder',
+                                    color: 'blue',
+                                  }}
+                                  onClick={() => {
+                                    viewDocumnet(item);
+                                  }}
                                 >
-                                  <a
+                                  {/* <a
                                     href={document.path}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                  >
-                                    {customQuotationName}
-                                  </a>
+                                  > */}
+                                  {customQuotationName}
+                                  {/* </a> */}
                                   <CloseIcon
                                     width={5}
                                     height={10}
@@ -444,7 +452,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         >
                           <DeleteIcon />
                         </div>
-                        {item.bill_details?.length > 0 &&
+                        {/* {item.bill_details?.length > 0 &&
                         item.bill_details[0].is_delete === 'N'
                           ? item.bill_details.map(
                               (document: any, index: number) => (
@@ -458,7 +466,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                 </div>
                               )
                             )
-                          : ''}
+                          : ''} */}
                       </div>
                     </td>
                   </tr>

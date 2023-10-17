@@ -322,7 +322,7 @@ const ProjectList = () => {
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>
-                <thead className="globaltablehead">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Name</th>
@@ -334,7 +334,7 @@ const ProjectList = () => {
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody className="globaltabledata">
+                <tbody>
                   {getFilterData?.total_count === 0 ? (
                     <tr>
                       <td colSpan="7" style={{ textAlign: 'center' }}>

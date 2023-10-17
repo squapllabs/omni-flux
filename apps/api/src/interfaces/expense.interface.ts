@@ -20,6 +20,7 @@ interface expenseBody {
   progressed_date: Date;
   progressed_by: number;
   total_amount: number;
+  user_id: number;
   expense_details: Array<expenseDetailsBody>;
 }
 

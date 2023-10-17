@@ -53,9 +53,12 @@ const createProjectData = async (values: JSON) => {
 
 const checkProjectCodeDuplicate = async (values: any) => {
   const data = values.toUpperCase();
+  const body = {
+    code:data
+  }
   try {
-    const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/project/check-duplicate-code/${data}`
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/project/check-duplicate-code/`,body
     );
     return response.data;
   } catch (error) {

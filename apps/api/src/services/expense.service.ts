@@ -31,6 +31,7 @@ const createExpense = async (body: expenseBody) => {
       status,
       total_amount,
       bill_date,
+      user_id,
     } = body;
     let result = null;
 
@@ -57,6 +58,18 @@ const createExpense = async (body: expenseBody) => {
         return result;
       }
     }
+
+    if (user_id) {
+      const userExist = await userDao.getById(user_id);
+      if (!userExist) {
+        return {
+          message: 'user_id id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
     result = await prisma
       .$transaction(async (prisma) => {
         /*  let expenseExist = null; */
@@ -86,6 +99,7 @@ const createExpense = async (body: expenseBody) => {
           status,
           total_amount,
           expense_details,
+          user_id,
           prisma
         );
         /* } else {
@@ -150,6 +164,7 @@ const updateExpense = async (body: expenseBody) => {
       expense_details,
       total_amount,
       bill_details,
+      user_id,
     } = body;
     let result = null;
 
@@ -174,6 +189,17 @@ const updateExpense = async (body: expenseBody) => {
           data: null,
         };
         return result;
+      }
+    }
+
+    if (user_id) {
+      const userExist = await userDao.getById(user_id);
+      if (!userExist) {
+        return {
+          message: 'user_id id does not exist',
+          status: false,
+          data: null,
+        };
       }
     }
 
@@ -224,6 +250,7 @@ const updateExpense = async (body: expenseBody) => {
           expense_id,
           total_amount,
           expense_details,
+          user_id,
           prisma
         );
         result = { message: 'success', status: true, data: expenseDetails };
