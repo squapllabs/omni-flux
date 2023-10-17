@@ -85,7 +85,7 @@ const ExpenseApprove = () => {
   const [selectShow, setSelectShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Waiting for Approval', value: 'Pending' },
+    { label: 'Waiting Approval', value: 'Pending' },
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);
@@ -280,7 +280,7 @@ const ExpenseApprove = () => {
         <div className={Styles.box}>
           <ProjectSubheader
             navigation={'/home'}
-            title="Expense Approval for Site"
+            title="Claim Approval for Site"
             description="Review and authorization of expenses incurred at a designated site"
           />
         </div>
@@ -350,19 +350,19 @@ const ExpenseApprove = () => {
             />
           </div>
           <table className={Styles.scrollable_table}>
-            <thead>
+            <thead className="globaltablehead">
               <tr>
-                <th className={Styles.tableHeading}>#</th>
-                <th className={Styles.tableHeading}>Expense Code</th>
-                <th className={Styles.tableHeading}>Project</th>
-                <th className={Styles.tableHeading}>Site</th>
-                <th className={Styles.tableHeading}>Added By</th>
-                <th className={Styles.tableHeading}>Amount</th>
-                <th className={Styles.tableHeading}>Status</th>
-                <th className={Styles.tableHeading}>Action</th>
+                <th>#</th>
+                <th>Expense Code</th>
+                <th>Project</th>
+                <th>Site</th>
+                <th>Added By</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="globaltablebody">
               {initialData?.content?.length === 0 ? (
                 <tr>
                   <td colSpan="7" style={{ textAlign: 'center' }}>

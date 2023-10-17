@@ -145,7 +145,7 @@ const GstList = () => {
               <div className={Styles.subHeading}>
                 <h3>GST</h3>
               </div>
-              <div>
+              {/* <div>
                 <Button
                   color="primary"
                   shape="rectangle"
@@ -156,7 +156,7 @@ const GstList = () => {
                 >
                   Add GST
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
           {/* <div className={Styles.box}> */}
@@ -173,7 +173,7 @@ const GstList = () => {
                   <tr>
                     <th>#</th>
                     <th>GST Rate</th>
-                    <th>Action</th>
+                    {/* <th>Action</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -181,12 +181,12 @@ const GstList = () => {
                     <tr key={data.gst_id}>
                       <td>{index + 1}</td>
                       <td>{data.rate}</td>
-                      <td>
-                        <EditIcon onClick={() => handleEdit(data.gst_id)} />
+                      {/* <td>
+                        <EditIcon onClick={() => handleEdit(data.gst_id)} /> */}
 
                         {/* <DeleteIcon onClick={() =>
                             deleteCategoryHandler( data.gst_id)}/> */}
-                      </td>
+                      {/* </td> */}
                     </tr>
                   ))}
                 </tbody>

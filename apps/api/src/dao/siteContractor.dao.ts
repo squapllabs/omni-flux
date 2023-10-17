@@ -198,9 +198,14 @@ const searchSiteContractor = async (
     const order_by_column = orderByColumn;
     const order_by_direction = orderByDirection;
     const is_delete = status === 'AC' ? false : true;
-
-    const allSiteContractors = await transaction.$queryRawUnsafe(
-      `SELECT *,
+    const getData = await transaction.site_contractor.findMany({
+      where: {
+        is_delete: is_delete,
+      },
+    });
+    if (getData.length > 0) {
+      const allSiteContractors = await transaction.$queryRawUnsafe(
+        `SELECT *,
       CAST(created_by AS int) AS created_by,
       CAST(updated_by AS int) AS updated_by
       FROM site_contractor
@@ -221,9 +226,9 @@ const searchSiteContractor = async (
       ORDER BY ${order_by_column} ${order_by_direction}
       LIMIT ${limit}
       OFFSET ${offset}`
-    );
+      );
 
-    const countQuery = await transaction.$queryRaw`
+      const countQuery = await transaction.$queryRaw`
     SELECT count(*)
     FROM site_contractor
     WHERE
@@ -241,11 +246,14 @@ const searchSiteContractor = async (
     )
     AND (is_delete = ${is_delete})`;
 
-    const siteContractorData = {
-      count: Number(countQuery[0].count),
-      data: allSiteContractors,
-    };
-    return siteContractorData;
+      const siteContractorData = {
+        count: Number(countQuery[0].count),
+        data: allSiteContractors,
+      };
+      return siteContractorData;
+    } else {
+      return getData;
+    }
   } catch (error) {
     console.log(
       'Error occurred in siteContractor dao: searchSiteContractor',

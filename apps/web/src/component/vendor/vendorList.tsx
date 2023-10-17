@@ -149,7 +149,7 @@ const VendorList = () => {
           size={48}
           color="#333C44"
         >
-          {initialData?.total_count !== 0 ? (
+          {initialData?.is_available ? (
             <div>
               {location.pathname === '/vendor-list' && (
                 <div>
@@ -196,13 +196,13 @@ const VendorList = () => {
                       }}
                     />
                   </div>
-                  <div>
+                  {/* <div>
                     <CustomGroupButton
                       labels={buttonLabels}
                       onClick={handleGroupButtonClick}
                       activeButton={activeButton}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 {/* <div>
               <Input
@@ -271,11 +271,11 @@ const VendorList = () => {
                                           navigate(`/vendor-edit/${data.vendor_id}`)
                                         }
                                       />
-                                      <DeleteIcon
+                                      {/* <DeleteIcon
                                         onClick={() =>
                                           deleteVendorHandler(data.vendor_id)
                                         }
-                                      />
+                                      /> */}
                                     </div>
                                   </td>
                                 )}
@@ -312,11 +312,11 @@ const VendorList = () => {
                                       navigate(`/vendor-info/${data.vendor_id}`)
                                     }
                                   />
-                                  <DeleteIcon
+                                  {/* <DeleteIcon
                                     onClick={() =>
                                       deleteVendorHandler(data.vendor_id)
                                     }
-                                  />
+                                  /> */}
                                 </div>
                               </td>
                             )}

@@ -99,7 +99,7 @@ const ProjectSiteExpenseList = () => {
           <div>
             <div className={Styles.topHeading}>
               <MoneyIcon color="black" />
-              <span>Site Expenses for</span>
+              <span>Site Claim for</span>
               <div>
                 {getSiteList && (
                   <AutoCompleteSelect
@@ -143,7 +143,7 @@ const ProjectSiteExpenseList = () => {
                       setMode('Add');
                     }}
                   >
-                    Add Expense
+                    Add Claim
                   </Button>
                 )}
               </div>
@@ -168,7 +168,7 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.approvedStyles}>
-                            Approved Expenses
+                            Approved Claims
                           </span>
                           <p>
                             {formatBudgetValue(
@@ -184,7 +184,7 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.rejectedStyles}>
-                            Rejected Expenses
+                            Rejected Claims
                           </span>
                           <p>
                             {formatBudgetValue(
@@ -200,7 +200,7 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.pendingStyles}>
-                            Pending Expenses
+                            Pending Claims
                           </span>
                           <p>
                             {formatBudgetValue(
@@ -339,7 +339,7 @@ const ProjectSiteExpenseList = () => {
                       setMode('Add');
                     }}
                   >
-                    Add Expense
+                    Add Claim
                   </Button>
                 </div>
               )}
@@ -347,7 +347,7 @@ const ProjectSiteExpenseList = () => {
             <CustomSidePopup
               open={open}
               handleClose={handleClose}
-              title={'Add/Edit Site Expense'}
+              title={mode === 'Edit' ? 'Edit Site Claims ':'Add Site Claims'}
               content={
                 <ProjectSiteExpenseForm
                   projectId={routeParams?.id}
@@ -371,7 +371,7 @@ const ProjectSiteExpenseList = () => {
           <div>
             <div className={Styles.subHeading}>
               <MoneyIcon width={30} height={30} color="black" />
-              <h3>SITE EXPENSES</h3>
+              <h3>SITE Claim</h3>
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>

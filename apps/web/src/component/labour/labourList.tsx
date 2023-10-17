@@ -195,7 +195,7 @@ const LabourList = () => {
         size={48}
         color="#333C44"
       >
-        {initialData?.total_count !== 0 ? (
+        {initialData?.is_available ? (
           <div>
             <div className={Styles.topHeading}>
               <div className={Styles.heading}>
@@ -231,13 +231,13 @@ const LabourList = () => {
                     }}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <CustomGroupButton
                     labels={buttonLabels}
                     onClick={handleGroupButtonClick}
                     activeButton={activeButton}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
             {/* <div className={Styles.top}>
@@ -338,11 +338,11 @@ const LabourList = () => {
                                       <EditIcon
                                         onClick={() => handleEdit(data?.labour_id)}
                                       />
-                                      <DeleteIcon
+                                      {/* <DeleteIcon
                                         onClick={() =>
                                           deleteLabourHandler(data?.labour_id)
                                         }
-                                      />
+                                      /> */}
                                     </div>
                                   </td>
                                 )}
@@ -352,6 +352,7 @@ const LabourList = () => {
                         )
                       ) : initialData?.total_count === 0 ? (
                         <tr>
+                          <td></td>
                           <td></td>
                           <td>No data found</td>
                           {activeButton === 'AC' && <td></td>}
@@ -372,13 +373,13 @@ const LabourList = () => {
                                       onClick={() => handleEdit(item?.labour_id)}
                                     />
                                   </div>
-                                  <div>
+                                  {/* <div>
                                     <DeleteIcon
                                       onClick={() =>
                                         deleteLabourHandler(item.labour_id)
                                       }
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                               </td>
                             )}
