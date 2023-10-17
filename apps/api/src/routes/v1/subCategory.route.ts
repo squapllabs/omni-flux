@@ -1,9 +1,6 @@
 import express from 'express';
 import authMiddleware from '../../middleware/auth';
-import {
-  subCategoryCreateValidator,
-  subCategoryUpdateValidator,
-} from '../../validations/subCategory';
+import { subCategoryUpdateValidator } from '../../validations/subCategory';
 import {
   checkDuplicateSubCategoryName,
   createSubCategory,
@@ -20,13 +17,7 @@ import { runValidation } from '../../validations/index';
 
 const router = express.Router();
 
-router.post(
-  '/',
-  authMiddleware,
-  subCategoryCreateValidator,
-  runValidation,
-  createSubCategory
-);
+router.post('/', authMiddleware, createSubCategory);
 
 router.put(
   '/',
