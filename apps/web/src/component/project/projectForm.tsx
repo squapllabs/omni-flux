@@ -255,7 +255,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
             if (data?.status === true) {
               setMessage('Project created');
               setOpenSnack(true);
-              // props.setLoader(!props.loader);
+
               if (data?.data?.project?.status === 'Draft') {
                 setTimeout(() => {
                   navigate('/project-list');
@@ -275,7 +275,12 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
             if (data?.status === true) {
               setMessage('Project updated');
               setOpenSnack(true);
-              props.setLoader(!props.loader);
+              // props.setLoader(!props.loader);
+              console.log(
+                'data?.data?.project?.status',
+                data?.data?.project?.status
+              );
+
               if (data?.data?.project?.status === 'Draft') {
                 setTimeout(() => {
                   navigate('/project-list');
@@ -301,7 +306,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         </div>
       </div> */}
       <ProjectSubheader
-        title="NEW PROJECT"
+        title={
+          routeParams?.id === undefined
+            ? 'NEW PROJECT'
+            : formik.values.project_name
+        }
         description="Create your Project with mandatory Details"
         navigation="/project-list"
       />
@@ -578,17 +587,18 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         </div>
       </form>
       <div>
-      <CustomSidePopup
+        <CustomSidePopup
           open={showClientForm}
           title={'Add Client'}
           handleClose={handleClientFormClose}
           content={
-          <CustomClientAdd
-            isVissible={showClientForm}
-            onAction={setShowClientForm}
-          />}
-          />
-        
+            <CustomClientAdd
+              isVissible={showClientForm}
+              onAction={setShowClientForm}
+            />
+          }
+        />
+
         <CustomConfirm
           open={openConfirm}
           title="Confirm Submit"

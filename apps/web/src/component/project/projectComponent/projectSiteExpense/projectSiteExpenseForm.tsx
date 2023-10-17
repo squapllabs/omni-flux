@@ -165,35 +165,35 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
           is_delete: Yup.string().required(),
           expense_data_id: Yup.string()
             .typeError('Site Expense is required')
-            .required('Site Expense is required')
-            .test(
-              'description-availability',
-              'Site Expense is already present',
-              async function (value, { parent }: Yup.TestContext) {
-                const isDelete = false;
-                const { path, createError } = this;
-                try {
-                  let dummy: any = [];
-                  const allIds = expenseList.map((item: any) => {
-                    console.log('item', item);
+            .required('Site Expense is required'),
+          // .test(
+          //   'description-availability',
+          //   'Site Expense is already present',
+          //   async function (value, { parent }: Yup.TestContext) {
+          //     const isDelete = false;
+          //     const { path, createError } = this;
+          //     try {
+          //       let dummy: any = [];
+          //       const allIds = expenseList.map((item: any) => {
+          //         console.log('item', item);
 
-                    if (item.is_delete === false)
-                      dummy.push(item.expense_data_id);
-                  });
-                  console.log('allIds', dummy);
-                  const checking = dummy.filter(
-                    (id) => Number(id) === Number(value)
-                  ).length;
-                  if (checking <= 1) {
-                    return true;
-                  } else {
-                    return false;
-                  }
-                } catch {
-                  return true;
-                }
-              }
-            ),
+          //         if (item.is_delete === false)
+          //           dummy.push(item.expense_data_id);
+          //       });
+          //       console.log('allIds', dummy);
+          //       const checking = dummy.filter(
+          //         (id) => Number(id) === Number(value)
+          //       ).length;
+          //       if (checking <= 1) {
+          //         return true;
+          //       } else {
+          //         return false;
+          //       }
+          //     } catch {
+          //       return true;
+          //     }
+          //   }
+          // ),
           total: Yup.number()
             .min(1, 'Amount must be more then 0')
             .max(100000, 'Amount must be less then 100000')
