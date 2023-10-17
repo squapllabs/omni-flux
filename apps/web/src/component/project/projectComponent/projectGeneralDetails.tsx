@@ -364,13 +364,13 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                       optionList={getAllClientDatadrop}
                     />
                   </div>
-                  <div
+                  {/* <div
                     className={Styles.clientNewAddMain}
                     onClick={handleOpenClientForm}
                   >
                     <AddIcon style={{ height: '13px', width: '20px' }} />
                     <h4 className={Styles.addtext}>New client</h4>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className={Styles.subOneChildThree}>
@@ -555,10 +555,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
           autoHideDuration={1000}
           type="success"
         />
-        <CustomClientAdd
+        {/* <CustomClientAdd
           isVissible={showClientForm}
           onAction={setShowClientForm}
-        />
+        /> */}
       </div>
     </div>
   );

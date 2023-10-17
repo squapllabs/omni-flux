@@ -165,7 +165,7 @@ model category {
 
 model sub_category {
   sub_category_id        Int                @id @default(autoincrement())
-  name                   String             @db.VarChar(100)
+  name                   String?            @db.VarChar(100)
   category_id            Int?
   estimated_budget       Float?
   actual_budget          Float?

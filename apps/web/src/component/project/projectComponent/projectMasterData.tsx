@@ -99,7 +99,7 @@ const ProjectMasterData: React.FC = (props: any) => {
               <div className={Styles.heading}>
                 <div className={Styles.subHeading}>
                   <MasterDataIcon />
-                  <h4>MASTER DATA</h4>
+                  <h4>BOQ Type</h4>
                 </div>
                 <div>
                   <Button
@@ -110,7 +110,7 @@ const ProjectMasterData: React.FC = (props: any) => {
                     icon={<AddIcon color="white" />}
                     onClick={handleAddMasterData}
                   >
-                    Add Master Data
+                    Add BOQ Type
                   </Button>
                 </div>
               </div>
@@ -179,7 +179,7 @@ const ProjectMasterData: React.FC = (props: any) => {
           <div>
             <div className={Styles.subHeading}>
               <MasterDataIcon />
-              <span>MASTER DATA</span>
+              <span>BOQ Type</span>
             </div>
             <div className={Styles.emptyDataHandling}>
               <div>
@@ -191,10 +191,10 @@ const ProjectMasterData: React.FC = (props: any) => {
                 />
               </div>
               <div>
-                <h5>This project has no Master Data</h5>
+                <h5>This project has no BOQ Type</h5>
               </div>
               <div>
-                <span className={Styles.spanContent}>Go ahead, add a Master Data to this project now</span>
+                <span className={Styles.spanContent}>Go ahead, add a BOQ Type to this project now</span>
               </div>
               <div className={Styles.emptyButton}>
                 <Button
@@ -205,7 +205,7 @@ const ProjectMasterData: React.FC = (props: any) => {
                   icon={<AddIcon color="white" />}
                   onClick={() => setOpen(true)}
                 >
-                  Add Master Data
+                  Add BOQ Type
                 </Button>
               </div>
             </div>
@@ -220,8 +220,8 @@ const ProjectMasterData: React.FC = (props: any) => {
         type="success"
       />
       <CustomPopup
-       title= {mode === "EDIT" ? 'Edit Master Data' : 'Add Master Data'}
-       description={mode === "EDIT" ? 'Modify existing master data' : 'Create new master data for a project'}
+       title= {mode === "EDIT" ? 'Edit BOQ Type' : 'Add BOQ Type'}
+       description={mode === "EDIT" ? 'Modify existing boq type' : 'Create new boq type for a project'}
         open={open}
         handleClose={handleClosePopup}
         content={

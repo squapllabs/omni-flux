@@ -15,8 +15,8 @@
   border-bottom: 1px solid #ccc;
 }
 .dividerStyleOne {
-  border-bottom: 1px solid rgb(66, 200, 75);
-  width: 77%;
+  border-bottom: 1px solid rgb(118, 238, 126);
+  width: 65%;
   margin-bottom: 5px;
 }
 .formMainContent {
@@ -46,19 +46,24 @@
   flex-direction: row;
   gap: 50px;
   flex-wrap: wrap;
+  // background-color: aquamarine;
+
 }
 .clientNewAddMain {
+  color: cadetblue;
+  font-weight: lighter;
+  font-size: x-small;
   display: flex;
   flex-direction: row;
+  align-self: flex-end;
   cursor: pointer;
-  //   background-color: lawngreen;
-  align-items: center;
 }
-.clientInstantAdd{
-    display: flex;
-    flex-direction: row;
-    gap:5px;
-    width:50%
+.clientInstantAdd {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  row-gap: 0%;
+  // background-color: #b42318;
 }
 .subOneChildThree {
   display: flex;
@@ -87,6 +92,7 @@
 .addtext {
   color: var(--secondary-color);
   font-size: 0.6rem;
+  padding-top: 2px;
 }
 .draftButton {
   color: var(--secondary-color);
@@ -95,8 +101,12 @@
   background-color: var(--danger-color);
   color: #b42318;
 }
-.bottomButton{
+.bottomButton {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  justify-content: flex-end;
+  width: 65%;
+  padding-top: 5px;
+  padding-bottom: 15px;
 }

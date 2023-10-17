@@ -213,18 +213,37 @@ const searchVendor = async (body) => {
       is_delete,
       global_search
     );
-
     const count = result.count;
     const data = result.data;
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempVendorData = {
-      message: 'success',
-      status: true,
-      total_count: count,
-      total_page: total_pages,
-      content: data,
-    };
-    return tempVendorData;
+    if (result.count > 0) {
+      const tempVendorData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempVendorData;
+    } else if (result.count === 0) {
+      const tempVendorData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempVendorData;
+    } else {
+      const tempVendorData = {
+        message: 'fail',
+        status: true,
+        is_available: false,
+      };
+      return tempVendorData;
+    }
   } catch (error) {
     console.log('Error occurred in searchVendor Vendor service : ', error);
     throw error;

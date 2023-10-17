@@ -389,6 +389,12 @@
     }
   }
 }
+.actionIcons_container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
 .selectedRow {
   background-color: #e7e7e7;
 }

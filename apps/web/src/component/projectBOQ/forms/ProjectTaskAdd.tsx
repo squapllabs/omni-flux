@@ -154,18 +154,19 @@ const ProjectTaskAdd: React.FC = (props: any) => {
 
   const calculatebudget = () =>{
     let estimated_budget = Number(formik.values.rate) * Number(formik.values.quantity);
+
     if(Number.isNaN(estimated_budget)){
       estimated_budget = 0
     }
     formik.values.estimated_budget = estimated_budget;
-    return estimated_budget.toLocaleString();
+    return estimated_budget;
   }
 
   return (
     <div className={Styles.container}>
       <div className={Styles.divOne}>
         <div style={{ width: '70%' }}>
-          <div className={Styles.field}>
+          {/* <div className={Styles.field}>
             <Input
               label="Name"
               placeholder="Enter task name"
@@ -175,7 +176,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               onChange={formik.handleChange}
               error={formik.touched.name && formik.errors.name}
             />
-          </div>
+          </div> */}
           <div className={Styles.field}>
             <TextArea
               name="description"
@@ -189,12 +190,20 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               maxCharacterCount={1000}
             />
           </div>
+          
+          
+        </div>
+        <div className={Styles.icon}>
+          <CheckListIcon width={50} height={50} />
+        </div>
+      </div>
+      <div className={Styles.row_container}>
           <div>
           <AutoCompleteSelect
               width={DropfieldWidth}
               name="uom_id"
               label='Select UOM'
-              mandatory={true}
+              mandatory={false}
               optionList={getAllUomDrop != undefined ? getAllUomDrop : []}
               value={formik.values.uom_id}
               onChange={formik.handleChange} 
@@ -212,10 +221,10 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               placeholder="Enter Quantity"
               name="quantity"
               type="number"
-              mandatory={true}
+              mandatory={false}
               value={formik.values.quantity}
               onChange={formik.handleChange}
-              error={formik.touched.quantity && formik.errors.quantity}
+              width={DropfieldWidth}
             />
           </div>
           <div className={Styles.field}>
@@ -224,13 +233,29 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               placeholder="Enter Rate"
               name="rate"
               type="number"
-              mandatory={true}
+              mandatory={false}
               value={formik.values.rate}
               onChange={formik.handleChange}
-              error={formik.touched.rate && formik.errors.rate}
+              width={DropfieldWidth}
             />
-          </div>         
+          </div> 
           <div className={Styles.field}>
+            <Input
+              label="Estimated Budget"
+              placeholder=""
+              name="estimated_budget"
+              type="number"
+              mandatory={false}
+              value={calculatebudget()}
+              onChange={formik.handleChange}
+              width={DropfieldWidth}
+            />
+
+          </div> 
+          {/* <div className={Styles.total_budget}>
+          Estimated Budget : {calculatebudget()}
+        </div>       */}
+          {/* <div className={Styles.field}>
             <DatePicker
               label="Start Date"
               name="start_date"
@@ -255,14 +280,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               error={formik.touched.end_date && formik.errors.end_date}
               width="200px"
             />
-          </div>
-          <div className={Styles.total_budget}>
-          Estimated Budget : {calculatebudget()}
-        </div>
-        </div>
-        <div className={Styles.icon}>
-          <CheckListIcon width={50} height={50} />
-        </div>
+          </div> */}
       </div>
       <div className={Styles.sub_sub_container_2}>
         <div className={Styles.footer}>

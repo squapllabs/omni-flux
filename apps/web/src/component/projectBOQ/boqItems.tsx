@@ -14,11 +14,13 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 import PlanList from '../projectBOQ/planList';
 import CheckListIcon from '../menu/icons/checkListIcon';
+import EditIcon from '../menu/icons/newEditIcon';
 import NewAddCircleIcon from '../menu/icons/newAddCircleIcon';
 import CategoryService from '../../service/category-service';
 import CustomMenu from '../ui/NewCustomMenu';
 import subCategoryService from '../../service/subCategory-service';
 import SubBoqItems from './subBoqItems';
+
 
 const BomItems = (props: {
   selectedCategory: any;
@@ -54,6 +56,7 @@ const BomItems = (props: {
   const [openedContextMenuForSubCategory, setOpenedContextMenuForSubCategory] =
     useState<number | null>(null);
   const [subChildList, setSubChildList] = useState<any>([]);
+  const primary_color = '#7f56d';
   const handleEdit = (value: any) => {
     setMode('EDIT');
     setShowSubCategoryForm(true);
@@ -177,6 +180,9 @@ const BomItems = (props: {
                   <th className={Styles.tableHeading}>#</th>
                   {/* <th className={Styles.tableHeading}>Task Name</th> */}
                   <th className={Styles.tableHeading}>Task Description</th>
+                  <th className={Styles.tableHeading}>Unit</th>
+                  <th className={Styles.tableHeading}>Quantity</th>
+                  <th className={Styles.tableHeading}>Rate</th>
                   <th className={Styles.tableHeading}>Amount</th>
                   <th className={Styles.tableHeading}>Action</th>
                 </tr>
@@ -220,24 +226,50 @@ const BomItems = (props: {
                             ? Styles.selectedRow
                             : ''
                         }
+                        
                       >
                         <td
-                          onClick={(e) =>
-                            handleSubTaskView(data.sub_category_id)
-                          }
+                          // onClick={(e) =>
+                          //   handleSubTaskView(data.sub_category_id)
+                          // }
                         >
                           {index + 1}
                         </td>
                         <td
-                          onClick={(e) =>
+                          onClick={(e) =>{
                             handleSubTaskView(data.sub_category_id)
                           }
+                          }
                         >
-                          <span style={{ textAlign: 'justify' }}>
+                          <span style={{ textAlign: 'justify' ,cursor:'pointer'}}>
                             {data.description}
                           </span>
                         </td>
-                        <td
+                        <td>
+                          <span style={{ textAlign: 'justify' }}>
+                            {data?.uom_data?.name}
+                          </span>
+                        </td>
+                        <td>
+                          <span style={{ textAlign: 'justify' }}>
+                            {data.quantity}
+                          </span>
+                        </td>
+                        <td>
+                          <span style={{ textAlign: 'justify' }}>
+                            {data.rate}
+                          </span>
+                        </td>
+                        <td>
+                          <span style={{ textAlign: 'justify' }}>
+                          {formatBudgetValue(
+                            data?.estimated_budget ? data?.estimated_budget : 0
+                          )}
+                          </span>
+                        </td>
+
+
+                        {/* <td
                           onClick={(e) =>
                             handleSubTaskView(data.sub_category_id)
                           }
@@ -245,8 +277,16 @@ const BomItems = (props: {
                           {formatBudgetValue(
                             data?.actual_budget ? data?.actual_budget : 0
                           )}
-                        </td>
-                        <td>
+                        </td> */}
+                        <td className={Styles.actionIcons_container}>
+
+                        <span style={{cursor: 'pointer'}}><EditIcon
+                            onClick={() =>{  
+                            handleEdit(data?.sub_category_id);
+                            setSelectedSubCategoryId(data?.sub_category_id);}}
+                            /></span>
+                          
+                            <AddIcon width={20} height={20} color={primary_color} />
                           <CustomMenu actions={actions} name="BoQItems" />
                           {/* <span
                             className={Styles.menuText}
@@ -265,18 +305,16 @@ const BomItems = (props: {
                         selectedSubCategoryId == data?.sub_category_id &&
                         subChildList?.map((item: any, subindex: any) => {
                           return (
-                            <>
                               <SubBoqItems
-                                key={subindex}
-                                index={subindex}
-                                primaryIndex={index}
-                                rowData={item}
-                                reload={reload}
-                                setReload={setReload}
-                                subTaskView={subTaskView}
-                                setSubTaskView={setSubTaskView}
-                              />
-                            </>
+                              key={subindex}
+                              index={subindex}
+                              primaryIndex={index}
+                              rowData={item}
+                              reload={reload}
+                              setReload={setReload}
+                              subTaskView={subTaskView}
+                              setSubTaskView={setSubTaskView} 
+                              actions={undefined}                              />
                           );
                         })}
                     </>

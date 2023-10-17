@@ -169,14 +169,14 @@ const MaterData = () => {
         size={48}
         color="#333C44"
       >
-
+      {initialData?.is_available ? (
+        <div>
         <div className={Styles.topHeading}>
           <div className={Styles.heading}>
             <div className={Styles.subHeading}>
               <MasterDataIcon />
               <h4>MASTER DATA</h4>
             </div>
-            {initialData?.total_count !== 0 ? (
               <div>
                 <Button
                   color="primary"
@@ -191,8 +191,7 @@ const MaterData = () => {
                 >
                   Add Master Data
                 </Button>
-              </div> ) : 
-             ''}
+              </div>
           </div>
           <div className={Styles.searchBar}>
             <Input
@@ -205,12 +204,12 @@ const MaterData = () => {
                   ...filterValues,
                   ['search_by_name']: e.target.value,
                 });
+                setCurrentPage(1)
               }}
             />
           </div>
         </div>
         {/* <div className={Styles.dividerStyle}></div> */}
-        {initialData?.total_count !== 0 ? (
           <div className={Styles.box}>
             {/* <div className={Styles.textContent}>
                 <h3>List of Master Data</h3>
@@ -271,15 +270,16 @@ const MaterData = () => {
                     <tr>
                       <th>#</th>
                       <th>Name</th>
-                      <th>Description</th>
+                      {/* <th>Description</th> */}
                       <th>Code</th>
                       <th>Parent Name</th>
                       {activeButton === 'AC' && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
-                    {initialData?.total_count === 0 ? (
+                    {initialData?.count === 0 ? (
                       <tr>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td>No data found</td>
@@ -290,7 +290,7 @@ const MaterData = () => {
                         <tr key={data.uom_id}>
                           <td>{startingIndex + index}</td>
                           <td>{data.master_data_name}</td>
-                          <td>
+                          {/* <td>
                             <span
                               title={data?.master_data_description}
                               className={Styles.truncatedStyle}
@@ -304,7 +304,7 @@ const MaterData = () => {
                                   : data.master_data_description
                                 : '-'}
                             </span>
-                          </td>
+                          </td> */}
                           <td>{data.master_data_type}</td>
                           <td>
                             {data?.parent?.master_data_name === undefined
@@ -329,14 +329,14 @@ const MaterData = () => {
               <CustomPagination
                 currentPage={currentPage}
                 totalPages={initialData?.total_page}
-                totalCount={initialData?.total_count}
+                totalCount={initialData?.count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
               />
             </div>
           </div>
-
+        </div>
         ) : (
           <div>
             {/* <div className={Styles.subHeading}>

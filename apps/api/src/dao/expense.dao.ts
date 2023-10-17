@@ -273,6 +273,7 @@ const getById = async (expenseId: number, connectionObj = null) => {
             },
             expense_master_data: true,
           },
+          orderBy: [{ created_date: 'asc' }],
         },
         site_data: {
           select: {
@@ -286,6 +287,20 @@ const getById = async (expenseId: number, connectionObj = null) => {
         },
       },
     });
+
+    const [total] = await transaction.$queryRaw`SELECT
+        SUM(CASE WHEN ed.status = 'Approved' THEN ed.total ELSE 0 END) AS approved_total,
+        SUM(CASE WHEN ed.status = 'Rejected' THEN ed.total ELSE 0 END) AS rejected_total,
+        SUM(CASE WHEN ed.status = 'Pending' THEN ed.total ELSE 0 END) AS pending_total
+    FROM
+        expense_details ed
+    WHERE
+        ed.expense_id = ${Number(expenseId)}`;
+
+    expense.approved_total = total.approved_total;
+    expense.rejected_total = total.rejected_total;
+    expense.pending_total = total.pending_total;
+
     return expense;
   } catch (error) {
     console.log('Error occurred in expense getById dao', error);
@@ -549,7 +564,6 @@ const updateStatus = async (
   }
 };
 
-
 const getByIdWithOutChild = async (expenseId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
@@ -557,7 +571,7 @@ const getByIdWithOutChild = async (expenseId: number, connectionObj = null) => {
       where: {
         expense_id: Number(expenseId),
         is_delete: false,
-      }
+      },
     });
     return expense;
   } catch (error) {
@@ -576,5 +590,5 @@ export default {
   getByProjectIdAndSiteId,
   getExpenseDetailsByExpenceId,
   updateStatus,
-  getByIdWithOutChild
+  getByIdWithOutChild,
 };

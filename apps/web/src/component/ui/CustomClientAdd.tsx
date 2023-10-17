@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Input from '../ui/Input';
@@ -9,6 +9,7 @@ import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import { getClientValidateyup } from '../../helper/constants/client-constants';
 import CustomSnackBar from '../ui/customSnackBar';
+import Styles from '../../styles/newStyles/uomForm.module.scss';
 
 const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
   const { isVissible, onAction } = props;
@@ -55,25 +56,10 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
     <div>
       <div>
         {isVissible && (
-          <CustomPopup
-            className={
-              isVissible
-                ? 'popup-enter popup-enter-active'
-                : 'popup-exit popup-exit-active'
-            }
-          >
-            <div className={Styles1.popupContent}>
-              <form onSubmit={formikOne.handleSubmit}>
-                <div className={Styles1.header}>
-                  <div className={Styles1.popupHeader}>
-                    <h4>Create Client</h4>
-                    <button className={Styles1.closeButton}>
-                      <CloseIcon onClick={handleCloseForm} />
-                    </button>
-                  </div>
-                </div>
-                <div className={Styles1.dividerStyle}></div>
-                <div className={Styles1.field}>
+          <div className={Styles.formFields}>
+            <form onSubmit={formikOne.handleSubmit}>
+              <div style={{ width: '60%' }}>
+                <div>
                   <Input
                     label="Name"
                     placeholder="Enter client name"
@@ -82,10 +68,10 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                     value={formikOne.values.name}
                     onChange={formikOne.handleChange}
                     error={formikOne.touched.name && formikOne.errors.name}
-                    width="100%"
+                    // width="100%"
                   />
                 </div>
-                <div className={Styles1.field}>
+                <div>
                   <Input
                     label="Contact Number"
                     placeholder="Enter client contact number"
@@ -97,14 +83,42 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                       formikOne.errors.contact_details
                     }
                     mandatory={true}
-                    width="100%"
+                    // width="100%"
                   />
                 </div>
-                <div className={Styles1.dividerStyle}></div>
-                <div className={Styles1.formButton}>
+              </div>
+              <div className={Styles.bottom_container_client}>
+                <div className={Styles.footer1}>
+                  <div>
+                    <div className={Styles.dividerStyle}></div>
+                    <div className={Styles.button}>
+                      <Button
+                        className={Styles.cancelButton}
+                        shape="rectangle"
+                        justify="center"
+                        size="small"
+                        onClick={handleCloseForm}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        color="primary"
+                        shape="rectangle"
+                        justify="center"
+                        size="small"
+                        type="submit"
+                      >
+                        Submit
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <div className={Styles.dividerStyle}></div> */}
+              {/* <div className={Styles.formButton}>
                   <div>
                     <Button
-                      className={Styles1.cancelButton}
+                      className={Styles.cancelButton}
                       shape="rectangle"
                       justify="center"
                       size="small"
@@ -124,10 +138,9 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                       Submit
                     </Button>
                   </div>
-                </div>
-              </form>
-            </div>
-          </CustomPopup>
+                </div> */}
+            </form>
+          </div>
         )}
       </div>
       <CustomSnackBar
