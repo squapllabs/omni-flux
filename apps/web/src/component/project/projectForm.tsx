@@ -106,7 +106,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         project_type: getData?.data?.project_type,
         approvar_id: getData?.data?.approvar_id,
         estimated_budget: getData?.data?.estimated_budget,
-        actual_budget: getData?.data?.actual_budget,
+        actual_budget:
+          getData?.data?.actual_budget === 0
+            ? ''
+            : getData?.data?.actual_budget,
         description: getData?.data?.description,
         project_notes: getData?.data?.project_notes,
         site_configuration: getData?.data?.site_configuration,
