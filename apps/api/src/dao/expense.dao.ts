@@ -273,7 +273,7 @@ const getById = async (expenseId: number, connectionObj = null) => {
             },
             expense_master_data: true,
           },
-          orderBy: [{ created_date: 'desc' }],
+          orderBy: [{ created_date: 'asc' }],
         },
         site_data: {
           select: {
