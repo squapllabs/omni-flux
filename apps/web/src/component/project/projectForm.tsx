@@ -106,7 +106,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         project_type: getData?.data?.project_type,
         approvar_id: getData?.data?.approvar_id,
         estimated_budget: getData?.data?.estimated_budget,
-        actual_budget: getData?.data?.actual_budget,
+        actual_budget:
+          getData?.data?.actual_budget === 0
+            ? ''
+            : getData?.data?.actual_budget,
         description: getData?.data?.description,
         project_notes: getData?.data?.project_notes,
         site_configuration: getData?.data?.site_configuration,
@@ -255,7 +258,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
             if (data?.status === true) {
               setMessage('Project created');
               setOpenSnack(true);
-              // props.setLoader(!props.loader);
+
               if (data?.data?.project?.status === 'Draft') {
                 setTimeout(() => {
                   navigate('/project-list');
@@ -275,7 +278,12 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
             if (data?.status === true) {
               setMessage('Project updated');
               setOpenSnack(true);
-              props.setLoader(!props.loader);
+              // props.setLoader(!props.loader);
+              console.log(
+                'data?.data?.project?.status',
+                data?.data?.project?.status
+              );
+
               if (data?.data?.project?.status === 'Draft') {
                 setTimeout(() => {
                   navigate('/project-list');
@@ -301,7 +309,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         </div>
       </div> */}
       <ProjectSubheader
-        title="NEW PROJECT"
+        title={
+          routeParams?.id === undefined
+            ? 'NEW PROJECT'
+            : formik.values.project_name
+        }
         description="Create your Project with mandatory Details"
         navigation="/project-list"
       />
@@ -578,17 +590,18 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         </div>
       </form>
       <div>
-      <CustomSidePopup
+        <CustomSidePopup
           open={showClientForm}
           title={'Add Client'}
           handleClose={handleClientFormClose}
           content={
-          <CustomClientAdd
-            isVissible={showClientForm}
-            onAction={setShowClientForm}
-          />}
-          />
-        
+            <CustomClientAdd
+              isVissible={showClientForm}
+              onAction={setShowClientForm}
+            />
+          }
+        />
+
         <CustomConfirm
           open={openConfirm}
           title="Confirm Submit"
