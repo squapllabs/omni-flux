@@ -3314,3 +3314,151 @@ type capabilityWhereInput {
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 >>>>>>> 11bea5775c0875850fa9ddee837250e228ee5e9f
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateHsnCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.hsn_code.update()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\hsnCode.dao.ts:40:48
+
+  37 try {
+  38   const currentDate = new Date();
+  39   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 40   const hsnCode = await transaction.hsn_code.update(
+Unique constraint failed on the fields: (`code`)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateHsnCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.hsn_code.update()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\hsnCode.dao.ts:40:48
+
+  37 try {
+  38   const currentDate = new Date();
+  39   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 40   const hsnCode = await transaction.hsn_code.update(
+Unique constraint failed on the fields: (`code`)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateHsnCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.hsn_code.update()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\hsnCode.dao.ts:40:48
+
+  37 try {
+  38   const currentDate = new Date();
+  39   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 40   const hsnCode = await transaction.hsn_code.update(
+Unique constraint failed on the fields: (`code`)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateHsnCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.hsn_code.update()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\hsnCode.dao.ts:40:48
+
+  37 try {
+  38   const currentDate = new Date();
+  39   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 40   const hsnCode = await transaction.hsn_code.update(
+Unique constraint failed on the fields: (`code`)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateHsnCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.hsn_code.update()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\hsnCode.dao.ts:40:48
+
+  37 try {
+  38   const currentDate = new Date();
+  39   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 40   const hsnCode = await transaction.hsn_code.update(
+Unique constraint failed on the fields: (`code`)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateHsnCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.hsn_code.update()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\hsnCode.dao.ts:40:48
+
+  37 try {
+  38   const currentDate = new Date();
+  39   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 40   const hsnCode = await transaction.hsn_code.update(
+Unique constraint failed on the fields: (`code`)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateHsnCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.hsn_code.update()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\hsnCode.dao.ts:40:48
+
+  37 try {
+  38   const currentDate = new Date();
+  39   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 40   const hsnCode = await transaction.hsn_code.update(
+Unique constraint failed on the fields: (`code`)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateHsnCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.hsn_code.update()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\hsnCode.dao.ts:40:48
+
+  37 try {
+  38   const currentDate = new Date();
+  39   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 40   const hsnCode = await transaction.hsn_code.update(
+Unique constraint failed on the fields: (`code`)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:409:43
+
+  406 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  407   try {
+  408     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 409     const users = await transaction.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\user.dao.ts:409:43
+
+  406 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  407   try {
+  408     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 409     const users = await transaction.users.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\masterData.dao.ts:333:56
+
+  330 ) => {
+  331   try {
+  332     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 333     const masterDataId = await transaction.master_data.findFirst(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/checkDuplicateCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:554:47
+
+  551 const getByCode = async (code: string, connectionObj = null) => {
+  552   try {
+  553     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 554     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/checkDuplicateCode << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:554:47
+
+  551 const getByCode = async (code: string, connectionObj = null) => {
+  552   try {
+  553     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 554     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
