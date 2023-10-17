@@ -401,6 +401,12 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                       onSelect={(value) => {
                         formik.setFieldValue('client_id', value);
                       }}
+                      addLabel="Add Client"
+                      onAddClick={(value) => {
+                        console.log('onAddClick', value);
+
+                        setShowClientForm(true);
+                      }}
                       optionList={getAllClientDatadrop}
                     />
                   </div>
