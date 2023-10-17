@@ -343,8 +343,8 @@ const searchItem = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterItem;
-    const getData = await transaction.item.findMany({});
-    if (getData.length > 0) {
+    const getItemData = await transaction.item.findMany({});
+    if (getItemData?.length > 0) {
       const item = await transaction.item.findMany({
         where: filter,
         include: {
@@ -391,7 +391,7 @@ const searchItem = async (
       };
       return itemData;
     } else {
-      return getData;
+      return getItemData;
     }
   } catch (error) {
     console.log('Error occurred in item dao : searchItem ', error);

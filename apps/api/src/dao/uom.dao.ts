@@ -133,8 +133,8 @@ const searchUOM = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterUom;
-    const getData = await transaction.uom.findMany({});
-    if (getData.length > 0) {
+    const getUomData = await transaction.uom.findMany({});
+    if (getUomData?.length > 0) {
       const uom = await transaction.uom.findMany({
         where: filter,
         orderBy: [
@@ -154,7 +154,7 @@ const searchUOM = async (
       };
       return uomData;
     } else {
-      return getData;
+      return getUomData;
     }
   } catch (error) {
     console.log('Error occurred in uom dao : searchUOM ', error);

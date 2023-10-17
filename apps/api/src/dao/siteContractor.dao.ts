@@ -198,8 +198,12 @@ const searchSiteContractor = async (
     const order_by_column = orderByColumn;
     const order_by_direction = orderByDirection;
     const is_delete = status === 'AC' ? false : true;
-    const getData = await transaction.site_contractor.findMany({});
-    if (getData.length > 0) {
+    const getSiteContractorsData = await transaction.site_contractor.findMany({
+      where: {
+        type: types,
+      },
+    });
+    if (getSiteContractorsData?.length > 0) {
       const allSiteContractors = await transaction.$queryRawUnsafe(
         `SELECT *,
       CAST(created_by AS int) AS created_by,
@@ -248,7 +252,7 @@ const searchSiteContractor = async (
       };
       return siteContractorData;
     } else {
-      return getData;
+      return getSiteContractorsData;
     }
   } catch (error) {
     console.log(

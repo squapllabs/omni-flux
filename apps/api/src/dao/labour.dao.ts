@@ -130,8 +130,8 @@ const searchLabour = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterLabour;
-    const getData = await transaction.labour.findMany({});
-    if (getData.length > 0) {
+    const getLabourData = await transaction.labour.findMany({});
+    if (getLabourData?.length > 0) {
       const labour = await transaction.labour.findMany({
         where: filter,
         include: {
@@ -154,7 +154,7 @@ const searchLabour = async (
       };
       return labourData;
     } else {
-      return getData;
+      return getLabourData;
     }
   } catch (error) {
     console.log('Error occurred in labour dao : searchLabour', error);

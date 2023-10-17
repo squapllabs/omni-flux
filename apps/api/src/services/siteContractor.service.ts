@@ -249,30 +249,20 @@ const searchSiteContractor = async (body) => {
     const count = result.count;
     const data = result.data;
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    if (result.count > 0) {
+    if (result?.count >= 0) {
       const tempSiteContractorData = {
-        message: 'success',
-        status: true,
+        message: result.count > 0 ? 'success' : 'No Data Found',
+        status: result.count > 0,
         total_count: count,
         total_page: total_pages,
-        is_available: true,
-        content: data,
-      };
-      return tempSiteContractorData;
-    } else if (result.count === 0) {
-      const tempSiteContractorData = {
-        message: 'success',
-        status: true,
-        total_count: count,
-        total_page: total_pages,
-        is_available: true,
+        is_available: result.count >= 0,
         content: data,
       };
       return tempSiteContractorData;
     } else {
       const tempSiteContractorData = {
-        message: 'fail',
-        status: true,
+        message: 'No Data Found',
+        status: false,
         is_available: false,
       };
       return tempSiteContractorData;

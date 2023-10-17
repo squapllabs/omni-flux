@@ -404,32 +404,23 @@ const searchMasterData = async (body) => {
       order_by_direction,
       filterObj
     );
-    if (result.count > 0) {
-      const count = result.count;
-      const data = result.data;
-      const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    const count = result.count;
+    const data = result.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    if (result?.count >= 0) {
       const tempMasterDataData = {
-        message: 'success',
-        status: true,
+        message: result.count > 0 ? 'success' : 'No Data Found',
+        status: result.count > 0,
         total_count: count,
         total_page: total_pages,
-        is_available: true,
+        is_available: result.count >= 0,
         content: data,
-      };
-      return tempMasterDataData;
-    } else if (result.count === 0) {
-      const count = result.count;
-      const tempMasterDataData = {
-        message: 'success',
-        status: true,
-        count: count,
-        is_available: true,
       };
       return tempMasterDataData;
     } else {
       const tempMasterDataData = {
-        message: 'fail',
-        status: true,
+        message: 'No Data Found',
+        status: false,
         is_available: false,
       };
       return tempMasterDataData;

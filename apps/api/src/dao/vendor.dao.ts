@@ -178,8 +178,8 @@ const searchVendor = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const getData = await transaction.vendor.findMany({});
-    if (getData.length > 0) {
+    const getVendorData = await transaction.vendor.findMany({});
+    if (getVendorData?.length > 0) {
       const query = `
       SELECT *
       FROM vendor v
@@ -246,7 +246,7 @@ const searchVendor = async (
       const vendorData = { count: Number(count[0].count), data: result };
       return vendorData;
     } else {
-      return getData;
+      return getVendorData;
     }
   } catch (error) {
     console.error('Error occurred in vendor dao: searchVendor', error);

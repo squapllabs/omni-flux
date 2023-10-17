@@ -128,8 +128,8 @@ const searchGST = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterGst;
-    const getData = await transaction.gst.findMany({});
-    if (getData.length > 0) {
+    const getGstData = await transaction.gst.findMany({});
+    if (getGstData?.length > 0) {
       const gst = await transaction.gst.findMany({
         where: filter,
         orderBy: [
@@ -149,7 +149,7 @@ const searchGST = async (
       };
       return gstData;
     } else {
-      return getData;
+      return getGstData;
     }
   } catch (error) {
     console.log('Error occurred in gst dao : searchGST ', error);

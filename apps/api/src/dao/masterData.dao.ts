@@ -252,42 +252,38 @@ const searchMasterData = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterMasterData;
-    const getMasterTableData = await transaction.master_data.findMany({});
-    if (getMasterTableData.length > 0) {
-      if (filter.AND[0].project_id.equals === null) {
-        const getData = await transaction.master_data.findMany({});
-        if (getData.length > 0) {
-          const masterData = await transaction.master_data.findMany({
-            where: filter,
-            include: {
-              parent: true,
-              children: true,
+    const getAllMasterData = await transaction.master_data.findMany({});
+    if (getAllMasterData?.length > 0) {
+      if (filter.AND[0]?.project_id.equals === null) {
+        const masterData = await transaction.master_data.findMany({
+          where: filter,
+          include: {
+            parent: true,
+            children: true,
+          },
+          orderBy: [
+            {
+              [orderByColumn]: orderByDirection,
             },
-            orderBy: [
-              {
-                [orderByColumn]: orderByDirection,
-              },
-            ],
-            skip: offset,
-            take: limit,
-          });
-          const masterDataCount = await transaction.master_data.count({
-            where: filter,
-          });
-          const masterDataData = {
-            count: masterDataCount,
-            data: masterData,
-          };
-          return masterDataData;
-        }
+          ],
+          skip: offset,
+          take: limit,
+        });
+        const masterDataCount = await transaction.master_data.count({
+          where: filter,
+        });
+        const masterDataData = {
+          count: masterDataCount,
+          data: masterData,
+        };
+        return masterDataData;
       } else {
-        const getData = await transaction.master_data.findMany({
+        const getProjectMasterData = await transaction.master_data.findMany({
           where: {
-            is_delete: filter.is_delete,
-            project_id: filter.AND[0].project_id,
+            project_id: filter.AND[0]?.project_id,
           },
         });
-        if (getData.length > 0) {
+        if (getProjectMasterData.length > 0) {
           const masterData = await transaction.master_data.findMany({
             where: filter,
             include: {
@@ -310,10 +306,12 @@ const searchMasterData = async (
             data: masterData,
           };
           return masterDataData;
+        } else {
+          return getProjectMasterData;
         }
       }
     } else {
-      return getMasterTableData;
+      return getAllMasterData;
     }
   } catch (error) {
     console.log('Error occurred in masterData dao : searchMasterData ', error);

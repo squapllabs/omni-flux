@@ -177,8 +177,8 @@ const searchHSNCode = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterHSNCode;
-    const getData = await transaction.hsn_code.findMany({});
-    if (getData.length > 0) {
+    const getHsnCodeData = await transaction.hsn_code.findMany({});
+    if (getHsnCodeData?.length > 0) {
       const hsnCode = await transaction.hsn_code.findMany({
         where: filter,
         orderBy: [
@@ -198,7 +198,7 @@ const searchHSNCode = async (
       };
       return hsnCodeData;
     } else {
-      return getData;
+      return getHsnCodeData;
     }
   } catch (error) {
     console.log('Error occurred in hsnCode dao : searchHSNCode ', error);
