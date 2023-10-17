@@ -155,6 +155,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     code: yup
       .string()
       .required('Project code is required')
+      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
@@ -204,32 +205,30 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       .string()
       .trim()
       .required('Project client/customer is required'),
-      code: yup
+    code: yup
       .string()
       .required('Project code is required')
+      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
         async (value: any, { parent }: yup.TestContext) => {
           const ProjectId = parent.project_id;
-          console.log("parent project id",ProjectId);
           if (value) {
-            const response = await projectService.checkProjectCodeDuplicate(value);
-            console.log("response--.",response);
-            console.log("response--.",response?.is_exist);
-            console.log("response--.",response?.data?.project_id);
+            const response = await projectService.checkProjectCodeDuplicate(
+              value
+            );
             if (
               response?.is_exist === true &&
               response?.data?.project_id === ProjectId
             ) {
-              console.log("if condition inn");
               return true;
             } else {
-              if(response?.is_exist === false){
-                return true
+              if (response?.is_exist === false) {
+                return true;
+              } else {
+                return false;
               }
-              else{
-              return false;}
             }
           }
         }
@@ -310,19 +309,18 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         updateProjectData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.status === true) {
-              setMessage('Project updated');
-              setOpenSnack(true);
+              // setMessage('Project updated');
+              // setOpenSnack(true);
               // props.setLoader(!props.loader);
-              console.log(
-                'data?.data?.project?.status',
-                data?.data?.project?.status
-              );
-
               if (data?.data?.project?.status === 'Draft') {
+                setMessage('Project draft updated');
+                setOpenSnack(true);
                 setTimeout(() => {
                   navigate('/project-list');
                 }, 1000);
               } else {
+                setMessage('Project updated');
+                setOpenSnack(true);
                 setTimeout(() => {
                   navigate(`/project-edit/${data?.data?.project?.project_id}`);
                   props.setLoader(props.loader);
@@ -444,13 +442,13 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                       optionList={getAllClientDatadrop}
                     />
                   </div>
-                  <div
-                    className={Styles.clientNewAddMain}
-                    onClick={handleOpenClientForm}
-                  >
-                    <AddIcon style={{ height: '15px', width: '15px' }} />
-                    <h4 className={Styles.addtext}>New client</h4>
-                  </div>
+                  {/* <div
+                      className={Styles.clientNewAddMain}
+                      onClick={handleOpenClientForm}
+                    >
+                      <AddIcon style={{ height: '15px', width: '15px' }} />
+                      <h4 className={Styles.addtext}>New client</h4>
+                    </div> */}
                 </div>
               </div>
               <div className={Styles.subOneChildThree}>

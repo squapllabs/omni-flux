@@ -33,7 +33,7 @@ import {
   getCreateValidateyup,
   getEditValidateyup,
 } from '../../../helper/constants/project-constants';
-
+import CustomSidePopup from '../../ui/CustomSidePopup';
 import { store, RootState } from '../../../redux/store';
 import { getToken } from '../../../redux/reducer';
 import { format } from 'date-fns';
@@ -120,7 +120,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         project_id: getData?.data?.project_id,
         bom_configuration: getData?.data?.bom_configuration,
       });
-      console.log("eeeeeeeeeee",typeof getData?.data?.project_id);
       setBomConfig(getData?.data?.bom_configuration);
       setSiteConfigData(getData?.data?.project_site);
     };
@@ -151,11 +150,15 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const cancelhandler = () => {
     navigate('/project-list');
   };
+  const handleClientFormClose = () => {
+    setShowClientForm(false);
+  };
   const validateSchemaCreate = yup.object().shape({
     project_name: yup.string().required('Project name is required'),
     code: yup
       .string()
       .required('Project code is required')
+      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
@@ -208,6 +211,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       code: yup
       .string()
       .required('Project code is required')
+      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
@@ -216,9 +220,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
           console.log("parent project id",ProjectId);
           if (value) {
             const response = await projectService.checkProjectCodeDuplicate(value);
-            console.log("response--.",response);
-            console.log("response--.",response?.is_exist);
-            console.log("response--.",response?.data?.project_id);
             if (
               response?.is_exist === true &&
               response?.data?.project_id === ProjectId
@@ -229,8 +230,13 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
               if(response?.is_exist === false){
                 return true
               }
-              else{
-              return false;}
+              else {
+                if(response?.is_exist === false){
+                  return true
+                }
+                else{
+                return false;}
+              }
             }
           }
         }
@@ -394,6 +400,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                       }
                       onSelect={(value) => {
                         formik.setFieldValue('client_id', value);
+                      }}
+                      addLabel="Add Client"
+                      onAddClick={(value) => {
+                        console.log('onAddClick', value);
+                        setShowClientForm(true);
                       }}
                       optionList={getAllClientDatadrop}
                     />
@@ -593,6 +604,17 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
           isVissible={showClientForm}
           onAction={setShowClientForm}
         /> */}
+        <CustomSidePopup
+          open={showClientForm}
+          title={'Add Client'}
+          handleClose={handleClientFormClose}
+          content={
+            <CustomClientAdd
+              isVissible={showClientForm}
+              onAction={setShowClientForm}
+            />
+          }
+        />
       </div>
     </div>
   );
