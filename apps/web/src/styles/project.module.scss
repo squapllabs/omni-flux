@@ -22,6 +22,7 @@
 
 .box {
   position: relative;
+  padding-top: 20px;
 }
 
 .box::after {
@@ -177,7 +178,7 @@
 
 
 .tableContainerBOM {
-  padding: 10px;
+  padding-top: 20px;
   width: 100%;
   &::-webkit-scrollbar {
     width: 2px;
@@ -225,8 +226,13 @@
   thead {
     tr {
       th {
-        color: #667085;
-        font-weight: 700;
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        font-size: 13px;
+        font-weight: 600;
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+        text-transform: uppercase;
       }
     }
   }
@@ -267,8 +273,13 @@
   thead {
     tr {
       th {
-        color: #667085;
-        font-weight: 700;
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        font-size: 13px;
+        font-weight: 600;
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+        text-transform: uppercase;
       }
     }
   }
