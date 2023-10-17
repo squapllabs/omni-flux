@@ -3462,3 +3462,179 @@ D:\2023\September\20\erp\omni-flux\apps\api\src\dao\project.dao.ts:554:47
 Can't reach database server at `3.108.30.2`:`5432`
 
 Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\17\omni-flux\apps\api\src\dao\expense.dao.ts:401:47
+
+  398 try {
+  399   const transaction = connectionObj !== null ? connectionObj : prisma;
+  400   const filter = filters.filterExpense;
+→ 401   const expense = await transaction.expense.findMany({
+          where: {
+            is_delete: false,
+            AND: [
+              {
+                NOT: {
+                  status: 'Draft'
+                }
+              }
+            ]
+          },
+          include: {
+        ?   expense_details?: true,
+        ?   site_data?: true,
+        ?   project_data?: true,
+            user_data: {
+            ~~~~~~~~~
+              select: {
+                first_name: true,
+                last_name: true
+              }
+            },
+        ?   progressed_by_data?: true,
+        ?   _count?: true
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 10
+        })
+
+
+Unknown field `user_data` for include statement on model expense. Available options are listed in green. Did you mean `site_data`?
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\17\omni-flux\apps\api\src\dao\expense.dao.ts:401:47
+
+  398 try {
+  399   const transaction = connectionObj !== null ? connectionObj : prisma;
+  400   const filter = filters.filterExpense;
+→ 401   const expense = await transaction.expense.findMany({
+          where: {
+            is_delete: false,
+            AND: [
+              {
+                NOT: {
+                  status: 'Draft'
+                }
+              }
+            ]
+          },
+          include: {
+        ?   expense_details?: true,
+        ?   site_data?: true,
+        ?   project_data?: true,
+            user_data: {
+            ~~~~~~~~~
+              select: {
+                first_name: true,
+                last_name: true
+              }
+            },
+        ?   progressed_by_data?: true,
+        ?   _count?: true
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 10
+        })
+
+
+Unknown field `user_data` for include statement on model expense. Available options are listed in green. Did you mean `site_data`?
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\17\omni-flux\apps\api\src\dao\expense.dao.ts:401:47
+
+  398 try {
+  399   const transaction = connectionObj !== null ? connectionObj : prisma;
+  400   const filter = filters.filterExpense;
+→ 401   const expense = await transaction.expense.findMany({
+          where: {
+            is_delete: false,
+            AND: [
+              {
+                NOT: {
+                  status: 'Draft'
+                }
+              }
+            ]
+          },
+          include: {
+        ?   expense_details?: true,
+        ?   site_data?: true,
+        ?   project_data?: true,
+            user_data: {
+            ~~~~~~~~~
+              select: {
+                first_name: true,
+                last_name: true
+              }
+            },
+        ?   progressed_by_data?: true,
+        ?   _count?: true
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 10
+        })
+
+
+Unknown field `user_data` for include statement on model expense. Available options are listed in green. Did you mean `site_data`?
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchExpense << ERRSTRING >>Error: 
+Invalid `transaction.expense.findMany()` invocation in
+D:\2023\Oct\17\omni-flux\apps\api\src\dao\expense.dao.ts:401:47
+
+  398 try {
+  399   const transaction = connectionObj !== null ? connectionObj : prisma;
+  400   const filter = filters.filterExpense;
+→ 401   const expense = await transaction.expense.findMany({
+          where: {
+            is_delete: false,
+            AND: [
+              {
+                NOT: {
+                  status: 'Draft'
+                }
+              }
+            ]
+          },
+          include: {
+        ?   expense_details?: true,
+        ?   site_data?: true,
+        ?   project_data?: true,
+            user_data: {
+            ~~~~~~~~~
+              select: {
+                first_name: true,
+                last_name: true
+              }
+            },
+        ?   progressed_by_data?: true,
+        ?   _count?: true
+          },
+          orderBy: [
+            {
+              updated_date: 'desc'
+            }
+          ],
+          skip: 0,
+          take: 10
+        })
+
+
+Unknown field `user_data` for include statement on model expense. Available options are listed in green. Did you mean `site_data`?
+

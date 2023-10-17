@@ -358,10 +358,12 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
               <th>Status</th>
               {props.expenseID ? (
                 ''
-              ) : tableData?.isEnableComplete === true ? (
-                ''
-              ) : (
+              ) : tableData?.status === 'InProgress' ? (
                 <th>Action</th>
+              ) : tableData?.status === 'Pending' ? (
+                <th>Action</th>
+              ) : (
+                ''
               )}
             </tr>
           </thead>
@@ -431,9 +433,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
                     </td>
                     {props.expenseID ? (
                       ''
-                    ) : tableData?.isEnableComplete === true ? (
-                      ''
-                    ) : (
+                    ) : tableData?.status === 'InProgress' ? (
                       <td className={Styles.tableIcon}>
                         {/* <NewViewIcon /> */}
                         <NewApproveIcon
@@ -445,6 +445,20 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
                           onClick={() => rejectHandler(data.expense_details_id)}
                         />
                       </td>
+                    ) : tableData?.status === 'Pending' ? (
+                      <td className={Styles.tableIcon}>
+                        {/* <NewViewIcon /> */}
+                        <NewApproveIcon
+                          onClick={() =>
+                            approveHandler(data.expense_details_id)
+                          }
+                        />
+                        <NewRejectIcon
+                          onClick={() => rejectHandler(data.expense_details_id)}
+                        />
+                      </td>
+                    ) : (
+                      ''
                     )}
                   </tr>
                 );
