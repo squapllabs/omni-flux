@@ -118,11 +118,7 @@ const getAll = async (connectionObj = null) => {
       where: {
         is_delete: false,
       },
-      orderBy: [
-        {
-          updated_date: 'desc',
-        },
-      ],
+      orderBy: [{ created_date: 'asc' }],
       include: {
         project: true,
         bom_configuration_data: {
@@ -189,6 +185,7 @@ const getAllInActiveCategories = async (connectionObj = null) => {
       where: {
         is_delete: true,
       },
+      orderBy: [{ created_date: 'asc' }],
     });
     return category;
   } catch (error) {
@@ -260,7 +257,7 @@ const getByProjectId = async (
         bom_configuration_id: Number(bom_configuration_id),
         is_delete: false,
       },
-      orderBy: [{ updated_date: 'desc' }],
+      orderBy: [{ created_date: 'asc' }],
       include: {
         project: true,
         bom_configuration_data: {

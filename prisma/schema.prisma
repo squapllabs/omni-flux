@@ -737,7 +737,7 @@ model machinery {
 
 model bom_configuration {
   bom_configuration_id Int            @id @default(autoincrement())
-  bom_name             String
+  bom_name             String?
   bom_description      String?
   bom_type_id          Int?
   project_id           Int?
