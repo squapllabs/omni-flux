@@ -1,36 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/machinery.module.scss';
 import { getByUomType } from '../../hooks/uom-hooks';
-import { useNavigate } from 'react-router-dom';
 import DatePicker from '../ui/CustomDatePicker';
 import { getCreateValidateyup } from '../../helper/constants/machinery-constants';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import { createMachinery, updateMachinery } from '../../hooks/machinery-hooks';
-import CustomSnackBar from '../ui/customSnackBar';
-import { useParams } from 'react-router-dom';
-import machineryService from '../../service/machinery-service';
+import { createInstantMachinery } from '../../hooks/machinery-hooks';
 import { format } from 'date-fns';
 import Select from '../ui/selectNew';
-import ProjectSubheader from '../project/projectSubheader';
 
-const AddMachinery = () => {
+const InstantMachineryAdd = (props: {
+  isVissible: any;
+  onAction: any;
+  setMessage: any;
+  setOpenSnack: any;
+}) => {
+  const { onAction, setMessage, setOpenSnack } = props;
   const { data: getAllUomList = [] } = getByUomType();
-  const { mutate: createNewMachinery } = createMachinery();
-  const { mutate: updateOneMachinery } = updateMachinery();
-  const routeParams = useParams();
-  const navigate = useNavigate();
+  const { mutate: createNewMachinery } = createInstantMachinery();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData.userData;
   const validationSchema = getCreateValidateyup(Yup);
-  const [openSnack, setOpenSnack] = useState(false);
-  const [message, setMessage] = useState('');
-
   const dateFormat = (value: any) => {
     if (value !== null) {
       const currentDate = new Date(value);
@@ -52,111 +47,43 @@ const AddMachinery = () => {
     warranty_expired_on: '',
     created_by: '',
   });
-
-  useEffect(() => {
-    if (Number(routeParams?.id)) {
-      const fetchOne = async () => {
-        const data = await machineryService.getOneMachineryByID(
-          Number(routeParams?.id)
-        );
-        setInitialValues({
-          machinery_id: data?.data?.machinery_id,
-          machinery_name: data?.data?.machinery_name,
-          machinery_type: data?.data?.machinery_type,
-          rate: Number(data?.data?.rate),
-          uom_id: data?.data?.uom_id,
-          location: data?.data?.location,
-          machinery_model: data?.data?.machinery_model,
-          manufacturer: data?.data?.manufacturer,
-          operational_status: data?.data?.operational_status,
-          date_of_purchase: dateFormat(data?.data?.date_of_purchase),
-          warranty_expired_on: dateFormat(data?.data?.warranty_expired_on),
-          created_by: data?.data?.created_by,
-        });
-      };
-      fetchOne();
-    }
-  }, [routeParams?.id]);
-
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
-    onSubmit: (values) => {
-      if (Number(routeParams?.id)) {
-        const Object: any = {
-          machinery_id: values.machinery_id,
-          machinery_name: values.machinery_name,
-          machinery_type: values.machinery_type,
-          rate: Number(values.rate),
-          uom_id: Number(values.uom_id),
-          location: values.location,
-          machinery_model: values.machinery_model,
-          manufacturer: values.manufacturer,
-          operational_status: values.operational_status,
-          date_of_purchase: values.date_of_purchase,
-          warranty_expired_on: values.warranty_expired_on,
-          updated_by: userData.user_id,
-        };
-        updateOneMachinery(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.message === 'success') {
-              setMessage('Machinery Edited');
-              setOpenSnack(true);
-              setTimeout(() => {
-                navigate('/settings');
-              }, 1000);
-            }
-          },
-        });
-      } else {
-        const Object: any = {
-          machinery_name: values.machinery_name,
-          machinery_type: values.machinery_type,
-          rate: Number(values.rate),
-          uom_id: Number(values.uom_id),
-          location: values.location,
-          machinery_model: values.machinery_model,
-          manufacturer: values.manufacturer,
-          operational_status: values.operational_status,
-          date_of_purchase: values.date_of_purchase,
-          warranty_expired_on: values.warranty_expired_on,
-          created_by: userData.user_id,
-        };
-        createNewMachinery(Object, {
-          onSuccess: (data, variables, contect) => {
-            if (data?.message === 'success') {
-              setMessage('Machinery created');
-              setOpenSnack(true);
-              setTimeout(() => {
-                navigate('/settings');
-              }, 1000);
-            }
-          },
-        });
-      }
+    onSubmit: (values,{resetForm}) => {
+      const Object: any = {
+        machinery_name: values.machinery_name,
+        machinery_type: values.machinery_type,
+        rate: Number(values.rate),
+        uom_id: Number(values.uom_id),
+        location: values.location,
+        machinery_model: values.machinery_model,
+        manufacturer: values.manufacturer,
+        operational_status: values.operational_status,
+        date_of_purchase: values.date_of_purchase,
+        warranty_expired_on: values.warranty_expired_on,
+        created_by: userData.user_id,
+      };
+      createNewMachinery(Object, {
+        onSuccess: (data, variables, contect) => {
+          if (data?.message === 'success') {
+            setMessage('Machinery created');
+            setOpenSnack(true);
+            handleCloseForm();
+            resetForm();
+          }
+        },
+      });
     },
   });
-
-  const handleSnackBarClose = () => {
-    setOpenSnack(false);
+  const handleCloseForm = () => {
+    onAction(false);
+    formik.resetForm();
   };
 
   return (
     <div>
-      {/* <div className={Styles.box}>
-        <div>
-          <h3>{routeParams.id ? 'Machinery Edit' : 'Machinery Add'}</h3>
-        </div>
-      </div>
-      <div className={Styles.dividerStyle}></div> */}
-      <div>
-        <ProjectSubheader
-          title={routeParams.id ? 'MACHINERY EDIT' : 'NEW MACHINERY'}
-          navigation="/settings"
-          description=""
-        />
-      </div>
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.formFields}>
@@ -308,19 +235,19 @@ const AddMachinery = () => {
               </div>
             </div>
             <div className={Styles.buttonFields}>
-              {/* <div>
+              <div>
                 <Button
                   color="secondary"
                   shape="rectangle"
                   justify="center"
                   size="small"
                   onClick={() => {
-                    navigate('/settings');
+                    handleCloseForm();
                   }}
                 >
-                  Back
+                  Cancel
                 </Button>
-              </div> */}
+              </div>
               <div>
                 <Button
                   color="primary"
@@ -336,15 +263,7 @@ const AddMachinery = () => {
           </div>
         </form>
       </div>
-      <CustomSnackBar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        autoHideDuration={1000}
-        type="success"
-      />
     </div>
   );
 };
-
-export default AddMachinery;
+export default InstantMachineryAdd;

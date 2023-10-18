@@ -6,6 +6,8 @@ const getAllProject = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/project/getAll`
     );
+    console.log("response.data",response.data);
+    
     return response.data;
   } catch (error) {
     console.log('Error in getting all project data:', error);

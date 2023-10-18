@@ -124,7 +124,6 @@ const BomLabours: React.FC = (props: any) => {
       values['quantity'] = Number(formik.values.quantity);
       values['rate'] = Number(formik.values.rate);
       values['bom_configuration_id'] = Number(props.bomId);
-      console.log('values', values);
       let arr = [];
       arr = [...props.bomList, values];
       props.setBomList(arr);
@@ -263,15 +262,15 @@ const BomLabours: React.FC = (props: any) => {
                         'bom_name',
                         matchingObjects[0]?.label
                       );
-                      console.log(
-                        'matchingObjects.data?.rate',
-                        matchingObjects[0].data?.rate
-                      );
 
                       formik.setFieldValue(
                         'rate',
                         matchingObjects[0].data?.rate
                       );
+                    }}
+                    addLabel="Add Labour"
+                    onAddClick={(value) => {
+                      props.showLabourForm(true);
                     }}
                   />
                 </td>

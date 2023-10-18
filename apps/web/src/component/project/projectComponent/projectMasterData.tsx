@@ -153,7 +153,7 @@ const ProjectMasterData: React.FC = (props: any) => {
                             <td>
                                 <div className={Styles.iconStyle}>
                               <EditIcon onClick={() => handleEdit(data?.master_data_id)}/>
-                              <DeleteIcon/>
+                              {/* <DeleteIcon/> */}
                               </div>
                             </td>
                           </tr>

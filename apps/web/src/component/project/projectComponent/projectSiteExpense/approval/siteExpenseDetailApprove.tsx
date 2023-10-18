@@ -23,8 +23,8 @@ import SiteNavigateIcon from '../../../../menu/icons/siteNavigateIcon';
 import PersonIcon from '../../../../menu/icons/personIcon';
 import Button from '../../../../ui/Button';
 import NewViewIcon from '../../../../menu/icons/newViewIcon';
-import NewApproveIcon from 'apps/web/src/component/menu/icons/newApproveIcon';
-import NewRejectIcon from 'apps/web/src/component/menu/icons/newRejectIcon';
+import NewApproveIcon from '../../../../menu/icons/newApproveIcon';
+import NewRejectIcon from '../../../../menu/icons/newRejectIcon';
 
 const ExpenseDetailApprove: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -34,9 +34,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const expenseId = Number(params?.id);
-  console.log('expenseId', expenseId);
   const expenseIdFromProps = props?.expenseID;
-  console.log('expenseIdFromProps', expenseIdFromProps);
 
   const [tableData, setTableData] = useState<any>([]);
   const [value, setValue] = useState(0);
@@ -70,8 +68,6 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
     if (expenseIdFromProps === undefined) {
       const fetchData = async () => {
         const datas = await siteExpenseService.getOnesiteExpenseByID(expenseId);
-        console.log('datas', datas?.data);
-
         setTableData(datas.data);
       };
       fetchData();
@@ -80,8 +76,6 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
         const datas = await siteExpenseService.getOnesiteExpenseByID(
           expenseIdFromProps
         );
-        console.log('datas', datas?.data);
-
         setTableData(datas.data);
       };
       fetchData();

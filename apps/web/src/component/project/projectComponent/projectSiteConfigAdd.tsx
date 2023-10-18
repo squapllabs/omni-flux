@@ -209,6 +209,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
                     formik.touched.approvar_id && formik.errors?.approvar_id
                   }
                   optionList={getAllUsersDatadrop}
+                  disabled={!(props?.mode === 'ADD')}
                 />
               </div>
             </div>
