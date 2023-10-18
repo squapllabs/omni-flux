@@ -445,11 +445,12 @@ const searchProject = async (body) => {
 
 /**
  * Method to get Project By code
- * @param code
+ * @param body
  * @returns
  */
-const getByCode = async (code: string) => {
+const getByCode = async (body) => {
   try {
+    const { code } = body;
     let result = null;
     const projectData = await projectDao.getByCode(code);
     if (projectData) {

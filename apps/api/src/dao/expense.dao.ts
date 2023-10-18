@@ -20,6 +20,7 @@ const add = async (
   status: string,
   total_amount: number,
   expense_details: Array<expenseDetailsBody>,
+  user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -58,6 +59,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        user_id,
       },
     });
 
@@ -133,6 +135,7 @@ const edit = async (
   expense_id: number,
   total_amount: number,
   expense_details: Array<expenseDetailsBody>,
+  user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -163,6 +166,7 @@ const edit = async (
         bill_date: formatted_bill_date,
         updated_by,
         updated_date: currentDate,
+        user_id,
       },
     });
 
@@ -285,6 +289,12 @@ const getById = async (expenseId: number, connectionObj = null) => {
             project_name: true,
           },
         },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
       },
     });
 
@@ -335,6 +345,12 @@ const getAll = async (connectionObj = null) => {
         project_data: {
           select: {
             project_name: true,
+          },
+        },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },
@@ -404,6 +420,12 @@ const searchExpense = async (
         project_data: {
           include: {
             project_member_association: true,
+          },
+        },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },
@@ -492,6 +514,12 @@ const getByProjectIdAndSiteId = async (
         project_data: {
           select: {
             project_name: true,
+          },
+        },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },

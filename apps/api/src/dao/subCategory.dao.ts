@@ -152,11 +152,7 @@ const getAll = async (connectionObj = null) => {
       where: {
         is_delete: false,
       },
-      orderBy: [
-        {
-          updated_date: 'desc',
-        },
-      ],
+      orderBy: [{ created_date: 'asc' }],
       include: {
         category: true,
         project_data: {
@@ -235,6 +231,7 @@ const getAllInActiveSubCategories = async (connectionObj = null) => {
       where: {
         is_delete: true,
       },
+      orderBy: [{ created_date: 'asc' }],
     });
     return subCategory;
   } catch (error) {
@@ -334,6 +331,7 @@ const getByCategoryId = async (category_id: number, connectionObj = null) => {
           select: { name: true },
         },
       },
+      orderBy: [{ created_date: 'asc' }],
     });
     return subCategory;
   } catch (error) {
@@ -384,6 +382,7 @@ const getByCategoryIdAndBomConfigurationId = async (
           select: { name: true },
         },
       },
+      orderBy: [{ created_date: 'asc' }],
     });
 
     const response = subCategory.map((bomDetail) => ({
@@ -492,6 +491,7 @@ const getByParentSubCategoryId = async (
           select: { name: true },
         },
       },
+      orderBy: [{ created_date: 'asc' }],
     });
     const response = subCategory.map((bomDetail) => ({
       ...bomDetail,
