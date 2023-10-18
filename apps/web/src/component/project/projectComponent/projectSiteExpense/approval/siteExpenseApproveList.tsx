@@ -85,7 +85,7 @@ const ExpenseApprove = () => {
   const [message, setMessage] = useState('');
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Waiting Approval', value: 'Pending' },
+    { label: 'Awaiting Approval', value: 'Pending' },
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);

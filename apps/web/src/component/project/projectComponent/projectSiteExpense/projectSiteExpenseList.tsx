@@ -33,7 +33,7 @@ const ProjectSiteExpenseList = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
     { label: 'Draft', value: 'Draft' },
-    { label: 'Waiting Approval', value: 'Pending' },
+    { label: 'Awaiting Approval', value: 'Pending' },
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);
@@ -168,7 +168,7 @@ const ProjectSiteExpenseList = () => {
                     <div className={Styles.amountCards}>
                       <div className={Styles.card1}>
                         <div className={Styles.textStyle}>
-                          <span>Total Invoices</span>
+                          <span>Total Claims</span>
                           <p>
                             {getExpenseList?.expense_statistics?.total_expenses
                               ? getExpenseList?.expense_statistics
@@ -180,14 +180,14 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.approvedStyles}>
-                            Approved Claims
+                            Completed Claims
                           </span>
                           <p>
                             {formatBudgetValue(
                               getExpenseList?.expense_statistics
-                                ?.approved_expenses
+                                ?.completed_expenses
                                 ? getExpenseList?.expense_statistics
-                                    ?.approved_expenses
+                                    ?.completed_expenses
                                 : 0
                             )}
                           </p>
@@ -196,14 +196,14 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.rejectedStyles}>
-                            Rejected Claims
+                            Inprogress Claims
                           </span>
                           <p>
                             {formatBudgetValue(
                               getExpenseList?.expense_statistics
-                                ?.rejected_expenses
+                                ?.inprogress_expenses
                                 ? getExpenseList?.expense_statistics
-                                    ?.rejected_expenses
+                                    ?.inprogress_expenses
                                 : 0
                             )}
                           </p>
@@ -212,7 +212,7 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.pendingStyles}>
-                            Pending Claims
+                            Awaiting Approval Claims
                           </span>
                           <p>
                             {formatBudgetValue(
