@@ -23,6 +23,7 @@ const ProjectSiteExpenseList = () => {
   let rowIndex = 0;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [expenseOpen,setExpenseOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -79,6 +80,9 @@ const ProjectSiteExpenseList = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleExpenseClose = () => {
+    setExpenseOpen(false);
+  }
   const handleEditExpense = (e: any, expenseId: any) => {
     setMode('Edit');
     setOpen(true);
@@ -87,7 +91,7 @@ const ProjectSiteExpenseList = () => {
 
   const handleViewExpense = (expenseId: any) => {
     setExpenseID(expenseId);
-    setOpen(true);
+    setExpenseOpen(true);
   };
 
   useEffect(() => {
@@ -279,7 +283,7 @@ const ProjectSiteExpenseList = () => {
                                           : ''
                                       }`}
                                     >
-                                      {items?.status}
+                                      {items?.status === 'Pending' ? "Waiting for Approval" : (items?.status)}
                                     </span>
                                   </td>
                                   <td>
@@ -378,19 +382,19 @@ const ProjectSiteExpenseList = () => {
               }
               width={'90%'}
             />
-            <CustomSidePopup
-              open={open}
-              handleClose={handleClose}
-              title={'Claim Details'}
-              content={
-                <ExpenseDetailApprove
-                  expenseID={expenseID}
-                  setOpen={setOpen}
-                  open={open}
-                />
-              }
-              width={'90%'}
-            />
+              <CustomSidePopup
+                open={expenseOpen}
+                handleClose={handleExpenseClose}
+                title={'Claim Details'}
+                content={
+                  <ExpenseDetailApprove
+                    expenseID={expenseID}
+                    setOpen={setExpenseOpen}
+                    open={expenseOpen}
+                  />
+                }
+                width={'90%'}
+              />
           </div>
         ) : (
           <div>
