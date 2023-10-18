@@ -25,7 +25,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
   const { mutate: createNewSubCategory } = createInstantSubcategory();
   const { mutate: updateSubcategoryData } = updateSubcategory();
   const [initialValues, setInitialValues] = useState({
-    name: '',
+    name: null,
     description: '',
     project_id: '',
     category_id: '',
@@ -35,9 +35,9 @@ const ProjectTaskAdd: React.FC = (props: any) => {
     actual_budget: '',
     parent_sub_category_id: '',
     estimated_budget : 0,
-    uom_id:'',
-    rate : '',
-    quantity : ''
+    uom_id: null,
+    rate : null,
+    quantity : null
   });
 
   const DropfieldWidth = '150px';
@@ -84,7 +84,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
     onSubmit: (values, { resetForm }) => {
       if (props.mode === 'EDIT') {
         const Object: any = {
-          name: values.name,
+          name: values.name || null,
           description: values.description,
           project_id: props.selectedProject,
           actual_budget: initialValues.actual_budget,
@@ -94,9 +94,9 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           sub_category_id: values.sub_category_id,
           parent_sub_category_id: values.parent_sub_category_id,
           estimated_budget :  values.estimated_budget,
-          uom_id : values.uom_id,
-          rate :  values.rate,
-          quantity :  values.quantity
+          uom_id : values.uom_id || null,
+          rate :  values.rate || null,
+          quantity :  values.quantity || null
 
         };
         console.log('abstract from', Object);

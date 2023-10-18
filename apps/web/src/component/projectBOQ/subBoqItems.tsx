@@ -7,6 +7,8 @@ import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import PlanList from './planList';
+import EditIcon from '../menu/icons/newEditIcon';
+import AddIcon from '../menu/icons/addIcon'
 interface SubBoqItemsProps {
   rowData: any;
   index: any;
@@ -54,6 +56,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+  const primary_color = '#7f56d'
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -111,6 +114,21 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
         <td onClick={(e) => toggleCollapse(rowData.sub_category_id)}>
           {rowData.description}
         </td>
+        <td>
+          <span style={{ textAlign: 'justify' }}>
+            {rowData?.uom_data?.name || '--'}
+          </span>
+        </td>
+        <td>
+          <span style={{ textAlign: 'justify' }}>
+            {rowData.quantity || '--'}
+          </span>
+        </td>
+        <td>
+          <span style={{ textAlign: 'justify' }}>
+            {rowData.rate || '--'}
+          </span>
+        </td>
         <td onClick={(e) => toggleCollapse(rowData.sub_category_id)}>
           {formatBudgetValue(
             rowData?.actual_budget ? rowData?.actual_budget : 0
@@ -143,6 +161,19 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
             name="BoQItems"
           /> */}
           <div className={Styles.iconContainer}>
+
+          <div className={Styles.actionIcons_container}>
+            <span style={{cursor: 'pointer'}}><EditIcon
+              onClick={() => handleEditTask(rowData)}
+            /></span>
+
+            <span 
+            onClick={()=>handleSubTask(rowData)}
+            >
+              <AddIcon width={20} height={20} color={primary_color} />
+            </span>
+            
+          </div>
             <div
               onClick={(e) => {
                 toggleMenu();
@@ -202,7 +233,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
       <div>
         <CustomSidePopup
           open={showSubCategoryForm}
-          title={mode === 'EDIT' ? 'Edit Task' : 'Create New Task'}
+          title={mode === 'EDIT' ? 'Edit Sub Task' : 'Create New Sub Task'}
           handleClose={handleCloseTask}
           content={
             <ProjectTaskAdd

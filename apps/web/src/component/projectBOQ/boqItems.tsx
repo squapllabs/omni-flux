@@ -196,6 +196,7 @@ const BomItems = (props: {
                       onClick: () => {
                         setSelectedSubCategoryId(data.sub_category_id);
                         setPlanListTitle(data.name);
+                        debugger
                         setShowPlanForm(true);
                       },
                       disabled: subChildLength > 0 ? true : false,
@@ -241,30 +242,30 @@ const BomItems = (props: {
                           }
                           }
                         >
-                          <span style={{ textAlign: 'justify' ,cursor:'pointer'}}>
-                            {data.description}
+                          <span style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}>
+                            {data.description || '--'}
                           </span>
                         </td>
                         <td>
                           <span style={{ textAlign: 'justify' }}>
-                            {data?.uom_data?.name}
+                            {data?.uom_data?.name || '--'}
                           </span>
                         </td>
                         <td>
                           <span style={{ textAlign: 'justify' }}>
-                            {data.quantity}
+                            {data.quantity || '--'}
                           </span>
                         </td>
                         <td>
                           <span style={{ textAlign: 'justify' }}>
-                            {data.rate}
+                            {data.rate || '--'}
                           </span>
                         </td>
                         <td>
                           <span style={{ textAlign: 'justify' }}>
-                          {formatBudgetValue(
+                          {data?.estimated_budget ?formatBudgetValue(
                             data?.estimated_budget ? data?.estimated_budget : 0
-                          )}
+                          ):'--'}
                           </span>
                         </td>
 
@@ -278,16 +279,27 @@ const BomItems = (props: {
                             data?.actual_budget ? data?.actual_budget : 0
                           )}
                         </td> */}
-                        <td className={Styles.actionIcons_container}>
+                        <td >
 
+                        <div className={Styles.actionIcons_container}>
                         <span style={{cursor: 'pointer'}}><EditIcon
                             onClick={() =>{  
                             handleEdit(data?.sub_category_id);
                             setSelectedSubCategoryId(data?.sub_category_id);}}
                             /></span>
                           
-                            <AddIcon width={20} height={20} color={primary_color} />
-                          <CustomMenu actions={actions} name="BoQItems" />
+                          <span
+                          onClick={()=>{    
+                            handleSubTask(data?.sub_category_id);
+                              setSelectedSubCategoryId(data?.sub_category_id);}}
+                          >
+                          <AddIcon width={20} height={20} color={primary_color} />
+                          </span>
+                           
+                           <span>  <CustomMenu actions={actions} name="BoQItems" /></span>
+                        </div>
+                        
+                         
                           {/* <span
                             className={Styles.menuText}
                             onClick={toggleMenu}
