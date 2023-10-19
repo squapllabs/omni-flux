@@ -9,20 +9,11 @@ import {
   searchBomConfiguration,
 } from '../../controller/bomConfiguration.controller';
 import { runValidation } from '../../validations/index';
-import {
-  bomConfigurationCreateValidator,
-  bomConfigurationUpdateValidator,
-} from '../../validations/bomConfiguration';
+import { bomConfigurationUpdateValidator } from '../../validations/bomConfiguration';
 
 const router = express.Router();
 
-router.post(
-  '/',
-  authMiddleware,
-  bomConfigurationCreateValidator,
-  runValidation,
-  createBomConfiguration
-);
+router.post('/', authMiddleware, createBomConfiguration);
 
 router.put(
   '/',

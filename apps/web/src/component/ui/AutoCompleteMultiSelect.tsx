@@ -4,6 +4,7 @@ import DropdownIcon from '../menu/icons/dropDownButton';
 import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
 import CloseIcon from '../menu/icons/closeIcon';
 import ClearIcon from '../menu/icons/closeIcon';
+import AddIcon from '../menu/icons/addIcon';
 
 interface InputWrapperProps {
   width?: string;
@@ -36,6 +37,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onSelect: (e: string) => void;
   optionList: Option[];
   defaultLabel: string;
+  addLabel: string;
+  onAddClick: (e: string) => void;
 }
 
 
@@ -166,6 +169,8 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
   onSelect,
   optionList,
   defaultLabel,
+  addLabel,
+  onAddClick,
   ...props
 }) => {
   const shouldShowAsterisk = mandatory; // You can add logic for this if needed
@@ -330,6 +335,28 @@ useEffect(() => {
                 {option.label}
               </li>
             ))}
+            {addLabel != null && (
+              <li
+                value="add"
+                onClick={() => {
+                  setOpen(!open);
+                  onAddClick(value);
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    color: '#7f56d9',
+                    fontSize: '12px',
+                  }}
+                >
+                  <AddIcon color="#7f56d9" width={15} />
+                  {addLabel}
+                </div>
+              </li>
+            )}
           </OptionList>
         </OptionContainer>
       )}

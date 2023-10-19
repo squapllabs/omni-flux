@@ -240,7 +240,7 @@ const PurchaseList = () => {
                       >
                         {data?.priority}
                       </td>
-                      <td>{formatBudgetValue(data?.total_cost)}</td>
+                      <td>{formatBudgetValue(data?.total_cost?data?.total_cost:0)}</td>
                       <td>
                         <div className={Styles.tablerow}>
                           <ViewIcon

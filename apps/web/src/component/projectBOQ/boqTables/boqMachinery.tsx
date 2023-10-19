@@ -287,6 +287,10 @@ const BomMachinery: React.FC = (props: any) => {
                         matchingObjects[0].data?.rate
                       );
                     }}
+                    addLabel="Add Machinery"
+                    onAddClick={(value) => {
+                      props.showMachineryForm(true);
+                    }}
                   />
                 </td>
                 {/* <td>

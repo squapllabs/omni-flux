@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery,useQueryClient,useMutation } from 'react-query';
 import ItemService from '../service/item-service';
 
 const useGetAllItems = () => {
@@ -19,4 +19,18 @@ const useGetAllItemsDrops = () => {
   });
 };
 
-export { useGetAllItems, useGetAllItemsDrops };
+const instantCreateItem = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return ItemService.createItem(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllItemsDrop']);
+      },
+    }
+  );
+};
+
+export { useGetAllItems, useGetAllItemsDrops,instantCreateItem };

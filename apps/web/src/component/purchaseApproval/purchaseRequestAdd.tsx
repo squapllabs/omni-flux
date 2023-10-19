@@ -186,6 +186,14 @@ const PurchaseRequestAdd = () => {
                   onSelect={(value) => {
                     formik.setFieldValue('vendor_id', value);
                   }}
+                  addLabel="Add Vendor"
+                      onAddClick={(value) => {
+                        console.log('onAddClick', value);
+                        navigate('/vendor-add', {
+                          state: { project_id: projectId, indent_id: indentId },
+                        })
+                        // setShowClientForm(true);
+                      }}
                   optionList={getAllVendorsData}
                   disabled={dropDisable}
                 // error={

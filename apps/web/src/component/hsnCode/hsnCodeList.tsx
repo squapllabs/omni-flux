@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Styles from '../../styles/gstList.module.scss';
+import Styles from '../../styles/newStyles/hsnList.module.scss';
 import {
   useDeleteHsnCode,
   uploadHsnCode,

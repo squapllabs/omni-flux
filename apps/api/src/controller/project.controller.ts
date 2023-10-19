@@ -76,7 +76,7 @@ const searchProject = catchAsync(async (req, res) => {
 const checkDuplicateCode = catchAsync(async (req, res) => {
   const methodName = '/checkDuplicateCode';
   try {
-    const project = await projectService.getByCode(req.params.code);
+    const project = await projectService.getByCode(req.body);
     res.send(project);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
