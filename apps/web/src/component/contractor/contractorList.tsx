@@ -145,7 +145,7 @@ const ContractorList = () => {
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
-        {getFilterData?.total_count !== 0 ? (
+        {getFilterData?.is_available ? (
           <div>
             <div className={Styles.container}>
               <div className={Styles.box}>
@@ -277,13 +277,13 @@ const ContractorList = () => {
                                       }
                                     />
                                   </div>
-                                  <div>
+                                  {/* <div>
                                     <DeleteIcon
                                       onClick={() =>
                                         deleteContractor(item.site_contractor_id)
                                       }
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                               </td>
                             )}

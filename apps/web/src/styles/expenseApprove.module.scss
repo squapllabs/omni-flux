@@ -1,304 +1,310 @@
 .box {
-    position: relative;
-    // background-color: #6941c6;
+  position: relative;
+  // background-color: #6941c6;
 }
 
 .box::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: #ccc;
-    position: absolute;
-    bottom: 20;
-    left: 10;
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 20;
+  left: 10;
 }
 
 .textContent_1 {
-    width: 30%;
+  width: 30%;
 }
 
 .headingContent {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0px 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0px 10px 10px;
 }
 
 .pagination {
-    padding-top: 10px;
-    display: flex;
-    justify-content: end;
+  padding-top: 10px;
+  display: flex;
+  justify-content: end;
 }
 
 .searchField {
-    padding: 5px 5px 0px 0px;
-    display: flex;
-    flex-direction: row;
+  padding: 5px 5px 0px 0px;
+  display: flex;
+  flex-direction: row;
 }
 
 .inputFilter {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding-left: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 20px;
 }
 
 .selectRow {
-    display: flex;
-    flex-direction: row;
-    gap: 5%;
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
 }
 
 .filterSelect {
-    width: 30%;
+  width: 30%;
 }
 
 .filterButton {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .searchButton {
-    padding: 12px 20px 12px 20px;
-    border-radius: 8px;
-    border: 1px;
-    gap: 8px;
-    color: #6941c6;
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
 }
 
 .searchButton:hover {
-    background-color: #7f56d9;
-    color: #ffffff;
+  background-color: #7f56d9;
+  color: #ffffff;
 }
 
 .resetButton [disabled] {
-    padding: 12px 20px 12px 20px;
-    border-radius: 8px;
-    border: 1px;
-    gap: 8px;
-    color: black;
-    background-color: #ccc;
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: black;
+  background-color: #ccc;
 }
 
 .resetButton:not([disabled]):hover {
-    background-color: #c4c4c6;
-    color: #ffffff;
+  background-color: #c4c4c6;
+  color: #ffffff;
 }
 
 .tableContainer {
-    padding: 10px;
+  padding: 10px;
 }
 
 .scrollable_table {
-    width: 100%;
-    height: 100%;
-    padding: 10px 10px;
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  /* Adjust padding */
+  gap: 12px;
+  border-collapse: collapse;
+
+  // th,
+  td {
+    padding: 10px 10px 10px 24px;
     /* Adjust padding */
-    gap: 12px;
-    border-collapse: collapse;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    border: none;
+    /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
+  }
 
-    th,
-    td {
-        padding: 10px 10px 10px 24px;
-        /* Adjust padding */
-        text-align: left;
-        font-weight: 500;
-        font-size: 12px;
-        border: none;
-        /* Remove borders */
-        border-bottom: 0.1px solid #f0f0f0;
-    }
+  // td {
+  //     border-bottom: 0.1px solid #f0f0f0;
+  // }
 
-    td {
-        border-bottom: 0.1px solid #f0f0f0;
-    }
-
-    thead {
-        tr {
-            th {
-                color: #667085;
-                font-weight: 700;
-            }
-        }
-    }
+  // thead {
+  //     tr {
+  //         th {
+  //             color: #667085;
+  //             font-weight: 700;
+  //         }
+  //     }
+  // }
 }
 
 .tableIcon {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  cursor: pointer;
 }
 
 .button {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0% 3% 1.5% 0%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0% 3% 1.5% 0%;
 }
 
 .approvedStatus {
-    background-color: #ecfdf3;
-    padding: 4px;
-    border-radius: 50px;
-    color: #027a48;
+  background-color: #ecfdf3;
+  padding: 4px;
+  border-radius: 50px;
+  color: #027a48;
 }
 
 .pendingStatus {
-    background-color: #FDF2FA;
-    padding: 4px;
-    border-radius: 35px;
-    color: #C11574
+  background-color: #fdf2fa;
+  padding: 4px;
+  border-radius: 35px;
+  color: #c11574;
 }
 
 .rejectedStatus {
-    background-color: #FFFAEB;
-    padding: 4px;
-    border-radius: 35px;
-    color: #B54708;
+  background-color: #fffaeb;
+  padding: 4px;
+  border-radius: 35px;
+  color: #b54708;
 }
 
 .draftStatus {
-    background-color: #EFF8FF;
-    padding: 4px;
-    border-radius: 35px;
-    color: #175CD3
+  background-color: #eff8ff;
+  padding: 4px;
+  border-radius: 35px;
+  color: #175cd3;
 }
 
 //EXPENSE DETAIL
 
 .title {
-    padding: 15px 15px 0px 15px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  padding: 15px 15px 0px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .cardContent {
-    padding: 10px 10px 10px 10px;
-    width: 65%;
+  padding: 10px 10px 10px 10px;
+  width: 65%;
 }
 
 .dataRows {
-    display: flex;
-    flex-direction: row;
-    padding-top: 10px;
-    // justify-content: center;
+  display: flex;
+  flex-direction: row;
+  padding-top: 10px;
+  // justify-content: center;
 }
 
 .leftData {
-    font-weight: bold;
-    width: 250px;
+  font-weight: bold;
+  width: 250px;
 }
 
 .rightData {
-    margin-left: 200px;
+  margin-left: 200px;
 }
 
 .dividerStyle {
-    border-bottom: 1px solid black;
-    padding: 15px 15px 0px 10px;
+  border-bottom: 1px solid black;
+  padding: 15px 15px 0px 10px;
 }
 
 .siteList {
-    list-style: none;
-    display: inline;
+  list-style: none;
+  display: inline;
 }
 
 .disabledIcon {
-    cursor: not-allowed;
-    opacity: 0.5;
-    filter: grayscale(100%);
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: grayscale(100%);
 }
 
 .tableContainerBottom {
-    padding: 20px 10px 50px 10px;
+  padding: 20px 10px 50px 10px;
 }
 
 .mainDiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 10px 0px 0px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10px 0px 0px 30px;
 }
 
 .subDiv {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
 }
 
 .textContent_1 {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .projectTitle {
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 18px;
-    letter-spacing: 0em;
-    text-align: left;
-    margin-right: -70px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-right: -70px;
 }
 
 .lineStyles {
-    padding: 8px;
-    display: flex;
+  padding: 8px;
+  display: flex;
 }
 
 .vertical {
-    position: relative;
+  position: relative;
 }
 
 .verticalLine::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 1.5px;
-    /* Adjust the width of the line */
-    background-color: #7a7676;
-    /* Adjust the color as needed */
-    height: 100%;
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  /* Adjust the width of the line */
+  background-color: #7a7676;
+  /* Adjust the color as needed */
+  height: 100%;
 }
 
 .sub_header {
-    height: 10vh;
-    display: flex;
-    justify-content: space-between;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
 }
 
 .boqAmount {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .countContentTitle {
-    font-weight: 400;
-    color: #475467;
-    font-size: 12px;
-    line-height: 18px;
-    letter-spacing: 0em;
-    text-align: left;
+  font-weight: 400;
+  color: #475467;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
 }
 
 .selected {
-    position: relative;
+  position: relative;
 }
 
 .selected::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #d0d5dd;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #d0d5dd;
 }
 
 .completeButton {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 10px 10px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 10px 10px 0px 0px;
+}
+.propCancel {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 250px;
 }

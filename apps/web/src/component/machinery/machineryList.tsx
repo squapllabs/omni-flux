@@ -151,7 +151,7 @@ const MachineryList = () => {
     setOpenDeleteSnack(false);
   };
 
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;  
 
   return (
     <div className={Styles.container}>
@@ -216,7 +216,7 @@ const MachineryList = () => {
             </div>
           </div> */}
           {/* <div className={Styles.dividerStyle}></div> */}
-          {getFilterData?.total_count !== 0 ? (
+          {getFilterData?.is_available ? (
             <div>
               <div className={Styles.topHeading}>
                   <div className={Styles.heading}>
@@ -252,13 +252,13 @@ const MachineryList = () => {
                         }}
                       />
                     </div>
-                    <div>
+                    {/* <div>
                       <CustomGroupButton
                         labels={buttonLabels}
                         onClick={handleGroupButtonClick}
                         activeButton={activeButton}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               <div className={Styles.tableContainer}>
@@ -277,6 +277,7 @@ const MachineryList = () => {
                     <tbody>
                       {getFilterData?.total_count === 0 ? (
                         <tr>
+                          <td></td>
                           <td></td>
                           <td></td>
                           <td>No data found</td>
@@ -300,11 +301,11 @@ const MachineryList = () => {
                                     navigate(`/edit-machinery/${data.machinery_id}`)
                                   }
                                 />
-                                <DeleteIcon
+                                {/* <DeleteIcon
                                   onClick={() =>
                                     deleteMachineryHandler(data.machinery_id)
                                   }
-                                />
+                                /> */}
                               </div>
                             </td>
                           )}

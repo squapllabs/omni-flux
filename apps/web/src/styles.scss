@@ -55,4 +55,39 @@ body {
   --primary-color: #175cd3;
   --secondary-color: #7f56d9;
   --danger-color: #fef3f2;
+
+  /* table color*/
+  --tableHeader-fontColor: #2e2e30;
+  --tableHeader-backgroundColor: #d5d5d7;
+}
+
+.globaltabledata {
+  tr {
+    td {
+      padding: 5px 3px 3px 24px; /* Adjust padding */
+      text-align: left;
+      font-weight: 500;
+      font-size: 12px;
+      border: none; /* Remove borders */
+      border-bottom: 0.1px solid #f0f0f0;
+      border-bottom: 0.1px solid #f0f0f0;
+    }
+  }
+}
+
+.globaltablehead {
+  text-align: left;
+  border: none; /* Remove borders */
+  border-bottom: 0.1px solid #f0f0f0;
+  tr {
+    th {
+      padding: 10px 10px 10px 24px;
+      color: #2e2e30;
+      font-size: 13px;
+      font-weight: 600;
+      background-color: #d5d5d7;
+      border: none;
+      text-transform: uppercase;
+    }
+  }
 }

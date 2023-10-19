@@ -117,7 +117,7 @@ const ProjectList = () => {
           offset: (currentPage - 1) * rowsPerPage,
           order_by_column: 'updated_date',
           order_by_direction: 'desc',
-          global_search:  filterValues?.search_by_name,
+          global_search: filterValues?.search_by_name,
           status: activeButton,
         }
       : {
@@ -135,15 +135,15 @@ const ProjectList = () => {
 
   useEffect(() => {
     // handleSearch();
-    refetch()
+    refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
   useEffect(() => {
     // if (filterValues.search_by_name !== '') {
-      const handleSearch = setTimeout(() => {
-        refetch();
-      }, 1000);
-      return () => clearTimeout(handleSearch);
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
     // }
   }, [filterValues]);
 
@@ -324,14 +324,14 @@ const ProjectList = () => {
               <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
-                    <th className={Styles.tableHeading}>#</th>
-                    <th className={Styles.tableHeading}>Name</th>
-                    <th className={Styles.tableHeading}>Code</th>
-                    <th className={Styles.tableHeading}>Manager</th>
-                    <th className={Styles.tableHeading}>Status</th>
-                    <th className={Styles.tableHeading}>Start Date</th>
-                    <th className={Styles.tableHeading}>End Date</th>
-                    <th className={Styles.tableHeading}>Actions</th>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Manager</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -393,11 +393,17 @@ const ProjectList = () => {
                               />
                               {isProjectEdit && (
                                 <EditIcon
-                                  onClick={() =>
-                                    navigate(
-                                      `/project-edit/${data?.project_id}`
-                                    )
-                                  }
+                                  onClick={() => {
+                                    if (data?.status === 'Draft') {
+                                      navigate(
+                                        `/project-edit-draft/${data?.project_id}`
+                                      );
+                                    } else {
+                                      navigate(
+                                        `/project-edit/${data?.project_id}`
+                                      );
+                                    }
+                                  }}
                                 />
                               )}
 

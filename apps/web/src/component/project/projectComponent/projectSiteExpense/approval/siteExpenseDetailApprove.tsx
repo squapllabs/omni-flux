@@ -23,10 +23,10 @@ import SiteNavigateIcon from '../../../../menu/icons/siteNavigateIcon';
 import PersonIcon from '../../../../menu/icons/personIcon';
 import Button from '../../../../ui/Button';
 import NewViewIcon from '../../../../menu/icons/newViewIcon';
-import NewApproveIcon from 'apps/web/src/component/menu/icons/newApproveIcon';
-import NewRejectIcon from 'apps/web/src/component/menu/icons/newRejectIcon';
+import NewApproveIcon from '../../../../menu/icons/newApproveIcon';
+import NewRejectIcon from '../../../../menu/icons/newRejectIcon';
 
-const ExpenseDetailApprove = () => {
+const ExpenseDetailApprove: React.FC = (props: any) => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID = encryptedData.userId;
@@ -34,6 +34,8 @@ const ExpenseDetailApprove = () => {
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const expenseId = Number(params?.id);
+  const expenseIdFromProps = props?.expenseID;
+
   const [tableData, setTableData] = useState<any>([]);
   const [value, setValue] = useState(0);
   const [openApprove, setOpenApprove] = useState(false);
@@ -63,11 +65,21 @@ const ExpenseDetailApprove = () => {
   let rowindex = 0;
 
   useEffect(() => {
-    const fetchData = async () => {
-      const datas = await siteExpenseService.getOnesiteExpenseByID(expenseId);
-      setTableData(datas.data);
-    };
-    if (expenseId !== undefined) fetchData();
+    if (expenseIdFromProps === undefined) {
+      const fetchData = async () => {
+        const datas = await siteExpenseService.getOnesiteExpenseByID(expenseId);
+        setTableData(datas.data);
+      };
+      fetchData();
+    } else {
+      const fetchData = async () => {
+        const datas = await siteExpenseService.getOnesiteExpenseByID(
+          expenseIdFromProps
+        );
+        setTableData(datas.data);
+      };
+      fetchData();
+    }
   }, [reload]);
 
   useEffect(() => {
@@ -177,11 +189,15 @@ const ExpenseDetailApprove = () => {
   return (
     <div>
       <div>
-        <ProjectSubheader
-          title="Expense Details"
-          navigation={'/site-expense-approve'}
-          description=""
-        />
+        {!props.expenseID ? (
+          <ProjectSubheader
+            title="Claim Details"
+            navigation={'/site-expense-approve'}
+            description=""
+          />
+        ) : (
+          ''
+        )}
       </div>
       <div className={Styles.sub_header}>
         <div style={{ display: 'flex' }}>
@@ -252,6 +268,50 @@ const ExpenseDetailApprove = () => {
             <div className={Styles.countContent}>
               <h3>
                 {formatBudgetValue(
+                  tableData?.approved_total ? tableData?.approved_total : 0
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Approved Amount</span>
+            </div>
+          </div>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '20px 10px 20px 10px',
+            }}
+          >
+            <div className={Styles.countContent}>
+              <h3>
+                {formatBudgetValue(
+                  tableData?.rejected_total ? tableData?.rejected_total : 0
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Rejected Amount</span>
+            </div>
+          </div>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '20px 10px 20px 10px',
+            }}
+          >
+            <div className={Styles.countContent}>
+              <h3>
+                {formatBudgetValue(
                   tableData?.total_amount ? tableData?.total_amount : 0
                 )}
               </h3>
@@ -261,7 +321,9 @@ const ExpenseDetailApprove = () => {
         </div>
       </div>
       <div className={Styles.selected}></div>
-      {tableData?.isEnableComplete !== false ? (
+      {props.expenseID ? (
+        ''
+      ) : tableData?.isEnableComplete !== false ? (
         <div className={Styles.completeButton}>
           <Button
             color="primary"
@@ -272,7 +334,7 @@ const ExpenseDetailApprove = () => {
             onClick={hanldeOpen}
             disabled={tableData?.status === 'Completed'}
           >
-            Complete
+            Review Complete
           </Button>
         </div>
       ) : (
@@ -280,20 +342,23 @@ const ExpenseDetailApprove = () => {
       )}
       <div className={Styles.tableContainerBottom}>
         <table className={Styles.scrollable_table}>
-          <thead>
+          <thead className="globaltablehead">
             <tr>
-              <th className={Styles.tableHeading}>#</th>
-              <th className={Styles.tableHeading}>Description</th>
-              <th className={Styles.tableHeading}>Expense Name</th>
-              <th className={Styles.tableHeading}>Amount</th>
-              <th className={Styles.tableHeading}>Documents</th>
-              <th className={Styles.tableHeading}>Status</th>
-              {tableData?.isEnableComplete === true ? (
+              <th>#</th>
+              <th>Description</th>
+              <th>Expense Name</th>
+              <th>Amount</th>
+              <th>Documents</th>
+              <th>Status</th>
+              {props.expenseID ? (
                 ''
+              ) : tableData?.status === 'InProgress' ? (
+                <th>Action</th>
+              ) : tableData?.status === 'Pending' ? (
+                <th>Action</th>
               ) : (
-                <th className={Styles.tableHeading}>Action</th>
+                ''
               )}
-              {/* <th className={Styles.tableHeading}>Action</th> */}
             </tr>
           </thead>
           <tbody>
@@ -360,11 +425,11 @@ const ExpenseDetailApprove = () => {
                         {data?.status || nullLableNameFromEnv}
                       </span>
                     </td>
-                    {tableData?.isEnableComplete === true ? (
+                    {props.expenseID ? (
                       ''
-                    ) : (
+                    ) : tableData?.status === 'InProgress' ? (
                       <td className={Styles.tableIcon}>
-                        <NewViewIcon />
+                        {/* <NewViewIcon /> */}
                         <NewApproveIcon
                           onClick={() =>
                             approveHandler(data.expense_details_id)
@@ -374,6 +439,20 @@ const ExpenseDetailApprove = () => {
                           onClick={() => rejectHandler(data.expense_details_id)}
                         />
                       </td>
+                    ) : tableData?.status === 'Pending' ? (
+                      <td className={Styles.tableIcon}>
+                        {/* <NewViewIcon /> */}
+                        <NewApproveIcon
+                          onClick={() =>
+                            approveHandler(data.expense_details_id)
+                          }
+                        />
+                        <NewRejectIcon
+                          onClick={() => rejectHandler(data.expense_details_id)}
+                        />
+                      </td>
+                    ) : (
+                      ''
                     )}
                   </tr>
                 );
@@ -381,6 +460,20 @@ const ExpenseDetailApprove = () => {
             })}
           </tbody>
         </table>
+        {props.expenseID && (
+          <div className={Styles.propCancel}>
+            <Button
+              type="button"
+              color="secondary"
+              shape="rectangle"
+              size="small"
+              justify="center"
+              onClick={() => props.setOpen(false)}
+            >
+              Close
+            </Button>
+          </div>
+        )}
       </div>
       <ApproveDialogBox
         open={openApprove}

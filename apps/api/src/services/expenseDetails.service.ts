@@ -52,12 +52,15 @@ const updateStatus = async (body: expenseDetailsBody) => {
         // const expenseDetailsByExpenseId =
         //   await expenseDetailsDao.getByExpenseId(expense_id, prisma);
 
-        let dbExpense = await expenseDao.getByIdWithOutChild(expense_id, prisma);
+        let dbExpense = await expenseDao.getByIdWithOutChild(
+          expense_id,
+          prisma
+        );
 
         if (dbExpense.status === 'Pending') {
           dbExpense = await expenseDao.updateStatus(
             'InProgress',
-            'Some of the respective child expense details has been rejected',
+            'Some of the respective child expense details are Pending',
             progressed_by,
             updated_by,
             expense_id,

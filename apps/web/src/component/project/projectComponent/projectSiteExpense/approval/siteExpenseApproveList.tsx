@@ -22,6 +22,7 @@ import CustomMenu from '../../../../ui/CustomMenu';
 import projectSettingsService from '../../../../../service/projectSettings-service';
 import ViewIcon from '../../../../menu/icons/newViewIcon';
 
+
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -82,10 +83,9 @@ const ExpenseApprove = () => {
   const [expenseList, setExpenseList] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const [selectShow, setSelectShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Waiting for Approval', value: 'Pending' },
+    { label: 'Awaiting Approval', value: 'Pending' },
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);
@@ -264,7 +264,7 @@ const ExpenseApprove = () => {
   } = useGetAllPaginatedExpense(demo);
 
   useEffect(() => {
-    refetch();
+    refetch();  
   }, [currentPage, rowsPerPage, activeButton]);
 
   useEffect(() => {
@@ -280,7 +280,7 @@ const ExpenseApprove = () => {
         <div className={Styles.box}>
           <ProjectSubheader
             navigation={'/home'}
-            title="Expense Approval for Site"
+            title="Claim Approval for Site"
             description="Review and authorization of expenses incurred at a designated site"
           />
         </div>
@@ -298,48 +298,43 @@ const ExpenseApprove = () => {
                     setFilterValue({ ['project_id']: value });
                     fetchProjectSiteData(value);
                     fetchMemberData(value);
-                    setSelectShow(true);
                     setCurrentPage(1);
                   }}
                   width="90%"
                 />
               </div>
-              {filterValue.project_id && selectShow === true ? (
-                <div className={Styles.selectRow}>
-                  <div className={Styles.selectDrop}>
-                    <AutoCompleteSelect
-                      name="site_id"
-                      label="Site"
-                      placeholder="Select Site"
-                      optionList={siteData}
-                      onSelect={(value) => {
-                        setSiteValue({ site_id: value });
-                      }}
-                      width="200px"
-                    />
-                  </div>
-                  <div className={Styles.selectDrop}>
-                    <AutoCompleteSelect
-                      name="project_member_id"
-                      label="Project Member"
-                      placeholder="Select Project Member"
-                      optionList={projectMemberData}
-                      onSelect={(value) => {
-                        setMemberValue({ project_member_id: value });
-                        const matchingObjects = projectMemberData.filter(
-                          (obj: any) => Number(obj.value) === Number(value)
-                        );
-                        setMemberValue({
-                          project_member_name: matchingObjects[0].label,
-                        });
-                      }}
-                      width="200px"
-                    />
-                  </div>
+              <div className={Styles.selectRow}>
+                <div className={Styles.selectDrop}>
+                  <AutoCompleteSelect
+                    name="site_id"
+                    label="Site"
+                    placeholder="Select Site"
+                    optionList={siteData}
+                    onSelect={(value) => {
+                      setSiteValue({ site_id: value });
+                    }}
+                    width="200px"
+                  />
                 </div>
-              ) : (
-                ''
-              )}
+                <div className={Styles.selectDrop}>
+                  <AutoCompleteSelect
+                    name="project_member_id"
+                    label="Project Member"
+                    placeholder="Select Project Member"
+                    optionList={projectMemberData}
+                    onSelect={(value) => {
+                      setMemberValue({ project_member_id: value });
+                      const matchingObjects = projectMemberData.filter(
+                        (obj: any) => Number(obj.value) === Number(value)
+                      );
+                      setMemberValue({
+                        project_member_name: matchingObjects[0].label,
+                      });
+                    }}
+                    width="200px"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className={Styles.button}>
@@ -350,19 +345,19 @@ const ExpenseApprove = () => {
             />
           </div>
           <table className={Styles.scrollable_table}>
-            <thead>
+            <thead className="globaltablehead">
               <tr>
-                <th className={Styles.tableHeading}>#</th>
-                <th className={Styles.tableHeading}>Expense Code</th>
-                <th className={Styles.tableHeading}>Project</th>
-                <th className={Styles.tableHeading}>Site</th>
-                <th className={Styles.tableHeading}>Added By</th>
-                <th className={Styles.tableHeading}>Amount</th>
-                <th className={Styles.tableHeading}>Status</th>
-                <th className={Styles.tableHeading}>Action</th>
+                <th>#</th>
+                <th>Expense Code</th>
+                <th>Project</th>
+                <th>Site</th>
+                <th>Added By</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="globaltablebody">
               {initialData?.content?.length === 0 ? (
                 <tr>
                   <td colSpan="7" style={{ textAlign: 'center' }}>
@@ -423,8 +418,6 @@ const ExpenseApprove = () => {
                               ? Styles.pendingStatus
                               : items?.status === 'InProgress'
                               ? Styles.rejectedStatus
-                              : items?.status === 'Approved'
-                              ? Styles.approvedStatus
                               : items?.status === 'Draft'
                               ? Styles.draftStatus
                               : items?.status === 'Completed'

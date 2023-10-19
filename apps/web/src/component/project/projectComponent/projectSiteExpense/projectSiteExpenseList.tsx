@@ -15,12 +15,15 @@ import EditIcon from '../../../menu/icons/newEditIcon';
 import CustomLoader from '../../../ui/customLoader';
 import CustomPagination from '../../../menu/CustomPagination';
 import { formatBudgetValue } from '../../../../helper/common-function';
+import ViewIcon from '../../../menu/icons/newViewIcon';
+import ExpenseDetailApprove from './approval/siteExpenseDetailApprove';
 
 const ProjectSiteExpenseList = () => {
   const routeParams = useParams();
   let rowIndex = 0;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [expenseOpen,setExpenseOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -29,10 +32,10 @@ const ProjectSiteExpenseList = () => {
   const [reload, setReload] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Approved', value: 'Approved' },
-    { label: 'Pending', value: 'Pending' },
-    { label: 'Rejected', value: 'Rejected' },
     { label: 'Draft', value: 'Draft' },
+    { label: 'Awaiting Approval', value: 'Pending' },
+    { label: 'InProgress', value: 'InProgress' },
+    { label: 'Completed', value: 'Completed' },
   ]);
 
   const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
@@ -77,11 +80,20 @@ const ProjectSiteExpenseList = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleExpenseClose = () => {
+    setExpenseOpen(false);
+  }
   const handleEditExpense = (e: any, expenseId: any) => {
     setMode('Edit');
     setOpen(true);
     setExpenseID(expenseId);
   };
+
+  const handleViewExpense = (expenseId: any) => {
+    setExpenseID(expenseId);
+    setExpenseOpen(true);
+  };
+
   useEffect(() => {
     handleSearch();
   }, [
@@ -99,7 +111,7 @@ const ProjectSiteExpenseList = () => {
           <div>
             <div className={Styles.topHeading}>
               <MoneyIcon color="black" />
-              <span>Site Expenses for</span>
+              <span>Site Claim for</span>
               <div>
                 {getSiteList && (
                   <AutoCompleteSelect
@@ -143,7 +155,7 @@ const ProjectSiteExpenseList = () => {
                       setMode('Add');
                     }}
                   >
-                    Add Expense
+                    Add Claim
                   </Button>
                 )}
               </div>
@@ -156,7 +168,7 @@ const ProjectSiteExpenseList = () => {
                     <div className={Styles.amountCards}>
                       <div className={Styles.card1}>
                         <div className={Styles.textStyle}>
-                          <span>Total Invoices</span>
+                          <span>Total Claims</span>
                           <p>
                             {getExpenseList?.expense_statistics?.total_expenses
                               ? getExpenseList?.expense_statistics
@@ -168,14 +180,14 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.approvedStyles}>
-                            Approved Expenses
+                            Completed Claims
                           </span>
                           <p>
                             {formatBudgetValue(
                               getExpenseList?.expense_statistics
-                                ?.approved_expenses
+                                ?.completed_expenses
                                 ? getExpenseList?.expense_statistics
-                                    ?.approved_expenses
+                                    ?.completed_expenses
                                 : 0
                             )}
                           </p>
@@ -184,14 +196,14 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.rejectedStyles}>
-                            Rejected Expenses
+                            Inprogress Claims
                           </span>
                           <p>
                             {formatBudgetValue(
                               getExpenseList?.expense_statistics
-                                ?.rejected_expenses
+                                ?.inprogress_expenses
                                 ? getExpenseList?.expense_statistics
-                                    ?.rejected_expenses
+                                    ?.inprogress_expenses
                                 : 0
                             )}
                           </p>
@@ -200,7 +212,7 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.card2}>
                         <div className={Styles.textStyle}>
                           <span className={Styles.pendingStyles}>
-                            Pending Expenses
+                            Awaiting Approval Claims
                           </span>
                           <p>
                             {formatBudgetValue(
@@ -232,11 +244,7 @@ const ProjectSiteExpenseList = () => {
                           <th className={Styles.tableHeading}>Site</th>
                           <th className={Styles.tableHeading}>Status</th>
                           <th className={Styles.tableHeading}>Amount</th>
-                          {activeButton === 'All' ||
-                          activeButton === 'Rejected' ||
-                          activeButton === 'Draft' ? (
-                            <th className={Styles.tableHeading}>Action</th>
-                          ) : null}
+                          <th className={Styles.tableHeading}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -264,16 +272,18 @@ const ProjectSiteExpenseList = () => {
                                       className={`${Styles.status} ${
                                         items?.status === 'Pending'
                                           ? Styles.pendingStatus
-                                          : items?.status === 'Rejected'
+                                          : items?.status === 'InProgress'
                                           ? Styles.rejectedStatus
                                           : items?.status === 'Approved'
                                           ? Styles.approvedStatus
                                           : items?.status === 'Draft'
                                           ? Styles.draftStatus
+                                          : items?.status === 'Completed'
+                                          ? Styles.approvedStatus
                                           : ''
                                       }`}
                                     >
-                                      {items?.status}
+                                      {items?.status === 'Pending' ? "Waiting for Approval" : (items?.status)}
                                     </span>
                                   </td>
                                   <td>
@@ -284,8 +294,7 @@ const ProjectSiteExpenseList = () => {
                                     )}
                                   </td>
                                   <td>
-                                    {items?.status === 'Rejected' ||
-                                    items?.status === 'Draft' ? (
+                                    {items?.status === 'Draft' ? (
                                       <div
                                         style={{ cursor: 'pointer' }}
                                         onClick={(e) => {
@@ -298,7 +307,14 @@ const ProjectSiteExpenseList = () => {
                                         <EditIcon />
                                       </div>
                                     ) : (
-                                      ''
+                                      <div
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={(e) => {
+                                          handleViewExpense(items.expense_id);
+                                        }}
+                                      >
+                                        <ViewIcon />
+                                      </div>
                                     )}
                                   </td>
                                 </tr>
@@ -339,7 +355,7 @@ const ProjectSiteExpenseList = () => {
                       setMode('Add');
                     }}
                   >
-                    Add Expense
+                    Add Claim
                   </Button>
                 </div>
               )}
@@ -347,7 +363,7 @@ const ProjectSiteExpenseList = () => {
             <CustomSidePopup
               open={open}
               handleClose={handleClose}
-              title={'Add/Edit Site Expense'}
+              title={mode === 'Edit' ? 'Edit Site Claims ' : 'Add Site Claims'}
               content={
                 <ProjectSiteExpenseForm
                   projectId={routeParams?.id}
@@ -366,12 +382,25 @@ const ProjectSiteExpenseList = () => {
               }
               width={'90%'}
             />
+              <CustomSidePopup
+                open={expenseOpen}
+                handleClose={handleExpenseClose}
+                title={'Claim Details'}
+                content={
+                  <ExpenseDetailApprove
+                    expenseID={expenseID}
+                    setOpen={setExpenseOpen}
+                    open={expenseOpen}
+                  />
+                }
+                width={'90%'}
+              />
           </div>
         ) : (
           <div>
             <div className={Styles.subHeading}>
               <MoneyIcon width={30} height={30} color="black" />
-              <h3>SITE EXPENSES</h3>
+              <h3>SITE Claim</h3>
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>

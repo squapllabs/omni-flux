@@ -158,7 +158,7 @@ const UomList = () => {
           size={48}
           color="#333C44"
         >
-          {initialData?.total_count !== 0 ? (
+          {initialData?.is_available ? (
             <div>
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>
@@ -268,11 +268,11 @@ const UomList = () => {
                                       <EditIcon
                                         onClick={() => handleEdit(data.uom_id)}
                                       />
-                                      <DeleteIcon
+                                      {/* <DeleteIcon
                                         onClick={() =>
                                           deleteCategoryHandler(data.uom_id)
                                         }
-                                      />
+                                      /> */}
                                     </div>
                                   </td>
                                 </tr>
@@ -298,11 +298,11 @@ const UomList = () => {
                                   <EditIcon
                                     onClick={() => handleEdit(data.uom_id)}
                                   />
-                                  <DeleteIcon
+                                  {/* <DeleteIcon
                                     onClick={() =>
                                       deleteCategoryHandler(data.uom_id)
                                     }
-                                  />
+                                  /> */}
                                 </div>
                               </td>
                             </tr>

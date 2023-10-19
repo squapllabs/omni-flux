@@ -130,27 +130,36 @@ const searchLabour = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterLabour;
-    const labour = await transaction.labour.findMany({
-      where: filter,
-      include: {
-        uom: true,
+    const getData = await transaction.labour.findMany({
+      where: {
+        is_delete: filter.is_delete,
       },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
+    });
+    if (getData.length > 0) {
+      const labour = await transaction.labour.findMany({
+        where: filter,
+        include: {
+          uom: true,
         },
-      ],
-      skip: offset,
-      take: limit,
-    });
-    const labourCount = await transaction.labour.count({
-      where: filter,
-    });
-    const labourData = {
-      count: labourCount,
-      data: labour,
-    };
-    return labourData;
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const labourCount = await transaction.labour.count({
+        where: filter,
+      });
+      const labourData = {
+        count: labourCount,
+        data: labour,
+      };
+      return labourData;
+    } else {
+      return getData;
+    }
   } catch (error) {
     console.log('Error occurred in labour dao : searchLabour', error);
     throw error;

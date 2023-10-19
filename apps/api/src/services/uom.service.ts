@@ -229,14 +229,34 @@ const searchUom = async (body) => {
     const count = result.count;
     const data = result.data;
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempUomData = {
-      message: 'success',
-      status: true,
-      total_count: count,
-      total_page: total_pages,
-      content: data,
-    };
-    return tempUomData;
+    if (result.count > 0) {
+      const tempUomData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempUomData;
+    } else if (result.count === 0) {
+      const tempUomData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempUomData;
+    } else {
+      const tempUomData = {
+        message: 'fail',
+        status: true,
+        is_available: false,
+      };
+      return tempUomData;
+    }
   } catch (error) {
     console.log('Error occurred in Uom service : searchUom', error);
     throw error;

@@ -6,6 +6,8 @@ const getAllProject = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/project/getAll`
     );
+    console.log("response.data",response.data);
+    
     return response.data;
   } catch (error) {
     console.log('Error in getting all project data:', error);
@@ -53,9 +55,12 @@ const createProjectData = async (values: JSON) => {
 
 const checkProjectCodeDuplicate = async (values: any) => {
   const data = values.toUpperCase();
+  const body = {
+    code:data
+  }
   try {
-    const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/project/check-duplicate-code/${data}`
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/project/check-duplicate-code/`,body
     );
     return response.data;
   } catch (error) {

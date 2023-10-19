@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Styles from '../../styles/addItem.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Button from '../ui/Button';
-import { useNavigate, useParams } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 import Input from '../ui/Input';
@@ -13,36 +12,24 @@ import { useGetAllBrandForDrop } from '../../hooks/item-type-hooks';
 import { useGetAllGstForDrop } from '../../hooks/gst-hooks';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useGetAllHsnForDrop } from '../../hooks/hsnCode-hooks';
-import { createItem, updateItem } from '../../hooks/add-product-hooks';
+import { instantCreateItem } from '../../hooks/item-hooks';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
-import addProduct from '../../service/add-product';
-import {
-  getCreateValidateyup,
-  getUpdateValidateyup,
-} from '../../helper/constants/item-constants';
-import ProjectSubheader from '../project/projectSubheader';
+import { getCreateValidateyup } from '../../helper/constants/item-constants';
 
-const ProductAdd = () => {
+const InstantItemAdd = (props: {
+  isVissible: any;
+  onAction: any;
+  setMessage: any;
+  setOpenSnack: any;
+}) => {
+  const { onAction, setMessage, setOpenSnack } = props;
   const { data: getAllItemTypeList = [] } = getBymasertDataType('IMTY');
   const { data: getAllGstList = [] } = useGetAllGstForDrop();
   const { data: getAllUomList = [] } = useGetAllUomDrop();
   const { data: getAllHsnList = [] } = useGetAllHsnForDrop();
   const { data: getAllBrandList = [] } = useGetAllBrandForDrop();
-  const { mutate: createNewItem } = createItem();
-  const { mutate: upateOneItem } = updateItem();
-  const routeParams = useParams();
-  const validationSchema =
-    routeParams?.id === undefined
-      ? getCreateValidateyup(Yup)
-      : getUpdateValidateyup(Yup);
-  const navigate = useNavigate();
-  const [openSnack, setOpenSnack] = useState(false);
-  const [message, setMessage] = useState('');
-
-  const [disable, setDisable] = useState(
-    routeParams?.id !== undefined ? true : false
-  );
-
+  const { mutate: createNewItem } = instantCreateItem();
+  const validationSchema = getCreateValidateyup(Yup);
   const [initialValues, setInitialValues] = useState({
     item_id: '',
     item_name: '',
@@ -54,96 +41,39 @@ const ProductAdd = () => {
     brand_id: '',
     rate: '',
   });
-
-  useEffect(() => {
-    if (Number(routeParams?.id)) {
-      const fetchOne = async () => {
-        const data = await addProduct.getOneByItemID(Number(routeParams?.id));
-        setInitialValues({
-          item_id: data?.data?.item_id,
-          item_name: data?.data?.item_name,
-          description: data?.data?.description,
-          hsn_code_id: data?.data?.hsn_code_id,
-          gst_id: data?.data?.gst_id,
-          uom_id: data?.data?.uom_id,
-          item_type_id: data?.data?.item_type_id,
-          brand_id: data?.data?.brand_id,
-          rate: data?.data?.rate,
-        });
-      };
-      fetchOne();
-    }
-  }, [routeParams?.id]);
-
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      if (Number(routeParams?.id)) {
-        const Object: any = {
-          item_id: values.item_id,
-          item_name: values.item_name,
-          description: values.description,
-          item_type_id: Number(values.item_type_id),
-          gst_id: Number(values.gst_id),
-          uom_id: Number(values.uom_id),
-          hsn_code_id: Number(values.hsn_code_id),
-          brand_id: Number(values.brand_id),
-          rate: Number(values.rate),
-        };
-        upateOneItem(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.message === 'success') {
-              setMessage('Item Edited');
-              setOpenSnack(true);
-              setTimeout(() => {
-                navigate('/products');
-              }, 1000);
-            }
-          },
-        });
-      } else {
-        const Object: any = {
-          item_name: values.item_name,
-          description: values.description,
-          item_type_id: Number(values.item_type_id),
-          gst_id: Number(values.gst_id),
-          uom_id: Number(values.uom_id),
-          hsn_code_id: Number(values.hsn_code_id),
-          brand_id: Number(values.brand_id),
-          rate: Number(values.rate),
-        };
-        createNewItem(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.message === 'success') {
-              setMessage('Item Added');
-              setOpenSnack(true);
-              setTimeout(() => {
-                navigate('/settings');
-              }, 1000);
-            }
-          },
-        });
-      }
+      const Object: any = {
+        item_name: values.item_name,
+        description: values.description,
+        item_type_id: Number(values.item_type_id),
+        gst_id: Number(values.gst_id),
+        uom_id: Number(values.uom_id),
+        hsn_code_id: Number(values.hsn_code_id),
+        brand_id: Number(values.brand_id),
+        rate: Number(values.rate),
+      };
+      createNewItem(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.message === 'success') {
+            setMessage('Item Added');
+            setOpenSnack(true);
+            handleCloseForm();
+          }
+        },
+      });
     },
   });
 
-  const handleSnackBarClose = () => {
-    setOpenSnack(false);
+  const handleCloseForm = () => {
+    onAction(false);
+    formik.resetForm();
   };
-
   return (
     <div className={Styles.container}>
-      <ProjectSubheader
-        navigation={'/settings'}
-        description={
-          routeParams?.id === undefined
-            ? 'Add your raw materials (Raw, Semi Finished & Finished).'
-            : 'Edit your raw materials (Raw, Semi Finished & Finished).'
-        }
-        title={routeParams?.id === undefined ? 'Add Item' : 'Edit Item'}
-      />
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.itemField}>
@@ -156,7 +86,6 @@ const ProductAdd = () => {
                   mandatory={true}
                   value={formik.values.item_name}
                   onChange={formik.handleChange}
-                  disabled={disable}
                   error={formik.touched.item_name && formik.errors.item_name}
                 />
               </div>
@@ -171,7 +100,6 @@ const ProductAdd = () => {
                   error={
                     formik.touched.item_type_id && formik.errors.item_type_id
                   }
-                  disabled={disable}
                   placeholder="Select from options"
                 >
                   {getAllItemTypeList?.map((option: any) => (
@@ -245,7 +173,6 @@ const ProductAdd = () => {
                   }}
                   optionList={getAllUomList}
                   mandatory={true}
-                  disabled={disable}
                 />
               </div>
             </div>
@@ -266,7 +193,6 @@ const ProductAdd = () => {
                   }}
                   optionList={getAllHsnList}
                   mandatory={true}
-                  disabled={disable}
                 />
               </div>
               <div style={{ width: '30%' }}>
@@ -289,6 +215,17 @@ const ProductAdd = () => {
           <div className={Styles.buttonFields}>
             <div>
               <Button
+                className={Styles.cancelButton}
+                shape="rectangle"
+                justify="center"
+                size="small"
+                onClick={handleCloseForm}
+              >
+                Cancel
+              </Button>
+            </div>
+            <div>
+              <Button
                 color="primary"
                 shape="rectangle"
                 justify="center"
@@ -301,14 +238,8 @@ const ProductAdd = () => {
           </div>
         </form>
       </div>
-      <CustomSnackBar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        autoHideDuration={1000}
-        type="success"
-      />
     </div>
   );
 };
-export default ProductAdd;
+
+export default InstantItemAdd;

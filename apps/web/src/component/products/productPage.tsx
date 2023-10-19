@@ -209,7 +209,7 @@ const ProductPage = () => {
             </div>
           </div>
         </div> */}
-        {getFilterData?.total_count !== 0 ? (
+        {getFilterData?.is_available ? (
           <div>
             <div className={Styles.topHeading}>
               <div className={Styles.heading}>
@@ -265,13 +265,13 @@ const ProductPage = () => {
                     }}
                   />
                 </div>
-                <div className={Styles.groupButton}>
+                {/* <div className={Styles.groupButton}>
                   <CustomGroupButton
                     labels={buttonLabels}
                     onClick={handleGroupButtonClick}
                     activeButton={activeButton}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -336,6 +336,7 @@ const ProductPage = () => {
                 <tbody>
                   {getFilterData?.total_count === 0 ? (
                     <tr>
+                      <td></td>
                       <td></td>
                       <td></td>
                       <td>No data found</td>

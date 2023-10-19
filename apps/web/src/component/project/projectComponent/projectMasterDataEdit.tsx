@@ -126,6 +126,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
                   formik.errors.master_data_type
                 }
                 width="185%"
+                disabled={props.mode === 'EDIT'}
               />
             </div>
             <div className={Styles.field}>

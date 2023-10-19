@@ -239,18 +239,37 @@ const searchCapability = async (body) => {
       order_by_direction,
       filterObj
     );
-
     const count = result.count;
     const data = result.data;
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempCapabilityData = {
-      message: 'success',
-      status: true,
-      total_count: count,
-      total_page: total_pages,
-      content: data,
-    };
-    return tempCapabilityData;
+    if (result.count > 0) {
+      const tempCapabilityData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempCapabilityData;
+    } else if (result.count === 0) {
+      const tempCapabilityData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempCapabilityData;
+    } else {
+      const tempCapabilityData = {
+        message: 'fail',
+        status: true,
+        is_available: false,
+      };
+      return tempCapabilityData;
+    }
   } catch (error) {
     console.log(
       'Error occurred in searchCapability capability service : ',

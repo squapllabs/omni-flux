@@ -32,10 +32,11 @@ import {
   getCreateValidateyup,
   getEditValidateyup,
 } from '../../helper/constants/project-constants';
-
+import CustomSidePopup from '../ui/CustomSidePopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import SelectInput from '@mui/material/Select/SelectInput';
+import ProjectSubheader from './projectSubheader';
 
 const ProjectGeneralDetails: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -86,6 +87,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     useGetMasterProjectParentType();
   const { mutate: createNewProjectData } = createProject();
   const { mutate: updateProjectData } = updateProject();
+  const handleClientFormClose = () => {
+    setShowClientForm(false);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -101,7 +106,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         project_type: getData?.data?.project_type,
         approvar_id: getData?.data?.approvar_id,
         estimated_budget: getData?.data?.estimated_budget,
-        actual_budget: getData?.data?.actual_budget,
+        actual_budget:
+          getData?.data?.actual_budget === 0
+            ? ''
+            : getData?.data?.actual_budget,
         description: getData?.data?.description,
         project_notes: getData?.data?.project_notes,
         site_configuration: getData?.data?.site_configuration,
@@ -147,6 +155,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     code: yup
       .string()
       .required('Project code is required')
+      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
@@ -188,6 +197,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       ),
   });
   const validateSchemaEdit = yup.object().shape({
+    project_id: yup.number().required(),
     project_name: yup.string().required('Project name is required'),
     user_id: yup.string().trim().required('Project manager is required'),
     approvar_id: yup.string().trim().required('Approver is required'),
@@ -195,6 +205,34 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       .string()
       .trim()
       .required('Project client/customer is required'),
+    code: yup
+      .string()
+      .required('Project code is required')
+      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
+      .test(
+        'code-availability',
+        'Code is already present',
+        async (value: any, { parent }: yup.TestContext) => {
+          const ProjectId = parent.project_id;
+          if (value) {
+            const response = await projectService.checkProjectCodeDuplicate(
+              value
+            );
+            if (
+              response?.is_exist === true &&
+              response?.data?.project_id === ProjectId
+            ) {
+              return true;
+            } else {
+              if (response?.is_exist === false) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+          }
+        }
+      ),
     estimated_budget: yup
       .number()
       .min(1, 'Value must be greater than 0')
@@ -248,14 +286,17 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         createNewProjectData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.status === true) {
-              setMessage('Project created');
-              setOpenSnack(true);
-              // props.setLoader(!props.loader);
+              // setMessage('Project created');
+              // setOpenSnack(true);
               if (data?.data?.project?.status === 'Draft') {
+                setMessage('Project draft created');
+                setOpenSnack(true);
                 setTimeout(() => {
                   navigate('/project-list');
                 }, 1000);
               } else {
+                setMessage('Project created');
+                setOpenSnack(true);
                 setTimeout(() => {
                   navigate(`/project-edit/${data?.data?.project?.project_id}`);
                   props.setLoader(props.loader);
@@ -268,14 +309,18 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         updateProjectData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.status === true) {
-              setMessage('Project updated');
-              setOpenSnack(true);
-              props.setLoader(!props.loader);
+              // setMessage('Project updated');
+              // setOpenSnack(true);
+              // props.setLoader(!props.loader);
               if (data?.data?.project?.status === 'Draft') {
+                setMessage('Project draft updated');
+                setOpenSnack(true);
                 setTimeout(() => {
                   navigate('/project-list');
                 }, 1000);
               } else {
+                setMessage('Project updated');
+                setOpenSnack(true);
                 setTimeout(() => {
                   navigate(`/project-edit/${data?.data?.project?.project_id}`);
                   props.setLoader(props.loader);
@@ -290,12 +335,20 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   return (
     <div>
       {/* HEADER */}
-      <div className={Styles.topHeading}>
+      {/* <div className={Styles.topHeading}>
         <div>
           <h3>NEW PROJECT</h3>
         </div>
-      </div>
-
+      </div> */}
+      <ProjectSubheader
+        title={
+          routeParams?.id === undefined
+            ? 'NEW PROJECT'
+            : formik.values.project_name
+        }
+        description="Create your Project with mandatory Details"
+        navigation="/project-list"
+      />
       {/* DIVIDER */}
       <div className={Styles.dividerStyle}></div>
 
@@ -361,11 +414,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     value={formik.values.code}
                     onChange={formik.handleChange}
                     error={formik.touched.code && formik.errors.code}
-                    disabled={routeParams?.id === undefined ? false : true}
+                    // disabled={routeParams?.id === undefined ? false : true}
                   />
                 </div>
                 <div className={Styles.clientInstantAdd}>
-                  <div style={{ width: '60%' }}>
+                  <div style={{ width: '100%' }}>
                     <AutoCompleteSelect
                       name="client_id"
                       label="Client / Customer"
@@ -380,16 +433,22 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                       onSelect={(value) => {
                         formik.setFieldValue('client_id', value);
                       }}
+                      addLabel="Add Client"
+                      onAddClick={(value) => {
+                        console.log('onAddClick', value);
+
+                        setShowClientForm(true);
+                      }}
                       optionList={getAllClientDatadrop}
                     />
                   </div>
-                  <div
-                    className={Styles.clientNewAddMain}
-                    onClick={handleOpenClientForm}
-                  >
-                    <AddIcon style={{ height: '13px', width: '20px' }} />
-                    <h4 className={Styles.addtext}>New client</h4>
-                  </div>
+                  {/* <div
+                      className={Styles.clientNewAddMain}
+                      onClick={handleOpenClientForm}
+                    >
+                      <AddIcon style={{ height: '15px', width: '15px' }} />
+                      <h4 className={Styles.addtext}>New client</h4>
+                    </div> */}
                 </div>
               </div>
               <div className={Styles.subOneChildThree}>
@@ -569,10 +628,18 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         </div>
       </form>
       <div>
-        <CustomClientAdd
-          isVissible={showClientForm}
-          onAction={setShowClientForm}
+        <CustomSidePopup
+          open={showClientForm}
+          title={'Add Client'}
+          handleClose={handleClientFormClose}
+          content={
+            <CustomClientAdd
+              isVissible={showClientForm}
+              onAction={setShowClientForm}
+            />
+          }
         />
+
         <CustomConfirm
           open={openConfirm}
           title="Confirm Submit"

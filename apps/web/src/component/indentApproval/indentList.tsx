@@ -16,6 +16,7 @@ import ReportGenerator from '../reportGenerator/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import ProjectSubheader from '../project/projectSubheader';
+import { environment } from '../../environment/environment';
 
 const IndentList = () => {
   const navigate = useNavigate();
@@ -110,6 +111,7 @@ const IndentList = () => {
     handleSearch();
   }, [currentPage, rowsPerPage,activeButton]);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   return (
     <div className={Styles.container}>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -210,8 +212,8 @@ const IndentList = () => {
                           'MMM dd, yyyy'
                         )}
                       </td>
-                      <td>{data?.description}</td>
-                      <td>{formatBudgetValue(data?.total_cost)}</td>
+                      <td>{data?.description === '' ? nullLableNameFromEnv : data?.description}</td>
+                      <td>{formatBudgetValue(data?.total_cost ? data?.total_cost : 0) }</td>
                       <td>
                         <div className={Styles.tablerow}>
                           <ViewIcon

@@ -20,6 +20,7 @@ const add = async (
   status: string,
   total_amount: number,
   expense_details: Array<expenseDetailsBody>,
+  user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -58,6 +59,7 @@ const add = async (
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
+        user_id,
       },
     });
 
@@ -133,6 +135,7 @@ const edit = async (
   expense_id: number,
   total_amount: number,
   expense_details: Array<expenseDetailsBody>,
+  user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -163,6 +166,7 @@ const edit = async (
         bill_date: formatted_bill_date,
         updated_by,
         updated_date: currentDate,
+        user_id,
       },
     });
 
@@ -273,6 +277,7 @@ const getById = async (expenseId: number, connectionObj = null) => {
             },
             expense_master_data: true,
           },
+          orderBy: [{ created_date: 'asc' }],
         },
         site_data: {
           select: {
@@ -284,8 +289,28 @@ const getById = async (expenseId: number, connectionObj = null) => {
             project_name: true,
           },
         },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
       },
     });
+
+    const [total] = await transaction.$queryRaw`SELECT
+        SUM(CASE WHEN ed.status = 'Approved' THEN ed.total ELSE 0 END) AS approved_total,
+        SUM(CASE WHEN ed.status = 'Rejected' THEN ed.total ELSE 0 END) AS rejected_total,
+        SUM(CASE WHEN ed.status = 'Pending' THEN ed.total ELSE 0 END) AS pending_total
+    FROM
+        expense_details ed
+    WHERE
+        ed.expense_id = ${Number(expenseId)}`;
+
+    expense.approved_total = total.approved_total;
+    expense.rejected_total = total.rejected_total;
+    expense.pending_total = total.pending_total;
+
     return expense;
   } catch (error) {
     console.log('Error occurred in expense getById dao', error);
@@ -320,6 +345,12 @@ const getAll = async (connectionObj = null) => {
         project_data: {
           select: {
             project_name: true,
+          },
+        },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },
@@ -391,6 +422,12 @@ const searchExpense = async (
             project_member_association: true,
           },
         },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
       },
       orderBy: [
         {
@@ -413,19 +450,21 @@ const searchExpense = async (
     if (project_id && site_id) {
       const db_transaction = connectionObj !== null ? connectionObj : db;
 
-      const expenseStatisticsQuery = `SELECT
-          CAST((SELECT COUNT(*) FROM expense WHERE project_id = ${project_id} AND site_id = ${site_id} AND is_delete = false) AS INT) AS total_expenses,
-          SUM(CASE WHEN e.status = 'Approved' THEN ed.total ELSE 0 END) AS approved_expenses,
-          SUM(CASE WHEN e.status = 'Rejected' THEN ed.total ELSE 0 END) AS rejected_expenses,
-          SUM(CASE WHEN e.status = 'Pending' THEN ed.total ELSE 0 END) AS pending_expenses
-      FROM
-          expense e
-      LEFT JOIN
-          expense_details ed ON ed.expense_id = e.expense_id
-      WHERE
-          e.project_id =  ${project_id}
-          AND e.site_id = ${site_id}
-          AND e.is_delete = false`;
+      const expenseStatisticsQuery = `select
+      cast((select COUNT(*) from expense where project_id =  ${project_id} and site_id = ${site_id} and is_delete = false) as INT) as total_expenses,
+      SUM(case when e.status = 'Completed' then ed.total else 0 end) as completed_expenses,
+      SUM(case when e.status = 'InProgress' then ed.total else 0 end) as inprogress_expenses,
+      SUM(case when e.status = 'Pending' then ed.total else 0 end) as pending_expenses,
+      SUM(case when e.status = 'Draft' then ed.total else 0 end) as draft_expenses
+    from
+      expense e
+    left join
+              expense_details ed on
+      ed.expense_id = e.expense_id
+    where
+      e.project_id =  ${project_id}
+      and e.site_id = ${site_id}
+      and e.is_delete = false`;
 
       expenseStatistics = await db_transaction.one(expenseStatisticsQuery);
     }
@@ -477,6 +516,12 @@ const getByProjectIdAndSiteId = async (
         project_data: {
           select: {
             project_name: true,
+          },
+        },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
           },
         },
       },
@@ -549,7 +594,6 @@ const updateStatus = async (
   }
 };
 
-
 const getByIdWithOutChild = async (expenseId: number, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
@@ -557,7 +601,7 @@ const getByIdWithOutChild = async (expenseId: number, connectionObj = null) => {
       where: {
         expense_id: Number(expenseId),
         is_delete: false,
-      }
+      },
     });
     return expense;
   } catch (error) {
@@ -576,5 +620,5 @@ export default {
   getByProjectIdAndSiteId,
   getExpenseDetailsByExpenceId,
   updateStatus,
-  getByIdWithOutChild
+  getByIdWithOutChild,
 };

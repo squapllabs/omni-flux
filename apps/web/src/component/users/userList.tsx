@@ -154,7 +154,7 @@ const UserList = () => {
   //     ['search_by_name']: e.target.value,
   //   });
   //   handleSearch();
-  // };
+  // };  
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
@@ -164,7 +164,7 @@ const UserList = () => {
           size={48}
           color="#333C44"
         >
-          {initialData?.total_count !== 0 ? (
+          {initialData?.is_available ? (
             <div>
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>
@@ -224,6 +224,7 @@ const UserList = () => {
                     <tbody>
                       {initialData?.total_count === 0 ? (
                         <tr>
+                          <td></td>
                           <td></td>
                           <td></td>
                           <td>No data found</td>
@@ -306,8 +307,6 @@ const UserList = () => {
                 </div>
               </div>
             )}
-
-
         </CustomLoader>
         <CustomDelete
           open={open}

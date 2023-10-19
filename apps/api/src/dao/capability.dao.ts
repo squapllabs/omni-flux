@@ -124,24 +124,33 @@ const searchCapability = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterCapability;
-    const capability = await transaction.capability.findMany({
-      where: filter,
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
+    const getData = await transaction.capability.findMany({
+      where: {
+        is_delete: filter.is_delete,
+      },
     });
-    const capabilityCount = await transaction.capability.count({
-      where: filter,
-    });
-    const capabilityData = {
-      count: capabilityCount,
-      data: capability,
-    };
-    return capabilityData;
+    if (getData.length > 0) {
+      const capability = await transaction.capability.findMany({
+        where: filter,
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const capabilityCount = await transaction.capability.count({
+        where: filter,
+      });
+      const capabilityData = {
+        count: capabilityCount,
+        data: capability,
+      };
+      return capabilityData;
+    } else {
+      return getData;
+    }
   } catch (error) {
     console.log('Error occurred in capability dao : searchCapability ', error);
     throw error;

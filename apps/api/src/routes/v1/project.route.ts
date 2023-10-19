@@ -44,7 +44,7 @@ router.delete('/delete/:project_id', authMiddleware, deleteByProjectId);
 
 router.post('/search', authMiddleware, searchProject);
 
-router.get('/check-duplicate-code/:code', authMiddleware, checkDuplicateCode);
+router.post('/check-duplicate-code', authMiddleware, checkDuplicateCode);
 
 router.post('/get-project-site', authMiddleware, getByProjectIdAndSiteId);
 

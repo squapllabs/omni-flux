@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Styles from '../../styles/gstList.module.scss';
+import Styles from '../../styles/newStyles/hsnList.module.scss';
 import {
   useDeleteHsnCode,
   uploadHsnCode,
@@ -327,12 +327,12 @@ const HsnCodeList = () => {
           size={48}
           color="#333C44"
         >
-          {initialData?.total_count !== 0 ? (
+          {initialData?.is_available ? (
             <div>
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>
                   <div className={Styles.subHeading}>
-                    <h3>HSN CODE</h3>
+                    <h3>HSN Code</h3>
                   </div>
                   <div>
                     <Button
@@ -346,7 +346,7 @@ const HsnCodeList = () => {
                         setOpenHsnForm(true);
                       }}
                     >
-                      Add HSN CODE
+                      Add HSN Code
                     </Button>
                   </div>
                 </div>
@@ -366,13 +366,13 @@ const HsnCodeList = () => {
                       }}
                     />
                   </div>
-                  <div>
+                  {/* <div>
                     <CustomGroupButton
                       labels={buttonLabels}
                       onClick={handleGroupButtonClick}
                       activeButton={activeButton}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className={Styles.uploads}>
@@ -524,11 +524,11 @@ const HsnCodeList = () => {
                                             editHscCodeHandler(data.hsn_code_id)
                                           }
                                         />
-                                        <DeleteIcon
+                                        {/* <DeleteIcon
                                           onClick={() =>
                                             deleteCategoryHandler(data.hsn_code_id)
                                           }
-                                        />
+                                        /> */}
                                       </div>
                                     </td>
                                   )}
@@ -568,11 +568,11 @@ const HsnCodeList = () => {
                                         editHscCodeHandler(data.hsn_code_id)
                                       }
                                     />
-                                    <DeleteIcon
+                                    {/* <DeleteIcon
                                       onClick={() =>
                                         deleteCategoryHandler(data.hsn_code_id)
                                       }
-                                    />
+                                    /> */}
                                   </div>
                                 </td>
                               )}

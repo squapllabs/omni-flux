@@ -12,7 +12,7 @@ import { formatBudgetValue } from '../../helper/common-function';
 import Pagination from '../menu/pagination';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-import { useGetAllProject } from '../../hooks/project-hooks';
+import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import ViewIcon from '../menu/icons/viewIcon';
 import { format } from 'date-fns';
@@ -20,6 +20,7 @@ import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from '../project/projectSubheader';
+import { environment } from '../../environment/environment';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const OrderView = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
+  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'To be paid', value: 'Invoice' },
     { label: 'Paid', value: 'Completed' },
@@ -55,7 +57,9 @@ const OrderView = () => {
   } = useGetAllPurchaseOrderData(getPoData);
 
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
-    useGetAllProject();
+  useGetAllProjectDrop();
+    console.log("getAllProjectDataForDrop",getAllProjectDataForDrop);
+    
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -252,14 +256,14 @@ const OrderView = () => {
                                     new Date(data?.payment_date),
                                     'MMM dd, yyyy'
                                   )}`
-                                : '- '}
+                                : nullLableNameFromEnv}
                             </td>
                           )}
                           {activeButton === 'Completed' && (
                             <td>
                               {data?.payment_mode !== 'null'
                                 ? data?.payment_mode
-                                : '-'}
+                                : nullLableNameFromEnv}
                             </td>
                           )}
                           <td>
@@ -336,11 +340,11 @@ const OrderView = () => {
                                     new Date(data?.payment_date),
                                     'MMM dd, yyyy'
                                   )}`
-                                : '- '}
+                                : nullLableNameFromEnv}
                             </td>
                           )}
                           {activeButton === 'Completed' && (
-                            <td>{data?.payment_mode || '-'} </td>
+                            <td>{data?.payment_mode || nullLableNameFromEnv} </td>
                           )}
                           <td>
                             <div>
