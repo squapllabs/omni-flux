@@ -27,6 +27,7 @@ export const getAbstractValidateyup = (yup: any) => {
 export const subCategoryErrorMessages = {
   ENTER_NAME: 'Task Name is required',
   ENTER_DESCRIPTION: 'Description is required',
+  NON_NEGATIVE: 'Negative value occurred'
 };
 
 export const getSubCategoryValidateyup = (yup: any) => {
@@ -35,6 +36,9 @@ export const getSubCategoryValidateyup = (yup: any) => {
     description: yup
       .string()
       .required(subCategoryErrorMessages.ENTER_DESCRIPTION),
+    quantity: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
+    rate: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
+    estimated_budget: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
     // start_date: yup.date(),
     // end_date: yup
     //   .date()

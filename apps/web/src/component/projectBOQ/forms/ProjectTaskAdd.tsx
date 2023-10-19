@@ -210,8 +210,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               onSelect={(e: string): void => {
                 formik.values.uom_id = e
               }} 
-              defaultLabel={'Select'} 
-              error={formik.touched.uom_id && formik.errors.uom_id}
+              defaultLabel='Select' 
+              placeholder='Select'
             />  
             {formik.touched.uom_id} 
           </div>
@@ -225,6 +225,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               value={formik.values.quantity}
               onChange={formik.handleChange}
               width={DropfieldWidth}
+              error={formik.touched.quantity && formik.errors.quantity}
             />
           </div>
           <div className={Styles.field}>
@@ -237,6 +238,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               value={formik.values.rate}
               onChange={formik.handleChange}
               width={DropfieldWidth}
+              error={formik.touched.rate && formik.errors.rate}
             />
           </div> 
           <div className={Styles.field}>
