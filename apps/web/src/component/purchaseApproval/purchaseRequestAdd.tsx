@@ -69,7 +69,7 @@ const PurchaseRequestAdd = () => {
     });
     setItemsValues(arr);
   };
-  
+
 
   const deletePurchaseRequest = (index: number) => {
     purchaseRequestData.splice(index, 1);
@@ -88,6 +88,7 @@ const PurchaseRequestAdd = () => {
         item_id: item.item_id,
         quantity: Number(item.quantity),
         item_name: item.item_name,
+        rate: Number(item?.rate),
       })),
       vendor_ids: purchaseRequestData.reduce(
         (vendorIds: number[], item: any) => {
@@ -136,39 +137,39 @@ const PurchaseRequestAdd = () => {
     <div>
       <div className={Styles.popupContent}>
         <form onSubmit={formik.handleSubmit}>
-            <div className={Styles.sub_header}>
-              <div
-                className={Styles.logo}
-                onClick={() => {
-                  navigate(`/purchase-detail/${indentId}`, {
-                    state: { project_id: projectId },
-                  })
-                }}
-              >
-                <PreviousPageIcon width={20} height={20} color="#7f56d9" />
-              </div>
-              <div style={{ padding: '8px', display: 'flex' }}>
-                <div className={Styles.vertical}>
-                  <div className={Styles.verticalLine}></div>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '700px',
-                }}
-              >
-                <div className={Styles.textContent_1}>
-                  <h4>Request for Quotation</h4>
-                  <span className={Styles.content}>
-                    Raise purchase request against your Project
-                  </span>
-                </div>
+          <div className={Styles.sub_header}>
+            <div
+              className={Styles.logo}
+              onClick={() => {
+                navigate(`/purchase-detail/${indentId}`, {
+                  state: { project_id: projectId },
+                })
+              }}
+            >
+              <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+            </div>
+            <div style={{ padding: '8px', display: 'flex' }}>
+              <div className={Styles.vertical}>
+                <div className={Styles.verticalLine}></div>
               </div>
             </div>
-          
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '700px',
+              }}
+            >
+              <div className={Styles.textContent_1}>
+                <h4>Request for Quotation</h4>
+                <span className={Styles.content}>
+                  Raise purchase request against your Project
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div className={Styles.dividerStyle}></div>
           {/* <div className={Styles.inputFields}> */}
           <div className={Styles.fields_container}>
@@ -222,7 +223,8 @@ const PurchaseRequestAdd = () => {
 
                     const matchingObjects = itemsData?.filter(
                       (obj: any) => Number(obj.item_id) === Number(value)
-                    );                    
+                    );
+
                     formik.setFieldValue(
                       'quantity',
                       matchingObjects[0]?.bom_detail[0]?.quantity
@@ -230,6 +232,10 @@ const PurchaseRequestAdd = () => {
                     formik.setFieldValue(
                       'item_name',
                       matchingObjects[0]?.item_name
+                    );
+                    formik.setFieldValue(
+                      'rate',
+                      matchingObjects[0]?.rate
                     );
                   }}
                   optionList={itemValues}
