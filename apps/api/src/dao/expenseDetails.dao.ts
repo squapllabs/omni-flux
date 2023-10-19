@@ -6,6 +6,7 @@ const updateStatus = async (
   progressed_by: number,
   updated_by: number,
   expense_details_id: number,
+  is_recalled: boolean,
   connectionObj = null
 ) => {
   try {
@@ -22,6 +23,7 @@ const updateStatus = async (
         progressed_by,
         updated_by,
         updated_date: currentDate,
+        is_recalled,
       },
     });
 

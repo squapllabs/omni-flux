@@ -29607,7 +29607,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"employee_name\": \"Vijay Perumalsamy \",\r\n    \"employee_id\": \"ALM0065\",\r\n    \"employee_phone\": \"+91 8667604201\",\r\n    \"purpose\": \"Site Expenses\",\r\n    \"department\": \"Accountant\",\r\n    \"designation\": \"Manager\",\r\n    // \"start_date\": \"2023-08-10\",\r\n    // \"end_date\": \"2023-08-31\",\r\n    \"bill_date\": \"2023-10-10\",\r\n    \"created_by\": 1,\r\n    \"total_amount\": 61012023,\r\n    \"status\": \"Draft\",\r\n    \"user_id\": 1,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"expense_details\": [\r\n        {\r\n            \"expense_data_id\": 136,\r\n            \"total\": 1000,\r\n            \"bill_number\": \"1\",\r\n            \"bill_details\": [\r\n                {\r\n                    \"index\": 0,\r\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n                }\r\n            ],\r\n            \"is_delete\": false,\r\n            \"description\": \"Food Expense Desc\",\r\n            \"quantity\": 10,\r\n            \"unit_value\": 120\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"employee_name\": \"Vijay Perumalsamy \",\r\n    \"employee_id\": \"ALM0065\",\r\n    \"employee_phone\": \"+91 8667604201\",\r\n    \"purpose\": \"Site Expenses\",\r\n    \"department\": \"Accountant\",\r\n    \"designation\": \"Manager\",\r\n    // \"start_date\": \"2023-08-10\",\r\n    // \"end_date\": \"2023-08-31\",\r\n    \"bill_date\": \"2023-10-10\",\r\n    \"created_by\": 1,\r\n    \"total_amount\": 61012023,\r\n    \"status\": \"Draft\",\r\n    \"user_id\": 1,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"expense_details\": [\r\n        {\r\n            \"expense_data_id\": 136,\r\n            \"total\": 1000,\r\n            \"bill_number\": \"1\",\r\n            \"bill_details\": [\r\n                {\r\n                    \"index\": 0,\r\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n                }\r\n            ],\r\n            \"is_delete\": false,\r\n            \"description\": \"Food Expense Desc\",\r\n            \"quantity\": 10,\r\n            \"unit_value\": 120,\r\n            \"bill_type\": \"Voucher\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -29724,7 +29724,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"employee_name\": \"Vijay Perumalsamy \",\r\n    \"employee_id\": \"ALM0065\",\r\n    \"employee_phone\": \"+91 8667604201\",\r\n    \"purpose\": \" Updated Site Expenses\",\r\n    \"department\": \"Accountant\",\r\n    \"designation\": \"Manager\",\r\n    // \"start_date\": \"2023-08-10\",\r\n    // \"end_date\": \"2023-08-31\",\r\n    \"bill_date\": \"2023-10-10\",\r\n    \"updated_by\": 1,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\r\n            \"is_delete\": \"Y\"\r\n        },\r\n        {\r\n            \"index\": 1,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\r\n            \"is_delete\": \"N\"\r\n        }\r\n    ],\r\n    \"status\": \"Pending\",\r\n    \"expense_details\": [\r\n        {\r\n            \"expense_details_id\": 2,\r\n            \"expense_data_id\": 137,\r\n            \"total\": 1000,\r\n            \"bill_details\": null,\r\n            \"is_delete\": false\r\n        }\r\n    ],\r\n    \"user_id\": 1,\r\n    \"expense_id\": 75\r\n}",
+							"raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"employee_name\": \"Vijay Perumalsamy \",\r\n    \"employee_id\": \"ALM0065\",\r\n    \"employee_phone\": \"+91 8667604201\",\r\n    \"purpose\": \" Updated Site Expenses\",\r\n    \"department\": \"Accountant\",\r\n    \"designation\": \"Manager\",\r\n    // \"start_date\": \"2023-08-10\",\r\n    // \"end_date\": \"2023-08-31\",\r\n    \"bill_date\": \"2023-10-10\",\r\n    \"updated_by\": 1,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\r\n            \"is_delete\": \"Y\"\r\n        },\r\n        {\r\n            \"index\": 1,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\r\n            \"is_delete\": \"N\"\r\n        }\r\n    ],\r\n    \"status\": \"Pending\",\r\n    \"expense_details\": [\r\n        {\r\n            \"expense_details_id\": 2,\r\n            \"expense_data_id\": 137,\r\n            \"total\": 1000,\r\n            \"bill_details\": null,\r\n            \"is_delete\": false,\r\n            \"bill_type\": \"Bill\"\r\n        }\r\n    ],\r\n    \"user_id\": 1,\r\n    \"expense_id\": 75\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -30579,6 +30579,107 @@
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense\": {\n            \"expense_id\": 1,\n            \"expense_code\": \"EXP2023002\",\n            \"site_id\": 17,\n            \"project_id\": 137,\n            \"employee_name\": \"Vijay Perumalsamy \",\n            \"employee_id\": \"ALM0065\",\n            \"employee_phone\": \"+91 8667604201\",\n            \"purpose\": \" Updated Site Expenses\",\n            \"department\": \"Accountant\",\n            \"designation\": \"Manager\",\n            \"start_date\": \"2023-08-10T00:00:00.000Z\",\n            \"end_date\": \"2023-08-31T00:00:00.000Z\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 1,\n                    \"is_delete\": \"N\"\n                }\n            ],\n            \"status\": \"Approved\",\n            \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n            \"progressed_date\": \"2023-09-25T07:02:47.253Z\",\n            \"progressed_by\": 1,\n            \"is_delete\": false,\n            \"created_date\": \"2023-09-23T07:32:30.518Z\",\n            \"updated_date\": \"2023-09-25T07:02:47.253Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1\n        },\n        \"expense_details\": [\n            {\n                \"expense_details_id\": 1,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"bill_number\": null,\n                \"created_date\": \"2023-09-23T07:32:30.518Z\",\n                \"updated_date\": \"2023-09-25T07:02:47.541Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:47.541Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            },\n            {\n                \"expense_details_id\": 3,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"bill_number\": null,\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-25T07:02:47.744Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:47.744Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            },\n            {\n                \"expense_details_id\": 4,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"bill_number\": null,\n                \"created_date\": \"2023-09-23T08:21:18.264Z\",\n                \"updated_date\": \"2023-09-25T07:02:47.953Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:47.953Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            },\n            {\n                \"expense_details_id\": 5,\n                \"expense_id\": 1,\n                \"expense_data_id\": 136,\n                \"total\": 1000,\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"bill_number\": \"1\",\n                \"created_date\": \"2023-09-23T09:20:32.449Z\",\n                \"updated_date\": \"2023-09-25T07:02:48.211Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:48.211Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            },\n            {\n                \"expense_details_id\": 2,\n                \"expense_id\": 1,\n                \"expense_data_id\": 137,\n                \"total\": 1000,\n                \"bill_details\": [],\n                \"bill_number\": null,\n                \"created_date\": \"2023-09-23T07:35:00.572Z\",\n                \"updated_date\": \"2023-09-25T07:02:48.415Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"status\": \"Approved\",\n                \"comments\": \"Expense Approved By Vijay Perumalsamy\",\n                \"progressed_date\": \"2023-09-25T07:02:48.415Z\",\n                \"progressed_by\": 1,\n                \"is_delete\": false\n            }\n        ]\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "API To Get Expense With Expense Code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/expense/get-by-expense-code/EXP202300100",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"expense",
+								"get-by-expense-code",
+								"EXP202300100"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Expense With Expense Code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/expense/get-by-expense-code/EXP202300100",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"expense",
+										"get-by-expense-code",
+										"EXP202300100"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1636"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"664-RA4SFw24tg1Cs6numJgqbKpU7GA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 19 Oct 2023 11:43:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"expense_id\": 81,\n        \"expense_code\": \"EXP202300100\",\n        \"site_id\": 53,\n        \"project_id\": 195,\n        \"employee_name\": \"Vijay Perumalsamy\",\n        \"employee_id\": \"\",\n        \"employee_phone\": \"8667604201\",\n        \"purpose\": \"\",\n        \"department\": \"\",\n        \"designation\": \"\",\n        \"start_date\": null,\n        \"end_date\": null,\n        \"bill_date\": \"2023-10-18T00:00:00.000Z\",\n        \"bill_details\": [],\n        \"total_amount\": 200,\n        \"status\": \"Completed\",\n        \"comments\": \"Some of the respective child expense details are Pending\",\n        \"progressed_date\": \"2023-10-18T04:57:23.414Z\",\n        \"progressed_by\": 97,\n        \"user_id\": null,\n        \"is_delete\": false,\n        \"created_date\": \"2023-10-18T04:54:36.895Z\",\n        \"updated_date\": \"2023-10-18T04:57:23.414Z\",\n        \"created_by\": 1,\n        \"updated_by\": 97,\n        \"expense_details\": [\n            {\n                \"expense_details_id\": 122,\n                \"expense_id\": 81,\n                \"expense_data_id\": 132,\n                \"description\": \"Transport charges\",\n                \"quantity\": null,\n                \"unit_value\": null,\n                \"total\": 200,\n                \"bill_details\": [],\n                \"bill_number\": \"\",\n                \"created_date\": \"2023-10-18T04:54:36.895Z\",\n                \"updated_date\": \"2023-10-18T04:56:35.385Z\",\n                \"created_by\": 1,\n                \"updated_by\": 97,\n                \"status\": \"Rejected\",\n                \"comments\": \"Upload appropriate documents\",\n                \"progressed_date\": \"2023-10-18T04:56:35.385Z\",\n                \"progressed_by\": 97,\n                \"is_delete\": false,\n                \"progressed_by_data\": {\n                    \"first_name\": \"Naveen\",\n                    \"last_name\": \"Kumar\"\n                },\n                \"expense_master_data\": {\n                    \"master_data_id\": 132,\n                    \"master_data_name\": \"Air Transport\",\n                    \"master_data_description\": \"Air Transport\",\n                    \"master_data_type\": \"SIEPAT\",\n                    \"parent_master_data_id\": 131,\n                    \"project_id\": null,\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-23T05:34:28.843Z\",\n                    \"updated_date\": \"2023-09-23T05:34:28.843Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null\n                }\n            }\n        ],\n        \"site_data\": {\n            \"name\": \"West Tambaram\"\n        },\n        \"project_data\": {\n            \"project_name\": \"CPS water treatment project\"\n        },\n        \"user_data\": null\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -30602,7 +30703,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"expense_details_id\": 41,\r\n    \"status\": \"Rejected\",\r\n    \"comments\": \"Progressed By Vijay Perumalsamy\",\r\n    \"progressed_by\": 1,\r\n    \"updated_by\": 1\r\n}",
+							"raw": "{\r\n    \"expense_details_id\": 138,\r\n    \"status\": \"Rejected\",\r\n    \"comments\": \"Progressed By Vijay Perumalsamy\",\r\n    \"progressed_by\": 1,\r\n    \"updated_by\": 1,\r\n    \"is_recalled\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -79,6 +79,7 @@ const add = async (
       const description = expenseDetail.description;
       const quantity = expenseDetail.quantity;
       const unit_value = expenseDetail.unit_value;
+      const bill_type = expenseDetail.bill_type;
 
       if (is_delete === false) {
         const newExpenseDetail = await transaction.expense_details.create({
@@ -99,6 +100,7 @@ const add = async (
             description,
             quantity,
             unit_value,
+            bill_type,
           },
         });
 
@@ -186,6 +188,7 @@ const edit = async (
       const description = expenseDetail.description;
       const quantity = expenseDetail.quantity;
       const unit_value = expenseDetail.unit_value;
+      const bill_type = expenseDetail.bill_type;
 
       if (expense_details_id) {
         if (is_delete === true) {
@@ -215,6 +218,7 @@ const edit = async (
               description,
               quantity,
               unit_value,
+              bill_type,
             },
           });
 
@@ -240,6 +244,7 @@ const edit = async (
               description,
               quantity,
               unit_value,
+              bill_type,
             },
           });
 
@@ -268,6 +273,9 @@ const getById = async (expenseId: number, connectionObj = null) => {
       },
       include: {
         expense_details: {
+          where: {
+            is_delete: false,
+          },
           include: {
             progressed_by_data: {
               select: {
@@ -327,6 +335,9 @@ const getAll = async (connectionObj = null) => {
       },
       include: {
         expense_details: {
+          where: {
+            is_delete: false,
+          },
           include: {
             progressed_by_data: {
               select: {
@@ -402,6 +413,9 @@ const searchExpense = async (
       where: filter,
       include: {
         expense_details: {
+          where: {
+            is_delete: false,
+          },
           include: {
             progressed_by_data: {
               select: {
@@ -610,6 +624,57 @@ const getByIdWithOutChild = async (expenseId: number, connectionObj = null) => {
   }
 };
 
+const getByExpenseCode = async (expenseCode: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const expense = await transaction.expense.findFirst({
+      where: {
+        expense_code: expenseCode,
+        is_delete: false,
+        status: 'Completed',
+      },
+      include: {
+        expense_details: {
+          where: {
+            is_delete: false,
+          },
+          include: {
+            progressed_by_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+            expense_master_data: true,
+          },
+          orderBy: [{ created_date: 'asc' }],
+        },
+        site_data: {
+          select: {
+            name: true,
+          },
+        },
+        project_data: {
+          select: {
+            project_name: true,
+          },
+        },
+        user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+      },
+    });
+
+    return expense;
+  } catch (error) {
+    console.log('Error occurred in expense getByExpenseCode dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -621,4 +686,5 @@ export default {
   getExpenseDetailsByExpenceId,
   updateStatus,
   getByIdWithOutChild,
+  getByExpenseCode,
 };

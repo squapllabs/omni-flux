@@ -98,6 +98,18 @@ const updateStatus = catchAsync(async (req, res) => {
   }
 });
 
+const getByExpenseCode = catchAsync(async (req, res) => {
+  const methodName = '/getByExpenseCode';
+  try {
+    const expense = await expenseService.getByExpenseCode(
+      req.params.expense_code
+    );
+    res.send(expense);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createExpense,
   updateExpense,
@@ -108,4 +120,5 @@ export {
   getByProjectIdAndSiteId,
   getExpenseDetailsByExpenseId,
   updateStatus,
+  getByExpenseCode,
 };

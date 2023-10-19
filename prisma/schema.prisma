@@ -1074,6 +1074,8 @@ model expense_details {
   comments            String?
   progressed_date     DateTime?
   progressed_by       Int?
+  bill_type           String?
+  is_recalled         Boolean      @default(false)
   is_delete           Boolean      @default(false)
   expense_data        expense?     @relation(fields: [expense_id], references: [expense_id])
   progressed_by_data  users?       @relation(fields: [progressed_by], references: [user_id])
