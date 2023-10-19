@@ -833,18 +833,20 @@ model indent_request {
 }
 
 model indent_request_details {
-  indent_request_details_id Int            @id @default(autoincrement())
-  indent_request_id         Int
-  bom_detail_id             Int
-  quantity                  Int?
-  total                     Float?
-  is_delete                 Boolean        @default(false)
-  created_date              DateTime       @default(now())
-  updated_date              DateTime
-  created_by                Int?
-  updated_by                Int?
-  indent_request_data       indent_request @relation(fields: [indent_request_id], references: [indent_request_id])
-  bom_detail_data           bom_detail     @relation(fields: [bom_detail_id], references: [bom_detail_id])
+  indent_request_details_id   Int            @id @default(autoincrement())
+  indent_request_id           Int
+  bom_detail_id               Int
+  indent_requested_quantity   Int?
+  purchase_requested_quantity Int?
+  purchase_remaining_quantity Int?
+  total                       Float?
+  is_delete                   Boolean        @default(false)
+  created_date                DateTime       @default(now())
+  updated_date                DateTime
+  created_by                  Int?
+  updated_by                  Int?
+  indent_request_data         indent_request @relation(fields: [indent_request_id], references: [indent_request_id])
+  bom_detail_data             bom_detail     @relation(fields: [bom_detail_id], references: [bom_detail_id])
 }
 
 model inventory {
@@ -914,18 +916,20 @@ model purchase_order {
 }
 
 model purchase_order_item {
-  purchase_order_item_id Int            @id @default(autoincrement())
-  purchase_order_id      Int
-  item_id                Int?
-  order_quantity         Int?
-  unit_price             Float?
-  is_delete              Boolean        @default(false)
-  created_date           DateTime       @default(now())
-  updated_date           DateTime
-  created_by             Int?
-  updated_by             Int?
-  purchase_order_data    purchase_order @relation(fields: [purchase_order_id], references: [purchase_order_id])
-  item_data              item?          @relation(fields: [item_id], references: [item_id])
+  purchase_order_item_id    Int            @id @default(autoincrement())
+  purchase_order_id         Int
+  item_id                   Int?
+  order_quantity            Int?
+  inward_quantity           Int?
+  inward_remaining_quantity Int?
+  unit_price                Float?
+  is_delete                 Boolean        @default(false)
+  created_date              DateTime       @default(now())
+  updated_date              DateTime
+  created_by                Int?
+  updated_by                Int?
+  purchase_order_data       purchase_order @relation(fields: [purchase_order_id], references: [purchase_order_id])
+  item_data                 item?          @relation(fields: [item_id], references: [item_id])
 }
 
 model vendor_quotes {

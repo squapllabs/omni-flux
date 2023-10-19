@@ -14,6 +14,7 @@ const createPurchaseOrderItem = async (body: purchaseOrderItemBody) => {
       purchase_order_id,
       item_id,
       order_quantity,
+      inward_quantity = 0,
       unit_price,
       created_by,
     } = body;
@@ -46,6 +47,7 @@ const createPurchaseOrderItem = async (body: purchaseOrderItemBody) => {
       purchase_order_id,
       item_id,
       order_quantity,
+      inward_quantity,
       unit_price,
       created_by
     );
@@ -74,6 +76,7 @@ const updatePurchaseOrderItem = async (req) => {
       purchase_order_id,
       item_id,
       order_quantity,
+      inward_quantity,
       unit_price,
       updated_by,
       purchase_order_item_id,
@@ -119,6 +122,7 @@ const updatePurchaseOrderItem = async (req) => {
       Number(purchase_order_id),
       Number(item_id),
       Number(order_quantity),
+      Number(inward_quantity),
       Number(unit_price),
       Number(updated_by),
       Number(purchase_order_item_id)
