@@ -16,6 +16,7 @@ import PlanList from '../projectBOQ/planList';
 import CheckListIcon from '../menu/icons/checkListIcon';
 import EditIcon from '../menu/icons/newEditIcon';
 import NewAddCircleIcon from '../menu/icons/newAddCircleIcon';
+import ExpandIcon from '../menu/icons/expandIcon';
 import CategoryService from '../../service/category-service';
 import CustomMenu from '../ui/NewCustomMenu';
 import subCategoryService from '../../service/subCategory-service';
@@ -177,6 +178,7 @@ const BomItems = (props: {
             <table className={Styles.boqSubCategoryTable}>
               <thead>
                 <tr>
+                  <th></th>
                   <th className={Styles.tableHeading}>#</th>
                   {/* <th className={Styles.tableHeading}>Task Name</th> */}
                   <th className={Styles.tableHeading}>Task Description</th>
@@ -230,6 +232,21 @@ const BomItems = (props: {
                         
                       >
                         <td
+                        onClick={
+                          (e) =>{
+                            handleSubTaskView(data.sub_category_id)
+                          }
+                        }
+                        style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}
+                        >
+                          {data?.children.length?(
+                            <ExpandIcon
+                            color={primary_color}
+                            style={{fill_opacity : data?.children.length?'':'.5'}}
+                            ></ExpandIcon>
+                          ):('')}
+                        </td>
+                        <td
                           // onClick={(e) =>
                           //   handleSubTaskView(data.sub_category_id)
                           // }
@@ -239,8 +256,7 @@ const BomItems = (props: {
                         <td
                           onClick={(e) =>{
                             handleSubTaskView(data.sub_category_id)
-                          }
-                          }
+                          }}
                         >
                           <span style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}>
                             {data.description || '--'}

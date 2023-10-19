@@ -172,7 +172,10 @@ align-items: center;
 }
 
 .footer {
-  margin-top: 110px;
+  // margin-top: 110px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .cancelButton {

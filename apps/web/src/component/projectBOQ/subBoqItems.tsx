@@ -9,6 +9,7 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import PlanList from './planList';
 import EditIcon from '../menu/icons/newEditIcon';
 import AddIcon from '../menu/icons/addIcon'
+import ExpandIcon from '../menu/icons/expandIcon';
 interface SubBoqItemsProps {
   rowData: any;
   index: any;
@@ -108,10 +109,23 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
             : ''
         }
       >
-        <td onClick={(e) => toggleCollapse(rowData.sub_category_id)}>
+         <td
+            onClick={(e) =>{
+              toggleCollapse(rowData.sub_category_id)
+              }}
+            style={{ textAlign: 'justify' ,cursor: rowData?.children.length ? 'pointer':''}}
+            >
+             {rowData?.children.length?(
+                <ExpandIcon
+                color={primary_color}
+                style={{fill_opacity : rowData?.children.length?'':'.5'}}
+                ></ExpandIcon>
+                  ):('')} 
+            </td>
+        <td >
           {primaryIndex + 1 + '.' + `${index + 1}`}
         </td>
-        <td onClick={(e) => toggleCollapse(rowData.sub_category_id)}>
+        <td >
           {rowData.description}
         </td>
         <td>
@@ -129,7 +143,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
             {rowData.rate || '--'}
           </span>
         </td>
-        <td onClick={(e) => toggleCollapse(rowData.sub_category_id)}>
+        <td >
           {formatBudgetValue(
             rowData?.actual_budget ? rowData?.actual_budget : 0
           )}
