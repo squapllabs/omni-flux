@@ -91,7 +91,7 @@ const StockOutWardView = () => {
             </div>
           </div>
         </CustomCard>
-        <div className={Styles.dataRows}>
+        <div className={Styles.dataRows} style={{paddingTop: '20px'}}>
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>

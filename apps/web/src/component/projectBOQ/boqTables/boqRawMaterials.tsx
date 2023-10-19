@@ -143,6 +143,7 @@ const BomRawMaterials: React.FC = (props: any) => {
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
   };
+
   return (
     <div>
       <div>
@@ -259,6 +260,10 @@ const BomRawMaterials: React.FC = (props: any) => {
                         matchingObjects[0]?.temp?.rate
                       );
                     }}
+                    addLabel="Add Item"
+                    onAddClick={(value) => {
+                      props.showItemForm(true);
+                    }}
                   />
                 </td>
                 {/* <td>
@@ -318,6 +323,14 @@ const BomRawMaterials: React.FC = (props: any) => {
               <span>Add Plan here</span>
             </div>
           </div>
+          {/* <CustomPopup
+            open={itemForm}
+            title="Add Item"
+            handleClose={handleItemFormClose}
+            content={
+              <InstantItemAdd isVissible={itemForm} onAction={showItemForm} />
+            }
+          /> */}
         </div>
         {/* <div className={Styles.saveButton}>
           <Button

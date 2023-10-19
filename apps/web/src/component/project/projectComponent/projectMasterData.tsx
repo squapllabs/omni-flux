@@ -80,7 +80,7 @@ const ProjectMasterData: React.FC = (props: any) => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-
+  
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
@@ -93,7 +93,7 @@ const ProjectMasterData: React.FC = (props: any) => {
         color="#333C44"
       >
         {/* Header Part */}
-        {initialData?.total_count !== 0 || activeButton === 'IN' ? (
+        {initialData?.is_available ? (
           <div>
             <div className={Styles.topHeading}>
               <div className={Styles.heading}>
@@ -114,13 +114,13 @@ const ProjectMasterData: React.FC = (props: any) => {
                   </Button>
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <CustomGroupButton
                   labels={buttonLabels}
                   onClick={handleGroupButtonClick}
                   activeButton={activeButton}
                 />
-              </div>
+              </div> */}
             </div>
             {/* Table Part */}
             <div className={Styles.tableContainer}>
@@ -153,7 +153,7 @@ const ProjectMasterData: React.FC = (props: any) => {
                             <td>
                                 <div className={Styles.iconStyle}>
                               <EditIcon onClick={() => handleEdit(data?.master_data_id)}/>
-                              <DeleteIcon/>
+                              {/* <DeleteIcon/> */}
                               </div>
                             </td>
                           </tr>

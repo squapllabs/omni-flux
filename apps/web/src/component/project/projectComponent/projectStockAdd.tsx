@@ -151,13 +151,13 @@ const ProjectStockAdd: React.FC = (props: any) => {
             </div>
           </div>
         </div>
-        <div>
+        <div >
           {/* <ItemsTable
             setItemsList={setItemsList}
             itemsList={itemsList}
             itemData={itemData}
           /> */}
-          <div className={Styles.table_data}>
+          <div className={Styles.tableContainer}>
             <table className={Styles.scrollable_table}>
               <thead>
                 <tr>

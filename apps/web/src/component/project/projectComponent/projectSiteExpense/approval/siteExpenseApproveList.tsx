@@ -22,6 +22,7 @@ import CustomMenu from '../../../../ui/CustomMenu';
 import projectSettingsService from '../../../../../service/projectSettings-service';
 import ViewIcon from '../../../../menu/icons/newViewIcon';
 
+
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -82,10 +83,9 @@ const ExpenseApprove = () => {
   const [expenseList, setExpenseList] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const [selectShow, setSelectShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Waiting Approval', value: 'Pending' },
+    { label: 'Awaiting Approval', value: 'Pending' },
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);
@@ -264,7 +264,7 @@ const ExpenseApprove = () => {
   } = useGetAllPaginatedExpense(demo);
 
   useEffect(() => {
-    refetch();
+    refetch();  
   }, [currentPage, rowsPerPage, activeButton]);
 
   useEffect(() => {
@@ -298,48 +298,43 @@ const ExpenseApprove = () => {
                     setFilterValue({ ['project_id']: value });
                     fetchProjectSiteData(value);
                     fetchMemberData(value);
-                    setSelectShow(true);
                     setCurrentPage(1);
                   }}
                   width="90%"
                 />
               </div>
-              {filterValue.project_id && selectShow === true ? (
-                <div className={Styles.selectRow}>
-                  <div className={Styles.selectDrop}>
-                    <AutoCompleteSelect
-                      name="site_id"
-                      label="Site"
-                      placeholder="Select Site"
-                      optionList={siteData}
-                      onSelect={(value) => {
-                        setSiteValue({ site_id: value });
-                      }}
-                      width="200px"
-                    />
-                  </div>
-                  <div className={Styles.selectDrop}>
-                    <AutoCompleteSelect
-                      name="project_member_id"
-                      label="Project Member"
-                      placeholder="Select Project Member"
-                      optionList={projectMemberData}
-                      onSelect={(value) => {
-                        setMemberValue({ project_member_id: value });
-                        const matchingObjects = projectMemberData.filter(
-                          (obj: any) => Number(obj.value) === Number(value)
-                        );
-                        setMemberValue({
-                          project_member_name: matchingObjects[0].label,
-                        });
-                      }}
-                      width="200px"
-                    />
-                  </div>
+              <div className={Styles.selectRow}>
+                <div className={Styles.selectDrop}>
+                  <AutoCompleteSelect
+                    name="site_id"
+                    label="Site"
+                    placeholder="Select Site"
+                    optionList={siteData}
+                    onSelect={(value) => {
+                      setSiteValue({ site_id: value });
+                    }}
+                    width="200px"
+                  />
                 </div>
-              ) : (
-                ''
-              )}
+                <div className={Styles.selectDrop}>
+                  <AutoCompleteSelect
+                    name="project_member_id"
+                    label="Project Member"
+                    placeholder="Select Project Member"
+                    optionList={projectMemberData}
+                    onSelect={(value) => {
+                      setMemberValue({ project_member_id: value });
+                      const matchingObjects = projectMemberData.filter(
+                        (obj: any) => Number(obj.value) === Number(value)
+                      );
+                      setMemberValue({
+                        project_member_name: matchingObjects[0].label,
+                      });
+                    }}
+                    width="200px"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className={Styles.button}>
@@ -423,8 +418,6 @@ const ExpenseApprove = () => {
                               ? Styles.pendingStatus
                               : items?.status === 'InProgress'
                               ? Styles.rejectedStatus
-                              : items?.status === 'Approved'
-                              ? Styles.approvedStatus
                               : items?.status === 'Draft'
                               ? Styles.draftStatus
                               : items?.status === 'Completed'

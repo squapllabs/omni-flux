@@ -132,15 +132,20 @@
     td {
       border-bottom: 0.1px solid #f0f0f0;
     }
-  
+
     thead {
-      tr {
-        th {
-          color: #667085;
-          font-weight: 700;
+        tr {
+          th {
+            padding: 10px 10px 10px 24px;
+            color: var(--tableHeader-fontColor);
+            font-size: 13px;
+            font-weight: 600;
+            background-color: var(--tableHeader-backgroundColor);
+            border: none;
+            text-transform: uppercase;
+          }
         }
-      }
-    }
+      }  
   
     .status {
       background-color: #ecfdf3;

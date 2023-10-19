@@ -26,6 +26,20 @@ const useGetAllMachinery = () => {
     );
   };
 
+  const createInstantMachinery = () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+      (data: any) => {
+        return MachineryService.createMachinery(data);
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['useGetAllMAchineryDrop']);
+        },
+      }
+    );
+  };
+
   const useGetAllPaginatedMachinery = (data: any) => {
     return useQuery(
       ['useGetAllMachinery'],
@@ -105,4 +119,4 @@ const useGetAllMachinery = () => {
     );
   };
 
-  export {useGetAllMachinery,createMachinery,useGetAllPaginatedMachinery,getByMachinery,getByMachineryID,updateMachinery,useDeleteMachinery,useGetAllMachineryForDrop};
+  export {useGetAllMachinery,createMachinery,createInstantMachinery,useGetAllPaginatedMachinery,getByMachinery,getByMachineryID,updateMachinery,useDeleteMachinery,useGetAllMachineryForDrop};

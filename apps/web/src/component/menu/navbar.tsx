@@ -201,7 +201,7 @@ const Navbar = () => {
                             onClick={handleIndentapproval}
                           >
                             <div className={Styles.itemsTitle}>
-                              <CheckIcon />
+                              {/* <CheckIcon /> */}
                               <h2>Indent Approval</h2>
                             </div>
                             <p>Manage your project indent</p>
@@ -216,7 +216,7 @@ const Navbar = () => {
                             onClick={handlePurchaseOrder}
                           >
                             <div className={Styles.itemsTitle}>
-                              <CheckIcon />
+                              {/* <CheckIcon /> */}
                               <h2>Purchase Order</h2>
                             </div>
                             <p>Manage your purchase order</p>
@@ -231,7 +231,7 @@ const Navbar = () => {
                             onClick={handlePurchaseRequest}
                           >
                             <div className={Styles.itemsTitle}>
-                              <CheckIcon />
+                              {/* <CheckIcon /> */}
                               <h2>Purchase Request</h2>
                             </div>
                             <p>Manage your purchase request</p>
@@ -245,7 +245,7 @@ const Navbar = () => {
                             onClick={handleExpenseApproval}
                           >
                             <div className={Styles.itemsTitle}>
-                              <CheckIcon />
+                              {/* <CheckIcon /> */}
                               <h2>Expenses-Approval</h2>
                             </div>
                             <p>Manage your expenses approval</p>
@@ -260,7 +260,7 @@ const Navbar = () => {
                             onClick={handleFinanceView}
                           >
                             <div className={Styles.itemsTitle}>
-                              <CheckIcon />
+                              {/* <CheckIcon /> */}
                               <h2>Invoice</h2>
                             </div>
                             <p>Manage your invoice and payments</p>
@@ -274,7 +274,7 @@ const Navbar = () => {
                             onClick={handleVendorList}
                           >
                             <div className={Styles.itemsTitle}>
-                              <CheckIcon />
+                              {/* <CheckIcon /> */}
                               <h2>Vendors</h2>
                             </div>
                             <p>Manage your approved vendor</p>
