@@ -48,7 +48,7 @@ const BillView = () => {
           size="small"
           justify="center"
           icon={<BackArrow />}
-          onClick={() => navigate('/settings')}
+          onClick={() => navigate('/finance-view')}
         >
           Back
         </Button>

@@ -259,7 +259,7 @@ const IndentRequest: React.FC = (props: any) => {
                         label="Total Cost"
                         name="total_cost"
                         mandatory={true}
-                        value={formatBudgetValue(formik.values.total_cost)}
+                        value={formatBudgetValue(formik.values.total_cost?formik.values.total_cost:0)}
                         onChange={formik.handleChange}
                         disabled={true}
                       />

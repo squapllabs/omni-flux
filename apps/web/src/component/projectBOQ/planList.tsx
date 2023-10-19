@@ -22,12 +22,19 @@ import BomMachinery from './boqTables/boqMachinery';
 import Button from '../ui/Button';
 import CloseIcon from '../menu/icons/closeIcon';
 import BackArrow from '../menu/icons/backArrow';
+import CustomSidePopup from '../ui/CustomSidePopup';
+import InstantItemAdd from '../ui/CustomItemAdd';
+import InstantLabourAdd from '../ui/CustomLabourAdd';
+import InstantMachineryAdd from '../ui/CustomMachineryAdd';
 
 const Bom: React.FC = (props: any) => {
   const subCategoryId = Number(props.subCategoryId);
   const params = useParams();
   const navigate = useNavigate();
   const [bomList, setBomList] = useState<any[]>([]);
+  const [itemForm, showItemForm] = useState(false);
+  const [labourForm, showLabourForm] = useState(false);
+  const [machineryForm, showMachineryForm] = useState(false);
   const [rawMaterialTotal, setRawMaterialTotal] = useState(0);
   const [labourTotal, setRawLabourTotal] = useState(0);
   const [machineryTotal, setMachineryTotal] = useState(0);
@@ -122,6 +129,15 @@ const Bom: React.FC = (props: any) => {
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
+  const handleItemFormClose = () => {
+    showItemForm(false);
+  };
+  const handleLabourFormClose = () => {
+    showLabourForm(false);
+  };
+  const handleMachineryFormClose = () => {
+    showMachineryForm(false);
+  };
   return (
     <div className={Styles.bomcontainer}>
       <div className={Styles.sub_container}>
@@ -162,6 +178,7 @@ const Bom: React.FC = (props: any) => {
                 reload={reload}
                 setBomList={setBomList}
                 bomList={bomList}
+                showItemForm={showItemForm}
               />
             ) : (
               ''
@@ -178,6 +195,7 @@ const Bom: React.FC = (props: any) => {
                 reload={reload}
                 setBomList={setBomList}
                 bomList={bomList}
+                showLabourForm={showLabourForm}
               />
             ) : (
               ''
@@ -194,6 +212,7 @@ const Bom: React.FC = (props: any) => {
                 reload={reload}
                 setBomList={setBomList}
                 bomList={bomList}
+                showMachineryForm={showMachineryForm}
               />
             ) : (
               ''
@@ -229,7 +248,51 @@ const Bom: React.FC = (props: any) => {
           </div>
         </div>
       </div>
-
+      <CustomSidePopup
+        open={itemForm}
+        title="Add Item"
+        handleClose={handleItemFormClose}
+        content={
+          <InstantItemAdd
+            isVissible={itemForm}
+            onAction={showItemForm}
+            setMessage={setMessage}
+            setOpenSnack={setOpenSnack}
+          />
+        }
+        width="90%"
+        description=""
+      />
+      <CustomSidePopup
+        open={labourForm}
+        title="Add Labour"
+        handleClose={handleLabourFormClose}
+        content={
+          <InstantLabourAdd
+            isVissible={labourForm}
+            onAction={showLabourForm}
+            setMessage={setMessage}
+            setOpenSnack={setOpenSnack}
+          />
+        }
+        width="50%"
+        description=""
+      />
+      <CustomSidePopup
+        open={machineryForm}
+        title="Add Machinery"
+        handleClose={handleMachineryFormClose}
+        content={
+          <InstantMachineryAdd
+            isVissible={machineryForm}
+            onAction={showMachineryForm}
+            setMessage={setMessage}
+            setOpenSnack={setOpenSnack}
+          />
+        }
+        width="90%"
+        description=""
+      />
       <CustomSnackBar
         open={openSnack}
         message={message}

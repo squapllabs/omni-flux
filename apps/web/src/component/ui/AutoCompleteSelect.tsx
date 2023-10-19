@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import DropdownIcon from '../menu/icons/dropDownButton';
 import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
 import CloseIcon from '../menu/icons/closeIcon';
+import AddIcon from '../menu/icons/addIcon';
 
 // Docs:
 // Should pass optionList as an array of objects with id and name
@@ -29,7 +30,7 @@ interface StyledInputProps {
   hasSuffixIcon?: boolean;
   transparent?: boolean;
   disabled?: boolean;
-  showClearIcon? : boolean;
+  showClearIcon?: boolean;
 }
 
 interface Option {
@@ -48,8 +49,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   onSelect: (e: string) => void;
+  onAddClick: (e: string) => void;
   optionList: Option[];
   defaultLabel: string;
+  addLabel: string;
 }
 
 const OptionContainer = styled.div`
@@ -102,7 +105,8 @@ const InputContainer = styled.div<StyledInputProps>`
   display: flex;
   align-items: center;
   padding: ${(props) =>
-    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${props.hasPrefixIcon ? '32px' : '12px'
+    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
+      props.hasPrefixIcon ? '32px' : '12px'
     }`};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
@@ -163,7 +167,9 @@ const ErrorMessageWrapper = styled.div`
 const SelectedValue = styled.span`
   backgroundcolor: blue;
 `;
-const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean,showClearIcon?: boolean }> = ({
+const AutoCompleteSelect: React.FC<
+  InputProps & { mandatory?: boolean; showClearIcon?: boolean }
+> = ({
   label,
   placeholder,
   error,
@@ -177,7 +183,9 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean,showClearI
   onSelect,
   optionList,
   defaultLabel,
+  addLabel,
   showClearIcon = true,
+  onAddClick,
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
@@ -254,7 +262,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean,showClearI
           hasSuffixIcon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
-          showClearIcon = {showClearIcon}
+          showClearIcon={showClearIcon}
           value={values}
           {...props}
           onChange={(e) => handleChange(e)}
@@ -270,7 +278,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean,showClearI
               gap: '10px',
             }}
           >
-            {!disabled && values != ''  && showClearIcon ? (
+            {!disabled && values != '' && showClearIcon ? (
               <CloseIcon width={10} onClick={(e) => handleClear(e)} />
             ) : (
               ''
@@ -289,6 +297,7 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean,showClearI
         {open && (
           <OptionList>
             {defaultLabel != null && <li value="">{defaultLabel}</li>}
+
             {filteredOptions?.map((option) => {
               return (
                 <>
@@ -310,6 +319,28 @@ const AutoCompleteSelect: React.FC<InputProps & { mandatory?: boolean,showClearI
                 </>
               );
             })}
+            {addLabel != null && (
+              <li
+                value="add"
+                onClick={() => {
+                  setOpen(!open);
+                  onAddClick(value);
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    color: '#7f56d9',
+                    fontSize: '12px',
+                  }}
+                >
+                  <AddIcon color="#7f56d9" width={15} />
+                  {addLabel}
+                </div>
+              </li>
+            )}
           </OptionList>
         )}
       </OptionContainer>

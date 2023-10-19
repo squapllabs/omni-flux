@@ -9,7 +9,7 @@ const createItem = () => {
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(['useGetAllItem']);
+          queryClient.invalidateQueries(['useGetAllPaginatedItemData']);
         },
       }
     );
@@ -30,7 +30,7 @@ const createItem = () => {
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(['useGetAllItem']);
+          queryClient.invalidateQueries(['useGetAllPaginatedItemData']);
         },
       }
     );
@@ -38,7 +38,7 @@ const createItem = () => {
 
   const useGetAllPaginatedItemData = (data: any) => {
     return useQuery(
-      ['useGetAllItem'],
+      ['useGetAllPaginatedItemData'],
       () => addProduct.filterItem(data),
       {
         select: (data) => data,

@@ -72,6 +72,20 @@ const createLabour = () => {
   );
 };
 
+const createInstantLabour = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return LabourService.addLabour(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllLabourForDrop']);
+      },
+    }
+  );
+};
+
 const updateLabour = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -100,4 +114,4 @@ const useDeleteLabour = () => {
   );
 };
 
-export { useGetAllLabourForDrop, getBySearchLabour, useGetLabourUomForDrop, createLabour, updateLabour, useDeleteLabour, useGetAllLabour };
+export { useGetAllLabourForDrop, getBySearchLabour, useGetLabourUomForDrop, createLabour, updateLabour, useDeleteLabour, useGetAllLabour,createInstantLabour };
