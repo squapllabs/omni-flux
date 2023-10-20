@@ -65,24 +65,28 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     //     item.is_delete === ExpenseValue?.is_delete
     // );
     console.log('expenseIndex', props.expenseList[expenseIndex]);
-    if (props.expenseList[expenseIndex].bill_details != '') {
-      props.expenseList[expenseIndex] = {
-        ...props.expenseList[expenseIndex],
-        is_delete: true,
-        bill_details: props.expenseList[expenseIndex].bill_details.map(
-          (billDetail: any, index: number) => {
-            if (index === 0) {
-              return { ...billDetail, is_delete: 'Y' };
+    if (props.expenseList[expenseIndex].expense_details_id != null) {
+      if (props.expenseList[expenseIndex].bill_details != '') {
+        props.expenseList[expenseIndex] = {
+          ...props.expenseList[expenseIndex],
+          is_delete: true,
+          bill_details: props.expenseList[expenseIndex].bill_details.map(
+            (billDetail: any, index: number) => {
+              if (index === 0) {
+                return { ...billDetail, is_delete: 'Y' };
+              }
+              return billDetail;
             }
-            return billDetail;
-          }
-        ),
-      };
+          ),
+        };
+      } else {
+        props.expenseList[expenseIndex] = {
+          ...props.expenseList[expenseIndex],
+          is_delete: true,
+        };
+      }
     } else {
-      props.expenseList[expenseIndex] = {
-        ...props.expenseList[expenseIndex],
-        is_delete: true,
-      };
+      props.expenseList.splice(expenseIndex, 1);
     }
 
     props.setExpenseList([...props.expenseList]);
@@ -91,8 +95,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     props.setMessage('Site expanse details has been deleted');
     props.setOpenSnack(true);
   };
-  // console.log('expenseErrors', props.errors.[`[${index}].reason_for_leaving`]);
-  console.log('props.expenseList', props.expenseList);
 
   const validationSchema = Yup.array().of(
     Yup.object().shape({
