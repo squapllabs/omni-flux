@@ -24,6 +24,7 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       order_remark,
       created_by,
       purchase_order_documents,
+      purchase_order_details,
       payment_mode,
       payment_date,
     } = body;
@@ -61,6 +62,7 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       order_remark,
       created_by,
       purchase_order_documents,
+      purchase_order_details,
       payment_mode,
       payment_date
     );
@@ -93,6 +95,7 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       order_remark,
       updated_by,
       purchase_order_documents,
+      purchase_order_details,
       payment_mode,
       payment_date,
       purchase_order_id,
@@ -159,6 +162,7 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       order_remark,
       updated_by,
       updatedPurchaseOrderDocuments,
+      purchase_order_details,
       payment_mode,
       payment_date ? payment_date : purchaseOrderExist?.payment_date,
       purchase_order_id

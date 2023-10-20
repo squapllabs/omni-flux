@@ -427,33 +427,18 @@ const getByIndentRequestId = async (
 ) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const item = await transaction.item.findMany({
-      where: {
-        bom_detail: {
-          some: {
-            indent_request_details: {
-              some: { indent_request_id: Number(indent_request_id) },
-            },
-          },
-        },
-        is_delete: false,
-      },
-      include: {
-        bom_detail: {
-          select: {
-            indent_request_details: {
-              select: { indent_requested_quantity: true },
-            },
-          },
-          where: {
-            indent_request_details: {
-              some: { indent_request_id: Number(indent_request_id) },
-            },
-          },
-        },
-      },
-      orderBy: { updated_date: 'desc' },
-    });
+    const item = await transaction.$queryRaw`select
+      i.*,
+      ird.indent_requested_quantity,
+      ird.indent_request_details_id
+    from
+      item i
+    left join bom_detail bd on
+      bd.item_id = i.item_id
+    left join indent_request_details ird on
+      ird.bom_detail_id = bd.bom_detail_id
+    where
+      ird.indent_request_id = CAST(${indent_request_id} AS INTEGER)`;
     return item;
   } catch (error) {
     console.log('Error occurred in item getByIndentRequestId dao', error);

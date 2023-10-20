@@ -13,6 +13,7 @@ interface purchaseOrderBody {
   order_id: string;
   payment_mode: string;
   payment_date: Date;
+  purchase_order_details: JSON;
 }
 
 interface PurchaseOrderItem {

@@ -1,7 +1,8 @@
 interface createCategoryBody {
   name: string;
   project_id: number;
-  budget: number;
+  actual_budget: number;
+  estimated_budget: number;
   created_by: bigint;
   description: string;
   start_date: Date;
@@ -13,7 +14,8 @@ interface createCategoryBody {
 interface updateCategoryBody {
   name: string;
   project_id: number;
-  budget: number;
+  actual_budget: number;
+  estimated_budget: number;
   updated_by: bigint;
   category_id: number;
   description: string;
