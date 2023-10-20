@@ -440,7 +440,11 @@ const getByIndentRequestId = async (
       },
       include: {
         bom_detail: {
-          select: { quantity: true },
+          select: {
+            indent_request_details: {
+              select: { indent_requested_quantity: true },
+            },
+          },
           where: {
             indent_request_details: {
               some: { indent_request_id: Number(indent_request_id) },
