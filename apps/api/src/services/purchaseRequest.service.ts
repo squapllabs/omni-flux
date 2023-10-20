@@ -8,6 +8,7 @@ import prisma from '../utils/prisma';
 import s3 from '../utils/s3';
 import fs from 'fs';
 import mailService from './mail.service';
+import indentRequestDetailsDao from '../dao/indentRequestDetails.dao';
 
 /**
  * Method to Create a New PurchaseRequest
@@ -93,6 +94,25 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
           purchase_request_documents,
           tx
         );
+
+        if (purchase_request_details) {
+          for await (const value of purchase_request_details) {
+            const indent_requested_quantity = value.indent_requested_quantity;
+            const purchase_requested_quantity =
+              value.purchase_requested_quantity;
+            const indent_request_details_id = value.indent_request_details_id;
+            const purchase_remaining_quantity =
+              indent_requested_quantity - purchase_requested_quantity;
+            await indentRequestDetailsDao.updatePurchaseRequestQuantity(
+              indent_request_details_id,
+              purchase_requested_quantity,
+              purchase_remaining_quantity,
+              created_by,
+              tx
+            );
+          }
+        }
+
         const result = {
           message: 'success',
           status: true,
