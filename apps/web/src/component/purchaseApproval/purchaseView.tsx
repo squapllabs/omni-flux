@@ -25,6 +25,8 @@ const PurchaseView = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [tableData, setTableData] = useState([]);
+  // console.log("tabled",tableData);
+  
   const [purchaseTableData, setPurchaseTableData] = useState([]);
   const [dataCount, setDataCount] = useState(0);
   const [dataLoading, setDataLoading] = useState(false);
@@ -65,8 +67,8 @@ const PurchaseView = () => {
   const purchaseData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
+    order_by_column: 'created_date',
+    order_by_direction: 'asc',
     status: 'AC',
     global_search: '',
     indent_request_id: indentId,
@@ -124,7 +126,7 @@ const PurchaseView = () => {
                       <td>{startingIndex + index}</td>
                       <td>{data?.bom_detail_data?.item_data?.item_name}</td>
                       <td>{data?.bom_detail_data?.uom_data?.name}</td>
-                      <td>{data?.quantity}</td>
+                      <td>{data?.indent_requested_quantity}</td>
                       <td>{formatBudgetValue(data?.total)}</td>
                     </tr>
                   ))}
@@ -160,7 +162,7 @@ const PurchaseView = () => {
                   <th className={Styles.tableHeading}>#</th>
                   <th className={Styles.tableHeading}>Purchase Request</th>
                   <th className={Styles.tableHeading}>Vendor Name </th>
-                  <th className={Styles.tableHeading}>Budget</th>
+                  <th className={Styles.tableHeading}>Quatation Budget</th>
                   <th className={Styles.tableHeading}>No of Items</th>
                   <th className={Styles.tableHeading}>Quotation Status</th>
                   <th className={Styles.tableHeading}>Action</th>
@@ -178,11 +180,18 @@ const PurchaseView = () => {
                   ''
                 )}
                 {purchaseTableData?.map((data: any, index: number) => {
+                  const itemData = data?.purchase_request_details
                   const isStatusApproved = data?.status === 'Approved';
                   const isMarkEnabled = isStatusApproved;
                   const actions = [
                     {
-                      label: 'View',
+                      label: 'View Items',
+                      onClick: () => {
+                        navigate(`/request-items`,{state:{data: itemData,project_id: projectId,indent_id:indentId}});
+                      },
+                    },
+                    {
+                      label: 'View Vendor',
                       onClick: () => {
                         navigate(`/vendor-select/${data?.purchase_request_id}`,{state:{project_id: projectId,indent_id:indentId}});
                       },
