@@ -166,45 +166,61 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
           expense_data_id: Yup.string()
             .typeError('Site Expense is required')
             .required('Site Expense is required'),
-          // .test(
-          //   'description-availability',
-          //   'Site Expense is already present',
-          //   async function (value, { parent }: Yup.TestContext) {
-          //     const isDelete = false;
-          //     const { path, createError } = this;
-          //     try {
-          //       let dummy: any = [];
-          //       const allIds = expenseList.map((item: any) => {
-          //         console.log('item', item);
-
-          //         if (item.is_delete === false)
-          //           dummy.push(item.expense_data_id);
-          //       });
-          //       console.log('allIds', dummy);
-          //       const checking = dummy.filter(
-          //         (id) => Number(id) === Number(value)
-          //       ).length;
-          //       if (checking <= 1) {
-          //         return true;
-          //       } else {
-          //         return false;
-          //       }
-          //     } catch {
-          //       return true;
-          //     }
-          //   }
-          // ),
           total: Yup.number()
             .min(1, 'Amount must be more then 0')
-            .max(100000, 'Amount must be less then 100000')
             .typeError('Only Numbers are allowed')
-            .required('Amount is required'),
+            .required('Amount is required')
+            .test(
+              'description-availability',
+              '',
+              async function (value, { parent }: Yup.TestContext) {
+                let bill_type = parent.bill_type;
+                console.log('bill_details', bill_type);
+                if (bill_type === 'VOUCHER' && value > 5000) {
+                  setMessage(
+                    'In bill type voucher amount should not be more then 50000'
+                  );
+                  setOpenSnack(true);
+                  return false;
+                } else {
+                  return true;
+                }
+              }
+            ),
+          bill_number: Yup.string(),
+          bill_type: Yup.string().required('Bill type is required'),
+          bill_details: Yup.array()
+            .required()
+            .test(
+              'description-availability',
+              'Site Expense is already present',
+              async function (value, { parent }: Yup.TestContext) {
+                let bill_details = parent.bill_details;
+                console.log('bill_details', bill_details);
+                console.log('bill_detailslenght', bill_details.length);
+                if (
+                  bill_details?.length < 0 &&
+                  bill_details[0]?.is_delete === 'Y'
+                ) {
+                  return true;
+                } else if (
+                  bill_details?.length > 0 &&
+                  bill_details[0]?.is_delete === 'N'
+                ) {
+                  return true;
+                } else {
+                  console.log('open');
+                  setMessage('Bill is Missing');
+                  setOpenSnack(true);
+                  return false;
+                }
+              }
+            ),
         })
       );
       await schema
         .validate(expenseList, { abortEarly: false })
         .then(async () => {
-          console.log('IntialValuevalues', values);
           setErrors({});
           for (let i = 0; i < expenseList.length; i++) {
             if (expenseList[i].is_delete === false) {
@@ -376,6 +392,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                 totalAmount={totalAmount}
                 mode={props?.mode}
                 errors={errors}
+                setErrors={setErrors}
               />
               <div className={Styles.totalBudget}>
                 <div>

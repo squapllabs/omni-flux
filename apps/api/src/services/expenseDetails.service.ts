@@ -12,8 +12,14 @@ import prisma from '../utils/prisma';
 
 const updateStatus = async (body: expenseDetailsBody) => {
   try {
-    const { status, comments, progressed_by, updated_by, expense_details_id } =
-      body;
+    const {
+      status,
+      comments,
+      progressed_by,
+      updated_by,
+      expense_details_id,
+      is_recalled = false,
+    } = body;
 
     const expenseDetailsExist = await expenseDetailsDao.getById(
       expense_details_id
@@ -45,6 +51,7 @@ const updateStatus = async (body: expenseDetailsBody) => {
           progressed_by,
           updated_by,
           expense_details_id,
+          is_recalled,
           prisma
         );
 

@@ -106,6 +106,9 @@ const Navbar = () => {
   const handleExpenseApproval = () => {
     navigate('/site-expense-approve');
   };
+  const handleExpenseRecall = () => {
+    navigate('/expense-recall');
+  }
   const handleFinanceView = () => {
     navigate('/finance-view');
   };
@@ -249,6 +252,20 @@ const Navbar = () => {
                               <h2>Expenses-Approval</h2>
                             </div>
                             <p>Manage your expenses approval</p>
+                          </div>
+                        ) : null}
+
+                        {roleName === 'PROJECT MANAGER' ||
+                        roleName === 'ADMIN' ? (
+                          <div
+                            className={Styles.dropDownItems}
+                            onClick={handleExpenseRecall}
+                          >
+                            <div className={Styles.itemsTitle}>
+                              {/* <CheckIcon /> */}
+                              <h2>Expense-Reversal</h2>
+                            </div>
+                            <p>Manage your expense recall</p>
                           </div>
                         ) : null}
 

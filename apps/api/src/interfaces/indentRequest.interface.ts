@@ -23,7 +23,9 @@ interface indentRequestDetails {
   indent_request_details_id: number;
   indent_request_id: number;
   bom_detail_id: number;
-  quantity: number;
+  indent_requested_quantity: number;
+  purchase_requested_quantity: number;
+  purchase_remaining_quantity: number;
   total: number;
   is_delete: boolean;
 }

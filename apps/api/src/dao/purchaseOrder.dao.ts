@@ -222,12 +222,11 @@ const createPurchaseOrderWithItem = async (
   purchase_order_item,
   connectionObj = null
 ) => {
-  let transaction;
   try {
     const currentDate = new Date();
     const is_delete = false;
     const formatted_order_date = order_date ? new Date(order_date) : null;
-    transaction = connectionObj !== null ? connectionObj : prisma;
+    const transaction = connectionObj !== null ? connectionObj : prisma;
     const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
     const order_id = await customQueryExecutor.customQueryExecutor(
       orderIdGeneratorQuery
@@ -258,6 +257,10 @@ const createPurchaseOrderWithItem = async (
           for (const value of purchase_order_item) {
             const item_id = value.item_id;
             const order_quantity = value.order_quantity;
+            const inward_quantity = value.inward_quantity
+              ? value.inward_quantity
+              : 0;
+            const inward_remaining_quantity = order_quantity - inward_quantity;
             const unit_price = value.unit_price;
 
             const purchaseOrderItem = await tx.purchase_order_item.create({
@@ -265,6 +268,8 @@ const createPurchaseOrderWithItem = async (
                 purchase_order_id: new_purchase_order_id,
                 item_id,
                 order_quantity,
+                inward_quantity,
+                inward_remaining_quantity,
                 unit_price,
                 created_by,
                 created_date: currentDate,

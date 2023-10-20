@@ -41,6 +41,8 @@ interface expenseDetailsBody {
   description: string;
   quantity: number;
   unit_value: number;
+  bill_type: string;
+  is_recalled: boolean;
 }
 
 export { expenseBody, expenseDetailsBody };

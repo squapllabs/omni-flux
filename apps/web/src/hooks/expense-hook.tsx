@@ -22,6 +22,16 @@ const getBysiteExpenseID = (id: number) => {
   );
 };
 
+const getBysiteExpenseCode = (code: any) => {
+  return useQuery(
+    ['getBysiteExpenseCode', code],
+    () => siteExpenseService.getOnesiteExpenseByCode(code),
+    {
+      select: (data) => data.data,
+    }
+  );
+};
+
 const createsiteExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -136,5 +146,6 @@ export {
   useBulkuploadSiteExpanse,
   updatesiteExpenseDetail,
   useGetAllPaginatedExpense,
-  updatesiteExpenseStatus
+  updatesiteExpenseStatus,
+  getBysiteExpenseCode
 };
