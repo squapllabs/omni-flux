@@ -46,8 +46,8 @@ const VendorSelect = () => {
   const vendorData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
+    order_by_column: 'created_date',
+    order_by_direction: 'asc',
     status: 'AC',
     global_search: '',
     purchase_request_id: prID,
@@ -153,7 +153,7 @@ const VendorSelect = () => {
             }}
           >
             <div className={Styles.textContent_1}>
-              <h3>Vendor Detail List</h3>
+              <h3>Allocated Vendor Detail List</h3>
               <span className={Styles.content}>Select the apt vendor</span>
             </div>
           </div>
@@ -164,10 +164,10 @@ const VendorSelect = () => {
             <thead>
               <tr>
                 <th>S No</th>
-                <th>Vendor ID</th>
+                {/* <th>Vendor ID</th> */}
                 <th>Vendor Name </th>
                 <th>No of Items</th>
-                <th>Budget</th>
+                <th>Quatation Budget</th>
                 <th>Quotation Id</th>
                 <th>Quotation Status</th>
                 <th>Document</th>
@@ -176,8 +176,15 @@ const VendorSelect = () => {
             </thead>
             <tbody>
               {tableData?.map((data: any, index: number) => {
+                const itemData = data?.quotation_details
                 const isQuotationPending = data.quotation_status === 'Pending';
                 const actions = [
+                  {
+                    label: 'View Items',
+                    onClick: () => {
+                      navigate(`/request-items`,{state:{data:itemData,project_id: projectId,indent_id:indentId,page:'VendorPage',purchaseRequestId:prID}});
+                    },
+                  },
                   {
                     label: 'Edit',
                     onClick: () => {
@@ -203,7 +210,7 @@ const VendorSelect = () => {
                 return (
                   <tr key={data.vendor_quotes_id}>
                     <td>{startingIndex + index}</td>
-                    <td>{data.vendor_id || nullLableNameFromEnv}</td>
+                    {/* <td>{data.vendor_id || nullLableNameFromEnv}</td> */}
                     <td>{data.vendor_name || nullLableNameFromEnv}</td>
                     <td>
                       {data?.quotation_details?.length || nullLableNameFromEnv}

@@ -20,7 +20,7 @@ import BOMService from '../../../service/bom-service';
 const ProjectBoqAddPopup = (props: any) => {
 
     const [initialValues, setInitialValues] = useState({
-        bom_name: '',
+        bom_name: null,
         bom_description: '',
         bom_type_id: '',
         bom_type_name: '',
@@ -49,7 +49,7 @@ const ProjectBoqAddPopup = (props: any) => {
                 const data = await BOMService.getBOQId(props.boqId);
                 setInitialValues({
                     bom_configuration_id:data?.data?.bom_configuration_id,
-                    bom_name: data?.data?.bom_name,
+                    bom_name: null,
                     bom_description: data?.data?.bom_description,
                     bom_type_id: data?.data?.bom_type_id,
                     bom_type_name: data?.data?.bom_type_data?.master_data_name,
@@ -70,7 +70,7 @@ const ProjectBoqAddPopup = (props: any) => {
             if (props?.boqId) {
                 const Object: any = {
                     bom_configuration_id:values?.bom_configuration_id,
-                    bom_name: values?.bom_name,
+                    bom_name: null,
                     bom_description: values?.bom_description,
                     bom_type_id: values?.bom_type_id,
                     project_id: values?.project_id,
@@ -90,7 +90,7 @@ const ProjectBoqAddPopup = (props: any) => {
             }
             else {
                 const Object: any = {
-                    bom_name: values.bom_name,
+                    bom_name: null,
                     bom_description: values.bom_description,
                     bom_type_id: values.bom_type_id,
                     project_id: props.projectId,
@@ -117,7 +117,7 @@ const ProjectBoqAddPopup = (props: any) => {
             <form onSubmit={formik.handleSubmit}>
                 <div className={Styles.divOne}>
                     <div>
-                        <div>
+                        {/* <div>
                             <Input
                                 name="bom_name"
                                 label="BoQ Name"
@@ -127,7 +127,7 @@ const ProjectBoqAddPopup = (props: any) => {
                                 onChange={formik.handleChange}
                                 error={formik.touched.bom_name && formik.errors.bom_name}
                             />
-                        </div>
+                        </div> */}
                         <div>
                             <TextArea
                                 name="bom_description"
