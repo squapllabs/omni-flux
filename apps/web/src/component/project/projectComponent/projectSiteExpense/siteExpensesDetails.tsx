@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 import Input from '../../../ui/Input';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
@@ -15,6 +15,7 @@ import SiteExpensesView from './siteExpensesView';
 import ViewIcon from '../../../menu/icons/newViewIcon';
 import CloseIcon from '../../../menu/icons/closeIcon';
 import CloudUploadIcon from '../../../menu/icons/cloudUpload';
+import Select from '../../../ui/selectNew';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
   let rowIndex = 0;
@@ -25,9 +26,15 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     total: '',
     is_delete: false,
     description: '',
-    bill_details: '',
+    bill_details: [],
+    bill_type: '',
     status: '',
   });
+  const options = [
+    { value: 'CASH', label: 'Case' },
+    { value: 'BILL', label: 'Bill' },
+    { value: 'VOUCHER', label: 'Voucher' },
+  ];
   const [openPdfpopup, setOpenPdfpopup] = useState(false);
   const [viewDocs, setViewDocs] = useState();
   const [ExpenseValue, setExpenseValue] = useState<any>({});
@@ -40,28 +47,44 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
   const [fileMandatoryError, setFileMandatoryError] = useState('');
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
+  const [expenseIndex, setExpenseIndex] = useState<any>();
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
 
+  useEffect(() => {
+    if (props?.mode != 'Edit' && props.expenseList.length === 0) {
+      props.setExpenseList([...props.expenseList, initialValues]);
+    }
+  }, [props?.mode]);
+
   const deleteSiteExpense = (e: any, values: any) => {
-    const itemIndex = props.expenseList.findIndex(
-      (item: any) =>
-        item.expense_data_id === ExpenseValue?.expense_data_id &&
-        item.is_delete === ExpenseValue?.is_delete
-    );
-    props.expenseList[itemIndex] = {
-      ...props.expenseList[itemIndex],
-      is_delete: true,
-      bill_details: props.expenseList[itemIndex].bill_details.map(
-        (billDetail: any, index: number) => {
-          if (index === 0) {
-            return { ...billDetail, is_delete: 'Y' };
+    // const itemIndex = props.expenseList.findIndex(
+    //   (item: any) =>
+    //     item.expense_data_id === ExpenseValue?.expense_data_id &&
+    //     item.is_delete === ExpenseValue?.is_delete
+    // );
+    console.log('expenseIndex', props.expenseList[expenseIndex]);
+    if (props.expenseList[expenseIndex].bill_details != '') {
+      props.expenseList[expenseIndex] = {
+        ...props.expenseList[expenseIndex],
+        is_delete: true,
+        bill_details: props.expenseList[expenseIndex].bill_details.map(
+          (billDetail: any, index: number) => {
+            if (index === 0) {
+              return { ...billDetail, is_delete: 'Y' };
+            }
+            return billDetail;
           }
-          return billDetail;
-        }
-      ),
-    };
+        ),
+      };
+    } else {
+      props.expenseList[expenseIndex] = {
+        ...props.expenseList[expenseIndex],
+        is_delete: true,
+      };
+    }
+
     props.setExpenseList([...props.expenseList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
@@ -69,77 +92,23 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     props.setOpenSnack(true);
   };
   // console.log('expenseErrors', props.errors.[`[${index}].reason_for_leaving`]);
+  console.log('props.expenseList', props.expenseList);
 
-  const validationSchema = Yup.object().shape({
-    is_delete: Yup.string().required(),
-    expense_data_id: Yup.string()
-      .typeError('Site Expense is required')
-      .required('Site Expense is required'),
-    // .test(
-    //   'description-availability',
-    //   'Site Expense is already present',
-    //   async function (value, { parent }: Yup.TestContext) {
-    //     const isDelete = false;
-    //     try {
-    //       const isValuePresent = props.expenseList.some((obj: any) => {
-    //         return (
-    //           Number(obj.expense_data_id) === Number(value) &&
-    //           obj.is_delete === isDelete
-    //         );
-    //       });
-
-    //       if (isValuePresent === true) {
-    //         return false;
-    //       } else {
-    //         return true;
-    //       }
-    //     } catch {
-    //       return true;
-    //     }
-    //   }
-    // ),
-    total: Yup.number()
-      .min(1, 'Amount must be more then 0')
-      .max(100000, 'Amount must be less then 100000')
-      .typeError('Only Numbers are allowed')
-      .required('Amount is required'),
-    description: Yup.string().required('Description is required'),
-    bill_number: Yup.string(),
-    // .test(
-    //   'document check',
-    //   'Site document mandatory',
-    //   async function (value, { parent }: Yup.TestContext) {
-    //     try {
-    //       if (value && selectedFiles.length === 0) {
-    //         setFileMandatoryError(
-    //           'File is mandatory when a bill number is provided'
-    //         );
-    //         return false;
-    //       } else {
-    //         setFileMandatoryError('');
-    //         return true;
-    //       }
-    //     } catch {
-    //       return true;
-    //     }
-    //   }
-    // )
-    // .test(
-    //   'bill number check',
-    //   'Bill No mandatory',
-    //   async function (value, { parent }: Yup.TestContext) {
-    //     try {
-    //       if (selectedFiles.length > 0 && value === undefined) {
-    //         return false;
-    //       } else {
-    //         return true;
-    //       }
-    //     } catch {
-    //       return true;
-    //     }
-    //   }
-    // ),
-  });
+  const validationSchema = Yup.array().of(
+    Yup.object().shape({
+      is_delete: Yup.string().required(),
+      expense_data_id: Yup.string()
+        .typeError('Site Expense is required')
+        .required('Site Expense is required'),
+      total: Yup.number()
+        .min(1, 'Amount must be more then 0')
+        .max(100000, 'Amount must be less then 100000')
+        .typeError('Only Numbers are allowed')
+        .required('Amount is required'),
+      description: Yup.string().required('Description is required'),
+      bill_number: Yup.string(),
+    })
+  );
 
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -181,11 +150,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         values['bill_details'] = s3UploadUrl;
         values['status'] = 'Pending';
         props.setExpenseList([...props.expenseList, values]);
-        // props.setInitialValues({
-        //   ...props.initialValues,
-        //   ['expenseList']: [...props.expenseList, values],
-        // });
-
         setSelectedFileName([]);
         resetForm();
         setSelectedFiles([]);
@@ -274,12 +238,29 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       } else {
         const selectedFilesArray: File[] = [];
         const selectedFileNamesArray: string[] = [];
-
+        let arr: any = [];
         fileList.forEach(async (file) => {
+          const code = 'SITEEXPENSE' + props.siteId;
+          const response = await userService.documentUpload(file, code);
+          console.log('response', response?.data[0]);
+
+          let obj = {
+            ...response?.data[0],
+            is_delete: 'N',
+          };
+          console.log('responseobj', obj);
+          arr.push(obj);
           selectedFilesArray.push(file);
           selectedFileNamesArray.push(file.name);
         });
-
+        let tempObj = {};
+        props.expenseList[expenseIndex].bill_details = arr;
+        tempObj = {
+          ...props.expenseList[expenseIndex],
+        };
+        let tempArry = [...props.expenseList];
+        tempArry[expenseIndex] = tempObj;
+        props.setExpenseList(tempArry);
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
@@ -318,6 +299,58 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     props.setExpenseList(tempArry);
   };
 
+  const handleAddObject = async () => {
+    const schema = Yup.array().of(
+      Yup.object().shape({
+        is_delete: Yup.string().required(),
+        expense_data_id: Yup.string()
+          .typeError('Site Expense is required')
+          .required('Site Expense is required'),
+        total: Yup.number()
+          .min(1, 'Amount must be more then 0')
+          .typeError('Only Numbers are allowed')
+          .required('Amount is required')
+          .test(
+            'description-availability',
+            '',
+            async function (value, { parent }: Yup.TestContext) {
+              let bill_type = parent.bill_type;
+              console.log('bill_details', bill_type);
+              if (bill_type === 'VOUCHER' && value > 5000) {
+                props.setMessage(
+                  'In bill type voucher amount should not be more then 50000'
+                );
+                props.setOpenSnack(true);
+                return false;
+              } else {
+                return true;
+              }
+            }
+          ),
+        description: Yup.string().required('Description is required'),
+        bill_number: Yup.string(),
+        bill_type: Yup.string().required('Bill type is required'),
+      })
+    );
+    await schema
+      .validate(props.expenseList, { abortEarly: false })
+      .then(async () => {
+        props.setErrors({});
+        props.setExpenseList([...props.expenseList, initialValues]);
+      })
+      .catch((e: any) => {
+        let errorObj = {};
+        e.inner?.map((error: any) => {
+          console.log('error', e);
+          return (errorObj[error.path] = error.message);
+        });
+        props.setErrors({
+          ...errorObj,
+        });
+      });
+  };
+  console.log('  props.errors?', props.errors);
+
   return (
     <div>
       <form>
@@ -330,7 +363,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
               <th>#</th>
               <th>Description</th>
               <th>Site Expense</th>
-              <th>Bill No</th>
+              <th>Bill Type</th>
+              <th>Bill/Voucher No</th>
               <th>Amount</th>
               <th>Document</th>
               <th>Action</th>
@@ -352,7 +386,13 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         onChange={(e) => handleListChange(e, index)}
                         value={item.description}
                         width="300px"
-                        error={props.errors?.[`[${index}].description`]}
+                        error={
+                          props.errors?.[`[${index}].description`]
+                            ? true
+                            : props.errors?.[`[${index}].bill_details`]
+                            ? true
+                            : false
+                        }
                       />
                     </td>
                     <td>
@@ -370,36 +410,80 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                         value={item.expense_data_id}
                         onChange={(e) => handleListChange(e, index)}
                         onSelect={(value) => {
+                          const matchingObjects = getSiteExpense.filter(
+                            (obj: any) => Number(obj.value) === Number(value)
+                          );
                           let tempObj = {};
                           tempObj = {
                             ...props.expenseList[index],
                             ['expense_data_id']: value,
+                            ['site_expense_name']: matchingObjects[0].label,
                           };
+
                           let tempArry = [...props.expenseList];
                           tempArry[index] = tempObj;
+                          console.log('tempArry[index]', tempArry[index]);
 
                           props.setExpenseList(tempArry);
                         }}
-                        error={props.errors?.[`[${index}].expense_data_id`]}
-                        // disabled={true}
+                        error={
+                          props.errors?.[`[${index}].expense_data_id`]
+                            ? true
+                            : props.errors?.[`[${index}].bill_details`]
+                            ? true
+                            : false
+                        }
                       />
+                    </td>
+                    <td>
+                      <Select
+                        name="bill_type"
+                        value={item.bill_type}
+                        width="180px"
+                        onChange={(e) => handleListChange(e, index)}
+                        defaultLabel="Select the option"
+                        placeholder="Select the option"
+                        error={
+                          props.errors?.[`[${index}].bill_type`]
+                            ? true
+                            : props.errors?.[`[${index}].bill_details`]
+                            ? true
+                            : false
+                        }
+                      >
+                        {options?.map((item, index) => {
+                          return (
+                            <option value={item.value}>{item.label}</option>
+                          );
+                        })}
+                      </Select>
                     </td>
                     <td>
                       <Input
                         name="bill_number"
                         value={item.bill_number}
                         onChange={(e) => handleListChange(e, index)}
-                        width="120px"
+                        width="160px"
+                        error={
+                          props.errors?.[`[${index}].bill_details`]
+                            ? true
+                            : false
+                        }
                       />
                     </td>
                     <td style={{ overflow: 'hidden' }}>
                       <Input
                         name="total"
-                        // name={`item[${index}].total`}
                         value={item.total}
                         onChange={(e) => handleListChange(e, index)}
                         width="120px"
-                        error={props.errors?.[`[${index}].total`]}
+                        error={
+                          props.errors?.[`[${index}].total`]
+                            ? true
+                            : props.errors?.[`[${index}].bill_details`]
+                            ? true
+                            : false
+                        }
                       />
                     </td>
                     <td>
@@ -416,18 +500,16 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                     cursor: 'pointer',
                                     fontWeight: 'bolder',
                                     color: 'blue',
-                                  }}
-                                  onClick={() => {
-                                    viewDocumnet(item);
+                                    display: 'flex',
                                   }}
                                 >
-                                  {/* <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  > */}
-                                  {customQuotationName}
-                                  {/* </a> */}
+                                  <div
+                                    onClick={() => {
+                                      viewDocumnet(item);
+                                    }}
+                                  >
+                                    {customQuotationName}
+                                  </div>
                                   <CloseIcon
                                     width={5}
                                     height={10}
@@ -438,7 +520,39 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                           }
                         )
                       ) : (
-                        <div>-</div>
+                        <div>
+                          <div title="Attach document">
+                            <input
+                              ref={fileInputRef_2}
+                              id="upload-photo"
+                              name="upload_photo"
+                              type="file"
+                              style={{ display: 'none' }}
+                              onChange={(e) => handleFileSelectRow(e, index)}
+                              error={
+                                formik.touched.bill_number &&
+                                formik.errors.bill_number
+                              }
+                            />
+                            <div
+                              style={{
+                                cursor: 'pointer',
+                                paddingBottom: '5px',
+                              }}
+                              onClick={() => {
+                                setExpenseIndex(index);
+                                onButtonClickRow();
+                              }}
+                            >
+                              <FileUploadIcon color="#7f56d9" />
+                            </div>
+                            {fileMandatoryError && (
+                              <div className={Styles.documentErr}>
+                                {fileMandatoryError}
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       )}
                     </td>
                     <td>
@@ -448,148 +562,36 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                           onClick={() => {
                             setExpenseValue(item);
                             setOpenDelete(true);
+                            setExpenseIndex(index);
                           }}
                         >
                           <DeleteIcon />
                         </div>
-                        {/* {item.bill_details?.length > 0 &&
-                        item.bill_details[0].is_delete === 'N'
-                          ? item.bill_details.map(
-                              (document: any, index: number) => (
-                                <div
-                                  style={{ cursor: 'pointer' }}
-                                  onClick={() => {
-                                    viewDocumnet(item);
-                                  }}
-                                >
-                                  <ViewIcon />
-                                </div>
-                              )
-                            )
-                          : ''} */}
                       </div>
                     </td>
                   </tr>
                 );
               }
             })}
-            {display && (
-              <tr>
-                <td></td>
-                <td>
-                  <div>
-                    <Input
-                      name="description"
-                      onChange={formik.handleChange}
-                      value={formik.values.description}
-                      width="300px"
-                      error={
-                        formik.touched.description && formik.errors.description
-                      }
-                    />
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <AutoCompleteSelect
-                      name="expense_data_id"
-                      defaultLabel="Select from options"
-                      placeholder="Select from options"
-                      onChange={formik.handleChange}
-                      value={formik.values.expense_data_id}
-                      optionList={getSiteExpense}
-                      width="180px"
-                      onSelect={(value) => {
-                        formik.setFieldValue('expense_data_id', value);
-                        const matchingObjects = getSiteExpense.filter(
-                          (obj: any) => Number(obj.value) === Number(value)
-                        );
-                        formik.setFieldValue(
-                          'site_expense_name',
-                          matchingObjects[0].label
-                        );
-                      }}
-                      error={
-                        formik.touched.expense_data_id &&
-                        formik.errors.expense_data_id
-                      }
-                    />
-                  </div>
-                </td>
-                <td style={{ overflow: 'hidden' }}>
-                  <div>
-                    <Input
-                      name="bill_number"
-                      value={formik.values.bill_number}
-                      onChange={formik.handleChange}
-                      width="120px"
-                      error={
-                        formik.touched.bill_number && formik.errors.bill_number
-                      }
-                    />
-                  </div>
-                </td>
-                <td style={{ overflow: 'hidden' }}>
-                  <div>
-                    <Input
-                      name="total"
-                      value={formik.values.total}
-                      onChange={formik.handleChange}
-                      error={formik.touched.total && formik.errors.total}
-                      width="120px"
-                    />
-                  </div>
-                </td>
-                <td>
-                  <div title="Attach document">
-                    <input
-                      ref={fileInputRef}
-                      id="upload-photo"
-                      name="upload_photo"
-                      type="file"
-                      style={{ display: 'none' }}
-                      onChange={handleFileSelect}
-                      error={
-                        formik.touched.bill_number && formik.errors.bill_number
-                      }
-                    />
-                    <div style={{ cursor: 'pointer', paddingBottom: '5px' }}>
-                      <FileUploadIcon onClick={onButtonClick} color="#7f56d9" />
-                    </div>
-                    <div>
-                      <span>{selectedFileName[0]}</span>
-                    </div>
-                    {fileMandatoryError && (
-                      <div className={Styles.documentErr}>
-                        {fileMandatoryError}
-                      </div>
-                    )}
-                  </div>
-                </td>
-                <td></td>
-              </tr>
-            )}
           </tbody>
         </table>
-        <div className={Styles.addDataIcon}>
-          {display && (
-            <div onClick={formik.handleSubmit} className={Styles.iconContent}>
-              <NewAddCircleIcon />
-              <span>Add Claim</span>
-            </div>
-          )}
+      </div>
+      <div className={Styles.addDataIcon}>
+        {/* <div onClick={formik.handleSubmit} className={Styles.iconContent}>
+            <NewAddCircleIcon />
+            <span>Add Claim</span>
+          </div> */}
 
-          {display === false && (
-            <div
-              onClick={() => {
-                setDisplay(true);
-              }}
-              className={Styles.iconContent}
-            >
-              <NewAddCircleIcon />
-              <span>Add More Claim</span>
-            </div>
-          )}
+        <div
+          onClick={() => {
+            handleAddObject();
+          }}
+          className={Styles.iconContent}
+        >
+          <NewAddCircleIcon />
+          <span>
+            {props.expenseList.length > 0 ? 'Add More Claim' : 'Add Claim'}
+          </span>
         </div>
       </div>
       <CustomDelete

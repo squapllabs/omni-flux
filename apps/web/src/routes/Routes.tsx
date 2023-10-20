@@ -270,6 +270,7 @@ import projectAbstract from '../component/projectBOQ/projectAbstract';
 import NewBoqList from '../component/projectBOQ/projectBoqList';
 import GenerateOtp from '../component/generateOtp';
 import ExpenseRecall from '../component/expenseRecall/expenseRecall';
+import PurchaseRequestItemView from '../component/purchaseApproval/purchaseRequestItemView';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -370,6 +371,9 @@ const AppRoutes = () => {
   const ProtectedListVendor = withLayoutAndProtection(ListVendor);
   const ProtectedNewBoqList = withLayoutAndProtection(NewBoqList);
   const ProtectedExpenseRecall = withLayoutAndProtection(ExpenseRecall);
+  const ProtectedPurchaseRequestItemView = withLayoutAndProtection(
+    PurchaseRequestItemView
+  );
   return (
     <div>
       <Routes>
@@ -581,6 +585,10 @@ const AppRoutes = () => {
         <Route path="/vendor-list" element={<ProtectedListVendor />} />
         <Route path="/generate-otp" element={<GenerateOtp />} />
         <Route path="/expense-recall" element={<ProtectedExpenseRecall />} />
+        <Route
+          path="/request-items"
+          element={<ProtectedPurchaseRequestItemView />}
+        />
       </Routes>
     </div>
   );

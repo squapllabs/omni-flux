@@ -244,7 +244,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 <div className={Styles.heading}>
                   <div className={Styles.subHeading}>
                     <BOQIcon />
-                    <h3>{`BoQ (${initialData?.total_count})`}</h3>
+                    <h3>{`List of BoQ (${initialData?.total_count})`}</h3>
                   </div>
                   <div>
                     <Button
@@ -274,7 +274,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>BoQ Name</th>
+                          {/* <th>BoQ Name</th> */}
                           <th>Description</th>
                           <th>Type</th>
                           <th>Abstracts</th>
@@ -314,7 +314,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                               return (
                                 <tr key={data?.bom_configuration_id}>
                                   <td>{startingIndex + index}</td>
-                                  <td>{data?.bom_name}</td>
+                                  {/* <td>{data?.bom_name}</td> */}
                                   <td>{data?.bom_description}</td>
                                   <td>
                                     {data?.bom_type_data?.master_data_name}
