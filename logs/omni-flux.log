@@ -1,0 +1,146 @@
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>TypeError: vendor_ids is not iterable
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>TypeError: vendor_ids is not iterable
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
+
+  54 );
+  55 
+  56 const vendorExistForThisPurchaseRequest =
+→ 57   await transaction.vendor_quotes.findFirst({
+         where: {
+           purchase_request_id: 131,
+           vendor_id: [
+             '18',
+             '22'
+           ],
+           ~~~~~~~~
+           is_delete: false
+         }
+       })
+
+Argument vendor_id: Got invalid value 
+[
+  '18',
+  '22'
+]
+on prisma.findFirstvendor_quotes. Provided List<String>, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
+
+  54 );
+  55 
+  56 const vendorExistForThisPurchaseRequest =
+→ 57   await transaction.vendor_quotes.findFirst({
+         where: {
+           purchase_request_id: 132,
+           vendor_id: '18',
+                      ~~~~
+           is_delete: false
+         }
+       })
+
+Argument vendor_id: Got invalid value '18' on prisma.findFirstvendor_quotes. Provided String, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
+
+  54 );
+  55 
+  56 const vendorExistForThisPurchaseRequest =
+→ 57   await transaction.vendor_quotes.findFirst({
+         where: {
+           purchase_request_id: 133,
+           vendor_id: '24',
+                      ~~~~
+           is_delete: false
+         }
+       })
+
+Argument vendor_id: Got invalid value '24' on prisma.findFirstvendor_quotes. Provided String, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
+
+  54 );
+  55 
+  56 const vendorExistForThisPurchaseRequest =
+→ 57   await transaction.vendor_quotes.findFirst({
+         where: {
+           purchase_request_id: 135,
+           vendor_id: null,
+                      ~~~~
+           is_delete: false
+         }
+       })
+
+Argument vendor_id for where.vendor_id must not be null. Please use undefined instead.
+
+

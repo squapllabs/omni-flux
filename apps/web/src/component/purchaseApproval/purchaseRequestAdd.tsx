@@ -37,6 +37,7 @@ const PurchaseRequestAdd = () => {
     requested_quantity: '',
     allocated_quantity: '',
     item_name: '',
+    indent_request_details_id:''
   });
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
@@ -103,10 +104,11 @@ const PurchaseRequestAdd = () => {
       project_id: projectId,
       purchase_request_details: purchaseRequestData.map((item: any) => ({
         item_id: item.item_id,
-        indent_request_quantity: Number(item.requested_quantity),
-        allocated_quantity: Number(item.allocated_quantity),
+        indent_requested_quantity: Number(item.requested_quantity),
+        purchase_requested_quantity: Number(item.allocated_quantity),
         item_name: item.item_name,
         rate: Number(item?.rate),
+        indent_request_details_id:Number(item?.indent_request_details_id)
       })),
       vendor_ids: purchaseRequestData.map((item: any) => item.vendor_id.map(Number)).flat()
     };
@@ -198,10 +200,14 @@ const PurchaseRequestAdd = () => {
 
                     const matchingObjects = itemsData?.filter(
                       (obj: any) => Number(obj.item_id) === Number(value)
-                    );
+                    );                    
                     formik.setFieldValue(
                       'requested_quantity',
-                      matchingObjects[0]?.bom_detail[0]?.indent_request_details[0]?.indent_requested_quantity
+                      matchingObjects[0]?.indent_requested_quantity
+                    );
+                    formik.setFieldValue(
+                      'indent_request_details_id',
+                      matchingObjects[0]?.indent_request_details_id
                     );
                     formik.setFieldValue(
                       'item_name',
