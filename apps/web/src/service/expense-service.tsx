@@ -25,6 +25,18 @@ const getOnesiteExpenseByID = async (values: any) => {
   }
 };
 
+const getOnesiteExpenseByCode = async (code: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/expense/get-by-expense-code/${code}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOne expense :', error);
+    throw error;
+  }
+};
+
 const getOnesiteExpenseDetailByID = async (values: any) => {
   try {
     const response = await axiosinterceptor.get(
@@ -147,5 +159,6 @@ export default {
   getSiteExpenseByProjectandSiteID,
   updatesiteExpenseDetail,
   getOnesiteExpenseDetailByID,
-  updatesiteExpenseStatus
+  updatesiteExpenseStatus,
+  getOnesiteExpenseByCode,
 };

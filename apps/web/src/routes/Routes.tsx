@@ -269,6 +269,7 @@ import EcoProduction from '../component/ecoProduction/ecoProduction';
 import projectAbstract from '../component/projectBOQ/projectAbstract';
 import NewBoqList from '../component/projectBOQ/projectBoqList';
 import GenerateOtp from '../component/generateOtp';
+import ExpenseRecall from '../component/expenseRecall/expenseRecall';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -368,6 +369,7 @@ const AppRoutes = () => {
   const ProtectedBillView = withLayoutAndProtection(BillView);
   const ProtectedListVendor = withLayoutAndProtection(ListVendor);
   const ProtectedNewBoqList = withLayoutAndProtection(NewBoqList);
+  const ProtectedExpenseRecall = withLayoutAndProtection(ExpenseRecall);
   return (
     <div>
       <Routes>
@@ -578,6 +580,7 @@ const AppRoutes = () => {
         <Route path="/eco-protection" element={<EcoProduction />} />
         <Route path="/vendor-list" element={<ProtectedListVendor />} />
         <Route path="/generate-otp" element={<GenerateOtp />} />
+        <Route path="/expense-recall" element={<ProtectedExpenseRecall />} />
       </Routes>
     </div>
   );
