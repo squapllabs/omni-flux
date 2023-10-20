@@ -17,6 +17,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { getPurchaseRequestCreateValidateyup } from '../../helper/constants/purchaseRequestAdd-constants';
 import * as yup from 'yup';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
+import { isNull } from 'util';
 const PurchaseRequestAdd = () => {
   const [itemValues, setItemsValues] = useState([]);
   const [dynamicitemValues, setDynamicItemsValues] = useState([]);
@@ -54,10 +55,17 @@ const PurchaseRequestAdd = () => {
       arr = [...purchaseRequestData, values];
       const newArray = dynamicitemValues.filter(item2 => {
         return !arr.some(item1 => item1.item_name === item2.label);
-    });
+      });
       setDynamicItemsValues(newArray)
       setPurchaseRequestData(arr);
-      resetForm();
+      resetForm({
+        values: {
+          ...formik.values,
+          item_name: '',
+          requested_quantity: '',
+          allocated_quantity: '',
+        },
+      });
       setDropDisable(true);
     },
   });
@@ -84,7 +92,7 @@ const PurchaseRequestAdd = () => {
     setPurchaseRequestData([...purchaseRequestData]);
     const newArray = itemValues.filter(item2 => {
       return !purchaseRequestData.some(item1 => item1.item_name === item2.label);
-  });
+    });
     setDynamicItemsValues(newArray)
     setDropDisable(false);
   };
@@ -98,7 +106,7 @@ const PurchaseRequestAdd = () => {
       project_id: projectId,
       purchase_request_details: purchaseRequestData.map((item: any) => ({
         item_id: item.item_id,
-        indent_request_quantity:Number(item.requested_quantity),
+        indent_request_quantity: Number(item.requested_quantity),
         allocated_quantity: Number(item.allocated_quantity),
         item_name: item.item_name,
         rate: Number(item?.rate),
@@ -280,7 +288,6 @@ const PurchaseRequestAdd = () => {
                   }}
                   addLabel="Add Vendor"
                   onAddClick={(value) => {
-                    console.log('onAddClick', value);
                     navigate('/vendor-add', {
                       state: { project_id: projectId, indent_id: indentId },
                     });
