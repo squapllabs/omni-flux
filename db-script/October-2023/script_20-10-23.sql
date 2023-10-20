@@ -19,3 +19,12 @@ constraint fk_expense_recall_expense_id foreign key (expense_id) references expe
 constraint fk_expense_recall_recall_creator_id foreign key (recall_creator_id) references users(user_id),
 constraint fk_expense_recall_expense_details_id foreign key (expense_details_id) references expense_details(expense_details_id)
 )
+
+alter table purchase_order 
+add column purchase_order_details jsonb;
+
+alter table category 
+rename column budget to actual_budget;
+
+alter table category 
+add column estimated_budget float8;

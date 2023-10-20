@@ -17,7 +17,7 @@ import { runValidation } from '../../validations/index';
 import multer from 'multer';
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadPath = 'tmp/';
+    const uploadPath = 'apps/';
     cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
