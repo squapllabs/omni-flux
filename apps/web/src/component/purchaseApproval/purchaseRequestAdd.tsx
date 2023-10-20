@@ -99,6 +99,7 @@ const PurchaseRequestAdd = () => {
         indent_request_quantity:Number(item.requested_quantity),
         allocated_quantity: Number(item.allocated_quantity),
         item_name: item.item_name,
+        rate: Number(item?.rate),
       })),
       vendor_ids: purchaseRequestData.reduce(
         (vendorIds: number[], item: any) => {
@@ -152,7 +153,7 @@ const PurchaseRequestAdd = () => {
               onClick={() => {
                 navigate(`/purchase-detail/${indentId}`, {
                   state: { project_id: projectId },
-                });
+                })
               }}
             >
               <PreviousPageIcon width={20} height={20} color="#7f56d9" />
@@ -206,6 +207,10 @@ const PurchaseRequestAdd = () => {
                     formik.setFieldValue(
                       'item_name',
                       matchingObjects[0]?.item_name
+                    );
+                    formik.setFieldValue(
+                      'rate',
+                      matchingObjects[0]?.rate
                     );
                   }}
                   optionList={dynamicitemValues}
