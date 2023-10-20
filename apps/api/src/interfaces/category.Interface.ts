@@ -9,6 +9,9 @@ interface createCategoryBody {
   end_date: Date;
   bom_configuration_id: number;
   progress_status: string;
+  created_date: Date;
+  updated_date: Date;
+  is_delete: boolean;
 }
 
 interface updateCategoryBody {
