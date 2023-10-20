@@ -24,7 +24,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     indent_request_details_id: '',
     indent_request_id: '',
     bom_detail_id: '',
-    quantity: 0,
+    indent_requested_quantity: 0,
     total: 0,
     is_delete: false,
     uom_name: '',
@@ -72,7 +72,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     );
     tempObj = {
       ...tempObj,
-      total: tempObj?.quantity * matchingObjects[0]?.bom_rate,
+      total: tempObj?.indent_requested_quantity * matchingObjects[0]?.bom_rate,
     };
     const tempArry = [...props.indentRequestDetailsList];
     tempArry[index] = tempObj;
@@ -105,7 +105,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
           }
         }
       ),
-    quantity: yup
+      indent_requested_quantity: yup
       .number()
       .moreThan(0, 'Quantity must be more then 0')
       .required('Quantity is required'),
@@ -114,9 +114,9 @@ const IndentRequestDetails: React.FC = (props: any) => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      values['quantity'] = Number(formik?.values?.quantity);
+      values['indent_requested_quantity'] = Number(formik?.values?.indent_requested_quantity);
       values['total'] =
-        formik?.values?.quantity * formik?.values?.per_item_cost;
+        formik?.values?.indent_requested_quantity * formik?.values?.per_item_cost;
       await props.setIndentRequestDetailsList([
         ...props.indentRequestDetailsList,
         values,
@@ -186,9 +186,9 @@ const IndentRequestDetails: React.FC = (props: any) => {
                     <td>
                       <Input
                         width="180px"
-                        name="quantity"
+                        name="indent_requested_quantity"
                         mandatory={true}
-                        value={items?.quantity}
+                        value={items?.indent_requested_quantity}
                         onChange={(e) => {
                           handleFieldChange(e, index);
                         }}
@@ -244,7 +244,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                     console.log('matchingObjects', matchingObjects);
 
                     formik.setFieldValue(
-                      'quantity',
+                      'indent_requested_quantity',
                       matchingObjects[0]?.bom_quantity
                     );
                     formik.setFieldValue(
@@ -274,12 +274,12 @@ const IndentRequestDetails: React.FC = (props: any) => {
               </td>
               <td>
                 <Input
-                  name="quantity"
+                  name="indent_requested_quantity"
                   mandatory={true}
                   width="180px"
-                  value={formik?.values?.quantity}
+                  value={formik?.values?.indent_requested_quantity}
                   onChange={formik?.handleChange}
-                  error={formik.touched.quantity && formik.errors.quantity}
+                  error={formik.touched.indent_requested_quantity && formik.errors.indent_requested_quantity}
                   disabled={props.disabled}
                 />
               </td>

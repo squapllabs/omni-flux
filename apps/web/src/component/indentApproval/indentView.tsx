@@ -134,7 +134,7 @@ const IndentView = () => {
                         <td>{startingIndex + index}</td>
                         <td>{data?.bom_detail_data?.item_data?.item_name}</td>
                         <td>{data?.bom_detail_data?.uom_data?.name}</td>
-                        <td>{data?.quantity}</td>
+                        <td>{data?.indent_requested_quantity}</td>
                         <td>{formatBudgetValue(data?.total)}</td>
                       </tr>
                     );

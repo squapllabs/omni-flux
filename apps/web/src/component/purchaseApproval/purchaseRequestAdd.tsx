@@ -64,6 +64,8 @@ const PurchaseRequestAdd = () => {
 
   const handleDropChange = async () => {
     const itemsData = await PurchaseRequestService.getIndentItems(indentId);
+    console.log("///",itemsData);
+    
     const arr: any = [];
     setItemsData(itemsData.data);
     const items = itemsData?.data?.map((items: any, index: any) => {
@@ -202,7 +204,7 @@ const PurchaseRequestAdd = () => {
                     );
                     formik.setFieldValue(
                       'requested_quantity',
-                      matchingObjects[0]?.bom_detail[0]?.quantity
+                      matchingObjects[0]?.bom_detail[0]?.indent_request_details[0]?.indent_requested_quantity
                     );
                     formik.setFieldValue(
                       'item_name',
