@@ -65,19 +65,19 @@ const createSubCategory = async (body: createSubCategoryBody) => {
       }
     }
 
-    const checkDuplicate =
-      await subCategoryDao.getBySubCategoryNameAndCategoryId(
-        name,
-        Number(category_id)
-      );
-    if (checkDuplicate) {
-      result = {
-        message: 'sub_category_name already exist for this category',
-        status: false,
-        data: null,
-      };
-      return result;
-    }
+    // const checkDuplicate =
+    //   await subCategoryDao.getBySubCategoryNameAndCategoryId(
+    //     name,
+    //     Number(category_id)
+    //   );
+    // if (checkDuplicate) {
+    //   result = {
+    //     message: 'sub_category_name already exist for this category',
+    //     status: false,
+    //     data: null,
+    //   };
+    //   return result;
+    // }
 
     if (bom_configuration_id) {
       const bomConfigurationExist = await bomConfigurationDao.getById(
@@ -225,19 +225,21 @@ const updateSubCategory = async (body: updateSubCategoryBody) => {
       };
       return result;
     }
-    const checkDuplicate =
-      await subCategoryDao.getBySubCategoryNameAndCategoryId(
-        name,
-        Number(category_id)
-      );
-    if (checkDuplicate && checkDuplicate?.sub_category_id !== sub_category_id) {
-      result = {
-        message: 'sub_category_name already exist for this category',
-        status: false,
-        data: null,
-      };
-      return result;
-    }
+
+    // checking duplicate name
+    // const checkDuplicate =
+    //   await subCategoryDao.getBySubCategoryNameAndCategoryId(
+    //     name,
+    //     Number(category_id)
+    //   );
+    // if (checkDuplicate && checkDuplicate?.sub_category_id !== sub_category_id) {
+    //   result = {
+    //     message: 'sub_category_name already exist for this category',
+    //     status: false,
+    //     data: null,
+    //   };
+    //   return result;
+    // }
     const subCategoryDetails = await subCategoryDao.edit(
       name,
       category_id,
