@@ -17,7 +17,6 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { getPurchaseRequestCreateValidateyup } from '../../helper/constants/purchaseRequestAdd-constants';
 import * as yup from 'yup';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
-import { isNull } from 'util';
 const PurchaseRequestAdd = () => {
   const [itemValues, setItemsValues] = useState([]);
   const [dynamicitemValues, setDynamicItemsValues] = useState([]);
@@ -72,8 +71,6 @@ const PurchaseRequestAdd = () => {
 
   const handleDropChange = async () => {
     const itemsData = await PurchaseRequestService.getIndentItems(indentId);
-    console.log("///",itemsData);
-    
     const arr: any = [];
     setItemsData(itemsData.data);
     const items = itemsData?.data?.map((items: any, index: any) => {
@@ -111,15 +108,7 @@ const PurchaseRequestAdd = () => {
         item_name: item.item_name,
         rate: Number(item?.rate),
       })),
-      vendor_ids: purchaseRequestData.reduce(
-        (vendorIds: number[], item: any) => {
-          const itemVendorIds = Array.isArray(item.vendor_id) // Check if it's an array
-            ? item.vendor_id.map((vendor: any) => vendor.value).filter(Boolean) // Filter out empty values
-            : [];
-          return [...vendorIds, ...itemVendorIds];
-        },
-        []
-      ),
+      vendor_ids: purchaseRequestData.map((item: any) => item.vendor_id.map(Number)).flat()
     };
     createNewPurchaseRequest(requestBody, {
       onSuccess: (data, variables, context) => {
