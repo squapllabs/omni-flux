@@ -47,6 +47,7 @@ model users {
   expense_details            expense_details[]
   expense_approver           expense[]                    @relation("expenseApproverUser")
   expense_applier            expense[]                    @relation("expenseApplierUser")
+  expense_recall             expense_recall[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -257,6 +258,7 @@ model project {
   stock_audit                stock_audit[]
   expense                    expense[]
   master_data                master_data[]
+  expense_recall             expense_recall[]
 }
 
 model project_expense {
@@ -298,6 +300,7 @@ model site_contractor {
   expense                expense[]
   indent_request         indent_request[]
   purchase_request       purchase_request[]
+  expense_recall         expense_recall[]
 
   @@map("site_contractor")
 }
@@ -1052,12 +1055,13 @@ model expense {
   progressed_by_data users?           @relation("expenseApproverUser", fields: [progressed_by], references: [user_id])
 
   expense_details expense_details[]
+  expense_recall  expense_recall[]
 
   @@unique([expense_code], name: "uk_expense_expense_code")
 }
 
 model expense_details {
-  expense_details_id  Int          @id @default(autoincrement())
+  expense_details_id  Int              @id @default(autoincrement())
   expense_id          Int
   expense_data_id     Int?
   description         String?
@@ -1075,9 +1079,31 @@ model expense_details {
   progressed_date     DateTime?
   progressed_by       Int?
   bill_type           String?
-  is_recalled         Boolean      @default(false)
-  is_delete           Boolean      @default(false)
-  expense_data        expense?     @relation(fields: [expense_id], references: [expense_id])
-  progressed_by_data  users?       @relation(fields: [progressed_by], references: [user_id])
-  expense_master_data master_data? @relation(fields: [expense_data_id], references: [master_data_id])
+  is_recalled         Boolean          @default(false)
+  is_delete           Boolean          @default(false)
+  expense_data        expense?         @relation(fields: [expense_id], references: [expense_id])
+  progressed_by_data  users?           @relation(fields: [progressed_by], references: [user_id])
+  expense_master_data master_data?     @relation(fields: [expense_data_id], references: [master_data_id])
+  expense_recall      expense_recall[]
+}
+
+model expense_recall {
+  expense_recall_id    Int              @id @default(autoincrement())
+  project_id           Int?
+  site_id              Int?
+  expense_id           Int
+  expense_details_id   Int
+  recall_creator_id    Int?
+  recall_date          DateTime?
+  reason               String?
+  is_delete            Boolean          @default(false)
+  created_date         DateTime         @default(now())
+  updated_date         DateTime
+  created_by           Int?
+  updated_by           Int?
+  project_data         project?         @relation(fields: [project_id], references: [project_id])
+  site_data            site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
+  expense_data         expense          @relation(fields: [expense_id], references: [expense_id])
+  expense_details_data expense_details  @relation(fields: [expense_details_id], references: [expense_details_id])
+  user_data            users?           @relation(fields: [recall_creator_id], references: [user_id])
 }
