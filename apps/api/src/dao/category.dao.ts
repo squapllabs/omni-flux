@@ -3,7 +3,8 @@ import prisma from '../utils/prisma';
 const add = async (
   name: string,
   project_id: number,
-  budget: number,
+  actual_budget: number,
+  estimated_budget: number,
   created_by: bigint,
   description: string,
   start_date: Date,
@@ -22,7 +23,8 @@ const add = async (
       data: {
         name,
         project_id,
-        budget,
+        actual_budget,
+        estimated_budget,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -44,7 +46,8 @@ const add = async (
 const edit = async (
   name: string,
   project_id: number,
-  budget: number,
+  actual_budget: number,
+  estimated_budget: number,
   updated_by: bigint,
   category_id: number,
   description: string,
@@ -66,7 +69,8 @@ const edit = async (
       data: {
         name,
         project_id,
-        budget,
+        actual_budget,
+        estimated_budget,
         updated_by,
         updated_date: currentDate,
         description,
@@ -292,7 +296,7 @@ const updateBudget = async (
         category_id: category_id,
       },
       data: {
-        budget: budget,
+        actual_budget: budget,
         updated_date: currentDate,
         updated_by,
       },

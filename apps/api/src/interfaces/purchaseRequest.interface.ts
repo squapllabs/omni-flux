@@ -11,10 +11,19 @@ interface purchaseRequestBody {
   is_delete: boolean;
   created_by: number;
   updated_by: number;
-  purchase_request_details: JSON;
+  purchase_request_details: Array<purchaseRequestDocuments>;
   purchase_request_documents: JSON;
   vendor_ids: Array<number>;
   site_id: number;
+}
+
+interface purchaseRequestDocuments {
+  purchase_requested_quantity: number;
+  indent_requested_quantity: number;
+  indent_request_details_id: number;
+  item_id: number;
+  rate: number;
+  item_name: string;
 }
 
 export { purchaseRequestBody };

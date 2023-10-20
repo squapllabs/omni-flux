@@ -209,7 +209,7 @@ const purchaseRequestEmailForVendor = async (body) => {
                           ${item.item_name}
                         </td>
                         <td style="border: 1px solid #dddddd; padding: 3px">
-                          ${item.quantity}
+                          ${item.purchase_requested_quantity}
                         </td>
                       </tr>
                       `

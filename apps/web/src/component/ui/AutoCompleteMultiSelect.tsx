@@ -154,7 +154,7 @@ const ErrorMessageWrapper = styled.div`
 
 
 const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
-    
+
   label,
   placeholder,
   error,
@@ -181,7 +181,7 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
   const [inputValue, setInputValue] = useState('');
   const [combinedValue, setCombinedValue] = useState<string>('');
   const [open, setOpen] = useState(false);
-  const [selectedOptions,setSelectedOptions]=useState<string[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -210,42 +210,51 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
 
 
 
-useEffect(() => {
+  useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-  
-      if ( inputRef.current && !inputRef.current.contains(event.target as Node)) {
+
+      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
     document.addEventListener('click', handleOutsideClick);
-  
+
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, [open, selectedValues,selectedOptions]);
-  
-  
+  }, [open, selectedValues, selectedOptions]);
+
+
 
   const handleSelect = (option: Option) => {
     if (!selectedValues.includes(option.label)) {
-        setSelectedOptions([...selectedOptions,option.label])
-      setSelectedValues([...selectedValues, option]);
-      onSelect([...selectedValues,option])
+      setSelectedOptions([...selectedOptions, option.label])
+      setSelectedValues([...selectedValues, option.value.toString()]);
+      onSelect([...selectedValues, option.value.toString()]);
+      // setSelectedValues([...selectedValues, option]);
+      // onSelect([...selectedValues,option])
     }
   };
 
-// const handleSelect = (option: Option) => {
-//     if (!selectedValues.some((selected) => selected.value === option.value)) {
-//         setSelectedValues([...selectedValues, option]);
-//     }
-//   };
+  // const handleSelect = (option: Option) => {
+  //     if (!selectedValues.some((selected) => selected.value === option.value)) {
+  //         setSelectedValues([...selectedValues, option]);
+  //     }
+  //   };
 
-  const handleDeselect = (label: string,option:string) => {
+  const handleDeselect = (label: string, option: string) => {
     const updatedOptions = selectedOptions.filter((value) => value !== label);
-    const updatedValues = selectedValues.filter((option) => option.label !== label);
+    const updatedValues = selectedValues.filter(
+      (value) => value !== option.value.toString()
+    );
     setSelectedOptions(updatedOptions);
     setSelectedValues(updatedValues);
     onSelect(updatedValues);
+    // const updatedOptions = selectedOptions.filter((value) => value !== label);
+    // const updatedValues = selectedValues.filter((option) => option.label !== label);
+    // setSelectedOptions(updatedOptions);
+    // setSelectedValues(updatedValues);
+    // onSelect(updatedValues);
   };
 
   useEffect(() => {
@@ -286,23 +295,23 @@ useEffect(() => {
           }}
         />
         <SuffixIconWrapper>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column', // Display clear icons below each value
-            alignItems: 'flex-end', // Align clear icons to the right
-          }}
-        >
           <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpen(!open);
+            style={{
+              display: 'flex',
+              flexDirection: 'column', // Display clear icons below each value
+              alignItems: 'flex-end', // Align clear icons to the right
             }}
           >
-            <DropdownIcon/>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpen(!open);
+              }}
+            >
+              <DropdownIcon />
+            </div>
           </div>
-        </div>
-      </SuffixIconWrapper>
+        </SuffixIconWrapper>
       </InputContainer>
 
       {open && (
@@ -317,7 +326,7 @@ useEffect(() => {
                 onClick={() => {
                   if (selectedOptions.includes(option.label)) {
                     // If the option is already selected, deselect it
-                    handleDeselect(option.label,option);
+                    handleDeselect(option.label, option);
                     // handleDeselect(option)
                   } else {
                     // If the option is not selected, select it
@@ -360,7 +369,7 @@ useEffect(() => {
           </OptionList>
         </OptionContainer>
       )}
-     
+
       {error && (
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}
