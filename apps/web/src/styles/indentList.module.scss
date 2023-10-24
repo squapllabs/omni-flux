@@ -120,8 +120,8 @@
   td {
     padding: 10px 10px 10px 24px; /* Adjust padding */
     text-align: left;
-    font-weight: 500;
-    font-size: 12px;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
     border: none; /* Remove borders */
     border-bottom: 0.1px solid #f0f0f0;
   }
@@ -135,11 +135,11 @@
       th {
         padding: 10px 10px 10px 24px;
         color: var(--tableHeader-fontColor);
-        font-size: 13px;
-        font-weight: 600;
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);          
         background-color: var(--tableHeader-backgroundColor);
         border: none;
-        text-transform: uppercase;
       }
     }
   }

@@ -46,14 +46,24 @@ export const getUpdateClientValidateyup = (yup: any) => {
       .test(
         'client-availability',
         userErrorMessages.NAME_EXISTS,
-        async (value: any) => {
-          const response = await clientService.getOneClientByName(value);
-          console.log('response', response);
-
-          if (response?.status === false) {
-            return false;
-          } else {
-            return true;
+        async (value: any, {parent}: yup.TestContext) => {
+          const clientId = parent.client_id;
+          if (value) {
+            const response = await clientService.getOneClientByName(value);
+            if (
+                response?.is_exist === true && 
+                response?.data[0].client_id === clientId
+            ) {
+              return true;
+            } 
+            else {
+              if (response?.is_exist === false) {
+                return true;
+              }
+              else {
+                return false;
+              }
+            }
           }
         }
       ),

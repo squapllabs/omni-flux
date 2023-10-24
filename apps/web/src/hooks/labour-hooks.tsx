@@ -66,7 +66,7 @@ const createLabour = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['']);
+        queryClient.invalidateQueries(['useGetAllLabourData']);
       },
     }
   );

@@ -342,7 +342,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
       )}
       <div className={Styles.tableContainerBottom}>
         <table className={Styles.scrollable_table}>
-          <thead className="globaltablehead">
+          <thead>
             <tr>
               <th>#</th>
               <th>Description</th>
