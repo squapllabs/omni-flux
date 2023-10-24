@@ -208,6 +208,7 @@ const Project = () => {
             className={Styles.logo}
             onClick={() => {
               navigate('/project-list');
+              dispatch(setToken({ key: 'projectMenuID', value: null }));
             }}
           >
             <PreviousPageIcon width={15} height={15} color="#7f56d9" />
