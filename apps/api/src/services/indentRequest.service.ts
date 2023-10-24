@@ -395,7 +395,10 @@ const searchIndentRequest = async (body) => {
         filterObj.filterIndentRequest.AND || [];
 
       filterObj.filterIndentRequest.AND.push({
-        indent_request_code: indent_request_code,
+        indent_request_code: {
+          contains: indent_request_code,
+          mode: 'insensitive',
+        },
       });
     }
 
