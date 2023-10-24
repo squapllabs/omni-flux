@@ -9,11 +9,13 @@ const ReportGenerator = (data: any) => {
 
     const itemsData = data?.purchase_request_data?.purchase_request_details?.map((item: any) => ({
         itemName: item?.item_name,
-        quantity: item?.quantity,
+        quantity: item?.purchase_requested_quantity,
         unitPrice: item?.rate,
-        total: item?.quantity * item?.rate
+        total: item?.purchase_requested_quantity * item?.rate
     }))
 
+    // console.log("data?.purchase_request_data?.purchase_request_details",data?.purchase_request_data?.purchase_request_details);
+    
     // const itemsData = [];
 
     // for (let i = 0; i < 150; i++) {

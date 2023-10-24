@@ -114,6 +114,16 @@ const getCountByProjectIdAndBomConfigId = catchAsync(async (req, res) => {
   }
 });
 
+const addBulk = catchAsync(async (req, res) => {
+  const methodName = '/addBulk';
+  try {
+    const category = await categoryService.addBulk(req.body);
+    res.send(category);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createCategory,
   updateCategory,
@@ -125,4 +135,5 @@ export {
   searchCategory,
   getByProjectId,
   getCountByProjectIdAndBomConfigId,
+  addBulk,
 };

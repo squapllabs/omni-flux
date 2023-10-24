@@ -5,6 +5,7 @@ import {
   categoryUpdateValidator,
 } from '../../validations/category';
 import {
+  addBulk,
   checkDuplicateProjectCategoryName,
   createCategory,
   deleteByCategoryId,
@@ -63,5 +64,7 @@ router.get(
   authMiddleware,
   getCountByProjectIdAndBomConfigId
 );
+
+router.post('/add-bulk', authMiddleware, addBulk);
 
 export default router;

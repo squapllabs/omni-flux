@@ -135,7 +135,7 @@ const ExpenseRecall = () => {
       {tableData !== null ? (
         <div className={Styles.tableContainerBottom}>
           <table className={Styles.scrollable_table}>
-            <thead className="globaltablehead">
+            <thead>
               <tr>
                 <th>#</th>
                 <th>Description</th>
