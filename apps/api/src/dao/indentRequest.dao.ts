@@ -72,8 +72,10 @@ const add = async (
             indent_request_detail.purchase_requested_quantity
               ? indent_request_detail.purchase_requested_quantity
               : 0;
-          const purchase_remaining_quantity =
-            indent_requested_quantity - purchase_requested_quantity;
+          const purchase_remaining_quantity = Math.max(
+            0,
+            indent_requested_quantity - purchase_requested_quantity
+          );
           const total = indent_request_detail.total;
           const is_delete = indent_request_detail.is_delete;
           if (is_delete === false) {
@@ -190,8 +192,10 @@ const edit = async (
             indent_request_detail.purchase_requested_quantity
               ? indent_request_detail.purchase_requested_quantity
               : 0;
-          const purchase_remaining_quantity =
-            indent_requested_quantity - purchase_requested_quantity;
+          const purchase_remaining_quantity = Math.max(
+            0,
+            indent_requested_quantity - purchase_requested_quantity
+          );
           const total = indent_request_detail.total;
           const is_delete = indent_request_detail.is_delete;
           const indent_request_details_id =
