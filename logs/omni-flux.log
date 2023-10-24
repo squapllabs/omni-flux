@@ -145,3 +145,55 @@ D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
 Argument vendor_id for where.vendor_id must not be null. Please use undefined instead.
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseOrderWithItem << ERRSTRING >>Error: 
+Invalid `tx.purchase_order_item.create()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:270:68
+
+  267 const inward_remaining_quantity = order_quantity - inward_quantity;
+  268 const unit_price = value.unit_price;
+  269 
+→ 270 const purchaseOrderItem = await tx.purchase_order_item.create({
+        data: {
+          purchase_order_id: 107,
+          item_id: 170,
+          order_quantity: undefined,
+          inward_quantity: 0,
+          inward_remaining_quantity: NaN,
+                                     ~~~
+          unit_price: undefined,
+          created_by: undefined,
+          created_date: new Date('2023-10-24T04:00:44.904Z'),
+          updated_date: new Date('2023-10-24T04:00:44.904Z'),
+          is_delete: false
+        }
+      })
+
+Argument inward_remaining_quantity: Got invalid value NaN on prisma.createOnepurchase_order_item. Provided Float, expected Int or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseOrderWithItem << ERRSTRING >>Error: 
+Invalid `tx.purchase_order_item.create()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:270:68
+
+  267 const inward_remaining_quantity = order_quantity - inward_quantity;
+  268 const unit_price = value.unit_price;
+  269 
+→ 270 const purchaseOrderItem = await tx.purchase_order_item.create({
+        data: {
+          purchase_order_id: 108,
+          item_id: 170,
+          order_quantity: undefined,
+          inward_quantity: 0,
+          inward_remaining_quantity: NaN,
+                                     ~~~
+          unit_price: undefined,
+          created_by: undefined,
+          created_date: new Date('2023-10-24T04:00:51.604Z'),
+          updated_date: new Date('2023-10-24T04:00:51.604Z'),
+          is_delete: false
+        }
+      })
+
+Argument inward_remaining_quantity: Got invalid value NaN on prisma.createOnepurchase_order_item. Provided Float, expected Int or Null.
+
+
