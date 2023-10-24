@@ -16,6 +16,9 @@ import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from '../project/projectSubheader';
+import Input from '../ui/Input';
+import SearchIcon from '../menu/icons/search';
+import Select from '../ui/selectNew';
 
 const PurchaseList = () => {
   const state: RootState = store.getState();
@@ -34,6 +37,10 @@ const PurchaseList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [projectId, setProjectId] = useState();
   const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [filterValues, setFilterValues] = useState({
+    search_by_code: '',
+    priority: '',
+  });
   const {
     mutate: postDataForFilter,
     data: getIndentData,
@@ -54,15 +61,19 @@ const PurchaseList = () => {
     postDataForFilter(userData);
     setSelectedValue('');
     setPriorityValue('');
+    setFilterValues({
+      search_by_code: '',
+      priority: '',
+    });
     setIsResetDisabled(true);
   };
-  const handleReportGenerator = () =>{  
-    const data:any ={
-      title:"Purchase Request",
-      name:"purchase_request"
-    }  
-    ReportGenerator(data)
-  }
+  const handleReportGenerator = () => {
+    const data: any = {
+      title: 'Purchase Request',
+      name: 'purchase_request',
+    };
+    ReportGenerator(data);
+  };
   /* Function for searching a user in the table */
   const handleSearch = async () => {
     const userData: any = {
@@ -74,6 +85,7 @@ const PurchaseList = () => {
       priority: priorityValue,
       status: 'AC',
       approver_status: 'Approved',
+      indent_request_code: filterValues.search_by_code,
     };
     postDataForFilter(userData);
   };
@@ -114,6 +126,12 @@ const PurchaseList = () => {
   ) => {
     const searchValue = event.target.value;
     const selectedPriority = event.target.value;
+    console.log('searchValue', searchValue);
+
+    setFilterValues({
+      ...filterValues,
+      ['priority']: searchValue,
+    });
     setPriorityValue(selectedPriority);
     setIsResetDisabled(searchValue === '');
   };
@@ -133,10 +151,10 @@ const PurchaseList = () => {
             <span className={Styles.content}>Purchase List based on Project</span>
           </div> */}
           <ProjectSubheader
-              navigation={'/home'}
-              description="Approved Indent List based on Project"
-              title="Approved Indent List"
-            />
+            navigation={'/home'}
+            description="Approved Indent List based on Project"
+            title="Approved Indent List"
+          />
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
               <AutoCompleteSelect
@@ -152,18 +170,51 @@ const PurchaseList = () => {
                 }}
                 optionList={getAllmasterDataForDrop}
               />
-              <AutoCompleteSelect
+              <Select
+                width="180px"
                 name="priority"
                 label="Priority"
                 defaultLabel="Select from options"
                 placeholder="Select from options"
-                value={selectedValue}
+                value={filterValues?.priority}
+                onChange={(e) => handleDropdownChange(e)}
+              >
+                {options?.map((item: any, index: any) => {
+                  return <option value={item.value}>{item.label}</option>;
+                })}
+              </Select>
+              {/* <AutoCompleteSelect
+                name="priority"
+                label="Priority"
+                defaultLabel="Select from options"
+                placeholder="Select from options"
+                value={filterValues?.priority}
                 onChange={() => handleDropdownChange}
                 onSelect={(value) => {
+                  setFilterValues({
+                    ...filterValues,
+                    ['priority']: value,
+                  });
                   setPriorityValue(value);
                   setIsResetDisabled(false);
                 }}
                 optionList={options}
+              /> */}
+              <Input
+                width="260px"
+                prefixIcon={<SearchIcon />}
+                label="Indent Code"
+                name="search_by_code"
+                value={filterValues.search_by_code}
+                onChange={(e) => {
+                  setFilterValues({
+                    ...filterValues,
+                    ['search_by_code']: e.target.value,
+                  });
+                  setCurrentPage(1);
+                  setIsResetDisabled(false);
+                }}
+                placeholder="Search by Code"
               />
               <div className={Styles.buttonStyle}>
                 <Button
@@ -205,7 +256,9 @@ const PurchaseList = () => {
                   <th className={Styles.tableHeading}>#</th>
                   <th className={Styles.tableHeading}>Indent Code</th>
                   <th className={Styles.tableHeading}>Project Name</th>
-                  <th className={Styles.tableHeading}>Expected Delivery Date </th>
+                  <th className={Styles.tableHeading}>
+                    Expected Delivery Date{' '}
+                  </th>
                   <th className={Styles.tableHeading}>Priority</th>
                   <th className={Styles.tableHeading}>Cost</th>
                   <th className={Styles.tableHeading}>Actions</th>
@@ -242,7 +295,11 @@ const PurchaseList = () => {
                       >
                         {data?.priority}
                       </td>
-                      <td>{formatBudgetValue(data?.total_cost?data?.total_cost:0)}</td>
+                      <td>
+                        {formatBudgetValue(
+                          data?.total_cost ? data?.total_cost : 0
+                        )}
+                      </td>
                       <td>
                         <div className={Styles.tablerow}>
                           <ViewIcon
@@ -253,7 +310,7 @@ const PurchaseList = () => {
                               )
                             }
                           />
-                           {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
+                          {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
                         </div>
                       </td>
                     </tr>
