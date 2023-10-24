@@ -43,7 +43,7 @@ const IndentView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetAllIndentRequestDetail(masterData);
-  console.log('getAAAAAAAAAAAAAAAAA', getAllData);
+  // console.log('getAAAAAAAAAAAAAAAAA', getAllData);
 
   const { mutate: updateIndentRequestData } = updateIndentRequest();
 

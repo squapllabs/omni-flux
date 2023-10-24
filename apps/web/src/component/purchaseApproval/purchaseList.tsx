@@ -202,7 +202,8 @@ const PurchaseList = () => {
             <table className={Styles.scrollable_table}>
               <thead>
                 <tr>
-                  <th className={Styles.tableHeading}>S No</th>
+                  <th className={Styles.tableHeading}>#</th>
+                  <th className={Styles.tableHeading}>Indent Code</th>
                   <th className={Styles.tableHeading}>Project Name</th>
                   <th className={Styles.tableHeading}>Expected Delivery Date </th>
                   <th className={Styles.tableHeading}>Priority</th>
@@ -225,6 +226,7 @@ const PurchaseList = () => {
                   return (
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
+                      <td>{data?.indent_request_code}</td>
                       <td>{data?.project_data?.project_name}</td>
                       <td>
                         {format(
@@ -251,7 +253,7 @@ const PurchaseList = () => {
                               )
                             }
                           />
-                           <PdfDownloadIcon onClick={() => handleReportGenerator()} />
+                           {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
                         </div>
                       </td>
                     </tr>

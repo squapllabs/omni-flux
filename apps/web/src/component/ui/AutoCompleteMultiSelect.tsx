@@ -307,12 +307,12 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
                 marginRight: '4px', // Add space between values
                 fontSize: '0.8rem', // Reduce font size
                 color: '#333c44', // Text color
-                marginTop:"2px"
+                marginTop: "2px"
               }}
             >
               {selectedValue}
               <span
-               
+
                 style={{
                   marginLeft: '4px',
                   cursor: 'pointer',
@@ -321,16 +321,16 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
               >
                 {/* Make the clear icon smaller */}
               </span>
-              <CloseIcon width={8}   onClick={() => {
-                  // Handle removal of the selected value here
-                  handleDeselect(selectedValue);
-                }} disabled={disabled}/>
+              <CloseIcon width={8} onClick={() => {
+                // Handle removal of the selected value here
+                handleDeselect(selectedValue);
+              }} disabled={disabled} />
             </div>
           ))}
           <StyledInput
             ref={inputRef}
             hasSuffixIcon={!!suffixIcon}
-            placeholder={placeholder}
+            placeholder={disabled ? '' : placeholder}
             disabled={disabled}
             readOnly
             value="" // Empty value for the input
@@ -350,6 +350,7 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
             style={{
               display: 'flex',
               alignItems: 'center',
+              pointerEvents: disabled ? 'none' : '',
             }}
           >
             <div
@@ -358,7 +359,7 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
                 setOpen(!open);
               }}
             >
-              <DropdownIcon  disabled={disabled}/>
+              <DropdownIcon disabled={disabled} />
             </div>
           </div>
         </SuffixIconWrapper>
@@ -421,7 +422,7 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
     </InputWrapper>
   );
 
- 
+
 }
 
 

@@ -26,7 +26,7 @@ const PurchaseView = () => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [tableData, setTableData] = useState([]);
   // console.log("tabled",tableData);
-  
+
   const [purchaseTableData, setPurchaseTableData] = useState([]);
   const [dataCount, setDataCount] = useState(0);
   const [dataLoading, setDataLoading] = useState(false);
@@ -34,7 +34,7 @@ const PurchaseView = () => {
   const [reload, setReload] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  
+
   const indentId = Number(routeParams?.id);
   const location = useLocation();
   const projectId = location.state.project_id;
@@ -63,6 +63,8 @@ const PurchaseView = () => {
     };
     getAllData();
   }, []);
+
+  // console.log("tabled", tableData);
 
   const purchaseData = {
     limit: rowsPerPage,
@@ -117,17 +119,20 @@ const PurchaseView = () => {
                     <th className={Styles.tableHeading}>Item Name </th>
                     <th className={Styles.tableHeading}>UOM</th>
                     <th className={Styles.tableHeading}>Quantity</th>
+                    <th className={Styles.tableHeading}>Unit Cost</th>
                     <th className={Styles.tableHeading}>Total Cost</th>
                   </tr>
                 </thead>
                 <tbody>
                   {tableData?.map((data: any, index: number) => (
+
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data?.bom_detail_data?.item_data?.item_name}</td>
                       <td>{data?.bom_detail_data?.uom_data?.name}</td>
                       <td>{data?.indent_requested_quantity}</td>
-                      <td>{formatBudgetValue(data?.total)}</td>
+                      <td>{formatBudgetValue(data?.bom_detail_data?.rate ? data?.bom_detail_data?.rate : 0)}</td>
+                      <td>{formatBudgetValue(data?.total ? data?.total : 0)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -141,7 +146,7 @@ const PurchaseView = () => {
                 justify="center"
                 size="small"
                 color="primary"
-                onClick={() => {navigate('/purchase-request-add',{state:{project_id: projectId,indent_id:indentId}})}}
+                onClick={() => { navigate('/purchase-request-add', { state: { project_id: projectId, indent_id: indentId } }) }}
               >
                 <AddIcon color='white' />
                 Create PR
@@ -162,7 +167,7 @@ const PurchaseView = () => {
                   <th className={Styles.tableHeading}>#</th>
                   <th className={Styles.tableHeading}>Purchase Request</th>
                   <th className={Styles.tableHeading}>Vendor Name </th>
-                  <th className={Styles.tableHeading}>Quatation Budget</th>
+                  <th className={Styles.tableHeading}>Quotation Budget</th>
                   <th className={Styles.tableHeading}>No of Items</th>
                   <th className={Styles.tableHeading}>Quotation Status</th>
                   <th className={Styles.tableHeading}>Action</th>
@@ -187,13 +192,13 @@ const PurchaseView = () => {
                     {
                       label: 'View Items',
                       onClick: () => {
-                        navigate(`/request-items`,{state:{data: itemData,project_id: projectId,indent_id:indentId}});
+                        navigate(`/request-items`, { state: { data: itemData, project_id: projectId, indent_id: indentId } });
                       },
                     },
                     {
                       label: 'View Vendor',
                       onClick: () => {
-                        navigate(`/vendor-select/${data?.purchase_request_id}`,{state:{project_id: projectId,indent_id:indentId}});
+                        navigate(`/vendor-select/${data?.purchase_request_id}`, { state: { project_id: projectId, indent_id: indentId } });
                       },
                     },
                     {

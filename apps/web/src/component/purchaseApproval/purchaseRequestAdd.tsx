@@ -211,7 +211,21 @@ const PurchaseRequestAdd = () => {
                   error={formik.touched.vendor_id && formik.errors.vendor_id}
                 />
               </div>
-              <div>
+            
+              {/* <div
+                className={Styles.instantAdd}
+                onClick={() =>
+                  navigate('/vendor-add', {
+                    state: { project_id: projectId, indent_id: indentId },
+                  })
+                }
+              >
+                <AddIcon style={{ height: '15px', width: '15px' }} />
+                <h4 className={Styles.addtext}> Add Vendor</h4>
+              </div> */}
+            </div>
+            <div className={Styles.fields_container_2}>
+            <div>
                 <AutoCompleteSelect
                   label="Items"
                   name="item_id"
@@ -252,20 +266,6 @@ const PurchaseRequestAdd = () => {
                   error={formik.touched.item_name && formik.errors.item_name}
                 />
               </div>
-              {/* <div
-                className={Styles.instantAdd}
-                onClick={() =>
-                  navigate('/vendor-add', {
-                    state: { project_id: projectId, indent_id: indentId },
-                  })
-                }
-              >
-                <AddIcon style={{ height: '15px', width: '15px' }} />
-                <h4 className={Styles.addtext}> Add Vendor</h4>
-              </div> */}
-            </div>
-            <div className={Styles.fields_container_2}>
-             
               <div>
                 <Input
                   label="Requested Quantity"

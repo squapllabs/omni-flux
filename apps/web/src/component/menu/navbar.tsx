@@ -197,8 +197,7 @@ const Navbar = () => {
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PLANNING ENGINEER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                          roleName === 'PROJECT MANAGER' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleIndentapproval}
