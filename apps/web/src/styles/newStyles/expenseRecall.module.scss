@@ -46,6 +46,13 @@
     color: #c11574;
 }
 
+.rejectedStatus {
+    background-color: #fffaeb;
+    padding: 4px;
+    border-radius: 35px;
+    color: #b54708;
+  }
+
 .emptyDataHandling {
     display: flex;
     flex-direction: column;
