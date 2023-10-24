@@ -176,13 +176,21 @@ const VendorSelect = () => {
             </thead>
             <tbody>
               {tableData?.map((data: any, index: number) => {
-                const itemData = data?.quotation_details
+                const itemData = data?.quotation_details;
                 const isQuotationPending = data.quotation_status === 'Pending';
                 const actions = [
                   {
                     label: 'View Items',
                     onClick: () => {
-                      navigate(`/request-items`, { state: { data: itemData, project_id: projectId, indent_id: indentId, page: 'VendorPage', purchaseRequestId: prID } });
+                      navigate(`/request-items`, {
+                        state: {
+                          data: itemData,
+                          project_id: projectId,
+                          indent_id: indentId,
+                          page: 'VendorPage',
+                          purchaseRequestId: prID,
+                        },
+                      });
                     },
                   },
                   {
@@ -220,9 +228,9 @@ const VendorSelect = () => {
                         nullLableNameFromEnv}
                     </td>
                     <td>
-                      <Link to={`/vendor-view-items/${data.vendor_quotes_id}`}>
-                        {data.quotation_id}
-                      </Link>
+                      {/* <Link to={`/vendor-view-items/${data.vendor_quotes_id}`}> */}
+                      {data.quotation_id}
+                      {/* </Link> */}
                     </td>
                     <td>{data?.quotation_status || nullLableNameFromEnv}</td>
                     <td>
@@ -239,7 +247,10 @@ const VendorSelect = () => {
                           </ol>
                         )
                       )}
-                      { (data?.vendor_quotes_documents?.length === 0 || data?.vendor_quotes_documents === null) ?  nullLableNameFromEnv : ''}
+                      {data?.vendor_quotes_documents?.length === 0 ||
+                      data?.vendor_quotes_documents === null
+                        ? nullLableNameFromEnv
+                        : ''}
                     </td>
                     <td>
                       {isAnyActionEnabled && <CustomMenu actions={actions} />}
