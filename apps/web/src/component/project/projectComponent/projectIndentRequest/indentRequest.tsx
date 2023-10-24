@@ -24,6 +24,7 @@ import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
 import { getProjectSite } from '../../../../hooks/project-hooks';
 import ProjectSubheader from '../../projectSubheader';
+import CustomDialogBox from '../../../ui/CustomDialog';
 
 const IndentRequest: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -48,11 +49,16 @@ const IndentRequest: React.FC = (props: any) => {
   const [indentRequestDetailsList, setIndentRequestDetailsList] = useState<any>(
     []
   );
+  const [errors, setErrors] = useState<any>();
   const [disabled, setDisabled] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const handleSnackBarClose = () => {
     setOpenSnack(false);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
@@ -75,28 +81,19 @@ const IndentRequest: React.FC = (props: any) => {
           indentData?.data?.expected_delivery_date
         ),
       };
-      // console.log('obj', obj);
       setInitialValues({
         ...indentData?.data,
         expected_delivery_date: dateFormat(
           indentData?.data?.expected_delivery_date
         ),
       });
-      // console.log('indentData?.data?', indentData?.data);
       const uomNames = indentData?.data?.indent_request_details?.map(
         (item: any) => item?.bom_detail_data?.uom_data?.name
       );
-      // console.log("uomNames",uomNames);
-      // console.log(
-      //   'indentData?.data?.indent_request_details',
-      //   indentData?.data?.indent_request_details
-      // );
       const tempArray = indentData?.data?.indent_request_details;
-      // console.log("tempArray---->",tempArray)
       tempArray.forEach((obj: any, index: number) => {
         obj.uom_name = uomNames[index];
       });
-      // console.log(" new newtempArray---->",tempArray)
       setIndentRequestDetailsList(indentData?.data?.indent_request_details);
     };
     if (routeParams?.indentid != undefined) fetchData();
@@ -140,37 +137,109 @@ const IndentRequest: React.FC = (props: any) => {
       );
       formik.values.total_cost = sumOfRates;
       formik.setFieldValue('total_cost', sumOfRates);
-      const obj: any = {
-        ...values,
-        approver_status: 'Pending',
-        indent_request_details: indentRequestDetailsList,
-        site_id: Number(formik.values.site_id),
-      };
-      if (routeParams?.indentid != undefined) {
-        updateIndentData(obj, {
-          onSuccess(data, variables, context) {
-            if (data?.status === true) {
-              setMessage('Indent Updated successfully');
-              setOpenSnack(true);
-              setTimeout(() => {
-                navigate(`/project-edit/${routeParams?.id}`);
-              }, 2000);
+      let count = 0;
+      const schema = yup.array().of(
+        yup.object().shape({
+          bom_detail_id: yup.string().required('Item is required'),
+          indent_requested_quantity: yup
+            .number()
+            .min(1, 'Amount must be more then 0')
+            .typeError('Only Numbers are allowed')
+            .required('Quantity is required'),
+          // bom_detail_id: yup
+          //   .string()
+          //   .required('BOM is required')
+          //   .test(
+          //     'decimal-validation',
+          //     'Already exist',
+          //     async function (value, { parent }: yup.TestContext) {
+          //       const isDelete = false;
+          //       try {
+          //         let dummy: any = [];
+          //         const allIds = props.indentRequestDetailsList.map(
+          //           (item: any) => {
+          //             if (item.is_delete === 'N') {
+          //               item.bom_detail_id;
+          //             }
+          //             console.log('item', item);
+          //             if (item.is_delete === false)
+          //               dummy.push(item.bom_detail_id);
+          //           }
+          //         );
+          //         console.log('allIds', allIds);
+          //         console.log('allIds', dummy);
+          //         const checking = dummy.filter(
+          //           (id: any) => Number(id) === Number(value)
+          //         ).length;
+          //         if (checking <= 1) {
+          //           return true;
+          //         } else {
+          //           return false;
+          //         }
+          //       } catch {
+          //         return true;
+          //       }
+          //     }
+          //   ),
+          // indent_requested_quantity: yup
+          //   .number()
+          //   .moreThan(0, 'Quantity must be more then 0')
+          //   .required('Quantity is required'),
+        })
+      );
+      await schema
+        .validate(indentRequestDetailsList, { abortEarly: false })
+        .then(async () => {
+          setErrors({});
+          for (let i = 0; i < indentRequestDetailsList.length; i++) {
+            if (indentRequestDetailsList[i].is_delete === false) {
+              count++;
             }
-          },
-        });
-      } else {
-        postIndentData(obj, {
-          onSuccess(data, variables, context) {
-            if (data?.status === true) {
-              setMessage('Indent created successfully');
-              setOpenSnack(true);
-              setTimeout(() => {
-                navigate(`/project-edit/${routeParams?.id}`);
-              }, 2000);
+          }
+          if (count === 0) {
+            setOpenDialog(true);
+          } else {
+            const obj: any = {
+              ...values,
+              approver_status: 'Pending',
+              indent_request_details: indentRequestDetailsList,
+              site_id: Number(formik.values.site_id),
+            };
+            console.log("obj",obj);
+            
+            if (routeParams?.indentid != undefined) {
+              updateIndentData(obj, {
+                onSuccess(data, variables, context) {
+                  if (data?.status === true) {
+                    setMessage('Indent Updated successfully');
+                    setOpenSnack(true);
+                    setTimeout(() => {
+                      navigate(`/project-edit/${routeParams?.id}`);
+                    }, 2000);
+                  }
+                },
+              });
+            } else {
+              const obj: any = {
+                ...values,
+                approver_status: 'Pending',
+                indent_request_details: indentRequestDetailsList,
+                site_id: Number(formik.values.site_id),
+              };
+              postIndentData(obj, {
+                onSuccess(data, variables, context) {
+                  if (data?.status === true) {
+                    setMessage('Indent created successfully');
+                    setOpenSnack(true);
+                    setTimeout(() => {
+                      navigate(`/project-edit/${routeParams?.id}`);
+                    }, 2000);
+                  }
+                },
+              });
             }
-          },
+          }
         });
-      }
     },
   });
   return (
@@ -183,152 +252,163 @@ const IndentRequest: React.FC = (props: any) => {
             title="Indent Request"
           />
         </div>
-        <PageDisabled disabled={disabled}>
-          <div className={Styles.box}>
-            <div className={Styles.formConatiner}>
-              <form onSubmit={formik.handleSubmit}>
-                <div className={Styles.inputFieldMain}>
-                  <div className={Styles.inputFields}>
-                    <div style={{ width: '40%' }}>
-                      <Select
-                        label="Priority"
-                        name="priority"
-                        mandatory={true}
-                        onChange={formik.handleChange}
-                        value={formik.values.priority}
-                        defaultLabel="Select from options"
-                        placeholder="Select from options"
-                        error={
-                          formik.touched.priority && formik.errors.priority
-                        }
-                        disabled={disabled}
-                      >
-                        {priority?.map((items: any, index: any) => {
+        {/* <PageDisabled disabled={disabled}> */}
+        <div className={Styles.box}>
+          <div className={Styles.formConatiner}>
+            <form onSubmit={formik.handleSubmit}>
+              <div className={Styles.inputFieldMain}>
+                <div className={Styles.inputFields}>
+                  <div style={{ width: '40%' }}>
+                    <Select
+                      label="Priority"
+                      name="priority"
+                      mandatory={true}
+                      onChange={formik.handleChange}
+                      value={formik.values.priority}
+                      defaultLabel="Select from options"
+                      placeholder="Select from options"
+                      error={formik.touched.priority && formik.errors.priority}
+                      disabled={disabled}
+                    >
+                      {priority?.map((items: any, index: any) => {
+                        return (
+                          <option key={items.value} value={items.value}>
+                            {items.label}
+                          </option>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  <div style={{ width: '40%' }}>
+                    <DatePicker
+                      label="Expected Delivery Date"
+                      name="expected_delivery_date"
+                      mandatory={true}
+                      value={formik?.values?.expected_delivery_date}
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          min: `${new Date().toISOString().slice(0, 10)}`,
+                        },
+                      }}
+                      error={
+                        formik.touched.expected_delivery_date &&
+                        formik.errors.expected_delivery_date
+                      }
+                    />
+                  </div>
+
+                  <div style={{ width: '40%' }}>
+                    <Select
+                      label="Site"
+                      name="site_id"
+                      mandatory={true}
+                      onChange={formik.handleChange}
+                      value={formik.values.site_id}
+                      defaultLabel="Select from options"
+                      placeholder="Select from options"
+                      error={formik.touched.site_id && formik.errors.site_id}
+                      disabled={disabled}
+                    >
+                      {getAllProjectSiteDatadrop?.map(
+                        (items: any, index: any) => {
                           return (
                             <option key={items.value} value={items.value}>
                               {items.label}
                             </option>
                           );
-                        })}
-                      </Select>
-                    </div>
-                    <div style={{ width: '40%' }}>
-                      <DatePicker
-                        label="Expected Delivery Date"
-                        name="expected_delivery_date"
-                        mandatory={true}
-                        value={formik?.values?.expected_delivery_date}
-                        onChange={formik.handleChange}
-                        InputProps={{
-                          inputProps: {
-                            min: `${new Date().toISOString().slice(0, 10)}`,
-                          },
-                        }}
-                        error={
-                          formik.touched.expected_delivery_date &&
-                          formik.errors.expected_delivery_date
                         }
-                      />
-                    </div>
-
-                    <div style={{ width: '40%' }}>
-                      <Select
-                        label="Site"
-                        name="site_id"
-                        mandatory={true}
-                        onChange={formik.handleChange}
-                        value={formik.values.site_id}
-                        defaultLabel="Select from options"
-                        placeholder="Select from options"
-                        error={formik.touched.site_id && formik.errors.site_id}
-                        disabled={disabled}
-                      >
-                        {getAllProjectSiteDatadrop?.map(
-                          (items: any, index: any) => {
-                            return (
-                              <option key={items.value} value={items.value}>
-                                {items.label}
-                              </option>
-                            );
-                          }
-                        )}
-                      </Select>
-                    </div>
-                    <div style={{ width: '40%' }}>
-                      <Input
-                        label="Total Cost"
-                        name="total_cost"
-                        mandatory={true}
-                        value={formatBudgetValue(formik.values.total_cost?formik.values.total_cost:0)}
-                        onChange={formik.handleChange}
-                        disabled={true}
-                      />
-                    </div>
+                      )}
+                    </Select>
                   </div>
-                  <div style={{ marginLeft: '2.5%' }}>
-                    <div style={{ width: '41%' }}>
-                      <TextArea
-                        name="description"
-                        label="Indent Description"
-                        mandatory={true}
-                        placeholder="Enter project description"
-                        value={formik.values.description}
-                        onChange={formik.handleChange}
-                        rows={4}
-                        maxCharacterCount={400}
-                        error={
-                          formik.touched.description &&
-                          formik.errors.description
-                        }
-                      />
-                    </div>
+                  <div style={{ width: '40%' }}>
+                    <Input
+                      label="Total Cost"
+                      name="total_cost"
+                      mandatory={true}
+                      value={formatBudgetValue(
+                        formik.values.total_cost ? formik.values.total_cost : 0
+                      )}
+                      onChange={formik.handleChange}
+                      disabled={true}
+                    />
                   </div>
                 </div>
-                <div>
-                  <IndentRequestDetails
-                    projectId={Number(routeParams?.id)}
-                    setIndentRequestDetailsList={setIndentRequestDetailsList}
-                    indentRequestDetailsList={indentRequestDetailsList}
-                    setTotalCost={setTotalCost}
-                    totalCost={totalCost}
-                    disabled={disabled}
-                  />
+                <div style={{ marginLeft: '2.5%' }}>
+                  <div style={{ width: '41%' }}>
+                    <TextArea
+                      name="description"
+                      label="Indent Description"
+                      mandatory={true}
+                      placeholder="Enter project description"
+                      value={formik.values.description}
+                      onChange={formik.handleChange}
+                      rows={4}
+                      maxCharacterCount={400}
+                      error={
+                        formik.touched.description && formik.errors.description
+                      }
+                    />
+                  </div>
                 </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    paddingRight: '32px',
-                    gap: '20px',
+              </div>
+              <div>
+                <IndentRequestDetails
+                  projectId={Number(routeParams?.id)}
+                  indent_id={routeParams?.indentid === undefined ? true: false}
+                  setIndentRequestDetailsList={setIndentRequestDetailsList}
+                  indentRequestDetailsList={indentRequestDetailsList}
+                  setTotalCost={setTotalCost}
+                  totalCost={totalCost}
+                  disabled={disabled}
+                  errors={errors}
+                  setErrors={setErrors}
+                  setOpenSnack={setOpenSnack}
+                  setMessage={setMessage}
+                />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  paddingRight: '32px',
+                  gap: '20px',
+                }}
+              >
+                <Button
+                  type="button"
+                  color="secondary"
+                  shape="rectangle"
+                  size="small"
+                  justify="center"
+                  onClick={(e) => {
+                    handleDraft(e);
                   }}
                 >
-                  <Button
-                    type="button"
-                    color="secondary"
-                    shape="rectangle"
-                    size="small"
-                    justify="center"
-                    onClick={(e) => {
-                      handleDraft(e);
-                    }}
-                  >
-                    Draft
-                  </Button>
-                  <Button
-                    type="button"
-                    color="primary"
-                    shape="rectangle"
-                    size="small"
-                    justify="center"
-                    onClick={formik.handleSubmit}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </form>
-            </div>
+                  Draft
+                </Button>
+                <Button
+                  type="button"
+                  color="primary"
+                  shape="rectangle"
+                  size="small"
+                  justify="center"
+                  onClick={formik.handleSubmit}
+                >
+                  Save
+                </Button>
+              </div>
+            </form>
           </div>
-        </PageDisabled>
+        </div>
+        {/* </PageDisabled> */}
+        <CustomDialogBox
+          open={openDialog}
+          title="Warning"
+          contentLine1="Please add indent request details"
+          contentLine2=""
+          handleClose={handleCloseDialog}
+        />
         <CustomSnackBar
           open={openSnack}
           message={message}

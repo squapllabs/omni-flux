@@ -210,6 +210,7 @@ const AddMachinery = () => {
                   name="uom_id"
                   label="UOM"
                   defaultLabel="Select from options"
+                  mandatory={true}
                   width="350px"
                   value={formik.values.uom_id}
                   onChange={formik.handleChange}

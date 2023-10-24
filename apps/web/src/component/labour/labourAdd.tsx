@@ -105,7 +105,7 @@ const LabourAddForm = (props : any) => {
               setMessage('Labour created');
               setOpenSnack(true);
               setTimeout(() => {
-                navigate('/labour');
+                handleClose()
               }, 1000);
               resetForm()
             }
