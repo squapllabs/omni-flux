@@ -145,3 +145,57 @@ D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
 Argument vendor_id for where.vendor_id must not be null. Please use undefined instead.
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Error converting field "bom_name" of expected non-nullable type "String", found incompatible value of "null".
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Error converting field "bom_name" of expected non-nullable type "String", found incompatible value of "null".
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.category.findMany()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:258:49
+
+  255 ) => {
+  256   try {
+  257     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 258     const category = await transaction.category.findMany(
+The column `category.budget` does not exist in the current database.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.category.findMany()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:258:49
+
+  255 ) => {
+  256   try {
+  257     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 258     const category = await transaction.category.findMany(
+The column `category.budget` does not exist in the current database.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.category.findMany()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:259:49
+
+  256 ) => {
+  257   try {
+  258     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 259     const category = await transaction.category.findMany(
+The column `category.budget` does not exist in the current database.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.category.findMany()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:259:49
+
+  256 ) => {
+  257   try {
+  258     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 259     const category = await transaction.category.findMany(
+The column `category.budget` does not exist in the current database.
