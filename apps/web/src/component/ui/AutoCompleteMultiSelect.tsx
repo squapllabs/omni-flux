@@ -95,8 +95,7 @@ const InputContainer = styled.div<StyledInputProps>`
     }`};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
-  background-color: ${(props) =>
-    props.transparent ? 'transparent' : '#f4f5f6'};
+  background-color: transparent;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   &:hover {
@@ -224,6 +223,11 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
     };
   }, [open, selectedValues, selectedOptions]);
 
+  const optionContainerRef = useRef<HTMLDivElement | null>(null); // Define the ref for OptionContainer
+  const [isOptionListOpen, setIsOptionListOpen] = useState(false);
+
+
+
 
 
   const handleSelect = (option: Option) => {
@@ -242,19 +246,24 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
   //     }
   //   };
 
-  const handleDeselect = (label: string, option: string) => {
+  // const handleDeselect = (label: string, option: string) => {
+  //   const updatedOptions = selectedOptions.filter((value) => value !== label);
+  //   const updatedValues = selectedValues.filter(
+  //     (value) => value !== option.value.toString()
+  //   );
+  //   setSelectedOptions(updatedOptions);
+  //   setSelectedValues(updatedValues);
+  //   onSelect(updatedValues);
+  // };
+
+  const handleDeselect = (label: string) => {
     const updatedOptions = selectedOptions.filter((value) => value !== label);
     const updatedValues = selectedValues.filter(
-      (value) => value !== option.value.toString()
+      (value) => value !== label
     );
     setSelectedOptions(updatedOptions);
     setSelectedValues(updatedValues);
     onSelect(updatedValues);
-    // const updatedOptions = selectedOptions.filter((value) => value !== label);
-    // const updatedValues = selectedValues.filter((option) => option.label !== label);
-    // setSelectedOptions(updatedOptions);
-    // setSelectedValues(updatedValues);
-    // onSelect(updatedValues);
   };
 
   useEffect(() => {
@@ -262,8 +271,6 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
   }, [optionList]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-
 
   return (
     <InputWrapper width={width}>
@@ -280,26 +287,69 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
         disabled={disabled}
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
-        <StyledInput
-          ref={inputRef}
-          hasSuffixIcon={!!suffixIcon}
-          placeholder={placeholder}
-          disabled={disabled}
-          readOnly
-          value={selectedOptions}
-          onKeyDown={(e) => handleBackspace(e)}
-          {...props}
-          onChange={(e) => handleChange(e)}
-          onFocus={() => {
-            setOpen(true);
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: '3px', // Adjust the gap between selected values
           }}
-        />
+        >
+          {selectedOptions.map((selectedValue) => (
+            <div
+              key={selectedValue}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '4px', // Reduce padding
+                backgroundColor: '#EFF5F5', // Add background color
+                borderRadius: '4px', // Add border radius
+                marginRight: '4px', // Add space between values
+                fontSize: '0.8rem', // Reduce font size
+                color: '#333c44', // Text color
+                marginTop:"2px"
+              }}
+            >
+              {selectedValue}
+              <span
+               
+                style={{
+                  marginLeft: '4px',
+                  cursor: 'pointer',
+                  fontSize: '0.6rem', // Reduce font size for the clear icon
+                }}
+              >
+                {/* Make the clear icon smaller */}
+              </span>
+              <CloseIcon width={8}   onClick={() => {
+                  // Handle removal of the selected value here
+                  handleDeselect(selectedValue);
+                }} disabled={disabled}/>
+            </div>
+          ))}
+          <StyledInput
+            ref={inputRef}
+            hasSuffixIcon={!!suffixIcon}
+            placeholder={placeholder}
+            disabled={disabled}
+            readOnly
+            value="" // Empty value for the input
+            onKeyDown={(e) => handleBackspace(e)}
+            {...props}
+            onChange={(e) => handleChange(e)}
+            onClick={() => {
+              setOpen(!open);
+            }}
+            style={{
+              fontSize: '0.8rem', // Reduce font size for the input
+            }}
+          />
+        </div>
         <SuffixIconWrapper>
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column', // Display clear icons below each value
-              alignItems: 'flex-end', // Align clear icons to the right
+              alignItems: 'center',
             }}
           >
             <div
@@ -308,42 +358,35 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
                 setOpen(!open);
               }}
             >
-              <DropdownIcon />
+              <DropdownIcon  disabled={disabled}/>
             </div>
           </div>
         </SuffixIconWrapper>
       </InputContainer>
 
       {open && (
-        <OptionContainer>
-          <OptionList >
+        <OptionContainer >
+          <OptionList>
             {defaultLabel != null && (
               <li value="">{defaultLabel}</li>
             )}
-            {filteredOptions.map((option) => (
-              <li
-                key={option.value}
-                onClick={() => {
-                  if (selectedOptions.includes(option.label)) {
-                    // If the option is already selected, deselect it
-                    handleDeselect(option.label, option);
-                    // handleDeselect(option)
-                  } else {
-                    // If the option is not selected, select it
+            {filteredOptions
+              .filter((option) => !selectedOptions.includes(option.label)) // Exclude selected options
+              .map((option) => (
+                <li
+                  key={option.value}
+                  onClick={() => {
                     handleSelect(option);
-                    // selectedOptions(option.label)
-                    // onSelect(option);
-                  }
-                }}
-                style={{
-                  backgroundColor: selectedOptions.includes(option.label)
-                    ? '#EFF5F5'
-                    : '',
-                }}
-              >
-                {option.label}
-              </li>
-            ))}
+                  }}
+                  style={{
+                    backgroundColor: selectedOptions.includes(option.label)
+                      ? '#FFFFFF'
+                      : '',
+                  }}
+                >
+                  {option.label}
+                </li>
+              ))}
             {addLabel != null && (
               <li
                 value="add"
@@ -358,7 +401,7 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
                     alignItems: 'center',
                     gap: '10px',
                     color: '#7f56d9',
-                    fontSize: '12px',
+                    fontSize: '0.8rem', // Reduce font size
                   }}
                 >
                   <AddIcon color="#7f56d9" width={15} />
@@ -377,6 +420,8 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
       )}
     </InputWrapper>
   );
+
+ 
 }
 
 

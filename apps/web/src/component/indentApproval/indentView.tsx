@@ -32,7 +32,7 @@ const IndentView = () => {
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
+    order_by_column: 'created_date',
     order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
@@ -115,7 +115,7 @@ const IndentView = () => {
                     <th className={Styles.tableHeading}>Item Name </th>
                     <th className={Styles.tableHeading}>UOM</th>
                     <th className={Styles.tableHeading}>Quantity</th>
-                    <th className={Styles.tableHeading}>Total Cost</th>
+                    <th className={Styles.tableHeading}>Cost</th>
                   </tr>
                 </thead>
                 <tbody>

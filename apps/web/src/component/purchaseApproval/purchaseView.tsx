@@ -42,7 +42,7 @@ const PurchaseView = () => {
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
+    order_by_column: 'created_date',
     order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
