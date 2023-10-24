@@ -177,8 +177,8 @@ const Navbar = () => {
                       {roleName === 'FINANCE MANAGER'
                         ? 'Invoice '
                         : roleName === 'PLANNING ENGINEER'
-                        ? 'Indent'
-                        : 'Purchase'}
+                          ? 'Indent'
+                          : 'Purchase'}
                     </div>
 
                     <DropdownIcon color="white" className={Styles.navIcon} />
@@ -189,16 +189,15 @@ const Navbar = () => {
                   <div className={Styles.dropDownContainer}>
                     <p>
                       {roleName === 'FINANCE MANAGER'
-                        ? 'Payment'
+                        ? ''
                         : roleName === 'PLANNING ENGINEER'
-                        ? 'Indent Approval'
-                        : 'Purchase'}
+                          ? 'Purchase'
+                          : 'Purchase'}
                     </p>
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PLANNING ENGINEER' ||
-                        roleName === 'PROJECT MANAGER' ||
-                        roleName === 'ADMIN' ? (
+                          roleName === 'PROJECT MANAGER' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleIndentapproval}
@@ -212,8 +211,8 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'PURCHASE MANAGER' ||
-                        roleName === 'PROJECT MANAGER' ||
-                        roleName === 'ADMIN' ? (
+                          roleName === 'PROJECT MANAGER' ||
+                          roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handlePurchaseOrder}
@@ -227,8 +226,8 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'PURCHASE MANAGER' ||
-                        roleName === 'PROJECT MANAGER' ||
-                        roleName === 'ADMIN' ? (
+                          roleName === 'PROJECT MANAGER' ||
+                          roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handlePurchaseRequest}
@@ -240,9 +239,17 @@ const Navbar = () => {
                             <p>Manage your purchase request</p>
                           </div>
                         ) : null}
-
+                      </div>
+                    </div>
+                  </div>
+                  <div className={Styles.dropDownContainer}>
+                    <p>
+                      {roleName === 'FINANCE MANAGER' || roleName === 'ADMIN' ? 'Expenses' : ''}
+                    </p>
+                    <div>
+                      <div className={Styles.dropDownContent}>
                         {roleName === 'PROJECT MANAGER' ||
-                        roleName === 'ADMIN' ? (
+                          roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleExpenseApproval}
@@ -256,7 +263,7 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'PROJECT MANAGER' ||
-                        roleName === 'ADMIN' ? (
+                          roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleExpenseRecall}
@@ -270,8 +277,8 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'FINANCE MANAGER' ||
-                        roleName === 'PROJECT MANAGER' ||
-                        roleName === 'ADMIN' ? (
+                          roleName === 'PROJECT MANAGER' ||
+                          roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleFinanceView}
@@ -283,9 +290,20 @@ const Navbar = () => {
                             <p>Manage your invoice and payments</p>
                           </div>
                         ) : null}
-
+                      </div>
+                    </div>
+                  </div>
+                  <div className={Styles.dropDownContainer}>
+                    <p>
+                      {
+                        roleName === 'FINANCE MANAGER' || roleName === 'PLANNING ENGINEER' 
+                        ? '' : 'Vendors'
+                      }
+                    </p>
+                    <div>
+                      <div className={Styles.dropDownContent}>
                         {roleName === 'PURCHASE MANAGER' ||
-                        roleName === 'ADMIN' ? (
+                          roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleVendorList}

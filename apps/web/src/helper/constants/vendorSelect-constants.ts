@@ -6,6 +6,7 @@ export const userErrorMessages = {
 export const getCreateValidateyup = (yup: any) => {
     return yup.object().shape({
         total_quotation_amount: yup
-        .number().required(userErrorMessages.ENTER_BUDGET).typeError(userErrorMessages.ENTER_RATE_TYPE),
+        .number().required(userErrorMessages.ENTER_BUDGET).typeError(userErrorMessages.ENTER_RATE_TYPE)
+        .positive(userErrorMessages.ENTER_RATE_TYPE),
     });
 }

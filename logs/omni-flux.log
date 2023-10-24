@@ -1,0 +1,19 @@
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllVendor << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.vendor.findMany()` invocation in
+D:\ERP\project\omni-flux\apps\api\src\dao\vendor.dao.ts:131:45
+
+  128 const getAll = async (connectionObj = null) => {
+  129   try {
+  130     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 131     const vendor = await transaction.vendor.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByIndentRequestId << ERRSTRING >>TypeError: Do not know how to serialize a BigInt

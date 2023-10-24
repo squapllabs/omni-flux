@@ -101,8 +101,10 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
             const purchase_requested_quantity =
               value.purchase_requested_quantity;
             const indent_request_details_id = value.indent_request_details_id;
-            const purchase_remaining_quantity =
-              indent_requested_quantity - purchase_requested_quantity;
+            const purchase_remaining_quantity = Math.max(
+              0,
+              indent_requested_quantity - purchase_requested_quantity
+            );
             await indentRequestDetailsDao.updatePurchaseRequestQuantity(
               indent_request_details_id,
               purchase_requested_quantity,

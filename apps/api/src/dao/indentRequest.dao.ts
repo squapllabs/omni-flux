@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import common from './common/utils.dao';
 
 const add = async (
   requester_user_id: number,
@@ -34,6 +35,13 @@ const add = async (
     const formatted_rejected_date = rejected_date
       ? new Date(rejected_date)
       : null;
+
+    const indentRequestCodeGeneratorQuery = `select concat('IND',DATE_PART('year', CURRENT_DATE),'00',nextval('indent_request_code_sequence')::text) as indent_request_code_sequence`;
+
+    const indentRequestCode = await common.customQueryExecutor(
+      indentRequestCodeGeneratorQuery
+    );
+
     const transaction = connectionObj !== null ? connectionObj : prisma;
 
     const result = await transaction
@@ -58,6 +66,8 @@ const add = async (
             created_date: currentDate,
             updated_date: currentDate,
             is_delete: is_delete,
+            indent_request_code:
+              indentRequestCode[0].indent_request_code_sequence,
           },
         });
 
@@ -72,8 +82,10 @@ const add = async (
             indent_request_detail.purchase_requested_quantity
               ? indent_request_detail.purchase_requested_quantity
               : 0;
-          const purchase_remaining_quantity =
-            indent_requested_quantity - purchase_requested_quantity;
+          const purchase_remaining_quantity = Math.max(
+            0,
+            indent_requested_quantity - purchase_requested_quantity
+          );
           const total = indent_request_detail.total;
           const is_delete = indent_request_detail.is_delete;
           if (is_delete === false) {
@@ -190,8 +202,10 @@ const edit = async (
             indent_request_detail.purchase_requested_quantity
               ? indent_request_detail.purchase_requested_quantity
               : 0;
-          const purchase_remaining_quantity =
-            indent_requested_quantity - purchase_requested_quantity;
+          const purchase_remaining_quantity = Math.max(
+            0,
+            indent_requested_quantity - purchase_requested_quantity
+          );
           const total = indent_request_detail.total;
           const is_delete = indent_request_detail.is_delete;
           const indent_request_details_id =
@@ -293,7 +307,7 @@ const getById = async (indentRequestId: number, connectionObj = null) => {
               },
             },
           },
-          orderBy: [{ updated_date: 'desc' }],
+          orderBy: [{ created_date: 'asc' }],
         },
       },
     });
@@ -329,7 +343,7 @@ const getAll = async (connectionObj = null) => {
               },
             },
           },
-          orderBy: [{ updated_date: 'desc' }],
+          orderBy: [{ created_date: 'asc' }],
         },
       },
       orderBy: [
@@ -400,7 +414,7 @@ const searchIndentRequest = async (
               },
             },
           },
-          orderBy: [{ updated_date: 'desc' }],
+          orderBy: [{ created_date: 'asc' }],
         },
       },
       orderBy: [
@@ -454,7 +468,7 @@ const getByProjectId = async (project_id: number, connectionObj = null) => {
               },
             },
           },
-          orderBy: [{ updated_date: 'desc' }],
+          orderBy: [{ created_date: 'asc' }],
         },
       },
     });

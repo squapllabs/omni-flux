@@ -141,6 +141,9 @@ const ContractorForm = () => {
                 rows={4}
                 maxCharacterCount={100}
                 mandatory={true}
+                error={
+                  formik.touched.description && formik.errors.description
+                }
               />
             </div>
           </div>

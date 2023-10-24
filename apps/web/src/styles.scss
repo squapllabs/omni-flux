@@ -59,6 +59,15 @@ body {
   /* table color*/
   --tableHeader-fontColor: #2e2e30;
   --tableHeader-backgroundColor: #d5d5d7;
+
+  /* Table Header font*/
+  --tableHeader-fontSize: 13px;
+  --tableHeader-fontWeight: 600;
+  --tableHeader-textTransform: uppercase;
+
+    /* Table Data font*/
+    --tableData-fontSize: 12px;
+    --tableData-fontWeight: 500;  
 }
 
 .globaltabledata {

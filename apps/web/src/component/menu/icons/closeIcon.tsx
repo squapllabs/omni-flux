@@ -5,6 +5,7 @@ interface CloseIconProps {
   height?: number;
   color?: string;
   onClick: () => void;
+  disabled?: boolean; // Add the disabled prop
 }
 
 const CloseIcon: FC<CloseIconProps> = ({
@@ -12,9 +13,11 @@ const CloseIcon: FC<CloseIconProps> = ({
   height = 15,
   color = '#475467',
   onClick,
+  disabled = false, // Default value is false
 }) => {
   const iconStyle: React.CSSProperties = {
-    cursor: 'pointer',
+    cursor: disabled ? 'not-allowed' : 'pointer', // Change cursor style based on 'disabled' prop
+    pointerEvents: disabled ? 'none' : 'auto', // Disable pointer events based on 'disabled' prop
   };
   return (
     <svg
@@ -23,7 +26,7 @@ const CloseIcon: FC<CloseIconProps> = ({
       height={height}
       fill="none"
       viewBox="0 0 18 18"
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick} // Disable click event when 'disabled' is true
       style={iconStyle}
     >
       <path

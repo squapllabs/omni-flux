@@ -24,6 +24,11 @@ const PurchaseView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
+  // console.log(
+  //   'getAllData?.purchase_request_details',
+  //   getAllData?.purchase_request_details
+  // );
+
   const { mutate: postDataForFilter } = purchaseOrderRequest();
   const constructPurchaseOrder = () => {
     const purchaseOrderItems = [];

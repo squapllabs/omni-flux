@@ -97,15 +97,12 @@
   gap: 12px;
   border-collapse: collapse;
 
-  // th,
+  th,
   td {
     padding: 10px 10px 10px 24px;
-    /* Adjust padding */
     text-align: left;
-    font-weight: 500;
-    font-size: 12px;
-    border: none;
-    /* Remove borders */
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
     border-bottom: 0.1px solid #f0f0f0;
   }
 
@@ -121,6 +118,20 @@
   //         }
   //     }
   // }
+
+  thead {
+    tr {
+      th {
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+      }
+    }
+  }
 }
 
 .tableIcon {

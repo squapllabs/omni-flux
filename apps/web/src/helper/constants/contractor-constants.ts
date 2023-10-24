@@ -6,6 +6,7 @@ export const contractorDownMessages = {
   CODE_EXIST: 'Code is already present',
   MIN_CODE: 'Code must be more then 5',
   MAX_CODE: 'Code must lesser then 7',
+  ENTER_DESCRIPTION: 'Description is Required',
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -20,8 +21,9 @@ export const getCreateValidateyup = (yup: any) => {
         'code-availability',
         contractorDownMessages.CODE_EXIST,
         async (value: any) => {
+          
           if (value) {
-            const response = await siteService.checkSiteCodeDuplicate(value);
+            const response = await siteService.checkSiteCodeDuplicate(value);            
             if (response?.is_exist === true) {
               return false;
             } else {
@@ -30,6 +32,9 @@ export const getCreateValidateyup = (yup: any) => {
           }
         }
       ),
+      description: yup
+      .string()
+      .required(contractorDownMessages.ENTER_DESCRIPTION),
     contact_number: yup
       .string()
       .matches(/^\d{10}$/, 'Contact number must be a 10 digit number')

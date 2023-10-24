@@ -98,7 +98,7 @@ const ProductAdd = () => {
               setMessage('Item Edited');
               setOpenSnack(true);
               setTimeout(() => {
-                navigate('/products');
+                navigate('/settings');
               }, 1000);
             }
           },
