@@ -24,10 +24,10 @@
   max-width: 1050px;
   overflow-x: scroll;
   // overflow-y: visible;
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 0px;
+  //   background: transparent;
+  // }
 }
 
 .scrollable_table {
