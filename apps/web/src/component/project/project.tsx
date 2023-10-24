@@ -23,9 +23,18 @@ import FirstPageIcon from '../menu/icons/firstPageIcon';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
 import SideNav from '../ui/sideNav';
 import ProjectSiteExpenseList from './projectComponent/projectSiteExpense/projectSiteExpenseList';
+import { useDispatch } from 'react-redux';
+import { setToken, getToken } from '../../redux/reducer';
+import { store, RootState } from '../../redux/store';
 const Project = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state: RootState = store.getState();
+  const projectMenuID = getToken(state, 'projectMenuID');
+  // const projectMenuID: any = encryptedData;
+  console.log('projectMenuID', projectMenuID);
+
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Dashboard', value: 'PDB' },
     { label: 'Generic', value: 'PGS' },
@@ -58,7 +67,9 @@ const Project = () => {
       setActiveButton('PGS');
     }
   };
-  const [selectedItem, setSelectedItem] = useState<number>(1);
+  const [selectedItem, setSelectedItem] = useState<number>(
+    projectMenuID != null ? projectMenuID : 1
+  );
   const menuItems = [
     {
       id: 1,
@@ -107,6 +118,7 @@ const Project = () => {
     },
   ];
   const handleMenuItemClick = (id: number) => {
+    dispatch(setToken({ key: 'projectMenuID', value: id }));
     setSelectedItem(id);
   };
   const mainContentComponents: { [key: number]: JSX.Element } = {
@@ -196,6 +208,7 @@ const Project = () => {
             className={Styles.logo}
             onClick={() => {
               navigate('/project-list');
+              dispatch(setToken({ key: 'projectMenuID', value: null }));
             }}
           >
             <PreviousPageIcon width={15} height={15} color="#7f56d9" />

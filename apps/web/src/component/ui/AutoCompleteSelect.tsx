@@ -269,6 +269,7 @@ const AutoCompleteSelect: React.FC<
           onFocus={() => {
             setOpen(true);
           }}
+          autoComplete="off"
         />
         <SuffixIconWrapper>
           <div
@@ -344,7 +345,7 @@ const AutoCompleteSelect: React.FC<
           </OptionList>
         )}
       </OptionContainer>
-      {props.errorFree ? (
+      {error === false ? (
         <></>
       ) : (
         <ErrorMessageWrapper>

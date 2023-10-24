@@ -1,0 +1,9 @@
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createIndentRequest << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `tx.indent_request.create()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\indentRequest.dao.ts:49:55
+
+  46 
+  47 const result = await transaction
+  48   .$transaction(async (tx) => {
+→ 49     const indentRequest = await tx.indent_request.create(
+Foreign key constraint failed on the field: `fk_indent_request_site_id (index)`

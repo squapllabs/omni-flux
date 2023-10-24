@@ -202,7 +202,6 @@ const IndentRequest: React.FC = (props: any) => {
               indent_request_details: indentRequestDetailsList,
               site_id: Number(formik.values.site_id),
             };
-
             if (routeParams?.indentid != undefined) {
               updateIndentData(obj, {
                 onSuccess(data, variables, context) {
@@ -251,13 +250,13 @@ const IndentRequest: React.FC = (props: any) => {
   return (
     <div>
       <div className={Styles.indent_container}>
-        <div className={Styles.box}>
-          <ProjectSubheader
-            description="Raise Indent Request"
-            navigation={`/project-edit/${routeParams?.id}`}
-            title="Indent Request"
-          />
-        </div>
+        {/* <div className={Styles.box}> */}
+        <ProjectSubheader
+          description="Raise Indent Request"
+          navigation={`/project-edit/${routeParams?.id}`}
+          title="Indent Request"
+        />
+        {/* </div> */}
         {/* <PageDisabled disabled={disabled}> */}
         <div className={Styles.box}>
           <div className={Styles.formConatiner}>
@@ -271,8 +270,8 @@ const IndentRequest: React.FC = (props: any) => {
                       mandatory={true}
                       onChange={formik.handleChange}
                       value={formik.values.priority}
-                      defaultLabel="Select from options"
-                      placeholder="Select from options"
+                      defaultLabel="Select from priority"
+                      placeholder="Select from priority"
                       error={formik.touched.priority && formik.errors.priority}
                       disabled={disabled}
                     >
