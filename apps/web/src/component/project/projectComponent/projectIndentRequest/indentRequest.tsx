@@ -110,7 +110,7 @@ const IndentRequest: React.FC = (props: any) => {
   const { data: getAllProjectSiteDatadrop = [] } = getProjectSite(
     Number(routeParams?.id)
   );
-  const handleDraft = () => {
+  const handleDraft = (e: any) => {
     formik.setFieldValue('request_status', 'Draft');
     formik.submitForm();
   };
@@ -140,51 +140,48 @@ const IndentRequest: React.FC = (props: any) => {
       let count = 0;
       const schema = yup.array().of(
         yup.object().shape({
-          bom_detail_id: yup.string().required('Item is required'),
+          bom_detail_id: yup
+            .string()
+            .required('BOM is required')
+            .test(
+              'decimal-validation',
+              'Already exist',
+              async function (value, { parent }: yup.TestContext) {
+                try {
+                  let dummy: any = [];
+                  const allIds = indentRequestDetailsList.map((item: any) => {
+                    if (item.is_delete === 'N') {
+                      item.bom_detail_id;
+                    }
+                    console.log('item', item);
+                    if (item.is_delete === false)
+                      dummy.push(item.bom_detail_id);
+                  });
+                  const isValuePresent = indentRequestDetailsList.map(
+                    (item: any) => {
+                      return (
+                        Number(item.bom_detail_id) === Number(value) &&
+                        item.is_delete === false
+                      );
+                    }
+                  );
+                  const checking = dummy.filter(
+                    (id: any) => Number(id) === Number(value)
+                  ).length;
+                  if (checking <= 1) {
+                    return true;
+                  } else if (isValuePresent === false) {
+                    return true;  
+                  } else return false;
+                } catch {
+                  return true;
+                }
+              }
+            ),
           indent_requested_quantity: yup
             .number()
-            .min(1, 'Amount must be more then 0')
-            .typeError('Only Numbers are allowed')
+            .moreThan(0, 'Quantity must be more then 0')
             .required('Quantity is required'),
-          // bom_detail_id: yup
-          //   .string()
-          //   .required('BOM is required')
-          //   .test(
-          //     'decimal-validation',
-          //     'Already exist',
-          //     async function (value, { parent }: yup.TestContext) {
-          //       const isDelete = false;
-          //       try {
-          //         let dummy: any = [];
-          //         const allIds = props.indentRequestDetailsList.map(
-          //           (item: any) => {
-          //             if (item.is_delete === 'N') {
-          //               item.bom_detail_id;
-          //             }
-          //             console.log('item', item);
-          //             if (item.is_delete === false)
-          //               dummy.push(item.bom_detail_id);
-          //           }
-          //         );
-          //         console.log('allIds', allIds);
-          //         console.log('allIds', dummy);
-          //         const checking = dummy.filter(
-          //           (id: any) => Number(id) === Number(value)
-          //         ).length;
-          //         if (checking <= 1) {
-          //           return true;
-          //         } else {
-          //           return false;
-          //         }
-          //       } catch {
-          //         return true;
-          //       }
-          //     }
-          //   ),
-          // indent_requested_quantity: yup
-          //   .number()
-          //   .moreThan(0, 'Quantity must be more then 0')
-          //   .required('Quantity is required'),
         })
       );
       await schema
@@ -205,8 +202,7 @@ const IndentRequest: React.FC = (props: any) => {
               indent_request_details: indentRequestDetailsList,
               site_id: Number(formik.values.site_id),
             };
-            console.log("obj",obj);
-            
+
             if (routeParams?.indentid != undefined) {
               updateIndentData(obj, {
                 onSuccess(data, variables, context) {
@@ -239,6 +235,16 @@ const IndentRequest: React.FC = (props: any) => {
               });
             }
           }
+        })
+        .catch((e: any) => {
+          const errorObj = {};
+          e.inner?.map((error: any) => {
+            console.log('error', e);
+            return (errorObj[error.path] = error.message);
+          });
+          setErrors({
+            ...errorObj,
+          });
         });
     },
   });
@@ -355,7 +361,7 @@ const IndentRequest: React.FC = (props: any) => {
               <div>
                 <IndentRequestDetails
                   projectId={Number(routeParams?.id)}
-                  indent_id={routeParams?.indentid === undefined ? true: false}
+                  indent_id={routeParams?.indentid === undefined ? true : false}
                   setIndentRequestDetailsList={setIndentRequestDetailsList}
                   indentRequestDetailsList={indentRequestDetailsList}
                   setTotalCost={setTotalCost}
