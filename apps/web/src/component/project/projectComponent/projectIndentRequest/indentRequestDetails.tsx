@@ -401,7 +401,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                       />
                     </td>
                     <td>
-                      <Input
+                      {/* <Input
                         width="180px"
                         name="uom_name"
                         mandatory={true}
@@ -413,22 +413,21 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         //   // formik.touched.bom_detail_id && formik.errors.bom_detail_id
                         //   props.errors?.[`[${index}].uom_name`] ? true : false
                         // }
-                      />
+                      /> */}
+                      {items?.uom_name}
                     </td>
                     <td>
                       <Input
                         width="180px"
                         name="indent_requested_quantity"
-                        mandatory={true}
+                        // mandatory={true}
                         value={items?.indent_requested_quantity}
                         onChange={(e) => {
                           handleFieldChange(e, index);
                         }}
                         // disabled={props.disabled}
                         error={
-                          props.errors?.[
-                            `[$${index}].indent_requested_quantity`
-                          ]
+                          props.errors?.[`[${index}].indent_requested_quantity`]
                             ? true
                             : false
                         }

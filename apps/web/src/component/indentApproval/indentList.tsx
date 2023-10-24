@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/indentList.module.scss';
 import Button from '../ui/Button';
 import Select from '../ui/selectNew';
-import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
+import {
+  getAllIndentbyUserRole,
+  getByUserRoleIndent,
+} from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import ViewIcon from '../menu/icons/newViewIcon';
@@ -17,6 +20,8 @@ import CustomPagination from '../menu/CustomPagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import ProjectSubheader from '../project/projectSubheader';
 import { environment } from '../../environment/environment';
+import Input from '../ui/Input';
+import SearchIcon from '../menu/icons/search';
 
 const IndentList = () => {
   const navigate = useNavigate();
@@ -28,11 +33,28 @@ const IndentList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [filterValues, setFilterValues] = useState({
+    search_by_code: '',
+  });
+  const userData: any = {
+    limit: rowsPerPage,
+    offset: (currentPage - 1) * rowsPerPage,
+    order_by_column: 'created_date',
+    order_by_direction: 'desc',
+    status: 'AC',
+    approver_status: activeButton,
+    project_approver_id: userID,
+    priority: selectedValueType,
+    indent_request_code: filterValues?.search_by_code,
+  };
   const {
-    mutate: postDataForFilter,
     data: getIndentData,
     isLoading: FilterLoading,
-  } = getByUserRoleIndent();
+    refetch,
+  } = getAllIndentbyUserRole(userData);
+  console.log('userData', userData);
+  console.log('getIndentData', getIndentData);
+
   const { data: getPriorityType = [], isLoading: dropLoading } =
     getBymasertDataTypeDrop('PRTYPE');
 
@@ -53,31 +75,23 @@ const IndentList = () => {
   const handleReset = async () => {
     setIsResetDisabled(true);
     setSelectedValueType('');
-    const userData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      approver_status: 'Pending',
-      project_approver_id: userID,
-      priority: '',
-    };
-    postDataForFilter(userData);
+    setActiveButton('Pending');
+    refetch();
+    // const userData: any = {
+    //   limit: rowsPerPage,
+    //   offset: (currentPage - 1) * rowsPerPage,
+    //   order_by_column: 'updated_date',
+    //   order_by_direction: 'desc',
+    //   status: 'AC',
+    //   approver_status: 'Pending',
+    //   project_approver_id: userID,
+    //   priority: '',
+    // };
+    // postDataForFilter(userData);
   };
   /* Function for searching a user in the table */
   const handleSearch = async () => {
-    const userData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: 'AC',
-      approver_status: activeButton,
-      project_approver_id: userID,
-      priority: selectedValueType,
-    };
-    postDataForFilter(userData);
+    refetch();
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -98,25 +112,31 @@ const IndentList = () => {
     setSelectedValueType(selectedData);
     setIsResetDisabled(searchValue === '');
   };
-  const handleReportGenerator = () =>{  
-    const data:any ={
-      title:"Indent Request",
-      name:"indent_request"
-    }  
-    ReportGenerator(data)
-  }
-
+  const handleReportGenerator = () => {
+    const data: any = {
+      title: 'Indent Request',
+      name: 'indent_request',
+    };
+    ReportGenerator(data);
+  };
 
   useEffect(() => {
-    handleSearch();
-  }, [currentPage, rowsPerPage,activeButton]);
+    refetch();
+  }, [currentPage, rowsPerPage, activeButton, selectedValueType]);
+  useEffect(() => {
+    const handlefilter = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handlefilter);
+  }, [filterValues]);
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   return (
     <div className={Styles.container}>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.box}>
-        <ProjectSubheader
+          <ProjectSubheader
             description="Indent list based on Projects"
             navigation={`/home`}
             title={'Indent List'}
@@ -135,9 +155,12 @@ const IndentList = () => {
                   label="Project Type"
                   name="project_type"
                   onChange={handleDropdownChangePriorityType}
+                  // onChange={()=>{
+                  //   setSelectedValueType()
+                  // }}
                   value={selectedValueType}
                   defaultLabel="Select from options"
-                  placeholder="Select from options"
+                  placeholder="Select from priority"
                 >
                   {SampleOption.map((option: any) => (
                     <option key={option.value} value={option.value}>
@@ -146,7 +169,24 @@ const IndentList = () => {
                   ))}
                 </Select>
               </div>
-              <Button
+              <div>
+                <Input
+                  label="Indent Code"
+                  width="260px"
+                  prefixIcon={<SearchIcon />}
+                  name="search_by_code"
+                  value={filterValues.search_by_code}
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValues,
+                      ['search_by_code']: e.target.value,
+                    });
+                    setCurrentPage(1);
+                  }}
+                  placeholder="Search"
+                />
+              </div>
+              {/* <Button
                 className={Styles.searchButton}
                 shape="rectangle"
                 justify="center"
@@ -164,7 +204,7 @@ const IndentList = () => {
                 onClick={handleReset}
               >
                 Reset
-              </Button>
+              </Button> */}
             </div>
             <div>
               <CustomGroupButton
@@ -182,9 +222,12 @@ const IndentList = () => {
               <thead>
                 <tr>
                   <th className={Styles.tableHeading}>#</th>
+                  <th className={Styles.tableHeading}>Code</th>
                   <th className={Styles.tableHeading}>Project Name</th>
                   <th className={Styles.tableHeading}>Priority</th>
-                  <th className={Styles.tableHeading}>Expected Delivery Date</th>
+                  <th className={Styles.tableHeading}>
+                    Expected Delivery Date
+                  </th>
                   <th className={Styles.tableHeading}>Description</th>
                   <th className={Styles.tableHeading}>Total Cost</th>
                   <th className={Styles.tableHeading}>Actions</th>
@@ -193,7 +236,7 @@ const IndentList = () => {
               <tbody>
                 {getIndentData?.total_count === 0 ? (
                   <tr>
-                    <td colSpan="7" style={{ textAlign: 'center' }}>
+                    <td colSpan="8" style={{ textAlign: 'center' }}>
                       No data found
                     </td>
                   </tr>
@@ -204,6 +247,7 @@ const IndentList = () => {
                   return (
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
+                      <td>{data?.indent_request_code}</td>
                       <td>{data?.project_data?.project_name}</td>
                       <td>{data?.priority}</td>
                       <td>
@@ -212,8 +256,16 @@ const IndentList = () => {
                           'MMM dd, yyyy'
                         )}
                       </td>
-                      <td>{data?.description === '' ? nullLableNameFromEnv : data?.description}</td>
-                      <td>{formatBudgetValue(data?.total_cost ? data?.total_cost : 0) }</td>
+                      <td>
+                        {data?.description === ''
+                          ? nullLableNameFromEnv
+                          : data?.description}
+                      </td>
+                      <td>
+                        {formatBudgetValue(
+                          data?.total_cost ? data?.total_cost : 0
+                        )}
+                      </td>
                       <td>
                         <div className={Styles.tablerow}>
                           <ViewIcon
@@ -223,7 +275,9 @@ const IndentList = () => {
                               )
                             }
                           />
-                            <PdfDownloadIcon onClick={() => handleReportGenerator()} />
+                          <PdfDownloadIcon
+                            onClick={() => handleReportGenerator()}
+                          />
                         </div>
                       </td>
                     </tr>
