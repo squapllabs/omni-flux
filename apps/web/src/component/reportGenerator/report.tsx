@@ -74,11 +74,11 @@ const ReportGenerator = (data: any) => {
     pdf.text('PURCHASE ORDER', 85, 10);
     pdf.setFontSize(11);
     pdf.setFont('Newsreader', 'normal');
-    pdf.text(`${purchaseOrder.companyAddress}`, 10, 25);
-    pdf.text(`${purchaseOrder.Line1}`, 10, 30);
-    pdf.text(`${purchaseOrder.phoneNumber}`, 10, 35);
-    pdf.text(`${purchaseOrder.emailAddress}`, 10, 40);
-    pdf.text(`${purchaseOrder.websiteURL}`, 10, 45);
+    pdf.text(`${purchaseOrder.companyAddress}`, 14, 25);
+    pdf.text(`${purchaseOrder.Line1}`, 14, 30);
+    pdf.text(`${purchaseOrder.phoneNumber}`, 14, 35);
+    pdf.text(`${purchaseOrder.emailAddress}`, 14, 40);
+    pdf.text(`${purchaseOrder.websiteURL}`, 14, 45);
     pdf.setFontSize(12);
     pdf.text(`Order Number: ${purchaseOrder.orderNumber}`, 140, 30);
     pdf.text(`Order Date: ${purchaseOrder.orderDate}`, 140, 35);
@@ -97,6 +97,7 @@ const ReportGenerator = (data: any) => {
             [`Vendor Address: ${purchaseOrder.vendorAddress}`],
             [`Contact Number: ${purchaseOrder.vendorContact}`]
         ],
+        startX:10,
         startY: 50, // Adjust the Y position as needed
         headStyles: headerStyles,
     };

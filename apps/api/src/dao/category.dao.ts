@@ -1,9 +1,11 @@
+import { createCategoryBody } from '../interfaces/category.Interface';
 import prisma from '../utils/prisma';
 
 const add = async (
   name: string,
   project_id: number,
-  budget: number,
+  actual_budget: number,
+  estimated_budget: number,
   created_by: bigint,
   description: string,
   start_date: Date,
@@ -22,7 +24,8 @@ const add = async (
       data: {
         name,
         project_id,
-        budget,
+        actual_budget,
+        estimated_budget,
         created_by,
         created_date: currentDate,
         updated_date: currentDate,
@@ -44,7 +47,8 @@ const add = async (
 const edit = async (
   name: string,
   project_id: number,
-  budget: number,
+  actual_budget: number,
+  estimated_budget: number,
   updated_by: bigint,
   category_id: number,
   description: string,
@@ -66,7 +70,8 @@ const edit = async (
       data: {
         name,
         project_id,
-        budget,
+        actual_budget,
+        estimated_budget,
         updated_by,
         updated_date: currentDate,
         description,
@@ -292,7 +297,7 @@ const updateBudget = async (
         category_id: category_id,
       },
       data: {
-        budget: budget,
+        actual_budget: budget,
         updated_date: currentDate,
         updated_by,
       },
@@ -357,6 +362,40 @@ const getCountByProjectIdAndBomConfigId = async (
   }
 };
 
+const addBulk = async (
+  categories: createCategoryBody[],
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const currentDate = new Date();
+    const categoryData = categories.map((categoryObj) => ({
+      name: categoryObj.name,
+      project_id: categoryObj.project_id,
+      estimated_budget: categoryObj.estimated_budget,
+      created_by: categoryObj.created_by,
+      description: categoryObj.description,
+      start_date: categoryObj.start_date
+        ? new Date(categoryObj.start_date)
+        : null,
+      end_date: categoryObj.end_date ? new Date(categoryObj.end_date) : null,
+      bom_configuration_id: categoryObj.bom_configuration_id,
+      progress_status: categoryObj.progress_status,
+      created_date: currentDate,
+      updated_date: currentDate,
+      is_delete: false,
+    }));
+
+    const createdCategories = await transaction.category.createMany({
+      data: categoryData,
+    });
+    return createdCategories;
+  } catch (error) {
+    console.log('Error occurred in categoryDao addBulk ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -369,4 +408,5 @@ export default {
   getByProjectId,
   updateBudget,
   getCountByProjectIdAndBomConfigId,
+  addBulk,
 };
