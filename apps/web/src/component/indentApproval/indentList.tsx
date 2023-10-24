@@ -21,6 +21,7 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import ProjectSubheader from '../project/projectSubheader';
 import { environment } from '../../environment/environment';
 import Input from '../ui/Input';
+import SearchIcon from '../menu/icons/search';
 
 const IndentList = () => {
   const navigate = useNavigate();
@@ -32,6 +33,9 @@ const IndentList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [filterValues, setFilterValues] = useState({
+    search_by_code: '',
+  });
   const userData: any = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -41,13 +45,15 @@ const IndentList = () => {
     approver_status: activeButton,
     project_approver_id: userID,
     priority: selectedValueType,
+    indent_request_code: filterValues?.search_by_code,
   };
   const {
     data: getIndentData,
     isLoading: FilterLoading,
     refetch,
   } = getAllIndentbyUserRole(userData);
-  console.log('userData', getIndentData);
+  console.log('userData', userData);
+  console.log('getIndentData', getIndentData);
 
   const { data: getPriorityType = [], isLoading: dropLoading } =
     getBymasertDataTypeDrop('PRTYPE');
@@ -117,6 +123,12 @@ const IndentList = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton, selectedValueType]);
+  useEffect(() => {
+    const handlefilter = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handlefilter);
+  }, [filterValues]);
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
@@ -143,6 +155,9 @@ const IndentList = () => {
                   label="Project Type"
                   name="project_type"
                   onChange={handleDropdownChangePriorityType}
+                  // onChange={()=>{
+                  //   setSelectedValueType()
+                  // }}
                   value={selectedValueType}
                   defaultLabel="Select from options"
                   placeholder="Select from priority"
@@ -155,9 +170,23 @@ const IndentList = () => {
                 </Select>
               </div>
               <div>
-                <Input name="code" label="Expense Code" />
+                <Input
+                  label="Indent Code"
+                  width="260px"
+                  prefixIcon={<SearchIcon />}
+                  name="search_by_code"
+                  value={filterValues.search_by_code}
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValues,
+                      ['search_by_code']: e.target.value,
+                    });
+                    setCurrentPage(1);
+                  }}
+                  placeholder="Search"
+                />
               </div>
-              <Button
+              {/* <Button
                 className={Styles.searchButton}
                 shape="rectangle"
                 justify="center"
@@ -175,7 +204,7 @@ const IndentList = () => {
                 onClick={handleReset}
               >
                 Reset
-              </Button>
+              </Button> */}
             </div>
             <div>
               <CustomGroupButton
