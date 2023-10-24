@@ -325,6 +325,7 @@ const searchIndentRequest = async (body) => {
     const approver_status = body.approver_status;
     const priority = body.priority;
     const project_approver_id = body.project_approver_id;
+    const indent_request_code = body.indent_request_code;
 
     const filterObj: any = {};
 
@@ -385,6 +386,16 @@ const searchIndentRequest = async (body) => {
         project_data: {
           approvar_id: project_approver_id,
         },
+      });
+    }
+
+    if (indent_request_code) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        indent_request_code: indent_request_code,
       });
     }
 
