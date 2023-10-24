@@ -52,4 +52,36 @@ const searchIndentRequestDetails = async (
   }
 };
 
-export default { searchIndentRequestDetails };
+const updatePurchaseRequestQuantity = async (
+  indentRequestDetailsId: number,
+  purchaseRequestedQuantity: number,
+  purchaseRemainingQuantity: number,
+  updated_by: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const currentDate = new Date();
+    const indentRequestDetails =
+      await transaction.indent_request_details.update({
+        where: {
+          indent_request_details_id: Number(indentRequestDetailsId),
+        },
+        data: {
+          purchase_requested_quantity: purchaseRequestedQuantity,
+          purchase_remaining_quantity: purchaseRemainingQuantity,
+          updated_date: currentDate,
+          updated_by,
+        },
+      });
+    return indentRequestDetails;
+  } catch (error) {
+    console.log(
+      'Error occurred in indentRequestDetails updatePurchaseRequestQuantity dao',
+      error
+    );
+    throw error;
+  }
+};
+
+export default { searchIndentRequestDetails, updatePurchaseRequestQuantity };

@@ -3,7 +3,7 @@ import LabourService from '../service/labour-service';
 
 const useGetAllLabourForDrop = () => {
   return useQuery(
-    ['useGetAllLabourDrop'],
+    ['useGetAllLabourForDrop'],
     () => LabourService.getAllLabours(),
     {
       select: (data) =>

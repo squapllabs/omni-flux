@@ -11,6 +11,7 @@ import {
   updateExpense,
   getExpenseDetailsByExpenseId,
   updateStatus,
+  getByExpenseCode,
 } from '../../controller/expense.controller';
 import { runValidation } from '../../validations/index';
 
@@ -52,6 +53,12 @@ router.put(
   runValidation,
   authMiddleware,
   updateStatus
+);
+
+router.get(
+  '/get-by-expense-code/:expense_code',
+  authMiddleware,
+  getByExpenseCode
 );
 
 export default router;

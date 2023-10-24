@@ -3,22 +3,36 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Document, Page } from 'react-pdf';
 import { format } from 'date-fns';
+import { formatBudgetValue } from '../../helper/common-function';
 
 const ReportGenerator = (data: any) => {
 
-    // const generatePDF = () => {
-    // Your invoice data here...
-
-
     const itemsData = data?.purchase_request_data?.purchase_request_details?.map((item: any) => ({
         itemName: item?.item_name,
-        itemDescription: "",
-        quantity: item?.quantity,
-        unitPrice: "",
-        total: ""
+        quantity: item?.purchase_requested_quantity,
+        unitPrice: item?.rate,
+        total: item?.purchase_requested_quantity * item?.rate
     }))
 
+    // console.log("data?.purchase_request_data?.purchase_request_details",data?.purchase_request_data?.purchase_request_details);
+    
+    // const itemsData = [];
 
+    // for (let i = 0; i < 150; i++) {
+    //     itemsData.push({
+    //         itemName: 'Water Tanks',
+    //         quantity: 22,
+    //         unitPrice: 1000,
+    //         total: 22 * 1000, // Calculate the total for each item
+    //     });
+    // }
+
+    const overallTotal = itemsData.reduce((accumulator: any, currentItem: any) => {
+        return accumulator + currentItem.total;
+    }, 0);
+    const overallTotalQuantity = itemsData.reduce((accumulator: any, currentItem: any) => {
+        return accumulator + currentItem.quantity;
+    }, 0);
 
     const purchaseOrder = {
         companyName: 'Eco Protection Engineers',
@@ -33,108 +47,125 @@ const ReportGenerator = (data: any) => {
             'MMM dd, yyyy'
         ),
         vendorName: data?.vendor_data?.vendor_name,
-        vendorAddress: data?.vendor_data?.address?.street,
+        vendorAddress: Object.values(data?.vendor_data?.address),
         vendorContact: data?.vendor_data?.contact_phone_no,
-        siteName: 'Anna Nagar Easte',
-        siteAddress: '14/203 , J Block , Anna Nagar Easte',
-        siteContact: '9442838007',
+        siteName: data?.purchase_request_data?.site_data?.name,
+        siteAddress: Object.values(data?.purchase_request_data?.site_data?.address),
+        siteContact: data?.purchase_request_data?.site_data?.mobile_number,
         subtotal: data?.purchase_request_data.total_cost,
         // taxRate: 8, // 8% tax rate
     };
 
-
-
     // Create a new jsPDF instance
     const pdf = new jsPDF();
-
-    // Set the font to monospaced for consistent spacing
-
+    pdf.setProperties({
+        title: "purchase order"
+    })
 
     // Add content to the PDF
     const yStart = 15;
     const yOffset = 10;
 
     pdf.setFont('custom');
-    // Company Name
-    // pdf.setFontSize(12);
 
     const imageUrl = "/Ecologo-03.png"; // Replace with your image URL
     pdf.addImage(imageUrl, 'JPEG', 10, 1, 55, 15); //text to added in list of particals
-
     // Title
     pdf.setFontSize(15);
-    pdf.setFont('Newsreader','bold');
-    // pdf.text(`${purchaseOrder.companyName}`, 105, yStart + yOffset);
+    pdf.setFont('Newsreader', 'bold');
     pdf.text('PURCHASE ORDER', 85, 10);
     pdf.setFontSize(11);
-    // pdf.setLineHeightFactor(0.1);
-    pdf.setFont('Newsreader','normal');
-    pdf.text(`${purchaseOrder.companyAddress}`, 10, 25);
-    pdf.text(`${purchaseOrder.Line1}`, 10, 30);
-    pdf.text(`${purchaseOrder.phoneNumber}`, 10, 35);
-    pdf.text(`${purchaseOrder.emailAddress}`, 10, 40);
-    pdf.text(`${purchaseOrder.websiteURL}`, 10, 45);
+    pdf.setFont('Newsreader', 'normal');
+    pdf.text(`${purchaseOrder.companyAddress}`, 14, 25);
+    pdf.text(`${purchaseOrder.Line1}`, 14, 30);
+    pdf.text(`${purchaseOrder.phoneNumber}`, 14, 35);
+    pdf.text(`${purchaseOrder.emailAddress}`, 14, 40);
+    pdf.text(`${purchaseOrder.websiteURL}`, 14, 45);
     pdf.setFontSize(12);
     pdf.text(`Order Number: ${purchaseOrder.orderNumber}`, 140, 30);
     pdf.text(`Order Date: ${purchaseOrder.orderDate}`, 140, 35);
-    pdf.setFont('Newsreader','bold');
-    pdf.text('Vendor Details', 105, 50,'center');
-    pdf.setFont('Newsreader','normal');
-    pdf.text(`Vendor Name: ${purchaseOrder.vendorName}`, 10, 55);
-    pdf.text(`Vendor Address: ${purchaseOrder.vendorAddress}`, 10, 60);
-    pdf.text(`Vendor Contact: ${purchaseOrder.vendorContact}`, 105, 60);
-    pdf.setFont('Newsreader','bold');
-    pdf.text('Site / Shipping Details', 105, 70, 'center');
-    pdf.setFont('Newsreader','normal');
-    pdf.text(`Site Name: ${purchaseOrder.siteName}`, 10, 75);
-    pdf.text(`Site Address: ${purchaseOrder.siteAddress}`, 10, 80);
-    pdf.text(`Contact Number: ${purchaseOrder.siteContact}`, 105, 80);
 
-    // Addresses
-    // pdf.text(`Billing Address: ${purchaseOrder.billingAddress}`, 10, yStart + yOffset * 8);
-    // pdf.text(`Shipping Address: ${purchaseOrder.shippingAddress}`, 10, yStart + yOffset * 9);
+    const headerStyles = {
+        // fillColor: [0, 0, 255],
+        fillColor: [0, 51, 102],
+        textColor: 255,
+        fontStyle: 'bold',
+    };
 
-    // Payment Terms
-    // pdf.text(`Payment Terms: ${purchaseOrder.paymentTerms}`, 10, yStart + yOffset * 10);
+    const vendorDetailsTable = {
+        head: [['Vendor Details']],
+        body: [
+            [`Vendor Name: ${purchaseOrder.vendorName}`],
+            [`Vendor Address: ${purchaseOrder.vendorAddress}`],
+            [`Contact Number: ${purchaseOrder.vendorContact}`]
+        ],
+        startX:10,
+        startY: 50, // Adjust the Y position as needed
+        headStyles: headerStyles,
+    };
+    pdf.autoTable(vendorDetailsTable);
+
+    // Create a table for Site / Shipping Details
+    const siteDetailsTable = {
+        head: [['Site / Shipping Details']],
+        body: [
+            [`Site Name: ${purchaseOrder.siteName}`],
+            [`Site Address: ${purchaseOrder.siteAddress}`],
+            [`Contact Number: ${purchaseOrder.siteContact}`]
+        ],
+        startY: 85, // Adjust the Y position as needed
+        headStyles: headerStyles,
+    };
+    pdf.autoTable(siteDetailsTable);
 
     // Define item details table headers
-    const itemDetailsHeaders = ['Item Name', 'Description', 'Quantity', 'Unit Price', 'Total'];
+    const itemDetailsHeaders = ['S.No', 'Item Name', 'Quantity', 'Unit Price', 'Total'];
     pdf.setFont('courier');
-    // Define item details table rows
-    const itemDetailsRows = itemsData?.map((item: any) => [
+    const itemDetailsRows = itemsData?.map((item: any, index: number) => [
+        index + 1,
         item.itemName,
-        item.itemDescription,
-        item.quantity.toString(),
-        item.unitPrice.toString(),
-        item.total.toString(),
+        item.quantity?.toString(),
+        item.unitPrice?.toString(),
+        item.total?.toLocaleString(),
     ]);
 
+
+
     // Create item details table
-    const itemDetailsYStart = yStart + yOffset * 7;
+    const itemDetailsYStart = yStart + yOffset * 10.5;
     pdf.autoTable({
         head: [itemDetailsHeaders],
         body: itemDetailsRows,
         startY: itemDetailsYStart, // Adjust the Y position as needed
+        headStyles: headerStyles,
     });
 
-    // Calculate tax amount
-    // const taxAmount = (purchaseOrder.taxRate / 100) * purchaseOrder.subtotal;
-
-    // Calculate total amount
-    // const totalAmount = purchaseOrder.subtotal + taxAmount;
-
-    // Define summary table rows
+    // Define summary table rows ₹ 
     const summaryRows = [
-        ['Subtotal:', purchaseOrder.subtotal.toString()],
-        // [`Tax (${purchaseOrder.taxRate}%):`, taxAmount.toString()],
-        ['Total:', purchaseOrder?.subtotal.toString()],
+        [{ content: 'Total Quantity:', styles: { fontStyle: 'bold' } }, overallTotalQuantity.toLocaleString()],
+        [{ content: 'Total Amount:', styles: { fontStyle: 'bold' } }, overallTotal.toLocaleString()],
     ];
 
+    // const totalPages = pdf.internal.getNumberOfPages();
+    const totalPages = pdf.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        pdf.setFont('Newsreader');
+        pdf.text(
+            `Page ${i} of ${totalPages}`,
+            185,
+            pdf.internal.pageSize.getHeight() - 5
+        );
+    }
+
+
+
     // Create summary table
-    const summaryYStart = itemDetailsYStart + pdf.autoTable.previous.finalY + 10;
+    const summaryYStart = itemDetailsYStart + pdf.autoTable.previous;
+
     pdf.autoTable({
         body: summaryRows,
-        startY: 250, // Adjust the Y position as needed
+        startY: summaryYStart, // Adjust the Y position as needed
     });
 
     // Save the PDF
@@ -146,33 +177,6 @@ const ReportGenerator = (data: any) => {
     //     "<iframe width='100%' height='100%' src='" + pdfDataUri + "'></iframe>"
     // );
 
-    // };
-
-    // return (
-    //     <div>
-    //         <h1>Hello, React with jsPDF!</h1>
-    //         <p>Click the button below to generate a PDF invoice.</p>
-    //         <button onClick={generatePDF}>Generate PDF</button>
-    //     </div>
-    //     // <div>
-    //     //     <h1>Hello, React with jsPDF!</h1>
-    //     //     <p>Click the button below to generate and preview a PDF purchase order.</p>
-    //     //     <button onClick={generatePDF}>Generate PDF</button>
-    //     //     {pdfUrl && (
-    //     //         <div>
-    //     //             <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
-    //     //                 <Page pageNumber={pageNumber} />
-    //     //             </Document>
-    //     //             <p>
-    //     //                 Page {pageNumber} of {numPages}
-    //     //             </p>
-    //     //             <button onClick={() => setPageNumber(pageNumber - 1)}>Previous Page</button>
-    //     //             <button onClick={() => setPageNumber(pageNumber + 1)}>Next Page</button>
-    //     //         </div>
-    //     //     )}
-    //     // </div>
-
-    // );
 };
 
 export default ReportGenerator;

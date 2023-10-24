@@ -17,7 +17,8 @@ const createCategory = async (body: createCategoryBody) => {
     const {
       name,
       project_id,
-      budget,
+      actual_budget,
+      estimated_budget,
       created_by = null,
       description,
       start_date,
@@ -66,7 +67,8 @@ const createCategory = async (body: createCategoryBody) => {
     const categoryDetails = await categoryDao.add(
       name,
       project_id,
-      budget,
+      actual_budget,
+      estimated_budget,
       created_by,
       description,
       start_date,
@@ -96,7 +98,8 @@ const updateCategory = async (body: updateCategoryBody) => {
     const {
       name,
       project_id,
-      budget,
+      actual_budget,
+      estimated_budget,
       updated_by,
       category_id,
       description,
@@ -156,7 +159,8 @@ const updateCategory = async (body: updateCategoryBody) => {
     const categoryDetails = await categoryDao.edit(
       name,
       project_id,
-      budget,
+      actual_budget,
+      estimated_budget,
       updated_by,
       category_id,
       description,
@@ -528,6 +532,27 @@ const getCountByProjectIdAndBomConfigId = async (
   }
 };
 
+/**
+ * Method to Add Bulk Category
+ * @param JSON
+ * @returns
+ */
+const addBulk = async (category: createCategoryBody[]) => {
+  try {
+    const categoryData = await categoryDao.addBulk(category);
+    if (categoryData) {
+      return {
+        message: 'Categories added successfully',
+        status: true,
+        data: categoryData,
+      };
+    }
+  } catch (error) {
+    console.log('Error occurred in addBulk category service : ', error);
+    throw error;
+  }
+};
+
 export {
   createCategory,
   updateCategory,
@@ -539,4 +564,5 @@ export {
   searchCategory,
   getByProjectId,
   getCountByProjectIdAndBomConfigId,
+  addBulk,
 };

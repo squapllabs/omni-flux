@@ -11,6 +11,7 @@ const add = async (
   order_remark: string,
   created_by: number,
   purchase_order_documents,
+  purchase_order_details,
   payment_mode: string,
   payment_date: Date,
   connectionObj = null
@@ -35,6 +36,7 @@ const add = async (
         total_cost,
         order_remark,
         purchase_order_documents,
+        purchase_order_details,
         order_id: order_id[0].order_id_sequence,
         payment_mode,
         payment_date: formatted_payment_date,
@@ -60,6 +62,7 @@ const edit = async (
   order_remark: string,
   updated_by: number,
   purchase_order_documents,
+  purchase_order_details,
   payment_mode: string,
   payment_date: Date,
   purchase_order_id: number,
@@ -82,6 +85,7 @@ const edit = async (
         total_cost,
         order_remark,
         purchase_order_documents,
+        purchase_order_details,
         payment_mode,
         payment_date: formatted_payment_date,
         updated_by,
@@ -222,12 +226,11 @@ const createPurchaseOrderWithItem = async (
   purchase_order_item,
   connectionObj = null
 ) => {
-  let transaction;
   try {
     const currentDate = new Date();
     const is_delete = false;
     const formatted_order_date = order_date ? new Date(order_date) : null;
-    transaction = connectionObj !== null ? connectionObj : prisma;
+    const transaction = connectionObj !== null ? connectionObj : prisma;
     const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
     const order_id = await customQueryExecutor.customQueryExecutor(
       orderIdGeneratorQuery
@@ -258,6 +261,10 @@ const createPurchaseOrderWithItem = async (
           for (const value of purchase_order_item) {
             const item_id = value.item_id;
             const order_quantity = value.order_quantity;
+            const inward_quantity = value.inward_quantity
+              ? value.inward_quantity
+              : 0;
+            const inward_remaining_quantity = order_quantity - inward_quantity;
             const unit_price = value.unit_price;
 
             const purchaseOrderItem = await tx.purchase_order_item.create({
@@ -265,6 +272,8 @@ const createPurchaseOrderWithItem = async (
                 purchase_order_id: new_purchase_order_id,
                 item_id,
                 order_quantity,
+                inward_quantity,
+                inward_remaining_quantity,
                 unit_price,
                 created_by,
                 created_date: currentDate,

@@ -4,6 +4,7 @@ const add = async (
   purchase_order_id: number,
   item_id: number,
   order_quantity: number,
+  inward_quantity: number,
   unit_price: number,
   created_by: number,
   connectionObj = null
@@ -12,11 +13,14 @@ const add = async (
     const currentDate = new Date();
     const is_delete = false;
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const inward_remaining_quantity = order_quantity - inward_quantity;
     const purchaseOrderItem = await transaction.purchase_order_item.create({
       data: {
         purchase_order_id,
         item_id,
         order_quantity,
+        inward_quantity,
+        inward_remaining_quantity: inward_remaining_quantity,
         unit_price,
         created_by,
         created_date: currentDate,
@@ -35,6 +39,7 @@ const edit = async (
   purchase_order_id: number,
   item_id: number,
   order_quantity: number,
+  inward_quantity: number,
   unit_price: number,
   updated_by: number,
   purchase_order_item_id: number,
@@ -43,6 +48,7 @@ const edit = async (
   try {
     const currentDate = new Date();
     const transaction = connectionObj !== null ? connectionObj : prisma;
+    const inward_remaining_quantity = order_quantity - inward_quantity;
     const purchaseOrderItem = await transaction.purchase_order_item.update({
       where: {
         purchase_order_item_id: purchase_order_item_id,
@@ -51,6 +57,8 @@ const edit = async (
         purchase_order_id,
         item_id,
         order_quantity,
+        inward_quantity,
+        inward_remaining_quantity: inward_remaining_quantity,
         unit_price,
         updated_by,
         updated_date: currentDate,

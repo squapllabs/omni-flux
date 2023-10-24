@@ -66,7 +66,14 @@ const add = async (
 
         for (const indent_request_detail of indent_request_details) {
           const bom_detail_id = indent_request_detail.bom_detail_id;
-          const quantity = indent_request_detail.quantity;
+          const indent_requested_quantity =
+            indent_request_detail.indent_requested_quantity;
+          const purchase_requested_quantity =
+            indent_request_detail.purchase_requested_quantity
+              ? indent_request_detail.purchase_requested_quantity
+              : 0;
+          const purchase_remaining_quantity =
+            indent_requested_quantity - purchase_requested_quantity;
           const total = indent_request_detail.total;
           const is_delete = indent_request_detail.is_delete;
           if (is_delete === false) {
@@ -75,7 +82,9 @@ const add = async (
                 data: {
                   indent_request_id: new_indent_request_id,
                   bom_detail_id,
-                  quantity,
+                  indent_requested_quantity,
+                  purchase_requested_quantity,
+                  purchase_remaining_quantity,
                   total,
                   created_by,
                   created_date: currentDate,
@@ -175,7 +184,14 @@ const edit = async (
 
         for (const indent_request_detail of indent_request_details) {
           const bom_detail_id = indent_request_detail.bom_detail_id;
-          const quantity = indent_request_detail.quantity;
+          const indent_requested_quantity =
+            indent_request_detail.indent_requested_quantity;
+          const purchase_requested_quantity =
+            indent_request_detail.purchase_requested_quantity
+              ? indent_request_detail.purchase_requested_quantity
+              : 0;
+          const purchase_remaining_quantity =
+            indent_requested_quantity - purchase_requested_quantity;
           const total = indent_request_detail.total;
           const is_delete = indent_request_detail.is_delete;
           const indent_request_details_id =
@@ -191,7 +207,9 @@ const edit = async (
                   data: {
                     indent_request_id,
                     bom_detail_id,
-                    quantity,
+                    indent_requested_quantity,
+                    purchase_requested_quantity,
+                    purchase_remaining_quantity,
                     total,
                     updated_by,
                     updated_date: currentDate,
@@ -212,7 +230,9 @@ const edit = async (
                 data: {
                   indent_request_id,
                   bom_detail_id,
-                  quantity,
+                  indent_requested_quantity,
+                  purchase_requested_quantity,
+                  purchase_remaining_quantity,
                   total,
                   created_by: updated_by,
                   created_date: currentDate,

@@ -374,24 +374,6 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
             {tableData?.expense_details?.map((data: any, index: any) => {
               if (data?.is_delete === false) {
                 rowindex = rowindex + 1;
-                // const isApproved =
-                //   data?.status === 'Approved' || data?.status === 'Rejected';
-                // const actions = [
-                //   {
-                //     label: 'Approve',
-                //     onClick: () => {
-                //       approveHandler(data.expense_details_id);
-                //     },
-                //     disabled: isApproved,
-                //   },
-                //   {
-                //     label: 'Reject',
-                //     onClick: () => {
-                //       rejectHandler(data.expense_details_id);
-                //     },
-                //     disabled: isApproved,
-                //   },
-                // ];
                 return (
                   <tr>
                     <td>{rowindex}</td>

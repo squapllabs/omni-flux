@@ -19,6 +19,7 @@ import * as yup from 'yup';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
 const PurchaseRequestAdd = () => {
   const [itemValues, setItemsValues] = useState([]);
+  const [dynamicitemValues, setDynamicItemsValues] = useState([]);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
@@ -33,8 +34,10 @@ const PurchaseRequestAdd = () => {
   const [initialValues, setInitialValues] = useState({
     vendor_id: '',
     item_id: '',
-    quantity: '',
+    requested_quantity: '',
+    allocated_quantity: '',
     item_name: '',
+    indent_request_details_id:''
   });
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
@@ -48,15 +51,26 @@ const PurchaseRequestAdd = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      let arr = [];
+      let arr: any[] = [];
       arr = [...purchaseRequestData, values];
+      const newArray = dynamicitemValues.filter(item2 => {
+        return !arr.some(item1 => item1.item_name === item2.label);
+      });
+      setDynamicItemsValues(newArray)
       setPurchaseRequestData(arr);
-      resetForm();
+      resetForm({
+        values: {
+          ...formik.values,
+          item_name: '',
+          requested_quantity: '',
+          allocated_quantity: '',
+        },
+      });
       setDropDisable(true);
     },
   });
 
-  const handleDropChange = async (obj: any) => {
+  const handleDropChange = async () => {
     const itemsData = await PurchaseRequestService.getIndentItems(indentId);
     const arr: any = [];
     setItemsData(itemsData.data);
@@ -67,13 +81,17 @@ const PurchaseRequestAdd = () => {
       };
       arr.push(obj);
     });
-    setItemsValues(arr);
+    setItemsValues(arr)
+    setDynamicItemsValues(arr);
   };
-  
 
   const deletePurchaseRequest = (index: number) => {
     purchaseRequestData.splice(index, 1);
     setPurchaseRequestData([...purchaseRequestData]);
+    const newArray = itemValues.filter(item2 => {
+      return !purchaseRequestData.some(item1 => item1.item_name === item2.label);
+    });
+    setDynamicItemsValues(newArray)
     setDropDisable(false);
   };
 
@@ -86,20 +104,14 @@ const PurchaseRequestAdd = () => {
       project_id: projectId,
       purchase_request_details: purchaseRequestData.map((item: any) => ({
         item_id: item.item_id,
-        quantity: Number(item.quantity),
+        indent_requested_quantity: Number(item.requested_quantity),
+        purchase_requested_quantity: Number(item.allocated_quantity),
         item_name: item.item_name,
+        rate: Number(item?.rate),
+        indent_request_details_id:Number(item?.indent_request_details_id)
       })),
-      vendor_ids: purchaseRequestData.reduce(
-        (vendorIds: number[], item: any) => {
-          const itemVendorIds = Array.isArray(item.vendor_id) // Check if it's an array
-            ? item.vendor_id.map((vendor: any) => vendor.value).filter(Boolean) // Filter out empty values
-            : [];
-          return [...vendorIds, ...itemVendorIds];
-        },
-        []
-      ),
+      vendor_ids: purchaseRequestData.map((item: any) => item.vendor_id.map(Number)).flat()
     };
-
     createNewPurchaseRequest(requestBody, {
       onSuccess: (data, variables, context) => {
         if (data?.message === 'success') {
@@ -136,84 +148,42 @@ const PurchaseRequestAdd = () => {
     <div>
       <div className={Styles.popupContent}>
         <form onSubmit={formik.handleSubmit}>
-            <div className={Styles.sub_header}>
-              <div
-                className={Styles.logo}
-                onClick={() => {
-                  navigate(`/purchase-detail/${indentId}`, {
-                    state: { project_id: projectId },
-                  })
-                }}
-              >
-                <PreviousPageIcon width={20} height={20} color="#7f56d9" />
-              </div>
-              <div style={{ padding: '8px', display: 'flex' }}>
-                <div className={Styles.vertical}>
-                  <div className={Styles.verticalLine}></div>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '700px',
-                }}
-              >
-                <div className={Styles.textContent_1}>
-                  <h4>Request for Quotation</h4>
-                  <span className={Styles.content}>
-                    Raise purchase request against your Project
-                  </span>
-                </div>
+          <div className={Styles.sub_header}>
+            <div
+              className={Styles.logo}
+              onClick={() => {
+                navigate(`/purchase-detail/${indentId}`, {
+                  state: { project_id: projectId },
+                })
+              }}
+            >
+              <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+            </div>
+            <div style={{ padding: '8px', display: 'flex' }}>
+              <div className={Styles.vertical}>
+                <div className={Styles.verticalLine}></div>
               </div>
             </div>
-          
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '700px',
+              }}
+            >
+              <div className={Styles.textContent_1}>
+                <h4>Request for Quotation</h4>
+                <span className={Styles.content}>
+                  Raise purchase request against your Project
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div className={Styles.dividerStyle}></div>
           {/* <div className={Styles.inputFields}> */}
           <div className={Styles.fields_container}>
-            <div className={Styles.fields_container_1}>
-              <div>
-                <AutoCompleteMultiSelect
-                  label="Vendors"
-                  name="vendor_id"
-                  onChange={formik.handleChange}
-                  value={formik.values.vendor_id}
-                  placeholder="Select from options"
-                  defaultLabel="Select from options"
-                  mandatory
-                  width="350px"
-                  onSelect={(value) => {
-                    formik.setFieldValue('vendor_id', value);
-                  }}
-                  addLabel="Add Vendor"
-                      onAddClick={(value) => {
-                        console.log('onAddClick', value);
-                        navigate('/vendor-add', {
-                          state: { project_id: projectId, indent_id: indentId },
-                        })
-                        // setShowClientForm(true);
-                      }}
-                  optionList={getAllVendorsData}
-                  disabled={dropDisable}
-                // error={
-                //   formik.touched.user_id &&
-                //   formik.errors.user_id
-                // }
-                />
-              </div>
-              <div
-                className={Styles.instantAdd}
-                onClick={() =>
-                  navigate('/vendor-add', {
-                    state: { project_id: projectId, indent_id: indentId },
-                  })
-                }
-              >
-                <AddIcon style={{ height: '15px', width: '15px' }} />
-                <h4 className={Styles.addtext}> Add Vendor</h4>
-              </div>
-            </div>
             <div className={Styles.fields_container_2}>
               <div>
                 <AutoCompleteSelect
@@ -224,7 +194,7 @@ const PurchaseRequestAdd = () => {
                   placeholder="Select from options"
                   defaultLabel="Select from options"
                   mandatory
-                  width="350px"
+                  width="200px"
                   onSelect={(value) => {
                     formik.setFieldValue('item_id', value);
 
@@ -232,32 +202,58 @@ const PurchaseRequestAdd = () => {
                       (obj: any) => Number(obj.item_id) === Number(value)
                     );                    
                     formik.setFieldValue(
-                      'quantity',
-                      matchingObjects[0]?.bom_detail[0]?.quantity
+                      'requested_quantity',
+                      matchingObjects[0]?.indent_requested_quantity
+                    );
+                    formik.setFieldValue(
+                      'indent_request_details_id',
+                      matchingObjects[0]?.indent_request_details_id
                     );
                     formik.setFieldValue(
                       'item_name',
                       matchingObjects[0]?.item_name
                     );
+                    formik.setFieldValue(
+                      'rate',
+                      matchingObjects[0]?.rate
+                    );
                   }}
-                  optionList={itemValues}
+                  optionList={dynamicitemValues}
                   error={formik.touched.item_name && formik.errors.item_name}
                 />
               </div>
               <div>
                 <Input
-                  label="Quantity"
+                  label="Requested Quantity"
                   placeholder="Enter Quantity"
-                  name="quantity"
+                  name="requested_quantity"
                   mandatory={true}
-                  width="350px"
-                  value={formik.values.quantity}
+                  width="200px"
+                  value={formik.values.requested_quantity}
                   onChange={formik.handleChange}
                   error={
-                    formik.touched.quantity && formik.errors.quantity
+                    formik.touched.requested_quantity &&
+                    formik.errors.requested_quantity
+                  }
+                  disabled={true}
+                />
+              </div>
+              <div>
+                <Input
+                  label="Allocated Quantity"
+                  placeholder="Enter Quantity"
+                  name="allocated_quantity"
+                  mandatory={true}
+                  width="200px"
+                  value={formik.values.allocated_quantity}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.allocated_quantity &&
+                    formik.errors.allocated_quantity
                   }
                 />
               </div>
+
               <div>
                 <Button
                   color="primary"
@@ -271,6 +267,44 @@ const PurchaseRequestAdd = () => {
                 </Button>
               </div>
             </div>
+            <div className={Styles.fields_container_1}>
+              <div>
+                <AutoCompleteMultiSelect
+                  label="Choose Multiple Vendors"
+                  name="vendor_id"
+                  onChange={formik.handleChange}
+                  value={formik.values.vendor_id}
+                  placeholder="Select from options"
+                  defaultLabel="Select from options"
+                  mandatory
+                  width="350px"
+                  onSelect={(value) => {
+                    formik.setFieldValue('vendor_id', value);
+                  }}
+                  addLabel="Add Vendor"
+                  onAddClick={(value) => {
+                    navigate('/vendor-add', {
+                      state: { project_id: projectId, indent_id: indentId },
+                    });
+                    // setShowClientForm(true);
+                  }}
+                  optionList={getAllVendorsData}
+                  disabled={dropDisable}
+                  error={formik.touched.vendor_id && formik.errors.vendor_id}
+                />
+              </div>
+              {/* <div
+                className={Styles.instantAdd}
+                onClick={() =>
+                  navigate('/vendor-add', {
+                    state: { project_id: projectId, indent_id: indentId },
+                  })
+                }
+              >
+                <AddIcon style={{ height: '15px', width: '15px' }} />
+                <h4 className={Styles.addtext}> Add Vendor</h4>
+              </div> */}
+            </div>
           </div>
           <div className={Styles.tableContainer}>
             <div>
@@ -279,14 +313,17 @@ const PurchaseRequestAdd = () => {
                   <tr>
                     <th className={Styles.tableHeading}>#</th>
                     <th className={Styles.tableHeading}>Item</th>
-                    <th className={Styles.tableHeading}>Quantity</th>
+                    <th className={Styles.tableHeading}>Requested Quantity</th>
+                    <th className={Styles.tableHeading}>Allocated Quantity</th>
                     <th className={Styles.tableHeading}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {purchaseRequestData?.length === 0 ? (
                     <tr>
-                      <td colspan="4" style={{ textAlign: 'center' }}>No data found</td>
+                      <td colspan="4" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
                     </tr>
                   ) : (
                     purchaseRequestData?.map((item: any, index: any) => {
@@ -295,7 +332,8 @@ const PurchaseRequestAdd = () => {
                         <tr>
                           <td>{rowIndex}</td>
                           <td>{item.item_name}</td>
-                          <td>{item.quantity}</td>
+                          <td>{item.requested_quantity}</td>
+                          <td>{item.allocated_quantity}</td>
                           <td>
                             <div className={Styles.tablerow}>
                               <DeleteIcon

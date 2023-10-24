@@ -742,6 +742,36 @@ const updateStatus = async (body: expenseBody) => {
   }
 };
 
+/**
+ * Method to get expense By expenseCode
+ * @param expenseCode
+ * @returns
+ */
+const getByExpenseCode = async (expenseCode: string) => {
+  try {
+    let result = null;
+    const expenseData = await expenseDao.getByExpenseCode(expenseCode);
+    if (expenseData) {
+      result = {
+        message: 'success',
+        status: true,
+        data: expenseData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'No relevant data found for the provided expense_code',
+        status: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByExpenseCode expense service : ', error);
+    throw error;
+  }
+};
+
 export {
   createExpense,
   updateExpense,
@@ -752,4 +782,5 @@ export {
   getByProjectIdAndSiteId,
   getExpenseDetailsByExpenseId,
   updateStatus,
+  getByExpenseCode,
 };
