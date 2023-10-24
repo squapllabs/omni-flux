@@ -1,3 +1,4 @@
+import { createCategoryBody } from '../interfaces/category.Interface';
 import prisma from '../utils/prisma';
 
 const add = async (
@@ -361,6 +362,40 @@ const getCountByProjectIdAndBomConfigId = async (
   }
 };
 
+const addBulk = async (
+  categories: createCategoryBody[],
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const currentDate = new Date();
+    const categoryData = categories.map((categoryObj) => ({
+      name: categoryObj.name,
+      project_id: categoryObj.project_id,
+      estimated_budget: categoryObj.estimated_budget,
+      created_by: categoryObj.created_by,
+      description: categoryObj.description,
+      start_date: categoryObj.start_date
+        ? new Date(categoryObj.start_date)
+        : null,
+      end_date: categoryObj.end_date ? new Date(categoryObj.end_date) : null,
+      bom_configuration_id: categoryObj.bom_configuration_id,
+      progress_status: categoryObj.progress_status,
+      created_date: currentDate,
+      updated_date: currentDate,
+      is_delete: false,
+    }));
+
+    const createdCategories = await transaction.category.createMany({
+      data: categoryData,
+    });
+    return createdCategories;
+  } catch (error) {
+    console.log('Error occurred in categoryDao addBulk ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -373,4 +408,5 @@ export default {
   getByProjectId,
   updateBudget,
   getCountByProjectIdAndBomConfigId,
+  addBulk,
 };

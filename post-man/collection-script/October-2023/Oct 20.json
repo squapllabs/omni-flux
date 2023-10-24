@@ -3032,7 +3032,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Civil\",\r\n    \"project_id\": 137,\r\n    \"budget\": 24111999,\r\n    \"created_by\": 1,\r\n    \"description\": \"Description for Civil Category\",\r\n    \"start_date\": \"2023-09-23\",\r\n    \"end_date\": \"2023-10-20\",\r\n    \"bom_configuration_id\": 39,\r\n    \"progress_status\":\"Open\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Zone-I - PISE SOURCE - 100 MLD\",\r\n    \"project_id\": 137,\r\n    \"estimated_budget\": 8641753,\r\n    \"created_by\": 1,\r\n    \"description\": \"Construction of Sub Station at Pise Head Works.\",\r\n    \"start_date\": \"2023-10-20\",\r\n    \"end_date\": \"2023-11-30\",\r\n    \"bom_configuration_id\": 39,\r\n    \"progress_status\": \"Open\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3382,7 +3382,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Civil\",\r\n    \"project_id\": 137,\r\n    \"budget\": 24111999,\r\n    \"created_by\": 1,\r\n    \"description\": \"Updated Description for Civil Category\",\r\n    \"category_id\": 164,\r\n    \"start_date\": \"2023-09-23\",\r\n    \"end_date\": \"2023-10-20\",\r\n    \"bom_configuration_id\":39,\r\n    \"progress_status\":\"Started\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Zone-I - PISE SOURCE - 100 MLD\",\r\n    \"project_id\": 137,\r\n    \"estimated_budget\": 8641753,\r\n    \"updated_by\": 1,\r\n    \"description\": \"Construction of Sub Station at Pise Head Works.\",\r\n    \"start_date\": \"2023-10-20\",\r\n    \"end_date\": \"2023-11-30\",\r\n    \"bom_configuration_id\": 39,\r\n    \"progress_status\": \"Open\",\r\n    \"category_id\": 251\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3752,6 +3752,123 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"abstract_count\": 2,\n        \"tasks_count\": 2,\n        \"bom_configuration_data\": {\n            \"bom_configuration_id\": 53,\n            \"bom_name\": \"Demo Boq\",\n            \"bom_description\": \"Demo Boq description\",\n            \"bom_type_id\": 180,\n            \"project_id\": 164,\n            \"budget\": 8120,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-02T09:02:49.936Z\",\n            \"updated_date\": \"2023-10-03T05:11:54.524Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"project_data\": {\n                \"project_name\": \"Check BOQ Type \"\n            },\n            \"bom_type_data\": {\n                \"master_data_name\": \"TEST \"\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Add Bulk Categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"name\": \"ZONE-II BMC TAPPING 43.00 MLD\",\r\n        \"project_id\": 137,\r\n        \"estimated_budget\": 44183638,\r\n        \"created_by\": 1,\r\n        \"description\": \"Providing, lowering, laying and jointing 600 mm dia line for Raw water gravity main from BMC Tapping to W.T.P. at Temghar (L=2.70 Km)\",\r\n        \"start_date\": \"2023-10-20\",\r\n        \"end_date\": \"2023-11-30\",\r\n        \"bom_configuration_id\": 39,\r\n        \"progress_status\": \"Open\"\r\n    },\r\n    {\r\n        \"name\": \"ZONE-II BMC TAPPING 43.00 MLD\",\r\n        \"project_id\": 137,\r\n        \"estimated_budget\": 154137024,\r\n        \"created_by\": 1,\r\n        \"description\": \"Construction of Water Treatment Plant Capacity 43.00 MLD conventional type at Temghar in campus of existing Water Treatment Plant.\",\r\n        \"start_date\": \"2023-10-20\",\r\n        \"end_date\": \"2023-11-30\",\r\n        \"bom_configuration_id\": 39,\r\n        \"progress_status\": \"Open\"\r\n    },\r\n    {\r\n        \"name\": \"ZONE-II BMC TAPPING 43.00 MLD\",\r\n        \"project_id\": 137,\r\n        \"estimated_budget\": 8776283,\r\n        \"created_by\": 1,\r\n        \"description\": \"Recirculation of water at W.T.P. Temghar Cap 53.00 MLD\",\r\n        \"start_date\": \"2023-10-20\",\r\n        \"end_date\": \"2023-11-30\",\r\n        \"bom_configuration_id\": 39,\r\n        \"progress_status\": \"Open\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/category/add-bulk",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"add-bulk"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Add Bulk Categories",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"name\": \"ZONE-II BMC TAPPING 43.00 MLD\",\r\n        \"project_id\": 137,\r\n        \"estimated_budget\": 44183638,\r\n        \"created_by\": 1,\r\n        \"description\": \"Providing, lowering, laying and jointing 600 mm dia line for Raw water gravity main from BMC Tapping to W.T.P. at Temghar (L=2.70 Km)\",\r\n        \"start_date\": \"2023-10-20\",\r\n        \"end_date\": \"2023-11-30\",\r\n        \"bom_configuration_id\": 39,\r\n        \"progress_status\": \"Open\"\r\n    },\r\n    {\r\n        \"name\": \"ZONE-II BMC TAPPING 43.00 MLD\",\r\n        \"project_id\": 137,\r\n        \"estimated_budget\": 154137024,\r\n        \"created_by\": 1,\r\n        \"description\": \"Construction of Water Treatment Plant Capacity 43.00 MLD conventional type at Temghar in campus of existing Water Treatment Plant.\",\r\n        \"start_date\": \"2023-10-20\",\r\n        \"end_date\": \"2023-11-30\",\r\n        \"bom_configuration_id\": 39,\r\n        \"progress_status\": \"Open\"\r\n    },\r\n    {\r\n        \"name\": \"ZONE-II BMC TAPPING 43.00 MLD\",\r\n        \"project_id\": 137,\r\n        \"estimated_budget\": 8776283,\r\n        \"created_by\": 1,\r\n        \"description\": \"Recirculation of water at W.T.P. Temghar Cap 53.00 MLD\",\r\n        \"start_date\": \"2023-10-20\",\r\n        \"end_date\": \"2023-11-30\",\r\n        \"bom_configuration_id\": 39,\r\n        \"progress_status\": \"Open\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/category/add-bulk",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"category",
+										"add-bulk"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "76"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4c-dBGzXGjjalxeWoXAUUwfwtNVung\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 20 Oct 2023 11:42:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Categories added successfully\",\n    \"status\": true,\n    \"data\": {\n        \"count\": 3\n    }\n}"
 						}
 					]
 				}
@@ -9266,7 +9383,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{API_URL}}/api/item/get-by-indent-request-id/48",
+							"raw": "{{API_URL}}/api/item/get-by-indent-request-id/108",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -9274,7 +9391,7 @@
 								"api",
 								"item",
 								"get-by-indent-request-id",
-								"48"
+								"108"
 							]
 						}
 					},
@@ -22967,7 +23084,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"indent_request_id\": 32,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-19\",\r\n    \"status\": \"Waiting For Quotation\",\r\n    // \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"vendor_ids\": [\r\n        1,\r\n        21\r\n    ],\r\n    // \"selected_vendor_id\": 1,\r\n    \"total_cost\": 1000000,\r\n    \"created_by\": 1,\r\n    // \"purchase_request_details\": [\r\n    //     {\r\n    //         \"quantity\": 20,\r\n    //         \"item_name\": \"Cement\"\r\n    //     },\r\n    //     {\r\n    //         \"quantity\": 20,\r\n    //         \"item_name\": \"Pipe\"\r\n    //     }\r\n    // ]\r\n    \"purchase_request_details\": [\r\n        {\r\n            \"item_id\": 180,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\"\r\n        },\r\n        {\r\n            \"item_id\": 180,\r\n            \"quantity\": 50,\r\n            \"item_name\": \"Sand\"\r\n        },\r\n        {\r\n            \"item_id\": 180,\r\n            \"quantity\": 100,\r\n            \"item_name\": \"Pipe\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"indent_request_id\": 32,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-19\",\r\n    \"status\": \"Waiting For Quotation\",\r\n    // \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"vendor_ids\": [\r\n        1,\r\n        21\r\n    ],\r\n    // \"selected_vendor_id\": 1,\r\n    \"total_cost\": 1000000,\r\n    \"created_by\": 1,\r\n    // \"purchase_request_details\": [\r\n    //     {\r\n    //         \"quantity\": 20,\r\n    //         \"item_name\": \"Cement\"\r\n    //     },\r\n    //     {\r\n    //         \"quantity\": 20,\r\n    //         \"item_name\": \"Pipe\"\r\n    //     }\r\n    // ]\r\n    \"purchase_request_details\": [\r\n        {\r\n            \"rate\": 1500,\r\n            \"item_id\": 211,\r\n            \"item_name\": \"Mortar Mix\",\r\n            \"purchase_requested_quantity\": 12,\r\n            \"indent_requested_quantity\": 20,\r\n            \"indent_request_details_id\": 217\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -24157,7 +24274,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"purchase_request_id\": 53,\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-09-14\",\r\n    \"status\": \"Pending\",\r\n    \"total_cost\": 101201.0301,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"purchase_order_documents\": [\r\n        {\r\n            \"code\": \"purchase-order-item-1-0\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\r\n            \"index\": 0,\r\n            \"folder\": \"purchase-order-item\"\r\n        },\r\n        {\r\n            \"code\": \"purchase-order-item-1-1\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\r\n            \"index\": 1,\r\n            \"folder\": \"purchase-order-item\"\r\n        }\r\n    ],\r\n    \"payment_mode\": \"Cash\",\r\n    \"payment_date\": \"2023-09-28\"\r\n}",
+							"raw": "{\r\n    \"purchase_request_id\": 110,\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-09-14\",\r\n    \"status\": \"Pending\",\r\n    \"total_cost\": 101201.0301,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"purchase_order_documents\": [\r\n        {\r\n            \"code\": \"purchase-order-item-1-0\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\r\n            \"index\": 0,\r\n            \"folder\": \"purchase-order-item\"\r\n        },\r\n        {\r\n            \"code\": \"purchase-order-item-1-1\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\r\n            \"index\": 1,\r\n            \"folder\": \"purchase-order-item\"\r\n        }\r\n    ],\r\n    \"payment_mode\": \"Cash\",\r\n    \"payment_date\": \"2023-10-20\",\r\n    \"purchase_order_details\": [\r\n        {\r\n            \"indent_requested_quantity\": 10,\r\n            \"purchase_requested_quantity\": 8,\r\n            \"remaining_purchase_requested_quantity\": 2,\r\n            \"inward_quantity\": 5,\r\n            \"inward_remaining_quantity\": 3\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -24352,7 +24469,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"purchase_request_id\": 53,\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-09-14\",\r\n    \"status\": \"Pending\",\r\n    \"total_cost\": 101201.0301,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"updated_by\": 1,\r\n    \"purchase_order_id\": 71,\r\n    \"purchase_order_documents\": [\r\n        {\r\n            \"code\": \"purchase-order-item-1-0\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\r\n            \"index\": 0,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"code\": \"purchase-order-item-1-1\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\r\n            \"index\": 1,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": true\r\n        }\r\n    ],\r\n    \"payment_mode\": \"Cash\",\r\n    \"payment_date\": \"2023-09-28\"\r\n}",
+							"raw": "{\r\n    \"purchase_request_id\": 110,\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-09-14\",\r\n    \"status\": \"Pending\",\r\n    \"total_cost\": 101201.0301,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"updated_by\": 1,\r\n    \"purchase_order_id\": 105,\r\n    \"purchase_order_documents\": [\r\n        {\r\n            \"code\": \"purchase-order-item-1-0\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\r\n            \"index\": 0,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"code\": \"purchase-order-item-1-1\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\r\n            \"index\": 1,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": true\r\n        }\r\n    ],\r\n    \"payment_mode\": \"Cash\",\r\n    \"payment_date\": \"2023-09-28\",\r\n    \"purchase_order_details\": [\r\n        {\r\n            \"indent_requested_quantity\": 10,\r\n            \"purchase_requested_quantity\": 8,\r\n            \"remaining_purchase_requested_quantity\": 2,\r\n            \"inward_quantity\": 5,\r\n            \"inward_remaining_quantity\": 3\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
