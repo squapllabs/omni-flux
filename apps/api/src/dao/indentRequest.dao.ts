@@ -394,45 +394,59 @@ const searchIndentRequest = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterIndentRequest;
-    const indentRequest = await transaction.indent_request.findMany({
-      where: filter,
-      include: {
-        requester_user_data: { select: { first_name: true, last_name: true } },
-        approver_user_data: { select: { first_name: true, last_name: true } },
-        project_data: true,
-        site_data: true,
-        indent_request_details: {
-          where: { is_delete: false },
-          include: {
-            bom_detail_data: {
-              include: {
-                uom_data: { select: { name: true } },
-                sub_category_data: { select: { name: true } },
-                item_data: true,
-                labour_data: true,
-                machinery_data: true,
+
+    const indentRequestDataAvailablity =
+      await transaction.indent_request.findMany({
+        where: {
+          is_delete: filter?.is_delete,
+        },
+      });
+
+    if (indentRequestDataAvailablity.length > 0) {
+      const indentRequest = await transaction.indent_request.findMany({
+        where: filter,
+        include: {
+          requester_user_data: {
+            select: { first_name: true, last_name: true },
+          },
+          approver_user_data: { select: { first_name: true, last_name: true } },
+          project_data: true,
+          site_data: true,
+          indent_request_details: {
+            where: { is_delete: false },
+            include: {
+              bom_detail_data: {
+                include: {
+                  uom_data: { select: { name: true } },
+                  sub_category_data: { select: { name: true } },
+                  item_data: true,
+                  labour_data: true,
+                  machinery_data: true,
+                },
               },
             },
+            orderBy: [{ created_date: 'asc' }],
           },
-          orderBy: [{ created_date: 'asc' }],
         },
-      },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
-    });
-    const indentRequestCount = await transaction.indent_request.count({
-      where: filter,
-    });
-    const indentRequestData = {
-      count: indentRequestCount,
-      data: indentRequest,
-    };
-    return indentRequestData;
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const indentRequestCount = await transaction.indent_request.count({
+        where: filter,
+      });
+      const indentRequestData = {
+        count: indentRequestCount,
+        data: indentRequest,
+      };
+      return indentRequestData;
+    } else {
+      return indentRequestDataAvailablity;
+    }
   } catch (error) {
     console.log(
       'Error occurred in indentRequest dao : searchIndentRequest',

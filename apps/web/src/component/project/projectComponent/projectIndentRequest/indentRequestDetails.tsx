@@ -17,7 +17,6 @@ import { formatBudgetValue } from '../../../../helper/common-function';
 import AddIcon from '../../../menu/icons/addIcon';
 
 const IndentRequestDetails: React.FC = (props: any) => {
-  console.log('props.indentRequestDetailsList', props.indentRequestDetailsList);
 
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -58,10 +57,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
   };
 
   const deleteIndentDetail = (e: any, values: any) => {
-    console.log(
-      'indentIndex',
-      props.indentRequestDetailsList[indentDetailIndex]
-    );
+
     if (
       props.indentRequestDetailsList[indentDetailIndex].bom_detail_id !== ''
     ) {
@@ -74,8 +70,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
     }
     props.setIndentRequestDetailsList([...props.indentRequestDetailsList]);
     rowIndex = rowIndex - 1;
-    console.log('rowIndex', rowIndex);
-
     setOpenDelete(false);
     props.setMessage('Indent Request row has been deleted');
     props.setOpenSnack(true);
@@ -112,13 +106,13 @@ const IndentRequestDetails: React.FC = (props: any) => {
         'decimal-validation',
         'Already exist',
         async function (value, { parent }: yup.TestContext) {
-          let isDelete = parent.is_delete;
+          // let isDelete = parent.is_delete;
           try {
-            const isValuePresent = props.indentRequestDetailsList.some(
-              (obj: any) => {
+            const isValuePresent = props.indentRequestDetailsList.map(
+              (item: any) => {
                 return (
-                  Number(obj.bom_detail_id) === Number(value) &&
-                  obj.is_delete === isDelete
+                  Number(item.bom_detail_id) === Number(value) &&
+                  item.is_delete === false
                 );
               }
             );
@@ -171,23 +165,27 @@ const IndentRequestDetails: React.FC = (props: any) => {
                     if (item.is_delete === 'N') {
                       item.bom_detail_id;
                     }
-                    console.log('item', item);
+                    // console.log('item', item);
                     if (item.is_delete === false)
                       dummy.push(item.bom_detail_id);
                   }
                 );
-                console.log('allIds', allIds);
-                console.log('allIds', dummy);
+                const isValuePresent = props.indentRequestDetailsList.some(
+                  (item: any) => {
+                    return (
+                      Number(item.bom_detail_id) === Number(value) &&
+                      item.is_delete === false
+                    );
+                  }
+                );
                 const checking = dummy.filter(
                   (id: any) => Number(id) === Number(value)
                 ).length;
-                console.log('checking', checking);
-
                 if (checking <= 1) {
                   return true;
-                } else {
-                  return false;
-                }
+                } else if (isValuePresent === false) {
+                  return true;
+                } else return false;
               } catch {
                 return true;
               }
@@ -264,94 +262,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            {/* <tr>
-              <td>{rowIndex + 1}</td>
-              <td>
-                <AutoCompleteSelect
-                  name="bom_detail_id"
-                  defaultLabel="Select from options"
-                  placeholder="Select from options"
-                  mandatory={true}
-                  optionList={getBOMList != undefined ? getBOMList : []}
-                  // optionList={getBOMList}
-                  value={formik.values.bom_detail_id}
-                  disabled={props.disabled}
-                  onSelect={(value) => {
-                    formik.setFieldValue('bom_detail_id', value);
-                    const matchingObjects = getBOMList.filter(
-                      (obj: any) => Number(obj.value) === Number(value)
-                    );
-                    console.log('matchingObjects', matchingObjects);
-
-                    formik.setFieldValue(
-                      'indent_requested_quantity',
-                      matchingObjects[0]?.bom_quantity
-                    );
-                    formik.setFieldValue(
-                      'uom_name',
-                      matchingObjects[0]?.temp?.uom_data?.name
-                    );
-                    formik.setFieldValue(
-                      'per_item_cost',
-                      matchingObjects[0]?.bom_rate
-                    );
-                  }}
-                  onChange={formik?.handleChange}
-                  error={
-                    formik.touched.bom_detail_id && formik.errors.bom_detail_id
-                  }
-                />
-              </td>
-              <td>
-                <Input
-                  name="uom_name"
-                  mandatory={true}
-                  width="180px"
-                  value={formik?.values?.uom_name}
-                  onChange={formik?.handleChange}
-                  disabled={true}
-                />
-              </td>
-              <td>
-                <Input
-                  name="indent_requested_quantity"
-                  mandatory={true}
-                  width="180px"
-                  value={formik?.values?.indent_requested_quantity}
-                  onChange={formik?.handleChange}
-                  error={
-                    formik.touched.indent_requested_quantity &&
-                    formik.errors.indent_requested_quantity
-                  }
-                  disabled={props.disabled}
-                />
-              </td>
-              <td>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'row',
-                    gap: '20px',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div>
-                    <DeleteIcon
-                      onClick={(e) => {
-                        handleIndentDelete(items);
-                      }}
-                    />
-                  </div>
-                </div>
-              </td>
-            </tr> */}
             {props.indentRequestDetailsList?.map((items: any, index: any) => {
-              console.log('indentRequestDetailsList', items);
-              console.log(
-                'props.indentRequestDetailsList==>',
-                props.indentRequestDetailsList
-              );
               if (items?.is_delete === false) {
                 rowIndex = rowIndex + 1;
                 return (
@@ -370,7 +281,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         value={items?.bom_detail_id}
                         onChange={(e) => handleListChange(e, index)}
                         error={
-                          // formik.touched.bom_detail_id && formik.errors.bom_detail_id
                           props.errors?.[`[${index}].bom_detail_id`]
                             ? true
                             : false
@@ -379,7 +289,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                           const matchingObjects = getBOMList.filter(
                             (obj: any) => Number(obj.value) === Number(value)
                           );
-                          console.log('matchingObjects', matchingObjects);
 
                           let tempObj = {};
                           tempObj = {
@@ -392,10 +301,8 @@ const IndentRequestDetails: React.FC = (props: any) => {
                               matchingObjects[0]?.bom_quantity *
                               matchingObjects[0]?.bom_rate,
                           };
-                          console.log('tempObj', tempObj);
                           let tempArry = [...props.indentRequestDetailsList];
                           tempArry[index] = tempObj;
-                          console.log('tempArry[index]', tempArry[index]);
                           props.setIndentRequestDetailsList(tempArry);
                         }}
                       />
@@ -406,7 +313,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         name="uom_name"
                         mandatory={true}
                         value={items?.uom_name}
-                        // onChange={formik?.handleChange}
                         disabled={true}
                         onChange={(e) => handleListChange(e, index)}
                         // error={
@@ -425,7 +331,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         onChange={(e) => {
                           handleFieldChange(e, index);
                         }}
-                        // disabled={props.disabled}
                         error={
                           props.errors?.[`[${index}].indent_requested_quantity`]
                             ? true
@@ -452,8 +357,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         <div>
                           <DeleteIcon
                             onClick={() => {
-                              // handleIndentDelete(items);
-                              // setIndentDetails(items);
                               setOpenDelete(true);
                               setIndentDetailIndex(index);
                             }}

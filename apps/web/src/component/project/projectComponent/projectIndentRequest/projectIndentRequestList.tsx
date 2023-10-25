@@ -48,7 +48,7 @@ const ProjectIndentRequestList = () => {
     data: getFilterData,
     refetch,
   } = getIndentSearchPaginated(demo);
-  console.log('getFilterData', getFilterData);
+  console.log('demo', demo);
 
   useEffect(() => {
     refetch();
@@ -95,8 +95,7 @@ const ProjectIndentRequestList = () => {
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
-        {getFilterData?.total_count !== 0 ||
-        filterValues.approver_status !== '' ? (
+        {getFilterData?.is_available === true ? (
           <div>
             <div className={Styles.topHeading}>
               <div className={Styles.heading}>
