@@ -22,6 +22,13 @@ const add = async (
     const is_delete = false;
     const formatted_request_date = request_date ? new Date(request_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const purchaseRequestCodeGeneratorQuery = `select concat('PUR',DATE_PART('year', CURRENT_DATE),'00',nextval('purchase_request_code_sequence')::text) as purchase_request_code_sequence`;
+
+    const purchaseRequestCode = await customQueryExecutor.customQueryExecutor(
+      purchaseRequestCodeGeneratorQuery
+    );
+
     const purchaseRequest = await transaction.purchase_request.create({
       data: {
         indent_request_id,
@@ -39,6 +46,8 @@ const add = async (
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
+        purchase_request_code:
+          purchaseRequestCode[0].purchase_request_code_sequence,
       },
     });
 
@@ -233,10 +242,22 @@ const searchPurchaseRequest = async (
     const purchaseRequest = await transaction.purchase_request.findMany({
       where: filter,
       include: {
+        vendor_quotes: {
+          include: {
+            vendor_data: true,
+          },
+        },
         indent_request_data: true,
-        requester_user_data: { select: { first_name: true, last_name: true } },
+        requester_user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+            contact_no: true,
+            email_id: true,
+          },
+        },
         project_data: true,
-        selected_vendor_data: { select: { vendor_name: true } },
+        selected_vendor_data: true,
       },
       orderBy: [
         {
