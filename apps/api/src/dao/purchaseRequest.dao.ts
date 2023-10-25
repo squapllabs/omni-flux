@@ -242,10 +242,22 @@ const searchPurchaseRequest = async (
     const purchaseRequest = await transaction.purchase_request.findMany({
       where: filter,
       include: {
+        vendor_quotes: {
+          include: {
+            vendor_data: true,
+          },
+        },
         indent_request_data: true,
-        requester_user_data: { select: { first_name: true, last_name: true } },
+        requester_user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+            contact_no: true,
+            email_id: true,
+          },
+        },
         project_data: true,
-        selected_vendor_data: { select: { vendor_name: true } },
+        selected_vendor_data: true,
       },
       orderBy: [
         {
