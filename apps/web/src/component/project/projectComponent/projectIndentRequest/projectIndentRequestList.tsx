@@ -15,6 +15,8 @@ import Select from '../../../ui/selectNew';
 import CustomLoader from '../../../ui/customLoader';
 import CustomPagination from '../../../menu/CustomPagination';
 import BOQIcon from '../../../menu/icons/boqIcon';
+import Input from '../../../ui/Input';
+import SearchIcon from '../../../menu/icons/search';
 const ProjectIndentRequestList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -28,6 +30,7 @@ const ProjectIndentRequestList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterValues, setFilterValues] = useState({
     approver_status: '',
+    search_by_code: '',
   });
 
   const demo: any = {
@@ -37,19 +40,27 @@ const ProjectIndentRequestList = () => {
     order_by_direction: 'desc',
     status: 'AC',
     project_id: Number(routeParams?.id),
-    ...filterValues,
+    indent_request_code: filterValues.search_by_code,
+    approver_status: filterValues.approver_status,
   };
   const {
     isLoading: FilterLoading,
     data: getFilterData,
     refetch,
   } = getIndentSearchPaginated(demo);
+  console.log('demo', demo);
 
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, filterValues]);
-
-  
+  useEffect(() => {
+    if (filterValues?.search_by_code != '') {
+      const handleSearch = setTimeout(() => {
+        refetch();
+      }, 1000);
+      return () => clearTimeout(handleSearch);
+    }
+  }, [filterValues]);
 
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -84,8 +95,7 @@ const ProjectIndentRequestList = () => {
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
-        {getFilterData?.total_count !== 0 ||
-        filterValues.approver_status !== '' ? (
+        {getFilterData?.is_available === true ? (
           <div>
             <div className={Styles.topHeading}>
               <div className={Styles.heading}>
@@ -109,7 +119,21 @@ const ProjectIndentRequestList = () => {
                     </Button>
                   </div>
                 </div>
-                <div className ={ Styles.searchBar}>
+                <div className={Styles.searchBar} style={{ gap: '10px' }}>
+                  <Input
+                    width="260px"
+                    prefixIcon={<SearchIcon />}
+                    name="search_by_code"
+                    value={filterValues.search_by_code}
+                    onChange={(e) => {
+                      setFilterValues({
+                        ...filterValues,
+                        ['search_by_code']: e.target.value,
+                      });
+                      setCurrentPage(1);
+                    }}
+                    placeholder="Search by Code"
+                  />
                   <Select
                     width="200px"
                     name="approver_status"
@@ -181,6 +205,7 @@ const ProjectIndentRequestList = () => {
                   <thead>
                     <tr>
                       <th className={Styles.tableHeading}>#</th>
+                      <th className={Styles.tableHeading}>Indent Code</th>
                       <th className={Styles.tableHeadingSite}>
                         Indent Requested Date
                       </th>
@@ -198,6 +223,7 @@ const ProjectIndentRequestList = () => {
                         return (
                           <tr key={index}>
                             <td>{rowIndex}</td>
+                            <td>{items?.indent_request_code}</td>
                             <td>{dateFormat(items?.requested_date)}</td>
                             <td>{dateFormat(items?.expected_delivery_date)}</td>
                             {/* <td>{formatBudgetValue(items?.total_cost)}</td> */}

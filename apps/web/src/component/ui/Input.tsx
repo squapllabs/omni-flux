@@ -114,6 +114,8 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
   mandatory = false,
   ...props
 }) => {
+  console.log('error', props.errorFree);
+
   const shouldShowAsterisk = mandatory;
   return (
     <InputWrapper width={width}>
@@ -134,11 +136,12 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
           hasSuffixIcon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
+          autoComplete="off"
           {...props}
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
-      {props.errorFree ? (
+      {error === false ? (
         <></>
       ) : (
         <ErrorMessageWrapper>

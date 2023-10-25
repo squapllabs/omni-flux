@@ -11,7 +11,8 @@ export const getPurchaseRequestCreateValidateyup = (yup: any) => {
     item_name: yup.string().required(purchaseRequestAdd.ENTER_NAME),
     allocated_quantity: yup.number()
       .required(purchaseRequestAdd.ENTER_ALLOCATED_QUANTITY)
-      .typeError(purchaseRequestAdd.TYPE_ERROR),
+      .typeError(purchaseRequestAdd.TYPE_ERROR)
+      .positive(purchaseRequestAdd.TYPE_ERROR),
     vendor_id: yup.number()
       .required(purchaseRequestAdd.ENTER_VENDOR)
   });

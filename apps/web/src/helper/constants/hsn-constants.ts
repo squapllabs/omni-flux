@@ -23,8 +23,8 @@ export const gethsnCreateValidateyup = (yup: any) => {
         userErrorMessages.CODE_EXIST,
         async (value: any) => {
           if (value) {
-            const response = await hsnCodeService.getByHsnCode(value);
-            if (response?.success === true) {
+            const response = await hsnCodeService.getByHsnCode(value);            
+            if (response?.is_exist === true) {
               return false;
             } else {
               return true;
@@ -51,17 +51,22 @@ export const gethsnUpdateValidateyup = (yup: any) => {
       .test(
         'code-availability',
         userErrorMessages.CODE_EXIST,
-        async (value: any, { parent }: yup.TestContext) => {
+        async (value: any, { parent }: yup.TestContext) => {          
           const hsnCode = parent.hsn_code_id;
           if (value) {
             const response = await hsnCodeService.getByHsnCode(value);
             if (
-              response?.success === true &&
+              response?.is_exist === true &&
               response.data.hsn_code_id === hsnCode
             ) {
-              return false;
-            } else {
               return true;
+            } 
+            else {
+                if (response?.is_exist === false) {
+                  return true;
+                } else {
+                  return false;
+                }
             }
           }
         }
