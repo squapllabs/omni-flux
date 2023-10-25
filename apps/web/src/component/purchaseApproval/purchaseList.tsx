@@ -257,10 +257,12 @@ const PurchaseList = () => {
                   <th className={Styles.tableHeading}>Indent Code</th>
                   <th className={Styles.tableHeading}>Project Name</th>
                   <th className={Styles.tableHeading}>
-                    Expected Delivery Date{' '}
+                    Expected Delivery Date
                   </th>
                   <th className={Styles.tableHeading}>Priority</th>
                   <th className={Styles.tableHeading}>Cost</th>
+                  <th className={Styles.tableHeading}>Approved By</th>
+                  <th className={Styles.tableHeading}>Approved Date</th>
                   <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
@@ -300,6 +302,11 @@ const PurchaseList = () => {
                           data?.total_cost ? data?.total_cost : 0
                         )}
                       </td>
+                      <td>{data?.approver_user_data?.first_name +' '+ data?.approver_user_data?.last_name}</td>
+                      <td> {format(
+                          new Date(data?.approved_date),
+                          'MMM dd, yyyy'
+                        )}</td>
                       <td>
                         <div className={Styles.tablerow}>
                           <ViewIcon
