@@ -184,8 +184,48 @@ const PurchaseRequestAdd = () => {
           <div className={Styles.dividerStyle}></div>
           {/* <div className={Styles.inputFields}> */}
           <div className={Styles.fields_container}>
-            <div className={Styles.fields_container_2}>
+            
+            <div className={Styles.fields_container_1}>
               <div>
+                <AutoCompleteMultiSelect
+                  label="Choose Multiple Vendors"
+                  name="vendor_id"
+                  onChange={formik.handleChange}
+                  value={formik.values.vendor_id}
+                  placeholder="Select from options"
+                  defaultLabel="Select from options"
+                  mandatory
+                  width="310px"
+                  onSelect={(value) => {
+                    formik.setFieldValue('vendor_id', value);
+                  }}
+                  addLabel="Add Vendor"
+                  onAddClick={(value) => {
+                    navigate('/vendor-add', {
+                      state: { project_id: projectId, indent_id: indentId },
+                    });
+                    // setShowClientForm(true);
+                  }}
+                  optionList={getAllVendorsData}
+                  disabled={dropDisable}
+                  error={formik.touched.vendor_id && formik.errors.vendor_id}
+                />
+              </div>
+            
+              {/* <div
+                className={Styles.instantAdd}
+                onClick={() =>
+                  navigate('/vendor-add', {
+                    state: { project_id: projectId, indent_id: indentId },
+                  })
+                }
+              >
+                <AddIcon style={{ height: '15px', width: '15px' }} />
+                <h4 className={Styles.addtext}> Add Vendor</h4>
+              </div> */}
+            </div>
+            <div className={Styles.fields_container_2}>
+            <div>
                 <AutoCompleteSelect
                   label="Items"
                   name="item_id"
@@ -203,6 +243,10 @@ const PurchaseRequestAdd = () => {
                     );                    
                     formik.setFieldValue(
                       'requested_quantity',
+                      matchingObjects[0]?.indent_requested_quantity
+                    );
+                    formik.setFieldValue(
+                      'allocated_quantity',
                       matchingObjects[0]?.indent_requested_quantity
                     );
                     formik.setFieldValue(
@@ -266,44 +310,6 @@ const PurchaseRequestAdd = () => {
                   Add
                 </Button>
               </div>
-            </div>
-            <div className={Styles.fields_container_1}>
-              <div>
-                <AutoCompleteMultiSelect
-                  label="Choose Multiple Vendors"
-                  name="vendor_id"
-                  onChange={formik.handleChange}
-                  value={formik.values.vendor_id}
-                  placeholder="Select from options"
-                  defaultLabel="Select from options"
-                  mandatory
-                  width="350px"
-                  onSelect={(value) => {
-                    formik.setFieldValue('vendor_id', value);
-                  }}
-                  addLabel="Add Vendor"
-                  onAddClick={(value) => {
-                    navigate('/vendor-add', {
-                      state: { project_id: projectId, indent_id: indentId },
-                    });
-                    // setShowClientForm(true);
-                  }}
-                  optionList={getAllVendorsData}
-                  disabled={dropDisable}
-                  error={formik.touched.vendor_id && formik.errors.vendor_id}
-                />
-              </div>
-              {/* <div
-                className={Styles.instantAdd}
-                onClick={() =>
-                  navigate('/vendor-add', {
-                    state: { project_id: projectId, indent_id: indentId },
-                  })
-                }
-              >
-                <AddIcon style={{ height: '15px', width: '15px' }} />
-                <h4 className={Styles.addtext}> Add Vendor</h4>
-              </div> */}
             </div>
           </div>
           <div className={Styles.tableContainer}>

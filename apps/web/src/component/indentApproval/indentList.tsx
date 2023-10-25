@@ -52,8 +52,8 @@ const IndentList = () => {
     isLoading: FilterLoading,
     refetch,
   } = getAllIndentbyUserRole(userData);
-  console.log('userData', userData);
-  console.log('getIndentData', getIndentData);
+  // console.log('userData', userData);
+  // console.log('getIndentData', getIndentData);
 
   const { data: getPriorityType = [], isLoading: dropLoading } =
     getBymasertDataTypeDrop('PRTYPE');
@@ -222,7 +222,7 @@ const IndentList = () => {
               <thead>
                 <tr>
                   <th className={Styles.tableHeading}>#</th>
-                  <th className={Styles.tableHeading}>Code</th>
+                  <th className={Styles.tableHeading}>Indent Code</th>
                   <th className={Styles.tableHeading}>Project Name</th>
                   <th className={Styles.tableHeading}>Priority</th>
                   <th className={Styles.tableHeading}>
@@ -275,9 +275,9 @@ const IndentList = () => {
                               )
                             }
                           />
-                          <PdfDownloadIcon
+                          {/* <PdfDownloadIcon
                             onClick={() => handleReportGenerator()}
-                          />
+                          /> */}
                         </div>
                       </td>
                     </tr>

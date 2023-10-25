@@ -70,14 +70,13 @@ const VendorSelect = () => {
               </tr>
             ) : (
               tableData?.map((item: any, index: any) => {
-                console.log("ddddddddd",tableData);
                 
                 return (
                   <tr>
                     <td>{index + 1}</td>
                     <td>{item.item_name}</td>
-                    <td>{item.indent_request_quantity || nullLableNameFromEnv}</td>
-                    <td>{item.allocated_quantity || nullLableNameFromEnv}</td>
+                    <td>{item.indent_requested_quantity || nullLableNameFromEnv}</td>
+                    <td>{item.purchase_requested_quantity || nullLableNameFromEnv}</td>
                   </tr>
                 );
               })
