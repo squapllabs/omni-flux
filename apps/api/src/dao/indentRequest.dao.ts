@@ -401,6 +401,7 @@ const searchIndentRequest = async (
       await transaction.indent_request.findMany({
         where: {
           is_delete: filter?.is_delete,
+          project_id: filter?.AND[0]?.project_id,
         },
       });
 
