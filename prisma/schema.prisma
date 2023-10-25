@@ -824,6 +824,7 @@ model indent_request {
   approved_date          DateTime?
   rejected_date          DateTime?
   approver_comments      String?
+  request_type           String?
   is_delete              Boolean                  @default(false)
   created_date           DateTime                 @default(now())
   updated_date           DateTime
