@@ -874,6 +874,7 @@ model inventory {
 
 model purchase_request {
   purchase_request_id        Int              @id @default(autoincrement())
+  purchase_request_code      String
   indent_request_id          Int
   requester_user_id          Int
   request_date               DateTime?
