@@ -824,6 +824,7 @@ model indent_request {
   approved_date          DateTime?
   rejected_date          DateTime?
   approver_comments      String?
+  request_type           String?
   is_delete              Boolean                  @default(false)
   created_date           DateTime                 @default(now())
   updated_date           DateTime
@@ -873,6 +874,7 @@ model inventory {
 
 model purchase_request {
   purchase_request_id        Int              @id @default(autoincrement())
+  purchase_request_code      String
   indent_request_id          Int
   requester_user_id          Int
   request_date               DateTime?
