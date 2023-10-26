@@ -19,7 +19,6 @@ const createVendorQuotes = async (body: vendorQuotesBody) => {
       quotation_status,
       total_quotation_amount,
       remarks,
-      quotation_details,
       created_by,
       vendor_quotes_documents,
     } = body;
@@ -55,7 +54,6 @@ const createVendorQuotes = async (body: vendorQuotesBody) => {
       quotation_status,
       total_quotation_amount,
       remarks,
-      quotation_details,
       vendor_quotes_documents,
       created_by
     );
@@ -87,7 +85,6 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
       quotation_status,
       total_quotation_amount,
       remarks,
-      quotation_details,
       vendor_quotes_documents,
       updated_by,
     } = body;
@@ -151,7 +148,6 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
           quotation_status,
           total_quotation_amount,
           remarks,
-          quotation_details,
           updated_by,
           updatedVendorQuotesDocuments,
           tx

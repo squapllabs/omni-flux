@@ -383,30 +383,32 @@ model warehouse_inventory {
 }
 
 model item {
-  item_id                   Int                         @id @default(autoincrement())
-  item_name                 String                      @db.VarChar(100)
-  description               String?
-  hsn_code_id               Int?
-  gst_id                    Int?
-  uom_id                    Int?
-  created_date              DateTime
-  updated_date              DateTime
-  created_by                Int?
-  updated_by                Int?
-  item_type_id              Int?
-  brand_id                  Int?
-  rate                      Float?
-  is_delete                 Boolean                     @default(false)
-  hsn_code                  hsn_code?                   @relation(fields: [hsn_code_id], references: [hsn_code_id])
-  gst                       gst?                        @relation(fields: [gst_id], references: [gst_id])
-  uom                       uom?                        @relation(fields: [uom_id], references: [uom_id])
-  item_type                 master_data?                @relation(fields: [item_type_id], references: [master_data_id])
-  brand                     brand?                      @relation(fields: [brand_id], references: [brand_id])
-  lead_enquiry_product_item lead_enquiry_product_item[]
-  bom_detail                bom_detail[]
-  purchase_order_item       purchase_order_item[]
-  project_inventory         project_inventory[]
-  stock_outward_details     stock_outward_details[]
+  item_id                            Int                                  @id @default(autoincrement())
+  item_name                          String                               @db.VarChar(100)
+  description                        String?
+  hsn_code_id                        Int?
+  gst_id                             Int?
+  uom_id                             Int?
+  created_date                       DateTime
+  updated_date                       DateTime
+  created_by                         Int?
+  updated_by                         Int?
+  item_type_id                       Int?
+  brand_id                           Int?
+  rate                               Float?
+  is_delete                          Boolean                              @default(false)
+  hsn_code                           hsn_code?                            @relation(fields: [hsn_code_id], references: [hsn_code_id])
+  gst                                gst?                                 @relation(fields: [gst_id], references: [gst_id])
+  uom                                uom?                                 @relation(fields: [uom_id], references: [uom_id])
+  item_type                          master_data?                         @relation(fields: [item_type_id], references: [master_data_id])
+  brand                              brand?                               @relation(fields: [brand_id], references: [brand_id])
+  lead_enquiry_product_item          lead_enquiry_product_item[]
+  bom_detail                         bom_detail[]
+  purchase_order_item                purchase_order_item[]
+  project_inventory                  project_inventory[]
+  stock_outward_details              stock_outward_details[]
+  purchase_request_quotation_details purchase_request_quotation_details[]
+  vendor_quotation_details           vendor_quotation_details[]
 
   @@map(name: "item")
 }
@@ -839,20 +841,22 @@ model indent_request {
 }
 
 model indent_request_details {
-  indent_request_details_id   Int            @id @default(autoincrement())
-  indent_request_id           Int
-  bom_detail_id               Int
-  indent_requested_quantity   Int?
-  purchase_requested_quantity Int?
-  purchase_remaining_quantity Int?
-  total                       Float?
-  is_delete                   Boolean        @default(false)
-  created_date                DateTime       @default(now())
-  updated_date                DateTime
-  created_by                  Int?
-  updated_by                  Int?
-  indent_request_data         indent_request @relation(fields: [indent_request_id], references: [indent_request_id])
-  bom_detail_data             bom_detail     @relation(fields: [bom_detail_id], references: [bom_detail_id])
+  indent_request_details_id          Int                                  @id @default(autoincrement())
+  indent_request_id                  Int
+  bom_detail_id                      Int
+  indent_requested_quantity          Int?
+  purchase_requested_quantity        Int?
+  purchase_remaining_quantity        Int?
+  total                              Float?
+  is_delete                          Boolean                              @default(false)
+  created_date                       DateTime                             @default(now())
+  updated_date                       DateTime
+  created_by                         Int?
+  updated_by                         Int?
+  indent_request_data                indent_request                       @relation(fields: [indent_request_id], references: [indent_request_id])
+  bom_detail_data                    bom_detail                           @relation(fields: [bom_detail_id], references: [bom_detail_id])
+  purchase_request_quotation_details purchase_request_quotation_details[]
+  vendor_quotation_details           vendor_quotation_details[]
 }
 
 model inventory {
@@ -873,31 +877,31 @@ model inventory {
 }
 
 model purchase_request {
-  purchase_request_id        Int              @id @default(autoincrement())
-  purchase_request_code      String
-  indent_request_id          Int
-  requester_user_id          Int
-  request_date               DateTime?
-  status                     String?
-  vendor_selection_method    String?
-  project_id                 Int?
-  site_id                    Int?
-  selected_vendor_id         Int?
-  total_cost                 Float?
-  purchase_request_details   Json?
-  purchase_request_documents Json?
-  is_delete                  Boolean          @default(false)
-  created_date               DateTime         @default(now())
-  updated_date               DateTime
-  created_by                 Int?
-  updated_by                 Int?
-  indent_request_data        indent_request   @relation(fields: [indent_request_id], references: [indent_request_id])
-  requester_user_data        users            @relation(fields: [requester_user_id], references: [user_id])
-  project_data               project?         @relation(fields: [project_id], references: [project_id])
-  selected_vendor_data       vendor?          @relation(fields: [selected_vendor_id], references: [vendor_id])
-  site_data                  site_contractor? @relation(fields: [site_id], references: [site_contractor_id])
-  purchase_order             purchase_order[]
-  vendor_quotes              vendor_quotes[]
+  purchase_request_id                Int                                  @id @default(autoincrement())
+  purchase_request_code              String
+  indent_request_id                  Int
+  requester_user_id                  Int
+  request_date                       DateTime?
+  status                             String?
+  vendor_selection_method            String?
+  project_id                         Int?
+  site_id                            Int?
+  selected_vendor_id                 Int?
+  total_cost                         Float?
+  purchase_request_documents         Json?
+  is_delete                          Boolean                              @default(false)
+  created_date                       DateTime                             @default(now())
+  updated_date                       DateTime
+  created_by                         Int?
+  updated_by                         Int?
+  indent_request_data                indent_request                       @relation(fields: [indent_request_id], references: [indent_request_id])
+  requester_user_data                users                                @relation(fields: [requester_user_id], references: [user_id])
+  project_data                       project?                             @relation(fields: [project_id], references: [project_id])
+  selected_vendor_data               vendor?                              @relation(fields: [selected_vendor_id], references: [vendor_id])
+  site_data                          site_contractor?                     @relation(fields: [site_id], references: [site_contractor_id])
+  purchase_order                     purchase_order[]
+  vendor_quotes                      vendor_quotes[]
+  purchase_request_quotation_details purchase_request_quotation_details[]
 }
 
 model purchase_order {
@@ -941,23 +945,23 @@ model purchase_order_item {
 }
 
 model vendor_quotes {
-  vendor_quotes_id        Int              @id @default(autoincrement())
-  vendor_id               Int
-  purchase_request_id     Int
-  quotation_date          DateTime?
-  quotation_status        String?
-  total_quotation_amount  Float?
-  remarks                 String?
-  quotation_details       Json?
-  quotation_id            String
-  vendor_quotes_documents Json?
-  is_delete               Boolean          @default(false)
-  created_date            DateTime         @default(now())
-  updated_date            DateTime
-  created_by              Int?
-  updated_by              Int?
-  purchase_request_data   purchase_request @relation(fields: [purchase_request_id], references: [purchase_request_id])
-  vendor_data             vendor           @relation(fields: [vendor_id], references: [vendor_id])
+  vendor_quotes_id         Int                        @id @default(autoincrement())
+  vendor_id                Int
+  purchase_request_id      Int
+  quotation_date           DateTime?
+  quotation_status         String?
+  total_quotation_amount   Float?
+  remarks                  String?
+  quotation_id             String
+  vendor_quotes_documents  Json?
+  is_delete                Boolean                    @default(false)
+  created_date             DateTime                   @default(now())
+  updated_date             DateTime
+  created_by               Int?
+  updated_by               Int?
+  purchase_request_data    purchase_request           @relation(fields: [purchase_request_id], references: [purchase_request_id])
+  vendor_data              vendor                     @relation(fields: [vendor_id], references: [vendor_id])
+  vendor_quotation_details vendor_quotation_details[]
 }
 
 model project_inventory {
@@ -1111,4 +1115,42 @@ model expense_recall {
   expense_data         expense          @relation(fields: [expense_id], references: [expense_id])
   expense_details_data expense_details  @relation(fields: [expense_details_id], references: [expense_details_id])
   user_data            users?           @relation(fields: [recall_creator_id], references: [user_id])
+}
+
+model purchase_request_quotation_details {
+  purchase_request_quotation_details_id Int                     @id @default(autoincrement())
+  purchase_request_id                   Int
+  item_id                               Int?
+  indent_request_details_id             Int?
+  indent_requested_quantity             Int?
+  purchase_requested_quantity           Int?
+  unit_cost                             Float?
+  total_cost                            Float?
+  is_delete                             Boolean                 @default(false)
+  created_date                          DateTime                @default(now())
+  updated_date                          DateTime
+  created_by                            Int?
+  updated_by                            Int?
+  purchase_request_data                 purchase_request        @relation(fields: [purchase_request_id], references: [purchase_request_id])
+  item_data                             item?                   @relation(fields: [item_id], references: [item_id])
+  indent_request_details_data           indent_request_details? @relation(fields: [indent_request_details_id], references: [indent_request_details_id])
+}
+
+model vendor_quotation_details {
+  vendor_quotation_details_id Int                     @id @default(autoincrement())
+  vendor_quotes_id            Int?
+  item_id                     Int?
+  indent_request_details_id   Int?
+  indent_requested_quantity   Int?
+  purchase_requested_quantity Int?
+  unit_cost                   Float?
+  total_cost                  Float?
+  is_delete                   Boolean                 @default(false)
+  created_date                DateTime                @default(now())
+  updated_date                DateTime
+  created_by                  Int?
+  updated_by                  Int?
+  vendor_quotes_data          vendor_quotes?          @relation(fields: [vendor_quotes_id], references: [vendor_quotes_id])
+  item_data                   item?                   @relation(fields: [item_id], references: [item_id])
+  indent_request_details_data indent_request_details? @relation(fields: [indent_request_details_id], references: [indent_request_details_id])
 }
