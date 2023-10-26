@@ -74,6 +74,7 @@ const BomMachinery: React.FC = (props: any) => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
+  const [bomIndex, setBomIndex] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,19 +111,51 @@ const BomMachinery: React.FC = (props: any) => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  // const handleListChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  //   index: any
+  // ) => {
+  //   let tempObj = {};
+  //   if (
+  //     event.target.name === 'quantity' ||
+  //     event.target.name === 'price' ||
+  //     event.target.name === 'rate'
+  //   ) {
+  //     tempObj = {
+  //       ...props.bomList[index],
+  //       [event.target.name]: Number(event.target.value),
+  //     };
+  //   } else {
+  //     tempObj = {
+  //       ...props.bomList[index],
+  //       [event.target.name]: event.target.value,
+  //     };
+  //   }
+
+  //   let tempArry = [...props.bomList];
+  //   tempArry[index] = tempObj;
+  //   props.setBomList(tempArry);
+  //   rawMaterialTotalCalulate();
+  // };
+
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
     let tempObj = {};
-    if (
-      event.target.name === 'quantity' ||
-      event.target.name === 'price' ||
-      event.target.name === 'rate'
-    ) {
+    if (event.target.name === 'price' || event.target.name === 'rate') {
+      console.log('props', props.bomList[index]);
       tempObj = {
         ...props.bomList[index],
         [event.target.name]: Number(event.target.value),
+        total: Number(event.target.value) * props.bomList[index]?.quantity,
+      };
+      console.log('tempObj', tempObj);
+    } else if (event.target.name === 'quantity') {
+      tempObj = {
+        ...props.bomList[index],
+        [event.target.name]: Number(event.target.value),
+        total: Number(event.target.value) * props.bomList[index]?.rate,
       };
     } else {
       tempObj = {
@@ -130,12 +163,12 @@ const BomMachinery: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-
     let tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
     rawMaterialTotalCalulate();
   };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -154,19 +187,104 @@ const BomMachinery: React.FC = (props: any) => {
       rawMaterialTotalCalulate();
     },
   });
-  const deleteBOM = () => {
-    const itemIndex = props.bomList.findIndex(
-      (item: any) =>
-        item.machinery_id === bomValue?.machinery_id &&
-        item.is_delete === bomValue?.is_delete
+
+  const handleAddMachinery = async () => {
+    const schema = Yup.array().of(
+      Yup.object().shape({
+        // bom_name: Yup.string().trim().required(bomErrorMessages.ENTER_NAME),
+        quantity: Yup.number()
+          .required('Quantity is required')
+          .typeError('Numbers only allowed'),
+        machinery_id: Yup.string()
+          .trim()
+          .nullable()
+          .test(
+            'decimal-validation',
+            'Already Exists',
+            async function (value: number, { parent }: Yup.TestContext) {
+              if (value != null) {
+                try {
+                  const bOMType = parent.bom_type;
+                  console.log('bOMType', bOMType);
+                  if (bOMType === 'MCNRY') {
+                    // return true;
+                    let dummy: any = [];
+                    const allIds = props.bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.machinery_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.machinery_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
+                  } else {
+                    return false;
+                  }
+                } catch {
+                  return true;
+                }
+              } else {
+                return true;
+              }
+            }
+          ),
+        uom_id: Yup.string().trim().required('UOM is required'),
+      })
     );
-    props.bomList[itemIndex] = {
-      ...props.bomList[itemIndex],
-      is_delete: true,
-    };
+    await schema
+      .validate(props.bomList, { abortEarly: false })
+      .then(async () => {
+        props.setErrors({});
+        props.setBomList([...props.bomList, initialValues]);
+      })
+      .catch((e: any) => {
+        const errorObj = {};
+        e.inner?.map((error: any) => {
+          return (errorObj[error.path] = error.message);
+        });
+        props.setErrors({
+          ...errorObj,
+        });
+      });
+  };
+
+  console.log('error', props.errors);
+
+  // const deleteBOM = () => {
+  //   const itemIndex = props.bomList.findIndex(
+  //     (item: any) =>
+  //       item.machinery_id === bomValue?.machinery_id &&
+  //       item.is_delete === bomValue?.is_delete
+  //   );
+  //   props.bomList[itemIndex] = {
+  //     ...props.bomList[itemIndex],
+  //     is_delete: true,
+  //   };
+  //   props.setBomList([...props.bomList]);
+  //   rowIndex = rowIndex - 1;
+  //   setOpenDelete(false);
+  // };
+
+  const deleteBOM = (e: any, values: any) => {
+    if (props.bomList[bomIndex].bom_id !== '') {
+      props.bomList[bomIndex] = {
+        ...props.bomList[bomIndex],
+        is_delete: true,
+      };
+    } else {
+      props.bomList.splice(bomIndex, 1);
+    }
     props.setBomList([...props.bomList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
+    setMessage('Machinery detail row has been deleted');
+    setOpenSnack(true);
   };
 
   return (

@@ -221,7 +221,7 @@ const ExpenseRecall = () => {
       ) : (
         <div className={Styles.emptyDataHandling}>
           <div className={Styles.emptyDataHandling}>
-            <img src="/reverse.jpg" alt="aa" width="40%" height="40%" />
+            <img src="/reverse.jpg" alt="aa" width="30%" height="30%" />
           </div>
           <div></div>
         </div>

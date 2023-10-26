@@ -47,6 +47,8 @@ const Bom: React.FC = (props: any) => {
   const [reload, setReload] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState<any>();
+  const [openDialog, setOpenDialog] = useState(false);
   const { data: getSubCategoryData } = getBySubcategoryID(subCategoryId);
 
   useEffect(() => {
@@ -103,23 +105,71 @@ const Bom: React.FC = (props: any) => {
     fetchData();
   }, [activeButton, reload]);
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
+
+  const validationSchema = Yup.array().of(
+    Yup.object().shape({
+      // bom_name: Yup.string().trim().required('Item Name is required'),
+      uom_id: Yup.string().trim().required('UOM is required'),
+      rate: Yup.string().trim().required('Rate is required'),
+      quantity: Yup.number()
+        .required('Quantity is required')
+        .typeError('Numbers only allowed'),
+      labour_id: Yup.string()
+        .nullable()
+        .when('item_id', (item_id, schema) => {
+          console.log('TEST:::DATA:::check vlaue::', item_id);
+          return schema;
+        }),
+      item_id: Yup.string()
+        .nullable()
+        .when('labour_id', (labour_id, schema) => {
+          console.log('TEST:::DATA:::check vlaue::', labour_id);
+          return schema;
+        }),
+      // .when('item_id', {
+      //   is: (item_id) => !item_id,
+      //   then: Yup.string().required('Select Labour'),
+      //   otherwise: Yup.string().nullable(),
+      // })
+    })
+  );
+
   const handleBulkBomAdd = () => {
-    bulkBomData(bomList, {
-      onSuccess(data, variables, context) {
-        if (data?.status === true) {
-          setMessage('BOM created successfully');
-          setOpenSnack(true);
-          setReload(!reload);
-          setTimeout(() => {
-            props.setOpen(!props.open);
-            props.setReload(!props.reload);
-            props.setSubTaskView(!props.subTaskView);
-            props.setIsCollapsed(!props.isCollapsed);
-          }, 1000);
-        }
-      },
-    });
+    console.log('TEST:::DATA:', bomList);
+    validationSchema
+      .validate(bomList, { abortEarly: false })
+      .then(() => {
+        console.log('TEST:::DATA:', bomList);
+        // bulkBomData(bomList, {
+        //   onSuccess(data, variables, context) {
+        //     console.log('incoming2');
+        //     if (data?.status === true) {
+        //       setMessage('BOM created successfully');
+        //       setOpenSnack(true);
+        //       setReload(!reload);
+        //       setTimeout(() => {
+        //         props.setOpen(!props.open);
+        //         props.setReload(!props.reload);
+        //         props.setSubTaskView(!props.subTaskView);
+        //         props.setIsCollapsed(!props.isCollapsed);
+        //       }, 1000);
+        //     }
+        //   },
+        // });
+      })
+      .catch((e: any) => {
+        const errorObj = {};
+        e.inner?.map((error: any) => {
+          console.log('error', e);
+          return (errorObj[error.path] = error.message);
+        });
+        setErrors({
+          ...errorObj,
+        });
+      });
   };
+  console.log('errors', errors);
+
   const handleClose = () => {
     props.setOpen(false);
   };
@@ -138,6 +188,10 @@ const Bom: React.FC = (props: any) => {
   const handleMachineryFormClose = () => {
     showMachineryForm(false);
   };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <div className={Styles.bomcontainer}>
       <div className={Styles.sub_container}>
@@ -179,6 +233,8 @@ const Bom: React.FC = (props: any) => {
                 setBomList={setBomList}
                 bomList={bomList}
                 showItemForm={showItemForm}
+                errors={errors}
+                setErrors={setErrors}
               />
             ) : (
               ''
@@ -196,6 +252,8 @@ const Bom: React.FC = (props: any) => {
                 setBomList={setBomList}
                 bomList={bomList}
                 showLabourForm={showLabourForm}
+                errors={errors}
+                setErrors={setErrors}
               />
             ) : (
               ''
@@ -213,6 +271,8 @@ const Bom: React.FC = (props: any) => {
                 setBomList={setBomList}
                 bomList={bomList}
                 showMachineryForm={showMachineryForm}
+                errors={errors}
+                setErrors={setErrors}
               />
             ) : (
               ''
@@ -305,3 +365,10 @@ const Bom: React.FC = (props: any) => {
 };
 
 export default Bom;
+function schema(
+  values: any[],
+  schema: StringSchema<string | undefined, AnyObject, undefined, ''>,
+  options: ResolveOptions<any>
+): ISchema<any, any, any, any> {
+  throw new Error('Function not implemented.');
+}
