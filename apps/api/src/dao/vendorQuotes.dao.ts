@@ -292,7 +292,8 @@ const getVendorDetailsByPurchaseRequestId = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : db;
     const query = `select
-      v.*
+      v.*,
+      vq.*
     from
       vendor_quotes vq
     left join vendor v on
