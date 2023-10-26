@@ -105,6 +105,19 @@ const getByPurchaseRequestId = catchAsync(async (req, res) => {
   }
 });
 
+const getVendorDetailsByPurchaseRequestId = catchAsync(async (req, res) => {
+  const methodName = '/getVendorDetailsByPurchaseRequestId';
+  try {
+    const vendorQuotes =
+      await vendorQuotesService.getVendorDetailsByPurchaseRequestId(
+        req.params.purchase_request_id
+      );
+    res.send(vendorQuotes);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createVendorQuotes,
   getAllVendorQuotes,
@@ -115,4 +128,5 @@ export {
   updateStatusAndDocument,
   getByPurchaseRequestIdAndVendorId,
   getByPurchaseRequestId,
+  getVendorDetailsByPurchaseRequestId,
 };

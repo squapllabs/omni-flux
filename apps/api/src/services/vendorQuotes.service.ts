@@ -489,6 +489,47 @@ const getByPurchaseRequestId = async (purchase_request_id: number) => {
   }
 };
 
+/**
+ * Method to get Vendor Details By PurchaseRequestId
+ * @param purchase_request_id
+ * @returns
+ */
+const getVendorDetailsByPurchaseRequestId = async (
+  purchase_request_id: number
+) => {
+  try {
+    const purchaseRequestExist = await purchaseRequestDao.getById(
+      purchase_request_id
+    );
+    if (!purchaseRequestExist) {
+      return {
+        message: 'purchase_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+    const vendorQuotesData =
+      await vendorQuotesDao.getVendorDetailsByPurchaseRequestId(
+        purchase_request_id
+      );
+    if (vendorQuotesData.length > 0) {
+      return { message: 'success', status: true, data: vendorQuotesData };
+    } else {
+      return {
+        message: 'No data found for this purchase_request_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByPurchaseRequestId VendorQuotes service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createVendorQuotes,
   updateVendorQuotes,
@@ -499,4 +540,5 @@ export {
   updateStatusAndDocument,
   getByPurchaseRequestIdAndVendorId,
   getByPurchaseRequestId,
+  getVendorDetailsByPurchaseRequestId,
 };
