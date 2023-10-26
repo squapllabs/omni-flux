@@ -167,8 +167,7 @@ const searchVendorQuotes = async (
                     (v.vendor_name ilike '%${global_search}%'
                         or vq.quotation_status ilike '%${global_search}%'
                         or vq.remarks ilike '%${global_search}%'
-                        or vq.quotation_id ilike '%${global_search}%'
-                        or vq.quotation_details ->>'item_name' ilike '%${global_search}%' )
+                        or vq.quotation_id ilike '%${global_search}%' )
                     and (vq.is_delete = ${is_delete} and vq.purchase_request_id =${purchase_request_id})
                 order by
                     vq.${orderByColumn} ${orderByDirection}
@@ -184,8 +183,7 @@ const searchVendorQuotes = async (
                     (v.vendor_name ilike '%${global_search}%'
                         or vq.quotation_status ilike '%${global_search}%'
                         or vq.remarks ilike '%${global_search}%'
-                        or vq.quotation_id ilike '%${global_search}%'
-                        or vq.quotation_details ->>'item_name' ilike '%${global_search}%' )
+                        or vq.quotation_id ilike '%${global_search}%' )
                     and (vq.is_delete = ${is_delete} and vq.purchase_request_id =${purchase_request_id})`;
 
     const result = await customQueryExecutor.customQueryExecutor(query);
