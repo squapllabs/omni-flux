@@ -19,7 +19,6 @@ const createVendorQuotes = async (body: vendorQuotesBody) => {
       quotation_status,
       total_quotation_amount,
       remarks,
-      quotation_details,
       created_by,
       vendor_quotes_documents,
     } = body;
@@ -55,7 +54,6 @@ const createVendorQuotes = async (body: vendorQuotesBody) => {
       quotation_status,
       total_quotation_amount,
       remarks,
-      quotation_details,
       vendor_quotes_documents,
       created_by
     );
@@ -87,7 +85,6 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
       quotation_status,
       total_quotation_amount,
       remarks,
-      quotation_details,
       vendor_quotes_documents,
       updated_by,
     } = body;
@@ -151,7 +148,6 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
           quotation_status,
           total_quotation_amount,
           remarks,
-          quotation_details,
           updated_by,
           updatedVendorQuotesDocuments,
           tx
@@ -455,6 +451,44 @@ const getByPurchaseRequestIdAndVendorId = async (
   }
 };
 
+/**
+ * Method to get VendorQuotes By PurchaseRequestId
+ * @param purchase_request_id
+ * @returns
+ */
+const getByPurchaseRequestId = async (purchase_request_id: number) => {
+  try {
+    const purchaseRequestExist = await purchaseRequestDao.getById(
+      purchase_request_id
+    );
+    if (!purchaseRequestExist) {
+      return {
+        message: 'purchase_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+    const vendorQuotesData = await vendorQuotesDao.getByPurchaseRequestId(
+      purchase_request_id
+    );
+    if (vendorQuotesData.length > 0) {
+      return { message: 'success', status: true, data: vendorQuotesData };
+    } else {
+      return {
+        message: 'No data found for this purchase_request_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByPurchaseRequestId VendorQuotes service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createVendorQuotes,
   updateVendorQuotes,
@@ -464,4 +498,5 @@ export {
   searchVendorQuotes,
   updateStatusAndDocument,
   getByPurchaseRequestIdAndVendorId,
+  getByPurchaseRequestId,
 };
