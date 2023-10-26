@@ -26,6 +26,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState<any>({
     name: '',
     description: '',
+    estimated_budget:'',
     project_id: '',
     start_date: '',
     end_date: '',
@@ -49,6 +50,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
         setInitialValues({
           name: data?.data?.name,
           project_id: data?.data?.project_id,
+          estimated_budget : data?.data?.estimated_budget,
           description: data?.data?.description,
           start_date: dateFormat(data?.data?.start_date),
           end_date: dateFormat(data?.data?.end_date),
@@ -96,6 +98,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
         const Object: any = {
           name: values.name,
           description: values.description,
+          estimated_budget: values.estimated_budget,
           project_id: props.selectedProject,
           budget: 0,
           start_date: values.start_date,
@@ -167,6 +170,18 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
               error={formik.touched.description && formik.errors.description}
               rows={10}
               maxCharacterCount={1000}
+            />
+          </div>
+          <div className={Styles.field}>
+            <Input
+              label="Estimated Budget"
+              placeholder="Enter Estimated Budget"
+              name="estimated_budget"
+              type="number"
+              mandatory={true}
+              value={formik.values.estimated_budget}
+              onChange={formik.handleChange}
+              // error={formik.touched.estimated_budget && formik.errors.estimated_budget}
             />
           </div>
           <div className={Styles.field}>

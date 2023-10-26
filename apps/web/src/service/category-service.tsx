@@ -50,6 +50,20 @@ const createCategory = async (values: JSON) => {
     throw error;
   }
 };
+
+const createMultipleCategory = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/category/add-bulk`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in category create :', error);
+    throw error;
+  }
+};
+
 const updateCategory = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
@@ -126,6 +140,7 @@ export default {
   getAllCategory,
   getOneCategoryByID,
   createCategory,
+  createMultipleCategory,
   updateCategory,
   deleteCategory,
   checkDublicateCategory,

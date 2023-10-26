@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   useGetAllCategory,
   useGetAllCategoryByProjectId,
   useDeleteCategory,
 } from '../../hooks/category-hooks';
+import { read, utils, writeFile } from 'xlsx';
 import Styles from '../../styles/newStyles/bomlist.module.scss';
 import MoreVerticalIcon from '../menu/icons/moreVerticalIcon';
 import subCategoryService from '../../service/subCategory-service';
@@ -32,8 +33,18 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import ProjectAbstractAdd from './forms/projectAbstractAdd';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 import CustomMenu from '../ui/NewCustomMenu';
+import FileUploadIcon from '../menu/icons/fileUploadIcon';
+import { createMultipleCategory } from '../../hooks/category-hooks';
+const temp : React.FC = ()=>{
+  return (
+    <div></div>
+  )
+}
+
+
 
 const BomList: React.FC = (props: any) => {
+  const { mutate: createMultipleNewCategory } = createMultipleCategory();
   const params = useParams();
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
@@ -61,7 +72,9 @@ const BomList: React.FC = (props: any) => {
   const [value, setValue] = useState();
   const [openDelete, setOpenDelete] = useState(false);
   const [isloading, setIsloading] = useState(true);
-
+  const [abstractPopup, setAbstractPopup] = useState(false);
+  const [abstractBulkData, setAbstractBulkData] = useState({});
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       const obj = {
@@ -103,7 +116,11 @@ const BomList: React.FC = (props: any) => {
     setValue(id);
     setOpenDelete(true);
   };
-
+const handleFileUploadBtnClick = () =>{
+  if (fileInputRef.current) {
+    fileInputRef.current.click();
+  }
+}
   const handleDelete = () => {
     getDeleteCategoryByID(value, {
       onSuccess: (response) => {
@@ -149,9 +166,173 @@ const BomList: React.FC = (props: any) => {
   const handleCloseTask = () => {
     setShowSubCategoryForm(false);
   };
+  // const open = true;
+const handleFileOnChange = async (e:any) =>{
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e:any) => {
+      const data = e.target.result;
+      const workbook = read(data, { type: 'array' });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = utils.sheet_to_json(sheet);
+      const parsedJson = JSON.parse(JSON.stringify(jsonData));
+  
 
+      if(parsedJson.length > 1){
+        let  bulkUploadData = {}
+        const header = parsedJson.shift();
+        bulkUploadData = {
+          abstractName : header['Name_of_work']
+        }
+        const bodyData = parsedJson.filter((element:any) => {
+          const keys = Object.keys(element)
+          if(keys.length >= 2){
+            return true
+          }
+  
+          return false
+        });
+        if(bodyData.length){
+          bulkUploadData = {
+            ...bulkUploadData,
+            bodyData
+          }
+          setAbstractBulkData(bulkUploadData)
+          setAbstractPopup(true)
+          // uploadBulkAbstract(bulkUploadData)
+        }
+      }
+    
+      // Update the state with the Excel data
+      // setExcelData(jsonData);
+    };
+    reader.readAsArrayBuffer(file);
+  }
+  }
+
+
+  const uploadBulkAbstract = (data:any) =>{
+    if(data && data?.bodyData.length){
+      console.log('data?.bodyData',data?.bodyData)
+      const abstractData: { name: any; description: any; estimated_budget: any; project_id: any; budget: number; start_date: string; end_date: string; bom_configuration_id: any; progress_status: string; }[] = []
+
+      data.bodyData.forEach((element:any)=>{
+        const obj = {
+          name : data.abstractName || '',
+          description: element['Name_of_work'],
+          estimated_budget: element['Amount'],
+          project_id: projectsId,
+          budget: 0,
+          start_date: '',
+          end_date: '',
+          bom_configuration_id: bomconfigId,
+          progress_status: 'Inprogress',
+        }
+
+        abstractData.push(obj)
+      })
+      console.log('abstractData',abstractData)
+      createMultipleNewCategory(abstractData,{
+        onSuccess: (data, variables, context) => {
+          props.setMessage('Abstracts created');
+          // props.setOpenSnack(true);
+          props.setReload(!props.reload);
+          handleClosePopup();
+          if (data?.status === true) {
+           
+            // resetForm();
+          }
+        },
+      })
+
+    }else {
+      console.log('error')
+    }
+  }
+  const handleClosePopup = ():void => {
+    setAbstractPopup(false)
+    console.log('')
+  }
   return (
     <div>
+      <div>
+      <CustomSidePopup
+          open={abstractPopup}
+          title={"Abstract List"}
+          handleClose={handleClosePopup}
+          content={<div>
+            <table
+            style={{padding: '20px'}}
+            >
+                            <thead>
+                              <tr
+                               style={{padding: '20px 0'}}
+                              >
+                                <th>S No</th>
+                                <th>Name of Work</th>
+                                <th>Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {abstractBulkData && abstractBulkData?.bodyData?.length > 0 ? (
+                                abstractBulkData?.bodyData.map((item: any, index: any) => (
+                                  <tr key={index}
+                                  
+                                  >
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{index + 1}</td>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{item['Name_of_work']}</td>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{item['Amount']}</td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td>No records found</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+
+                    <div
+                    style={{
+                      display:'flex',
+                      justifyContent:'center',
+                      padding:'20px'
+                    }}
+                    >
+
+                    <Button
+                     color="primary"
+                     shape="rectangle"
+                     size="small"
+                     icon={<AddIcon width={20} color="white" />}
+                     onClick={() => {
+                       uploadBulkAbstract(abstractBulkData);
+                       handleClosePopup()
+                     }}
+                     justify='center'
+                   >
+                     Add Abstracts
+                   </Button>
+           </div>
+          </div>
+           
+        
+        } width={'70%'} description={"description"}/>
+
+         
+      </div>
+
       {isloading ? (
         <CustomLoader loading={isloading} size={48} />
       ) : (
@@ -166,6 +347,21 @@ const BomList: React.FC = (props: any) => {
                         <ZIcon />
                         <h3>Abstracts ({categories?.length})</h3>
                       </div>
+                      <span>
+                      <input
+                              ref={fileInputRef}
+                              id="upload-photo"
+                              name="upload_photo"
+                              type="file"
+                              style={{ display: 'none' }}
+                              onChange={(e) => handleFileOnChange(e)}
+                            />
+                      <FileUploadIcon
+                            width={20}
+                            height={20}
+                            color="#7f56d9" onClick={handleFileUploadBtnClick}
+                            />
+                      </span>
                       <NewAddCircleIcon
                         onClick={() => {
                           setShowAbstractForm(true);
@@ -173,8 +369,8 @@ const BomList: React.FC = (props: any) => {
                         }}
                       />
                     </div>
-
                     <div>
+                    
                       {categories?.map((items: any, index: any) => {
                         // console.log('categories', categories);
                         const actions = [
@@ -292,9 +488,6 @@ const BomList: React.FC = (props: any) => {
                   </div>
                 </div>
                 <div className={Styles.mainContainer}>
-                  {/* {categoryData && (
-                    
-                  )} */}
                   <BomItems
                     selectedCategory={selectedCategory}
                     setSelectedSubCategory={setSelectedSubCategory}

@@ -21,6 +21,7 @@ import CategoryService from '../../service/category-service';
 import CustomMenu from '../ui/NewCustomMenu';
 import subCategoryService from '../../service/subCategory-service';
 import SubBoqItems from './subBoqItems';
+import SettingIcon from '../menu/icons/settingIcon';
 
 
 const BomItems = (props: {
@@ -198,7 +199,6 @@ const BomItems = (props: {
                       onClick: () => {
                         setSelectedSubCategoryId(data.sub_category_id);
                         setPlanListTitle(data.name);
-                        debugger
                         setShowPlanForm(true);
                       },
                       disabled: subChildLength > 0 ? true : false,
@@ -309,10 +309,27 @@ const BomItems = (props: {
                             handleSubTask(data?.sub_category_id);
                               setSelectedSubCategoryId(data?.sub_category_id);}}
                           >
-                          <AddIcon width={20} height={20} color={primary_color} />
+                          <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
                           </span>
+                          {
+                            data?.children?.length===0 ? (
+                              <span
+                          onClick={()=>{
+                            setSelectedSubCategoryId(data.sub_category_id);
+                            setPlanListTitle(data.name);
+                            setShowPlanForm(true);
+                          }}
+                          >
+                            <SettingIcon
+                            style={{cursor: 'pointer'}}
+                            color={primary_color}
+                            />
+                          </span>
+                            ): ('')
+                          }
+                          
                            
-                           <span>  <CustomMenu actions={actions} name="BoQItems" /></span>
+                           {/* <span>  <CustomMenu actions={actions} name="BoQItems" /></span> */}
                         </div>
                         
                          

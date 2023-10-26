@@ -10,7 +10,7 @@ interface AddIconProps {
 const AddIcon: React.FC<AddIconProps> = ({
   width = 24,
   height = 24,
-  color = '#475467',
+  color = '#7f56d',
   style,
 }) => {
   return (

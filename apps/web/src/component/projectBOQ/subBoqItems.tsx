@@ -10,6 +10,8 @@ import PlanList from './planList';
 import EditIcon from '../menu/icons/newEditIcon';
 import AddIcon from '../menu/icons/addIcon'
 import ExpandIcon from '../menu/icons/expandIcon';
+import SettingIcon from '../menu/icons/settingIcon';
+
 interface SubBoqItemsProps {
   rowData: any;
   index: any;
@@ -186,16 +188,30 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
             >
               <AddIcon width={20} height={20} color={primary_color} />
             </span>
+            {
+                rowData?.children?.length===0 ? (
+                  <span
+              onClick={()=>{
+                handleMangePlan(rowData)
+              }}
+              >
+                <SettingIcon
+                style={{cursor: 'pointer'}}
+                color={primary_color}
+                />
+              </span>
+                ): ('')
+            }
             
           </div>
-            <div
+            {/* <div
               onClick={(e) => {
                 toggleMenu();
               }}
               className={Styles.menuText}
             >
               <MoreVerticalIcon />
-            </div>
+            </div> */}
           </div>
           {isOpen && (
             <div className={Styles.customMenu} ref={menuRef}>
