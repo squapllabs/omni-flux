@@ -71,6 +71,12 @@ const getByVendorQuotesId = async (
           vendor_quotes_id: Number(vendor_quotes_id),
           is_delete: false,
         },
+        include: {
+          item_data: {
+            include: { uom: { select: { name: true } } },
+          },
+        },
+        orderBy: [{ created_date: 'asc' }],
       });
     return vendorQuotationDetails;
   } catch (error) {
