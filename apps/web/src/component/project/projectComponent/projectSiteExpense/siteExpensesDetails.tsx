@@ -332,6 +332,33 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         description: Yup.string().required('Description is required'),
         bill_number: Yup.string(),
         bill_type: Yup.string().required('Bill type is required'),
+        bill_details: Yup.array()
+          .required()
+          .test(
+            'description-availability',
+            'Site Expense is already present',
+            async function (value, { parent }: Yup.TestContext) {
+              let bill_details = parent.bill_details;
+              console.log('bill_details', bill_details);
+              console.log('bill_detailslenght', bill_details.length);
+              if (
+                bill_details?.length < 0 &&
+                bill_details[0]?.is_delete === 'Y'
+              ) {
+                return true;
+              } else if (
+                bill_details?.length > 0 &&
+                bill_details[0]?.is_delete === 'N'
+              ) {
+                return true;
+              } else {
+                console.log('open');
+                props.setMessage('Bill is Missing');
+                props.setOpenSnack(true);
+                return false;
+              }
+            }
+          ),
       })
     );
     await schema

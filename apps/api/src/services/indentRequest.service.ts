@@ -325,6 +325,7 @@ const searchIndentRequest = async (body) => {
     const approver_status = body.approver_status;
     const priority = body.priority;
     const project_approver_id = body.project_approver_id;
+    const indent_request_code = body.indent_request_code;
 
     const filterObj: any = {};
 
@@ -384,6 +385,19 @@ const searchIndentRequest = async (body) => {
       filterObj.filterIndentRequest.AND.push({
         project_data: {
           approvar_id: project_approver_id,
+        },
+      });
+    }
+
+    if (indent_request_code) {
+      filterObj.filterIndentRequest = filterObj.filterIndentRequest || {};
+      filterObj.filterIndentRequest.AND =
+        filterObj.filterIndentRequest.AND || [];
+
+      filterObj.filterIndentRequest.AND.push({
+        indent_request_code: {
+          contains: indent_request_code,
+          mode: 'insensitive',
         },
       });
     }
@@ -564,31 +578,29 @@ const searchIndentRequest = async (body) => {
       filterObj
     );
 
-    const count = result.count;
-    const data = result.data;
-    /*     const priorityMap = {
-      High: 1,
-      Medium: 2,
-      Low: 3,
-    };
+    const count = result?.count;
+    const data = result?.data;
 
-    data.sort(
-      (a: { priority: string | number }, b: { priority: string | number }) => {
-        const priorityA = priorityMap[a.priority] || 999;
-        const priorityB = priorityMap[b.priority] || 999;
-
-        return priorityA - priorityB;
-      }
-    ); */
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempIndentRequestData = {
-      message: 'success',
-      status: true,
-      total_count: count,
-      total_page: total_pages,
-      content: data,
-    };
-    return tempIndentRequestData;
+
+    if (result?.count >= 0) {
+      const tempIndentRequestData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempIndentRequestData;
+    } else {
+      const tempIndentRequestData = {
+        message: 'No data found',
+        status: false,
+        is_available: false,
+      };
+      return tempIndentRequestData;
+    }
   } catch (error) {
     console.log(
       'Error occurred in searchIndentRequest IndentRequest service : ',

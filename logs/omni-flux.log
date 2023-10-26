@@ -1,149 +1,94 @@
-[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>TypeError: vendor_ids is not iterable
-[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>TypeError: vendor_ids is not iterable
-[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>Error: 
-Invalid `transaction.vendor_quotes.findFirst()` invocation in
-D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createIndentRequest << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `tx.indent_request.create()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\indentRequest.dao.ts:49:55
 
-  54 );
-  55 
-  56 const vendorExistForThisPurchaseRequest =
-→ 57   await transaction.vendor_quotes.findFirst({
-         where: {
-           purchase_request_id: 131,
-           vendor_id: [
-             '18',
-             '22'
-           ],
-           ~~~~~~~~
-           is_delete: false
-         }
-       })
+  46 
+  47 const result = await transaction
+  48   .$transaction(async (tx) => {
+→ 49     const indentRequest = await tx.indent_request.create(
+Foreign key constraint failed on the field: `fk_indent_request_site_id (index)`
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchIndentRequest << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.indent_request.findMany()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\indentRequest.dao.ts:399:40
 
-Argument vendor_id: Got invalid value 
-[
-  '18',
-  '22'
-]
-on prisma.findFirstvendor_quotes. Provided List<String>, expected IntFilter or Int:
-type IntFilter {
-  equals?: Int
-  in?: List<Int> | Int
-  notIn?: List<Int> | Int
-  lt?: Int
-  lte?: Int
-  gt?: Int
-  gte?: Int
-  not?: Int | NestedIntFilter
-}
-type IntFilter {
-  equals?: Int
-  in?: List<Int> | Int
-  notIn?: List<Int> | Int
-  lt?: Int
-  lte?: Int
-  gt?: Int
-  gte?: Int
-  not?: Int | NestedIntFilter
-}
+  396 const filter = filters.filterIndentRequest;
+  397 
+  398 const indentRequestDataAvailablity =
+→ 399   await transaction.indent_request.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
 
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\project.dao.ts:329:47
 
-[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>Error: 
-Invalid `transaction.vendor_quotes.findFirst()` invocation in
-D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
 
-  54 );
-  55 
-  56 const vendorExistForThisPurchaseRequest =
-→ 57   await transaction.vendor_quotes.findFirst({
-         where: {
-           purchase_request_id: 132,
-           vendor_id: '18',
-                      ~~~~
-           is_delete: false
-         }
-       })
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\project.dao.ts:329:47
 
-Argument vendor_id: Got invalid value '18' on prisma.findFirstvendor_quotes. Provided String, expected IntFilter or Int:
-type IntFilter {
-  equals?: Int
-  in?: List<Int> | Int
-  notIn?: List<Int> | Int
-  lt?: Int
-  lte?: Int
-  gt?: Int
-  gte?: Int
-  not?: Int | NestedIntFilter
-}
-type IntFilter {
-  equals?: Int
-  in?: List<Int> | Int
-  notIn?: List<Int> | Int
-  lt?: Int
-  lte?: Int
-  gt?: Int
-  gte?: Int
-  not?: Int | NestedIntFilter
-}
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
 
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\project.dao.ts:329:47
 
-[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>Error: 
-Invalid `transaction.vendor_quotes.findFirst()` invocation in
-D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
 
-  54 );
-  55 
-  56 const vendorExistForThisPurchaseRequest =
-→ 57   await transaction.vendor_quotes.findFirst({
-         where: {
-           purchase_request_id: 133,
-           vendor_id: '24',
-                      ~~~~
-           is_delete: false
-         }
-       })
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\project.dao.ts:329:47
 
-Argument vendor_id: Got invalid value '24' on prisma.findFirstvendor_quotes. Provided String, expected IntFilter or Int:
-type IntFilter {
-  equals?: Int
-  in?: List<Int> | Int
-  notIn?: List<Int> | Int
-  lt?: Int
-  lte?: Int
-  gt?: Int
-  gte?: Int
-  not?: Int | NestedIntFilter
-}
-type IntFilter {
-  equals?: Int
-  in?: List<Int> | Int
-  notIn?: List<Int> | Int
-  lt?: Int
-  lte?: Int
-  gt?: Int
-  gte?: Int
-  not?: Int | NestedIntFilter
-}
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
 
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchIndentRequest << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.indent_request.findMany()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\indentRequest.dao.ts:399:40
 
-[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>Error: 
-Invalid `transaction.vendor_quotes.findFirst()` invocation in
-D:\ERP\project\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:57:41
+  396 const filter = filters.filterIndentRequest;
+  397 
+  398 const indentRequestDataAvailablity =
+→ 399   await transaction.indent_request.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
 
-  54 );
-  55 
-  56 const vendorExistForThisPurchaseRequest =
-→ 57   await transaction.vendor_quotes.findFirst({
-         where: {
-           purchase_request_id: 135,
-           vendor_id: null,
-                      ~~~~
-           is_delete: false
-         }
-       })
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\project.dao.ts:329:47
 
-Argument vendor_id for where.vendor_id must not be null. Please use undefined instead.
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
 
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\project.dao.ts:329:47
 
+<<<<<<< HEAD
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
 Invalid `transaction.category.findMany()` invocation in
 D:\Projects\omni-flux\omni-flux\apps\api\src\dao\category.dao.ts:259:49
@@ -1844,3 +1789,100 @@ type IntFilter {
 }
 
 
+=======
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\user.dao.ts:409:43
+
+  406 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  407   try {
+  408     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 409     const users = await transaction.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllClients << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.client.findMany()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\client.dao.ts:77:45
+
+  74 const getAll = async (connectionObj = null) => {
+  75   try {
+  76     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 77     const client = await transaction.client.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUserByRoleName << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.users.findMany()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\user.dao.ts:409:43
+
+  406 const getUserByRoleName = async (role_name: string, connectionObj = null) => {
+  407   try {
+  408     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 409     const users = await transaction.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByParentType << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\masterData.dao.ts:333:56
+
+  330 ) => {
+  331   try {
+  332     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 333     const masterDataId = await transaction.master_data.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAll << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `prisma.users.findMany()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\user.dao.ts:134:38
+
+  131 
+  132 const getAll = async (user_status) => {
+  133   try {
+→ 134     const users = await prisma.users.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\2023\Oct\24\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+>>>>>>> 3c3b6e62ede3f2d6c737847cd57277b6529ca689

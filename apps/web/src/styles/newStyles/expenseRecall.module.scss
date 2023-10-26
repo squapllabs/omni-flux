@@ -24,15 +24,26 @@
     // th,
     td {
         padding: 10px 10px 10px 24px;
-        /* Adjust padding */
         text-align: left;
-        font-weight: 500;
-        font-size: 12px;
+        font-weight: var(--tableData-fontWeight);
+        font-size: var(--tableData-fontSize);
         border: none;
-        /* Remove borders */
         border-bottom: 0.1px solid #f0f0f0;
     }
 
+    thead {
+        tr {
+          th {
+            padding: 10px 10px 10px 24px;
+            color: var(--tableHeader-fontColor);
+            background-color: var(--tableHeader-backgroundColor);
+            font-size: var(--tableHeader-fontSize);
+            font-weight: var(--tableHeader-fontWeight);
+            text-transform: var(--tableHeader-textTransform);   
+            border: none;
+          }
+        }
+      }
 }
 
 .tableContainerBottom {
@@ -45,6 +56,13 @@
     border-radius: 35px;
     color: #c11574;
 }
+
+.rejectedStatus {
+    background-color: #fffaeb;
+    padding: 4px;
+    border-radius: 35px;
+    color: #b54708;
+  }
 
 .emptyDataHandling {
     display: flex;

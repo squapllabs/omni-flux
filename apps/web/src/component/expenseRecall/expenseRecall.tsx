@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import ProjectSubheader from '../project/projectSubheader';
@@ -6,7 +6,8 @@ import Styles from '../../styles/newStyles/expenseRecall.module.scss';
 import siteExpenseService from '../../service/expense-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import ApproveDialogBox from '../ui/CustomApprovePopup';
-import { updatesiteExpenseDetail } from '../../hooks/expense-hook';
+import ApproveCommentDialogBox from '../ui/ApproveCommentPopup';
+import { createExpenseRecall } from '../../hooks/expense-recall-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -15,7 +16,7 @@ const ExpenseRecall = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID = encryptedData.userId;
-  const { mutate: updateSiteExpenseDetailData } = updatesiteExpenseDetail();
+  const { mutate: createExpenseRecallData } = createExpenseRecall();
   const [value, setValue] = useState('');
   const [expenseValue, setExpenseValue] = useState(0);
   const [searchData, setSearchData] = useState(false);
@@ -25,39 +26,32 @@ const ExpenseRecall = () => {
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
   const [warning, setWarning] = useState(false);
+  const currentDate = new Date();
 
   let rowindex = 0;
-  const handleSearch = () => {
-    setSearchData(true);
+  const handleSearch = async () => {
+    const data = await siteExpenseService.getOnesiteExpenseByCode(value);
+    if (data.message === 'success') {
+      setTableData(data.data);
+      setSearchData(true);
+    } else if (data.data === null) {
+      setMessage('No relevant data found for the provided expense code');
+      setOpenSnack(true);
+      setWarning(true);
+      setTableData(null);
+      setSearchData(true);
+    }
   };
 
   const handleClear = () => {
     setValue('');
     setTableData(null);
+    setSearchData(false);
   };
 
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await siteExpenseService.getOnesiteExpenseByCode(value);
-      if (data.message === 'success') {
-        setTableData(data.data);
-        setSearchData(false);
-      } else if (data.data === null) {
-        setMessage('No relevant data found for the provided expense code');
-        setOpenSnack(true);
-        setWarning(true);
-        setTableData(null);
-        setSearchData(false);
-      }
-    };
-    if (value !== '' && searchData === true) {
-      fetchData();
-    }
-  }, [value, searchData, reload]);
 
   const approveHandler = (id: any) => {
     setExpenseValue(id);
@@ -71,21 +65,27 @@ const ExpenseRecall = () => {
     setOpenSnack(false);
     setWarning(false);
   };
-  const approveExpense = () => {
+  const approveExpense = (comments: string) => {
     const object: any = {
       expense_details_id: expenseValue,
+      site_id: tableData?.['site_id'],
+      expense_id: tableData?.['expense_id'],
+      reason: comments,
       is_recalled: true,
-      updated_by: userID,
-      progressed_by: userID,
+      recall_creator_id: userID,
+      created_by: userID,
+      recall_date: currentDate.toISOString().slice(0, 10),
     };
-    updateSiteExpenseDetailData(object, {
+    console.log('object', object);
+    createExpenseRecallData(object, {
       onSuccess(data, variables, context) {
-        if (data?.status === true) {
-          setMessage('Site Expense Detail has been Recalled');
+        if (data?.message === 'success') {
+          setMessage('Site Expense Recall created');
           setOpenSnack(true);
           setReload(true);
           setSearchData(true);
           handleCloseApprove();
+          handleSearch();
         }
       },
     });
@@ -132,23 +132,23 @@ const ExpenseRecall = () => {
           </Button>
         </div>
       </div>
-      {value !== '' ? (
-        tableData?.status === 'Completed' ? (
-          <div className={Styles.tableContainerBottom}>
-            <table className={Styles.scrollable_table}>
-              <thead className="globaltablehead">
-                <tr>
-                  <th>#</th>
-                  <th>Description</th>
-                  <th>Expense Name</th>
-                  <th>Amount</th>
-                  <th>Documents</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableData?.expense_details?.map((data: any, index: any) => {
+      {tableData !== null ? (
+        <div className={Styles.tableContainerBottom}>
+          <table className={Styles.scrollable_table}>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Expense Name</th>
+                <th>Amount</th>
+                <th>Documents</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData &&
+                tableData?.['expense_details']?.map((data: any, index: any) => {
                   if (data?.is_delete === false) {
                     rowindex = rowindex + 1;
                     return (
@@ -175,7 +175,11 @@ const ExpenseRecall = () => {
                         </td>
                         {data?.is_recalled === false ? (
                           data?.status === 'Rejected' ? (
-                            <td></td>
+                            <td>
+                              <span className={Styles.rejectedStatus}>
+                                Invalid
+                              </span>
+                            </td>
                           ) : (
                             <td>
                               <Button
@@ -202,26 +206,33 @@ const ExpenseRecall = () => {
                     );
                   }
                 })}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          ''
-        )
-      ) : (
+            </tbody>
+          </table>
+        </div>
+      ) : searchData === true && tableData === null ? (
         <div className={Styles.emptyDataHandling}>
+          <div className={Styles.emptyDataHandling}>
+            <img src="/nodata.jpg" alt="aa" width="40%" height="40%" />
+          </div>
           <div>
-            <img src="/imagereverse.jpg" alt="aa" />
+            <h5>No relevant data found for the provided expense code</h5>
           </div>
         </div>
+      ) : (
+        <div className={Styles.emptyDataHandling}>
+          <div className={Styles.emptyDataHandling}>
+            <img src="/reverse.jpg" alt="aa" width="40%" height="40%" />
+          </div>
+          <div></div>
+        </div>
       )}
-      <ApproveDialogBox
+      <ApproveCommentDialogBox
         open={openApprove}
-        title="Are you sure want to recall this site expense"
-        contentLine1=""
+        title="Recall Site Expense"
+        contentLine1="Are you sure want to recall this site expense ?"
         contentLine2=""
         handleClose={handleCloseApprove}
-        handleConfirm={approveExpense}
+        onReject={approveExpense}
       />
       <CustomSnackBar
         open={openSnack}

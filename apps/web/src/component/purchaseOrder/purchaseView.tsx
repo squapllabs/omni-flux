@@ -24,14 +24,19 @@ const PurchaseView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
+  // console.log(
+  //   'getAllData?.purchase_request_details',
+  //   getAllData?.purchase_request_details
+  // );
+
   const { mutate: postDataForFilter } = purchaseOrderRequest();
   const constructPurchaseOrder = () => {
     const purchaseOrderItems = [];
     getAllData?.purchase_request_details?.forEach((data: any) => {
       purchaseOrderItems.push({
         purchase_order_id: '',
-        item_id: data.item_id,
-        order_quantity: data.quantity,
+        item_id: data?.item_id,
+        order_quantity: data?.purchase_requested_quantity,
       });
     });
 
@@ -102,7 +107,7 @@ const PurchaseView = () => {
                         <td>{index + 1}</td>
                         <td>{getAllData?.selected_vendor_data?.vendor_name}</td>
                         <td>{data.item_name}</td>
-                        <td>{data.quantity}</td>
+                        <td>{data.purchase_requested_quantity}</td>
                       </tr>
                     );
                   }
