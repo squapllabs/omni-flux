@@ -1,4 +1,5 @@
 import vendorQuotationDetailsDao from '../dao/vendorQuotationDetails.dao';
+import vendorQuotesDao from '../dao/vendorQuotes.dao';
 import { vendorQuotationDetailsBody } from '../interfaces/vendorQuotationDetails.interface';
 /**
  * Method to Update an Existing VendorQuotationDetails
@@ -59,4 +60,42 @@ const updateVendorQuotationDetails = async (
   }
 };
 
-export { updateVendorQuotationDetails };
+/**
+ * Method to get Vendor Quotation Details By Vendor Quoted Id
+ * @param vendorQuotesId
+ * @returns
+ */
+const getByVendorQuotesId = async (vendorQuotesId: number) => {
+  try {
+    const vendorQuotesExist = await vendorQuotesDao.getById(vendorQuotesId);
+    if (!vendorQuotesExist) {
+      return {
+        message: 'vendor_quotes_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+    const vendorQuotationDetailsData =
+      await vendorQuotationDetailsDao.getByVendorQuotesId(vendorQuotesId);
+    if (vendorQuotationDetailsData.length > 0) {
+      return {
+        message: 'success',
+        status: true,
+        data: vendorQuotationDetailsData,
+      };
+    } else {
+      return {
+        message: 'No data found for this vendor_quotes_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByVendorQuotesId vendorQuotationDetails service : ',
+      error
+    );
+    throw error;
+  }
+};
+export { updateVendorQuotationDetails, getByVendorQuotesId };

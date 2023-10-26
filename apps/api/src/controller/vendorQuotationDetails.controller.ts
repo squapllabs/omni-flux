@@ -16,4 +16,17 @@ const updateVendorQuotationDetails = catchAsync(async (req, res) => {
   }
 });
 
-export { updateVendorQuotationDetails };
+const getByVendorQuotesId = catchAsync(async (req, res) => {
+  const methodName = '/getByVendorQuotesId';
+  try {
+    const vendorQuotationDetails =
+      await vendorQuotationDetailsService.getByVendorQuotesId(
+        req.params.vendor_quotes_id
+      );
+    res.send(vendorQuotationDetails);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+export { updateVendorQuotationDetails, getByVendorQuotesId };
