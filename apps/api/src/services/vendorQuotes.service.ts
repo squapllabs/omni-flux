@@ -4,6 +4,7 @@ import { vendorQuotesBody } from '../interfaces/vendorQuotes.interface';
 import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import { processFileDeleteInS3 } from '../utils/fileUpload';
 import prisma from '../utils/prisma';
+import vendorQuotationDetailsDao from '../dao/vendorQuotationDetails.dao';
 
 /**
  * Method to Create a New VendorQuotes
@@ -87,6 +88,7 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
       remarks,
       vendor_quotes_documents,
       updated_by,
+      vendor_quotation_details,
     } = body;
     let result = null;
     const vendorQuotesExist = await vendorQuotesDao.getById(vendor_quotes_id);
@@ -152,6 +154,36 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
           updatedVendorQuotesDocuments,
           tx
         );
+        const vendorQuotationDetailsData = [];
+        if (vendor_quotation_details) {
+          for await (const vendor_quotation_detail of vendor_quotation_details) {
+            const vendor_quotation_details_id =
+              vendor_quotation_detail.vendor_quotation_details_id;
+            const item_id = vendor_quotation_detail.item_id;
+            const purchase_requested_quantity =
+              vendor_quotation_detail.purchase_requested_quantity;
+            const indent_requested_quantity =
+              vendor_quotation_detail.indent_requested_quantity;
+            const indent_request_details_id =
+              vendor_quotation_detail.indent_request_details_id;
+            const unit_cost = vendor_quotation_detail.unit_cost;
+            const total_cost = vendor_quotation_detail.total_cost;
+
+            const vendorQuotationDetails = await vendorQuotationDetailsDao.edit(
+              vendor_quotes_id,
+              item_id,
+              indent_request_details_id,
+              indent_requested_quantity,
+              purchase_requested_quantity,
+              unit_cost,
+              total_cost,
+              updated_by,
+              vendor_quotation_details_id,
+              tx
+            );
+            vendorQuotationDetailsData.push(vendorQuotationDetails);
+          }
+        }
 
         if (quotation_status === 'Approved') {
           await purchaseRequestDao.updateVendor(
@@ -451,6 +483,85 @@ const getByPurchaseRequestIdAndVendorId = async (
   }
 };
 
+/**
+ * Method to get VendorQuotes By PurchaseRequestId
+ * @param purchase_request_id
+ * @returns
+ */
+const getByPurchaseRequestId = async (purchase_request_id: number) => {
+  try {
+    const purchaseRequestExist = await purchaseRequestDao.getById(
+      purchase_request_id
+    );
+    if (!purchaseRequestExist) {
+      return {
+        message: 'purchase_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+    const vendorQuotesData = await vendorQuotesDao.getByPurchaseRequestId(
+      purchase_request_id
+    );
+    if (vendorQuotesData.length > 0) {
+      return { message: 'success', status: true, data: vendorQuotesData };
+    } else {
+      return {
+        message: 'No data found for this purchase_request_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByPurchaseRequestId VendorQuotes service : ',
+      error
+    );
+    throw error;
+  }
+};
+
+/**
+ * Method to get Vendor Details By PurchaseRequestId
+ * @param purchase_request_id
+ * @returns
+ */
+const getVendorDetailsByPurchaseRequestId = async (
+  purchase_request_id: number
+) => {
+  try {
+    const purchaseRequestExist = await purchaseRequestDao.getById(
+      purchase_request_id
+    );
+    if (!purchaseRequestExist) {
+      return {
+        message: 'purchase_request_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+    const vendorQuotesData =
+      await vendorQuotesDao.getVendorDetailsByPurchaseRequestId(
+        purchase_request_id
+      );
+    if (vendorQuotesData.length > 0) {
+      return { message: 'success', status: true, data: vendorQuotesData };
+    } else {
+      return {
+        message: 'No data found for this purchase_request_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getByPurchaseRequestId VendorQuotes service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createVendorQuotes,
   updateVendorQuotes,
@@ -460,4 +571,6 @@ export {
   searchVendorQuotes,
   updateStatusAndDocument,
   getByPurchaseRequestIdAndVendorId,
+  getByPurchaseRequestId,
+  getVendorDetailsByPurchaseRequestId,
 };

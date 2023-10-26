@@ -329,6 +329,117 @@
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"user_id\": 1,\n        \"first_name\": \"Vijay\",\n        \"last_name\": \"Perumalsamy\",\n        \"user_password\": \"5eeded33d682a691f84466d938eb76cb\",\n        \"contact_no\": \"8667604201\",\n        \"email_id\": \"vijay.perumalsamy@aalamsoft.com\",\n        \"user_status\": \"AC\",\n        \"address\": null,\n        \"created_by\": null,\n        \"created_date\": \"2023-07-17T06:41:42.532Z\",\n        \"updated_by\": null,\n        \"updated_date\": \"2023-07-26T08:29:21.526Z\",\n        \"is_delete\": false,\n        \"is_initial_login\": false,\n        \"is_two_factor\": true,\n        \"otp_secret\": 598476,\n        \"otp_attempts\": 0,\n        \"otp_expired_in\": \"2023-07-26T08:39:21.526Z\",\n        \"is_otp_verified\": false,\n        \"department\": \"Admin\"\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "Local Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email_id\": \"vijay.perumalsamy@aalamsoft.com\",\r\n    \"user_password\": \"Aalam@123\",\r\n    \"is_remember_me\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Local Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email_id\": \"vijay.perumalsamy@aalamsoft.com\",\r\n    \"user_password\": \"Aalam@123\",\r\n    \"is_remember_me\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1162"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"48a-Wv2pkD0h6zycPkxKsVYAWW9YGg0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 Oct 2023 12:28:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success\",\n    \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidmlqYXkucGVydW1hbHNhbXlAYWFsYW1zb2Z0LmNvbSIsImlhdCI6MTY5ODMyMzMwMiwiZXhwIjoxNjk4NDA5NzAyfQ.W93RrHxtEW715QAwz-IhiF2RmHtEW-Qsa_nSF5-sD8E\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidmlqYXkucGVydW1hbHNhbXlAYWFsYW1zb2Z0LmNvbSIsImlhdCI6MTY5ODMyMzMwMiwiZXhwIjoxNzA2OTYzMzAyfQ.R6-Y4kOdXR5MfHGpKVwP1LAU0C-nsbLVllXuaVPXXZo\",\n    \"fullName\": \"Vijay Perumalsamy\",\n    \"email\": \"vijay.perumalsamy@aalamsoft.com\",\n    \"userId\": 1,\n    \"userData\": {\n        \"user_id\": 1,\n        \"first_name\": \"Vijay\",\n        \"last_name\": \"Perumalsamy\",\n        \"user_password\": \"5eeded33d682a691f84466d938eb76cb\",\n        \"contact_no\": \"8667604201\",\n        \"email_id\": \"vijay.perumalsamy@aalamsoft.com\",\n        \"user_status\": \"AC\",\n        \"created_by\": null,\n        \"created_date\": \"2023-07-17T06:41:42.532Z\",\n        \"updated_by\": null,\n        \"updated_date\": \"2023-10-24T07:55:54.374Z\",\n        \"is_delete\": false,\n        \"is_initial_login\": false,\n        \"department\": \"Admin\",\n        \"is_two_factor\": false,\n        \"parent_user_id\": null,\n        \"otp_secret\": 834057,\n        \"otp_attempts\": 1,\n        \"otp_expired_in\": \"2023-10-24T07:08:39.248Z\",\n        \"is_otp_verified\": false,\n        \"user_roles\": [\n            {\n                \"role_data\": {\n                    \"role_id\": 1,\n                    \"role_name\": \"Admin\"\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -23084,7 +23195,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"indent_request_id\": 32,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-19\",\r\n    \"status\": \"Waiting For Quotation\",\r\n    // \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"vendor_ids\": [\r\n        1,\r\n        21\r\n    ],\r\n    // \"selected_vendor_id\": 1,\r\n    \"total_cost\": 1000000,\r\n    \"created_by\": 1,\r\n    \"purchase_request_details\": [\r\n        {\r\n            \"item_id\": 211,\r\n            \"item_name\": \"Mortar Mix\",\r\n            \"purchase_requested_quantity\": 50,\r\n            \"indent_requested_quantity\": 120,\r\n            \"indent_request_details_id\": 217\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"indent_request_id\": 32,\r\n    \"requester_user_id\": 1,\r\n    \"request_date\": \"2023-09-19\",\r\n    \"status\": \"Waiting For Quotation\",\r\n    // \"vendor_selection_method\": \"Manual Selection\",\r\n    \"project_id\": 137,\r\n    \"vendor_ids\": [\r\n        1,\r\n        21\r\n    ],\r\n    // \"selected_vendor_id\": 1,\r\n    \"total_cost\": 1000000,\r\n    \"created_by\": 1,\r\n    \"purchase_request_details\": [\r\n        {\r\n            \"item_id\": 211,\r\n            \"item_name\": \"Mortar Mix\",\r\n            \"purchase_requested_quantity\": 50,\r\n            \"indent_requested_quantity\": 120,\r\n            \"indent_request_details_id\": 217\r\n        },\r\n        {\r\n            \"item_id\": 212,\r\n            \"item_name\": \"Brick Ties \",\r\n            \"purchase_requested_quantity\": 2,\r\n            \"indent_requested_quantity\": 2,\r\n            \"indent_request_details_id\": 217\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -26409,7 +26520,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"vendor_id\": 1,\r\n    \"purchase_request_id\": 15,\r\n    \"quotation_date\": \"2023-09-19T00:00:00.000Z\",\r\n    \"quotation_status\": \"Approved\",\r\n    \"total_quotation_amount\": 1001,\r\n    \"remarks\": null,\r\n    \"quotation_details\": [\r\n        {\r\n            \"item_id\": 165,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\",\r\n            \"vendor_id\": 1,\r\n            \"vendor_name\": \"Vijay\"\r\n        },\r\n        {\r\n            \"item_id\": 165,\r\n            \"quantity\": 20,\r\n            \"item_name\": \"Cement\",\r\n            \"vendor_id\": 10,\r\n            \"vendor_name\": \"Velavan\"\r\n        }\r\n    ],\r\n    \"vendor_quotes_documents\": [\r\n        {\r\n            \"code\": \"purchase-order-item-1-0\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\r\n            \"index\": 0,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"code\": \"purchase-order-item-1-1\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\r\n            \"index\": 1,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": true\r\n        }\r\n    ],\r\n    \"updated_by\": 1,\r\n    \"vendor_quotes_id\": 15\r\n}",
+							"raw": "{\r\n    \"vendor_id\": 1,\r\n    \"purchase_request_id\": 15,\r\n    \"quotation_date\": \"2023-09-19T00:00:00.000Z\",\r\n    \"quotation_status\": \"Approved\",\r\n    \"total_quotation_amount\": 5400,\r\n    \"remarks\": null,\r\n    \"vendor_quotation_details\": [\r\n        {\r\n            \"vendor_quotation_details_id\": 5,\r\n            \"item_id\": 211,\r\n            \"purchase_requested_quantity\": 50,\r\n            \"indent_requested_quantity\": 120,\r\n            \"indent_request_details_id\": 217,\r\n            \"unit_cost\": 100,\r\n            \"total_cost\": 5000\r\n        },\r\n        {\r\n            \"vendor_quotation_details_id\": 6,\r\n            \"item_id\": 212,\r\n            \"purchase_requested_quantity\": 2,\r\n            \"indent_requested_quantity\": 2,\r\n            \"indent_request_details_id\": 217,\r\n            \"unit_cost\": 200,\r\n            \"total_cost\": 400\r\n        }\r\n    ],\r\n    \"vendor_quotes_documents\": [\r\n        {\r\n            \"code\": \"purchase-order-item-1-0\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-0/purchase_order_item_documents-1695036338043-300271844-Aalam Image.png\",\r\n            \"index\": 0,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": false\r\n        },\r\n        {\r\n            \"code\": \"purchase-order-item-1-1\",\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/purchase-order-item/purchase-order-item-1-1/purchase_order_item_documents-1695036338044-518704507-Aalam Icon.png\",\r\n            \"index\": 1,\r\n            \"folder\": \"purchase-order-item\",\r\n            \"is_delete\": true\r\n        }\r\n    ],\r\n    \"updated_by\": 1,\r\n    \"vendor_quotes_id\": 274\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -26417,12 +26528,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/vendor-quotes/",
-							"protocol": "http",
+							"raw": "{{API_URL}}/api/vendor-quotes/",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"vendor-quotes",
@@ -26632,12 +26741,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/vendor-quotes/get/15",
-							"protocol": "http",
+							"raw": "{{API_URL}}/api/vendor-quotes/get/15",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"vendor-quotes",
@@ -26851,12 +26958,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/vendor-quotes/search",
-							"protocol": "http",
+							"raw": "{{API_URL}}/api/vendor-quotes/search",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"vendor-quotes",
@@ -27172,6 +27277,208 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"is_exist\": true,\n    \"data\": {\n        \"vendor_quotes_id\": 35,\n        \"vendor_id\": 1,\n        \"purchase_request_id\": 23,\n        \"quotation_date\": \"2023-09-20T00:00:00.000Z\",\n        \"quotation_status\": \"Pending\",\n        \"total_quotation_amount\": 0,\n        \"remarks\": null,\n        \"quotation_details\": [\n            {\n                \"item_id\": 170,\n                \"quantity\": 200,\n                \"item_name\": \"Item 122\"\n            },\n            {\n                \"item_id\": 159,\n                \"quantity\": 2000,\n                \"item_name\": \"Item 6\"\n            },\n            {\n                \"item_id\": 170,\n                \"quantity\": 2990,\n                \"item_name\": \"Item 122\"\n            }\n        ],\n        \"quotation_id\": \"VQUO20230027\",\n        \"vendor_quotes_documents\": null,\n        \"is_delete\": false,\n        \"created_date\": \"2023-09-20T04:59:22.707Z\",\n        \"updated_date\": \"2023-09-20T04:59:22.707Z\",\n        \"created_by\": null,\n        \"updated_by\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get Vendor Quotes By Purchase Request Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/vendor-quotes/get-by-purchase-request-id/151",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"vendor-quotes",
+								"get-by-purchase-request-id",
+								"151"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Vendor Quotes By Purchase Request Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/vendor-quotes/get-by-purchase-request-id/151",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"vendor-quotes",
+										"get-by-purchase-request-id",
+										"151"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3266"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"cc2-1kEOJqYwOMqJBdcI2JXo6RUtdw8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 Oct 2023 10:56:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"vendor_quotes_id\": 219,\n            \"vendor_id\": 24,\n            \"purchase_request_id\": 151,\n            \"quotation_date\": \"2023-10-20T00:00:00.000Z\",\n            \"quotation_status\": \"Pending\",\n            \"total_quotation_amount\": 0,\n            \"remarks\": null,\n            \"quotation_id\": \"VQUO202300219\",\n            \"vendor_quotes_documents\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-20T11:20:25.755Z\",\n            \"updated_date\": \"2023-10-20T11:20:25.755Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"vendor_data\": {\n                \"vendor_id\": 24,\n                \"vendor_name\": \"India Cements\",\n                \"contact_person\": \"Abai k\",\n                \"contact_email\": \"sanmugam.yuvaraj@aalamsoft.com\",\n                \"contact_phone_no\": \"8098825889\",\n                \"address\": {\n                    \"city\": \"Erode\",\n                    \"state\": \"\",\n                    \"street\": \"12,Sasthiri Street,Siruvalur\",\n                    \"country\": \"\",\n                    \"pin_code\": \"638053\"\n                },\n                \"tax_id\": \"QWERT1234R\",\n                \"payment_terms\": \"\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"\",\n                    \"ifsc_code\": \"SBIN0005943\",\n                    \"account_no\": \"12345555\",\n                    \"acc_holder_name\": \"Tony\"\n                },\n                \"currency\": \"Rupees\",\n                \"vendor_category_id\": 104,\n                \"lead_time\": \"\",\n                \"minimum_order_quantity\": 0,\n                \"notes\": \"\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-10-18T12:06:36.262Z\",\n                \"updated_date\": \"2023-10-18T12:06:36.262Z\",\n                \"created_by\": 108,\n                \"updated_by\": null\n            },\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 151,\n                \"purchase_request_code\": \"PUR202300125\",\n                \"indent_request_id\": 106,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-10-20T00:00:00.000Z\",\n                \"status\": \"Waiting For Quotation\",\n                \"vendor_selection_method\": null,\n                \"project_id\": 196,\n                \"site_id\": 52,\n                \"selected_vendor_id\": null,\n                \"total_cost\": null,\n                \"purchase_request_documents\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-10-20T11:20:25.755Z\",\n                \"updated_date\": \"2023-10-20T11:20:25.755Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            }\n        },\n        {\n            \"vendor_quotes_id\": 220,\n            \"vendor_id\": 1,\n            \"purchase_request_id\": 151,\n            \"quotation_date\": \"2023-10-20T00:00:00.000Z\",\n            \"quotation_status\": \"Pending\",\n            \"total_quotation_amount\": 0,\n            \"remarks\": null,\n            \"quotation_id\": \"VQUO202300220\",\n            \"vendor_quotes_documents\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-20T11:20:25.755Z\",\n            \"updated_date\": \"2023-10-20T11:20:25.755Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"vendor_data\": {\n                \"vendor_id\": 1,\n                \"vendor_name\": \"Vijay Enterprises\",\n                \"contact_person\": \"Perumalsamy\",\n                \"contact_email\": \"vijay.perumalsamy@aalamsoft.com\",\n                \"contact_phone_no\": \"8776881092\",\n                \"address\": {\n                    \"city\": \"Chennai\",\n                    \"state\": \"Tamilnadu\",\n                    \"street\": \"12, Eswari Ammal Street\",\n                    \"country\": \"India\",\n                    \"pin_code\": \"638000\"\n                },\n                \"tax_id\": \"IN123456789\",\n                \"payment_terms\": \"Net 30 Days\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"State Bank of India\",\n                    \"ifsc_code\": \"HJGYU67\",\n                    \"account_no\": \"34567\",\n                    \"acc_holder_name\": \"srini\"\n                },\n                \"currency\": \"INR\",\n                \"vendor_category_id\": 101,\n                \"lead_time\": \"10 days\",\n                \"minimum_order_quantity\": 100,\n                \"notes\": \"Supplier of raw materials\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-08-31T08:01:14.198Z\",\n                \"updated_date\": \"2023-08-31T08:01:14.198Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            },\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 151,\n                \"purchase_request_code\": \"PUR202300125\",\n                \"indent_request_id\": 106,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-10-20T00:00:00.000Z\",\n                \"status\": \"Waiting For Quotation\",\n                \"vendor_selection_method\": null,\n                \"project_id\": 196,\n                \"site_id\": 52,\n                \"selected_vendor_id\": null,\n                \"total_cost\": null,\n                \"purchase_request_documents\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-10-20T11:20:25.755Z\",\n                \"updated_date\": \"2023-10-20T11:20:25.755Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get Vendor details By Purchase Request Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/vendor-quotes/get-vendor-details-by-purchase-request-id/111",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"vendor-quotes",
+								"get-vendor-details-by-purchase-request-id",
+								"111"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Vendor details By Purchase Request Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/vendor-quotes/get-vendor-details-by-purchase-request-id/111",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"vendor-quotes",
+										"get-vendor-details-by-purchase-request-id",
+										"111"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2907"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b5b-n82p7OrFN5obuLvxbvl+Q091FC4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 Oct 2023 12:35:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"vendor_id\": 14,\n            \"vendor_name\": \"Sankar Cements\",\n            \"contact_person\": \"Cholan Durairaj\",\n            \"contact_email\": \"saleshead@sankarcements.com\",\n            \"contact_phone_no\": \"9898787868\",\n            \"address\": {\n                \"city\": \"Chennai\",\n                \"state\": \"Tamil Nadu\",\n                \"street\": \"JJ Nagar\",\n                \"country\": \"India\",\n                \"pin_code\": \"600041\"\n            },\n            \"tax_id\": \"GSTIN5464O\",\n            \"payment_terms\": \"\",\n            \"preferred_payment_method_id\": 99,\n            \"bank_account_details\": {\n                \"bank_name\": \"Punjab National Bank\",\n                \"ifsc_code\": \"PNBL0012345\",\n                \"account_no\": \"432187650912\",\n                \"acc_holder_name\": \"Sankar Cements\"\n            },\n            \"currency\": \"Rupees\",\n            \"vendor_category_id\": 101,\n            \"lead_time\": \"10 days\",\n            \"minimum_order_quantity\": 750,\n            \"notes\": \"\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-19T06:02:58.355Z\",\n            \"updated_date\": \"2023-10-19T06:03:33.834Z\",\n            \"created_by\": null,\n            \"updated_by\": 108,\n            \"vendor_quotes_id\": 180,\n            \"purchase_request_id\": 111,\n            \"quotation_date\": \"2023-10-18T18:30:00.000Z\",\n            \"quotation_status\": \"Quotation Recieved\",\n            \"total_quotation_amount\": 3000,\n            \"remarks\": null,\n            \"quotation_id\": \"VQUO202300174\",\n            \"vendor_quotes_documents\": []\n        },\n        {\n            \"vendor_id\": 19,\n            \"vendor_name\": \"HCL Infosystems Ltd\",\n            \"contact_person\": \"Chandran\",\n            \"contact_email\": \"manager@hcl.in\",\n            \"contact_phone_no\": \"6543217890\",\n            \"address\": {\n                \"city\": \"Tiruppur\",\n                \"state\": \"Tamil Nadu\",\n                \"street\": \"Mullai Nagar\",\n                \"country\": \"India\",\n                \"pin_code\": \"600041\"\n            },\n            \"tax_id\": \"TNPSC3909L\",\n            \"payment_terms\": \"\",\n            \"preferred_payment_method_id\": 98,\n            \"bank_account_details\": {\n                \"bank_name\": \"Swiss Bank\",\n                \"ifsc_code\": \"SWBL0192827\",\n                \"account_no\": \"432187123456\",\n                \"acc_holder_name\": \"HCL\"\n            },\n            \"currency\": \"Dollar\",\n            \"vendor_category_id\": 106,\n            \"lead_time\": \"IMMEDIATE\",\n            \"minimum_order_quantity\": 0,\n            \"notes\": \"\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-19T06:02:58.355Z\",\n            \"updated_date\": \"2023-10-19T06:03:42.934Z\",\n            \"created_by\": null,\n            \"updated_by\": 108,\n            \"vendor_quotes_id\": 178,\n            \"purchase_request_id\": 111,\n            \"quotation_date\": \"2023-10-18T18:30:00.000Z\",\n            \"quotation_status\": \"Quotation Recieved\",\n            \"total_quotation_amount\": 40000,\n            \"remarks\": null,\n            \"quotation_id\": \"VQUO202300172\",\n            \"vendor_quotes_documents\": []\n        },\n        {\n            \"vendor_id\": 17,\n            \"vendor_name\": \"Dell Solutions\",\n            \"contact_person\": \"Anand R\",\n            \"contact_email\": \"dellsys@gmail.com\",\n            \"contact_phone_no\": \"9994597641\",\n            \"address\": {\n                \"city\": \"Tiruppur\",\n                \"state\": \"Tamil Nadu\",\n                \"street\": \"Mullai Nagar\",\n                \"country\": \"India\",\n                \"pin_code\": \"600041\"\n            },\n            \"tax_id\": \"INDIN7611L\",\n            \"payment_terms\": \"\",\n            \"preferred_payment_method_id\": 98,\n            \"bank_account_details\": {\n                \"bank_name\": \"Karur Vysya Bank\",\n                \"ifsc_code\": \"KVBA9876500\",\n                \"account_no\": \"432187650912\",\n                \"acc_holder_name\": \"Dell Systems\"\n            },\n            \"currency\": \"Rupees\",\n            \"vendor_category_id\": 104,\n            \"lead_time\": \"10 days\",\n            \"minimum_order_quantity\": 500,\n            \"notes\": \"\",\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-19T06:02:58.355Z\",\n            \"updated_date\": \"2023-10-19T06:04:23.522Z\",\n            \"created_by\": null,\n            \"updated_by\": 108,\n            \"vendor_quotes_id\": 179,\n            \"purchase_request_id\": 111,\n            \"quotation_date\": \"2023-10-18T18:30:00.000Z\",\n            \"quotation_status\": \"Approved\",\n            \"total_quotation_amount\": 2000,\n            \"remarks\": null,\n            \"quotation_id\": \"VQUO202300173\",\n            \"vendor_quotes_documents\": []\n        }\n    ]\n}"
 						}
 					]
 				}
@@ -32032,6 +32339,107 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"vendor_quotation_details_id\": 1,\n        \"vendor_quotes_id\": 263,\n        \"item_id\": 211,\n        \"indent_request_details_id\": 217,\n        \"indent_requested_quantity\": 120,\n        \"purchase_requested_quantity\": 50,\n        \"unit_cost\": 100,\n        \"total_cost\": 5000,\n        \"is_delete\": false,\n        \"created_date\": \"2023-10-26T07:53:33.973Z\",\n        \"updated_date\": \"2023-10-26T09:42:30.592Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get Vendor Quotation Details By Vendor Quotes Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/vendor-quotation-details/get-by-vendor-quotes-id/281",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"vendor-quotation-details",
+								"get-by-vendor-quotes-id",
+								"281"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Vendor Quotation Details By Vendor Quotes Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/vendor-quotation-details/get-by-vendor-quotes-id/281",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"vendor-quotation-details",
+										"get-by-vendor-quotes-id",
+										"281"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2080"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"820-5aQA9PkKRNBbBP2HmTVMCg07YOg\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 Oct 2023 12:41:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"vendor_quotation_details_id\": 18,\n            \"vendor_quotes_id\": 281,\n            \"item_id\": 179,\n            \"indent_request_details_id\": 309,\n            \"indent_requested_quantity\": null,\n            \"purchase_requested_quantity\": null,\n            \"unit_cost\": 0,\n            \"total_cost\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-26T12:15:39.845Z\",\n            \"updated_date\": \"2023-10-26T12:15:39.845Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"item_data\": {\n                \"item_id\": 179,\n                \"item_name\": \"Sand\",\n                \"description\": \"Sand for construction\",\n                \"hsn_code_id\": 2835,\n                \"gst_id\": 20,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-23T11:02:09.358Z\",\n                \"updated_date\": \"2023-09-23T11:02:09.358Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 1,\n                \"rate\": 12000,\n                \"is_delete\": false,\n                \"uom\": {\n                    \"name\": \"Kilogram\"\n                }\n            }\n        },\n        {\n            \"vendor_quotation_details_id\": 19,\n            \"vendor_quotes_id\": 281,\n            \"item_id\": 225,\n            \"indent_request_details_id\": 305,\n            \"indent_requested_quantity\": null,\n            \"purchase_requested_quantity\": null,\n            \"unit_cost\": 0,\n            \"total_cost\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-26T12:15:39.845Z\",\n            \"updated_date\": \"2023-10-26T12:15:39.845Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"item_data\": {\n                \"item_id\": 225,\n                \"item_name\": \"Screw driver set\",\n                \"description\": \"Testing Purpose\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 29,\n                \"uom_id\": 62,\n                \"created_date\": \"2023-10-18T12:30:04.661Z\",\n                \"updated_date\": \"2023-10-20T04:13:20.149Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 3,\n                \"rate\": 200,\n                \"is_delete\": false,\n                \"uom\": {\n                    \"name\": \"Ton\"\n                }\n            }\n        },\n        {\n            \"vendor_quotation_details_id\": 20,\n            \"vendor_quotes_id\": 281,\n            \"item_id\": 214,\n            \"indent_request_details_id\": 306,\n            \"indent_requested_quantity\": null,\n            \"purchase_requested_quantity\": null,\n            \"unit_cost\": 0,\n            \"total_cost\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-26T12:15:39.845Z\",\n            \"updated_date\": \"2023-10-26T12:15:39.845Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"item_data\": {\n                \"item_id\": 214,\n                \"item_name\": \"Formwork Nails\",\n                \"description\": \"Nails for securing formwork\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 48,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-26T14:43:03.190Z\",\n                \"updated_date\": \"2023-09-26T14:43:03.190Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 1,\n                \"rate\": 30,\n                \"is_delete\": false,\n                \"uom\": {\n                    \"name\": \"Kilogram\"\n                }\n            }\n        }\n    ]\n}"
 						}
 					]
 				}

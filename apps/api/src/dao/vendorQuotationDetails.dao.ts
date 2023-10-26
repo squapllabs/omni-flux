@@ -59,7 +59,37 @@ const getById = async (
   }
 };
 
+const getByVendorQuotesId = async (
+  vendor_quotes_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const vendorQuotationDetails =
+      await transaction.vendor_quotation_details.findMany({
+        where: {
+          vendor_quotes_id: Number(vendor_quotes_id),
+          is_delete: false,
+        },
+        include: {
+          item_data: {
+            include: { uom: { select: { name: true } } },
+          },
+        },
+        orderBy: [{ created_date: 'asc' }],
+      });
+    return vendorQuotationDetails;
+  } catch (error) {
+    console.log(
+      'Error occurred in vendorQuotationDetails getByVendorQuotesId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   edit,
   getById,
+  getByVendorQuotesId,
 };

@@ -270,7 +270,13 @@ const searchPurchaseRequest = async (
         vendor_quotes: {
           include: {
             vendor_data: true,
-            vendor_quotation_details: true,
+            vendor_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
           },
         },
         indent_request_data: true,
