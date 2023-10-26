@@ -8,6 +8,7 @@ import {
   createVendorQuotes,
   deleteByVendorQuotesId,
   getAllVendorQuotes,
+  getByPurchaseRequestId,
   getByPurchaseRequestIdAndVendorId,
   getByVendorQuotesId,
   searchVendorQuotes,
@@ -56,6 +57,12 @@ router.get(
   '/check-duplicate-vendor-by-purchase-request-id/:purchase_request_id/:vendor_id',
   authMiddleware,
   getByPurchaseRequestIdAndVendorId
+);
+
+router.get(
+  '/get-by-purchase-request-id/:purchase_request_id',
+  authMiddleware,
+  getByPurchaseRequestId
 );
 
 export default router;

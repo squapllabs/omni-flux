@@ -258,6 +258,32 @@ const getByPurchaseRequestIdAndVendorId = async (
   }
 };
 
+const getByPurchaseRequestId = async (
+  purchase_request_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const vendorQuotes = await transaction.vendor_quotes.findMany({
+      where: {
+        purchase_request_id: Number(purchase_request_id),
+        is_delete: false,
+      },
+      include: {
+        vendor_data: true,
+        purchase_request_data: true,
+      },
+    });
+    return vendorQuotes;
+  } catch (error) {
+    console.log(
+      'Error occurred in vendorQuotes getByPurchaseRequestId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -267,4 +293,5 @@ export default {
   searchVendorQuotes,
   updateStatusAndDocument,
   getByPurchaseRequestIdAndVendorId,
+  getByPurchaseRequestId,
 };
