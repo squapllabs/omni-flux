@@ -8,7 +8,6 @@ const add = async (
   quotation_status: string,
   total_quotation_amount: number,
   remarks: string,
-  quotation_details: JSON,
   vendor_quotes_documents,
   created_by: number,
   connectionObj = null
@@ -32,7 +31,6 @@ const add = async (
         quotation_status,
         total_quotation_amount,
         remarks,
-        quotation_details,
         quotation_id: quotation_id[0].vendor_quotation_sequence,
         vendor_quotes_documents,
         created_by,
@@ -56,7 +54,6 @@ const edit = async (
   quotation_status: string,
   total_quotation_amount: number,
   remarks: string,
-  quotation_details: JSON,
   updated_by: number,
   vendor_quotes_documents,
   connectionObj = null
@@ -75,7 +72,6 @@ const edit = async (
         quotation_status,
         total_quotation_amount,
         remarks,
-        quotation_details,
         updated_by,
         vendor_quotes_documents,
         updated_date: currentDate,
@@ -171,8 +167,7 @@ const searchVendorQuotes = async (
                     (v.vendor_name ilike '%${global_search}%'
                         or vq.quotation_status ilike '%${global_search}%'
                         or vq.remarks ilike '%${global_search}%'
-                        or vq.quotation_id ilike '%${global_search}%'
-                        or vq.quotation_details ->>'item_name' ilike '%${global_search}%' )
+                        or vq.quotation_id ilike '%${global_search}%' )
                     and (vq.is_delete = ${is_delete} and vq.purchase_request_id =${purchase_request_id})
                 order by
                     vq.${orderByColumn} ${orderByDirection}
@@ -188,8 +183,7 @@ const searchVendorQuotes = async (
                     (v.vendor_name ilike '%${global_search}%'
                         or vq.quotation_status ilike '%${global_search}%'
                         or vq.remarks ilike '%${global_search}%'
-                        or vq.quotation_id ilike '%${global_search}%'
-                        or vq.quotation_details ->>'item_name' ilike '%${global_search}%' )
+                        or vq.quotation_id ilike '%${global_search}%' )
                     and (vq.is_delete = ${is_delete} and vq.purchase_request_id =${purchase_request_id})`;
 
     const result = await customQueryExecutor.customQueryExecutor(query);

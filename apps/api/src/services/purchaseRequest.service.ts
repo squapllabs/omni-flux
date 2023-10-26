@@ -172,7 +172,6 @@ const updatePurchaseRequest = async (req) => {
       selected_vendor_id,
       total_cost,
       updated_by,
-      purchase_request_details,
       purchase_request_id,
     } = body;
     let result = null;
@@ -290,7 +289,6 @@ const updatePurchaseRequest = async (req) => {
       Number(selected_vendor_id),
       Number(total_cost),
       Number(updated_by),
-      JSON.parse(purchase_request_details),
       purchaseRequestDocuments,
       Number(purchase_request_id)
     );
