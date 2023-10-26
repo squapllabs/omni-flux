@@ -271,6 +271,7 @@ import NewBoqList from '../component/projectBOQ/projectBoqList';
 import GenerateOtp from '../component/generateOtp';
 import ExpenseRecall from '../component/expenseRecall/expenseRecall';
 import PurchaseRequestItemView from '../component/purchaseApproval/purchaseRequestItemView';
+import PurchaseOrderIndividualView from '../component/purchaseOrder/purchaseOrderView';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -374,6 +375,7 @@ const AppRoutes = () => {
   const ProtectedPurchaseRequestItemView = withLayoutAndProtection(
     PurchaseRequestItemView
   );
+  const ProtectedPurchaseOrderIndividualView = withLayoutAndProtection(PurchaseOrderIndividualView);
   return (
     <div>
       <Routes>
@@ -588,6 +590,10 @@ const AppRoutes = () => {
         <Route
           path="/request-items"
           element={<ProtectedPurchaseRequestItemView />}
+        />
+        <Route
+        path="/purchase-order-view/:id"
+        element={<ProtectedPurchaseOrderIndividualView/>}
         />
       </Routes>
     </div>

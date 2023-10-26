@@ -19,6 +19,7 @@ import ReportGenerator from '../ui/reportGenerator';
 import AddIcon from '../menu/icons/addIcon';
 import PurchaseOrderReport from '../reportGenerator/report';
 import ProjectSubheader from '../project/projectSubheader';
+import ViewIcon from '../menu/icons/newViewIcon';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -198,7 +199,7 @@ const OrderView = () => {
                   <th className={Styles.tableHeading}>Project Name </th>
                   <th className={Styles.tableHeading}>Amount</th>
                   <th className={Styles.tableHeading}>Quotation </th>
-                  <th className={Styles.tableHeading}>Bill Status</th>
+                  <th className={Styles.tableHeading}>Status</th>
                   <th className={Styles.tableHeading}>Bill</th>
                   <th className={Styles.tableHeading}>Actions</th>
                 </tr>
@@ -276,6 +277,10 @@ const OrderView = () => {
                               <PdfDownloadIcon
                                 onClick={() => handleReportGenerator(data)}
                               />
+                              <ViewIcon
+                                onClick={() => 
+                                  navigate(`/purchase-order-view/${data.purchase_order_id}`)}
+                              />
                             </div>
                           </td>
                         </tr>
@@ -351,6 +356,10 @@ const OrderView = () => {
                               />
                               <PdfDownloadIcon
                                 onClick={() => handleReportGenerator(data)}
+                              />
+                              <ViewIcon
+                                onClick={() => 
+                                  navigate(`/purchase-order-view/${data.purchase_order_id}`)}
                               />
                             </div>
                           </td>
