@@ -664,6 +664,7 @@ const updateStatus = async (body) => {
       updated_by,
       indent_request_id,
       approver_user_id,
+      request_type,
     } = body;
 
     const indentRequestExist = await indentRequestDao.getById(
@@ -684,7 +685,8 @@ const updateStatus = async (body) => {
       approved_date,
       rejected_date,
       updated_by,
-      approver_user_id
+      approver_user_id,
+      request_type
     );
 
     return {
