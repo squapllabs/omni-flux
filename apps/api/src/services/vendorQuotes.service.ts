@@ -5,6 +5,7 @@ import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import { processFileDeleteInS3 } from '../utils/fileUpload';
 import prisma from '../utils/prisma';
 import vendorQuotationDetailsDao from '../dao/vendorQuotationDetails.dao';
+import purchaseRequestQuotationDetailsDao from '../dao/purchaseRequestQuotationDetails.dao';
 
 /**
  * Method to Create a New VendorQuotes
@@ -195,6 +196,35 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
             purchase_request_id,
             tx
           );
+
+          const vendorQuotationDetailsData =
+            await vendorQuotationDetailsDao.getByVendorQuotesId(
+              vendor_quotes_id
+            );
+
+          for await (const vendorQuotationDetail of vendorQuotationDetailsData) {
+            const item_id = vendorQuotationDetail.item_id;
+            const purchase_requested_quantity =
+              vendorQuotationDetail.purchase_requested_quantity;
+            const indent_requested_quantity =
+              vendorQuotationDetail.indent_requested_quantity;
+            const indent_request_details_id =
+              vendorQuotationDetail.indent_request_details_id;
+            const unit_cost = vendorQuotationDetail.unit_cost;
+            const total_cost = vendorQuotationDetail.total_cost;
+
+            await purchaseRequestQuotationDetailsDao.add(
+              purchase_request_id,
+              item_id,
+              indent_request_details_id,
+              indent_requested_quantity,
+              purchase_requested_quantity,
+              unit_cost,
+              total_cost,
+              updated_by,
+              tx
+            );
+          }
         }
 
         result = {
