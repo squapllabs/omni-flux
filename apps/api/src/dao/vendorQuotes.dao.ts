@@ -1,3 +1,4 @@
+import db from '../utils/db';
 import prisma from '../utils/prisma';
 import customQueryExecutor from './common/utils.dao';
 
@@ -8,7 +9,6 @@ const add = async (
   quotation_status: string,
   total_quotation_amount: number,
   remarks: string,
-  quotation_details: JSON,
   vendor_quotes_documents,
   created_by: number,
   connectionObj = null
@@ -32,7 +32,6 @@ const add = async (
         quotation_status,
         total_quotation_amount,
         remarks,
-        quotation_details,
         quotation_id: quotation_id[0].vendor_quotation_sequence,
         vendor_quotes_documents,
         created_by,
@@ -56,7 +55,6 @@ const edit = async (
   quotation_status: string,
   total_quotation_amount: number,
   remarks: string,
-  quotation_details: JSON,
   updated_by: number,
   vendor_quotes_documents,
   connectionObj = null
@@ -75,7 +73,6 @@ const edit = async (
         quotation_status,
         total_quotation_amount,
         remarks,
-        quotation_details,
         updated_by,
         vendor_quotes_documents,
         updated_date: currentDate,
@@ -171,8 +168,7 @@ const searchVendorQuotes = async (
                     (v.vendor_name ilike '%${global_search}%'
                         or vq.quotation_status ilike '%${global_search}%'
                         or vq.remarks ilike '%${global_search}%'
-                        or vq.quotation_id ilike '%${global_search}%'
-                        or vq.quotation_details ->>'item_name' ilike '%${global_search}%' )
+                        or vq.quotation_id ilike '%${global_search}%' )
                     and (vq.is_delete = ${is_delete} and vq.purchase_request_id =${purchase_request_id})
                 order by
                     vq.${orderByColumn} ${orderByDirection}
@@ -188,8 +184,7 @@ const searchVendorQuotes = async (
                     (v.vendor_name ilike '%${global_search}%'
                         or vq.quotation_status ilike '%${global_search}%'
                         or vq.remarks ilike '%${global_search}%'
-                        or vq.quotation_id ilike '%${global_search}%'
-                        or vq.quotation_details ->>'item_name' ilike '%${global_search}%' )
+                        or vq.quotation_id ilike '%${global_search}%' )
                     and (vq.is_delete = ${is_delete} and vq.purchase_request_id =${purchase_request_id})`;
 
     const result = await customQueryExecutor.customQueryExecutor(query);
@@ -264,6 +259,60 @@ const getByPurchaseRequestIdAndVendorId = async (
   }
 };
 
+const getByPurchaseRequestId = async (
+  purchase_request_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const vendorQuotes = await transaction.vendor_quotes.findMany({
+      where: {
+        purchase_request_id: Number(purchase_request_id),
+        is_delete: false,
+      },
+      include: {
+        vendor_data: true,
+        purchase_request_data: true,
+      },
+    });
+    return vendorQuotes;
+  } catch (error) {
+    console.log(
+      'Error occurred in vendorQuotes getByPurchaseRequestId dao',
+      error
+    );
+    throw error;
+  }
+};
+
+const getVendorDetailsByPurchaseRequestId = async (
+  purchase_request_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const query = `select
+      v.*,
+      vq.*
+    from
+      vendor_quotes vq
+    left join vendor v on
+      vq.vendor_id = v.vendor_id
+    where
+      purchase_request_id = $1`;
+    const vendorQuotes = await transaction.manyOrNone(query, [
+      purchase_request_id,
+    ]);
+    return vendorQuotes;
+  } catch (error) {
+    console.log(
+      'Error occurred in vendorQuotes getVendorDetailsByPurchaseRequestId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -273,4 +322,6 @@ export default {
   searchVendorQuotes,
   updateStatusAndDocument,
   getByPurchaseRequestIdAndVendorId,
+  getByPurchaseRequestId,
+  getVendorDetailsByPurchaseRequestId,
 };

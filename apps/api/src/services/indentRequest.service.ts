@@ -28,6 +28,7 @@ const createIndentRequest = async (body: indentRequestBody) => {
       indent_request_details,
       project_id,
       site_id,
+      request_type,
     } = body;
 
     if (requester_user_id) {
@@ -90,7 +91,8 @@ const createIndentRequest = async (body: indentRequestBody) => {
       created_by,
       site_id,
       indent_request_details,
-      project_id
+      project_id,
+      request_type
     );
     const result = {
       message: 'success',
@@ -662,6 +664,7 @@ const updateStatus = async (body) => {
       updated_by,
       indent_request_id,
       approver_user_id,
+      request_type,
     } = body;
 
     const indentRequestExist = await indentRequestDao.getById(
@@ -682,7 +685,8 @@ const updateStatus = async (body) => {
       approved_date,
       rejected_date,
       updated_by,
-      approver_user_id
+      approver_user_id,
+      request_type
     );
 
     return {
