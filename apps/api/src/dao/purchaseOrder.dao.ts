@@ -108,7 +108,13 @@ const getById = async (purchaseOrderId: number, connectionObj = null) => {
         is_delete: false,
       },
       include: {
-        purchase_request_data: { include: { indent_request_data: true } },
+        purchase_request_data: {
+          include: {
+            indent_request_data: true,
+            project_data: true,
+            site_data: true,
+          },
+        },
         vendor_data: true,
       },
     });

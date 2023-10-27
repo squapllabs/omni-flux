@@ -49,6 +49,7 @@ import expense from './expense.route';
 import expenseDetails from './expenseDetails.route';
 import bomConfiguration from './bomConfiguration.route';
 import expenseRecall from './expenseRecall.route';
+import vendorQuotationDetails from './vendorQuotationDetails.route';
 
 const router = express.Router();
 
@@ -252,6 +253,10 @@ const defaultRoutes = [
   {
     path: '/expense-recall',
     route: expenseRecall,
+  },
+  {
+    path: '/vendor-quotation-details',
+    route: vendorQuotationDetails,
   },
 ];
 
