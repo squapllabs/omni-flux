@@ -138,7 +138,7 @@ const getAll = async (connectionObj = null) => {
       },
       orderBy: [
         {
-          updated_date: 'desc',
+          vendor_name: 'asc',
         },
       ],
     });
