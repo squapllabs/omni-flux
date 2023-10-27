@@ -23,51 +23,7 @@ const BomRawMaterials: React.FC = (props: any) => {
   const DropfieldWidth = '150px';
   let rowIndex = 0;
   const [bomList, setBomList] = useState<any>([]);
-  // const validationSchema = Yup.object().shape({
-  //   bom_name: Yup.string().trim().required('Item Name is required'),
-  //   uom_id: Yup.string().trim().required('UOM is required'),
-  //   rate: Yup.string().trim().required('Rate is required'),
-  //   quantity: Yup.number()
-  //     .required('Quantity is required')
-  //     .typeError('Numbers only allowed'),
-  //   item_id: Yup.string()
-  //     .trim()
-  //     .required(bomErrorMessages.ENTER_ITEM)
-  //     .test(
-  //       'decimal-validation',
-  //       'Item already exists',
-  //       async function (value, { parent }: Yup.TestContext) {
-  //         let isDelete = parent.is_delete;
-  //         try {
-  //           let dummy: any = [];
-  //           const allIds = props.bomList.map((item: any) => {
-  //             if (item.is_delete === 'N') {
-  //               item.item_id;
-  //             }
-  //             if (item.is_delete === false) {
-  //               dummy.push(item.item_id);
-  //             }
-  //           });
-  //           const checking = dummy.filter(
-  //             (id: any) => Number(id) === Number(value)
-  //           ).length;
-  //           const isValuePresent = props.bomList.some((item: any) => {
-  //             return (
-  //               Number(item.item_id) === Number(value) &&
-  //               item.is_delete === false
-  //             );
-  //           });
-  //           if (isValuePresent === false) {
-  //             return true;
-  //           } else if (checking <= 1) {
-  //             return true;
-  //           } else return false;
-  //         } catch {
-  //           return true;
-  //         }
-  //       }
-  //     ),
-  // });
+
   const intialBom: any = {
     created_by: 1,
     sub_category_id: Number(props?.subCategoryId),
@@ -82,7 +38,7 @@ const BomRawMaterials: React.FC = (props: any) => {
     is_delete: false,
     bom_type: props?.activeButton,
     bom_id: '',
-    bom_configuration_id:Number(props?.bomId)
+    bom_configuration_id: Number(props?.bomId),
   };
   const [initialValues, setInitialValues] = useState(intialBom);
   const [bomValue, setBomValue] = useState();
@@ -107,8 +63,6 @@ const BomRawMaterials: React.FC = (props: any) => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  console.log('props.bomList', props.bomList);
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -118,13 +72,11 @@ const BomRawMaterials: React.FC = (props: any) => {
   ) => {
     let tempObj = {};
     if (event.target.name === 'price' || event.target.name === 'rate') {
-      console.log('props', props.bomList[index]);
       tempObj = {
         ...props.bomList[index],
         [event.target.name]: Number(event.target.value),
         total: Number(event.target.value) * props.bomList[index]?.quantity,
       };
-      console.log('tempObj', tempObj);
     } else if (event.target.name === 'quantity') {
       tempObj = {
         ...props.bomList[index],
@@ -142,57 +94,50 @@ const BomRawMaterials: React.FC = (props: any) => {
     props.setBomList(tempArry);
   };
 
-  // const formik = useFormik({
-  //   initialValues,
-  //   validationSchema,
-  //   enableReinitialize: true,
-  //   onSubmit: (values, { resetForm }) => {
-  //     values['total'] = formik.values.quantity * formik.values.rate;
-  //     values['is_delete'] = false;
-  //     values['bom_type'] = props?.activeButton;
-  //     values['quantity'] = Number(formik.values.quantity);
-  //     values['rate'] = Number(formik.values.rate);
-  //     values['bom_configuration_id'] = Number(props.bomId);
-  //     let arr = [];
-  //     arr = [...props.bomList, values];
-  //     props.setBomList(arr);
-  //     resetForm();
-  //   },
-  // });
   const handleAddRawMat = async () => {
     const schema = Yup.array().of(
       Yup.object().shape({
-        bom_name: Yup.string().trim().required('Item Name is required'),
         uom_id: Yup.string().trim().required('UOM is required'),
-        rate: Yup.string().trim().required('Rate is required'),
+        rate: Yup.number()
+          .required('Rate is required')
+          .typeError('Numbers only allowed').min(1),
         quantity: Yup.number()
           .required('Quantity is required')
-          .typeError('Numbers only allowed'),
+          .typeError('Numbers only allowed').min(1),
         item_id: Yup.string()
           .trim()
-          .required(bomErrorMessages.ENTER_ITEM)
+          .nullable()
           .test(
             'decimal-validation',
             'Item already exists',
             async function (value, { parent }: Yup.TestContext) {
               let isDelete = parent.is_delete;
-              try {
-                let dummy: any = [];
-                const allIds = props.bomList.map((item: any) => {
-                  if (item.is_delete === 'N') {
-                    item.item_id;
+              if (value != null) {
+                try {
+                  const bOMType = parent.bom_type;
+                  if (bOMType === 'RAWMT') {
+                    let dummy: any = [];
+                    const allIds = props.bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.item_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.item_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
+                  } else {
+                    return false;
                   }
-                  if (item.is_delete === false) {
-                    dummy.push(item.item_id);
-                  }
-                });
-                const checking = dummy.filter(
-                  (id: any) => Number(id) === Number(value)
-                ).length;
-                if (checking <= 1) {
+                } catch {
                   return true;
-                } else return false;
-              } catch {
+                }
+              } else {
                 return true;
               }
             }
@@ -260,20 +205,16 @@ const BomRawMaterials: React.FC = (props: any) => {
                         <AutoCompleteSelect
                           width={DropfieldWidth}
                           name="item_id"
-                          optionList={getAllItemDrop}
+                          optionList={getAllItemDrop != null ? getAllItemDrop : []}
                           value={items?.item_id}
                           onChange={(e) => handleListChange(e, index)}
                           error={
-                           props.errors?.[`[${index}].item_id`]
-                            ? true
-                            : false
+                            props.errors?.[`[${index}].item_id`] ? true : false
                           }
                           onSelect={(value) => {
                             const matchingObjects = getAllItemDrop.filter(
                               (obj: any) => Number(obj.value) === Number(value)
                             );
-                            console.log('matchingObjects', matchingObjects);
-
                             let tempObj = {};
                             tempObj = {
                               ...props.bomList[index],
@@ -300,12 +241,13 @@ const BomRawMaterials: React.FC = (props: any) => {
                         />
                       </td>
                       <td>
-                        <div
-                          style={{
-                            paddingBottom: '20px',
-                          }}
-                        >
-                          <label> {items?.uom_name}</label>
+                        <div>
+                          <label>
+                            {' '}
+                            {items?.uom_name
+                              ? items?.uom_name
+                              : items?.uom_data?.name}
+                          </label>
                         </div>
                       </td>
                       <td>
@@ -316,10 +258,14 @@ const BomRawMaterials: React.FC = (props: any) => {
                           value={items.quantity}
                           onChange={(e) => handleListChange(e, index)}
                           error={
-                            props.errors?.[`[${index}].quantity`]
-                             ? true
-                             : false
-                           }
+                            props.errors?.[`[${index}].quantity`] ? true : false
+                          }
+                          onKeyDown={(e) => {
+                            const isNumber = /^[0-9]*$/.test(e.key);
+                            if (!isNumber &&  e.key !== 'Backspace' && e.key !== 'Delete') {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </td>
                       <td>
@@ -329,18 +275,18 @@ const BomRawMaterials: React.FC = (props: any) => {
                           value={items.rate}
                           onChange={(e) => handleListChange(e, index)}
                           error={
-                            props.errors?.[`[${index}].rate`]
-                             ? true
-                             : false
-                           }
+                            props.errors?.[`[${index}].rate`] ? true : false
+                          }
+                          onKeyDown={(e) => {
+                            const isNumber = /^[0-9]*$/.test(e.key);
+                            if (!isNumber &&  e.key !== 'Backspace' && e.key !== 'Delete') {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </td>
                       <td>
-                        <div
-                          style={{
-                            paddingBottom: '20px',
-                          }}
-                        >
+                        <div>
                           <label>{items.quantity * items.rate}</label>
                         </div>
                       </td>
@@ -348,7 +294,6 @@ const BomRawMaterials: React.FC = (props: any) => {
                         <div
                           style={{
                             cursor: 'pointer',
-                            paddingBottom: '20px',
                           }}
                         >
                           <div
@@ -365,75 +310,6 @@ const BomRawMaterials: React.FC = (props: any) => {
                   );
                 }
               })}
-              {/* <tr>
-                <td>{rowIndex + 1}</td>
-                <td>
-                  <AutoCompleteSelect
-                    width={DropfieldWidth}
-                    name="item_id"
-                    mandatory={true}
-                    optionList={getAllItemDrop}
-                    value={formik.values.item_id}
-                    onChange={formik.handleChange}
-                    error={formik.touched.item_id && formik.errors.item_id}
-                    onSelect={(value) => {
-                      formik.setFieldValue('item_id', value);
-                      const matchingObjects = getAllItemDrop.filter(
-                        (obj: any) => Number(obj.value) === Number(value)
-                      );
-                      formik.setFieldValue(
-                        'bom_name',
-                        matchingObjects[0]?.label
-                      );
-                      formik.setFieldValue(
-                        'rate',
-                        matchingObjects[0]?.temp?.rate
-                      );
-                    }}
-                    addLabel="Add Item"
-                    onAddClick={(value) => {
-                      props.showItemForm(true);
-                    }}
-                  />
-                </td>
-                <td>
-                  <AutoCompleteSelect
-                    width={DropfieldWidth}
-                    name="uom_id"
-                    mandatory={true}
-                    optionList={getAllUomDrop}
-                    value={formik.values.uom_id}
-                    onChange={formik.handleChange}
-                    error={formik.touched.uom_id && formik.errors.uom_id}
-                    onSelect={(value) => {
-                      formik.setFieldValue('uom_id', value);
-                    }}
-                  />
-                </td>
-                <td>
-                  <Input
-                    width={fieldWidth}
-                    name="quantity"
-                    mandatory={true}
-                    value={formik.values.quantity}
-                    onChange={formik.handleChange}
-                    error={formik.touched.quantity && formik.errors.quantity}
-                  />
-                </td>
-                <td>
-                  <Input
-                    name="rate"
-                    width={fieldWidth}
-                    value={formik.values.rate}
-                    onChange={formik.handleChange}
-                    error={formik.touched.rate && formik.errors.rate}
-                  />
-                </td>
-                <td>
-                  <label>{formik.values.quantity * formik.values.rate}</label>
-                </td>
-                <td></td>
-              </tr> */}
             </tbody>
           </table>
           <div className={Styles.addDataIcon}>
@@ -442,26 +318,7 @@ const BomRawMaterials: React.FC = (props: any) => {
               <span>Add Plan here</span>
             </div>
           </div>
-          {/* <CustomPopup
-            open={itemForm}
-            title="Add Item"
-            handleClose={handleItemFormClose}
-            content={
-              <InstantItemAdd isVissible={itemForm} onAction={showItemForm} />
-            }
-          /> */}
         </div>
-        {/* <div className={Styles.saveButton}>
-          <Button
-            color="primary"
-            shape="rectangle"
-            justify="center"
-            size="small"
-            onClick={(e) => handleBulkBomAdd(e)}
-          >
-            SAVE
-          </Button>
-        </div> */}
       </div>
       <CustomDelete
         open={openDelete}
