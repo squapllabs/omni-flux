@@ -6,7 +6,7 @@ interface vendorQuotesBody {
   quotation_status: string;
   total_quotation_amount: number;
   remarks: string;
-  quotation_details: JSON;
+  vendor_quotation_details: Array<vendorQuotationDetails>;
   created_by: number;
   updated_by: number;
   quotation_id: string;
@@ -18,4 +18,15 @@ interface vendorQuotesDocuments {
   is_delete: boolean;
 }
 
+interface vendorQuotationDetails {
+  vendor_quotation_details_id: number;
+  vendor_quotes_id: number;
+  item_id: number;
+  indent_request_details_id: number;
+  indent_requested_quantity: number;
+  purchase_requested_quantity: number;
+  unit_cost: number;
+  total_cost: number;
+  updated_by: number;
+}
 export { vendorQuotesBody };
