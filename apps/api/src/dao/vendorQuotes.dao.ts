@@ -1,3 +1,4 @@
+import db from '../utils/db';
 import prisma from '../utils/prisma';
 import customQueryExecutor from './common/utils.dao';
 
@@ -284,6 +285,34 @@ const getByPurchaseRequestId = async (
   }
 };
 
+const getVendorDetailsByPurchaseRequestId = async (
+  purchase_request_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const query = `select
+      v.*,
+      vq.*
+    from
+      vendor_quotes vq
+    left join vendor v on
+      vq.vendor_id = v.vendor_id
+    where
+      purchase_request_id = $1`;
+    const vendorQuotes = await transaction.manyOrNone(query, [
+      purchase_request_id,
+    ]);
+    return vendorQuotes;
+  } catch (error) {
+    console.log(
+      'Error occurred in vendorQuotes getVendorDetailsByPurchaseRequestId dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -294,4 +323,5 @@ export default {
   updateStatusAndDocument,
   getByPurchaseRequestIdAndVendorId,
   getByPurchaseRequestId,
+  getVendorDetailsByPurchaseRequestId,
 };
