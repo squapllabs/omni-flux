@@ -8,6 +8,7 @@ export const vendorErrorMessages = {
   ENTER_MOBILENUMBER: 'Mobile number is required',
   ENTER_VALID_MOBILENUMBER: 'Invalid mobile number',
   ENTER_VALID_NAME: 'Invalid name',
+  ENTER_ONLY_TEXT: 'Only characters are allowed',
   ENTER_MAX_NAME: 'Name should not exceed 100 characters',
   ENTER_BANKACCOUNTNUMBER: 'Account number is required',
   ENTER_BANKIFSCCODE: 'IFSC code is required',
@@ -75,6 +76,9 @@ export const getVendorCreationYupschema = (yup: any) => {
             return stringValue.length >= 8 && stringValue.length <= 16;
           }
         ),
+      bank_name: yup
+        .string()
+        .matches(/^[a-zA-Z\s]+$/, vendorErrorMessages.ENTER_ONLY_TEXT),
       ifsc_code: yup
         .string()
         .required(vendorErrorMessages.ENTER_BANKIFSCCODE)
@@ -112,21 +116,21 @@ export const getVendorEditYupschema = (yup: any) => {
       .string()
       .required(vendorErrorMessages.ENTER_EMAIL)
       .email(vendorErrorMessages.ENTER_VALID_EMAIL),
-      // .test(
-      //   'email-availability',
-      //   vendorErrorMessages.EMAIL_EXISTS,
-      //   async (value: any) => {
-      //     if (value) {
-      //       const response = await vendorService.getOneVendorEmail(value);
-      //       console.log('email id check==>', response);
-      //       if (response?.is_exist === true) {
-      //         return false;
-      //       } else {
-      //         return true;
-      //       }
-      //     }
-      //   }
-      // ),
+    // .test(
+    //   'email-availability',
+    //   vendorErrorMessages.EMAIL_EXISTS,
+    //   async (value: any) => {
+    //     if (value) {
+    //       const response = await vendorService.getOneVendorEmail(value);
+    //       console.log('email id check==>', response);
+    //       if (response?.is_exist === true) {
+    //         return false;
+    //       } else {
+    //         return true;
+    //       }
+    //     }
+    //   }
+    // ),
     contact_phone_no: yup
       .string()
       .matches(/^\d{10}$/, vendorErrorMessages.ENTER_VALID_MOBILENUMBER)

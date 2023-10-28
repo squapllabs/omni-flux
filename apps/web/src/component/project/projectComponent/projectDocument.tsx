@@ -210,7 +210,7 @@ const ProjectDocument: React.FC = (props: any) => {
         <div className={Styles.heading}>
           <div className={Styles.subHeading}>
             <DocumentIcon width={30} height={30} />
-            <h4>DOCUMENTS</h4>
+            <h3>DOCUMENTS</h3>
           </div>
         </div>
       </div>

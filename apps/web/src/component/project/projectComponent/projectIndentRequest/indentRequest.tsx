@@ -120,7 +120,7 @@ const IndentRequest: React.FC = (props: any) => {
       .date()
       .min(new Date(), 'Date must be greater than or equal to the current date')
       .required(' Expected Date is required'),
-    description: yup.string().required('Description is required'),
+    description: yup.string().trim().required('Description is required'),
     site_id: yup.string().required('Site is required'),
   });
   const formik = useFormik({

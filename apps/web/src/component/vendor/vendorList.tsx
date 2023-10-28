@@ -23,7 +23,7 @@ import ProjectSubheader from '../project/projectSubheader';
 const VendorList = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const currentPath = location.pathname;  
   const { mutate: getDeleteVendorByID } = useDeleteVendor();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
@@ -151,7 +151,7 @@ const VendorList = () => {
         >
           {initialData?.is_available ? (
             <div>
-              {location.pathname === '/vendor-list' && (
+              {currentPath === '/vendor-list' && (
                 <div>
                   <ProjectSubheader
                     navigation={'/home'}
@@ -162,7 +162,7 @@ const VendorList = () => {
               )}
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>
-                  {location.pathname !== '/vendor-list' && (
+                  {currentPath !== '/vendor-list' && (
                     <div className={Styles.subHeading}>
                       <h3>VENDORS</h3>
                     </div>
@@ -174,7 +174,7 @@ const VendorList = () => {
                       justify="center"
                       size="small"
                       icon={<AddIcon color="white" />}
-                      onClick={() => navigate('/vendor-add')}
+                      onClick={() => navigate('/vendor-add', { state: { path:currentPath } })}
                     >
                       Add Vendor
                     </Button>
@@ -304,7 +304,7 @@ const VendorList = () => {
                                */}
                                   <EditIcon
                                     onClick={() =>
-                                      navigate(`/vendor-edit/${data.vendor_id}`)
+                                      navigate(`/vendor-edit/${data.vendor_id}`, { state: { path:currentPath } })
                                     }
                                   />
                                   <ViewIcon
