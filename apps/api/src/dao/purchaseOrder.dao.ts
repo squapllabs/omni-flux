@@ -198,17 +198,6 @@ const searchPurchaseOrder = async (
                 item_data: true,
               },
             },
-            // vendor_quotes: {
-            //   include: {
-            //     vendor_quotation_details: {
-            //       include: {
-            //         item_data: {
-            //           include: { uom: true },
-            //         },
-            //       },
-            //     },
-            //   },
-            // },
           },
         },
       },
