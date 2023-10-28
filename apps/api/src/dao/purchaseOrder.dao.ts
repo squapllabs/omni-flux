@@ -203,7 +203,9 @@ const searchPurchaseOrder = async (
             },
             purchase_request_quotation_details: {
               include: {
-                item_data: true,
+                item_data: {
+                  include: { uom: true },
+                },
               },
             },
           },
