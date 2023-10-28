@@ -193,6 +193,7 @@ const searchPurchaseOrder = async (
             project_data: true,
             site_data: true,
             selected_vendor_data: true,
+            requester_user_data: true,
             purchase_request_quotation_details: {
               include: {
                 item_data: true,
