@@ -254,19 +254,17 @@ const deleteMasterData = async (masterDataId: number) => {
 
 /**
  * Method to get MasterData By parentMasterDataType
- * @param parentMasterDataType
+ * @param body
  * @returns
  */
-const getByParentMasterDataType = async (
-  parentMasterDataType: string,
-  parentMasterDataId: number
-) => {
+const getByParentMasterDataType = async (body) => {
   try {
+    const { parent_master_data_id, master_data_type } = body;
     let result = null;
     const masterDataDetails =
       await masterDataDao.getByParentMasterDataIdAndType(
-        parentMasterDataId,
-        parentMasterDataType
+        parent_master_data_id,
+        master_data_type
       );
     if (masterDataDetails) {
       result = { status: true, is_exist: true, data: masterDataDetails };

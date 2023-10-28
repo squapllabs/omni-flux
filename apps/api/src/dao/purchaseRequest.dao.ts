@@ -191,8 +191,21 @@ const getById = async (purchaseRequestId: number, connectionObj = null) => {
       },
       include: {
         indent_request_data: true,
+        vendor_quotes: {
+          include: {
+            vendor_data: true,
+            vendor_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
+          },
+        },
         requester_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
+        site_data: true,
         selected_vendor_data: { select: { vendor_name: true } },
       },
     });
@@ -289,7 +302,9 @@ const searchPurchaseRequest = async (
           },
         },
         project_data: true,
+        site_data: true,
         selected_vendor_data: true,
+        purchase_order: true,
       },
       orderBy: [
         {
