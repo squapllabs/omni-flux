@@ -3,7 +3,7 @@ import Button from '../../ui/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
 import projectService from '../../../service/project-service';
-import Styles from '../../../styles/project.module.scss';
+import Styles from '../../../styles/projectSiteConfig.module.scss';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -107,7 +107,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
               <div className={Styles.heading}>
                 <div className={Styles.subHeading}>
                   <SiteNavigateIcon width={30} height={30} />
-                  <h4>SITES</h4>
+                  <h3>SITES</h3>
                 </div>
                 <div>
                   <Button

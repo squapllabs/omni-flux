@@ -110,8 +110,10 @@ const ProjectSiteExpenseList = () => {
         {getSiteList ? (
           <div>
             <div className={Styles.topHeading}>
-              <MoneyIcon color="black" />
-              <span>Site Claim for</span>
+            <div className={Styles.subHeading}>
+              <MoneyIcon width={30} height={30} color="black" />
+              <h3>SITE Claim</h3>
+            </div>
               <div>
                 {getSiteList && (
                   <AutoCompleteSelect
