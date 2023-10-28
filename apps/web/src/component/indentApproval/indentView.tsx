@@ -15,6 +15,7 @@ import CustomLoader from '../ui/customLoader';
 import CustomRejectPopup from '../ui/CustomRejectCommentPopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
+import ApproveSelectDialogBox from '../ui/ApproveSelectComponet';
 
 const IndentView = () => {
   const routeParams = useParams();
@@ -28,6 +29,7 @@ const IndentView = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [showRejectForm, setShowRejectForm] = useState(false);
+  const [openApprove, setOpenApprove] = useState(false);
   const IndentId = Number(routeParams?.id);
   const masterData = {
     limit: rowsPerPage,
@@ -43,11 +45,10 @@ const IndentView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetAllIndentRequestDetail(masterData);
-  // console.log('getAAAAAAAAAAAAAAAAA', getAllData);
 
   const { mutate: updateIndentRequestData } = updateIndentRequest();
 
-  const handleApprove = () => {
+  const handleApprove = (selectedValue: string) => {
     const date = format(new Date(), 'yyyy/MM/dd');
     const obj = {
       indent_request_id: IndentId,
@@ -56,6 +57,7 @@ const IndentView = () => {
       rejected_date: null,
       updated_by: userID,
       approver_user_id: userID,
+      request_type: selectedValue,
     };
     updateIndentRequestData(obj, {
       onSuccess: (data, variables, context) => {
@@ -72,6 +74,10 @@ const IndentView = () => {
 
   const handleReject = () => {
     setShowRejectForm(true);
+  };
+
+  const handleCloseApprove = () => {
+    setOpenApprove(false);
   };
 
   const handleSnackBarClose = () => {
@@ -146,7 +152,7 @@ const IndentView = () => {
           {getAllData?.content[0]?.indent_request_data?.approver_status ===
             'Approved' ||
           getAllData?.content[0]?.indent_request_data?.approver_status ===
-            'Rejected' ? null : ( 
+            'Rejected' ? null : (
             <div className={Styles.approveButtons}>
               <div>
                 <Button
@@ -154,7 +160,7 @@ const IndentView = () => {
                   justify="center"
                   size="small"
                   color="primary"
-                  onClick={() => handleApprove()}
+                  onClick={() => setOpenApprove(true)}
                   disabled={getAllData?.total_count === 0 ? true : false}
                 >
                   Approve
@@ -179,6 +185,13 @@ const IndentView = () => {
           isVissible={showRejectForm}
           onAction={setShowRejectForm}
           selectedIndentId={IndentId}
+        />
+        <ApproveSelectDialogBox
+          open={openApprove}
+          title="Approve Indent Request"
+          contentLine1="Are you sure want to approve this indent request ?"
+          handleClose={handleCloseApprove}
+          onApprove={handleApprove}
         />
         <CustomSnackBar
           open={openSnack}
