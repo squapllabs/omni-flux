@@ -33,8 +33,8 @@ const BomMachinery: React.FC = (props: any) => {
       .required(bomErrorMessages.ENTER_ITEM)
       .test(
         'decimal-validation',
-        bomErrorMessages.ITEM_EXIST,
-        async function (value: number, { parent }: Yup.TestContext) {
+        'Already Exists',
+        async function (value, { parent }: Yup.TestContext) {
           let isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
@@ -67,6 +67,7 @@ const BomMachinery: React.FC = (props: any) => {
     is_delete: false,
     bom_type: props?.activeButton,
     bom_id: '',
+    bom_configuration_id: Number(props?.bomId),
   };
   const [initialValues, setInitialValues] = useState(intialBom);
   const [bomValue, setBomValue] = useState();
@@ -75,6 +76,16 @@ const BomMachinery: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
   const [bomIndex, setBomIndex] = useState<any>();
+
+  useEffect(() => {
+    const type = 'MCNRY';
+    const isValuePresent = props.bomList.some((obj: any) => {
+      return obj.bom_type === type && obj.is_delete === false;
+    });
+    if (isValuePresent === false) {
+      props.setBomList([...props.bomList, initialValues]);
+    }
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,32 +122,6 @@ const BomMachinery: React.FC = (props: any) => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  // const handleListChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  //   index: any
-  // ) => {
-  //   let tempObj = {};
-  //   if (
-  //     event.target.name === 'quantity' ||
-  //     event.target.name === 'price' ||
-  //     event.target.name === 'rate'
-  //   ) {
-  //     tempObj = {
-  //       ...props.bomList[index],
-  //       [event.target.name]: Number(event.target.value),
-  //     };
-  //   } else {
-  //     tempObj = {
-  //       ...props.bomList[index],
-  //       [event.target.name]: event.target.value,
-  //     };
-  //   }
-
-  //   let tempArry = [...props.bomList];
-  //   tempArry[index] = tempObj;
-  //   props.setBomList(tempArry);
-  //   rawMaterialTotalCalulate();
-  // };
 
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -144,18 +129,21 @@ const BomMachinery: React.FC = (props: any) => {
   ) => {
     let tempObj = {};
     if (event.target.name === 'price' || event.target.name === 'rate') {
-      console.log('props', props.bomList[index]);
       tempObj = {
         ...props.bomList[index],
         [event.target.name]: Number(event.target.value),
         total: Number(event.target.value) * props.bomList[index]?.quantity,
       };
-      console.log('tempObj', tempObj);
     } else if (event.target.name === 'quantity') {
       tempObj = {
         ...props.bomList[index],
         [event.target.name]: Number(event.target.value),
         total: Number(event.target.value) * props.bomList[index]?.rate,
+      };
+    } else if (event.target.name === 'uom_id') {
+      tempObj = {
+        ...props.bomList[index],
+        [event.target.name]: Number(event.target.value),
       };
     } else {
       tempObj = {
@@ -191,21 +179,19 @@ const BomMachinery: React.FC = (props: any) => {
   const handleAddMachinery = async () => {
     const schema = Yup.array().of(
       Yup.object().shape({
-        // bom_name: Yup.string().trim().required(bomErrorMessages.ENTER_NAME),
         quantity: Yup.number()
           .required('Quantity is required')
-          .typeError('Numbers only allowed'),
+          .typeError('Numbers only allowed').min(1),
         machinery_id: Yup.string()
           .trim()
           .nullable()
           .test(
             'decimal-validation',
             'Already Exists',
-            async function (value: number, { parent }: Yup.TestContext) {
+            async function (value, { parent }: Yup.TestContext) {
               if (value != null) {
                 try {
                   const bOMType = parent.bom_type;
-                  console.log('bOMType', bOMType);
                   if (bOMType === 'MCNRY') {
                     // return true;
                     let dummy: any = [];
@@ -235,6 +221,9 @@ const BomMachinery: React.FC = (props: any) => {
             }
           ),
         uom_id: Yup.string().trim().required('UOM is required'),
+        rate: Yup.number()
+          .required('Rate is required')
+          .typeError('Numbers only allowed').min(1),
       })
     );
     await schema
@@ -253,23 +242,6 @@ const BomMachinery: React.FC = (props: any) => {
         });
       });
   };
-
-  console.log('error', props.errors);
-
-  // const deleteBOM = () => {
-  //   const itemIndex = props.bomList.findIndex(
-  //     (item: any) =>
-  //       item.machinery_id === bomValue?.machinery_id &&
-  //       item.is_delete === bomValue?.is_delete
-  //   );
-  //   props.bomList[itemIndex] = {
-  //     ...props.bomList[itemIndex],
-  //     is_delete: true,
-  //   };
-  //   props.setBomList([...props.bomList]);
-  //   rowIndex = rowIndex - 1;
-  //   setOpenDelete(false);
-  // };
 
   const deleteBOM = (e: any, values: any) => {
     if (props.bomList[bomIndex].bom_id !== '') {
@@ -311,34 +283,77 @@ const BomMachinery: React.FC = (props: any) => {
                   return (
                     <tr>
                       <td>{rowIndex}</td>
-                      <td style={{ textAlign: 'left' }}>{items.bom_name}</td>
-                      {/* <td>
-                      <Input
-                        name="description"
-                        width={fieldWidth}
-                        value={items?.description}
-                        onChange={(e) => handleListChange(e, index)}
-                      />
-                    </td> */}
                       <td>
                         <AutoCompleteSelect
                           width={DropfieldWidth}
-                          name="uom_id"
-                          mandatory={true}
+                          name="machinery_id"
                           optionList={
-                            getAllUomDrop != undefined ? getAllUomDrop : []
+                            getAllMachineDrop != null ? getAllMachineDrop : []
                           }
-                          value={items.uom_id}
+                          value={items?.machinery_id}
                           onChange={(e) => handleListChange(e, index)}
+                          error={
+                            props.errors?.[`[${index}].machinery_id`]
+                              ? true
+                              : false
+                          }
+                          onSelect={(value) => {
+                            const matchingObjects = getAllMachineDrop?.filter(
+                              (obj: any) => Number(obj?.value) === Number(value)
+                            );
+                            let tempObj = {};
+                            tempObj = {
+                              ...props.bomList[index],
+                              machinery_id: value,
+                              bom_name: matchingObjects[0]?.label,
+                              uom_id: matchingObjects[0]?.data?.uom_id,
+                              uom_name:
+                                matchingObjects[0]?.data?.uom_data?.name,
+                              rate: matchingObjects[0]?.data?.rate,
+                            };
+                            if (!value) {
+                              tempObj.rate = '';
+                            }
+                            let tempArry = [...props.bomList];
+                            tempArry[index] = tempObj;
+                            props.setBomList(tempArry);
+                          }}
+                          addLabel="Add Machinery"
+                          onAddClick={(value) => {
+                            props.showMachineryForm(true);
+                          }}
                         />
+                      </td>
+                      <td>
+                        <div>
+                          <label>
+                            {' '}
+                            {items?.uom_name
+                              ? items?.uom_name
+                              : items?.uom_data?.name}
+                          </label>
+                        </div>
                       </td>
                       <td>
                         <Input
                           width={fieldWidth}
                           name="quantity"
                           mandatory={true}
-                          value={items.quantity}
+                          value={items?.quantity}
                           onChange={(e) => handleListChange(e, index)}
+                          onKeyDown={(e) => {
+                            const isNumber = /^[0-9]*$/.test(e.key);
+                            if (
+                              !isNumber &&
+                              e.key !== 'Backspace' &&
+                              e.key !== 'Delete'
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
+                          error={
+                            props.errors?.[`[${index}].quantity`] ? true : false
+                          }
                         />
                       </td>
                       <td>
@@ -347,14 +362,23 @@ const BomMachinery: React.FC = (props: any) => {
                           width={fieldWidth}
                           value={items.rate}
                           onChange={(e) => handleListChange(e, index)}
+                          error={
+                            props.errors?.[`[${index}].rate`] ? true : false
+                          }
+                          onKeyDown={(e) => {
+                            const isNumber = /^[0-9]*$/.test(e.key);
+                            if (
+                              !isNumber &&
+                              e.key !== 'Backspace' &&
+                              e.key !== 'Delete'
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </td>
                       <td>
-                        <div
-                          style={{
-                            paddingBottom: '20px',
-                          }}
-                        >
+                        <div>
                           <label>{items.quantity * items.rate}</label>
                         </div>
                       </td>
@@ -362,13 +386,13 @@ const BomMachinery: React.FC = (props: any) => {
                         <div
                           style={{
                             cursor: 'pointer',
-                            paddingBottom: '20px',
                           }}
                         >
                           <div
-                            onClick={(e: any) =>
-                              handleDeleteSiteExpense(e, items)
-                            }
+                            onClick={() => {
+                              setOpenDelete(true);
+                              setBomIndex(index);
+                            }}
                           >
                             <DeleteIcon />
                           </div>
@@ -378,92 +402,10 @@ const BomMachinery: React.FC = (props: any) => {
                   );
                 }
               })}
-              <tr>
-                <td>{rowIndex + 1}</td>
-                <td>
-                  <AutoCompleteSelect
-                    width={DropfieldWidth}
-                    name="machinery_id"
-                    mandatory={true}
-                    optionList={getAllMachineDrop}
-                    value={formik.values.machinery_id}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.machinery_id && formik.errors.machinery_id
-                    }
-                    onSelect={(value) => {
-                      formik.setFieldValue('machinery_id', value);
-                      const matchingObjects = getAllMachineDrop.filter(
-                        (obj: any) => Number(obj.value) === Number(value)
-                      );
-                      formik.setFieldValue(
-                        'bom_name',
-                        matchingObjects[0]?.label
-                      );
-                      formik.setFieldValue(
-                        'rate',
-                        matchingObjects[0].data?.rate
-                      );
-                    }}
-                    addLabel="Add Machinery"
-                    onAddClick={(value) => {
-                      props.showMachineryForm(true);
-                    }}
-                  />
-                </td>
-                {/* <td>
-                <Input
-                  name="description"
-                  width={fieldWidth}
-                  value={formik.values.description}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.description && formik.errors.description
-                  }
-                />
-              </td> */}
-                <td>
-                  <AutoCompleteSelect
-                    width={DropfieldWidth}
-                    name="uom_id"
-                    mandatory={true}
-                    optionList={getAllUomDrop}
-                    value={formik.values.uom_id}
-                    onChange={formik.handleChange}
-                    error={formik.touched.uom_id && formik.errors.uom_id}
-                    onSelect={(value) => {
-                      formik.setFieldValue('uom_id', value);
-                    }}
-                  />
-                </td>
-                <td>
-                  <Input
-                    width={fieldWidth}
-                    name="quantity"
-                    mandatory={true}
-                    value={formik.values.quantity}
-                    onChange={formik.handleChange}
-                    error={formik.touched.quantity && formik.errors.quantity}
-                  />
-                </td>
-                <td>
-                  <Input
-                    name="rate"
-                    width={fieldWidth}
-                    value={formik.values.rate}
-                    onChange={formik.handleChange}
-                    error={formik.touched.rate && formik.errors.rate}
-                  />
-                </td>
-                <td>
-                  <label>{formik.values.quantity * formik.values.rate}</label>
-                </td>
-                <td></td>
-              </tr>
             </tbody>
           </table>
           <div className={Styles.addDataIcon}>
-            <div onClick={formik.handleSubmit} className={Styles.iconContent}>
+            <div onClick={handleAddMachinery} className={Styles.iconContent}>
               <NewAddCircleIcon />
               <span>Add Plan here</span>
             </div>

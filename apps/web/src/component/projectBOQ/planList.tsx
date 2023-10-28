@@ -107,68 +107,171 @@ const Bom: React.FC = (props: any) => {
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
 
   const validationSchema = Yup.array().of(
-    Yup.object().shape({
-      // bom_name: Yup.string().trim().required('Item Name is required'),
-      uom_id: Yup.string().trim().required('UOM is required'),
-      rate: Yup.string().trim().required('Rate is required'),
-      quantity: Yup.number()
-        .required('Quantity is required')
-        .typeError('Numbers only allowed'),
-      labour_id: Yup.string()
-        .nullable()
-        .when('item_id', (item_id, schema) => {
-          console.log('TEST:::DATA:::check vlaue::', item_id);
-          return schema;
-        }),
-      item_id: Yup.string()
-        .nullable()
-        .when('labour_id', (labour_id, schema) => {
-          console.log('TEST:::DATA:::check vlaue::', labour_id);
-          return schema;
-        }),
-      // .when('item_id', {
-      //   is: (item_id) => !item_id,
-      //   then: Yup.string().required('Select Labour'),
-      //   otherwise: Yup.string().nullable(),
-      // })
-    })
+    Yup.object()
+      .shape({
+        uom_id: Yup.string().trim().required('UOM is required'),
+        rate: Yup.number()
+          .required('Rate is required')
+          .typeError('Numbers only allowed').min(1),
+        quantity: Yup.number()
+          .required('Quantity is required')
+          .typeError('Numbers only allowed').min(1),
+        item_id: Yup.string()
+          .trim()
+          .nullable()
+          .test(
+            'decimal-validation',
+            'Already Exists',
+            async function (value, { parent }: Yup.TestContext) {
+              if (value != null) {
+                try {
+                  const bOMType = parent.bom_type;
+                  if (bOMType === 'RAWMT') {
+                    let dummy: any = [];
+                    const allIds = bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.item_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.item_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
+                  } else {
+                    return false;
+                  }
+                } catch {
+                  return true;
+                }
+              } else {
+                return true;
+              }
+            }
+          ),
+        labour_id: Yup.string()
+          .trim()
+          .nullable()
+          .test(
+            'decimal-validation',
+            'Already Exists',
+            async function (value, { parent }: Yup.TestContext) {
+              if (value != null) {
+                try {
+                  const bOMType = parent.bom_type;
+                  if (bOMType === 'LABOR') {
+                    let dummy: any = [];
+                    const allIds = bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.labour_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.labour_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
+                  } else {
+                    return false;
+                  }
+                } catch {
+                  return true;
+                }
+              } else {
+                return true;
+              }
+            }
+          ),
+        machinery_id: Yup.string()
+          .trim()
+          .nullable()
+          .test(
+            'decimal-validation',
+            'Already Exists',
+            async function (value, { parent }: Yup.TestContext) {
+              if (value != null) {
+                try {
+                  const bOMType = parent.bom_type;
+                  if (bOMType === 'MCNRY') {
+                    let dummy: any = [];
+                    const allIds = bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.machinery_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.machinery_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
+                  } else {
+                    return false;
+                  }
+                } catch {
+                  return true;
+                }
+              } else {
+                return true;
+              }
+            }
+          ),
+      })
+      .test('at-least-one-required', null, (values) => {
+        const { labour_id, item_id, machinery_id } = values;
+
+        if (!labour_id && !item_id && !machinery_id) {
+          return new Yup.ValidationError(
+            'At least one of labour_id, item_id, machenery_id is required',
+            null,
+            'at-least-one-required'
+          );
+        }
+        return true;
+      })
   );
 
   const handleBulkBomAdd = () => {
-    console.log('TEST:::DATA:', bomList);
     validationSchema
       .validate(bomList, { abortEarly: false })
       .then(() => {
-        console.log('TEST:::DATA:', bomList);
-        // bulkBomData(bomList, {
-        //   onSuccess(data, variables, context) {
-        //     console.log('incoming2');
-        //     if (data?.status === true) {
-        //       setMessage('BOM created successfully');
-        //       setOpenSnack(true);
-        //       setReload(!reload);
-        //       setTimeout(() => {
-        //         props.setOpen(!props.open);
-        //         props.setReload(!props.reload);
-        //         props.setSubTaskView(!props.subTaskView);
-        //         props.setIsCollapsed(!props.isCollapsed);
-        //       }, 1000);
-        //     }
-        //   },
-        // });
+        bulkBomData(bomList, {
+          onSuccess(data, variables, context) {
+            if (data?.status === true) {
+              setMessage('BOM details added successfully');
+              setOpenSnack(true);
+              setReload(!reload);
+              setTimeout(() => {
+                props.setOpen(!props.open);
+                props.setReload(!props.reload);
+                props.setSubTaskView(!props.subTaskView);
+                props.setIsCollapsed(!props.isCollapsed);
+              }, 1000);
+            }
+          },
+        });
       })
       .catch((e: any) => {
         const errorObj = {};
         e.inner?.map((error: any) => {
-          console.log('error', e);
           return (errorObj[error.path] = error.message);
         });
         setErrors({
           ...errorObj,
         });
       });
-  };
-  console.log('errors', errors);
+  };  
 
   const handleClose = () => {
     props.setOpen(false);
@@ -178,6 +281,15 @@ const Bom: React.FC = (props: any) => {
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
+    bomList.map((item: any, index: any) => {
+      if (
+        item.labour_id === '' ||
+        item.item_id === '' ||
+        item.machinery_id === ''
+      ) {
+        bomList.splice(index, 1);
+      }
+    });
   };
   const handleItemFormClose = () => {
     showItemForm(false);
@@ -203,7 +315,7 @@ const Bom: React.FC = (props: any) => {
               justifyContent: 'space-between',
             }}
           >
-            <div>
+            <div style={{paddingLeft:'10px'}}>
               <CustomGroupButton
                 labels={buttonLabels}
                 onClick={handleGroupButtonClick}

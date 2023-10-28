@@ -22,52 +22,6 @@ const BomLabours: React.FC = (props: any) => {
   const fieldWidth = '100px';
   const DropfieldWidth = '150px';
   let rowIndex = 0;
-
-  // const validationSchema = Yup.object().shape({
-  //   // bom_name: Yup.string().trim().required(),
-  //   rate: Yup.string().trim().required('Rate is required'),
-  //   uom_id: Yup.string().trim().required('UOM is required'),
-  //   quantity: Yup.number()
-  //     .required(bomErrorMessages.ENTER_QUANTITY)
-  //     .typeError(bomErrorMessages.TYPECHECK),
-  //   labour_id: Yup.string()
-  //     .trim()
-  //     .required('Labour is required')
-  //     .test(
-  //       'decimal-validation',
-  //       bomErrorMessages.ITEM_EXIST,
-  //       async function (value, { parent }: Yup.TestContext) {
-  //         let isDelete = parent.is_delete;
-  //         try {
-  //           let dummy: any = [];
-  //           const allIds = props.bomList.map((item: any) => {
-  //             if (item.is_delete === 'N') {
-  //               item.labour_id;
-  //             }
-  //             if (item.is_delete === false) {
-  //               dummy.push(item.labour_id);
-  //             }
-  //           });
-  //           const checking = dummy.filter(
-  //             (id: any) => Number(id) === Number(value)
-  //           ).length;
-  //           const isValuePresent = props.bomList.some((obj: any) => {
-  //             return (
-  //               Number(obj.labour_id) === Number(value) &&
-  //               obj.is_delete === false
-  //             );
-  //           });
-  //           if (isValuePresent === false) {
-  //             return true;
-  //           } else if (checking <= 1) {
-  //             return true;
-  //           } else return false;
-  //         } catch {
-  //           return true;
-  //         }
-  //       }
-  //     ),
-  // });
   const intialBom: any = {
     created_by: 1,
     sub_category_id: Number(props?.subCategoryId),
@@ -93,10 +47,14 @@ const BomLabours: React.FC = (props: any) => {
   const [bomIndex, setBomIndex] = useState<any>();
 
   useEffect(() => {
-    if (props.bomList.length === 0 && props.bomId) {
+    const type = 'LABOR';
+    const isValuePresent = props.bomList.some((obj: any) => {
+      return obj.bom_type === type && obj.is_delete === false;
+    });
+    if (isValuePresent === false) {
       props.setBomList([...props.bomList, initialValues]);
     }
-  }, [props.bomId]);
+  });
 
   const { data: getAllLabourDrop } = useGetAllLabourForDrop();
   const { data: getAllUomDrop } = getUomByType('LABOR');
@@ -115,13 +73,11 @@ const BomLabours: React.FC = (props: any) => {
   ) => {
     let tempObj = {};
     if (event.target.name === 'price' || event.target.name === 'rate') {
-      console.log('props', props.bomList[index]);
       tempObj = {
         ...props.bomList[index],
         [event.target.name]: Number(event.target.value),
         total: Number(event.target.value) * props.bomList[index]?.quantity,
       };
-      console.log('tempObj', tempObj);
     } else if (event.target.name === 'quantity') {
       tempObj = {
         ...props.bomList[index],
@@ -140,43 +96,42 @@ const BomLabours: React.FC = (props: any) => {
   };
 
   const handleAddLabour = async () => {
-    console.log('incoming');
     const schema = Yup.array().of(
       Yup.object().shape({
-        // bom_name: Yup.string().trim().required(),
-        rate: Yup.string().trim().required('Rate is required'),
+        rate: Yup.number()
+          .required('Rate is required')
+          .typeError('Numbers only allowed').min(1),
         uom_id: Yup.string().trim().required('UOM is required'),
         quantity: Yup.number()
           .required('Quantity is required')
-          .typeError('Numbers only allowed'),
-        labour_id: Yup.number()
+          .typeError('Numbers only allowed').min(1),
+        labour_id: Yup.string()
+          .trim()
           .nullable()
           .test(
             'decimal-validation',
             'Already Exists',
             async function (value, { parent }: Yup.TestContext) {
-              console.log('parent', parent);
               if (value != null) {
                 try {
                   const bOMType = parent.bom_type;
-                  console.log('bOMType', bOMType);
                   if (bOMType === 'LABOR') {
                     // return true;
                     let dummy: any = [];
-                const allIds = props.bomList.map((item: any) => {
-                  if (item.is_delete === 'N') {
-                    item.labour_id;
-                  }
-                  if (item.is_delete === false) {
-                    dummy.push(item.labour_id);
-                  }
-                });
-                const checking = dummy.filter(
-                  (id: any) => Number(id) === Number(value)
-                ).length;
-                if (checking <= 1) {
-                  return true;
-                } else return false;
+                    const allIds = props.bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.labour_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.labour_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
                   } else {
                     return false;
                   }
@@ -206,7 +161,6 @@ const BomLabours: React.FC = (props: any) => {
         });
       });
   };
-  console.log('error', props.errors);
 
   const deleteBOM = (e: any, values: any) => {
     if (props.bomList[bomIndex].bom_id !== '') {
@@ -243,8 +197,6 @@ const BomLabours: React.FC = (props: any) => {
             </thead>
             <tbody>
               {props?.bomList?.map((items: any, index: any) => {
-                console.log('props?.bomList', props?.bomList);
-
                 if (items.is_delete === false && items.bom_type === 'LABOR') {
                   rowIndex = rowIndex + 1;
                   return (
@@ -255,7 +207,7 @@ const BomLabours: React.FC = (props: any) => {
                           width={DropfieldWidth}
                           name="labour_id"
                           mandatory={true}
-                          optionList={getAllLabourDrop}
+                          optionList={getAllLabourDrop != null ? getAllLabourDrop : []}
                           value={items?.labour_id}
                           onChange={(e) => handleListChange(e, index)}
                           error={
@@ -264,11 +216,9 @@ const BomLabours: React.FC = (props: any) => {
                               : false
                           }
                           onSelect={(value) => {
-                            const matchingObjects = getAllLabourDrop.filter(
-                              (obj: any) => Number(obj.value) === Number(value)
+                            const matchingObjects = getAllLabourDrop?.filter(
+                              (obj: any) => Number(obj?.value) === Number(value)
                             );
-                            console.log('matchingObjects', matchingObjects);
-
                             let tempObj = {};
                             tempObj = {
                               ...props.bomList[index],
@@ -292,12 +242,13 @@ const BomLabours: React.FC = (props: any) => {
                         />
                       </td>
                       <td>
-                        <div
-                          style={{
-                            paddingBottom: '20px',
-                          }}
-                        >
-                          <label> {items?.uom_name}</label>
+                        <div>
+                          <label>
+                            {' '}
+                            {items?.uom_name
+                              ? items?.uom_name
+                              : items?.uom_data?.name}
+                          </label>
                         </div>
                       </td>
                       <td>
@@ -310,6 +261,12 @@ const BomLabours: React.FC = (props: any) => {
                           error={
                             props.errors?.[`[${index}].quantity`] ? true : false
                           }
+                          onKeyDown={(e) => {
+                            const isNumber = /^[0-9]*$/.test(e.key);
+                            if (!isNumber &&  e.key !== 'Backspace' && e.key !== 'Delete') {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </td>
                       <td>
@@ -321,14 +278,16 @@ const BomLabours: React.FC = (props: any) => {
                           error={
                             props.errors?.[`[${index}].rate`] ? true : false
                           }
+                          onKeyDown={(e) => {
+                            const isNumber = /^[0-9]*$/.test(e.key);
+                            if (!isNumber &&  e.key !== 'Backspace' && e.key !== 'Delete') {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </td>
                       <td>
-                        <div
-                          style={{
-                            paddingBottom: '20px',
-                          }}
-                        >
+                        <div>
                           <label>{items.quantity * items.rate}</label>
                         </div>
                       </td>
@@ -336,7 +295,6 @@ const BomLabours: React.FC = (props: any) => {
                         <div
                           style={{
                             cursor: 'pointer',
-                            paddingBottom: '20px',
                           }}
                         >
                           <div
@@ -362,17 +320,6 @@ const BomLabours: React.FC = (props: any) => {
             </div>
           </div>
         </div>
-        {/* <div className={Styles.saveButton}>
-          <Button
-            color="primary"
-            shape="rectangle"
-            justify="center"
-            size="small"
-            onClick={(e) => handleBulkBomAdd(e)}
-          >
-            SAVE
-          </Button>
-        </div> */}
       </div>
       <CustomDelete
         open={openDelete}
@@ -394,45 +341,3 @@ const BomLabours: React.FC = (props: any) => {
 };
 
 export default BomLabours;
-
-// .test(
-//   'decimal-validation',
-//   'Already Exists',
-//   async function (value, { parent }: Yup.TestContext) {
-//     try {
-//       const isDelete = parent.is_delete;
-//       const bOMType = parent.bom_type;
-//       if (bOMType === 'LABOR') {
-//         let dummy: any = [];
-//         console.log('incoming222');
-//         const allIds = props.bomList.map((item: any) => {
-//           if (item.is_delete === 'N' && item.bom_type === 'LABOR') {
-//             item.labour_id;
-//           }
-//           if (item.is_delete === false && item.bom_type === 'LABOR') {
-//             dummy.push(item.labour_id);
-//           }
-//         });
-//         const checking = dummy.filter(
-//           (id: any) => Number(id) === Number(value)
-//         ).length;
-//         const isValuePresent = props.bomList.some((item: any) => {
-//           return (
-//             Number(item.labour_id) === Number(value) &&
-//             item.is_delete === false &&
-//             item.bom_type === 'LABOR'
-//           );
-//         });
-//         if (isValuePresent === false) {
-//           return true;
-//         } else if (checking <= 1) {
-//           return true;
-//         } else return false;
-//       } else {
-//         return true;
-//       }
-//     } catch {
-//       return true;
-//     }
-//   }
-// ),
