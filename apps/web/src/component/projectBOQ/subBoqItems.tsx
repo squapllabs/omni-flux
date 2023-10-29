@@ -111,19 +111,6 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
             : ''
         }
       >
-         <td
-            onClick={(e) =>{
-              toggleCollapse(rowData.sub_category_id)
-              }}
-            style={{ textAlign: 'justify' ,cursor: rowData?.children.length ? 'pointer':''}}
-            >
-             {rowData?.children.length?(
-                <ExpandIcon
-                color={primary_color}
-                style={{fill_opacity : rowData?.children.length?'':'.5'}}
-                ></ExpandIcon>
-                  ):('')} 
-            </td>
         <td >
           {primaryIndex + 1 + '.' + `${index + 1}`}
         </td>
@@ -200,9 +187,20 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
                 color={primary_color}
                 />
               </span>
-                ): ('')
-            }
-            
+                ): (
+                  <span
+              onClick={(e) =>{
+                toggleCollapse(rowData.sub_category_id)
+                }}
+              style={{ textAlign: 'justify' ,cursor: rowData?.children.length ? 'pointer':''}}
+              >
+                <ExpandIcon
+                color={primary_color}
+                style={{fill_opacity : rowData?.children.length?'':'.5'}}
+                ></ExpandIcon>
+              </span>
+                )
+            }          
           </div>
             {/* <div
               onClick={(e) => {

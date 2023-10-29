@@ -21,7 +21,8 @@ import BomItems from '../projectBOQ/boqItems';
 // import Bom from './bom';
 import { useNavigate, useParams } from 'react-router-dom';
 import CategoryService from '../../service/category-service';
-import EditIcon from '../menu/icons/editIcon';
+import EditIcon from '../menu/icons/newEditIcon';
+import ViewIcon from '../menu/icons/newViewIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
@@ -34,7 +35,8 @@ import ProjectAbstractAdd from './forms/projectAbstractAdd';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 import CustomMenu from '../ui/NewCustomMenu';
 import FileUploadIcon from '../menu/icons/fileUploadIcon';
-import { createMultipleCategory } from '../../hooks/category-hooks';
+import { createMultipleCategory, getBySearchCategroy} from '../../hooks/category-hooks';
+import Pagination from '../menu/CustomPagination';
 const temp : React.FC = ()=>{
   return (
     <div></div>
@@ -45,6 +47,7 @@ const temp : React.FC = ()=>{
 
 const BomList: React.FC = (props: any) => {
   const { mutate: createMultipleNewCategory } = createMultipleCategory();
+  // const { mutate : getBySearchNewCategory } = getBySearchCategroy();
   const params = useParams();
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
@@ -75,6 +78,9 @@ const BomList: React.FC = (props: any) => {
   const [abstractPopup, setAbstractPopup] = useState(false);
   const [abstractBulkData, setAbstractBulkData] = useState({});
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [initialData, setInitialData] = useState(null)
   useEffect(() => {
     const fetchData = async () => {
       const obj = {
@@ -91,6 +97,40 @@ const BomList: React.FC = (props: any) => {
 
     fetchData();
   }, [reload]);
+  
+  const object: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
+    status: 'AC',
+    search_by_name:''
+  };
+  // getBySearchNewCategory(object,{
+  //   onSuccess:(data: any)=>{
+  //     console.log('data',data)
+  //     setInitialData(data)
+  //   }
+  // })
+  // const {
+  //   isLoading: getAllLoadingBoQProjectData,
+  //   data: initialData,
+  //   refetch,
+  // } = getBySearchCategroy(object);
+
+   /* Function for changing the table page */
+   const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
+
+  /* Function for changing no of rows in pagination */
+  const handleRowsPerPageChange = (
+    newRowsPerPage: React.SetStateAction<number>
+  ) => {
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1);
+  };
+
 
   const handleSelectedCategory = async (value: any) => {
     setSelectedCategory(value.category_id);
@@ -338,166 +378,351 @@ const handleFileOnChange = async (e:any) =>{
       ) : (
         <div className={Styles.container}>
           {categories ? (
-            <div className={Styles.subHeader}>
-              <div className={Styles.subcontainer}>
-                <div className={Styles.submenu}>
-                  <div className={Styles.side_menu}>
-                    <div className={Styles.topSideMenu}>
-                      <div className={Styles.topSideHeading}>
-                        <ZIcon />
-                        <h3>Abstracts ({categories?.length})</h3>
-                      </div>
-                      <span>
-                      <input
-                              ref={fileInputRef}
-                              id="upload-photo"
-                              name="upload_photo"
-                              type="file"
-                              style={{ display: 'none' }}
-                              onChange={(e) => handleFileOnChange(e)}
-                            />
-                      <FileUploadIcon
-                            width={20}
-                            height={20}
-                            color="#7f56d9" onClick={handleFileUploadBtnClick}
-                            />
-                      </span>
-                      <NewAddCircleIcon
-                        onClick={() => {
-                          setShowAbstractForm(true);
-                          setMode('Add');
-                        }}
-                      />
-                    </div>
-                    <div>
-                    
-                      {categories?.map((items: any, index: any) => {
-                        // console.log('categories', categories);
-                        const actions = [
-                          {
-                            label: 'Edit Abstract',
-                            onClick: () => {
-                              handleEdit(items?.category_id);
-                            },
-                          },
-                          // {
-                          //   label: 'Delete',
-                          //   onClick: () => { deleteHandler(items.category_id) }
-                          // },
-                        ];
+            <div className={Styles.abstract_container}>
+              <div className={'Styles'}>
+              </div>
+              {/* Header Container */}
+              <div className={`${Styles.header_container} ${Styles.flex} ${Styles.space_between}`}>
+                <div className={`${Styles.flex} ${Styles.gap_3}`}>
+                <div className={`${Styles.flex}`}>
+                    <ZIcon />
+                    <h3>Abstracts ({categories?.length})</h3>
+                </div>
+                <div className={`${Styles.flex} ${Styles.add_abstract_container}`}
+                onClick={() => {
+                                setShowAbstractForm(true);
+                                setMode('Add');
+                              }}
+                >
+                  <NewAddCircleIcon onClick={function (): void {
+                        throw new Error('Function not implemented.');
+                      } } />
+                  <span className={Styles.menuFont}>Add Abstract</span>                      
+                </div>
+                <div className={`${Styles.flex} ${Styles.bulkUpload_container}`}
+                onClick={handleFileUploadBtnClick}
+                >
+                  <span>
+                    <input
+                            ref={fileInputRef}
+                            id="upload-photo"
+                            name="upload_photo"
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={(e) => handleFileOnChange(e)}
+                          />
+                    <FileUploadIcon
+                          width={20}
+                          height={20}
+                          color="#7f56d9" 
+                          />
+                  </span>
+                  <span className={Styles.menuFont}>Bulk</span>                      
+                </div>
+                </div>
+                
+                
+                <div>
+              <h3>
+                {/* {formatBudgetValue(
+                  categoryData?.budget ? categoryData?.budget : 0
+                )} */}
+                0.00
+              </h3>
+              <p className={Styles.countContentTitle}>Aggregated Value</p>
+            </div>
 
+            </div>
+                 {/* Table Container */}
+                <div className={Styles.ab_tableContainer}>
+                  <table className={Styles.boqSubCategoryTable}>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        {/* <th>Task Name</th> */}
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {categories?.map((data: any, index: number) => {
+                        const actions = [
+                                        {
+                                          label: 'Edit Abstract',
+                                          onClick: () => {
+                                            handleEdit(items?.category_id);
+                                          },
+                                        },
+                                        // {
+                                        //   label: 'Delete',
+                                        //   onClick: () => { deleteHandler(items.category_id) }
+                                        // },
+                                      ];
                         return (
-                          <div>
-                            <ul key={index}>
-                              <li
-                                className={
-                                  selectedCategory === items.category_id
-                                    ? Styles.selected
-                                    : ''
-                                }
-                                onClick={() => {
-                                  handleSelectedCategory(items);
-                                  setCategoryId(items.category_id);
-                                }}
+                            <tr key={data.category_id}
+                            >
+                              <td
+                                // onClick={(e) =>
+                                //   handleSubTaskView(data.sub_category_id)
+                                // }
                               >
-                                {/* it is category shows */}
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                  }}
+                                {index + 1}
+                              </td>
+                              <td
+                              onClick={
+                                (e) =>{
+                                  // console.log("data",data)
+                                  console.log("categories",categories)
+                                }
+                              }
+                              
+                              >
+                                {data.description || '--'}
+                              </td>
+                              <td>
+                                {data.progress_status || '--'}
+                              </td>
+                              <td>
+                                {data.estimated_budget || '--'}
+                              </td>
+                              <td >
+                              <div className={Styles.actionIcons_container}>
+                              <span style={{cursor: 'pointer'}}><EditIcon
+                                  onClick={() =>{  
+                                    handleEdit(data?.category_id);
+                                    }
+                                  }
+                                  /></span>
+
+                                  <span style={{cursor: 'pointer'}}><ViewIcon
+                                    onClick={() =>{  
+                                      console.log('data',data);
+                                      debugger
+                                    navigate(
+                                      `/newBoq/${projectId}/${bomconfigId}/${data?.category_id}`
+                                    )
+                                    }
+                                    }
+                                  /></span>
+                              </div>
+                              {/* <div className={Styles.actionIcons_container}>
+                              <span style={{cursor: 'pointer'}}><EditIcon
+                                  onClick={() =>{  
+                                  handleEdit(data?.sub_category_id);
+                                  setSelectedSubCategoryId(data?.sub_category_id);}}
+                                  /></span>
+                                
+                                <span
+                                onClick={()=>{    
+                                  handleSubTask(data?.sub_category_id);
+                                    setSelectedSubCategoryId(data?.sub_category_id);}}
                                 >
-                                  <div>
-                                    {index + 1} {items?.name}
-                                    <span className={Styles.smallred}>
-                                      {items?.progress_status}
-                                    </span>
-                                    <div className={Styles?.subMenuDescription}>
-                                      <span>{items?.description}</span>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <CustomMenu
-                                      actions={actions}
-                                      name={'abstract'}
-                                    />
-                                    {/* <MoreVerticalIcon
-                                  onClick={(e: any) => {
-                                    e.stopPropagation();
-                                    setOpenedContextMenuForCategory(
-                                      items.category_id
-                                    );
-                                    setCategoryId(items.category_id);
-                                    setMoreIconDropdownOpen(
-                                      !moreIconDropdownOpen
-                                    );
-                                  }}
-                                  color="#7f56d9"
-                                /> */}
-                                    {/* {moreIconDropdownOpen &&
-                                  items.category_id ===
-                                  openedContextMenuForCategory && (
-                                    <ul className={Styles.menu}>
-                                      <li className={Styles.menuItem}>
-                                        <div
-                                          style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            gap: '5px',
-                                            padding: '5px',
-                                          }}
-                                        >
-                                          <div
-                                            className={Styles.options}
-                                            onClick={() =>
-                                              handleEdit(items.category_id)
-                                            }
-                                          >
-                                            <span
-                                              className={Styles.menuFont}
-                                            >
-                                              Edit Abstract
-                                            </span>
-                                          </div>
-                                          <div
-                                            className={Styles.options}
-                                            onClick={() =>
-                                              deleteHandler(
-                                                items.category_id
-                                              )
-                                            }
-                                          >
-                                            <span
-                                              className={Styles.menuFont}
-                                            >
-                                              Delete
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                  )} */}
-                                  </div>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
+                                <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
+                                </span>
+                                {
+                                  data?.children?.length===0 ? (
+                                    <span
+                                onClick={()=>{
+                                  setSelectedSubCategoryId(data.sub_category_id);
+                                  setPlanListTitle(data.name);
+                                  setShowPlanForm(true);
+                                }}
+                                >
+                                  <SettingIcon
+                                  style={{cursor: 'pointer'}}
+                                  color={primary_color}
+                                  />
+                                </span>
+                                  ): ('')
+                                }
+                              </div> */}
+                              </td>
+                            </tr>
                         );
                       })}
-                    </div>
+                      <td></td>
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                    {/* <Pagination
+                      currentPage={currentPage}
+                      totalPages={
+                        initialData?.total_page
+                      }
+                      totalCount={
+                        initialData?.total_count
+                      }
+                      rowsPerPage={rowsPerPage}
+                      onPageChange={handlePageChange}
+                      onRowsPerPageChange={handleRowsPerPageChange}
+                    /> */}
                   </div>
-                </div>
-                <div className={Styles.mainContainer}>
-                  <BomItems
-                    selectedCategory={selectedCategory}
-                    setSelectedSubCategory={setSelectedSubCategory}
-                    selectedSubCategory={selectedSubCategory}
-                    projectsId={projectsId}
-                    selectedBomConfig={bomconfigId}
-                  />
-                </div>
-              </div>
             </div>
+            
+            // <div className={Styles.subHeader}>
+            //   <div className={Styles.subcontainer}>
+            //     <div className={Styles.submenu}>
+            //       <div className={Styles.side_menu}>
+            //         <div className={Styles.topSideMenu}>
+            //           <div className={Styles.topSideHeading}>
+            //             
+            //             <h3>Abstracts ({categories?.length})</h3>
+            //           </div>
+            //           <span>
+            //           <input
+            //                   ref={fileInputRef}
+            //                   id="upload-photo"
+            //                   name="upload_photo"
+            //                   type="file"
+            //                   style={{ display: 'none' }}
+            //                   onChange={(e) => handleFileOnChange(e)}
+            //                 />
+            //           <FileUploadIcon
+            //                 width={20}
+            //                 height={20}
+            //                 color="#7f56d9" onClick={handleFileUploadBtnClick}
+            //                 />
+            //           </span>
+            //           <NewAddCircleIcon
+            //             onClick={() => {
+            //               setShowAbstractForm(true);
+            //               setMode('Add');
+            //             }}
+            //           />
+            //         </div>
+            //         <div>
+                    
+            //           {categories?.map((items: any, index: any) => {
+            //             // console.log('categories', categories);
+            //             const actions = [
+            //               {
+            //                 label: 'Edit Abstract',
+            //                 onClick: () => {
+            //                   handleEdit(items?.category_id);
+            //                 },
+            //               },
+            //               // {
+            //               //   label: 'Delete',
+            //               //   onClick: () => { deleteHandler(items.category_id) }
+            //               // },
+            //             ];
+
+            //             return (
+            //               <div>
+            //                 <ul key={index}>
+            //                   <li
+            //                     className={
+            //                       selectedCategory === items.category_id
+            //                         ? Styles.selected
+            //                         : ''
+            //                     }
+            //                     onClick={() => {
+            //                       handleSelectedCategory(items);
+            //                       setCategoryId(items.category_id);
+            //                     }}
+            //                   >
+            //                     {/* it is category shows */}
+            //                     <div
+            //                       style={{
+            //                         display: 'flex',
+            //                         justifyContent: 'space-between',
+            //                       }}
+            //                     >
+            //                       <div>
+            //                         {index + 1} {items?.name}
+            //                         <span className={Styles.smallred}>
+            //                           {items?.progress_status}
+            //                         </span>
+            //                         <div className={Styles?.subMenuDescription}>
+            //                           <span>{items?.description}</span>
+            //                         </div>
+            //                       </div>
+            //                       <div>
+            //                         <CustomMenu
+            //                           actions={actions}
+            //                           name={'abstract'}
+            //                         />
+            //                         {/* <MoreVerticalIcon
+            //                       onClick={(e: any) => {
+            //                         e.stopPropagation();
+            //                         setOpenedContextMenuForCategory(
+            //                           items.category_id
+            //                         );
+            //                         setCategoryId(items.category_id);
+            //                         setMoreIconDropdownOpen(
+            //                           !moreIconDropdownOpen
+            //                         );
+            //                       }}
+            //                       color="#7f56d9"
+            //                     /> */}
+            //                         {/* {moreIconDropdownOpen &&
+            //                       items.category_id ===
+            //                       openedContextMenuForCategory && (
+            //                         <ul className={Styles.menu}>
+            //                           <li className={Styles.menuItem}>
+            //                             <div
+            //                               style={{
+            //                                 display: 'flex',
+            //                                 flexDirection: 'column',
+            //                                 gap: '5px',
+            //                                 padding: '5px',
+            //                               }}
+            //                             >
+            //                               <div
+            //                                 className={Styles.options}
+            //                                 onClick={() =>
+            //                                   handleEdit(items.category_id)
+            //                                 }
+            //                               >
+            //                                 <span
+            //                                   className={Styles.menuFont}
+            //                                 >
+            //                                   Edit Abstract
+            //                                 </span>
+            //                               </div>
+            //                               <div
+            //                                 className={Styles.options}
+            //                                 onClick={() =>
+            //                                   deleteHandler(
+            //                                     items.category_id
+            //                                   )
+            //                                 }
+            //                               >
+            //                                 <span
+            //                                   className={Styles.menuFont}
+            //                                 >
+            //                                   Delete
+            //                                 </span>
+            //                               </div>
+            //                             </div>
+            //                           </li>
+            //                         </ul>
+            //                       )} */}
+            //                       </div>
+            //                     </div>
+            //                   </li>
+            //                 </ul>
+            //               </div>
+            //             );
+            //           })}
+            //         </div>
+            //       </div>
+            //     </div>
+            //     <div className={Styles.mainContainer}>
+            //       <BomItems
+            //         selectedCategory={selectedCategory}
+            //         setSelectedSubCategory={setSelectedSubCategory}
+            //         selectedSubCategory={selectedSubCategory}
+            //         projectsId={projectsId}
+            //         selectedBomConfig={bomconfigId}
+            //       />
+            //     </div>
+            //   </div>
+              
+            // </div>
           ) : (
             <div className={Styles.Secondcontainer}>
               <div className={Styles.secondContainerHeading}>
@@ -517,7 +742,8 @@ const handleFileOnChange = async (e:any) =>{
                     Abstract now.
                   </span>
                 </div>
-                <div>
+                <div className={Styles.bulkUpload_add_btn_container}>
+                  <div>
                   <Button
                     color="primary"
                     shape="rectangle"
@@ -529,6 +755,31 @@ const handleFileOnChange = async (e:any) =>{
                   >
                     Add Abstract
                   </Button>
+                  </div>
+                  <div>
+                      <input
+                              ref={fileInputRef}
+                              id="upload-photo"
+                              name="upload_photo"
+                              type="file"
+                              style={{ display: 'none' }}
+                              onChange={(e) => handleFileOnChange(e)}
+                            />
+                            <Button
+                              color="primary"
+                              shape="rectangle"
+                              size="small"
+                              icon={<FileUploadIcon width={20} height={15} color="white" onClick={function (): void {
+                                console.log('')
+                              } } />}
+                              onClick={handleFileUploadBtnClick}
+                            >
+                              Bulk Upload
+                            </Button>
+                               
+                      </div>
+                   
+
                 </div>
               </div>
             </div>

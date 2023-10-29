@@ -137,8 +137,8 @@ const BomItems = (props: {
     fetchOne();
   }, [selectedCategory, reload]);
 
-  return (
-    <div>
+  return ( 
+    <div className={Styles.task_page_container}>
       {getAllData ? (
         <div>
           <div className={Styles.mainHeading}>
@@ -179,7 +179,6 @@ const BomItems = (props: {
             <table className={Styles.boqSubCategoryTable}>
               <thead>
                 <tr>
-                  <th></th>
                   <th className={Styles.tableHeading}>#</th>
                   {/* <th className={Styles.tableHeading}>Task Name</th> */}
                   <th className={Styles.tableHeading}>Task Description</th>
@@ -232,21 +231,6 @@ const BomItems = (props: {
                         
                       >
                         <td
-                        onClick={
-                          (e) =>{
-                            handleSubTaskView(data.sub_category_id)
-                          }
-                        }
-                        style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}
-                        >
-                          {data?.children.length?(
-                            <ExpandIcon
-                            color={primary_color}
-                            style={{fill_opacity : data?.children.length?'':'.5'}}
-                            ></ExpandIcon>
-                          ):('')}
-                        </td>
-                        <td
                           // onClick={(e) =>
                           //   handleSubTaskView(data.sub_category_id)
                           // }
@@ -257,6 +241,7 @@ const BomItems = (props: {
                           onClick={(e) =>{
                             handleSubTaskView(data.sub_category_id)
                           }}
+                          className={Styles.td_desc}
                         >
                           <span style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}>
                             {data.description || '--'}
@@ -325,10 +310,22 @@ const BomItems = (props: {
                             color={primary_color}
                             />
                           </span>
-                            ): ('')
+                            ): (
+                              <span
+                                onClick={
+                                  (e) =>{
+                                    handleSubTaskView(data.sub_category_id)
+                                  }
+                                }
+                                style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}
+                                >
+                                  <ExpandIcon
+                                    color={primary_color}
+                                    style={{fill_opacity : data?.children.length?'':'.5'}}
+                                  ></ExpandIcon>
+                                </span>
+                            )
                           }
-                          
-                           
                            {/* <span>  <CustomMenu actions={actions} name="BoQItems" /></span> */}
                         </div>
                         
