@@ -304,6 +304,7 @@ const searchPurchaseRequest = async (
         project_data: true,
         site_data: true,
         selected_vendor_data: true,
+        purchase_order: true,
       },
       orderBy: [
         {

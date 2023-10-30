@@ -143,8 +143,17 @@
 
 .button {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column ;
+  align-items: flex-end ;
   padding: 0% 3% 1.5% 0%;
+}
+
+.message {
+  font-size: 10px;
+}
+
+.symbol {
+  color: red;
 }
 
 .approvedStatus {

@@ -1,5 +1,5 @@
 import React, { useState, ReactNode, useEffect } from 'react';
-import Styles from '../../../../styles/project.module.scss';
+import Styles from '../../../../styles/newStyles/indentRequest.module.scss';
 import { useFormik } from 'formik';
 import Input from '../../../ui/Input';
 import Select from '../../../ui/selectNew';
@@ -17,7 +17,6 @@ import { formatBudgetValue } from '../../../../helper/common-function';
 import AddIcon from '../../../menu/icons/addIcon';
 
 const IndentRequestDetails: React.FC = (props: any) => {
-
   const routeParams = useParams();
   const navigate = useNavigate();
   let rowIndex = 0;
@@ -57,7 +56,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
   };
 
   const deleteIndentDetail = (e: any, values: any) => {
-
     if (
       props.indentRequestDetailsList[indentDetailIndex].bom_detail_id !== ''
     ) {
@@ -236,25 +234,12 @@ const IndentRequestDetails: React.FC = (props: any) => {
   return (
     <div>
       <div className={Styles.tableContainerIndent}>
-        <div className={Styles.buttons}>
-          <Button
-            type="button"
-            color="primary"
-            shape="rectangle"
-            size="small"
-            justify="center"
-            icon={<AddIcon color="white" width={20} />}
-            onClick={() => handleAddObject()}
-          >
-            Add
-          </Button>
-        </div>
         <table className={Styles.scrollable_table}>
           <thead>
             <tr>
               <th className={Styles.tableHeading}>S No</th>
-              <th className={Styles.tableHeadingSite}>Item</th>
-              <th className={Styles.tableHeadingSite}>UOM</th>
+              <th className={Styles.tableHeading}>Item</th>
+              <th className={Styles.tableHeading}>UOM</th>
               <th className={Styles.tableHeading}>Quantity</th>
               {/* <th className={Styles.tableHeading}>Per Item Cost</th>
               <th className={Styles.tableHeading}>Total Cost</th> */}
@@ -301,6 +286,9 @@ const IndentRequestDetails: React.FC = (props: any) => {
                               matchingObjects[0]?.bom_quantity *
                               matchingObjects[0]?.bom_rate,
                           };
+                          if (!value) {
+                            tempObj.indent_requested_quantity = '';
+                          }
                           let tempArry = [...props.indentRequestDetailsList];
                           tempArry[index] = tempObj;
                           props.setIndentRequestDetailsList(tempArry);
@@ -345,23 +333,13 @@ const IndentRequestDetails: React.FC = (props: any) => {
                     </td>
                     <td>{items.total}</td> */}
                     <td>
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          flexDirection: 'row',
-                          gap: '20px',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <div>
-                          <DeleteIcon
-                            onClick={() => {
-                              setOpenDelete(true);
-                              setIndentDetailIndex(index);
-                            }}
-                          />
-                        </div>
+                      <div>
+                        <DeleteIcon
+                          onClick={() => {
+                            setOpenDelete(true);
+                            setIndentDetailIndex(index);
+                          }}
+                        />
                       </div>
                     </td>
                   </tr>
@@ -370,6 +348,19 @@ const IndentRequestDetails: React.FC = (props: any) => {
             })}
           </tbody>
         </table>
+        <div className={Styles.buttons}>
+          <Button
+            type="button"
+            color="primary"
+            shape="rectangle"
+            size="small"
+            justify="center"
+            icon={<AddIcon color="white" width={20} />}
+            onClick={() => handleAddObject()}
+          >
+            Add
+          </Button>
+        </div>
 
         <CustomDelete
           open={openDelete}

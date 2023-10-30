@@ -392,21 +392,30 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
                           ))
                         : nullLableNameFromEnv}
                     </td>
-                    <td>
-                      <span
-                        className={`${Styles.status} ${
-                          data?.status === 'Rejected'
-                            ? Styles.rejectedStatus
-                            : data?.status === 'Approved'
-                            ? Styles.approvedStatus
-                            : data?.status === 'Pending'
-                            ? Styles.pendingStatus
-                            : ''
-                        }`}
-                      >
-                        {data?.status || nullLableNameFromEnv}
-                      </span>
-                    </td>
+                    {data?.is_recalled && data?.status === 'Approved' ? (
+                      <td>
+                        <span className={Styles.approvedStatus}>
+                          {data?.status}
+                        </span>
+                        <span>(Recalled)</span>
+                      </td>
+                    ) : (
+                      <td>
+                        <span
+                          className={`${Styles.status} ${
+                            data?.status === 'Rejected'
+                              ? Styles.rejectedStatus
+                              : data?.status === 'Approved'
+                              ? Styles.approvedStatus
+                              : data?.status === 'Pending'
+                              ? Styles.pendingStatus
+                              : ''
+                          }`}
+                        >
+                          {data?.status || nullLableNameFromEnv}
+                        </span>
+                      </td>
+                    )}
                     {props.expenseID ? (
                       ''
                     ) : tableData?.status === 'InProgress' ? (
