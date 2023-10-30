@@ -219,3 +219,2775 @@ Can't reach database server at `3.108.30.2`:`5432`
 
 Please make sure your database server is running at `3.108.30.2`:`5432`.
 >>>>>>> Stashed changes
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
