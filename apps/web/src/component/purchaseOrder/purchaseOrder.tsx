@@ -17,9 +17,11 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import ReportGenerator from '../ui/reportGenerator';
 import AddIcon from '../menu/icons/addIcon';
-import PurchaseOrderReport from '../reportGenerator/report';
+import PurchaseOrderReport from '../reportGenerator/pdfReport/purchaseOrder';
 import ProjectSubheader from '../project/projectSubheader';
 import ViewIcon from '../menu/icons/newViewIcon';
+import PurchaseOrderExcelReport from '../reportGenerator/excelReport/purchaseOrder'
+import ExcelIcon from '../menu/icons/excelIcon';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -80,6 +82,9 @@ const OrderView = () => {
 
   const handleReportGenerator = async (data: any) => {
     await PurchaseOrderReport(data);
+  };
+  const handleExcelReportGenerator = async (data: any) => {
+    await PurchaseOrderExcelReport(data);
   };
 
   const handleSearch = async () => {
@@ -354,13 +359,14 @@ const OrderView = () => {
                                   handleEdit(Number(data.purchase_order_id))
                                 }
                               />
-                              <PdfDownloadIcon
-                                onClick={() => handleReportGenerator(data)}
-                              />
                               <ViewIcon
                                 onClick={() => 
                                   navigate(`/purchase-order-view/${data.purchase_order_id}`)}
                               />
+                               <PdfDownloadIcon
+                                onClick={() => handleReportGenerator(data)}
+                              />
+                              <ExcelIcon  onClick={() => handleExcelReportGenerator(data)}/>
                             </div>
                           </td>
                         </tr>

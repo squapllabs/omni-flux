@@ -15,6 +15,8 @@ import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
 import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
 import ProjectSubheader from '../project/projectSubheader';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -47,6 +49,10 @@ const PurchaseView = () => {
     status: 'AC',
     global_search: '',
     indent_request_id: indentId,
+  };
+
+  const handleReportGenerator = (data:any) => {
+    ReportGenerator(data);
   };
 
   useEffect(() => {
@@ -88,6 +94,9 @@ const PurchaseView = () => {
     };
     getAllPurchaseData();
   }, [reload]);
+
+  console.log("purchasetable",purchaseTableData);
+  
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -230,12 +239,15 @@ const PurchaseView = () => {
                           : nullLableNameFromEnv}
                       </td>
                       <td>
-                        {data?.purchase_request_details.length ||
+                        {data?.purchase_request_details?.length ||
                           nullLableNameFromEnv}
                       </td>
                       <td>{data?.status || 'N.A'}</td>
                       <td>
+                        <div style={{display:"flex",flexDirection:"row",gap:"10px",alignItems:"center"}}>
                         <CustomMenu actions={actions} />
+                        <PdfDownloadIcon onClick={() => handleReportGenerator(data)} />
+                        </div>
                       </td>
                     </tr>
                   );
