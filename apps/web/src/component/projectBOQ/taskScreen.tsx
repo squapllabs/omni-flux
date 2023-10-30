@@ -1,42 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import Styles from '../../styles/newStyles/projectAbstract.module.scss';
-import PreviousPageIcon from '../menu/icons/previousPageIcon';
+import React, { useEffect, useState} from 'react';
+import Styles from '../../styles/newStyles/projectAbstract.module.scss'
+import PreviousPageIcon  from '../menu/icons/previousPageIcon';
 import { useNavigate, useParams } from 'react-router-dom';
 import categoryService from '../../service/category-service';
 import { formatBudgetValue } from '../../helper/common-function';
-import BomList from './projectBoqList';
 import ClipboardIcon from '../menu/icons/clipboardIcon';
+import BomItems from '../projectBOQ/boqItems';
 import { getByBOMDetails } from '../../hooks/category-hooks';
-const projectAbstract = () => {
-  const navigate = useNavigate();
-  const routeParams = useParams();
+import CategoryService from '../../service/category-service';
 
-  const [bomData, setBomData] = useState<any>({});
-  const [overallAbstractValue ,setOverallAbstractValue] = useState(0)
-  // const [reload, setReload] = useState(false);
-  const obj: any = {
-    projectId: Number(routeParams?.projectId),
-    boQId: Number(routeParams?.bomconfigId),
-  };
-  const { data: getBomData } = getByBOMDetails(obj);
+const BoqTaskListScreen : React.FC= ()=>{
 
-const getOverallAbsctractValue = (data)=>{
-  setOverallAbstractValue(data)
-}
+    const navigate = useNavigate();
+    const routeParams = useParams();
+
+    const routeParamsObj = {
+        projectId : Number(routeParams?.projectId),
+        boQId : Number(routeParams.bomconfigId),
+        categoryId : Number(routeParams.categoryId)
+    }    
+    const  projectId = Number(routeParams?.projectId);
+    const  bomConfigId = Number(routeParams.bomconfigId);
+    const [selectedCategory, setSelectedCategory] = useState();
+    const [categories, setCategories] = useState();
+    const [isloading, setIsloading] = useState(true);
+    const [categoryData, setCategoryData] = useState();
+    const [categoryId, setCategoryId] = useState();
+    const [selectedSubCategory, setSelectedSubCategory] = useState();
+    const [reload, setReload] = useState(false);
+
+
+    const { data: getBomData } = getByBOMDetails(routeParamsObj);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const obj = {
+          projectId: projectId,
+          bomconfigId: bomConfigId,
+        };
+        const datas = await CategoryService.getAllCategoryByProjectId(obj);
+        setCategories(datas.data);
+        setIsloading(false);
+        setCategoryData(datas.data[0]);
+        setSelectedCategory(datas.data[0].category_id);
+        setCategoryId(datas.data[0].category_id);
+      };
   
-  return (
-    <div>
+      fetchData();
+    }, [reload]);
+    return (
+        <div>
       <div className={Styles.container}>
         <div className={Styles.sub_header}>
           <div style={{ display: 'flex' }}>
             <div
               className={Styles.logo}
               onClick={() => {
-                navigate(`/project-edit/${routeParams?.projectId}`);
+                navigate(`/newBoq/${routeParams?.projectId}/${routeParams?.bomconfigId}`);
               }}
             >
               <PreviousPageIcon width={15} height={15} color="#7f56d9" />
-              <span>Back to BoQ List</span>
+              <span>Back to Abstract List</span>
             </div>
             <div className={Styles.lineStyles}>
               <div className={Styles.vertical}>
@@ -65,26 +89,17 @@ const getOverallAbsctractValue = (data)=>{
               </div>
             </div>
             <div className={Styles.countContent}>
-              {/* <h3>{getBomData?.abstract_count}</h3> */}
-              <h3 >{getBomData?.bom_configuration_data?.bom_description}</h3>
-            </div>
-            {/* <div className={Styles.lineStyles}>
-              <div className={Styles.vertical}>
-                <div className={Styles.verticalLine}></div>
-              </div>
-            </div>
-            <div className={Styles.countContent}>
               <h3>{getBomData?.tasks_count}</h3>
               <span className={Styles.countContentTitle}>Task</span>
-            </div> */}
+            </div>
           </div>
 
           <div className={Styles.boqAmount}>
-            {/* <div className={Styles.lineStyles}>
+            <div className={Styles.lineStyles}>
               <div className={Styles.vertical}>
                 <div className={Styles.verticalLine}></div>
               </div>
-            </div> */}
+            </div>
             <div className={Styles.countContent}>
               <h3>
                 {formatBudgetValue(
@@ -99,12 +114,17 @@ const getOverallAbsctractValue = (data)=>{
         </div>
         <div className={Styles.selected}></div>
         <div>
-          <BomList
-          />
+          <BomItems
+            selectedCategory={selectedCategory}
+            setSelectedSubCategory={setSelectedSubCategory}
+            selectedSubCategory={selectedSubCategory}
+            projectsId={projectId}
+            selectedBomConfig={bomConfigId}
+                  />
         </div>
       </div>
     </div>
-  );
+    );
 };
 
-export default projectAbstract;
+export default BoqTaskListScreen;

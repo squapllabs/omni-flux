@@ -274,6 +274,7 @@ import PurchaseRequestItemView from '../component/purchaseApproval/purchaseReque
 import PurchaseOrderIndividualView from '../component/purchaseOrder/purchaseOrderView';
 import PurchaseRequestList from '../component/purchaseRequest/purchaseRequestList';
 import PurchaseOrderVendorSelect from '../component/purchaseApproval/purchaseVendorSelect';
+import BoqTaskListScreen from '../component/projectBOQ/taskScreen';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -326,6 +327,7 @@ const AppRoutes = () => {
   const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
   // const ProtectedBomList = withLayoutAndProtection(BomList);
   const ProtectedBomList = withLayoutAndProtection(projectAbstract);
+  const ProtectedBoqTaskScreen = withLayoutAndProtection(BoqTaskListScreen);
   const ProtectedBom = withLayoutAndProtection(Bom);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
   const ProtectedLabourListPage = withLayoutAndProtection(LabourList);
@@ -485,6 +487,10 @@ const AppRoutes = () => {
         <Route
           path="/newBoq/:projectId/:bomconfigId"
           element={<ProtectedBomList />}
+        />
+        <Route
+          path="/newBoq/:projectId/:bomconfigId/:categoryId"
+          element={<ProtectedBoqTaskScreen />}
         />
         <Route path="/labour" element={<ProtectedLabourListPage />} />
         <Route path="/labour-add" element={<ProtectedLabourAddPage />} />
