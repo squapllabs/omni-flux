@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import Button from '../ui/Button';
 import DownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
+import PrintIcon from '../menu/icons/printIcon';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
@@ -249,7 +250,9 @@ const PurchaseRequestList = () => {
                     </Button>
                   </div>
                   <div style={{ paddingTop: '8px' }}>
-                    <DownloadIcon  onClick={() => handleReportGenerator(items) }color="#7f56d9" />
+                    <div onClick={() => handleReportGenerator(items)}>
+                      <PrintIcon color="#7f56d9" />
+                    </div>
                   </div>
                 </div>
                 <div className={Styles.dividerStyle}></div>

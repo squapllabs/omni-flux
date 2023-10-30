@@ -17,22 +17,30 @@ import CustomPagination from '../../../menu/CustomPagination';
 import BOQIcon from '../../../menu/icons/boqIcon';
 import Input from '../../../ui/Input';
 import SearchIcon from '../../../menu/icons/search';
+import ExpandIcon from '../../../menu/icons/expandIcon';
+import ExpandClose from '../../../menu/icons/expandClose';
+import Checkbox from '../../../ui/Checkbox';
+import CustomGroupButton from '../../../ui/CustomGroupButton';
 const ProjectIndentRequestList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   let rowIndex = 0;
   const approverStatus: any = [
+    { value: '', label: 'All' },
     { value: 'Approved', label: 'Approved' },
     { value: 'Pending', label: 'Pending' },
     { value: 'Rejected', label: 'Rejected' },
   ];
+  const [buttonLabels, setButtonLabels] = useState(approverStatus);
+  const [activeButton, setActiveButton] = useState<string | null>('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterValues, setFilterValues] = useState({
     approver_status: '',
     search_by_code: '',
   });
-
+  const [colps, setColps] = useState(false);
+  const [intendId, setIndentID] = useState<any>({});
   const demo: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
@@ -66,7 +74,10 @@ const ProjectIndentRequestList = () => {
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+    setFilterValues({ ...filterValues, ['approver_status']: value });
+  };
   /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
@@ -83,6 +94,13 @@ const ProjectIndentRequestList = () => {
     });
   };
 
+  const handleExpand = (value: any) => {
+    setColps(!colps);
+    if (colps === true) setIndentID(value);
+    else {
+      setIndentID({});
+    }
+  };
   const { data: getIndentList } = getProjectBasedIndent(
     Number(routeParams?.id)
   );
@@ -134,7 +152,7 @@ const ProjectIndentRequestList = () => {
                     }}
                     placeholder="Search by Code"
                   />
-                  <Select
+                  {/* <Select
                     width="200px"
                     name="approver_status"
                     value={filterValues.approver_status}
@@ -149,7 +167,14 @@ const ProjectIndentRequestList = () => {
                         </option>
                       );
                     })}
-                  </Select>
+                  </Select> */}
+                  <div>
+                    <CustomGroupButton
+                      labels={buttonLabels}
+                      onClick={handleGroupButtonClick}
+                      activeButton={activeButton}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -204,46 +229,133 @@ const ProjectIndentRequestList = () => {
                 <table className={Styles.scrollable_table}>
                   <thead>
                     <tr>
+                      <th className={Styles.tableHeading}></th>
                       <th className={Styles.tableHeading}>#</th>
                       <th className={Styles.tableHeading}>Indent Code</th>
-                      <th className={Styles.tableHeadingSite}>
+                      {/* <th className={Styles.tableHeadingSite}>
                         Indent Requested Date
                       </th>
                       <th className={Styles.tableHeading}>
                         Expected Delivery Date
-                      </th>
+                      </th> */}
                       <th className={Styles.tableHeading}>Indent Status</th>
+                      <th className={Styles.tableHeading}>Approved Date</th>
+                      <th className={Styles.tableHeading}>Approved By</th>
                       <th className={Styles.tableHeading}>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {getFilterData?.content?.length > 0 ? (
                       getFilterData.content.map((items: any, index: any) => {
+                        console.log('getFilterData', items);
+
                         rowIndex = rowIndex + 1;
                         return (
-                          <tr key={index}>
-                            <td>{rowIndex}</td>
-                            <td>{items?.indent_request_code}</td>
-                            <td>{dateFormat(items?.requested_date)}</td>
-                            <td>{dateFormat(items?.expected_delivery_date)}</td>
-                            {/* <td>{formatBudgetValue(items?.total_cost)}</td> */}
-                            <td>{items?.approver_status}</td>
-                            <td>
-                              <div
-                                style={{
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                <EditIcon
-                                  onClick={(e) => {
-                                    navigate(
-                                      `/indent/${routeParams?.id}/${items?.indent_request_id}`
-                                    );
+                          <>
+                            <tr key={index}>
+                              <td>
+                                <div
+                                  onClick={() => handleExpand(items)}
+                                  style={{
+                                    display:
+                                      items.approver_status === 'Approved'
+                                        ? ''
+                                        : 'none',
                                   }}
-                                />
-                              </div>
-                            </td>
-                          </tr>
+                                >
+                                  {colps === false &&
+                                  items?.indent_request_id ===
+                                    intendId?.indent_request_id ? (
+                                    <ExpandClose />
+                                  ) : (
+                                    <ExpandIcon />
+                                  )}
+                                </div>
+                              </td>
+                              <td>{rowIndex}</td>
+                              <td>{items?.indent_request_code}</td>
+                              {/* <td>{dateFormat(items?.requested_date)}</td>
+                              <td>
+                                {dateFormat(items?.expected_delivery_date)}
+                              </td> */}
+                              {/* <td>{formatBudgetValue(items?.total_cost)}</td> */}
+                              <td>{items?.approver_status}</td>
+                              <td>
+                                {items?.approved_date === null
+                                  ? '--'
+                                  : dateFormat(items?.approved_date)}
+                              </td>
+                              <td>
+                                {items?.approver_user_data === null
+                                  ? '--'
+                                  : items?.approver_user_data?.first_name +
+                                    ' ' +
+                                    items?.approver_user_data?.last_name}
+                              </td>
+                              <td>
+                                <div
+                                  style={{
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  <EditIcon
+                                    onClick={(e) => {
+                                      navigate(
+                                        `/indent/${routeParams?.id}/${items?.indent_request_id}`
+                                      );
+                                    }}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                            {items?.indent_request_id ===
+                              intendId?.indent_request_id && (
+                              <tr>
+                                <td colSpan={9}>
+                                  <div className={Styles.Colps}>
+                                    <div
+                                      className={Styles.ColpsheadingpanelOne}
+                                    >
+                                      <span className={Styles.heading}>
+                                        INDENT REQUESTED DATE
+                                      </span>
+                                      <span className={Styles.heading}>
+                                        EXPECTED DELIVERY DATE
+                                      </span>
+                                    </div>
+                                    <div className={Styles.ColpsDatapanelOne}>
+                                      <span>
+                                        {dateFormat(intendId?.requested_date)}
+                                      </span>
+                                      <span>
+                                        {dateFormat(
+                                          intendId?.expected_delivery_date
+                                        )}
+                                      </span>
+                                    </div>
+                                    <div
+                                      className={Styles.ColpsheadingpanelOne}
+                                    >
+                                      <span className={Styles.heading}>
+                                        Purchase Request rasied
+                                      </span>
+                                      <span className={Styles.heading}>
+                                        Purchase Order Rasied
+                                      </span>
+                                    </div>
+                                    <div className={Styles.ColpsDatapanelOne}>
+                                      <span>
+                                        <Checkbox checked />
+                                      </span>
+                                      <span>
+                                        <Checkbox checked />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </>
                         );
                       })
                     ) : (

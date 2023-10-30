@@ -44,13 +44,17 @@ const VendorSelect = () => {
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
   const prID = Number(routeParams?.id);
-  const { data: getVendorList, isLoading: vendorLoading } =
+  const { data: getVendorList = [], isLoading: vendorLoading } =
     getVendorDetailsBasedONPR(prID);
   console.log('getVendorList', getVendorList);
-  const initialSiteId = !vendorLoading ? getVendorList[0]?.value : null;
-  const [intialVendor, setIntialVendor] = useState(
-    !vendorLoading ? getVendorList[0]?.value : null
-  );
+
+  // console.log('initialSiteId', initialSiteId);
+  useEffect(() => {
+    const initialSiteId =
+      vendorLoading == false ? getVendorList[0]?.value : null;
+    setIntialVendor(initialSiteId);
+  }, [!vendorLoading]);
+  const [intialVendor, setIntialVendor] = useState();
   console.log('intialVendor', intialVendor);
   const [tableData, setTableData] = useState<any>([]);
   const [totalBudget, setTotalBudget] = useState<any>();
@@ -323,6 +327,7 @@ const VendorSelect = () => {
       }
     }
   };
+  console.log('formik.values.vendor_quotes_id', formik.values.vendor_quotes_id);
 
   const deleteFileinList = (index: any) => {
     let tempObj = {};
@@ -479,12 +484,12 @@ const VendorSelect = () => {
                 placeholder="Select from vendor"
                 // value={intialVendor}
                 value={
-                  formik.values.vendor_quotes_id === ''
+                  formik.values.vendor_quotes_id === undefined
                     ? Number(intialVendor)
                     : formik.values.vendor_quotes_id
                 }
                 onChange={formik.handleChange}
-                optionList={getVendorList}
+                optionList={getVendorList != null ? getVendorList : []}
                 onSelect={(value) => {
                   console.log('value', value);
                   setVendorQuoteID(Number(value));
