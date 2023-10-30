@@ -85,7 +85,6 @@ const ProjectStockmanagement = () => {
     fetchData();
   }, [!siteLoading, intialValue]);
 
-
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
