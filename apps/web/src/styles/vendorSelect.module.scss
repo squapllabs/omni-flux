@@ -16,7 +16,7 @@
 }
 
 .tableContainer {
-  padding: 10px 40px 0px 40px;
+  padding: 10px 27px 0px 27px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -288,7 +288,7 @@
 
   th,
   td {
-    padding: 10px 10px 10px 24px;
+    padding: 0px 0px 0px 24px;
     text-align: left;
     font-weight: var(--tableData-fontWeight);
     font-size: var(--tableData-fontSize);    
@@ -323,4 +323,73 @@
 }
 .displayNone {
   display: none;
+}
+ .dashedLine {
+    border-left: 0.5px dashed #000; /* Adjust the color and thickness as needed */
+  }
+
+.mainField {
+  // background-color: lightcoral;
+  display: flex;
+  flex-direction: row;
+}
+.leftMainField{
+  // background-color: lightcyan;
+  width:45%;
+}
+.rightMainField{
+  width:55%;
+  // background-color:pink;
+}
+.rightHeading{
+  padding-left: 30px;
+}
+.leftMainFirst{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.vendorData{
+  display: flex;
+  gap: 2%;
+  flex-wrap: wrap;
+  row-gap: 1%;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.emptyDataHandling {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+
+.textmin {
+  padding: 10px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.textmax {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+}
+
+.saveButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+  padding-right: 27px;
+  padding-top: 10px;
 }
