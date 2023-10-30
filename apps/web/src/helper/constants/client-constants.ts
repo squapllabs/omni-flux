@@ -2,8 +2,10 @@ import clientService from '../../service/client-service';
 
 export const userErrorMessages = {
   ENTER_NAME: 'Client Name is required',
+  ENTER_MIN_NAME: 'Name should contain minimum 3 characters',
   ENTER_MAX_NAME: 'Name should not exceed 100 characters',
   NAME_EXISTS: 'Client Name is already present',
+  ENTER_ONLY_TEXT: 'Only characters are allowed',
   ENTER_MOBILENUMBER: 'Contact number is required',
   ENTER_VALID_MOBILENUMBER: 'Invalid mobile number',
 };
@@ -13,7 +15,9 @@ export const getClientValidateyup = (yup: any) => {
     name: yup
       .string()
       .trim()
+      .matches(/^[a-zA-Z]+$/, userErrorMessages.ENTER_ONLY_TEXT)
       .typeError(userErrorMessages.ENTER_NAME)
+      .min(3, userErrorMessages.ENTER_MIN_NAME)
       .max(100, userErrorMessages.ENTER_MAX_NAME)
       .required(userErrorMessages.ENTER_NAME)
       .test(
@@ -40,7 +44,9 @@ export const getUpdateClientValidateyup = (yup: any) => {
     name: yup
       .string()
       .trim()
+      .matches(/^[a-zA-Z\s]+$/, userErrorMessages.ENTER_ONLY_TEXT)
       .typeError(userErrorMessages.ENTER_NAME)
+      .min(3, userErrorMessages.ENTER_MIN_NAME)
       .max(100, userErrorMessages.ENTER_MAX_NAME)
       .required(userErrorMessages.ENTER_NAME)
       .test(

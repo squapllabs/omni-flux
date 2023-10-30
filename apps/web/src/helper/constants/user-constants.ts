@@ -3,8 +3,9 @@ import userService from "../../service/user-service";
 export const userErrorMessages = {
   ENTER_EMAIL: 'Username is required',
   ENTER_PASSWORD: 'Password is required',
-  ENTER_VALID_EMAIL: 'Please enter a valid Username',
+  ENTER_VALID_EMAIL: 'Please enter a valid Email ID',
   MIN_PASSWORD_LENGTH: 'Password should be at least 8 characters',
+  MAX_PASSWORD_LENGTH: 'Password should be less than 50 characters',
   INVALID_LOGIN: 'Invalid username or password',
   EMAIL_NOT_FOUND: "This Username doesn't exist. Please register to continue",
   PASSWORD_MATCH: 'Please enter the same passwords',
@@ -27,7 +28,9 @@ export const userErrorMessages = {
   ENTER_OTP_VALID:'OTP should be 6 digits',
   ENTER_OTP:'Enter OTP',
   ENTER_ROLE: 'Role is required',
-  EMAIL_EXISTS: 'Email ID already exists'
+  EMAIL_EXISTS: 'Email ID already exists',
+  INVALID_DATE: 'Date cannot be in the future',
+  ENTER_DATE: 'Date is Required'
 };
 
 export const getLoginYupSchema = (yup: any) => {
@@ -38,7 +41,7 @@ export const getLoginYupSchema = (yup: any) => {
       .typeError(userErrorMessages.ENTER_EMAIL)
       .required(userErrorMessages.ENTER_EMAIL)
       .email(userErrorMessages.ENTER_VALID_EMAIL)
-      .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,userErrorMessages.ENTER_VALID_EMAIL),
+      .matches(/^[^\s@]+@[^\s@]+\.(com|edu|in)$/, userErrorMessages.ENTER_VALID_EMAIL),
     password: yup
       .string()
       .typeError(userErrorMessages.ENTER_PASSWORD)
@@ -125,6 +128,7 @@ export const getUsercreationYupschema = (yup: any) => {
     user_password: yup
       .string()
       .min(8, userErrorMessages.MIN_PASSWORD_LENGTH)
+      .max(50, userErrorMessages.MAX_PASSWORD_LENGTH)
       .matches(
         /^(?=.*[a-z])/,
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONELOWERCASER
@@ -155,6 +159,7 @@ export const getUsercreationYupschema = (yup: any) => {
       country: yup.string().matches(/^[A-Za-z]+$/, 'Invalid country name'),
       pin_code: yup.number().typeError('Only numbers are allowed'),
     }),
+    date_of_birth: yup.date().max(new Date(), userErrorMessages.INVALID_DATE),
   });
 };
 export const getUsereditYupschema = (yup: any) => {
@@ -189,5 +194,6 @@ export const getUsereditYupschema = (yup: any) => {
       country: yup.string().matches(/^[A-Za-z]+$/, 'Invalid country name'),
       pin_code: yup.number().typeError('Only numbers are allowed'),
     }),
+    date_of_birth: yup.date().max(new Date(), userErrorMessages.INVALID_DATE),
   });
 };

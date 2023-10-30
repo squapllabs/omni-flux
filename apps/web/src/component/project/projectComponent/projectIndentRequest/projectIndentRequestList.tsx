@@ -276,7 +276,7 @@ const ProjectIndentRequestList = () => {
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img src="/boq-add.png" width="100%" height="20%" />
+                <img src="/boq-add.png" width="100%" height="150px" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>

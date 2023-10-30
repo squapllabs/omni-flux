@@ -8,11 +8,11 @@ export const purchaseRequestAdd = {
 
 export const getPurchaseRequestCreateValidateyup = (yup: any) => {
   return yup.object().shape({
-    item_name: yup.string().required(purchaseRequestAdd.ENTER_NAME),
-    allocated_quantity: yup.number()
-      .required(purchaseRequestAdd.ENTER_ALLOCATED_QUANTITY)
-      .typeError(purchaseRequestAdd.TYPE_ERROR)
-      .positive(purchaseRequestAdd.TYPE_ERROR),
+    // item_name: yup.string().required(purchaseRequestAdd.ENTER_NAME),
+    // purchase_requested_quantity: yup.number()
+    //   .required(purchaseRequestAdd.ENTER_ALLOCATED_QUANTITY)
+    //   .typeError(purchaseRequestAdd.TYPE_ERROR)
+    //   .positive(purchaseRequestAdd.TYPE_ERROR),
     vendor_id: yup.number()
       .required(purchaseRequestAdd.ENTER_VENDOR)
   });

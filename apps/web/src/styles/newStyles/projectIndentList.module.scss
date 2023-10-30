@@ -412,8 +412,9 @@
 .subHeading {
   display: flex;
   flex-direction: row;
-  gap: 7px;
+  gap: 8px;
   align-items: center;
+  padding: 9px 10px;
 }
 
 .heading {
@@ -515,7 +516,7 @@
   justify-content: center;
   align-items: center;
   gap: 2px;
-  // background-color: #6941c6;
+  padding-top: 29px;
 }
 
 .textmin {

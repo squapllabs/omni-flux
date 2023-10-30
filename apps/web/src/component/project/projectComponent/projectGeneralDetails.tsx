@@ -330,8 +330,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   return (
     <div>
       <div className={Styles.topHeading}>
-        <ProjectDetailsIcon />
-        <span>PROJECT DETAILS </span>
+        <div className={Styles.subHeading}>
+          <ProjectDetailsIcon />
+          <h3>PROJECT DETAILS </h3>
+        </div>
       </div>
       <div>
         <form onSubmit={formik.handleSubmit}>

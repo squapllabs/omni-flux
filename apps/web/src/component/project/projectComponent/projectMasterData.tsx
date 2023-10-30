@@ -179,22 +179,22 @@ const ProjectMasterData: React.FC = (props: any) => {
           <div>
             <div className={Styles.subHeading}>
               <MasterDataIcon />
-              <span>BOQ Type</span>
+              <h3>BOQ Type</h3>
             </div>
             <div className={Styles.emptyDataHandling}>
               <div>
                 <img
                   src="/masterDataImage.png"
                   alt="aa"
-                  width="75%"
-                  height="75%"
+                  width="100%"
+                  height="180px"
                 />
               </div>
               <div>
-                <h5>This project has no BOQ Type</h5>
+                <h5 className={Styles.textmax}>This project has no BOQ Type</h5>
               </div>
               <div>
-                <span className={Styles.spanContent}>Go ahead, add a BOQ Type to this project now</span>
+                <p className={Styles.textmin}>Go ahead, add a BOQ Type to this project now</p>
               </div>
               <div className={Styles.emptyButton}>
                 <Button

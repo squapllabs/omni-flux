@@ -85,7 +85,6 @@ const ProjectStockmanagement = () => {
     fetchData();
   }, [!siteLoading, intialValue]);
 
-
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -264,8 +263,8 @@ const ProjectStockmanagement = () => {
                 <img
                   src="/StockManagement.jpg"
                   alt="aa"
-                  width="50%"
-                  height="50%"
+                  width="35%"
+                  height="40%"
                 />
               </div>
               <div>
