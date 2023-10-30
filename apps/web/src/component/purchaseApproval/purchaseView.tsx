@@ -15,6 +15,7 @@ import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
 import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
 import ProjectSubheader from '../project/projectSubheader';
+import Checkbox from '../ui/Checkbox';
 
 const PurchaseView = () => {
   const routeParams = useParams();
@@ -25,8 +26,9 @@ const PurchaseView = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [tableData, setTableData] = useState([]);
-  // console.log("tabled",tableData);
-
+  const [selectedRows, setSelectedRows] = useState([]);
+  // console.log('tabled', tableData);
+  // console.log('selectedRows', selectedRows);
   const [purchaseTableData, setPurchaseTableData] = useState([]);
   const [dataCount, setDataCount] = useState(0);
   const [dataLoading, setDataLoading] = useState(false);
@@ -34,6 +36,8 @@ const PurchaseView = () => {
   const [reload, setReload] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [selectedRowCount, setSelectedRowCount] = useState(0);
 
   const indentId = Number(routeParams?.id);
   const location = useLocation();
@@ -92,8 +96,29 @@ const PurchaseView = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  const handleSelectAllChange = () => {
+    if (!selectAllChecked) {
+      setSelectedRows(tableData);
+      setSelectedRowCount(tableData?.length); // Select all rows
+    } else {
+      setSelectedRows([]);
+      setSelectedRowCount(0); // Deselect all rows
+    }
+    setSelectAllChecked(!selectAllChecked);
+  };
+  const handleCheckboxChange = (e: any, rowData: any) => {
+    if (e.target.checked) {
+      setSelectedRows([...selectedRows, rowData]);
+    } else {
+      setSelectedRows(selectedRows.filter((row) => row !== rowData));
+    }
+    setSelectedRowCount(selectedRows.length);
+  };
 
-  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+  useEffect(() => {
+    setSelectedRowCount(selectedRows.length);
+  }, [selectedRows]);
+  // const nullLableNameFromEnv = `${environment.NULLVALUE}`;
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -107,55 +132,102 @@ const PurchaseView = () => {
             title="Indent Request Detail List"
           />
           <div className={Styles.dividerStyle}></div>
-          <div className={Styles.tableContainer}>
-            <div>
-              <div className={Styles.tableText}>
-                <h3>Indent Detail List</h3>
+          <div className={Styles.topHeading}>
+            <div className={Styles.tableTopData}>
+              <div className={Styles.rowCount}>
+                <span>Selected Items ({selectedRowCount})</span>
               </div>
-              <table className={Styles.scrollable_table}>
-                <thead>
-                  <tr>
-                    <th className={Styles.tableHeading}>#</th>
-                    <th className={Styles.tableHeading}>Item Name </th>
-                    <th className={Styles.tableHeading}>UOM</th>
-                    <th className={Styles.tableHeading}>Quantity</th>
-                    <th className={Styles.tableHeading}>Unit Cost</th>
-                    <th className={Styles.tableHeading}>Total Cost</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableData?.map((data: any, index: number) => (
-
-                    <tr key={data.indent_request_id}>
-                      <td>{startingIndex + index}</td>
-                      <td>{data?.bom_detail_data?.item_data?.item_name}</td>
-                      <td>{data?.bom_detail_data?.uom_data?.name}</td>
-                      <td>{data?.indent_requested_quantity}</td>
-                      <td>{formatBudgetValue(data?.bom_detail_data?.rate ? data?.bom_detail_data?.rate : 0)}</td>
-                      <td>{formatBudgetValue(data?.total ? data?.total : 0)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div>
+                <Button
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  color="primary"
+                  onClick={() => {
+                    navigate('/vendor-select', {
+                      state: {
+                        tableData: selectedRows,
+                        indentId: indentId,
+                        projectId: projectId,
+                      },
+                    });
+                  }}
+                >
+                  Select vendor to get Quote
+                </Button>
+              </div>
             </div>
           </div>
-          <div className={Styles.approveButton}>
+          <div className={Styles.tableContainer}>
+            <table className={Styles.scrollable_table}>
+              <thead>
+                <tr>
+                  <th className={Styles.tableHeadingOne}>
+                    <Checkbox
+                      name="select-all"
+                      checked={selectAllChecked}
+                      onChange={() => handleSelectAllChange()}
+                    />
+                  </th>
+                  <th className={Styles.tableHeadingTwo}>#</th>
+                  <th className={Styles.tableHeadingThree}>Item Name </th>
+                  <th className={Styles.tableHeadingFour}>UOM</th>
+                  <th className={Styles.tableHeadingFive}>Quantity</th>
+                  {/* <th className={Styles.tableHeading}>Unit Cost</th>
+                    <th className={Styles.tableHeading}>Total Cost</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                {tableData?.map((data: any, index: number) => (
+                  <tr key={data.indent_request_id}>
+                    <td>
+                      <Checkbox
+                        name="is_remember_me"
+                        checked={selectedRows.includes(data)}
+                        onChange={(e) => handleCheckboxChange(e, data)}
+                      />
+                    </td>
+                    <td>{startingIndex + index}</td>
+                    <td>{data?.bom_detail_data?.item_data?.item_name}</td>
+                    <td>{data?.bom_detail_data?.uom_data?.name}</td>
+                    <td>{data?.indent_requested_quantity}</td>
+                    {/* <td>
+                        {formatBudgetValue(
+                          data?.bom_detail_data?.rate
+                            ? data?.bom_detail_data?.rate
+                            : 0
+                        )}
+                      </td>
+                      <td>
+                        {formatBudgetValue(data?.total ? data?.total : 0)}
+                      </td> */}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* </div> */}
+          </div>
+          {/* <div className={Styles.approveButton}>
             <div>
               <Button
                 shape="rectangle"
                 justify="center"
                 size="small"
                 color="primary"
-                onClick={() => { navigate('/purchase-request-add', { state: { project_id: projectId, indent_id: indentId } }) }}
+                onClick={() => {
+                  navigate('/purchase-request-add', {
+                    state: { project_id: projectId, indent_id: indentId },
+                  });
+                }}
               >
-                <AddIcon color='white' />
+                <AddIcon color="white" />
                 Create PR
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </CustomLoader>
-      <div className={Styles.bottomTable}>
+      {/* <div className={Styles.bottomTable}>
         <div className={Styles.tableContainer}>
           <div>
             <div className={Styles.tableText}>
@@ -185,20 +257,34 @@ const PurchaseView = () => {
                   ''
                 )}
                 {purchaseTableData?.map((data: any, index: number) => {
-                  const itemData = data?.purchase_request_details
+                  const itemData = data?.purchase_request_details;
                   const isStatusApproved = data?.status === 'Approved';
                   const isMarkEnabled = isStatusApproved;
                   const actions = [
                     {
                       label: 'View Items',
                       onClick: () => {
-                        navigate(`/request-items`, { state: { data: itemData, project_id: projectId, indent_id: indentId } });
+                        navigate(`/request-items`, {
+                          state: {
+                            data: itemData,
+                            project_id: projectId,
+                            indent_id: indentId,
+                          },
+                        });
                       },
                     },
                     {
                       label: 'View Vendor',
                       onClick: () => {
-                        navigate(`/vendor-select/${data?.purchase_request_id}`, { state: { project_id: projectId, indent_id: indentId } });
+                        navigate(
+                          `/vendor-select/${data?.purchase_request_id}`,
+                          {
+                            state: {
+                              project_id: projectId,
+                              indent_id: indentId,
+                            },
+                          }
+                        );
                       },
                     },
                     {
@@ -206,7 +292,7 @@ const PurchaseView = () => {
                       onClick: () => {
                         if (isMarkEnabled) {
                           navigate(
-                            `/purchase-request/${data?.purchase_request_id}`,
+                            `/purchase-request/${data?.purchase_request_id}`
                           );
                         }
                       },
@@ -230,7 +316,7 @@ const PurchaseView = () => {
                           : nullLableNameFromEnv}
                       </td>
                       <td>
-                        {data?.purchase_request_details.length ||
+                        {data?.purchase_request_details?.length ||
                           nullLableNameFromEnv}
                       </td>
                       <td>{data?.status || 'N.A'}</td>
@@ -244,7 +330,7 @@ const PurchaseView = () => {
             </table>
           </div>
         </div>
-      </div>
+      </div> */}
       <CustomPurchaseRequest
         isVissible={showPurchaseRequestForm}
         setReload={setReload}

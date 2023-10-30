@@ -10,7 +10,7 @@ export const BOQErrorMessages = {
 export const getCreateBoQValidateyup = (yup: any) => {
   return yup.object().shape({
     // bom_name: yup.string().required(BOQErrorMessages.ENTER_NAME),
-    bom_description: yup.string().required(BOQErrorMessages.ENTER_DESCRIPTION),
+    bom_description: yup.string().trim().required(BOQErrorMessages.ENTER_DESCRIPTION),
     bom_type_id: yup
       .string()
       .required(BOQErrorMessages.ENTER_TYPE),

@@ -273,6 +273,7 @@ import ExpenseRecall from '../component/expenseRecall/expenseRecall';
 import PurchaseRequestItemView from '../component/purchaseApproval/purchaseRequestItemView';
 import PurchaseOrderIndividualView from '../component/purchaseOrder/purchaseOrderView';
 import PurchaseRequestList from '../component/purchaseRequest/purchaseRequestList';
+import PurchaseOrderVendorSelect from '../component/purchaseApproval/purchaseVendorSelect';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -381,6 +382,9 @@ const AppRoutes = () => {
   );
   const ProtectedPurchaseRequestList =
     withLayoutAndProtection(PurchaseRequestList);
+  const ProtectedPurchaseVendorSelect = withLayoutAndProtection(
+    PurchaseOrderVendorSelect
+  );
   return (
     <div>
       <Routes>
@@ -603,6 +607,10 @@ const AppRoutes = () => {
         <Route
           path="/purchase-request-list/:id"
           element={<ProtectedPurchaseRequestList />}
+        />
+        <Route
+          path="/vendor-select"
+          element={<ProtectedPurchaseVendorSelect />}
         />
       </Routes>
     </div>

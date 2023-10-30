@@ -31,6 +31,7 @@ export const getuomCreateValidateyup = (yup: any) => {
       ),
     description: yup
       .string()
+      .trim()
       .typeError(userErrorMessages.ENTER_DESCRIPTION)
       .required(userErrorMessages.ENTER_DESCRIPTION),
   });
@@ -64,6 +65,7 @@ export const getuomUpdateValidateyup = (yup: any) => {
       ),
     description: yup
       .string()
+      .trim()
       .typeError(userErrorMessages.ENTER_DESCRIPTION)
       .required(userErrorMessages.ENTER_DESCRIPTION),
   });

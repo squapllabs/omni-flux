@@ -23,11 +23,11 @@ const ProjectDashboard = () => {
   //   fetchData();
   // }, [params?.id]);  
 
-// const startedDate =  data?.date_started;
-// const sdate = new Date(startedDate);
-// const formattedStartedDate = sdate.toISOString().split('T')[0];
+  // const startedDate =  data?.date_started;
+  // const sdate = new Date(startedDate);
+  // const formattedStartedDate = sdate.toISOString().split('T')[0];
 
-// console.log("formattedStartedDate--->",formattedStartedDate);
+  // console.log("formattedStartedDate--->",formattedStartedDate);
 
   const startDate = new Date('2023-06-15');
   const endDate = new Date('2023-11-25');
@@ -44,12 +44,13 @@ const ProjectDashboard = () => {
 
   return (
     <div className={Styles.container}>
+      <div className={Styles.subHeading}>
+        <DashboardIcon width={25} height={30} />
+        <h3>DASHBOARD</h3>
+      </div>
       <div className={Styles.dashBoardcontainer}>
         <div className={Styles.headingContainer}>
-          <DashboardIcon width={25} height={30} />
-          <span>DASHBOARD</span>
         </div>
-
         <div className={Styles.cardDiv}>
           <div>
             <div className={Styles.card}>

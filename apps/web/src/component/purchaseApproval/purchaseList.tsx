@@ -57,6 +57,7 @@ const PurchaseList = () => {
       priority: '',
       status: 'AC',
       approver_status: 'Approved',
+      request_type:'Head Office',
     };
     postDataForFilter(userData);
     setSelectedValue('');
@@ -86,6 +87,7 @@ const PurchaseList = () => {
       status: 'AC',
       approver_status: 'Approved',
       indent_request_code: filterValues.search_by_code,
+      request_type:'Head Office',
     };
     postDataForFilter(userData);
   };

@@ -263,8 +263,8 @@ const ProjectStockmanagement = () => {
                 <img
                   src="/StockManagement.jpg"
                   alt="aa"
-                  width="50%"
-                  height="50%"
+                  width="35%"
+                  height="40%"
                 />
               </div>
               <div>

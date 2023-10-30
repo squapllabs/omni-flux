@@ -86,3 +86,11 @@
   justify-content: flex-end;
   width: 86%;
 }
+
+.subHeading {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 7px;
+}

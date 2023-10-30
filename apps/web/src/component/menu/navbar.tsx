@@ -178,7 +178,7 @@ const Navbar = () => {
                         ? 'Invoice '
                         : roleName === 'PLANNING ENGINEER'
                           ? 'Indent'
-                          : 'Purchase'}
+                          : 'Procurement'}
                     </div>
 
                     <DropdownIcon color="white" className={Styles.navIcon} />
@@ -187,13 +187,13 @@ const Navbar = () => {
               >
                 <div className={Styles.container}>
                   <div className={Styles.dropDownContainer}>
-                    <p>
+                    {/* <p>
                       {roleName === 'FINANCE MANAGER'
                         ? ''
                         : roleName === 'PLANNING ENGINEER'
                           ? 'Purchase'
                           : 'Purchase'}
-                    </p>
+                    </p> */}
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PLANNING ENGINEER' ||
@@ -243,9 +243,9 @@ const Navbar = () => {
                     </div>
                   </div>
                   <div className={Styles.dropDownContainer}>
-                    <p>
+                    {/* <p>
                       {roleName === 'FINANCE MANAGER' || roleName === 'ADMIN' ? 'Expenses' : ''}
-                    </p>
+                    </p> */}
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PROJECT MANAGER' ||
@@ -294,12 +294,12 @@ const Navbar = () => {
                     </div>
                   </div>
                   <div className={Styles.dropDownContainer}>
-                    <p>
+                    {/* <p>
                       {
                         roleName === 'FINANCE MANAGER' || roleName === 'PLANNING ENGINEER' 
                         ? '' : 'Vendors'
                       }
-                    </p>
+                    </p> */}
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PURCHASE MANAGER' ||
