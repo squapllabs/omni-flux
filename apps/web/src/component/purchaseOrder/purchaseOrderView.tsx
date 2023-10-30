@@ -243,7 +243,7 @@ const PurchaseOrderView = () => {
                   return (
                     <tr>
                       <td>{index + 1}</td>
-                      <td>{item?.item_name}</td>
+                      <td>{item?.item_data?.item_name}</td>
                       <td>
                         {item?.indent_requested_quantity || nullLableNameFromEnv}
                       </td>
@@ -252,11 +252,11 @@ const PurchaseOrderView = () => {
                           nullLableNameFromEnv}
                       </td>
                       <td>
-                        {formatBudgetValue(item.rate ? item?.rate : 0 )}
+                        {formatBudgetValue(item.unit_cost ? item?.unit_cost : 0 )}
                       </td>
                       <td>
                         {formatBudgetValue(
-                          item.rate * item.purchase_requested_quantity ? item.rate * item.purchase_requested_quantity : 0
+                          item.unit_cost * item.purchase_requested_quantity ? item.unit_cost * item.purchase_requested_quantity : 0
                         )}
                       </td>
                     </tr>
