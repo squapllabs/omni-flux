@@ -112,6 +112,10 @@ const BomItems = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const basic_details = {
+    category_id: '',
+  }
   const handleFileOnChange = async (e:any) =>{
     const file = e.target.files[0];
     if (file) {
@@ -137,7 +141,10 @@ const BomItems = (props: {
               rate: (element?.Rate|| ''),
               estimated_budget: (element?.Amount|| ''),
               actual_budget: 0,
-              children : []
+              children : [],
+              project_id: categoryData?.project_id,
+              bom_configuration_id:categoryData?.bom_configuration_id,
+              category_id:categoryData?.category_id,
             }
             taskData.push(obj);
           } else if(s_no_array.length === 2){
@@ -151,6 +158,10 @@ const BomItems = (props: {
               rate: (Number(element?.Rate)|| ''),
               estimated_budget: (element?.Amount|| ''),
               actual_budget: 0,
+              children : [],
+              project_id: categoryData?.project_id,
+              bom_configuration_id:categoryData?.bom_configuration_id,
+              category_id:categoryData?.category_id,
             }
             taskData[parenIndex].children.push(obj)
           }
@@ -160,6 +171,7 @@ const BomItems = (props: {
         if(taskData.length){
           setUploadedTaskData(taskData)
           setTaskPopupTrigger(true)
+          console.log('taskData',taskData) 
         }else {
           setUploadedTaskData([])
         }
@@ -240,6 +252,8 @@ const BomItems = (props: {
           open={TaskPopupTrigger}
           title={categoryData?.name}
           handleClose={handleClosePopup}
+
+          
           content={
           <div className={Styles.ab_tableContainer}>
             <table
@@ -250,13 +264,13 @@ const BomItems = (props: {
                               <tr
                                style={{padding: '20px 0'}}
                               >
-                                <th>S No</th>
-                                <th>Description</th>
-                                <th>Uom</th>
-                                <th>Quantity</th>
-                                <th>Rate</th>
-                                <th>Amount</th>
-                                <th>Action</th>
+                                <th  style={{padding: '0 10px'}}>S No</th>
+                                <th style={{padding: '0 10px'}}>Description</th>
+                                <th style={{padding: '0 10px'}}>Uom</th>
+                                <th style={{padding: '0 10px'}}>Quantity</th>
+                                <th style={{padding: '0 10px'}}>Rate</th>
+                                <th style={{padding: '0 10px'}}>Amount</th>
+                                <th style={{padding: '0 10px'}}>Action</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -266,63 +280,60 @@ const BomItems = (props: {
                                   <tr key={index}
                                   >
                                     <td
-                                    style={{padding: '10px 0'}}
-                                    >{item.id}</td>
+                                    style={{padding: '10px 10px'}}
+                                    >{index + 1}</td>
                                     <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{item.description}</td>
                                      <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{('Unit'|| 0)}</td>
                                      <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{(item.quantity || 0)}</td>
                                     <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{(item.rate || 0)}</td>
                                     <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{(item.estimated_budget || 0)}</td>
                                     <td
-                                    style={{padding: '10px 0', cursor:'pointer'}}
+                                    style={{padding: '10px 10px', cursor:'pointer'}}
                                     ><DeleteIcon 
                                     onClick={()=>{
                                       if(uploadedTaskData.length){
                                         const data = [...uploadedTaskData]
                                         data.splice(index,1);
-                                        console.log('data')
-                                        debugger
                                         setUploadedTaskData(data)
                                       }else {
-                                        
                                       console.log('throw error')
                                       }
                                     }}
                                     /></td>
                                     {/* <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{ (Number(item.estimated_budget) || 0) * }</td> */}
                                   </tr>
                                   {item?.children.length ?
                                   item.children.map((child: any, childIndex: any) =>(
                                     <tr key={childIndex}>
                                     <td
-                                    style={{padding: '10px 0'}}
-                                    >{item.id + '.'+child.id}</td>
+                                    style={{padding: '10px 10px'}}
+                                    >{(index+1 )+ '.'+ (childIndex + 1)}</td>
                                     <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{child.description}</td>
                                      <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{('Unit'|| 0)}</td>
                                      <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{(child.quantity || 0)}</td>
                                     <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{(child.rate || 0)}</td>
                                     <td
-                                    style={{padding: '10px 0'}}
+                                    style={{padding: '10px 10px'}}
                                     >{(item.estimated_budget || 0)}</td>
                                     </tr>
                                   ))
@@ -363,7 +374,7 @@ const BomItems = (props: {
                    </Button>
            </div>
           </div> 
-        } width={'70%'} description={"description"}/>
+        } width={'90%'} description={"description"}/>
 
          
       </div>
