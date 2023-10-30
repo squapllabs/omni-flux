@@ -34,6 +34,7 @@ export const getCreateValidateyup = (yup: any) => {
       ),
       description: yup
       .string()
+      .trim()
       .required(contractorDownMessages.ENTER_DESCRIPTION),
     contact_number: yup
       .string()

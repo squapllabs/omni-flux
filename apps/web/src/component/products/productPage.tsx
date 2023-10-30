@@ -319,7 +319,7 @@ const ProductPage = () => {
                 />
               </div>
             </div> */}
-            <div>
+            <div className={Styles.tableContainer}>
               <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
@@ -388,14 +388,14 @@ const ProductPage = () => {
                   src="/items.jpg"
                   alt="aa"
                   width="100%"
-                  height="250px"
+                  height="200px"
                   style={{paddingTop: '35px', paddingBottom: '15px'}}
                 />
               </div>
               <div>
                 <h5>Items list is Empty</h5>
               </div>
-              <div>
+              <div className={Styles.contentGap}>
                 <span className={Styles.spanContent}>Go ahead, add new Items</span>
               </div>
               <div className={Styles.emptyButton}>

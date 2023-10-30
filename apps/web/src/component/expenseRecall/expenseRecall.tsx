@@ -11,6 +11,7 @@ import { createExpenseRecall } from '../../hooks/expense-recall-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
+import { environment } from '../../environment/environment';
 
 const ExpenseRecall = () => {
   const state: RootState = store.getState();
@@ -26,6 +27,7 @@ const ExpenseRecall = () => {
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
   const [warning, setWarning] = useState(false);
+  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   const currentDate = new Date();
 
   let rowindex = 0;
@@ -154,7 +156,7 @@ const ExpenseRecall = () => {
                     return (
                       <tr>
                         <td>{rowindex}</td>
-                        <td>{data?.description}</td>
+                        <td>{data?.description || nullLableNameFromEnv}</td>
                         <td>{data?.expense_master_data?.master_data_name}</td>
                         <td>{formatBudgetValue(data?.total)}</td>
                         <td>
@@ -168,7 +170,7 @@ const ExpenseRecall = () => {
                                   </ol>
                                 )
                               )
-                            : ''}
+                            : nullLableNameFromEnv}
                         </td>
                         <td>
                           <span>{data?.status}</span>
@@ -221,7 +223,7 @@ const ExpenseRecall = () => {
       ) : (
         <div className={Styles.emptyDataHandling}>
           <div className={Styles.emptyDataHandling}>
-            <img src="/reverse.jpg" alt="aa" width="40%" height="40%" />
+            <img src="/reverse.jpg" alt="aa" width="30%" height="30%" />
           </div>
           <div></div>
         </div>

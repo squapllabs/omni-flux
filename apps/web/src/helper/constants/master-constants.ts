@@ -2,10 +2,12 @@ import masterDataService from '../../service/masterData-service';
 
 export const masterErrorMessages = {
   ENTER_NAME: 'Name is required',
+  MAX_NAME: 'Name must be lesser then 20 characters',
+  MIN_NAME: 'Name must be greater then 3 characters',
   ENTER_CODE: 'Code is required',
   ENTER_DESCRIPTION: 'Description is required',
   ENTER_NUMBERONLY: 'Number only allowed',
-  MIN_CODE: 'Code must be more then 3 letter',
+  MIN_CODE: 'Code must be more then 3 letters',
   MAX_CODE: 'Code must lesser then 15',
   CODE_EXIST: 'Code is already present',
 };
@@ -14,6 +16,8 @@ export const getCreateValidateyup = (yup: any) => {
   return yup.object().shape({
     master_data_name: yup
       .string()
+      .max(20, masterErrorMessages.MAX_NAME)
+      .min(3, masterErrorMessages.MIN_NAME)
       .typeError(masterErrorMessages.ENTER_NAME)
       .required(masterErrorMessages.ENTER_NAME),
     master_data_type: yup
@@ -45,6 +49,7 @@ export const getCreateValidateyup = (yup: any) => {
       ),
     master_data_description: yup
       .string()
+      .trim()
       .typeError(masterErrorMessages.ENTER_DESCRIPTION)
       .required(masterErrorMessages.ENTER_DESCRIPTION),
     parent_master_data_id: yup.string().typeError().notRequired(),
@@ -55,10 +60,13 @@ export const getUpdateValidateyup = (yup: any) => {
     master_data_id: yup.string().trim().required(),
     master_data_description: yup
       .string()
+      .trim()
       .typeError(masterErrorMessages.ENTER_DESCRIPTION)
       .required(masterErrorMessages.ENTER_DESCRIPTION),
     master_data_name: yup
       .string()
+      .max(20, masterErrorMessages.MAX_NAME)
+      .min(3, masterErrorMessages.MIN_NAME)
       .typeError(masterErrorMessages.ENTER_NAME)
       .required(masterErrorMessages.ENTER_NAME),
   });

@@ -17,8 +17,11 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import ReportGenerator from '../ui/reportGenerator';
 import AddIcon from '../menu/icons/addIcon';
-import PurchaseOrderReport from '../reportGenerator/report';
+import PurchaseOrderReport from '../reportGenerator/pdfReport/purchaseOrder';
 import ProjectSubheader from '../project/projectSubheader';
+import ViewIcon from '../menu/icons/newViewIcon';
+import PurchaseOrderExcelReport from '../reportGenerator/excelReport/purchaseOrder'
+import ExcelIcon from '../menu/icons/excelIcon';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -79,6 +82,9 @@ const OrderView = () => {
 
   const handleReportGenerator = async (data: any) => {
     await PurchaseOrderReport(data);
+  };
+  const handleExcelReportGenerator = async (data: any) => {
+    await PurchaseOrderExcelReport(data);
   };
 
   const handleSearch = async () => {
@@ -198,7 +204,7 @@ const OrderView = () => {
                   <th className={Styles.tableHeading}>Project Name </th>
                   <th className={Styles.tableHeading}>Amount</th>
                   <th className={Styles.tableHeading}>Quotation </th>
-                  <th className={Styles.tableHeading}>Bill Status</th>
+                  <th className={Styles.tableHeading}>Status</th>
                   <th className={Styles.tableHeading}>Bill</th>
                   <th className={Styles.tableHeading}>Actions</th>
                 </tr>
@@ -276,6 +282,10 @@ const OrderView = () => {
                               <PdfDownloadIcon
                                 onClick={() => handleReportGenerator(data)}
                               />
+                              <ViewIcon
+                                onClick={() => 
+                                  navigate(`/purchase-order-view/${data.purchase_order_id}`)}
+                              />
                             </div>
                           </td>
                         </tr>
@@ -349,9 +359,14 @@ const OrderView = () => {
                                   handleEdit(Number(data.purchase_order_id))
                                 }
                               />
-                              <PdfDownloadIcon
+                              <ViewIcon
+                                onClick={() => 
+                                  navigate(`/purchase-order-view/${data.purchase_order_id}`)}
+                              />
+                               <PdfDownloadIcon
                                 onClick={() => handleReportGenerator(data)}
                               />
+                              {/* <ExcelIcon  onClick={() => handleExcelReportGenerator(data)}/> */}
                             </div>
                           </td>
                         </tr>

@@ -60,7 +60,7 @@ const getOneMasterDataByProjectId = async (values: any) => {
 };
 
 const createmasertData = async (values: JSON) => {
-  try {    
+  try {
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/master-data/`,
       values
@@ -94,22 +94,38 @@ const deletemasertData = async (id: number) => {
   }
 };
 
-const checkDublicatemasertData = async (value: any) => {
-  try {
-    let response;
-    if (value.id === null) {
-      response = await axiosinterceptor.get(
-        `${environment.apiUrl}/master-data/get-by-parent-type/${value.name}`
-      );
-    } else {
-      response = await axiosinterceptor.get(
-        `${environment.apiUrl}/master-data/get-by-parent-type/${value.name}/${value.id}`
-      );
-    }
+// const checkDublicatemasertData = async (value: any) => {
+//   try {
+//     let response;
+//     if (value.id === null) {
+//       response = await axiosinterceptor.get(
+//         `${environment.apiUrl}/master-data/get-by-parent-type/${value.name}`
+//       );
+//     } else {
+//       response = await axiosinterceptor.get(
+//         `${environment.apiUrl}/master-data/get-by-parent-type/${value.name}/${value.id}`
+//       );
+//     }
 
+//     return response.data;
+//   } catch (error) {
+//     console.log('Error in occur in checkDublicatemasertData   :', error);
+//     throw error;
+//   }
+// };
+
+const checkDublicatemasertData = async (value: any) => {
+  const data = value?.name?.toUpperCase(); 
+  const body = {
+    master_data_type: data,
+  }  
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/master-data/get-by-parent-type/`, body
+    );
     return response.data;
   } catch (error) {
-    console.log('Error in occur in checkDublicatemasertData   :', error);
+    console.log('Error in checkDublicatemasertData: ', error);
     throw error;
   }
 };

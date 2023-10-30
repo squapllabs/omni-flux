@@ -4,8 +4,7 @@
   padding: 5px;
 }
 .tableContainer {
-
-  padding: 15px;
+  padding: 3px 10px 5px 10px;
   // height: 100vh;
   display: flex;
   flex-direction: column;
@@ -212,7 +211,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 15px;
+  align-content: center;
+  padding: 3px 10px 10px 10px;
 }
 
 .heading {
@@ -234,15 +234,16 @@
   justify-content: center;
   align-items: center;
   gap: 2px;
-  padding-top: 50px;
+  padding-top: 60px;
 }
 
-.emptyButton {
-  margin-top: 25px;
+.contentGap {
+  padding: 10px;
 }
 
 .spanContent {
   font-weight: 400;
+  padding: 10px;
 }
 .textmin {
   padding: 10px;
@@ -254,7 +255,12 @@
   font-size: 16px;
 }
 
+.searchFeild {
+  transform: translateY(18%);
+}
+
 .filters {
   display: flex;
   gap: 20px;
+  padding-left: 10px;
 }

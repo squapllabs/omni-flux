@@ -20,6 +20,7 @@ import CustomPagination from '../menu/CustomPagination';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import MasterDataForm from './masterDataForm';
 import MasterDataIcon from '../menu/icons/masterDataIcon';
+import Select from '../ui/selectNew';
 
 const MaterData = () => {
   const [selectedValue, setSelectedValue] = useState('');
@@ -33,6 +34,8 @@ const MaterData = () => {
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
+    sortByField: '',
+    sortOrder: '',
   });
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState(false);
@@ -42,6 +45,7 @@ const MaterData = () => {
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [reload, setReload] = useState(false);
   const [masterDataFormOpen, setMasterDataFormOpen] = useState(false);
+
   const {
     mutate: postDataForFilter,
     data: getFilterData,
@@ -58,6 +62,8 @@ const MaterData = () => {
     setFilterValues({
       ...filterValues,
       ['search_by_name']: event.target.value,
+      ['sortByField']: event.target.value,
+      ['sortOrder']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
     if (searchValue === '') {
@@ -68,8 +74,12 @@ const MaterData = () => {
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
+    order_by_column:
+      filterValues?.sortByField === ''
+        ? 'updated_date'
+        : filterValues?.sortByField,
+    order_by_direction:
+      filterValues?.sortOrder === '' ? 'desc' : filterValues?.sortOrder,
     status: activeButton,
     global_search: filterValues?.search_by_name,
   };
@@ -162,62 +172,110 @@ const MaterData = () => {
   const handleCloseMasterForm = () => {
     setMasterDataFormOpen(false);
   };
+
+  const options: any = [
+    { value: 'master_data_name', label: 'Name' },
+    { value: 'master_data_type', label: 'Code' },
+    { value: 'created_date', label: 'Created Date' },
+    { value: 'updated_date', label: 'Updated Date' },
+  ];
+
+  const order: any = [
+    { value: 'asc', label: 'a-z' },
+    { value: 'desc', label: 'z-a' },
+  ];
+
   return (
     <div>
-      <CustomLoader
-        loading={getAllLoadingPaginated}
-        size={48}
-        color="#333C44"
-      >
-      {initialData?.is_available ? (
-        <div>
-        <div className={Styles.topHeading}>
-          <div className={Styles.heading}>
-            <div className={Styles.subHeading}>
-              <MasterDataIcon />
-              <h4>MASTER DATA</h4>
-            </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => {
-                    setMode('Add');
-                    setMasterDataFormOpen(true);
-                  }}
-                >
-                  Add Master Data
-                </Button>
+      <CustomLoader loading={getAllLoadingPaginated} size={48} color="#333C44">
+        {initialData?.is_available ? (
+          <div>
+            <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.subHeading}>
+                  <MasterDataIcon />
+                  <h4>MASTER DATA</h4>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => {
+                      setMode('Add');
+                      setMasterDataFormOpen(true);
+                    }}
+                  >
+                    Add Master Data
+                  </Button>
+                </div>
               </div>
-          </div>
-          <div className={Styles.searchBar}>
-            <Input
-              placeholder="Search Data"
-              width="300px"
-              prefixIcon={<SearchIcon />}
-              name="filter_value"
-              onChange={(e) => {
-                setFilterValues({
-                  ...filterValues,
-                  ['search_by_name']: e.target.value,
-                });
-                setCurrentPage(1)
-              }}
-            />
-          </div>
-        </div>
-        {/* <div className={Styles.dividerStyle}></div> */}
-          <div className={Styles.box}>
-            {/* <div className={Styles.textContent}>
+              <div className={Styles.searchBar}>
+                <Input
+                  placeholder="Search Data"
+                  width="300px"
+                  prefixIcon={<SearchIcon />}
+                  name="filter_value"
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValues,
+                      ['search_by_name']: e.target.value,
+                    });
+                    setCurrentPage(1);
+                  }}
+                />
+              </div>
+            </div>
+            <div className={Styles.filterOptions}>
+              <Select
+                width="140px"
+                name="column_name"
+                defaultLabel="Select from options"
+                placeholder="Column Name"
+                value={filterValues?.sortByField}
+                onChange={(e) => {
+                  setFilterValues({
+                    ...filterValues,
+                    ['sortByField']: e.target.value,
+                  });
+                  setCurrentPage(1);
+                }}
+              >
+                {options?.map((item: any, index: any) => {
+                  return <option value={item.value}>{item.label}</option>;
+                })}
+              </Select>
+              <Select
+                width="140px"
+                name="order"
+                // label="Order"
+                defaultLabel="Select from options"
+                placeholder="Order"
+                value={filterValues?.sortOrder}
+                onChange={(e) => {
+                  setFilterValues({
+                    ...filterValues,
+                    ['sortOrder']: e.target.value,
+                  });
+                  setCurrentPage(1);
+                }}
+              >
+                {order?.map((item: any, index: any) => {
+                  return <option value={item.value}>{item.label}</option>;
+                })}
+              </Select>
+            </div>
+            {/* <div className={Styles.dividerStyle}></div> */}
+            <div className={Styles.box}>
+              {/* <div className={Styles.textContent}>
                 <h3>List of Master Data</h3>
                 <span className={Styles.content}>
                   List of all existing master data entries
                 </span>
               </div> */}
-            {/* <div className={Styles.searchField}>
+              {/* <div className={Styles.searchField}>
                 <div className={Styles.inputFilter}>
                   <Input
                     width="260px"
@@ -263,34 +321,35 @@ const MaterData = () => {
                   </Button>
                 </div>
               </div> */}
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      {/* <th>Description</th> */}
-                      <th>Code</th>
-                      <th>Parent Name</th>
-                      {activeButton === 'AC' && <th>Actions</th>}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {initialData?.count === 0 ? (
+              <div className={Styles.tableContainer}>
+                <div>
+                  <table className={Styles.scrollable_table}>
+                    <thead>
                       <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
-                        {activeButton === 'AC' && <td></td>}
+                        <th>#</th>
+                        <th>Name</th>
+                        {/* <th>Description</th> */}
+                        <th>Code</th>
+                        <th>Parent Name</th>
+                        {activeButton === 'AC' && <th>Actions</th>}
                       </tr>
-                    ) : (
-                      initialData?.content?.map((data: any, index: number) => (
-                        <tr key={data.uom_id}>
-                          <td>{startingIndex + index}</td>
-                          <td>{data.master_data_name}</td>
-                          {/* <td>
+                    </thead>
+                    <tbody>
+                      {initialData?.count === 0 ? (
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>No data found</td>
+                          {activeButton === 'AC' && <td></td>}
+                        </tr>
+                      ) : (
+                        initialData?.content?.map(
+                          (data: any, index: number) => (
+                            <tr key={data.uom_id}>
+                              <td>{startingIndex + index}</td>
+                              <td>{data.master_data_name}</td>
+                              {/* <td>
                             <span
                               title={data?.master_data_description}
                               className={Styles.truncatedStyle}
@@ -305,38 +364,41 @@ const MaterData = () => {
                                 : '-'}
                             </span>
                           </td> */}
-                          <td>{data.master_data_type}</td>
-                          <td>
-                            {data?.parent?.master_data_name === undefined
-                              ? '-'
-                              : data?.parent?.master_data_name}
-                          </td>
-                          {activeButton === 'AC' && (
-                            <td className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() => handleEdit(data.master_data_id)}
-                              />
-                            </td>
-                          )}
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                              <td>{data.master_data_type}</td>
+                              <td>
+                                {data?.parent?.master_data_name === undefined
+                                  ? '-'
+                                  : data?.parent?.master_data_name}
+                              </td>
+                              {activeButton === 'AC' && (
+                                <td className={Styles.tablerow}>
+                                  <EditIcon
+                                    onClick={() =>
+                                      handleEdit(data.master_data_id)
+                                    }
+                                  />
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className={Styles.pagination}>
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={initialData?.total_page}
+                  totalCount={initialData?.count}
+                  rowsPerPage={rowsPerPage}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                />
               </div>
             </div>
-            <div className={Styles.pagination}>
-              <CustomPagination
-                currentPage={currentPage}
-                totalPages={initialData?.total_page}
-                totalCount={initialData?.count}
-                rowsPerPage={rowsPerPage}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-              />
-            </div>
           </div>
-        </div>
         ) : (
           <div>
             {/* <div className={Styles.subHeading}>
@@ -356,7 +418,9 @@ const MaterData = () => {
                 <h5>Master Data is Empty</h5>
               </div>
               <div>
-                <span className={Styles.spanContent}>Go ahead, add a Master Data</span>
+                <span className={Styles.spanContent}>
+                  Go ahead, add a Master Data
+                </span>
               </div>
               <div className={Styles.emptyButton}>
                 <Button
