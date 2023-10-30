@@ -10,6 +10,7 @@ import { getBySearchPR } from '../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
 import Button from '../ui/Button';
 import DownloadIcon from '../menu/icons/pdfDownloadIcon';
+import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
@@ -40,6 +41,9 @@ const PurchaseRequestList = () => {
   const [filterValue, setFilterValues] = useState<any>({
     project_id: '',
   });
+  const handleReportGenerator = async (data: any) => {
+    await ReportGenerator(data);
+  };
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'dd MMM yyyy');
@@ -245,7 +249,7 @@ const PurchaseRequestList = () => {
                     </Button>
                   </div>
                   <div style={{ paddingTop: '8px' }}>
-                    <DownloadIcon color="#7f56d9" />
+                    <DownloadIcon  onClick={() => handleReportGenerator(items) }color="#7f56d9" />
                   </div>
                 </div>
                 <div className={Styles.dividerStyle}></div>

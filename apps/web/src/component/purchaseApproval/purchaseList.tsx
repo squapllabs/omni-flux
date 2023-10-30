@@ -13,7 +13,7 @@ import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useNavigate } from 'react-router-dom';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
-import ReportGenerator from '../reportGenerator/invoice';
+import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from '../project/projectSubheader';
 import Input from '../ui/Input';
