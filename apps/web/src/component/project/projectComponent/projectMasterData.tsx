@@ -99,7 +99,7 @@ const ProjectMasterData: React.FC = (props: any) => {
               <div className={Styles.heading}>
                 <div className={Styles.subHeading}>
                   <MasterDataIcon />
-                  <h4>BOQ Type</h4>
+                  <h3>BOQ Type</h3>
                 </div>
                 <div>
                   <Button

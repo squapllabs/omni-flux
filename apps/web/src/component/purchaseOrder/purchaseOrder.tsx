@@ -366,7 +366,7 @@ const OrderView = () => {
                                <PdfDownloadIcon
                                 onClick={() => handleReportGenerator(data)}
                               />
-                              <ExcelIcon  onClick={() => handleExcelReportGenerator(data)}/>
+                              {/* <ExcelIcon  onClick={() => handleExcelReportGenerator(data)}/> */}
                             </div>
                           </td>
                         </tr>

@@ -74,10 +74,11 @@
     flex-direction: column;
     gap: 10px;
     align-items: center;
+    padding-top: 12px;
 }
 
 .emptyButton {
-    margin-top: 15px;
+    margin-top: 4px;
 }
 
 .spanContent {
@@ -112,4 +113,16 @@
 .dividerStyle {
     border-bottom: 1px solid #ccc;
     padding: 0px 1px 5px 1px;
+}
+
+.textmax {
+    font-weight: 700;
+    font-size: 16px;
+    // background-color: red;
+}
+
+.textmin {
+    padding: 3px;
+    font-weight: 400;
+    font-size: 14px;
 }

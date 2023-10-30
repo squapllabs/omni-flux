@@ -268,7 +268,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 />
               </div> */}
               </div>
-              <div className={Styles.box}>
+              {/* <div className={Styles.box}> */}
                 <div className={Styles.tableContainerBOM}>
                   <div>
                     <table className={Styles.scrollable_table}>
@@ -356,7 +356,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                     />
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
           ) : (
             <div>
@@ -376,7 +376,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 <div>
                   <p className={Styles.textmin}>Go ahead, add a BoQ </p>
                 </div>
-                <div>
+                <div className={Styles.emptyButton}>
                   <Button
                     color="primary"
                     shape="rectangle"
