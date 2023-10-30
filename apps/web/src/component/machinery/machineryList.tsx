@@ -53,7 +53,7 @@ const MachineryList = () => {
   const machineryData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_by',
+    order_by_column: 'updated_date',
     order_by_direction: 'desc',
     global_search: filterValues.search_by_name,
     status: activeButton,

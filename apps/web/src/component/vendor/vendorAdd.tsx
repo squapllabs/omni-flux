@@ -23,7 +23,8 @@ const AddVendor = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
   const location = useLocation();
-  const locationState = location.state || {};
+  const currentPath = location.state.path;  
+  const locationState = location.state || {};  
   const projectId = locationState.project_id || null;
   const indentId = locationState.indent_id || null;
   const { mutate: createNewVendor } = createVendor();
@@ -72,7 +73,7 @@ const AddVendor = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
+  
   useEffect(() => {
     if (Number(routeParams?.id)) {
       const fetchOne = async () => {
@@ -188,7 +189,7 @@ const AddVendor = () => {
       <div>
         <ProjectSubheader
           title={routeParams.id ? 'VENDOR EDIT' : 'NEW VENDOR'}
-          navigation={'/settings'}
+          navigation={currentPath === '/vendor-list' ? '/vendor-list' : '/settings'}
         />
       </div>
       <div className={Styles.box}></div>

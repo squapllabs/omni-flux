@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Styles from '../../../styles/project.module.scss';
+import Styles from '../../../styles/projectBomConfig.module.scss';
+
 import Button from '../../ui/Button';
 import AddIcon from '../../menu/icons/addIcon';
 import Input from '../../ui/Input';
@@ -365,7 +366,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
               </div>
               <div className={Styles.emptyDataHandling}>
                 <div className={Styles.imageAdd}>
-                  <img src="/boq-add.png" alt="aa" width="90%" height="20%" />
+                  <img src="/boq-add.png" alt="aa" width="100%" height="150px" />
                 </div>
                 <div>
                   <h5 className={Styles.textmax}>

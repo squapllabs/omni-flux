@@ -11,6 +11,7 @@ export const userErrorMessages = {
   NAME_EXIST: 'Item Name already present',
   ENTER_RATE: 'Rate is required',
   ENTER_RATE_TYPE: 'Must be a number',
+  ENTER_BRAND: 'Brand is required',
 };
 
 export const getCreateValidateyup = (yup: any) => {
@@ -34,11 +35,12 @@ export const getCreateValidateyup = (yup: any) => {
         }
       ),
     item_type_id: yup.string().trim().required(userErrorMessages.ENTER_TYPE),
-    description: yup.string().required(userErrorMessages.ENTER_DESCRIPTION),
+    description: yup.string().trim().required(userErrorMessages.ENTER_DESCRIPTION),
     gst_id: yup.string().required(userErrorMessages.ENTER_GST),
     uom_id: yup.string().required(userErrorMessages.ENTER_UOM),
     hsn_code_id: yup.string().required(userErrorMessages.ENTER_HSN),
     rate: yup.number().required(userErrorMessages.ENTER_RATE).typeError(userErrorMessages.ENTER_RATE_TYPE),
+    brand_id: yup.string().required(userErrorMessages.ENTER_BRAND),
   });
 };
 
@@ -46,10 +48,11 @@ export const getCreateValidateyup = (yup: any) => {
 export const getUpdateValidateyup = (yup: any) => {
   return yup.object().shape({
     rate: yup.number().required(userErrorMessages.ENTER_RATE).typeError(userErrorMessages.ENTER_RATE_TYPE),
-    description: yup.string().required(userErrorMessages.ENTER_DESCRIPTION),
+    description: yup.string().trim().required(userErrorMessages.ENTER_DESCRIPTION),
     gst_id: yup.string().required(userErrorMessages.ENTER_GST),
     uom_id: yup.string().required(userErrorMessages.ENTER_UOM),
     hsn_code_id: yup.string().required(userErrorMessages.ENTER_HSN),
+    brand_id: yup.string().required(userErrorMessages.ENTER_BRAND),
   });
 };
 
