@@ -17,12 +17,9 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import MasterDataForm from './masterDataForm';
 import MasterDataIcon from '../menu/icons/masterDataIcon';
 import Select from '../ui/selectNew';
-import DescendingIcon from '../menu/icons/descIcon';
-import AscendingIcon from '../menu/icons/ascendingIcon';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
 
 const MaterData = () => {
-  // const [selectedValue, setSelectedValue] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [value, setValue] = useState();
@@ -41,7 +38,6 @@ const MaterData = () => {
   const [masterDataFormOpen, setMasterDataFormOpen] = useState(false);
   const [sortColumn, setSortColumn] = useState('master_data_name');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [sortCodeOrder, setSortCodeOrder] = useState('desc');
 
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
 
@@ -49,7 +45,7 @@ const MaterData = () => {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
     order_by_column: sortColumn === '' ? 'updated_date' : sortColumn,
-    order_by_direction: sortOrder === '1' ? sortCodeOrder : sortOrder,
+    order_by_direction: sortOrder,
     status: activeButton,
     global_search: filterValues?.search_by_name,
   };
@@ -61,7 +57,7 @@ const MaterData = () => {
 
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage, sortColumn, sortOrder, sortCodeOrder]);
+  }, [currentPage, rowsPerPage, sortColumn, sortOrder]);
 
   useEffect(() => {
     const handleSearch = setTimeout(() => {
