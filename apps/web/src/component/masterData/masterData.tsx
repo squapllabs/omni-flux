@@ -4,10 +4,7 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
-  useGetAllmasertData,
-  useGetAllParentmasertDataDrop,
   useDeletemasertData,
-  getBySearchmasterData,
   useGetAllPaginatedMasterData,
 } from '../../hooks/masertData-hook';
 import EditIcon from '../menu/icons/newEditIcon';
@@ -15,71 +12,44 @@ import SearchIcon from '../menu/icons/search';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomLoader from '../ui/customLoader';
 import AddIcon from '../menu/icons/addIcon';
-import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import CustomPagination from '../menu/CustomPagination';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import MasterDataForm from './masterDataForm';
 import MasterDataIcon from '../menu/icons/masterDataIcon';
 import Select from '../ui/selectNew';
+import DescendingIcon from '../menu/icons/descIcon';
+import AscendingIcon from '../menu/icons/ascendingIcon';
+import FilterOrderIcon from '../menu/icons/filterOrderIcon';
 
 const MaterData = () => {
-  const [selectedValue, setSelectedValue] = useState('');
+  // const [selectedValue, setSelectedValue] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [value, setValue] = useState();
   const [openDelete, setOpenDelete] = useState(false);
   const [masterDataID, setMasterDataID] = useState();
   const [mode, setMode] = useState('');
-  const [open, setOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const activeButton = 'AC';
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
     sortByField: '',
     sortOrder: '',
   });
-  const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(3);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [reload, setReload] = useState(false);
   const [masterDataFormOpen, setMasterDataFormOpen] = useState(false);
+  const [sortColumn, setSortColumn] = useState('master_data_name');
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [sortCodeOrder, setSortCodeOrder] = useState('desc');
 
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: searchLoader,
-  } = getBySearchmasterData();
-
-  const { data: getAllmasterData, isLoading: getAllloading } =
-    useGetAllmasertData();
-  const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
-    useGetAllParentmasertDataDrop();
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setFilterValues({
-      ...filterValues,
-      ['search_by_name']: event.target.value,
-      ['sortByField']: event.target.value,
-      ['sortOrder']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      // handleReset();
-    }
-  };
-  const [dataShow, setDataShow] = useState(false);
+
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column:
-      filterValues?.sortByField === ''
-        ? 'updated_date'
-        : filterValues?.sortByField,
-    order_by_direction:
-      filterValues?.sortOrder === '' ? 'desc' : filterValues?.sortOrder,
+    order_by_column: sortColumn === '' ? 'updated_date' : sortColumn,
+    order_by_direction: sortOrder === '1' ? sortCodeOrder : sortOrder,
     status: activeButton,
     global_search: filterValues?.search_by_name,
   };
@@ -89,53 +59,16 @@ const MaterData = () => {
     refetch,
   } = useGetAllPaginatedMasterData(masterData);
 
-  const handleDropdownChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const searchValue = event.target.value;
-    const selectedRoleId = event.target.value;
-    setSelectedValue(selectedRoleId);
-    setIsResetDisabled(searchValue === '');
-  };
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage]);
+  }, [currentPage, rowsPerPage, sortColumn, sortOrder, sortCodeOrder]);
+
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
     }, 1000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-  // const handleSearch = async () => {
-  //   const masterData: any = {
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     limit: rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'asc',
-  //     status: activeButton,
-  //     global_search: filterValues.search_by_name,
-  //     parent_id: Number(selectedValue),
-  //   };
-  //   postDataForFilter(masterData);
-  //   setDataShow(true);
-  //   setIsLoading(false);
-  //   setFilter(true);
-  // };
-  // const handleReset = async () => {
-  //   setFilterValues({
-  //     search_by_name: '',
-  //   });
-  //   setSelectedValue('');
-  //   setDataShow(false);
-  //   setIsLoading(false);
-  //   setFilter(false);
-  //   setIsLoading(false);
-  //   setSelectedValue('');
-  //   setIsResetDisabled(true);
-  // };
-  // const handlePageChange = (page: React.SetStateAction<number>) => {
-  //   setCurrentPage(page);
-  // };
 
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
@@ -148,10 +81,6 @@ const MaterData = () => {
   };
   const handleSnackBarClose = () => {
     setOpenSnack(false);
-  };
-  const deleteCategoryHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
   };
   const handleEdit = (value: any) => {
     setMode('Edit');
@@ -176,14 +105,21 @@ const MaterData = () => {
   const options: any = [
     { value: 'master_data_name', label: 'Name' },
     { value: 'master_data_type', label: 'Code' },
-    { value: 'created_date', label: 'Created Date' },
-    { value: 'updated_date', label: 'Updated Date' },
   ];
 
   const order: any = [
     { value: 'asc', label: 'a-z' },
     { value: 'desc', label: 'z-a' },
   ];
+
+  const handleSortByColumn = (columnName: any) => {
+    if (columnName === sortColumn) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(columnName);
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    }
+  };
 
   return (
     <div>
@@ -221,7 +157,7 @@ const MaterData = () => {
                   onChange={(e) => {
                     setFilterValues({
                       ...filterValues,
-                      ['search_by_name']: e.target.value,
+                      search_by_name: e.target.value,
                     });
                     setCurrentPage(1);
                   }}
@@ -238,7 +174,7 @@ const MaterData = () => {
                 onChange={(e) => {
                   setFilterValues({
                     ...filterValues,
-                    ['sortByField']: e.target.value,
+                    sortByField: e.target.value,
                   });
                   setCurrentPage(1);
                 }}
@@ -250,14 +186,13 @@ const MaterData = () => {
               <Select
                 width="140px"
                 name="order"
-                // label="Order"
                 defaultLabel="Select from options"
                 placeholder="Order"
                 value={filterValues?.sortOrder}
                 onChange={(e) => {
                   setFilterValues({
                     ...filterValues,
-                    ['sortOrder']: e.target.value,
+                    sortOrder: e.target.value,
                   });
                   setCurrentPage(1);
                 }}
@@ -267,71 +202,35 @@ const MaterData = () => {
                 })}
               </Select>
             </div>
-            {/* <div className={Styles.dividerStyle}></div> */}
             <div className={Styles.box}>
-              {/* <div className={Styles.textContent}>
-                <h3>List of Master Data</h3>
-                <span className={Styles.content}>
-                  List of all existing master data entries
-                </span>
-              </div> */}
-              {/* <div className={Styles.searchField}>
-                <div className={Styles.inputFilter}>
-                  <Input
-                    width="260px"
-                    prefixIcon={<SearchIcon />}
-                    name="search_by_name"
-                    value={filterValues.search_by_name}
-                    onChange={(e) => handleFilterChange(e)}
-                    placeholder="Search by name"
-                  />
-                  <AutoCompleteSelect
-                    name="parent_master_data_id"
-                    defaultLabel="Select Parent Name"
-                    onChange={() => handleDropdownChange}
-                    value={selectedValue}
-                    placeholder="Parent Name"
-                    width="260px"
-                    onSelect={(value) => {
-                      setSelectedValue(value);
-                      setIsResetDisabled(false);
-                    }}
-                    optionList={
-                      dropLoading === true ? [] : getAllmasterDataForDrop
-                    }
-                  />
-                  <Button
-                    className={Styles.searchButton}
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </Button>
-                  <Button
-                    className={Styles.resetButton}
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    disabled={isResetDisabled}
-                    onClick={handleReset}
-                  >
-                    Reset
-                  </Button>
-                </div>
-              </div> */}
               <div className={Styles.tableContainer}>
                 <div>
                   <table className={Styles.scrollable_table}>
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        {/* <th>Description</th> */}
-                        <th>Code</th>
-                        <th>Parent Name</th>
-                        {activeButton === 'AC' && <th>Actions</th>}
+                        <th
+                          onClick={() => handleSortByColumn('master_data_name')}
+                        >
+                          <div className={Styles.headingRow}>
+                            <div>Name</div>
+                            <div>
+                              <FilterOrderIcon />
+                            </div>
+                          </div>
+                        </th>
+                        <th
+                          onClick={() => handleSortByColumn('master_data_type')}
+                        >
+                          <div className={Styles.headingRow}>
+                            <div>Code</div>
+                            <div>
+                              <FilterOrderIcon />
+                            </div>
+                          </div>
+                        </th>
+                        <th>Parent Type</th>
+                        {activeButton === 'AC' ? <th>Action</th> : ''}
                       </tr>
                     </thead>
                     <tbody>
@@ -349,21 +248,6 @@ const MaterData = () => {
                             <tr key={data.uom_id}>
                               <td>{startingIndex + index}</td>
                               <td>{data.master_data_name}</td>
-                              {/* <td>
-                            <span
-                              title={data?.master_data_description}
-                              className={Styles.truncatedStyle}
-                            >
-                              {data.master_data_description
-                                ? data.master_data_description.length > 20
-                                  ? data.master_data_description.substring(
-                                      0,
-                                      20
-                                    ) + '...'
-                                  : data.master_data_description
-                                : '-'}
-                            </span>
-                          </td> */}
                               <td>{data.master_data_type}</td>
                               <td>
                                 {data?.parent?.master_data_name === undefined
@@ -401,10 +285,6 @@ const MaterData = () => {
           </div>
         ) : (
           <div>
-            {/* <div className={Styles.subHeading}>
-              <MasterDataIcon />
-              <span>MASTER DATA</span>
-            </div> */}
             <div className={Styles.emptyDataHandling}>
               <div>
                 <img
