@@ -152,5 +152,11 @@
   // background-image: repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.1) 10px);
   // background-size: 100% 20px;
   // line-height: 20px; 
-
+}
+.subHeading {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding: 0px 2px;
 }

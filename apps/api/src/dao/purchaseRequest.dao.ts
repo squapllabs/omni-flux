@@ -22,6 +22,13 @@ const add = async (
     const is_delete = false;
     const formatted_request_date = request_date ? new Date(request_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
+
+    const purchaseRequestCodeGeneratorQuery = `select concat('PUR',DATE_PART('year', CURRENT_DATE),'00',nextval('purchase_request_code_sequence')::text) as purchase_request_code_sequence`;
+
+    const purchaseRequestCode = await customQueryExecutor.customQueryExecutor(
+      purchaseRequestCodeGeneratorQuery
+    );
+
     const purchaseRequest = await transaction.purchase_request.create({
       data: {
         indent_request_id,
@@ -34,20 +41,22 @@ const add = async (
         selected_vendor_id,
         total_cost,
         created_by,
-        purchase_request_details,
         purchase_request_documents,
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
+        purchase_request_code:
+          purchaseRequestCode[0].purchase_request_code_sequence,
       },
     });
 
     const new_purchase_request_id = purchaseRequest?.purchase_request_id;
 
     const vendorQuotesDetails = [];
+    const vendorQuotationDetailsData = [];
     const quotationIdGeneratorQuery = `select concat('VQUO',DATE_PART('year', CURRENT_DATE),'00',nextval('vendor_quotation_sequence')::text) as vendor_quotation_sequence`;
 
-    for (const vendor of vendor_ids) {
+    for await (const vendor of vendor_ids) {
       const vendor_id = vendor;
       const quotation_id = await customQueryExecutor.customQueryExecutor(
         quotationIdGeneratorQuery
@@ -70,7 +79,6 @@ const add = async (
             quotation_status: 'Pending',
             total_quotation_amount: 0,
             remarks: null,
-            quotation_details: purchase_request_details,
             quotation_id: quotation_id[0].vendor_quotation_sequence,
             created_by,
             created_date: currentDate,
@@ -78,6 +86,33 @@ const add = async (
             is_delete: is_delete,
           },
         });
+
+        if (vendorQuotes) {
+          const new_vendor_quotes_id = vendorQuotes?.vendor_quotes_id;
+          for await (const purchase_request_detail of purchase_request_details) {
+            const vendorQuotationDetails =
+              await transaction.vendor_quotation_details.create({
+                data: {
+                  vendor_quotes_id: new_vendor_quotes_id,
+                  item_id: purchase_request_detail?.item_id,
+                  indent_request_details_id:
+                    purchase_request_detail?.indent_request_details_id,
+                  indent_requested_quantity:
+                    purchase_request_detail?.indent_requested_quantity,
+                  purchase_requested_quantity:
+                    purchase_request_detail?.purchase_requested_quantity,
+                  unit_cost: 0,
+                  total_cost: 0,
+                  created_by,
+                  created_date: currentDate,
+                  updated_date: currentDate,
+                  is_delete: is_delete,
+                },
+              });
+            vendorQuotationDetailsData.push(vendorQuotationDetails);
+          }
+        }
+
         vendorQuotesDetails.push(vendorQuotes);
       } else {
         vendorQuotesDetails.push({
@@ -91,6 +126,7 @@ const add = async (
     const purchaseRequestData = {
       purchase_request: purchaseRequest,
       vendor_quotes: vendorQuotesDetails,
+      vendor_quotation_details: vendorQuotationDetailsData,
     };
 
     return purchaseRequestData;
@@ -111,7 +147,6 @@ const edit = async (
   selected_vendor_id: number,
   total_cost: number,
   updated_by: number,
-  purchase_request_details: JSON,
   purchase_request_documents,
   purchase_request_id: number,
   connectionObj = null
@@ -135,7 +170,6 @@ const edit = async (
         selected_vendor_id,
         total_cost,
         updated_by,
-        purchase_request_details,
         purchase_request_documents,
         updated_date: currentDate,
       },
@@ -157,8 +191,21 @@ const getById = async (purchaseRequestId: number, connectionObj = null) => {
       },
       include: {
         indent_request_data: true,
+        vendor_quotes: {
+          include: {
+            vendor_data: true,
+            vendor_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
+          },
+        },
         requester_user_data: { select: { first_name: true, last_name: true } },
         project_data: true,
+        site_data: true,
         selected_vendor_data: { select: { vendor_name: true } },
       },
     });
@@ -233,10 +280,31 @@ const searchPurchaseRequest = async (
     const purchaseRequest = await transaction.purchase_request.findMany({
       where: filter,
       include: {
+        vendor_quotes: {
+          include: {
+            vendor_data: true,
+            vendor_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
+          },
+        },
         indent_request_data: true,
-        requester_user_data: { select: { first_name: true, last_name: true } },
+        requester_user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+            contact_no: true,
+            email_id: true,
+          },
+        },
         project_data: true,
-        selected_vendor_data: { select: { vendor_name: true } },
+        site_data: true,
+        selected_vendor_data: true,
+        purchase_order: true,
       },
       orderBy: [
         {

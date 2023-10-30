@@ -2,6 +2,8 @@ import LabourService from "../../service/labour-service";
 
 export const labourErrorMessages = {
     ENTER_TYPE: 'Labour Type is required',
+    MAX_TYPE: 'Labour Type must be less then 15',
+    MIN_TYPE: 'Labour Type  must be greater then 3 ',
     ENTER_UOMTYPE: 'UOM Type is required',
     ENTER_RATE: 'Rate is required',
     TYPE_ERROR: 'Only Number are allowed',
@@ -16,6 +18,8 @@ export const getLabourCreationYupschema = (yup: any) => {
     return yup.object().shape({
         labour_type: yup
             .string()
+            .min(3, labourErrorMessages.MIN_TYPE)
+            .max(15, labourErrorMessages.MAX_TYPE)
             .trim()
             .required(labourErrorMessages.ENTER_TYPE)
             .test('code-availability',
@@ -48,6 +52,8 @@ export const getLabourUpdateYupschema = (yup: any) => {
         labour_id: yup.number().required(),
         labour_type: yup
             .string()
+            .min(3, labourErrorMessages.MIN_TYPE)
+            .max(15, labourErrorMessages.MAX_TYPE)
             .trim()
             .required(labourErrorMessages.ENTER_TYPE)
             .test('code-availability',

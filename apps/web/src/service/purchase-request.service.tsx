@@ -88,7 +88,7 @@ const getPoData = async (values: JSON) => {
   }
 };
 
-const documentUpload = async (file: any, code: string,folder:string) => {
+const documentUpload = async (file: any, code: string, folder: string) => {
   const formData = new FormData();
   formData.append('storage', 's3');
   formData.append('file', file);
@@ -110,13 +110,29 @@ const documentUpload = async (file: any, code: string,folder:string) => {
     throw error;
   }
 };
+
+const purchaseDetailData = async (values: any) => {
+  console.log('values', values);
+
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/purchase-request/search`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in purchaseDetailData search :', error);
+    throw error;
+  }
+};
 export default {
-    getOnePurchaseRequest,
-    createPurchaseOrderItem,
-    getOneOrderPurchaseRequest,
-    getAllBillStatusParentType,
-    getOnePurchaseOrderDataByID,
-    updatePoBillStatus,
-    getPoData,
-    documentUpload
+  getOnePurchaseRequest,
+  createPurchaseOrderItem,
+  getOneOrderPurchaseRequest,
+  getAllBillStatusParentType,
+  getOnePurchaseOrderDataByID,
+  updatePoBillStatus,
+  getPoData,
+  documentUpload,
+  purchaseDetailData,
 };

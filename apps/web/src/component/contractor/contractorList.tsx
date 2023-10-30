@@ -332,17 +332,17 @@ const ContractorList = () => {
                   src="/_contractor_.jpg"
                   alt="contractor_img"
                   width="100%"
-                  height="250px"
+                  height="200px"
                   style={{paddingTop: '35px', paddingBottom: '10px'}}
                 />
               </div>
               <div>
                 <h5>Contractor list is Empty</h5>
               </div>
-              <div>
+              <div className={Styles.contentGap}>
                 <span className={Styles.spanContent}>Go ahead, add new Contractors</span>
               </div>
-              <div className={Styles.emptyButton}>
+              <div>
                 <Button
                 color="primary"
                 shape="rectangle"

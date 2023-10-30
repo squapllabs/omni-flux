@@ -85,7 +85,6 @@ const ProjectStockmanagement = () => {
     fetchData();
   }, [!siteLoading, intialValue]);
 
-
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -264,17 +263,15 @@ const ProjectStockmanagement = () => {
                 <img
                   src="/StockManagement.jpg"
                   alt="aa"
-                  width="50%"
-                  height="50%"
+                  width="35%"
+                  height="40%"
                 />
               </div>
               <div>
-                <h5>This project has no Stock Details</h5>
+                <h5 className={Styles.textmax}>This project has no Stock Details</h5>
               </div>
               <div>
-                <span className={Styles.spanContent}>
-                  Manage Stock Audit details to this project now
-                </span>
+                <p className={Styles.textmin}>Manage Stock Audit details to this project now</p>
               </div>
               <div className={Styles.emptyButton}>
                 <Button

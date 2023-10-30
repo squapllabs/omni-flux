@@ -13,7 +13,7 @@ import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useNavigate } from 'react-router-dom';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
-import ReportGenerator from '../reportGenerator/invoice';
+import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from '../project/projectSubheader';
 import Input from '../ui/Input';
@@ -57,6 +57,7 @@ const PurchaseList = () => {
       priority: '',
       status: 'AC',
       approver_status: 'Approved',
+      request_type: 'Head Office',
     };
     postDataForFilter(userData);
     setSelectedValue('');
@@ -86,6 +87,7 @@ const PurchaseList = () => {
       status: 'AC',
       approver_status: 'Approved',
       indent_request_code: filterValues.search_by_code,
+      request_type: 'Head Office',
     };
     postDataForFilter(userData);
   };
@@ -257,10 +259,12 @@ const PurchaseList = () => {
                   <th className={Styles.tableHeading}>Indent Code</th>
                   <th className={Styles.tableHeading}>Project Name</th>
                   <th className={Styles.tableHeading}>
-                    Expected Delivery Date{' '}
+                    Expected Delivery Date
                   </th>
                   <th className={Styles.tableHeading}>Priority</th>
                   <th className={Styles.tableHeading}>Cost</th>
+                  <th className={Styles.tableHeading}>Approved By</th>
+                  <th className={Styles.tableHeading}>Approved Date</th>
                   <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
@@ -301,16 +305,48 @@ const PurchaseList = () => {
                         )}
                       </td>
                       <td>
-                        <div className={Styles.tablerow}>
-                          <ViewIcon
-                            onClick={() =>
-                              handleView(
-                                data?.indent_request_id,
-                                data?.project_id
-                              )
-                            }
-                          />
-                          {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
+                        {data?.approver_user_data?.first_name +
+                          ' ' +
+                          data?.approver_user_data?.last_name}
+                      </td>
+                      <td>
+                        {' '}
+                        {format(new Date(data?.approved_date), 'MMM dd, yyyy')}
+                      </td>
+                      <td>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                          }}
+                        >
+                          <div className={Styles.tablerow}>
+                            <ViewIcon
+                              onClick={() =>
+                                handleView(
+                                  data?.indent_request_id,
+                                  data?.project_id
+                                )
+                              }
+                            />
+                            {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
+                          </div>
+                          <div
+                            className={Styles.tablerow}
+                            style={{ color: 'green' }}
+                          >
+                            <span
+                              onClick={() =>
+                                navigate(
+                                  `/purchase-request-list/${data.indent_request_id}`
+                                )
+                              }
+                            >
+                              PR
+                            </span>
+                            {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
+                          </div>
                         </div>
                       </td>
                     </tr>

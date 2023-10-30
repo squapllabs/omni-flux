@@ -271,6 +271,9 @@ import NewBoqList from '../component/projectBOQ/projectBoqList';
 import GenerateOtp from '../component/generateOtp';
 import ExpenseRecall from '../component/expenseRecall/expenseRecall';
 import PurchaseRequestItemView from '../component/purchaseApproval/purchaseRequestItemView';
+import PurchaseOrderIndividualView from '../component/purchaseOrder/purchaseOrderView';
+import PurchaseRequestList from '../component/purchaseRequest/purchaseRequestList';
+import PurchaseOrderVendorSelect from '../component/purchaseApproval/purchaseVendorSelect';
 import BoqTaskListScreen from '../component/projectBOQ/taskScreen';
 
 const AppRoutes = () => {
@@ -375,6 +378,14 @@ const AppRoutes = () => {
   const ProtectedExpenseRecall = withLayoutAndProtection(ExpenseRecall);
   const ProtectedPurchaseRequestItemView = withLayoutAndProtection(
     PurchaseRequestItemView
+  );
+  const ProtectedPurchaseOrderIndividualView = withLayoutAndProtection(
+    PurchaseOrderIndividualView
+  );
+  const ProtectedPurchaseRequestList =
+    withLayoutAndProtection(PurchaseRequestList);
+  const ProtectedPurchaseVendorSelect = withLayoutAndProtection(
+    PurchaseOrderVendorSelect
   );
   return (
     <div>
@@ -594,6 +605,18 @@ const AppRoutes = () => {
         <Route
           path="/request-items"
           element={<ProtectedPurchaseRequestItemView />}
+        />
+        <Route
+          path="/purchase-order-view/:id"
+          element={<ProtectedPurchaseOrderIndividualView />}
+        />
+        <Route
+          path="/purchase-request-list/:id"
+          element={<ProtectedPurchaseRequestList />}
+        />
+        <Route
+          path="/vendor-select"
+          element={<ProtectedPurchaseVendorSelect />}
         />
       </Routes>
     </div>

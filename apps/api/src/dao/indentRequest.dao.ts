@@ -18,6 +18,7 @@ const add = async (
   site_id: number,
   indent_request_details,
   project_id: number,
+  request_type: string,
   connectionObj = null
 ) => {
   try {
@@ -68,6 +69,7 @@ const add = async (
             is_delete: is_delete,
             indent_request_code:
               indentRequestCode[0].indent_request_code_sequence,
+            request_type,
           },
         });
 
@@ -399,6 +401,7 @@ const searchIndentRequest = async (
       await transaction.indent_request.findMany({
         where: {
           is_delete: filter?.is_delete,
+          project_id: filter?.AND[0]?.project_id,
         },
       });
 
@@ -501,6 +504,7 @@ const updateStatus = async (
   rejected_date: Date,
   updated_by: number,
   approver_user_id: number,
+  request_type: string,
   connectionObj = null
 ) => {
   try {
@@ -524,6 +528,7 @@ const updateStatus = async (
         updated_by,
         approver_user_id,
         updated_date: currentDate,
+        request_type,
       },
     });
     return indentRequest;

@@ -47,6 +47,8 @@ const Bom: React.FC = (props: any) => {
   const [reload, setReload] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState<any>();
+  const [openDialog, setOpenDialog] = useState(false);
   const { data: getSubCategoryData } = getBySubcategoryID(subCategoryId);
 
   useEffect(() => {
@@ -103,23 +105,174 @@ const Bom: React.FC = (props: any) => {
     fetchData();
   }, [activeButton, reload]);
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
-  const handleBulkBomAdd = () => {
-    bulkBomData(bomList, {
-      onSuccess(data, variables, context) {
-        if (data?.status === true) {
-          setMessage('BOM created successfully');
-          setOpenSnack(true);
-          setReload(!reload);
-          setTimeout(() => {
-            props.setOpen(!props.open);
-            props.setReload(!props.reload);
-            props.setSubTaskView(!props.subTaskView);
-            props.setIsCollapsed(!props.isCollapsed);
-          }, 1000);
+
+  const validationSchema = Yup.array().of(
+    Yup.object()
+      .shape({
+        uom_id: Yup.string().trim().required('UOM is required'),
+        rate: Yup.number()
+          .required('Rate is required')
+          .typeError('Numbers only allowed').min(1),
+        quantity: Yup.number()
+          .required('Quantity is required')
+          .typeError('Numbers only allowed').min(1),
+        item_id: Yup.string()
+          .trim()
+          .nullable()
+          .test(
+            'decimal-validation',
+            'Already Exists',
+            async function (value, { parent }: Yup.TestContext) {
+              if (value != null) {
+                try {
+                  const bOMType = parent.bom_type;
+                  if (bOMType === 'RAWMT') {
+                    let dummy: any = [];
+                    const allIds = bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.item_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.item_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
+                  } else {
+                    return false;
+                  }
+                } catch {
+                  return true;
+                }
+              } else {
+                return true;
+              }
+            }
+          ),
+        labour_id: Yup.string()
+          .trim()
+          .nullable()
+          .test(
+            'decimal-validation',
+            'Already Exists',
+            async function (value, { parent }: Yup.TestContext) {
+              if (value != null) {
+                try {
+                  const bOMType = parent.bom_type;
+                  if (bOMType === 'LABOR') {
+                    let dummy: any = [];
+                    const allIds = bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.labour_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.labour_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
+                  } else {
+                    return false;
+                  }
+                } catch {
+                  return true;
+                }
+              } else {
+                return true;
+              }
+            }
+          ),
+        machinery_id: Yup.string()
+          .trim()
+          .nullable()
+          .test(
+            'decimal-validation',
+            'Already Exists',
+            async function (value, { parent }: Yup.TestContext) {
+              if (value != null) {
+                try {
+                  const bOMType = parent.bom_type;
+                  if (bOMType === 'MCNRY') {
+                    let dummy: any = [];
+                    const allIds = bomList.map((item: any) => {
+                      if (item.is_delete === 'N') {
+                        item.machinery_id;
+                      }
+                      if (item.is_delete === false) {
+                        dummy.push(item.machinery_id);
+                      }
+                    });
+                    const checking = dummy.filter(
+                      (id: any) => Number(id) === Number(value)
+                    ).length;
+                    if (checking <= 1) {
+                      return true;
+                    } else return false;
+                  } else {
+                    return false;
+                  }
+                } catch {
+                  return true;
+                }
+              } else {
+                return true;
+              }
+            }
+          ),
+      })
+      .test('at-least-one-required', null, (values) => {
+        const { labour_id, item_id, machinery_id } = values;
+
+        if (!labour_id && !item_id && !machinery_id) {
+          return new Yup.ValidationError(
+            'At least one of labour_id, item_id, machenery_id is required',
+            null,
+            'at-least-one-required'
+          );
         }
-      },
-    });
-  };
+        return true;
+      })
+  );
+
+  const handleBulkBomAdd = () => {
+    validationSchema
+      .validate(bomList, { abortEarly: false })
+      .then(() => {
+        bulkBomData(bomList, {
+          onSuccess(data, variables, context) {
+            if (data?.status === true) {
+              setMessage('BOM details added successfully');
+              setOpenSnack(true);
+              setReload(!reload);
+              setTimeout(() => {
+                props.setOpen(!props.open);
+                props.setReload(!props.reload);
+                props.setSubTaskView(!props.subTaskView);
+                props.setIsCollapsed(!props.isCollapsed);
+              }, 1000);
+            }
+          },
+        });
+      })
+      .catch((e: any) => {
+        const errorObj = {};
+        e.inner?.map((error: any) => {
+          return (errorObj[error.path] = error.message);
+        });
+        setErrors({
+          ...errorObj,
+        });
+      });
+  };  
+
   const handleClose = () => {
     props.setOpen(false);
   };
@@ -128,6 +281,15 @@ const Bom: React.FC = (props: any) => {
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
+    bomList.map((item: any, index: any) => {
+      if (
+        item.labour_id === '' ||
+        item.item_id === '' ||
+        item.machinery_id === ''
+      ) {
+        bomList.splice(index, 1);
+      }
+    });
   };
   const handleItemFormClose = () => {
     showItemForm(false);
@@ -138,6 +300,10 @@ const Bom: React.FC = (props: any) => {
   const handleMachineryFormClose = () => {
     showMachineryForm(false);
   };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <div className={Styles.bomcontainer}>
       <div className={Styles.sub_container}>
@@ -149,7 +315,7 @@ const Bom: React.FC = (props: any) => {
               justifyContent: 'space-between',
             }}
           >
-            <div>
+            <div style={{paddingLeft:'10px'}}>
               <CustomGroupButton
                 labels={buttonLabels}
                 onClick={handleGroupButtonClick}
@@ -179,6 +345,8 @@ const Bom: React.FC = (props: any) => {
                 setBomList={setBomList}
                 bomList={bomList}
                 showItemForm={showItemForm}
+                errors={errors}
+                setErrors={setErrors}
               />
             ) : (
               ''
@@ -196,6 +364,8 @@ const Bom: React.FC = (props: any) => {
                 setBomList={setBomList}
                 bomList={bomList}
                 showLabourForm={showLabourForm}
+                errors={errors}
+                setErrors={setErrors}
               />
             ) : (
               ''
@@ -213,6 +383,8 @@ const Bom: React.FC = (props: any) => {
                 setBomList={setBomList}
                 bomList={bomList}
                 showMachineryForm={showMachineryForm}
+                errors={errors}
+                setErrors={setErrors}
               />
             ) : (
               ''
@@ -305,3 +477,10 @@ const Bom: React.FC = (props: any) => {
 };
 
 export default Bom;
+function schema(
+  values: any[],
+  schema: StringSchema<string | undefined, AnyObject, undefined, ''>,
+  options: ResolveOptions<any>
+): ISchema<any, any, any, any> {
+  throw new Error('Function not implemented.');
+}

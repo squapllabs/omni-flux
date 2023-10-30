@@ -3,7 +3,7 @@ import Button from '../../ui/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
 import projectService from '../../../service/project-service';
-import Styles from '../../../styles/project.module.scss';
+import Styles from '../../../styles/projectSiteConfig.module.scss';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -107,7 +107,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
               <div className={Styles.heading}>
                 <div className={Styles.subHeading}>
                   <SiteNavigateIcon width={30} height={30} />
-                  <h4>SITES</h4>
+                  <h3>SITES</h3>
                 </div>
                 <div>
                   <Button
@@ -137,6 +137,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </div>
 
             <div className={Styles.tableContainer}>
+              <div>
               <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
@@ -218,6 +219,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                   })}
                 </tbody>
               </table>
+              </div>
             </div>
             <div>
               <CustomPagination
@@ -232,7 +234,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
           </div>
         ) : (
           <div>
-            <div className={Styles.subHeading}>
+            <div className={Styles.subHeadingForInitialPage}>
               <SiteNavigateIcon width={30} height={30} />
               <h3>SITES</h3>
             </div>
@@ -251,7 +253,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                 </p>
               </div>
               <div className={Styles.siteCreateButton}>
-                <div>
+                <div className={Styles.emptyButton}>
                   <Button
                     color="primary"
                     shape="rectangle"

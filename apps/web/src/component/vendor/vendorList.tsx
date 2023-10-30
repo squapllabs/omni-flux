@@ -23,7 +23,7 @@ import ProjectSubheader from '../project/projectSubheader';
 const VendorList = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const currentPath = location.pathname;  
   const { mutate: getDeleteVendorByID } = useDeleteVendor();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
@@ -143,7 +143,6 @@ const VendorList = () => {
 
   return (
     <div>
-      <div>
         <CustomLoader
           loading={searchLoader ? searchLoader : getAllLoadingPaginated}
           size={48}
@@ -151,18 +150,21 @@ const VendorList = () => {
         >
           {initialData?.is_available ? (
             <div>
-              {location.pathname === '/vendor-list' && (
+              {currentPath === '/vendor-list' && (
                 <div>
-                  <ProjectSubheader
-                    navigation={'/home'}
-                    title="Vendors"
-                    description="Manage your approved vendors"
-                  />
+                  <div>
+                    <ProjectSubheader
+                      navigation={'/home'}
+                      title="Vendors"
+                      description="Manage your approved vendors"
+                    />
+                  </div>
+                  <div style={{paddingTop: '10px'}}></div>
                 </div>
               )}
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>
-                  {location.pathname !== '/vendor-list' && (
+                  {currentPath !== '/vendor-list' && (
                     <div className={Styles.subHeading}>
                       <h3>VENDORS</h3>
                     </div>
@@ -174,14 +176,13 @@ const VendorList = () => {
                       justify="center"
                       size="small"
                       icon={<AddIcon color="white" />}
-                      onClick={() => navigate('/vendor-add')}
+                      onClick={() => navigate('/vendor-add', { state: { path:currentPath } })}
                     >
                       Add Vendor
                     </Button>
                   </div>
                 </div>
                 <div className={Styles.filters}>
-                  <div>
                     <Input
                       placeholder="Search Vendors"
                       width="300px"
@@ -195,7 +196,6 @@ const VendorList = () => {
                         setCurrentPage(1);
                       }}
                     />
-                  </div>
                   {/* <div>
                     <CustomGroupButton
                       labels={buttonLabels}
@@ -235,7 +235,6 @@ const VendorList = () => {
               </div> */}
               </div>
               <div className={Styles.tableContainer}>
-                <div>
                   <table className={Styles.scrollable_table}>
                     <thead>
                       <tr>
@@ -304,7 +303,7 @@ const VendorList = () => {
                                */}
                                   <EditIcon
                                     onClick={() =>
-                                      navigate(`/vendor-edit/${data.vendor_id}`)
+                                      navigate(`/vendor-edit/${data.vendor_id}`, { state: { path:currentPath } })
                                     }
                                   />
                                   <ViewIcon
@@ -325,7 +324,6 @@ const VendorList = () => {
                       )}
                     </tbody>
                   </table>
-                </div>
               </div>
               <div className={Styles.pagination}>
                 <Pagination
@@ -354,17 +352,17 @@ const VendorList = () => {
                   src="/vendor.jpg"
                   alt="aa"
                   width="100%"
-                  height="250px"
+                  height="150px"
                   style={{paddingBottom: '15px'}}
                 />
               </div>
               <div>
                 <h5>Vendors List is Empty</h5>
               </div>
-              <div>
+              <div className={Styles.contentGap}>
                 <span className={Styles.spanContent}>Go ahead, add new vendors</span>
               </div>
-              <div className={Styles.emptyButton}>
+              <div>
                 <Button
                       color="primary"
                       shape="rectangle"
@@ -381,7 +379,6 @@ const VendorList = () => {
           )}
 
         </CustomLoader>
-      </div>
       <CustomDelete
         open={openDelete}
         title="Delete Vendor"

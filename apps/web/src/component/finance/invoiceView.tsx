@@ -17,7 +17,7 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 import ViewIcon from '../menu/icons/viewIcon';
 import { format } from 'date-fns';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
-import ReportGenerator from '../reportGenerator/invoice';
+import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from '../project/projectSubheader';
 import { environment } from '../../environment/environment';
