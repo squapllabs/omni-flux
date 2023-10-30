@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   getBycategoryIdInSub,
   useDeleteSubcategory,
@@ -22,6 +22,9 @@ import CustomMenu from '../ui/NewCustomMenu';
 import subCategoryService from '../../service/subCategory-service';
 import SubBoqItems from './subBoqItems';
 import SettingIcon from '../menu/icons/settingIcon';
+import FileUploadIcon from '../menu/icons/fileUploadIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
+import { read, utils } from 'xlsx';
 
 
 const BomItems = (props: {
@@ -57,7 +60,10 @@ const BomItems = (props: {
   const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
   const [openedContextMenuForSubCategory, setOpenedContextMenuForSubCategory] =
     useState<number | null>(null);
+  const [uploadedTaskData , setUploadedTaskData] = useState<any[]>([]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [subChildList, setSubChildList] = useState<any>([]);
+  const [ TaskPopupTrigger , setTaskPopupTrigger] = useState(false)
   const primary_color = '#7f56d';
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -106,6 +112,90 @@ const BomItems = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  const handleFileOnChange = async (e:any) =>{
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e:any) => {
+        const data = e.target.result;
+        const workbook = read(data, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = utils.sheet_to_json(sheet);
+        const parsedJson = JSON.parse(JSON.stringify(jsonData));
+        if(parsedJson.length > 1){
+
+          const taskData: { id: string | undefined; description: any; uom_id: number; quantity: any; rate: any; estimated_budget: any; actual_budget: number; children: any[]; }[] = []
+        const formattedTaskData = parsedJson.forEach((element:any) =>{
+          
+         const  s_no_array = String(element['SI.NO']).split('.');
+          if(s_no_array.length === 1){
+            const obj = {
+              id : s_no_array.pop(),
+              description : (element?.Description || ''),
+              uom_id:0,
+              quantity:(element?.Quantity || ''),
+              rate: (element?.Rate|| ''),
+              estimated_budget: (element?.Amount|| ''),
+              actual_budget: 0,
+              children : []
+            }
+            taskData.push(obj);
+          } else if(s_no_array.length === 2){
+            const parentId = s_no_array.shift();
+            const parenIndex = taskData.findIndex(parent => parent.id === parentId)
+            const obj = {
+              id : s_no_array.pop(),
+              description : (element?.Description || ''),
+              uom_id:0,
+              quantity:(Number(element?.Quantity) || ''),
+              rate: (Number(element?.Rate)|| ''),
+              estimated_budget: (element?.Amount|| ''),
+              actual_budget: 0,
+            }
+            taskData[parenIndex].children.push(obj)
+          }
+        });
+        
+        
+        if(taskData.length){
+          setUploadedTaskData(taskData)
+          setTaskPopupTrigger(true)
+        }else {
+          setUploadedTaskData([])
+        }
+          // const bulkUploadData = parsedJson.map((element:any) => ({
+          //   description: element,
+          //   project_id: props.selectedProject,
+          //   actual_budget: 0,
+          //   category_id: props.selectedCategoryId,
+          //   start_date: '',
+          //   end_date: '',
+          //   bom_configuration_id: props.selectedBomConfig,
+          //   parent_sub_category_id:
+          //   props.mode === 'Sub Task' ? props.selectedSubCategory : null,
+          //   estimated_budget : values.estimated_budget,
+          //   uom_id : values.uom_id,
+          //   rate :  values.rate,
+          //   quantity : element
+          // }));
+          
+        }else {
+          // throw error message
+        }
+      
+        // Update the state with the Excel data
+        // setExcelData(jsonData);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+    }
+    const handleFileUploadBtnClick = () =>{
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    }
+  
+
   useEffect(() => {
     const closeContextMenu = () => {
       setMoreIconDropdownOpen(false);
@@ -125,7 +215,7 @@ const BomItems = (props: {
   const handleClosePlanList = () => {
     setShowPlanForm(false);
   };
-
+ 
   useEffect(() => {
     const fetchOne = async () => {
       const data = await CategoryService.getOneCategoryByID(
@@ -137,20 +227,163 @@ const BomItems = (props: {
     fetchOne();
   }, [selectedCategory, reload]);
 
+  const handleClosePopup = ():void => {
+    setTaskPopupTrigger(false)
+    console.log('')
+  }
+ 
   return ( 
     <div className={Styles.task_page_container}>
+
+<div>
+      <CustomSidePopup
+          open={TaskPopupTrigger}
+          title={categoryData?.name}
+          handleClose={handleClosePopup}
+          content={
+          <div className={Styles.ab_tableContainer}>
+            <table
+
+            style={{padding: '20px',width:'100%'}}
+            >
+                            <thead>
+                              <tr
+                               style={{padding: '20px 0'}}
+                              >
+                                <th>S No</th>
+                                <th>Description</th>
+                                <th>Uom</th>
+                                <th>Quantity</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {uploadedTaskData && uploadedTaskData?.length > 0 ? (
+                                uploadedTaskData.map((item: any, index: any) => (
+                                  <>
+                                  <tr key={index}
+                                  >
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{item.id}</td>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{item.description}</td>
+                                     <td
+                                    style={{padding: '10px 0'}}
+                                    >{('Unit'|| 0)}</td>
+                                     <td
+                                    style={{padding: '10px 0'}}
+                                    >{(item.quantity || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{(item.rate || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{(item.estimated_budget || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 0', cursor:'pointer'}}
+                                    ><DeleteIcon 
+                                    onClick={()=>{
+                                      if(uploadedTaskData.length){
+                                        const data = [...uploadedTaskData]
+                                        data.splice(index,1);
+                                        console.log('data')
+                                        debugger
+                                        setUploadedTaskData(data)
+                                      }else {
+                                        
+                                      console.log('throw error')
+                                      }
+                                    }}
+                                    /></td>
+                                    {/* <td
+                                    style={{padding: '10px 0'}}
+                                    >{ (Number(item.estimated_budget) || 0) * }</td> */}
+                                  </tr>
+                                  {item?.children.length ?
+                                  item.children.map((child: any, childIndex: any) =>(
+                                    <tr key={childIndex}>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{item.id + '.'+child.id}</td>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{child.description}</td>
+                                     <td
+                                    style={{padding: '10px 0'}}
+                                    >{('Unit'|| 0)}</td>
+                                     <td
+                                    style={{padding: '10px 0'}}
+                                    >{(child.quantity || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{(child.rate || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 0'}}
+                                    >{(item.estimated_budget || 0)}</td>
+                                    </tr>
+                                  ))
+                                  :('')}
+                                  </>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td>No records found</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+
+                    <div
+                    style={{
+                      display:'flex',
+                      justifyContent:'center',
+                      padding:'20px'
+                    }}
+                    >
+
+                    <Button
+                     color="primary"
+                     shape="rectangle"
+                     size="small"
+                     icon={<AddIcon width={20} color="white" />}
+                     onClick={() => {
+                       console.log('')
+                     }}
+                     justify='center'
+                   >
+                     Add Tasks
+                   </Button>
+           </div>
+          </div> 
+        } width={'70%'} description={"description"}/>
+
+         
+      </div>
+
+
       {getAllData ? (
         <div>
           <div className={Styles.mainHeading}>
             <div className={Styles.mainLeftContent}>
               <div className={Styles.leftContentOne}>
-                <CheckListIcon />
+                <CheckListIcon 
+                style={{padding:'4px 0 0 0;'}}
+                />
                 <h3 title={categoryData?.name}>
-                  {categoryData?.name
+                  {/* {categoryData?.name
                     ? categoryData?.name?.length > 20
                       ? categoryData?.name?.substring(0, 20) + '...'
                       : categoryData?.name
-                    : '-'}
+                    : '-'} */}
+                    {categoryData?.name}
                   ({getAllData?.length})
                 </h3>
               </div>
@@ -164,6 +397,27 @@ const BomItems = (props: {
               >
                 <NewAddCircleIcon />
                 <span className={Styles.menuFont}>Add Task</span>
+              </div>
+              <div className={`${Styles.flex} ${Styles.bulkUpload_container}`}
+              onClick={handleFileUploadBtnClick}
+              >
+              <span>
+                    <input
+                            ref={fileInputRef}
+                            id="upload-photo"
+                            name="upload_photo"
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={(e) => handleFileOnChange(e)}
+                          />
+                    <FileUploadIcon
+                    width={20}
+                    height={20}
+                    color="#7f56d9" onClick={function (): void {
+                      throw new Error('Function not implemented.');
+                    } }                          />
+                  </span>
+                  <span className={Styles.menuFont}>Bulk Upload</span>                      
               </div>
             </div>
             <div>
@@ -357,6 +611,7 @@ const BomItems = (props: {
                               subTaskView={subTaskView}
                               setSubTaskView={setSubTaskView} 
                               actions={undefined}                              />
+                           
                           );
                         })}
                     </>

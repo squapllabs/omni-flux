@@ -88,15 +88,6 @@ const BoqTaskListScreen : React.FC= ()=>{
                 <div className={Styles.verticalLine}></div>
               </div>
             </div>
-            {/* <div className={Styles.countContent}>
-              <h3>{getBomData?.abstract_count}</h3>
-              <span className={Styles.countContentTitle}>Abstract</span>
-            </div>
-            <div className={Styles.lineStyles}>
-              <div className={Styles.vertical}>
-                <div className={Styles.verticalLine}></div>
-              </div>
-            </div> */}
             <div className={Styles.countContent}>
               <h3>{getBomData?.tasks_count}</h3>
               <span className={Styles.countContentTitle}>Task</span>

@@ -80,7 +80,8 @@ const BomList: React.FC = (props: any) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [initialData, setInitialData] = useState(null)
+  const [initialData, setInitialData] = useState(null);
+  const [overallBudget, setOverallBudget] = useState<string>('')
   useEffect(() => {
     const fetchData = async () => {
       const obj = {
@@ -89,6 +90,7 @@ const BomList: React.FC = (props: any) => {
       };
       const datas = await CategoryService.getAllCategoryByProjectId(obj);
       setCategories(datas.data);
+      calculateOverallBudget(datas.data)
       setIsloading(false);
       setCategoryData(datas.data[0]);
       setSelectedCategory(datas.data[0].category_id);
@@ -97,6 +99,25 @@ const BomList: React.FC = (props: any) => {
 
     fetchData();
   }, [reload]);
+
+  const calculateOverallBudget = (abstracts:any)=>{
+    if(abstracts && abstracts.length){
+      let total_count = 0;
+      abstracts.forEach((element:any) => {
+        total_count = total_count + Number(element.estimated_budget)
+      });
+      console.log('total_count',total_count);
+      const formattedValue = total_count.toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 2,
+      });
+      setOverallBudget(formattedValue)
+      return false
+    }
+    setOverallBudget('')
+    return false
+  }
   
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
@@ -106,12 +127,12 @@ const BomList: React.FC = (props: any) => {
     status: 'AC',
     search_by_name:''
   };
-  // getBySearchNewCategory(object,{
-  //   onSuccess:(data: any)=>{
-  //     console.log('data',data)
-  //     setInitialData(data)
-  //   }
-  // })
+  getBySearchNewCategory(object,{
+    onSuccess:(data: any)=>{
+      console.log('data',data)
+      setInitialData(data)
+    }
+  })
   // const {
   //   isLoading: getAllLoadingBoQProjectData,
   //   data: initialData,
@@ -417,7 +438,7 @@ const handleFileOnChange = async (e:any) =>{
                           color="#7f56d9" 
                           />
                   </span>
-                  <span className={Styles.menuFont}>Bulk</span>                      
+                  <span className={Styles.menuFont}>Bulk Upload</span>                      
                 </div>
                 </div>
                 
@@ -427,7 +448,7 @@ const handleFileOnChange = async (e:any) =>{
                 {/* {formatBudgetValue(
                   categoryData?.budget ? categoryData?.budget : 0
                 )} */}
-                0.00
+                { overallBudget || '0.00'}
               </h3>
               <p className={Styles.countContentTitle}>Aggregated Value</p>
             </div>
@@ -498,8 +519,6 @@ const handleFileOnChange = async (e:any) =>{
 
                                   <span style={{cursor: 'pointer'}}><ViewIcon
                                     onClick={() =>{  
-                                      console.log('data',data);
-                                      debugger
                                     navigate(
                                       `/newBoq/${projectId}/${bomconfigId}/${data?.category_id}`
                                     )
