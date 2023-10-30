@@ -17673,3 +17673,12 @@ type IntFilter {
 }
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createPurchaseRequest << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.vendor_quotation_details.create()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\purchaseRequest.dao.ts:94:58
+
+  91 const new_vendor_quotes_id = vendorQuotes?.vendor_quotes_id;
+  92 for await (const purchase_request_detail of purchase_request_details) {
+  93   const vendorQuotationDetails =
+→ 94     await transaction.vendor_quotation_details.create(
+Transaction API error: Transaction already closed: Could not perform operation.

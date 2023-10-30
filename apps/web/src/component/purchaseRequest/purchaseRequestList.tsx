@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Styles from '../../styles/newStyles/purchaseRequest.module.scss';
 import ProjectSubheader from '../project/projectSubheader';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getBySearchPR } from '../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
 import Button from '../ui/Button';
+import DownloadIcon from '../menu/icons/pdfDownloadIcon';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
@@ -32,7 +33,9 @@ const PurchaseRequestList = () => {
     refetch,
   } = getBySearchPR(purchaseData);
   console.log('getPRbasedOnIndent', getPRbasedOnIndent);
-
+  useEffect(() => {
+    refetch();
+  }, []);
   const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
   const [filterValue, setFilterValues] = useState<any>({
     project_id: '',
@@ -219,7 +222,7 @@ const PurchaseRequestList = () => {
                       size="small"
                       color="primary"
                       disabled={
-                        items?.purchase_order?.length > 0 ? false : true
+                        items?.purchase_order?.length === 0 ? false : true
                       }
                       onClick={() => {
                         navigate(
@@ -229,6 +232,9 @@ const PurchaseRequestList = () => {
                     >
                       Convert to PO
                     </Button>
+                  </div>
+                  <div style={{ paddingTop: '8px' }}>
+                    <DownloadIcon color="#7f56d9" />
                   </div>
                 </div>
                 <div className={Styles.dividerStyle}></div>

@@ -148,7 +148,7 @@ const VendorChooseModule = () => {
           setMessage('Purchase Request created');
           setOpenSnack(true);
           setTimeout(() => {
-            navigate(`/purchase-detail/${indentId}`, {
+            navigate(`/purchase-request-list/${indentId}`, {
               state: { project_id: projectId },
             });
           }, 1000);
@@ -204,7 +204,7 @@ const VendorChooseModule = () => {
               <div className={Styles.mainField}>
                 <div className={Styles.leftMainField}>
                   <div className={Styles.leftMainFirst}>
-                    <div style={{width:'330px'}}>
+                    <div style={{ width: '330px' }}>
                       <AutoCompleteSelect
                         label="Choose Vendor"
                         name="vendor_id"
@@ -219,8 +219,12 @@ const VendorChooseModule = () => {
                         addLabel="Add Vendor"
                         onAddClick={(value) => {
                           navigate('/vendor-add', {
-                            state: { project_id: projectId, indent_id: indentId },
-                          });}}
+                            state: {
+                              project_id: projectId,
+                              indent_id: indentId,
+                            },
+                          });
+                        }}
                         optionList={dynamicVendorDropData}
                         error={
                           formik.touched.vendor_id && formik.errors.vendor_id
