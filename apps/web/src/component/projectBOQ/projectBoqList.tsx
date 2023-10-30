@@ -119,20 +119,20 @@ const BomList: React.FC = (props: any) => {
     return false
   }
   
-  const object: any = {
-    offset: (currentPage - 1) * rowsPerPage,
-    limit: rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
-    status: 'AC',
-    search_by_name:''
-  };
-  getBySearchNewCategory(object,{
-    onSuccess:(data: any)=>{
-      console.log('data',data)
-      setInitialData(data)
-    }
-  })
+  // const object: any = {
+  //   offset: (currentPage - 1) * rowsPerPage,
+  //   limit: rowsPerPage,
+  //   order_by_column: 'updated_date',
+  //   order_by_direction: 'desc',
+  //   status: 'AC',
+  //   search_by_name:''
+  // };
+  // getBySearchNewCategory(object,{
+  //   onSuccess:(data: any)=>{
+  //     console.log('data',data)
+  //     setInitialData(data)
+  //   }
+  // })
   // const {
   //   isLoading: getAllLoadingBoQProjectData,
   //   data: initialData,
