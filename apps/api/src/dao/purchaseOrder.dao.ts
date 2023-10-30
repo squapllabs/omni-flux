@@ -210,6 +210,7 @@ const searchPurchaseOrder = async (
             },
           },
         },
+        vendor_data: true,
       },
       orderBy: [
         {
