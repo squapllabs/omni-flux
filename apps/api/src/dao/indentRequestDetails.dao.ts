@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma';
+import db from '../utils/db';
 
 const searchIndentRequestDetails = async (
   offset: number,
@@ -60,20 +61,19 @@ const updatePurchaseRequestQuantity = async (
   connectionObj = null
 ) => {
   try {
-    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const transaction = connectionObj !== null ? connectionObj : db;
     const currentDate = new Date();
-    const indentRequestDetails =
-      await transaction.indent_request_details.update({
-        where: {
-          indent_request_details_id: Number(indentRequestDetailsId),
-        },
-        data: {
-          purchase_requested_quantity: purchaseRequestedQuantity,
-          purchase_remaining_quantity: purchaseRemainingQuantity,
-          updated_date: currentDate,
-          updated_by,
-        },
-      });
+    const query = `UPDATE public.indent_request_details
+    SET purchase_requested_quantity=$1, 
+    purchase_remaining_quantity=$2,updated_date=$3, updated_by=$4
+    WHERE indent_request_details_id = $5`;
+    const indentRequestDetails = await transaction.oneOrNone(query, [
+      purchaseRequestedQuantity,
+      purchaseRemainingQuantity,
+      currentDate,
+      updated_by,
+      indentRequestDetailsId,
+    ]);
     return indentRequestDetails;
   } catch (error) {
     console.log(

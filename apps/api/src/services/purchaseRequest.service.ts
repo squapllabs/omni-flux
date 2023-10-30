@@ -4,11 +4,11 @@ import purchaseRequestDao from '../dao/purchaseRequest.dao';
 import userDao from '../dao/user.dao';
 import vendorDao from '../dao/vendor.dao';
 import { purchaseRequestBody } from '../interfaces/purchaseRequest.interface';
-import prisma from '../utils/prisma';
 import s3 from '../utils/s3';
 import fs from 'fs';
 import mailService from './mail.service';
 import indentRequestDetailsDao from '../dao/indentRequestDetails.dao';
+import db from '../utils/db';
 
 /**
  * Method to Create a New PurchaseRequest
@@ -76,8 +76,8 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
         };
       }
     }
-    const result = await prisma
-      .$transaction(async (tx) => {
+    const result = await db
+      .tx(async (tx) => {
         const purchaseRequestDetails = await purchaseRequestDao.add(
           indent_request_id,
           requester_user_id,
@@ -115,15 +115,6 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
           }
         }
 
-        const result = {
-          message: 'success',
-          status: true,
-          data: purchaseRequestDetails,
-        };
-        return result;
-      })
-      .then(async (data) => {
-        console.log('Successfully Purchase Request Data Returned ', data);
         const emailData = [];
         for (const vendor of vendor_ids) {
           const vendor_id = vendor;
@@ -136,9 +127,19 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
           };
           emailData.push(vendorEmailBody);
         }
+
         for (const email of emailData) {
           await mailService.purchaseRequestEmailForVendor(email);
         }
+        const result = {
+          message: 'success',
+          status: true,
+          data: purchaseRequestDetails,
+        };
+        return result;
+      })
+      .then(async (data) => {
+        console.log('Successfully Purchase Request Data Returned ', data);
         return data;
       })
       .catch((error: string) => {

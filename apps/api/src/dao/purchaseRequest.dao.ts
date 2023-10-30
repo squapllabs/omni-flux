@@ -29,26 +29,43 @@ const add = async (
       purchaseRequestCodeGeneratorQuery
     );
 
-    const purchaseRequest = await transaction.purchase_request.create({
-      data: {
-        indent_request_id,
-        requester_user_id,
-        request_date: formatted_request_date,
-        status,
-        vendor_selection_method,
-        project_id,
-        site_id,
-        selected_vendor_id,
-        total_cost,
-        created_by,
-        purchase_request_documents,
-        created_date: currentDate,
-        updated_date: currentDate,
-        is_delete: is_delete,
-        purchase_request_code:
-          purchaseRequestCode[0].purchase_request_code_sequence,
-      },
-    });
+    const query = `insert
+    into
+    public.purchase_request
+      (indent_request_id,
+    requester_user_id,
+    request_date,
+    status,
+    vendor_selection_method,
+    project_id,
+    selected_vendor_id,
+    total_cost,
+    is_delete,
+    created_date,
+    updated_date,
+    created_by,
+    purchase_request_documents,
+    site_id,
+    purchase_request_code)
+  values($1, $2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) returning *`;
+
+    const purchaseRequest = await transaction.one(query, [
+      indent_request_id,
+      requester_user_id,
+      formatted_request_date,
+      status,
+      vendor_selection_method,
+      project_id,
+      selected_vendor_id,
+      total_cost,
+      is_delete,
+      currentDate,
+      currentDate,
+      created_by,
+      purchase_request_documents,
+      site_id,
+      purchaseRequestCode[0].purchase_request_code_sequence,
+    ]);
 
     const new_purchase_request_id = purchaseRequest?.purchase_request_id;
 
@@ -62,53 +79,59 @@ const add = async (
         quotationIdGeneratorQuery
       );
 
-      const vendorExistForThisPurchaseRequest =
-        await transaction.vendor_quotes.findFirst({
-          where: {
-            purchase_request_id: new_purchase_request_id,
-            vendor_id: vendor_id,
-            is_delete: false,
-          },
-        });
+      const getVendorQuotes = `select * from vendor_quotes where purchase_request_id = $1 and 
+      vendor_id = $2 and is_delete = $3`;
+      const vendorExistForThisPurchaseRequest = await transaction.oneOrNone(
+        getVendorQuotes,
+        [new_purchase_request_id, vendor_id, false]
+      );
+      console.log(
+        'vendorExistForThisPurchaseRequest',
+        vendorExistForThisPurchaseRequest
+      );
+
       if (!vendorExistForThisPurchaseRequest) {
-        const vendorQuotes = await transaction.vendor_quotes.create({
-          data: {
-            vendor_id: vendor_id,
-            purchase_request_id: new_purchase_request_id,
-            quotation_date: formatted_request_date,
-            quotation_status: 'Pending',
-            total_quotation_amount: 0,
-            remarks: null,
-            quotation_id: quotation_id[0].vendor_quotation_sequence,
-            created_by,
-            created_date: currentDate,
-            updated_date: currentDate,
-            is_delete: is_delete,
-          },
-        });
+        const vendor_query = `INSERT INTO public.vendor_quotes
+        (vendor_id, purchase_request_id, quotation_date, quotation_status, total_quotation_amount, remarks, is_delete, created_date, updated_date, created_by, quotation_id)
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *`;
+
+        const vendorQuotes = await transaction.one(vendor_query, [
+          vendor_id,
+          new_purchase_request_id,
+          formatted_request_date,
+          'Pending',
+          0,
+          null,
+          is_delete,
+          currentDate,
+          currentDate,
+          created_by,
+          quotation_id[0].vendor_quotation_sequence,
+        ]);
 
         if (vendorQuotes) {
           const new_vendor_quotes_id = vendorQuotes?.vendor_quotes_id;
           for await (const purchase_request_detail of purchase_request_details) {
-            const vendorQuotationDetails =
-              await transaction.vendor_quotation_details.create({
-                data: {
-                  vendor_quotes_id: new_vendor_quotes_id,
-                  item_id: purchase_request_detail?.item_id,
-                  indent_request_details_id:
-                    purchase_request_detail?.indent_request_details_id,
-                  indent_requested_quantity:
-                    purchase_request_detail?.indent_requested_quantity,
-                  purchase_requested_quantity:
-                    purchase_request_detail?.purchase_requested_quantity,
-                  unit_cost: 0,
-                  total_cost: 0,
-                  created_by,
-                  created_date: currentDate,
-                  updated_date: currentDate,
-                  is_delete: is_delete,
-                },
-              });
+            const vendorquotesquery = `INSERT INTO public.vendor_quotation_details
+          (vendor_quotes_id, item_id, indent_request_details_id, indent_requested_quantity, purchase_requested_quantity, unit_cost, total_cost,created_by, created_date, updated_date, is_delete)
+          VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *`;
+
+            const vendorQuotationDetails = await transaction.one(
+              vendorquotesquery,
+              [
+                new_vendor_quotes_id,
+                purchase_request_detail?.item_id,
+                purchase_request_detail?.indent_request_details_id,
+                purchase_request_detail?.indent_requested_quantity,
+                purchase_request_detail?.purchase_requested_quantity,
+                0,
+                0,
+                created_by,
+                currentDate,
+                currentDate,
+                is_delete,
+              ]
+            );
             vendorQuotationDetailsData.push(vendorQuotationDetails);
           }
         }
@@ -122,7 +145,6 @@ const add = async (
         });
       }
     }
-
     const purchaseRequestData = {
       purchase_request: purchaseRequest,
       vendor_quotes: vendorQuotesDetails,
