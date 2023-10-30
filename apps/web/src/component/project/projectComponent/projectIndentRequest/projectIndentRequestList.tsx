@@ -21,10 +21,12 @@ import ExpandIcon from '../../../menu/icons/expandIcon';
 import ExpandClose from '../../../menu/icons/expandClose';
 import Checkbox from '../../../ui/Checkbox';
 import CustomGroupButton from '../../../ui/CustomGroupButton';
+import { environment } from '../../../../environment/environment';
 const ProjectIndentRequestList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   let rowIndex = 0;
+  const nullValues = environment.NULLVALUE;
   const approverStatus: any = [
     { value: '', label: 'All' },
     { value: 'Approved', label: 'Approved' },
@@ -41,6 +43,7 @@ const ProjectIndentRequestList = () => {
   });
   const [colps, setColps] = useState(false);
   const [intendId, setIndentID] = useState<any>({});
+  const [po, setPo] = useState(false);
   const demo: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
@@ -95,9 +98,23 @@ const ProjectIndentRequestList = () => {
   };
 
   const handleExpand = (value: any) => {
+    console.log('filterValue-->', value);
+
     setColps(!colps);
-    if (colps === true) setIndentID(value);
-    else {
+    if (colps === true) {
+      setIndentID(value);
+      if (value?.purchase_request?.length === 0) {
+        setPo(false);
+      } else {
+        value?.purchase_request?.forEach((data: any, index: any) => {
+          console.log('purchase_request-->', data);
+          if (data?.purchase_order.length > 0) {
+            console.log('purchase_Q', data);
+            setPo(true);
+          }
+        });
+      }
+    } else {
       setIndentID({});
     }
   };
@@ -232,6 +249,7 @@ const ProjectIndentRequestList = () => {
                       <th className={Styles.tableHeading}></th>
                       <th className={Styles.tableHeading}>#</th>
                       <th className={Styles.tableHeading}>Indent Code</th>
+                      <th className={Styles.tableHeading}>Requested by</th>
                       {/* <th className={Styles.tableHeadingSite}>
                         Indent Requested Date
                       </th>
@@ -252,7 +270,15 @@ const ProjectIndentRequestList = () => {
                         rowIndex = rowIndex + 1;
                         return (
                           <>
-                            <tr key={index}>
+                            <tr
+                              key={index}
+                              className={
+                                items?.indent_request_id ===
+                                intendId?.indent_request_id
+                                  ? Styles.selectedRow
+                                  : ''
+                              }
+                            >
                               <td>
                                 <div
                                   onClick={() => handleExpand(items)}
@@ -274,6 +300,11 @@ const ProjectIndentRequestList = () => {
                               </td>
                               <td>{rowIndex}</td>
                               <td>{items?.indent_request_code}</td>
+                              <td>
+                                {items?.requester_user_data?.first_name +
+                                  ' ' +
+                                  items?.requester_user_data?.last_name}
+                              </td>
                               {/* <td>{dateFormat(items?.requested_date)}</td>
                               <td>
                                 {dateFormat(items?.expected_delivery_date)}
@@ -311,45 +342,75 @@ const ProjectIndentRequestList = () => {
                             {items?.indent_request_id ===
                               intendId?.indent_request_id && (
                               <tr>
-                                <td colSpan={9}>
+                                <td></td>
+                                <td colSpan={8}>
                                   <div className={Styles.Colps}>
-                                    <div
-                                      className={Styles.ColpsheadingpanelOne}
-                                    >
-                                      <span className={Styles.heading}>
-                                        INDENT REQUESTED DATE
-                                      </span>
-                                      <span className={Styles.heading}>
-                                        EXPECTED DELIVERY DATE
-                                      </span>
+                                    <div className={Styles.ColpsChilds}>
+                                      <div
+                                        className={Styles.ColpsheadingpanelOne}
+                                      >
+                                        <span className={Styles.heading}>
+                                          INDENT REQUESTED DATE
+                                        </span>
+                                        <span className={Styles.heading}>
+                                          EXPECTED DELIVERY DATE
+                                        </span>
+                                      </div>
+                                      <div className={Styles.ColpsDatapanelOne}>
+                                        <span>
+                                          {dateFormat(intendId?.requested_date)}
+                                        </span>
+                                        <span>
+                                          {dateFormat(
+                                            intendId?.expected_delivery_date
+                                          )}
+                                        </span>
+                                      </div>
                                     </div>
-                                    <div className={Styles.ColpsDatapanelOne}>
-                                      <span>
-                                        {dateFormat(intendId?.requested_date)}
-                                      </span>
-                                      <span>
-                                        {dateFormat(
-                                          intendId?.expected_delivery_date
-                                        )}
-                                      </span>
+                                    <div className={Styles.ColpsChilds}>
+                                      <div
+                                        className={Styles.ColpsheadingpanelOne}
+                                      >
+                                        <span className={Styles.heading}>
+                                          Purchase Request rasied
+                                        </span>
+                                        <span className={Styles.heading}>
+                                          Purchase Order Rasied
+                                        </span>
+                                      </div>
+                                      <div className={Styles.ColpsDatapanelOne}>
+                                        <span>
+                                          <Checkbox
+                                            checked={
+                                              intendId?.purchase_request
+                                                ?.length === 0
+                                                ? false
+                                                : true
+                                            }
+                                          />
+                                        </span>
+                                        <span>
+                                          <Checkbox checked={po} />
+                                        </span>
+                                      </div>
                                     </div>
-                                    <div
-                                      className={Styles.ColpsheadingpanelOne}
-                                    >
-                                      <span className={Styles.heading}>
-                                        Purchase Request rasied
-                                      </span>
-                                      <span className={Styles.heading}>
-                                        Purchase Order Rasied
-                                      </span>
-                                    </div>
-                                    <div className={Styles.ColpsDatapanelOne}>
-                                      <span>
-                                        <Checkbox checked />
-                                      </span>
-                                      <span>
-                                        <Checkbox checked />
-                                      </span>
+                                    <div className={Styles.ColpsChilds}>
+                                      <div
+                                        className={Styles.ColpsheadingpanelOne}
+                                      >
+                                        <span>No Purchase Request</span>
+                                        <span></span>
+                                      </div>
+                                      <div className={Styles.ColpsDatapanelOne}>
+                                        <span>
+                                          {intendId?.purchase_request
+                                            ?.length === 0
+                                            ? nullValues
+                                            : intendId?.purchase_request
+                                                ?.length}
+                                        </span>
+                                        <span></span>
+                                      </div>
                                     </div>
                                   </div>
                                 </td>

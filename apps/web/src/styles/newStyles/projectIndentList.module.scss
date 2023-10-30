@@ -601,6 +601,12 @@
 .Colps {
   display: flex;
   gap: 20px;
+  justify-content: space-around;
+  padding: 0px 0px 0px 18px;
+}
+.ColpsChilds {
+  display: flex;
+  gap: 20px;
 }
 .ColpsheadingpanelOne {
   display: flex;
@@ -613,4 +619,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.selectedRow {
+  background-color: #f3f3f3;
 }

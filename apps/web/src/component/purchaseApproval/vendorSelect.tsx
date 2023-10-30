@@ -32,12 +32,16 @@ import FileUploadIcon from '../menu/icons/fileUploadIcon';
 import userService from '../../service/user-service';
 import CloseIcon from '../menu/icons/closeIcon';
 import TextArea from '../ui/CustomTextArea';
+import PageDisabled from '../ui/pageDisableComponent';
 
 const VendorSelect = () => {
   const routeParams = useParams();
   const location = useLocation();
   const indentId = location.state.indent_id;
   const projectId = location.state.project_id;
+  console.log('indentId', indentId);
+  console.log('indentId', indentId);
+
   const navigate = useNavigate();
   const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
   const state: RootState = store.getState();
@@ -49,13 +53,7 @@ const VendorSelect = () => {
   console.log('getVendorList', getVendorList);
 
   // console.log('initialSiteId', initialSiteId);
-  useEffect(() => {
-    const initialSiteId =
-      vendorLoading == false ? getVendorList[0]?.value : null;
-    setIntialVendor(initialSiteId);
-  }, [!vendorLoading]);
-  const [intialVendor, setIntialVendor] = useState();
-  console.log('intialVendor', intialVendor);
+
   const [tableData, setTableData] = useState<any>([]);
   const [totalBudget, setTotalBudget] = useState<any>();
   const [Id, setID] = useState();
@@ -81,7 +79,7 @@ const VendorSelect = () => {
   const [vendorQuoteData, setVendorQuoteData] = useState<any>({});
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [existingFileName, setExistingFileName] = useState<string[]>([]);
+  const [pageDisable, setPageDisabale] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [fileMandatoryError, setFileMandatoryError] = useState('');
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
@@ -145,6 +143,25 @@ const VendorSelect = () => {
     refetch,
   } = getByPRbasedVendorQuotes(vendorData);
   console.log('getVendorQuotes', getVendorQuotes);
+  useEffect(() => {
+    const initialSiteId =
+      vendorLoading == false ? getVendorList[0]?.value : null;
+
+    const quotesData = getVendorQuotes?.content?.filter(
+      (obj: any) => obj.quotation_status === 'Approved'
+    );
+    if (quotesData != undefined) {
+      const is_available = isAvilable();
+      setPageDisabale(is_available);
+      if (quotesData?.length > 0) {
+        setVendorQuoteID(quotesData[0].vendor_quotes_id);
+      } else {
+        setVendorQuoteID(initialSiteId);
+      }
+    }
+    refetch();
+    // setVendorQuoteID(initialSiteId);
+  }, [!vendorLoading && !loading]);
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName =
@@ -378,7 +395,9 @@ const VendorSelect = () => {
                   data.quotation_status === 'Quotation Recived';
                 const isAvai = isAvilable();
                 console.log('isAvai', isAvai);
-
+                if (data.quotation_status === 'Approved') {
+                  console.log('dataApproved', data?.vendor_quotes_id);
+                }
                 const actions = [
                   {
                     label: 'Edit',
@@ -474,193 +493,201 @@ const VendorSelect = () => {
           </table>
         </div>
         <div className={Styles.dividerStyle}></div>
-        <div className={Styles.searchField}>
-          <div className={Styles.inputFilter}>
-            <div>
-              <AutoCompleteSelect
-                name="vendor"
-                label="Select Vendor"
-                defaultLabel="Select from vendor"
-                placeholder="Select from vendor"
-                // value={intialVendor}
-                value={
-                  formik.values.vendor_quotes_id === undefined
-                    ? Number(intialVendor)
-                    : formik.values.vendor_quotes_id
-                }
-                onChange={formik.handleChange}
-                optionList={getVendorList != null ? getVendorList : []}
-                onSelect={(value) => {
-                  console.log('value', value);
-                  setVendorQuoteID(Number(value));
-                  const matchingObjects = getVendorList.filter(
-                    (obj: any) => Number(obj.value) === Number(value)
-                  );
-                  console.log('matchingObjects', matchingObjects[0]);
-                  setIntialVendor(Number(value));
-                  formik.setFieldValue('vendor_quotes_id', value);
-                  formik.setFieldValue(
-                    'vendor_id',
-                    matchingObjects[0]?.data?.vendor_id
-                  );
+        <PageDisabled disabled={pageDisable}>
+          {' '}
+          <div className={Styles.searchField}>
+            <div className={Styles.inputFilter}>
+              <div>
+                <AutoCompleteSelect
+                  name="vendor"
+                  label="Select Vendor"
+                  defaultLabel="Select from vendor"
+                  placeholder="Select from vendor"
+                  // value={intialVendor}
+                  value={
+                    formik.values.vendor_quotes_id === undefined
+                      ? Number(vendorQuoteID)
+                      : formik.values.vendor_quotes_id
+                  }
+                  onChange={formik.handleChange}
+                  optionList={getVendorList != null ? getVendorList : []}
+                  onSelect={(value) => {
+                    console.log('value', value);
+                    setVendorQuoteID(Number(value));
+                    const matchingObjects = getVendorList.filter(
+                      (obj: any) => Number(obj.value) === Number(value)
+                    );
+                    console.log('matchingObjects', matchingObjects[0]);
+                    formik.setFieldValue('vendor_quotes_id', value);
+                    formik.setFieldValue(
+                      'vendor_id',
+                      matchingObjects[0]?.data?.vendor_id
+                    );
+                  }}
+                  error={formik.touched.vendor_id && formik.errors.vendor_id}
+                  disabled={pageDisable}
+                />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
                 }}
-                error={formik.touched.vendor_id && formik.errors.vendor_id}
+              >
+                <div className={Styles.uploadLabel}>Upload Quotation</div>
+                {vendorQuoteDocument?.length > 0 &&
+                vendorQuoteDocument[0].is_delete === 'N' ? (
+                  <div>
+                    {vendorQuoteDocument?.map((document: any, index: any) => {
+                      const customQuotationName =
+                        generateCustomQuotationName(vendorQuoteData);
+
+                      if (document.is_delete === 'N')
+                        return (
+                          <div
+                            key={document.code}
+                            style={{
+                              width: '150px',
+                              cursor: 'pointer',
+                              fontWeight: 'bolder',
+                              color: 'blue',
+                              display: 'flex',
+                              fontSize: '15px',
+                            }}
+                          >
+                            <div
+                            // onClick={() => {
+                            //   viewDocumnet(item);
+                            // }}
+                            >
+                              {customQuotationName}
+                            </div>
+                            <CloseIcon
+                              width={5}
+                              height={10}
+                              onClick={() => deleteFileinList(index)}
+                            />
+                          </div>
+                        );
+                    })}
+                  </div>
+                ) : (
+                  <div title="Attach document">
+                    <input
+                      ref={fileInputRef}
+                      id="upload-photo"
+                      name="upload_photo"
+                      type="file"
+                      style={{ display: 'none' }}
+                      onChange={(e) => handleFileSelect(e)}
+                    />
+                    <div
+                      style={{
+                        cursor: 'pointer',
+                        paddingBottom: '5px',
+                      }}
+                      onClick={() => {
+                        onButtonClick();
+                      }}
+                    >
+                      <FileUploadIcon color="#7f56d9" />
+                    </div>
+                    {fileMandatoryError && (
+                      <div className={Styles.documentErr}>
+                        {fileMandatoryError}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div className={Styles.horizontalLine}></div>
+              <div>
+                <h3>{formatBudgetValue(totalBudget ? totalBudget : 0)}</h3>
+                <p className={Styles.countContentTitle}>Quotation Budget</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className={Styles.tableContainer}>
+              <table className={Styles.scrollable_table}>
+                <thead>
+                  <tr>
+                    <th>S No</th>
+                    <th>Items </th>
+                    <th>Indent Requested Quantity</th>
+                    <th>Purchase Requested Quantity</th>
+                    <th>Quotation Cost</th>
+                    <th>Total Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableData?.map((items: any, index: number) => {
+                    return (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>{items?.item_data?.item_name}</td>
+                        <td>{items?.indent_requested_quantity}</td>
+                        <td>{items?.purchase_requested_quantity}</td>
+                        <td>
+                          <Input
+                            name="unit_cost"
+                            value={items?.unit_cost}
+                            error={false}
+                            width="100px"
+                            onChange={(e) => handleVendourQuotes(e, index)}
+                          />
+                        </td>
+                        <td>{items?.total_cost}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div
+            // style={{
+            //   display: 'flex',
+            //   padding: '10px',
+            //   justifyContent: 'space-between',
+            // }}
+            className={Styles.searchField}
+          >
+            <div>
+              <TextArea
+                name="remarks"
+                label="Remarks"
+                rows={5}
+                maxCharacterCount={1000}
+                value={formik.values.remarks ? formik.values.remarks : ''}
+                onChange={formik.handleChange}
+                width="500px"
+                error={formik.touched.remarks && formik.errors.remarks}
               />
             </div>
             <div
-              style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+              style={{
+                display: 'flex',
+                alignItems: 'end',
+                paddingBottom: '20px',
+              }}
             >
-              <div className={Styles.uploadLabel}>Upload Quotation</div>
-              {vendorQuoteDocument?.length > 0 &&
-              vendorQuoteDocument[0].is_delete === 'N' ? (
-                <div>
-                  {vendorQuoteDocument?.map((document: any, index: any) => {
-                    const customQuotationName =
-                      generateCustomQuotationName(vendorQuoteData);
+              <Button
+                shape="rectangle"
+                justify="center"
+                size="small"
+                color="primary"
+                onClick={formik.handleSubmit}
+              >
+                Submit Quotation
+              </Button>
+            </div>
+          </div>
+        </PageDisabled>
 
-                    if (document.is_delete === 'N')
-                      return (
-                        <div
-                          key={document.code}
-                          style={{
-                            width: '150px',
-                            cursor: 'pointer',
-                            fontWeight: 'bolder',
-                            color: 'blue',
-                            display: 'flex',
-                            fontSize: '15px',
-                          }}
-                        >
-                          <div
-                          // onClick={() => {
-                          //   viewDocumnet(item);
-                          // }}
-                          >
-                            {customQuotationName}
-                          </div>
-                          <CloseIcon
-                            width={5}
-                            height={10}
-                            onClick={() => deleteFileinList(index)}
-                          />
-                        </div>
-                      );
-                  })}
-                </div>
-              ) : (
-                <div title="Attach document">
-                  <input
-                    ref={fileInputRef}
-                    id="upload-photo"
-                    name="upload_photo"
-                    type="file"
-                    style={{ display: 'none' }}
-                    onChange={(e) => handleFileSelect(e)}
-                  />
-                  <div
-                    style={{
-                      cursor: 'pointer',
-                      paddingBottom: '5px',
-                    }}
-                    onClick={() => {
-                      onButtonClick();
-                    }}
-                  >
-                    <FileUploadIcon color="#7f56d9" />
-                  </div>
-                  {fileMandatoryError && (
-                    <div className={Styles.documentErr}>
-                      {fileMandatoryError}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <div className={Styles.horizontalLine}></div>
-            <div>
-              <h3>{formatBudgetValue(totalBudget ? totalBudget : 0)}</h3>
-              <p className={Styles.countContentTitle}>Quotation Budget</p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className={Styles.tableContainer}>
-            <table className={Styles.scrollable_table}>
-              <thead>
-                <tr>
-                  <th>S No</th>
-                  <th>Items </th>
-                  <th>Indent Requested Quantity</th>
-                  <th>Purchase Requested Quantity</th>
-                  <th>Quotation Cost</th>
-                  <th>Total Cost</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableData?.map((items: any, index: number) => {
-                  return (
-                    <tr>
-                      <td>{index + 1}</td>
-                      <td>{items?.item_data?.item_name}</td>
-                      <td>{items?.indent_requested_quantity}</td>
-                      <td>{items?.purchase_requested_quantity}</td>
-                      <td>
-                        <Input
-                          name="unit_cost"
-                          value={items?.unit_cost}
-                          error={false}
-                          width="100px"
-                          onChange={(e) => handleVendourQuotes(e, index)}
-                        />
-                      </td>
-                      <td>{items?.total_cost}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div
-          // style={{
-          //   display: 'flex',
-          //   padding: '10px',
-          //   justifyContent: 'space-between',
-          // }}
-          className={Styles.searchField}
-        >
-          <div>
-            <TextArea
-              name="remarks"
-              label="Remarks"
-              rows={5}
-              maxCharacterCount={1000}
-              value={formik.values.remarks ? formik.values.remarks : ''}
-              onChange={formik.handleChange}
-              width="500px"
-              error={formik.touched.remarks && formik.errors.remarks}
-            />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'end',
-              paddingBottom: '20px',
-            }}
-          >
-            <Button
-              shape="rectangle"
-              justify="center"
-              size="small"
-              color="primary"
-              onClick={formik.handleSubmit}
-            >
-              Submit Quotation
-            </Button>
-          </div>
-        </div>
         <CustomSnackBar
           open={openSnack}
           message={message}
