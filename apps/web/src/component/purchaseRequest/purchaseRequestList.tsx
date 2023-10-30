@@ -60,7 +60,7 @@ const PurchaseRequestList = () => {
       <div>
         <ProjectSubheader
           title="Purchase Request List"
-          navigation="/home"
+          navigation="/purchase-view"
           description="List of purchase request on every project"
         />
       </div>
@@ -99,6 +99,17 @@ const PurchaseRequestList = () => {
           </div>
         </div> */}
         <div className={Styles.cardBox}>
+          {getPRbasedOnIndent?.content?.length === 0 && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              NO PR Raised
+            </div>
+          )}
           {getPRbasedOnIndent?.content?.map((items: any, index: number) => {
             console.log('items', items?.purchase_order?.length);
 

@@ -57,7 +57,7 @@ const PurchaseList = () => {
       priority: '',
       status: 'AC',
       approver_status: 'Approved',
-      request_type:'Head Office',
+      request_type: 'Head Office',
     };
     postDataForFilter(userData);
     setSelectedValue('');
@@ -87,7 +87,7 @@ const PurchaseList = () => {
       status: 'AC',
       approver_status: 'Approved',
       indent_request_code: filterValues.search_by_code,
-      request_type:'Head Office',
+      request_type: 'Head Office',
     };
     postDataForFilter(userData);
   };
@@ -304,22 +304,49 @@ const PurchaseList = () => {
                           data?.total_cost ? data?.total_cost : 0
                         )}
                       </td>
-                      <td>{data?.approver_user_data?.first_name +' '+ data?.approver_user_data?.last_name}</td>
-                      <td> {format(
-                          new Date(data?.approved_date),
-                          'MMM dd, yyyy'
-                        )}</td>
                       <td>
-                        <div className={Styles.tablerow}>
-                          <ViewIcon
-                            onClick={() =>
-                              handleView(
-                                data?.indent_request_id,
-                                data?.project_id
-                              )
-                            }
-                          />
-                          {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
+                        {data?.approver_user_data?.first_name +
+                          ' ' +
+                          data?.approver_user_data?.last_name}
+                      </td>
+                      <td>
+                        {' '}
+                        {format(new Date(data?.approved_date), 'MMM dd, yyyy')}
+                      </td>
+                      <td>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                          }}
+                        >
+                          <div className={Styles.tablerow}>
+                            <ViewIcon
+                              onClick={() =>
+                                handleView(
+                                  data?.indent_request_id,
+                                  data?.project_id
+                                )
+                              }
+                            />
+                            {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
+                          </div>
+                          <div
+                            className={Styles.tablerow}
+                            style={{ color: 'green' }}
+                          >
+                            <span
+                              onClick={() =>
+                                navigate(
+                                  `/purchase-request-list/${data.indent_request_id}`
+                                )
+                              }
+                            >
+                              PR
+                            </span>
+                            {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
+                          </div>
                         </div>
                       </td>
                     </tr>
