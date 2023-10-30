@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Styles from '../../styles/userList.module.scss';
+import Styles from '../../styles/clientList.module.scss';
 import EditIcon from '../menu/icons/newEditIcon';
 import DeleteIcon from '../menu/icons/newDeleteIcon';
 import {
@@ -207,19 +207,21 @@ const ClientList = () => {
                   </div>
                 </div>
                 <div className={Styles.searchBar}>
-                  <Input
-                    placeholder="Search Client"
-                    width="300px"
-                    prefixIcon={<SearchIcon />}
-                    name="filter_value"
-                    onChange={(e) => {
-                      setFilterValues({
-                        ...filterValues,
-                        ['search_by_name']: e.target.value,
-                      });
-                      setCurrentPage(1);
-                    }}
-                  />
+                  <div className={Styles.searchFeild}>
+                    <Input
+                      placeholder="Search Client"
+                      width="300px"
+                      prefixIcon={<SearchIcon />}
+                      name="filter_value"
+                      onChange={(e) => {
+                        setFilterValues({
+                          ...filterValues,
+                          ['search_by_name']: e.target.value,
+                        });
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
               <div className={Styles.box}>
@@ -377,16 +379,16 @@ const ClientList = () => {
                   src="/client.jpg"
                   alt="aa"
                   width="100%"
-                  height="250px"
+                  height="200px"
                 />
               </div>
               <div>
                 <h5>Client list is Empty</h5>
               </div>
-              <div>
+              <div className={Styles.contentGap}>
                 <span className={Styles.spanContent}>Go ahead, add new Clients</span>
               </div>
-              <div className={Styles.emptyButton}>
+              <div>
                   <Button
                       color="primary"
                       shape="rectangle"

@@ -270,13 +270,13 @@ const ProjectIndentRequestList = () => {
           </div>
         ) : (
           <div>
-            <div className={Styles.subHeading}>
+            <div className={Styles.subHeadingForInitialPage}>
               <BOQIcon width={30} height={30} color="black" />
               <h3>Indent Raise</h3>
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img src="/boq-add.png" width="100%" height="20%" />
+                <img src="/boq-add.png" width="100%" height="150px" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>
@@ -288,7 +288,7 @@ const ProjectIndentRequestList = () => {
                   Go ahead, add a indent to this project now
                 </p>
               </div>
-              <div>
+              <div className={Styles.emptyButton}>
                 <Button
                   color="primary"
                   shape="rectangle"
@@ -299,7 +299,7 @@ const ProjectIndentRequestList = () => {
                     navigate(`/indent/${routeParams?.id}`);
                   }}
                 >
-                  Add
+                  Add Indent
                 </Button>
               </div>
             </div>

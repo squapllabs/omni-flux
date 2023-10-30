@@ -84,8 +84,8 @@ const updateSite = () => {
       return SiteService.updateSiteData(data);
     },
     {
-      onSuccess: (response) => {
-        response;
+      onSuccess: (response) => {        
+        queryClient.invalidateQueries(['useGetAllPaginatedContractorsData']);
       },
     }
   );

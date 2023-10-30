@@ -20,6 +20,15 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
+  padding-left: 10px;
+}
+
+.subHeading {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding: 0px 10px;
 }
 
 .content {
@@ -136,12 +145,24 @@
   flex-direction: column;
   gap: 10px;
   align-items: center;
+  padding-top: 3px;
 }
 
 .emptyButton {
-  margin-top: 15px;
+  margin-top: 4px;
 }
 
 .spanContent {
   font-weight: 300;
+}
+
+.textmin {
+  padding: 3px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.textmax {
+  font-weight: 700;
+  font-size: 16px;
 }

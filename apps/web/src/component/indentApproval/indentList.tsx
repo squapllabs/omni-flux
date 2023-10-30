@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
-import ReportGenerator from '../reportGenerator/invoice';
+import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import ProjectSubheader from '../project/projectSubheader';

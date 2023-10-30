@@ -17,6 +17,9 @@ import Checkbox from '../ui/Checkbox';
 import CustomSnackbar from '../ui/customSnackBar';
 import CustomLoader from '../ui/customLoader';
 import ProjectSubheader from '../project/projectSubheader';
+import DatePicker from '../ui/CustomDatePicker';
+import CloseIcon from '../menu/icons/closeIcon';
+
 const validationSchema = getUsereditYupschema(Yup);
 const UserEdit = () => {
   const navigate = useNavigate();
@@ -175,237 +178,249 @@ const UserEdit = () => {
 
 
   return (
-    <div className={Styles.container}>
-      <CustomLoader loading={isLoading} size={48} color="#333C44">
-        <form onSubmit={formik.handleSubmit}>
-        <div>
-          <ProjectSubheader
-            title="USER EDIT"
-            navigation="/settings"
-            description=""
-          />
-        </div >
-        <div className={Styles.box}>
-          <div className={Styles.fieldsOne}>
-            <div className={Styles.inputField}>
-              <Input
-                label="First Name"
-                placeholder="Enter your First name"
-                name="first_name"
-                value={formik.values.first_name}
-                onChange={formik.handleChange}
-                error={formik.touched.first_name && formik.errors.first_name}
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <Input
-                label="Last Name"
-                placeholder="Enter your Last name"
-                name="last_name"
-                value={formik.values.last_name}
-                onChange={formik.handleChange}
-                error={formik.touched.last_name && formik.errors.last_name}
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <Input
-                label="Mobile Number"
-                placeholder="Enter your Mobile Number"
-                name="contact_no"
-                value={formik.values.contact_no}
-                onChange={formik.handleChange}
-                error={formik.touched.contact_no && formik.errors.contact_no}
-                disabled="true"
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <Input
-                label="Email"
-                placeholder="Enter your Email"
-                name="email_id"
-                value={formik.values.email_id}
-                onChange={formik.handleChange}
-                error={formik.touched.email_id && formik.errors.email_id}
-                disabled="true"
-              />
-            </div>
-          </div>
-          <div className={Styles.fieldsOne}>
-            <div className={Styles.inputField}>
-              <Input
-                label="Department"
-                placeholder="Enter Department"
-                name="department"
-                value={formik.values.department}
-                onChange={formik.handleChange}
-                error={formik.touched.department && formik.errors.department}
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <span className={Styles.projectHeading}>Status</span>
-              <Select
-                options={options}
-                onChange={handleDropdownChangeStatus}
-                value={formik.values.user_status}
-                defaultLabel="Select from options"
-                width="100%"
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <span className={Styles.projectHeading}>Role</span>
-              <Select
-                options={getAllRoles}
-                onChange={handleDropdownChange}
-                value={formik.values.role_id}
-                defaultLabel="Select from options"
-                width="100%"
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <span className={Styles.projectHeading}>Gender</span>
-              <Select
-                options={optionsGender}
-                onChange={handleDropdownGenderChange}
-                value={formik.values.gender}
-                defaultLabel="Select from options"
-                width="100%"
-              />
-            </div>
-          </div>
-          <div className={Styles.fieldsOne}>
-            <div className={Styles.inputField}>
-              <span className={Styles.projectHeading}>Date of Birth</span>
-              <div className={Styles.dateField}>
-                <input
-                  type="date"
-                  name="date_of_birth"
-                  onChange={formik.handleChange}
-                  value={formik.values.date_of_birth}
-                  className={Styles.datePicker}
-                />
-              </div>
-            </div>
-            <div className={Styles.inputField}>
-              <Input
-                label="Street"
-                placeholder="Enter Street Name"
-                name="address.street"
-                value={formik.values.address.street}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.address?.street &&
-                  formik.errors.address?.street
-                }
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <Input
-                label="City"
-                placeholder="Enter City Name"
-                name="address.city"
-                value={formik.values.address.city}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.address?.city && formik.errors.address?.city
-                }
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <Input
-                label="State"
-                placeholder="Enter State Name"
-                name="address.state"
-                value={formik.values.address.state}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.address?.state && formik.errors.address?.state
-                }
-              />
-            </div>
-          </div>
-          <div className={Styles.fieldsOne}>
-            <div className={Styles.inputField}>
-              <Input
-                label="Country"
-                placeholder="Enter Country Name"
-                name="address.country"
-                value={formik.values.address.country}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.address?.country &&
-                  formik.errors.address?.country
-                }
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <Input
-                label="Pin Code"
-                placeholder="Enter Pin Code"
-                name="address.pin_code"
-                value={formik.values.address.pin_code}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.address?.pin_code &&
-                  formik.errors.address?.pin_code
-                }
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <img
-                src={
-                  imageUrl ||
-                  formik.values.profile_image_url ||
-                  '/loginImage.png'
-                }
-                alt="Uploaded preview"
-                className={Styles.imageset}
-              />
-              <label htmlFor="upload-photo" className="custom-file-upload">
-                <AddIcon />
-                Upload Image
-              </label>
-              <input
-                id="upload-photo"
-                name="upload_photo"
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={(e) => handleImg(e)}
-              />
-            </div>
-            <div className={Styles.inputField}>
-              <div className={Styles.twoFactorCheckbox}>
-                <Checkbox
-                  name="is_two_factor"
-                  checked={checked}
-                  onChange={(e) => handleTwoFactor(e)}
-                  label="Two Factor Authentication"
-                />
-              </div>
-            </div>
-          </div>
-          <div className={Styles.footerButton}>
-            <div className={Styles.submitButton}>
-              <Button
-                type="submit"
-                color="primary"
-                shape="rectangle"
-                justify="center"
-              >
-                Submit
-              </Button>
-            </div>
-          </div>
-          </div>
-        </form>
-        <CustomSnackbar
-          open={OpenSnackbar}
-          message={message}
-          onClose={handleSnackBarClose}
-          autoHideDuration={1000}
-          type="success"
+    <div>
+      <div>
+        <ProjectSubheader
+          title="USER EDIT"
+          navigation="/settings"
+          description=""
         />
-      </CustomLoader>
+      </div>
+      <div className={Styles.container}>
+        <CustomLoader loading={isLoading} size={48} color="#333C44">
+          <form onSubmit={formik.handleSubmit}>
+            <div className={Styles.box}>
+              <div className={Styles.fieldsOne}>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="First Name"
+                    placeholder="Enter your First name"
+                    name="first_name"
+                    value={formik.values.first_name}
+                    onChange={formik.handleChange}
+                    error={formik.touched.first_name && formik.errors.first_name}
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Last Name"
+                    placeholder="Enter your Last name"
+                    name="last_name"
+                    value={formik.values.last_name}
+                    onChange={formik.handleChange}
+                    error={formik.touched.last_name && formik.errors.last_name}
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Mobile Number"
+                    placeholder="Enter your Mobile Number"
+                    name="contact_no"
+                    value={formik.values.contact_no}
+                    onChange={formik.handleChange}
+                    error={formik.touched.contact_no && formik.errors.contact_no}
+                    disabled="true"
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Email"
+                    placeholder="Enter your Email"
+                    name="email_id"
+                    value={formik.values.email_id}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email_id && formik.errors.email_id}
+                    disabled="true"
+                  />
+                </div>
+              </div>
+              <div className={Styles.fieldsOne}>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Department"
+                    placeholder="Enter Department"
+                    name="department"
+                    value={formik.values.department}
+                    onChange={formik.handleChange}
+                    error={formik.touched.department && formik.errors.department}
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <span className={Styles.projectHeading}>Status</span>
+                  <Select
+                    options={options}
+                    onChange={handleDropdownChangeStatus}
+                    value={formik.values.user_status}
+                    defaultLabel="Select from options"
+                    width="100%"
+                    disabled={true}
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <span className={Styles.projectHeading}>Role</span>
+                  <Select
+                    options={getAllRoles}
+                    onChange={handleDropdownChange}
+                    value={formik.values.role_id}
+                    defaultLabel="Select from options"
+                    width="100%"
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <span className={Styles.projectHeading}>Gender</span>
+                  <Select
+                    options={optionsGender}
+                    onChange={handleDropdownGenderChange}
+                    value={formik.values.gender}
+                    defaultLabel="Select from options"
+                    width="100%"
+                  />
+                </div>
+              </div>
+              <div className={Styles.fieldsOne}>
+                <div className={Styles.inputField}>
+                  <span className={Styles.projectHeading}>Date of Birth</span>
+                  {/* <div className={Styles.dateField}>
+                    <input
+                      type="date"
+                      name="date_of_birth"
+                      onChange={formik.handleChange}
+                      value={formik.values.date_of_birth}
+                      className={Styles.datePicker}
+                    />
+                  </div> */}
+                  <div className={Styles.dateField}>
+                    <DatePicker
+                        name="date_of_birth"
+                        onChange={formik.handleChange}
+                        value={formik.values.date_of_birth}
+                        className={Styles.datePicker}
+                        error={formik.touched.date_of_birth && formik.errors.date_of_birth}
+                    />
+                </div>
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Street"
+                    placeholder="Enter Street Name"
+                    name="address.street"
+                    value={formik.values.address.street}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.address?.street &&
+                      formik.errors.address?.street
+                    }
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="City"
+                    placeholder="Enter City Name"
+                    name="address.city"
+                    value={formik.values.address.city}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.address?.city && formik.errors.address?.city
+                    }
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="State"
+                    placeholder="Enter State Name"
+                    name="address.state"
+                    value={formik.values.address.state}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.address?.state && formik.errors.address?.state
+                    }
+                  />
+                </div>
+              </div>
+              <div className={Styles.fieldsOne}>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Country"
+                    placeholder="Enter Country Name"
+                    name="address.country"
+                    value={formik.values.address.country}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.address?.country &&
+                      formik.errors.address?.country
+                    }
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <Input
+                    label="Pin Code"
+                    placeholder="Enter Pin Code"
+                    name="address.pin_code"
+                    value={formik.values.address.pin_code}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.address?.pin_code &&
+                      formik.errors.address?.pin_code
+                    }
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <img
+                    src={
+                      imageUrl ||
+                      formik.values.profile_image_url ||
+                      '/loginImage.png'
+                    }
+                    alt="Uploaded preview"
+                    className={Styles.imageset}
+                  />
+                  <label htmlFor="upload-photo" className="custom-file-upload">
+                    <AddIcon />
+                    Upload Image
+                  </label>
+                  <input
+                    id="upload-photo"
+                    name="upload_photo"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) => handleImg(e)}
+                  />
+                </div>
+                <div className={Styles.inputField}>
+                  <div className={Styles.twoFactorCheckbox}>
+                    <Checkbox
+                      name="is_two_factor"
+                      checked={checked}
+                      onChange={(e) => handleTwoFactor(e)}
+                      label="Two Factor Authentication"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={Styles.footerButton}>
+                <div className={Styles.submitButton}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <CustomSnackbar
+            open={OpenSnackbar}
+            message={message}
+            onClose={handleSnackBarClose}
+            autoHideDuration={1000}
+            type="success"
+          />
+        </CustomLoader>
+      </div>
     </div>
   );
 };

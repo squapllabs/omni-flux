@@ -34,6 +34,7 @@ export const gethsnCreateValidateyup = (yup: any) => {
       ),
     description: yup
       .string()
+      .trim()
       .typeError(userErrorMessages.ENTER_DESCRIPTION)
       .required(userErrorMessages.ENTER_DESCRIPTION),
   });
@@ -73,6 +74,7 @@ export const gethsnUpdateValidateyup = (yup: any) => {
       ),
     description: yup
       .string()
+      .trim()
       .typeError(userErrorMessages.ENTER_DESCRIPTION)
       .required(userErrorMessages.ENTER_DESCRIPTION),
   });

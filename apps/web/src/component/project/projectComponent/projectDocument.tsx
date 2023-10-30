@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Styles from '../../../styles/project.module.scss';
 import CloseIcon from '../../menu/icons/closeIcon';
 import UploadIcon from '../../menu/icons/cloudUpload';
-import AddIcon from '../../menu/icons/documentAddIcon';
+import AddIcon from '../../menu/icons/addIcon';
 import Button from '../../ui/Button';
 import userService from '../../../service/user-service';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -210,7 +210,7 @@ const ProjectDocument: React.FC = (props: any) => {
         <div className={Styles.heading}>
           <div className={Styles.subHeading}>
             <DocumentIcon width={30} height={30} />
-            <h4>DOCUMENTS</h4>
+            <h3>DOCUMENTS</h3>
           </div>
         </div>
       </div>
@@ -370,7 +370,7 @@ const ProjectDocument: React.FC = (props: any) => {
               </p>
             </div>
             <div className={Styles.siteCreateButton}>
-              <div>
+              <div className={Styles.emptyButton}>
                 <Button
                   color="primary"
                   shape="rectangle"

@@ -25,6 +25,7 @@ const MasterDataForm: React.FC = (props: any) => {
     master_data_type: '',
     parent_master_data_id: '',
   });
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   //   const [disable, setDisable] = useState(false);
   //   if (props.mode === 'Edit') {
   //     setDisable(true);
@@ -57,6 +58,10 @@ const MasterDataForm: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
+      setIsButtonDisabled(true);
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 2000);
       if (props.mode === 'Add') {
         let object: any = {};
         const num = 0;
@@ -207,6 +212,7 @@ const MasterDataForm: React.FC = (props: any) => {
                   size="small"
                   type="submit"
                   onClick={formik.handleSubmit}
+                  disabled={isButtonDisabled}
                 >
                   Save
                 </Button>

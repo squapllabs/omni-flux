@@ -1,0 +1,128 @@
+.container{
+    // background-color: aqua;
+}
+.tableContainer {
+    padding: 20px 40px 0px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    // width:0%
+  }
+  
+
+.scrollable_table {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px;
+    /* Adjust padding */
+    gap: 12px;
+    border-collapse: collapse;
+  
+    th,
+    td {
+      padding: 10px 10px 10px 24px;
+      text-align: left;
+      font-weight: var(--tableData-fontWeight);
+      font-size: var(--tableData-fontSize);    
+      border: none;
+      border-bottom: 0.1px solid #f0f0f0;
+    }
+  
+    td {
+      border-bottom: 0.1px solid #f0f0f0;
+      // border-bottom :0px, 0px, 1px, 0px
+    }
+  
+  
+    thead {
+      tr {
+        th {
+          padding: 10px 10px 10px 24px;
+          color: var(--tableHeader-fontColor);
+          font-size: var(--tableHeader-fontSize);
+          font-weight: var(--tableHeader-fontWeight);
+          text-transform: var(--tableHeader-textTransform);
+          background-color: var(--tableHeader-backgroundColor);
+          border: none;
+        }
+      }
+    }
+  
+    td:hover,
+    tr:hover {
+      /* Add hover styles if needed */
+    }
+  }
+
+  .orderDetails{
+    display: flex;
+    flex-direction: row;
+    padding: 15px 0px 0px 15px;
+    gap: 8px;
+  }
+
+  .leftOrderDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .rightOrderDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .secondData{
+    background-color:white;
+    padding: 10px
+  }
+  .vendorSiteDetails{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    // background-color:red;
+  }
+  .vendorDetails{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    // background-color: blue;
+  }
+  .leftVendorDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .rightVendorDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .siteDetail{
+    // background-color: yellowgreen;   
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    background-color: white;
+  }
+  .leftSiteDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .rightSiteDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .headingData{
+    text-align: center;
+    padding: 15px;
+  }
+  .allDatas{
+    // background-color: green;
+    // padding: 0px 0px 20px 0px
+  }
+
+  .dashedLine {
+    border-left: 0.5px dashed #000; /* Adjust the color and thickness as needed */
+  }

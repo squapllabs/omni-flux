@@ -277,6 +277,7 @@ const ProductAdd = () => {
                   placeholder="Select from options"
                   value={formik.values.brand_id}
                   onChange={formik.handleChange}
+                  mandatory={true}
                   error={formik.touched.brand_id && formik.errors.brand_id}
                   onSelect={(value) => {
                     formik.setFieldValue('brand_id', value);

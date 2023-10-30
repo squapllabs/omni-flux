@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Styles from '../../styles/userList.module.scss';
+import Styles from '../../styles/uom.module.scss';
 import DeleteIcon from '../menu/icons/newDeleteIcon';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomSnackBar from '../ui/customSnackBar';
@@ -182,19 +182,21 @@ const UomList = () => {
                   </div>
                 </div>
                 <div className={Styles.searchBar}>
-                  <Input
-                    placeholder="Search UOM"
-                    width="300px"
-                    prefixIcon={<SearchIcon />}
-                    name="filter_value"
-                    onChange={(e) => {
-                      setFilterValues({
-                        ...filterValues,
-                        ['search_by_name']: e.target.value,
-                      });
-                      setCurrentPage(1);
-                    }}
-                  />
+                  <div className={Styles.searchFeild}>
+                    <Input
+                      placeholder="Search UOM"
+                      width="300px"
+                      prefixIcon={<SearchIcon />}
+                      name="filter_value"
+                      onChange={(e) => {
+                        setFilterValues({
+                          ...filterValues,
+                          ['search_by_name']: e.target.value,
+                        });
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
               <div className={Styles.box}>
@@ -341,16 +343,16 @@ const UomList = () => {
                   src="/UOM.jpg"
                   alt="aa"
                   width="100%"
-                  height="300px"
+                  height="200px"
                 />
               </div>
               <div>
                 <h5>UOM is Empty</h5>
               </div>
-              <div>
+              <div className={Styles.contentGap}>
                 <span className={Styles.spanContent}>Go ahead, add new Unit of Measure</span>
               </div>
-              <div className={Styles.emptyButton}>
+              <div>
                     <Button
                       color="primary"
                       shape="rectangle"

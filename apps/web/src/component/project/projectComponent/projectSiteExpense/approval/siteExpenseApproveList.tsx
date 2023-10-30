@@ -22,7 +22,6 @@ import CustomMenu from '../../../../ui/CustomMenu';
 import projectSettingsService from '../../../../../service/projectSettings-service';
 import ViewIcon from '../../../../menu/icons/newViewIcon';
 
-
 const ExpenseApprove = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -264,7 +263,7 @@ const ExpenseApprove = () => {
   } = useGetAllPaginatedExpense(demo);
 
   useEffect(() => {
-    refetch();  
+    refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
   useEffect(() => {
@@ -343,6 +342,16 @@ const ExpenseApprove = () => {
               onClick={handleGroupButtonClick}
               activeButton={activeButton}
             />
+            <div>
+              {activeButton === 'Completed' ? (
+                <span className={Styles.message}>
+                  {' '}
+                  * denotes that expense has been recalled
+                </span>
+              ) : (
+                ''
+              )}
+            </div>
           </div>
           <table className={Styles.scrollable_table}>
             <thead>
@@ -376,33 +385,12 @@ const ExpenseApprove = () => {
                     },
                     0
                   );
-                  // const infoView =
-                  //   items?.status === 'Approved' ||
-                  //   items?.status === 'Rejected';
-                  // const actions = [
-                  //   {
-                  //     label: 'Info',
-                  //     onClick: () => {
-                  //       navigate(
-                  //         `/expense-detail-approve/${items?.project_data?.project_id}/${items.expense_id}`
-                  //       );
-                  //     },
-                  //   },
-                  //   {
-                  //     label: 'Approve',
-                  //     onClick: () => {
-                  //       approveHandler(items.expense_id);
-                  //     },
-                  //     disabled: infoView,
-                  //   },
-                  //   {
-                  //     label: 'Reject',
-                  //     onClick: () => {
-                  //       rejectHandler(items.expense_id);
-                  //     },
-                  //     disabled: infoView,
-                  //   },
-                  // ];
+                  let is_recall = false;
+                  items?.expense_details.map((data: any) => {
+                    if (data?.is_recalled === true) {
+                      is_recall = true;
+                    }
+                  });
                   return (
                     <tr>
                       <td>{rowIndex}</td>
@@ -411,27 +399,43 @@ const ExpenseApprove = () => {
                       <td>{items?.site_data?.name}</td>
                       <td>{items?.employee_name}</td>
                       <td>{formatBudgetValue(sumOfRates)}</td>
+                      {is_recall &&
+                      items?.status === 'Completed' &&
+                      activeButton === 'Completed' ? (
+                        <td style={{ display: 'flex' }}>
+                          <span className={Styles.approvedStatus}>
+                            {items?.status}
+                          </span>
+                          <span className={Styles.symbol}>*</span>
+                        </td>
+                      ) : !is_recall && items?.status === 'Completed' ? (
+                        <td>
+                          <span className={Styles.approvedStatus}>
+                            {items?.status}
+                          </span>
+                        </td>
+                      ) : (
+                        <td>
+                          <span
+                            className={`${Styles.status} ${
+                              items?.status === 'Pending'
+                                ? Styles.pendingStatus
+                                : items?.status === 'InProgress'
+                                ? Styles.rejectedStatus
+                                : items?.status === 'Draft'
+                                ? Styles.draftStatus
+                                : items?.status === 'Completed'
+                                ? Styles.approvedStatus
+                                : ''
+                            }`}
+                          >
+                            {items?.status === 'Pending'
+                              ? 'Waiting for Approval'
+                              : items?.status}
+                          </span>
+                        </td>
+                      )}
                       <td>
-                        <span
-                          className={`${Styles.status} ${
-                            items?.status === 'Pending'
-                              ? Styles.pendingStatus
-                              : items?.status === 'InProgress'
-                              ? Styles.rejectedStatus
-                              : items?.status === 'Draft'
-                              ? Styles.draftStatus
-                              : items?.status === 'Completed'
-                              ? Styles.approvedStatus
-                              : ''
-                          }`}
-                        >
-                          {items?.status === 'Pending'
-                            ? 'Waiting for Approval'
-                            : items?.status}
-                        </span>
-                      </td>
-                      <td>
-                        {/* <CustomMenu actions={actions} /> */}
                         <ViewIcon
                           onClick={() =>
                             navigate(
