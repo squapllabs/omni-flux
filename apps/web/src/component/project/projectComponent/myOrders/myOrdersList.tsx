@@ -34,7 +34,8 @@ const MyOrderList = () => {
         refetch,
     } = useGetAllPurchaseOrderData(getPoData);
 
-
+    console.log("fffff",getAllData);
+    
     return (
         <div>
             <CustomLoader loading={dataLoading} size={48}>
@@ -75,7 +76,7 @@ const MyOrderList = () => {
                                         <td>{index + 1}</td>
                                         <td>{data.order_id}</td>
                                         <td>{data.order_remark}</td>
-                                        <td><ViewIcon  onClick={() => navigate('/my-orders-view')}/></td></tr>
+                                        <td><ViewIcon  onClick={() => navigate(`/my-orders-view/${data?.purchase_order_id}`)}/></td></tr>
                                 ))}
                             </tbody>
                         </table>

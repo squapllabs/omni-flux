@@ -620,7 +620,7 @@ const AppRoutes = () => {
           element={<ProtectedMyOrders/>}
         />
         <Route
-          path="/my-orders-view"
+          path="/my-orders-view/:id"
           element={<ProtectedOrderView/>}
         />
       </Routes>
