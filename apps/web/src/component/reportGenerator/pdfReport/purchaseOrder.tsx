@@ -6,15 +6,18 @@ import { format } from 'date-fns';
 import { formatBudgetValue } from '../../../helper/common-function';
 
 const ReportGenerator = (data: any) => {
-    console.log("check");
+    // console.log("check",data);
     
-    const itemsData = data?.purchase_request_data?.purchase_request_details?.map((item: any) => ({
-        itemName: item?.item_name,
+    const itemsData = data?.purchase_request_data?.purchase_request_quotation_details?.map((item: any) => ({
+        itemName: item?.item_data?.item_name,
         quantity: item?.purchase_requested_quantity,
-        unitPrice: item?.rate,
-        total: item?.purchase_requested_quantity * item?.rate
+        unitPrice: item?.item_data?.rate,
+        total: item?.purchase_requested_quantity * item?.item_data?.rate
     }))
 
+    // console.log("itemsData",itemsData);
+    
+    
     // console.log("data?.purchase_request_data?.purchase_request_details",data?.purchase_request_data?.purchase_request_details);
     
     // const itemsData = [];
@@ -28,11 +31,11 @@ const ReportGenerator = (data: any) => {
     //     });
     // }
 
-    const overallTotal = itemsData.reduce((accumulator: any, currentItem: any) => {
-        return accumulator + currentItem.total;
+    const overallTotal = itemsData?.reduce((accumulator: any, currentItem: any) => {
+        return accumulator + currentItem?.total;
     }, 0);
-    const overallTotalQuantity = itemsData.reduce((accumulator: any, currentItem: any) => {
-        return accumulator + currentItem.quantity;
+    const overallTotalQuantity = itemsData?.reduce((accumulator: any, currentItem: any) => {
+        return accumulator + currentItem?.quantity;
     }, 0);
 
     const purchaseOrder = {
@@ -47,13 +50,13 @@ const ReportGenerator = (data: any) => {
             new Date(data?.order_date),
             'MMM dd, yyyy'
         ),
-        vendorName: data?.vendor_data?.vendor_name,
-        vendorAddress: Object.values(data?.vendor_data?.address),
-        vendorContact: data?.vendor_data?.contact_phone_no,
-        siteName: data?.purchase_request_data?.site_data?.name,
-        siteAddress: Object.values(data?.purchase_request_data?.site_data?.address),
-        siteContact: data?.purchase_request_data?.site_data?.mobile_number,
-        subtotal: data?.purchase_request_data.total_cost,
+        vendorName: data?.purchase_request_data?.selected_vendor_data?.vendor_name || 'N/A',
+        vendorAddress: `${data?.purchase_request_data?.selected_vendor_data?.address?.street || ''} ${data?.purchase_request_data?.selected_vendor_data?.address?.city || ''} ${data?.purchase_request_data?.selected_vendor_data?.address?.state || ''} ${data?.purchase_request_data?.selected_vendor_data?.address?.country || ''} ${data?.purchase_request_data?.selected_vendor_data?.address?.pin_code || ''}`,
+        vendorContact: data?.purchase_request_data?.selected_vendor_data?.contact_phone_no || 'N/A',
+        siteName: data?.purchase_request_data?.site_data?.name || 'N/A',
+        siteAddress: `${data?.purchase_request_data?.site_data?.address?.street || ''} ${data?.purchase_request_data?.site_data?.address?.city || ''} ${data?.purchase_request_data?.site_data?.address?.state || ''} ${data?.purchase_request_data?.site_data?.address?.country || ''} ${data?.purchase_request_data?.site_data?.address?.pin_code || ''}`,
+        siteContact: data?.purchase_request_data?.site_data?.mobile_number || 'N/A',
+        // subtotal: data?.purchase_request_data.total_cost,
         // taxRate: 8, // 8% tax rate
     };
 
@@ -163,7 +166,7 @@ const ReportGenerator = (data: any) => {
 
     // Create summary table
     const summaryYStart = itemDetailsYStart + pdf.autoTable.previous;
-    console.log("summaryYStart",summaryYStart);
+    // console.log("summaryYStart",summaryYStart);
     pdf.autoTable({
         body: summaryRows,
         startY: summaryYStart, // Adjust the Y position as needed

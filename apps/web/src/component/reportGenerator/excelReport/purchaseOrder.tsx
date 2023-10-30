@@ -14,7 +14,7 @@ const PurchaseOrder = (datas: any) => {
         // Mapping item_data to Excel data
         itemsData = datas?.purchase_request_data?.purchase_request_quotation_details.map((item: any, index: number) => {
             return {
-                '':'' ,
+                '': '',
                 'Sl No.': (index + 1).toString(),
                 'Code': " N/A",
                 'Name': item?.item_data?.item_name,
@@ -33,8 +33,6 @@ const PurchaseOrder = (datas: any) => {
         });
 
         console.log("itemsData", itemsData);
-
-
 
         const data = [
             [
@@ -105,33 +103,30 @@ const PurchaseOrder = (datas: any) => {
             ...itemsData.map(item => Object.values(item))
         );
 
-
-
-
-        console.log("dtaa", data);
-
         // Create a new workbook
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.aoa_to_sheet(data);
-        
+
+        // Define styles for the header row
         const headerStyle = {
             font: { color: { rgb: '000000' } }, // Black font color
             fill: { fgColor: { rgb: 'FFFF00' } }, // Yellow background color
         };
-        
-        // Apply styles to the header row
-        // XLSX.utils.sheet_set_range_style(ws, { s: headerStyle }, { origin: 'A3', include: 'A3:S3' });
-        
 
+        // Apply styles to specific cells
+        for (let col = 0; col < data[0].length; col++) {
+            const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col }); // Address of header row
+            ws[cellAddress].s = headerStyle;
+        }
 
         // Add the worksheet to the workbook
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
         // Generate a file and save it
         XLSX.writeFile(wb, 'exported_data.xlsx');
-
-
     };
+
+
 
     exportData();
 
