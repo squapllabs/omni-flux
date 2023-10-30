@@ -504,6 +504,7 @@ const updateStatus = async (
   rejected_date: Date,
   updated_by: number,
   approver_user_id: number,
+  request_type: string,
   connectionObj = null
 ) => {
   try {
@@ -527,6 +528,7 @@ const updateStatus = async (
         updated_by,
         approver_user_id,
         updated_date: currentDate,
+        request_type,
       },
     });
     return indentRequest;
