@@ -125,7 +125,7 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
       .then(async (data) => {
         console.log('Successfully Purchase Request Data Returned ', data);
         const emailData = [];
-        for (const vendor of vendor_ids) {
+        for await (const vendor of vendor_ids) {
           const vendor_id = vendor;
           const vendorDetails = await vendorDao.getById(vendor_id);
 
@@ -136,7 +136,7 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
           };
           emailData.push(vendorEmailBody);
         }
-        for (const email of emailData) {
+        for await (const email of emailData) {
           await mailService.purchaseRequestEmailForVendor(email);
         }
         return data;

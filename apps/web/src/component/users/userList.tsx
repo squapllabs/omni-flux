@@ -273,26 +273,26 @@ const UserList = () => {
           ) :
             (
               <div>
-                <div className={Styles.subHeading}>
+                {/* <div className={Styles.subHeading}>
                   <MemberIcon />
                   <span>Users</span>
-                </div>
+                </div> */}
                 <div className={Styles.emptyDataHandling}>
                   <div>
                     <img
                       src="/users_img.jpg"
                       alt="aa"
                       width="100%"
-                      height="300px"
+                      height="200px"
                     />
                   </div>
                   <div>
                     <h5>Users List is Empty</h5>
                   </div>
-                  <div>
+                  <div className={Styles.contentGap}>
                     <span className={Styles.spanContent}>Go ahead, and add some Users</span>
                   </div>
-                  <div className={Styles.emptyButton}>
+                  <div>
                     <Button
                       color="primary"
                       shape="rectangle"

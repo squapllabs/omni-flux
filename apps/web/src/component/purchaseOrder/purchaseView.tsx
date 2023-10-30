@@ -24,15 +24,13 @@ const PurchaseView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
-  // console.log(
-  //   'getAllData?.purchase_request_details',
-  //   getAllData?.purchase_request_details
-  // );
-
+  console.log('getAllData', getAllData);
   const { mutate: postDataForFilter } = purchaseOrderRequest();
   const constructPurchaseOrder = () => {
-    const purchaseOrderItems = [];
+    const purchaseOrderItems: any = [];
     getAllData?.purchase_request_details?.forEach((data: any) => {
+      console.log('constructPurchaseOrder', data);
+
       purchaseOrderItems.push({
         purchase_order_id: '',
         item_id: data?.item_id,
@@ -49,21 +47,61 @@ const PurchaseView = () => {
       order_remark: 'Order Requested',
       purchase_order_item: purchaseOrderItems,
     };
+    console.log('purchaseOrderData', purchaseOrderData);
+
+    // postDataForFilter(purchaseOrderData, {
+    //   onSuccess: (data, variables, context) => {
+    //     if (data?.message === 'success') {
+    //       setMessage('Purchase Order Create Successfull');
+    //       setOpenSnack(true);
+    //       setTimeout(() => {
+    //         navigate(`/purchase-order`);
+    //       }, 1000);
+    //     }
+    //   },
+    // });
+  };
+
+  const handleConvertToPo = () => {
+    // constructPurchaseOrder();
+    const purchaseOrderItems: any = [];
+
+    getAllData?.vendor_quotes?.forEach((data: any) => {
+      if (data?.quotation_status === 'Approved') {
+        console.log('constructPurchaseOrder', data);
+        data?.vendor_quotation_details?.forEach((vendorQuotes: any) => {
+          console.log('vendorQuotes', vendorQuotes);
+          purchaseOrderItems.push({
+            purchase_order_id: '',
+            item_id: vendorQuotes?.item_id,
+            order_quantity: vendorQuotes?.purchase_requested_quantity,
+          });
+        });
+      }
+    });
+
+    const purchaseOrderData = {
+      purchase_request_id: PurchaseId,
+      vendor_id: getAllData?.selected_vendor_id,
+      order_date: format(new Date(), 'yyyy-MM-dd'),
+      status: 'Processing',
+      total_cost: getAllData?.total_cost || 0,
+      order_remark: 'Order Requested',
+      purchase_order_item: purchaseOrderItems,
+    };
+    console.log('purchaseOrderData', purchaseOrderData);
+
     postDataForFilter(purchaseOrderData, {
       onSuccess: (data, variables, context) => {
         if (data?.message === 'success') {
           setMessage('Purchase Order Create Successfull');
           setOpenSnack(true);
           setTimeout(() => {
-            navigate(`/purchase-order`);
+            navigate(`/purchase-request-list/${getAllData?.indent_request_id}`);
           }, 1000);
         }
       },
     });
-  };
-
-  const handleConvertToPo = () => {
-    constructPurchaseOrder();
   };
 
   const handleSnackBarClose = () => {
@@ -79,7 +117,7 @@ const PurchaseView = () => {
         <div className={Styles.headingTop}>
           <ProjectSubheader
             title={getAllData?.project_data?.project_name}
-            navigation={'/purchase-view'}
+            navigation={`/purchase-request-list/${getAllData?.indent_request_id}`}
             description={getAllData?.project_data?.description}
           />
           {/* <div className={Styles.rightContent}>
@@ -97,21 +135,39 @@ const PurchaseView = () => {
                   <th>Vendor Name </th>
                   <th>Item</th>
                   <th>Quantity</th>
+                  <th>Unit Cost</th>
+                  <th>Total Cost</th>
                 </tr>
               </thead>
               <tbody>
-                {getAllData?.purchase_request_details?.map(
-                  (data: any, index: number) => {
+                {getAllData?.vendor_quotes?.map((data: any, index: number) => {
+                  if (getAllData?.selected_vendor_id === data?.vendor_id) {
                     return (
-                      <tr key={data.indent_request_id}>
-                        <td>{index + 1}</td>
-                        <td>{getAllData?.selected_vendor_data?.vendor_name}</td>
-                        <td>{data.item_name}</td>
-                        <td>{data.purchase_requested_quantity}</td>
-                      </tr>
+                      <>
+                        {data.vendor_quotation_details.map(
+                          (items: any, subIndex: any) => {
+                            console.log('subItems', items);
+                            return (
+                              <tr>
+                                <td>{subIndex + 1}</td>
+                                <td>
+                                  {
+                                    getAllData?.selected_vendor_data
+                                      ?.vendor_name
+                                  }
+                                </td>
+                                <td>{items?.item_data?.item_name}</td>
+                                <td>{items.purchase_requested_quantity}</td>
+                                <td>{items.unit_cost}</td>
+                                <td>{items.total_cost}</td>
+                              </tr>
+                            );
+                          }
+                        )}
+                      </>
                     );
                   }
-                )}
+                })}
               </tbody>
             </table>
           </div>
@@ -169,7 +225,7 @@ const PurchaseView = () => {
                 justify="center"
                 size="small"
                 color="primary"
-                onClick={handleConvertToPo}
+                onClick={() => handleConvertToPo()}
               >
                 Convert To Po
               </Button>

@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
-import ReportGenerator from '../reportGenerator/invoice';
+import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import ProjectSubheader from '../project/projectSubheader';
@@ -224,6 +224,7 @@ const IndentList = () => {
                   <th className={Styles.tableHeading}>#</th>
                   <th className={Styles.tableHeading}>Indent Code</th>
                   <th className={Styles.tableHeading}>Project Name</th>
+                  <th className={Styles.tableHeading}>Raised By</th>
                   <th className={Styles.tableHeading}>Priority</th>
                   <th className={Styles.tableHeading}>
                     Expected Delivery Date
@@ -249,6 +250,11 @@ const IndentList = () => {
                       <td>{startingIndex + index}</td>
                       <td>{data?.indent_request_code}</td>
                       <td>{data?.project_data?.project_name}</td>
+                      <td>
+                        {data?.requester_user_data?.first_name +
+                          ' ' +
+                          data?.requester_user_data?.last_name}
+                      </td> 
                       <td>{data?.priority}</td>
                       <td>
                         {format(

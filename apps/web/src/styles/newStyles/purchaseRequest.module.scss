@@ -1,0 +1,137 @@
+.container {
+  width: 100hv;
+}
+.searchField {
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inputFilter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row;
+}
+
+.tableContainer {
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scrollable_table {
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px; /* Adjust padding */
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 5px 10px 5px 24px; /* Adjust padding */
+    text-align: left;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
+    border: none; /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  thead {
+    tr {
+      th {
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);
+      }
+    }
+  }
+}
+
+.cardBox {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+}
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  height: 20%;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #ffffff;
+}
+.cardpanelOne {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+.cardpanelTwo {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+.cardpanelThree {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.panelContent {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+.panelContentTitle {
+  font-weight: bolder;
+}
+.cardHeadpanelOne {
+  display: flex;
+  justify-content: space-between;
+}
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+}
+.status {
+  //   background-color: #ecfdf3;
+  //   padding: 6px;
+  //   border-radius: 50px;
+  // text-align: center;
+  display: flex;
+  gap: 10px;
+}
+.completedStatus {
+  background-color: #ecfdf3;
+  padding: 6px;
+  padding-left: 0;
+  padding-top: 0;
+  border-radius: 50px;
+  color: #027a48;
+}
+.inprogressStatus {
+  background-color: #fdf2fa;
+  padding: 6px;
+  padding-left: 0;
+  padding-top: 0;
+  border-radius: 50px;
+  color: #c11574;
+}
+
+.vendorPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

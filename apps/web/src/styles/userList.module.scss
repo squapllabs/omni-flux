@@ -5,7 +5,7 @@
 }
 
 .tableContainer {
-  padding: 10px;
+  padding: 2px 10px 5px 10px;
   // height: 100vh;
   display: flex;
   flex-direction: column;
@@ -260,6 +260,7 @@
   align-items: center;
   justify-content: space-between;
   padding-bottom: 15px;
+  padding: 0px 10px 10px 10px;
 }
 
 .heading {
@@ -280,10 +281,9 @@
   font-weight: 400;
 }
 
-.emptyButton {
-  margin-top: 25px;
+.contentGap {
+  padding: 10px;
 }
-
 
 .emptyDataHandling {
   display: flex;
@@ -291,6 +291,7 @@
   justify-content: center;
   align-items: center;
   gap: 2px;
+  padding-top: 60px;
 }
 
 .textmin {
@@ -322,11 +323,9 @@
   justify-content: flex-start;
 }
 
-.searchBar {
-  padding: 5px 15px 0
-}
-
 .filters {
   display: flex;
   gap: 20px;
+  padding-left: 10px;
+  transform: translateY(18%);
 }

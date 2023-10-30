@@ -143,7 +143,6 @@ const VendorList = () => {
 
   return (
     <div>
-      <div>
         <CustomLoader
           loading={searchLoader ? searchLoader : getAllLoadingPaginated}
           size={48}
@@ -153,11 +152,14 @@ const VendorList = () => {
             <div>
               {currentPath === '/vendor-list' && (
                 <div>
-                  <ProjectSubheader
-                    navigation={'/home'}
-                    title="Vendors"
-                    description="Manage your approved vendors"
-                  />
+                  <div>
+                    <ProjectSubheader
+                      navigation={'/home'}
+                      title="Vendors"
+                      description="Manage your approved vendors"
+                    />
+                  </div>
+                  <div style={{paddingTop: '10px'}}></div>
                 </div>
               )}
               <div className={Styles.topHeading}>
@@ -181,7 +183,6 @@ const VendorList = () => {
                   </div>
                 </div>
                 <div className={Styles.filters}>
-                  <div>
                     <Input
                       placeholder="Search Vendors"
                       width="300px"
@@ -195,7 +196,6 @@ const VendorList = () => {
                         setCurrentPage(1);
                       }}
                     />
-                  </div>
                   {/* <div>
                     <CustomGroupButton
                       labels={buttonLabels}
@@ -235,7 +235,6 @@ const VendorList = () => {
               </div> */}
               </div>
               <div className={Styles.tableContainer}>
-                <div>
                   <table className={Styles.scrollable_table}>
                     <thead>
                       <tr>
@@ -325,7 +324,6 @@ const VendorList = () => {
                       )}
                     </tbody>
                   </table>
-                </div>
               </div>
               <div className={Styles.pagination}>
                 <Pagination
@@ -354,17 +352,17 @@ const VendorList = () => {
                   src="/vendor.jpg"
                   alt="aa"
                   width="100%"
-                  height="250px"
+                  height="150px"
                   style={{paddingBottom: '15px'}}
                 />
               </div>
               <div>
                 <h5>Vendors List is Empty</h5>
               </div>
-              <div>
+              <div className={Styles.contentGap}>
                 <span className={Styles.spanContent}>Go ahead, add new vendors</span>
               </div>
-              <div className={Styles.emptyButton}>
+              <div>
                 <Button
                       color="primary"
                       shape="rectangle"
@@ -381,7 +379,6 @@ const VendorList = () => {
           )}
 
         </CustomLoader>
-      </div>
       <CustomDelete
         open={openDelete}
         title="Delete Vendor"
