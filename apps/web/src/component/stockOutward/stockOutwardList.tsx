@@ -209,12 +209,10 @@ const StockOutwardList = () => {
                 <img src="/stock.jpg" alt="aa" width="100%" height="200px" />
               </div>
               <div>
-                <h5>This project has no Stock Details</h5>
+                <h5 className={Styles.textmax}>This project has no Stock Details</h5>
               </div>
               <div>
-                <span className={Styles.spanContent}>
-                  Manage Stock Outward details to this project now
-                </span>
+                <p className={Styles.textmin}>Manage Stock Outward details to this project now </p>
               </div>
               <div className={Styles.emptyButton}>
                 <Button

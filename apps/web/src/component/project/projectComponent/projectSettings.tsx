@@ -423,7 +423,7 @@ const ProjectSettings: React.FC = (props: any) => {
               <div>
                 <p className={Styles.textmin}>Go ahead, add a member to this project now</p>
               </div>
-              <div>
+              <div className={Styles.emptyButton}>
                 <Button
                   color="primary"
                   shape="rectangle"

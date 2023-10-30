@@ -351,7 +351,7 @@ const HsnCodeList = () => {
                   </div>
                 </div>
                 <div className={Styles.filters}>
-                  <div>
+                  <div className={Styles.searchFeild}>
                     <Input
                       placeholder="Search Hsn Code"
                       width="300px"
@@ -612,17 +612,17 @@ const HsnCodeList = () => {
                     src="/HSN.png"
                     alt="aa"
                     width="100%"
-                    height="250px"
+                    height="200px"
                     style={{paddingBottom: '15px'}}
                   />
                 </div>
                 <div>
                   <h5>HSN code is Empty</h5>
                 </div>
-                <div>
+                <div className={Styles.contentGap}>
                   <span className={Styles.spanContent}>Go ahead, add new HsnCode</span>
                 </div>
-                <div className={Styles.emptyButton}>
+                <div>
                   <Button
                     color="primary"
                     shape="rectangle"

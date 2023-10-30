@@ -137,6 +137,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </div>
 
             <div className={Styles.tableContainer}>
+              <div>
               <table className={Styles.scrollable_table}>
                 <thead>
                   <tr>
@@ -218,6 +219,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                   })}
                 </tbody>
               </table>
+              </div>
             </div>
             <div>
               <CustomPagination
@@ -232,7 +234,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
           </div>
         ) : (
           <div>
-            <div className={Styles.subHeading}>
+            <div className={Styles.subHeadingForInitialPage}>
               <SiteNavigateIcon width={30} height={30} />
               <h3>SITES</h3>
             </div>
@@ -251,7 +253,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                 </p>
               </div>
               <div className={Styles.siteCreateButton}>
-                <div>
+                <div className={Styles.emptyButton}>
                   <Button
                     color="primary"
                     shape="rectangle"

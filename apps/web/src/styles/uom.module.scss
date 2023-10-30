@@ -5,15 +5,15 @@
   }
   
   .tableContainer {
-    padding: 3px 10px 5px 10px;
+    padding: 4px 10px 5px 10px;
+    // height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    // overflow: hidden;
   }
   
   .fields {
-    padding: 5px 0px 5px 10px;
+    padding: 10px;
     display: flex;
     gap: 10px;
     flex-direction: row;
@@ -27,6 +27,52 @@
   
   .box {
     position: relative;
+  }
+  
+  .scrollable_table {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px;
+    /* Adjust padding */
+    gap: 12px;
+    border-collapse: collapse;
+  
+    th,
+    td {
+      padding: 5px 10px 5px 24px; /* Adjust padding */
+      text-align: left;
+      // border: 0px 0px 1px;
+      font-weight: var(--tableData-fontWeight);
+      font-size: var(--tableData-fontSize);
+      border: none;
+      /* Remove borders */
+      border-bottom: 0.1px solid #f0f0f0;
+    }
+  
+    td {
+      border-bottom: 0.1px solid #f0f0f0;
+      // border-bottom :0px, 0px, 1px, 0px
+    }
+  
+    thead {
+      tr {
+        th {
+          padding: 10px 10px 10px 24px;
+          color: var(--tableHeader-fontColor);
+          background-color: var(--tableHeader-backgroundColor);
+          font-size: var(--tableHeader-fontSize);
+          font-weight: var(--tableHeader-fontWeight);
+          text-transform: var(--tableHeader-textTransform);
+  
+          border: none;
+        }
+      }
+    }
+  
+    td:hover,
+    tr:hover {
+      /* Add hover styles if needed */
+    }
   }
   
   .box::after {
@@ -45,11 +91,38 @@
   }
   
   .textContent {
-    padding: 10px;
+    padding: 10px 10px 0px 10px;
+  }
+  
+  .text {
+    padding: 10px 10px 0px 10px;
+    display: flex;
+    gap: 79%;
+  }
+  
+  .textStyle {
+    padding-left: 5px;
+    padding-top: 5px;
+  }
+  
+  .buttonStyle {
+    padding-left: 15px;
+  }
+  
+  .addButton {
+    padding-top: 20px;
   }
   
   .content {
     font-size: 0.7rem;
+  }
+  
+  .groupButton {
+    padding-top: 10px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
   }
   
   .tablerow {
@@ -73,52 +146,6 @@
     flex-shrink: initial;
   }
   
-  .scrollable_table {
-    width: 100%;
-    height: 100%;
-    padding: 10px 10px;
-    /* Adjust padding */
-    gap: 12px;
-    border-collapse: collapse;
-  
-    th,
-    td {
-      padding: 5px 10px 5px 24px;
-      /* Adjust padding */
-      text-align: left;
-      // border: 0px 0px 1px;
-      font-weight: var(--tableData-fontWeight);
-      font-size: var(--tableData-fontSize);
-      border: none;
-      /* Remove borders */
-      border-bottom: 0.1px solid #f0f0f0;
-    }
-  
-    td {
-      border-bottom: 0.1px solid #f0f0f0;
-      // border-bottom :0px, 0px, 1px, 0px
-    }
-  
-    thead {
-      tr {
-        th {
-          padding: 10px 10px 10px 24px;
-          color: var(--tableHeader-fontColor);
-          background-color: var(--tableHeader-backgroundColor);
-          border: none;
-          font-size: var(--tableHeader-fontSize);
-          font-weight: var(--tableHeader-fontWeight);
-          text-transform: var(--tableHeader-textTransform);
-        }
-      }
-    }
-  
-    td:hover,
-    tr:hover {
-      /* Add hover styles if needed */
-    }
-  }
-  
   .searchButton {
     padding: 12px 20px 12px 20px;
     border-radius: 8px;
@@ -137,7 +164,7 @@
     border-radius: 8px;
     border: 1px;
     gap: 8px;
-    color: #848289;
+    color: black;
     background-color: #ccc;
   }
   
@@ -149,31 +176,17 @@
   .inputFilter {
     display: flex;
     gap: 10px;
+    height: 40px;
   }
   
   .pagination {
     display: flex;
     justify-content: end;
-    padding: 0px 10px 20px 0px;
-  }
-  
-  .uploads {
-    display: flex;
-    justify-content: flex-start;
-    gap: 1vw;
-    padding: 3px 10px 20px 10px;
-    // padding-bottom: 10px;
-  }
-  
-  .downloadButton {
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    margin-right: 5px;
   }
   
   .formContainer {
     width: 350px;
+    // padding: 1px 20px 10px 20px;
     display: flex;
     flex-direction: column;
   }
@@ -197,46 +210,48 @@
   
   .dividerStyle {
     border-bottom: 1px solid #ccc;
-    padding: 5px 1px 5px 1px;
-  }
-  
-  .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px 20px 5px 20px;
+    padding: 5px 1px 0px 1px;
   }
   
   .field {
     padding: 5px 20px 5px 20px;
   }
   
-  .addButton {
-    padding-top: 20px;
-  }
-  
-  .textarea {
-    width: 30%;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
   }
   
   .closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+  }
+  
+  .popupContent {
     background-color: white;
-    margin-top: 8%;
-    margin-left: 5px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
   }
   
-  .fileSelect {
-    padding: 10px;
+  .popupHeader {
+    display: flex;
+    flex-direction: row;
+    gap: 200px;
   }
   
-  .input {
-    display: none;
+  .button {
+    display: flex;
+    gap: 20px;
   }
   
-  .error {
-    color: red;
-    font-size: small;
-    padding: 5px;
+  .textBox {
+    width: 30%;
   }
   
   .topHeading {
@@ -244,6 +259,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding-bottom: 15px;
     padding: 0px 10px 10px 10px;
   }
   
@@ -261,19 +277,6 @@
     align-items: center;
   }
   
-  .emptyDataHandling {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
-    padding-top: 60px;
-  }
-
-  .contentGap {
-    padding: 10px;
-  }
-  
   .spanContent {
     font-weight: 400;
   }
@@ -281,6 +284,21 @@
   .emptyButton {
     margin-top: 25px;
   }
+  
+  
+  .emptyDataHandling {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    padding-top: 55px;
+  }
+
+  .contentGap {
+    padding: 10px;
+  }
+  
   .textmin {
     padding: 10px;
     font-weight: 400;
@@ -292,30 +310,35 @@
     font-size: 16px;
   }
   
-  .cancelButton {
-    background-color: var(--danger-color);
-    color: #b42318;
-  }
-  
-  .submitButton{
+  .topheader {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    // padding: 10px;
-    padding: 0px 15px 20px 0px;
-    gap: 10px;
-  
+    justify-content: space-between;
+    padding: 10px 0px 10px 10px;
+    gap: 20px;
   }
-  .footer{
-    margin-top: 350px;
+  
+  .description {
+    font-size: 0.7rem;
+  }
+  
+  .title {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .searchBar {
+    // padding-left: 10px;
   }
 
   .searchFeild {
-    transform: translateY(18%);
+    transform: translateY(20%);
   }
   
   .filters {
     display: flex;
     gap: 20px;
-    padding-left: 10px;
+    padding: 21px 0px 0px 5px;
   }
+  

@@ -336,16 +336,16 @@ const MachineryList = () => {
                   src="/machineries_.jpg"
                   alt="aa"
                   width="100%"
-                  height="300px"
+                  height="200px"
                 />
               </div>
               <div>
                 <h5>Machineries list is Empty</h5>
               </div>
-              <div>
+              <div className={Styles.contentGap}>
                 <span className={Styles.spanContent}>Go ahead, add new Machineries</span>
               </div>
-              <div className={Styles.emptyButton}>
+              <div>
                 <Button
                   color="primary"
                   shape="rectangle"
