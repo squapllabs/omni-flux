@@ -8,6 +8,7 @@ import subSubCategoryDao from '../dao/subSubCategory.dao';
 import projectDao from '../dao/project.dao';
 import bomConfigurationDao from '../dao/bomConfiguration.dao';
 import uomDao from '../dao/uom.dao';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New SubCategory
@@ -615,6 +616,122 @@ const getByParentSubCategoryId = async (parentSubCategoryId: number) => {
   }
 };
 
+/**
+ * Method to Add Bulk Subcategories
+ * @param body
+ * @returns
+ */
+const addBulk = async (body: createSubCategoryBody[]) => {
+  try {
+    const subCategoryDetailsData = [];
+    const result = await prisma
+      .$transaction(async (tx) => {
+        for await (const subCategory of body) {
+          const subCategoryDetails = await addSubCategory(
+            subCategory,
+            null,
+            tx
+          );
+          subCategoryDetailsData.push(subCategoryDetails);
+        }
+        return {
+          message: 'success',
+          status: true,
+          data: subCategoryDetailsData,
+        };
+      })
+      .then((data) => {
+        console.log('Successfully Sub Category Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return result;
+  } catch (error) {
+    console.log('Error occurred in subCategory service addBulk: ', error);
+    throw error;
+  }
+};
+
+/**
+ * Method to Add Sub Category Based on Conditions
+ * @param subCategory
+ * @param parent_sub_category_id
+ * @param transaction
+ * @returns
+ */
+const addSubCategory = async (
+  subCategory,
+  parent_sub_category_id,
+  transaction
+) => {
+  try {
+    const parentSubCategoryDetailsData = [];
+    const childSubCategoryDetailsData = [];
+    const {
+      description,
+      uom_id,
+      quantity,
+      rate,
+      estimated_budget,
+      actual_budget,
+      project_id,
+      bom_configuration_id,
+      category_id,
+      start_date,
+      end_date,
+      created_by,
+      progress_status,
+      name,
+      children,
+    } = subCategory;
+
+    const subCategoryDetails = await subCategoryDao.add(
+      name,
+      category_id,
+      actual_budget,
+      created_by,
+      description,
+      project_id,
+      start_date,
+      end_date,
+      progress_status,
+      bom_configuration_id,
+      parent_sub_category_id,
+      estimated_budget,
+      uom_id,
+      quantity,
+      rate,
+      transaction
+    );
+
+    parentSubCategoryDetailsData.push(subCategoryDetails);
+
+    for await (const childSubCategory of children) {
+      const childSubCategoryDetails = await addSubCategory(
+        childSubCategory,
+        subCategoryDetails.sub_category_id,
+        transaction
+      );
+      childSubCategoryDetailsData.push(childSubCategoryDetails);
+    }
+    const subCategoryData = {
+      parent_sub_category: parentSubCategoryDetailsData,
+      child_sub_category: childSubCategoryDetailsData,
+    };
+
+    return subCategoryData;
+  } catch (error) {
+    console.log(
+      'Error occurred in subCategory service addSubCategory: ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createSubCategory,
   updateSubCategory,
@@ -626,4 +743,5 @@ export {
   searchSubCategory,
   getByCategoryId,
   getByParentSubCategoryId,
+  addBulk,
 };

@@ -2,6 +2,7 @@ import express from 'express';
 import authMiddleware from '../../middleware/auth';
 import { subCategoryUpdateValidator } from '../../validations/subCategory';
 import {
+  addBulk,
   checkDuplicateSubCategoryName,
   createSubCategory,
   deleteBySubCategoryId,
@@ -58,5 +59,7 @@ router.get(
   authMiddleware,
   getByParentSubCategoryId
 );
+
+router.post('/add-bulk', authMiddleware, addBulk);
 
 export default router;
