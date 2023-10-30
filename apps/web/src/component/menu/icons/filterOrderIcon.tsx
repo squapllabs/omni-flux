@@ -7,10 +7,10 @@ interface FilterIconProps {
   style?: CSSProperties;
 }
 
-const FilterIcon: FC<FilterIconProps> = ({
-  width = 25,
-  height = 25,
-  color = '#000',
+const FilterOrderIcon: FC<FilterIconProps> = ({
+  width = 20,
+  height = 18,
+  color = '#525151',
   style,
 }) => {
   return (
@@ -18,7 +18,8 @@ const FilterIcon: FC<FilterIconProps> = ({
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
-      viewBox="0 0 10 13"
+      viewBox="0 0 10 12"
+      color={color}
     >
       <g
         fill="none"
@@ -26,11 +27,10 @@ const FilterIcon: FC<FilterIconProps> = ({
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        {/* <rect width="13" height="13" x=".5" y=".5" rx="3" /> */}
         <path d="m10.5 8l-2 2V4m-5 2l2-2v6" />
       </g>
     </svg>
   );
 };
 
-export default FilterIcon;
+export default FilterOrderIcon;

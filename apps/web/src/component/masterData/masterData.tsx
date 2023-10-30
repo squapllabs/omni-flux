@@ -16,7 +16,6 @@ import CustomPagination from '../menu/CustomPagination';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import MasterDataForm from './masterDataForm';
 import MasterDataIcon from '../menu/icons/masterDataIcon';
-import Select from '../ui/selectNew';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
 
 const MaterData = () => {
@@ -29,8 +28,6 @@ const MaterData = () => {
   const activeButton = 'AC';
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
-    sortByField: '',
-    sortOrder: '',
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -98,16 +95,6 @@ const MaterData = () => {
     setMasterDataFormOpen(false);
   };
 
-  const options: any = [
-    { value: 'master_data_name', label: 'Name' },
-    { value: 'master_data_type', label: 'Code' },
-  ];
-
-  const order: any = [
-    { value: 'asc', label: 'a-z' },
-    { value: 'desc', label: 'z-a' },
-  ];
-
   const handleSortByColumn = (columnName: any) => {
     if (columnName === sortColumn) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -159,44 +146,6 @@ const MaterData = () => {
                   }}
                 />
               </div>
-            </div>
-            <div className={Styles.filterOptions}>
-              <Select
-                width="140px"
-                name="column_name"
-                defaultLabel="Select from options"
-                placeholder="Column Name"
-                value={filterValues?.sortByField}
-                onChange={(e) => {
-                  setFilterValues({
-                    ...filterValues,
-                    sortByField: e.target.value,
-                  });
-                  setCurrentPage(1);
-                }}
-              >
-                {options?.map((item: any, index: any) => {
-                  return <option value={item.value}>{item.label}</option>;
-                })}
-              </Select>
-              <Select
-                width="140px"
-                name="order"
-                defaultLabel="Select from options"
-                placeholder="Order"
-                value={filterValues?.sortOrder}
-                onChange={(e) => {
-                  setFilterValues({
-                    ...filterValues,
-                    sortOrder: e.target.value,
-                  });
-                  setCurrentPage(1);
-                }}
-              >
-                {order?.map((item: any, index: any) => {
-                  return <option value={item.value}>{item.label}</option>;
-                })}
-              </Select>
             </div>
             <div className={Styles.box}>
               <div className={Styles.tableContainer}>
