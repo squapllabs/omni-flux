@@ -6,6 +6,8 @@ import { format } from 'date-fns';
 import { formatBudgetValue } from '../../../helper/common-function';
 
 const ReportGenerator = (data: any) => {
+    console.log("check");
+    
     const itemsData = data?.purchase_request_data?.purchase_request_details?.map((item: any) => ({
         itemName: item?.item_name,
         quantity: item?.purchase_requested_quantity,
