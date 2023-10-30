@@ -19,6 +19,7 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { getPurchaseRequestCreateValidateyup } from '../../helper/constants/purchaseRequestAdd-constants';
 import VendorService from '../../service/vendor-service';
+import CustomLoader from '../ui/customLoader';
 
 const VendorChooseModule = () => {
   const [initialValues, setInitialValues] = useState({
@@ -54,6 +55,7 @@ const VendorChooseModule = () => {
   >([]);
   const [dynamicVendorDropData, setDynamicVendorData] = useState([]);
   const [initialVendorData, setInitialVendorData] = useState([]);
+  const [submitLoader, setSubmitLoader] = useState(false);
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
@@ -126,6 +128,7 @@ const VendorChooseModule = () => {
   });
 
   const handleSubmit = () => {
+    setSubmitLoader(true);
     const requestBody = {
       indent_request_id: indentId,
       requester_user_id: userID,
@@ -145,6 +148,7 @@ const VendorChooseModule = () => {
     createNewPurchaseRequest(requestBody, {
       onSuccess: (data, variables, context) => {
         if (data?.message === 'success') {
+          setSubmitLoader(false);
           setMessage('Purchase Request created');
           setOpenSnack(true);
           setTimeout(() => {
@@ -162,247 +166,249 @@ const VendorChooseModule = () => {
   }, []);
   return (
     <div>
-      <div className={Styles.container}>
-        <div className={Styles.sub_header}>
-          <div
-            className={Styles.logo}
-            onClick={() => {
-              navigate(`/purchase-detail/${indentId}`, {
-                state: { project_id: projectId },
-              });
-            }}
-          >
-            <PreviousPageIcon width={20} height={20} color="#7f56d9" />
-          </div>
-          <div style={{ padding: '8px', display: 'flex' }}>
-            <div className={Styles.vertical}>
-              <div className={Styles.verticalLine}></div>
+      <CustomLoader loading={submitLoader} size={48} color="#333C44">
+        <div className={Styles.container}>
+          <div className={Styles.sub_header}>
+            <div
+              className={Styles.logo}
+              onClick={() => {
+                navigate(`/purchase-detail/${indentId}`, {
+                  state: { project_id: projectId },
+                });
+              }}
+            >
+              <PreviousPageIcon width={20} height={20} color="#7f56d9" />
             </div>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '700px',
-            }}
-          >
-            <div className={Styles.textContent_1}>
-              <h3>Request for Quotation (RFQ)</h3>
-              <span className={Styles.content}>
-                {' '}
-                Raise purchase request against your Project
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className={Styles.dividerStyle}></div>
-        {/* vendor data */}
-        {transformedArray?.length !== 0 ? (
-          <div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className={Styles.mainField}>
-                <div className={Styles.leftMainField}>
-                  <div className={Styles.leftMainFirst}>
-                    <div style={{ width: '330px' }}>
-                      <AutoCompleteSelect
-                        label="Choose Vendor"
-                        name="vendor_id"
-                        onChange={formik.handleChange}
-                        value={formik.values.vendor_id}
-                        placeholder="Select from options"
-                        mandatory
-                        onSelect={(value) => {
-                          console.log('value velavan', value);
-                          formik.setFieldValue('vendor_id', value);
-                        }}
-                        addLabel="Add Vendor"
-                        onAddClick={(value) => {
-                          navigate('/vendor-add', {
-                            state: {
-                              project_id: projectId,
-                              indent_id: indentId,
-                            },
-                          });
-                        }}
-                        optionList={dynamicVendorDropData}
-                        error={
-                          formik.touched.vendor_id && formik.errors.vendor_id
-                        }
-                      />
-                    </div>
-                    <div>
-                      <Button
-                        type="submit"
-                        color="primary"
-                        shape="rectangle"
-                        justify="center"
-                        size="small"
-                        icon={<AddIcon color="white" />}
-                      >
-                        Add Vendor
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                <div className={Styles.dashedLine}></div>
-                <div className={Styles.rightMainField}>
-                  <div className={Styles.rightHeading}>
-                    <span>Selected Vendor for RFQ</span>
-                  </div>
-                  <div className={Styles.vendorData}>
-                    {vendorData.map((item: any, index: any) => (
-                      <CustomChip
-                        key={item.value}
-                        label={item.label}
-                        onDelete={() => deleteVendor(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
+            <div style={{ padding: '8px', display: 'flex' }}>
+              <div className={Styles.vertical}>
+                <div className={Styles.verticalLine}></div>
               </div>
-            </form>
-            {/* table data */}
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th className={Styles.tableHeading}>#</th>
-                      <th className={Styles.tableHeading}>Item</th>
-                      <th className={Styles.tableHeading}>UOM</th>
-                      <th className={Styles.tableHeading}>
-                        Requested Quantity
-                      </th>
-                      <th className={Styles.tableHeading}>Unit Price</th>
-                      <th className={Styles.tableHeading}>
-                        Allocated Quantity
-                      </th>
-                      <th className={Styles.tableHeading}>Total Price</th>
-                      <th className={Styles.tableHeading}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tableValue?.length === 0 ? (
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '700px',
+              }}
+            >
+              <div className={Styles.textContent_1}>
+                <h3>Request for Quotation (RFQ)</h3>
+                <span className={Styles.content}>
+                  {' '}
+                  Raise purchase request against your Project
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className={Styles.dividerStyle}></div>
+          {/* vendor data */}
+          {transformedArray?.length !== 0 ? (
+            <div>
+              <form onSubmit={formik.handleSubmit}>
+                <div className={Styles.mainField}>
+                  <div className={Styles.leftMainField}>
+                    <div className={Styles.leftMainFirst}>
+                      <div style={{ width: '330px' }}>
+                        <AutoCompleteSelect
+                          label="Choose Vendor"
+                          name="vendor_id"
+                          onChange={formik.handleChange}
+                          value={formik.values.vendor_id}
+                          placeholder="Select from options"
+                          mandatory
+                          onSelect={(value) => {
+                            console.log('value velavan', value);
+                            formik.setFieldValue('vendor_id', value);
+                          }}
+                          addLabel="Add Vendor"
+                          onAddClick={(value) => {
+                            navigate('/vendor-add', {
+                              state: {
+                                project_id: projectId,
+                                indent_id: indentId,
+                              },
+                            });
+                          }}
+                          optionList={dynamicVendorDropData}
+                          error={
+                            formik.touched.vendor_id && formik.errors.vendor_id
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Button
+                          type="submit"
+                          color="primary"
+                          shape="rectangle"
+                          justify="center"
+                          size="small"
+                          icon={<AddIcon color="white" />}
+                        >
+                          Add Vendor
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={Styles.dashedLine}></div>
+                  <div className={Styles.rightMainField}>
+                    <div className={Styles.rightHeading}>
+                      <span>Selected Vendor for RFQ</span>
+                    </div>
+                    <div className={Styles.vendorData}>
+                      {vendorData.map((item: any, index: any) => (
+                        <CustomChip
+                          key={item.value}
+                          label={item.label}
+                          onDelete={() => deleteVendor(index)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </form>
+              {/* table data */}
+              <div className={Styles.tableContainer}>
+                <div>
+                  <table className={Styles.scrollable_table}>
+                    <thead>
                       <tr>
-                        <td colspan="4" style={{ textAlign: 'center' }}>
-                          No data found
-                        </td>
+                        <th className={Styles.tableHeading}>#</th>
+                        <th className={Styles.tableHeading}>Item</th>
+                        <th className={Styles.tableHeading}>UOM</th>
+                        <th className={Styles.tableHeading}>
+                          Requested Quantity
+                        </th>
+                        <th className={Styles.tableHeading}>Unit Price</th>
+                        <th className={Styles.tableHeading}>
+                          Allocated Quantity
+                        </th>
+                        <th className={Styles.tableHeading}>Total Price</th>
+                        <th className={Styles.tableHeading}>Action</th>
                       </tr>
-                    ) : (
-                      tableValue?.map((item: any, index: any) => {
-                        return (
-                          <tr>
-                            <td>{index + 1}</td>
-                            <td>{item?.item_name}</td>
-                            <td>{item?.uom_name}</td>
-                            <td>{item?.indent_requested_quantity}</td>
-                            <td>
-                              {item?.rate ? formatBudgetValue(item?.rate) : 0}
-                            </td>
-                            <td>
-                              <div
-                                style={{ paddingTop: '7px', height: '40px' }}
-                              >
-                                <Input
-                                  width="100px"
-                                  name="purchase_requested_quantity"
-                                  mandatory={true}
-                                  value={item?.purchase_requested_quantity}
-                                  onChange={(e) => handleListChange(e, index)}
-                                  //   error={
-                                  //     formik.touched
-                                  //       .purchase_requested_quantity &&
-                                  //     formik.errors.purchase_requested_quantity
-                                  //   }
-                                  onKeyDown={(e) => {
-                                    const isNumber = /^[0-9]*$/.test(e.key);
-                                    if (
-                                      !isNumber &&
-                                      e.key !== 'Backspace' &&
-                                      e.key !== 'Delete'
-                                    ) {
-                                      e.preventDefault();
-                                    }
-                                  }}
-                                />
-                              </div>
-                            </td>
-                            <td>
-                              {item?.rate
-                                ? formatBudgetValue(
-                                    item?.rate *
-                                      item?.purchase_requested_quantity
-                                  )
-                                : 0}
-                            </td>
-                            <td>
-                              <div className={Styles.tablerow}>
-                                <DeleteIcon
-                                  onClick={() => deleteRequestItems(index)}
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {tableValue?.length === 0 ? (
+                        <tr>
+                          <td colspan="4" style={{ textAlign: 'center' }}>
+                            No data found
+                          </td>
+                        </tr>
+                      ) : (
+                        tableValue?.map((item: any, index: any) => {
+                          return (
+                            <tr>
+                              <td>{index + 1}</td>
+                              <td>{item?.item_name}</td>
+                              <td>{item?.uom_name}</td>
+                              <td>{item?.indent_requested_quantity}</td>
+                              <td>
+                                {item?.rate ? formatBudgetValue(item?.rate) : 0}
+                              </td>
+                              <td>
+                                <div
+                                  style={{ paddingTop: '7px', height: '40px' }}
+                                >
+                                  <Input
+                                    width="100px"
+                                    name="purchase_requested_quantity"
+                                    mandatory={true}
+                                    value={item?.purchase_requested_quantity}
+                                    onChange={(e) => handleListChange(e, index)}
+                                    //   error={
+                                    //     formik.touched
+                                    //       .purchase_requested_quantity &&
+                                    //     formik.errors.purchase_requested_quantity
+                                    //   }
+                                    onKeyDown={(e) => {
+                                      const isNumber = /^[0-9]*$/.test(e.key);
+                                      if (
+                                        !isNumber &&
+                                        e.key !== 'Backspace' &&
+                                        e.key !== 'Delete'
+                                      ) {
+                                        e.preventDefault();
+                                      }
+                                    }}
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                {item?.rate
+                                  ? formatBudgetValue(
+                                      item?.rate *
+                                        item?.purchase_requested_quantity
+                                    )
+                                  : 0}
+                              </td>
+                              <td>
+                                <div className={Styles.tablerow}>
+                                  <DeleteIcon
+                                    onClick={() => deleteRequestItems(index)}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className={Styles.saveButton}>
+                <Button
+                  type="button"
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  disabled={vendorData?.length > 0 ? false : true}
+                  onClick={() => {
+                    handleSubmit();
+                  }}
+                >
+                  Create PR
+                </Button>
               </div>
             </div>
-            <div className={Styles.saveButton}>
-              <Button
-                type="button"
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon color="white" />}
-                disabled={vendorData?.length > 0 ? false : true}
-                onClick={() => {
-                  handleSubmit();
-                }}
-              >
-                Create PR
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className={Styles.emptyDataHandling}>
-              <div className={Styles.image}>
-                <img src="/stock.jpg" alt="s" width="25%" height="25%" />
-              </div>
-              <div>
-                <h5 className={Styles.textmax}>
-                  No items were added to this request.
-                </h5>
-              </div>
-              <div>
-                <p className={Styles.textmin}>
-                  Add a items for this request by going to the previous menu.
-                </p>
+          ) : (
+            <div>
+              <div className={Styles.emptyDataHandling}>
+                <div className={Styles.image}>
+                  <img src="/stock.jpg" alt="s" width="25%" height="25%" />
+                </div>
+                <div>
+                  <h5 className={Styles.textmax}>
+                    No items were added to this request.
+                  </h5>
+                </div>
+                <div>
+                  <p className={Styles.textmin}>
+                    Add a items for this request by going to the previous menu.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-      <CustomDelete
-        open={openDelete}
-        title="Delete Items"
-        contentLine1="Are you sure you want to delete this item ?"
-        contentLine2=""
-        handleClose={handleCloseDelete}
-        handleConfirm={deleteItems}
-      />
-      <CustomSnackBar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        autoHideDuration={2000}
-        type="success"
-      />
+          )}
+        </div>
+        <CustomDelete
+          open={openDelete}
+          title="Delete Items"
+          contentLine1="Are you sure you want to delete this item ?"
+          contentLine2=""
+          handleClose={handleCloseDelete}
+          handleConfirm={deleteItems}
+        />
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={2000}
+          type="success"
+        />
+      </CustomLoader>
     </div>
   );
 };
