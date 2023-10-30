@@ -46,6 +46,7 @@ const PurchaseList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
+console.log("yyyy",getIndentData);
 
   const handleReset = async () => {
     const userData: any = {
@@ -258,6 +259,7 @@ const PurchaseList = () => {
                   <th className={Styles.tableHeading}>#</th>
                   <th className={Styles.tableHeading}>Indent Code</th>
                   <th className={Styles.tableHeading}>Project Name</th>
+                  <th className={Styles.tableHeading}>Raised By</th>
                   <th className={Styles.tableHeading}>
                     Expected Delivery Date
                   </th>
@@ -285,6 +287,11 @@ const PurchaseList = () => {
                       <td>{startingIndex + index}</td>
                       <td>{data?.indent_request_code}</td>
                       <td>{data?.project_data?.project_name}</td>
+                      <td>
+                        {data?.requester_user_data?.first_name +
+                          ' ' +
+                          data?.requester_user_data?.last_name}
+                      </td> 
                       <td>
                         {format(
                           new Date(data?.expected_delivery_date),
