@@ -106,10 +106,16 @@ const VendorSelect = () => {
         quotation_status: data?.data?.quotation_status,
         total_quotation_amount: data?.data?.total_quotation_amount,
         remarks: data?.data?.remarks,
-        vendor_quotes_documents: data?.data?.vendor_quotes_documents,
+        vendor_quotes_documents: data?.data?.vendor_quotes_documents
+          ? data?.data?.vendor_quotes_documents
+          : [],
       });
       setVendorQuoteData(data?.data);
-      setVendorQuoteDocument(data?.data?.vendor_quotes_documents);
+      setVendorQuoteDocument(
+        data?.data?.vendor_quotes_documents
+          ? data?.data?.vendor_quotes_documents
+          : []
+      );
       setTableData(vendorQuotesDetails?.data);
     };
     fetchData();
@@ -203,33 +209,33 @@ const VendorSelect = () => {
     setTableData(tempArry);
   };
 
-  const handleSubmit = async (id: any) => {
-    try {
-      const data = await vendorQuotesService.getOneVendorQuotesById(id);
-      const obj = {
-        vendor_quotes_id: data?.data?.vendor_quotes_id,
-        purchase_request_id: data?.data?.purchase_request_id,
-        vendor_id: data?.data?.vendor_id,
-        quotation_status: 'Approved',
-        updated_by: userID,
-        vendor_quotes_documents: data?.data?.vendor_quotes_documents,
-        total_quotation_amount: data?.data?.total_quotation_amount,
-      };
-      updateOneVendorQuotes(obj, {
-        onSuccess: (data, variables, context) => {
-          if (data?.message === 'success') {
-            setMessage('Vendor Approved');
-            setOpenSnack(true);
-            navigate(`/purchase-request-list/${indentId}`, {
-              state: { project_id: projectId },
-            });
-          }
-        },
-      });
-    } catch {
-      console.log('Error occured in vendor select ');
-    }
-  };
+  // const handleSubmit = async (id: any) => {
+  //   try {
+  //     const data = await vendorQuotesService.getOneVendorQuotesById(id);
+  //     const obj = {
+  //       vendor_quotes_id: data?.data?.vendor_quotes_id,
+  //       purchase_request_id: data?.data?.purchase_request_id,
+  //       vendor_id: data?.data?.vendor_id,
+  //       quotation_status: 'Approved',
+  //       updated_by: userID,
+  //       vendor_quotes_documents: data?.data?.vendor_quotes_documents,
+  //       total_quotation_amount: data?.data?.total_quotation_amount,
+  //     };
+  //     updateOneVendorQuotes(obj, {
+  //       onSuccess: (data, variables, context) => {
+  //         if (data?.message === 'success') {
+  //           setMessage('Vendor Approved');
+  //           setOpenSnack(true);
+  //           navigate(`/purchase-request-list/${indentId}`, {
+  //             state: { project_id: projectId },
+  //           });
+  //         }
+  //       },
+  //     });
+  //   } catch {
+  //     console.log('Error occured in vendor select ');
+  //   }
+  // };
   const isAvilable = () => {
     return getVendorQuotes?.content?.some(
       (obj) => obj.quotation_status === 'Approved'
@@ -240,6 +246,8 @@ const VendorSelect = () => {
   const handleSubmitQuotation = () => {
     formik.submitForm();
   };
+  console.log('intialValue', initialValues);
+
   const validationSchema = Yup.object().shape({
     vendor_id: Yup.string().required('Please select Vendor'),
     remarks: Yup.string().required('remarks required'),
@@ -250,6 +258,8 @@ const VendorSelect = () => {
         'Site Expense is already present',
         async function (value, { parent }: Yup.TestContext) {
           let bill_details = parent.vendor_quotes_documents;
+          console.log('bill_detailsvalue', value);
+
           console.log('bill_details', bill_details);
           console.log('bill_detailslenght', bill_details.length);
           if (bill_details?.length < 0 && bill_details[0]?.is_delete === 'Y') {

@@ -29,8 +29,9 @@ const ProjectIndentRequestList = () => {
   const nullValues = environment.NULLVALUE;
   const approverStatus: any = [
     { value: '', label: 'All' },
-    { value: 'Approved', label: 'Approved' },
+    { value: 'Draft', label: 'Draft' },
     { value: 'Pending', label: 'Pending' },
+    { value: 'Approved', label: 'Approved' },
     { value: 'Rejected', label: 'Rejected' },
   ];
   const [buttonLabels, setButtonLabels] = useState(approverStatus);
@@ -372,10 +373,10 @@ const ProjectIndentRequestList = () => {
                                         className={Styles.ColpsheadingpanelOne}
                                       >
                                         <span className={Styles.heading}>
-                                          Purchase Request rasied
+                                          Purchase Request RAISED
                                         </span>
                                         <span className={Styles.heading}>
-                                          Purchase Order Rasied
+                                          Purchase Order RAISED
                                         </span>
                                       </div>
                                       <div className={Styles.ColpsDatapanelOne}>
