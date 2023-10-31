@@ -277,6 +277,7 @@ import PurchaseOrderVendorSelect from '../component/purchaseApproval/purchaseVen
 import MyOrderList from '../component/project/projectComponent/myOrders/myOrdersList';
 import MyOrderView from '../component/project/projectComponent/myOrders/orderView';
 import BoqTaskListScreen from '../component/projectBOQ/taskScreen';
+import DeliveryAddNote from '../component/project/projectComponent/myOrders/deliveryNoteAdd';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -390,7 +391,8 @@ const AppRoutes = () => {
     PurchaseOrderVendorSelect
   );
   const ProtectedMyOrders = withLayoutAndProtection(MyOrderList);
-  const ProtectedOrderView = withLayoutAndProtection(MyOrderView)
+  const ProtectedOrderView = withLayoutAndProtection(MyOrderView);
+  const ProtectedDeliveryNoteAdd = withLayoutAndProtection(DeliveryAddNote);
   return (
     <div>
       <Routes>
@@ -630,6 +632,9 @@ const AppRoutes = () => {
           path="/my-orders-view/:id"
           element={<ProtectedOrderView/>}
         />
+        <Route 
+        path = "delivery-note/:id"
+        element={<ProtectedDeliveryNoteAdd/>}/>
       </Routes>
     </div>
   );
