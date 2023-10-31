@@ -22,13 +22,11 @@ const MyOrderList = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     let rowIndex = 0;
 
-    const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
-        Number(projectId)
-    );
+    const { data: getSiteList, isLoading: siteLoading } = getProjectSite( Number(projectId) );
 
-    const initialSiteId =
-        !siteLoading && getSiteList ? getSiteList[0]?.value : null;
-    const [selectedValue, setSelectedValue] = useState(initialSiteId);
+    // const initialSiteId =
+    //     !siteLoading && getSiteList ? getSiteList[0]?.value : null;
+    const [selectedValue, setSelectedValue] = useState('');
 
     const getPoData = {
         limit: rowsPerPage,
@@ -52,9 +50,9 @@ const MyOrderList = () => {
         refetch();
     }, [currentPage, rowsPerPage, selectedValue]);
 
-    useEffect(() => {
-        refetch();
-    }, [initialSiteId, !siteLoading]);
+    // useEffect(() => {
+    //     refetch();
+    // }, [initialSiteId, !siteLoading]);
 
     const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -68,8 +66,6 @@ const MyOrderList = () => {
         setRowsPerPage(newRowsPerPage);
         setCurrentPage(1);
     };
-
-    console.log("fffff",getAllData);
     
     return (
         <div>
@@ -85,11 +81,7 @@ const MyOrderList = () => {
                         <div className={Styles.searchBar}>
                             <AutoCompleteSelect
                                 name="site_id"
-                                value={
-                                    selectedValue === null && getSiteList != null
-                                        ? Number(initialSiteId)
-                                        : selectedValue
-                                }
+                                value={getSiteList}
                                 placeholder="Select from options"
                                 defaultLabel='Select Site'
                                 width="250px"
