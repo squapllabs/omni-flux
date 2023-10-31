@@ -136,10 +136,14 @@ const OrderView = () => {
     }
     return '';
   };
+
+
+
+
   return (
     <div className={Styles.container}>
       <CustomLoader
-        loading={searchLoader ? searchLoader : dataLoading}
+         loading={searchLoader ? searchLoader : dataLoading}
         size={48}
         color="#333C44"
       >
@@ -192,6 +196,7 @@ const OrderView = () => {
                 Reset
               </Button>
             </div>
+            <ExcelIcon onClick={() => handleExcelReportGenerator(getAllData?.content)} />
           </div>
         </div>
         <div className={Styles.tableContainer}>
@@ -212,170 +217,172 @@ const OrderView = () => {
               <tbody>
                 {dataShow
                   ? getFilterData?.content?.map((data: any, index: number) => {
-                      const customBillName = generateCustomBillName(data);
-                      const customQuotationName =
-                        generateCustomQuotationName(data);
-                      return (
-                        <tr>
-                          <td>{startingIndex + index}</td>
-                          <td>{data?.vendor_data?.vendor_name}</td>
-                          <td>
-                            {
-                              data?.purchase_request_data?.project_data
-                                ?.project_name
-                            }
-                          </td>
-                          <td>{formatBudgetValue(data?.total_cost)}</td>
-                          <td>
-                            <div>
-                              {data?.purchase_request_data
-                                ?.purchase_request_documents?.length > 0 ? (
-                                data?.purchase_request_data?.purchase_request_documents.map(
-                                  (document: any, index: number) => (
-                                    <div key={document.code}>
-                                      <a
-                                        href={document.path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {customQuotationName}
-                                        {/* Uploaded Document */}
-                                      </a>
-                                    </div>
-                                  )
+                    const customBillName = generateCustomBillName(data);
+                    const customQuotationName =
+                      generateCustomQuotationName(data);
+                    return (
+                      <tr>
+                        <td>{startingIndex + index}</td>
+                        <td>{data?.vendor_data?.vendor_name}</td>
+                        <td>
+                          {
+                            data?.purchase_request_data?.project_data
+                              ?.project_name
+                          }
+                        </td>
+                        <td>{formatBudgetValue(data?.total_cost)}</td>
+                        <td>
+                          <div>
+                            {data?.purchase_request_data
+                              ?.purchase_request_documents?.length > 0 ? (
+                              data?.purchase_request_data?.purchase_request_documents.map(
+                                (document: any, index: number) => (
+                                  <div key={document.code}>
+                                    <a
+                                      href={document.path}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {customQuotationName}
+                                      {/* Uploaded Document */}
+                                    </a>
+                                  </div>
                                 )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
-                          <td>{data.status}</td>
-                          <td>
-                            <div>
-                              {data?.purchase_order_documents?.length > 0 ? (
-                                data?.purchase_order_documents.map(
-                                  (document: any, index: number) => (
-                                    <div key={document.code}>
-                                      <a
-                                        href={document.path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {customBillName}
-                                        {/* Uploaded Document */}
-                                      </a>
-                                    </div>
-                                  )
+                              )
+                            ) : (
+                              <div>-</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>{data.status}</td>
+                        <td>
+                          <div>
+                            {data?.purchase_order_documents?.length > 0 ? (
+                              data?.purchase_order_documents.map(
+                                (document: any, index: number) => (
+                                  <div key={document.code}>
+                                    <a
+                                      href={document.path}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {customBillName}
+                                      {/* Uploaded Document */}
+                                    </a>
+                                  </div>
                                 )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() =>
-                                  handleEdit(data.purchase_order_id)
-                                }
-                              />
-                              <PdfDownloadIcon
-                                onClick={() => handleReportGenerator(data)}
-                              />
-                              <ViewIcon
-                                onClick={() => 
-                                  navigate(`/purchase-order-view/${data.purchase_order_id}`)}
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
+                              )
+                            ) : (
+                              <div>-</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                handleEdit(data.purchase_order_id)
+                              }
+                            />
+                            <PdfDownloadIcon
+                              onClick={() => handleReportGenerator(data)}
+                            />
+                            <ViewIcon
+                              onClick={() =>
+                                navigate(`/purchase-order-view/${data.purchase_order_id}`)}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
                   : getAllData?.content?.map((data: any, index: number) => {
-                      const customBillName = generateCustomBillName(data);
-                      const customQuotationName =
-                        generateCustomQuotationName(data);
-                      return (
-                        <tr>
-                          <td>{startingIndex + index}</td>
-                          <td>{data?.vendor_data?.vendor_name}</td>
-                          <td>
-                            {
-                              data?.purchase_request_data?.project_data
-                                ?.project_name
-                            }
-                          </td>
-                          <td>{formatBudgetValue(data?.total_cost)}</td>
-                          <td>
-                            <div>
-                              {data?.purchase_request_data
-                                ?.purchase_request_documents?.length > 0 ? (
-                                data?.purchase_request_data?.purchase_request_documents.map(
-                                  (document: any, index: number) => (
-                                    <div key={document.code}>
-                                      <a
-                                        href={document.path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {customQuotationName}
-                                        {/* Uploaded Document */}
-                                      </a>
-                                    </div>
-                                  )
+                    const customBillName = generateCustomBillName(data);
+                    const customQuotationName =
+                      generateCustomQuotationName(data);
+                    return (
+                      <tr>
+                        <td>{startingIndex + index}</td>
+                        <td>{data?.vendor_data?.vendor_name}</td>
+                        <td>
+                          {
+                            data?.purchase_request_data?.project_data
+                              ?.project_name
+                          }
+                        </td>
+                        <td>{formatBudgetValue(data?.total_cost)}</td>
+                        <td>
+                          <div>
+                            {data?.purchase_request_data
+                              ?.purchase_request_documents?.length > 0 ? (
+                              data?.purchase_request_data?.purchase_request_documents.map(
+                                (document: any, index: number) => (
+                                  <div key={document.code}>
+                                    <a
+                                      href={document.path}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {customQuotationName}
+                                      {/* Uploaded Document */}
+                                    </a>
+                                  </div>
                                 )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
-                          <td>{data.status}</td>
-                          <td>
-                            <div>
-                              {data?.purchase_order_documents?.length > 0 ? (
-                                data?.purchase_order_documents.map(
-                                  (document: any, index: number) => (
-                                    <div key={document.code}>
-                                      <a
-                                        href={document.path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {customBillName}
-                                        {/* Uploaded Document */}
-                                      </a>
-                                    </div>
-                                  )
+                              )
+                            ) : (
+                              <div>-</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>{data.status}</td>
+                        <td>
+                          <div>
+                            {data?.purchase_order_documents?.length > 0 ? (
+                              data?.purchase_order_documents.map(
+                                (document: any, index: number) => (
+                                  <div key={document.code}>
+                                    <a
+                                      href={document.path}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {customBillName}
+                                      {/* Uploaded Document */}
+                                    </a>
+                                  </div>
                                 )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
-                          <td>
-                            <div className={Styles.tablerow}>
-                              <EditIcon
-                                onClick={() =>
-                                  handleEdit(Number(data.purchase_order_id))
-                                }
-                              />
-                              <ViewIcon
-                                onClick={() => 
-                                  navigate(`/purchase-order-view/${data.purchase_order_id}`)}
-                              />
-                               <PdfDownloadIcon
-                                onClick={() => handleReportGenerator(data)}
-                              />
-                              {/* <ExcelIcon  onClick={() => handleExcelReportGenerator(data)}/> */}
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                              )
+                            ) : (
+                              <div>-</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <div className={Styles.tablerow}>
+                            <EditIcon
+                              onClick={() =>
+                                handleEdit(Number(data.purchase_order_id))
+                              }
+                            />
+                            <ViewIcon
+                              onClick={() =>
+                                navigate(`/purchase-order-view/${data.purchase_order_id}`)}
+                            />
+                            <PdfDownloadIcon
+                              onClick={() => handleReportGenerator(data)}
+                            />
+                            <ExcelIcon onClick={() => handleExcelReportGenerator(data)} />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
         </div>
+       
+
         <div className={Styles.pagination}>
           <CustomPagination
             currentPage={currentPage}
@@ -396,7 +403,8 @@ const OrderView = () => {
         onAction={setShowEditPopUp}
         selectedPurchaseOrder={purchaseId}
       />
-      {pdfDownload ? <ReportGenerator /> : ''}
+
+
     </div>
   );
 };

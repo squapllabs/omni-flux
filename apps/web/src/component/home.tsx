@@ -205,7 +205,7 @@ const Home = () => {
                 {projectData?.top_projects?.map((data: any) => {
                   return (
                     <tr>
-                      <td>{(data?.project_name).toUpperCase()}
+                      <td>{(data?.project_name)?.toUpperCase()}
                         {/* <span className={Styles.spantag}>120 invoices (so for)</span> */}
                       </td>
                       <td className={Styles.budget}>{(formatNumberToLakh(data?.total_budget))}</td>
@@ -221,7 +221,7 @@ const Home = () => {
                 {projectData?.project_based_purchase_order_data?.map((data: any) => {
                   return (
                     <tr>
-                      <td>{(data?.project_name).toUpperCase()}
+                      <td>{(data?.project_name)?.toUpperCase()}
                         <span className={Styles.spantag}>{data?.count_of_pending_po} invoices (so for)</span>
                       </td>
                       <td className={Styles.budget}>{(formatNumberToLakh(data?.total_cost_other_than_completed))}</td>
