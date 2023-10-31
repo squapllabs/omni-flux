@@ -18,15 +18,18 @@ import userService from '../../../../service/user-service';
 import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import CloseIcon from '../../../menu/icons/closeIcon';
 import CustomSnackBar from '../../../ui/customSnackBar';
+import { createGrn } from '../../../../hooks/grn-hooks';
 
 const MyOrderView = () => {
   const routeParams = useParams();
+  const purchaseOrderId = Number(routeParams?.id);
   const navigate = useNavigate();
   const { state } = useLocation();
   const projectId = state?.projectId;
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
+  const { mutate: postGrnData } = createGrn();
   const year = new Date().getFullYear();
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
@@ -40,14 +43,14 @@ const MyOrderView = () => {
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  console.log('invoice document', invoiceDocument);
+//   console.log('invoice document', invoiceDocument);
 
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
     const updatedTableValue = [...tableValue];
-    updatedTableValue[index].received_quantity = event.target.value;
+    updatedTableValue[index].received_quantity = Number(event.target.value);
     setTableValue(updatedTableValue);
   };
 
@@ -82,23 +85,23 @@ const MyOrderView = () => {
         fileList.forEach(async (file) => {
           const code = 'INVOICE';
           const response = await userService.documentUpload(file, code);
-          console.log('response', response?.data[0]);
+        //   console.log('response', response?.data[0]);
           const obj = {
             ...response?.data[0],
             is_delete: 'N',
           };
-        //   console.log('responseobj', obj);
+          //   console.log('responseobj', obj);
           arr.push(obj);
         });
         setInvoiceDocument(arr);
-          setMessage('Document uploaded');
-          setOpenSnack(true);
+        setMessage('Document uploaded');
+        setOpenSnack(true);
       }
     }
   };
 
   const generateCustomQuotationName = (data: any) => {
-    console.log('func innn');
+    // console.log('func innn');
     if (data) {
       const year = new Date().getFullYear();
       const customBillName = `ALM-${data.substring(0, 3)}-${year}`;
@@ -127,32 +130,34 @@ const MyOrderView = () => {
       console.log('values', values);
       const obj = {
         notes: values?.notes,
-        invoice_number: values?.invoice_number,
-        tableData: tableValue,
+        invoice_id: values?.invoice_number,
+        grn_details: tableValue,
         purchase_order_id: Number(routeParams?.id),
         goods_received_date: values.goods_received_date,
-        document: invoiceDocument,
+        bill_details: invoiceDocument,
+        goods_received_by: 1,
+        grn_status: 'Pending',
+        project_id: 195,
+        created_by: 1,
       };
       console.log('obj', obj);
-      if(invoiceDocument?.length>1){
-        console.log("inn okay");
+      if (invoiceDocument?.length > 0) {
+        console.log('inn okay');
+        postGrnData(obj, {
+          onSuccess: (data, variables, context) => {
+            if (data?.message === 'success') {
+              setMessage('Posted');
+              setOpenSnack(true);
+              navigate(`/my-orders-view/${Number(routeParams?.id)}`, {
+                state: { projectId },
+              });
+            }
+          },
+        });
+      } else {
+        setMessage('Bill is Mandatory');
+        setOpenSnack(true);
       }
-      else{
-        setMessage("Bill is Mandatory")
-        setOpenSnack(true)
-      }
-      //   updateOneVendorQuotes(obj, {
-      //     onSuccess: (data, variables, context) => {
-      //       if (data?.message === 'success') {
-      //         setMessage('Vendor Approved');
-      //         setOpenSnack(true);
-      //         refetch();
-      //         // navigate(`/purchase-request-list/${indentId}`, {
-      //         //   state: { project_id: projectId },
-      //         // });
-      //       }
-      //     },
-      //   });
     },
   });
   return (
@@ -380,12 +385,12 @@ const MyOrderView = () => {
         </div>
       </CustomLoader>
       <CustomSnackBar
-          open={openSnack}
-          message={message}
-          onClose={handleSnackBarClose}
-          autoHideDuration={1000}
-          type="success"
-        />
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
+      />
     </div>
   );
 };
