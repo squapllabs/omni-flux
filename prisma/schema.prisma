@@ -838,6 +838,7 @@ model indent_request {
   site_data              site_contractor?         @relation(fields: [site_id], references: [site_contractor_id])
   indent_request_details indent_request_details[]
   purchase_request       purchase_request[]
+  purchase_order         purchase_order[]
 }
 
 model indent_request_details {
@@ -906,6 +907,8 @@ model purchase_request {
 
 model purchase_order {
   purchase_order_id        Int                   @id @default(autoincrement())
+  purchase_order_type      String?
+  indent_request_id        Int?
   purchase_request_id      Int?
   vendor_id                Int?
   order_date               DateTime?
@@ -922,6 +925,7 @@ model purchase_order {
   updated_date             DateTime
   created_by               Int?
   updated_by               Int?
+  indent_request_data      indent_request?       @relation(fields: [indent_request_id], references: [indent_request_id])
   purchase_request_data    purchase_request?     @relation(fields: [purchase_request_id], references: [purchase_request_id])
   vendor_data              vendor?               @relation(fields: [vendor_id], references: [vendor_id])
   purchase_order_item      purchase_order_item[]
