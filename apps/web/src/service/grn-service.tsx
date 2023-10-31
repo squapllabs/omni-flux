@@ -27,7 +27,21 @@ const createGrnData = async (values: JSON) => {
       throw error;
     }
   };
+
+  const getGrnById = async (values: any) => {
+    try {
+      const response = await axiosinterceptor.get(
+        `${environment.apiUrl}/grn/get/${values}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in getOne grn :', error);
+      throw error;
+    }
+  };
+
   export default {
     createGrnData,
-    filterGrn
+    filterGrn,
+    getGrnById
   }

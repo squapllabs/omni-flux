@@ -24,23 +24,20 @@ const MyOrderView = () => {
   console.log('UUUUUUU', getListData);
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
-    
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-    
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
     order_by_column: 'created_date',
     order_by_direction: 'asc',
-    project_id:projectId
+    project_id: projectId
   };
   const {
     isLoading: getAllLoadingLabourData,
     data: GRData,
     refetch,
   } = useGetAllGrnData(object);
-  console.log("hhhhhhhhhhhhh",GRData);
 
   const generateCustomQuotationName = (data: any) => {
     if (data) {
@@ -52,6 +49,13 @@ const MyOrderView = () => {
     return '';
   };
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+
+  const dateFormat = (value: any) => {
+    const currentDate = new Date(value);
+    const formattedDate = format(currentDate, 'dd-MM-yyyy');
+    return formattedDate;
+  };
+
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
@@ -322,7 +326,7 @@ const MyOrderView = () => {
                         <tr>
                           <td>{index + 1}</td>
                           <td>{item?.grn_details?.length}</td>
-                          <td>{item?.goods_received_date}</td>
+                          <td>{dateFormat(item?.goods_received_date)}</td>
                           <td>
                             <ViewIcon
                               onClick={() => {

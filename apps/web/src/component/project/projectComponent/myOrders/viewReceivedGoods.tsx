@@ -1,22 +1,33 @@
-import ProjectSubheader from '../../../project/projectSubheader';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../../../styles/viewReceivedGoods.module.scss'
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
-
-
+import grnService from 'apps/web/src/service/grn-service';
+import { format } from 'date-fns';
 
 const ViewReceivedGoods = () => {
     const routeParams = useParams();
-    console.log("%%%%%%%%%%%",routeParams);
-    
     const navigate = useNavigate();
-    const GrnId = Number(routeParams?.grnId)
+    const grn_Id = Number(routeParams?.grnId)
     const PurchaseOrderId = Number(routeParams?.pruchaseId)
-     const { state } = useLocation();
+    const { state } = useLocation();
     const projectId = state?.projectId;
-    console.log("State", state);
+    const [initialData, setInitialData] = useState();
 
-    // const projectId = 
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await grnService.getGrnById(grn_Id);
+            setInitialData(data?.data)
+        };
+        if (grn_Id) fetchData();
+    }, [])
+
+    const dateFormat = (value: any) => {
+        const currentDate = new Date(value);
+        const formattedDate = format(currentDate, 'dd-MM-yyyy');
+        return formattedDate;
+    };
+
     return (
         <div className={Styles.container}>
             <div className={Styles.sub_header}>
@@ -24,7 +35,7 @@ const ViewReceivedGoods = () => {
                     className={Styles.logo}
                     onClick={() => {
                         navigate(`/my-orders-view/${PurchaseOrderId}`,
-                        {state: {projectId}});
+                            { state: { projectId } });
                     }}
                 >
                     <PreviousPageIcon width={20} height={20} color="#7f56d9" />
@@ -46,28 +57,28 @@ const ViewReceivedGoods = () => {
                 </div>
             </div>
             <div className={Styles.dividerStyle}></div>
-            {/* <div>
-                <ProjectSubheader
-                    
-                    navigation={`/my-orders-view/${purchaseOrderId}`}
-                    title="Received Goods"
-                    description="View the Received Goods details"
-                />
-            </div> */}
             <div>
                 <div className={Styles.tableContainer}>
                     <table className={Styles.scrollable_table}>
                         <thead>
                             <tr>
                                 <th>S No</th>
-                                <th>Total Items</th>
+                                <th>Item Name</th>
                                 <th>Received Quantity</th>
-                                <th>Received Date</th>
-                                <th>Options</th>
+                                <th>Accepted Quantity</th>
+                                {/* <th>Options</th> */}
                             </tr>
                         </thead>
                         <tbody>
-
+                            {initialData?.grn_details?.map((data: any, index: any) => {
+                                return (
+                                    <tr><td>{index + 1}</td>
+                                        <td>{data?.item_data?.item_name}</td>
+                                        <td>{data?.received_quantity}</td>
+                                        <td>{data?.accepted_quantity}</td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
