@@ -67,6 +67,7 @@ const MyOrderList = () => {
         setRowsPerPage(newRowsPerPage);
         setCurrentPage(1);
     };
+    console.log("getAllData", getAllData);
 
     return (
         <div>

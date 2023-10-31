@@ -166,9 +166,21 @@
     border-bottom: 1px solid black;
     padding-bottom: 5px;
   }
+
+  .dashedDivider {
+    border-bottom: 1px dashed rgb(70, 70, 70);
+    padding: 15px;
+    margin: 0px 28px;
+  }
+
   .addDeliveryBtn{
     display: flex;
     justify-content: flex-end;
     padding-right: 25px;
-    padding-top: 10px;
+    padding-top: 20px;
+  }
+
+  .headingForTable {
+    padding: 18px 25px 2px 25px;
+    // padding-left: 25px;
   }
