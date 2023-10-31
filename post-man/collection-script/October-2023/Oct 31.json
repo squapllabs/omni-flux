@@ -24156,7 +24156,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    // \"global_search\": \"vIj\",\r\n    \"indent_request_id\": 131,\r\n    \"status\": \"AC\"\r\n    // \"purchase_request_status\": \"Approved\"\r\n}",
+							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"indent_request_id\": 131,\r\n    \"status\": \"AC\",\r\n    \"purchase_request_status\": \"Approved\",\r\n    \"purchase_request_code\": \"PUR202300180\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -25237,7 +25237,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    // \"purchase_request_id\": 110,\r\n    \"indent_request_id\": 133,\r\n    \"purchase_order_type\": \"Local Purchase\",\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-10-19\",\r\n    \"status\": \"Processing\",\r\n    \"total_cost\": 180923,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"purchase_order_item\": [\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"inward_quantity\": 8,\r\n            \"unit_price\": 10000\r\n        },\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 89,\r\n            \"inward_quantity\": 11,\r\n            \"unit_price\": 10000\r\n        }\r\n    ]\r\n}\r\n// {\r\n//     \"purchase_request_id\": 32,\r\n//     \"vendor_id\": 8,\r\n//     \"order_date\": \"2023-09-20\",\r\n//     \"status\": \"Processing\",\r\n//     \"total_cost\": 0,\r\n//     \"order_remark\": \"Order Requested\",\r\n//     \"purchase_order_item\": [\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 166,\r\n//             \"order_quantity\": 5\r\n//         },\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 167,\r\n//             \"order_quantity\": 1\r\n//         },\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 165,\r\n//             \"order_quantity\": 2\r\n//         }\r\n//     ]\r\n// }",
+							"raw": "{\r\n    \"purchase_request_id\": 110,\r\n    // \"indent_request_id\": 133,\r\n    // \"purchase_order_type\": \"Local Purchase\",\r\n    \"vendor_id\": 1,\r\n    \"order_date\": \"2023-10-19\",\r\n    \"status\": \"Processing\",\r\n    \"total_cost\": 180923,\r\n    \"order_remark\": \"Order Requested\",\r\n    \"purchase_order_item\": [\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 10,\r\n            \"inward_quantity\": 8,\r\n            \"unit_price\": 10000\r\n        },\r\n        {\r\n            \"item_id\": 124,\r\n            \"order_quantity\": 89,\r\n            \"inward_quantity\": 11,\r\n            \"unit_price\": 10000\r\n        }\r\n    ]\r\n}\r\n// {\r\n//     \"purchase_request_id\": 32,\r\n//     \"vendor_id\": 8,\r\n//     \"order_date\": \"2023-09-20\",\r\n//     \"status\": \"Processing\",\r\n//     \"total_cost\": 0,\r\n//     \"order_remark\": \"Order Requested\",\r\n//     \"purchase_order_item\": [\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 166,\r\n//             \"order_quantity\": 5\r\n//         },\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 167,\r\n//             \"order_quantity\": 1\r\n//         },\r\n//         {\r\n//             \"purchase_order_id\": \"\",\r\n//             \"item_id\": 165,\r\n//             \"order_quantity\": 2\r\n//         }\r\n//     ]\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -32564,6 +32564,304 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"vendor_quotation_details_id\": 18,\n            \"vendor_quotes_id\": 281,\n            \"item_id\": 179,\n            \"indent_request_details_id\": 309,\n            \"indent_requested_quantity\": null,\n            \"purchase_requested_quantity\": null,\n            \"unit_cost\": 0,\n            \"total_cost\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-26T12:15:39.845Z\",\n            \"updated_date\": \"2023-10-26T12:15:39.845Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"item_data\": {\n                \"item_id\": 179,\n                \"item_name\": \"Sand\",\n                \"description\": \"Sand for construction\",\n                \"hsn_code_id\": 2835,\n                \"gst_id\": 20,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-23T11:02:09.358Z\",\n                \"updated_date\": \"2023-09-23T11:02:09.358Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 109,\n                \"brand_id\": 1,\n                \"rate\": 12000,\n                \"is_delete\": false,\n                \"uom\": {\n                    \"name\": \"Kilogram\"\n                }\n            }\n        },\n        {\n            \"vendor_quotation_details_id\": 19,\n            \"vendor_quotes_id\": 281,\n            \"item_id\": 225,\n            \"indent_request_details_id\": 305,\n            \"indent_requested_quantity\": null,\n            \"purchase_requested_quantity\": null,\n            \"unit_cost\": 0,\n            \"total_cost\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-26T12:15:39.845Z\",\n            \"updated_date\": \"2023-10-26T12:15:39.845Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"item_data\": {\n                \"item_id\": 225,\n                \"item_name\": \"Screw driver set\",\n                \"description\": \"Testing Purpose\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 29,\n                \"uom_id\": 62,\n                \"created_date\": \"2023-10-18T12:30:04.661Z\",\n                \"updated_date\": \"2023-10-20T04:13:20.149Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 3,\n                \"rate\": 200,\n                \"is_delete\": false,\n                \"uom\": {\n                    \"name\": \"Ton\"\n                }\n            }\n        },\n        {\n            \"vendor_quotation_details_id\": 20,\n            \"vendor_quotes_id\": 281,\n            \"item_id\": 214,\n            \"indent_request_details_id\": 306,\n            \"indent_requested_quantity\": null,\n            \"purchase_requested_quantity\": null,\n            \"unit_cost\": 0,\n            \"total_cost\": 0,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-26T12:15:39.845Z\",\n            \"updated_date\": \"2023-10-26T12:15:39.845Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"item_data\": {\n                \"item_id\": 214,\n                \"item_name\": \"Formwork Nails\",\n                \"description\": \"Nails for securing formwork\",\n                \"hsn_code_id\": 367,\n                \"gst_id\": 48,\n                \"uom_id\": 6,\n                \"created_date\": \"2023-09-26T14:43:03.190Z\",\n                \"updated_date\": \"2023-09-26T14:43:03.190Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"item_type_id\": 108,\n                \"brand_id\": 1,\n                \"rate\": 30,\n                \"is_delete\": false,\n                \"uom\": {\n                    \"name\": \"Kilogram\"\n                }\n            }\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GRN",
+			"item": [
+				{
+					"name": "API To Create Grn With Drn Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"project_id\": 147,\r\n    \"purchase_order_id\": 149,\r\n    \"goods_received_by\": 1,\r\n    \"goods_received_date\": \"2023-10-31\",\r\n    \"invoice_id\": \"APVSRI20231124\",\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"grn_status\": \"Pending\",\r\n    \"created_by\": 1,\r\n    \"grn_details\": [\r\n        {\r\n            \"item_id\": 219,\r\n            \"received_quantity\": 10,\r\n            \"notes\": \"All Are Received\"\r\n        },\r\n        {\r\n            \"item_id\": 217,\r\n            \"received_quantity\": 10,\r\n            \"notes\": \"All Are Received\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/grn/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"grn",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Create Grn With Drn Details",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"project_id\": 147,\r\n    \"purchase_order_id\": 149,\r\n    \"goods_received_by\": 1,\r\n    \"goods_received_date\": \"2023-10-31\",\r\n    \"invoice_id\": \"APVSRI20231124\",\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"grn_status\": \"Pending\",\r\n    \"created_by\": 1,\r\n    \"grn_details\": [\r\n        {\r\n            \"item_id\": 219,\r\n            \"received_quantity\": 10,\r\n            \"notes\": \"All Are Received\"\r\n        },\r\n        {\r\n            \"item_id\": 217,\r\n            \"received_quantity\": 10,\r\n            \"notes\": \"All Are Received\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/grn/",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"grn",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "866"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"362-wQEHRhzUr1f/pLL7PwwqcA+tAb4\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 31 Oct 2023 10:34:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"grn\": {\n            \"grn_id\": 3,\n            \"project_id\": 147,\n            \"purchase_order_id\": 149,\n            \"goods_received_by\": 1,\n            \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n            \"invoice_id\": \"APVSRI20231124\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"grn_status\": \"Pending\",\n            \"created_date\": \"2023-10-31T10:34:24.326Z\",\n            \"created_by\": 1\n        },\n        \"grn_details\": [\n            {\n                \"grn_details_id\": 1,\n                \"grn_id\": 3,\n                \"item_id\": 219,\n                \"received_quantity\": 10,\n                \"accepted_quantity\": 10,\n                \"rejected_quantity\": 0,\n                \"notes\": \"All Are Received\",\n                \"created_date\": \"2023-10-31T10:34:24.259Z\",\n                \"created_by\": 1\n            },\n            {\n                \"grn_details_id\": 2,\n                \"grn_id\": 3,\n                \"item_id\": 217,\n                \"received_quantity\": 10,\n                \"accepted_quantity\": 10,\n                \"rejected_quantity\": 0,\n                \"notes\": \"All Are Received\",\n                \"created_date\": \"2023-10-31T10:34:24.259Z\",\n                \"created_by\": 1\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get GRN By Grn Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/grn/get/3",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"grn",
+								"get",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API To Get All GRN's",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/grn/get-all",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"grn",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API To Search GRN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"created_date\",\r\n    \"order_by_direction\": \"asc\",\r\n    \"project_id\": 147\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/grn/search",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"grn",
+								"search"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Search GRN",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"created_date\",\r\n    \"order_by_direction\": \"asc\",\r\n    \"project_id\": 147\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/grn/search",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"grn",
+										"search"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3419"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d5b-oHqcluXcs2QcDHxA59TT7eWtMdg\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 31 Oct 2023 11:10:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"is_available\": true,\n    \"content\": [\n        {\n            \"grn_id\": 3,\n            \"project_id\": 147,\n            \"purchase_order_id\": 149,\n            \"goods_received_by\": 1,\n            \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n            \"invoice_id\": \"APVSRI20231124\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"grn_status\": \"Pending\",\n            \"created_date\": \"2023-10-31T10:34:24.326Z\",\n            \"created_by\": 1,\n            \"project_data\": {\n                \"project_id\": 147,\n                \"project_name\": \"120 MLD CAPACITY SEWAGE TREATMENT PLANT KODUNGAIYUR\",\n                \"description\": \"DESIGN, ENGINEERING, BUILD AND COMMISSIONING OF 120 MLD CAPACITY SEWAGE TREATMENT PLANT IN ZONE -II \",\n                \"user_id\": 97,\n                \"date_started\": \"2023-09-26T00:00:00.000Z\",\n                \"date_ended\": \"2023-12-25T00:00:00.000Z\",\n                \"status\": \"Inprogress\",\n                \"client_id\": 10,\n                \"project_documents\": [],\n                \"created_date\": \"2023-09-26T13:33:59.808Z\",\n                \"updated_date\": \"2023-10-03T11:26:00.815Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"is_delete\": false,\n                \"project_notes\": \"DESIGN, ENGINEERING, BUILD AND COMMISSIONING OF 120 MLD CAPACITY SEWAGE TREATMENT PLANT IN ZONE -II \",\n                \"project_type\": \"Sewage Treatment Plan\",\n                \"code\": \"STP002\",\n                \"estimated_budget\": 4560000000,\n                \"actual_budget\": 0,\n                \"approvar_id\": 102\n            },\n            \"purchase_order_data\": {\n                \"purchase_order_id\": 149,\n                \"purchase_order_type\": null,\n                \"indent_request_id\": null,\n                \"purchase_request_id\": 217,\n                \"vendor_id\": 11,\n                \"order_date\": \"2023-10-31T00:00:00.000Z\",\n                \"order_id\": \"PO2023004220\",\n                \"status\": \"Processing\",\n                \"total_cost\": 1760,\n                \"order_remark\": \"Order Requested\",\n                \"purchase_order_documents\": null,\n                \"purchase_order_details\": null,\n                \"payment_mode\": null,\n                \"payment_date\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-10-31T08:03:44.321Z\",\n                \"updated_date\": \"2023-10-31T08:03:44.321Z\",\n                \"created_by\": null,\n                \"updated_by\": null,\n                \"vendor_data\": {\n                    \"vendor_name\": \"Agn TMT\"\n                }\n            },\n            \"goods_received_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\"\n            },\n            \"grn_details\": [\n                {\n                    \"grn_details_id\": 1,\n                    \"grn_id\": 3,\n                    \"item_id\": 219,\n                    \"received_quantity\": 10,\n                    \"accepted_quantity\": 10,\n                    \"rejected_quantity\": 0,\n                    \"notes\": \"All Are Received\",\n                    \"created_date\": \"2023-10-31T10:34:24.259Z\",\n                    \"created_by\": 1,\n                    \"item_data\": {\n                        \"item_id\": 219,\n                        \"item_name\": \"Aluminum Sheets\",\n                        \"description\": \"Aluminum sheets used to cover which is very easy to reshape as a metal\",\n                        \"hsn_code_id\": 200,\n                        \"gst_id\": 48,\n                        \"uom_id\": 6,\n                        \"created_date\": \"2023-10-18T06:56:47.956Z\",\n                        \"updated_date\": \"2023-10-18T06:56:47.956Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null,\n                        \"item_type_id\": 109,\n                        \"brand_id\": 1,\n                        \"rate\": 200,\n                        \"is_delete\": false,\n                        \"uom\": {\n                            \"uom_id\": 6,\n                            \"name\": \"Kilogram\",\n                            \"description\": \"KG\",\n                            \"created_date\": \"2023-07-19T07:19:55.434Z\",\n                            \"updated_date\": \"2023-08-29T07:51:38.092Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"uom_type\": \"RAWMT\",\n                            \"is_delete\": false\n                        }\n                    }\n                },\n                {\n                    \"grn_details_id\": 2,\n                    \"grn_id\": 3,\n                    \"item_id\": 217,\n                    \"received_quantity\": 10,\n                    \"accepted_quantity\": 10,\n                    \"rejected_quantity\": 0,\n                    \"notes\": \"All Are Received\",\n                    \"created_date\": \"2023-10-31T10:34:24.259Z\",\n                    \"created_by\": 1,\n                    \"item_data\": {\n                        \"item_id\": 217,\n                        \"item_name\": \"Water Tanks\",\n                        \"description\": \"Tanks for storing water\",\n                        \"hsn_code_id\": 2173,\n                        \"gst_id\": 48,\n                        \"uom_id\": 58,\n                        \"created_date\": \"2023-09-26T14:49:58.164Z\",\n                        \"updated_date\": \"2023-09-26T14:49:58.164Z\",\n                        \"created_by\": null,\n                        \"updated_by\": null,\n                        \"item_type_id\": 110,\n                        \"brand_id\": 1,\n                        \"rate\": 1000,\n                        \"is_delete\": false,\n                        \"uom\": {\n                            \"uom_id\": 58,\n                            \"name\": \"Each\",\n                            \"description\": \"Individuals\",\n                            \"created_date\": \"2023-09-26T13:46:59.091Z\",\n                            \"updated_date\": \"2023-09-26T13:46:59.091Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"uom_type\": \"RAWMT\",\n                            \"is_delete\": false\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}"
 						}
 					]
 				}
