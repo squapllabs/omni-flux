@@ -210,33 +210,33 @@ const VendorSelect = () => {
     setTableData(tempArry);
   };
 
-  const handleSubmit = async (id: any) => {
-    try {
-      const data = await vendorQuotesService.getOneVendorQuotesById(id);
-      const obj = {
-        vendor_quotes_id: data?.data?.vendor_quotes_id,
-        purchase_request_id: data?.data?.purchase_request_id,
-        vendor_id: data?.data?.vendor_id,
-        quotation_status: 'Approved',
-        updated_by: userID,
-        vendor_quotes_documents: data?.data?.vendor_quotes_documents,
-        total_quotation_amount: data?.data?.total_quotation_amount,
-      };
-      updateOneVendorQuotes(obj, {
-        onSuccess: (data, variables, context) => {
-          if (data?.message === 'success') {
-            setMessage('Vendor Approved');
-            setOpenSnack(true);
-            navigate(`/purchase-request-list/${indentId}`, {
-              state: { project_id: projectId },
-            });
-          }
-        },
-      });
-    } catch {
-      console.log('Error occured in vendor select ');
-    }
-  };
+  // const handleSubmit = async (id: any) => {
+  //   try {
+  //     const data = await vendorQuotesService.getOneVendorQuotesById(id);
+  //     const obj = {
+  //       vendor_quotes_id: data?.data?.vendor_quotes_id,
+  //       purchase_request_id: data?.data?.purchase_request_id,
+  //       vendor_id: data?.data?.vendor_id,
+  //       quotation_status: 'Approved',
+  //       updated_by: userID,
+  //       vendor_quotes_documents: data?.data?.vendor_quotes_documents,
+  //       total_quotation_amount: data?.data?.total_quotation_amount,
+  //     };
+  //     updateOneVendorQuotes(obj, {
+  //       onSuccess: (data, variables, context) => {
+  //         if (data?.message === 'success') {
+  //           setMessage('Vendor Approved');
+  //           setOpenSnack(true);
+  //           navigate(`/purchase-request-list/${indentId}`, {
+  //             state: { project_id: projectId },
+  //           });
+  //         }
+  //       },
+  //     });
+  //   } catch {
+  //     console.log('Error occured in vendor select ');
+  //   }
+  // };
   const isAvilable = () => {
     return getVendorQuotes?.content?.some(
       (obj) => obj.quotation_status === 'Approved'

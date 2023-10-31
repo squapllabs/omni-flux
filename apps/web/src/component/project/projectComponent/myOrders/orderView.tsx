@@ -6,6 +6,8 @@ import { useGetOnePurchaseOrder } from '../../../../hooks/purchase-request-hooks
 import { environment } from '../../../../environment/environment';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import { format } from 'date-fns';
+import Button from '../../../ui/Button';
+import AddIcon from '../../../menu/icons/addIcon';
 
 const MyOrderView = () => {
   const routeParams = useParams();
@@ -14,6 +16,7 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
+  const purchaseOrderId = Number(routeParams?.id)
   console.log('UUUUUUU', getListData);
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
@@ -27,6 +30,7 @@ const MyOrderView = () => {
     }
     return '';
   };
+  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
@@ -73,7 +77,7 @@ const MyOrderView = () => {
         {/* main data */}
         <div className={Styles.secondData}>
           <div className={Styles.vendorSiteDetails}>
-          <div className={Styles.allDatas}>
+            <div className={Styles.allDatas}>
               <div className={Styles.headingData}>
                 <h3>Order Details</h3>
               </div>
@@ -165,7 +169,7 @@ const MyOrderView = () => {
               </div>
             </div>
             <div className={Styles.dashedLine}></div>
-            
+
             <div className={Styles.allDatas}>
               <div className={Styles.headingData}>
                 <h3>Vendor Details</h3>
@@ -249,6 +253,21 @@ const MyOrderView = () => {
                 )}
               </tbody>
             </table>
+          </div>
+          <div className={Styles.addDeliveryBtn}>
+            <Button
+              type="button"
+              color="primary"
+              shape="rectangle"
+              size="small"
+              justify="center"
+              icon={<AddIcon width={20} color="white" />}
+              onClick = {() => {
+                navigate(`/delivery-note/${purchaseOrderId}`);
+            }}
+            >
+              Add Delivery Notes
+            </Button>
           </div>
         </div>
       </CustomLoader>
