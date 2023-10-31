@@ -12,7 +12,8 @@ import AddIcon from '../../../menu/icons/addIcon';
 const MyOrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  const {state} = useLocation();
+  const {state} = useLocation();  
+  const projectId = state?.projectId;
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
@@ -263,7 +264,9 @@ const MyOrderView = () => {
               justify="center"
               icon={<AddIcon width={20} color="white" />}
               onClick = {() => {
-                navigate(`/delivery-note/${purchaseOrderId}`);
+                navigate(`/delivery-note/${purchaseOrderId}`,
+                  {state: {projectId}}   
+                );
             }}
             >
               Add Delivery Notes

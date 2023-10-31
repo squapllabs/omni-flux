@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import CustomLoader from '../../../ui/customLoader';
 import Styles from '../../../../styles/newStyles/deliveryAddNote.module.scss';
 import { useGetOnePurchaseOrder } from '../../../../hooks/purchase-request-hooks';
@@ -16,6 +16,8 @@ import * as Yup from 'yup';
 const MyOrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
+  const {state} = useLocation();
+  const projectId = state?.projectId;  
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
@@ -78,7 +80,9 @@ const MyOrderView = () => {
           <div
             className={Styles.logo}
             onClick={() => {
-              navigate(`/my-orders-view/${Number(routeParams?.id)}`);
+              navigate(`/my-orders-view/${Number(routeParams?.id)}`,
+               {state: {projectId}}
+              );
             }}
           >
             <PreviousPageIcon width={20} height={20} color="#7f56d9" />
