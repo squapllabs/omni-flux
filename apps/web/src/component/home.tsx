@@ -4,24 +4,23 @@ import Button from './menu/button';
 import Vector from './menu/icons/vector';
 import FolderIcon from './menu/icons/folderIcon';
 import CustomCard from './ui/CustomCard';
-import { Chart } from "react-google-charts";
+import { Chart } from 'react-google-charts';
 import CustomLoader from './ui/customLoader';
 import { formatBudgetValue } from '../helper/common-function';
 import {
   useGetAllProject,
   useGetAllProjectStatus,
-  useGetDashboardDatasforPO
+  useGetDashboardDatasforPO,
 } from './../hooks/project-hooks';
 
 const Home = () => {
   const [createItem, setCreateItem] = useState(true);
   const [createCustomer, setCreateCustomer] = useState(false);
   const { isLoading: getAllLoading } = useGetAllProject();
-  const { data: projectStatus =[] } = useGetAllProjectStatus();
-  const { data: projectData =[], isLoading: getAllProjectStatusLoading } = useGetDashboardDatasforPO();
+  const { data: projectStatus = [] } = useGetAllProjectStatus();
+  const { data: projectData = [], isLoading: getAllProjectStatusLoading } =
+    useGetDashboardDatasforPO();
 
-  
-  
   const handleCreateList = () => {
     setCreateItem(true);
     setCreateCustomer(false);
@@ -32,20 +31,22 @@ const Home = () => {
     setCreateItem(false);
   };
 
-  const projectStatusData: any = [["Projects", "Total Days", "So Far"]];
+  const projectStatusData: any = [['Projects', 'Total Days', 'So Far']];
   projectData?.top_projects?.map(async (val: any) => {
     // const truncatedProjectName = val.project_name.length > 20
     //   ? val.project_name.substring(0, 17) + "..."
     //   : val.project_name;
-    await projectStatusData.push([val.project_name, val.project_total_days, val.days_completed])
+    await projectStatusData.push([
+      val.project_name,
+      val.project_total_days,
+      val.days_completed,
+    ]);
   });
-  
-  const topProjectsData: any = [["Projects", "Budget"]];
+
+  const topProjectsData: any = [['Projects', 'Budget']];
   projectData?.top_projects?.map(async (val: any) => {
-    await topProjectsData.push([val.project_name, val.total_budget])
+    await topProjectsData.push([val.project_name, val.total_budget]);
   });
-
-
 
   const chartOptions1 = {
     hAxis: {
@@ -55,7 +56,7 @@ const Home = () => {
     vAxis: {
       title: 'Project Name',
       textStyle: {
-        fontSize: 0.1
+        fontSize: 0.1,
       },
       viewWindow: {
         min: 10,
@@ -67,18 +68,16 @@ const Home = () => {
         targetAxisIndex: 0,
       },
     },
-    colors: ['#6941C6', '#32D583']
+    colors: ['#6941C6', '#32D583'],
   };
 
   const formatNumberToLakh = (number: number) => {
     const lakhValue = number / 100000;
     const formattedNumber = '₹ ' + lakhValue.toFixed(1) + ' L';
     return formattedNumber;
-  }
-
+  };
 
   return (
-
     <div className={Styles.container1}>
       <CustomLoader
         loading={getAllProjectStatusLoading}
@@ -98,32 +97,53 @@ const Home = () => {
               />
             </div>
           </div>
-          <div >PROJECTS
+          <div>
+            PROJECTS
             <div className={Styles.cardDiv}>
               <div className={Styles.cardContainer}>
                 <div className={Styles.cardTextStyle}>
-                  <h3><b>Inprogress</b></h3>
-                  <div className={Styles.textStyle1}>{projectData?.inprogress_projects}</div>
+                  <h3>
+                    <b>Inprogress</b>
+                  </h3>
+                  <div className={Styles.textStyle1}>
+                    {projectData?.inprogress_projects}
+                  </div>
                 </div>
                 <div className={Styles.cardTextStyle}>
-                  <h3><b>Yet to Start</b></h3>
-                  <p className={Styles.textStyle1}>{projectData?.draft_projects}</p>
+                  <h3>
+                    <b>Yet to Start</b>
+                  </h3>
+                  <p className={Styles.textStyle1}>
+                    {projectData?.draft_projects}
+                  </p>
                 </div>
                 <div className={Styles.cardTextStyle}>
-                  <h3><b>Active</b></h3>
-                  <p className={Styles.textStyle2}>{projectData?.active_projects}</p>
+                  <h3>
+                    <b>Active</b>
+                  </h3>
+                  <p className={Styles.textStyle2}>
+                    {projectData?.active_projects}
+                  </p>
                 </div>
               </div>
               <div className={Styles.cardContainer1}>
                 <div className={Styles.cardTextStyle}>
-                  <h3><b>Completed</b></h3>
-                  <p className={Styles.textStyle1}>{projectData?.completed_projects}</p>
+                  <h3>
+                    <b>Completed</b>
+                  </h3>
+                  <p className={Styles.textStyle1}>
+                    {projectData?.completed_projects}
+                  </p>
                 </div>
               </div>
               <div className={Styles.cardContainer2}>
                 <div className={Styles.cardTextStyle}>
-                  <h3><b>Total</b></h3>
-                  <p className={Styles.textStyle3}>{projectData?.total_projects}</p>
+                  <h3>
+                    <b>Total</b>
+                  </h3>
+                  <p className={Styles.textStyle3}>
+                    {projectData?.total_projects}
+                  </p>
                 </div>
               </div>
             </div>
@@ -160,36 +180,59 @@ const Home = () => {
                 <div className={Styles.centerGap}>
                   <h3>Total Invoiced</h3>
                   <div>
-                    <b>{formatNumberToLakh(projectData?.total_purchase_order_statistics?.total_purchase_order_cost)}</b>
+                    <b>
+                      {formatNumberToLakh(
+                        projectData?.total_purchase_order_statistics
+                          ?.total_purchase_order_cost
+                      )}
+                    </b>
                   </div>
                 </div>
                 <div className={Styles.centerGap}>
                   <h3> Paid</h3>
                   <div>
-                    <b>{formatNumberToLakh(projectData?.total_purchase_order_statistics?.total_cost_completed)}</b>
+                    <b>
+                      {formatNumberToLakh(
+                        projectData?.total_purchase_order_statistics
+                          ?.total_cost_completed
+                      )}
+                    </b>
                   </div>
                 </div>
                 <div className={Styles.centerGap}>
                   <h3>Pending</h3>
                   <div>
-                    <b>{formatNumberToLakh(projectData?.total_purchase_order_statistics?.total_cost_other_than_completed)}</b>
+                    <b>
+                      {formatNumberToLakh(
+                        projectData?.total_purchase_order_statistics
+                          ?.total_cost_other_than_completed
+                      )}
+                    </b>
                   </div>
                 </div>
               </div>
             </div>
             <div className={Styles.dashedLine}></div>
-            <div className={Styles.headingGap}>PURCHASE
+            <div className={Styles.headingGap}>
+              PURCHASE
               <div className={Styles.centerFirst}>
                 <div className={Styles.centerGap}>
                   <h3>Pending</h3>
                   <div>
-                    <b>{projectData?.total_purchase_order_statistics?.pending_po}</b>
+                    <b>
+                      {projectData?.total_purchase_order_statistics?.pending_po}
+                    </b>
                   </div>
                 </div>
                 <div className={Styles.centerGap}>
                   <h3> Completed</h3>
                   <div>
-                    <b>{projectData?.total_purchase_order_statistics?.completed_po}</b>
+                    <b>
+                      {
+                        projectData?.total_purchase_order_statistics
+                          ?.completed_po
+                      }
+                    </b>
                   </div>
                 </div>
               </div>
@@ -198,37 +241,60 @@ const Home = () => {
           </div>
         </div>
         <div className={Styles.projectDiv}>
-          <div className={Styles.headingGap}> TOP 5: PROJECTS
+          <div className={Styles.headingGap}>
+            {' '}
+            TOP 5: PROJECTS
             <table className={Styles.scrollable_table}>
               <thead></thead>
               <tbody>
                 {projectData?.top_projects?.map((data: any) => {
                   return (
                     <tr>
-                      <td>{(data?.project_name).toUpperCase()}
+                      <td className={Styles.headTitle}>
+                        {data?.project_name}
                         {/* <span className={Styles.spantag}>120 invoices (so for)</span> */}
                       </td>
-                      <td className={Styles.budget}>{(formatNumberToLakh(data?.total_budget))}</td>
+                      <td className={Styles.budget}>
+                        {formatNumberToLakh(
+                          data?.total_budget ? data?.total_budget : 0
+                        )}
+                      </td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
-          </div >
-          <div className={Styles.projectDiv2}> <div className={Styles.projectPayment}>TOP 5: PAYMENT OUTSTANDING</div>
+          </div>
+          <div className={Styles.projectDiv2}>
+            {' '}
+            <div className={Styles.projectPayment}>
+              TOP 5: PAYMENT OUTSTANDING
+            </div>
             <table className={Styles.scrollable_table}>
               <tbody>
-                {projectData?.project_based_purchase_order_data?.map((data: any) => {
-                  return (
-                    <tr>
-                      <td>{(data?.project_name).toUpperCase()}
-                        <span className={Styles.spantag}>{data?.count_of_pending_po} invoices (so for)</span>
-                      </td>
-                      <td className={Styles.budget}>{(formatNumberToLakh(data?.total_cost_other_than_completed))}</td>
-                    </tr>
-                  )
-                })}
-              </tbody> 
+                {projectData?.project_based_purchase_order_data?.map(
+                  (data: any) => {
+                    return (
+                      <tr>
+                        <td>
+                          <span className={Styles.headTitle}>
+                            {data?.project_name}
+                          </span>
+
+                          <span className={Styles.spantag}>
+                            {data?.count_of_pending_po} invoices (so for)
+                          </span>
+                        </td>
+                        <td className={Styles.budget}>
+                          {formatNumberToLakh(
+                            data?.total_cost_other_than_completed
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
+              </tbody>
             </table>
           </div>
           {/* <div className={Styles.projectDiv3}>PURCHASE
@@ -255,9 +321,7 @@ const Home = () => {
 
 
             </div> */}
-
         </div>
-
 
         {/* <div className={Styles.homeContainer}>
           <div className={Styles.homeLeftContent}>
@@ -412,7 +476,6 @@ const Home = () => {
         </div> */}
       </CustomLoader>
     </div>
-
   );
 };
 
