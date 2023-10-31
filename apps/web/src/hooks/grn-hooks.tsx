@@ -15,4 +15,15 @@ const createGrn = () => {
   );
 };
 
-export { createGrn };
+const useGetAllGrnData = (data: any) => {
+  return useQuery(
+    ['useGetAllGrnData'],
+    () => GrnService.filterGrn(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+export { createGrn,useGetAllGrnData };

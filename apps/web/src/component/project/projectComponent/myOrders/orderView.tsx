@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useRef } from 'react';
 import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import CustomLoader from '../../../ui/customLoader';
@@ -9,6 +10,7 @@ import { format } from 'date-fns';
 import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
 import ViewIcon from '../../../menu/icons/viewIcon';
+import { useGetAllGrnData } from '../../../../hooks/grn-hooks';
 
 const MyOrderView = () => {
   const routeParams = useParams();
@@ -22,6 +24,23 @@ const MyOrderView = () => {
   console.log('UUUUUUU', getListData);
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
+    
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+    
+  const object: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'created_date',
+    order_by_direction: 'asc',
+    project_id:projectId
+  };
+  const {
+    isLoading: getAllLoadingLabourData,
+    data: GRData,
+    refetch,
+  } = useGetAllGrnData(object);
+  console.log("hhhhhhhhhhhhh",GRData);
 
   const generateCustomQuotationName = (data: any) => {
     if (data) {
@@ -286,31 +305,28 @@ const MyOrderView = () => {
                   <tr>
                     <th>S No</th>
                     <th>Total Items</th>
-                    <th>Received Quantity</th>
                     <th>Received Date</th>
                     <th>Options</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData?.length === 0 ? (
+                  {GRData?.length === 0 ? (
                     <tr>
                       <td colspan="4" style={{ textAlign: 'center' }}>
                         No data found
                       </td>
                     </tr>
                   ) : (
-                    tableData?.map((item: any, index: any) => {
+                    GRData?.content?.map((item: any, index: any) => {
                       return (
                         <tr>
                           <td>{index + 1}</td>
-                          {/* <td>{item?.item_data?.item_name}</td> */}
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                          <td>{item?.grn_details?.length}</td>
+                          <td>{item?.goods_received_date}</td>
                           <td>
                             <ViewIcon
                               onClick={() => {
-                                navigate(`/view-received-goods/${routeParams?.id}`,
+                                navigate(`/view-received-goods/${purchaseOrderId}/${item?.grn_id}`,
                                   { state: { projectId } }
                                 );
                               }}

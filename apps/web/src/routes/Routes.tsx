@@ -638,7 +638,7 @@ const AppRoutes = () => {
         path = "delivery-note/:id"
         element={<ProtectedDeliveryNoteAdd/>}/>
         <Route
-          path = "/view-received-goods/:id"
+          path = "/view-received-goods/:pruchaseId/:grnId"
           element={<ProtectedViewReceivedGoods/>}
          />
       </Routes>

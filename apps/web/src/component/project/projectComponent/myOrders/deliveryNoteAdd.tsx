@@ -29,6 +29,7 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
+  
   const { mutate: postGrnData } = createGrn();
   const year = new Date().getFullYear();
   const tableData =
@@ -43,8 +44,6 @@ const MyOrderView = () => {
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-//   console.log('invoice document', invoiceDocument);
-
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
@@ -137,7 +136,7 @@ const MyOrderView = () => {
         bill_details: invoiceDocument,
         goods_received_by: 1,
         grn_status: 'Pending',
-        project_id: 195,
+        project_id: projectId,
         created_by: 1,
       };
       console.log('obj', obj);

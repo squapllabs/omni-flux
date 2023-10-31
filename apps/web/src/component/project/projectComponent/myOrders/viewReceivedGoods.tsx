@@ -7,9 +7,12 @@ import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
 
 const ViewReceivedGoods = () => {
     const routeParams = useParams();
+    console.log("%%%%%%%%%%%",routeParams);
+    
     const navigate = useNavigate();
-    const purchaseOrderId = Number(routeParams?.id)
-    const { state } = useLocation();
+    const GrnId = Number(routeParams?.grnId)
+    const PurchaseOrderId = Number(routeParams?.pruchaseId)
+     const { state } = useLocation();
     const projectId = state?.projectId;
     console.log("State", state);
 
@@ -20,7 +23,7 @@ const ViewReceivedGoods = () => {
                 <div
                     className={Styles.logo}
                     onClick={() => {
-                        navigate(`/my-orders-view/${Number(purchaseOrderId)}`,
+                        navigate(`/my-orders-view/${PurchaseOrderId}`,
                         {state: {projectId}});
                     }}
                 >
