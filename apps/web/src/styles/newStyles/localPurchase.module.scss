@@ -93,26 +93,29 @@
 
 /////local purchase order
 
-.container {
-    width: 100%;
-    padding-bottom: 10px;
-    padding-top: 10px;
-}
-
 .sub_header {
     height: 10vh;
     display: flex;
+    justify-content: space-between;
 }
 
-.logo {
-    font-weight: bold;
-    font-size: 16px;
-    color: var(--secondary-color);
+.textContent_1 {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 5%;
-    cursor: pointer;
+    flex-direction: column;
+}
+
+.projectTitle {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-right: -70px;
+}
+
+.lineStyles {
+    padding: 8px;
+    display: flex;
 }
 
 .vertical {
@@ -124,30 +127,26 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 1px;
-    background-color: #7d7d7d;
+    width: 1.5px;
+    background-color: #7a7676;
     height: 100%;
 }
 
-.dividerStyle {
-    border-bottom: 1px solid black;
-    padding-bottom: 5px;
+.boqAmount {
+    display: flex;
+    justify-content: flex-end;
 }
 
-.orderDetails {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
+.selected {
+    position: relative;
 }
 
-.leftOrderDetail {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-
-.rightOrderDetail {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+.selected::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #d0d5dd;
 }

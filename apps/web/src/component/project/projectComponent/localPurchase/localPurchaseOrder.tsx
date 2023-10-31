@@ -8,6 +8,9 @@ import { format } from 'date-fns';
 import Styles from '../../../../styles/newStyles/localPurchase.module.scss';
 import { useGetAllIndentRequestDetail } from '../../../../hooks/indent-approval-hooks';
 import indentApprovalRequestService from '../../../../service/indent-approval-request-service';
+import ProjectSubheader from '../../projectSubheader';
+import SiteNavigateIcon from '../../../menu/icons/siteNavigateIcon';
+import PersonIcon from '../../../menu/icons/personIcon';
 
 const LocalPurchaseOrder = () => {
   const routeParams = useParams();
@@ -16,23 +19,8 @@ const LocalPurchaseOrder = () => {
   const projectId = location.state.project_id;
   const indentId = Number(routeParams?.id);
   const [indentRequestData, setIndentRequestData] = useState('');
-
-  // const indentData = {
-  //   limit: rowsPerPage,
-  //   offset: (currentPage - 1) * rowsPerPage,
-  //   order_by_column: 'created_date',
-  //   order_by_direction: 'desc',
-  //   status: 'AC',
-  //   global_search: '',
-  //   indent_request_id: indentId,
-  // };
-
-  // const {
-  //   data: getAllData,
-  //   isLoading: dataLoading,
-  //   refetch,
-  // } = useGetAllIndentRequestDetail(indentData);
-  // console.log('getAllData', getAllData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
 
   const fetchData = async () => {
     const indentData = await indentApprovalRequestService.getOneIndentById(
@@ -46,51 +34,120 @@ const LocalPurchaseOrder = () => {
     fetchData();
   }, [indentId]);
 
-  let rowIndex = 0;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
-    <div className={Styles.container}>
+    <div>
+      <div>
+        <ProjectSubheader
+          title="Local Purchase Order"
+          navigation={`/project-edit/${projectId}`}
+          description=""
+        />
+      </div>
       <div className={Styles.sub_header}>
-        <div
-          className={Styles.logo}
-          onClick={() => {
-            navigate(`/project-edit/${projectId}`);
-          }}
-        >
-          <PreviousPageIcon width={20} height={20} color="#7f56d9" />
-        </div>
-        <div style={{ padding: '8px', display: 'flex' }}>
-          <div className={Styles.vertical}>
-            <div className={Styles.verticalLine}></div>
+        <div style={{ display: 'flex' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '20px 10px 20px 20px',
+            }}
+          >
+            <div className={Styles.textContent_1}>
+              <span className={Styles.projectTitle}>Expense Code</span>
+              <h3>{indentRequestData?.data?.indent_request_code}</h3>
+            </div>
+          </div>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '20px 10px 20px 20px',
+            }}
+          >
+            <div className={Styles.textContent_1}>
+              <span className={Styles.projectTitle}>Project</span>
+              <h3>{indentRequestData?.data?.project_data?.project_name}</h3>
+            </div>
+          </div>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <div>
+              <SiteNavigateIcon width={30} height={30} />
+            </div>
+            <div className={Styles.textContent_1}>
+              <span className={Styles.projectTitle}>Site </span>
+              <h3>{indentRequestData?.data?.site_data?.name}</h3>
+            </div>
           </div>
         </div>
-        <div className={Styles.orderDetails}>
-          <div className={Styles.leftOrderDetail}>
-            <span>
-              <b>Project Name</b>
-            </span>
-            <span>
-              <b>Site Name</b>
-            </span>
+        <div className={Styles.boqAmount}>
+          <div className={Styles.lineStyles}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
           </div>
-          <div className={Styles.rightOrderDetail}>
-            <p>
-              <b>:</b>
-            </p>
-            <p>
-              <b>:</b>
-            </p>
-          </div>
-          <div className={Styles.rightOrderDetail}>
-            <span>{indentRequestData?.data?.project_data?.project_name}</span>
-            <span>{indentRequestData?.data?.site_data?.name}</span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '20px 10px 20px 10px',
+            }}
+          >
+            <div className={Styles.countContent}>
+              <h3>
+                {formatBudgetValue(
+                  indentRequestData?.data?.total_cost
+                    ? indentRequestData?.data?.total_cost
+                    : 0
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Total Cost</span>
+            </div>
           </div>
         </div>
       </div>
-      <div className={Styles.dividerStyle}></div>
-      {/* main data */}
-      <div className={Styles.secondData}>
-        
+      <div className={Styles.selected}></div>
+      <div>
+        <div className={Styles.tableContainer}>
+          <table className={Styles.scrollable_table}>
+            <thead>
+              <tr>
+                <th className={Styles.tableHeading}>#</th>
+                <th className={Styles.tableHeading}>Item Name </th>
+                <th className={Styles.tableHeading}>UOM</th>
+                <th className={Styles.tableHeading}>Quantity</th>
+                <th className={Styles.tableHeading}>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              {indentRequestData?.data?.indent_request_details?.map(
+                (data: any, index: any) => {
+                  return (
+                    <tr key={data.indent_request_id}>
+                      <td>{startingIndex + index}</td>
+                      <td>{data?.bom_detail_data?.item_data?.item_name}</td>
+                      <td>{data?.bom_detail_data?.uom_data?.name}</td>
+                      <td>{data?.indent_requested_quantity}</td>
+                      <td>{formatBudgetValue(data?.total)}</td>
+                    </tr>
+                  );
+                }
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

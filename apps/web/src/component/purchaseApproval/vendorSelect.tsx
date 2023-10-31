@@ -33,6 +33,7 @@ import userService from '../../service/user-service';
 import CloseIcon from '../menu/icons/closeIcon';
 import TextArea from '../ui/CustomTextArea';
 import PageDisabled from '../ui/pageDisableComponent';
+import TickIcon from '../menu/icons/tickIcon';
 
 const VendorSelect = () => {
   const routeParams = useParams();
@@ -246,8 +247,6 @@ const VendorSelect = () => {
   const handleSubmitQuotation = () => {
     formik.submitForm();
   };
-  console.log('intialValue', initialValues);
-
   const validationSchema = Yup.object().shape({
     vendor_id: Yup.string().required('Please select Vendor'),
     remarks: Yup.string().required('remarks required'),
@@ -481,15 +480,18 @@ const VendorSelect = () => {
                             data?.quotation_status === 'Approved'
                               ? Styles.completedStatus
                               : data?.quotation_status === 'Quotation Recived'
-                              ? Styles.inprogressStatus
+                              ? ''
                               : ''
                           }`}
+                          style={{ cursor: 'pointer' }}
                         >
-                          {data?.quotation_status === 'Approved'
-                            ? 'Approved'
-                            : isAvai != true && isQuotationRecived
-                            ? 'Approve'
-                            : '--'}
+                          {data?.quotation_status === 'Approved' ? (
+                            'Approved'
+                          ) : isAvai != true && isQuotationRecived ? (
+                            <TickIcon height={20} width={20} color="blue" />
+                          ) : (
+                            '--'
+                          )}
                           {/* {isAvai != true && isQuotationRecived
                             ? 'Approve'
                             : '--'} */}
