@@ -87,6 +87,19 @@ const createCategory = () => {
     }
   );
 };
+const createMultipleCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return CategoryService.createMultipleCategory(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllCategory']);
+      },
+    }
+  );
+};
 
 const updateCategory = () => {
   const queryClient = useQueryClient();
@@ -153,4 +166,5 @@ export {
   createInstantCategory,
   useGetMasterAbstractStatusParentType,
   getByBOMDetails,
+  createMultipleCategory
 };

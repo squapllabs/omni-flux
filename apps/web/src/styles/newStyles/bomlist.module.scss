@@ -1,12 +1,95 @@
 .container {
   // padding: 10px 10px 10px 10px;
-  height: 100vh;
+  // height: 100vh;
+  overflow-y: auto;
+  
+}
+
+
+// bom list screen css
+
+.task_page_container{
+  overflow-x: hidden;
+  padding: 2% 2%;
 }
 
 .headingcontainer {
   // padding: 10px 10px 10px 10px;
   // padding-left: 10px;
 }
+
+.abstract_container{
+  padding: 2% 2%;
+
+  .header_container{
+
+  }
+  .add_abstract_container{
+    cursor: pointer;
+  }
+  .bulkUpload_container{
+    cursor: pointer;
+  }
+
+  .ab_tableContainer{
+    padding-top: 20px;
+    width: 100%;
+    height: 100%;
+    // padding: 10px 10px;
+    /* Adjust padding */
+    gap: 12px;
+    border-collapse: collapse;
+  
+    th,
+    td {
+      padding: 10px 10px 10px 24px;
+      text-align: left;
+      border: none;
+      font-weight: var(--tableData-fontWeight);
+      font-size: var(--tableData-fontSize);
+      border-bottom: 0.1px solid #f0f0f0;
+    }
+  
+    td {
+      border-bottom: 0.1px solid #f0f0f0;
+      // border-bottom :0px, 0px, 1px, 0px
+    }
+  
+    thead {
+      tr {
+        th {
+          padding: 10px 10px 10px 24px;
+          color: var(--tableHeader-fontColor);
+          background-color: var(--tableHeader-backgroundColor);
+          border: none;
+          font-size: var(--tableHeader-fontSize);
+          font-weight: var(--tableHeader-fontWeight);
+          text-transform: var(--tableHeader-textTransform);      
+        }
+      }
+  }
+}
+  .flex{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .center{
+    justify-content: center;
+  }
+  .space_between{
+    justify-content: space-between;
+  }
+  
+  .gap_2{
+    gap: 2rem;
+  }
+  .gap_3{
+    gap: 3rem;
+  }
+    
+}
+
 
 .subHeader {
   display: flex;
@@ -33,6 +116,14 @@
   background-color: rgb(255, 255, 255);
   width: 80%;
   padding: 5px 2rem;
+}
+
+.bulkUpload_add_btn_container{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  padding: 2% 0;
 }
 
 .side_menu {
@@ -76,7 +167,6 @@
   flex-direction: row;
   justify-content: space-between;
   padding-bottom: 2%;
-  padding-left: 2%;
   align-items: center;
 }
 
@@ -163,9 +253,11 @@
   text-align: justify;
 }
 .tableContainer {
-  width: 100%;
-  max-width: 1150px;
+  // width: 100%;
+  // max-width: 1150px;
   margin: 0 auto;
+  padding: 0 0 2%;
+  overflow-x: auto;
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -362,54 +454,71 @@
 .boqSubCategoryTable {
   width: 100%;
   height: 100%;
-  padding: 10px 10px; /* Adjust padding */
+  padding: 10px 10px;
+  /* Adjust padding */
   gap: 12px;
   border-collapse: collapse;
 
   th,
   td {
-    padding: 10px 10px 10px 24px; /* Adjust padding */
+    padding: 10px 10px 10px 24px;
     text-align: left;
-    font-weight: 500;
-    font-size: 12px;
-    border: none; /* Remove borders */
+    border: none;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
     border-bottom: 0.1px solid #f0f0f0;
-
   }
 
   td {
     border-bottom: 0.1px solid #f0f0f0;
+    // border-bottom :0px, 0px, 1px, 0px
   }
 
   thead {
     tr {
       th {
-        color: #667085;
-        font-weight: 700;
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);      
       }
     }
+  }
+
+  td:hover,
+  tr:hover {
+    /* Add hover styles if needed */
   }
 
     //odd keyword  
     tbody{
       tr:nth-child(odd) {  
-        // background: red;  
-        background-color: #faf7f7;  
+        // background: red;   
       }  
       //even keyword  
       tr:nth-child(even) {  
        
         // opacity: .7;
         // color: black;
+        
+        background-color: #faf7f7; 
       } 
+    }
+
+    .td_desc{
+      min-width: 55.5rem;
     }
 
 }
 .actionIcons_container{
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
+  min-width: 5rem;
 }
 .selectedRow {
   background-color: #e7e7e7;
