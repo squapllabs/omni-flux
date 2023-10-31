@@ -166,3 +166,12 @@
       /* Add hover styles if needed */
     }
   }
+
+  .inputField{
+    // background-color: lightgray;
+    padding-top: 10px;
+    padding-left: 26px;
+    display: flex;
+    flex-direction: row;
+    gap:25px;
+  }

@@ -8,11 +8,13 @@ import { formatBudgetValue } from '../../../../helper/common-function';
 import { format } from 'date-fns';
 import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
+import ViewIcon from '../../../menu/icons/viewIcon';
 
 const MyOrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  const {state} = useLocation();
+  const { state } = useLocation();
+  const projectId = state?.projectId;
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
@@ -103,9 +105,9 @@ const MyOrderView = () => {
                   <span>
                     {getListData?.order_date
                       ? format(
-                          new Date(getListData?.order_date),
-                          'MMM dd, yyyy'
-                        )
+                        new Date(getListData?.order_date),
+                        'MMM dd, yyyy'
+                      )
                       : '-'}
                   </span>
                 </div>
@@ -243,7 +245,7 @@ const MyOrderView = () => {
                           {formatBudgetValue(
                             item.unit_cost * item.purchase_requested_quantity
                               ? item.unit_cost *
-                                  item.purchase_requested_quantity
+                              item.purchase_requested_quantity
                               : 0
                           )}
                         </td>
@@ -262,12 +264,65 @@ const MyOrderView = () => {
               size="small"
               justify="center"
               icon={<AddIcon width={20} color="white" />}
-              onClick = {() => {
-                navigate(`/delivery-note/${purchaseOrderId}`);
-            }}
+              onClick={() => {
+                navigate(`/delivery-note/${purchaseOrderId}`,
+                  { state: { projectId } }
+                );
+              }}
             >
               Add Delivery Notes
             </Button>
+          </div>
+        </div>
+        <div className={Styles.dashedDivider}></div>
+        <div>
+          <div className={Styles.headingForTable}>
+            <h3>Received Goods</h3>
+          </div>
+          <div>
+            <div className={Styles.tableContainer}>
+              <table className={Styles.scrollable_table}>
+                <thead>
+                  <tr>
+                    <th>S No</th>
+                    <th>Total Items</th>
+                    <th>Received Quantity</th>
+                    <th>Received Date</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableData?.length === 0 ? (
+                    <tr>
+                      <td colspan="4" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
+                    </tr>
+                  ) : (
+                    tableData?.map((item: any, index: any) => {
+                      return (
+                        <tr>
+                          <td>{index + 1}</td>
+                          {/* <td>{item?.item_data?.item_name}</td> */}
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <ViewIcon
+                              onClick={() => {
+                                navigate(`/view-received-goods/${routeParams?.id}`,
+                                  { state: { projectId } }
+                                );
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </CustomLoader>
