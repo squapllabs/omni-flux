@@ -77,68 +77,74 @@ const createPurchaseRequest = async (body: purchaseRequestBody) => {
       }
     }
     const result = await prisma
-      .$transaction(async (tx) => {
-        const purchaseRequestDetails = await purchaseRequestDao.add(
-          indent_request_id,
-          requester_user_id,
-          request_date,
-          status,
-          vendor_selection_method,
-          project_id,
-          indentRequestExist?.site_id,
-          selected_vendor_id,
-          total_cost,
-          created_by,
-          vendor_ids,
-          purchase_request_details,
-          purchase_request_documents,
-          tx
-        );
+      .$transaction(
+        async (tx) => {
+          const purchaseRequestDetails = await purchaseRequestDao.add(
+            indent_request_id,
+            requester_user_id,
+            request_date,
+            status,
+            vendor_selection_method,
+            project_id,
+            indentRequestExist?.site_id,
+            selected_vendor_id,
+            total_cost,
+            created_by,
+            vendor_ids,
+            purchase_request_details,
+            purchase_request_documents,
+            tx
+          );
 
-        if (purchase_request_details) {
-          for await (const value of purchase_request_details) {
-            const indent_requested_quantity = value.indent_requested_quantity;
-            const purchase_requested_quantity =
-              value.purchase_requested_quantity;
-            const indent_request_details_id = value.indent_request_details_id;
-            const purchase_remaining_quantity = Math.max(
-              0,
-              indent_requested_quantity - purchase_requested_quantity
-            );
-            await indentRequestDetailsDao.updatePurchaseRequestQuantity(
-              indent_request_details_id,
-              purchase_requested_quantity,
-              purchase_remaining_quantity,
-              created_by,
-              tx
-            );
+          if (purchase_request_details) {
+            for await (const value of purchase_request_details) {
+              const indent_requested_quantity = value.indent_requested_quantity;
+              const purchase_requested_quantity =
+                value.purchase_requested_quantity;
+              const indent_request_details_id = value.indent_request_details_id;
+              const purchase_remaining_quantity = Math.max(
+                0,
+                indent_requested_quantity - purchase_requested_quantity
+              );
+              await indentRequestDetailsDao.updatePurchaseRequestQuantity(
+                indent_request_details_id,
+                purchase_requested_quantity,
+                purchase_remaining_quantity,
+                created_by,
+                tx
+              );
+            }
           }
-        }
 
-        const result = {
-          message: 'success',
-          status: true,
-          data: purchaseRequestDetails,
-        };
-        return result;
-      })
+          const emailData = [];
+          for await (const vendor of vendor_ids) {
+            const vendor_id = vendor;
+            const vendorDetails = await vendorDao.getById(vendor_id);
+
+            const vendorEmailBody = {
+              purchase_request_details: purchase_request_details,
+              vendor_name: vendorDetails.vendor_name,
+              to_email_id: vendorDetails.contact_email,
+            };
+            emailData.push(vendorEmailBody);
+          }
+          for await (const email of emailData) {
+            await mailService.purchaseRequestEmailForVendor(email);
+          }
+
+          const result = {
+            message: 'success',
+            status: true,
+            data: purchaseRequestDetails,
+          };
+          return result;
+        },
+        {
+          timeout: Number(process.env.TRANSACTION_TIMEOUT),
+        }
+      )
       .then(async (data) => {
         console.log('Successfully Purchase Request Data Returned ', data);
-        const emailData = [];
-        for await (const vendor of vendor_ids) {
-          const vendor_id = vendor;
-          const vendorDetails = await vendorDao.getById(vendor_id);
-
-          const vendorEmailBody = {
-            purchase_request_details: purchase_request_details,
-            vendor_name: vendorDetails.vendor_name,
-            to_email_id: vendorDetails.contact_email,
-          };
-          emailData.push(vendorEmailBody);
-        }
-        for await (const email of emailData) {
-          await mailService.purchaseRequestEmailForVendor(email);
-        }
         return data;
       })
       .catch((error: string) => {
