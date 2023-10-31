@@ -10,6 +10,8 @@ import PlanList from './planList';
 import EditIcon from '../menu/icons/newEditIcon';
 import AddIcon from '../menu/icons/addIcon'
 import ExpandIcon from '../menu/icons/expandIcon';
+import SettingIcon from '../menu/icons/settingIcon';
+
 interface SubBoqItemsProps {
   rowData: any;
   index: any;
@@ -109,19 +111,6 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
             : ''
         }
       >
-         <td
-            onClick={(e) =>{
-              toggleCollapse(rowData.sub_category_id)
-              }}
-            style={{ textAlign: 'justify' ,cursor: rowData?.children.length ? 'pointer':''}}
-            >
-             {rowData?.children.length?(
-                <ExpandIcon
-                color={primary_color}
-                style={{fill_opacity : rowData?.children.length?'':'.5'}}
-                ></ExpandIcon>
-                  ):('')} 
-            </td>
         <td >
           {primaryIndex + 1 + '.' + `${index + 1}`}
         </td>
@@ -186,16 +175,41 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
             >
               <AddIcon width={20} height={20} color={primary_color} />
             </span>
-            
+            {
+                rowData?.children?.length===0 ? (
+                  <span
+              onClick={()=>{
+                handleMangePlan(rowData)
+              }}
+              >
+                <SettingIcon
+                style={{cursor: 'pointer'}}
+                color={primary_color}
+                />
+              </span>
+                ): (
+                  <span
+              onClick={(e) =>{
+                toggleCollapse(rowData.sub_category_id)
+                }}
+              style={{ textAlign: 'justify' ,cursor: rowData?.children.length ? 'pointer':''}}
+              >
+                <ExpandIcon
+                color={primary_color}
+                style={{fill_opacity : rowData?.children.length?'':'.5'}}
+                ></ExpandIcon>
+              </span>
+                )
+            }          
           </div>
-            <div
+            {/* <div
               onClick={(e) => {
                 toggleMenu();
               }}
               className={Styles.menuText}
             >
               <MoreVerticalIcon />
-            </div>
+            </div> */}
           </div>
           {isOpen && (
             <div className={Styles.customMenu} ref={menuRef}>

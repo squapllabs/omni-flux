@@ -96,7 +96,7 @@
   justify-content: space-between;
 }
 .panelContentTitle {
-  font-weight: bolder;
+  // font-weight: bolder;
 }
 .cardHeadpanelOne {
   display: flex;
@@ -114,24 +114,48 @@
   gap: 10px;
 }
 .completedStatus {
-  background-color: #ecfdf3;
-  padding: 6px;
+  // background-color: #ecfdf3;
+  // padding: 6px;
   padding-left: 0;
   padding-top: 0;
   border-radius: 50px;
   color: #027a48;
+  text-decoration: underline;
 }
 .inprogressStatus {
-  background-color: #fdf2fa;
-  padding: 6px;
+  // background-color: #fdf2fa;
+  // padding: 6px;
   padding-left: 0;
   padding-top: 0;
   border-radius: 50px;
   color: #c11574;
+  text-decoration: underline;
 }
 
 .vendorPanel {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.Colps {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+.ColpsChilds {
+  display: flex;
+  gap: 20px;
+}
+.ColpsheadingpanelOne {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.ColpsDatapanelOne {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

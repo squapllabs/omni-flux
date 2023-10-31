@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   getBycategoryIdInSub,
   useDeleteSubcategory,
@@ -21,6 +21,10 @@ import CategoryService from '../../service/category-service';
 import CustomMenu from '../ui/NewCustomMenu';
 import subCategoryService from '../../service/subCategory-service';
 import SubBoqItems from './subBoqItems';
+import SettingIcon from '../menu/icons/settingIcon';
+import FileUploadIcon from '../menu/icons/fileUploadIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
+import { read, utils } from 'xlsx';
 
 
 const BomItems = (props: {
@@ -56,7 +60,10 @@ const BomItems = (props: {
   const [moreIconDropdownOpen, setMoreIconDropdownOpen] = useState(false);
   const [openedContextMenuForSubCategory, setOpenedContextMenuForSubCategory] =
     useState<number | null>(null);
+  const [uploadedTaskData , setUploadedTaskData] = useState<any[]>([]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [subChildList, setSubChildList] = useState<any>([]);
+  const [ TaskPopupTrigger , setTaskPopupTrigger] = useState(false)
   const primary_color = '#7f56d';
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -105,6 +112,102 @@ const BomItems = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const basic_details = {
+    category_id: '',
+  }
+  const handleFileOnChange = async (e:any) =>{
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e:any) => {
+        const data = e.target.result;
+        const workbook = read(data, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = utils.sheet_to_json(sheet);
+        const parsedJson = JSON.parse(JSON.stringify(jsonData));
+        if(parsedJson.length > 1){
+
+          const taskData: { id: string | undefined; description: any; uom_id: number; quantity: any; rate: any; estimated_budget: any; actual_budget: number; children: any[]; }[] = []
+        const formattedTaskData = parsedJson.forEach((element:any) =>{
+          
+         const  s_no_array = String(element['SI.NO']).split('.');
+          if(s_no_array.length === 1){
+            const obj = {
+              id : s_no_array.pop(),
+              description : (element?.Description || ''),
+              uom_id:0,
+              quantity:(element?.Quantity || ''),
+              rate: (element?.Rate|| ''),
+              estimated_budget: (element?.Amount|| ''),
+              actual_budget: 0,
+              children : [],
+              project_id: categoryData?.project_id,
+              bom_configuration_id:categoryData?.bom_configuration_id,
+              category_id:categoryData?.category_id,
+            }
+            taskData.push(obj);
+          } else if(s_no_array.length === 2){
+            const parentId = s_no_array.shift();
+            const parenIndex = taskData.findIndex(parent => parent.id === parentId)
+            const obj = {
+              id : s_no_array.pop(),
+              description : (element?.Description || ''),
+              uom_id:0,
+              quantity:(Number(element?.Quantity) || ''),
+              rate: (Number(element?.Rate)|| ''),
+              estimated_budget: (element?.Amount|| ''),
+              actual_budget: 0,
+              children : [],
+              project_id: categoryData?.project_id,
+              bom_configuration_id:categoryData?.bom_configuration_id,
+              category_id:categoryData?.category_id,
+            }
+            taskData[parenIndex].children.push(obj)
+          }
+        });
+        
+        
+        if(taskData.length){
+          setUploadedTaskData(taskData)
+          setTaskPopupTrigger(true)
+          console.log('taskData',taskData) 
+        }else {
+          setUploadedTaskData([])
+        }
+          // const bulkUploadData = parsedJson.map((element:any) => ({
+          //   description: element,
+          //   project_id: props.selectedProject,
+          //   actual_budget: 0,
+          //   category_id: props.selectedCategoryId,
+          //   start_date: '',
+          //   end_date: '',
+          //   bom_configuration_id: props.selectedBomConfig,
+          //   parent_sub_category_id:
+          //   props.mode === 'Sub Task' ? props.selectedSubCategory : null,
+          //   estimated_budget : values.estimated_budget,
+          //   uom_id : values.uom_id,
+          //   rate :  values.rate,
+          //   quantity : element
+          // }));
+          
+        }else {
+          // throw error message
+        }
+      
+        // Update the state with the Excel data
+        // setExcelData(jsonData);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+    }
+    const handleFileUploadBtnClick = () =>{
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    }
+  
+
   useEffect(() => {
     const closeContextMenu = () => {
       setMoreIconDropdownOpen(false);
@@ -124,7 +227,7 @@ const BomItems = (props: {
   const handleClosePlanList = () => {
     setShowPlanForm(false);
   };
-
+ 
   useEffect(() => {
     const fetchOne = async () => {
       const data = await CategoryService.getOneCategoryByID(
@@ -136,20 +239,162 @@ const BomItems = (props: {
     fetchOne();
   }, [selectedCategory, reload]);
 
-  return (
-    <div>
+  const handleClosePopup = ():void => {
+    setTaskPopupTrigger(false)
+    console.log('')
+  }
+ 
+  return ( 
+    <div className={Styles.task_page_container}>
+
+<div>
+      <CustomSidePopup
+          open={TaskPopupTrigger}
+          title={categoryData?.name}
+          handleClose={handleClosePopup}
+
+          
+          content={
+          <div className={Styles.ab_tableContainer}>
+            <table
+
+            style={{padding: '20px',width:'100%'}}
+            >
+                            <thead>
+                              <tr
+                               style={{padding: '20px 0'}}
+                              >
+                                <th  style={{padding: '0 10px'}}>S No</th>
+                                <th style={{padding: '0 10px'}}>Description</th>
+                                <th style={{padding: '0 10px'}}>Uom</th>
+                                <th style={{padding: '0 10px'}}>Quantity</th>
+                                <th style={{padding: '0 10px'}}>Rate</th>
+                                <th style={{padding: '0 10px'}}>Amount</th>
+                                <th style={{padding: '0 10px'}}>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {uploadedTaskData && uploadedTaskData?.length > 0 ? (
+                                uploadedTaskData.map((item: any, index: any) => (
+                                  <>
+                                  <tr key={index}
+                                  >
+                                    <td
+                                    style={{padding: '10px 10px'}}
+                                    >{index + 1}</td>
+                                    <td
+                                    style={{padding: '10px 10px'}}
+                                    >{item.description}</td>
+                                     <td
+                                    style={{padding: '10px 10px'}}
+                                    >{('Unit'|| 0)}</td>
+                                     <td
+                                    style={{padding: '10px 10px'}}
+                                    >{(item.quantity || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 10px'}}
+                                    >{(item.rate || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 10px'}}
+                                    >{(item.estimated_budget || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 10px', cursor:'pointer'}}
+                                    ><DeleteIcon 
+                                    onClick={()=>{
+                                      if(uploadedTaskData.length){
+                                        const data = [...uploadedTaskData]
+                                        data.splice(index,1);
+                                        setUploadedTaskData(data)
+                                      }else {
+                                      console.log('throw error')
+                                      }
+                                    }}
+                                    /></td>
+                                    {/* <td
+                                    style={{padding: '10px 10px'}}
+                                    >{ (Number(item.estimated_budget) || 0) * }</td> */}
+                                  </tr>
+                                  {item?.children.length ?
+                                  item.children.map((child: any, childIndex: any) =>(
+                                    <tr key={childIndex}>
+                                    <td
+                                    style={{padding: '10px 10px'}}
+                                    >{(index+1 )+ '.'+ (childIndex + 1)}</td>
+                                    <td
+                                    style={{padding: '10px 10px'}}
+                                    >{child.description}</td>
+                                     <td
+                                    style={{padding: '10px 10px'}}
+                                    >{('Unit'|| 0)}</td>
+                                     <td
+                                    style={{padding: '10px 10px'}}
+                                    >{(child.quantity || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 10px'}}
+                                    >{(child.rate || 0)}</td>
+                                    <td
+                                    style={{padding: '10px 10px'}}
+                                    >{(item.estimated_budget || 0)}</td>
+                                    </tr>
+                                  ))
+                                  :('')}
+                                  </>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td>No records found</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+
+                    <div
+                    style={{
+                      display:'flex',
+                      justifyContent:'center',
+                      padding:'20px'
+                    }}
+                    >
+
+                    <Button
+                     color="primary"
+                     shape="rectangle"
+                     size="small"
+                     icon={<AddIcon width={20} color="white" />}
+                     onClick={() => {
+                       console.log('')
+                     }}
+                     justify='center'
+                   >
+                     Add Tasks
+                   </Button>
+           </div>
+          </div> 
+        } width={'90%'} description={"description"}/>
+
+         
+      </div>
+
+
       {getAllData ? (
         <div>
           <div className={Styles.mainHeading}>
             <div className={Styles.mainLeftContent}>
               <div className={Styles.leftContentOne}>
-                <CheckListIcon />
+                <CheckListIcon 
+                style={{padding:'4px 0 0 0;'}}
+                />
                 <h3 title={categoryData?.name}>
-                  {categoryData?.name
+                  {/* {categoryData?.name
                     ? categoryData?.name?.length > 20
                       ? categoryData?.name?.substring(0, 20) + '...'
                       : categoryData?.name
-                    : '-'}
+                    : '-'} */}
+                    {categoryData?.name}
                   ({getAllData?.length})
                 </h3>
               </div>
@@ -163,6 +408,27 @@ const BomItems = (props: {
               >
                 <NewAddCircleIcon />
                 <span className={Styles.menuFont}>Add Task</span>
+              </div>
+              <div className={`${Styles.flex} ${Styles.bulkUpload_container}`}
+              onClick={handleFileUploadBtnClick}
+              >
+              <span>
+                    <input
+                            ref={fileInputRef}
+                            id="upload-photo"
+                            name="upload_photo"
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={(e) => handleFileOnChange(e)}
+                          />
+                    <FileUploadIcon
+                    width={20}
+                    height={20}
+                    color="#7f56d9" onClick={function (): void {
+                      throw new Error('Function not implemented.');
+                    } }                          />
+                  </span>
+                  <span className={Styles.menuFont}>Bulk Upload</span>                      
               </div>
             </div>
             <div>
@@ -178,7 +444,6 @@ const BomItems = (props: {
             <table className={Styles.boqSubCategoryTable}>
               <thead>
                 <tr>
-                  <th></th>
                   <th className={Styles.tableHeading}>#</th>
                   {/* <th className={Styles.tableHeading}>Task Name</th> */}
                   <th className={Styles.tableHeading}>Task Description</th>
@@ -198,7 +463,6 @@ const BomItems = (props: {
                       onClick: () => {
                         setSelectedSubCategoryId(data.sub_category_id);
                         setPlanListTitle(data.name);
-                        debugger
                         setShowPlanForm(true);
                       },
                       disabled: subChildLength > 0 ? true : false,
@@ -232,21 +496,6 @@ const BomItems = (props: {
                         
                       >
                         <td
-                        onClick={
-                          (e) =>{
-                            handleSubTaskView(data.sub_category_id)
-                          }
-                        }
-                        style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}
-                        >
-                          {data?.children.length?(
-                            <ExpandIcon
-                            color={primary_color}
-                            style={{fill_opacity : data?.children.length?'':'.5'}}
-                            ></ExpandIcon>
-                          ):('')}
-                        </td>
-                        <td
                           // onClick={(e) =>
                           //   handleSubTaskView(data.sub_category_id)
                           // }
@@ -257,6 +506,7 @@ const BomItems = (props: {
                           onClick={(e) =>{
                             handleSubTaskView(data.sub_category_id)
                           }}
+                          className={Styles.td_desc}
                         >
                           <span style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}>
                             {data.description || '--'}
@@ -309,10 +559,39 @@ const BomItems = (props: {
                             handleSubTask(data?.sub_category_id);
                               setSelectedSubCategoryId(data?.sub_category_id);}}
                           >
-                          <AddIcon width={20} height={20} color={primary_color} />
+                          <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
                           </span>
-                           
-                           <span>  <CustomMenu actions={actions} name="BoQItems" /></span>
+                          {
+                            data?.children?.length===0 ? (
+                              <span
+                          onClick={()=>{
+                            setSelectedSubCategoryId(data.sub_category_id);
+                            setPlanListTitle(data.name);
+                            setShowPlanForm(true);
+                          }}
+                          >
+                            <SettingIcon
+                            style={{cursor: 'pointer'}}
+                            color={primary_color}
+                            />
+                          </span>
+                            ): (
+                              <span
+                                onClick={
+                                  (e) =>{
+                                    handleSubTaskView(data.sub_category_id)
+                                  }
+                                }
+                                style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}
+                                >
+                                  <ExpandIcon
+                                    color={primary_color}
+                                    style={{fill_opacity : data?.children.length?'':'.5'}}
+                                  ></ExpandIcon>
+                                </span>
+                            )
+                          }
+                           {/* <span>  <CustomMenu actions={actions} name="BoQItems" /></span> */}
                         </div>
                         
                          
@@ -343,6 +622,7 @@ const BomItems = (props: {
                               subTaskView={subTaskView}
                               setSubTaskView={setSubTaskView} 
                               actions={undefined}                              />
+                           
                           );
                         })}
                     </>
