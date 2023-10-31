@@ -27,6 +27,8 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       purchase_order_details,
       payment_mode,
       payment_date,
+      purchase_order_type,
+      indent_request_id,
     } = body;
 
     if (purchase_request_id) {
@@ -64,7 +66,9 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       purchase_order_documents,
       purchase_order_details,
       payment_mode,
-      payment_date
+      payment_date,
+      purchase_order_type,
+      indent_request_id
     );
     const result = {
       message: 'success',
@@ -99,6 +103,8 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       payment_mode,
       payment_date,
       purchase_order_id,
+      purchase_order_type,
+      indent_request_id,
     } = body;
     let result = null;
     const purchaseOrderExist = await purchaseOrderDao.getById(
@@ -165,6 +171,8 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       purchase_order_details,
       payment_mode,
       payment_date ? payment_date : purchaseOrderExist?.payment_date,
+      purchase_order_type,
+      indent_request_id,
       purchase_order_id
     );
     result = { message: 'success', status: true, data: purchaseOrderDetails };
@@ -406,6 +414,8 @@ const createPurchaseOrderWithItem = async (body: purchaseOrderBody) => {
       order_remark,
       created_by,
       purchase_order_item,
+      purchase_order_type,
+      indent_request_id,
     } = body;
 
     if (purchase_request_id) {
@@ -441,6 +451,8 @@ const createPurchaseOrderWithItem = async (body: purchaseOrderBody) => {
         total_cost,
         order_remark,
         created_by,
+        purchase_order_type,
+        indent_request_id,
         purchase_order_item
       );
     const result = {
