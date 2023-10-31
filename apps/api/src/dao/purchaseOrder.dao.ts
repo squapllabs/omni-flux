@@ -14,6 +14,8 @@ const add = async (
   purchase_order_details,
   payment_mode: string,
   payment_date: Date,
+  purchase_order_type: string,
+  indent_request_id: number,
   connectionObj = null
 ) => {
   try {
@@ -21,8 +23,13 @@ const add = async (
     const is_delete = false;
     const formatted_order_date = order_date ? new Date(order_date) : null;
     const formatted_payment_date = payment_date ? new Date(payment_date) : null;
-
-    const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
+    const orderIdPrefix =
+      purchase_order_type === 'Head Office Purchase'
+        ? 'POHP'
+        : purchase_order_type === 'Local Purchase'
+        ? 'POLP'
+        : 'PO';
+    const orderIdGeneratorQuery = `select concat('${orderIdPrefix}',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
     const order_id = await customQueryExecutor.customQueryExecutor(
       orderIdGeneratorQuery
     );
@@ -44,6 +51,8 @@ const add = async (
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
+        purchase_order_type,
+        indent_request_id,
       },
     });
     return purchaseOrder;
@@ -65,6 +74,8 @@ const edit = async (
   purchase_order_details,
   payment_mode: string,
   payment_date: Date,
+  purchase_order_type: string,
+  indent_request_id: number,
   purchase_order_id: number,
   connectionObj = null
 ) => {
@@ -90,6 +101,8 @@ const edit = async (
         payment_date: formatted_payment_date,
         updated_by,
         updated_date: currentDate,
+        purchase_order_type,
+        indent_request_id,
       },
     });
     return purchaseOrder;
@@ -126,6 +139,7 @@ const getById = async (purchaseOrderId: number, connectionObj = null) => {
         purchase_order_item: {
           include: { item_data: true },
         },
+        indent_request_data: true,
       },
     });
     return purchaseOrder;
@@ -260,6 +274,7 @@ const searchPurchaseOrder = async (
             },
           },
           vendor_data: true,
+          indent_request_data: true,
         },
         orderBy: [
           {
@@ -297,6 +312,8 @@ const createPurchaseOrderWithItem = async (
   total_cost: number,
   order_remark: string,
   created_by: number,
+  purchase_order_type: string,
+  indent_request_id: number,
   purchase_order_item,
   connectionObj = null
 ) => {
@@ -305,7 +322,13 @@ const createPurchaseOrderWithItem = async (
     const is_delete = false;
     const formatted_order_date = order_date ? new Date(order_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
+    const orderIdPrefix =
+      purchase_order_type === 'Head Office Purchase'
+        ? 'POHP'
+        : purchase_order_type === 'Local Purchase'
+        ? 'POLP'
+        : 'PO';
+    const orderIdGeneratorQuery = `select concat('${orderIdPrefix}',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
     const order_id = await customQueryExecutor.customQueryExecutor(
       orderIdGeneratorQuery
     );
@@ -325,6 +348,8 @@ const createPurchaseOrderWithItem = async (
             created_date: currentDate,
             updated_date: currentDate,
             is_delete: is_delete,
+            purchase_order_type,
+            indent_request_id,
           },
         });
 
@@ -406,6 +431,7 @@ const getByPurchaseRequestId = async (
           orderBy: [{ updated_date: 'desc' }],
           include: { item_data: true },
         },
+        indent_request_data: true,
       },
       orderBy: [{ updated_date: 'desc' }],
     });

@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import Button from '../ui/Button';
 import DownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
+import PrintIcon from '../menu/icons/printIcon';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
@@ -119,97 +120,109 @@ const PurchaseRequestList = () => {
 
             return (
               <div className={Styles.cardContainer}>
-                <div className={Styles.cardHeadpanelOne}>
-                  {/* <div>PR - {index + 1}</div> */}
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>PR Code:</span>
-                    {items?.purchase_request_code}
-                  </div>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>
-                      PR raised Date :
-                    </span>
-                    {dateFormat(
-                      items?.request_date ? items?.request_date : new Date()
-                    )}
-                  </div>
-                  <div className={Styles.panelContent}>
-                    {/* <div> */}
-                    <span className={Styles.panelContentTitle}>Status:</span>
-                    <span
-                      className={`${
-                        items?.status === 'Waiting For Quotation'
-                          ? Styles.inprogressStatus
-                          : items?.status === 'Approved'
-                          ? Styles.completedStatus
-                          : ''
-                      }`}
-                      // style={{ padding: '6px' }}
-                    >
-                      {items?.status}
-                    </span>
-                    {/* </div> */}
-                  </div>
-                </div>
-                {/* <div className={Styles.dividerStyle}></div> */}
-                <div className={Styles.cardpanelOne}>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>
-                      Indent Code :
-                    </span>
-                    {items?.indent_request_data?.indent_request_code}
-                  </div>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>
-                      No of Items :
-                    </span>
-                    {items?.vendor_quotes[0]?.vendor_quotation_details?.length}
-                  </div>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>
-                      Expected Delivery Date :
-                    </span>
-                    {dateFormat(
-                      items?.indent_request_data?.expected_delivery_date
-                        ? items?.indent_request_data?.expected_delivery_date
-                        : new Date()
-                    )}
-                  </div>
-                </div>
-                <div className={Styles.cardpanelTwo}>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>Vendors :</span>
-                    <div className={Styles.vendorPanel}>
-                      {items?.vendor_quotes?.map(
-                        (vendors: any, vendorIndex: number) => {
-                          return (
-                            <ol>
-                              <li
-                                className={`${Styles.status} ${
-                                  items?.selected_vendor_data?.vendor_id ===
-                                  vendors?.vendor_data?.vendor_id
-                                    ? Styles.completedStatus
-                                    : ''
-                                }`}
-                              >
-                                <div>{vendorIndex + 1}</div>
-                                {vendors?.vendor_data?.vendor_name}
-                              </li>
-                            </ol>
-                          );
-                        }
-                      )}
+                <div className={Styles.Colps}>
+                  <div className={Styles.ColpsChilds}>
+                    <div className={Styles.ColpsheadingpanelOne}>
+                      <span className={Styles.panelContentTitle}>PR Code:</span>
+                      <span className={Styles.panelContentTitle}>
+                        Indent Code :
+                      </span>
+                      <span className={Styles.panelContentTitle}>
+                        Vendors :
+                      </span>
+                    </div>
+                    <div className={Styles.ColpsDatapanelOne}>
+                      <span> {items?.purchase_request_code}</span>
+                      <span>
+                        {' '}
+                        {items?.indent_request_data?.indent_request_code}
+                      </span>
+                      <div className={Styles.vendorPanel}>
+                        {items?.vendor_quotes?.map(
+                          (vendors: any, vendorIndex: number) => {
+                            return (
+                              <ol>
+                                <li
+                                  className={`${Styles.status} ${
+                                    items?.selected_vendor_data?.vendor_id ===
+                                    vendors?.vendor_data?.vendor_id
+                                      ? Styles.completedStatus
+                                      : ''
+                                  }`}
+                                >
+                                  <div>{vendorIndex + 1}</div>
+                                  {vendors?.vendor_data?.vendor_name}
+                                </li>
+                              </ol>
+                            );
+                          }
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div className={Styles.panelContent}>
+                  <div className={Styles.ColpsChilds}>
+                    <div className={Styles.ColpsheadingpanelOne}>
                       <span className={Styles.panelContentTitle}>
+                        PR raised Date :
+                      </span>
+                      <span className={Styles.panelContentTitle}>
+                        No of Items :
+                      </span>
+                      <span className={Styles.panelContentTitle}></span>
+                    </div>
+                    <div className={Styles.ColpsDatapanelOne}>
+                      <span>
+                        {' '}
+                        {dateFormat(
+                          items?.request_date ? items?.request_date : new Date()
+                        )}
+                      </span>
+                      <span>
+                        {
+                          items?.vendor_quotes[0]?.vendor_quotation_details
+                            ?.length
+                        }
+                      </span>
+                      <span></span>
+                    </div>
+                  </div>
+                  <div className={Styles.ColpsChilds}>
+                    <div className={Styles.ColpsheadingpanelOne}>
+                      <span className={Styles.panelContentTitle}>Status :</span>
+                      <span className={Styles.panelContentTitle}>
+                        Expected Delivery Date :
+                      </span>
+                      <span className={Styles.panelContentTitle}>
+                        {' '}
                         Site Name :
                       </span>
-                      <div>{items?.site_data?.name}</div>
+                    </div>
+                    <div className={Styles.ColpsDatapanelOne}>
+                      <span
+                        className={`${
+                          items?.status === 'Waiting For Quotation'
+                            ? Styles.inprogressStatus
+                            : items?.status === 'Approved'
+                            ? Styles.completedStatus
+                            : ''
+                        }`}
+                        // style={{ padding: '6px' }}
+                      >
+                        {items?.status}
+                      </span>
+
+                      <span>
+                        {dateFormat(
+                          items?.indent_request_data?.expected_delivery_date
+                            ? items?.indent_request_data?.expected_delivery_date
+                            : new Date()
+                        )}
+                      </span>
+                      <span>{items?.site_data?.name}</span>
                     </div>
                   </div>
                 </div>
+
                 <div className={Styles.cardpanelThree}>
                   <div
                   // style={{
@@ -249,7 +262,9 @@ const PurchaseRequestList = () => {
                     </Button>
                   </div>
                   <div style={{ paddingTop: '8px' }}>
-                    <DownloadIcon  onClick={() => handleReportGenerator(items) }color="#7f56d9" />
+                    <div onClick={() => handleReportGenerator(items)}>
+                      <PrintIcon color="#7f56d9" />
+                    </div>
                   </div>
                 </div>
                 <div className={Styles.dividerStyle}></div>

@@ -1,0 +1,164 @@
+.container {
+    width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    // background-color: #6941c6;
+  }
+
+  .orderDetails{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .leftOrderDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .rightOrderDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  
+  .secondData{
+    background-color:white;
+    padding: 10px
+  }
+  .vendorSiteDetails{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    // background-color:red;
+  }
+  .vendorDetails{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    // background-color: blue;
+  }
+  .leftVendorDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .rightVendorDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .siteDetail{
+    // background-color: yellowgreen;   
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    background-color: white;
+  }
+  .leftSiteDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .rightSiteDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .headingData{
+    text-align: center;
+    padding: 15px;
+  }
+
+   .dashedLine {
+    border-left: 0.5px dashed #000; /* Adjust the color and thickness as needed */
+  }
+  
+  
+  .tableContainer {
+    // background-color: white;
+    width:100%;
+    padding-top: 15px;
+  }
+  
+  /* Apply the scrollable_table class to your table element */
+  .scrollable_table {
+    width: 100%;
+    height: 100%;
+    padding: 10px 20px 10px 20px;
+    gap: 12px;
+    border-collapse: collapse;
+  
+    th,
+    td {
+      padding: 10px 10px 10px 24px;
+      text-align: left;
+      border: none;
+      font-weight: var(--tableData-fontWeight);
+      font-size: var(--tableData-fontSize);
+      border-bottom: 0.1px solid #f0f0f0;
+    }
+  
+    td {
+      border-bottom: 0.1px solid #f0f0f0;
+      // border-bottom :0px, 0px, 1px, 0px
+    }
+  
+    thead {
+      tr {
+        th {
+          padding: 10px 10px 10px 24px;
+          color: var(--tableHeader-fontColor);
+          background-color: var(--tableHeader-backgroundColor);
+          border: none;
+          font-size: var(--tableHeader-fontSize);
+          font-weight: var(--tableHeader-fontWeight);
+          text-transform: var(--tableHeader-textTransform);      
+        }
+      }
+    }
+  
+    td:hover,
+    tr:hover {
+      /* Add hover styles if needed */
+    }
+  }
+  
+
+  .sub_header {
+    height: 10vh;
+    display: flex;
+  }
+  
+  .logo {
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5%;
+    cursor: pointer;
+  }
+  
+  .vertical {
+    position: relative;
+  }
+  
+  .verticalLine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    /* Adjust the width of the line */
+    background-color: #7d7d7d;
+    /* Adjust the color as needed */
+    height: 100%;
+  }
+  
+  .dividerStyle {
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+  }
