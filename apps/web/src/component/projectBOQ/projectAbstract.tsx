@@ -10,13 +10,20 @@ import { getByBOMDetails } from '../../hooks/category-hooks';
 const projectAbstract = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
+
   const [bomData, setBomData] = useState<any>({});
+  const [overallAbstractValue ,setOverallAbstractValue] = useState(0)
   // const [reload, setReload] = useState(false);
   const obj: any = {
     projectId: Number(routeParams?.projectId),
     boQId: Number(routeParams?.bomconfigId),
   };
   const { data: getBomData } = getByBOMDetails(obj);
+
+const getOverallAbsctractValue = (data)=>{
+  setOverallAbstractValue(data)
+}
+  
   return (
     <div>
       <div className={Styles.container}>
@@ -58,10 +65,10 @@ const projectAbstract = () => {
               </div>
             </div>
             <div className={Styles.countContent}>
-              <h3>{getBomData?.abstract_count}</h3>
-              <span className={Styles.countContentTitle}>Abstract</span>
+              {/* <h3>{getBomData?.abstract_count}</h3> */}
+              <h3 >{getBomData?.bom_configuration_data?.bom_description}</h3>
             </div>
-            <div className={Styles.lineStyles}>
+            {/* <div className={Styles.lineStyles}>
               <div className={Styles.vertical}>
                 <div className={Styles.verticalLine}></div>
               </div>
@@ -69,15 +76,15 @@ const projectAbstract = () => {
             <div className={Styles.countContent}>
               <h3>{getBomData?.tasks_count}</h3>
               <span className={Styles.countContentTitle}>Task</span>
-            </div>
+            </div> */}
           </div>
 
           <div className={Styles.boqAmount}>
-            <div className={Styles.lineStyles}>
+            {/* <div className={Styles.lineStyles}>
               <div className={Styles.vertical}>
                 <div className={Styles.verticalLine}></div>
               </div>
-            </div>
+            </div> */}
             <div className={Styles.countContent}>
               <h3>
                 {formatBudgetValue(
@@ -92,7 +99,8 @@ const projectAbstract = () => {
         </div>
         <div className={Styles.selected}></div>
         <div>
-          <BomList />
+          <BomList
+          />
         </div>
       </div>
     </div>

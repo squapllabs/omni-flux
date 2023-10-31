@@ -274,6 +274,10 @@ import PurchaseRequestItemView from '../component/purchaseApproval/purchaseReque
 import PurchaseOrderIndividualView from '../component/purchaseOrder/purchaseOrderView';
 import PurchaseRequestList from '../component/purchaseRequest/purchaseRequestList';
 import PurchaseOrderVendorSelect from '../component/purchaseApproval/purchaseVendorSelect';
+import MyOrderList from '../component/project/projectComponent/myOrders/myOrdersList';
+import MyOrderView from '../component/project/projectComponent/myOrders/orderView';
+import BoqTaskListScreen from '../component/projectBOQ/taskScreen';
+import DeliveryAddNote from '../component/project/projectComponent/myOrders/deliveryNoteAdd';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -326,6 +330,7 @@ const AppRoutes = () => {
   const ProtectedLeadTenderView = withLayoutAndProtection(LeadInfoTender);
   // const ProtectedBomList = withLayoutAndProtection(BomList);
   const ProtectedBomList = withLayoutAndProtection(projectAbstract);
+  const ProtectedBoqTaskScreen = withLayoutAndProtection(BoqTaskListScreen);
   const ProtectedBom = withLayoutAndProtection(Bom);
   const ProtectedProductAddPage = withLayoutAndProtection(ProductAdd);
   const ProtectedLabourListPage = withLayoutAndProtection(LabourList);
@@ -385,6 +390,9 @@ const AppRoutes = () => {
   const ProtectedPurchaseVendorSelect = withLayoutAndProtection(
     PurchaseOrderVendorSelect
   );
+  const ProtectedMyOrders = withLayoutAndProtection(MyOrderList);
+  const ProtectedOrderView = withLayoutAndProtection(MyOrderView);
+  const ProtectedDeliveryNoteAdd = withLayoutAndProtection(DeliveryAddNote);
   return (
     <div>
       <Routes>
@@ -485,6 +493,10 @@ const AppRoutes = () => {
         <Route
           path="/newBoq/:projectId/:bomconfigId"
           element={<ProtectedBomList />}
+        />
+        <Route
+          path="/newBoq/:projectId/:bomconfigId/:categoryId"
+          element={<ProtectedBoqTaskScreen />}
         />
         <Route path="/labour" element={<ProtectedLabourListPage />} />
         <Route path="/labour-add" element={<ProtectedLabourAddPage />} />
@@ -612,6 +624,17 @@ const AppRoutes = () => {
           path="/vendor-select"
           element={<ProtectedPurchaseVendorSelect />}
         />
+        <Route
+          path="/my-orders"
+          element={<ProtectedMyOrders/>}
+        />
+        <Route
+          path="/my-orders-view/:id"
+          element={<ProtectedOrderView/>}
+        />
+        <Route 
+        path = "delivery-note/:id"
+        element={<ProtectedDeliveryNoteAdd/>}/>
       </Routes>
     </div>
   );

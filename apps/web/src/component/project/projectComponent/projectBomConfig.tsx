@@ -316,7 +316,14 @@ const ProjectBomConfig: React.FC = (props: any) => {
                                 <tr key={data?.bom_configuration_id}>
                                   <td>{startingIndex + index}</td>
                                   {/* <td>{data?.bom_name}</td> */}
-                                  <td>{data?.bom_description}</td>
+                                  <td
+                                  onClick={()=>{
+                                    console.log('initialData',initialData)
+                                    console.log('data',data)
+                                  }}
+                                  >{data?.bom_description}
+                                  
+                                  </td>
                                   <td>
                                     {data?.bom_type_data?.master_data_name}
                                   </td>

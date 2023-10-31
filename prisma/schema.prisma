@@ -48,6 +48,7 @@ model users {
   expense_approver           expense[]                    @relation("expenseApproverUser")
   expense_applier            expense[]                    @relation("expenseApplierUser")
   expense_recall             expense_recall[]
+  grn                        grn[]
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -260,6 +261,7 @@ model project {
   expense                    expense[]
   master_data                master_data[]
   expense_recall             expense_recall[]
+  grn                        grn[]
 }
 
 model project_expense {
@@ -409,6 +411,7 @@ model item {
   stock_outward_details              stock_outward_details[]
   purchase_request_quotation_details purchase_request_quotation_details[]
   vendor_quotation_details           vendor_quotation_details[]
+  grn_details                        grn_details[]
 
   @@map(name: "item")
 }
@@ -838,6 +841,7 @@ model indent_request {
   site_data              site_contractor?         @relation(fields: [site_id], references: [site_contractor_id])
   indent_request_details indent_request_details[]
   purchase_request       purchase_request[]
+  purchase_order         purchase_order[]
 }
 
 model indent_request_details {
@@ -906,6 +910,8 @@ model purchase_request {
 
 model purchase_order {
   purchase_order_id        Int                   @id @default(autoincrement())
+  purchase_order_type      String?
+  indent_request_id        Int?
   purchase_request_id      Int?
   vendor_id                Int?
   order_date               DateTime?
@@ -922,9 +928,11 @@ model purchase_order {
   updated_date             DateTime
   created_by               Int?
   updated_by               Int?
+  indent_request_data      indent_request?       @relation(fields: [indent_request_id], references: [indent_request_id])
   purchase_request_data    purchase_request?     @relation(fields: [purchase_request_id], references: [purchase_request_id])
   vendor_data              vendor?               @relation(fields: [vendor_id], references: [vendor_id])
   purchase_order_item      purchase_order_item[]
+  grn                      grn[]
 }
 
 model purchase_order_item {
@@ -1153,4 +1161,35 @@ model vendor_quotation_details {
   vendor_quotes_data          vendor_quotes?          @relation(fields: [vendor_quotes_id], references: [vendor_quotes_id])
   item_data                   item?                   @relation(fields: [item_id], references: [item_id])
   indent_request_details_data indent_request_details? @relation(fields: [indent_request_details_id], references: [indent_request_details_id])
+}
+
+model grn {
+  grn_id                 Int             @id @default(autoincrement())
+  project_id             Int?
+  purchase_order_id      Int?
+  goods_received_by      Int?
+  goods_received_date    DateTime?
+  invoice_id             String?
+  bill_details           Json?
+  grn_status             String?
+  created_date           DateTime        @default(now())
+  created_by             Int?
+  project_data           project?        @relation(fields: [project_id], references: [project_id])
+  purchase_order_data    purchase_order? @relation(fields: [purchase_order_id], references: [purchase_order_id])
+  goods_received_by_data users?          @relation(fields: [goods_received_by], references: [user_id])
+  grn_details            grn_details[]
+}
+
+model grn_details {
+  grn_details_id    Int      @id @default(autoincrement())
+  grn_id            Int?
+  item_id           Int?
+  received_quantity Int?
+  accepted_quantity Int?
+  rejected_quantity Int?
+  notes             String?
+  created_date      DateTime @default(now())
+  created_by        Int?
+  grn_data          grn?     @relation(fields: [grn_id], references: [grn_id])
+  item_data         item?    @relation(fields: [item_id], references: [item_id])
 }

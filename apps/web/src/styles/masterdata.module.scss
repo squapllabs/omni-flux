@@ -326,3 +326,11 @@
   padding-right: 10px;
 }
 
+.headingRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  cursor: pointer;
+}
+

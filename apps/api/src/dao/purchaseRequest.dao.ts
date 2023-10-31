@@ -56,7 +56,7 @@ const add = async (
     const vendorQuotationDetailsData = [];
     const quotationIdGeneratorQuery = `select concat('VQUO',DATE_PART('year', CURRENT_DATE),'00',nextval('vendor_quotation_sequence')::text) as vendor_quotation_sequence`;
 
-    for (const vendor of vendor_ids) {
+    for await (const vendor of vendor_ids) {
       const vendor_id = vendor;
       const quotation_id = await customQueryExecutor.customQueryExecutor(
         quotationIdGeneratorQuery

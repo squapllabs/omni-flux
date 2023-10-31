@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import Button from '../ui/Button';
 import DownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
+import PrintIcon from '../menu/icons/printIcon';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
@@ -69,7 +70,7 @@ const PurchaseRequestList = () => {
         />
       </div>
       <div>
-        {/* <div className={Styles.searchField}>
+        <div className={Styles.searchField}>
           <div className={Styles.inputFilter}>
             <AutoCompleteSelect
               name="project_id"
@@ -101,7 +102,7 @@ const PurchaseRequestList = () => {
               placeholder="Search by Code"
             />
           </div>
-        </div> */}
+        </div>
         <div className={Styles.cardBox}>
           {getPRbasedOnIndent?.content?.length === 0 && (
             <div
@@ -119,137 +120,192 @@ const PurchaseRequestList = () => {
 
             return (
               <div className={Styles.cardContainer}>
-                <div className={Styles.cardHeadpanelOne}>
-                  {/* <div>PR - {index + 1}</div> */}
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>PR Code:</span>
-                    {items?.purchase_request_code}
-                  </div>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>
-                      PR raised Date :
-                    </span>
-                    {dateFormat(
-                      items?.request_date ? items?.request_date : new Date()
-                    )}
-                  </div>
-                  <div className={Styles.panelContent}>
-                    {/* <div> */}
-                    <span className={Styles.panelContentTitle}>Status:</span>
-                    <span
-                      className={`${
-                        items?.status === 'Waiting For Quotation'
-                          ? Styles.inprogressStatus
-                          : items?.status === 'Approved'
-                          ? Styles.completedStatus
-                          : ''
-                      }`}
-                      // style={{ padding: '6px' }}
-                    >
-                      {items?.status}
-                    </span>
-                    {/* </div> */}
+                <div>
+                  <div>
+                    <span>#{index + 1}</span>
                   </div>
                 </div>
-                {/* <div className={Styles.dividerStyle}></div> */}
-                <div className={Styles.cardpanelOne}>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>
-                      Indent Code :
-                    </span>
-                    {items?.indent_request_data?.indent_request_code}
-                  </div>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>
-                      No of Items :
-                    </span>
-                    {items?.vendor_quotes[0]?.vendor_quotation_details?.length}
-                  </div>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>
-                      Expected Delivery Date :
-                    </span>
-                    {dateFormat(
-                      items?.indent_request_data?.expected_delivery_date
-                        ? items?.indent_request_data?.expected_delivery_date
-                        : new Date()
-                    )}
-                  </div>
-                </div>
-                <div className={Styles.cardpanelTwo}>
-                  <div className={Styles.panelContent}>
-                    <span className={Styles.panelContentTitle}>Vendors :</span>
-                    <div className={Styles.vendorPanel}>
-                      {items?.vendor_quotes?.map(
-                        (vendors: any, vendorIndex: number) => {
-                          return (
-                            <ol>
-                              <li
-                                className={`${Styles.status} ${
-                                  items?.selected_vendor_data?.vendor_id ===
-                                  vendors?.vendor_data?.vendor_id
-                                    ? Styles.completedStatus
-                                    : ''
-                                }`}
-                              >
-                                <div>{vendorIndex + 1}</div>
-                                {vendors?.vendor_data?.vendor_name}
-                              </li>
-                            </ol>
-                          );
-                        }
-                      )}
+                <div className={Styles.Colps}>
+                  <div className={Styles.ColpsChilds}>
+                    <div className={Styles.ColpsheadingpanelOne}>
+                      <span className={Styles.panelContentTitle}>PR Code:</span>
+                      <span className={Styles.panelContentTitle}>
+                        Indent Code :
+                      </span>
+                      {/* <span className={Styles.panelContentTitle}>
+                        PO Code :
+                      </span> */}
+                      <span className={Styles.panelContentTitle}>
+                        Vendors :
+                      </span>
+                    </div>
+                    <div className={Styles.ColpsDatapanelOne}>
+                      <span>
+                        {items?.status === 'Approved' ? (
+                          <div
+                            onClick={() => handleQuotation(items)}
+                            className={Styles.hyperLinks}
+                          >
+                            <a>{items?.purchase_request_code}</a>
+                          </div>
+                        ) : (
+                          items?.purchase_request_code
+                        )}
+                      </span>
+                      <span>
+                        {items?.indent_request_data?.indent_request_code}
+                      </span>
+                      {/* <span>
+                        {items?.purchase_order?.length === 0 ? (
+                          'N/A'
+                        ) : (
+                          <a
+                            href={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
+                          >
+                            {items?.purchase_order[0]?.order_id}
+                          </a>
+                        )}
+                      </span> */}
+                      <div className={Styles.vendorPanel}>
+                        {items?.vendor_quotes?.map(
+                          (vendors: any, vendorIndex: number) => {
+                            return (
+                              <ol>
+                                <li
+                                  className={`${Styles.status} ${
+                                    items?.selected_vendor_data?.vendor_id ===
+                                    vendors?.vendor_data?.vendor_id
+                                      ? Styles.completedStatus
+                                      : ''
+                                  }`}
+                                >
+                                  <div>{vendorIndex + 1}</div>
+                                  {vendors?.vendor_data?.vendor_name}
+                                </li>
+                              </ol>
+                            );
+                          }
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div className={Styles.panelContent}>
+                  <div className={Styles.ColpsChilds}>
+                    <div className={Styles.ColpsheadingpanelOne}>
                       <span className={Styles.panelContentTitle}>
+                        PR raised Date :
+                      </span>
+                      <span className={Styles.panelContentTitle}>
+                        No of Items :
+                      </span>
+                      <span className={Styles.panelContentTitle}></span>
+                    </div>
+                    <div className={Styles.ColpsDatapanelOne}>
+                      <span>
+                        {' '}
+                        {dateFormat(
+                          items?.request_date ? items?.request_date : new Date()
+                        )}
+                      </span>
+                      <span>
+                        {
+                          items?.vendor_quotes[0]?.vendor_quotation_details
+                            ?.length
+                        }
+                      </span>
+                      <span></span>
+                    </div>
+                  </div>
+                  <div className={Styles.ColpsChilds}>
+                    <div className={Styles.ColpsheadingpanelOne}>
+                      <span className={Styles.panelContentTitle}>Status :</span>
+                      <span className={Styles.panelContentTitle}>
+                        Requested Delivery Date :
+                      </span>
+                      <span className={Styles.panelContentTitle}>
+                        {' '}
                         Site Name :
                       </span>
-                      <div>{items?.site_data?.name}</div>
+                    </div>
+                    <div className={Styles.ColpsDatapanelOne}>
+                      <span
+                        className={`${
+                          items?.status === 'Waiting For Quotation'
+                            ? Styles.inprogressStatus
+                            : items?.status === 'Approved'
+                            ? Styles.completedStatus
+                            : ''
+                        }`}
+                        // style={{ padding: '6px' }}
+                      >
+                        {items?.status === 'Approved' &&
+                        items?.purchase_order?.length === 0
+                          ? 'Quotation Recived'
+                          : items?.status != 'Approved'
+                          ? items?.status
+                          : items?.status === 'Approved' &&
+                            items?.purchase_order?.length > 0
+                          ? 'Moved to PO'
+                          : ''}
+                      </span>
+                      <span>
+                        {dateFormat(
+                          items?.indent_request_data?.expected_delivery_date
+                            ? items?.indent_request_data?.expected_delivery_date
+                            : new Date()
+                        )}
+                      </span>
+                      <span>{items?.site_data?.name}</span>
                     </div>
                   </div>
                 </div>
+
                 <div className={Styles.cardpanelThree}>
                   <div
-                  // style={{
-                  //   display: items?.status === 'Approved' ? 'none' : '',
-                  // }}
+                    onClick={() => handleQuotation(items)}
+                    style={{
+                      display:
+                        items?.status === 'Waiting For Quotation' ? '' : 'none',
+                    }}
                   >
-                    <Button
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      color="primary"
-                      onClick={() => handleQuotation(items)}
+                    <a>Add Quotation</a>
+                  </div>
+                  <div
+                    style={{
+                      display:
+                        items?.status === 'Approved' &&
+                        items?.purchase_order?.length > 0
+                          ? ''
+                          : 'none',
+                    }}
+                  >
+                    <a
+                      href={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
                     >
-                      {items?.status === 'Approved' ? 'View' : 'Add Quotation'}
-                    </Button>
+                      View PO
+                    </a>
                   </div>
                   <div
                     style={{
                       display: items?.selected_vendor_id === null ? 'none' : '',
                     }}
                   >
-                    <Button
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      color="primary"
-                      disabled={
-                        items?.purchase_order?.length === 0 ? false : true
-                      }
-                      onClick={() => {
-                        navigate(
-                          `/purchase-request/${items?.purchase_request_id}`
-                        );
+                    <div
+                      style={{
+                        display:
+                          items?.purchase_order?.length === 0 ? '' : 'none',
                       }}
                     >
-                      Convert to PO
-                    </Button>
+                      <a
+                        href={`/purchase-request/${items?.purchase_request_id}`}
+                      >
+                        Convert to PO
+                      </a>
+                    </div>
                   </div>
                   <div style={{ paddingTop: '8px' }}>
-                    <DownloadIcon  onClick={() => handleReportGenerator(items) }color="#7f56d9" />
+                    <div onClick={() => handleReportGenerator(items)}>
+                      <PrintIcon color="#7f56d9" />
+                    </div>
                   </div>
                 </div>
                 <div className={Styles.dividerStyle}></div>

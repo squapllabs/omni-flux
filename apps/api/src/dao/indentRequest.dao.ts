@@ -430,6 +430,9 @@ const searchIndentRequest = async (
             },
             orderBy: [{ created_date: 'asc' }],
           },
+          purchase_request: {
+            include: { purchase_order: true },
+          },
         },
         orderBy: [
           {

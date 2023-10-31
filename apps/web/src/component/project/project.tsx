@@ -26,6 +26,8 @@ import ProjectSiteExpenseList from './projectComponent/projectSiteExpense/projec
 import { useDispatch } from 'react-redux';
 import { setToken, getToken } from '../../redux/reducer';
 import { store, RootState } from '../../redux/store';
+import MyOrders from './projectComponent/myOrders/myOrdersList';
+
 const Project = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -116,6 +118,10 @@ const Project = () => {
       id: 11,
       name: 'Stock Outward',
     },
+    {
+      id: 12,
+      name: 'My Orders'
+    }
   ];
   const handleMenuItemClick = (id: number) => {
     dispatch(setToken({ key: 'projectMenuID', value: id }));
@@ -199,6 +205,13 @@ const Project = () => {
         loader={loader}
       />
     ),
+    12: (
+      <MyOrders
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    )
   };
   return (
     <CustomLoader loading={loader} size={48}>

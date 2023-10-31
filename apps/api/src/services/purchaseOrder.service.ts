@@ -27,6 +27,8 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       purchase_order_details,
       payment_mode,
       payment_date,
+      purchase_order_type,
+      indent_request_id,
     } = body;
 
     if (purchase_request_id) {
@@ -64,7 +66,9 @@ const createPurchaseOrder = async (body: purchaseOrderBody) => {
       purchase_order_documents,
       purchase_order_details,
       payment_mode,
-      payment_date
+      payment_date,
+      purchase_order_type,
+      indent_request_id
     );
     const result = {
       message: 'success',
@@ -99,6 +103,8 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       payment_mode,
       payment_date,
       purchase_order_id,
+      purchase_order_type,
+      indent_request_id,
     } = body;
     let result = null;
     const purchaseOrderExist = await purchaseOrderDao.getById(
@@ -165,6 +171,8 @@ const updatePurchaseOrder = async (body: purchaseOrderBody) => {
       purchase_order_details,
       payment_mode,
       payment_date ? payment_date : purchaseOrderExist?.payment_date,
+      purchase_order_type,
+      indent_request_id,
       purchase_order_id
     );
     result = { message: 'success', status: true, data: purchaseOrderDetails };
@@ -282,6 +290,7 @@ const searchPurchaseOrder = async (body) => {
     const status = body.status;
     const project_id = body.project_id;
     const bill_status = body.bill_status;
+    const site_id = body.site_id;
 
     const filterObj: any = {};
 
@@ -310,6 +319,18 @@ const searchPurchaseOrder = async (body) => {
 
       filterObj.filterPurchaseOrder.AND.push({
         status: bill_status,
+      });
+    }
+
+    if (site_id) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        purchase_request_data: {
+          site_id: site_id,
+        },
       });
     }
 
@@ -356,18 +377,27 @@ const searchPurchaseOrder = async (body) => {
       order_by_direction,
       filterObj
     );
-
-    const count = result.count;
-    const data = result.data;
+    const count = result?.count;
+    const data = result?.data;
     const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    const tempPurchaseOrderData = {
-      message: 'success',
-      status: true,
-      total_count: count,
-      total_page: total_pages,
-      content: data,
-    };
-    return tempPurchaseOrderData;
+    if (result?.count >= 0) {
+      const tempPurchaseOrderData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempPurchaseOrderData;
+    } else {
+      const tempPurchaseOrderData = {
+        message: 'No data found',
+        status: false,
+        is_available: false,
+      };
+      return tempPurchaseOrderData;
+    }
   } catch (error) {
     console.log(
       'Error occurred in searchPurchaseOrder PurchaseOrder service : ',
@@ -393,6 +423,8 @@ const createPurchaseOrderWithItem = async (body: purchaseOrderBody) => {
       order_remark,
       created_by,
       purchase_order_item,
+      purchase_order_type,
+      indent_request_id,
     } = body;
 
     if (purchase_request_id) {
@@ -428,6 +460,8 @@ const createPurchaseOrderWithItem = async (body: purchaseOrderBody) => {
         total_cost,
         order_remark,
         created_by,
+        purchase_order_type,
+        indent_request_id,
         purchase_order_item
       );
     const result = {
