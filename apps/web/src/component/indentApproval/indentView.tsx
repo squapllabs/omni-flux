@@ -41,7 +41,7 @@ const IndentView = () => {
     indent_request_id: IndentId,
   };
   const {
-    data: getAllData,
+    data: getAllData, 
     isLoading: dataLoading,
     refetch,
   } = useGetAllIndentRequestDetail(masterData);

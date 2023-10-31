@@ -27,6 +27,7 @@ import { useDispatch } from 'react-redux';
 import { setToken, getToken } from '../../redux/reducer';
 import { store, RootState } from '../../redux/store';
 import MyOrders from './projectComponent/myOrders/myOrdersList';
+import LocalPurchaseList from './projectComponent/localPurchase/localPurchaseList';
 
 const Project = () => {
   const routeParams = useParams();
@@ -121,6 +122,10 @@ const Project = () => {
     {
       id: 12,
       name: 'My Orders'
+    },
+    {
+      id: 13,
+      name: 'Local Purchase'
     }
   ];
   const handleMenuItemClick = (id: number) => {
@@ -207,6 +212,13 @@ const Project = () => {
     ),
     12: (
       <MyOrders
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+    13: (
+      <LocalPurchaseList
         setActiveButton={setActiveButton}
         setLoader={setLoader}
         loader={loader}
