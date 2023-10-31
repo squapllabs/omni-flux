@@ -194,69 +194,92 @@ const searchPurchaseOrder = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterPurchaseOrder;
-    const purchaseOrder = await transaction.purchase_order.findMany({
-      where: filter,
-      include: {
-        purchase_request_data: {
-          include: {
-            indent_request_data: {
-              include: {
-                requester_user_data: {
-                  select: {
-                    first_name: true,
-                    last_name: true,
-                    contact_no: true,
-                    email_id: true,
+    let checkPurchaseOrderDataAvailability = [];
+    if (filter.AND && filter.AND[0]?.purchase_request_data?.project_id) {
+      checkPurchaseOrderDataAvailability =
+        await transaction.purchase_order.findMany({
+          where: {
+            purchase_request_data: {
+              project_id: filter.AND[0].purchase_request_data.project_id,
+            },
+          },
+        });
+    } else {
+      checkPurchaseOrderDataAvailability =
+        await transaction.purchase_order.findMany({
+          where: {
+            is_delete: filter.is_delete,
+          },
+        });
+    }
+
+    if (checkPurchaseOrderDataAvailability.length > 0) {
+      const purchaseOrder = await transaction.purchase_order.findMany({
+        where: filter,
+        include: {
+          purchase_request_data: {
+            include: {
+              indent_request_data: {
+                include: {
+                  requester_user_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true,
+                      contact_no: true,
+                      email_id: true,
+                    },
                   },
-                },
-                approver_user_data: {
-                  select: {
-                    first_name: true,
-                    last_name: true,
-                    contact_no: true,
-                    email_id: true,
+                  approver_user_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true,
+                      contact_no: true,
+                      email_id: true,
+                    },
                   },
                 },
               },
-            },
-            project_data: true,
-            site_data: true,
-            selected_vendor_data: true,
-            requester_user_data: {
-              select: {
-                first_name: true,
-                last_name: true,
-                contact_no: true,
-                email_id: true,
+              project_data: true,
+              site_data: true,
+              selected_vendor_data: true,
+              requester_user_data: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                  contact_no: true,
+                  email_id: true,
+                },
               },
-            },
-            purchase_request_quotation_details: {
-              include: {
-                item_data: {
-                  include: { uom: true },
+              purchase_request_quotation_details: {
+                include: {
+                  item_data: {
+                    include: { uom: true },
+                  },
                 },
               },
             },
           },
+          vendor_data: true,
         },
-        vendor_data: true,
-      },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
-    });
-    const purchaseOrderCount = await transaction.purchase_order.count({
-      where: filter,
-    });
-    const purchaseOrderData = {
-      count: purchaseOrderCount,
-      data: purchaseOrder,
-    };
-    return purchaseOrderData;
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const purchaseOrderCount = await transaction.purchase_order.count({
+        where: filter,
+      });
+      const purchaseOrderData = {
+        count: purchaseOrderCount,
+        data: purchaseOrder,
+      };
+      return purchaseOrderData;
+    } else {
+      return { count: -1, data: 0 };
+    }
   } catch (error) {
     console.log(
       'Error occurred in purchaseOrder dao : searchPurchaseOrder',
