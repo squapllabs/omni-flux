@@ -115,6 +115,16 @@ const getByParentSubCategoryId = catchAsync(async (req, res) => {
   }
 });
 
+const addBulk = catchAsync(async (req, res) => {
+  const methodName = '/addBulk';
+  try {
+    const subCategory = await subCategoryService.addBulk(req.body);
+    res.send(subCategory);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createSubCategory,
   updateSubCategory,
@@ -126,4 +136,5 @@ export {
   searchSubCategory,
   getByCategoryId,
   getByParentSubCategoryId,
+  addBulk,
 };

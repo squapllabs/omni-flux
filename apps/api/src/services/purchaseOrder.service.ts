@@ -282,6 +282,7 @@ const searchPurchaseOrder = async (body) => {
     const status = body.status;
     const project_id = body.project_id;
     const bill_status = body.bill_status;
+    const site_id = body.site_id;
 
     const filterObj: any = {};
 
@@ -310,6 +311,18 @@ const searchPurchaseOrder = async (body) => {
 
       filterObj.filterPurchaseOrder.AND.push({
         status: bill_status,
+      });
+    }
+
+    if (site_id) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        purchase_request_data: {
+          site_id: site_id,
+        },
       });
     }
 
