@@ -15,18 +15,15 @@ const PurchaseOrderView = () => {
   const PurchaseOrderId = Number(routeParams?.id);
   const { data: getOnePurchaseOrderView, isLoading: dataLoading } =
     useGetOnePurchaseOrder(PurchaseOrderId);
-  // console.log('vendorrr', getOnePurchaseOrderView);
   const title =
     'Purchase Order for' +
     ' ' +
     getOnePurchaseOrderView?.purchase_request_data?.project_data?.project_name;
   const description =
     getOnePurchaseOrderView?.purchase_request_data?.project_data?.description;
-  // console.log('title', title);
-
-  const tableData = getOnePurchaseOrderView?.purchase_request_data?.purchase_request_details;
-  // console.log('tableData', tableData);
-
+  const tableData =
+    getOnePurchaseOrderView?.purchase_request_data
+      ?.purchase_request_quotation_details;
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   const generateCustomQuotationName = (data: any) => {
     if (data) {
@@ -156,7 +153,9 @@ const PurchaseOrderView = () => {
                     ?.purchase_request_documents?.length > 0 ? (
                     getOnePurchaseOrderView?.purchase_request_data?.purchase_request_documents.map(
                       (document: any, index: number) => {
-                        const customQuotationName = generateCustomQuotationName(getOnePurchaseOrderView?.vendor_data)
+                        const customQuotationName = generateCustomQuotationName(
+                          getOnePurchaseOrderView?.vendor_data
+                        );
                         return (
                           <div key={document.code}>
                             <a
@@ -245,18 +244,23 @@ const PurchaseOrderView = () => {
                       <td>{index + 1}</td>
                       <td>{item?.item_data?.item_name}</td>
                       <td>
-                        {item?.indent_requested_quantity || nullLableNameFromEnv}
+                        {item?.indent_requested_quantity ||
+                          nullLableNameFromEnv}
                       </td>
                       <td>
                         {item?.purchase_requested_quantity ||
                           nullLableNameFromEnv}
                       </td>
                       <td>
-                        {formatBudgetValue(item.unit_cost ? item?.unit_cost : 0 )}
+                        {formatBudgetValue(
+                          item.unit_cost ? item?.unit_cost : 0
+                        )}
                       </td>
                       <td>
                         {formatBudgetValue(
-                          item.unit_cost * item.purchase_requested_quantity ? item.unit_cost * item.purchase_requested_quantity : 0
+                          item.unit_cost * item.purchase_requested_quantity
+                            ? item.unit_cost * item.purchase_requested_quantity
+                            : 0
                         )}
                       </td>
                     </tr>

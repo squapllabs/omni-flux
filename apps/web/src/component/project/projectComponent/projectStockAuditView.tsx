@@ -15,6 +15,7 @@ const ProjectStockAuditView = () => {
   const { data: getStockData, isLoading: dataLoading } = getByStockAuditId(
     Number(routeParams?.id)
   );
+console.log("koko",getStockData);
 
   return (
     <div className={Styles.container}>
