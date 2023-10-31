@@ -12,6 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import IndentRequestDetails from './indentRequestDetails';
 import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
+import CustomConfirm from '../../../ui/CustomConfirmDialogBox';
 import {
   createIndentRequest,
   updateIndentRequest,
@@ -54,11 +55,18 @@ const IndentRequest: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+  const handleCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
+  const submitHandler = () => {
+    setOpenConfirm(true);
   };
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
@@ -113,6 +121,11 @@ const IndentRequest: React.FC = (props: any) => {
   const handleDraft = (e: any) => {
     formik.setFieldValue('request_status', 'Draft');
     formik.submitForm();
+  };
+  const handleConfirmForm = () => {
+    formik.setFieldValue('request_status', 'Pending');
+    formik.submitForm();
+    setOpenConfirm(false);
   };
   const validationSchema = yup.object().shape({
     priority: yup.string().required('Priority is required'),
@@ -171,7 +184,7 @@ const IndentRequest: React.FC = (props: any) => {
                   if (checking <= 1) {
                     return true;
                   } else if (isValuePresent === false) {
-                    return true;  
+                    return true;
                   } else return false;
                 } catch {
                   return true;
@@ -198,7 +211,8 @@ const IndentRequest: React.FC = (props: any) => {
           } else {
             const obj: any = {
               ...values,
-              approver_status: 'Pending',
+              approver_status:
+                values.request_status === 'Draft' ? 'Draft' : 'Pending',
               indent_request_details: indentRequestDetailsList,
               site_id: Number(formik.values.site_id),
             };
@@ -217,7 +231,8 @@ const IndentRequest: React.FC = (props: any) => {
             } else {
               const obj: any = {
                 ...values,
-                approver_status: 'Pending',
+                approver_status:
+                  values.request_status === 'Draft' ? 'Draft' : 'Pending',
                 indent_request_details: indentRequestDetailsList,
                 site_id: Number(formik.values.site_id),
               };
@@ -398,7 +413,7 @@ const IndentRequest: React.FC = (props: any) => {
                   shape="rectangle"
                   size="small"
                   justify="center"
-                  onClick={formik.handleSubmit}
+                  onClick={() => submitHandler()}
                 >
                   Save
                 </Button>
@@ -420,6 +435,13 @@ const IndentRequest: React.FC = (props: any) => {
           onClose={handleSnackBarClose}
           autoHideDuration={1000}
           type="success"
+        />
+        <CustomConfirm
+          open={openConfirm}
+          title="Confirm Submit"
+          contentLine1="If you confirm this Indent request will raise"
+          handleClose={handleCloseConfirm}
+          handleConfirm={handleConfirmForm}
         />
       </div>
     </div>
