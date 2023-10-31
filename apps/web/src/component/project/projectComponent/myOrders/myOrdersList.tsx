@@ -128,7 +128,10 @@ const MyOrderList = () => {
                                             <td>{data?.purchase_request_data?.selected_vendor_data?.vendor_name}</td>
                                             <td>
                                                 <ViewIcon onClick={() => {
-                                                    navigate(`/my-orders-view/${data.purchase_order_id}`);
+                                                    navigate(
+                                                        `/my-orders-view/${data.purchase_order_id}`,
+                                                        {state: {projectId}}
+                                                    );
                                                 }} />
                                             </td>
                                         </tr>

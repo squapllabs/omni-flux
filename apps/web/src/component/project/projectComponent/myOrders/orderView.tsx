@@ -1,5 +1,5 @@
 import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import CustomLoader from '../../../ui/customLoader';
 import Styles from '../../../../styles/newStyles/myorderView.module.scss';
 import { useGetOnePurchaseOrder } from '../../../../hooks/purchase-request-hooks';
@@ -12,6 +12,7 @@ import AddIcon from '../../../menu/icons/addIcon';
 const MyOrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
+  const {state} = useLocation();
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
@@ -37,7 +38,7 @@ const MyOrderView = () => {
           <div
             className={Styles.logo}
             onClick={() => {
-              navigate(`/project-edit/${Number(routeParams?.id)}`);
+              navigate(`/project-edit/${Number(state?.projectId)}`);
             }}
           >
             <PreviousPageIcon width={20} height={20} color="#7f56d9" />
