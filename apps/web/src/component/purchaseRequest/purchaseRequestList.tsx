@@ -70,7 +70,7 @@ const PurchaseRequestList = () => {
         />
       </div>
       <div>
-        {/* <div className={Styles.searchField}>
+        <div className={Styles.searchField}>
           <div className={Styles.inputFilter}>
             <AutoCompleteSelect
               name="project_id"
@@ -102,7 +102,7 @@ const PurchaseRequestList = () => {
               placeholder="Search by Code"
             />
           </div>
-        </div> */}
+        </div>
         <div className={Styles.cardBox}>
           {getPRbasedOnIndent?.content?.length === 0 && (
             <div
@@ -120,6 +120,11 @@ const PurchaseRequestList = () => {
 
             return (
               <div className={Styles.cardContainer}>
+                <div>
+                  <div>
+                    <span>#{index + 1}</span>
+                  </div>
+                </div>
                 <div className={Styles.Colps}>
                   <div className={Styles.ColpsChilds}>
                     <div className={Styles.ColpsheadingpanelOne}>
@@ -127,16 +132,40 @@ const PurchaseRequestList = () => {
                       <span className={Styles.panelContentTitle}>
                         Indent Code :
                       </span>
+                      {/* <span className={Styles.panelContentTitle}>
+                        PO Code :
+                      </span> */}
                       <span className={Styles.panelContentTitle}>
                         Vendors :
                       </span>
                     </div>
                     <div className={Styles.ColpsDatapanelOne}>
-                      <span> {items?.purchase_request_code}</span>
                       <span>
-                        {' '}
+                        {items?.status === 'Approved' ? (
+                          <div
+                            onClick={() => handleQuotation(items)}
+                            className={Styles.hyperLinks}
+                          >
+                            <a>{items?.purchase_request_code}</a>
+                          </div>
+                        ) : (
+                          items?.purchase_request_code
+                        )}
+                      </span>
+                      <span>
                         {items?.indent_request_data?.indent_request_code}
                       </span>
+                      {/* <span>
+                        {items?.purchase_order?.length === 0 ? (
+                          'N/A'
+                        ) : (
+                          <a
+                            href={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
+                          >
+                            {items?.purchase_order[0]?.order_id}
+                          </a>
+                        )}
+                      </span> */}
                       <div className={Styles.vendorPanel}>
                         {items?.vendor_quotes?.map(
                           (vendors: any, vendorIndex: number) => {
@@ -190,7 +219,7 @@ const PurchaseRequestList = () => {
                     <div className={Styles.ColpsheadingpanelOne}>
                       <span className={Styles.panelContentTitle}>Status :</span>
                       <span className={Styles.panelContentTitle}>
-                        Expected Delivery Date :
+                        Requested Delivery Date :
                       </span>
                       <span className={Styles.panelContentTitle}>
                         {' '}
@@ -208,9 +237,16 @@ const PurchaseRequestList = () => {
                         }`}
                         // style={{ padding: '6px' }}
                       >
-                        {items?.status}
+                        {items?.status === 'Approved' &&
+                        items?.purchase_order?.length === 0
+                          ? 'Quotation Recived'
+                          : items?.status != 'Approved'
+                          ? items?.status
+                          : items?.status === 'Approved' &&
+                            items?.purchase_order?.length > 0
+                          ? 'Moved to PO'
+                          : ''}
                       </span>
-
                       <span>
                         {dateFormat(
                           items?.indent_request_data?.expected_delivery_date
@@ -225,41 +261,46 @@ const PurchaseRequestList = () => {
 
                 <div className={Styles.cardpanelThree}>
                   <div
-                  // style={{
-                  //   display: items?.status === 'Approved' ? 'none' : '',
-                  // }}
+                    onClick={() => handleQuotation(items)}
+                    style={{
+                      display:
+                        items?.status === 'Waiting For Quotation' ? '' : 'none',
+                    }}
                   >
-                    <Button
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      color="primary"
-                      onClick={() => handleQuotation(items)}
+                    <a>Add Quotation</a>
+                  </div>
+                  <div
+                    style={{
+                      display:
+                        items?.status === 'Approved' &&
+                        items?.purchase_order?.length > 0
+                          ? ''
+                          : 'none',
+                    }}
+                  >
+                    <a
+                      href={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
                     >
-                      {items?.status === 'Approved' ? 'View' : 'Add Quotation'}
-                    </Button>
+                      View PO
+                    </a>
                   </div>
                   <div
                     style={{
                       display: items?.selected_vendor_id === null ? 'none' : '',
                     }}
                   >
-                    <Button
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      color="primary"
-                      disabled={
-                        items?.purchase_order?.length === 0 ? false : true
-                      }
-                      onClick={() => {
-                        navigate(
-                          `/purchase-request/${items?.purchase_request_id}`
-                        );
+                    <div
+                      style={{
+                        display:
+                          items?.purchase_order?.length === 0 ? '' : 'none',
                       }}
                     >
-                      Convert to PO
-                    </Button>
+                      <a
+                        href={`/purchase-request/${items?.purchase_request_id}`}
+                      >
+                        Convert to PO
+                      </a>
+                    </div>
                   </div>
                   <div style={{ paddingTop: '8px' }}>
                     <div onClick={() => handleReportGenerator(items)}>
