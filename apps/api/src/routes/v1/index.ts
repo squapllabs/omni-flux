@@ -50,6 +50,7 @@ import expenseDetails from './expenseDetails.route';
 import bomConfiguration from './bomConfiguration.route';
 import expenseRecall from './expenseRecall.route';
 import vendorQuotationDetails from './vendorQuotationDetails.route';
+import grn from './grn.route';
 
 const router = express.Router();
 
@@ -257,6 +258,10 @@ const defaultRoutes = [
   {
     path: '/vendor-quotation-details',
     route: vendorQuotationDetails,
+  },
+  {
+    path: '/grn',
+    route: grn,
   },
 ];
 

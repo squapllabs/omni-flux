@@ -423,6 +423,7 @@ const searchPurchaseRequest = async (body) => {
     const status = body.status;
     const indent_request_id = body.indent_request_id;
     const purchase_request_status = body.purchase_request_status;
+    const purchase_request_code = body.purchase_request_code;
 
     const filterObj: any = {};
 
@@ -447,6 +448,15 @@ const searchPurchaseRequest = async (body) => {
         filterObj.filterPurchaseRequest.AND || [];
       filterObj.filterPurchaseRequest.AND.push({
         status: purchase_request_status,
+      });
+    }
+
+    if (purchase_request_code) {
+      filterObj.filterPurchaseRequest = filterObj.filterPurchaseRequest || {};
+      filterObj.filterPurchaseRequest.AND =
+        filterObj.filterPurchaseRequest.AND || [];
+      filterObj.filterPurchaseRequest.AND.push({
+        purchase_request_code: purchase_request_code,
       });
     }
 
