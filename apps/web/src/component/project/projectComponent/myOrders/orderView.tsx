@@ -21,7 +21,7 @@ const MyOrderView = () => {
     Number(routeParams?.id)
   );
   const purchaseOrderId = Number(routeParams?.id)
-  console.log('UUUUUUU', getListData);
+  // console.log('UUUUUUU', getListData);
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
   const [currentPage, setCurrentPage] = useState(1);
@@ -308,8 +308,8 @@ const MyOrderView = () => {
                 <thead>
                   <tr>
                     <th>S No</th>
+                    <th>Goods Received Date</th>
                     <th>Total Items</th>
-                    <th>Received Date</th>
                     <th>Options</th>
                   </tr>
                 </thead>
@@ -325,8 +325,8 @@ const MyOrderView = () => {
                       return (
                         <tr>
                           <td>{index + 1}</td>
-                          <td>{item?.grn_details?.length}</td>
                           <td>{dateFormat(item?.goods_received_date)}</td>
+                          <td>{item?.grn_details?.length}</td>
                           <td>
                             <ViewIcon
                               onClick={() => {

@@ -29,7 +29,6 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
-  
   const { mutate: postGrnData } = createGrn();
   const year = new Date().getFullYear();
   const tableData =
@@ -89,7 +88,6 @@ const MyOrderView = () => {
             ...response?.data[0],
             is_delete: 'N',
           };
-          //   console.log('responseobj', obj);
           arr.push(obj);
         });
         setInvoiceDocument(arr);
