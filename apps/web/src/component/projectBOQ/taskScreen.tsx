@@ -90,7 +90,7 @@ const BoqTaskListScreen : React.FC= ()=>{
             </div>
             <div className={Styles.countContent}>
               <h3>{getBomData?.tasks_count}</h3>
-              <span className={Styles.countContentTitle}>Task</span>
+              <span className={Styles.countContentTitle}>Overall Task</span>
             </div>
           </div>
 

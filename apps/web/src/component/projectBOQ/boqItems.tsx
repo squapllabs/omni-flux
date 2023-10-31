@@ -23,8 +23,10 @@ import subCategoryService from '../../service/subCategory-service';
 import SubBoqItems from './subBoqItems';
 import SettingIcon from '../menu/icons/settingIcon';
 import FileUploadIcon from '../menu/icons/fileUploadIcon';
+import DownloadIcon from '../menu/icons/download';
 import DeleteIcon from '../menu/icons/newDeleteIcon';
 import { read, utils } from 'xlsx';
+import CustomPopupModel from '../ui/CustomPopupModel';
 
 
 const BomItems = (props: {
@@ -64,6 +66,7 @@ const BomItems = (props: {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [subChildList, setSubChildList] = useState<any>([]);
   const [ TaskPopupTrigger , setTaskPopupTrigger] = useState(false)
+  const [ modelPopupTrigger , setModelPopupTrigger] = useState(false)
   const primary_color = '#7f56d';
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -112,12 +115,9 @@ const BomItems = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
-  const basic_details = {
-    category_id: '',
-  }
   const handleFileOnChange = async (e:any) =>{
     const file = e.target.files[0];
+    setModelPopupTrigger(false)
     if (file) {
       const reader = new FileReader();
       reader.onload = (e:any) => {
@@ -202,10 +202,9 @@ const BomItems = (props: {
     }
     }
     const handleFileUploadBtnClick = () =>{
-      if (fileInputRef.current) {
-        fileInputRef.current.click();
-      }
+      setModelPopupTrigger(true)
     }
+
   
 
   useEffect(() => {
@@ -242,6 +241,14 @@ const BomItems = (props: {
   const handleClosePopup = ():void => {
     setTaskPopupTrigger(false)
     console.log('')
+  }
+  const handleCloseModelPopup = ()=>{
+    setModelPopupTrigger(false)
+  }
+
+
+  const handleTaskBulkUpload = ()=>{
+    debugger
   }
  
   return ( 
@@ -365,9 +372,7 @@ const BomItems = (props: {
                      shape="rectangle"
                      size="small"
                      icon={<AddIcon width={20} color="white" />}
-                     onClick={() => {
-                       console.log('')
-                     }}
+                     onClick={handleTaskBulkUpload}
                      justify='center'
                    >
                      Add Tasks
@@ -376,7 +381,49 @@ const BomItems = (props: {
           </div> 
         } width={'90%'} description={"description"}/>
 
-         
+         <CustomPopupModel 
+          open={modelPopupTrigger}
+          title={categoryData?.name}
+          handleClose={handleCloseModelPopup}
+          content={<div className={`${Styles.flex} ${Styles.space_between}`}
+          style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'2rem'}}
+          >
+            <div>
+            <Button
+                  color="primary"
+                  shape="rectangle"
+                  size="small"
+                  icon={<FileUploadIcon width={20} color="white" onClick={function (): void {
+                    console.log('')
+                  } } />}
+                  onClick={() => {
+                    if (fileInputRef.current) {
+                      fileInputRef.current.click();
+                    }              
+                  }}
+                >
+                  Upload File
+                </Button>
+            </div>
+            <div>
+            <Button
+                  color="primary"
+                  shape="rectangle"
+                  size="small"
+                  icon={<DownloadIcon width={20} color="white" onClick={function (): void {
+                    console.log('')
+                  } } />}
+                  onClick={() => {
+                    if (fileInputRef.current) {
+                      fileInputRef.current.click();
+                    }              
+                  }}
+                >
+                 Download Template
+                </Button>
+            </div>
+          </div>}
+          width={'50%'} description={''}         />
       </div>
 
 
@@ -409,8 +456,9 @@ const BomItems = (props: {
                 <NewAddCircleIcon />
                 <span className={Styles.menuFont}>Add Task</span>
               </div>
-              <div className={`${Styles.flex} ${Styles.bulkUpload_container}`}
+              <div className={`${Styles.flex} ${Styles.gap_2} ${Styles.bulkUpload_container}`}
               onClick={handleFileUploadBtnClick}
+              style={{cursor:'pointer'}}
               >
               <span>
                     <input

@@ -69,24 +69,25 @@
       }
   }
 }
-  .flex{
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .center{
-    justify-content: center;
-  }
-  .space_between{
-    justify-content: space-between;
-  }
-  
-  .gap_2{
-    gap: 2rem;
-  }
-  .gap_3{
-    gap: 3rem;
-  }
+ 
+.flex{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.center{
+  justify-content: center;
+}
+.space_between{
+  justify-content: space-between;
+}
+
+.gap_2{
+  gap: 2rem;
+}
+.gap_3{
+  gap: 3rem;
+}
     
 }
 
