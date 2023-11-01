@@ -32,6 +32,7 @@ const createExpense = async (body: expenseBody) => {
       total_amount,
       bill_date,
       user_id,
+      expense_type,
     } = body;
     let result = null;
 
@@ -100,6 +101,7 @@ const createExpense = async (body: expenseBody) => {
           total_amount,
           expense_details,
           user_id,
+          expense_type,
           prisma
         );
         /* } else {
@@ -125,7 +127,7 @@ const createExpense = async (body: expenseBody) => {
         return result;
       })
       .then((data) => {
-        console.log('Successfully Expense Data Returned ');
+        console.log('Successfully Expense Data Returned ', data);
         return data;
       })
       .catch((error: string) => {
@@ -625,7 +627,7 @@ const getExpenseDetailsByExpenseId = async (expense_id: number) => {
   try {
     let result = null;
     const status = 'Pending';
-    const expenseDetailsData = await expenseDao.getExpenseDetailsByExpenceId(
+    const expenseDetailsData = await expenseDao.getExpenseDetailsByExpenseId(
       expense_id,
       status
     );

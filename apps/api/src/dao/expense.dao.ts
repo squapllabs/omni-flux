@@ -21,6 +21,7 @@ const add = async (
   total_amount: number,
   expense_details: Array<expenseDetailsBody>,
   user_id: number,
+  expense_type: string,
   connectionObj = null
 ) => {
   try {
@@ -60,6 +61,7 @@ const add = async (
         created_date: currentDate,
         updated_date: currentDate,
         user_id,
+        expense_type,
       },
     });
 
@@ -548,7 +550,7 @@ const getByProjectIdAndSiteId = async (
   }
 };
 
-const getExpenseDetailsByExpenceId = async (
+const getExpenseDetailsByExpenseId = async (
   expenseId: number,
   status: string,
   connectionObj = null
@@ -683,7 +685,7 @@ export default {
   deleteExpense,
   searchExpense,
   getByProjectIdAndSiteId,
-  getExpenseDetailsByExpenceId,
+  getExpenseDetailsByExpenseId,
   updateStatus,
   getByIdWithOutChild,
   getByExpenseCode,
