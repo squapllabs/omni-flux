@@ -1,4 +1,5 @@
 interface createSubCategoryBody {
+  children: Array<createSubCategoryBody>;
   name: string;
   category_id: number;
   actual_budget: number;
