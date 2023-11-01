@@ -24,6 +24,8 @@ interface grnDetailsBody {
   purchase_order_item_id: number;
   order_quantity: number;
   unit_price: number;
+  previously_received_quantity: number;
+  currently_received_quantity: number;
 }
 
 export { grnBody, grnDetailsBody };
