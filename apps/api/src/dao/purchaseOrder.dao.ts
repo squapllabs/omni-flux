@@ -150,15 +150,38 @@ const getById = async (purchaseOrderId: number, connectionObj = null) => {
   }
 };
 
-const getAll = async (connectionObj = null) => {
+const getAll = async (purchase_order_type: string, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const purchaseOrder = await transaction.purchase_order.findMany({
       where: {
         is_delete: false,
+        purchase_order_type: purchase_order_type,
       },
       include: {
-        purchase_request_data: { include: { indent_request_data: true } },
+        purchase_request_data: {
+          include: {
+            indent_request_data: true,
+            project_data: true,
+            site_data: true,
+            selected_vendor_data: true,
+            requester_user_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+                contact_no: true,
+                email_id: true,
+              },
+            },
+            purchase_request_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
+          },
+        },
         vendor_data: true,
       },
       orderBy: [
@@ -275,7 +298,46 @@ const searchPurchaseOrder = async (
             },
           },
           vendor_data: true,
-          indent_request_data: true,
+          indent_request_data: {
+            include: {
+              project_data: true,
+              site_data: true,
+              requester_user_data: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                  contact_no: true,
+                  email_id: true,
+                },
+              },
+              indent_request_details: {
+                include: {
+                  bom_detail_data: {
+                    include: {
+                      item_data: {
+                        include: {
+                          uom: {
+                            select: {
+                              name: true,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          grn: {
+            include: {
+              grn_details: {
+                include: {
+                  item_data: { include: { uom: { select: { name: true } } } },
+                },
+              },
+            },
+          },
         },
         orderBy: [
           {
