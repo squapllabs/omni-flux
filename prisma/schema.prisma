@@ -1170,6 +1170,7 @@ model grn {
   goods_received_by      Int?
   goods_received_date    DateTime?
   invoice_id             String?
+  notes                  String?
   bill_details           Json?
   grn_status             String?
   created_date           DateTime        @default(now())

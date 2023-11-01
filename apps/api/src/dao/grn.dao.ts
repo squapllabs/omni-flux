@@ -7,6 +7,7 @@ const add = async (
   goods_received_by: number,
   goods_received_date: Date,
   invoice_id: string,
+  notes: string,
   bill_details: JSON,
   grn_status: string,
   created_by: number,
@@ -26,6 +27,7 @@ const add = async (
         goods_received_by,
         goods_received_date: formatted_goods_received_date,
         invoice_id,
+        notes,
         bill_details,
         grn_status,
         created_by,
@@ -153,10 +155,10 @@ const searchGrn = async (
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterGrn;
     let grnDataAvailability = [];
-    if (filter.AND && filter.AND[0]?.project_id) {
+    if (filter.AND && filter.AND[0]?.purchase_order_id) {
       grnDataAvailability = await transaction.grn.findMany({
         where: {
-          project_id: filter.AND[0]?.project_id,
+          purchase_order_id: filter.AND[0]?.purchase_order_id,
         },
       });
     } else {
