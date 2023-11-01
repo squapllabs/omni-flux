@@ -74,6 +74,7 @@ const VendorSelect = () => {
     quotation_status: '',
     remarks: '',
     vendor_quotes_documents: [],
+    vendor_quotation_details: [],
   });
   const [vendorQuoteID, setVendorQuoteID] = useState<any>();
   const [vendorQuoteDocument, setVendorQuoteDocument] = useState<any>([]);
@@ -100,16 +101,27 @@ const VendorSelect = () => {
       const data = await vendorQuotesService.getOneVendorQuotesById(
         vendorQuoteID
       );
+      console.log('vendorQuoteIDData', data);
+
       setInitialValues({
-        vendor_quotes_id: data?.data?.vendor_quotes_id,
-        purchase_request_id: data?.data?.purchase_request_id,
-        vendor_id: data?.data?.vendor_id,
-        quotation_status: data?.data?.quotation_status,
-        total_quotation_amount: data?.data?.total_quotation_amount,
-        remarks: data?.data?.remarks,
+        vendor_quotes_id: data?.data?.vendor_quotes_id
+          ? data?.data?.vendor_quotes_id
+          : '',
+        purchase_request_id: data?.data?.purchase_request_id
+          ? data?.data?.purchase_request_id
+          : '',
+        vendor_id: data?.data?.vendor_id ? data?.data?.vendor_id : '',
+        quotation_status: data?.data?.quotation_status
+          ? data?.data?.quotation_status
+          : '',
+        total_quotation_amount: data?.data?.total_quotation_amount
+          ? data?.data?.total_quotation_amount
+          : '',
+        remarks: data?.data?.remarks ? data?.data?.remarks : '',
         vendor_quotes_documents: data?.data?.vendor_quotes_documents
           ? data?.data?.vendor_quotes_documents
           : [],
+        vendor_quotation_details: vendorQuotesDetails?.data,
       });
       setVendorQuoteData(data?.data);
       setVendorQuoteDocument(
@@ -254,21 +266,24 @@ const VendorSelect = () => {
       .required()
       .test(
         'description-availability',
-        'Site Expense is already present',
+        'Please attach the bill',
         async function (value, { parent }: Yup.TestContext) {
           let bill_details = parent.vendor_quotes_documents;
           console.log('bill_detailsvalue', value);
-
           console.log('bill_details', bill_details);
           console.log('bill_detailslenght', bill_details.length);
-          if (bill_details?.length < 0 && bill_details[0]?.is_delete === 'Y') {
-            return true;
+          if (bill_details?.length < 0) {
+            console.log('open');
+            setMessage('Bill is Missing');
+            setOpenSnack(true);
+            return false;
           } else if (
-            bill_details?.length > 0 &&
-            bill_details[0]?.is_delete === 'N'
+            bill_details?.length != 0 ? bill_details[0]?.is_delete === 'N' : ''
           ) {
             return true;
-          } else {
+          } else if (
+            bill_details?.length != 0 ? bill_details[0]?.is_delete === 'Y' : ''
+          ) {
             console.log('open');
             setMessage('Bill is Missing');
             setOpenSnack(true);
@@ -277,12 +292,13 @@ const VendorSelect = () => {
         }
       ),
   });
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log('values', values);
+      console.log('values----->', values);
       const obj = {
         vendor_quotes_id: values.vendor_quotes_id,
         purchase_request_id: prID,
@@ -296,8 +312,10 @@ const VendorSelect = () => {
       };
       updateOneVendorQuotes(obj, {
         onSuccess: (data, variables, context) => {
+          console.log('updateOneVendorQuotes', data);
+
           if (data?.message === 'success') {
-            setMessage('Vendor Approved');
+            setMessage('Vendor quotation Updated');
             setOpenSnack(true);
             refetch();
             // navigate(`/purchase-request-list/${indentId}`, {
@@ -308,6 +326,7 @@ const VendorSelect = () => {
       });
     },
   });
+  console.log('errorsss==>', formik.errors);
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
     if (files.length > 0) {
