@@ -15,7 +15,7 @@ import CustomLoader from '../ui/customLoader';
 import CustomRejectPopup from '../ui/CustomRejectCommentPopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import ApproveSelectDialogBox from '../ui/ApproveSelectComponet';
+import ApproveDialogBox from '../ui/CustomApprovePopup';
 
 const IndentView = () => {
   const routeParams = useParams();
@@ -41,14 +41,14 @@ const IndentView = () => {
     indent_request_id: IndentId,
   };
   const {
-    data: getAllData, 
+    data: getAllData,
     isLoading: dataLoading,
     refetch,
   } = useGetAllIndentRequestDetail(masterData);
 
   const { mutate: updateIndentRequestData } = updateIndentRequest();
 
-  const handleApprove = (selectedValue: string) => {
+  const handleApprove = () => {
     const date = format(new Date(), 'yyyy/MM/dd');
     const obj = {
       indent_request_id: IndentId,
@@ -57,7 +57,6 @@ const IndentView = () => {
       rejected_date: null,
       updated_by: userID,
       approver_user_id: userID,
-      request_type: selectedValue,
     };
     updateIndentRequestData(obj, {
       onSuccess: (data, variables, context) => {
@@ -186,12 +185,13 @@ const IndentView = () => {
           onAction={setShowRejectForm}
           selectedIndentId={IndentId}
         />
-        <ApproveSelectDialogBox
+        <ApproveDialogBox
           open={openApprove}
           title="Approve Indent Request"
           contentLine1="Are you sure want to approve this indent request ?"
+          contentLine2=""
           handleClose={handleCloseApprove}
-          onApprove={handleApprove}
+          handleConfirm={handleApprove}
         />
         <CustomSnackBar
           open={openSnack}

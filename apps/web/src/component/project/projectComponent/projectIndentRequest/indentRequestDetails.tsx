@@ -29,6 +29,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     is_delete: false,
     uom_name: '',
     per_item_cost: 0,
+    item_id: ''
   });
 
   useEffect(() => {
@@ -163,7 +164,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                     if (item.is_delete === 'N') {
                       item.bom_detail_id;
                     }
-                    // console.log('item', item);
                     if (item.is_delete === false)
                       dummy.push(item.bom_detail_id);
                   }
@@ -274,11 +274,11 @@ const IndentRequestDetails: React.FC = (props: any) => {
                           const matchingObjects = getBOMList.filter(
                             (obj: any) => Number(obj.value) === Number(value)
                           );
-
                           let tempObj = {};
                           tempObj = {
                             ...props.indentRequestDetailsList[index],
                             bom_detail_id: value,
+                            item_id:matchingObjects[0]?.temp?.item_id,
                             uom_name: matchingObjects[0]?.temp?.uom_data?.name,
                             indent_requested_quantity:
                               matchingObjects[0]?.bom_quantity,
