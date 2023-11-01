@@ -15,4 +15,25 @@ const createGrn = () => {
   );
 };
 
-export { createGrn };
+const useGetAllGrnData = (data: any) => {
+  return useQuery(
+    ['useGetAllGrnData'],
+    () => GrnService.filterGrn(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+const useGetOneGrnById = (id: any) => {
+  return useQuery(
+    ['useGetOneGrnById', id],
+    () => GrnService.getGrnById(id),
+    {
+      select: (data) => data.data,
+      staleTime: Infinity,
+    }
+  );
+};
+export { createGrn,useGetAllGrnData,useGetOneGrnById };

@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useRef } from 'react';
 import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import CustomLoader from '../../../ui/customLoader';
@@ -9,6 +10,7 @@ import { format } from 'date-fns';
 import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
 import ViewIcon from '../../../menu/icons/viewIcon';
+import { useGetAllGrnData } from '../../../../hooks/grn-hooks';
 
 const MyOrderView = () => {
   const routeParams = useParams();
@@ -19,9 +21,24 @@ const MyOrderView = () => {
     Number(routeParams?.id)
   );
   const purchaseOrderId = Number(routeParams?.id)
-  console.log('UUUUUUU', getListData);
+  // console.log('UUUUUUU', getListData);
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const object: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'created_date',
+    order_by_direction: 'asc',
+    project_id: projectId
+  };
+  const {
+    isLoading: getAllLoadingLabourData,
+    data: GRData,
+    refetch,
+  } = useGetAllGrnData(object);
+console.log("oooooooo",GRData);
 
   const generateCustomQuotationName = (data: any) => {
     if (data) {
@@ -33,6 +50,17 @@ const MyOrderView = () => {
     return '';
   };
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+
+  const dateFormat = (value: any) => {
+    const currentDate = new Date(value);
+    const formattedDate = format(currentDate, 'dd-MM-yyyy');
+    return formattedDate;
+  };
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
@@ -208,11 +236,11 @@ const MyOrderView = () => {
               <thead>
                 <tr>
                   <th>S No</th>
-                  <th>Item Name</th>
+                  <th  className={Styles.tableHeadingTwo}>Item Name</th>
                   <th>Indent Requested Quantity</th>
                   <th>Allocated Quantity</th>
-                  <th>Unit Price</th>
-                  <th>Total</th>
+                  {/* <th>Unit Price</th>
+                  <th>Total</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -236,7 +264,7 @@ const MyOrderView = () => {
                           {item?.purchase_requested_quantity ||
                             nullLableNameFromEnv}
                         </td>
-                        <td>
+                        {/* <td>
                           {formatBudgetValue(
                             item.unit_cost ? item?.unit_cost : 0
                           )}
@@ -248,7 +276,7 @@ const MyOrderView = () => {
                               item.purchase_requested_quantity
                               : 0
                           )}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })
@@ -285,32 +313,24 @@ const MyOrderView = () => {
                 <thead>
                   <tr>
                     <th>S No</th>
-                    <th>Total Items</th>
-                    <th>Received Quantity</th>
-                    <th>Received Date</th>
+                    <th>Goods Received Date</th>
+                    <th>Invoice No</th>
+                    {/* <th>Total Items</th> */}
                     <th>Options</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData?.length === 0 ? (
-                    <tr>
-                      <td colspan="4" style={{ textAlign: 'center' }}>
-                        No data found
-                      </td>
-                    </tr>
-                  ) : (
-                    tableData?.map((item: any, index: any) => {
+                  {GRData?.is_available ? (
+                    GRData?.content?.map((item: any, index: any) => {
                       return (
                         <tr>
                           <td>{index + 1}</td>
-                          {/* <td>{item?.item_data?.item_name}</td> */}
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                          <td>{dateFormat(item?.goods_received_date)}</td>
+                          <td>{item?.invoice_id}</td>
                           <td>
                             <ViewIcon
                               onClick={() => {
-                                navigate(`/view-received-goods/${routeParams?.id}`,
+                                navigate(`/view-received-goods/${purchaseOrderId}/${item?.grn_id}`,
                                   { state: { projectId } }
                                 );
                               }}
@@ -319,7 +339,14 @@ const MyOrderView = () => {
                         </tr>
                       );
                     })
-                  )}
+                  ) : (
+                    
+                    <tr>
+                    <td colspan="4" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
+                  </tr>
+                )}
                 </tbody>
               </table>
             </div>

@@ -2,10 +2,9 @@ import React from 'react';
 import { format } from 'date-fns';
 import ExcelJS from 'exceljs';
 
-const PurchaseOrder = async (datas:any) => {
+const PurchaseOrder = async (datas: any) => {
     // const { excelData: datas } = props;
 
-    // console.log("downloading", props);
 
 
     console.log("datas", datas);
@@ -89,7 +88,10 @@ const PurchaseOrder = async (datas:any) => {
                 headerAdded = true;
             }
 
-            const headerData = [
+            // if(!data?.purchase_request_data){
+            // }
+
+            const headerData = data?.purchase_request_data ? [
                 'Head Office',
                 data?.purchase_request_data?.project_data?.project_name,
                 'Purchase Order',
@@ -109,7 +111,26 @@ const PurchaseOrder = async (datas:any) => {
                 'N/A',
                 'N/A',
                 'N/A'
-            ];
+            ] : [
+                'Head Office',
+                data?.purchase_request_data?.project_data?.project_name,
+                'Purchase Order',
+                data?.order_id,
+                format(new Date(data?.order_date), 'MM/dd/yyyy'),
+                format(new Date(data?.purchase_request_data?.indent_request_data?.expected_delivery_date), 'MM/dd/yyyy'),
+                'N/A',
+                data?.purchase_request_data?.selected_vendor_data?.vendor_name,
+                'IND',
+                'N/A',
+                data?.purchase_request_data?.total_cost,
+                'N/A',
+                'N/A',
+                'N/A',
+                'N/A',
+                data?.purchase_request_data?.requester_user_data?.first_name + " " + data?.purchase_request_data?.requester_user_data?.last_name,
+                'N/A',
+                'N/A',
+                'N/A'];
 
             worksheet.addRow(headerData).eachCell((cell) => {
                 cell.style = borderStyle;
@@ -178,6 +199,7 @@ const PurchaseOrder = async (datas:any) => {
             'N/A',
             'N/A'
         ];
+
         let itemsData = [];
         itemsData = datas?.purchase_request_data?.purchase_request_quotation_details.map((item: any, index: number) => {
             return {
@@ -188,7 +210,7 @@ const PurchaseOrder = async (datas:any) => {
                 'Attributes': 'N/A',
                 'Specification': 'N/A',
                 'UOM': item?.item_data?.uom?.name,
-                'Quantity': item?.purchase_requested_quantity.toString(),
+                'Quantity': item?.purchase_requested_quantity?.toString(),
                 'Nos': 'N/A',
                 'Duration': 'N/A',
                 'Duration UOM': 'N/A',

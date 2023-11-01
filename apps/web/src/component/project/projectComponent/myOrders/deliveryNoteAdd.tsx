@@ -43,8 +43,6 @@ const MyOrderView = () => {
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-//   console.log('invoice document', invoiceDocument);
-
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
@@ -90,7 +88,6 @@ const MyOrderView = () => {
             ...response?.data[0],
             is_delete: 'N',
           };
-          //   console.log('responseobj', obj);
           arr.push(obj);
         });
         setInvoiceDocument(arr);
@@ -120,14 +117,16 @@ const MyOrderView = () => {
   const validationSchema = Yup.object().shape({
     notes: Yup.string().required('Notes Required'),
     invoice_number: Yup.string().required('Invoice Reference Number Required'),
+    goods_received_date:Yup.date()
+    .required('Date is required')
   });
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log('form called');
-      console.log('values', values);
+    //   console.log('form called');
+    //   console.log('values', values);
       const obj = {
         notes: values?.notes,
         invoice_id: values?.invoice_number,
@@ -137,20 +136,21 @@ const MyOrderView = () => {
         bill_details: invoiceDocument,
         goods_received_by: 1,
         grn_status: 'Pending',
-        project_id: 195,
+        project_id: projectId,
         created_by: 1,
       };
-      console.log('obj', obj);
+    //   console.log('obj', obj);
       if (invoiceDocument?.length > 0) {
-        console.log('inn okay');
+        // console.log('inn okay');
         postGrnData(obj, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
-              setMessage('Posted');
+              setMessage('Goods delivered added');
               setOpenSnack(true);
+              setTimeout(() => {
               navigate(`/my-orders-view/${Number(routeParams?.id)}`, {
                 state: { projectId },
-              });
+              })},1000)
             }
           },
         });
