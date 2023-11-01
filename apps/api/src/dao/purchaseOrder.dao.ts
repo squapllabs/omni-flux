@@ -275,7 +275,37 @@ const searchPurchaseOrder = async (
             },
           },
           vendor_data: true,
-          indent_request_data: true,
+          indent_request_data: {
+            include: {
+              project_data: true,
+              site_data: true,
+              requester_user_data: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                  contact_no: true,
+                  email_id: true,
+                },
+              },
+              indent_request_details: {
+                include: {
+                  bom_detail_data: {
+                    include: {
+                      item_data: {
+                        include: {
+                          uom: {
+                            select: {
+                              name: true,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         orderBy: [
           {
