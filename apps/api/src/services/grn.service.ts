@@ -81,11 +81,16 @@ const createGrn = async (body: grnBody) => {
           for await (const grnDetail of grn_details) {
             const {
               item_id,
-              received_quantity,
+              previously_received_quantity,
+              currently_received_quantity,
               purchase_order_item_id,
               order_quantity,
               unit_price,
             } = grnDetail;
+
+            const received_quantity =
+              previously_received_quantity + currently_received_quantity;
+
             await purchaseOrderItemDao.edit(
               purchase_order_id,
               item_id,
