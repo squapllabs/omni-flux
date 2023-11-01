@@ -31,7 +31,8 @@ const MyOrderView = () => {
     limit: rowsPerPage,
     order_by_column: 'created_date',
     order_by_direction: 'asc',
-    project_id: projectId
+    project_id: projectId,
+    purchase_order_id:purchaseOrderId
   };
   const {
     isLoading: getAllLoadingLabourData,
@@ -320,7 +321,7 @@ console.log("oooooooo",GRData);
                   </tr>
                 </thead>
                 <tbody>
-                  {GRData?.is_available ? (
+                  {GRData?.total_count > 0 ? (
                     GRData?.content?.map((item: any, index: any) => {
                       return (
                         <tr>
@@ -340,7 +341,6 @@ console.log("oooooooo",GRData);
                       );
                     })
                   ) : (
-                    
                     <tr>
                     <td colspan="4" style={{ textAlign: 'center' }}>
                       No data found

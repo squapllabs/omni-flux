@@ -14,6 +14,7 @@ import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { getProjectSite } from '../../../../hooks/project-hooks';
 import CustomPagination from '../../../menu/CustomPagination';
 import OrderIcon from '../../../menu/icons/orderIcon';
+import CustomGroupButton from '../../../ui/CustomGroupButton';
 
 const MyOrderList = () => {
     const routeParams = useParams();
@@ -21,6 +22,15 @@ const MyOrderList = () => {
     const projectId = Number(routeParams?.id);
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [activeButton, setActiveButton] = useState<string | null>('HO');
+    const [buttonLabels, SetButtonLabels] = useState([
+        { label: 'Head Office', value: 'HO' },
+        { label: 'Local Purchase Order', value: 'LPO' }
+    ])
+    const handleGroupButtonClick = (value: string) => {
+        setActiveButton(value);
+    };
+
     let rowIndex = 0;
 
     const { data: getSiteList, isLoading: siteLoading } = getProjectSite(Number(projectId));
@@ -67,7 +77,7 @@ const MyOrderList = () => {
         setRowsPerPage(newRowsPerPage);
         setCurrentPage(1);
     };
-    console.log("getAllData", getAllData);
+    // console.log("getAllData", getAllData);
 
     return (
         <div>
@@ -83,6 +93,13 @@ const MyOrderList = () => {
                                     </div>
                                 </div>
                                 <div className={Styles.searchBar}>
+                                    <div>
+                                        <CustomGroupButton
+                                            labels={buttonLabels}
+                                            onClick={handleGroupButtonClick}
+                                            activeButton={activeButton}
+                                        />
+                                    </div>
                                     <AutoCompleteSelect
                                         name="site_id"
                                         value={getSiteList}
@@ -130,9 +147,15 @@ const MyOrderList = () => {
                                                     <td>{formatBudgetValue(data?.total_cost)}</td>
                                                     <td>{data?.purchase_request_data?.selected_vendor_data?.vendor_name}</td>
                                                     <td>
-                                                        <ViewIcon onClick={() => {
+                                                        {/* <ViewIcon onClick={() => {
                                                             navigate(
                                                                 `/my-orders-view/${data.purchase_order_id}`,
+                                                                { state: { projectId } }
+                                                            );
+                                                        }} /> */}
+                                                          <ViewIcon onClick={() => {
+                                                            navigate(
+                                                                `/delivery-note/${data.purchase_order_id}`,
                                                                 { state: { projectId } }
                                                             );
                                                         }} />

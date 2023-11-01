@@ -112,8 +112,6 @@ const documentUpload = async (file: any, code: string, folder: string) => {
 };
 
 const purchaseDetailData = async (values: any) => {
-  console.log('values', values);
-
   try {
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/purchase-request/search`,
@@ -125,6 +123,22 @@ const purchaseDetailData = async (values: any) => {
     throw error;
   }
 };
+
+const purchseOrderGetAll = async (values: any) => {
+  try {
+    console.log("values",values);
+    
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/purchase-order/get-all`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in purchseOrderGetAll :', error);
+    throw error;
+  }
+};
+
 export default {
   getOnePurchaseRequest,
   createPurchaseOrderItem,
@@ -135,4 +149,5 @@ export default {
   getPoData,
   documentUpload,
   purchaseDetailData,
+  purchseOrderGetAll
 };
