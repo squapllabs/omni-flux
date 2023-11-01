@@ -1,6 +1,7 @@
 import db from '../utils/db';
 import prisma from '../utils/prisma';
 import customQueryExecutor from './common/utils.dao';
+import indentRequestDao from './indentRequest.dao';
 
 const add = async (
   purchase_request_id: number,
@@ -382,6 +383,15 @@ const createPurchaseOrderWithItem = async (
             });
             purchaseOrderItemDetails.push(purchaseOrderItem);
           }
+        }
+
+        if (indent_request_id) {
+          await indentRequestDao.updateLocalPurchaseStatus(
+            indent_request_id,
+            'Converted To PO',
+            created_by,
+            tx
+          );
         }
 
         const purchaseOrderData = {

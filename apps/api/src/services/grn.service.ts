@@ -146,6 +146,7 @@ const searchGrn = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const global_search = body.global_search;
     const project_id = body.project_id;
+    const purchase_order_id = body.purchase_order_id;
 
     const filterObj: any = {};
 
@@ -155,6 +156,15 @@ const searchGrn = async (body) => {
 
       filterObj.filterGrn.AND.push({
         project_id: project_id,
+      });
+    }
+
+    if (purchase_order_id) {
+      filterObj.filterGrn = filterObj.filterGrn || {};
+      filterObj.filterGrn.AND = filterObj.filterGrn.AND || [];
+
+      filterObj.filterGrn.AND.push({
+        purchase_order_id: purchase_order_id,
       });
     }
 
