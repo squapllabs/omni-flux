@@ -329,6 +329,15 @@ const searchPurchaseOrder = async (
               },
             },
           },
+          grn: {
+            include: {
+              grn_details: {
+                include: {
+                  item_data: { include: { uom: { select: { name: true } } } },
+                },
+              },
+            },
+          },
         },
         orderBy: [
           {

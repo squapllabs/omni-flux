@@ -21,6 +21,7 @@ interface expenseBody {
   progressed_by: number;
   total_amount: number;
   user_id: number;
+  expense_type: string;
   expense_details: Array<expenseDetailsBody>;
 }
 
