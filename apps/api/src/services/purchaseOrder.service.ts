@@ -213,9 +213,10 @@ const getById = async (purchaseOrderId: number) => {
  * Method to Get All PurchaseOrders
  * @returns
  */
-const getAllPurchaseOrders = async () => {
+const getAllPurchaseOrders = async (body) => {
   try {
-    const result = await purchaseOrderDao.getAll();
+    const purchase_order_type = body.purchase_order_type;
+    const result = await purchaseOrderDao.getAll(purchase_order_type);
     const purchaseOrderData = {
       message: 'success',
       status: true,
