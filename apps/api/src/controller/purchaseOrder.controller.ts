@@ -30,7 +30,9 @@ const updatePurchaseOrder = catchAsync(async (req, res) => {
 const getAllPurchaseOrders = catchAsync(async (req, res) => {
   const methodName = '/getAllPurchaseOrders';
   try {
-    const purchaseOrder = await purchaseOrderService.getAllPurchaseOrders();
+    const purchaseOrder = await purchaseOrderService.getAllPurchaseOrders(
+      req.body
+    );
     res.send(purchaseOrder);
   } catch (err) {
     handleError(new ErrorHandler(errorText, methodName, err), res);
