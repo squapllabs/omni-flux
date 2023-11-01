@@ -8,28 +8,28 @@ import { formatBudgetValue } from '../../../helper/common-function';
 const ReportGenerator = (data: any) => {
     // console.log("check",data);
     
-    const itemsData = data?.purchase_request_data?.purchase_request_quotation_details?.map((item: any) => ({
-        itemName: item?.item_data?.item_name,
-        quantity: item?.purchase_requested_quantity,
-        unitPrice: item?.item_data?.rate,
-        total: item?.purchase_requested_quantity * item?.item_data?.rate
-    }))
+    // const itemsData = data?.purchase_request_data?.purchase_request_quotation_details?.map((item: any) => ({
+    //     itemName: item?.item_data?.item_name,
+    //     quantity: item?.purchase_requested_quantity,
+    //     unitPrice: item?.item_data?.rate,
+    //     total: item?.purchase_requested_quantity * item?.item_data?.rate
+    // }))
 
     // console.log("itemsData",itemsData);
     
     
     // console.log("data?.purchase_request_data?.purchase_request_details",data?.purchase_request_data?.purchase_request_details);
     
-    // const itemsData = [];
+    const itemsData = [];
 
-    // for (let i = 0; i < 150; i++) {
-    //     itemsData.push({
-    //         itemName: 'Water Tanks',
-    //         quantity: 22,
-    //         unitPrice: 1000,
-    //         total: 22 * 1000, // Calculate the total for each item
-    //     });
-    // }
+    for (let i = 0; i < 150; i++) {
+        itemsData.push({
+            itemName: 'Water Tanks',
+            quantity: 22,
+            unitPrice: 1000,
+            total: 22 * 1000, // Calculate the total for each item
+        });
+    }
 
     const overallTotal = itemsData?.reduce((accumulator: any, currentItem: any) => {
         return accumulator + currentItem?.total;
@@ -73,7 +73,8 @@ const ReportGenerator = (data: any) => {
     pdf.setFont('custom');
 
     const imageUrl = "/Ecologo-03.png"; // Replace with your image URL
-    pdf.addImage(imageUrl, 'JPEG', 10, 1, 55, 15); //text to added in list of particals
+                                //start which line  width height
+    pdf.addImage(imageUrl, 'JPEG', 16, 10, 105, 15); //text to added in list of particals
     // Title
     pdf.setFontSize(15);
     pdf.setFont('Newsreader', 'bold');
@@ -124,7 +125,7 @@ const ReportGenerator = (data: any) => {
 
     // Define item details table headers
     const itemDetailsHeaders = ['S.No', 'Item Name', 'Quantity', 'Unit Price', 'Total'];
-    pdf.setFont('courier');
+    // pdf.setFont('courier');
     const itemDetailsRows = itemsData?.map((item: any, index: number) => [
         index + 1,
         item.itemName,
@@ -137,6 +138,8 @@ const ReportGenerator = (data: any) => {
 
     // Create item details table
     const itemDetailsYStart = yStart + yOffset * 10.5;
+    console.log("itemDetailsYStart",itemDetailsYStart);
+    
     pdf.autoTable({
         head: [itemDetailsHeaders],
         body: itemDetailsRows,
@@ -146,8 +149,8 @@ const ReportGenerator = (data: any) => {
 
     // Define summary table rows ₹ 
     const summaryRows = [
-        [{ content: 'Total Quantity:', styles: { fontStyle: 'bold' } }, overallTotalQuantity.toLocaleString()],
-        [{ content: 'Total Amount:', styles: { fontStyle: 'bold' } }, overallTotal.toLocaleString()],
+        [{ content: 'Total Quantity:', styles: { fontStyle: 'bold' } }, overallTotalQuantity?.toLocaleString()],
+        [{ content: 'Total Amount:', styles: { fontStyle: 'bold' } }, overallTotal?.toLocaleString()],
     ];
 
     // const totalPages = pdf.internal.getNumberOfPages();
@@ -173,13 +176,13 @@ const ReportGenerator = (data: any) => {
     });
 
     // Save the PDF
-    pdf.save('purchase_order.pdf');
+    // pdf.save('purchase_order.pdf');
 
-    // const pdfDataUri = pdf.output("datauristring");
-    // const previewWindow = window.open();
-    // previewWindow?.document.write(
-    //     "<iframe width='100%' height='100%' src='" + pdfDataUri + "'></iframe>"
-    // );
+    const pdfDataUri = pdf.output("datauristring");
+    const previewWindow = window.open();
+    previewWindow?.document.write(
+        "<iframe width='100%' height='100%' src='" + pdfDataUri + "'></iframe>"
+    );
 
 };
 

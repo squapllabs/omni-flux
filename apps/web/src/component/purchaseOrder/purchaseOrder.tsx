@@ -22,7 +22,7 @@ import ProjectSubheader from '../project/projectSubheader';
 import ViewIcon from '../menu/icons/newViewIcon';
 import PurchaseOrderExcelReport from '../reportGenerator/excelReport/purchaseOrder'
 import ExcelIcon from '../menu/icons/excelIcon';
-
+ 
 const OrderView = () => {
   const navigate = useNavigate();
   const [showEditPopUp, setShowEditPopUp] = useState(false);
@@ -54,23 +54,23 @@ const OrderView = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getBySearchPoData();
-
+ 
   const handleEdit = (value: any) => {
     setPurchaseId(value);
     setShowEditPopUp(true);
   };
-
+ 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
+ 
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
+ 
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -79,14 +79,14 @@ const OrderView = () => {
     setSelectedValue(selectedProjectId);
     setIsResetDisabled(searchValue === '');
   };
-
+ 
   const handleReportGenerator = async (data: any) => {
     await PurchaseOrderReport(data);
   };
   const handleExcelReportGenerator = async (data: any) => {
     await PurchaseOrderExcelReport(data);
   };
-
+ 
   const handleSearch = async () => {
     const poData: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -100,19 +100,19 @@ const OrderView = () => {
     postDataForFilter(poData);
     setDataShow(true);
   };
-
+ 
   const handleReset = async () => {
     setSelectedValue('');
     setDataShow(false);
     setSelectedValue('');
     setIsResetDisabled(true);
   };
-
+ 
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage]);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-
+ 
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName = data.vendor_data?.vendor_name || '';
@@ -151,7 +151,7 @@ const OrderView = () => {
               title="Check PO Progress"
             />
           </div>
-
+ 
           <div className={Styles.dividerStyleTop}></div>
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
@@ -283,7 +283,7 @@ const OrderView = () => {
                                 onClick={() => handleReportGenerator(data)}
                               />
                               <ViewIcon
-                                onClick={() => 
+                                onClick={() =>
                                   navigate(`/purchase-order-view/${data.purchase_order_id}`)}
                               />
                             </div>
@@ -360,7 +360,7 @@ const OrderView = () => {
                                 }
                               />
                               <ViewIcon
-                                onClick={() => 
+                                onClick={() =>
                                   navigate(`/purchase-order-view/${data.purchase_order_id}`)}
                               />
                                <PdfDownloadIcon
@@ -400,5 +400,5 @@ const OrderView = () => {
     </div>
   );
 };
-
+ 
 export default OrderView;
