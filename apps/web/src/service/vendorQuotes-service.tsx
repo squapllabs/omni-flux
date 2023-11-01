@@ -71,8 +71,6 @@ const updateVendorQuotes = async (values: JSON) => {
       `${environment.apiUrl}/vendor-quotes/`,
       values
     );
-    console.log('response.data', response.data);
-
     return response.data;
   } catch (error) {
     console.log('Error in vendor-quotes edit:', error);

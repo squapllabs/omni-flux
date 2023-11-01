@@ -313,6 +313,32 @@ const getVendorDetailsByPurchaseRequestId = async (
   }
 };
 
+const updateStatus = async (
+  vendor_quotes_id: number,
+  quotation_status: string,
+  updated_by: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const vendorQuotes = await transaction.vendor_quotes.update({
+      where: {
+        vendor_quotes_id: Number(vendor_quotes_id),
+      },
+      data: {
+        quotation_status,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+    return vendorQuotes;
+  } catch (error) {
+    console.log('Error occurred in vendorQuotesDao updateStatus', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -324,4 +350,5 @@ export default {
   getByPurchaseRequestIdAndVendorId,
   getByPurchaseRequestId,
   getVendorDetailsByPurchaseRequestId,
+  updateStatus,
 };
