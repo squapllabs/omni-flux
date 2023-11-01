@@ -25,7 +25,7 @@ const MyOrderView = () => {
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
@@ -55,6 +55,10 @@ const MyOrderView = () => {
     const formattedDate = format(currentDate, 'dd-MM-yyyy');
     return formattedDate;
   };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <div className={Styles.container}>
