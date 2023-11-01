@@ -19,6 +19,9 @@ import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import CloseIcon from '../../../menu/icons/closeIcon';
 import CustomSnackBar from '../../../ui/customSnackBar';
 import { createGrn } from '../../../../hooks/grn-hooks';
+import { store, RootState } from '../../../../redux/store';
+import { getToken } from '../../../../redux/reducer';
+
 
 const MyOrderView = () => {
   const routeParams = useParams();
@@ -26,6 +29,9 @@ const MyOrderView = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const projectId = state?.projectId;
+  const getState: RootState = store.getState();
+  const encryptedData = getToken(getState, 'Data');
+  const userID: number = encryptedData.userId;
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
@@ -134,10 +140,10 @@ const MyOrderView = () => {
         purchase_order_id: Number(routeParams?.id),
         goods_received_date: values.goods_received_date,
         bill_details: invoiceDocument,
-        goods_received_by: 1,
+        goods_received_by: userID,
         grn_status: 'Pending',
         project_id: projectId,
-        created_by: 1,
+        created_by: userID,
       };
     //   console.log('obj', obj);
       if (invoiceDocument?.length > 0) {
