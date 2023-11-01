@@ -1061,6 +1061,7 @@ model expense {
   progressed_date    DateTime?
   progressed_by      Int?
   user_id            Int?
+  expense_type       String?
   is_delete          Boolean          @default(false)
   created_date       DateTime         @default(now())
   updated_date       DateTime

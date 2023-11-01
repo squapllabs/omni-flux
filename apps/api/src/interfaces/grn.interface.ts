@@ -21,6 +21,9 @@ interface grnDetailsBody {
   rejected_quantity: number;
   notes: string;
   created_by: number;
+  purchase_order_item_id: number;
+  order_quantity: number;
+  unit_price: number;
 }
 
 export { grnBody, grnDetailsBody };
