@@ -1,6 +1,69 @@
-.container{
-    // background-color: aqua;
+.container {
+    width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    // background-color: #6941c6;
 }
+.sub_header {
+    height: 10vh;
+    display: flex;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5%;
+    cursor: pointer;
+}
+  
+  .vertical {
+    position: relative;
+  }
+  
+  .verticalLine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    /* Adjust the width of the line */
+    background-color: #7d7d7d;
+    /* Adjust the color as needed */
+    height: 100%;
+  }
+
+  .description {
+    font-size: small;
+  }
+
+  .orderDetails{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding-top: 15px;
+    padding-left: 10px;
+  }
+
+  .leftOrderDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .rightOrderDetail{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+.dividerStyle {
+    border-bottom: 1px solid #7d7d7d;
+    padding-bottom: 5px;
+} 
+
 .tableContainer {
     padding: 20px 40px 0px 40px;
     display: flex;
@@ -54,10 +117,10 @@
     }
   }
 
-  .orderDetails{
+  .topHeader{
     display: flex;
     flex-direction: row;
-    padding: 15px 0px 0px 15px;
+    padding: 6px 0px 0px 15px;
     gap: 8px;
   }
 
@@ -124,5 +187,5 @@
   }
 
   .dashedLine {
-    border-left: 0.5px dashed #000; /* Adjust the color and thickness as needed */
+    border-left: 0.5px dashed #7d7d7d;
   }

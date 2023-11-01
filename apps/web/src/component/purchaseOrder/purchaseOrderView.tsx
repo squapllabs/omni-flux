@@ -7,11 +7,11 @@ import { useGetOnePurchaseOrder } from '../../hooks/purchase-request-hooks';
 import { environment } from '../../environment/environment';
 import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
-
 import { format } from 'date-fns';
 
 const PurchaseOrderView = () => {
   const routeParams = useParams();
+  const navigate = useNavigate();
   const PurchaseOrderId = Number(routeParams?.id);
   const { data: getOnePurchaseOrderView, isLoading: dataLoading } =
     useGetOnePurchaseOrder(PurchaseOrderId);
@@ -37,13 +37,40 @@ const PurchaseOrderView = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
-        <div>
+        <div className={Styles.sub_header}>
+          <div
+            className={Styles.logo}
+            onClick={() => {
+              navigate("/purchase-order");
+            }}
+          >
+            <PreviousPageIcon width={20} height={20} color="#7f56d9" />
+          </div>
+          <div style={{ display: 'flex' }}>
+            <div className={Styles.vertical}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+          </div>
+          <div className={Styles.topHeader}>
+            <div className={Styles.leftOrderDetail}>
+              <span>
+                <h4>{title}</h4>
+              </span>
+              <span>
+                <p className={Styles.description}>{description}</p>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className={Styles.dividerStyle}></div>
+        {/* <div>
           <ProjectSubheader
             navigation={'/purchase-order'}
             description={description}
             title={title}
           />
-        </div>
+        </div> */}
+
       </CustomLoader>
 
       {/* values for order data */}
@@ -75,9 +102,9 @@ const PurchaseOrderView = () => {
           <span>
             {getOnePurchaseOrderView?.order_date
               ? format(
-                  new Date(getOnePurchaseOrderView?.order_date),
-                  'MMM dd, yyyy'
-                )
+                new Date(getOnePurchaseOrderView?.order_date),
+                'MMM dd, yyyy'
+              )
               : '-'}
           </span>
           <span>{getOnePurchaseOrderView?.status}</span>
