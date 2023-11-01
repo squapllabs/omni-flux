@@ -626,21 +626,21 @@ const AppRoutes = () => {
           path="/vendor-select"
           element={<ProtectedPurchaseVendorSelect />}
         />
+        <Route path="/my-orders" element={<ProtectedMyOrders />} />
+        <Route path="/my-orders-view/:id" element={<ProtectedOrderView />} />
         <Route
-          path="/my-orders"
-          element={<ProtectedMyOrders/>}
+          path="delivery-note/:id"
+          element={<ProtectedDeliveryNoteAdd />}
+        />
+        <Route path="/my-orders-view/:id" element={<ProtectedOrderView />} />
+        <Route
+          path="delivery-note/:id"
+          element={<ProtectedDeliveryNoteAdd />}
         />
         <Route
-          path="/my-orders-view/:id"
-          element={<ProtectedOrderView/>}
+          path="/view-received-goods/:pruchaseId/:grnId"
+          element={<ProtectedViewReceivedGoods />}
         />
-        <Route 
-        path = "delivery-note/:id"
-        element={<ProtectedDeliveryNoteAdd/>}/>
-        <Route
-          path = "/view-received-goods/:pruchaseId/:grnId"
-          element={<ProtectedViewReceivedGoods/>}
-         />
       </Routes>
     </div>
   );

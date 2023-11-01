@@ -125,8 +125,8 @@ const MyOrderView = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log('form called');
-      console.log('values', values);
+    //   console.log('form called');
+    //   console.log('values', values);
       const obj = {
         notes: values?.notes,
         invoice_id: values?.invoice_number,
@@ -139,17 +139,18 @@ const MyOrderView = () => {
         project_id: projectId,
         created_by: 1,
       };
-      console.log('obj', obj);
+    //   console.log('obj', obj);
       if (invoiceDocument?.length > 0) {
-        console.log('inn okay');
+        // console.log('inn okay');
         postGrnData(obj, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
-              setMessage('Posted');
+              setMessage('Goods delivered added');
               setOpenSnack(true);
+              setTimeout(() => {
               navigate(`/my-orders-view/${Number(routeParams?.id)}`, {
                 state: { projectId },
-              });
+              })},1000)
             }
           },
         });

@@ -541,6 +541,36 @@ const updateStatus = async (
   }
 };
 
+const updateLocalPurchaseStatus = async (
+  indent_request_id: number,
+  approver_status: string,
+  updated_by: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const indentRequest = await transaction.indent_request.update({
+      where: {
+        indent_request_id: Number(indent_request_id),
+      },
+      data: {
+        approver_status,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+    return indentRequest;
+  } catch (error) {
+    console.log(
+      'Error occurred in indentRequest updateLocalPurchaseStatus dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -550,4 +580,5 @@ export default {
   searchIndentRequest,
   getByProjectId,
   updateStatus,
+  updateLocalPurchaseStatus,
 };

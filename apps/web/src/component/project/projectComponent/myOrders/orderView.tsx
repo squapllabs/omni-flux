@@ -25,7 +25,7 @@ const MyOrderView = () => {
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
@@ -38,6 +38,7 @@ const MyOrderView = () => {
     data: GRData,
     refetch,
   } = useGetAllGrnData(object);
+console.log("oooooooo",GRData);
 
   const generateCustomQuotationName = (data: any) => {
     if (data) {
@@ -55,6 +56,10 @@ const MyOrderView = () => {
     const formattedDate = format(currentDate, 'dd-MM-yyyy');
     return formattedDate;
   };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <div className={Styles.container}>
@@ -231,11 +236,11 @@ const MyOrderView = () => {
               <thead>
                 <tr>
                   <th>S No</th>
-                  <th>Item Name</th>
+                  <th  className={Styles.tableHeadingTwo}>Item Name</th>
                   <th>Indent Requested Quantity</th>
                   <th>Allocated Quantity</th>
-                  <th>Unit Price</th>
-                  <th>Total</th>
+                  {/* <th>Unit Price</th>
+                  <th>Total</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -259,7 +264,7 @@ const MyOrderView = () => {
                           {item?.purchase_requested_quantity ||
                             nullLableNameFromEnv}
                         </td>
-                        <td>
+                        {/* <td>
                           {formatBudgetValue(
                             item.unit_cost ? item?.unit_cost : 0
                           )}
@@ -271,7 +276,7 @@ const MyOrderView = () => {
                               item.purchase_requested_quantity
                               : 0
                           )}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })
@@ -309,24 +314,19 @@ const MyOrderView = () => {
                   <tr>
                     <th>S No</th>
                     <th>Goods Received Date</th>
-                    <th>Total Items</th>
+                    <th>Invoice No</th>
+                    {/* <th>Total Items</th> */}
                     <th>Options</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {GRData?.length === 0 ? (
-                    <tr>
-                      <td colspan="4" style={{ textAlign: 'center' }}>
-                        No data found
-                      </td>
-                    </tr>
-                  ) : (
+                  {GRData?.is_available ? (
                     GRData?.content?.map((item: any, index: any) => {
                       return (
                         <tr>
                           <td>{index + 1}</td>
                           <td>{dateFormat(item?.goods_received_date)}</td>
-                          <td>{item?.grn_details?.length}</td>
+                          <td>{item?.invoice_id}</td>
                           <td>
                             <ViewIcon
                               onClick={() => {
@@ -339,7 +339,14 @@ const MyOrderView = () => {
                         </tr>
                       );
                     })
-                  )}
+                  ) : (
+                    
+                    <tr>
+                    <td colspan="4" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
+                  </tr>
+                )}
                 </tbody>
               </table>
             </div>
