@@ -173,9 +173,7 @@ const MyOrderView = () => {
           <div
             className={Styles.logo}
             onClick={() => {
-              navigate(`/my-orders-view/${Number(routeParams?.id)}`, {
-                state: { projectId },
-              });
+              navigate(`/project-edit/${Number(state?.projectId)}`)
             }}
           >
             <PreviousPageIcon width={20} height={20} color="#7f56d9" />

@@ -147,9 +147,15 @@ const MyOrderList = () => {
                                                     <td>{formatBudgetValue(data?.total_cost)}</td>
                                                     <td>{data?.purchase_request_data?.selected_vendor_data?.vendor_name}</td>
                                                     <td>
-                                                        <ViewIcon onClick={() => {
+                                                        {/* <ViewIcon onClick={() => {
                                                             navigate(
                                                                 `/my-orders-view/${data.purchase_order_id}`,
+                                                                { state: { projectId } }
+                                                            );
+                                                        }} /> */}
+                                                          <ViewIcon onClick={() => {
+                                                            navigate(
+                                                                `/delivery-note/${data.purchase_order_id}`,
                                                                 { state: { projectId } }
                                                             );
                                                         }} />
