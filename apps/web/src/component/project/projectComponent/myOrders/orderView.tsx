@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useRef } from 'react';
 import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import CustomLoader from '../../../ui/customLoader';
@@ -8,18 +9,35 @@ import { formatBudgetValue } from '../../../../helper/common-function';
 import { format } from 'date-fns';
 import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
+import ViewIcon from '../../../menu/icons/viewIcon';
+import { useGetAllGrnData } from '../../../../hooks/grn-hooks';
 
 const MyOrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  const {state} = useLocation();
+  const { state } = useLocation();
+  const projectId = state?.projectId;
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
   const purchaseOrderId = Number(routeParams?.id)
-  console.log('UUUUUUU', getListData);
+  // console.log('UUUUUUU', getListData);
   const tableData =
     getListData?.purchase_request_data?.purchase_request_quotation_details;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const object: any = {
+    offset: (currentPage - 1) * rowsPerPage,
+    limit: rowsPerPage,
+    order_by_column: 'created_date',
+    order_by_direction: 'asc',
+    project_id: projectId
+  };
+  const {
+    isLoading: getAllLoadingLabourData,
+    data: GRData,
+    refetch,
+  } = useGetAllGrnData(object);
 
   const generateCustomQuotationName = (data: any) => {
     if (data) {
@@ -31,6 +49,13 @@ const MyOrderView = () => {
     return '';
   };
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+
+  const dateFormat = (value: any) => {
+    const currentDate = new Date(value);
+    const formattedDate = format(currentDate, 'dd-MM-yyyy');
+    return formattedDate;
+  };
+
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
@@ -103,9 +128,9 @@ const MyOrderView = () => {
                   <span>
                     {getListData?.order_date
                       ? format(
-                          new Date(getListData?.order_date),
-                          'MMM dd, yyyy'
-                        )
+                        new Date(getListData?.order_date),
+                        'MMM dd, yyyy'
+                      )
                       : '-'}
                   </span>
                 </div>
@@ -243,7 +268,7 @@ const MyOrderView = () => {
                           {formatBudgetValue(
                             item.unit_cost * item.purchase_requested_quantity
                               ? item.unit_cost *
-                                  item.purchase_requested_quantity
+                              item.purchase_requested_quantity
                               : 0
                           )}
                         </td>
@@ -262,12 +287,62 @@ const MyOrderView = () => {
               size="small"
               justify="center"
               icon={<AddIcon width={20} color="white" />}
-              onClick = {() => {
-                navigate(`/delivery-note/${purchaseOrderId}`);
-            }}
+              onClick={() => {
+                navigate(`/delivery-note/${purchaseOrderId}`,
+                  { state: { projectId } }
+                );
+              }}
             >
               Add Delivery Notes
             </Button>
+          </div>
+        </div>
+        <div className={Styles.dashedDivider}></div>
+        <div>
+          <div className={Styles.headingForTable}>
+            <h3>Received Goods</h3>
+          </div>
+          <div>
+            <div className={Styles.tableContainer}>
+              <table className={Styles.scrollable_table}>
+                <thead>
+                  <tr>
+                    <th>S No</th>
+                    <th>Goods Received Date</th>
+                    <th>Total Items</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {GRData?.length === 0 ? (
+                    <tr>
+                      <td colspan="4" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
+                    </tr>
+                  ) : (
+                    GRData?.content?.map((item: any, index: any) => {
+                      return (
+                        <tr>
+                          <td>{index + 1}</td>
+                          <td>{dateFormat(item?.goods_received_date)}</td>
+                          <td>{item?.grn_details?.length}</td>
+                          <td>
+                            <ViewIcon
+                              onClick={() => {
+                                navigate(`/view-received-goods/${purchaseOrderId}/${item?.grn_id}`,
+                                  { state: { projectId } }
+                                );
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </CustomLoader>
