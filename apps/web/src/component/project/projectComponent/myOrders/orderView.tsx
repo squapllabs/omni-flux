@@ -314,13 +314,7 @@ const MyOrderView = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {GRData?.length === 0 ? (
-                    <tr>
-                      <td colspan="4" style={{ textAlign: 'center' }}>
-                        No data found
-                      </td>
-                    </tr>
-                  ) : (
+                  {GRData?.is_available ? (
                     GRData?.content?.map((item: any, index: any) => {
                       return (
                         <tr>
@@ -339,7 +333,14 @@ const MyOrderView = () => {
                         </tr>
                       );
                     })
-                  )}
+                  ) : (
+                    
+                    <tr>
+                    <td colspan="4" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
+                  </tr>
+                )}
                 </tbody>
               </table>
             </div>
