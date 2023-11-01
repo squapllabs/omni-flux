@@ -22,7 +22,6 @@ import { createGrn } from '../../../../hooks/grn-hooks';
 import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
 
-
 const MyOrderView = () => {
   const routeParams = useParams();
   const purchaseOrderId = Number(routeParams?.id);
@@ -89,7 +88,7 @@ const MyOrderView = () => {
         fileList.forEach(async (file) => {
           const code = 'INVOICE';
           const response = await userService.documentUpload(file, code);
-        //   console.log('response', response?.data[0]);
+          //   console.log('response', response?.data[0]);
           const obj = {
             ...response?.data[0],
             is_delete: 'N',
@@ -123,16 +122,15 @@ const MyOrderView = () => {
   const validationSchema = Yup.object().shape({
     notes: Yup.string().required('Notes Required'),
     invoice_number: Yup.string().required('Invoice Reference Number Required'),
-    goods_received_date:Yup.date()
-    .required('Date is required')
+    goods_received_date: Yup.date().required('Date is required'),
   });
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-    //   console.log('form called');
-    //   console.log('values', values);
+      //   console.log('form called');
+      //   console.log('values', values);
       const obj = {
         notes: values?.notes,
         invoice_id: values?.invoice_number,
@@ -145,7 +143,7 @@ const MyOrderView = () => {
         project_id: projectId,
         created_by: userID,
       };
-    //   console.log('obj', obj);
+      //   console.log('obj', obj);
       if (invoiceDocument?.length > 0) {
         // console.log('inn okay');
         postGrnData(obj, {
@@ -154,9 +152,8 @@ const MyOrderView = () => {
               setMessage('Goods delivered added');
               setOpenSnack(true);
               setTimeout(() => {
-              navigate(`/my-orders-view/${Number(routeParams?.id)}`, {
-                state: { projectId },
-              })},1000)
+                navigate(`/project-edit/${Number(state?.projectId)}`);
+              }, 1000);
             }
           },
         });
@@ -173,7 +170,7 @@ const MyOrderView = () => {
           <div
             className={Styles.logo}
             onClick={() => {
-              navigate(`/project-edit/${Number(state?.projectId)}`)
+              navigate(`/project-edit/${Number(state?.projectId)}`);
             }}
           >
             <PreviousPageIcon width={20} height={20} color="#7f56d9" />
