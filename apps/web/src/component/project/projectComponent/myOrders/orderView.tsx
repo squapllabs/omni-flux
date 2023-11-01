@@ -38,6 +38,7 @@ const MyOrderView = () => {
     data: GRData,
     refetch,
   } = useGetAllGrnData(object);
+console.log("oooooooo",GRData);
 
   const generateCustomQuotationName = (data: any) => {
     if (data) {
@@ -235,11 +236,11 @@ const MyOrderView = () => {
               <thead>
                 <tr>
                   <th>S No</th>
-                  <th>Item Name</th>
+                  <th  className={Styles.tableHeadingTwo}>Item Name</th>
                   <th>Indent Requested Quantity</th>
                   <th>Allocated Quantity</th>
-                  <th>Unit Price</th>
-                  <th>Total</th>
+                  {/* <th>Unit Price</th>
+                  <th>Total</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -263,7 +264,7 @@ const MyOrderView = () => {
                           {item?.purchase_requested_quantity ||
                             nullLableNameFromEnv}
                         </td>
-                        <td>
+                        {/* <td>
                           {formatBudgetValue(
                             item.unit_cost ? item?.unit_cost : 0
                           )}
@@ -275,7 +276,7 @@ const MyOrderView = () => {
                               item.purchase_requested_quantity
                               : 0
                           )}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })
@@ -313,7 +314,8 @@ const MyOrderView = () => {
                   <tr>
                     <th>S No</th>
                     <th>Goods Received Date</th>
-                    <th>Total Items</th>
+                    <th>Invoice No</th>
+                    {/* <th>Total Items</th> */}
                     <th>Options</th>
                   </tr>
                 </thead>
@@ -324,7 +326,7 @@ const MyOrderView = () => {
                         <tr>
                           <td>{index + 1}</td>
                           <td>{dateFormat(item?.goods_received_date)}</td>
-                          <td>{item?.grn_details?.length}</td>
+                          <td>{item?.invoice_id}</td>
                           <td>
                             <ViewIcon
                               onClick={() => {
