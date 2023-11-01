@@ -26,12 +26,12 @@ const LocalPurchaseList = () => {
   const indentData: any = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
+    order_by_column: 'created_date',
     order_by_direction: 'desc',
     project_id: projectId,
     priority: filterValues.priority,
     status: 'AC',
-    approver_status: 'Approved',
+    // approver_status: 'Approved',
     request_type: 'Local Purchase',
     global_search: filterValues.search_by_code,
   };

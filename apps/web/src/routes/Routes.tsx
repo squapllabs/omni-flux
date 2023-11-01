@@ -280,6 +280,7 @@ import BoqTaskListScreen from '../component/projectBOQ/taskScreen';
 import LocalPurchaseList from '../component/project/projectComponent/localPurchase/localPurchaseList';
 import LocalPurchaseOrder from '../component/project/projectComponent/localPurchase/localPurchaseOrder';
 import DeliveryAddNote from '../component/project/projectComponent/myOrders/deliveryNoteAdd';
+import ViewReceivedGoods from '../component/project/projectComponent/myOrders/viewReceivedGoods';
 
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -399,6 +400,7 @@ const AppRoutes = () => {
     withLayoutAndProtection(LocalPurchaseOrder);
 
   const ProtectedDeliveryNoteAdd = withLayoutAndProtection(DeliveryAddNote);
+  const ProtectedViewReceivedGoods = withLayoutAndProtection(ViewReceivedGoods);
   return (
     <div>
       <Routes>
@@ -640,6 +642,15 @@ const AppRoutes = () => {
         <Route
           path="delivery-note/:id"
           element={<ProtectedDeliveryNoteAdd />}
+        />
+        <Route path="/my-orders-view/:id" element={<ProtectedOrderView />} />
+        <Route
+          path="delivery-note/:id"
+          element={<ProtectedDeliveryNoteAdd />}
+        />
+        <Route
+          path="/view-received-goods/:pruchaseId/:grnId"
+          element={<ProtectedViewReceivedGoods />}
         />
       </Routes>
     </div>

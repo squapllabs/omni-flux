@@ -225,7 +225,7 @@ const OrderView = () => {
                                 ?.project_name
                             }
                           </td>
-                          <td>{formatBudgetValue(data?.total_cost)}</td>
+                          <td>{formatBudgetValue(data?.total_cost ? data?.total_cost : 0)}</td>
                           <td>
                             <div>
                               {data?.purchase_request_data
@@ -305,7 +305,7 @@ const OrderView = () => {
                                 ?.project_name
                             }
                           </td>
-                          <td>{formatBudgetValue(data?.total_cost)}</td>
+                          <td>{formatBudgetValue(data?.total_cost ? data?.total_cost : 0)}</td>
                           <td>
                             <div>
                               {data?.purchase_request_data
