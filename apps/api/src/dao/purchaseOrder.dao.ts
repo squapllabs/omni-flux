@@ -173,6 +173,13 @@ const getAll = async (purchase_order_type: string, connectionObj = null) => {
                 email_id: true,
               },
             },
+            purchase_request_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
           },
         },
         vendor_data: true,
