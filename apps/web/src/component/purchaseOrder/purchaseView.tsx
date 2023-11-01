@@ -88,9 +88,8 @@ const PurchaseView = () => {
       total_cost: getAllData?.total_cost || 0,
       order_remark: 'Order Requested',
       purchase_order_item: purchaseOrderItems,
+      purchase_order_type: 'Head Office',
     };
-    console.log('purchaseOrderData', purchaseOrderData);
-
     postDataForFilter(purchaseOrderData, {
       onSuccess: (data, variables, context) => {
         if (data?.message === 'success') {

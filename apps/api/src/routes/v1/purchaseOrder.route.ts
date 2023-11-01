@@ -27,7 +27,7 @@ router.put(
   updatePurchaseOrder
 );
 
-router.get('/get-all', authMiddleware, getAllPurchaseOrders);
+router.post('/get-all', authMiddleware, getAllPurchaseOrders);
 
 router.get('/get/:purchase_order_id', authMiddleware, getByPurchaseOrderId);
 

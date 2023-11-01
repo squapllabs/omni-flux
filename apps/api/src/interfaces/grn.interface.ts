@@ -5,6 +5,7 @@ interface grnBody {
   goods_received_by: number;
   goods_received_date: Date;
   invoice_id: string;
+  notes: string;
   bill_details: JSON;
   grn_status: string;
   created_by: number;

@@ -6,7 +6,6 @@ import Select from '../../../ui/selectNew';
 import DatePicker from '../../../ui/CustomDatePicker';
 import TextArea from '../../../ui/CustomTextArea';
 import Button from '../../../ui/Button';
-// import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { getBOMbyProjectandType } from '../../../../hooks/bom-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import IndentRequestDetails from './indentRequestDetails';
@@ -46,6 +45,7 @@ const IndentRequest: React.FC = (props: any) => {
     project_id: Number(routeParams?.id),
     site_id: '',
     request_status: '',
+    request_type: '',
   });
   const [indentRequestDetailsList, setIndentRequestDetailsList] = useState<any>(
     []
@@ -111,6 +111,10 @@ const IndentRequest: React.FC = (props: any) => {
     { value: 'Medium', label: 'Medium' },
     { value: 'Low', label: 'Low' },
   ];
+  const purchase_type: any = [
+    { value: 'Local Purchase', label: 'Local Purchase' },
+    { value: 'Head Office', label: 'Head Office Purchase' },
+  ];
   const { mutate: postIndentData, isLoading: PostindentLoading } =
     createIndentRequest();
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
@@ -166,7 +170,6 @@ const IndentRequest: React.FC = (props: any) => {
                     if (item.is_delete === 'N') {
                       item.bom_detail_id;
                     }
-                    console.log('item', item);
                     if (item.is_delete === false)
                       dummy.push(item.bom_detail_id);
                   });
@@ -262,17 +265,15 @@ const IndentRequest: React.FC = (props: any) => {
         });
     },
   });
+
   return (
     <div>
       <div className={Styles.indent_container}>
-        {/* <div className={Styles.box}> */}
         <ProjectSubheader
           description="Raise Indent Request"
           navigation={`/project-edit/${routeParams?.id}`}
           title="Indent Request"
         />
-        {/* </div> */}
-        {/* <PageDisabled disabled={disabled}> */}
         <div className={Styles.box}>
           <div className={Styles.formConatiner}>
             <form onSubmit={formik.handleSubmit}>
@@ -342,6 +343,33 @@ const IndentRequest: React.FC = (props: any) => {
                     </Select>
                   </div>
                   <div style={{ width: '40%' }}>
+                    <Select
+                      label="Purchase Type"
+                      name="request_type"
+                      mandatory={true}
+                      onChange={formik.handleChange}
+                      value={formik.values.request_type}
+                      defaultLabel="Select from priority"
+                      placeholder="Select from priority"
+                      error={
+                        formik.touched.request_type &&
+                        formik.errors.request_type
+                      }
+                      disabled={disabled}
+                    >
+                      {purchase_type?.map((items: any, index: any) => {
+                        return (
+                          <option key={items.value} value={items.value}>
+                            {items.label}
+                          </option>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                </div>
+                {/* <div style={{ marginLeft: '2.5%' }}> */}
+                <div className={Styles.inputFields}>
+                  <div style={{ width: '40%' }}>
                     <Input
                       label="Total Cost"
                       name="total_cost"
@@ -353,9 +381,7 @@ const IndentRequest: React.FC = (props: any) => {
                       disabled={true}
                     />
                   </div>
-                </div>
-                <div style={{ marginLeft: '2.5%' }}>
-                  <div style={{ width: '41%' }}>
+                  <div style={{ width: '40%' }}>
                     <TextArea
                       name="description"
                       label="Indent Description"
@@ -421,7 +447,6 @@ const IndentRequest: React.FC = (props: any) => {
             </form>
           </div>
         </div>
-        {/* </PageDisabled> */}
         <CustomDialogBox
           open={openDialog}
           title="Warning"
