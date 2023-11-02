@@ -11,6 +11,8 @@ interface StyledInputProps {
   hasSuffixIcon?: boolean;
   transparent?: boolean;
   disabled?: boolean;
+  errorDisable?: boolean;
+  borderError?:boolean;
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -111,10 +113,12 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
   suffixIcon,
   transparent,
   disabled,
+  errorDisable = false,
+  borderError = false,
   mandatory = false,
   ...props
 }) => {
-  console.log('error', props.errorFree);
+  // console.log('error', props.errorFree);
 
   const shouldShowAsterisk = mandatory;
   return (
@@ -130,6 +134,9 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
         hasSuffixIcon={!!suffixIcon}
         transparent={transparent}
         disabled={disabled}
+        style={{
+          borderColor: borderError ? 'red' : error ? 'red' : '#ccc',
+        }}
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
         <StyledInput
@@ -141,13 +148,19 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
-      {error === false ? (
+      {error === false  ? (
         <></>
-      ) : (
+      ) : (!errorDisable &&
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}
         </ErrorMessageWrapper>
       )}
+      {/* {!errorDisable && error && (
+        <ErrorMessageWrapper>
+          <InputError>{error}</InputError>
+        </ErrorMessageWrapper>
+      )} */}
+
     </InputWrapper>
   );
 };

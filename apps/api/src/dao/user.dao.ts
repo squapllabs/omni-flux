@@ -118,6 +118,11 @@ const getByEmailId = async (emailId: string) => {
               },
             },
           },
+          user_profiles: {
+            select: {
+              profile_image_url: true,
+            },
+          },
         },
       });
 

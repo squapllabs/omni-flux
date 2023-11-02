@@ -180,7 +180,9 @@ const createGrn = async (body: grnBody) => {
           expenseAndExpenseDetailsData = await expenseDao.add(
             site_id,
             project_id,
-            goodsReceivedByExist?.first_name + goodsReceivedByExist?.last_name,
+            goodsReceivedByExist?.first_name +
+              ' ' +
+              goodsReceivedByExist?.last_name,
             null,
             goodsReceivedByExist?.contact_no,
             'Local Purchase Order Regarding',
