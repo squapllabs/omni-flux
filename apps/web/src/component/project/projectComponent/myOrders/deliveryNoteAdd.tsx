@@ -44,16 +44,46 @@ const MyOrderView = () => {
   // console.log("table==>",tableValue);
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
-  const [loaderData,setLoaderData] = useState(true);
-  console.log("loader==>",loaderData);
-  
+  const [loaderData, setLoaderData] = useState(true);
+  const [errorPresent, setErrorPresent] = useState(false);
+  console.log('errorPresent', errorPresent);
+  const [errors, setErrors] = useState<Array<string>>(
+    new Array(tableValue.length).fill('')
+  );
+  console.log('loader==>', loaderData);
+
   const [message, setMessage] = useState('');
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
     const updatedTableValue = [...tableValue];
-    updatedTableValue[index].currently_received_quantity = Number(event.target.value);
+    const to_be_received = updatedTableValue[index].inward_remaining_quantity;
+    updatedTableValue[index].currently_received_quantity = Number(
+      event.target.value
+    );
+    console.log('to_be_received', to_be_received);
+    console.log(
+      'input value',
+      updatedTableValue[index].currently_received_quantity
+    );
+    if (updatedTableValue[index].currently_received_quantity > to_be_received) {
+      console.log('validation occurs in ===>', index);
+      setErrors((prevErrors) => {
+        const newErrors = [...prevErrors];
+        newErrors[index] = true;
+        return newErrors;
+      });
+      setErrorPresent(true);
+    } else {
+      setErrors((prevErrors) => {
+        const newErrors = [...prevErrors];
+        newErrors[index] = false;
+        return newErrors;
+      });
+    }
+    const hasErrors = errors.some((error: any) => error);
+    setErrorPresent(hasErrors);
     setTableValue(updatedTableValue);
   };
 
@@ -127,34 +157,39 @@ const MyOrderView = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const obj = {
-        notes: values?.notes,
-        invoice_id: values?.invoice_number,
-        grn_details: tableValue,
-        purchase_order_id: Number(routeParams?.id),
-        goods_received_date: values.goods_received_date,
-        bill_details: invoiceDocument,
-        goods_received_by: userID,
-        grn_status: 'Pending',
-        project_id: projectId,
-        created_by: userID,
-      };
-      console.log('ssssss', obj);
-      if (invoiceDocument?.length > 0) {
-        postGrnData(obj, {
-          onSuccess: (data, variables, context) => {
-            if (data?.message === 'success') {
-              setMessage('Goods delivered added');
-              setOpenSnack(true);
-              setTimeout(() => {
-                navigate(`/project-edit/${Number(state?.projectId)}`);
-              }, 1000);
-            }
-          },
-        });
-      } else {
-        setMessage('Bill is Mandatory');
+      if (errorPresent) {
+        setMessage('Quantity mismatch');
         setOpenSnack(true);
+      } else {
+        const obj = {
+          notes: values?.notes,
+          invoice_id: values?.invoice_number,
+          grn_details: tableValue,
+          purchase_order_id: Number(routeParams?.id),
+          goods_received_date: values.goods_received_date,
+          bill_details: invoiceDocument,
+          goods_received_by: userID,
+          grn_status: 'Pending',
+          project_id: projectId,
+          created_by: userID,
+        };
+
+        if (invoiceDocument?.length > 0) {
+          postGrnData(obj, {
+            onSuccess: (data, variables, context) => {
+              if (data?.message === 'success') {
+                setMessage('Goods delivered added');
+                setOpenSnack(true);
+                setTimeout(() => {
+                  navigate(`/project-edit/${Number(state?.projectId)}`);
+                }, 1000);
+              }
+            },
+          });
+        } else {
+          setMessage('Bill is Mandatory');
+          setOpenSnack(true);
+        }
       }
     },
   });
@@ -165,7 +200,7 @@ const MyOrderView = () => {
         Number(routeParams?.id)
       );
       setTableValue(data);
-      setLoaderData(false)
+      setLoaderData(false);
     };
     fetchData();
   }, []);
@@ -358,21 +393,27 @@ const MyOrderView = () => {
                     <tr>
                       <td>{index + 1}</td>
                       <td>{items?.item_name}</td>
+                      {/* Items */}
                       <td>{items?.order_quantity}</td>
+                      {/* Allocated quantity */}
                       <td>{items?.previously_received_quantity}</td>
+                      {/* previously received */}
                       <td>{items?.inward_remaining_quantity}</td>
+                      {/* To be received */}
                       <td>
                         <Input
                           name="current_received_quantity"
                           value={items?.current_received_quantity}
                           width="100px"
-                          error={false}
+                          error={errors[index] ? true : false}
                           onChange={(e) => handleListChange(e, index)}
                           onKeyDown={(e) => {
                             const isNumber = /^[0-9]*$/.test(e.key);
-                            const isArrowKey = e.key === 'ArrowLeft' || e.key === 'ArrowRight';
+                            const isArrowKey =
+                              e.key === 'ArrowLeft' || e.key === 'ArrowRight';
                             if (
-                              !isNumber && !isArrowKey &&
+                              !isNumber &&
+                              !isArrowKey &&
                               e.key !== 'Backspace' &&
                               e.key !== 'Delete'
                             ) {

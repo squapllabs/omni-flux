@@ -20,6 +20,7 @@ import ExpandIcon from '../../../menu/icons/expandIcon';
 import ExpandClose from '../../../menu/icons/expandClose';
 import { format } from 'date-fns';
 import AddDataIcon from '../../../menu/icons/addDataIcon';
+import EditIcon from '../../../menu/icons/newEditIcon';
 
 const MyOrderList = () => {
     const routeParams = useParams();
@@ -59,8 +60,8 @@ const MyOrderList = () => {
     const getPoData = {
         limit: rowsPerPage,
         offset: (currentPage - 1) * rowsPerPage,
-        order_by_column: 'updated_date',
-        order_by_direction: 'desc',
+        order_by_column: 'created_date',
+        order_by_direction: 'asc',
         status: 'AC',
         global_search: '',
         bill_status: 'Processing',
@@ -156,7 +157,7 @@ const MyOrderList = () => {
                                             <th></th>
                                             <th className={Styles.tableHeading}>#</th>
                                             <th className={Styles.tableHeading}>Order Id</th>
-                                            <th className={Styles.tableHeading}>Order Remark</th>
+                                            {/* <th className={Styles.tableHeading}>Order Remark</th> */}
                                             <th className={Styles.tableHeading}>Site Name</th>
                                             <th className={Styles.tableHeading}>Total Cost</th>
                                             <th className={Styles.tableHeading}>Selected Vendor</th>
@@ -194,7 +195,7 @@ const MyOrderList = () => {
                                                             </td>
                                                             <td>{startingIndex + index}</td>
                                                             <td>{data?.order_id}</td>
-                                                            <td>{data?.order_remark}</td>
+                                                            {/* <td>{data?.order_remark}</td> */}
                                                             <td>{data?.purchase_request_data?.site_data?.name}</td>
                                                             <td>{formatBudgetValue(data?.total_cost)}</td>
                                                             <td>{data?.purchase_request_data?.selected_vendor_data?.vendor_name}</td>
@@ -205,7 +206,7 @@ const MyOrderList = () => {
                                                                         { state: { projectId } }
                                                                     );
                                                                 }} /> */}
-                                                                <AddDataIcon onClick={() => {
+                                                                <EditIcon onClick={() => {
                                                                     navigate(
                                                                         `/delivery-note/${data.purchase_order_id}`,
                                                                         { state: { projectId } }
@@ -229,10 +230,12 @@ const MyOrderList = () => {
                                                                                 </thead>
                                                                                 <tbody>
                                                                                     {
-                                                                                        data?.grn?.map((gnr_data: any, index: any) => {
-                                                                                            // console.log("gnr_data///", gnr_data);
+                                                                                        separateArray?.map((gnr_data: any, index: any) => {
+                                                                                            console.log("gnr_data///", gnr_data?.gnr_id);
+
+                                                                                            // content[0].purchase_order_id
                                                                                             return (
-                                                                                                <tr key={gnr_data?.grn_id}>
+                                                                                                <tr >
                                                                                                     <td>{index + 1}</td> {/* Use 'index' from the outer map */}
                                                                                                     <td>{dateFormat(gnr_data?.goods_received_date)}</td>
                                                                                                     <td>{gnr_data?.invoice_id}</td>
