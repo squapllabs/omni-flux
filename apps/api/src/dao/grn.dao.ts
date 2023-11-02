@@ -40,7 +40,7 @@ const add = async (
     for await (const grnDetail of grn_details) {
       const {
         item_id,
-        received_quantity,
+        currently_received_quantity,
         accepted_quantity,
         rejected_quantity,
         notes,
@@ -50,8 +50,8 @@ const add = async (
         data: {
           grn_id: new_grn_id,
           item_id,
-          received_quantity,
-          accepted_quantity: accepted_quantity || received_quantity,
+          received_quantity: currently_received_quantity,
+          accepted_quantity: accepted_quantity || currently_received_quantity,
           rejected_quantity: rejected_quantity || 0,
           notes,
           created_by,

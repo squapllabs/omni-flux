@@ -44,7 +44,6 @@
   // justify-content: space-between;
   gap: 35px;
   flex-wrap: wrap;
-
 }
 
 .card1 {
@@ -90,22 +89,22 @@
   color: #027a48;
 }
 .pendingStatus {
-  background-color:#FDF2FA;
+  background-color: #fdf2fa;
   padding: 6px;
   border-radius: 50px;
-  color:  #C11574
+  color: #c11574;
 }
 .rejectedStatus {
-  background-color:#FFFAEB;
+  background-color: #fffaeb;
   padding: 6px;
   border-radius: 50px;
-  color:  #B54708;
+  color: #b54708;
 }
 .draftStatus {
-  background-color:#EFF8FF;
+  background-color: #eff8ff;
   padding: 6px;
   border-radius: 50px;
-  color:#175CD3
+  color: #175cd3;
 }
 
 .emptyData {
@@ -152,7 +151,7 @@
         border: none;
         font-size: var(--tableHeader-fontSize);
         font-weight: var(--tableHeader-fontWeight);
-        text-transform: var(--tableHeader-textTransform);      
+        text-transform: var(--tableHeader-textTransform);
       }
     }
   }
@@ -161,9 +160,24 @@
   tr:hover {
     /* Add hover styles if needed */
   }
+  tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+
+  .td_desc {
+    min-width: 55.5rem;
+  }
 }
 
-.spanContent{
+.spanContent {
   font-size: 0.8rem;
 }
 

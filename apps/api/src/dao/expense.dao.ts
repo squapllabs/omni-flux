@@ -19,7 +19,7 @@ const add = async (
   created_by: number,
   status: string,
   total_amount: number,
-  expense_details: Array<expenseDetailsBody>,
+  expense_details,
   user_id: number,
   expense_type: string,
   connectionObj = null

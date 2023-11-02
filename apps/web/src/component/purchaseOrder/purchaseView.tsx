@@ -75,6 +75,7 @@ const PurchaseView = () => {
             purchase_order_id: '',
             item_id: vendorQuotes?.item_id,
             order_quantity: vendorQuotes?.purchase_requested_quantity,
+            unit_cost:vendorQuotes?.unit_cost
           });
         });
       }
