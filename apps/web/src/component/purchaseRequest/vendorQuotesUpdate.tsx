@@ -223,7 +223,7 @@ const VendorQuotesUpdate = () => {
         vendor_quotes_id: values.vendor_quotes_id,
         purchase_request_id: prID,
         vendor_id: values.vendor_id,
-        quotation_status: 'Quotation Recived',
+        quotation_status: 'Quotation Received',
         updated_by: userID,
         vendor_quotes_documents: vendorQuoteDocument,
         total_quotation_amount: values.total_quotation_amount,
