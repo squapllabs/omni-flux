@@ -38,7 +38,7 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
-  console.log('PPPP', getListData);
+  // console.log('PPPP', getListData);
   const { mutate: postGrnData } = createGrn();
   const [tableValue, setTableValue] = useState([]);
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
@@ -143,7 +143,6 @@ const MyOrderView = () => {
     goods_received_date: Yup.date()
       .required('Date is required')
       .max(new Date(), 'Future Date not allowed'),
-    //date_of_birth: yup.date().max(new Date(), userErrorMessages.INVALID_DATE),
   });
   const formik = useFormik({
     initialValues,

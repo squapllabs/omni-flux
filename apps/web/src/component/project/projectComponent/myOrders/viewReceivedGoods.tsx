@@ -15,27 +15,9 @@ const ViewReceivedGoods = () => {
   const PurchaseOrderId = Number(routeParams?.pruchaseId);
   const { state } = useLocation();
   const projectId = state?.projectId;
-  const [initialData, setInitialData] = useState();
-  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   const { data: getListData, isLoading: dataLoading } = useGetOneGrnById(
     Number(routeParams?.grnId)
   );
-  console.log('kkkkkkk', getListData);
-
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //         const data = await grnService.getGrnById(grn_Id);
-  //         setInitialData(data?.data)
-  //     };
-  //     if (grn_Id) fetchData();
-  // }, [])
-
-  const dateFormat = (value: any) => {
-    const currentDate = new Date(value);
-    const formattedDate = format(currentDate, 'dd-MM-yyyy');
-    return formattedDate;
-  };
-
   return (
     <div>
       <CustomLoader loading={dataLoading} size={48}>
