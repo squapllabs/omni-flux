@@ -6,6 +6,7 @@ import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
 import { useGetOneGrnById } from '../../../../hooks/grn-hooks';
 import { format } from 'date-fns';
 import CustomLoader from '../../../ui/customLoader';
+import { environment } from '../../../../environment/environment';
 
 const ViewReceivedGoods = () => {
   const routeParams = useParams();
@@ -15,6 +16,7 @@ const ViewReceivedGoods = () => {
   const { state } = useLocation();
   const projectId = state?.projectId;
   const [initialData, setInitialData] = useState();
+  const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   const { data: getListData, isLoading: dataLoading } = useGetOneGrnById(
     Number(routeParams?.grnId)
   );
@@ -75,19 +77,21 @@ const ViewReceivedGoods = () => {
                   <tr>
                     <th>S No</th>
                     <th>Item Name</th>
+                    <th>Description</th>
                     <th>Received Quantity</th>
                     <th>Accepted Quantity</th>
                     {/* <th>Options</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {getListData?.grn_details?.map((data: any, index: any) => {
+                  {getListData?.grn_details?.map((data: any, index: any) => {                    
                     return (
                       <tr>
                         <td>{index + 1}</td>
                         <td>{data?.item_data?.item_name}</td>
-                        <td>{data?.received_quantity}</td>
-                        <td>{data?.accepted_quantity}</td>
+                        <td>{data?.item_data?.description}</td>
+                        <td>{data?.received_quantity || nullLableNameFromEnv}</td>
+                        <td>{data?.accepted_quantity || nullLableNameFromEnv}</td>
                       </tr>
                     );
                   })}
