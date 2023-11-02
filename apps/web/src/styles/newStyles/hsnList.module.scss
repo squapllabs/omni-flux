@@ -1,321 +1,336 @@
 .buttonContainer {
-    display: flex;
-    justify-content: flex-end;
-    padding: 5px;
-  }
-  
-  .tableContainer {
-    padding: 3px 10px 5px 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    // overflow: hidden;
-  }
-  
-  .fields {
-    padding: 5px 0px 5px 10px;
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  
-  .container {
-    width: 100%;
-    height: 100vh;
-  }
-  
-  .box {
-    position: relative;
-  }
-  
-  .box::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: #ccc;
-    position: absolute;
-    bottom: 20;
-    left: 10;
-  }
-  
-  .box:last-child::after {
-    display: none;
-  }
-  
-  .textContent {
-    padding: 10px;
-  }
-  
-  .content {
-    font-size: 0.7rem;
-  }
-  
-  .tablerow {
-    display: flex;
-    flex-direction: row;
-    column-gap: 15px;
-    cursor: pointer;
-  }
-  
-  .searchField {
-    padding: 10px 10px 0px 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  
-  .searchButton {
-    display: flex;
-    flex-direction: row;
-    flex-shrink: initial;
-  }
-  
-  .scrollable_table {
-    width: 100%;
-    height: 100%;
-    padding: 10px 10px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
+.tableContainer {
+  padding: 3px 10px 5px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  // overflow: hidden;
+}
+
+.fields {
+  padding: 5px 0px 5px 10px;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+}
+
+.box {
+  position: relative;
+}
+
+.box::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 20;
+  left: 10;
+}
+
+.box:last-child::after {
+  display: none;
+}
+
+.textContent {
+  padding: 10px;
+}
+
+.content {
+  font-size: 0.7rem;
+}
+
+.tablerow {
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
+  cursor: pointer;
+}
+
+.searchField {
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.searchButton {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: initial;
+}
+
+.scrollable_table {
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  /* Adjust padding */
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 5px 10px 5px 24px;
     /* Adjust padding */
-    gap: 12px;
-    border-collapse: collapse;
-  
-    th,
-    td {
-      padding: 5px 10px 5px 24px;
-      /* Adjust padding */
-      text-align: left;
-      // border: 0px 0px 1px;
-      font-weight: var(--tableData-fontWeight);
-      font-size: var(--tableData-fontSize);
-      border: none;
-      /* Remove borders */
-      border-bottom: 0.1px solid #f0f0f0;
-    }
-  
-    td {
-      border-bottom: 0.1px solid #f0f0f0;
-      // border-bottom :0px, 0px, 1px, 0px
-    }
-  
-    thead {
-      tr {
-        th {
-          padding: 10px 10px 10px 24px;
-          color: var(--tableHeader-fontColor);
-          background-color: var(--tableHeader-backgroundColor);
-          border: none;
-          font-size: var(--tableHeader-fontSize);
-          font-weight: var(--tableHeader-fontWeight);
-          text-transform: var(--tableHeader-textTransform);
-        }
+    text-align: left;
+    // border: 0px 0px 1px;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
+    border: none;
+    /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+    // border-bottom :0px, 0px, 1px, 0px
+  }
+
+  thead {
+    tr {
+      th {
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);
       }
     }
-  
-    td:hover,
-    tr:hover {
-      /* Add hover styles if needed */
+  }
+
+  td:hover,
+  tr:hover {
+    /* Add hover styles if needed */
+  }
+
+  tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
     }
   }
-  
-  .searchButton {
-    padding: 12px 20px 12px 20px;
-    border-radius: 8px;
-    border: 1px;
-    gap: 8px;
-    color: #6941c6;
-  }
-  
-  .searchButton:hover {
-    background-color: #7f56d9;
-    color: #ffffff;
-  }
-  
-  .resetButton [disabled] {
-    padding: 12px 20px 12px 20px;
-    border-radius: 8px;
-    border: 1px;
-    gap: 8px;
-    color: #848289;
-    background-color: #ccc;
-  }
-  
-  .resetButton:not([disabled]):hover {
-    background-color: #c4c4c6;
-    color: #ffffff;
-  }
-  
-  .inputFilter {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: end;
-    padding: 0px 10px 20px 0px;
-  }
-  
-  .uploads {
-    display: flex;
-    justify-content: flex-start;
-    gap: 1vw;
-    padding: 3px 10px 20px 10px;
-    // padding-bottom: 10px;
-  }
-  
-  .downloadButton {
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    margin-right: 5px;
-  }
-  
-  .formContainer {
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formButton {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 10px 20px 10px 0px;
-  }
-  
-  .cancelButton:hover {
-    background-color: #c4c4c6;
-    color: #070707;
-  }
-  
-  .titleStyle {
-    padding: 10px 10px 1px 2op;
-  }
-  
-  .dividerStyle {
-    border-bottom: 1px solid #ccc;
-    padding: 5px 1px 5px 1px;
-  }
-  
-  .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px 20px 5px 20px;
-  }
-  
-  .field {
-    padding: 5px 20px 5px 20px;
-  }
-  
-  .addButton {
-    padding-top: 20px;
-  }
-  
-  .textarea {
-    width: 30%;
-  }
-  
-  .closeButton {
-    background-color: white;
-    margin-top: 8%;
-    margin-left: 5px;
-  }
-  
-  .fileSelect {
-    padding: 10px;
-  }
-  
-  .input {
-    display: none;
-  }
-  
-  .error {
-    color: red;
-    font-size: small;
-    padding: 5px;
-  }
-  
-  .topHeading {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 10px 10px 10px;
-  }
-  
-  .heading {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    align-items: center;
-  }
-  
-  .subHeading {
-    display: flex;
-    flex-direction: row;
-    gap: 7px;
-    align-items: center;
-  }
-  
-  .emptyDataHandling {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
-    padding-top: 60px;
-  }
 
-  .contentGap {
-    padding: 10px;
+  .td_desc {
+    min-width: 55.5rem;
   }
-  
-  .spanContent {
-    font-weight: 400;
-  }
-  
-  .emptyButton {
-    margin-top: 25px;
-  }
-  .textmin {
-    padding: 10px;
-    font-weight: 400;
-    font-size: 14px;
-  }
-  
-  .textmax {
-    font-weight: 700;
-    font-size: 16px;
-  }
-  
-  .cancelButton {
-    background-color: var(--danger-color);
-    color: #b42318;
-  }
-  
-  .submitButton{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    // padding: 10px;
-    padding: 0px 15px 20px 0px;
-    gap: 10px;
-  
-  }
-  .footer{
-    margin-top: 350px;
-  }
+}
 
-  .searchFeild {
-    transform: translateY(18%);
-  }
-  
-  .filters {
-    display: flex;
-    gap: 20px;
-    padding-left: 10px;
-  }
+.searchButton {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
+}
+
+.searchButton:hover {
+  background-color: #7f56d9;
+  color: #ffffff;
+}
+
+.resetButton [disabled] {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #848289;
+  background-color: #ccc;
+}
+
+.resetButton:not([disabled]):hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
+}
+
+.inputFilter {
+  display: flex;
+  gap: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: end;
+  padding: 0px 10px 20px 0px;
+}
+
+.uploads {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1vw;
+  padding: 3px 10px 20px 10px;
+  // padding-bottom: 10px;
+}
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.formContainer {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px 20px 10px 0px;
+}
+
+.cancelButton:hover {
+  background-color: #c4c4c6;
+  color: #070707;
+}
+
+.titleStyle {
+  padding: 10px 10px 1px 2op;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 1px 5px 1px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px 5px 20px;
+}
+
+.field {
+  padding: 5px 20px 5px 20px;
+}
+
+.addButton {
+  padding-top: 20px;
+}
+
+.textarea {
+  width: 30%;
+}
+
+.closeButton {
+  background-color: white;
+  margin-top: 8%;
+  margin-left: 5px;
+}
+
+.fileSelect {
+  padding: 10px;
+}
+
+.input {
+  display: none;
+}
+
+.error {
+  color: red;
+  font-size: small;
+  padding: 5px;
+}
+
+.topHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 10px 10px 10px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+
+.subHeading {
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  align-items: center;
+}
+
+.emptyDataHandling {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  padding-top: 60px;
+}
+
+.contentGap {
+  padding: 10px;
+}
+
+.spanContent {
+  font-weight: 400;
+}
+
+.emptyButton {
+  margin-top: 25px;
+}
+.textmin {
+  padding: 10px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.textmax {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.cancelButton {
+  background-color: var(--danger-color);
+  color: #b42318;
+}
+
+.submitButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  // padding: 10px;
+  padding: 0px 15px 20px 0px;
+  gap: 10px;
+}
+.footer {
+  margin-top: 350px;
+}
+
+.searchFeild {
+  transform: translateY(18%);
+}
+
+.filters {
+  display: flex;
+  gap: 20px;
+  padding-left: 10px;
+}
