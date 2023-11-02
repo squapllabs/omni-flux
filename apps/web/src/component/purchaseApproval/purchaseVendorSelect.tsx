@@ -408,7 +408,7 @@ const VendorChooseModule = () => {
           autoHideDuration={2000}
           type="success"
         />
-      </CustomLoader>
+      </CustomLoader> 
     </div>
   );
 };

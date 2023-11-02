@@ -39,7 +39,6 @@ const MyOrderView = () => {
     data: GRData,
     refetch,
   } = useGetAllGrnData(object);
-console.log("oooooooo",GRData);
 
   const generateCustomQuotationName = (data: any) => {
     if (data) {

@@ -6,6 +6,7 @@ import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
 import { useGetOneGrnById } from '../../../../hooks/grn-hooks';
 import { format } from 'date-fns';
 import CustomLoader from '../../../ui/customLoader';
+import { environment } from '../../../../environment/environment';
 
 const ViewReceivedGoods = () => {
   const routeParams = useParams();
@@ -14,26 +15,9 @@ const ViewReceivedGoods = () => {
   const PurchaseOrderId = Number(routeParams?.pruchaseId);
   const { state } = useLocation();
   const projectId = state?.projectId;
-  const [initialData, setInitialData] = useState();
   const { data: getListData, isLoading: dataLoading } = useGetOneGrnById(
     Number(routeParams?.grnId)
   );
-  console.log('kkkkkkk', getListData);
-
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //         const data = await grnService.getGrnById(grn_Id);
-  //         setInitialData(data?.data)
-  //     };
-  //     if (grn_Id) fetchData();
-  // }, [])
-
-  const dateFormat = (value: any) => {
-    const currentDate = new Date(value);
-    const formattedDate = format(currentDate, 'dd-MM-yyyy');
-    return formattedDate;
-  };
-
   return (
     <div>
       <CustomLoader loading={dataLoading} size={48}>
@@ -75,19 +59,21 @@ const ViewReceivedGoods = () => {
                   <tr>
                     <th>S No</th>
                     <th>Item Name</th>
+                    <th>Description</th>
                     <th>Received Quantity</th>
-                    <th>Accepted Quantity</th>
+                    {/* <th>Accepted Quantity</th> */}
                     {/* <th>Options</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {getListData?.grn_details?.map((data: any, index: any) => {
+                  {getListData?.grn_details?.map((data: any, index: any) => {                    
                     return (
                       <tr>
                         <td>{index + 1}</td>
                         <td>{data?.item_data?.item_name}</td>
-                        <td>{data?.received_quantity}</td>
-                        <td>{data?.accepted_quantity}</td>
+                        <td>{data?.item_data?.description}</td>
+                        <td>{data?.received_quantity ? data?.received_quantity : 0}</td>
+                        {/* <td>{data?.accepted_quantity || nullLableNameFromEnv}</td> */}
                       </tr>
                     );
                   })}

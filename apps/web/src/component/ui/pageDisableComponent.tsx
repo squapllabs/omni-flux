@@ -7,9 +7,7 @@ interface DisabledProps {
 
 const PageDisabled: React.FC<DisabledProps> = ({ disabled, children }) => {
   if (disabled) {
-    return (
-      <div style={{ opacity: 0.6, pointerEvents: 'none' }}>{children}</div>
-    );
+    return <div style={{ pointerEvents: 'none' }}>{children}</div>;
   }
   return <>{children}</>;
 };

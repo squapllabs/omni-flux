@@ -38,6 +38,8 @@ const Navbar = () => {
   const userData: any = encryptedData.userData;
   const roleName =
     encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
+  const profile: any =
+    encryptedData?.userData?.user_profiles?.profile_image_url;
   const handleShowAssets = () => {
     setShowAssets(!showAssets);
     setShowResources(false);
@@ -80,6 +82,7 @@ const Navbar = () => {
       document.removeEventListener('click', handleOutsideClick);
     };
   }, []);
+  console.log('userData', userData);
 
   function handleListItems() {
     navigate('/products');
@@ -108,7 +111,7 @@ const Navbar = () => {
   };
   const handleExpenseRecall = () => {
     navigate('/expense-recall');
-  }
+  };
   const handleFinanceView = () => {
     navigate('/finance-view');
   };
@@ -177,8 +180,8 @@ const Navbar = () => {
                       {roleName === 'FINANCE MANAGER'
                         ? 'Invoice '
                         : roleName === 'PLANNING ENGINEER'
-                          ? 'Indent'
-                          : 'Procurement'}
+                        ? 'Indent'
+                        : 'Procurement'}
                     </div>
 
                     <DropdownIcon color="white" className={Styles.navIcon} />
@@ -197,7 +200,7 @@ const Navbar = () => {
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PLANNING ENGINEER' ||
-                          roleName === 'PROJECT MANAGER' ? (
+                        roleName === 'PROJECT MANAGER' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleIndentapproval}
@@ -211,8 +214,8 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'PROJECT MANAGER' ||
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handlePurchaseOrder}
@@ -226,8 +229,8 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'PROJECT MANAGER' ||
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handlePurchaseRequest}
@@ -249,7 +252,7 @@ const Navbar = () => {
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleExpenseApproval}
@@ -263,7 +266,7 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleExpenseRecall}
@@ -277,8 +280,8 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'FINANCE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'PROJECT MANAGER' ||
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleFinanceView}
@@ -303,7 +306,7 @@ const Navbar = () => {
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleVendorList}
@@ -458,7 +461,7 @@ const Navbar = () => {
         </div>
         <div className={Styles.acountContainer}>
           <div className={Styles.rightSearch}>
-            <SearchBar onSearch={handleSearch} />
+            {/* <SearchBar onSearch={handleSearch} /> */}
           </div>
           <div className={Styles.container}>
             <div className={Styles.verticalLine}></div>
@@ -471,17 +474,36 @@ const Navbar = () => {
             height={24}
             width={24}
           /> */}
-              <div ref={menuRef}>
-                <PersonIcon
-                  className={Styles.navIcon1}
-                  color="white"
-                  height={24}
-                  width={24}
-                  onClick={toggleMenu}
-                />
+              <div ref={menuRef} onClick={toggleMenu}>
+                <div className={Styles.profileDetailHead}>
+                  {/* <PersonIcon
+                    className={Styles.navIcon1}
+                    color="white"
+                    height={24}
+                    width={24}
+                  /> */}
+                  <Avatar
+                    imageUrl={profile}
+                    firstName={userData?.first_name}
+                    lastName={userData?.last_name}
+                    size={40}
+                  />
+                  <div
+                    className={Styles.profileContents}
+                    style={{ color: 'white' }}
+                  >
+                    <span className={Styles.profileName}>
+                      {userData?.first_name + ' ' + userData?.last_name}
+                    </span>
+                    <span className={Styles.profileRole}>
+                      {userData?.user_roles[0]?.role_data?.role_name}
+                    </span>
+                  </div>
+                </div>
+
                 {isMenuOpen && (
                   <div className={Styles.menu}>
-                    <div className={Styles.box}>
+                    {/* <div className={Styles.box}>
                       <div className={Styles.profileDetail}>
                         <div>
                           <Avatar
@@ -499,7 +521,7 @@ const Navbar = () => {
                           </span>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     {roleName === 'ADMIN' ? (
                       <div className={Styles.box}>
                         <div>
