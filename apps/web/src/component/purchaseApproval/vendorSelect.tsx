@@ -288,7 +288,7 @@ const VendorSelect = () => {
         vendor_quotes_id: values.vendor_quotes_id,
         purchase_request_id: prID,
         vendor_id: values.vendor_id,
-        quotation_status: 'Quotation Recived',
+        quotation_status: 'Quotation Received',
         updated_by: userID,
         vendor_quotes_documents: vendorQuoteDocument,
         total_quotation_amount: values.total_quotation_amount,
@@ -405,7 +405,7 @@ const VendorSelect = () => {
                 const itemData = data?.quotation_details;
                 const isQuotationPending = data.quotation_status === 'Pending';
                 const isQuotationRecived =
-                  data.quotation_status === 'Quotation Recived';
+                  data.quotation_status === 'Quotation Received';
                 const isAvai = isAvilable();
                 console.log('isAvai', isAvai);
                 if (data.quotation_status === 'Approved') {
@@ -482,7 +482,7 @@ const VendorSelect = () => {
                             className={` ${
                               data?.quotation_status === 'Approved'
                                 ? Styles.completedStatus
-                                : data?.quotation_status === 'Quotation Recived'
+                                : data?.quotation_status === 'Quotation Received'
                                 ? ''
                                 : data?.quotation_status === 'Rejected'
                                 ? Styles.rejectedStatus

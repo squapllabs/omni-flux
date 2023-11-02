@@ -44,7 +44,9 @@ const MyOrderView = () => {
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [loaderData, setLoaderData] = useState(true);
-  const [errors, setErrors] = useState<Array<string>>(new Array(tableValue.length).fill(''))
+  const [errors, setErrors] = useState<Array<string>>(
+    new Array(tableValue.length).fill('')
+  );
   // console.log('loader==>', loaderData);
   // console.log('errors==>', errors);
 
@@ -138,8 +140,9 @@ const MyOrderView = () => {
   const validationSchema = Yup.object().shape({
     notes: Yup.string().required('Notes Required'),
     invoice_number: Yup.string().required('Invoice Reference Number Required'),
-    goods_received_date: Yup.date().required('Date is required')
-    .max(new Date(), 'Future Date not allowed'),
+    goods_received_date: Yup.date()
+      .required('Date is required')
+      .max(new Date(), 'Future Date not allowed'),
     //date_of_birth: yup.date().max(new Date(), userErrorMessages.INVALID_DATE),
   });
   const formik = useFormik({
@@ -157,10 +160,11 @@ const MyOrderView = () => {
         goods_received_by: userID,
         grn_status: 'Pending',
         project_id: projectId,
-        site_id:getListData?.purchase_request_data?.site_id,
+        site_id: getListData?.purchase_order_type === 'Head Office' ? getListData?.purchase_request_data?.site_id : getListData?.indent_request_data?.site_id,
         created_by: userID,
+        purchase_order_type: getListData?.purchase_order_type,
       };
-      // console.log('ssssss', obj);
+      console.log('ssssss', obj);
       if (errors.includes(true)) {
         setMessage('Mismatch quantity');
         setOpenSnack(true);
@@ -181,7 +185,6 @@ const MyOrderView = () => {
           },
         });
       }
-      
     },
   });
 
@@ -232,9 +235,17 @@ const MyOrderView = () => {
             </div>
             <div className={Styles.rightOrderDetail}>
               <span>
-                {getListData?.purchase_request_data?.project_data?.project_name}
+                {getListData?.purchase_order_type === 'Head Office'
+                  ? getListData?.purchase_request_data?.project_data
+                      ?.project_name
+                  : getListData?.indent_request_data?.project_data
+                      ?.project_name}
               </span>
-              <span>{getListData?.purchase_request_data?.site_data?.name}</span>
+              <span>
+                {getListData?.purchase_order_type === 'Head Office'
+                  ? getListData?.purchase_request_data?.site_data?.name
+                  : getListData?.indent_request_data?.site_data?.name}
+              </span>
             </div>
           </div>
         </div>

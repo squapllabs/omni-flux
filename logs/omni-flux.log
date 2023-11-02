@@ -7034,3 +7034,38 @@ type IntFilter {
 }
 
 
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/createGrn << ERRSTRING >>Error: 
+Invalid `transaction.project_inventory.findFirst()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\projectInventory.dao.ts:306:66
+
+  303 ) => {
+  304   try {
+  305     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 306     const projectInventory = await transaction.project_inventory.findFirst({
+            where: {
+              project_id: 195,
+              site_id: NaN,
+                       ~~~
+              item_id: 166,
+              is_delete: false
+            },
+            include: {
+              project_data: true,
+              item_data: true,
+              site_data: true
+            }
+          })
+
+Argument site_id: Got invalid value NaN on prisma.findFirstproject_inventory. Provided Float, expected IntNullableFilter or Int or Null:
+type IntNullableFilter {
+  equals?: Int | Null
+  in?: List<Int> | Int | Null
+  notIn?: List<Int> | Int | Null
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntNullableFilter | Null
+}
+
+
