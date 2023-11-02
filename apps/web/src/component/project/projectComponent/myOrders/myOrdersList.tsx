@@ -110,7 +110,7 @@ const MyOrderList = () => {
         }
     });
 
-    console.log("gd>>", getAllData);
+    console.log("getAll>>", getAllData);
 
     return (
         <div>
@@ -157,10 +157,14 @@ const MyOrderList = () => {
                                             <th></th>
                                             <th className={Styles.tableHeading}>#</th>
                                             <th className={Styles.tableHeading}>Order Id</th>
-                                            {/* <th className={Styles.tableHeading}>Order Remark</th> */}
                                             <th className={Styles.tableHeading}>Site Name</th>
                                             <th className={Styles.tableHeading}>Total Cost</th>
-                                            <th className={Styles.tableHeading}>Selected Vendor</th>
+                                            {activeButton === 'Head Office' ?
+                                                <th className={Styles.tableHeading}>Selected Vendor</th>
+                                                :
+                                                ''}
+                                            {/* <th className={Styles.tableHeading}>Selected Vendor</th> */}
+
                                             <th className={Styles.tableHeading}>Actions</th>
                                         </tr>
                                     </thead>
@@ -195,10 +199,16 @@ const MyOrderList = () => {
                                                             </td>
                                                             <td>{startingIndex + index}</td>
                                                             <td>{data?.order_id}</td>
-                                                            {/* <td>{data?.order_remark}</td> */}
+                                                            {activeButton === 'Head Office' ? 
                                                             <td>{data?.purchase_request_data?.site_data?.name}</td>
+                                                            : 
+                                                            <td>{data?.indent_request_data?.site_data?.name}</td>
+                                                            }
                                                             <td>{formatBudgetValue(data?.total_cost)}</td>
+                                                            { activeButton === 'Head Office' ?
+                                                            
                                                             <td>{data?.purchase_request_data?.selected_vendor_data?.vendor_name}</td>
+                                                            : '' }
                                                             <td>
                                                                 {/* <ViewIcon onClick={() => {
                                                                     navigate(
