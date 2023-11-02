@@ -8,16 +8,20 @@
   flex-direction: column;
   justify-content: space-evenly;
 }
+
 .formContainer {
   display: flex;
   gap: 10px;
 }
+
 .form_fields {
   width: 85%;
 }
+
 .fieldStyle {
   width: 18%;
 }
+
 .table_container {
   padding: 10px;
   margin: 0 auto;
@@ -35,6 +39,7 @@
   gap: 5px;
   border-collapse: collapse;
   width: 100%;
+
   th,
   td {
     padding: 5px 10px 10px 10px;
@@ -44,6 +49,7 @@
     border: none;
     border-bottom: 0.1px solid #f0f0f0;
   }
+
   td {
     border-bottom: 0.1px solid #f0f0f0;
   }
@@ -95,6 +101,7 @@
   gap: 10px;
   align-items: center;
 }
+
 .iconContent {
   // background-color: #667085;
   display: flex;
@@ -110,6 +117,7 @@
   gap: 10px;
   padding-bottom: 5px;
 }
+
 .dividerStyleOne {
   border-bottom: 1px solid rgb(226, 226, 226);
 }
@@ -121,9 +129,11 @@
   justify-content: flex-end;
   padding-right: 10px;
 }
+
 .draftButton {
   color: var(--secondary-color);
 }
+
 .cancelButton {
   background-color: var(--danger-color);
   color: #b42318;
@@ -191,6 +201,7 @@
   // padding-top: 10px;
   // background-color: #667085;
 }
+
 .expCode {
   display: flex;
   flex-direction: row;
@@ -228,6 +239,7 @@
   align-items: center;
   gap: 10px;
 }
+
 .addNewRowView {
   display: flex;
   justify-content: center;
