@@ -1,13 +1,9 @@
 import React from 'react'
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Document, Page } from 'react-pdf';
 import { format } from 'date-fns';
-import { formatBudgetValue } from '../../../helper/common-function';
 
 const RequestForQuotation = (data: any) => {
-    console.log("dtaa", data);
-    
 
     const itemsData = data?.vendor_quotes[0]?.vendor_quotation_details?.map((item: any) => ({
         itemName: item?.item_data?.item_name,
@@ -54,11 +50,6 @@ const RequestForQuotation = (data: any) => {
     const callImage = "/Calling.png";
 
     const generateCommonContent = (pdf: any) => {
-        // const canvg = require('canvg');
-        // document.body.appendChild(canvas); // Add the canvas to the DOM if needed
-
-        // pdf.addFont('HankenGrotesk-Regular.ttf', 'Newsreader', 'normal');
-       
         const imageUrl = "/Ecologo-03.png"; // Replace with your image URL
         pdf.addImage(imageUrl, 'JPEG', 10, 5, 40, 10); //text to added in list of particals
         pdf.setFontSize(10);
@@ -203,18 +194,10 @@ const RequestForQuotation = (data: any) => {
         // newTab?.document.write(`<iframe width='100%' height='100%' src='${pdfDataUri}'></iframe>`);
 
     };
-
-
     vendorData.forEach((vendor: any) => {
         generateVendorPDF(vendor);
     });
 
-
-    // const pdfDataUri = pdf.output("datauristring");
-    // const previewWindow = window.open();
-    // previewWindow?.document.write(
-    //     "<iframe width='100%' height='100%' src='" + pdfDataUri + "'></iframe>"
-    // );
 }
 
 export default RequestForQuotation
