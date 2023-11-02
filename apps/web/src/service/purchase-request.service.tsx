@@ -62,6 +62,28 @@ const getOnePurchaseOrderDataByID = async (values: number) => {
   }
 };
 
+const getOnePurchaseOrderTableDataByID = async (values: number) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/purchase-order/get/${values}`
+    );
+    const output = response?.data?.data?.purchase_order_item?.map((value: any) => ({
+      item_id: value.item_id,
+      item_name: value.item_data.item_name,
+      order_quantity: value.order_quantity,
+      previously_received_quantity: value.inward_quantity,
+      purchase_order_item_id:value.purchase_order_item_id,
+      inward_remaining_quantity:value.inward_remaining_quantity
+    }))
+    // console.log("fffff",response.data);
+    // console.log("eeeee",output);
+    return output;
+  } catch (error) {
+    console.log('Error in getOnePurchaseOrderDataByID :', error);
+    throw error;
+  }
+};
+
 const updatePoBillStatus = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
@@ -135,4 +157,5 @@ export default {
   getPoData,
   documentUpload,
   purchaseDetailData,
+  getOnePurchaseOrderTableDataByID
 };

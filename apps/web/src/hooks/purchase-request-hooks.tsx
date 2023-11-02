@@ -23,6 +23,25 @@ const useGetOnePurchaseOrder = (id: any) => {
   );
 };
 
+const useGetOnePurchaseOrderTableData = (id: any) => {
+  return useQuery(
+    ['useGetPurchaseOrder', id],
+    () => purchaseRequestService.getOnePurchaseOrderDataByID(id),
+    {
+      select: (data) =>
+        data?.data?.purchase_order_item?.map((value: any) => ({
+          item_id: value.item_id,
+          item_name: value.item_data.item_name,
+          requested_quantity: value.order_quantity,
+          inward_quantity: value.inward_quantity,
+          unit_price:value.unit_price,
+
+        })),
+      staleTime: Infinity,
+    }
+  );
+};
+
 const purchaseOrderRequest = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -134,4 +153,5 @@ export {
   getBySearchPoData,
   useGetOnePurchaseOrder,
   getBySearchPR,
+  useGetOnePurchaseOrderTableData,
 };
