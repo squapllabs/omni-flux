@@ -3,7 +3,10 @@ import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import CustomLoader from '../../../ui/customLoader';
 import Styles from '../../../../styles/newStyles/deliveryAddNote.module.scss';
-import { useGetOnePurchaseOrder } from '../../../../hooks/purchase-request-hooks';
+import {
+  useGetOnePurchaseOrder,
+  useGetOnePurchaseOrderTableData,
+} from '../../../../hooks/purchase-request-hooks';
 import { environment } from '../../../../environment/environment';
 import Input from '../../../ui/Input';
 import { formatBudgetValue } from '../../../../helper/common-function';
@@ -15,6 +18,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import TextArea from '../../../ui/CustomTextArea';
 import userService from '../../../../service/user-service';
+import poService from '../../../../service/purchase-request.service';
 import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import CloseIcon from '../../../menu/icons/closeIcon';
 import CustomSnackBar from '../../../ui/customSnackBar';
@@ -34,26 +38,22 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
+  // console.log('PPPP', getListData);
   const { mutate: postGrnData } = createGrn();
-  const year = new Date().getFullYear();
-  const tableData =
-    getListData?.purchase_request_data?.purchase_request_quotation_details;
-  const transformedArray = tableData?.map((item: any) => ({
-    item_id: item?.item_id,
-    item_name: item?.item_data?.item_name,
-    requested_quantity: item?.purchase_requested_quantity,
-    received_quantity: 0,
-  }));
-  const [tableValue, setTableValue] = useState(transformedArray);
+  const [tableValue, setTableValue] = useState([]);
+  // console.log("table==>",tableValue);
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
+  const [loaderData,setLoaderData] = useState(true);
+  console.log("loader==>",loaderData);
+  
   const [message, setMessage] = useState('');
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
     const updatedTableValue = [...tableValue];
-    updatedTableValue[index].received_quantity = Number(event.target.value);
+    updatedTableValue[index].currently_received_quantity = Number(event.target.value);
     setTableValue(updatedTableValue);
   };
 
@@ -88,7 +88,6 @@ const MyOrderView = () => {
         fileList.forEach(async (file) => {
           const code = 'INVOICE';
           const response = await userService.documentUpload(file, code);
-          //   console.log('response', response?.data[0]);
           const obj = {
             ...response?.data[0],
             is_delete: 'N',
@@ -103,7 +102,6 @@ const MyOrderView = () => {
   };
 
   const generateCustomQuotationName = (data: any) => {
-    // console.log('func innn');
     if (data) {
       const year = new Date().getFullYear();
       const customBillName = `ALM-${data.substring(0, 3)}-${year}`;
@@ -129,8 +127,6 @@ const MyOrderView = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      //   console.log('form called');
-      //   console.log('values', values);
       const obj = {
         notes: values?.notes,
         invoice_id: values?.invoice_number,
@@ -143,9 +139,8 @@ const MyOrderView = () => {
         project_id: projectId,
         created_by: userID,
       };
-      //   console.log('obj', obj);
+      console.log('ssssss', obj);
       if (invoiceDocument?.length > 0) {
-        // console.log('inn okay');
         postGrnData(obj, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
@@ -163,9 +158,21 @@ const MyOrderView = () => {
       }
     },
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await poService.getOnePurchaseOrderTableDataByID(
+        Number(routeParams?.id)
+      );
+      setTableValue(data);
+      setLoaderData(false)
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className={Styles.container}>
-      <CustomLoader loader={dataLoading} size={48} color="#333C44">
+      <CustomLoader loader={loaderData} size={48} color="#333C44">
         <div className={Styles.sub_header}>
           <div
             className={Styles.logo}
@@ -208,108 +215,127 @@ const MyOrderView = () => {
         <div className={Styles.dividerStyle}></div>
         {/* Input fields */}
         <div className={Styles.inputField}>
-          <div>
-            <Input
-              name="invoice_number"
-              label="Invoice Reference Id"
-              placeholder="Enter Invoice Number"
-              value={formik.values.invoice_number}
-              onChange={formik.handleChange}
-              mandatory={true}
-              width="250px"
-              error={
-                formik.touched.invoice_number && formik.errors.invoice_number
-              }
-            />
-          </div>
-          <div>
-            <DatePicker
-              label="Delivered Date"
-              name="goods_received_date"
-              mandatory={true}
-              value={formik.values.goods_received_date}
-              onChange={formik.handleChange}
-              InputProps={{
-                inputProps: {
-                  min: '1930-01-01',
-                  max: `${new Date().toISOString().slice(0, 10)}`,
-                },
+          <div className={Styles.inputContainer}>
+            <div>
+              <Input
+                name="invoice_number"
+                label="Invoice Reference Id"
+                placeholder="Enter Invoice Number"
+                value={formik.values.invoice_number}
+                onChange={formik.handleChange}
+                mandatory={true}
+                width="250px"
+                error={
+                  formik.touched.invoice_number && formik.errors.invoice_number
+                }
+              />
+            </div>
+            <div>
+              <DatePicker
+                label="Delivered Date"
+                name="goods_received_date"
+                mandatory={true}
+                value={formik.values.goods_received_date}
+                onChange={formik.handleChange}
+                InputProps={{
+                  inputProps: {
+                    min: '1930-01-01',
+                    max: `${new Date().toISOString().slice(0, 10)}`,
+                  },
+                }}
+                error={
+                  formik.touched.goods_received_date &&
+                  formik.errors.goods_received_date
+                }
+              />
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
               }}
-              error={
-                formik.touched.goods_received_date &&
-                formik.errors.goods_received_date
-              }
-            />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            }}
-          >
-            <div className={Styles.uploadLabel}>Upload Invoice</div>
-            {invoiceDocument?.length > 0 &&
-            invoiceDocument[0].is_delete === 'N' ? (
-              <div>
-                {invoiceDocument?.map((document: any, index: any) => {
-                  const customQuotationName =
-                    generateCustomQuotationName('Invoice');
-                  if (document.is_delete === 'N')
-                    return (
-                      <div
-                        key={document.code}
-                        style={{
-                          width: '150px',
-                          cursor: 'pointer',
-                          fontWeight: 'bolder',
-                          color: 'blue',
-                          display: 'flex',
-                          fontSize: '15px',
-                        }}
-                      >
-                        <div>
-                          <a
-                            href={document.path}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {customQuotationName}
-                          </a>
+            >
+              <div className={Styles.uploadLabel}>Upload Invoice</div>
+              {invoiceDocument?.length > 0 &&
+              invoiceDocument[0].is_delete === 'N' ? (
+                <div>
+                  {invoiceDocument?.map((document: any, index: any) => {
+                    const customQuotationName =
+                      generateCustomQuotationName('Invoice');
+                    if (document.is_delete === 'N')
+                      return (
+                        <div
+                          key={document.code}
+                          style={{
+                            width: '150px',
+                            cursor: 'pointer',
+                            fontWeight: 'bolder',
+                            color: 'blue',
+                            display: 'flex',
+                            fontSize: '15px',
+                          }}
+                        >
+                          <div>
+                            <a
+                              href={document.path}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {customQuotationName}
+                            </a>
+                          </div>
+                          <CloseIcon
+                            width={5}
+                            height={10}
+                            onClick={() => deleteFileinList()}
+                          />
                         </div>
-                        <CloseIcon
-                          width={5}
-                          height={10}
-                          onClick={() => deleteFileinList()}
-                        />
-                      </div>
-                    );
-                })}
-              </div>
-            ) : (
-              <div title="Attach document">
-                <input
-                  ref={fileInputRef}
-                  id="upload-photo"
-                  name="upload_photo"
-                  type="file"
-                  style={{ display: 'none' }}
-                  onChange={(e) => handleFileSelect(e)}
-                />
-                <div
-                  style={{
-                    cursor: 'pointer',
-                    paddingBottom: '5px',
-                  }}
-                  onClick={() => {
-                    onButtonClick();
-                  }}
-                >
-                  <FileUploadIcon color="#7f56d9" />
+                      );
+                  })}
                 </div>
-              </div>
-            )}
+              ) : (
+                <div title="Attach document">
+                  <input
+                    ref={fileInputRef}
+                    id="upload-photo"
+                    name="upload_photo"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={(e) => handleFileSelect(e)}
+                  />
+                  <div
+                    style={{
+                      cursor: 'pointer',
+                      paddingBottom: '5px',
+                    }}
+                    onClick={() => {
+                      onButtonClick();
+                    }}
+                  >
+                    <FileUploadIcon color="#7f56d9" />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
+          {/* <div> */}
+          <div className={Styles.purchaseOrderDetails}>
+            <div className={Styles.leftPurchaseOrderDetail}>
+              <span>
+                <b>Purchase Order</b>
+              </span>
+            </div>
+            <div className={Styles.righPurchasetOrderDetail}>
+              <p>
+                <b>:</b>
+              </p>
+            </div>
+            <div className={Styles.righPurchasetOrderDetail}>
+              <span>{getListData?.order_id}</span>
+            </div>
+          </div>
+          {/* </div> */}
         </div>
         {/* table data */}
         <div>
@@ -319,8 +345,10 @@ const MyOrderView = () => {
                 <tr>
                   <th>S No</th>
                   <th>Items </th>
-                  <th>Indent Requested Quantity</th>
-                  <th>Received Quantity</th>
+                  <th>Allocated Quantity</th>
+                  <th>Previously Received</th>
+                  <th>To Be Received</th>
+                  <th>Currently Received</th>
                   {/* <th>Remaining Quantity</th> */}
                 </tr>
               </thead>
@@ -330,18 +358,21 @@ const MyOrderView = () => {
                     <tr>
                       <td>{index + 1}</td>
                       <td>{items?.item_name}</td>
-                      <td>{items?.requested_quantity}</td>
+                      <td>{items?.order_quantity}</td>
+                      <td>{items?.previously_received_quantity}</td>
+                      <td>{items?.inward_remaining_quantity}</td>
                       <td>
                         <Input
-                          name="received_quantity"
-                          value={items?.received_quantity}
+                          name="current_received_quantity"
+                          value={items?.current_received_quantity}
                           width="100px"
                           error={false}
                           onChange={(e) => handleListChange(e, index)}
                           onKeyDown={(e) => {
                             const isNumber = /^[0-9]*$/.test(e.key);
+                            const isArrowKey = e.key === 'ArrowLeft' || e.key === 'ArrowRight';
                             if (
-                              !isNumber &&
+                              !isNumber && !isArrowKey &&
                               e.key !== 'Backspace' &&
                               e.key !== 'Delete'
                             ) {
@@ -356,7 +387,7 @@ const MyOrderView = () => {
               </tbody>
             </table>
           </div>
-          <div className={Styles.inputField}>
+          <div className={Styles.inputFieldTextArea}>
             <TextArea
               name="notes"
               label="Comments"
