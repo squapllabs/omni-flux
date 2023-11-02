@@ -229,12 +229,10 @@ const MyOrderList = () => {
                                                                                 </thead>
                                                                                 <tbody>
                                                                                     {
-                                                                                        separateArray?.map((gnr_data: any, index: any) => {
-                                                                                            console.log("gnr_data///", gnr_data?.gnr_id);
-
-                                                                                            // content[0].purchase_order_id
+                                                                                        data?.grn?.map((gnr_data: any, index: any) => {
+                                                                                            // console.log("gnr_data///", gnr_data);
                                                                                             return (
-                                                                                                <tr >
+                                                                                                <tr key={gnr_data?.grn_id}>
                                                                                                     <td>{index + 1}</td> {/* Use 'index' from the outer map */}
                                                                                                     <td>{dateFormat(gnr_data?.goods_received_date)}</td>
                                                                                                     <td>{gnr_data?.invoice_id}</td>
