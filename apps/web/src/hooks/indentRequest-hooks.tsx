@@ -54,7 +54,7 @@ const getBySearchIndent = () => {
 
 const getIndentSearchPaginated = (data : any) =>{
   return useQuery(
-    ['getProjectBasedIndent'],
+    ['getIndentSearchPaginated'],
     () => IndentService.filterIndnet(data),
     {
       // select: (data) => data.data,

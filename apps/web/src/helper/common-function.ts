@@ -4,7 +4,7 @@ export const formatBudgetValue = (value: any) => {
   const locale = environment.LOCALE;
   const currency = environment.CURRENCY;
 
-  return value.toLocaleString(locale, {
+  return value?.toLocaleString(locale, {
     style: 'currency',
     currency: currency,
   });

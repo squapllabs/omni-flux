@@ -41,9 +41,22 @@ const indentRaise = async (values: JSON) => {
     }
   };
 
+  const getOneIndentById = async (values: any) => {
+    try {
+      const response = await axiosinterceptor.get(
+        `${environment.apiUrl}/indent-request/get/${values}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log('Error in getOne indent request :', error);
+      throw error;
+    }
+  };
+
   export default {
     indentRaise,
     indentDetailData,
-    updateIndentRequest
+    updateIndentRequest,
+    getOneIndentById
   };
   
