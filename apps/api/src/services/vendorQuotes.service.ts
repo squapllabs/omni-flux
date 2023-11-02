@@ -225,6 +225,24 @@ const updateVendorQuotes = async (body: vendorQuotesBody) => {
               tx
             );
           }
+
+          const getVendorQuotesByPurchaseRequestId =
+            await vendorQuotesDao.getByPurchaseRequestId(
+              purchase_request_id,
+              tx
+            );
+
+          for await (const vendorQuotes of getVendorQuotesByPurchaseRequestId) {
+            const new_vendor_quotes_id = vendorQuotes?.vendor_quotes_id;
+            if (new_vendor_quotes_id !== vendor_quotes_id) {
+              await vendorQuotesDao.updateStatus(
+                new_vendor_quotes_id,
+                'Rejected',
+                updated_by,
+                tx
+              );
+            }
+          }
         }
 
         result = {

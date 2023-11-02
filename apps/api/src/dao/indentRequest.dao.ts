@@ -111,9 +111,71 @@ const add = async (
           }
         }
 
+        let purchaseOrderData = null;
+        const purchaseOrderItemDetails = [];
+
+        if (request_type === 'Local Purchase') {
+          /* Purchase Order Data Handling */
+          const orderIdGeneratorQuery = `select concat('POLP',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
+          const order_id = await common.customQueryExecutor(
+            orderIdGeneratorQuery
+          );
+
+          purchaseOrderData = await tx.purchase_order.create({
+            data: {
+              purchase_request_id: null,
+              vendor_id: null,
+              order_date: new Date(),
+              status: 'Processing',
+              total_cost,
+              order_remark: 'Local Purchase Order',
+              created_by,
+              order_id: order_id[0]?.order_id_sequence,
+              created_date: currentDate,
+              updated_date: currentDate,
+              is_delete: is_delete,
+              purchase_order_type: 'Local Purchase',
+              indent_request_id: new_indent_request_id,
+            },
+          });
+
+          const new_purchase_order_id = purchaseOrderData?.purchase_order_id;
+
+          if (indent_request_details.length > 0) {
+            for (const value of indent_request_details) {
+              const item_id = value.item_id;
+              const order_quantity = value.indent_requested_quantity;
+              const inward_quantity = value.inward_quantity
+                ? value.inward_quantity
+                : 0;
+              const inward_remaining_quantity =
+                order_quantity - inward_quantity;
+              const unit_price = value.total;
+
+              const purchaseOrderItem = await tx.purchase_order_item.create({
+                data: {
+                  purchase_order_id: new_purchase_order_id,
+                  item_id,
+                  order_quantity,
+                  inward_quantity,
+                  inward_remaining_quantity,
+                  unit_price,
+                  created_by,
+                  created_date: currentDate,
+                  updated_date: currentDate,
+                  is_delete: is_delete,
+                },
+              });
+              purchaseOrderItemDetails.push(purchaseOrderItem);
+            }
+          }
+        }
+
         const result = {
           indent_request: indentRequest,
           indent_request_details: indentRequestDetailsData,
+          purchase_order: purchaseOrderData,
+          purchase_order_item_details: purchaseOrderItemDetails,
         };
 
         return result;
@@ -541,6 +603,36 @@ const updateStatus = async (
   }
 };
 
+const updateLocalPurchaseStatus = async (
+  indent_request_id: number,
+  approver_status: string,
+  updated_by: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const indentRequest = await transaction.indent_request.update({
+      where: {
+        indent_request_id: Number(indent_request_id),
+      },
+      data: {
+        approver_status,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+    return indentRequest;
+  } catch (error) {
+    console.log(
+      'Error occurred in indentRequest updateLocalPurchaseStatus dao',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -550,4 +642,5 @@ export default {
   searchIndentRequest,
   getByProjectId,
   updateStatus,
+  updateLocalPurchaseStatus,
 };

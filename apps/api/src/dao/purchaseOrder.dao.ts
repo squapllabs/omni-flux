@@ -1,6 +1,7 @@
 import db from '../utils/db';
 import prisma from '../utils/prisma';
 import customQueryExecutor from './common/utils.dao';
+import indentRequestDao from './indentRequest.dao';
 
 const add = async (
   purchase_request_id: number,
@@ -14,6 +15,8 @@ const add = async (
   purchase_order_details,
   payment_mode: string,
   payment_date: Date,
+  purchase_order_type: string,
+  indent_request_id: number,
   connectionObj = null
 ) => {
   try {
@@ -21,8 +24,13 @@ const add = async (
     const is_delete = false;
     const formatted_order_date = order_date ? new Date(order_date) : null;
     const formatted_payment_date = payment_date ? new Date(payment_date) : null;
-
-    const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
+    const orderIdPrefix =
+      purchase_order_type === 'Head Office Purchase'
+        ? 'POHP'
+        : purchase_order_type === 'Local Purchase'
+        ? 'POLP'
+        : 'PO';
+    const orderIdGeneratorQuery = `select concat('${orderIdPrefix}',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
     const order_id = await customQueryExecutor.customQueryExecutor(
       orderIdGeneratorQuery
     );
@@ -44,6 +52,8 @@ const add = async (
         created_date: currentDate,
         updated_date: currentDate,
         is_delete: is_delete,
+        purchase_order_type,
+        indent_request_id,
       },
     });
     return purchaseOrder;
@@ -65,6 +75,8 @@ const edit = async (
   purchase_order_details,
   payment_mode: string,
   payment_date: Date,
+  purchase_order_type: string,
+  indent_request_id: number,
   purchase_order_id: number,
   connectionObj = null
 ) => {
@@ -90,6 +102,8 @@ const edit = async (
         payment_date: formatted_payment_date,
         updated_by,
         updated_date: currentDate,
+        purchase_order_type,
+        indent_request_id,
       },
     });
     return purchaseOrder;
@@ -126,6 +140,7 @@ const getById = async (purchaseOrderId: number, connectionObj = null) => {
         purchase_order_item: {
           include: { item_data: true },
         },
+        indent_request_data: true,
       },
     });
     return purchaseOrder;
@@ -135,15 +150,38 @@ const getById = async (purchaseOrderId: number, connectionObj = null) => {
   }
 };
 
-const getAll = async (connectionObj = null) => {
+const getAll = async (purchase_order_type: string, connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const purchaseOrder = await transaction.purchase_order.findMany({
       where: {
         is_delete: false,
+        purchase_order_type: purchase_order_type,
       },
       include: {
-        purchase_request_data: { include: { indent_request_data: true } },
+        purchase_request_data: {
+          include: {
+            indent_request_data: true,
+            project_data: true,
+            site_data: true,
+            selected_vendor_data: true,
+            requester_user_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+                contact_no: true,
+                email_id: true,
+              },
+            },
+            purchase_request_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
+          },
+        },
         vendor_data: true,
       },
       orderBy: [
@@ -194,69 +232,132 @@ const searchPurchaseOrder = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterPurchaseOrder;
-    const purchaseOrder = await transaction.purchase_order.findMany({
-      where: filter,
-      include: {
-        purchase_request_data: {
-          include: {
-            indent_request_data: {
-              include: {
-                requester_user_data: {
-                  select: {
-                    first_name: true,
-                    last_name: true,
-                    contact_no: true,
-                    email_id: true,
+    let checkPurchaseOrderDataAvailability = [];
+    if (filter.AND && filter.AND[0]?.purchase_request_data?.project_id) {
+      checkPurchaseOrderDataAvailability =
+        await transaction.purchase_order.findMany({
+          where: {
+            purchase_request_data: {
+              project_id: filter.AND[0].purchase_request_data.project_id,
+            },
+          },
+        });
+    } else {
+      checkPurchaseOrderDataAvailability =
+        await transaction.purchase_order.findMany({
+          where: {
+            is_delete: filter.is_delete,
+          },
+        });
+    }
+
+    if (checkPurchaseOrderDataAvailability.length > 0) {
+      const purchaseOrder = await transaction.purchase_order.findMany({
+        where: filter,
+        include: {
+          purchase_request_data: {
+            include: {
+              indent_request_data: {
+                include: {
+                  requester_user_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true,
+                      contact_no: true,
+                      email_id: true,
+                    },
+                  },
+                  approver_user_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true,
+                      contact_no: true,
+                      email_id: true,
+                    },
                   },
                 },
-                approver_user_data: {
-                  select: {
-                    first_name: true,
-                    last_name: true,
-                    contact_no: true,
-                    email_id: true,
+              },
+              project_data: true,
+              site_data: true,
+              selected_vendor_data: true,
+              requester_user_data: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                  contact_no: true,
+                  email_id: true,
+                },
+              },
+              purchase_request_quotation_details: {
+                include: {
+                  item_data: {
+                    include: { uom: true },
                   },
                 },
               },
             },
-            project_data: true,
-            site_data: true,
-            selected_vendor_data: true,
-            requester_user_data: {
-              select: {
-                first_name: true,
-                last_name: true,
-                contact_no: true,
-                email_id: true,
+          },
+          vendor_data: true,
+          indent_request_data: {
+            include: {
+              project_data: true,
+              site_data: true,
+              requester_user_data: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                  contact_no: true,
+                  email_id: true,
+                },
+              },
+              indent_request_details: {
+                include: {
+                  bom_detail_data: {
+                    include: {
+                      item_data: {
+                        include: {
+                          uom: {
+                            select: {
+                              name: true,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
-            purchase_request_quotation_details: {
-              include: {
-                item_data: {
-                  include: { uom: true },
+          },
+          grn: {
+            include: {
+              grn_details: {
+                include: {
+                  item_data: { include: { uom: { select: { name: true } } } },
                 },
               },
             },
           },
         },
-        vendor_data: true,
-      },
-      orderBy: [
-        {
-          [orderByColumn]: orderByDirection,
-        },
-      ],
-      skip: offset,
-      take: limit,
-    });
-    const purchaseOrderCount = await transaction.purchase_order.count({
-      where: filter,
-    });
-    const purchaseOrderData = {
-      count: purchaseOrderCount,
-      data: purchaseOrder,
-    };
-    return purchaseOrderData;
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+        skip: offset,
+        take: limit,
+      });
+      const purchaseOrderCount = await transaction.purchase_order.count({
+        where: filter,
+      });
+      const purchaseOrderData = {
+        count: purchaseOrderCount,
+        data: purchaseOrder,
+      };
+      return purchaseOrderData;
+    } else {
+      return { count: -1, data: 0 };
+    }
   } catch (error) {
     console.log(
       'Error occurred in purchaseOrder dao : searchPurchaseOrder',
@@ -274,6 +375,8 @@ const createPurchaseOrderWithItem = async (
   total_cost: number,
   order_remark: string,
   created_by: number,
+  purchase_order_type: string,
+  indent_request_id: number,
   purchase_order_item,
   connectionObj = null
 ) => {
@@ -282,7 +385,13 @@ const createPurchaseOrderWithItem = async (
     const is_delete = false;
     const formatted_order_date = order_date ? new Date(order_date) : null;
     const transaction = connectionObj !== null ? connectionObj : prisma;
-    const orderIdGeneratorQuery = `select concat('PO',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
+    const orderIdPrefix =
+      purchase_order_type === 'Head Office Purchase'
+        ? 'POHP'
+        : purchase_order_type === 'Local Purchase'
+        ? 'POLP'
+        : 'PO';
+    const orderIdGeneratorQuery = `select concat('${orderIdPrefix}',DATE_PART('year', CURRENT_DATE),'00',nextval('po_sequence')::text) as order_id_sequence`;
     const order_id = await customQueryExecutor.customQueryExecutor(
       orderIdGeneratorQuery
     );
@@ -302,6 +411,8 @@ const createPurchaseOrderWithItem = async (
             created_date: currentDate,
             updated_date: currentDate,
             is_delete: is_delete,
+            purchase_order_type,
+            indent_request_id,
           },
         });
 
@@ -334,6 +445,15 @@ const createPurchaseOrderWithItem = async (
             });
             purchaseOrderItemDetails.push(purchaseOrderItem);
           }
+        }
+
+        if (indent_request_id) {
+          await indentRequestDao.updateLocalPurchaseStatus(
+            indent_request_id,
+            'Converted To PO',
+            created_by,
+            tx
+          );
         }
 
         const purchaseOrderData = {
@@ -383,6 +503,7 @@ const getByPurchaseRequestId = async (
           orderBy: [{ updated_date: 'desc' }],
           include: { item_data: true },
         },
+        indent_request_data: true,
       },
       orderBy: [{ updated_date: 'desc' }],
     });

@@ -5,13 +5,15 @@ import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getBySearchPR } from '../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
 import Button from '../ui/Button';
 import DownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
 import PrintIcon from '../menu/icons/printIcon';
+import SiteNavigateIcon from '../menu/icons/siteNavigateIcon';
+import CustomLoader from '../ui/customLoader';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
@@ -19,6 +21,10 @@ const PurchaseRequestList = () => {
   console.log('routeParams', routeParams?.id);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(50);
+  const [filterValue, setFilterValues] = useState<any>({
+    project_id: '',
+    search_by_code: '',
+  });
   const purchaseData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -28,6 +34,7 @@ const PurchaseRequestList = () => {
     global_search: '',
     indent_request_id: Number(routeParams?.id),
     purchase_request_status: '',
+    purchase_request_code: filterValue?.search_by_code,
   };
   const {
     data: getPRbasedOnIndent,
@@ -35,13 +42,9 @@ const PurchaseRequestList = () => {
     refetch,
   } = getBySearchPR(purchaseData);
   console.log('getPRbasedOnIndent', getPRbasedOnIndent);
-  useEffect(() => {
-    refetch();
-  }, []);
+
   const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
-  const [filterValue, setFilterValues] = useState<any>({
-    project_id: '',
-  });
+
   const handleReportGenerator = async (data: any) => {
     await ReportGenerator(data);
   };
@@ -60,19 +63,123 @@ const PurchaseRequestList = () => {
       },
     });
   };
+  const handleVendor = (value: any, vendor: any) => {
+    console.log('vendor', vendor);
+    navigate(`/vendor-quotes-update/${Number(value?.purchase_request_id)}`, {
+      state: {
+        project_id: value.project_data.project_id,
+        indent_id: value?.indent_request_data?.indent_request_id,
+        vendor_quotes_id: vendor?.vendor_quotes_id,
+        vendor_id: vendor?.vendor_id,
+        vendor: vendor,
+      },
+    });
+  };
+  useEffect(() => {
+    const handleSearch = setTimeout(() => {
+      refetch();
+    }, 1000);
+    return () => clearTimeout(handleSearch);
+  }, [filterValue]);
   return (
     <div className={Styles.container}>
-      <div>
-        <ProjectSubheader
-          title="Purchase Request List"
-          navigation="/purchase-view"
-          description="List of purchase request on every project"
-        />
-      </div>
-      <div>
-        <div className={Styles.searchField}>
-          <div className={Styles.inputFilter}>
-            <AutoCompleteSelect
+      <CustomLoader loading={loading} size={30}>
+        {' '}
+        <div>
+          <ProjectSubheader
+            title="Purchase Request List"
+            navigation="/purchase-view"
+            description="List of purchase request on every project"
+          />
+        </div>
+        {getPRbasedOnIndent?.content?.length === 0 && !loading ? (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            NO PR Raised
+          </div>
+        ) : (
+          <div>
+            <div className={Styles.sub_header}>
+              <div style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '20px 10px 20px 30px',
+                  }}
+                >
+                  <div className={Styles.textContent_1}>
+                    <span className={Styles.projectTitle}>Indent Code</span>
+                    <h3>
+                      {
+                        getPRbasedOnIndent?.content[0]?.indent_request_data
+                          ?.indent_request_code
+                      }
+                    </h3>
+                  </div>
+                </div>
+                <div className={Styles.lineStyles}>
+                  <div className={Styles.vertical}>
+                    <div className={Styles.verticalLine}></div>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '20px 10px 20px 10px',
+                  }}
+                >
+                  <div>
+                    <SiteNavigateIcon width={30} height={30} />
+                  </div>
+                  <div className={Styles.textContent_1}>
+                    <span className={Styles.projectTitle}>Site</span>
+                    <span style={{ width: '160px' }}>
+                      {getPRbasedOnIndent?.content[0]?.site_data?.name}
+                    </span>
+                  </div>
+                </div>
+                <div className={Styles.lineStyles}>
+                  <div className={Styles.vertical}>
+                    <div className={Styles.verticalLine}></div>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '20px 10px 20px 10px',
+                  }}
+                >
+                  <div className={Styles.textContent_1}>
+                    <span>
+                      {
+                        getPRbasedOnIndent?.content[0]?.project_data
+                          ?.project_name
+                      }
+                    </span>
+                  </div>
+                </div>
+                <div className={Styles.lineStyles}>
+                  <div className={Styles.vertical}>
+                    <div className={Styles.verticalLine}></div>
+                  </div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+            <div className={Styles.selected}></div>
+            <div className={Styles.searchField}>
+              <div className={Styles.inputFilter}>
+                {/* <AutoCompleteSelect
               name="project_id"
               label="Select Project"
               defaultLabel="Select from options"
@@ -84,40 +191,31 @@ const PurchaseRequestList = () => {
                 //   setIsResetDisabled(false);
               }}
               optionList={getAllmasterDataForDrop}
-            />
-            <Input
-              width="260px"
-              prefixIcon={<SearchIcon />}
-              label="Indent Code"
-              name="search_by_code"
-              value={filterValue.search_by_code}
-              onChange={(e) => {
-                setFilterValues({
-                  ...filterValue,
-                  ['search_by_code']: e.target.value,
-                });
-                //   setCurrentPage(1);
-                //   setIsResetDisabled(false);
-              }}
-              placeholder="Search by Code"
-            />
-          </div>
-        </div>
-        <div className={Styles.cardBox}>
-          {getPRbasedOnIndent?.content?.length === 0 && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                textAlign: 'center',
-              }}
-            >
-              NO PR Raised
+            /> */}
+                <Input
+                  width="260px"
+                  prefixIcon={<SearchIcon />}
+                  // label="PR Code"
+                  name="search_by_code"
+                  value={filterValue.search_by_code}
+                  onChange={(e) => {
+                    setFilterValues({
+                      ...filterValue,
+                      ['search_by_code']: e.target.value,
+                    });
+                    //   setCurrentPage(1);
+                    //   setIsResetDisabled(false);
+                  }}
+                  placeholder="Search by PR Code"
+                />
+              </div>
             </div>
-          )}
+          </div>
+        )}
+        <div></div>
+        {/* <div> */}
+        <div className={Styles.cardBox}>
           {getPRbasedOnIndent?.content?.map((items: any, index: number) => {
-            console.log('items', items?.purchase_order?.length);
-
             return (
               <div className={Styles.cardContainer}>
                 <div>
@@ -129,9 +227,9 @@ const PurchaseRequestList = () => {
                   <div className={Styles.ColpsChilds}>
                     <div className={Styles.ColpsheadingpanelOne}>
                       <span className={Styles.panelContentTitle}>PR Code:</span>
-                      <span className={Styles.panelContentTitle}>
+                      {/* <span className={Styles.panelContentTitle}>
                         Indent Code :
-                      </span>
+                      </span> */}
                       {/* <span className={Styles.panelContentTitle}>
                         PO Code :
                       </span> */}
@@ -152,9 +250,9 @@ const PurchaseRequestList = () => {
                           items?.purchase_request_code
                         )}
                       </span>
-                      <span>
+                      {/* <span>
                         {items?.indent_request_data?.indent_request_code}
-                      </span>
+                      </span> */}
                       {/* <span>
                         {items?.purchase_order?.length === 0 ? (
                           'N/A'
@@ -167,25 +265,59 @@ const PurchaseRequestList = () => {
                         )}
                       </span> */}
                       <div className={Styles.vendorPanel}>
-                        {items?.vendor_quotes?.map(
-                          (vendors: any, vendorIndex: number) => {
-                            return (
-                              <ol>
+                        <ol>
+                          {items?.vendor_quotes?.map(
+                            (vendors: any, vendorIndex: number) => {
+                              console.log('vendors', vendors);
+                              return (
                                 <li
-                                  className={`${Styles.status} ${
+                                  className={`${Styles.vendorLinks} ${
                                     items?.selected_vendor_data?.vendor_id ===
                                     vendors?.vendor_data?.vendor_id
                                       ? Styles.completedStatus
                                       : ''
                                   }`}
+                                  onClick={() => handleVendor(items, vendors)}
                                 >
                                   <div>{vendorIndex + 1}</div>
-                                  {vendors?.vendor_data?.vendor_name}
+                                  <span>
+                                    {vendors?.vendor_data?.vendor_name}
+                                  </span>
+                                  {/* {vendors?.quotation_status === 'Approved' ? (
+                                    'Approved'
+                                  ) : vendors?.quotation_status ===
+                                    'Pending' ? (
+                                    <div className={Styles.hyperLinks}>
+                                      Add Quotation
+                                    </div>
+                                  ) : vendors?.quotation_status ===
+                                    'Quotation Recived' ? (
+                                    <div className={Styles.hyperLinks}>
+                                      View
+                                    </div>
+                                  ) : (
+                                    ''
+                                  )} */}
+                                  <span
+                                    className={`${Styles.status} ${
+                                      vendors?.quotation_status === 'Approved'
+                                        ? Styles.completedStatus
+                                        : vendors?.quotation_status ===
+                                          'Pending'
+                                        ? Styles.inprogressStatus
+                                        : vendors?.quotation_status ===
+                                          'Rejected'
+                                        ? Styles.rejectedStatus
+                                        : ''
+                                    }`}
+                                  >
+                                    {vendors?.quotation_status}
+                                  </span>
                                 </li>
-                              </ol>
-                            );
-                          }
-                        )}
+                              );
+                            }
+                          )}
+                        </ol>
                       </div>
                     </div>
                   </div>
@@ -221,10 +353,10 @@ const PurchaseRequestList = () => {
                       <span className={Styles.panelContentTitle}>
                         Requested Delivery Date :
                       </span>
-                      <span className={Styles.panelContentTitle}>
+                      {/* <span className={Styles.panelContentTitle}>
                         {' '}
                         Site Name :
-                      </span>
+                      </span> */}
                     </div>
                     <div className={Styles.ColpsDatapanelOne}>
                       <span
@@ -254,7 +386,7 @@ const PurchaseRequestList = () => {
                             : new Date()
                         )}
                       </span>
-                      <span>{items?.site_data?.name}</span>
+                      {/* <span>{items?.site_data?.name}</span> */}
                     </div>
                   </div>
                 </div>
@@ -267,7 +399,7 @@ const PurchaseRequestList = () => {
                         items?.status === 'Waiting For Quotation' ? '' : 'none',
                     }}
                   >
-                    <a>Add Quotation</a>
+                    <a>Select Vendor</a>
                   </div>
                   <div
                     style={{
@@ -278,11 +410,12 @@ const PurchaseRequestList = () => {
                           : 'none',
                     }}
                   >
-                    <a
-                      href={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
+                    <Link
+                      to={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
+                      // href={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
                     >
                       View PO
-                    </a>
+                    </Link>
                   </div>
                   <div
                     style={{
@@ -313,8 +446,9 @@ const PurchaseRequestList = () => {
             );
           })}
         </div>
-      </div>
+      </CustomLoader>
     </div>
+    // </div>
   );
 };
 

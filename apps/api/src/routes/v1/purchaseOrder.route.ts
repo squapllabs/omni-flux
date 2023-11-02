@@ -1,9 +1,6 @@
 import express from 'express';
 import authMiddleware from '../../middleware/auth';
-import {
-  purchaseOrderCreateValidator,
-  purchaseOrderUpdateValidator,
-} from '../../validations/purchaseOrder';
+import { purchaseOrderUpdateValidator } from '../../validations/purchaseOrder';
 import {
   createPurchaseOrder,
   createPurchaseOrderWithItem,
@@ -20,13 +17,7 @@ import { runValidation } from '../../validations/index';
 
 const router = express.Router();
 
-router.post(
-  '/',
-  authMiddleware,
-  purchaseOrderCreateValidator,
-  runValidation,
-  createPurchaseOrder
-);
+router.post('/', authMiddleware, createPurchaseOrder);
 
 router.put(
   '/',
@@ -36,7 +27,7 @@ router.put(
   updatePurchaseOrder
 );
 
-router.get('/get-all', authMiddleware, getAllPurchaseOrders);
+router.post('/get-all', authMiddleware, getAllPurchaseOrders);
 
 router.get('/get/:purchase_order_id', authMiddleware, getByPurchaseOrderId);
 
@@ -51,8 +42,6 @@ router.post('/search', authMiddleware, searchPurchaseOrder);
 router.post(
   '/purchase-order-with-item',
   authMiddleware,
-  purchaseOrderCreateValidator,
-  runValidation,
   createPurchaseOrderWithItem
 );
 

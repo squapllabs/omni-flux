@@ -335,7 +335,7 @@
 .inputFilter {
   display: flex;
   // justify-content: space-between;
-  gap: 40px;
+  gap: 10px;
   // background-color: #7d7d7d;
   width: 70%;
 }
@@ -369,6 +369,15 @@
   color: #c11574;
   cursor: pointer;
 }
+.rejectedStatus {
+  background-color: #fdf2fa;
+  padding: 6px;
+
+  border-radius: 50px;
+  color: #b01111;
+  // text-decoration: underline;
+}
+
 .dashedLine {
   border-left: 0.5px dashed #000; /* Adjust the color and thickness as needed */
 }
@@ -437,4 +446,25 @@
   padding-bottom: 20px;
   padding-right: 27px;
   padding-top: 10px;
+}
+.ColpsChilds {
+  display: flex;
+  gap: 20px;
+}
+.ColpsheadingpanelOne {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.ColpsDatapanelOne {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.subheaderpanels {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

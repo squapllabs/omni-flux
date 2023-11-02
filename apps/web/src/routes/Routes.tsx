@@ -277,8 +277,11 @@ import PurchaseOrderVendorSelect from '../component/purchaseApproval/purchaseVen
 import MyOrderList from '../component/project/projectComponent/myOrders/myOrdersList';
 import MyOrderView from '../component/project/projectComponent/myOrders/orderView';
 import BoqTaskListScreen from '../component/projectBOQ/taskScreen';
+import LocalPurchaseList from '../component/project/projectComponent/localPurchase/localPurchaseList';
+import LocalPurchaseOrder from '../component/project/projectComponent/localPurchase/localPurchaseOrder';
 import DeliveryAddNote from '../component/project/projectComponent/myOrders/deliveryNoteAdd';
-
+import ViewReceivedGoods from '../component/project/projectComponent/myOrders/viewReceivedGoods';
+import VendorQuotesUpdate from '../component/purchaseRequest/vendorQuotesUpdate';
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
@@ -392,7 +395,14 @@ const AppRoutes = () => {
   );
   const ProtectedMyOrders = withLayoutAndProtection(MyOrderList);
   const ProtectedOrderView = withLayoutAndProtection(MyOrderView);
+  const ProtectedLocalPurchase = withLayoutAndProtection(LocalPurchaseList);
+  const ProtectedLocalPurchaseOrder =
+    withLayoutAndProtection(LocalPurchaseOrder);
+
   const ProtectedDeliveryNoteAdd = withLayoutAndProtection(DeliveryAddNote);
+  const ProtectedViewReceivedGoods = withLayoutAndProtection(ViewReceivedGoods);
+  const ProtectedVendorQuotesUpdate =
+    withLayoutAndProtection(VendorQuotesUpdate);
   return (
     <div>
       <Routes>
@@ -624,17 +634,30 @@ const AppRoutes = () => {
           path="/vendor-select"
           element={<ProtectedPurchaseVendorSelect />}
         />
+        <Route path="/my-orders" element={<ProtectedMyOrders />} />
+        <Route path="/my-orders-view/:id" element={<ProtectedOrderView />} />
+        <Route path="/local-purchase" element={<ProtectedLocalPurchase />} />
         <Route
-          path="/my-orders"
-          element={<ProtectedMyOrders/>}
+          path="/local-purchase-order/:id"
+          element={<ProtectedLocalPurchaseOrder />}
         />
         <Route
-          path="/my-orders-view/:id"
-          element={<ProtectedOrderView/>}
+          path="delivery-note/:id"
+          element={<ProtectedDeliveryNoteAdd />}
         />
-        <Route 
-        path = "delivery-note/:id"
-        element={<ProtectedDeliveryNoteAdd/>}/>
+        <Route path="/my-orders-view/:id" element={<ProtectedOrderView />} />
+        <Route
+          path="delivery-note/:id"
+          element={<ProtectedDeliveryNoteAdd />}
+        />
+        <Route
+          path="/view-received-goods/:pruchaseId/:grnId"
+          element={<ProtectedViewReceivedGoods />}
+        />
+        <Route
+          path="/vendor-quotes-update/:id"
+          element={<ProtectedVendorQuotesUpdate />}
+        />
       </Routes>
     </div>
   );

@@ -29,6 +29,7 @@
 
 .searchBar {
     display: flex;
+    gap: 20px;
     transform: translateY(15%);
 }
 
@@ -78,6 +79,39 @@
         }
       }
     }
+}
+
+.emptyDataHandling {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  padding-top: 75px;
+}
+
+.subHeadingForInitialPage {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 15px 0px 10px;
+
+}
+
+.contentGap {
+  padding: 5px;
+}
+
+.textmin {
+  padding: 3px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.textmax {
+  font-weight: 700;
+  font-size: 16px;
 }
   
   

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import Button from '../ui/Button';
 import CustomLoader from '../ui/customLoader';
 import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
@@ -17,32 +16,20 @@ import {
   getVendorDetailsBasedONPR,
   getVendorquotesBYventorquotesID,
 } from '../../hooks/vendorQuotes-hooks';
-import BackArrowIcon from '../menu/icons/backArrow';
-import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
-import { Link } from 'react-router-dom';
-import PreviousPageIcon from '../menu/icons/previousPageIcon';
 import ProjectSubheader from '../project/projectSubheader';
-import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-import Select from '../ui/selectNew';
-import Input from '../ui/Input';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import FileUploadIcon from '../menu/icons/fileUploadIcon';
 import userService from '../../service/user-service';
-import CloseIcon from '../menu/icons/closeIcon';
-import TextArea from '../ui/CustomTextArea';
-import PageDisabled from '../ui/pageDisableComponent';
 import TickIcon from '../menu/icons/tickIcon';
+import CustomConfirm from '../ui/CustomConfirmDialogBox';
+import FullStarIcon from '../menu/icons/fullStarIcon';
 
 const VendorSelect = () => {
   const routeParams = useParams();
   const location = useLocation();
   const indentId = location.state.indent_id;
   const projectId = location.state.project_id;
-  console.log('indentId', indentId);
-  console.log('indentId', indentId);
-
   const navigate = useNavigate();
   const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
   const state: RootState = store.getState();
@@ -74,6 +61,7 @@ const VendorSelect = () => {
     quotation_status: '',
     remarks: '',
     vendor_quotes_documents: [],
+    vendor_quotation_details: [],
   });
   const [vendorQuoteID, setVendorQuoteID] = useState<any>();
   const [vendorQuoteDocument, setVendorQuoteDocument] = useState<any>([]);
@@ -83,12 +71,11 @@ const VendorSelect = () => {
   const [pageDisable, setPageDisabale] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [fileMandatoryError, setFileMandatoryError] = useState('');
+  const [openConfirm, setOpenConfirm] = useState(false);
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const onButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+  const handleCloseConfirm = () => {
+    setID(0);
+    setOpenConfirm(false);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -100,16 +87,27 @@ const VendorSelect = () => {
       const data = await vendorQuotesService.getOneVendorQuotesById(
         vendorQuoteID
       );
+      console.log('vendorQuoteIDData', data);
+
       setInitialValues({
-        vendor_quotes_id: data?.data?.vendor_quotes_id,
-        purchase_request_id: data?.data?.purchase_request_id,
-        vendor_id: data?.data?.vendor_id,
-        quotation_status: data?.data?.quotation_status,
-        total_quotation_amount: data?.data?.total_quotation_amount,
-        remarks: data?.data?.remarks,
+        vendor_quotes_id: data?.data?.vendor_quotes_id
+          ? data?.data?.vendor_quotes_id
+          : '',
+        purchase_request_id: data?.data?.purchase_request_id
+          ? data?.data?.purchase_request_id
+          : '',
+        vendor_id: data?.data?.vendor_id ? data?.data?.vendor_id : '',
+        quotation_status: data?.data?.quotation_status
+          ? data?.data?.quotation_status
+          : '',
+        total_quotation_amount: data?.data?.total_quotation_amount
+          ? data?.data?.total_quotation_amount
+          : '',
+        remarks: data?.data?.remarks ? data?.data?.remarks : '',
         vendor_quotes_documents: data?.data?.vendor_quotes_documents
           ? data?.data?.vendor_quotes_documents
           : [],
+        vendor_quotation_details: vendorQuotesDetails?.data,
       });
       setVendorQuoteData(data?.data);
       setVendorQuoteDocument(
@@ -194,7 +192,7 @@ const VendorSelect = () => {
 
   const handleApprove = (value: any) => {
     setID(value);
-    handleSubmit(value);
+    setOpenConfirm(true);
   };
   const handleVendourQuotes = (event: any, index: number) => {
     let tempObj = {};
@@ -210,33 +208,33 @@ const VendorSelect = () => {
     setTableData(tempArry);
   };
 
-  // const handleSubmit = async (id: any) => {
-  //   try {
-  //     const data = await vendorQuotesService.getOneVendorQuotesById(id);
-  //     const obj = {
-  //       vendor_quotes_id: data?.data?.vendor_quotes_id,
-  //       purchase_request_id: data?.data?.purchase_request_id,
-  //       vendor_id: data?.data?.vendor_id,
-  //       quotation_status: 'Approved',
-  //       updated_by: userID,
-  //       vendor_quotes_documents: data?.data?.vendor_quotes_documents,
-  //       total_quotation_amount: data?.data?.total_quotation_amount,
-  //     };
-  //     updateOneVendorQuotes(obj, {
-  //       onSuccess: (data, variables, context) => {
-  //         if (data?.message === 'success') {
-  //           setMessage('Vendor Approved');
-  //           setOpenSnack(true);
-  //           navigate(`/purchase-request-list/${indentId}`, {
-  //             state: { project_id: projectId },
-  //           });
-  //         }
-  //       },
-  //     });
-  //   } catch {
-  //     console.log('Error occured in vendor select ');
-  //   }
-  // };
+  const handleSubmit = async () => {
+    try {
+      const data = await vendorQuotesService.getOneVendorQuotesById(Number(Id));
+      const obj = {
+        vendor_quotes_id: data?.data?.vendor_quotes_id,
+        purchase_request_id: data?.data?.purchase_request_id,
+        vendor_id: data?.data?.vendor_id,
+        quotation_status: 'Approved',
+        updated_by: userID,
+        vendor_quotes_documents: data?.data?.vendor_quotes_documents,
+        total_quotation_amount: data?.data?.total_quotation_amount,
+      };
+      updateOneVendorQuotes(obj, {
+        onSuccess: (data, variables, context) => {
+          if (data?.status === true) {
+            setMessage('Vendor Approved');
+            setOpenSnack(true);
+            navigate(`/purchase-request-list/${indentId}`, {
+              state: { project_id: projectId },
+            });
+          }
+        },
+      });
+    } catch {
+      console.log('Error occured in vendor select ');
+    }
+  };
   const isAvilable = () => {
     return getVendorQuotes?.content?.some(
       (obj) => obj.quotation_status === 'Approved'
@@ -254,21 +252,24 @@ const VendorSelect = () => {
       .required()
       .test(
         'description-availability',
-        'Site Expense is already present',
+        'Please attach the bill',
         async function (value, { parent }: Yup.TestContext) {
           let bill_details = parent.vendor_quotes_documents;
           console.log('bill_detailsvalue', value);
-
           console.log('bill_details', bill_details);
           console.log('bill_detailslenght', bill_details.length);
-          if (bill_details?.length < 0 && bill_details[0]?.is_delete === 'Y') {
-            return true;
+          if (bill_details?.length < 0) {
+            console.log('open');
+            setMessage('Bill is Missing');
+            setOpenSnack(true);
+            return false;
           } else if (
-            bill_details?.length > 0 &&
-            bill_details[0]?.is_delete === 'N'
+            bill_details?.length != 0 ? bill_details[0]?.is_delete === 'N' : ''
           ) {
             return true;
-          } else {
+          } else if (
+            bill_details?.length != 0 ? bill_details[0]?.is_delete === 'Y' : ''
+          ) {
             console.log('open');
             setMessage('Bill is Missing');
             setOpenSnack(true);
@@ -277,12 +278,12 @@ const VendorSelect = () => {
         }
       ),
   });
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log('values', values);
       const obj = {
         vendor_quotes_id: values.vendor_quotes_id,
         purchase_request_id: prID,
@@ -296,8 +297,10 @@ const VendorSelect = () => {
       };
       updateOneVendorQuotes(obj, {
         onSuccess: (data, variables, context) => {
+          console.log('updateOneVendorQuotes', data);
+
           if (data?.message === 'success') {
-            setMessage('Vendor Approved');
+            setMessage('Vendor quotation Updated');
             setOpenSnack(true);
             refetch();
             // navigate(`/purchase-request-list/${indentId}`, {
@@ -308,6 +311,7 @@ const VendorSelect = () => {
       });
     },
   });
+  console.log('errorsss==>', formik.errors);
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
     if (files.length > 0) {
@@ -392,7 +396,7 @@ const VendorSelect = () => {
                 <th>Quotation Id</th>
                 <th>Quotation Status</th>
                 <th>Document</th>
-                <th>Options</th>
+                <th>Select Vendor </th>
               </tr>
             </thead>
             <tbody>
@@ -471,27 +475,60 @@ const VendorSelect = () => {
                         }}
                       >
                         <div
-                          onClick={() => {
-                            if (isQuotationRecived && isAvai != true) {
-                              handleApprove(data.vendor_quotes_id);
-                            }
-                          }}
-                          className={`${Styles.status} ${
-                            data?.quotation_status === 'Approved'
-                              ? Styles.completedStatus
-                              : data?.quotation_status === 'Quotation Recived'
-                              ? ''
-                              : ''
-                          }`}
                           style={{ cursor: 'pointer' }}
+                          className={Styles.status}
                         >
-                          {data?.quotation_status === 'Approved' ? (
-                            'Approved'
-                          ) : isAvai != true && isQuotationRecived ? (
-                            <TickIcon height={20} width={20} color="blue" />
-                          ) : (
-                            '--'
-                          )}
+                          <span
+                            className={` ${
+                              data?.quotation_status === 'Approved'
+                                ? Styles.completedStatus
+                                : data?.quotation_status === 'Quotation Recived'
+                                ? ''
+                                : data?.quotation_status === 'Rejected'
+                                ? Styles.rejectedStatus
+                                : ''
+                            }`}
+                          >
+                            {data?.quotation_status === 'Approved' ? (
+                              <FullStarIcon
+                                height={20}
+                                width={20}
+                                color="#7f56d9"
+                                strokeColor="#7f56d9"
+                              />
+                            ) : isAvai != true && isQuotationRecived ? (
+                              <div
+                                onClick={() => {
+                                  if (isQuotationRecived && isAvai != true) {
+                                    handleApprove(data.vendor_quotes_id);
+                                  }
+                                }}
+                              >
+                                <FullStarIcon
+                                  height={20}
+                                  width={20}
+                                  color={
+                                    data.vendor_quotes_id === Id
+                                      ? '#7f56d9'
+                                      : 'white'
+                                  }
+                                  strokeColor={
+                                    data.vendor_quotes_id === Id
+                                      ? '#7f56d9'
+                                      : 'black'
+                                  }
+                                />
+                              </div>
+                            ) : data?.quotation_status === 'Rejected' ? (
+                              <FullStarIcon
+                                height={20}
+                                width={20}
+                                color="white"
+                              />
+                            ) : (
+                              '--'
+                            )}
+                          </span>
                           {/* {isAvai != true && isQuotationRecived
                             ? 'Approve'
                             : '--'} */}
@@ -504,202 +541,6 @@ const VendorSelect = () => {
             </tbody>
           </table>
         </div>
-        <div className={Styles.dividerStyle}></div>
-        <PageDisabled disabled={pageDisable}>
-          {' '}
-          <div className={Styles.searchField}>
-            <div className={Styles.inputFilter}>
-              <div>
-                <AutoCompleteSelect
-                  name="vendor"
-                  label="Select Vendor"
-                  defaultLabel="Select from vendor"
-                  placeholder="Select from vendor"
-                  // value={intialVendor}
-                  value={
-                    formik.values.vendor_quotes_id === undefined
-                      ? Number(vendorQuoteID)
-                      : formik.values.vendor_quotes_id
-                  }
-                  onChange={formik.handleChange}
-                  optionList={getVendorList != null ? getVendorList : []}
-                  onSelect={(value) => {
-                    console.log('value', value);
-                    setVendorQuoteID(Number(value));
-                    const matchingObjects = getVendorList.filter(
-                      (obj: any) => Number(obj.value) === Number(value)
-                    );
-                    console.log('matchingObjects', matchingObjects[0]);
-                    formik.setFieldValue('vendor_quotes_id', value);
-                    formik.setFieldValue(
-                      'vendor_id',
-                      matchingObjects[0]?.data?.vendor_id
-                    );
-                  }}
-                  error={formik.touched.vendor_id && formik.errors.vendor_id}
-                  disabled={pageDisable}
-                />
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                }}
-              >
-                <div className={Styles.uploadLabel}>Upload Quotation</div>
-                {vendorQuoteDocument?.length > 0 &&
-                vendorQuoteDocument[0].is_delete === 'N' ? (
-                  <div>
-                    {vendorQuoteDocument?.map((document: any, index: any) => {
-                      const customQuotationName =
-                        generateCustomQuotationName(vendorQuoteData);
-
-                      if (document.is_delete === 'N')
-                        return (
-                          <div
-                            key={document.code}
-                            style={{
-                              width: '150px',
-                              cursor: 'pointer',
-                              fontWeight: 'bolder',
-                              color: 'blue',
-                              display: 'flex',
-                              fontSize: '15px',
-                            }}
-                          >
-                            <div
-                            // onClick={() => {
-                            //   viewDocumnet(item);
-                            // }}
-                            >
-                              {customQuotationName}
-                            </div>
-                            <CloseIcon
-                              width={5}
-                              height={10}
-                              onClick={() => deleteFileinList(index)}
-                            />
-                          </div>
-                        );
-                    })}
-                  </div>
-                ) : (
-                  <div title="Attach document">
-                    <input
-                      ref={fileInputRef}
-                      id="upload-photo"
-                      name="upload_photo"
-                      type="file"
-                      style={{ display: 'none' }}
-                      onChange={(e) => handleFileSelect(e)}
-                    />
-                    <div
-                      style={{
-                        cursor: 'pointer',
-                        paddingBottom: '5px',
-                      }}
-                      onClick={() => {
-                        onButtonClick();
-                      }}
-                    >
-                      <FileUploadIcon color="#7f56d9" />
-                    </div>
-                    {fileMandatoryError && (
-                      <div className={Styles.documentErr}>
-                        {fileMandatoryError}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <div className={Styles.horizontalLine}></div>
-              <div>
-                <h3>{formatBudgetValue(totalBudget ? totalBudget : 0)}</h3>
-                <p className={Styles.countContentTitle}>Quotation Budget</p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className={Styles.tableContainer}>
-              <table className={Styles.scrollable_table}>
-                <thead>
-                  <tr>
-                    <th>S No</th>
-                    <th>Items </th>
-                    <th>Indent Requested Quantity</th>
-                    <th>Purchase Requested Quantity</th>
-                    <th>Quotation Cost</th>
-                    <th>Total Cost</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableData?.map((items: any, index: number) => {
-                    return (
-                      <tr>
-                        <td>{index + 1}</td>
-                        <td>{items?.item_data?.item_name}</td>
-                        <td>{items?.indent_requested_quantity}</td>
-                        <td>{items?.purchase_requested_quantity}</td>
-                        <td>
-                          <Input
-                            name="unit_cost"
-                            value={items?.unit_cost}
-                            error={false}
-                            width="100px"
-                            onChange={(e) => handleVendourQuotes(e, index)}
-                          />
-                        </td>
-                        <td>{items?.total_cost}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div
-            // style={{
-            //   display: 'flex',
-            //   padding: '10px',
-            //   justifyContent: 'space-between',
-            // }}
-            className={Styles.searchField}
-          >
-            <div>
-              <TextArea
-                name="remarks"
-                label="Remarks"
-                rows={5}
-                maxCharacterCount={1000}
-                value={formik.values.remarks ? formik.values.remarks : ''}
-                onChange={formik.handleChange}
-                width="500px"
-                error={formik.touched.remarks && formik.errors.remarks}
-              />
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'end',
-                paddingBottom: '20px',
-              }}
-            >
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color="primary"
-                onClick={formik.handleSubmit}
-              >
-                Submit Quotation
-              </Button>
-            </div>
-          </div>
-        </PageDisabled>
-
         <CustomSnackBar
           open={openSnack}
           message={message}
@@ -720,6 +561,13 @@ const VendorSelect = () => {
               setMessage={setMessage}
             />
           }
+        />
+        <CustomConfirm
+          open={openConfirm}
+          title="Confirm Submit"
+          contentLine1="Sure are you want to select this vendor ?"
+          handleClose={handleCloseConfirm}
+          handleConfirm={handleSubmit}
         />
       </CustomLoader>
     </div>
