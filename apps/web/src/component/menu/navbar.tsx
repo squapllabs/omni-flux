@@ -124,9 +124,9 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    dispatch(resetAuth());
     const data = await authService.logout();
     if (data?.status === true) {
+      dispatch(resetAuth());
       navigate('/');
     }
   };
