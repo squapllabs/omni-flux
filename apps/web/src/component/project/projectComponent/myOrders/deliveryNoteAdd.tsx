@@ -143,7 +143,9 @@ const MyOrderView = () => {
   const validationSchema = Yup.object().shape({
     notes: Yup.string().required('Notes Required'),
     invoice_number: Yup.string().required('Invoice Reference Number Required'),
-    goods_received_date: Yup.date().required('Date is required'),
+    goods_received_date: Yup.date().required('Date is required')
+    .max(new Date(), 'Future Date not allowed'),
+    //date_of_birth: yup.date().max(new Date(), userErrorMessages.INVALID_DATE),
   });
   const formik = useFormik({
     initialValues,

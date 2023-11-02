@@ -79,7 +79,7 @@ const ViewReceivedGoods = () => {
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Received Quantity</th>
-                    <th>Accepted Quantity</th>
+                    {/* <th>Accepted Quantity</th> */}
                     {/* <th>Options</th> */}
                   </tr>
                 </thead>
@@ -90,8 +90,8 @@ const ViewReceivedGoods = () => {
                         <td>{index + 1}</td>
                         <td>{data?.item_data?.item_name}</td>
                         <td>{data?.item_data?.description}</td>
-                        <td>{data?.received_quantity || nullLableNameFromEnv}</td>
-                        <td>{data?.accepted_quantity || nullLableNameFromEnv}</td>
+                        <td>{data?.received_quantity ? data?.received_quantity : 0}</td>
+                        {/* <td>{data?.accepted_quantity || nullLableNameFromEnv}</td> */}
                       </tr>
                     );
                   })}
