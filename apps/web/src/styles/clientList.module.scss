@@ -73,6 +73,16 @@
     tr:hover {
       /* Add hover styles if needed */
     }
+    tbody {
+      tr:nth-child(odd) {
+      }
+      tr:nth-child(even) {
+        background-color: var(--tableRow-backgroundColor);
+      }
+    }
+    .td_desc {
+      min-width: 55.5rem;
+    }
   }
   
   .box::after {
