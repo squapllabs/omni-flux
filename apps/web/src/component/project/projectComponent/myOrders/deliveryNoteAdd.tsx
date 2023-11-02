@@ -38,7 +38,7 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
-  // console.log('PPPP', getListData);
+  console.log('PPPP', getListData);
   const { mutate: postGrnData } = createGrn();
   const [tableValue, setTableValue] = useState([]);
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
@@ -58,11 +58,6 @@ const MyOrderView = () => {
     updatedTableValue[index].currently_received_quantity = Number(
       event.target.value
     );
-    // console.log('to_be_received', to_be_received);
-    // console.log(
-    //   'input value',
-    //   updatedTableValue[index].currently_received_quantity
-    // );
     if (to_be_received < updatedTableValue[index].currently_received_quantity) {
       setErrors((prevErrors) => {
         const newErrors = [...prevErrors];
@@ -162,6 +157,7 @@ const MyOrderView = () => {
         goods_received_by: userID,
         grn_status: 'Pending',
         project_id: projectId,
+        site_id:getListData?.purchase_request_data?.site_id,
         created_by: userID,
       };
       // console.log('ssssss', obj);

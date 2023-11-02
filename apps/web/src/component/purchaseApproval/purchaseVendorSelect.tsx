@@ -408,7 +408,11 @@ const VendorChooseModule = () => {
           autoHideDuration={2000}
           type="success"
         />
+<<<<<<< Updated upstream
       </CustomLoader>
+=======
+      </CustomLoader> 
+>>>>>>> Stashed changes
     </div>
   );
 };
