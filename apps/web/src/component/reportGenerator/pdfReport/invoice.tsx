@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Document, Page } from 'react-pdf';
-import { format } from 'date-fns';
 
 const InvoiceReportGenerator = (data:any) => {
 

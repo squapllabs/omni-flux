@@ -3,13 +3,6 @@ import { format } from 'date-fns';
 import ExcelJS from 'exceljs';
 
 const PurchaseOrder = async (datas: any) => {
-    // const { excelData: datas } = props;
-
-
-
-    console.log("datas", datas);
-
-
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet1');
@@ -74,9 +67,6 @@ const PurchaseOrder = async (datas: any) => {
         'Net Amount',
     ];
 
-
-
-
     // Add header row with styles
     let headerAdded = false; // Track if the header row has been added
     if (datas?.length > 1) {
@@ -88,10 +78,7 @@ const PurchaseOrder = async (datas: any) => {
                 headerAdded = true;
             }
 
-            // if(!data?.purchase_request_data){
-            // }
-
-            const headerData = data?.purchase_request_data ? [
+            const headerData = [
                 'Head Office',
                 data?.purchase_request_data?.project_data?.project_name,
                 'Purchase Order',
@@ -111,33 +98,14 @@ const PurchaseOrder = async (datas: any) => {
                 'N/A',
                 'N/A',
                 'N/A'
-            ] : [
-                'Head Office',
-                data?.purchase_request_data?.project_data?.project_name,
-                'Purchase Order',
-                data?.order_id,
-                format(new Date(data?.order_date), 'MM/dd/yyyy'),
-                format(new Date(data?.purchase_request_data?.indent_request_data?.expected_delivery_date), 'MM/dd/yyyy'),
-                'N/A',
-                data?.purchase_request_data?.selected_vendor_data?.vendor_name,
-                'IND',
-                'N/A',
-                data?.purchase_request_data?.total_cost,
-                'N/A',
-                'N/A',
-                'N/A',
-                'N/A',
-                data?.purchase_request_data?.requester_user_data?.first_name + " " + data?.purchase_request_data?.requester_user_data?.last_name,
-                'N/A',
-                'N/A',
-                'N/A'];
+            ];
 
             worksheet.addRow(headerData).eachCell((cell) => {
                 cell.style = borderStyle;
             });
 
             let itemsData = [];
-            itemsData = data?.purchase_request_data?.purchase_request_quotation_details.map((item: any, rowIndex: number) => {
+            itemsData = data?.purchase_request_data?.purchase_request_quotation_details?.map((item: any, rowIndex: number) => {
                 return {
                     '': '',
                     'Sl No.': (rowIndex + 1).toString(),
@@ -199,9 +167,8 @@ const PurchaseOrder = async (datas: any) => {
             'N/A',
             'N/A'
         ];
-
         let itemsData = [];
-        itemsData = datas?.purchase_request_data?.purchase_request_quotation_details.map((item: any, index: number) => {
+        itemsData = datas?.purchase_request_data?.purchase_request_quotation_details?.map((item: any, index: number) => {
             return {
                 '': '',
                 'Sl No.': (index + 1).toString(),
@@ -210,7 +177,7 @@ const PurchaseOrder = async (datas: any) => {
                 'Attributes': 'N/A',
                 'Specification': 'N/A',
                 'UOM': item?.item_data?.uom?.name,
-                'Quantity': item?.purchase_requested_quantity?.toString(),
+                'Quantity': item?.purchase_requested_quantity.toString(),
                 'Nos': 'N/A',
                 'Duration': 'N/A',
                 'Duration UOM': 'N/A',
@@ -243,11 +210,6 @@ const PurchaseOrder = async (datas: any) => {
         });
     }
 
-    // props.setDownloading(false)
-
-
-
-    // const worksheet = workbook.addWorksheet('Sheet1');
     // Generate a buffer containing the Excel file
     const buffer = await workbook.xlsx.writeBuffer();
 
@@ -263,8 +225,6 @@ const PurchaseOrder = async (datas: any) => {
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
-
-
 };
 
 export default PurchaseOrder;

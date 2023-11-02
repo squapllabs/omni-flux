@@ -143,6 +143,17 @@ const getBySearchPR = (data: any) => {
   );
 };
 
+const purchaseOrderGetAll = (data:any) => {
+  return useQuery(
+    ['useGetAllpurchaseOrder'],
+    () => purchaseRequestService.purchseOrderGetAll(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
 export {
   useGetOnePurchaseRequest,
   purchaseOrderRequest,
@@ -154,4 +165,5 @@ export {
   useGetOnePurchaseOrder,
   getBySearchPR,
   useGetOnePurchaseOrderTableData,
+  purchaseOrderGetAll
 };
