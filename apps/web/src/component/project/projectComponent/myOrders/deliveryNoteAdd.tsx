@@ -391,6 +391,8 @@ const MyOrderView = () => {
               </thead>
               <tbody>
                 {tableValue?.map((items: any, index: number) => {
+                  // console.log("itemsss", items);
+                  
                   return (
                     <tr>
                       <td>{index + 1}</td>
@@ -407,7 +409,9 @@ const MyOrderView = () => {
                           name="current_received_quantity"
                           value={items?.current_received_quantity}
                           width="100px"
-                          // error={errors[index]}
+                          // error={errors[index]} 
+                          errorDisable= {true}
+                          borderError = {errors[index] ? true : false}
                           error={errors[index] ? true : false}
                           onChange={(e) => handleListChange(e, index)}
                           onKeyDown={(e) => {
@@ -431,7 +435,7 @@ const MyOrderView = () => {
               </tbody>
             </table>
           </div>
-          <div className={Styles.inputFieldTextArea}>
+          <div className={Styles.inputFieldTextArea} >
             <TextArea
               name="notes"
               label="Comments"
