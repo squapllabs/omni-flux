@@ -63,6 +63,18 @@ const PurchaseRequestList = () => {
       },
     });
   };
+  const handleVendor = (value: any, vendor: any) => {
+    console.log('vendor', vendor);
+    navigate(`/vendor-quotes-update/${Number(value?.purchase_request_id)}`, {
+      state: {
+        project_id: value.project_data.project_id,
+        indent_id: value?.indent_request_data?.indent_request_id,
+        vendor_quotes_id: vendor?.vendor_quotes_id,
+        vendor_id: vendor?.vendor_id,
+        vendor: vendor,
+      },
+    });
+  };
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
@@ -204,8 +216,6 @@ const PurchaseRequestList = () => {
         {/* <div> */}
         <div className={Styles.cardBox}>
           {getPRbasedOnIndent?.content?.map((items: any, index: number) => {
-            console.log('items', items?.purchase_order?.length);
-
             return (
               <div className={Styles.cardContainer}>
                 <div>
@@ -255,25 +265,59 @@ const PurchaseRequestList = () => {
                         )}
                       </span> */}
                       <div className={Styles.vendorPanel}>
-                        {items?.vendor_quotes?.map(
-                          (vendors: any, vendorIndex: number) => {
-                            return (
-                              <ol>
+                        <ol>
+                          {items?.vendor_quotes?.map(
+                            (vendors: any, vendorIndex: number) => {
+                              console.log('vendors', vendors);
+                              return (
                                 <li
-                                  className={`${Styles.status} ${
+                                  className={`${Styles.vendorLinks} ${
                                     items?.selected_vendor_data?.vendor_id ===
                                     vendors?.vendor_data?.vendor_id
                                       ? Styles.completedStatus
                                       : ''
                                   }`}
+                                  onClick={() => handleVendor(items, vendors)}
                                 >
                                   <div>{vendorIndex + 1}</div>
-                                  {vendors?.vendor_data?.vendor_name}
+                                  <span>
+                                    {vendors?.vendor_data?.vendor_name}
+                                  </span>
+                                  {/* {vendors?.quotation_status === 'Approved' ? (
+                                    'Approved'
+                                  ) : vendors?.quotation_status ===
+                                    'Pending' ? (
+                                    <div className={Styles.hyperLinks}>
+                                      Add Quotation
+                                    </div>
+                                  ) : vendors?.quotation_status ===
+                                    'Quotation Recived' ? (
+                                    <div className={Styles.hyperLinks}>
+                                      View
+                                    </div>
+                                  ) : (
+                                    ''
+                                  )} */}
+                                  <span
+                                    className={`${Styles.status} ${
+                                      vendors?.quotation_status === 'Approved'
+                                        ? Styles.completedStatus
+                                        : vendors?.quotation_status ===
+                                          'Pending'
+                                        ? Styles.inprogressStatus
+                                        : vendors?.quotation_status ===
+                                          'Rejected'
+                                        ? Styles.rejectedStatus
+                                        : ''
+                                    }`}
+                                  >
+                                    {vendors?.quotation_status}
+                                  </span>
                                 </li>
-                              </ol>
-                            );
-                          }
-                        )}
+                              );
+                            }
+                          )}
+                        </ol>
                       </div>
                     </div>
                   </div>
@@ -355,7 +399,7 @@ const PurchaseRequestList = () => {
                         items?.status === 'Waiting For Quotation' ? '' : 'none',
                     }}
                   >
-                    <a>Add Quotation</a>
+                    <a>Select Vendor</a>
                   </div>
                   <div
                     style={{

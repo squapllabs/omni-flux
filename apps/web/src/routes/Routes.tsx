@@ -281,7 +281,7 @@ import LocalPurchaseList from '../component/project/projectComponent/localPurcha
 import LocalPurchaseOrder from '../component/project/projectComponent/localPurchase/localPurchaseOrder';
 import DeliveryAddNote from '../component/project/projectComponent/myOrders/deliveryNoteAdd';
 import ViewReceivedGoods from '../component/project/projectComponent/myOrders/viewReceivedGoods';
-
+import VendorQuotesUpdate from '../component/purchaseRequest/vendorQuotesUpdate';
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
@@ -401,6 +401,8 @@ const AppRoutes = () => {
 
   const ProtectedDeliveryNoteAdd = withLayoutAndProtection(DeliveryAddNote);
   const ProtectedViewReceivedGoods = withLayoutAndProtection(ViewReceivedGoods);
+  const ProtectedVendorQuotesUpdate =
+    withLayoutAndProtection(VendorQuotesUpdate);
   return (
     <div>
       <Routes>
@@ -651,6 +653,10 @@ const AppRoutes = () => {
         <Route
           path="/view-received-goods/:pruchaseId/:grnId"
           element={<ProtectedViewReceivedGoods />}
+        />
+        <Route
+          path="/vendor-quotes-update/:id"
+          element={<ProtectedVendorQuotesUpdate />}
         />
       </Routes>
     </div>
