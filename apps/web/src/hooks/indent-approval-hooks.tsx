@@ -51,9 +51,20 @@ const updateIndentRequest = () => {
   );
 };
 
+const getByIndnetId = (id: number) => {
+  return useQuery(
+    ['getByIndnetId', id],
+    () => indentApprovalService.getOneIndentById(id),
+    {
+      select: (data) => data.data,
+    }
+  );
+};
+
 export {
   getByUserRoleIndent,
   useGetAllIndentRequestDetail,
   updateIndentRequest,
   getAllIndentbyUserRole,
+  getByIndnetId
 };

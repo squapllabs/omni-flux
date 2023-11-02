@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Document, Page } from 'react-pdf';
 import { format } from 'date-fns';
-import { formatBudgetValue } from '../../../helper/common-function';
 
 const ReportGenerator = (data: any) => {
-    // console.log("check",data);
-    
+
     const itemsData = data?.purchase_request_data?.purchase_request_quotation_details?.map((item: any) => ({
         itemName: item?.item_data?.item_name,
         quantity: item?.purchase_requested_quantity,
@@ -16,10 +13,10 @@ const ReportGenerator = (data: any) => {
     }))
 
     // console.log("itemsData",itemsData);
-    
-    
+
+
     // console.log("data?.purchase_request_data?.purchase_request_details",data?.purchase_request_data?.purchase_request_details);
-    
+
     // const itemsData = [];
 
     // for (let i = 0; i < 150; i++) {
@@ -73,26 +70,31 @@ const ReportGenerator = (data: any) => {
     pdf.setFont('custom');
 
     const imageUrl = "/Ecologo-03.png"; // Replace with your image URL
-    pdf.addImage(imageUrl, 'JPEG', 10, 1, 55, 15); //text to added in list of particals
+    //start which line  width height
+    // pdf.addImage(imageUrl, 'JPEG', 16, 10, 105, 15); //text to added in list of particals
+    pdf.addImage(imageUrl, 'JPEG', 10, 5, 40, 10);
     // Title
-    pdf.setFontSize(15);
+    pdf.setFontSize(10);
     pdf.setFont('Newsreader', 'bold');
-    pdf.text('PURCHASE ORDER', 85, 10);
-    pdf.setFontSize(11);
+    pdf.text('PURCHASE ORDER', 150, 12);
+    pdf.setLineWidth(0.1); // Line width in units (you can adjust this)
+    pdf.setDrawColor(200, 200, 200); // Line color (RGB)
+    pdf.line(10, 18, 200, 18)
+    pdf.setFontSize(10);
     pdf.setFont('Newsreader', 'normal');
     pdf.text(`${purchaseOrder.companyAddress}`, 14, 25);
     pdf.text(`${purchaseOrder.Line1}`, 14, 30);
     pdf.text(`${purchaseOrder.phoneNumber}`, 14, 35);
     pdf.text(`${purchaseOrder.emailAddress}`, 14, 40);
     pdf.text(`${purchaseOrder.websiteURL}`, 14, 45);
-    pdf.setFontSize(12);
+    pdf.setFontSize(10);
     pdf.text(`Order Number: ${purchaseOrder.orderNumber}`, 140, 30);
     pdf.text(`Order Date: ${purchaseOrder.orderDate}`, 140, 35);
 
     const headerStyles = {
-        // fillColor: [0, 0, 255],
-        fillColor: [0, 51, 102],
-        textColor: 255,
+        fillColor: [240, 240, 240],
+        textColor: [0],
+        fontFamily: 'Newsreader',
         fontStyle: 'bold',
     };
 
@@ -103,9 +105,25 @@ const ReportGenerator = (data: any) => {
             [`Vendor Address: ${purchaseOrder.vendorAddress}`],
             [`Contact Number: ${purchaseOrder.vendorContact}`]
         ],
-        startX:10,
+        startX: 10,
         startY: 50, // Adjust the Y position as needed
-        headStyles: headerStyles,
+        headStyles: {
+            fillColor: headerStyles.fillColor,
+            textColor: headerStyles.textColor,
+            fontStyle: headerStyles.fontStyle,
+            fontSize: 10, // Adjust the font size as needed
+            font: 'Newsreader', // Set the font family
+            halign: 'left',
+        },
+        alternateRowStyles: { fillColor: [255, 255, 255] },
+        bodyStyles: {
+            fontSize: 10, // Adjust the font size for the body
+            font: 'Newsreader', // Set the font family for the body
+            cellPadding: { top: 1, right: 5, bottom: 1, left: 2 }, // Adjust cell padding
+            textColor: [0, 0, 0], // Set text color for the body
+            rowPageBreak: 'avoid', // Avoid row page breaks
+        },
+        margin: { top: 10, left: 13 },
     };
     pdf.autoTable(vendorDetailsTable);
 
@@ -118,13 +136,29 @@ const ReportGenerator = (data: any) => {
             [`Contact Number: ${purchaseOrder.siteContact}`]
         ],
         startY: 85, // Adjust the Y position as needed
-        headStyles: headerStyles,
+        headStyles: {
+            fillColor: headerStyles.fillColor,
+            textColor: headerStyles.textColor,
+            fontStyle: headerStyles.fontStyle,
+            fontSize: 10, // Adjust the font size as needed
+            font: 'Newsreader', // Set the font family
+            halign: 'left',
+        },
+        alternateRowStyles: { fillColor: [255, 255, 255] },
+        bodyStyles: {
+            fontSize: 10, // Adjust the font size for the body
+            font: 'Newsreader', // Set the font family for the body
+            cellPadding: { top: 1, right: 5, bottom: 1, left: 2 }, // Adjust cell padding
+            textColor: [0, 0, 0], // Set text color for the body
+            rowPageBreak: 'avoid', // Avoid row page breaks
+        },
+        margin: { top: 10, left: 13 },
     };
     pdf.autoTable(siteDetailsTable);
 
     // Define item details table headers
     const itemDetailsHeaders = ['S.No', 'Item Name', 'Quantity', 'Unit Price', 'Total'];
-    pdf.setFont('courier');
+    // pdf.setFont('courier');
     const itemDetailsRows = itemsData?.map((item: any, index: number) => [
         index + 1,
         item.itemName,
@@ -133,21 +167,36 @@ const ReportGenerator = (data: any) => {
         item.total?.toLocaleString(),
     ]);
 
-
-
     // Create item details table
     const itemDetailsYStart = yStart + yOffset * 10.5;
+
     pdf.autoTable({
         head: [itemDetailsHeaders],
         body: itemDetailsRows,
         startY: itemDetailsYStart, // Adjust the Y position as needed
-        headStyles: headerStyles,
+        headStyles: {
+            fillColor: headerStyles.fillColor,
+            textColor: headerStyles.textColor,
+            fontStyle: headerStyles.fontStyle,
+            fontSize: 10, // Adjust the font size as needed
+            font: 'Newsreader', // Set the font family
+            halign: 'left',
+        },
+        alternateRowStyles: { fillColor: [255, 255, 255] },
+        bodyStyles: {
+            fontSize: 10, // Adjust the font size for the body
+            font: 'Newsreader', // Set the font family for the body
+            cellPadding: { top: 1, right: 5, bottom: 1, left: 2 }, // Adjust cell padding
+            textColor: [0, 0, 0], // Set text color for the body
+            rowPageBreak: 'avoid', // Avoid row page breaks
+        },
+        margin: { top: 10, left: 13 },
     });
 
     // Define summary table rows ₹ 
     const summaryRows = [
-        [{ content: 'Total Quantity:', styles: { fontStyle: 'bold' } }, overallTotalQuantity.toLocaleString()],
-        [{ content: 'Total Amount:', styles: { fontStyle: 'bold' } }, overallTotal.toLocaleString()],
+        [{ content: 'Total Quantity:', styles: { fontStyle: 'bold' } }, overallTotalQuantity?.toLocaleString()],
+        [{ content: 'Total Amount:', styles: { fontStyle: 'bold' } }, overallTotal?.toLocaleString()],
     ];
 
     // const totalPages = pdf.internal.getNumberOfPages();
@@ -162,18 +211,24 @@ const ReportGenerator = (data: any) => {
         );
     }
 
-
-
     // Create summary table
     const summaryYStart = itemDetailsYStart + pdf.autoTable.previous;
     // console.log("summaryYStart",summaryYStart);
     pdf.autoTable({
         body: summaryRows,
         startY: summaryYStart, // Adjust the Y position as needed
+        bodyStyles: {
+            fontSize: 10, // Adjust the font size for the body
+            font: 'Newsreader', // Set the font family for the body
+            cellPadding: { top: 1, right: 5, bottom: 1, left: 2 }, // Adjust cell padding
+            textColor: [0, 0, 0], // Set text color for the body
+            rowPageBreak: 'avoid', // Avoid row page breaks
+        },
+        margin: { top: 10, left: 13 },
     });
 
     // Save the PDF
-    pdf.save('purchase_order.pdf');
+    pdf.save(`${purchaseOrder?.orderNumber}.pdf`);
 
     // const pdfDataUri = pdf.output("datauristring");
     // const previewWindow = window.open();
