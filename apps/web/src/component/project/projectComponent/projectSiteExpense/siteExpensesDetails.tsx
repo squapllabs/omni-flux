@@ -123,6 +123,19 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         ...props.expenseList[index],
         [event.target.name]: Number(event.target.value),
       };
+    } else if (event.target.name === 'expense_data_id') {
+      const matchingObjects = getSiteExpense.filter(
+        (obj: any) => Number(obj.value) === Number(event.target.value)
+      );
+      tempObj = {
+        ...props.expenseList[index],
+        expense_data_id: matchingObjects[0].value,
+        site_expense_name: matchingObjects[0].label,
+      };
+
+      let tempArry = [...props.expenseList];
+      tempArry[index] = tempObj;
+      props.setExpenseList(tempArry);
     } else {
       tempObj = {
         ...props.expenseList[index],
@@ -425,36 +438,14 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                       />
                     </td>
                     <td>
-                      {/* {item?.site_expense_name === undefined
-                        ? item?.expense_master_data?.master_data_name
-                        : item?.site_expense_name} */}
-                      <AutoCompleteSelect
-                        // width={DropfieldWidth}
+                      <Select
                         width="180px"
                         name="expense_data_id"
                         mandatory={true}
-                        optionList={
-                          getSiteExpense != undefined ? getSiteExpense : []
-                        }
+                        defaultLabel="Select the option"
+                        placeholder="Select the option"
                         value={item.expense_data_id}
                         onChange={(e) => handleListChange(e, index)}
-                        onSelect={(value) => {
-                          const matchingObjects = getSiteExpense.filter(
-                            (obj: any) => Number(obj.value) === Number(value)
-                          );
-                          let tempObj = {};
-                          tempObj = {
-                            ...props.expenseList[index],
-                            ['expense_data_id']: value,
-                            ['site_expense_name']: matchingObjects[0].label,
-                          };
-
-                          let tempArry = [...props.expenseList];
-                          tempArry[index] = tempObj;
-                          console.log('tempArry[index]', tempArry[index]);
-
-                          props.setExpenseList(tempArry);
-                        }}
                         error={
                           props.errors?.[`[${index}].expense_data_id`]
                             ? true
@@ -462,7 +453,13 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                             ? true
                             : false
                         }
-                      />
+                      >
+                        {getSiteExpense?.map((item: any, index: any) => {
+                          return (
+                            <option value={item.value}>{item.label}</option>
+                          );
+                        })}
+                      </Select>
                     </td>
                     <td>
                       <Select
