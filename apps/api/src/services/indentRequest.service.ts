@@ -1,8 +1,10 @@
 import indentRequestDao from '../dao/indentRequest.dao';
+import notificationDao from '../dao/notification.dao';
 import projectDao from '../dao/project.dao';
 import siteContractorDao from '../dao/siteContractor.dao';
 import userDao from '../dao/user.dao';
 import { indentRequestBody } from '../interfaces/indentRequest.interface';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New IndentRequest
@@ -695,22 +697,45 @@ const updateStatus = async (body) => {
       };
     }
 
-    const indentRequest = await indentRequestDao.updateStatus(
-      indent_request_id,
-      approver_status,
-      approver_comments,
-      approved_date,
-      rejected_date,
-      updated_by,
-      approver_user_id,
-      request_type
-    );
+    const result = await prisma
+      .$transaction(async (prisma) => {
+        const indentRequest = await indentRequestDao.updateStatus(
+          indent_request_id,
+          approver_status,
+          approver_comments,
+          approved_date,
+          rejected_date,
+          updated_by,
+          approver_user_id,
+          request_type,
+          prisma
+        );
 
-    return {
-      message: 'success',
-      status: true,
-      data: indentRequest,
-    };
+        await notificationDao.add(
+          approver_user_id,
+          indentRequestExist?.requester_user_id,
+          indent_request_id,
+          `Indent-${approver_status}`,
+          `Notification to indent_requestor_user_id as Indent ${approver_status}`,
+          updated_by,
+          prisma
+        );
+
+        return {
+          message: 'success',
+          status: true,
+          data: indentRequest,
+        };
+      })
+      .then((data) => {
+        console.log('Successfully Indent Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return result;
   } catch (error) {
     console.log(
       'Error occurred in updateStatus indentRequest service : ',

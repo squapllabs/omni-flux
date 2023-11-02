@@ -1,5 +1,6 @@
 import prisma from '../utils/prisma';
 import common from './common/utils.dao';
+import notificationDao from './notification.dao';
 
 const add = async (
   requester_user_id: number,
@@ -170,6 +171,16 @@ const add = async (
             }
           }
         }
+
+        await notificationDao.add(
+          requester_user_id,
+          approver_user_id,
+          new_indent_request_id,
+          'Indent-Requested',
+          'Notification To Indent Approver User as Indent Requested For Approval',
+          created_by,
+          tx
+        );
 
         const result = {
           indent_request: indentRequest,

@@ -49,6 +49,8 @@ model users {
   expense_applier            expense[]                    @relation("expenseApplierUser")
   expense_recall             expense_recall[]
   grn                        grn[]
+  notification_from_user     notifications[]              @relation("notificationFromUserId")
+  notification_to_user       notifications[]              @relation("notificationToUserId")
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -1194,4 +1196,20 @@ model grn_details {
   created_by        Int?
   grn_data          grn?     @relation(fields: [grn_id], references: [grn_id])
   item_data         item?    @relation(fields: [item_id], references: [item_id])
+}
+
+model notifications {
+  notification_id             Int      @id @default(autoincrement())
+  notification_from_user_id   Int?
+  notification_to_user_id     Int?
+  notification_type_id        Int?
+  notification_type           String?
+  notification_description    String?
+  is_read                     Boolean  @default(false)
+  created_date                DateTime @default(now())
+  updated_date                DateTime
+  created_by                  Int?
+  updated_by                  Int?
+  notification_from_user_data users?   @relation("notificationFromUserId", fields: [notification_from_user_id], references: [user_id])
+  notification_to_user_data   users?   @relation("notificationToUserId", fields: [notification_to_user_id], references: [user_id])
 }
