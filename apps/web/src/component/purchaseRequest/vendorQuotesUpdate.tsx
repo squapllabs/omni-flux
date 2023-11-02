@@ -388,13 +388,17 @@ const VendorQuotesUpdate = () => {
                         <td>{items?.indent_requested_quantity}</td>
                         <td>{items?.purchase_requested_quantity}</td>
                         <td>
-                          <Input
-                            name="unit_cost"
-                            value={items?.unit_cost}
-                            error={false}
-                            width="100px"
-                            onChange={(e) => handleVendourQuotes(e, index)}
-                          />
+                          {pageDisable ? (
+                            items?.unit_cost
+                          ) : (
+                            <Input
+                              name="unit_cost"
+                              value={items?.unit_cost}
+                              error={false}
+                              width="100px"
+                              onChange={(e) => handleVendourQuotes(e, index)}
+                            />
+                          )}
                         </td>
                         <td>{items?.total_cost}</td>
                       </tr>
@@ -514,6 +518,7 @@ const VendorQuotesUpdate = () => {
                 size="small"
                 color="primary"
                 onClick={formik.handleSubmit}
+                disabled={pageDisable}
               >
                 Submit Quotation
               </Button>
