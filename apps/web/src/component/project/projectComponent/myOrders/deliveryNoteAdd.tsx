@@ -41,16 +41,12 @@ const MyOrderView = () => {
   // console.log('PPPP', getListData);
   const { mutate: postGrnData } = createGrn();
   const [tableValue, setTableValue] = useState([]);
-  // console.log("table==>",tableValue);
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [loaderData, setLoaderData] = useState(true);
-  const [errorPresent, setErrorPresent] = useState(false);
-  console.log('errorPresent', errorPresent);
-  const [errors, setErrors] = useState<Array<string>>(
-    new Array(tableValue.length).fill('')
-  );
-  console.log('loader==>', loaderData);
+  const [errors, setErrors] = useState<Array<string>>(new Array(tableValue.length).fill(''))
+  // console.log('loader==>', loaderData);
+  // console.log('errors==>', errors);
 
   const [message, setMessage] = useState('');
   const handleListChange = (
@@ -62,28 +58,25 @@ const MyOrderView = () => {
     updatedTableValue[index].currently_received_quantity = Number(
       event.target.value
     );
-    console.log('to_be_received', to_be_received);
-    console.log(
-      'input value',
-      updatedTableValue[index].currently_received_quantity
-    );
-    if (updatedTableValue[index].currently_received_quantity > to_be_received) {
-      console.log('validation occurs in ===>', index);
+    // console.log('to_be_received', to_be_received);
+    // console.log(
+    //   'input value',
+    //   updatedTableValue[index].currently_received_quantity
+    // );
+    if (to_be_received < updatedTableValue[index].currently_received_quantity) {
       setErrors((prevErrors) => {
         const newErrors = [...prevErrors];
         newErrors[index] = true;
         return newErrors;
       });
-      setErrorPresent(true);
     } else {
+      // Clear the error for this row
       setErrors((prevErrors) => {
         const newErrors = [...prevErrors];
         newErrors[index] = false;
         return newErrors;
       });
     }
-    const hasErrors = errors.some((error: any) => error);
-    setErrorPresent(hasErrors);
     setTableValue(updatedTableValue);
   };
 
@@ -157,40 +150,40 @@ const MyOrderView = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      if (errorPresent) {
-        setMessage('Quantity mismatch');
+      const obj = {
+        notes: values?.notes,
+        invoice_id: values?.invoice_number,
+        grn_details: tableValue,
+        purchase_order_id: Number(routeParams?.id),
+        goods_received_date: values.goods_received_date,
+        bill_details: invoiceDocument,
+        goods_received_by: userID,
+        grn_status: 'Pending',
+        project_id: projectId,
+        created_by: userID,
+      };
+      // console.log('ssssss', obj);
+      if (errors.includes(true)) {
+        setMessage('Mismatch quantity');
+        setOpenSnack(true);
+      } else if (invoiceDocument?.length === 0) {
+        setMessage('Bill is Mandatory');
         setOpenSnack(true);
       } else {
-        const obj = {
-          notes: values?.notes,
-          invoice_id: values?.invoice_number,
-          grn_details: tableValue,
-          purchase_order_id: Number(routeParams?.id),
-          goods_received_date: values.goods_received_date,
-          bill_details: invoiceDocument,
-          goods_received_by: userID,
-          grn_status: 'Pending',
-          project_id: projectId,
-          created_by: userID,
-        };
-
-        if (invoiceDocument?.length > 0) {
-          postGrnData(obj, {
-            onSuccess: (data, variables, context) => {
-              if (data?.message === 'success') {
-                setMessage('Goods delivered added');
-                setOpenSnack(true);
-                setTimeout(() => {
-                  navigate(`/project-edit/${Number(state?.projectId)}`);
-                }, 1000);
-              }
-            },
-          });
-        } else {
-          setMessage('Bill is Mandatory');
-          setOpenSnack(true);
-        }
+        // If none of the above conditions are met, execute this block
+        postGrnData(obj, {
+          onSuccess: (data, variables, context) => {
+            if (data?.message === 'success') {
+              setMessage('Goods delivered added');
+              setOpenSnack(true);
+              setTimeout(() => {
+                navigate(`/project-edit/${Number(state?.projectId)}`);
+              }, 1000);
+            }
+          },
+        });
       }
+      
     },
   });
 
@@ -405,6 +398,7 @@ const MyOrderView = () => {
                           name="current_received_quantity"
                           value={items?.current_received_quantity}
                           width="100px"
+                          // error={errors[index]}
                           error={errors[index] ? true : false}
                           onChange={(e) => handleListChange(e, index)}
                           onKeyDown={(e) => {
