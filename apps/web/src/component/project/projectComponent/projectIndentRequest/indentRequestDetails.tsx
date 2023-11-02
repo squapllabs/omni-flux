@@ -237,7 +237,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
         <table className={Styles.scrollable_table}>
           <thead>
             <tr>
-              <th className={Styles.tableHeading}>S No</th>
+              <th className={Styles.tableHeading}>#</th>
               <th className={Styles.tableHeading}>Item</th>
               <th className={Styles.tableHeading}>UOM</th>
               <th className={Styles.tableHeading}>Quantity</th>
