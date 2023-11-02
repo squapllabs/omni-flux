@@ -44,6 +44,7 @@ const BoqTaskListScreen : React.FC= ()=>{
         setCategoryData(datas.data[0]);
         setSelectedCategory(datas.data[0].category_id);
         setCategoryId(datas.data[0].category_id);
+        
       };
   
       fetchData();
@@ -88,10 +89,10 @@ const BoqTaskListScreen : React.FC= ()=>{
                 <div className={Styles.verticalLine}></div>
               </div>
             </div>
-            <div className={Styles.countContent}>
+            {/* <div className={Styles.countContent}>
               <h3>{getBomData?.tasks_count}</h3>
               <span className={Styles.countContentTitle}>Overall Task</span>
-            </div>
+            </div> */}
           </div>
 
           <div className={Styles.boqAmount}>
@@ -100,7 +101,7 @@ const BoqTaskListScreen : React.FC= ()=>{
                 <div className={Styles.verticalLine}></div>
               </div>
             </div>
-            <div className={Styles.countContent}>
+            {/* <div className={Styles.countContent}>
               <h3>
                 {formatBudgetValue(
                   getBomData?.bom_configuration_data?.budget
@@ -109,13 +110,13 @@ const BoqTaskListScreen : React.FC= ()=>{
                 )}
               </h3>
               <span className={Styles.countContentTitle}>Aggregated Value</span>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className={Styles.selected}></div>
         <div>
           <BomItems
-            selectedCategory={selectedCategory}
+            selectedCategory={routeParamsObj.categoryId}
             setSelectedSubCategory={setSelectedSubCategory}
             selectedSubCategory={selectedSubCategory}
             projectsId={projectId}

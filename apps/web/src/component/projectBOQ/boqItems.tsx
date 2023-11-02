@@ -27,6 +27,9 @@ import DownloadIcon from '../menu/icons/download';
 import DeleteIcon from '../menu/icons/newDeleteIcon';
 import { read, utils } from 'xlsx';
 import CustomPopupModel from '../ui/CustomPopupModel';
+import { createMultipleSubcategory } from '../../hooks/subCategory-hooks';
+import { getUomByType } from '../../hooks/uom-hooks';
+import CustomLoader from '../ui/customLoader';
 
 
 const BomItems = (props: {
@@ -38,13 +41,16 @@ const BomItems = (props: {
 }) => {
   const { selectedCategory, selectedBomConfig } = props;
 
+ 
+  const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
+  const { mutate: createNewMultipleSubcategory } = createMultipleSubcategory();
   const obj = {
     selectedCategory: selectedCategory,
     selectedBomConfig: selectedBomConfig,
   };
   const { data: getAllData, refetch } = getBycategoryIdInSub(obj);
-  const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
-  const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
+  const { data: uomObject } = getUomByType('RAWMT');
+   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [planListTitle, setPlanListTitle] = useState('');
   const [showPlanForm, setShowPlanForm] = useState(false);
   const [categoryData, setCategoryData] = useState<any>();
@@ -67,6 +73,8 @@ const BomItems = (props: {
   const [subChildList, setSubChildList] = useState<any>([]);
   const [ TaskPopupTrigger , setTaskPopupTrigger] = useState(false)
   const [ modelPopupTrigger , setModelPopupTrigger] = useState(false)
+  const [isloading , setIsLoading]= useState(false);
+  // const [getAllData , setTaskData]=useState<any>(null)
   const primary_color = '#7f56d';
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -81,9 +89,14 @@ const BomItems = (props: {
   const handleSubTaskView = async (value: any) => {
     setSubTaskView(!subTaskView);
     setSelectedSubCategoryId(value);
+    setIsLoading(true);
     const getSubChildList =
       await subCategoryService.getOneChlidSubCatListbyParentID(value);
     setSubChildList(getSubChildList?.data);
+    setIsLoading(false);
+    console.log('data',getSubChildList?.data)
+
+
   };
 
   const deleteHandler = (id: any) => {
@@ -115,6 +128,7 @@ const BomItems = (props: {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
   const handleFileOnChange = async (e:any) =>{
     const file = e.target.files[0];
     setModelPopupTrigger(false)
@@ -129,14 +143,25 @@ const BomItems = (props: {
         if(parsedJson.length > 1){
 
           const taskData: { id: string | undefined; description: any; uom_id: number; quantity: any; rate: any; estimated_budget: any; actual_budget: number; children: any[]; }[] = []
-        const formattedTaskData = parsedJson.forEach((element:any) =>{
-          
+       
+       
+          const formattedTaskData = parsedJson.forEach((element:any) =>{
+            
+            // const uom = element?.Unit || null
+            // debugger
+            // const findUom=(uomName)=>{
+            //   uomObject.filter((element:any)=>element.label?.toLowerCase() ===)
+            // }
+            
+            // if(uom){
+
+            // }
          const  s_no_array = String(element['SI.NO']).split('.');
           if(s_no_array.length === 1){
             const obj = {
               id : s_no_array.pop(),
               description : (element?.Description || ''),
-              uom_id:0,
+              uom_id:64,
               quantity:(element?.Quantity || ''),
               rate: (element?.Rate|| ''),
               estimated_budget: (element?.Amount|| ''),
@@ -153,7 +178,7 @@ const BomItems = (props: {
             const obj = {
               id : s_no_array.pop(),
               description : (element?.Description || ''),
-              uom_id:0,
+              uom_id:64,
               quantity:(Number(element?.Quantity) || ''),
               rate: (Number(element?.Rate)|| ''),
               estimated_budget: (element?.Amount|| ''),
@@ -234,9 +259,28 @@ const BomItems = (props: {
       );
       setCategoryData(data?.data);
     };
-    refetch();
+
+    
     fetchOne();
+    refetch();
+
+    
   }, [selectedCategory, reload]);
+
+  // useEffect(()=>{
+  //   const fetchTaskData = async()=>{
+
+  //     const obj = {
+  //       selectedCategory: selectedCategory,
+  //       selectedBomConfig: selectedBomConfig,
+  //     };
+  //     const taskData = await subCategoryService.getOneSubCatListbyCatID(obj);
+  //     debugger
+  //     setTaskData(taskData)
+  //     setIsLoading(false)
+  //   }
+  //   fetchTaskData()
+  // },[selectedCategory , reload])
 
   const handleClosePopup = ():void => {
     setTaskPopupTrigger(false)
@@ -248,13 +292,26 @@ const BomItems = (props: {
 
 
   const handleTaskBulkUpload = ()=>{
-    debugger
+    if(uploadedTaskData.length){
+     const Object = [...uploadedTaskData]
+      createNewMultipleSubcategory(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.success === true) {
+            setMessage('Sub category created');
+            setOpenSnack(true);
+            setTimeout(() => {navigate('/settings')},1000);
+            
+          }
+        },
+      });
+
+    setTaskPopupTrigger(false)
+    }
   }
  
   return ( 
     <div className={Styles.task_page_container}>
-
-<div>
+      <div>
       <CustomSidePopup
           open={TaskPopupTrigger}
           title={categoryData?.name}
@@ -423,328 +480,324 @@ const BomItems = (props: {
                 </Button>
             </div>
           </div>}
-          width={'50%'} description={''}         />
+          width={'50%'} description={''}/>
       </div>
-
-
-      {getAllData ? (
-        <div>
-          <div className={Styles.mainHeading}>
-            <div className={Styles.mainLeftContent}>
-              <div className={Styles.leftContentOne}>
-                <CheckListIcon 
-                style={{padding:'4px 0 0 0;'}}
-                />
-                <h3 title={categoryData?.name}>
-                  {/* {categoryData?.name
-                    ? categoryData?.name?.length > 20
-                      ? categoryData?.name?.substring(0, 20) + '...'
-                      : categoryData?.name
-                    : '-'} */}
-                    {categoryData?.name}
-                  ({getAllData?.length})
-                </h3>
-              </div>
-              <div
-                className={Styles.leftContentOne}
-                onClick={() => {
-                  // selectedSubCategoryId(!selectedSubCategoryId);
-                  setShowSubCategoryForm(true);
-                  setMode('Add');
-                }}
-              >
-                <NewAddCircleIcon />
-                <span className={Styles.menuFont}>Add Task</span>
-              </div>
-              <div className={`${Styles.flex} ${Styles.gap_2} ${Styles.bulkUpload_container}`}
-              onClick={handleFileUploadBtnClick}
-              style={{cursor:'pointer'}}
-              >
-              <span>
-                    <input
-                            ref={fileInputRef}
-                            id="upload-photo"
-                            name="upload_photo"
-                            type="file"
-                            style={{ display: 'none' }}
-                            onChange={(e) => handleFileOnChange(e)}
-                          />
-                    <FileUploadIcon
-                    width={20}
-                    height={20}
-                    color="#7f56d9" onClick={function (): void {
-                      throw new Error('Function not implemented.');
-                    } }                          />
-                  </span>
-                  <span className={Styles.menuFont}>Bulk Upload</span>                      
-              </div>
-            </div>
-            <div>
-              <h3>
-                {formatBudgetValue(
-                  categoryData?.budget ? categoryData?.budget : 0
-                )}
-              </h3>
-              <p className={Styles.countContentTitle}>Aggregated Value</p>
-            </div>
-          </div>
-          <div className={Styles.tableContainer}>
-            <table className={Styles.boqSubCategoryTable}>
-              <thead>
-                <tr>
-                  <th className={Styles.tableHeading}>#</th>
-                  {/* <th className={Styles.tableHeading}>Task Name</th> */}
-                  <th className={Styles.tableHeading}>Task Description</th>
-                  <th className={Styles.tableHeading}>Unit</th>
-                  <th className={Styles.tableHeading}>Quantity</th>
-                  <th className={Styles.tableHeading}>Rate</th>
-                  <th className={Styles.tableHeading}>Amount</th>
-                  <th className={Styles.tableHeading}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {getAllData?.map((data: any, index: number) => {
-                  const subChildLength = data?.children?.length;
-                  const actions = [
-                    {
-                      label: 'Manage Plans',
-                      onClick: () => {
-                        setSelectedSubCategoryId(data.sub_category_id);
-                        setPlanListTitle(data.name);
-                        setShowPlanForm(true);
-                      },
-                      disabled: subChildLength > 0 ? true : false,
-                    },
-                    {
-                      label: 'Edit Task',
-                      onClick: () => {
-                        handleEdit(data?.sub_category_id);
-                        setSelectedSubCategoryId(data?.sub_category_id);
-                      },
-                    },
-
-                    {
-                      label: 'Add sub Task',
-                      onClick: () => {
-                        handleSubTask(data?.sub_category_id);
-                        setSelectedSubCategoryId(data?.sub_category_id);
-                      },
-                      disabled: data?.is_bom_detail === true,
-                    },
-                  ];
-                  return (
-                    <>
-                      <tr
-                        key={data.sub_category_id}
-                        className={
-                          selectedSubCategoryId == data?.sub_category_id
-                            ? Styles.selectedRow
-                            : ''
-                        }
-                        
-                      >
-                        <td
-                          // onClick={(e) =>
-                          //   handleSubTaskView(data.sub_category_id)
-                          // }
-                        >
-                          {index + 1}
-                        </td>
-                        <td
-                          onClick={(e) =>{
-                            handleSubTaskView(data.sub_category_id)
-                          }}
-                          className={Styles.td_desc}
-                        >
-                          <span style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}>
-                            {data.description || '--'}
-                          </span>
-                        </td>
-                        <td>
-                          <span style={{ textAlign: 'justify' }}>
-                            {data?.uom_data?.name || '--'}
-                          </span>
-                        </td>
-                        <td>
-                          <span style={{ textAlign: 'justify' }}>
-                            {data.quantity || '--'}
-                          </span>
-                        </td>
-                        <td>
-                          <span style={{ textAlign: 'justify' }}>
-                            {data.rate || '--'}
-                          </span>
-                        </td>
-                        <td>
-                          <span style={{ textAlign: 'justify' }}>
-                          {data?.estimated_budget ?formatBudgetValue(
-                            data?.estimated_budget ? data?.estimated_budget : 0
-                          ):'--'}
-                          </span>
-                        </td>
-
-
-                        {/* <td
-                          onClick={(e) =>
-                            handleSubTaskView(data.sub_category_id)
-                          }
-                        >
-                          {formatBudgetValue(
-                            data?.actual_budget ? data?.actual_budget : 0
-                          )}
-                        </td> */}
-                        <td >
-
-                        <div className={Styles.actionIcons_container}>
-                        <span style={{cursor: 'pointer'}}><EditIcon
-                            onClick={() =>{  
-                            handleEdit(data?.sub_category_id);
-                            setSelectedSubCategoryId(data?.sub_category_id);}}
-                            /></span>
-                          
-                          <span
-                          onClick={()=>{    
-                            handleSubTask(data?.sub_category_id);
-                              setSelectedSubCategoryId(data?.sub_category_id);}}
-                          >
-                          <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
-                          </span>
-                          {
-                            data?.children?.length===0 ? (
-                              <span
-                          onClick={()=>{
-                            setSelectedSubCategoryId(data.sub_category_id);
-                            setPlanListTitle(data.name);
-                            setShowPlanForm(true);
-                          }}
-                          >
-                            <SettingIcon
-                            style={{cursor: 'pointer'}}
-                            color={primary_color}
-                            />
-                          </span>
-                            ): (
-                              <span
-                                onClick={
-                                  (e) =>{
-                                    handleSubTaskView(data.sub_category_id)
-                                  }
-                                }
-                                style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}
-                                >
-                                  <ExpandIcon
-                                    color={primary_color}
-                                    style={{fill_opacity : data?.children.length?'':'.5'}}
-                                  ></ExpandIcon>
-                                </span>
-                            )
-                          }
-                           {/* <span>  <CustomMenu actions={actions} name="BoQItems" /></span> */}
-                        </div>
-                        
-                         
-                          {/* <span
-                            className={Styles.menuText}
-                            onClick={toggleMenu}
-                          >
-                            <MoreVerticalIcon />
-                          </span>
-                          {isOpen && (
-                            <div className={Styles.menuDropdownItems}>
-
-                            </div>
-                          )} */}
-                        </td>
-                      </tr>
-                      {!subTaskView &&
-                        selectedSubCategoryId == data?.sub_category_id &&
-                        subChildList?.map((item: any, subindex: any) => {
-                          return (
-                              <SubBoqItems
-                              key={subindex}
-                              index={subindex}
-                              primaryIndex={index}
-                              rowData={item}
-                              reload={reload}
-                              setReload={setReload}
-                              subTaskView={subTaskView}
-                              setSubTaskView={setSubTaskView} 
-                              actions={undefined}                              />
-                           
-                          );
-                        })}
-                    </>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          <CustomSidePopup
-            open={showPlanForm}
-            title={planListTitle}
-            width="85%"
-            handleClose={handleClosePlanList}
-            content={
-              <PlanList
-                open={showPlanForm}
-                setOpen={setShowPlanForm}
-                subCategoryId={selectedSubCategoryId}
-                reload={reload}
-                setReload={setReload}
-                setAbstractReload={props.setReload}
-                abstractReload={props.reload}
-              />
-            }
-          />
-          <CustomDelete
-            open={openDelete}
-            title="Delete Task"
-            contentLine1="Are you sure you want to delete this Task ?"
-            contentLine2=""
-            handleClose={handleCloseDelete}
-            handleConfirm={handleDelete}
-          />
-
-          <CustomSnackBar
-            open={openSnack}
-            message={message}
-            onClose={handleSnackBarClose}
-            autoHideDuration={1000}
-            type={isWarning === true ? 'error' : 'success'}
-          />
-        </div>
+      {isloading ? (
+         <CustomLoader loading={isloading} size={48} />
       ) : (
         <div>
-          <div className={Styles.Secondcontainer}>
-            <div className={Styles.secondContainerContent}>
-              <div>
-                <CheckListIcon width={50} height={50} />
-              </div>
-              <div>
-                <h5>No Tasks added to this Abstract</h5>
-              </div>
-              <div>
-                <span>Let's add a task now</span>
-              </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  size="small"
-                  icon={<AddIcon width={20} color="white" />}
+          {getAllData ? (
+          <div>
+            <div className={Styles.mainHeading}>
+              <div className={Styles.mainLeftContent}>
+                <div className={Styles.leftContentOne}>
+                  <CheckListIcon 
+                  style={{padding:'4px 0 0 0;'}}
+                  />
+                  <h3 title={categoryData?.name}>
+                    {/* {categoryData?.name
+                      ? categoryData?.name?.length > 20
+                        ? categoryData?.name?.substring(0, 20) + '...'
+                        : categoryData?.name
+                      : '-'} */}
+                      {categoryData?.name}
+                    ({getAllData?.length})
+                  </h3>
+                </div>
+                <div
+                  className={Styles.leftContentOne}
                   onClick={() => {
+                    // selectedSubCategoryId(!selectedSubCategoryId);
                     setShowSubCategoryForm(true);
                     setMode('Add');
                   }}
                 >
-                  Add Task
-                </Button>
+                  <NewAddCircleIcon />
+                  <span className={Styles.menuFont}>Add Task</span>
+                </div>
+                <div className={`${Styles.flex} ${Styles.gap_2} ${Styles.bulkUpload_container}`}
+                onClick={handleFileUploadBtnClick}
+                style={{cursor:'pointer'}}
+                >
+                <span>
+                      <input
+                              ref={fileInputRef}
+                              id="upload-photo"
+                              name="upload_photo"
+                              type="file"
+                              style={{ display: 'none' }}
+                              onChange={(e) => handleFileOnChange(e)}
+                            />
+                      <FileUploadIcon
+                      width={20}
+                      height={20}
+                      color="#7f56d9" onClick={function (): void {
+                        throw new Error('Function not implemented.');
+                      } }                          />
+                    </span>
+                    <span className={Styles.menuFont}>Bulk Upload</span>                      
+                </div>
+              </div>
+              <div>
+                <h3>
+                  {formatBudgetValue(
+                    categoryData?.budget ? categoryData?.budget : 0
+                  )}
+                </h3>
+                <p className={Styles.countContentTitle}>Aggregated Value</p>
+              </div>
+            </div>
+            <div className={Styles.tableContainer}>
+              <table className={Styles.boqSubCategoryTable}>
+                <thead>
+                  <tr>
+                    <th className={Styles.tableHeading}>#</th>
+                    {/* <th className={Styles.tableHeading}>Task Name</th> */}
+                    <th className={Styles.tableHeading}>Task Description</th>
+                    <th className={Styles.tableHeading}>Unit</th>
+                    <th className={Styles.tableHeading}>Quantity</th>
+                    <th className={Styles.tableHeading}>Rate</th>
+                    <th className={Styles.tableHeading}>Amount</th>
+                    <th className={Styles.tableHeading}>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getAllData?.map((data: any, index: number) => {
+                    const subChildLength = data?.children?.length;
+                    const actions = [
+                      {
+                        label: 'Manage Plans',
+                        onClick: () => {
+                          setSelectedSubCategoryId(data.sub_category_id);
+                          setPlanListTitle(data.name);
+                          setShowPlanForm(true);
+                        },
+                        disabled: subChildLength > 0 ? true : false,
+                      },
+                      {
+                        label: 'Edit Task',
+                        onClick: () => {
+                          handleEdit(data?.sub_category_id);
+                          setSelectedSubCategoryId(data?.sub_category_id);
+                        },
+                      },
+
+                      {
+                        label: 'Add sub Task',
+                        onClick: () => {
+                          handleSubTask(data?.sub_category_id);
+                          setSelectedSubCategoryId(data?.sub_category_id);
+                        },
+                        disabled: data?.is_bom_detail === true,
+                      },
+                    ];
+                    return (
+                      <>
+                        <tr
+                          key={data.sub_category_id}
+                          className={
+                            selectedSubCategoryId == data?.sub_category_id
+                              ? Styles.selectedRow
+                              : ''
+                          }
+                          
+                        >
+                          <td>
+                            {index + 1}
+                          </td>
+                          <td
+                            onClick={(e) =>{
+                              handleSubTaskView(data.sub_category_id)
+                            }}
+                            className={Styles.td_desc}
+                          >
+                            <span style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}>
+                              {data.description || '--'}
+                            </span>
+                          </td>
+                          <td>
+                            <span style={{ textAlign: 'justify' }}>
+                              {data?.uom_data?.name || '--'}
+                            </span>
+                          </td>
+                          <td>
+                            <span style={{ textAlign: 'justify' }}>
+                              {data.quantity || '--'}
+                            </span>
+                          </td>
+                          <td>
+                            <span style={{ textAlign: 'justify' }}>
+                              {data.rate || '--'}
+                            </span>
+                          </td>
+                          <td>
+                            <span style={{ textAlign: 'justify' }}>
+                            {data?.estimated_budget ?formatBudgetValue(
+                              data?.estimated_budget ? data?.estimated_budget : 0
+                            ):'--'}
+                            </span>
+                          </td>
+                          <td >
+
+                          <div className={Styles.actionIcons_container}>
+                          <span style={{cursor: 'pointer'}}><EditIcon
+                              onClick={() =>{  
+                              handleEdit(data?.sub_category_id);
+                              setSelectedSubCategoryId(data?.sub_category_id);}}
+                              /></span>
+                            
+                            <span
+                            onClick={()=>{    
+                              handleSubTask(data?.sub_category_id);
+                                setSelectedSubCategoryId(data?.sub_category_id);
+                              }}
+                            >
+                            <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
+                            </span>
+                            {
+                              data?.children?.length===0 ? (
+                                <span
+                            onClick={()=>{
+                              setSelectedSubCategoryId(data.sub_category_id);
+                              setPlanListTitle(data.name);
+                              setShowPlanForm(true);
+                            }}
+                            >
+                              <SettingIcon
+                              style={{cursor: 'pointer'}}
+                              color={primary_color}
+                              />
+                            </span>
+                              ): (
+                                <span
+                                  onClick={
+                                    (e) =>{
+                                      handleSubTaskView(data.sub_category_id)
+                                      console.log('getAllData[index].switch',getAllData[index]);
+                                    }
+                                  }
+                                  style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':''}}
+                                  >
+                                    <ExpandIcon
+                                      color={primary_color}
+                                      style={{fill_opacity : data?.children.length?'':'.5'}}
+
+                                    ></ExpandIcon>
+                                  </span>
+                              )
+                            }
+                            {/* <span>  <CustomMenu actions={actions} name="BoQItems" /></span> */}
+                          </div>
+                          
+                          
+                            {/* <span
+                              className={Styles.menuText}
+                              onClick={toggleMenu}
+                            >
+                              <MoreVerticalIcon />
+                            </span>
+                            {isOpen && (
+                              <div className={Styles.menuDropdownItems}>
+
+                              </div>
+                            )} */}
+                          </td>
+                        </tr>
+                        {!subTaskView &&
+                          selectedSubCategoryId == data?.sub_category_id &&
+                          subChildList?.map((item: any, subindex: any) => {
+                            return (
+                                <SubBoqItems
+                                key={subindex}
+                                index={subindex}
+                                primaryIndex={index}
+                                rowData={item}
+                                reload={reload}
+                                setReload={setReload}
+                                subTaskView={subTaskView}
+                                setSubTaskView={setSubTaskView} 
+                                actions={undefined}                              />
+                            
+                            );
+                          })}
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <CustomSidePopup
+              open={showPlanForm}
+              title={planListTitle}
+              width="85%"
+              handleClose={handleClosePlanList}
+              content={
+                <PlanList
+                  open={showPlanForm}
+                  setOpen={setShowPlanForm}
+                  subCategoryId={selectedSubCategoryId}
+                  reload={reload}
+                  setReload={setReload}
+                  setAbstractReload={props.setReload}
+                  abstractReload={props.reload}
+                />
+              }
+            />
+            <CustomDelete
+              open={openDelete}
+              title="Delete Task"
+              contentLine1="Are you sure you want to delete this Task ?"
+              contentLine2=""
+              handleClose={handleCloseDelete}
+              handleConfirm={handleDelete}
+            />
+
+            <CustomSnackBar
+              open={openSnack}
+              message={message}
+              onClose={handleSnackBarClose}
+              autoHideDuration={1000}
+              type={isWarning === true ? 'error' : 'success'}
+            />
+          </div>
+        ) : (
+          <div>
+            <div className={Styles.Secondcontainer}>
+              <div className={Styles.secondContainerContent}>
+                <div>
+                  <CheckListIcon width={50} height={50} />
+                </div>
+                <div>
+                  <h5>No Tasks added to this Abstract</h5>
+                </div>
+                <div>
+                  <span>Let's add a task now</span>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    icon={<AddIcon width={20} color="white" />}
+                    onClick={() => {
+                      setShowSubCategoryForm(true);
+                      setMode('Add');
+                    }}
+                  >
+                    Add Task
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+        </div>  
       )}
+
+
+
+      
       <CustomSidePopup
         open={showSubCategoryForm}
         title={mode === 'EDIT' ? 'Edit Task' : 'Create New Task'}
