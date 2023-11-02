@@ -66,9 +66,10 @@ body {
   --tableHeader-fontWeight: 600;
   --tableHeader-textTransform: uppercase;
 
-    /* Table Data font*/
-    --tableData-fontSize: 12px;
-    --tableData-fontWeight: 500;  
+  /* Table Data font*/
+  --tableData-fontSize: 12px;
+  --tableData-fontWeight: 500;
+  --tableRow-backgroundColor: #ebebeb;
 }
 
 .globaltabledata {

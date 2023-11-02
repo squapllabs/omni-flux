@@ -58,7 +58,7 @@ console.log("yyyy",getIndentData);
       priority: '',
       status: 'AC',
       approver_status: 'Approved',
-      request_type: 'Head Office',
+      // request_type: 'Head Office',
     };
     postDataForFilter(userData);
     setSelectedValue('');
