@@ -1,6 +1,7 @@
 import grnDao from '../dao/grn.dao';
 import projectDao from '../dao/project.dao';
 import purchaseOrderDao from '../dao/purchaseOrder.dao';
+import purchaseOrderItemDao from '../dao/purchaseOrderItem.dao';
 import userDao from '../dao/user.dao';
 import { grnBody } from '../interfaces/grn.interface';
 import prisma from '../utils/prisma';
@@ -75,10 +76,38 @@ const createGrn = async (body: grnBody) => {
           grn_details,
           prisma
         );
+
+        if (grn_details.length > 0) {
+          for await (const grnDetail of grn_details) {
+            const {
+              item_id,
+              previously_received_quantity,
+              currently_received_quantity,
+              purchase_order_item_id,
+              order_quantity,
+              unit_price,
+            } = grnDetail;
+
+            const received_quantity =
+              previously_received_quantity + currently_received_quantity;
+
+            await purchaseOrderItemDao.edit(
+              purchase_order_id,
+              item_id,
+              order_quantity,
+              received_quantity,
+              unit_price,
+              created_by,
+              purchase_order_item_id,
+              prisma
+            );
+          }
+        }
+
         return { message: 'success', status: true, data: grnDetails };
       })
       .then((data) => {
-        console.log('Successfully GRN Data Returned ');
+        console.log('Successfully GRN Data Returned ', data);
         return data;
       })
       .catch((error: string) => {

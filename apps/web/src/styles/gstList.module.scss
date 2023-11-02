@@ -117,6 +117,18 @@
   tr:hover {
     /* Add hover styles if needed */
   }
+
+  tbody {
+    tr:nth-child(odd) {}
+
+    tr:nth-child(even) {
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+
+  .td_desc {
+    min-width: 55.5rem;
+  }
 }
 
 .searchButton {
@@ -276,6 +288,7 @@
 .emptyButton {
   margin-top: 25px;
 }
+
 .textmin {
   padding: 10px;
   font-weight: 400;
@@ -292,7 +305,7 @@
   color: #b42318;
 }
 
-.submitButton{
+.submitButton {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -301,7 +314,8 @@
   gap: 10px;
 
 }
-.footer{
+
+.footer {
   margin-top: 350px;
 }
 

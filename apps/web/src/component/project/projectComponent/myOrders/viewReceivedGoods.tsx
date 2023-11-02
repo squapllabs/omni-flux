@@ -42,7 +42,7 @@ const ViewReceivedGoods = () => {
             <div
               className={Styles.logo}
               onClick={() => {
-                navigate(`/my-orders-view/${PurchaseOrderId}`, {
+                navigate(`/project-edit/${Number(projectId)}`, {
                   state: { projectId },
                 });
               }}

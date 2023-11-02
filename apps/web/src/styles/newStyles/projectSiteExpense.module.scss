@@ -57,9 +57,24 @@
         border: none;
         font-size: var(--tableHeader-fontSize);
         font-weight: var(--tableHeader-fontWeight);
-        text-transform: var(--tableHeader-textTransform);          
+        text-transform: var(--tableHeader-textTransform);
       }
     }
+  }
+  tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+
+  .td_desc {
+    min-width: 55.5rem;
   }
 }
 
