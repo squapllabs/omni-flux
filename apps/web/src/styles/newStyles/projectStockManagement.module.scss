@@ -1,128 +1,143 @@
 .container {
-    width: 100%;
-    padding-bottom: 10px;
+  width: 100%;
+  padding-bottom: 10px;
 }
 
 .topHeading {
-    // background-color: aqua;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  // background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .heading {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
 }
 
 .subHeading {
-    display: flex;
-    flex-direction: row;
-    gap: 3px;
-    align-items: center;
-    padding: 0px 10px;
-  }
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+  padding: 0px 10px;
+}
 
 .tableContainer {
-    padding: 12px;
+  padding: 12px;
 }
 
 .scrollable_table {
-    width: 100%;
-    height: 100%;
-    padding: 10px 10px;
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  /* Adjust padding */
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px 10px 10px 24px;
     /* Adjust padding */
-    gap: 12px;
-    border-collapse: collapse;
+    text-align: left;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
+    border: none;
+    /* Remove borders */
+    border-bottom: 0.1px solid #f0f0f0;
+  }
 
-    th,
-    td {
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  thead {
+    tr {
+      th {
         padding: 10px 10px 10px 24px;
-        /* Adjust padding */
-        text-align: left;
-        font-weight: var(--tableData-fontWeight);
-        font-size: var(--tableData-fontSize);
+        color: var(--tableHeader-fontColor);
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);
+        background-color: var(--tableHeader-backgroundColor);
         border: none;
-        /* Remove borders */
-        border-bottom: 0.1px solid #f0f0f0;
-    }
-
-    td {
-        border-bottom: 0.1px solid #f0f0f0;
-    }
-
-    thead {
-        tr {
-          th {
-            padding: 10px 10px 10px 24px;
-            color: var(--tableHeader-fontColor);
-            font-size: var(--tableHeader-fontSize);
-            font-weight: var(--tableHeader-fontWeight);
-            text-transform: var(--tableHeader-textTransform);          
-            background-color: var(--tableHeader-backgroundColor);
-            border: none;
-          }
-        }
       }
+    }
+  }
+  tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+
+  .td_desc {
+    min-width: 55.5rem;
+  }
 }
 
 .emptyDataHandling {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  padding-top: 12px;
 }
 
 .emptyButton {
-    margin-top: 4px;
+  margin-top: 4px;
 }
 
 .spanContent {
-    font-weight: 300;
+  font-weight: 300;
 }
 
 //Stock audit add
 
 .divOne {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0px 0px 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px 0px 10px;
 }
 
 .footer {
-    margin-top: 200px;
+  margin-top: 200px;
 }
 
 .cancelButton {
-    background-color: var(--danger-color);
-    color: #b42318;
+  background-color: var(--danger-color);
+  color: #b42318;
 }
 
 .button {
-    padding: 10px;
-    gap: 10px;
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: row;
+  padding: 10px;
+  gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
 }
 
 .dividerStyle {
-    border-bottom: 1px solid #ccc;
-    padding: 0px 1px 5px 1px;
+  border-bottom: 1px solid #ccc;
+  padding: 0px 1px 5px 1px;
 }
 
 .textmax {
-    font-weight: 700;
-    font-size: 16px;
-    // background-color: red;
+  font-weight: 700;
+  font-size: 16px;
+  // background-color: red;
 }
 
 .textmin {
-    padding: 3px;
-    font-weight: 400;
-    font-size: 14px;
+  padding: 3px;
+  font-weight: 400;
+  font-size: 14px;
 }
