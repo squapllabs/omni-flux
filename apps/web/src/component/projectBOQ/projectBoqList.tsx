@@ -100,6 +100,11 @@ const BomList: React.FC = (props: any) => {
     fetchData();
   }, [reload]);
 
+  const currencyObject={
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 2,
+  }
   const calculateOverallBudget = (abstracts:any)=>{
     if(abstracts && abstracts.length){
       let total_count = 0;
@@ -107,11 +112,7 @@ const BomList: React.FC = (props: any) => {
         total_count = total_count + Number(element.estimated_budget)
       });
       console.log('total_count',total_count);
-      const formattedValue = total_count.toLocaleString('en-IN', {
-        style: 'currency',
-        currency: 'INR',
-        minimumFractionDigits: 2,
-      });
+      const formattedValue = total_count.toLocaleString('en-IN',currencyObject);
       setOverallBudget(formattedValue)
       return false
     }
@@ -462,7 +463,7 @@ const handleFileOnChange = async (e:any) =>{
                         <th>#</th>
                         {/* <th>Task Name</th> */}
                         <th>Description</th>
-                        <th>Status</th>
+                        {/* <th>Status</th> */}
                         <th>Amount</th>
                         <th>Action</th>
                       </tr>
@@ -502,12 +503,13 @@ const handleFileOnChange = async (e:any) =>{
                               >
                                 {data.description || '--'}
                               </td>
-                              <td>
+                              {/* <td>
                                 {data.progress_status || '--'}
-                              </td>
+                              </td> */}
                               <td>
-                                {data.estimated_budget || '--'}
+                                {data.estimated_budget.toLocaleString('en-IN',currencyObject) || '--'}
                               </td>
+                     
                               <td >
                               <div className={Styles.actionIcons_container}>
                               <span style={{cursor: 'pointer'}}><EditIcon
