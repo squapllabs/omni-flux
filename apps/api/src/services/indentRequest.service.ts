@@ -55,8 +55,9 @@ const createIndentRequest = async (body: indentRequestBody) => {
       }
     }
 
+    let projectExist = null;
     if (project_id) {
-      const projectExist = await projectDao.getById(project_id);
+      projectExist = await projectDao.getById(project_id);
       if (!projectExist) {
         return {
           message: 'project_id does not exist',
@@ -94,7 +95,8 @@ const createIndentRequest = async (body: indentRequestBody) => {
       site_id,
       indent_request_details,
       project_id,
-      request_type
+      request_type,
+      projectExist?.approvar_id
     );
     const result = {
       message: 'success',

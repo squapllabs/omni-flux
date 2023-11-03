@@ -85,7 +85,7 @@ const getOverallAbsctractValue = (data)=>{
                 <div className={Styles.verticalLine}></div>
               </div>
             </div> */}
-            <div className={Styles.countContent}>
+            {/* <div className={Styles.countContent}>
               <h3>
                 {formatBudgetValue(
                   getBomData?.bom_configuration_data?.budget
@@ -94,7 +94,7 @@ const getOverallAbsctractValue = (data)=>{
                 )}
               </h3>
               <span className={Styles.countContentTitle}>Aggregated Value</span>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className={Styles.selected}></div>

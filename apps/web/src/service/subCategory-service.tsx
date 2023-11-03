@@ -37,6 +37,18 @@ const createSubcategory = async (values: JSON) => {
     throw error;
   }
 };
+const createMultipleSubcategory = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/sub-category/add-bulk`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in sub-category create :', error);
+    throw error;
+  }
+};
 const updateSubcategory = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
@@ -111,6 +123,7 @@ export default {
   getAllSubcategory,
   getOneSubcategoryByID,
   createSubcategory,
+  createMultipleSubcategory,
   updateSubcategory,
   deleteSubcategory,
   checkDublicateSubCategory,
