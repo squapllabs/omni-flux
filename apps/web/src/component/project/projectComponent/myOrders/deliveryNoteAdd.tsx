@@ -38,43 +38,40 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
-  // console.log('PPPP', getListData);
   const { mutate: postGrnData } = createGrn();
-  const [tableValue, setTableValue] = useState([]);
+  const [tableValue, setTableValue] = useState<any>([]);
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
   const [loaderData, setLoaderData] = useState(true);
   const [errors, setErrors] = useState<Array<string>>(
     new Array(tableValue.length).fill('')
   );
-  // console.log('loader==>', loaderData);
-  // console.log('errors==>', errors);
-
   const [message, setMessage] = useState('');
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
-    const updatedTableValue = [...tableValue];
-    const to_be_received = updatedTableValue[index].inward_remaining_quantity;
-    updatedTableValue[index].currently_received_quantity = Number(
-      event.target.value
-    );
-    if (to_be_received < updatedTableValue[index].currently_received_quantity) {
+    let tempObj = {};
+    tempObj = {
+      ...tableValue[index],
+      [event.target.name]: Number(event.target.value),
+    };
+    let tempArry = [...tableValue];
+    tempArry[index] = tempObj;
+    setTableValue(tempArry);
+    if (tempArry[index].inward_remaining_quantity < tempArry[index].currently_received_quantity) {
       setErrors((prevErrors) => {
         const newErrors = [...prevErrors];
         newErrors[index] = true;
         return newErrors;
       });
     } else {
-      // Clear the error for this row
       setErrors((prevErrors) => {
         const newErrors = [...prevErrors];
         newErrors[index] = false;
         return newErrors;
       });
     }
-    setTableValue(updatedTableValue);
   };
 
   const currentDate = new Date();
@@ -102,7 +99,6 @@ const MyOrderView = () => {
           .map((file) => file.name)
           .join(', ');
         const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
-        console.log('msg', errorMessage);
       } else {
         const arr: any = [];
         fileList.forEach(async (file) => {
@@ -163,7 +159,6 @@ const MyOrderView = () => {
         created_by: userID,
         purchase_order_type: getListData?.purchase_order_type,
       };
-      console.log('ssssss', obj);
       if (errors.includes(true)) {
         setMessage('Mismatch quantity');
         setOpenSnack(true);
@@ -172,6 +167,7 @@ const MyOrderView = () => {
         setOpenSnack(true);
       } else {
         // If none of the above conditions are met, execute this block
+        
         postGrnData(obj, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
@@ -192,7 +188,15 @@ const MyOrderView = () => {
       const data = await poService.getOnePurchaseOrderTableDataByID(
         Number(routeParams?.id)
       );
-      setTableValue(data);
+      let arr: any = [];      
+      data?.map((items: any, index: any) => {        
+        let obj = {
+          ...items,
+          currently_received_quantity: 0
+        }        
+        arr.push(obj)
+      })
+      setTableValue(arr);
       setLoaderData(false);
     };
     fetchData();
@@ -390,8 +394,6 @@ const MyOrderView = () => {
               </thead>
               <tbody>
                 {tableValue?.map((items: any, index: number) => {
-                  // console.log("itemsss", items);
-                  
                   return (
                     <tr>
                       <td>{index + 1}</td>
@@ -405,12 +407,12 @@ const MyOrderView = () => {
                       {/* To be received */}
                       <td>
                         <Input
-                          name="current_received_quantity"
-                          value={items?.current_received_quantity}
+                          name="currently_received_quantity"
+                          value={items?.currently_received_quantity}
                           width="100px"
                           // error={errors[index]} 
-                          errorDisable= {true}
-                          borderError = {errors[index] ? true : false}
+                          errorDisable={true}
+                          borderError={errors[index] ? true : false}
                           error={errors[index] ? true : false}
                           onChange={(e) => handleListChange(e, index)}
                           onKeyDown={(e) => {
