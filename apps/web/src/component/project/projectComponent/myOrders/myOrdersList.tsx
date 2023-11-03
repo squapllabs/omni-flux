@@ -238,7 +238,7 @@ const MyOrderList = () => {
                               <tr>
                                 <td colSpan="8" style={{ paddingRight: 28 }}>
                                   <div className={Styles.subTableContainer}>
-                                    <table className={Styles.scrollable_table}>
+                                    <table className={Styles.scrollable_sub_table}>
                                       <thead>
                                         <tr>
                                           <th>S No</th>
