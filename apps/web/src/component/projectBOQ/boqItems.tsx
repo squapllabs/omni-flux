@@ -273,12 +273,10 @@ const BomItems = (props: {
      const Object = [...uploadedTaskData]
       createNewMultipleSubcategory(Object, {
         onSuccess: (data, variables, context) => {
-          debugger
-          if (data?.success === true) {
-            setMessage('Sub category created');
+          if (data?.status === true) {
             setModelPopupTrigger(false);
-            setUploadedTaskData(null)
-            setOpenSnack(true);
+            setMessage('Task created');
+            setUploadedTaskData(null);
             // setTimeout(() => {navigate('/settings')},1000);
           }
         },
@@ -691,7 +689,7 @@ const BomItems = (props: {
                                         
                                       console.log('before',getAllData[index]);
                                       getAllData[index].switch = !getAllData[index].switch
-                                      debugger
+                                     
                                       console.log('AFTER',getAllData[index]);
                                     }
                                   }
