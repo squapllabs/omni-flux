@@ -16,9 +16,9 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = async () => {
-    dispatch(resetAuth());
     const data = await authService.logout();
-    if (data?.success === true) {
+    if (data?.status === true) {
+      dispatch(resetAuth());
       navigate('/');
     }
   };

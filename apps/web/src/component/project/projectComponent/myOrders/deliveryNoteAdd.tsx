@@ -38,23 +38,40 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
-  // console.log('PPPP', getListData);
   const { mutate: postGrnData } = createGrn();
-  const [tableValue, setTableValue] = useState([]);
-  // console.log("table==>",tableValue);
+  const [tableValue, setTableValue] = useState<any>([]);
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);
-  const [loaderData,setLoaderData] = useState(true);
-  console.log("loader==>",loaderData);
-  
+  const [loaderData, setLoaderData] = useState(true);
+  const [errors, setErrors] = useState<Array<string>>(
+    new Array(tableValue.length).fill('')
+  );
   const [message, setMessage] = useState('');
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
-    const updatedTableValue = [...tableValue];
-    updatedTableValue[index].currently_received_quantity = Number(event.target.value);
-    setTableValue(updatedTableValue);
+    let tempObj = {};
+    tempObj = {
+      ...tableValue[index],
+      [event.target.name]: Number(event.target.value),
+    };
+    let tempArry = [...tableValue];
+    tempArry[index] = tempObj;
+    setTableValue(tempArry);
+    if (tempArry[index].inward_remaining_quantity < tempArry[index].currently_received_quantity) {
+      setErrors((prevErrors) => {
+        const newErrors = [...prevErrors];
+        newErrors[index] = true;
+        return newErrors;
+      });
+    } else {
+      setErrors((prevErrors) => {
+        const newErrors = [...prevErrors];
+        newErrors[index] = false;
+        return newErrors;
+      });
+    }
   };
 
   const currentDate = new Date();
@@ -82,7 +99,6 @@ const MyOrderView = () => {
           .map((file) => file.name)
           .join(', ');
         const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
-        console.log('msg', errorMessage);
       } else {
         const arr: any = [];
         fileList.forEach(async (file) => {
@@ -120,7 +136,9 @@ const MyOrderView = () => {
   const validationSchema = Yup.object().shape({
     notes: Yup.string().required('Notes Required'),
     invoice_number: Yup.string().required('Invoice Reference Number Required'),
-    goods_received_date: Yup.date().required('Date is required'),
+    goods_received_date: Yup.date()
+      .required('Date is required')
+      .max(new Date(), 'Future Date not allowed'),
   });
   const formik = useFormik({
     initialValues,
@@ -137,10 +155,19 @@ const MyOrderView = () => {
         goods_received_by: userID,
         grn_status: 'Pending',
         project_id: projectId,
+        site_id: getListData?.purchase_order_type === 'Head Office' ? getListData?.purchase_request_data?.site_id : getListData?.indent_request_data?.site_id,
         created_by: userID,
+        purchase_order_type: getListData?.purchase_order_type,
       };
-      console.log('ssssss', obj);
-      if (invoiceDocument?.length > 0) {
+      if (errors.includes(true)) {
+        setMessage('Mismatch quantity');
+        setOpenSnack(true);
+      } else if (invoiceDocument?.length === 0) {
+        setMessage('Bill is Mandatory');
+        setOpenSnack(true);
+      } else {
+        // If none of the above conditions are met, execute this block
+        
         postGrnData(obj, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
@@ -152,9 +179,6 @@ const MyOrderView = () => {
             }
           },
         });
-      } else {
-        setMessage('Bill is Mandatory');
-        setOpenSnack(true);
       }
     },
   });
@@ -164,8 +188,16 @@ const MyOrderView = () => {
       const data = await poService.getOnePurchaseOrderTableDataByID(
         Number(routeParams?.id)
       );
-      setTableValue(data);
-      setLoaderData(false)
+      let arr: any = [];      
+      data?.map((items: any, index: any) => {        
+        let obj = {
+          ...items,
+          currently_received_quantity: 0
+        }        
+        arr.push(obj)
+      })
+      setTableValue(arr);
+      setLoaderData(false);
     };
     fetchData();
   }, []);
@@ -206,9 +238,17 @@ const MyOrderView = () => {
             </div>
             <div className={Styles.rightOrderDetail}>
               <span>
-                {getListData?.purchase_request_data?.project_data?.project_name}
+                {getListData?.purchase_order_type === 'Head Office'
+                  ? getListData?.purchase_request_data?.project_data
+                      ?.project_name
+                  : getListData?.indent_request_data?.project_data
+                      ?.project_name}
               </span>
-              <span>{getListData?.purchase_request_data?.site_data?.name}</span>
+              <span>
+                {getListData?.purchase_order_type === 'Head Office'
+                  ? getListData?.purchase_request_data?.site_data?.name
+                  : getListData?.indent_request_data?.site_data?.name}
+              </span>
             </div>
           </div>
         </div>
@@ -358,21 +398,30 @@ const MyOrderView = () => {
                     <tr>
                       <td>{index + 1}</td>
                       <td>{items?.item_name}</td>
+                      {/* Items */}
                       <td>{items?.order_quantity}</td>
+                      {/* Allocated quantity */}
                       <td>{items?.previously_received_quantity}</td>
+                      {/* previously received */}
                       <td>{items?.inward_remaining_quantity}</td>
+                      {/* To be received */}
                       <td>
                         <Input
-                          name="current_received_quantity"
-                          value={items?.current_received_quantity}
+                          name="currently_received_quantity"
+                          value={items?.currently_received_quantity}
                           width="100px"
-                          error={false}
+                          // error={errors[index]} 
+                          errorDisable={true}
+                          borderError={errors[index] ? true : false}
+                          error={errors[index] ? true : false}
                           onChange={(e) => handleListChange(e, index)}
                           onKeyDown={(e) => {
                             const isNumber = /^[0-9]*$/.test(e.key);
-                            const isArrowKey = e.key === 'ArrowLeft' || e.key === 'ArrowRight';
+                            const isArrowKey =
+                              e.key === 'ArrowLeft' || e.key === 'ArrowRight';
                             if (
-                              !isNumber && !isArrowKey &&
+                              !isNumber &&
+                              !isArrowKey &&
                               e.key !== 'Backspace' &&
                               e.key !== 'Delete'
                             ) {
@@ -387,7 +436,7 @@ const MyOrderView = () => {
               </tbody>
             </table>
           </div>
-          <div className={Styles.inputFieldTextArea}>
+          <div className={Styles.inputFieldTextArea} >
             <TextArea
               name="notes"
               label="Comments"
