@@ -20,6 +20,7 @@ const add = async (
   indent_request_details,
   project_id: number,
   request_type: string,
+  indent_approver_user_id: number,
   connectionObj = null
 ) => {
   try {
@@ -172,9 +173,11 @@ const add = async (
           }
         }
 
+        /* Notification */
+
         await notificationDao.add(
           requester_user_id,
-          approver_user_id,
+          indent_approver_user_id,
           new_indent_request_id,
           'Indent-Requested',
           'Notification To Indent Approver User as Indent Requested For Approval',
