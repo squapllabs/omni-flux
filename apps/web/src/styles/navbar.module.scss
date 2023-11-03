@@ -71,13 +71,13 @@
   gap: 5px;
 }
 
-.rightIcons {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  padding-left: 10px;
-  // background-color: lawngreen;
-}
+// .rightIcons {
+//   display: flex;
+//   // flex-direction: row;
+//   // gap: 15px;
+//   // padding-left: 10px;
+//   // background-color: lawngreen;
+// }
 
 .sequencesRow {
   display: flex;
@@ -243,7 +243,7 @@
 
 .menu {
   list-style: none;
-  margin-top: 15px;
+  margin-top: 27px;
   position: absolute;
   z-index: 1500;
   gap: 10px;
@@ -306,6 +306,13 @@
   display: flex;
   padding: 10px;
   gap: 20px;
+}
+.profileDetailHead {
+  display: flex;
+  // padding: 10px;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
 .profileContents {

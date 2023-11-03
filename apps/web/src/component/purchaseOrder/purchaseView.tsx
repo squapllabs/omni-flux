@@ -70,11 +70,12 @@ const PurchaseView = () => {
       if (data?.quotation_status === 'Approved') {
         console.log('constructPurchaseOrder', data);
         data?.vendor_quotation_details?.forEach((vendorQuotes: any) => {
-          console.log('vendorQuotes', vendorQuotes);
+          console.log('vendorQuotes', vendorQuotes)
           purchaseOrderItems.push({
             purchase_order_id: '',
             item_id: vendorQuotes?.item_id,
             order_quantity: vendorQuotes?.purchase_requested_quantity,
+            unit_price:vendorQuotes?.unit_cost
           });
         });
       }
