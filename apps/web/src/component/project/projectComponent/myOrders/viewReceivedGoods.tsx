@@ -18,6 +18,7 @@ const ViewReceivedGoods = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOneGrnById(
     Number(routeParams?.grnId)
   );
+  
   return (
     <div>
       <CustomLoader loading={dataLoading} size={48}>
