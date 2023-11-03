@@ -138,87 +138,93 @@ const ProjectSiteConfig: React.FC = (props: any) => {
 
             <div className={Styles.tableContainer}>
               <div>
-              <table className={Styles.scrollable_table}>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Site</th>
-                    <th>Site Address</th>
-                    <th>Status</th>
-                    <th>Estimated Budget</th>
-                    <th>Actual Budget</th>
-                    <th>Approver</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {initialData?.content.map((row, index) => {
-                    // console.log('row', row);
-                    rowIndex = rowIndex + 1;
-                    return (
-                      <tr key={index}>
-                        <td>{rowIndex}</td>
-                        <td>{row.site_details?.name}</td>
-                        <td>
-                          {row?.siteData?.site_contractor_id === undefined ? (
-                            <div>
-                              <span>
-                                {row.site_details?.address?.street}{' '}
-                                {row.site_details?.address?.city},{' '}
-                                {row.site_details?.address?.state},
-                              </span>
-                              <span>
-                                {row.site_details?.address?.country},
-                                {row.site_details?.address?.pin_code}
-                              </span>
+                <table className={Styles.scrollable_table}>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Site</th>
+                      <th>Site Address</th>
+                      <th>Status</th>
+                      <th>Estimated Budget</th>
+                      <th>Actual Budget</th>
+                      <th>Approver</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {initialData?.content.map((row, index) => {
+                      // console.log('row', row);
+                      rowIndex = rowIndex + 1;
+                      return (
+
+
+                        <tr key={index}>
+                          <td>{rowIndex}</td>
+                          <td>{row.site_details?.name}</td>
+                          <td>
+                            {row?.siteData?.site_contractor_id === undefined ? (
+                              <div>
+                                <span>
+                                  {row?.site_details?.address?.street || row?.site_details?.address?.city || row?.site_details?.address?.state || row?.site_details?.address?.country || row?.site_details?.address?.pin_code
+                                    ? `${row?.site_details?.address?.street} ${row?.site_details?.address?.city} ${row?.site_details?.address?.state}`
+                                    : '-'
+                                  }
+                                </span>
+                                <span>
+                                  {row?.site_details?.address?.country || row?.site_details?.address?.pin_code
+                                    ? `${row?.site_details?.address?.country} ${row?.site_details?.address?.pin_code}`
+                                    : ''
+                                  }
+                                </span>
+                              </div>
+
+                            ) : (
+                              <div>
+                                <span>
+                                  {row?.siteData?.address?.street}{' '}
+                                  {row?.siteData?.address?.city}{' '}
+                                  {row?.siteData?.address?.state}
+                                </span>
+                                <span>
+                                  {row.siteData.address?.country}
+                                  {row.siteData.address?.pin_code}
+                                </span>
+                              </div>
+                            )}
+                          </td>
+                          <td>
+                            <div className={Styles.statusProject}>
+                              <span>Not Started</span>
                             </div>
-                          ) : (
-                            <div>
-                              <span>
-                                {row.siteData.address?.street}{' '}
-                                {row.siteData.address?.city},{' '}
-                                {row.siteData.address?.state},
-                              </span>
-                              <span>
-                                {row.siteData.address?.country},
-                                {row.siteData.address?.pin_code}
-                              </span>
+                          </td>
+                          <td>
+                            <span>{row?.estimated_budget}</span>
+                          </td>
+                          <td>
+                            <span>{row.actual_budget}</span>
+                          </td>
+                          <td>
+                            <span>
+                              {row.approvar_data?.first_name +
+                                ' ' +
+                                row.approvar_data?.last_name}
+                            </span>
+                          </td>
+                          <td>
+                            <div className={Styles.iconStyle}>
+                              <NewEditIcon
+                                onClick={(e) =>
+                                  handleProjectSiteEdit(row?.project_site_id)
+                                }
+                              />
+                              <DeleteIcon />
                             </div>
-                          )}
-                        </td>
-                        <td>
-                          <div className={Styles.statusProject}>
-                            <span>Not Started</span>
-                          </div>
-                        </td>
-                        <td>
-                          <span>{row?.estimated_budget}</span>
-                        </td>
-                        <td>
-                          <span>{row.actual_budget}</span>
-                        </td>
-                        <td>
-                          <span>
-                            {row.approvar_data?.first_name +
-                              ' ' +
-                              row.approvar_data?.last_name}
-                          </span>
-                        </td>
-                        <td>
-                          <div className={Styles.iconStyle}>
-                            <NewEditIcon
-                              onClick={(e) =>
-                                handleProjectSiteEdit(row?.project_site_id)
-                              }
-                            />
-                            <DeleteIcon />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             </div>
             <div>

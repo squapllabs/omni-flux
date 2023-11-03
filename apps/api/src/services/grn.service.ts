@@ -1,6 +1,10 @@
+import expenseDao from '../dao/expense.dao';
 import grnDao from '../dao/grn.dao';
+import masterDataDao from '../dao/masterData.dao';
 import projectDao from '../dao/project.dao';
+import projectInventoryDao from '../dao/projectInventory.dao';
 import purchaseOrderDao from '../dao/purchaseOrder.dao';
+import purchaseOrderItemDao from '../dao/purchaseOrderItem.dao';
 import userDao from '../dao/user.dao';
 import { grnBody } from '../interfaces/grn.interface';
 import prisma from '../utils/prisma';
@@ -23,6 +27,8 @@ const createGrn = async (body: grnBody) => {
       grn_status,
       created_by,
       grn_details,
+      site_id,
+      purchase_order_type,
     } = body;
 
     if (project_id) {
@@ -49,8 +55,9 @@ const createGrn = async (body: grnBody) => {
       }
     }
 
+    let goodsReceivedByExist = null;
     if (goods_received_by) {
-      const goodsReceivedByExist = await userDao.getById(goods_received_by);
+      goodsReceivedByExist = await userDao.getById(goods_received_by);
       if (!goodsReceivedByExist) {
         return {
           message: 'goods_received_by does not exist',
@@ -62,6 +69,7 @@ const createGrn = async (body: grnBody) => {
 
     const result = await prisma
       .$transaction(async (prisma) => {
+        /* GRN */
         const grnDetails = await grnDao.add(
           project_id,
           purchase_order_id,
@@ -75,10 +83,136 @@ const createGrn = async (body: grnBody) => {
           grn_details,
           prisma
         );
-        return { message: 'success', status: true, data: grnDetails };
+
+        /* Purchase Order Item */
+        let purchaseOrderItem = null;
+        let projectInventoryData = null;
+
+        if (grn_details.length > 0) {
+          for await (const grnDetail of grn_details) {
+            const {
+              item_id,
+              previously_received_quantity,
+              currently_received_quantity,
+              purchase_order_item_id,
+              order_quantity,
+              unit_price,
+            } = grnDetail;
+
+            const received_quantity =
+              previously_received_quantity + currently_received_quantity;
+
+            purchaseOrderItem = await purchaseOrderItemDao.edit(
+              purchase_order_id,
+              item_id,
+              order_quantity,
+              received_quantity,
+              unit_price,
+              created_by,
+              purchase_order_item_id,
+              prisma
+            );
+
+            /* Project Inventory */
+            const projectInventoryDetails =
+              await projectInventoryDao.getByProjectSiteItem(
+                project_id,
+                site_id,
+                item_id,
+                prisma
+              );
+            if (projectInventoryDetails) {
+              const latest_quantity =
+                received_quantity + projectInventoryDetails?.available_quantity;
+              const total_cost = unit_price * latest_quantity;
+              projectInventoryData =
+                await projectInventoryDao.updateQuantityByProjectInventoryId(
+                  latest_quantity,
+                  created_by,
+                  total_cost,
+                  projectInventoryDetails?.project_inventory_id,
+                  prisma
+                );
+            } else {
+              const total_cost = unit_price * received_quantity;
+              projectInventoryData = await projectInventoryDao.add(
+                project_id,
+                item_id,
+                unit_price,
+                received_quantity,
+                total_cost,
+                created_by,
+                site_id,
+                prisma
+              );
+            }
+          }
+        }
+
+        /* Expense and Expense Details */
+
+        let expenseAndExpenseDetailsData = null;
+
+        if (purchase_order_type === 'Local Purchase') {
+          const expenseData = await masterDataDao.getByMasterDataName(
+            'Local Purchase'
+          );
+
+          grn_details.forEach((value) => {
+            value.expense_data_id = expenseData?.master_data_id;
+            value.bill_number = invoice_id;
+            value.bill_details = bill_details;
+            value.total = value.currently_received_quantity * value.unit_price;
+            value.description = 'Expense for Local Purchase';
+            value.quantity = value.currently_received_quantity;
+            value.unit_value = value.unit_price;
+            value.bill_type = 'Local Purchase';
+            value.is_delete = false;
+            value.status = 'Pending';
+          });
+
+          let expense_total_amount = 0;
+
+          for (const expense of grn_details) {
+            expense_total_amount += expense.total;
+          }
+
+          expenseAndExpenseDetailsData = await expenseDao.add(
+            site_id,
+            project_id,
+            goodsReceivedByExist?.first_name +
+              ' ' +
+              goodsReceivedByExist?.last_name,
+            null,
+            goodsReceivedByExist?.contact_no,
+            'Local Purchase Order Regarding',
+            'Purchase',
+            'Site Engineer',
+            null,
+            null,
+            new Date(),
+            bill_details,
+            created_by,
+            'Pending',
+            expense_total_amount,
+            grn_details,
+            goods_received_by,
+            'Local Purchase',
+            prisma
+          );
+        }
+
+        const result = {
+          grn_with_grn_details: grnDetails,
+          purchase_order_item: purchaseOrderItem,
+          project_inventory: projectInventoryData,
+          expense_with_expense_details: expenseAndExpenseDetailsData,
+        };
+
+        return { message: 'success', status: true, data: result };
       })
       .then((data) => {
-        console.log('Successfully GRN Data Returned ');
+        console.log('Successfully GRN Data Returned ', data);
         return data;
       })
       .catch((error: string) => {

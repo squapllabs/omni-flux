@@ -1,70 +1,85 @@
 .mainDiv {
-    padding: 10px 0px 10px 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 50px;
+  padding: 10px 0px 10px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 50px;
 }
 
 .submitButton {
-    padding-top: 20px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .scrollable_table {
-    width: 100%;
-    height: 100%;
-    padding: 10px 10px;
-    gap: 12px;
-    border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  gap: 12px;
+  border-collapse: collapse;
 
-    th,
-    td {
+  th,
+  td {
+    padding: 10px 10px 10px 24px;
+    text-align: left;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
+    border: none;
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  thead {
+    tr {
+      th {
         padding: 10px 10px 10px 24px;
-        text-align: left;
-        font-weight: var(--tableData-fontWeight);
-        font-size: var(--tableData-fontSize);
+        color: var(--tableHeader-fontColor);
+        background-color: var(--tableHeader-backgroundColor);
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);
         border: none;
-        border-bottom: 0.1px solid #f0f0f0;
-    }
-
-    thead {
-        tr {
-          th {
-            padding: 10px 10px 10px 24px;
-            color: var(--tableHeader-fontColor);
-            background-color: var(--tableHeader-backgroundColor);
-            font-size: var(--tableHeader-fontSize);
-            font-weight: var(--tableHeader-fontWeight);
-            text-transform: var(--tableHeader-textTransform);   
-            border: none;
-          }
-        }
       }
+    }
+  }
+  tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+
+  .td_desc {
+    min-width: 55.5rem;
+  }
 }
 
 .tableContainerBottom {
-    padding: 20px 20px 50px 20px;
+  padding: 20px 20px 50px 20px;
 }
 
 .pendingStatus {
-    background-color: #fdf2fa;
-    padding: 4px;
-    border-radius: 35px;
-    color: #c11574;
+  background-color: #fdf2fa;
+  padding: 4px;
+  border-radius: 35px;
+  color: #c11574;
 }
 
 .rejectedStatus {
-    background-color: #fffaeb;
-    padding: 4px;
-    border-radius: 35px;
-    color: #b54708;
-  }
+  background-color: #fffaeb;
+  padding: 4px;
+  border-radius: 35px;
+  color: #b54708;
+}
 
 .emptyDataHandling {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

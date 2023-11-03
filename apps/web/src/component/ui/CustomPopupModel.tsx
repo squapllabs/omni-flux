@@ -40,7 +40,7 @@ interface DialogBoxProps {
               </div>
             </div>
             <div className={Styles.selected}></div>
-            <div className={Styles.main_content}>{content}</div>
+            <div className={Styles.popupContentContainer}>{content}</div>
         </div>
       </div>
 

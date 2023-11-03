@@ -66,10 +66,25 @@
       border-bottom: 0.1px solid #f0f0f0;
     }
   
+    tbody {
+      tr:nth-child(odd) {
+        // background: red;
+      }
+      //even keyword
+      tr:nth-child(even) {
+        // opacity: .7;
+        // color: black;
+        background-color: var(--tableRow-backgroundColor);
+      }
+    }
+   
+    .td_desc {
+      min-width: 55.5rem;
+    }
     thead {
       tr {
         th {
-          padding: 10px 10px 10px 24px;
+          padding: 10px 0px 10px 24px;
           color: var(--tableHeader-fontColor);
           background-color: var(--tableHeader-backgroundColor);
           border: none;
@@ -113,6 +128,38 @@
   font-weight: 700;
   font-size: 16px;
 }
+
+.Colps {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+  padding: 0px 0px 0px 18px;
+}
+.ColpsChilds {
+  display: flex;
+  gap: 20px;
+}
+.ColpsheadingpanelOne {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.ColpsDatapanelOne {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.selectedRow {
+  background-color: #f3f3f3;
+}
+
   
-  
-  
+.subTableContainer {
+  padding: 12px 10px 5px 0px;
+  width: 98%;
+  display: flex;
+  flex-direction: column;
+  // gap: 20px;
+}

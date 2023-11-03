@@ -371,7 +371,7 @@ const PurchaseRequestList = () => {
                       >
                         {items?.status === 'Approved' &&
                         items?.purchase_order?.length === 0
-                          ? 'Quotation Recived'
+                          ? 'Quotation Received'
                           : items?.status != 'Approved'
                           ? items?.status
                           : items?.status === 'Approved' &&

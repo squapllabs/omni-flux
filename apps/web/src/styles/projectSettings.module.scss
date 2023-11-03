@@ -94,6 +94,21 @@
     font-size: var(--tableData-fontSize);
     border-bottom: 0.1px solid #f0f0f0;
   }
+  tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+ 
+  .td_desc {
+    min-width: 55.5rem;
+  }
 
   td {
     border-bottom: 0.1px solid #f0f0f0;

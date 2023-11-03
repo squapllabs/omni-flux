@@ -232,24 +232,47 @@ const IndentRequest: React.FC = (props: any) => {
                 },
               });
             } else {
-              const obj: any = {
-                ...values,
-                approver_status:
-                  values.request_status === 'Draft' ? 'Draft' : 'Pending',
-                indent_request_details: indentRequestDetailsList,
-                site_id: Number(formik.values.site_id),
-              };
-              postIndentData(obj, {
-                onSuccess(data, variables, context) {
-                  if (data?.status === true) {
-                    setMessage('Indent created successfully');
-                    setOpenSnack(true);
-                    setTimeout(() => {
-                      navigate(`/project-edit/${routeParams?.id}`);
-                    }, 2000);
-                  }
-                },
-              });
+              if (values.request_type === 'Local Purchase') {
+                const obj: any = {
+                  ...values,
+                  approver_status:
+                    values.request_status === 'Draft' ? 'Draft' : 'Approved',
+                  indent_request_details: indentRequestDetailsList,
+                  site_id: Number(formik.values.site_id),
+                };
+                console.log('obj:::', obj);
+                postIndentData(obj, {
+                  onSuccess(data, variables, context) {
+                    if (data?.status === true) {
+                      setMessage('Indent created successfully');
+                      setOpenSnack(true);
+                      setTimeout(() => {
+                        navigate(`/project-edit/${routeParams?.id}`);
+                      }, 2000);
+                    }
+                  },
+                });
+              } else {
+                const obj: any = {
+                  ...values,
+                  approver_status:
+                    values.request_status === 'Draft' ? 'Draft' : 'Pending',
+                  indent_request_details: indentRequestDetailsList,
+                  site_id: Number(formik.values.site_id),
+                };
+                console.log('obj:::', obj);
+                postIndentData(obj, {
+                  onSuccess(data, variables, context) {
+                    if (data?.status === true) {
+                      setMessage('Indent created successfully');
+                      setOpenSnack(true);
+                      setTimeout(() => {
+                        navigate(`/project-edit/${routeParams?.id}`);
+                      }, 2000);
+                    }
+                  },
+                });
+              }
             }
           }
         })

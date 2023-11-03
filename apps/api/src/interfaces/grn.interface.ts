@@ -10,6 +10,8 @@ interface grnBody {
   grn_status: string;
   created_by: number;
   grn_details: Array<grnDetailsBody>;
+  site_id: number;
+  purchase_order_type: string;
 }
 
 interface grnDetailsBody {
@@ -21,6 +23,22 @@ interface grnDetailsBody {
   rejected_quantity: number;
   notes: string;
   created_by: number;
+  purchase_order_item_id: number;
+  order_quantity: number;
+  unit_price: number;
+  previously_received_quantity: number;
+  currently_received_quantity: number;
+  /* Expense Related Data */
+  expense_data_id: number;
+  bill_number: string;
+  bill_details: JSON;
+  total: number;
+  description: string;
+  quantity: number;
+  unit_value: number;
+  bill_type: string;
+  is_delete: boolean;
+  status: string;
 }
 
 export { grnBody, grnDetailsBody };
