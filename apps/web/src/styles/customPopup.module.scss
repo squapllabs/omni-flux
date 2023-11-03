@@ -35,7 +35,7 @@
 //customSide popup
 
 .popupContainer {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   width: 100%;
@@ -68,7 +68,6 @@
   opacity: 1;
   z-index:999;
 }
-
 .popup {
   margin: 70px auto;
   padding: 20px;
@@ -99,6 +98,36 @@
   overflow: auto;
 }
 
+.dialog_mask{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition-duration: 0.2s;
+  z-index: 01;
+  pointer-events: auto;
+}
+
+.dialog_box{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  max-height: 90%;
+  transform: scale(1);
+  position: relative;
+  width: 50vw;
+  z-index: 02;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 0 none;
+  background: #ffff;
+}
 
 
 .boxStyle {
@@ -157,9 +186,9 @@
   width: 100%;
   height: 100%;
 }
-.main_content::-webkit-scrollbar {
-  display: none;
-}
+// .main_content::-webkit-scrollbar {
+//   display: none;
+// }
 .content {
   font-size: 0.7rem;
   padding-bottom: 5px;

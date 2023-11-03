@@ -1,0 +1,49 @@
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getCountByProjectIdAndBomConfigId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Server has closed the connection.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulk << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:28:56
+
+  25 const formatted_end_date = end_date ? new Date(end_date) : null;
+  26 const transaction = connectionObj !== null ? connectionObj : prisma;
+  27 const is_delete = false;
+→ 28 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: undefined,
+         category_id: 261,
+         actual_budget: 0,
+         created_by: undefined,
+         created_date: new Date('2023-11-03T04:21:59.067Z'),
+         updated_date: new Date('2023-11-03T04:21:59.067Z'),
+         is_delete: false,
+         description: 'Taking trial pits along pipeline every 500 M c/c distance.',
+         project_id: 188,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 106,
+         progress_status: undefined,
+         parent_sub_category_id: 416,
+         estimated_budget: '',
+                           ~~
+         uom_id: '',
+                 ~~
+         quantity: '',
+                   ~~
+         rate: ''
+               ~~
+       }
+     })
+
+Argument estimated_budget: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+Argument uom_id: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+Argument quantity: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+Argument rate: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+

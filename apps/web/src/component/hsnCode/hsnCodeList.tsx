@@ -327,7 +327,7 @@ const HsnCodeList = () => {
           size={48}
           color="#333C44"
         >
-          {initialData?.is_available ? (
+          {(initialData?.is_available && false )? (
             <div>
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>
@@ -489,7 +489,7 @@ const HsnCodeList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {dataShow ? (
+                        {dataShow  ? (
                           getFilterData?.total_count === 0 ? (
                             <tr>
                               <td></td>

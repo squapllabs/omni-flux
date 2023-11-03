@@ -23,15 +23,11 @@ interface DialogBoxProps {
     }
     const styles = {
         width: width,
-        margin: '10% auto',
     };
-    // className={Styles.dialogStyle}
     return (
-      <div className={Styles.popupContainer}>
-        <div className={Styles.leftdialogStyle}></div>
-        <div  style={styles}>
-          <div className={Styles.boxStyle}>
-            <div className={Styles.mainContent}>
+      <div className={Styles.dialog_mask}>
+        <div className={Styles.dialog_box} style={styles}>
+        <div className={Styles.mainContent}>
               <div className={Styles.popupHeader}>
                 <div className={Styles.textContent_1}>
                   <h4>{title}</h4>
@@ -45,9 +41,10 @@ interface DialogBoxProps {
             </div>
             <div className={Styles.selected}></div>
             <div className={Styles.main_content}>{content}</div>
-          </div>
         </div>
       </div>
+
+
     );
 
 
