@@ -73,6 +73,9 @@ const IntialReport = () => {
   const onMenuClick = (value: string) => {
     setSelectedMenu(value);
   };
+  const handleReport = (value: any) => {
+    console.log('handleReportvalue', value);
+  };
   useEffect(() => {
     if (selectedMenu != '') {
       const matchingObjects = mainItems?.filter(
@@ -131,7 +134,10 @@ const IntialReport = () => {
                       </div>
                     </div>
                     <div className={Styles.reportButton}>
-                      <div className={Styles.reportCard}>
+                      <div
+                        className={Styles.reportCard}
+                        onClick={() => handleReport(mainData)}
+                      >
                         <ReceptIcon color="#7f56d9" />
                         <span>Genderate Report</span>
                       </div>
