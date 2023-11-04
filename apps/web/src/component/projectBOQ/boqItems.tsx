@@ -868,10 +868,7 @@ const BomItems = (props: {
                         console.log('')
                       } } />}
                       onClick={() => {
-                        if (fileInputRef.current) {
-
-                          fileInputRef.current.click();
-                        }              
+                        setModelPopupTrigger(true)
                       }}
                     >
                       Upload File
