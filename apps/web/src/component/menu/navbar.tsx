@@ -435,7 +435,12 @@ const Navbar = () => {
                     : `${Styles.menu_item}`
                 }
               >
-                <div className={Styles.menuContainer}>
+                <div
+                  className={Styles.menuContainer}
+                  onClick={() => {
+                    navigate('/reports');
+                  }}
+                >
                   <ReceptIcon className={Styles.navIcon} />
                   Report
                 </div>
