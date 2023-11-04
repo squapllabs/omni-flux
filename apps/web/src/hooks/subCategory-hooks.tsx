@@ -49,6 +49,20 @@ const createSubcategory = () => {
     }
   );
 };
+const createMultipleSubcategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return SubcategoryService.createMultipleSubcategory(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['useGetAllSubcategory']);
+      },
+    }
+  );
+};
+
 
 const getBySearchCategroy = () => {
   const queryClient = useQueryClient();
@@ -69,7 +83,7 @@ const getBycategoryIdInSub = (values: any) => {
     ['getSubcategoryList', values],
     () => SubcategoryService.getOneSubCatListbyCatID(values),
     {
-      select: (data) => data.data,
+      select: (data) => data.data.map((items:any)=>({...items,switch:false}))
     }
   );
 };
@@ -125,6 +139,7 @@ export {
   useGetAllSubcategory,
   getBySubcategoryID,
   createSubcategory,
+  createMultipleSubcategory,
   updateSubcategory,
   useDeleteSubcategory,
   getBySearchCategroy,
