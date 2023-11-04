@@ -18,24 +18,30 @@
   align-items: center;
   width: 60%;
 }
+
 .acountContainer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   width: 40%;
 }
+
 .container {
   position: relative;
 }
+
 .verticalLine::before {
   content: '';
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 1px; /* Adjust the width of the line */
-  background-color: #ffffff; /* Adjust the color as needed */
+  width: 1px;
+  /* Adjust the width of the line */
+  background-color: #ffffff;
+  /* Adjust the color as needed */
   height: 100%;
 }
+
 .logo {
   font-weight: bold;
   font-size: 16px;
@@ -146,6 +152,7 @@
 .container {
   display: flex;
 }
+
 .container1 {
   width: 100%;
   height: 100vh;
@@ -260,6 +267,31 @@
   color: black;
 }
 
+.menu1 {
+  list-style: none;
+  margin-top: 27px;
+  position: absolute;
+  z-index: 1500;
+  gap: 10px;
+  top: 40px;
+  right: 0px;
+  width: 20%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 2px;
+  max-height: 300px;
+  padding: 5px;
+  color: black;
+  overflow-y: auto;
+}
+
+.lineContent {
+  font-size: 12px ;
+  font-weight: 600;
+}
+
 .menuItem:hover {
   background-color: #ece5e5;
 }
@@ -279,12 +311,26 @@
   cursor: pointer;
 }
 
+.menubox1 {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.lineHeading {
+  font-size: small;
+  font-weight: bold;
+}
+
 .menubox:hover {
   background-color: #ddd;
 }
 
 .box {
-  position: relative;
+  position: relative; 
 }
 
 .box::after {
@@ -307,6 +353,7 @@
   padding: 10px;
   gap: 20px;
 }
+
 .profileDetailHead {
   display: flex;
   // padding: 10px;
@@ -385,22 +432,45 @@
 }
 
 .selected::after {
-  content: ''; /* Create an empty content box */
-  position: absolute; /* Position the line absolutely within the selected item */
-  bottom: 0; /* Position the line at the bottom of the selected item */
+  content: '';
+  /* Create an empty content box */
+  position: absolute;
+  /* Position the line absolutely within the selected item */
+  bottom: 0;
+  /* Position the line at the bottom of the selected item */
   left: 0;
   top: 42px;
-  width: 100%; /* Make the line span the full width of the selected item */
-  height: 4px; /* Adjust the height of the line as needed */
-  background-color: #fec84b; /* Change this to your desired line color */
+  width: 100%;
+  /* Make the line span the full width of the selected item */
+  height: 4px;
+  /* Adjust the height of the line as needed */
+  background-color: #fec84b;
+  /* Change this to your desired line color */
 }
 
 .navMenu {
   display: flex;
   gap: 20px;
 }
+
 .menuContainer {
   display: flex;
   gap: 5px;
   color: white;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 0px 1px 5px 1px;
+}
+.messages{
+  padding: 0px 0px 0px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.lineTime {
+  font-size: 7px;
+  font-weight: 600;
 }
