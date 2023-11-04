@@ -14,11 +14,18 @@ import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
 import PrintIcon from '../menu/icons/printIcon';
 import SiteNavigateIcon from '../menu/icons/siteNavigateIcon';
 import CustomLoader from '../ui/customLoader';
+import CustomGroupButton from '../ui/CustomGroupButton';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   console.log('routeParams', routeParams?.id);
+  const [buttonLabels, setButtonLabels] = useState([
+    { label: 'All', value: '' },
+    { value: 'Approved', label: 'Quotation Recieved' },
+    { label: 'waiting for quotation', value: 'Waiting For Quotation' },
+  ]);
+  const [activeButton, setActiveButton] = useState<string | null>('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [filterValue, setFilterValues] = useState<any>({
@@ -33,13 +40,14 @@ const PurchaseRequestList = () => {
     status: 'AC',
     global_search: '',
     indent_request_id: Number(routeParams?.id),
-    purchase_request_status: '',
+    purchase_request_status: activeButton,
     purchase_request_code: filterValue?.search_by_code,
   };
   const {
     data: getPRbasedOnIndent,
     isLoading: loading,
     refetch,
+    isFetched,
   } = getBySearchPR(purchaseData);
   console.log('getPRbasedOnIndent', getPRbasedOnIndent);
 
@@ -81,9 +89,16 @@ const PurchaseRequestList = () => {
     }, 1000);
     return () => clearTimeout(handleSearch);
   }, [filterValue]);
+  useEffect(() => {
+    refetch();
+  }, [activeButton]);
+  const handleGroupButtonClick = (value: string) => {
+    setActiveButton(value);
+    setCurrentPage(1);
+  };
   return (
     <div className={Styles.container}>
-      <CustomLoader loading={loading} size={30}>
+      <CustomLoader loading={loading || !isFetched} size={30}>
         {' '}
         <div>
           <ProjectSubheader
@@ -179,35 +194,31 @@ const PurchaseRequestList = () => {
             <div className={Styles.selected}></div>
             <div className={Styles.searchField}>
               <div className={Styles.inputFilter}>
-                {/* <AutoCompleteSelect
-              name="project_id"
-              label="Select Project"
-              defaultLabel="Select from options"
-              placeholder="Select from options"
-              value={filterValue.project_id}
-              onChange={() => handleChange()}
-              onSelect={(value) => {
-                setFilterValues({ ...filterValue, ['project_id']: value });
-                //   setIsResetDisabled(false);
-              }}
-              optionList={getAllmasterDataForDrop}
-            /> */}
-                <Input
-                  width="260px"
-                  prefixIcon={<SearchIcon />}
-                  // label="PR Code"
-                  name="search_by_code"
-                  value={filterValue.search_by_code}
-                  onChange={(e) => {
-                    setFilterValues({
-                      ...filterValue,
-                      ['search_by_code']: e.target.value,
-                    });
-                    //   setCurrentPage(1);
-                    //   setIsResetDisabled(false);
-                  }}
-                  placeholder="Search by PR Code"
-                />
+                <div>
+                  <CustomGroupButton
+                    labels={buttonLabels}
+                    onClick={handleGroupButtonClick}
+                    activeButton={activeButton}
+                  />
+                </div>
+                <div>
+                  <Input
+                    width="260px"
+                    prefixIcon={<SearchIcon />}
+                    // label="PR Code"
+                    name="search_by_code"
+                    value={filterValue.search_by_code}
+                    onChange={(e) => {
+                      setFilterValues({
+                        ...filterValue,
+                        ['search_by_code']: e.target.value,
+                      });
+                      //   setCurrentPage(1);
+                      //   setIsResetDisabled(false);
+                    }}
+                    placeholder="Search by PR Code"
+                  />
+                </div>
               </div>
             </div>
           </div>
