@@ -335,10 +335,12 @@ const Navbar = () => {
               >
                 <Dropdown
                   label={
-                    <div className={Styles.menuContainer}>
-                      <BoxIcon color="white" />
-                      Resources <DropdownIcon color="white" />
-                    </div>
+                    roleName === 'HR' || roleName === 'ADMIN' ? (
+                      <div className={Styles.menuContainer}>
+                        <BoxIcon color="white" />
+                        Resources <DropdownIcon color="white" />
+                      </div>
+                    ) : null
                   }
                 >
                   <div className={Styles.container}>
