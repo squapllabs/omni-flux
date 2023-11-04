@@ -413,10 +413,12 @@ const Navbar = () => {
               >
                 <Dropdown
                   label={
-                    <div className={Styles.menuContainer}>
-                      <BoxIcon color="white" />
-                      Resources <DropdownIcon color="white" />
-                    </div>
+                    roleName === 'HR' || roleName === 'ADMIN' ? (
+                      <div className={Styles.menuContainer}>
+                        <BoxIcon color="white" />
+                        Resources <DropdownIcon color="white" />
+                      </div>
+                    ) : null
                   }
                 >
                   <div className={Styles.container}>
@@ -511,7 +513,12 @@ const Navbar = () => {
                     : `${Styles.menu_item}`
                 }
               >
-                <div className={Styles.menuContainer}>
+                <div
+                  className={Styles.menuContainer}
+                  onClick={() => {
+                    navigate('/reports');
+                  }}
+                >
                   <ReceptIcon className={Styles.navIcon} />
                   Report
                 </div>

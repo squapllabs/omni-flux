@@ -50,7 +50,7 @@ const VendorSelect = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [reload, setReload] = useState(false);
   const [isAnyRowApproved, setIsAnyRowApproved] = useState(false);
   const [initialValues, setInitialValues] = useState({
@@ -136,8 +136,8 @@ const VendorSelect = () => {
   const vendorData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'created_date',
-    order_by_direction: 'asc',
+    order_by_column: 'updated_date',
+    order_by_direction: 'desc',
     status: 'AC',
     global_search: '',
     purchase_request_id: prID,
@@ -482,7 +482,8 @@ const VendorSelect = () => {
                             className={` ${
                               data?.quotation_status === 'Approved'
                                 ? Styles.completedStatus
-                                : data?.quotation_status === 'Quotation Received'
+                                : data?.quotation_status ===
+                                  'Quotation Received'
                                 ? ''
                                 : data?.quotation_status === 'Rejected'
                                 ? Styles.rejectedStatus
