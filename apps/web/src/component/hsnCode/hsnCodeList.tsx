@@ -286,7 +286,6 @@ const HsnCodeList = () => {
     }
     return csvRows.join('\n');
   };
-
   const staticData = [
     {
       code: '1023',

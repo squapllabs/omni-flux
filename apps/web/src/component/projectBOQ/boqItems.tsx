@@ -17,6 +17,7 @@ import CheckListIcon from '../menu/icons/checkListIcon';
 import EditIcon from '../menu/icons/newEditIcon';
 import NewAddCircleIcon from '../menu/icons/newAddCircleIcon';
 import ExpandIcon from '../menu/icons/expandIcon';
+import ExpandClose from '../menu/icons/expandClose';
 import CategoryService from '../../service/category-service';
 import CustomMenu from '../ui/NewCustomMenu';
 import subCategoryService from '../../service/subCategory-service';
@@ -54,7 +55,7 @@ const BomItems = (props: {
   const [planListTitle, setPlanListTitle] = useState('');
   const [showPlanForm, setShowPlanForm] = useState(false);
   const [categoryData, setCategoryData] = useState<any>();
-  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<any>();
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [isWarning, setIswarning] = useState(false);
@@ -74,6 +75,7 @@ const BomItems = (props: {
   const [ TaskPopupTrigger , setTaskPopupTrigger] = useState(false)
   const [ modelPopupTrigger , setModelPopupTrigger] = useState(false)
   const [isloading , setIsLoading]= useState(false);
+  const [colps, setColps] = useState(false);
   // const [getAllData , setTaskData]=useState<any>(null)
   const primary_color = '#7f56d';
   const handleEdit = (value: any) => {
@@ -88,7 +90,12 @@ const BomItems = (props: {
   };
   const handleSubTaskView = async (value: any) => {
     setSubTaskView(!subTaskView);
-    setSelectedSubCategoryId(value);
+    if(subTaskView === true){
+      setSelectedSubCategoryId(value);
+    } else {
+      
+    setSelectedSubCategoryId('');
+    }
     const getSubChildList =
       await subCategoryService.getOneChlidSubCatListbyParentID(value);
     setSubChildList(getSubChildList?.data);
@@ -287,7 +294,62 @@ const BomItems = (props: {
       console.log('throw error')
     }
   }
- 
+  const staticData = [
+    {
+      s_no:'1',
+      description: 'Sample Data - Details ',
+      uom : 'Unit',
+      quantity : '1',
+      rate : '100',
+      amount : '100'
+    },
+    {
+      s_no:'1.1',
+      description: 'Sample Data - Details ',
+      uom : 'Unit',
+      quantity : '1',
+      rate : '100',
+      amount : '100'
+    },
+    {
+      s_no:'1.2',
+      description: 'Sample Data - Details ',
+      uom : 'Unit',
+      quantity : '1',
+      rate : '100',
+      amount : '100'
+    },
+    {
+      s_no:'2',
+      description: 'Sample Data - Details ',
+      uom : 'Unit',
+      quantity : '1',
+      rate : '100',
+      amount : '100'
+    },
+  ];
+   /* Function for converting json data into excel format */
+   const convertToCSV = (data: any[]) => {
+    const header = ['SI.NO', 'Description','Unit','Quantity','Rate','Amount'];
+    const csvRows = [header.join(',')];
+    for (const item of staticData) {
+      const rowData = [item.s_no,item.description,item.uom,item.quantity,item.rate,item.amount];
+      csvRows.push(rowData.join(','));
+    }
+    return csvRows.join('\n');
+  };
+
+  /* Function for downloading sample data */
+  const handleExcelTemplateDownload = () => {
+    const csvContent = convertToCSV(staticData);
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'TaskData.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
   return ( 
     <div className={Styles.task_page_container}>
       <div>
@@ -391,7 +453,8 @@ const BomItems = (props: {
                     console.log('')
                   } } />}
                   onClick={() => {
-                   console.log('download template')         
+                   console.log('download template')   
+                   handleExcelTemplateDownload()      
                   }}
                 >
                  Download Template
@@ -399,7 +462,7 @@ const BomItems = (props: {
             </div>
               </div>
               {
-                uploadedTaskData && uploadedTaskData ? (
+                uploadedTaskData ? (
                   <div className={Styles.ab_tableContainer}>
                   <table
       
@@ -554,7 +617,7 @@ const BomItems = (props: {
               <div>
                 <h3>
                   {formatBudgetValue(
-                    categoryData?.budget ? categoryData?.budget : 0
+                    categoryData?.budget ? categoryData?.budget : 1000000
                   )}
                 </h3>
                 <p className={Styles.countContentTitle}>Aggregated Value</p>
@@ -686,23 +749,24 @@ const BomItems = (props: {
                                   onClick={
                                     (e) =>{
                                       handleSubTaskView(data.sub_category_id)
-                                        
-                                      console.log('before',getAllData[index]);
-                                      getAllData[index].switch = !getAllData[index].switch
-                                     
-                                      console.log('AFTER',getAllData[index]);
                                     }
                                   }
                                   style={{ textAlign: 'justify' ,cursor: data?.children.length ? 'pointer':'',
                                   transform : data.switch ? 'rotate(180deg);' : ''
                                   }}
                                   >
-                                    {`${data.switch ? 'true' :'false'}`}
-                                    <ExpandIcon
-                                      color={primary_color}
-                                      style={{fill_opacity : data?.children.length?'':'.5'}}
-                                      
-                                    ></ExpandIcon>
+                                  
+                                    {subTaskView === false && selectedSubCategoryId == data.sub_category_id?(
+                                       
+                                     <ExpandClose></ExpandClose>
+                                    ):(
+                                      <ExpandIcon
+                                       color={primary_color}
+                                       style={{fill_opacity : data?.children.length?'':'.5'}}
+                                       
+                                     ></ExpandIcon>
+                                    )}
+                                   
                                   </span>
                               )
                             }
@@ -717,7 +781,7 @@ const BomItems = (props: {
                                 <SubBoqItems
                                 key={subindex}
                                 index={subindex}
-                                primaryIndex={index}
+                                primaryIndex={index + 1}
                                 rowData={item}
                                 reload={reload}
                                 setReload={setReload}
@@ -736,7 +800,7 @@ const BomItems = (props: {
 
             <CustomSidePopup
               open={showPlanForm}
-              title={planListTitle}
+              title={"Add Plans"}
               width="85%"
               handleClose={handleClosePlanList}
               content={
