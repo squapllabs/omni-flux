@@ -38,7 +38,8 @@ const createMasterData = async (body: createMasterDataBody) => {
     const checkDuplicateParentType =
       await masterDataDao.getByParentMasterDataIdAndType(
         parent_master_data_id,
-        master_data_type
+        master_data_type,
+        project_id
       );
     if (checkDuplicateParentType) {
       result = {
@@ -259,12 +260,13 @@ const deleteMasterData = async (masterDataId: number) => {
  */
 const getByParentMasterDataType = async (body) => {
   try {
-    const { parent_master_data_id, master_data_type } = body;
+    const { parent_master_data_id, master_data_type, project_id } = body;
     let result = null;
     const masterDataDetails =
       await masterDataDao.getByParentMasterDataIdAndType(
         parent_master_data_id,
-        master_data_type
+        master_data_type,
+        project_id
       );
     if (masterDataDetails) {
       result = { status: true, is_exist: true, data: masterDataDetails };
