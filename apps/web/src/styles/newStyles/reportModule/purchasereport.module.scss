@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.stackChartContainer {
+  width: 100%;
+}
+.chartitle {
+  font-weight: bold;
+}
+.horizontalChart {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.scrollable_table {
+  padding: 10px 10px;
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 5px 5px 5px 24px;
+    text-align: left;
+    border: none;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  thead {
+    tr {
+      th {
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);
+      }
+    }
+  }
+
+  td:hover,
+  tr:hover {
+    background-color: rgb(239, 239, 239);
+  }
+  tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+
+  .td_desc {
+    min-width: 55.5rem;
+  }
+}
+.dividerLine {
+  border-bottom: 2px solid rgb(232, 232, 232);
+}
+.horizontalLine {
+  border-right: 2px solid rgb(232, 232, 232);
+}

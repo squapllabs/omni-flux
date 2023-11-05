@@ -312,18 +312,6 @@ const searchPurchaseOrder = async (body) => {
       });
     }
 
-    if (site_id) {
-      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
-      filterObj.filterPurchaseOrder.AND =
-        filterObj.filterPurchaseOrder.AND || [];
-
-      filterObj.filterPurchaseOrder.AND.push({
-        purchase_request_data: {
-          site_id: site_id,
-        },
-      });
-    }
-
     if (purchase_order_type) {
       filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
       filterObj.filterPurchaseOrder.AND =
@@ -353,6 +341,30 @@ const searchPurchaseOrder = async (body) => {
         filterObj.filterPurchaseOrder.AND.push({
           indent_request_data: {
             project_id: project_id,
+          },
+        });
+      }
+    }
+
+    if (site_id) {
+      if (purchase_order_type === 'Head Office') {
+        filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+        filterObj.filterPurchaseOrder.AND =
+          filterObj.filterPurchaseOrder.AND || [];
+
+        filterObj.filterPurchaseOrder.AND.push({
+          purchase_request_data: {
+            site_id: site_id,
+          },
+        });
+      } else if (purchase_order_type === 'Local Purchase') {
+        filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+        filterObj.filterPurchaseOrder.AND =
+          filterObj.filterPurchaseOrder.AND || [];
+
+        filterObj.filterPurchaseOrder.AND.push({
+          indent_request_data: {
+            site_id: site_id,
           },
         });
       }

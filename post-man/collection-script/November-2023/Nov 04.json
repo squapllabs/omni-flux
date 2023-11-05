@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "a3e7a2b1-ce5b-4057-950a-fc68bebfc229",
-		"name": "Omni-Flux-ERP - Nov 02",
+		"name": "Omni-Flux-ERP - Nov 03",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17122319"
 	},
@@ -3640,7 +3640,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"search_by_name\": \"st\",\r\n    \"status\": \"AC\"\r\n}",
+							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"search_by_name\": \"\",\r\n    \"status\": \"AC\",\r\n    \"bom_configuration_id\":119\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -10070,7 +10070,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"parent_master_data_id\": 233,\r\n    \"master_data_type\": \"PYSCP\"\r\n}",
+							"raw": "{\r\n    \"parent_master_data_id\": 233,\r\n    \"master_data_type\": \"0001\",\r\n    \"project_id\":137\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -16356,7 +16356,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"vendor_name\": \"Aalam Tools and Equipments\",\r\n    \"contact_person\": \"Vijay Perumalsamy\",\r\n    \"contact_email\": \"vijay.perumalsamy@aalamsoft.com\",\r\n    \"contact_phone_no\": \"+91 8776881092\",\r\n    \"address\": {\r\n        \"street\": \"12, Eswari Ammal Street\",\r\n        \"city\": \"Chennai\",\r\n        \"state\": \"Tamilnadu\",\r\n        \"postal_code\": \"638000\",\r\n        \"country\": \"India\"\r\n    },\r\n    \"tax_id\": \"IN123456789\",\r\n    \"payment_terms\": \"Net 30 Days\",\r\n    \"preferred_payment_method_id\": 98,\r\n    \"bank_account_details\": {\r\n        \"bank_name\": \"HDFC\",\r\n        \"account_number\": \"1085484420784146\",\r\n        \"ifsc_code\": \"HDFC0001999\"\r\n    },\r\n    \"currency\": \"INR\",\r\n    \"vendor_category_id\": 101,\r\n    \"lead_time\": \"10 days\",\r\n    \"minimum_order_quantity\": 100,\r\n    \"notes\": \"Supplier of raw materials\"\r\n}",
+							"raw": "{\r\n    \"vendor_name\": \"Asian Paints\",\r\n    \"contact_person\": \"Elango S\",\r\n    \"contact_email\": \"elango@aalamsoft.com\",\r\n    \"contact_phone_no\": \"+91 8776881092\",\r\n    \"address\": {\r\n        \"street\": \"12, Eswari Ammal Street\",\r\n        \"city\": \"Chennai\",\r\n        \"state\": \"Tamilnadu\",\r\n        \"postal_code\": \"638000\",\r\n        \"country\": \"India\"\r\n    },\r\n    \"tax_id\": \"IN123456789\",\r\n    \"payment_terms\": \"Net 30 Days\",\r\n    \"preferred_payment_method_id\": 417,\r\n    \"bank_account_details\": {\r\n        \"bank_name\": \"HDFC\",\r\n        \"account_number\": \"1085484420784146\",\r\n        \"ifsc_code\": \"HDFC0001999\"\r\n    },\r\n    \"currency\": \"INR\",\r\n    \"vendor_category_id\": 420,\r\n    \"lead_time\": \"10 days\",\r\n    \"minimum_order_quantity\": 100,\r\n    \"notes\": \"Supplier of raw materials\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -22516,7 +22516,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"indent_request_id\": 30,\r\n    \"approver_status\": \"Approved\",\r\n    \"approved_date\": \"2023-09-14\",\r\n    \"rejected_date\": null,\r\n    \"approver_comments\": \"Approved\",\r\n    \"updated_by\": 1,\r\n    \"approver_user_id\": 1,\r\n    \"request_type\": \"Head Office\"\r\n}",
+							"raw": "{\r\n    \"indent_request_id\": 163,\r\n    \"approver_status\": \"Approved\",\r\n    \"approved_date\": \"2023-11-02\",\r\n    \"rejected_date\": null,\r\n    \"approver_comments\": \"Approved\",\r\n    \"updated_by\": 1,\r\n    \"approver_user_id\": 1,\r\n    \"request_type\": \"Local Purchase\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -25120,7 +25120,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"bill_status\": \"Processing\",\r\n    \"status\": \"AC\",\r\n    \"project_id\": 195,\r\n    // \"site_id\": 17,\r\n    \"purchase_order_type\": \"Head Office\"\r\n}",
+							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"bill_status\": \"Processing\",\r\n    \"status\": \"AC\",\r\n    \"project_id\": 195,\r\n    \"site_id\": 53,\r\n    \"purchase_order_type\": \"Local Purchase\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -33400,6 +33400,123 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Update Is Read By Notification To User Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notification_to_user_id\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/notification/mark-all-as-read-by-to-user-id",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"notification",
+								"mark-all-as-read-by-to-user-id"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Update Is Read By Notification To User Id",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"notification_to_user_id\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/notification/mark-all-as-read-by-to-user-id",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"notification",
+										"mark-all-as-read-by-to-user-id"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "383"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17f-iEjnyxGuG3Or5JhpYvN+92zbJ1I\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Nov 2023 13:31:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"notification_id\": 1,\n            \"notification_from_user_id\": 62,\n            \"notification_to_user_id\": 1,\n            \"notification_type_id\": 141,\n            \"notification_type\": \"Indent-Request\",\n            \"notification_description\": \"Indent Requested for Approval\",\n            \"is_read\": true,\n            \"created_date\": \"2023-11-02T12:18:42.003Z\",\n            \"updated_date\": \"2023-11-02T12:18:42.003Z\",\n            \"created_by\": \"62\",\n            \"updated_by\": null\n        }\n    ]\n}"
 						}
 					]
 				}
