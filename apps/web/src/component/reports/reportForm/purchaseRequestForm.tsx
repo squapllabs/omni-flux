@@ -50,7 +50,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
     <div>
       <CustomLoader loading={loader}>
         <div className={Styles?.container}>
-          <div style={{ width: '100%' }}>
+          <div>
             <Select
               label="Purchase Control"
               name="purchase_control"
@@ -68,7 +68,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
               })}
             </Select>
           </div>
-          <div style={{ width: '100%' }}>
+          <div>
             <AutoCompleteSelect
               name="project_name"
               label="Project Name"
@@ -82,7 +82,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
               }}
             />
           </div>
-          <div style={{ width: '100%' }}>
+          <div>
             <Select
               label="Order Type"
               name="order_type"
@@ -106,7 +106,11 @@ const PurchaseRequestForm: React.FC = (props: any) => {
               name="start_date"
               onChange={formik.handleChange}
               value={formik.values.start_date}
-              error={formik.errors.start_date ? true : false}
+              error={
+                formik.errors.start_date && formik.touched.start_date
+                  ? true
+                  : false
+              }
               mandatory
             />
           </div>
@@ -116,7 +120,9 @@ const PurchaseRequestForm: React.FC = (props: any) => {
               name="end_date"
               onChange={formik.handleChange}
               value={formik.values.end_date}
-              error={formik.errors.end_date ? true : false}
+              error={
+                formik.errors.end_date && formik.touched.end_date ? true : false
+              }
               mandatory
             />
           </div>

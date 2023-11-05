@@ -50,7 +50,7 @@ const InwardRegister: React.FC = (props: any) => {
     <div>
       <CustomLoader loading={loader}>
         <div className={Styles?.container}>
-          <div style={{ width: '100%' }}>
+          <div>
             <Select
               label="Receipt Type"
               name="receipt_type"
@@ -68,7 +68,7 @@ const InwardRegister: React.FC = (props: any) => {
               })}
             </Select>
           </div>
-          <div style={{ width: '100%' }}>
+          <div>
             <AutoCompleteSelect
               name="project_name"
               label="Project Name"
@@ -82,7 +82,7 @@ const InwardRegister: React.FC = (props: any) => {
               }}
             />
           </div>
-          <div style={{ width: '100%' }}>
+          <div>
             <Input
               name="vendor_name"
               label="Vendor Name"

@@ -15,8 +15,9 @@ import ProjectInward from './reportForm/projectInward';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import FinanceFormAPS from './reportForm/financeFormAPS';
 import FinanceFormAMS from './reportForm/financeFormAMS';
-import { customSort } from './../../helper/common-function'
-
+import { customSort } from './../../helper/common-function';
+import FlagIcon from '../menu/icons/flagIcon';
+import MenuIcon from '../menu/icons/menuIcon';
 
 const IntialReport = () => {
   const [menuList, setMenuList] = useState<any>([
@@ -35,7 +36,7 @@ const IntialReport = () => {
         'Details of all the purchase order along with their delivery status',
       menuValue: 'PUR',
       mainValue: 'POR',
-      sortOrder: 1
+      sortOrder: 1,
     },
     {
       title: 'Purchase Order Register (Item-wise)',
@@ -43,7 +44,7 @@ const IntialReport = () => {
         'Item-wise details of all purchase orders along with delivered quantity',
       menuValue: 'PUR',
       mainValue: 'PORIW',
-      sortOrder: 1
+      sortOrder: 1,
     },
     {
       title: 'RFQ Register',
@@ -51,21 +52,21 @@ const IntialReport = () => {
         'Details of all request for quotations along with bidding status',
       menuValue: 'PUR',
       mainValue: 'RFQR',
-      sortOrder: 1
+      sortOrder: 1,
     },
     {
       title: 'RFQ Register (Item-wise)',
       description: 'Item-wise details of all request for quotations',
       menuValue: 'PUR',
       mainValue: 'RFQRIW',
-      sortOrder: 1
+      sortOrder: 1,
     },
     {
       title: 'RFQ Register (Supplier-wise)',
       description: 'Supplier-wise details of all request for quotations',
       menuValue: 'PUR',
       mainValue: 'RFQRSW',
-      sortOrder: 1
+      sortOrder: 1,
     },
     // {
     //   title: 'Indent Register (Item wise)',
@@ -79,39 +80,45 @@ const IntialReport = () => {
         'Item-wise details of all the products received via inward document',
       menuValue: 'ITY',
       mainValue: 'ITYIR',
-      sortOrder: 2
+      sortOrder: 2,
     },
     {
       title: 'Project Inward',
       description: 'Project wise comparison of stock quantity and value',
       menuValue: 'ITY',
       mainValue: 'ITYPI',
-      sortOrder: 2
+      sortOrder: 2,
     },
     {
       title: 'Accounts Project Summary',
       description: 'Details of project-wise recivable and payable',
       menuValue: 'FCE',
       mainValue: 'FCEAPS',
-      sortOrder: 3
+      sortOrder: 3,
     },
     {
       title: 'Accounts Monthly Summary',
       description: 'Details for month-wise recivable and payable',
       menuValue: 'FCE',
       mainValue: 'FCEAMS',
-      sortOrder: 3
+      sortOrder: 3,
     },
   ];
 
-  const sortedItems = mainItems.sort(customSort(mainItems, 'sortOrder', 'desc'));
+  const sortedItems = mainItems.sort(
+    customSort(mainItems, 'sortOrder', 'desc')
+  );
 
   const [mainList, setManiList] = useState<any>(sortedItems);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
+  const [openSideMenu, setOpenSideMenu] = useState(true);
+  const [width, setWidth] = useState<any>(75);
   const handleMenuClear = () => {
     setSelectedMenu('');
+    setOpenSideMenu(false);
+    setWidth(100);
   };
   const onMenuClick = (value: string) => {
     setSelectedMenu(value);
@@ -138,36 +145,48 @@ const IntialReport = () => {
   return (
     <div>
       <div className={Styles.container}>
-        <div className={Styles.sideMenu}>
-          <div className={Styles.menuHeading}>
-            <span>QUICK ACCESS MENU</span>
-            <CloseIcon
+        {openSideMenu && (
+          <div className={Styles.sideMenu}>
+            <div className={Styles.menuHeading}>
+              <span>QUICK ACCESS MENU</span>
+              {/* <CloseIcon
+                onClick={() => {
+                  handleMenuClear();
+                }}
+              /> */}
+            </div>
+            <div className={Styles.dividerLine}></div>
+            <div className={Styles.side_sideMenu}>
+              {menuList?.map((menu: any, index: any) => {
+                return (
+                  <ol key={index}>
+                    <li
+                      value={menu?.value}
+                      className={
+                        selectedMenu === menu?.value ? Styles.selected : ''
+                      }
+                      onClick={() => onMenuClick(menu?.value)}
+                      style={{ textTransform: 'uppercase' }}
+                    >
+                      {menu?.label}
+                    </li>
+                  </ol>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className={Styles?.mainMenu} style={{ width: `${width}%` }}>
+          {!openSideMenu && (
+            <div
               onClick={() => {
-                handleMenuClear();
+                setOpenSideMenu(true);
               }}
-            />
-          </div>
-          <div className={Styles.dividerLine}></div>
-          <div className={Styles.side_sideMenu}>
-            {menuList?.map((menu: any, index: any) => {
-              return (
-                <ol key={index}>
-                  <li
-                    value={menu?.value}
-                    className={
-                      selectedMenu === menu?.value ? Styles.selected : ''
-                    }
-                    onClick={() => onMenuClick(menu?.value)}
-                    style={{ textTransform: 'uppercase' }}
-                  >
-                    {menu?.label}
-                  </li>
-                </ol>
-              );
-            })}
-          </div>
-        </div>
-        <div className={Styles?.mainMenu}>
+            >
+              <MenuIcon />
+            </div>
+          )}
           <div className={Styles.cardBox}>
             {mainList?.map((mainData: any, index: any) => {
               return (
@@ -202,22 +221,22 @@ const IntialReport = () => {
             selectedMain === 'POR'
               ? 'Purchase Order Register'
               : selectedMain === 'PORIW'
-                ? 'Purchase Order Register (Item-wise)'
-                : selectedMain === 'RFQR'
-                  ? 'Request For Quotation Register'
-                  : selectedMain === 'RFQRIW'
-                    ? 'Request For Quotation Register(Item-wise)'
-                    : selectedMain === 'RFQRSW'
-                      ? 'Request For Quotation Register (Supplier-wise)'
-                      : selectedMain === 'ITYIR'
-                        ? 'Inward Register'
-                        : selectedMain === 'ITYPI'
-                          ? 'Project Inward'
-                          : selectedMain === 'FCEAPS'
-                            ? 'Accounts Project Summary'
-                            : selectedMain === 'FCEAMS'
-                              ? 'Accounts Monthly Summary'
-                              : ''
+              ? 'Purchase Order Register (Item-wise)'
+              : selectedMain === 'RFQR'
+              ? 'Request For Quotation Register'
+              : selectedMain === 'RFQRIW'
+              ? 'Request For Quotation Register(Item-wise)'
+              : selectedMain === 'RFQRSW'
+              ? 'Request For Quotation Register (Supplier-wise)'
+              : selectedMain === 'ITYIR'
+              ? 'Inward Register'
+              : selectedMain === 'ITYPI'
+              ? 'Project Inward'
+              : selectedMain === 'FCEAPS'
+              ? 'Accounts Project Summary'
+              : selectedMain === 'FCEAMS'
+              ? 'Accounts Monthly Summary'
+              : ''
           }
           handleClose={() => {
             setOpen(false);

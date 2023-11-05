@@ -68,7 +68,7 @@ const StackedChart = () => {
   return (
     <div>
       <div>
-        <Bar data={data} options={options} width={100} height={30} />
+        <Bar data={data} options={options} width={100} height={40} />
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ const FinanceFormAPS: React.FC = (props: any) => {
     <div>
       <CustomLoader loading={loader}>
         <div className={Styles?.container}>
-          <div style={{ width: '100%' }}>
+          <div>
             <AutoCompleteSelect
               name="project_name"
               label="Project Name"
