@@ -21,18 +21,29 @@ import BoxIcon from './icons/boxIcon';
 import BookIcon from './icons/bookIcon';
 import ReceptIcon from './icons/recepitIcon';
 import PersonIcon from './icons/personIcon';
+import {
+  getNewNotificationByUserID,
+  getNotificationforUser,
+  updateNotificationStatus,
+} from '../../hooks/notification-hooks';
+import { format } from 'date-fns';
+import StarIcon from './icons/starIcon';
+import notificationService from '../../service/notification-service';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [unread, setUnread] = useState<any>(null);
   const [showAssets, setShowAssets] = useState(false);
   const [showHome, setShowHome] = useState(false);
   const [showProject, setShowProject] = useState(false);
   const [showResources, setShowResources] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const notificationRef = useRef<HTMLDivElement | null>(null);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData.userData;
@@ -71,6 +82,12 @@ const Navbar = () => {
     setShowAssets(false);
     setShowReport(!showReport);
   };
+  const { mutate: updateNotification } = updateNotificationStatus();
+
+  const { data: newNotificationCount } = getNewNotificationByUserID(
+    userData?.user_id
+  );
+
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -82,6 +99,23 @@ const Navbar = () => {
       document.removeEventListener('click', handleOutsideClick);
     };
   }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target as Node)
+      ) {
+        setNotificationOpen(false);
+        setUnread(false);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
   console.log('userData', userData);
 
   function handleListItems() {
@@ -123,6 +157,29 @@ const Navbar = () => {
     setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
   };
 
+  const data: any = {
+    limit: 5,
+    offset: 0,
+    order_by_column: 'created_date',
+    order_by_direction: 'desc',
+    notification_to_user_id: userData?.user_id,
+  };
+
+  const {
+    isLoading: dataLoading,
+    data: initialData,
+    refetch,
+  } = getNotificationforUser(data);
+
+  useEffect(() => {
+    refetch();
+  }, [notificationOpen]);
+
+  const handleOpen = () => {
+    setNotificationOpen((prevNotificationOpen) => !prevNotificationOpen);
+    setUnread(true);
+  };
+
   const handleLogout = async () => {
     const data = await authService.logout();
     if (data?.status === true) {
@@ -133,6 +190,27 @@ const Navbar = () => {
 
   const handleNavigate = () => {
     navigate('/settings');
+  };
+
+  const notificationFunction = () => {
+    handleOpen();
+    setTimeout(() => {
+      upadteReadStatus();
+    }, 2000);
+  };
+
+  const upadteReadStatus = () => {
+    const Object: any = {
+      notification_to_user_id: userData?.user_id,
+    };
+    updateNotification(Object, {
+      onSuccess: (data) => {
+        if (data?.status === true) {
+          refetch();
+          setNewNotificationCount(null);
+        }
+      },
+    });
   };
 
   return (
@@ -470,17 +548,112 @@ const Navbar = () => {
           <div className={Styles.rightSearch}>
             {/* <SearchBar onSearch={handleSearch} /> */}
           </div>
+          <div>
+            <div ref={notificationRef} onClick={notificationFunction}>
+              <div>
+                <BellIcon
+                  color="white"
+                  width={25}
+                  height={25}
+                  value={newNotificationCount}
+                />
+              </div>
+              {notificationOpen && (
+                <div className={Styles.menu1}>
+                  {initialData?.content?.map((data: any, index: any) => {
+                    const currentDate: any = new Date();
+                    const applied_date: any = new Date(data?.created_date);
+                    const timeDifference: any = currentDate - applied_date;
+                    const minutes = Math.floor(timeDifference / (1000 * 60));
+                    const hours = Math.floor(minutes / 60);
+                    const days = Math.floor(
+                      timeDifference / (24 * 60 * 60 * 1000)
+                    );
+                    return (
+                      <div>
+                        <div className={Styles.box}>
+                          {data?.is_read === false ? (
+                            <div className={Styles.menubox1}>
+                              <Avatar
+                                imageUrl={
+                                  data?.notification_from_user_data
+                                    ?.user_profiles?.profile_image_url
+                                }
+                                firstName={
+                                  data?.notification_from_user_data?.first_name
+                                }
+                                lastName={
+                                  data?.notification_from_user_data?.last_name
+                                }
+                                size={25}
+                                fontSizeChange={true}
+                              />
+                              <span className={Styles.lineHeading}>
+                                {data?.notification_from_user_data?.first_name +
+                                  ' ' +
+                                  data?.notification_from_user_data?.last_name}
+                              </span>
+                              <span>
+                                <StarIcon />
+                              </span>
+                            </div>
+                          ) : (
+                            <div className={Styles.menubox1}>
+                              <Avatar
+                                imageUrl={
+                                  data?.notification_from_user_data
+                                    ?.user_profiles?.profile_image_url
+                                }
+                                firstName={
+                                  data?.notification_from_user_data?.first_name
+                                }
+                                lastName={
+                                  data?.notification_from_user_data?.last_name
+                                }
+                                size={25}
+                                fontSizeChange={true}
+                              />
+                              <span className={Styles.lineHeading}>
+                                {data?.notification_from_user_data?.first_name +
+                                  ' ' +
+                                  data?.notification_from_user_data?.last_name}
+                              </span>
+                            </div>
+                          )}
+                          <div className={Styles.messages}>
+                            {data?.notification_type === 'Indent-Requested' ? (
+                              <span className={Styles.lineContent}>
+                                has requested an Indent
+                              </span>
+                            ) : (
+                              <span className={Styles.lineContent}>
+                                has approved an Indent
+                              </span>
+                            )}
+                            {timeDifference < 24 * 60 * 60 * 1000 ? (
+                              <span className={Styles.lineTime}>
+                                {` ${hours} hours ${minutes % 60} minutes ago`}
+                              </span>
+                            ) : (
+                              <span className={Styles.lineTime}>
+                                {`${days} days ago`}
+                              </span>
+                            )}
+                          </div>
+                          <div className={Styles.dividerStyle}></div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
           <div className={Styles.container}>
             <div className={Styles.verticalLine}></div>
           </div>
           <div>
             <div className={Styles.rightIcons}>
-              {/* <BellIcon
-            className={Styles.navIcon}
-            color="gray"
-            height={24}
-            width={24}
-          /> */}
               <div ref={menuRef} onClick={toggleMenu}>
                 <div className={Styles.profileDetailHead}>
                   {/* <PersonIcon

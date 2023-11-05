@@ -20,7 +20,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'EDIT'
       ? getUpdateValidateyup(Yup)
-      : getCreateValidateyup(Yup);
+      : getCreateValidateyup(Yup,props.projectId);
 
   const [initialValues, setInitialValues] = useState({
     master_data_id: '',

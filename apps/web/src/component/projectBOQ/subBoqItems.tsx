@@ -10,6 +10,7 @@ import PlanList from './planList';
 import EditIcon from '../menu/icons/newEditIcon';
 import AddIcon from '../menu/icons/addIcon'
 import ExpandIcon from '../menu/icons/expandIcon';
+import ExpandClose from '../menu/icons/expandClose';
 import SettingIcon from '../menu/icons/settingIcon';
 
 interface SubBoqItemsProps {
@@ -35,7 +36,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [subChildData, setSubChildData] = useState<any>([]);
-  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<any>();
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedBomConfig, setSelectedBomConfig] = useState();
   const [projectId, setProjectId] = useState();
@@ -47,9 +48,16 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
   const [mode, setMode] = useState('');
   // const [reload, setReload] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
   const toggleCollapse = async (value: any) => {
+
     setIsCollapsed(!isCollapsed);
-    setSelectedSubCategoryId(value);
+    if(isCollapsed){
+      setSelectedSubCategoryId(value);
+    } else {
+      setSelectedSubCategoryId('')
+    }
+    
     const getSubChildList =
       await subCategoryService.getOneChlidSubCatListbyParentID(value);
     console.log('getSubChildList', getSubChildList);
@@ -112,7 +120,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
         }
       >
         <td >
-          {primaryIndex + 1 + '.' + `${index + 1}`}
+          {primaryIndex + '.' + `${(index + 1)}`}
         </td>
         <td >
           {rowData.description}
@@ -194,10 +202,17 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
                 }}
               style={{ textAlign: 'justify' ,cursor: rowData?.children.length ? 'pointer':''}}
               >
-                <ExpandIcon
-                color={primary_color}
-                style={{fill_opacity : rowData?.children.length?'':'.5'}}
-                ></ExpandIcon>
+                {isCollapsed === false && selectedSubCategoryId === rowData.sub_category_id?
+                (<ExpandClose></ExpandClose>)
+                :(
+                  <ExpandIcon
+                  color={primary_color}
+                  style={{fill_opacity : rowData?.children.length?'':'.5'}}
+                  ></ExpandIcon>
+                )
+                }
+
+               
               </span>
                 )
             }          
@@ -252,7 +267,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
                 key={index}
                 index={index}
                 rowData={items}
-                primaryIndex={`${primaryIndex + 1}` + '.' + index}
+                primaryIndex={`${primaryIndex}` + '.' + (index +1) }
               />
             </>
           );

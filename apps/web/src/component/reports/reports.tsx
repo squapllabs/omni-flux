@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CustomTabComponent from '../ui/CustomTabComponent';
 import ProjectSubheader from '../project/projectSubheader';
 import IntialReport from './intialReport';
+import PurchaseReport from './purchaseReport';
 
 const Reports = () => {
   const [buttonLabels, setButtonLabels] = useState([
@@ -27,6 +28,7 @@ const Reports = () => {
       </div>
       <div style={{ padding: '20px' }}>
         {activeButton === '' ? <IntialReport /> : ''}
+        {activeButton === 'RSP' ? <PurchaseReport /> : ''}
       </div>
     </div>
   );

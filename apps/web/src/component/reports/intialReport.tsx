@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Styles from '../../styles/newStyles/reportModule/intialreport.module.scss';
 import ReceptIcon from '../menu/icons/recepitIcon';
 import CloseIcon from '../menu/icons/closeIcon';
+import ApproveSelectDialogBox from '../ui/ApproveSelectComponet';
+import NewCustomPopupComponent from '../ui/newCustomPopupComponent';
+import PurchaseRequestForm from './reportForm/purchaseRequestForm';
+import CustomSnackbar from '../ui/customSnackBar';
 
 const IntialReport = () => {
   const [menuList, setMenuList] = useState<any>([
@@ -11,6 +15,8 @@ const IntialReport = () => {
     { value: 'ITY', label: 'INVENTORY' },
   ]);
   const [selectedMenu, setSelectedMenu] = useState<any>('');
+  const [selectedMain, setSelectedMain] = useState<any>('');
+
   const mainItems: any = [
     {
       title: 'Purchase Order Register',
@@ -67,11 +73,22 @@ const IntialReport = () => {
     },
   ];
   const [mainList, setManiList] = useState<any>(mainItems);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
   const handleMenuClear = () => {
     setSelectedMenu('');
   };
   const onMenuClick = (value: string) => {
     setSelectedMenu(value);
+  };
+  const handleReport = (value: any) => {
+    console.log('handleReportvalue', value);
+    setSelectedMain(value?.mainValue);
+    setOpen(true);
+  };
+  const handleSnackBarClose = () => {
+    setOpenSnack(false);
   };
   useEffect(() => {
     if (selectedMenu != '') {
@@ -131,7 +148,10 @@ const IntialReport = () => {
                       </div>
                     </div>
                     <div className={Styles.reportButton}>
-                      <div className={Styles.reportCard}>
+                      <div
+                        className={Styles.reportCard}
+                        onClick={() => handleReport(mainData)}
+                      >
                         <ReceptIcon color="#7f56d9" />
                         <span>Genderate Report</span>
                       </div>
@@ -142,7 +162,34 @@ const IntialReport = () => {
             })}
           </div>
         </div>
+        <NewCustomPopupComponent
+          contentLine1="Report Generation"
+          title={selectedMain === 'POR' ? 'Purchase Order Register' : ''}
+          handleClose={() => {
+            setOpen(false);
+          }}
+          open={open}
+          content={
+            <div>
+              {selectedMain === 'POR' && (
+                <PurchaseRequestForm
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                />
+              )}
+            </div>
+          }
+        />
       </div>
+      <CustomSnackbar
+        open={openSnack}
+        message={message}
+        onClose={handleSnackBarClose}
+        autoHideDuration={1000}
+        type="success"
+      />
     </div>
   );
 };

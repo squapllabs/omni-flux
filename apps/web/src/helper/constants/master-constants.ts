@@ -12,7 +12,7 @@ export const masterErrorMessages = {
   CODE_EXIST: 'Code is already present',
 };
 
-export const getCreateValidateyup = (yup: any) => {
+export const getCreateValidateyup = (yup: any,projectId:string) => {
   return yup.object().shape({
     master_data_name: yup
       .string()
@@ -34,6 +34,7 @@ export const getCreateValidateyup = (yup: any) => {
           const object: any = {
             name: value,
             id: id === undefined ? null : Number(id),
+            project_id :projectId === undefined ? null : Number(projectId)
           };
           if (value) {
             const response = await masterDataService.checkDublicatemasertData(
