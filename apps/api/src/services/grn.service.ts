@@ -411,4 +411,37 @@ const searchGrn = async (body) => {
   }
 };
 
-export { createGrn, getAllGrns, getById, searchGrn };
+/**
+ * Method to get Grn By purchase_order_id
+ * @param purchase_order_id
+ * @returns
+ */
+const getByPurchaseOrderId = async (purchase_order_id: number) => {
+  try {
+    const purchaseOrderExist = await purchaseOrderDao.getById(
+      purchase_order_id
+    );
+    if (!purchaseOrderExist) {
+      return {
+        message: 'purchase_order_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+    const grnData = await grnDao.getByPurchaseOrderId(purchase_order_id);
+    if (grnData.length > 0) {
+      return { message: 'success', status: true, data: grnData };
+    } else {
+      return {
+        message: 'No data found for this purchase_order_id',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log('Error occurred in getByPurchaseOrderId grn service : ', error);
+    throw error;
+  }
+};
+
+export { createGrn, getAllGrns, getById, searchGrn, getByPurchaseOrderId };
