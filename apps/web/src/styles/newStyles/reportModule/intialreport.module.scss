@@ -22,6 +22,8 @@
   width: 75%;
   height: 350px;
   overflow-y: scroll;
+  display: flex;
+  gap: 10px;
 }
 .dividerLine {
   border-bottom: 2px solid rgb(232, 232, 232);
