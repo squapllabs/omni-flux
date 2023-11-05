@@ -31,12 +31,14 @@ import BackArrow from '../menu/icons/backArrow';
 import ZIcon from '../menu/icons/zIcon';
 import CheckListIcon from '../menu/icons/checkListIcon';
 import CustomSidePopup from '../ui/CustomSidePopup';
+import CustomPopupModel from '../ui/CustomPopupModel';
 import ProjectAbstractAdd from './forms/projectAbstractAdd';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 import CustomMenu from '../ui/NewCustomMenu';
 import FileUploadIcon from '../menu/icons/fileUploadIcon';
 import { createMultipleCategory, getBySearchCategroy} from '../../hooks/category-hooks';
 import Pagination from '../menu/CustomPagination';
+import DownloadIcon from '../menu/icons/download';
 const temp : React.FC = ()=>{
   return (
     <div></div>
@@ -76,10 +78,10 @@ const BomList: React.FC = (props: any) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [isloading, setIsloading] = useState(true);
   const [abstractPopup, setAbstractPopup] = useState(false);
-  const [abstractBulkData, setAbstractBulkData] = useState({});
+  const [abstractBulkData, setAbstractBulkData] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+const [rowsPerPage, setRowsPerPage] = useState(10);
   const [initialData, setInitialData] = useState(null);
   const [overallBudget, setOverallBudget] = useState<string>('')
   useEffect(() => {
@@ -119,6 +121,35 @@ const BomList: React.FC = (props: any) => {
     setOverallBudget('')
     return false
   }
+  const staticData = [
+    {
+      s_no:'1',
+      description: 'Sample Data - Details ',
+      amount : '100'
+    }
+  ]
+
+    /* Function for converting json data into excel format */
+    const convertToCSV = (data: any[]) => {
+      const header = ['SI.NO', 'Description','Amount'];
+      const csvRows = [header.join(',')];
+      for (const item of staticData) {
+        const rowData = [item.s_no,item.description,item.amount];
+        csvRows.push(rowData.join(','));
+      }
+      return csvRows.join('\n');
+    };
+
+  const handleExcelTemplateDownload = () => {
+    const csvContent = convertToCSV(staticData);
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'AbstractData.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
   
   // const object: any = {
   //   offset: (currentPage - 1) * rowsPerPage,
@@ -239,13 +270,11 @@ const handleFileOnChange = async (e:any) =>{
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = utils.sheet_to_json(sheet);
       const parsedJson = JSON.parse(JSON.stringify(jsonData));
-  
-
-      if(parsedJson.length > 1){
+      if(parsedJson.length){
         let  bulkUploadData = {}
-        const header = parsedJson.shift();
+        // const header = parsedJson.shift();
         bulkUploadData = {
-          abstractName : header['Name_of_work']
+          abstractName : 'CIVIL WORKS'
         }
         const bodyData = parsedJson.filter((element:any) => {
           const keys = Object.keys(element)
@@ -261,13 +290,8 @@ const handleFileOnChange = async (e:any) =>{
             bodyData
           }
           setAbstractBulkData(bulkUploadData)
-          setAbstractPopup(true)
-          // uploadBulkAbstract(bulkUploadData)
         }
       }
-    
-      // Update the state with the Excel data
-      // setExcelData(jsonData);
     };
     reader.readAsArrayBuffer(file);
   }
@@ -282,7 +306,7 @@ const handleFileOnChange = async (e:any) =>{
       data.bodyData.forEach((element:any)=>{
         const obj = {
           name : data.abstractName || '',
-          description: element['Name_of_work'],
+          description: element['Description'],
           estimated_budget: element['Amount'],
           project_id: projectsId,
           budget: 0,
@@ -314,85 +338,204 @@ const handleFileOnChange = async (e:any) =>{
   }
   const handleClosePopup = ():void => {
     setAbstractPopup(false)
+    setAbstractBulkData(null)
     console.log('')
   }
   return (
     <div>
       <div>
-      <CustomSidePopup
+      {/* <CustomSidePopup
           open={abstractPopup}
           title={"Abstract List"}
           handleClose={handleClosePopup}
-          content={<div>
-            <table
-            style={{padding: '20px'}}
-            >
-                            <thead>
-                              <tr
-                               style={{padding: '20px 0'}}
-                              >
-                                <th>S No</th>
-                                <th>Name of Work</th>
-                                <th>Amount</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {abstractBulkData && abstractBulkData?.bodyData?.length > 0 ? (
-                                abstractBulkData?.bodyData.map((item: any, index: any) => (
-                                  <tr key={index}
-                                  
-                                  >
-                                    <td
-                                    style={{padding: '10px 0'}}
-                                    >{index + 1}</td>
-                                    <td
-                                    style={{padding: '10px 0'}}
-                                    >{item['Name_of_work']}</td>
-                                    <td
-                                    style={{padding: '10px 0'}}
-                                    >{item['Amount']}</td>
-                                  </tr>
-                                ))
-                              ) : (
-                                <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td>No records found</td>
-                                  <td></td>
-                                  <td></td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
+          content={
+          
+        
+        } width={'70%'} description={"description"}/> */}
 
-                    <div
-                    style={{
-                      display:'flex',
-                      justifyContent:'center',
-                      padding:'20px'
-                    }}
+         <CustomPopupModel 
+         open={abstractPopup} 
+         content={
+          <div>
+            <div className={`${Styles.flex} ${Styles.space_between}`}
+                  style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'2rem'}}
+          >
+            <div>
+            {
+                     abstractBulkData?.bodyData?.length?(
+                      <Button 
+                        color="primary"
+                        shape="rectangle"
+                        size="small"
+                        onClick={()=>{
+                          //bulkUpload task handler
+                          // handleTaskBulkUpload()
+                          uploadBulkAbstract(abstractBulkData);
+                          handleClosePopup()
+                        }}
+                        justify='center'
+                      >
+                     Add Abstract 
+                   </Button>
+                    ):(
+
+                      <div>
+                        <Button
+                      color="primary"
+                      shape="rectangle"
+                      size="small"
+                      icon={<FileUploadIcon width={20} color="white" onClick={function (): void {
+                        console.log('')
+                      } } />}
+                      onClick={() => {
+                        // if (fileInputRef.current) {
+                        //   fileInputRef.current.click();
+                        // }     
+                        // upload btn 
+                        handleFileUploadBtnClick()
+                      }}
                     >
+                      Upload File
+                    </Button>
+                        <span>
+                      <input
+                              ref={fileInputRef}
+                              id="upload-photo"
+                              name="upload_photo"
+                              type="file"
+                              style={{ display: 'none' }}
+                              onChange={(e) =>{ handleFileOnChange(e)}}
+                            />
+                      </span>
+                      </div>
 
-                    <Button
+                    )
+                  }
+            </div>
+            <div
+              style={{
+                display:'flex',
+                justifyContent:'space-between',
+                alignItems:'center',
+                gap:'1rem'
+                }}
+            >
+                  
+              <div
+                >
+                  {
+                     abstractBulkData && abstractBulkData?.bodyData?.length > 0?(
+                      <Button
                      color="primary"
                      shape="rectangle"
                      size="small"
-                     icon={<AddIcon width={20} color="white" />}
-                     onClick={() => {
-                       uploadBulkAbstract(abstractBulkData);
-                       handleClosePopup()
+                     onClick={()=>{
+                      // setUploadedTaskData(null);
+                      if (fileInputRef.current !== null) {
+                        fileInputRef.current.value = '';
+
+                      }
+                      setAbstractBulkData(null)
                      }}
                      justify='center'
                    >
-                     Add Abstracts
+                     Cancel 
                    </Button>
-           </div>
-          </div>
-           
-        
-        } width={'70%'} description={"description"}/>
+                    ):('')
+                  }
+                
+              </div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  size="small"
+                  icon={<DownloadIcon width={20} color="white" onClick={function (): void {
+                    console.log('')
+                  } } />}
+                  onClick={() => {
+                   handleExcelTemplateDownload()      
+                  }}
+                >
+                 Download Template
+                </Button>
+            </div>
+              </div>
+            {abstractBulkData ? (
+              <div className={Styles.ab_tableContainer}>
+              <table
+              style={{padding: '20px',width:'100%'}}
+              >
+                              <thead>
+                                <tr
+                                style={{padding: '20px 0'}}
+                                >
+                                  <th  style={{padding: '5px 10px'}}>S No</th>
+                                  <th  style={{padding: '5px 10px'}}>Name of Work</th>
+                                  <th  style={{padding: '5px 10px'}}>Amount</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {abstractBulkData && abstractBulkData?.bodyData?.length > 0 ? (
+                                  abstractBulkData?.bodyData.map((item: any, index: any) => (
+                                    <tr key={index}
+                                    
+                                    >
+                                      <td
+                                      style={{padding: '10px 10px'}}
+                                      >{index + 1}</td>
+                                      <td
+                                      style={{padding: '10px 10px'}}
+                                      >{item['Description']}</td>
+                                      <td
+                                      style={{padding: '10px 10px'}}
+                                      >{item['Amount']}</td>
+                                    </tr>
+                                  ))
+                                ) : (
+                                  <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>No records found</td>
+                                    <td></td>
+                                    <td></td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </table>
+{/* 
+                      <div
+                      style={{
+                        display:'flex',
+                        justifyContent:'center',
+                        padding:'20px'
+                      }}
+                      >
 
-         
+                      <Button
+                      color="primary"
+                      shape="rectangle"
+                      size="small"
+                      icon={<AddIcon width={20} color="white" />}
+                      onClick={() => {
+                        uploadBulkAbstract(abstractBulkData);
+                        handleClosePopup()
+                      }}
+                      justify='center'
+                    >
+                      Add Abstracts
+                    </Button>
+            </div> */}
+            </div>
+            ):(<h1 style={{textAlign:'center',padding:'2rem'}}> Upload File</h1>)}
+            
+           
+          </div>
+
+          
+         } 
+         title={'Abstract List'} 
+         handleClose={handleClosePopup } 
+         width={'70%'} description={'description'}         />
       </div>
 
       {isloading ? (
@@ -422,17 +565,12 @@ const handleFileOnChange = async (e:any) =>{
                   <span className={Styles.menuFont}>Add Abstract</span>                      
                 </div>
                 <div className={`${Styles.flex} ${Styles.bulkUpload_container}`}
-                onClick={handleFileUploadBtnClick}
+                onClick={()=>{
+                  setAbstractPopup(true)}
+                }
                 >
                   <span>
-                    <input
-                            ref={fileInputRef}
-                            id="upload-photo"
-                            name="upload_photo"
-                            type="file"
-                            style={{ display: 'none' }}
-                            onChange={(e) => handleFileOnChange(e)}
-                          />
+                    
                     <FileUploadIcon
                           width={20}
                           height={20}
@@ -778,14 +916,6 @@ const handleFileOnChange = async (e:any) =>{
                   </Button>
                   </div>
                   <div>
-                      <input
-                              ref={fileInputRef}
-                              id="upload-photo"
-                              name="upload_photo"
-                              type="file"
-                              style={{ display: 'none' }}
-                              onChange={(e) => handleFileOnChange(e)}
-                            />
                             <Button
                               color="primary"
                               shape="rectangle"
@@ -793,7 +923,7 @@ const handleFileOnChange = async (e:any) =>{
                               icon={<FileUploadIcon width={20} height={15} color="white" onClick={function (): void {
                                 console.log('')
                               } } />}
-                              onClick={handleFileUploadBtnClick}
+                              onClick={()=>{setAbstractPopup(true)}}
                             >
                               Bulk Upload
                             </Button>

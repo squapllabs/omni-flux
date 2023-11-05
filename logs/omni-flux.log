@@ -331,3 +331,376 @@ D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
 Can't reach database server at `3.108.30.2`:`5432`
 
 Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllUom << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.uom.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\uom.dao.ts:81:39
+
+  78 const getAll = async (connectionObj = null) => {
+  79   try {
+  80     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 81     const uom = await transaction.uom.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllItemData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.item.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\item.dao.ts:297:41
+
+  294 const getAllItems = async (connectionObj = null) => {
+  295   try {
+  296     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 297     const item = await transaction.item.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getCountByProjectIdAndBomConfigId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchbomconfiguration << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.bom_configuration.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\bomConfiguration.dao.ts:238:66
+
+  235 try {
+  236   const transaction = connectionObj !== null ? connectionObj : prisma;
+  237   const filter = filters.filterBomConfiguration;
+→ 238   const bomConfiguration = await transaction.bom_configuration.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchMasterData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.master_data.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\masterData.dao.ts:288:53
+
+  285     return getData;
+  286   }
+  287 } else {
+→ 288   const getData = await transaction.master_data.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchbomconfiguration << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.bom_configuration.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\bomConfiguration.dao.ts:238:66
+
+  235 try {
+  236   const transaction = connectionObj !== null ? connectionObj : prisma;
+  237   const filter = filters.filterBomConfiguration;
+→ 238   const bomConfiguration = await transaction.bom_configuration.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByProjectId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findFirst()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:329:47
+
+  326 const getById = async (projectId: number, connectionObj = null) => {
+  327   try {
+  328     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 329     const project = await transaction.project.findFirst(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchByUserId << ERRSTRING >>PrismaClientInitializationError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientInitializationError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\project.dao.ts:577:47
+
+  574 try {
+  575   const transaction = connectionObj !== null ? connectionObj : prisma;
+  576   const filter = filters.filterProject;
+→ 577   const project = await transaction.project.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulk << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:28:56
+
+  25 const formatted_end_date = end_date ? new Date(end_date) : null;
+  26 const transaction = connectionObj !== null ? connectionObj : prisma;
+  27 const is_delete = false;
+→ 28 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: undefined,
+         category_id: 360,
+         actual_budget: 0,
+         created_by: undefined,
+         created_date: new Date('2023-11-03T16:43:50.274Z'),
+         updated_date: new Date('2023-11-03T16:43:50.274Z'),
+         is_delete: false,
+         description: '',
+         project_id: 201,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 119,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '',
+                           ~~
+         uom_id: '',
+                 ~~
+         quantity: '',
+                   ~~
+         rate: ''
+               ~~
+       }
+     })
+
+Argument estimated_budget: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+Argument uom_id: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+Argument quantity: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+Argument rate: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulk << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:28:56
+
+  25 const formatted_end_date = end_date ? new Date(end_date) : null;
+  26 const transaction = connectionObj !== null ? connectionObj : prisma;
+  27 const is_delete = false;
+→ 28 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: undefined,
+         category_id: 360,
+         actual_budget: 0,
+         created_by: undefined,
+         created_date: new Date('2023-11-03T16:43:51.836Z'),
+         updated_date: new Date('2023-11-03T16:43:51.836Z'),
+         is_delete: false,
+         description: '',
+         project_id: 201,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 119,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '',
+                           ~~
+         uom_id: '',
+                 ~~
+         quantity: '',
+                   ~~
+         rate: ''
+               ~~
+       }
+     })
+
+Argument estimated_budget: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+Argument uom_id: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+Argument quantity: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+Argument rate: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulk << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Projects\omni-flux\omni-flux\apps\api\src\dao\subCategory.dao.ts:28:56
+
+  25 const formatted_end_date = end_date ? new Date(end_date) : null;
+  26 const transaction = connectionObj !== null ? connectionObj : prisma;
+  27 const is_delete = false;
+→ 28 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: undefined,
+         category_id: 360,
+         actual_budget: 0,
+         created_by: undefined,
+         created_date: new Date('2023-11-03T16:43:53.234Z'),
+         updated_date: new Date('2023-11-03T16:43:53.234Z'),
+         is_delete: false,
+         description: '',
+         project_id: 201,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 119,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: '',
+                           ~~
+         uom_id: '',
+                 ~~
+         quantity: '',
+                   ~~
+         rate: ''
+               ~~
+       }
+     })
+
+Argument estimated_budget: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+Argument uom_id: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+Argument quantity: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+Argument rate: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Float or Null.
+
+
