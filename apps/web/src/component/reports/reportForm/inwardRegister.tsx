@@ -9,16 +9,16 @@ import * as yup from 'yup';
 import CustomLoader from '../../ui/customLoader';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 
-const PurchaseRequestForm: React.FC = (props: any) => {
+const InwardRegister: React.FC = (props: any) => {
   const purchaseControl: any = [
-    { label: 'Local Purchase', value: 'LP' },
-    { label: 'Head Office', value: 'HO' },
+    { label: 'Through PO', value: 'TPO' },
+    { label: 'Direct Recipt', value: 'DR' },
   ];
   const orderType: any = [{ label: 'Purchase Order', value: 'PO' }];
   const [initialValues, setInitialValues] = useState<any>({
-    purchase_control: '',
+    receipt_type: '',
     project_name: '',
-    order_type: '',
+    vendor_name: '',
     start_date: '',
     end_date: '',
   });
@@ -35,7 +35,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
       setLoader(true);
       setTimeout(() => {
         const url =
-          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR238/file-1699163324335-552782159-PO-Register%20(1).xlsx';
+          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR300/file-1699174641959-918574725-Inward-Register.xlsx';
         const link = document.createElement('a');
         link.href = url;
         link.click();
@@ -52,12 +52,12 @@ const PurchaseRequestForm: React.FC = (props: any) => {
         <div className={Styles?.container}>
           <div>
             <Select
-              label="Purchase Control"
-              name="purchase_control"
+              label="Receipt Type"
+              name="receipt_type"
               defaultLabel="Select Option"
               placeholder="Select Option"
               onChange={formik.handleChange}
-              value={formik.values.purchase_control}
+              value={formik.values.receipt_type}
             >
               {purchaseControl?.map((item: any, index: any) => {
                 return (
@@ -83,46 +83,29 @@ const PurchaseRequestForm: React.FC = (props: any) => {
             />
           </div>
           <div>
-            <Select
-              label="Order Type"
-              name="order_type"
-              defaultLabel="Select Option"
-              placeholder="Select Option"
+            <Input
+              name="vendor_name"
+              label="Vendor Name"
               onChange={formik.handleChange}
-              value={formik.values.order_type}
-            >
-              {orderType?.map((item: any, index: any) => {
-                return (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
-                  </option>
-                );
-              })}
-            </Select>
+              value={formik.values.vendor_name}
+            />
           </div>
+
           <div>
             <DatePicker
-              label="Order Date"
+              label="Creation Date (From)"
               name="start_date"
               onChange={formik.handleChange}
               value={formik.values.start_date}
-              error={
-                formik.errors.start_date && formik.touched.start_date
-                  ? true
-                  : false
-              }
               mandatory
             />
           </div>
           <div>
             <DatePicker
-              label="Release Date"
+              label="Creation Date (To)"
               name="end_date"
               onChange={formik.handleChange}
               value={formik.values.end_date}
-              error={
-                formik.errors.end_date && formik.touched.end_date ? true : false
-              }
               mandatory
             />
           </div>
@@ -160,5 +143,4 @@ const PurchaseRequestForm: React.FC = (props: any) => {
     </div>
   );
 };
-
-export default PurchaseRequestForm;
+export default InwardRegister;
