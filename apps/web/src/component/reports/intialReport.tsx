@@ -6,6 +6,15 @@ import ApproveSelectDialogBox from '../ui/ApproveSelectComponet';
 import NewCustomPopupComponent from '../ui/newCustomPopupComponent';
 import PurchaseRequestForm from './reportForm/purchaseRequestForm';
 import CustomSnackbar from '../ui/customSnackBar';
+import PurchaseRequestItemForm from './reportForm/purchaseRequestItemForm';
+import RFQRegisterForm from './reportForm/rfqRegisterForm';
+import RFQRegisterItemForm from './reportForm/rfqRegisterItemForm';
+import RFQRegisterSupplierForm from './reportForm/rfqRegisterSupplierForm';
+import InwardRegister from './reportForm/inwardRegister';
+import ProjectInward from './reportForm/projectInward';
+import { useGetAllProjectDrop } from '../../hooks/project-hooks';
+import FinanceFormAPS from './reportForm/financeFormAPS';
+import FinanceFormAMS from './reportForm/financeFormAMS';
 
 const IntialReport = () => {
   const [menuList, setMenuList] = useState<any>([
@@ -16,7 +25,7 @@ const IntialReport = () => {
   ]);
   const [selectedMenu, setSelectedMenu] = useState<any>('');
   const [selectedMain, setSelectedMain] = useState<any>('');
-
+  const { data: getAllProjectForDrop = [] } = useGetAllProjectDrop();
   const mainItems: any = [
     {
       title: 'Purchase Order Register',
@@ -49,14 +58,14 @@ const IntialReport = () => {
       title: 'RFQ Register (Supplier-wise)',
       description: 'Supplier-wise details of all request for quotations',
       menuValue: 'PUR',
-      mainValue: 'PORIW',
+      mainValue: 'RFQRSW',
     },
-    {
-      title: 'Indent Register (Item wise)',
-      description: 'Item-wise details of all indents',
-      menuValue: 'PUR',
-      mainValue: 'IRIW',
-    },
+    // {
+    //   title: 'Indent Register (Item wise)',
+    //   description: 'Item-wise details of all indents',
+    //   menuValue: 'PUR',
+    //   mainValue: 'IRIW',
+    // },
     {
       title: 'Inward Register',
       description:
@@ -65,11 +74,22 @@ const IntialReport = () => {
       mainValue: 'ITYIR',
     },
     {
-      title: 'GRN/Inward Invoice',
-      description:
-        'Item-wise comparison of PO, Inward, GRN and Invoice quantity',
+      title: 'Project Inward',
+      description: 'Project wise comparison of stock quantity and value',
       menuValue: 'ITY',
-      mainValue: 'ITYGRN',
+      mainValue: 'ITYPI',
+    },
+    {
+      title: 'Accounts Project Summary',
+      description: 'Details of project-wise recivable and payable',
+      menuValue: 'FCE',
+      mainValue: 'FCEAPS',
+    },
+    {
+      title: 'Accounts Monthly Summary',
+      description: 'Details for month-wise recivable and payable',
+      menuValue: 'FCE',
+      mainValue: 'FCEAMS',
     },
   ];
   const [mainList, setManiList] = useState<any>(mainItems);
@@ -153,7 +173,7 @@ const IntialReport = () => {
                         onClick={() => handleReport(mainData)}
                       >
                         <ReceptIcon color="#7f56d9" />
-                        <span>Genderate Report</span>
+                        <span>Generate Report</span>
                       </div>
                     </div>
                   </div>
@@ -164,7 +184,27 @@ const IntialReport = () => {
         </div>
         <NewCustomPopupComponent
           contentLine1="Report Generation"
-          title={selectedMain === 'POR' ? 'Purchase Order Register' : ''}
+          title={
+            selectedMain === 'POR'
+              ? 'Purchase Order Register'
+              : selectedMain === 'PORIW'
+              ? 'Purchase Order Register (Item-wise)'
+              : selectedMain === 'RFQR'
+              ? 'Request For Quotation Register'
+              : selectedMain === 'RFQRIW'
+              ? 'Request For Quotation Register(Item-wise)'
+              : selectedMain === 'RFQRSW'
+              ? 'Request For Quotation Register (Supplier-wise)'
+              : selectedMain === 'ITYIR'
+              ? 'Inward Register'
+              : selectedMain === 'ITYPI'
+              ? 'Project Inward'
+              : selectedMain === 'FCEAPS'
+              ? 'Accounts Project Summary'
+              : selectedMain === 'FCEAMS'
+              ? 'Accounts Monthly Summary'
+              : ''
+          }
           handleClose={() => {
             setOpen(false);
           }}
@@ -177,6 +217,79 @@ const IntialReport = () => {
                   setOpen={setOpen}
                   setMessage={setMessage}
                   setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
+                />
+              )}
+              {selectedMain === 'PORIW' && (
+                <PurchaseRequestItemForm
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
+                />
+              )}
+              {selectedMain === 'RFQR' && (
+                <RFQRegisterForm
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
+                />
+              )}
+              {selectedMain === 'RFQRIW' && (
+                <RFQRegisterItemForm
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
+                />
+              )}
+              {selectedMain === 'RFQRSW' && (
+                <RFQRegisterSupplierForm
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
+                />
+              )}
+              {selectedMain === 'ITYIR' && (
+                <InwardRegister
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
+                />
+              )}
+              {selectedMain === 'ITYPI' && (
+                <ProjectInward
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
+                />
+              )}
+              {selectedMain === 'FCEAPS' && (
+                <FinanceFormAPS
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
+                />
+              )}
+              {selectedMain === 'FCEAMS' && (
+                <FinanceFormAMS
+                  open={open}
+                  setOpen={setOpen}
+                  setMessage={setMessage}
+                  setOpenSnack={setOpenSnack}
+                  getAllProjectForDrop={getAllProjectForDrop}
                 />
               )}
             </div>

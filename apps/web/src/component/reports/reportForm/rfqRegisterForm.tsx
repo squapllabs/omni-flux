@@ -9,18 +9,12 @@ import * as yup from 'yup';
 import CustomLoader from '../../ui/customLoader';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 
-const PurchaseRequestForm: React.FC = (props: any) => {
-  const purchaseControl: any = [
-    { label: 'Local Purchase', value: 'LP' },
-    { label: 'Head Office', value: 'HO' },
-  ];
-  const orderType: any = [{ label: 'Purchase Order', value: 'PO' }];
+const RFQRegisterForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState<any>({
-    purchase_control: '',
     project_name: '',
     order_type: '',
-    start_date: '',
     end_date: '',
+    start_date: '',
   });
   const [loader, setLoader] = useState(false);
   const validationSchema = yup.object().shape({
@@ -35,7 +29,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
       setLoader(true);
       setTimeout(() => {
         const url =
-          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR238/file-1699163324335-552782159-PO-Register%20(1).xlsx';
+          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR299/file-1699169972314-747363114-RFQ-Register (1).xlsx';
         const link = document.createElement('a');
         link.href = url;
         link.click();
@@ -51,24 +45,6 @@ const PurchaseRequestForm: React.FC = (props: any) => {
       <CustomLoader loading={loader}>
         <div className={Styles?.container}>
           <div style={{ width: '100%' }}>
-            <Select
-              label="Purchase Control"
-              name="purchase_control"
-              defaultLabel="Select Option"
-              placeholder="Select Option"
-              onChange={formik.handleChange}
-              value={formik.values.purchase_control}
-            >
-              {purchaseControl?.map((item: any, index: any) => {
-                return (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
-                  </option>
-                );
-              })}
-            </Select>
-          </div>
-          <div style={{ width: '100%' }}>
             <AutoCompleteSelect
               name="project_name"
               label="Project Name"
@@ -82,27 +58,10 @@ const PurchaseRequestForm: React.FC = (props: any) => {
               }}
             />
           </div>
-          <div style={{ width: '100%' }}>
-            <Select
-              label="Order Type"
-              name="order_type"
-              defaultLabel="Select Option"
-              placeholder="Select Option"
-              onChange={formik.handleChange}
-              value={formik.values.order_type}
-            >
-              {orderType?.map((item: any, index: any) => {
-                return (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
-                  </option>
-                );
-              })}
-            </Select>
-          </div>
+
           <div>
             <DatePicker
-              label="Order Date"
+              label="Start Date"
               name="start_date"
               onChange={formik.handleChange}
               value={formik.values.start_date}
@@ -112,7 +71,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
           </div>
           <div>
             <DatePicker
-              label="Release Date"
+              label="End Date"
               name="end_date"
               onChange={formik.handleChange}
               value={formik.values.end_date}
@@ -154,5 +113,4 @@ const PurchaseRequestForm: React.FC = (props: any) => {
     </div>
   );
 };
-
-export default PurchaseRequestForm;
+export default RFQRegisterForm;

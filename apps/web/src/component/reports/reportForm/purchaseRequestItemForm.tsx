@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import CustomLoader from '../../ui/customLoader';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 
-const PurchaseRequestForm: React.FC = (props: any) => {
+const PurchaseRequestItemForm: React.FC = (props: any) => {
   const purchaseControl: any = [
     { label: 'Local Purchase', value: 'LP' },
     { label: 'Head Office', value: 'HO' },
@@ -21,6 +21,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
     order_type: '',
     start_date: '',
     end_date: '',
+    purchase_manager: '',
   });
   const [loader, setLoader] = useState(false);
   const validationSchema = yup.object().shape({
@@ -35,7 +36,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
       setLoader(true);
       setTimeout(() => {
         const url =
-          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR238/file-1699163324335-552782159-PO-Register%20(1).xlsx';
+          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR299/file-1699169362631-904371492-PO-Register(Item) (1).xlsx';
         const link = document.createElement('a');
         link.href = url;
         link.click();
@@ -80,6 +81,14 @@ const PurchaseRequestForm: React.FC = (props: any) => {
               onSelect={(value) => {
                 formik.setFieldValue('project_name', value);
               }}
+            />
+          </div>
+          <div style={{ width: '100%' }}>
+            <Input
+              name="purchase_manager"
+              label="Purchase Manager"
+              onChange={formik.handleChange}
+              value={formik.values.purchase_manager}
             />
           </div>
           <div style={{ width: '100%' }}>
@@ -155,4 +164,4 @@ const PurchaseRequestForm: React.FC = (props: any) => {
   );
 };
 
-export default PurchaseRequestForm;
+export default PurchaseRequestItemForm;
