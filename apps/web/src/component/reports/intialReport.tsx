@@ -15,6 +15,8 @@ import ProjectInward from './reportForm/projectInward';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import FinanceFormAPS from './reportForm/financeFormAPS';
 import FinanceFormAMS from './reportForm/financeFormAMS';
+import { customSort } from './../../helper/common-function'
+
 
 const IntialReport = () => {
   const [menuList, setMenuList] = useState<any>([
@@ -33,6 +35,7 @@ const IntialReport = () => {
         'Details of all the purchase order along with their delivery status',
       menuValue: 'PUR',
       mainValue: 'POR',
+      sortOrder: 1
     },
     {
       title: 'Purchase Order Register (Item-wise)',
@@ -40,6 +43,7 @@ const IntialReport = () => {
         'Item-wise details of all purchase orders along with delivered quantity',
       menuValue: 'PUR',
       mainValue: 'PORIW',
+      sortOrder: 1
     },
     {
       title: 'RFQ Register',
@@ -47,18 +51,21 @@ const IntialReport = () => {
         'Details of all request for quotations along with bidding status',
       menuValue: 'PUR',
       mainValue: 'RFQR',
+      sortOrder: 1
     },
     {
       title: 'RFQ Register (Item-wise)',
       description: 'Item-wise details of all request for quotations',
       menuValue: 'PUR',
       mainValue: 'RFQRIW',
+      sortOrder: 1
     },
     {
       title: 'RFQ Register (Supplier-wise)',
       description: 'Supplier-wise details of all request for quotations',
       menuValue: 'PUR',
       mainValue: 'RFQRSW',
+      sortOrder: 1
     },
     // {
     //   title: 'Indent Register (Item wise)',
@@ -72,27 +79,34 @@ const IntialReport = () => {
         'Item-wise details of all the products received via inward document',
       menuValue: 'ITY',
       mainValue: 'ITYIR',
+      sortOrder: 2
     },
     {
       title: 'Project Inward',
       description: 'Project wise comparison of stock quantity and value',
       menuValue: 'ITY',
       mainValue: 'ITYPI',
+      sortOrder: 2
     },
     {
       title: 'Accounts Project Summary',
       description: 'Details of project-wise recivable and payable',
       menuValue: 'FCE',
       mainValue: 'FCEAPS',
+      sortOrder: 3
     },
     {
       title: 'Accounts Monthly Summary',
       description: 'Details for month-wise recivable and payable',
       menuValue: 'FCE',
       mainValue: 'FCEAMS',
+      sortOrder: 3
     },
   ];
-  const [mainList, setManiList] = useState<any>(mainItems);
+
+  const sortedItems = mainItems.sort(customSort(mainItems, 'sortOrder', 'desc'));
+
+  const [mainList, setManiList] = useState<any>(sortedItems);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -188,22 +202,22 @@ const IntialReport = () => {
             selectedMain === 'POR'
               ? 'Purchase Order Register'
               : selectedMain === 'PORIW'
-              ? 'Purchase Order Register (Item-wise)'
-              : selectedMain === 'RFQR'
-              ? 'Request For Quotation Register'
-              : selectedMain === 'RFQRIW'
-              ? 'Request For Quotation Register(Item-wise)'
-              : selectedMain === 'RFQRSW'
-              ? 'Request For Quotation Register (Supplier-wise)'
-              : selectedMain === 'ITYIR'
-              ? 'Inward Register'
-              : selectedMain === 'ITYPI'
-              ? 'Project Inward'
-              : selectedMain === 'FCEAPS'
-              ? 'Accounts Project Summary'
-              : selectedMain === 'FCEAMS'
-              ? 'Accounts Monthly Summary'
-              : ''
+                ? 'Purchase Order Register (Item-wise)'
+                : selectedMain === 'RFQR'
+                  ? 'Request For Quotation Register'
+                  : selectedMain === 'RFQRIW'
+                    ? 'Request For Quotation Register(Item-wise)'
+                    : selectedMain === 'RFQRSW'
+                      ? 'Request For Quotation Register (Supplier-wise)'
+                      : selectedMain === 'ITYIR'
+                        ? 'Inward Register'
+                        : selectedMain === 'ITYPI'
+                          ? 'Project Inward'
+                          : selectedMain === 'FCEAPS'
+                            ? 'Accounts Project Summary'
+                            : selectedMain === 'FCEAMS'
+                              ? 'Accounts Monthly Summary'
+                              : ''
           }
           handleClose={() => {
             setOpen(false);
