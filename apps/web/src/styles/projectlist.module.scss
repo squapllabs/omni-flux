@@ -7,6 +7,7 @@
   padding: 8px 10px 10px 10px;
   display: flex;
   flex-direction: column;
+  // justify-content: center;
 }
 
 .textStyle {
@@ -23,6 +24,7 @@
 
 .cardTextStyle {
   display: flex;
+  // justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 10px;
@@ -42,38 +44,36 @@
 }
 
 .searchButton {
-  padding: 12px 20px 12px 20px;
-  border-radius: 8px;
-  gap: 8px;
-  color: #6941c6;
-  background-color: transparent;
-  border: 1px solid #6941c6;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-
-  &:hover {
-    background-color: #7f56d9;
-    color: #ffffff;
-  }
+  display: flex;
+  flex-direction: row;
+  flex-shrink: initial;
 }
 
-.resetButton {
+.searchButton {
   padding: 12px 20px 12px 20px;
   border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  color: #6941c6;
+}
+
+.searchButton:hover {
+  background-color: #7f56d9;
+  color: #ffffff;
+}
+
+.resetButton [disabled] {
+  padding: 12px 20px 12px 20px;
+  border-radius: 8px;
+  border: 1px;
   gap: 8px;
   color: black;
   background-color: #ccc;
-  cursor: not-allowed;
-  transition: background-color 0.3s, color 0.3s;
+}
 
-  &:hover {
-    background-color: #ccc;
-    color: black;
-  }
-
-  &[disabled] {
-    cursor: not-allowed;
-  }
+.resetButton:not([disabled]):hover {
+  background-color: #c4c4c6;
+  color: #ffffff;
 }
 
 .inputFilter {
@@ -96,7 +96,9 @@
 
 .button {
   display: flex;
+  // gap: 20px;
   justify-content: center;
+  // align-items: center;
 }
 
 .pagination {
@@ -108,26 +110,33 @@
 /* Apply the scrollable_table class to your table element */
 .scrollable_table {
   width: 100%;
-  padding: 10px 10px 10px 10px;
+  height: 100%;
+  padding: 10px 10px 10px 10px; /* Adjust padding */
   gap: 12px;
   border-collapse: collapse;
 
   th,
   td {
-    padding: 5px 10px 5px 24px;
+    padding: 5px 10px 5px 24px; /* Adjust padding */
     text-align: left;
+    // border: 0px 0px 1px;
     font-weight: var(--tableData-fontWeight);
     font-size: var(--tableData-fontSize);
-    border: none;
+    border: none; /* Remove borders */
     border-bottom: 0.1px solid #f0f0f0;
   }
-
   tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
     tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
       background-color: var(--tableRow-backgroundColor);
     }
   }
-
+ 
   .td_desc {
     min-width: 55.5rem;
   }
@@ -149,7 +158,6 @@
       }
     }
   }
-
   td:hover,
   tr:hover {
     /* Add hover styles if needed */
@@ -162,7 +170,6 @@
   border-radius: 50px;
   color: #027a48;
 }
-
 .inprogressStatus {
   background-color: #fdf2fa;
   padding: 6px;
@@ -182,81 +189,90 @@
   flex-direction: row;
   align-items: center;
   column-gap: 10px;
+  // margin-right: 40px;
   cursor: pointer;
 }
 
 .tableContainer {
-  // padding: 10px 10px 0px 10px;
-  width: 100%;
-  overflow-x: auto; 
+  padding: 10px 10px 0px 10px;
 }
 
-/* Media Query for Mobile */
-/* Default styles for the table */
-.scrollable_table {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  border-collapse: collapse;
-
-  th,
-  td {
-    padding: 5px 10px 5px 24px;
-    text-align: left;
-    font-weight: var(--tableData-fontWeight);
-    font-size: var(--tableData-fontSize);
-    border: none;
-    border-bottom: 0.1px solid #f0f0f0;
-  }
-
-  tbody {
-    tr:nth-child(even) {
-      background-color: var(--tableRow-backgroundColor);
-    }
-  }
-
-  .td_desc {
-    min-width: 55.5rem;
-  }
-
-  td {
-    border-bottom: 0.1px solid #f0f0f0;
-  }
-
-  thead {
-    tr {
-      th {
-        padding: 10px 10px 10px 24px;
-        color: var(--tableHeader-fontColor);
-        background-color: var(--tableHeader-backgroundColor);
-        border: none;
-        font-size: var(--tableHeader-fontSize);
-        font-weight: var(--tableHeader-fontWeight);
-        text-transform: var(--tableHeader-textTransform);
-      }
-    }
-  }
-
-  td:hover,
-  tr:hover {
-    /* Add hover styles if needed */
-  }
+.dashBoardcontainer {
+  padding: 2px;
 }
 
-/* Responsive Styles */
-@media (max-width: 767px) {
-  .scrollable_table th,
-  .scrollable_table td {
-    white-space: nowrap;
-  }
+.dashBoard {
+  height: 300px;
 }
 
-/* Additional Styles */
-.pagination {
+.card {
+  display: flex;
   justify-content: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 20%;
+  height: 20%;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
 }
 
-.inputFilter1 {
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.graphCard {
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 51%;
+  column-gap: 50px;
+  border-radius: 20px;
+}
+
+.tableHeading {
+  // background-color: linear-gradient(0deg, #EAECF0, #EAECF0);
+  // linear-gradient(0deg, #FFFFFF, #FFFFFF);
+  color: linear-gradient(0deg, #eaecf0, #eaecf0);
+}
+
+.graphCard:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.cardContainer {
+  padding: 15px 2px;
+}
+
+.cardDiv {
+  display: flex;
+
+  justify-content: space-evenly;
+
+  padding: 10px 0px 10px 5px;
+}
+
+.barCarddDiv {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  gap: 30px;
+}
+
+.chart {
+  width: 100%;
+  padding: 20px 40px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px 10px 0px 10px;
+}
+
+.firstHeader {
+  display: flex;
   justify-content: flex-start;
+  gap: 10px;
 }
-
