@@ -36,7 +36,7 @@ const HorizontalBarChart = () => {
     ],
     datasets: [
       {
-        label: 'Dataset 1',
+        label: 'POs',
         data: [10, 20, 30, 40, 50],
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
@@ -61,7 +61,7 @@ const HorizontalBarChart = () => {
   };
   return (
     <div>
-      <Bar data={data} options={options} width={50} height={30} />
+      <Bar data={data} options={options} width={50} height={40} />
     </div>
   );
 };

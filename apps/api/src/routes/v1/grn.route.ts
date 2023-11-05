@@ -5,6 +5,7 @@ import {
   createGrn,
   getAllGrns,
   getByGrnId,
+  getByPurchaseOrderId,
   searchGrn,
 } from '../../controller/grn.controller';
 import { runValidation } from '../../validations/index';
@@ -18,5 +19,11 @@ router.get('/get-all', authMiddleware, getAllGrns);
 router.get('/get/:grn_id', authMiddleware, getByGrnId);
 
 router.post('/search', authMiddleware, searchGrn);
+
+router.get(
+  '/get-by-purchase-order-id/:purchase_order_id',
+  authMiddleware,
+  getByPurchaseOrderId
+);
 
 export default router;

@@ -43,4 +43,16 @@ const searchGrn = catchAsync(async (req, res) => {
   }
 });
 
-export { createGrn, getAllGrns, getByGrnId, searchGrn };
+const getByPurchaseOrderId = catchAsync(async (req, res) => {
+  const methodName = '/getByPurchaseOrderId';
+  try {
+    const grn = await grnService.getByPurchaseOrderId(
+      req.params.purchase_order_id
+    );
+    res.send(grn);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+export { createGrn, getAllGrns, getByGrnId, searchGrn, getByPurchaseOrderId };

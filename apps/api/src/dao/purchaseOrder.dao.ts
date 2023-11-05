@@ -810,6 +810,32 @@ const getPOStatistics = async (connectionObj = null) => {
   }
 };
 
+const updateStatusByPOId = async (
+  status: string,
+  updated_by: number,
+  purchase_order_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseOrder = await transaction.purchase_order.update({
+      where: {
+        purchase_order_id: purchase_order_id,
+      },
+      data: {
+        status,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+    return purchaseOrder;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrderDao updateStatusByPOId', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -821,4 +847,5 @@ export default {
   getByPurchaseRequestId,
   updateStatusAndDocument,
   getPOStatistics,
+  updateStatusByPOId,
 };
