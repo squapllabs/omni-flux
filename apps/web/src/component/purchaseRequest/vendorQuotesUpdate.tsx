@@ -62,6 +62,8 @@ const VendorQuotesUpdate = () => {
     Number(vendorQuotesID)
   );
   const [vendorQuoteDocument, setVendorQuoteDocument] = useState<any>([]);
+  console.log('vendorQuoteDocument', vendorQuoteDocument);
+
   const [vendorQuoteData, setVendorQuoteData] = useState<any>({});
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
