@@ -265,10 +265,10 @@
   padding: 0 0 2%;
   overflow-x: auto;
 
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 0px;
+  //   background: transparent;
+  // }
 }
 
 .options {

@@ -10,9 +10,7 @@ import { getByBOMDetails } from '../../hooks/category-hooks';
 const projectAbstract = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
-
-  const [bomData, setBomData] = useState<any>({});
-  const [overallAbstractValue ,setOverallAbstractValue] = useState(0)
+  const [overallAbstractValue ,setOverallAbstractValue] = useState<any>(0)
   // const [reload, setReload] = useState(false);
   const obj: any = {
     projectId: Number(routeParams?.projectId),
