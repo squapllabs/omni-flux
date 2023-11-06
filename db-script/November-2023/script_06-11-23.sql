@@ -27,3 +27,6 @@ constraint fk_purchase_order_invoice_grn_id foreign key (grn_id) references grn(
 constraint fk_purchase_order_invoice_requested_by foreign key (requested_by) references users(user_id),
 constraint fk_purchase_order_invoice_paid_by foreign key (paid_by) references users(user_id)
 )
+
+alter table purchase_order_invoice
+add column payment_mode varchar(20);

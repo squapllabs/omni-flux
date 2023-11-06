@@ -1,0 +1,9 @@
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchPurchaseOrder << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.purchase_order.findMany()` invocation in
+D:\2023\September\20\erp\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:358:62
+
+  355 }
+  356 
+  357 if (checkPurchaseOrderDataAvailability.length > 0) {
+→ 358   const purchaseOrder = await transaction.purchase_order.findMany(
+Server has closed the connection.

@@ -12,6 +12,7 @@ import {
   getByPurchaseOrderInvoiceId,
   searchPurchaseOrderInvoice,
   updatePurchaseOrderInvoice,
+  updateStatus,
 } from '../../controller/purchaseOrderInvoice.controller';
 import { runValidation } from '../../validations/index';
 
@@ -54,5 +55,7 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchPurchaseOrderInvoice);
+
+router.put('/update-status', authMiddleware, updateStatus);
 
 export default router;

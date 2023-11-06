@@ -567,6 +567,47 @@ const searchPurchaseOrderInvoice = async (
   }
 };
 
+const updateStatus = async (
+  purchase_order_id: number,
+  status: string,
+  paid_by: number,
+  paid_date: Date,
+  updated_by: number,
+  payment_mode: string,
+  additional_info: JSON,
+  purchase_order_invoice_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const formatted_paid_date = paid_date ? new Date(paid_date) : null;
+    const purchaseOrderInvoice =
+      await transaction.purchase_order_invoice.update({
+        where: {
+          purchase_order_invoice_id: purchase_order_invoice_id,
+        },
+        data: {
+          purchase_order_id,
+          status,
+          paid_by,
+          payment_mode,
+          additional_info,
+          paid_date: formatted_paid_date,
+          updated_by,
+          updated_date: currentDate,
+        },
+      });
+    return purchaseOrderInvoice;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrderInvoiceDao updateStatus',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -575,4 +616,5 @@ export default {
   getAll,
   deletePurchaseOrderInvoice,
   searchPurchaseOrderInvoice,
+  updateStatus,
 };

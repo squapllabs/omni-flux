@@ -1021,10 +1021,79 @@ const getPOReportData = async (
     };
     return purchaseOrderData;
   } catch (error) {
-    console.log(
-      'Error occurred in purchaseOrder dao : searchPurchaseOrder',
-      error
-    );
+    console.log('Error occurred in purchaseOrder dao : getPOReportData', error);
+    throw error;
+  }
+};
+
+const getRFQReportData = async (
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterPurchaseOrder;
+
+    const purchaseOrder = await transaction.purchase_order.findMany({
+      where: filter,
+      include: {
+        purchase_request_data: {
+          include: {
+            project_data: true,
+            site_data: true,
+            selected_vendor_data: true,
+            purchase_request_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
+          },
+        },
+        vendor_data: true,
+        indent_request_data: {
+          include: {
+            project_data: true,
+            site_data: true,
+            indent_request_details: {
+              include: {
+                bom_detail_data: {
+                  include: {
+                    item_data: {
+                      include: {
+                        uom: {
+                          select: {
+                            name: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+    });
+    const purchaseOrderCount = await transaction.purchase_order.count({
+      where: filter,
+    });
+    const purchaseOrderData = {
+      count: purchaseOrderCount,
+      data: purchaseOrder,
+    };
+    return purchaseOrderData;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrder dao : getRFQData', error);
     throw error;
   }
 };
@@ -1042,4 +1111,5 @@ export default {
   getPOStatistics,
   updateStatusByPOId,
   getPOReportData,
+  getRFQReportData,
 };

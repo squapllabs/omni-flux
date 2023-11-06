@@ -25120,7 +25120,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"global_search\": \"\",\r\n    \"bill_status\": \"Processing\",\r\n    \"status\": \"AC\",\r\n    \"project_id\": 195,\r\n    \"site_id\": 53,\r\n    \"purchase_order_type\": \"Local Purchase\"\r\n}",
+							"raw": "// {\r\n//     \"limit\": 5,\r\n//     \"offset\": 0,\r\n//     \"order_by_column\": \"updated_date\",\r\n//     \"order_by_direction\": \"desc\",\r\n//     \"global_search\": \"\",\r\n//     \"bill_status\": \"Processing\",\r\n//     \"status\": \"AC\",\r\n//     \"project_id\": 195,\r\n//     \"site_id\": 53,\r\n//     \"purchase_order_type\": \"Local Purchase\"\r\n// }\r\n\r\n{\r\n    \"limit\": 10,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"global_search\": \"\",\r\n    \"bill_status\": \"Invoice\",\r\n    \"project_id\": \"\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -32706,7 +32706,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"purchase_order_id\": 163,\r\n    \"goods_received_by\": 1,\r\n    \"goods_received_date\": \"2023-10-31\",\r\n    \"invoice_id\": \"APVSRI20231124\",\r\n    \"invoice_amount\": 35000,\r\n    \"notes\": \"Goods Delivered on Nov 01\",\r\n    \"is_product_received\": true,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"grn_status\": \"Pending\",\r\n    \"created_by\": 1,\r\n    \"purchase_order_type\": \"Local Purchase\",\r\n    \"grn_details\": [\r\n        {\r\n            \"item_id\": 170,\r\n            \"previously_received_quantity\": 10,\r\n            \"currently_received_quantity\": 5,\r\n            \"notes\": \"All Are Received\",\r\n            \"purchase_order_item_id\": 326,\r\n            \"order_quantity\": 30,\r\n            \"unit_price\": 1000\r\n        },\r\n        {\r\n            \"item_id\": 177,\r\n            \"previously_received_quantity\": 10,\r\n            \"currently_received_quantity\": 5,\r\n            \"notes\": \"All Are Received\",\r\n            \"purchase_order_item_id\": 327,\r\n            \"order_quantity\": 27,\r\n            \"unit_price\": 1200\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"purchase_order_id\": 195,\r\n    \"goods_received_by\": 1,\r\n    \"goods_received_date\": \"2023-10-31\",\r\n    \"invoice_id\": \"APVSRI20231124\",\r\n    \"invoice_amount\": 35000,\r\n    \"notes\": \"Goods Delivered on Nov 01\",\r\n    \"is_product_received\": true,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"grn_status\": \"Pending\",\r\n    \"created_by\": 1,\r\n    \"purchase_order_type\": \"Head Office\",\r\n    \"grn_details\": [\r\n        {\r\n            \"item_id\": 170,\r\n            \"previously_received_quantity\": 10,\r\n            \"currently_received_quantity\": 5,\r\n            \"notes\": \"All Are Received\",\r\n            \"purchase_order_item_id\": 326,\r\n            \"order_quantity\": 30,\r\n            \"unit_price\": 1000\r\n        },\r\n        {\r\n            \"item_id\": 177,\r\n            \"previously_received_quantity\": 10,\r\n            \"currently_received_quantity\": 5,\r\n            \"notes\": \"All Are Received\",\r\n            \"purchase_order_item_id\": 327,\r\n            \"order_quantity\": 27,\r\n            \"unit_price\": 1200\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -34193,7 +34193,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{API_URL}}/api/purchase-order-invoice/get-by-po-id/163",
+							"raw": "{{API_URL}}/api/purchase-order-invoice/get-by-po-id/195",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -34201,7 +34201,7 @@
 								"api",
 								"purchase-order-invoice",
 								"get-by-po-id",
-								"163"
+								"195"
 							]
 						}
 					},
@@ -34493,6 +34493,123 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"is_available\": true,\n    \"content\": [\n        {\n            \"purchase_order_invoice_id\": 1,\n            \"purchase_order_id\": 163,\n            \"grn_id\": 173,\n            \"invoice_number\": \"APVSRI20231124\",\n            \"invoice_document\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"requested_by\": 1,\n            \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n            \"due_date\": \"2023-11-24T00:00:00.000Z\",\n            \"status\": \"Paid\",\n            \"additional_info\": null,\n            \"total_amount\": 108500,\n            \"paid_by\": 1,\n            \"paid_date\": \"2023-11-06T00:00:00.000Z\",\n            \"created_date\": \"2023-11-06T13:48:28.577Z\",\n            \"updated_date\": \"2023-11-06T13:48:36.270Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"purchase_order_data\": {\n                \"purchase_order_id\": 163,\n                \"purchase_order_type\": \"Local Purchase\",\n                \"indent_request_id\": 147,\n                \"purchase_request_id\": null,\n                \"vendor_id\": null,\n                \"order_date\": \"2023-11-01T00:00:00.000Z\",\n                \"order_id\": \"POLP2023004237\",\n                \"status\": \"Product Received\",\n                \"total_cost\": 500.5,\n                \"order_remark\": \"Local Purchase Order\",\n                \"purchase_order_documents\": null,\n                \"purchase_order_details\": null,\n                \"payment_mode\": null,\n                \"payment_date\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-11-01T10:20:19.161Z\",\n                \"updated_date\": \"2023-11-06T09:40:13.699Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            \"grn_data\": {\n                \"grn_id\": 173,\n                \"project_id\": 137,\n                \"purchase_order_id\": 163,\n                \"goods_received_by\": 1,\n                \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n                \"invoice_id\": \"APVSRI20231124\",\n                \"invoice_amount\": 35000,\n                \"notes\": \"Goods Delivered on Nov 01\",\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"grn_status\": \"Pending\",\n                \"created_date\": \"2023-11-06T09:40:12.690Z\",\n                \"created_by\": 1\n            },\n            \"requested_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            },\n            \"paid_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Update Purchase Order Invoice's Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchase_order_id\": 199,\r\n    \"status\": \"Paid\",\r\n    \"paid_by\": 1,\r\n    \"paid_date\": \"2023-11-06\",\r\n    \"updated_by\": 1,\r\n    \"payment_mode\": \"Cheque\",\r\n    \"purchase_order_invoice_id\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order-invoice/update-status",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order-invoice",
+								"update-status"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Update Purchase Order Invoice's Status",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"purchase_order_id\": 199,\r\n    \"status\": \"Paid\",\r\n    \"paid_by\": 1,\r\n    \"paid_date\": \"2023-11-06\",\r\n    \"updated_by\": 1,\r\n    \"payment_mode\": \"Cheque\",\r\n    \"purchase_order_invoice_id\": 8\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order-invoice/update-status",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order-invoice",
+										"update-status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "649"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"289-TSo/YBxajurjILSXYQGYP2pDMxo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 16:08:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_order_invoice_id\": 8,\n        \"purchase_order_id\": 199,\n        \"grn_id\": 186,\n        \"invoice_number\": \"KARUNYACHECK\",\n        \"invoice_document\": [\n            {\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/INVOICE/file-1699284126978-660593184-invoice (3).pdf\",\n                \"index\": 0,\n                \"is_delete\": \"N\"\n            }\n        ],\n        \"requested_by\": 1,\n        \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n        \"due_date\": null,\n        \"status\": \"Paid\",\n        \"additional_info\": null,\n        \"total_amount\": 13000,\n        \"paid_by\": 1,\n        \"paid_date\": \"2023-11-06T00:00:00.000Z\",\n        \"payment_mode\": \"Cheque\",\n        \"created_date\": \"2023-11-06T15:22:27.695Z\",\n        \"updated_date\": \"2023-11-06T16:08:16.787Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
 						}
 					]
 				}

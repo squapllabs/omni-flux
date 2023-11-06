@@ -1233,6 +1233,7 @@ model purchase_order_invoice {
   total_amount              Float?
   paid_by                   Int?
   paid_date                 DateTime?
+  payment_mode              String?
   created_date              DateTime       @default(now())
   updated_date              DateTime
   created_by                Int?
