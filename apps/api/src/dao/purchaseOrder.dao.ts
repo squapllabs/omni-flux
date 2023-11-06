@@ -127,6 +127,7 @@ const getById = async (purchaseOrderId: number, connectionObj = null) => {
             indent_request_data: true,
             project_data: true,
             site_data: true,
+            selected_vendor_data: true,
             purchase_request_quotation_details: {
               include: {
                 item_data: {
