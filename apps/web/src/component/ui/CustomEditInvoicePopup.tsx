@@ -19,8 +19,9 @@ const CustomEditInvoicePopup = (props: {
   onAction: any;
   selectedPurchaseOrder: any;
   selectedInvoive: any;
+  selectedInvoiceId: any
 }) => {
-  const { isVissible, onAction, selectedPurchaseOrder, selectedInvoive } =
+  const { isVissible, onAction, selectedPurchaseOrder, selectedInvoive,selectedInvoiceId } =
     props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
@@ -116,23 +117,24 @@ const CustomEditInvoicePopup = (props: {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
-      console.log('inn');
-
+      // console.log('inn');
       const s3UploadUrl = await handleDocuments(
         selectedFiles,
         `purchase-order-item-${selectedPurchaseOrder}`,
         'purchase-order-item'
       );
       const Object: any = {
-        status: 'Completed',
+        status: 'Paid',
         payment_mode: values.payment_mode,
-        payment_date: new Date(),
-        purchase_order_documents:
+        paid_date: new Date(),
+        additional_info:
           s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
         purchase_order_id: Number(selectedPurchaseOrder),
         updated_by: 1,
+        paid_by:1,
+        purchase_order_invoice_id:Number(selectedInvoiceId)
       };
-      console.log('object', Object);
+      // console.log('object', Object);
       updatePoBillStatus(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {

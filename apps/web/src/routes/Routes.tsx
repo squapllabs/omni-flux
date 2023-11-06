@@ -663,7 +663,7 @@ const AppRoutes = () => {
           element={<ProtectedVendorQuotesUpdate />}
         />
         <Route path="/reports" element={<ProtectedReports />} />
-        <Route path="/view-invoice" element={<ProtectedNewInvoiceView />} />
+        <Route path="/view-invoice/:id" element={<ProtectedNewInvoiceView />} />
       </Routes>
     </div>
   );

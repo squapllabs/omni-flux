@@ -87,7 +87,7 @@ const getOnePurchaseOrderTableDataByID = async (values: number) => {
 const updatePoBillStatus = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
-      `${environment.apiUrl}/purchase-order/update-status-and-document/`,
+      `${environment.apiUrl}/purchase-order-invoice/update-status/`,
       values
     );
     return response.data;

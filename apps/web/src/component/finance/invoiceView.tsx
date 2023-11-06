@@ -55,13 +55,14 @@ const OrderView = () => {
     global_search: '',
     bill_status: activeButton,
     project_id: selectedValue,
+    purchase_order_type:'Head Office'
   };
   const {
     isLoading: dataLoading,
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
-  console.log('ttttttt', getAllData);
+  // console.log('ttttttt', getAllData);
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProjectDrop();
   // console.log("getAllProjectDataForDrop",getAllProjectDataForDrop);
@@ -71,7 +72,7 @@ const OrderView = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getBySearchPoData();
-  console.log('rrrr', getFilterData);
+  // console.log('rrrr', getFilterData);
 
   const handleEdit = (value: any, invoice: any) => {
     setPurchaseId(value);
@@ -388,18 +389,18 @@ const OrderView = () => {
                               <div className={Styles.tablerow}>
                                 <ViewIcon
                                   onClick={
-                                    () => navigate(`/view-invoice`)
+                                    () => navigate(`/view-invoice/${data.purchase_order_id}`)
                                     // navigate(`/invoice-view/${data.purchase_order_id}`)
                                   }
                                 />
-                                <EditIcon
+                                {/* <EditIcon
                                   onClick={() =>
                                     handleEdit(
                                       data.purchase_order_id,
                                       data?.grn[0]?.invoice_id
                                     )
                                   }
-                                />
+                                /> */}
                                 <PdfDownloadIcon
                                   onClick={() => handleReportGenerator()}
                                 />

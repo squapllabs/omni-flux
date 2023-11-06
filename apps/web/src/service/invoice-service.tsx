@@ -5,9 +5,10 @@ import { environment } from '../environment/environment';
 const getOnePurchaseOrderById = async (values: any) => {
   try {
     const response = await axiosinterceptor.get(
-      `${environment.apiUrl}/project/get/${values}`
+      `${environment.apiUrl}/purchase-order-invoice/get-by-po-id/${values}`
     );
-    return response.data;
+    console.log("//////kk",response.data)
+    return response?.data;
   } catch (error) {
     console.log('Error in getOne getOnePurchaseOrderById :', error);
     throw error;

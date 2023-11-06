@@ -5,7 +5,7 @@ import InvoiceService from '../service/invoice-service';
 
 const getByPurchaseOrderId = (id: number) => {
   return useQuery(
-    ['getByuserID', id],
+    ['getInvoiceData', id],
     () => InvoiceService.getOnePurchaseOrderById(id),
     {
       select: (data) => data.data,

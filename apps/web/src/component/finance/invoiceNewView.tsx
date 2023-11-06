@@ -11,6 +11,9 @@ import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import ViewIcon from '../menu/icons/viewIcon';
 import { getByPurchaseOrderId } from '../../hooks/invoice-hooks';
+import EditIcon from '../menu/icons/newEditIcon';
+import CustomPopup from '../ui/CustomSidePopup';
+import CustomEditInvoicePopup from '../ui/CustomEditInvoicePopup';
 
 const MyOrderView = () => {
   const routeParams = useParams();
@@ -18,10 +21,21 @@ const MyOrderView = () => {
   const { state } = useLocation();
   const projectId = state?.projectId;
   const purchaseOrderId = Number(routeParams?.id);
+//   console.log('id =>', purchaseOrderId);
+  const [invoiceNumber, setInvoiceNumber] = useState();
+  const [purchaseId, setPurchaseId] = useState();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [invoiceId, setInvoiceId] = useState(false);
+  const [reload, setReload] = useState(false);
+  const { isLoading: dataLoading, data: getAllData = [] } =
+    getByPurchaseOrderId(purchaseOrderId);
+//   console.log('ooooooooopppppppp', getAllData);
 
-  const generateCustomQuotationName = (data: any) => {
+  const generateCustomInvoice = (data: any) => {
     if (data) {
-      const vendorName = data?.vendor_name || '';
+      const vendorName = data || '';
       const year = new Date().getFullYear();
       const customBillName = `ALM-${vendorName.substring(0, 5)}-${year}`;
       return customBillName.toUpperCase();
@@ -36,13 +50,24 @@ const MyOrderView = () => {
     return formattedDate;
   };
 
-//   useEffect(() => {
-//     refetch();
-//   }, []);
+  const handleEdit = (value: any, invoice: any, invoiceId: any) => {
+    setPurchaseId(value);
+    setInvoiceNumber(invoice);
+    setInvoiceId(invoiceId);
+    setOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setOpen(false);
+  };
+
+  //   useEffect(() => {
+  //     refetch();
+  //   }, []);
 
   return (
     <div className={Styles.container}>
-      <CustomLoader size={48} color="#333C44">
+      <CustomLoader loader={dataLoading} size={48} color="#333C44">
         <div className={Styles.sub_header}>
           <div
             className={Styles.logo}
@@ -75,8 +100,18 @@ const MyOrderView = () => {
               </p>
             </div>
             <div className={Styles.rightOrderDetail}>
-              <span>name</span>
-              description
+              <span>
+                {
+                  getAllData[0]?.purchase_order_data?.purchase_request_data
+                    ?.project_data?.project_name
+                }
+              </span>
+              <span>
+                {
+                  getAllData[0]?.purchase_order_data?.purchase_request_data
+                    ?.site_data?.name
+                }
+              </span>
             </div>
           </div>
         </div>
@@ -106,8 +141,12 @@ const MyOrderView = () => {
                   </p>
                 </div>
                 <div className={Styles.rightSiteDetail}>
-                  <span>KKK</span>
-                  <span>ASD</span>
+                  <span>{getAllData[0]?.purchase_order_data?.order_id}</span>
+                  <span>
+                    {dateFormat(
+                      getAllData[0]?.purchase_order_data?.created_date
+                    )}
+                  </span>
                 </div>
               </div>
             </div>
@@ -134,8 +173,59 @@ const MyOrderView = () => {
                   </p>
                 </div>
                 <div className={Styles.rightSiteDetail}>
-                  <span>dsd</span>
-                  <span>dsds</span>
+                  <span>
+                    {formatBudgetValue(
+                      getAllData[0]?.purchase_order_data?.purchase_request_data
+                        ?.total_cost
+                        ? getAllData[0]?.purchase_order_data
+                            ?.purchase_request_data?.total_cost
+                        : 0
+                    )}
+                  </span>
+                  <span>
+                  {getAllData[0]?.purchase_order_data?.purchase_request_data
+                      ?.purchase_request_documents?.length > 0 ? (
+                        getAllData[0]?.purchase_order_data?.purchase_request_data
+                        ?.purchase_request_documents.map(
+                        (document: any, index: number) => {
+                          const customQuotationName =  generateCustomInvoice(getAllData[0]?.purchase_order_data?.vendor_data?.vendor_name);
+                          return (
+                            <div key={document.code}>
+                              <a
+                                href={document.path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {customQuotationName}
+                              </a>
+                            </div>
+                          );
+                        }
+                      )
+                    ) : (
+                      <div>-</div>
+                    )}
+                  </span>
+                  {/* <span>
+                    {getAllData[0]?.purchase_order_data?.purchase_request_data
+                      ?.purchase_request_documents?.length > 0 ? (
+                      getAllData[0]?.purchase_order_data?.purchase_request_data?.purchase_request_documents.map(
+                        (document: any, index: number) => (
+                          <div key={document.code}>
+                            <a
+                              href={document.path}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {customQuotationName}
+                            </a>
+                          </div>
+                        )
+                      )
+                    ) : (
+                      <div>-</div>
+                    )}
+                  </span> */}
                 </div>
               </div>
             </div>
@@ -162,8 +252,18 @@ const MyOrderView = () => {
                   </p>
                 </div>
                 <div className={Styles.rightVendorDetail}>
-                  <span>dsds</span>
-                  <span>dsds</span>
+                  <span>
+                    {
+                      getAllData[0]?.purchase_order_data?.purchase_request_data
+                        ?.selected_vendor_data?.vendor_name
+                    }
+                  </span>
+                  <span>
+                    {
+                      getAllData[0]?.purchase_order_data?.purchase_request_data
+                        ?.selected_vendor_data?.contact_phone_no
+                    }
+                  </span>
                 </div>
               </div>
             </div>
@@ -173,6 +273,94 @@ const MyOrderView = () => {
         <div className={Styles.headingForTable}>
           <h3>Invoice List</h3>
         </div>
+        <div>
+          <div className={Styles.tableContainer}>
+            <table className={Styles.scrollable_table}>
+              <thead>
+                <tr>
+                  <th>S No</th>
+                  <th>Goods Received Date</th>
+                  <th>Invoice No</th>
+                  <th>Invoice Document</th>
+                  <th>Status</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                {getAllData ? (
+                  getAllData?.map((item: any, index: any) => {
+                    const customBillName = generateCustomInvoice(
+                      item?.purchase_order_data?.vendor_data?.vendor_name
+                    );
+                    return (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>
+                          {dateFormat(item?.grn_data?.goods_received_date)}
+                        </td>
+                        <td>{item?.invoice_number}</td>
+                        <td>
+                          <div>
+                            {item?.invoice_document.map(
+                              (document: any, index: number) => (
+                                <div key={document.code}>
+                                  <a
+                                    href={document.path}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {customBillName}
+                                  </a>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </td>
+                        <td>{item?.status}</td>
+                        <td>
+                          <div>
+                            <EditIcon
+                              onClick={() =>
+                                handleEdit(
+                                  item.purchase_order_id,
+                                  item?.grn_data?.invoice_id,
+                                  item?.purchase_order_invoice_id
+                                )
+                              }
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colspan="4" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <CustomPopup
+          title="Edit Payment Details"
+          open={open}
+          handleClose={handleClosePopup}
+          content={
+            <CustomEditInvoicePopup
+              setOpen={setOpen}
+              open={open}
+              setReload={setReload}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+              selectedPurchaseOrder={purchaseId}
+              selectedInvoive={invoiceNumber}
+              selectedInvoiceId={invoiceId}
+            />
+          }
+        />
       </CustomLoader>
     </div>
   );
