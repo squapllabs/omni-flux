@@ -215,9 +215,49 @@ const searchGrn = async (
   }
 };
 
+const getByPurchaseOrderId = async (
+  purchase_order_id: number,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const grn = await transaction.grn.findMany({
+      where: {
+        purchase_order_id: Number(purchase_order_id),
+      },
+      include: {
+        project_data: true,
+        purchase_order_data: {
+          include: { vendor_data: { select: { vendor_name: true } } },
+        },
+        goods_received_by_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
+        grn_details: {
+          include: {
+            item_data: {
+              include: { uom: true },
+            },
+          },
+          orderBy: { created_date: 'asc' },
+        },
+      },
+      orderBy: [{ created_date: 'asc' }],
+    });
+    return grn;
+  } catch (error) {
+    console.log('Error occurred in grn getByPurchaseOrderId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getById,
   getAll,
   searchGrn,
+  getByPurchaseOrderId,
 };

@@ -28,6 +28,7 @@ import { setToken, getToken } from '../../redux/reducer';
 import { store, RootState } from '../../redux/store';
 import MyOrders from './projectComponent/myOrders/myOrdersList';
 import LocalPurchaseList from './projectComponent/localPurchase/localPurchaseList';
+import Store from './project-inventory';
 
 const Project = () => {
   const routeParams = useParams();
@@ -124,10 +125,10 @@ const Project = () => {
       id: 12,
       name: 'My Orders'
     },
-    // {
-    //   id: 13,
-    //   name: 'Local Purchase'
-    // }
+    {
+      id: 13,
+      name: 'Store'
+    },
   ];
   const menuItemsForMobile = [
     {
@@ -225,13 +226,13 @@ const Project = () => {
         loader={loader}
       />
     ),
-    // 13: (
-    //   <LocalPurchaseList
-    //     setActiveButton={setActiveButton}
-    //     setLoader={setLoader}
-    //     loader={loader}
-    //   />
-    // )
+    13: (
+      <Store
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    )
   };
   const mainContentComponentsForMobile: { [key: number]: JSX.Element } = {   //For Mobile View
     1: (

@@ -31,7 +31,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     status: '',
   });
   const options = [
-    { value: 'CASH', label: 'Case' },
+    { value: 'CASH', label: 'Cash' },
     { value: 'BILL', label: 'Bill' },
     { value: 'VOUCHER', label: 'Voucher' },
   ];
@@ -84,7 +84,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     //     item.expense_data_id === ExpenseValue?.expense_data_id &&
     //     item.is_delete === ExpenseValue?.is_delete
     // );
-    console.log('expenseIndex', props.expenseList[expenseIndex]);
     if (props.expenseList[expenseIndex].expense_details_id != null) {
       if (props.expenseList[expenseIndex].bill_details != '') {
         props.expenseList[expenseIndex] = {
@@ -253,7 +252,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     }
   };
   const handleFileSelectRow = async (e: any, index: any) => {
-    console.log('handleFileSelectRow', index);
     const files = e.target.files;
     props.setLoader(!props.loader);
     if (files.length > 0) {
@@ -277,13 +275,11 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         fileList.forEach(async (file) => {
           const code = 'SITEEXPENSE' + props.siteId;
           const response = await userService.documentUpload(file, code);
-          console.log('response', response?.data[0]);
 
           let obj = {
             ...response?.data[0],
             is_delete: 'N',
           };
-          console.log('responseobj', obj);
           arr.push(obj);
           selectedFilesArray.push(file);
           selectedFileNamesArray.push(file.name);
@@ -350,7 +346,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             '',
             async function (value, { parent }: Yup.TestContext) {
               let bill_type = parent.bill_type;
-              console.log('bill_details', bill_type);
               if (bill_type === 'VOUCHER' && value > 5000) {
                 props.setMessage(
                   'In bill type voucher amount should not be more then 50000'
@@ -372,8 +367,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             'Site Expense is already present',
             async function (value, { parent }: Yup.TestContext) {
               let bill_details = parent.bill_details;
-              console.log('bill_details', bill_details);
-              console.log('bill_detailslenght', bill_details.length);
               if (
                 bill_details?.length < 0 &&
                 bill_details[0]?.is_delete === 'Y'
@@ -385,7 +378,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
               ) {
                 return true;
               } else {
-                console.log('open');
                 props.setMessage('Bill is Missing');
                 props.setOpenSnack(true);
                 return false;
@@ -403,7 +395,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       .catch((e: any) => {
         let errorObj = {};
         e.inner?.map((error: any) => {
-          console.log('error', e);
           return (errorObj[error.path] = error.message);
         });
         props.setErrors({
@@ -411,7 +402,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         });
       });
   };
-  console.log('  props.errors?', props.errors);
 
   return (
     <div>

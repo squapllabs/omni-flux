@@ -68,25 +68,31 @@
         }
       }
   }
+
+  &::-webkit-scrollbar {
+  width: auto !important; /* Set the width back to the default (usually 'auto' or 'auto!important') */
+  background: auto !important; /* Set the background back to the default (usually 'auto' or 'auto!important') */
 }
-  .flex{
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .center{
-    justify-content: center;
-  }
-  .space_between{
-    justify-content: space-between;
-  }
-  
-  .gap_2{
-    gap: 2rem;
-  }
-  .gap_3{
-    gap: 3rem;
-  }
+}
+ 
+.flex{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.center{
+  justify-content: center;
+}
+.space_between{
+  justify-content: space-between;
+}
+
+.gap_2{
+  gap: 2rem;
+}
+.gap_3{
+  gap: 3rem;
+}
     
 }
 
@@ -259,10 +265,10 @@
   padding: 0 0 2%;
   overflow-x: auto;
 
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 0px;
+  //   background: transparent;
+  // }
 }
 
 .options {

@@ -587,33 +587,55 @@ const getPOStatistics = async (connectionObj = null) => {
   try {
     const transaction = connectionObj !== null ? connectionObj : db;
     const purchaseOrderStatisticsQuery = `with project_based_purchase_order_data as (
-      select
-        p.project_name,
-        p.project_id,
-        p.estimated_budget,
-        p.actual_budget,
-        COUNT(po.*) as total_po_count,
-        SUM(case when po.status = 'Completed' then 1 else 0 end) as count_of_completed_po,
-        SUM(case when po.status != 'Completed' then 1 else 0 end) as count_of_pending_po,
-        SUM(case when po.status = 'Completed' then po.total_cost else 0 end) as total_cost_completed,
-        SUM(case when po.status != 'Completed' then po.total_cost else 0 end) as total_cost_other_than_completed,
-        SUM(po.total_cost) as total_purchase_order_cost
-      from
-        purchase_order po
-      left join purchase_request pr on
-        pr.purchase_request_id = po.purchase_request_id
-      left join project p on
-        p.project_id = pr.project_id
-      where
-        po.is_delete = false
-      group by
-        p.project_id,
-        p.project_name,
-        p.estimated_budget,
-        p.actual_budget
-      order by
-        total_cost_other_than_completed desc
-      limit 5
+          select
+      (case
+        when pr.purchase_request_id isnull then p1.project_name
+        else p.project_name
+      end),
+        (case
+        when pr.purchase_request_id isnull then p1.project_id
+        else p.project_id
+      end),
+        (case
+        when pr.purchase_request_id isnull then p1.estimated_budget
+        else p.estimated_budget
+      end),
+        (case
+        when pr.purchase_request_id isnull then p1.actual_budget
+        else p.actual_budget
+      end),
+      COUNT(po.*) as total_po_count,
+      SUM(case when po.status = 'Completed' then 1 else 0 end) as count_of_completed_po,
+      SUM(case when po.status != 'Completed' then 1 else 0 end) as count_of_pending_po,
+      SUM(case when po.status = 'Completed' then po.total_cost else 0 end) as total_cost_completed,
+      SUM(case when po.status != 'Completed' then po.total_cost else 0 end) as total_cost_other_than_completed,
+      SUM(po.total_cost) as total_purchase_order_cost
+    from
+      purchase_order po
+    left join purchase_request pr on
+      pr.purchase_request_id = po.purchase_request_id
+    left join project p on
+      p.project_id = pr.project_id
+    left join indent_request ir on
+      ir.indent_request_id = po.indent_request_id
+    left join project p1 on
+      p1.project_id = ir.project_id
+    where
+      po.is_delete = false
+    group by
+      p.project_id,
+      p.project_name,
+      p.estimated_budget,
+      p.actual_budget,
+      p1.project_name,
+      p1.project_id,
+      p1.estimated_budget,
+      p1.actual_budget,
+      pr.purchase_request_id,
+      ir.indent_request_id
+    order by
+      total_cost_other_than_completed desc
+    limit 5
             ),
             
             purchase_order_statistics as (
@@ -788,6 +810,32 @@ const getPOStatistics = async (connectionObj = null) => {
   }
 };
 
+const updateStatusByPOId = async (
+  status: string,
+  updated_by: number,
+  purchase_order_id: number,
+  connectionObj = null
+) => {
+  try {
+    const currentDate = new Date();
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const purchaseOrder = await transaction.purchase_order.update({
+      where: {
+        purchase_order_id: purchase_order_id,
+      },
+      data: {
+        status,
+        updated_by,
+        updated_date: currentDate,
+      },
+    });
+    return purchaseOrder;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrderDao updateStatusByPOId', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -799,4 +847,5 @@ export default {
   getByPurchaseRequestId,
   updateStatusAndDocument,
   getPOStatistics,
+  updateStatusByPOId,
 };

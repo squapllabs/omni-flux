@@ -405,18 +405,18 @@ const ProjectList = () => {
                             {/* {activeButton === 'AC' && ( */}
                             <td>
                               <div className={Styles.tablerow}>
-                                <ViewIcon
+                                {/* <ViewIcon
                                   onClick={() =>
                                     navigate(`/project-info/${data?.project_id}`)
                                   }
-                                />
-                                <StoreIcon
+                                /> */}
+                                {/* <StoreIcon
                                   onClick={() =>
                                     navigate(
                                       `/project-inventory/${data?.project_id}`
                                     )
                                   }
-                                />
+                                /> */}
                                 {isProjectEdit && (
                                   <EditIcon
                                     onClick={() => {
@@ -521,18 +521,18 @@ const ProjectList = () => {
                             {/* {activeButton === 'AC' && ( */}
                             <td>
                               <div className={Styles.tablerow}>
-                                <ViewIcon
+                                {/* <ViewIcon
                                   onClick={() =>
                                     navigate(`/project-info/${data?.project_id}`)
                                   }
-                                />
-                                <StoreIcon
+                                /> */}
+                                {/* <StoreIcon
                                   onClick={() =>
                                     navigate(
                                       `/project-inventory/${data?.project_id}`
                                     )
                                   }
-                                />
+                                /> */}
                                 {/* {isProjectEdit && (
                                   <EditIcon
                                     onClick={() => {
