@@ -55,7 +55,7 @@ const OrderView = () => {
     global_search: '',
     bill_status: activeButton,
     project_id: selectedValue,
-    purchase_order_type:'Head Office'
+    purchase_order_type: 'Head Office',
   };
   const {
     isLoading: dataLoading,
@@ -310,9 +310,9 @@ const OrderView = () => {
                                     handleEdit(data.purchase_order_id)
                                   }
                                 /> */}
-                                <PdfDownloadIcon
+                                {/* <PdfDownloadIcon
                                   onClick={() => handleReportGenerator()}
-                                />
+                                /> */}
                               </div>
                             </td>
                           ) : (
@@ -325,9 +325,9 @@ const OrderView = () => {
                                     )
                                   }
                                 /> */}
-                                <PdfDownloadIcon
+                                {/* <PdfDownloadIcon
                                   onClick={() => handleReportGenerator()}
-                                />
+                                /> */}
                               </div>
                             </td>
                           )}
@@ -340,12 +340,13 @@ const OrderView = () => {
                         <tr>
                           <td>{startingIndex + index}</td>
                           <td>{data?.order_id}</td>
-                          <td>{data?.vendor_data?.vendor_name || nullLableNameFromEnv}</td>
                           <td>
-                            {
-                              data?.purchase_request_data?.project_data
-                                ?.project_name || nullLableNameFromEnv
-                            }
+                            {data?.vendor_data?.vendor_name ||
+                              nullLableNameFromEnv}
+                          </td>
+                          <td>
+                            {data?.purchase_request_data?.project_data
+                              ?.project_name || nullLableNameFromEnv}
                           </td>
                           <td>{formatBudgetValue(data?.total_cost)}</td>
                           {activeButton === 'Completed' && (
@@ -389,7 +390,10 @@ const OrderView = () => {
                               <div className={Styles.tablerow}>
                                 <ViewIcon
                                   onClick={
-                                    () => navigate(`/view-invoice/${data.purchase_order_id}`)
+                                    () =>
+                                      navigate(
+                                        `/view-invoice/${data.purchase_order_id}`
+                                      )
                                     // navigate(`/invoice-view/${data.purchase_order_id}`)
                                   }
                                 />
@@ -401,9 +405,9 @@ const OrderView = () => {
                                     )
                                   }
                                 /> */}
-                                <PdfDownloadIcon
+                                {/* <PdfDownloadIcon
                                   onClick={() => handleReportGenerator()}
-                                />
+                                /> */}
                               </div>
                             </td>
                           ) : (
@@ -416,9 +420,9 @@ const OrderView = () => {
                                     )
                                   }
                                 /> */}
-                                <PdfDownloadIcon
+                                {/* <PdfDownloadIcon
                                   onClick={() => handleReportGenerator()}
-                                />
+                                /> */}
                               </div>
                             </td>
                           )}
