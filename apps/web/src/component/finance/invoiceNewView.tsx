@@ -14,6 +14,8 @@ import { getByPurchaseOrderId } from '../../hooks/invoice-hooks';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomPopup from '../ui/CustomSidePopup';
 import CustomEditInvoicePopup from '../ui/CustomEditInvoicePopup';
+import ReportGenerator from '../reportGenerator/pdfReport/invoice';
+import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 
 const MyOrderView = () => {
   const routeParams = useParams();
@@ -21,7 +23,6 @@ const MyOrderView = () => {
   const { state } = useLocation();
   const projectId = state?.projectId;
   const purchaseOrderId = Number(routeParams?.id);
-//   console.log('id =>', purchaseOrderId);
   const [invoiceNumber, setInvoiceNumber] = useState();
   const [purchaseId, setPurchaseId] = useState();
   const [open, setOpen] = useState(false);
@@ -31,7 +32,7 @@ const MyOrderView = () => {
   const [reload, setReload] = useState(false);
   const { isLoading: dataLoading, data: getAllData = [] } =
     getByPurchaseOrderId(purchaseOrderId);
-//   console.log('ooooooooopppppppp', getAllData);
+  console.log('ooooooooopppppppp', getAllData);
 
   const generateCustomInvoice = (data: any) => {
     if (data) {
@@ -64,6 +65,15 @@ const MyOrderView = () => {
   //   useEffect(() => {
   //     refetch();
   //   }, []);
+
+  const handleReportGenerator = async (data: any) => {
+    const obj: any = {
+      title: 'Invoice and Payments',
+      name: 'invoice',
+      ...data,
+    };
+    ReportGenerator(obj);
+  };
 
   return (
     <div className={Styles.container}>
@@ -145,6 +155,8 @@ const MyOrderView = () => {
                   <span>
                     {dateFormat(
                       getAllData[0]?.purchase_order_data?.created_date
+                        ? getAllData[0]?.purchase_order_data?.created_date
+                        : new Date()
                     )}
                   </span>
                 </div>
@@ -183,12 +195,14 @@ const MyOrderView = () => {
                     )}
                   </span>
                   <span>
-                  {getAllData[0]?.purchase_order_data?.purchase_request_data
+                    {getAllData[0]?.purchase_order_data?.purchase_request_data
                       ?.purchase_request_documents?.length > 0 ? (
-                        getAllData[0]?.purchase_order_data?.purchase_request_data
-                        ?.purchase_request_documents.map(
+                      getAllData[0]?.purchase_order_data?.purchase_request_data?.purchase_request_documents.map(
                         (document: any, index: number) => {
-                          const customQuotationName =  generateCustomInvoice(getAllData[0]?.purchase_order_data?.vendor_data?.vendor_name);
+                          const customQuotationName = generateCustomInvoice(
+                            getAllData[0]?.purchase_order_data?.vendor_data
+                              ?.vendor_name
+                          );
                           return (
                             <div key={document.code}>
                               <a
@@ -318,7 +332,7 @@ const MyOrderView = () => {
                         </td>
                         <td>{item?.status}</td>
                         <td>
-                          <div>
+                          <div style={{ display: 'flex', gap: '10px' }}>
                             <EditIcon
                               onClick={() =>
                                 handleEdit(
@@ -328,6 +342,11 @@ const MyOrderView = () => {
                                 )
                               }
                             />
+                            <div>
+                              <PdfDownloadIcon
+                                onClick={() => handleReportGenerator(item)}
+                              />
+                            </div>
                           </div>
                         </td>
                       </tr>
