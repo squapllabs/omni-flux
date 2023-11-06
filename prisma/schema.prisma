@@ -51,6 +51,8 @@ model users {
   grn                        grn[]
   notification_from_user     notifications[]              @relation("notificationFromUserId")
   notification_to_user       notifications[]              @relation("notificationToUserId")
+  po_invoice_requested_by    purchase_order_invoice[]     @relation("PoInvoiceRequestedBy")
+  po_invoice_paid_by         purchase_order_invoice[]     @relation("PoInvoicePaidBy")
 
   @@unique([email_id], name: "uk_users_email_id")
 }
@@ -911,7 +913,7 @@ model purchase_request {
 }
 
 model purchase_order {
-  purchase_order_id        Int                   @id @default(autoincrement())
+  purchase_order_id        Int                      @id @default(autoincrement())
   purchase_order_type      String?
   indent_request_id        Int?
   purchase_request_id      Int?
@@ -925,16 +927,17 @@ model purchase_order {
   purchase_order_details   Json?
   payment_mode             String?
   payment_date             DateTime?
-  is_delete                Boolean               @default(false)
-  created_date             DateTime              @default(now())
+  is_delete                Boolean                  @default(false)
+  created_date             DateTime                 @default(now())
   updated_date             DateTime
   created_by               Int?
   updated_by               Int?
-  indent_request_data      indent_request?       @relation(fields: [indent_request_id], references: [indent_request_id])
-  purchase_request_data    purchase_request?     @relation(fields: [purchase_request_id], references: [purchase_request_id])
-  vendor_data              vendor?               @relation(fields: [vendor_id], references: [vendor_id])
+  indent_request_data      indent_request?          @relation(fields: [indent_request_id], references: [indent_request_id])
+  purchase_request_data    purchase_request?        @relation(fields: [purchase_request_id], references: [purchase_request_id])
+  vendor_data              vendor?                  @relation(fields: [vendor_id], references: [vendor_id])
   purchase_order_item      purchase_order_item[]
   grn                      grn[]
+  purchase_order_invoice   purchase_order_invoice[]
 }
 
 model purchase_order_item {
@@ -1167,7 +1170,7 @@ model vendor_quotation_details {
 }
 
 model grn {
-  grn_id                 Int             @id @default(autoincrement())
+  grn_id                 Int                      @id @default(autoincrement())
   project_id             Int?
   purchase_order_id      Int?
   goods_received_by      Int?
@@ -1177,12 +1180,13 @@ model grn {
   notes                  String?
   bill_details           Json?
   grn_status             String?
-  created_date           DateTime        @default(now())
+  created_date           DateTime                 @default(now())
   created_by             Int?
-  project_data           project?        @relation(fields: [project_id], references: [project_id])
-  purchase_order_data    purchase_order? @relation(fields: [purchase_order_id], references: [purchase_order_id])
-  goods_received_by_data users?          @relation(fields: [goods_received_by], references: [user_id])
+  project_data           project?                 @relation(fields: [project_id], references: [project_id])
+  purchase_order_data    purchase_order?          @relation(fields: [purchase_order_id], references: [purchase_order_id])
+  goods_received_by_data users?                   @relation(fields: [goods_received_by], references: [user_id])
   grn_details            grn_details[]
+  purchase_order_invoice purchase_order_invoice[]
 }
 
 model grn_details {
@@ -1213,4 +1217,28 @@ model notifications {
   updated_by                  Int?
   notification_from_user_data users?   @relation("notificationFromUserId", fields: [notification_from_user_id], references: [user_id])
   notification_to_user_data   users?   @relation("notificationToUserId", fields: [notification_to_user_id], references: [user_id])
+}
+
+model purchase_order_invoice {
+  purchase_order_invoice_id Int            @id @default(autoincrement())
+  purchase_order_id         Int
+  grn_id                    Int
+  invoice_number            String?
+  invoice_document          Json?
+  requested_by              Int?
+  invoice_date              DateTime?
+  due_date                  DateTime?
+  status                    String?
+  additional_info           Json?
+  total_amount              Float?
+  paid_by                   Int?
+  paid_date                 DateTime?
+  created_date              DateTime       @default(now())
+  updated_date              DateTime
+  created_by                Int?
+  updated_by                Int?
+  purchase_order_data       purchase_order @relation(fields: [purchase_order_id], references: [purchase_order_id])
+  grn_data                  grn            @relation(fields: [grn_id], references: [grn_id])
+  requested_by_data         users?         @relation("PoInvoiceRequestedBy", fields: [requested_by], references: [user_id])
+  paid_by_data              users?         @relation("PoInvoicePaidBy", fields: [paid_by], references: [user_id])
 }
