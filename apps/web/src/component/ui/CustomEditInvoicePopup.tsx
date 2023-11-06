@@ -128,7 +128,7 @@ const CustomEditInvoicePopup = (props: {
         payment_mode: values.payment_mode,
         paid_date: new Date(),
         additional_info:
-          s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
+          s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : undefined,
         purchase_order_id: Number(selectedPurchaseOrder),
         updated_by: 1,
         paid_by:1,
