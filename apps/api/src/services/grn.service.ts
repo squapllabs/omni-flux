@@ -215,25 +215,25 @@ const createGrn = async (body: grnBody) => {
               'Local Purchase',
               prisma
             );
-
-            /* Purchase Order Invoice */
-            await purchaseOrderInvoiceDao.add(
-              purchase_order_id,
-              grnDetails?.grn?.grn_id,
-              invoice_id,
-              bill_details,
-              goods_received_by,
-              new Date(),
-              null,
-              'To Be Paid',
-              undefined,
-              invoice_amount,
-              null,
-              null,
-              created_by,
-              prisma
-            );
           }
+
+          /* Purchase Order Invoice */
+          await purchaseOrderInvoiceDao.add(
+            purchase_order_id,
+            grnDetails?.grn?.grn_id,
+            invoice_id,
+            bill_details,
+            goods_received_by,
+            new Date(),
+            null,
+            'To Be Paid',
+            undefined,
+            invoice_amount,
+            null,
+            null,
+            created_by,
+            prisma
+          );
 
           const result = {
             grn_with_grn_details: grnDetails,
