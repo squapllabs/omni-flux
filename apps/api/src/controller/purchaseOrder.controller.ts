@@ -120,6 +120,18 @@ const getPOStatistics = catchAsync(async (req, res) => {
   }
 });
 
+const getPOReportData = catchAsync(async (req, res) => {
+  const methodName = '/getPOReportData';
+  try {
+    const purchaseOrder = await purchaseOrderService.getPurchaseOrderReport(
+      req.body
+    );
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -131,4 +143,5 @@ export {
   getByPurchaseRequestId,
   updateStatusAndDocument,
   getPOStatistics,
+  getPOReportData,
 };

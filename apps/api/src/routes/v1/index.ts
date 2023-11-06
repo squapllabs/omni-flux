@@ -52,6 +52,7 @@ import expenseRecall from './expenseRecall.route';
 import vendorQuotationDetails from './vendorQuotationDetails.route';
 import grn from './grn.route';
 import notification from './notification.route';
+import purchaseOrderInvoice from './purchaseOrderInvoice.route';
 
 const router = express.Router();
 
@@ -267,6 +268,10 @@ const defaultRoutes = [
   {
     path: '/notification',
     route: notification,
+  },
+  {
+    path: '/purchase-order-invoice',
+    route: purchaseOrderInvoice,
   },
 ];
 

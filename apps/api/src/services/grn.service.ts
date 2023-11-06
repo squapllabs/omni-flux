@@ -4,6 +4,7 @@ import masterDataDao from '../dao/masterData.dao';
 import projectDao from '../dao/project.dao';
 import projectInventoryDao from '../dao/projectInventory.dao';
 import purchaseOrderDao from '../dao/purchaseOrder.dao';
+import purchaseOrderInvoiceDao from '../dao/purchaseOrderInvoice.dao';
 import purchaseOrderItemDao from '../dao/purchaseOrderItem.dao';
 import userDao from '../dao/user.dao';
 import { grnBody } from '../interfaces/grn.interface';
@@ -22,6 +23,7 @@ const createGrn = async (body: grnBody) => {
       goods_received_by,
       goods_received_date,
       invoice_id,
+      invoice_amount,
       notes,
       bill_details,
       grn_status,
@@ -29,6 +31,7 @@ const createGrn = async (body: grnBody) => {
       grn_details,
       site_id,
       purchase_order_type,
+      is_product_received,
     } = body;
 
     if (project_id) {
@@ -77,6 +80,7 @@ const createGrn = async (body: grnBody) => {
             goods_received_by,
             goods_received_date,
             invoice_id,
+            invoice_amount,
             notes,
             bill_details,
             grn_status,
@@ -87,7 +91,7 @@ const createGrn = async (body: grnBody) => {
 
           /*Purchase Order - Status Updation */
           await purchaseOrderDao.updateStatusByPOId(
-            'Product Received',
+            is_product_received ? 'Product Received' : 'Partially Received',
             created_by,
             purchase_order_id,
             prisma
@@ -209,6 +213,24 @@ const createGrn = async (body: grnBody) => {
               grn_details,
               goods_received_by,
               'Local Purchase',
+              prisma
+            );
+
+            /* Purchase Order Invoice */
+            await purchaseOrderInvoiceDao.add(
+              purchase_order_id,
+              grnDetails?.grn?.grn_id,
+              invoice_id,
+              bill_details,
+              goods_received_by,
+              new Date(),
+              null,
+              'To Be Paid',
+              undefined,
+              invoice_amount,
+              null,
+              null,
+              created_by,
               prisma
             );
           }

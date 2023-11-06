@@ -8,6 +8,7 @@ import {
   getAllPurchaseOrders,
   getByPurchaseOrderId,
   getByPurchaseRequestId,
+  getPOReportData,
   getPOStatistics,
   searchPurchaseOrder,
   updatePurchaseOrder,
@@ -60,5 +61,7 @@ router.put(
 );
 
 router.get('/get-po-statistics', authMiddleware, getPOStatistics);
+
+router.post('/get-po-report', authMiddleware, getPOReportData);
 
 export default router;
