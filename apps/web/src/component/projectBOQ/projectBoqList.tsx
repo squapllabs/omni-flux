@@ -39,16 +39,16 @@ import FileUploadIcon from '../menu/icons/fileUploadIcon';
 import { createMultipleCategory, getBySearchCategroy} from '../../hooks/category-hooks';
 import Pagination from '../menu/CustomPagination';
 import DownloadIcon from '../menu/icons/download';
-const temp : React.FC = ()=>{
-  return (
-    <div></div>
-  )
+
+
+interface BomListProps {
+  bom_details: any
 }
 
 
-
-const BomList: React.FC = (props: any) => {
+const BomList: React.FC<BomListProps> = (props: any) => {
   const { mutate: createMultipleNewCategory } = createMultipleCategory();
+  const {bom_details} = props
   // const { mutate : getBySearchNewCategory } = getBySearchCategroy();
   const params = useParams();
   const navigate = useNavigate();
@@ -84,6 +84,7 @@ const BomList: React.FC = (props: any) => {
 const [rowsPerPage, setRowsPerPage] = useState(10);
   const [initialData, setInitialData] = useState(null);
   const [overallBudget, setOverallBudget] = useState<string>('')
+  const [bomDescription, setBomDescription] = useState<string>('')
   useEffect(() => {
     const fetchData = async () => {
       const obj = {
@@ -305,7 +306,7 @@ const handleFileOnChange = async (e:any) =>{
 
       data.bodyData.forEach((element:any)=>{
         const obj = {
-          name : data.abstractName || '',
+          name : bom_details.bom_description || '',
           description: element['Description'],
           estimated_budget: element['Amount'],
           project_id: projectsId,
@@ -321,14 +322,10 @@ const handleFileOnChange = async (e:any) =>{
       console.log('abstractData',abstractData)
       createMultipleNewCategory(abstractData,{
         onSuccess: (data, variables, context) => {
-          props.setMessage('Abstracts created');
-          // props.setOpenSnack(true);
-          props.setReload(!props.reload);
+        setMessage('Abstracts created');
+        setOpenSnack(true);
+        setReload(!reload);
           handleClosePopup();
-          if (data?.status === true) {
-           
-            // resetForm();
-          }
         },
       })
 
@@ -461,7 +458,7 @@ const handleFileOnChange = async (e:any) =>{
             </div>
               </div>
             {abstractBulkData ? (
-              <div className={Styles.ab_tableContainer}>
+              <div className={`${Styles.ab_tableContainer} ${Styles.boqSubCategoryTable}`}>
               <table
               style={{padding: '20px',width:'100%'}}
               >
@@ -535,7 +532,7 @@ const handleFileOnChange = async (e:any) =>{
          } 
          title={'Abstract List'} 
          handleClose={handleClosePopup } 
-         width={'70%'} description={'description'}         />
+         width={'90%'} description={'description'}         />
       </div>
 
       {isloading ? (
