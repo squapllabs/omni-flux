@@ -124,3 +124,32 @@ th,
     // linear-gradient(0deg, #FFFFFF, #FFFFFF);
     color: linear-gradient(0deg, #eaecf0, #eaecf0);
 }
+
+.topHeading {
+  display: flex;
+  flex-direction: row;
+  width: 103%;
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.headingOne {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.subHeading {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding: 0px 15px 0px 10px;
+}

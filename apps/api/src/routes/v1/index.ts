@@ -51,6 +51,7 @@ import bomConfiguration from './bomConfiguration.route';
 import expenseRecall from './expenseRecall.route';
 import vendorQuotationDetails from './vendorQuotationDetails.route';
 import grn from './grn.route';
+import notification from './notification.route';
 
 const router = express.Router();
 
@@ -262,6 +263,10 @@ const defaultRoutes = [
   {
     path: '/grn',
     route: grn,
+  },
+  {
+    path: '/notification',
+    route: notification,
   },
 ];
 

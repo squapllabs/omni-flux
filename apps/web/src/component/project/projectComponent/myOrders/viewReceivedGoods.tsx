@@ -18,7 +18,15 @@ const ViewReceivedGoods = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOneGrnById(
     Number(routeParams?.grnId)
   );
-  
+
+  const dateFormat = (value: any) => {
+    const currentDate = new Date(value);
+    const formattedDate = format(currentDate, 'dd-MM-yyyy');
+    return formattedDate;
+  };
+
+  console.log("getListData,", getListData);
+
   return (
     <div>
       <CustomLoader loading={dataLoading} size={48}>
@@ -42,7 +50,7 @@ const ViewReceivedGoods = () => {
             <div className={Styles.orderDetails}>
               <div className={Styles.leftOrderDetail}>
                 <span>
-                  <h4>Received Goods</h4>
+                  <h4>{getListData?.project_data?.project_name}</h4>
                 </span>
                 <span>
                   <p className={Styles.description}>
@@ -60,19 +68,17 @@ const ViewReceivedGoods = () => {
                   <tr>
                     <th>S No</th>
                     <th>Item Name</th>
-                    <th>Description</th>
                     <th>Received Quantity</th>
                     {/* <th>Accepted Quantity</th> */}
                     {/* <th>Options</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {getListData?.grn_details?.map((data: any, index: any) => {                    
+                  {getListData?.grn_details?.map((data: any, index: any) => {
                     return (
                       <tr>
                         <td>{index + 1}</td>
                         <td>{data?.item_data?.item_name}</td>
-                        <td>{data?.item_data?.description}</td>
                         <td>{data?.received_quantity ? data?.received_quantity : 0}</td>
                         {/* <td>{data?.accepted_quantity || nullLableNameFromEnv}</td> */}
                       </tr>

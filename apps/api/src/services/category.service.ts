@@ -129,18 +129,18 @@ const updateCategory = async (body: updateCategoryBody) => {
           data: null,
         };
       }
-      const categoryData = await categoryDao.getByCategoryNameAndProjectId(
+      /*   const categoryData = await categoryDao.getByCategoryNameAndProjectId(
         name,
         Number(project_id)
-      );
-      if (categoryData && categoryData?.category_id !== category_id) {
+      ); */
+      /*      if (categoryData && categoryData?.category_id !== category_id) {
         result = {
           message: 'category_name already exist for this project',
           status: false,
           data: null,
         };
         return result;
-      }
+      } */
     }
 
     if (bom_configuration_id) {
@@ -346,6 +346,7 @@ const searchCategory = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const name = body.search_by_name;
     const status = body.status;
+    const bom_configuration_id = body.bom_configuration_id;
 
     const filterObj: any = {};
 
@@ -353,6 +354,15 @@ const searchCategory = async (body) => {
       filterObj.filterCategory = {
         is_delete: status === 'AC' ? false : true,
       };
+    }
+
+    if (bom_configuration_id) {
+      filterObj.filterCategory = filterObj.filterCategory || {};
+      filterObj.filterCategory.AND = filterObj.filterCategory.AND || [];
+
+      filterObj.filterCategory.AND.push({
+        bom_configuration_id: bom_configuration_id,
+      });
     }
 
     if (name) {

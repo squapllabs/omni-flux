@@ -32866,6 +32866,544 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "API To Create Notification",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notification_from_user_id\": 62,\r\n    \"notification_to_user_id\": 1,\r\n    \"notification_type_id\": 141,\r\n    \"notification_type\": \"Indent-Request\",\r\n    \"notification_description\": \"Indent Requested for Approval\",\r\n    \"created_by\": 62\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/notification",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"notification"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Create Notification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"notification_from_user_id\": 62,\r\n    \"notification_to_user_id\": 1,\r\n    \"notification_type_id\": 141,\r\n    \"notification_type\": \"Indent-Request\",\r\n    \"notification_description\": \"Indent Requested for Approval\",\r\n    \"created_by\": 62\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/notification",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"notification"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "380"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17c-vC97euOJKsGG+dAnj08Wzdmzpbc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Nov 2023 12:18:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"notification_id\": 1,\n        \"notification_from_user_id\": 62,\n        \"notification_to_user_id\": 1,\n        \"notification_type_id\": 141,\n        \"notification_type\": \"Indent-Request\",\n        \"notification_description\": \"Indent Requested for Approval\",\n        \"is_read\": false,\n        \"created_date\": \"2023-11-02T12:18:42.003Z\",\n        \"updated_date\": \"2023-11-02T12:18:42.003Z\",\n        \"created_by\": 62,\n        \"updated_by\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get Notification By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/notification/get/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"notification",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Notification By Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/notification/get/1",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"notification",
+										"get",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "380"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17c-vC97euOJKsGG+dAnj08Wzdmzpbc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Nov 2023 12:20:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"notification_id\": 1,\n        \"notification_from_user_id\": 62,\n        \"notification_to_user_id\": 1,\n        \"notification_type_id\": 141,\n        \"notification_type\": \"Indent-Request\",\n        \"notification_description\": \"Indent Requested for Approval\",\n        \"is_read\": false,\n        \"created_date\": \"2023-11-02T12:18:42.003Z\",\n        \"updated_date\": \"2023-11-02T12:18:42.003Z\",\n        \"created_by\": 62,\n        \"updated_by\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get All Notifications",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/notification/get-all",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"notification",
+								"get-all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get All Notifications",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/notification/get-all",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"notification",
+										"get-all"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "382"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17e-UKKnW2AVWq8si/R0e+6Il2MG1yw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Nov 2023 12:54:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"notification_id\": 1,\n            \"notification_from_user_id\": 62,\n            \"notification_to_user_id\": 1,\n            \"notification_type_id\": 141,\n            \"notification_type\": \"Indent-Request\",\n            \"notification_description\": \"Indent Requested for Approval\",\n            \"is_read\": false,\n            \"created_date\": \"2023-11-02T12:18:42.003Z\",\n            \"updated_date\": \"2023-11-02T12:18:42.003Z\",\n            \"created_by\": 62,\n            \"updated_by\": null\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Search Notifications",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"created_date\",\r\n    \"order_by_direction\": \"asc\"\r\n    // \"notification_to_user_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/notification/search",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"notification",
+								"search"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Search Notifications",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"created_date\",\r\n    \"order_by_direction\": \"asc\"\r\n    // \"notification_to_user_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/notification/search",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"notification",
+										"search"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "781"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30d-9TDNdf2Y+hBYTo8n6F+zJ3lzUvE\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Nov 2023 12:47:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"is_available\": true,\n    \"content\": [\n        {\n            \"notification_id\": 1,\n            \"notification_from_user_id\": 62,\n            \"notification_to_user_id\": 1,\n            \"notification_type_id\": 141,\n            \"notification_type\": \"Indent-Request\",\n            \"notification_description\": \"Indent Requested for Approval\",\n            \"is_read\": false,\n            \"created_date\": \"2023-11-02T12:18:42.003Z\",\n            \"updated_date\": \"2023-11-02T12:18:42.003Z\",\n            \"created_by\": 62,\n            \"updated_by\": null,\n            \"notification_from_user_data\": {\n                \"user_id\": 62,\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"user_profiles\": {\n                    \"profile_image_url\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1690374500388-67413086-aalam1-4.png\"\n                }\n            },\n            \"notification_to_user_data\": {\n                \"user_id\": 1,\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"user_profiles\": null\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get Unread Count By To UserId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/notification/get-unread-count-by-to-user-id/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"notification",
+								"get-unread-count-by-to-user-id",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Unread Count By To UserId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/notification/get-unread-count-by-to-user-id/1",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"notification",
+										"get-unread-count-by-to-user-id",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "44"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2c-FjrcPGYddCNdwrSQ9FCIRo22A3M\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Nov 2023 12:54:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": 1\n}"
+						}
+					]
+				}
+			]
 		}
 	]
 }

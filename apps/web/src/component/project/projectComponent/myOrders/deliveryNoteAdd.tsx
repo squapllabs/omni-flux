@@ -47,6 +47,7 @@ const MyOrderView = () => {
     new Array(tableValue.length).fill('')
   );
   const [message, setMessage] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
@@ -145,6 +146,10 @@ const MyOrderView = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
+      setIsButtonDisabled(true);
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 5000);
       const obj = {
         notes: values?.notes,
         invoice_id: values?.invoice_number,
@@ -459,6 +464,7 @@ const MyOrderView = () => {
               icon={<AddIcon color="white" />}
               //   disabled={vendorData?.length > 0 ? false : true}
               onClick={formik.handleSubmit}
+              disabled={isButtonDisabled}
             >
               Save
             </Button>

@@ -8,6 +8,7 @@ import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import projectInventoryService from '../../service/projectInventory-service';
 import ProjectSubheader from '../project/projectSubheader';
+import StoreIcon from '../menu/icons/newStoreIcon';
 
 
 const ProjectInventory = () => {
@@ -54,13 +55,18 @@ const ProjectInventory = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
-      <ProjectSubheader
-          description='Manage your Indent raise detail across your project'
-          // navigation={`/project-edit/${projectId}`}
-          navigation={`/project-list`}
-          title='Project Inventory Detail List'
-        />
-        <div className={Styles.dividerStyle}></div>
+
+        {/* <div className={Styles.dividerStyle}></div> */}
+        <div className={Styles.topHeading}>
+              <div className={Styles.heading}>
+                <div className={Styles.headingOne}>
+                  <div className={Styles.subHeading}>
+                    <StoreIcon />
+                    <h3>Inventory</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
         
         <div className={Styles.tableContainer}>
           <div>

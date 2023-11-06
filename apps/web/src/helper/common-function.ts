@@ -10,6 +10,28 @@ export const formatBudgetValue = (value: any) => {
   });
 };
 
+export function customSort(order: any, sortBy: any, sortOrder: any) {
+  return function (a: any, b: any) {
+    const valueA = a[sortBy];
+    const valueB = b[sortBy];
+
+    if (order.includes(valueA) && order.includes(valueB)) {
+      const indexA = order.indexOf(valueA);
+      const indexB = order.indexOf(valueB);
+      const result = indexA - indexB;
+      return sortOrder === 'asc' ? result : -result;
+    }
+
+    if (valueA < valueB) {
+      return sortOrder === 'asc' ? -1 : 1;
+    } else if (valueA > valueB) {
+      return sortOrder === 'asc' ? 1 : -1;
+    } else {
+      return 0;
+    }
+  };
+}
+
 // export const nullValue = (value:any) => {
 
 // }

@@ -1,0 +1,118 @@
+.container {
+  background-color: rgb(227, 227, 227);
+  display: flex;
+  padding: 10px;
+  gap: 15px;
+}
+.sideMenu {
+  background-color: white;
+  padding: 20px;
+  width: 25%;
+}
+.menuHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.mainMenu {
+  background-color: white;
+  padding: 20px;
+  width: 75%;
+  height: 350px;
+  // overflow-y: scroll;
+}
+.stackChartContainer {
+  width: 100%;
+}
+.chartitle {
+  font-weight: bold;
+}
+.horizontalChart {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+.side_sideMenu {
+  padding-top: 2px;
+  ol {
+    list-style: none;
+    // margin: 0;
+    li {
+      padding: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      &:hover {
+        background-color: #efefef;
+      }
+      border-radius: 5px;
+      &.selected {
+        background-color: #d5d9eb;
+        // padding: 8px, 12px, 8px, 12px;
+        color: var(--secondary-color);
+        // border-radius: 6px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+.scrollable_table {
+  padding: 10px 10px;
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 5px 5px 5px 24px;
+    text-align: left;
+    border: none;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  thead {
+    tr {
+      th {
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);
+      }
+    }
+  }
+
+  td:hover,
+  tr:hover {
+    background-color: rgb(239, 239, 239);
+  }
+  tbody {
+    tr:nth-child(odd) {
+      // background: red;
+    }
+    //even keyword
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+
+  .td_desc {
+    min-width: 55.5rem;
+  }
+}
+.dividerLine {
+  border-bottom: 2px solid rgb(232, 232, 232);
+}
+.horizontalLine {
+  border-right: 2px solid rgb(232, 232, 232);
+}

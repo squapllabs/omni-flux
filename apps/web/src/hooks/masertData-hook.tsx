@@ -91,12 +91,18 @@ const getByMasterDataProjectIdDrop = (value: String) => {
 const createmasertData = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (data: any) => {      
+    (data: any) => {
       return masertDataService.createmasertData(data);
     },
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log('queryClientdata', data);
+
         queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
+        queryClient.invalidateQueries([
+          'getByMasterDataProjectIdDrop',
+          data?.data?.project_id,
+        ]);
       },
     }
   );
@@ -181,5 +187,5 @@ export {
   getBymasertDataType,
   useGetAllPaginatedMasterData,
   getBymasertDataTypeDrop,
-  getByMasterDataProjectIdDrop
+  getByMasterDataProjectIdDrop,
 };
