@@ -5,7 +5,7 @@ export const userErrorMessages = {
   ENTER_PASSWORD: 'Password is required',
   ENTER_VALID_EMAIL: 'Please enter a valid Email ID',
   MIN_PASSWORD_LENGTH: 'Password should be at least 8 characters',
-  MAX_PASSWORD_LENGTH: 'Password should be less than 50 characters',
+  MAX_PASSWORD_LENGTH: 'Password length should not exceed 16 characters',
   INVALID_LOGIN: 'Invalid username or password',
   EMAIL_NOT_FOUND: "This Username doesn't exist. Please register to continue",
   PASSWORD_MATCH: 'Please enter the same passwords',
@@ -128,7 +128,7 @@ export const getUsercreationYupschema = (yup: any) => {
     user_password: yup
       .string()
       .min(8, userErrorMessages.MIN_PASSWORD_LENGTH)
-      .max(50, userErrorMessages.MAX_PASSWORD_LENGTH)
+      .max(16, userErrorMessages.MAX_PASSWORD_LENGTH)
       .matches(
         /^(?=.*[a-z])/,
         userErrorMessages.PASSWORD_MUST_CONTAIN_ONELOWERCASER

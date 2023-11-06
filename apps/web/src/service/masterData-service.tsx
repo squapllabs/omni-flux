@@ -115,13 +115,18 @@ const deletemasertData = async (id: number) => {
 // };
 
 const checkDublicatemasertData = async (value: any) => {
-  const data = value?.name?.toUpperCase(); 
+  const data = value?.name?.toUpperCase();
+  const projectID = Number(value?.project_id);
+  const parent_id = Number(value?.id);
   const body = {
+    parent_master_data_id: parent_id,
     master_data_type: data,
-  }  
+    project_id: projectID,
+  };
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/master-data/get-by-parent-type/`, body
+      `${environment.apiUrl}/master-data/get-by-parent-type/`,
+      body
     );
     return response.data;
   } catch (error) {
@@ -179,5 +184,5 @@ export default {
   getAllCurrencyData,
   getOnemasertDataByType,
   checkDublicateProjectMasertData,
-  getOneMasterDataByProjectId
+  getOneMasterDataByProjectId,
 };

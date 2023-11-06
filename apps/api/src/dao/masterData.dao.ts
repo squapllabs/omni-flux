@@ -213,6 +213,7 @@ const deleteMasterData = async (masterDataId: number, connectionObj = null) => {
 const getByParentMasterDataIdAndType = async (
   parentMasterDataId: number,
   masterDataType: string,
+  project_id: number,
   connectionObj = null
 ) => {
   try {
@@ -224,6 +225,7 @@ const getByParentMasterDataIdAndType = async (
       where: {
         parent_master_data_id: parent_master_data_id,
         master_data_type: masterDataType,
+        project_id: project_id,
         is_delete: false,
       },
       include: {
