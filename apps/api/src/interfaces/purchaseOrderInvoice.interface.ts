@@ -14,5 +14,6 @@ interface purchaseOrderInvoiceBody {
   paid_date: Date;
   created_by: number;
   updated_by: number;
+  payment_mode: string;
 }
 export { purchaseOrderInvoiceBody };

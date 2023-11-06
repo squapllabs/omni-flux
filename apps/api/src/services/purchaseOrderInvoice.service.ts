@@ -1,6 +1,7 @@
 import purchaseOrderDao from '../dao/purchaseOrder.dao';
 import purchaseOrderInvoiceDao from '../dao/purchaseOrderInvoice.dao';
 import { purchaseOrderInvoiceBody } from '../interfaces/purchaseOrderInvoice.interface';
+import prisma from '../utils/prisma';
 
 /**
  * Method to Create a New PurchaseOrderInvoice
@@ -379,6 +380,94 @@ const searchPurchaseOrderInvoice = async (body) => {
   }
 };
 
+/**
+ * Method to Update an Existing PurchaseOrderInvoice's Status
+ * @param body
+ * @returns
+ */
+const updateStatus = async (body: purchaseOrderInvoiceBody) => {
+  try {
+    const {
+      purchase_order_id,
+      status,
+      paid_by,
+      paid_date,
+      updated_by,
+      payment_mode,
+      purchase_order_invoice_id,
+    } = body;
+    const purchaseOrderInvoiceExist = await purchaseOrderInvoiceDao.getById(
+      purchase_order_invoice_id
+    );
+    if (!purchaseOrderInvoiceExist) {
+      return {
+        message: 'purchase_order_invoice_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+    const result = await prisma
+      .$transaction(
+        async (tx) => {
+          const purchaseOrderInvoiceDetails =
+            await purchaseOrderInvoiceDao.updateStatus(
+              purchase_order_id,
+              status,
+              paid_by,
+              paid_date,
+              updated_by,
+              payment_mode,
+              purchase_order_invoice_id,
+              tx
+            );
+
+          let allPaid = false;
+          const purchaseOrderInvoiceDetailsByPOId =
+            await purchaseOrderInvoiceDao.getByPOId(purchase_order_id, tx);
+          for await (const data of purchaseOrderInvoiceDetailsByPOId) {
+            const purchase_order_status = data.status;
+            if (purchase_order_status === 'Paid') {
+              allPaid = true;
+            }
+          }
+          if (allPaid === true) {
+            await purchaseOrderDao.updateStatusByPOId(
+              'Completed',
+              updated_by,
+              purchase_order_id,
+              tx
+            );
+          }
+
+          const result = {
+            message: 'success',
+            status: true,
+            data: purchaseOrderInvoiceDetails,
+          };
+          return result;
+        },
+        {
+          timeout: Number(process.env.TRANSACTION_TIMEOUT),
+        }
+      )
+      .then(async (data) => {
+        console.log('Successfully Purchase Order Invoice Data Returned ', data);
+        return data;
+      })
+      .catch((error: string) => {
+        console.log('Failure, ROLLBACK was executed', error);
+        throw error;
+      });
+    return result;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseOrderInvoice service updateStatus: ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrderInvoice,
   updatePurchaseOrderInvoice,
@@ -387,4 +476,5 @@ export {
   getByPOId,
   deletePurchaseOrderInvoice,
   searchPurchaseOrderInvoice,
+  updateStatus,
 };
