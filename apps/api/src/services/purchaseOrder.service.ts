@@ -992,6 +992,71 @@ const getPurchaseOrderReport = async (body) => {
   }
 };
 
+const getRFQReportData = async (body) => {
+  try {
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const status = body.status;
+    const project_id = body.project_id;
+    const from_order_date = body.from_order_date;
+    const to_order_date = body.to_order_date;
+    const purchase_order_type = 'purchase_request_data';
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterPurchaseOrder = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (project_id) {
+      const filterType = purchase_order_type;
+
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        [filterType]: {
+          project_id: project_id,
+        },
+      });
+    }
+
+    if (from_order_date && to_order_date) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+      filterObj.filterPurchaseOrder.AND.push({
+        order_date: {
+          gte: new Date(from_order_date),
+          lte: new Date(to_order_date),
+        },
+      });
+    }
+    const result = await purchaseOrderDao.getRFQReportData(
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+    const count = result?.count;
+    const data = result?.data;
+    const tempPurchaseOrderData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      content: data,
+    };
+    return tempPurchaseOrderData;
+  } catch (error) {
+    console.log('Error occurred in getRFQData PurchaseOrder service : ', error);
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -1004,5 +1069,6 @@ export {
   updateStatusAndDocument,
   getPOStatistics,
   getPurchaseOrderReport,
-  searchPurchaseOrderWithMultipleStatus
+  searchPurchaseOrderWithMultipleStatus,
+  getRFQReportData,
 };
