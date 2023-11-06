@@ -2,7 +2,7 @@ import Styles from '../../../../styles/myOrders.module.scss';
 import BOQIcon from '../../../menu/icons/boqIcon';
 import React, { useState, useEffect } from 'react';
 import Select from '../../../ui/selectNew';
-import { useGetAllPurchaseOrderData } from '../../../../hooks/purchase-request-hooks';
+import { useGetAllMyOrderData } from '../../../../hooks/purchase-request-hooks';
 import { useGetAllGrnData } from '../../../../hooks/grn-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomLoader from '../../../ui/customLoader';
@@ -19,6 +19,7 @@ import ExpandClose from '../../../menu/icons/expandClose';
 import { format } from 'date-fns';
 import AddDataIcon from '../../../menu/icons/addDataIcon';
 import EditIcon from '../../../menu/icons/newEditIcon';
+import AddIcon from '../../../menu/icons/addIcon';
 
 const MyOrderList = () => {
   const routeParams = useParams();
@@ -64,7 +65,7 @@ const MyOrderList = () => {
     order_by_direction: 'asc',
     status: 'AC',
     global_search: '',
-    bill_status: 'Processing',
+    // bill_status: 'Partially Received',
     project_id: projectId,
     site_id: selectedValue,
     purchase_order_type: activeButton,
@@ -74,7 +75,7 @@ const MyOrderList = () => {
     isLoading: dataLoading,
     data: getAllData,
     refetch,
-  } = useGetAllPurchaseOrderData(getPoData);
+  } = useGetAllMyOrderData(getPoData);
 
   useEffect(() => {
     refetch();
@@ -186,7 +187,7 @@ const MyOrderList = () => {
                                   }}
                                 >
                                   {colps === false &&
-                                  data?.purchase_order_id ===
+                                    data?.purchase_order_id ===
                                     poID?.purchase_order_id ? (
                                     <ExpandClose />
                                   ) : (
@@ -223,7 +224,8 @@ const MyOrderList = () => {
                                                                         { state: { projectId } }
                                                                     );
                                                                 }} /> */}
-                                <EditIcon
+                                <AddIcon
+                                  color='blue'
                                   onClick={() => {
                                     navigate(
                                       `/delivery-note/${data.purchase_order_id}`,
@@ -235,52 +237,52 @@ const MyOrderList = () => {
                             </tr>
                             {data.purchase_order_id ===
                               poID.purchase_order_id && (
-                              <tr>
-                                <td colSpan="8" style={{ paddingRight: 28 }}>
-                                  <div className={Styles.subTableContainer}>
-                                    <table className={Styles.scrollable_sub_table}>
-                                      <thead>
-                                        <tr>
-                                          <th>S No</th>
-                                          <th>Goods Received Date</th>
-                                          <th>Invoice No</th>
-                                          <th>Options</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        {data?.grn?.map(
-                                          (grn_data: any, index: any) => {
-                                            return (
-                                              <tr key={grn_data?.grn_id}>
-                                                <td>{index + 1}</td>{' '}
-                                                {/* Use 'index' from the outer map */}
-                                                <td>
-                                                  {dateFormat(
-                                                    grn_data?.goods_received_date
-                                                  )}
-                                                </td>
-                                                <td>{grn_data?.invoice_id}</td>
-                                                {/* {getAllData?.} */}
-                                                <td>
-                                                  <ViewIcon
-                                                    onClick={() => {
-                                                      navigate(
-                                                        `/view-received-goods/${data?.purchase_order_id}/${grn_data?.grn_id}`,
-                                                        { state: { projectId } }
-                                                      );
-                                                    }}
-                                                  />
-                                                </td>
-                                              </tr>
-                                            );
-                                          }
-                                        )}
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </td>
-                              </tr>
-                            )}
+                                <tr>
+                                  <td colSpan="8" style={{ paddingRight: 28 }}>
+                                    <div className={Styles.subTableContainer}>
+                                      <table className={Styles.scrollable_sub_table}>
+                                        <thead>
+                                          <tr>
+                                            <th>S No</th>
+                                            <th>Goods Received Date</th>
+                                            <th>Invoice No</th>
+                                            <th>Options</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {data?.grn?.map(
+                                            (grn_data: any, index: any) => {
+                                              return (
+                                                <tr key={grn_data?.grn_id}>
+                                                  <td>{index + 1}</td>{' '}
+                                                  {/* Use 'index' from the outer map */}
+                                                  <td>
+                                                    {dateFormat(
+                                                      grn_data?.goods_received_date
+                                                    )}
+                                                  </td>
+                                                  <td>{grn_data?.invoice_id}</td>
+                                                  {/* {getAllData?.} */}
+                                                  <td>
+                                                    <ViewIcon
+                                                      onClick={() => {
+                                                        navigate(
+                                                          `/view-received-goods/${data?.purchase_order_id}/${grn_data?.grn_id}`,
+                                                          { state: { projectId } }
+                                                        );
+                                                      }}
+                                                    />
+                                                  </td>
+                                                </tr>
+                                              );
+                                            }
+                                          )}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
                           </>
                         );
                       })
