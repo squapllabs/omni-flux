@@ -98,6 +98,7 @@ const getOverallAbsctractValue = (data)=>{
         <div className={Styles.selected}></div>
         <div>
           <BomList
+          bom_details={getBomData?.bom_configuration_data}
           />
         </div>
       </div>

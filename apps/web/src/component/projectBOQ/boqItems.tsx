@@ -283,8 +283,15 @@ const BomItems = (props: {
           if (data?.status === true) {
             setModelPopupTrigger(false);
             setMessage('Task created');
+            setOpenSnack(true);
             setUploadedTaskData(null);
+            setReload(!reload)
+          
             // setTimeout(() => {navigate('/settings')},1000);
+          }else {
+            setMessage('Error Ocurred');
+            setOpenSnack(true);
+            setIswarning(true);
           }
         },
       });
@@ -463,7 +470,7 @@ const BomItems = (props: {
               </div>
               {
                 uploadedTaskData ? (
-                  <div className={Styles.ab_tableContainer}>
+                  <div className={`${Styles.ab_tableContainer} ${Styles.boqSubCategoryTable}`}>
                   <table
       
                   style={{padding: '20px',width:'100%'}}
@@ -472,13 +479,13 @@ const BomItems = (props: {
                                     <tr
                                      style={{padding: '20px 0'}}
                                     >
-                                      <th  style={{padding: '0 10px'}}>S No</th>
-                                      <th style={{padding: '0 10px'}}>Description</th>
-                                      <th style={{padding: '0 10px'}}>Uom</th>
-                                      <th style={{padding: '0 10px'}}>Quantity</th>
-                                      <th style={{padding: '0 10px'}}>Rate</th>
-                                      <th style={{padding: '0 10px'}}>Amount</th>
-                                      <th style={{padding: '0 10px'}}>Action</th>
+                                      <th  style={{padding: '10px 10px'}}>S No</th>
+                                      <th style={{padding: '10px 10px'}}>Description</th>
+                                      <th style={{padding: '10px 10px'}}>Uom</th>
+                                      <th style={{padding: '10px 10px'}}>Quantity</th>
+                                      <th style={{padding: '10px 10px'}}>Rate</th>
+                                      <th style={{padding: '10px 10px'}}>Amount</th>
+                                      <th style={{padding: '10px 10px'}}>Action</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -564,7 +571,7 @@ const BomItems = (props: {
             </div>
  
           }
-          width={'80%'} description={''}/>
+          width={'90%'} description={''}/>
       </div>
       {isloading ? (
          <CustomLoader loading={isloading} size={48} />
