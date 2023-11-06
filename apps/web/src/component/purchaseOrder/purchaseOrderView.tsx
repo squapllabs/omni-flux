@@ -1,20 +1,29 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Styles from '../../styles/newStyles/purchaseOrderItemsView.module.scss';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
-import ProjectSubheader from '../project/projectSubheader';
 import { useGetOnePurchaseOrder } from '../../hooks/purchase-request-hooks';
 import { environment } from '../../environment/environment';
 import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
+import { useState } from 'react';
+import Button from '../ui/Button';
+import CustomSidePopup from '../ui/CustomSidePopup';
+import GrnData from './grnData';
+import CustomSnackbar from '../ui/customSnackBar';
 
 const PurchaseOrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const PurchaseOrderId = Number(routeParams?.id);
+  const [openSnack, setOpenSnack] = useState<any>([]);
+  const [message, setMessage] = useState('');
+  const [open, setOpen] = useState(false);
   const { data: getOnePurchaseOrderView, isLoading: dataLoading } =
     useGetOnePurchaseOrder(PurchaseOrderId);
+  const purchase_order_id = getOnePurchaseOrderView?.purchase_order_id;
+
   const title =
     'Purchase Order for' +
     ' ' +
@@ -34,6 +43,10 @@ const PurchaseOrderView = () => {
     }
     return '';
   };
+
+  const handleClose =() => {
+    setOpenSnack(false);
+  }
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
@@ -41,7 +54,7 @@ const PurchaseOrderView = () => {
           <div
             className={Styles.logo}
             onClick={() => {
-              navigate("/purchase-order");
+              navigate('/purchase-order');
             }}
           >
             <PreviousPageIcon width={20} height={20} color="#7f56d9" />
@@ -70,44 +83,71 @@ const PurchaseOrderView = () => {
             title={title}
           />
         </div> */}
-
       </CustomLoader>
 
       {/* values for order data */}
-      <div className={Styles.orderDetails}>
-        <div className={Styles.leftOrderDetail}>
-          <span>
-            <b>Order Id</b>
-          </span>
-          <span>
-            <b>Order Date</b>
-          </span>
-          <span>
-            <b>Order Status</b>
-          </span>
+      <div className={Styles.topHeading}>
+        <div className={Styles.orderDetails}>
+          <div className={Styles.leftOrderDetail}>
+            <span>
+              <b>Order Id</b>
+            </span>
+            <span>
+              <b>Order Date</b>
+            </span>
+            <span>
+              <b>Order Status</b>
+            </span>
+          </div>
+          <div className={Styles.rightOrderDetail}>
+            <p>
+              <b>:</b>
+            </p>
+            <p>
+              <b>:</b>
+            </p>
+            <p>
+              <b>:</b>
+            </p>
+          </div>
+          <div className={Styles.rightOrderDetail}>
+            <span>{getOnePurchaseOrderView?.order_id}</span>
+            <span>
+              {getOnePurchaseOrderView?.order_date
+                ? format(
+                    new Date(getOnePurchaseOrderView?.order_date),
+                    'MMM dd, yyyy'
+                  )
+                : '-'}
+            </span>
+            <span>{getOnePurchaseOrderView?.status}</span>
+          </div>
         </div>
-        <div className={Styles.rightOrderDetail}>
-          <p>
-            <b>:</b>
-          </p>
-          <p>
-            <b>:</b>
-          </p>
-          <p>
-            <b>:</b>
-          </p>
-        </div>
-        <div className={Styles.rightOrderDetail}>
-          <span>{getOnePurchaseOrderView?.order_id}</span>
-          <span>
-            {getOnePurchaseOrderView?.order_date
-              ? format(
-                new Date(getOnePurchaseOrderView?.order_date),
-                'MMM dd, yyyy'
-              )
-              : '-'}
-          </span>
-          <span>{getOnePurchaseOrderView?.status}</span>
+        <div className={Styles.previewButton}>
+          {getOnePurchaseOrderView?.status === 'Product Received' && (
+            <Button
+              shape="rectangle"
+              justify="center"
+              size="small"
+              color="primary"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              Preview
+            </Button>
+          )}
+          {/* <Button
+            shape="rectangle"
+            justify="center"
+            size="small"
+            color="primary"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            Preview
+          </Button> */}
         </div>
       </div>
 
@@ -298,6 +338,26 @@ const PurchaseOrderView = () => {
           </table>
         </div>
       </div>
+      <CustomSidePopup
+        open={open}
+        title="Purchase Order Preview"
+        handleClose={() => setOpen(false)}
+        content={
+          <GrnData
+            purchaseOrderId={purchase_order_id}
+            setOpen={setOpen}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+          />
+        }
+      />
+      <CustomSnackbar
+        open={openSnack}
+        message={message}
+        onClose={handleClose}
+        type={'success'}
+        autoHideDuration={2000}
+      />
     </div>
   );
 };

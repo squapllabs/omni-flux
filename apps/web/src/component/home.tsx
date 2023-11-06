@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Styles from '../styles/home.module.scss';
 import Button from './menu/button';
 import Vector from './menu/icons/vector';
 import FolderIcon from './menu/icons/folderIcon';
 import CustomCard from './ui/CustomCard';
-import { Chart } from 'react-google-charts';
 import CustomLoader from './ui/customLoader';
 import { formatBudgetValue } from '../helper/common-function';
 import {
@@ -12,6 +11,32 @@ import {
   useGetAllProjectStatus,
   useGetDashboardDatasforPO,
 } from './../hooks/project-hooks';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  PointElement,
+  LineController,
+  registerables,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineController,
+  ...registerables
+);
 
 const Home = () => {
   const [createItem, setCreateItem] = useState(true);
@@ -31,45 +56,67 @@ const Home = () => {
     setCreateItem(false);
   };
 
-  const projectStatusData: any = [['Projects', 'Total Days', 'So Far']];
+  // const projectStatusData: any = [['Projects', 'Total Days', 'So Far']];
+  const projectNames: any = [];
+  const projectTotal: any = [];
+  const projectCompleted: any = [];
+  // console.log("getAllProjectStatusLoading", getAllProjectStatusLoading);
   projectData?.top_projects?.map(async (val: any) => {
-    // const truncatedProjectName = val.project_name.length > 20
-    //   ? val.project_name.substring(0, 17) + "..."
-    //   : val.project_name;
-    await projectStatusData.push([
-      val.project_name,
-      val.project_total_days,
-      val.days_completed,
-    ]);
+    projectNames.push(val.project_name);
+    projectTotal.push(val.project_total_days);
+    projectCompleted.push(val.days_completed);
   });
+
+  // useEffect(()=>{
+
+  // },[!getAllProjectStatusLoading])
+  // console.log("projectTotal",projectTotal);
+
+  const data = {
+    labels: projectNames,
+
+    datasets: [
+      {
+        label: 'Total Days',
+        data: !getAllProjectStatusLoading ? projectTotal : [],
+        backgroundColor: '#190482', // Color for the first dataset
+      },
+      {
+        label: 'So Far',
+        data: !getAllProjectStatusLoading ? projectCompleted : [],
+        backgroundColor: '#7752FE', // Color for the second dataset
+      }
+    ],
+  };
+
+
+  const yAxisMin = 0; // Minimum value on the Y-axis
+  const yAxisMax = 3000;
+  // Chart options
+  const options = {
+    min: yAxisMin,
+    max: yAxisMax,
+    scales: {
+      x: {
+        grid: {
+          display: false, // Hide X-axis gridlines
+        },
+      },
+      y: {
+        grid: {
+          display: false, // Hide X-axis gridlines
+        },
+      },
+    },
+  };
+
+
 
   const topProjectsData: any = [['Projects', 'Budget']];
   projectData?.top_projects?.map(async (val: any) => {
     await topProjectsData.push([val.project_name, val.total_budget]);
   });
 
-  const chartOptions1 = {
-    hAxis: {
-      title: 'Days',
-      minValue: 0,
-    },
-    vAxis: {
-      title: 'Project Name',
-      textStyle: {
-        fontSize: 0.1,
-      },
-      viewWindow: {
-        min: 10,
-      },
-    },
-    legend: { position: 'none' },
-    series: {
-      0: {
-        targetAxisIndex: 0,
-      },
-    },
-    colors: ['#6941C6', '#32D583'],
-  };
 
   const formatNumberToLakh = (number: number) => {
     const lakhValue = number / 100000;
@@ -89,11 +136,11 @@ const Home = () => {
           <div>PROJECT TRACKER</div>
           <div className={Styles.barCarddDiv}>
             <div className={Styles.chart}>
-              <Chart
-                chartType="Bar"
-                height="250px"
-                data={projectStatusData}
-                options={chartOptions1}
+              <Bar
+                width={50}
+                height={15}
+                data={data}
+                options={options}
               />
             </div>
           </div>
