@@ -574,6 +574,7 @@ const updateStatus = async (
   paid_date: Date,
   updated_by: number,
   payment_mode: string,
+  additional_info: JSON,
   purchase_order_invoice_id: number,
   connectionObj = null
 ) => {
@@ -591,6 +592,7 @@ const updateStatus = async (
           status,
           paid_by,
           payment_mode,
+          additional_info,
           paid_date: formatted_paid_date,
           updated_by,
           updated_date: currentDate,

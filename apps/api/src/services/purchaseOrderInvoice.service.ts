@@ -394,6 +394,7 @@ const updateStatus = async (body: purchaseOrderInvoiceBody) => {
       paid_date,
       updated_by,
       payment_mode,
+      additional_info,
       purchase_order_invoice_id,
     } = body;
     const purchaseOrderInvoiceExist = await purchaseOrderInvoiceDao.getById(
@@ -417,6 +418,7 @@ const updateStatus = async (body: purchaseOrderInvoiceBody) => {
               paid_date,
               updated_by,
               payment_mode,
+              additional_info,
               purchase_order_invoice_id,
               tx
             );
